@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.45.0] - 2026-07-07
+
+### Added
+- Added Nexora project orchestration workflow for scanning `projects/`, validating analysis status and completing MVP definitions.
+- Added `BUSINESS_REQUIREMENT.md` as the required high-level business input for every project.
+- Added Healthcare Operations Platform business requirement.
+- Added project template support for `BUSINESS_REQUIREMENT.md`.
+
+### Changed
+- Updated framework entrypoints so agents apply project orchestration before MVP implementation.
+- Updated Agent-to-MVP recipe to start from the business requirement and then structure `PROJECT_BRIEF.md`.
+
 ## [0.44.0] - 2026-07-07
 
 ### Added

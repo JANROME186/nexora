@@ -26,6 +26,7 @@ artifact_rules:
       - test
 
 minimum_artifacts_to_reach_mvp_development:
+  - business_requirement
   - project_brief
   - source_of_truth
   - project_state
@@ -39,6 +40,7 @@ minimum_artifacts_to_reach_mvp_development:
 
 agent_context_rules:
   - Agents load root Nexora framework first.
+  - Agents scan projects/ using nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml before implementation.
   - Agents load the target project SOURCE_OF_TRUTH second.
   - Agents must not infer requirements from chat if PROJECT_BRIEF is missing.
   - Agents must follow nexora-framework/standards/agent-agnostic-standard.yaml.

@@ -4,6 +4,7 @@ artifact:
   version: 0.1.0
   status: draft
 sources:
+  business_requirement: BUSINESS_REQUIREMENT.md
   project_brief: PROJECT_BRIEF.md
   project_state: PROJECT_STATE.yaml
 rules:

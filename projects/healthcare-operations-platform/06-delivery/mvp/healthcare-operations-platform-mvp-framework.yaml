@@ -32,6 +32,7 @@ required_agent_context:
     - ../../PROJECT_STATE.yaml
     - ../../SOURCE_OF_TRUTH.yaml
     - ../../nexora-framework/standards/agent-agnostic-standard.yaml
+    - BUSINESS_REQUIREMENT.md
     - PROJECT_STATE.yaml
     - SOURCE_OF_TRUTH.yaml
     - 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml

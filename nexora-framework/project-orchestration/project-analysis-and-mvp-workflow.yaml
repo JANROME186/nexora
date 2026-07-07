@@ -1,0 +1,158 @@
+artifact:
+  id: NXF-ORCH-001
+  type: project-orchestration-workflow
+  name: Nexora Project Analysis and MVP Readiness Workflow
+  version: 1.0.0
+  status: approved
+  owner: Nexora Engineering
+
+purpose: Inspect projects under projects/, validate whether each project has been analyzed with the Nexora framework, and complete missing definitions until specialized subagents can start MVP implementation from repository artifacts.
+
+scope:
+  applies_to: projects/*
+  excludes:
+    - projects/README.md
+    - generated artifacts as source of truth
+  agent_policy: agent_agnostic
+
+repository_context:
+  required_before_project_scan:
+    - AGENT_BOOTSTRAP.md
+    - SOURCE_OF_TRUTH.yaml
+    - PROJECT_STATE.yaml
+    - nexora-framework/README.md
+    - nexora-framework/standards/project-folder-standard.yaml
+    - nexora-framework/standards/documentation-standard.yaml
+    - nexora-framework/standards/agent-agnostic-standard.yaml
+    - nexora-framework/recipes/agent-to-mvp-recipe.yaml
+
+project_discovery:
+  root: projects/
+  project_folder_pattern: projects/<project-slug>/
+  ignore:
+    - projects/README.md
+  for_each_project:
+    load_if_present:
+      - BUSINESS_REQUIREMENT.md
+      - PROJECT_BRIEF.md
+      - SOURCE_OF_TRUTH.yaml
+      - PROJECT_STATE.yaml
+    create_missing_control_files_from_template:
+      - PROJECT_BRIEF.md
+      - SOURCE_OF_TRUTH.yaml
+      - PROJECT_STATE.yaml
+
+business_requirement:
+  required_file: BUSINESS_REQUIREMENT.md
+  purpose: Provide the high-level business need, user problem and expected outcome that drive analysis, proposed solution and MVP scope.
+  minimum_sections:
+    - Business Context
+    - User Need
+    - Current Pain
+    - Desired Outcome
+    - MVP Expectation
+    - Constraints
+  blocking_gap_if_missing: business_requirement_missing
+  relation_to_project_brief: PROJECT_BRIEF.md structures and refines BUSINESS_REQUIREMENT.md; it does not replace it.
+
+analysis_status_detection:
+  ready_when_all_exist:
+    - BUSINESS_REQUIREMENT.md
+    - PROJECT_BRIEF.md
+    - SOURCE_OF_TRUTH.yaml
+    - PROJECT_STATE.yaml
+    - 01-product-definition/
+    - 02-domain-definition/
+    - 03-architecture/
+    - 04-requirements/
+    - 05-contracts/
+    - 06-delivery/mvp/
+  ready_state_requirements:
+    development_readiness.status: ready
+    development_readiness.blocking_definition_gaps: []
+    development_readiness.ready_to_start_module: not_null
+  not_analyzed_indicators:
+    - PROJECT_STATE.yaml is missing
+    - SOURCE_OF_TRUTH.yaml is missing
+    - BUSINESS_REQUIREMENT.md is missing
+    - PROJECT_BRIEF.md contains placeholder text
+    - capability map is missing
+    - domain foundation is missing
+    - MVP framework is missing
+    - no module definition package exists
+
+completion_workflow:
+  if_not_analyzed:
+    apply_recipe: nexora-framework/recipes/agent-to-mvp-recipe.yaml
+    phases:
+      - normalize_business_requirement
+      - complete_project_brief
+      - create_project_folder_structure
+      - define_product_and_capabilities
+      - define_domain_foundation
+      - define_architecture_baseline
+      - define_requirements_contracts_and_tests
+      - create_mvp_delivery_framework
+      - create_first_module_package
+      - update_source_of_truth_and_project_state
+  source_first_rule: YAML and Markdown source artifacts must be completed before generated artifacts.
+  implementation_rule: Do not create application code until the first module package satisfies the readiness gate.
+
+mvp_required_outputs:
+  project_level:
+    - BUSINESS_REQUIREMENT.md
+    - PROJECT_BRIEF.md
+    - SOURCE_OF_TRUTH.yaml
+    - PROJECT_STATE.yaml
+    - ORDERED_DEVELOPMENT_GUIDE.md
+  product_definition:
+    - capability map
+    - capability dependency map
+    - personas or actors
+    - MVP boundary
+  domain_definition:
+    - bounded contexts or context map
+    - aggregate catalog
+    - canonical vocabulary
+    - business rules catalog
+    - reference processes
+  architecture:
+    - application architecture
+    - data architecture
+    - security and compliance baseline
+    - integration architecture
+    - deployment or runtime baseline
+  delivery:
+    - MVP framework
+    - first module definition package
+    - traceability from requirement to module
+
+specialized_subagent_handoff:
+  required_package_per_module:
+    - module-definition.yaml
+    - domain-model.md
+    - api-contract.openapi.yaml
+    - database-migration-plan.md
+    - ui-screen-map.md
+    - security-and-audit-rules.md
+    - test-plan.md
+    - traceability.yaml
+  required_context_for_subagents:
+    - BUSINESS_REQUIREMENT.md
+    - PROJECT_BRIEF.md
+    - SOURCE_OF_TRUTH.yaml
+    - PROJECT_STATE.yaml
+    - target module package
+    - related product, domain, architecture, contract and QA artifacts
+  handoff_rule: Subagents receive repository paths and module scope, not chat history.
+
+readiness_gate:
+  status: ready
+  required_truths:
+    - High-level business requirement exists.
+    - Project brief refines the business requirement.
+    - Source of truth lists all authoritative artifacts.
+    - Project state has no blocking definition gaps.
+    - MVP modules are ordered incrementally.
+    - First module package is complete.
+    - Agent-agnostic validation passes.

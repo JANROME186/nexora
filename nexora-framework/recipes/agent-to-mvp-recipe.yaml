@@ -8,6 +8,7 @@ artifact:
 
 inputs:
   required:
+    - projects/<project-slug>/BUSINESS_REQUIREMENT.md
     - projects/<project-slug>/PROJECT_BRIEF.md
     - nexora-framework/standards/project-folder-standard.yaml
     - nexora-framework/standards/documentation-standard.yaml
@@ -22,6 +23,7 @@ phases:
     name: Intake normalization
     goal: Convert user need into structured project context.
     outputs:
+      - BUSINESS_REQUIREMENT.md
       - PROJECT_BRIEF.md
       - 00-intake/user-needs.yaml
       - 00-intake/assumptions.md
@@ -74,6 +76,7 @@ phases:
       blocking_definition_gaps: []
 
 rules:
+  - Never start analysis without BUSINESS_REQUIREMENT.md.
   - Never start implementation without PROJECT_BRIEF.md.
   - Never place project-specific artifacts outside the project folder.
   - Never skip actor, process, rule and contract traceability.

@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.44.0
+  version: 0.45.0
   status: ready
 
 company:
@@ -24,6 +24,8 @@ framework:
     agent_agnostic: nexora-framework/standards/agent-agnostic-standard.yaml
   recipe:
     agent_to_mvp: nexora-framework/recipes/agent-to-mvp-recipe.yaml
+  orchestration:
+    project_analysis_to_mvp: nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml
   template:
     new_project: nexora-framework/templates/project-template/
 
@@ -31,6 +33,7 @@ projects:
   healthcare_operations_platform:
     path: projects/healthcare-operations-platform/
     status: ready_for_mvp_development
+    business_requirement: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md
     project_brief: projects/healthcare-operations-platform/PROJECT_BRIEF.md
     ordered_development_guide: projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md
     source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
@@ -43,6 +46,8 @@ agent_policy:
     - SOURCE_OF_TRUTH.yaml
     - nexora-framework/README.md
     - nexora-framework/standards/agent-agnostic-standard.md
+    - nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.md
     - nexora-framework/recipes/agent-to-mvp-recipe.md
+    - target_project/BUSINESS_REQUIREMENT.md
     - target_project/SOURCE_OF_TRUTH.yaml
     - target_project/PROJECT_BRIEF.md

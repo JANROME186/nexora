@@ -11,6 +11,7 @@ This lets an AI agent load the project folder, understand the user need, apply t
 Each project must include:
 
 - `README.md`
+- `BUSINESS_REQUIREMENT.md`
 - `PROJECT_BRIEF.md`
 - `PROJECT_STATE.yaml`
 - `SOURCE_OF_TRUTH.yaml`
@@ -19,7 +20,7 @@ Each project must include:
 
 | Folder | Purpose |
 | --- | --- |
-| `00-intake` | Project brief, user needs, assumptions, constraints and source material. |
+| `00-intake` | User needs, assumptions, constraints and source material. |
 | `01-product-definition` | Vision, personas, scope, capabilities, roadmap and MVP. |
 | `02-domain-definition` | Bounded contexts, aggregates, vocabulary, processes and business rules. |
 | `03-architecture` | Application, technology, data, security, integration and AI architecture. |
@@ -30,7 +31,15 @@ Each project must include:
 | `08-qa` | Test plans, fixtures, contract tests and quality evidence. |
 | `09-operations` | Deployment, local runtime, observability and runbooks. |
 | `10-generated` | Generated diagrams, indexes and agent context packs. |
-| `legacy` | Imported previous-structure assets kept for continuity. |
+| `99-legacy` | Imported previous-structure assets kept for continuity. |
+
+## Business Requirement Rule
+
+Every project must start with:
+
+`BUSINESS_REQUIREMENT.md`
+
+This file captures the high-level business requirement. `PROJECT_BRIEF.md` structures and refines it into the formal product and MVP context.
 
 ## Readiness Rule
 

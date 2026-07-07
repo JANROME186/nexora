@@ -18,6 +18,10 @@ Diagnostic healthcare organizations need a modern operations platform that can m
 
 The platform must help organizations move away from fragmented legacy systems and toward a secure, auditable, interoperable and scalable operating model.
 
+Source business requirement:
+
+`BUSINESS_REQUIREMENT.md`
+
 ## Target Users
 
 - Laboratory administrators.

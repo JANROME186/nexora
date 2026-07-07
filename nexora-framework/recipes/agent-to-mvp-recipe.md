@@ -10,9 +10,15 @@ It is project-agnostic. Healthcare Operations Platform is the first project usin
 
 Every project starts with:
 
+`projects/<project-slug>/BUSINESS_REQUIREMENT.md`
+
+Then the requirement is structured into:
+
 `projects/<project-slug>/PROJECT_BRIEF.md`
 
-If this file is missing, the agent must create it or ask for the missing user needs.
+If the business requirement is missing, the agent must mark the project blocked for analysis.
+
+If the project brief is missing, the agent must create it from the business requirement before continuing.
 
 ## Phases
 
@@ -28,6 +34,7 @@ If this file is missing, the agent must create it or ask for the missing user ne
 Development can start when:
 
 - The project brief exists.
+- The high-level business requirement exists.
 - Source of truth exists.
 - Project state exists.
 - Capability map and dependency map exist.

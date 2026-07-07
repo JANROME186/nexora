@@ -33,10 +33,13 @@ Project-specific work lives under:
 3. `nexora-framework/README.md`
 4. `nexora-framework/standards/project-folder-standard.md`
 5. `nexora-framework/standards/documentation-standard.md`
-6. `nexora-framework/recipes/agent-to-mvp-recipe.md`
-7. Target project `SOURCE_OF_TRUTH.yaml`
-8. Target project `PROJECT_BRIEF.md`
-9. Target project `PROJECT_STATE.yaml`
+6. `nexora-framework/standards/agent-agnostic-standard.md`
+7. `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.md`
+8. `nexora-framework/recipes/agent-to-mvp-recipe.md`
+9. Target project `BUSINESS_REQUIREMENT.md`
+10. Target project `SOURCE_OF_TRUTH.yaml`
+11. Target project `PROJECT_BRIEF.md`
+12. Target project `PROJECT_STATE.yaml`
 
 ## Nexora Framework
 
@@ -44,6 +47,8 @@ Use these files for the reusable method:
 
 - `nexora-framework/standards/project-folder-standard.yaml`
 - `nexora-framework/standards/documentation-standard.yaml`
+- `nexora-framework/standards/agent-agnostic-standard.yaml`
+- `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml`
 - `nexora-framework/recipes/agent-to-mvp-recipe.yaml`
 - `nexora-framework/templates/project-template/`
 
@@ -64,6 +69,7 @@ Ready module:
 Required project entry files:
 
 - `projects/healthcare-operations-platform/PROJECT_BRIEF.md`
+- `projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md`
 - `projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md`
 - `projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml`
 - `projects/healthcare-operations-platform/PROJECT_STATE.yaml`
@@ -83,11 +89,13 @@ Required starting package:
 
 1. Preserve project boundaries.
 2. Do not put project-specific files at repository root.
-3. For a new project, create `projects/<project-slug>/PROJECT_BRIEF.md` first.
-4. Apply the Nexora Agent-to-MVP Recipe before implementation.
-5. Update project-level `PROJECT_STATE.yaml` and `SOURCE_OF_TRUTH.yaml` for project work.
-6. Update root state only for repository or framework changes.
-7. Avoid provider, cloud or agent lock-in unless explicitly required.
+3. For a new project, create `projects/<project-slug>/BUSINESS_REQUIREMENT.md` first.
+4. Structure the requirement into `PROJECT_BRIEF.md`.
+5. Apply the Nexora Project Analysis and MVP Workflow before implementation.
+6. Apply the Nexora Agent-to-MVP Recipe before implementation.
+7. Update project-level `PROJECT_STATE.yaml` and `SOURCE_OF_TRUTH.yaml` for project work.
+8. Update root state only for repository or framework changes.
+9. Avoid provider, cloud or agent lock-in unless explicitly required.
 
 ## Immediate Task
 
@@ -97,7 +105,15 @@ If continuing Healthcare Operations Platform, implement:
 
 If starting a new solution, create:
 
+`projects/<project-slug>/BUSINESS_REQUIREMENT.md`
+
+Then create:
+
 `projects/<project-slug>/PROJECT_BRIEF.md`
+
+Then run:
+
+`nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.md`
 
 Then run:
 

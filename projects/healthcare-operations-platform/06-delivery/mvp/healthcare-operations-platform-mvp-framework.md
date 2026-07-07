@@ -36,7 +36,7 @@ Imaging, advanced inventory, advanced quality and AI assistants are intentionall
 
 ## Agent Execution Loop
 
-1. Load the required context listed in `healthcare-operations-platform-mvp-framework.yaml`.
+1. Load the business requirement and required context listed in `healthcare-operations-platform-mvp-framework.yaml`.
 2. Select one MVP module.
 3. Resolve its capabilities through BCM-001 and BCM-002.
 4. Resolve bounded contexts through the context map.

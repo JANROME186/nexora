@@ -1,13 +1,14 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.44.0
+  version: 0.45.0
   status: approved
 sources:
   repository_readme: README.md
   repository_state: PROJECT_STATE.yaml
   agent_bootstrap: AGENT_BOOTSTRAP.md
   agent_agnostic_standard: nexora-framework/standards/agent-agnostic-standard.yaml
+  project_orchestration_workflow: nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml
   company_profile: nexora-framework/01-enterprise/company/company-profile.yaml
   framework_readme: nexora-framework/README.md
   project_folder_standard: nexora-framework/standards/project-folder-standard.yaml
@@ -18,6 +19,7 @@ sources:
   projects_index: projects/README.md
   healthcare_operations_platform: projects/healthcare-operations-platform/
   hop_project_brief: projects/healthcare-operations-platform/PROJECT_BRIEF.md
+  hop_business_requirement: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md
   hop_ordered_development_guide: projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md
   hop_project_state: projects/healthcare-operations-platform/PROJECT_STATE.yaml
   hop_source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
@@ -27,5 +29,6 @@ rules:
   - Each project owns its PROJECT_BRIEF.md, PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
   - Project-specific artifacts must not be added directly at repository root.
   - Agents must load the Nexora framework first, then the target project source of truth.
+  - Agents must scan projects/ and validate project analysis status before implementation.
   - Agents must not require agent-specific files, prompts, runtime features or vendor configuration.
   - Generated artifacts must not be edited manually.

@@ -1,6 +1,6 @@
 repository: Nexora
-repository_version: 0.44.0
-current_phase: Agent-Agnostic Multi-Project Delivery Ready
+repository_version: 0.45.0
+current_phase: Project Orchestration Ready
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -11,6 +11,8 @@ framework:
     - nexora-framework/standards/project-folder-standard.yaml
     - nexora-framework/standards/documentation-standard.yaml
     - nexora-framework/standards/agent-agnostic-standard.yaml
+  orchestration:
+    - nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml
   recipe:
     - nexora-framework/recipes/agent-to-mvp-recipe.yaml
 projects:
@@ -28,4 +30,5 @@ development_readiness:
   status: ready
   repository_structure_ready: true
   agent_agnostic_ready: true
+  project_orchestration_ready: true
   blocking_definition_gaps: []

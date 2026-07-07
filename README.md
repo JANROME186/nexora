@@ -6,6 +6,8 @@ This repository defines how Nexora documents, governs and prepares software solu
 
 All framework and project artifacts are agent agnostic: no project may require a named coding agent, assistant, platform prompt, model vendor or runtime-specific configuration to understand or implement the solution.
 
+Agents must use the Nexora framework to scan `projects/`, validate whether each project has already been analyzed, and complete missing definitions before handing work to specialized subagents.
+
 ## Repository Structure
 
 | Path | Purpose |
@@ -17,10 +19,12 @@ All framework and project artifacts are agent agnostic: no project may require a
 ## How New Projects Start
 
 1. Create a folder under `projects/<project-slug>/`.
-2. Add `PROJECT_BRIEF.md` with the user need and project description.
-3. Apply `nexora-framework/recipes/agent-to-mvp-recipe.md`.
-4. Generate the required source artifacts until `PROJECT_STATE.yaml` has no blocking definition gaps.
-5. Start implementation from the first module definition package.
+2. Add `BUSINESS_REQUIREMENT.md` with the high-level business requirement.
+3. Structure it into `PROJECT_BRIEF.md`.
+4. Apply `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.md`.
+5. Apply `nexora-framework/recipes/agent-to-mvp-recipe.md`.
+6. Generate the required source artifacts until `PROJECT_STATE.yaml` has no blocking definition gaps.
+7. Start implementation from the first module definition package.
 
 ## Current First Project
 
@@ -37,5 +41,7 @@ Project folder:
 - `AGENT_BOOTSTRAP.md`
 - `nexora-framework/README.md`
 - `nexora-framework/standards/agent-agnostic-standard.md`
+- `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.md`
 - `nexora-framework/recipes/agent-to-mvp-recipe.md`
+- `projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md`
 - `projects/healthcare-operations-platform/PROJECT_BRIEF.md`

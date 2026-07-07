@@ -8,6 +8,7 @@ artifact:
 
 required_project_root_files:
   - README.md
+  - BUSINESS_REQUIREMENT.md
   - PROJECT_BRIEF.md
   - PROJECT_STATE.yaml
   - SOURCE_OF_TRUTH.yaml
@@ -24,10 +25,10 @@ required_project_folders:
   - 08-qa
   - 09-operations
   - 10-generated
-  - legacy
+  - 99-legacy
 
 folder_purposes:
-  00-intake: Project brief, user needs, assumptions, constraints and source material.
+  00-intake: User needs, assumptions, constraints and source material.
   01-product-definition: Product vision, personas, scope, capabilities, roadmap and MVP definition.
   02-domain-definition: Domain model, bounded contexts, aggregates, vocabulary and business rules.
   03-architecture: Application, technology, data, security, integration and AI architecture.
@@ -38,11 +39,13 @@ folder_purposes:
   08-qa: Test plans, contract tests, fixtures and quality evidence.
   09-operations: DevOps, deployment profiles, observability and runbooks.
   10-generated: Generated diagrams, markdown, indexes and agent context packs.
-  legacy: Imported or previous-structure assets kept for continuity.
+  99-legacy: Imported or previous-structure assets kept for continuity.
 
 rules:
   - Project-specific files stay inside the project folder.
   - Root-level files describe Nexora and repository orchestration only.
+  - Every project must start from BUSINESS_REQUIREMENT.md.
+  - PROJECT_BRIEF.md must structure and refine BUSINESS_REQUIREMENT.md.
   - Every project must declare its own SOURCE_OF_TRUTH.yaml.
   - Every project must declare readiness in PROJECT_STATE.yaml.
   - Generated artifacts must not be edited manually.

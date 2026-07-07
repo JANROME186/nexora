@@ -4,7 +4,9 @@ current_phase: Intake
 development_readiness:
   status: not_ready
   ready_to_start_module: null
+  business_requirement_ready: false
   blocking_definition_gaps:
+    - business_requirement_missing
     - project_brief_not_completed
     - capability_map_missing
     - mvp_framework_missing

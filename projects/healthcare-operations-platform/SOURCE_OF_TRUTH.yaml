@@ -1,9 +1,10 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.44.0
+  version: 0.45.0
   status: approved
 sources:
+  business_requirement: BUSINESS_REQUIREMENT.md
   project_brief: PROJECT_BRIEF.md
   project_state: PROJECT_STATE.yaml
   ordered_development_guide: ORDERED_DEVELOPMENT_GUIDE.md
