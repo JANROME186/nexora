@@ -16,9 +16,10 @@ projects:
     project_brief: projects/healthcare-operations-platform/PROJECT_BRIEF.md
     source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
     project_state: projects/healthcare-operations-platform/PROJECT_STATE.yaml
-    capability_map: projects/healthcare-operations-platform/02-platform-definition/business-capabilities/bcm-001/business-capability-map.yaml
-    dependency_map: projects/healthcare-operations-platform/02-platform-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
-    actor_catalog: projects/healthcare-operations-platform/02-platform-definition/actors/acm-001/actor-catalog.yaml
-    reference_processes: projects/healthcare-operations-platform/02-platform-definition/processes/hrp-001/healthcare-reference-processes.yaml
-    business_rules: projects/healthcare-operations-platform/02-platform-definition/business-rules/brm-001/business-rules-catalog.yaml
-    first_module_package: projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
+    ordered_development_guide: projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md
+    capability_map: projects/healthcare-operations-platform/01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
+    dependency_map: projects/healthcare-operations-platform/01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
+    actor_catalog: projects/healthcare-operations-platform/02-domain-definition/actors/acm-001/actor-catalog.yaml
+    reference_processes: projects/healthcare-operations-platform/02-domain-definition/processes/hrp-001/healthcare-reference-processes.yaml
+    business_rules: projects/healthcare-operations-platform/02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml
+    first_module_package: projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml

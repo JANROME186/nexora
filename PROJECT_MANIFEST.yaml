@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.42.0
+  version: 0.43.0
   status: ready
 
 company:
@@ -31,6 +31,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: ready_for_mvp_development
     project_brief: projects/healthcare-operations-platform/PROJECT_BRIEF.md
+    ordered_development_guide: projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md
     source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
     ready_to_start_module: MVP-MOD-001
 

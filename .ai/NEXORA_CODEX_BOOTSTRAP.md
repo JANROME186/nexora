@@ -22,7 +22,7 @@ Load root source of truth, Nexora framework standards, then the target project f
 
 Implement:
 
-`projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/`
+`projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/`
 
 ## New Project Start Point
 

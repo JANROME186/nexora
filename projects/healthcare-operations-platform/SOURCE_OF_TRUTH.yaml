@@ -1,25 +1,27 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.42.0
+  version: 0.43.0
   status: approved
 sources:
   project_brief: PROJECT_BRIEF.md
   project_state: PROJECT_STATE.yaml
-  product_definition: 02-platform-definition/products/healthcare-operations-platform/product.yaml
-  business_capability_map: 02-platform-definition/business-capabilities/bcm-001/business-capability-map.yaml
-  capability_dependency_map: 02-platform-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
-  actor_catalog: 02-platform-definition/actors/acm-001/actor-catalog.yaml
-  healthcare_reference_processes: 02-platform-definition/processes/hrp-001/healthcare-reference-processes.yaml
-  business_rules_catalog: 02-platform-definition/business-rules/brm-001/business-rules-catalog.yaml
-  hop_mvp_framework: 05-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml
-  mvp_mod_001_platform_foundation: 05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
-  context_map: 02-platform-definition/domain-foundation/context-map/context-map.yaml
-  shared_kernel: 02-platform-definition/domain-foundation/shared-kernel/shared-kernel.yaml
-  aggregate_catalog: 02-platform-definition/domain-foundation/aggregates/aggregate-catalog.yaml
+  ordered_development_guide: ORDERED_DEVELOPMENT_GUIDE.md
+  product_definition: 01-product-definition/products/healthcare-operations-platform/product.yaml
+  business_capability_map: 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
+  capability_dependency_map: 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
+  actor_catalog: 02-domain-definition/actors/acm-001/actor-catalog.yaml
+  healthcare_reference_processes: 02-domain-definition/processes/hrp-001/healthcare-reference-processes.yaml
+  business_rules_catalog: 02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml
+  hop_mvp_framework: 06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml
+  mvp_mod_001_platform_foundation: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
+  context_map: 02-domain-definition/domain-foundation/context-map/context-map.yaml
+  shared_kernel: 02-domain-definition/domain-foundation/shared-kernel/shared-kernel.yaml
+  aggregate_catalog: 02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml
 rules:
   - Healthcare Operations Platform is a project under Nexora.
   - This folder is the boundary for HOP-specific artifacts.
+  - HOP project root must contain only numbered folders plus project control files.
   - Nexora framework standards are inherited from ../../nexora-framework/.
   - Generated artifacts must not be edited manually.
   - Architecture changes require ADR.

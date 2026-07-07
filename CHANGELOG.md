@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.43.0] - 2026-07-07
+
+### Changed
+- Reorganized Healthcare Operations Platform so the project root contains only numbered folders.
+- Moved product artifacts under `01-product-definition`.
+- Moved domain artifacts under `02-domain-definition`.
+- Moved architecture artifacts under `03-architecture`.
+- Moved requirements artifacts under `04-requirements`.
+- Moved contracts under `05-contracts`.
+- Moved MVP delivery packages under `06-delivery`.
+- Moved project engineering governance under `09-operations`.
+- Moved generated knowledge and diagrams under `10-generated`.
+
+### Added
+- Added `ORDERED_DEVELOPMENT_GUIDE.md` for agent loading order and incremental development rules.
+- Added `99-legacy` for historical readmes and migration continuity.
+
 ## [0.42.0] - 2026-07-07
 
 ### Added

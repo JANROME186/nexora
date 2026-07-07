@@ -1,5 +1,5 @@
 repository: Nexora
-repository_version: 0.42.0
+repository_version: 0.43.0
 current_phase: Repository Restructured for Multi-Project Agent Delivery
 company:
   name: Nexora
@@ -18,6 +18,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: ready_for_mvp_development
     ready_to_start_module: MVP-MOD-001
+    structure: ordered_numbered_folders
 next_deliverables:
   - Implement projects/healthcare-operations-platform MVP-MOD-001 Platform Foundation
   - Use Nexora Agent-to-MVP Recipe for any new project under projects/

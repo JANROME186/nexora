@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.42.0
+  version: 0.43.0
   status: approved
 sources:
   repository_readme: README.md
@@ -17,6 +17,7 @@ sources:
   projects_index: projects/README.md
   healthcare_operations_platform: projects/healthcare-operations-platform/
   hop_project_brief: projects/healthcare-operations-platform/PROJECT_BRIEF.md
+  hop_ordered_development_guide: projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md
   hop_project_state: projects/healthcare-operations-platform/PROJECT_STATE.yaml
   hop_source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
 rules:

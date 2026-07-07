@@ -64,19 +64,20 @@ Ready module:
 Required project entry files:
 
 - `projects/healthcare-operations-platform/PROJECT_BRIEF.md`
+- `projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md`
 - `projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml`
 - `projects/healthcare-operations-platform/PROJECT_STATE.yaml`
 
 Required starting package:
 
-- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
-- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.md`
-- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/api-contract.openapi.yaml`
-- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.md`
-- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.md`
-- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.md`
-- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.md`
-- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/traceability.yaml`
+- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
+- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.md`
+- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/api-contract.openapi.yaml`
+- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.md`
+- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.md`
+- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.md`
+- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.md`
+- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/traceability.yaml`
 
 ## Rules
 
