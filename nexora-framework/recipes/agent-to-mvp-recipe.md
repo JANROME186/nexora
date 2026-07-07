@@ -12,11 +12,13 @@ Every project starts with:
 
 `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
 
-Then the requirement is structured into:
+This file must be supplied by the requester. The agent must not generate it.
+
+Then the requester-supplied requirement is structured into:
 
 `projects/<project-slug>/PROJECT_BRIEF.md`
 
-If the business requirement is missing, the agent must mark the project blocked for analysis.
+If the business requirement is missing, the agent must stop and request it. The agent may mark the project blocked for analysis, but it must not infer or synthesize the missing file.
 
 If the project brief is missing, the agent must create it from the business requirement before continuing.
 

@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.46.0
+  version: 0.47.0
   status: ready
 
 company:
@@ -42,6 +42,7 @@ projects:
 
 agent_policy:
   agent_agnostic: true
+  requester_supplied_business_requirement_required: true
   repository_loading_order:
     - AGENT_BOOTSTRAP.md
     - NEXORA_FRAMEWORK_USAGE_GUIDE.md

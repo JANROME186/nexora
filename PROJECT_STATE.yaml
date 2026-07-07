@@ -1,6 +1,6 @@
 repository: Nexora
-repository_version: 0.46.0
-current_phase: Framework Usage Guide Ready
+repository_version: 0.47.0
+current_phase: Requester-Supplied Business Requirement Enforced
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -33,4 +33,5 @@ development_readiness:
   agent_agnostic_ready: true
   project_orchestration_ready: true
   framework_usage_guide_ready: true
+  requester_business_requirement_required: true
   blocking_definition_gaps: []

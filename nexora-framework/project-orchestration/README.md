@@ -24,15 +24,16 @@ The orchestration layer is project-agnostic. It does not define healthcare, fina
    - `SOURCE_OF_TRUTH.yaml`
    - `PROJECT_STATE.yaml`
 4. If `BUSINESS_REQUIREMENT.md` is missing, stop that project and create a blocking gap.
-5. If the project has not been analyzed, apply `nexora-framework/recipes/agent-to-mvp-recipe.yaml`.
-6. Complete source artifacts before generated artifacts.
-7. Mark the project ready only when the first MVP module has a complete definition package.
+5. Do not generate, synthesize or infer `BUSINESS_REQUIREMENT.md`; it must be supplied by the requester.
+6. If the project has not been analyzed and the business requirement exists, apply `nexora-framework/recipes/agent-to-mvp-recipe.yaml`.
+7. Complete source artifacts before generated artifacts.
+8. Mark the project ready only when the first MVP module has a complete definition package.
 
 ## Project Analysis Result
 
 After analysis, each project must contain enough definition for specialized subagents to implement independently:
 
-- High-level business requirement.
+- Requester-supplied high-level business requirement.
 - Structured project brief.
 - Product and capability definition.
 - Domain foundation.

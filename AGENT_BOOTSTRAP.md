@@ -89,7 +89,7 @@ Required starting package:
 
 1. Preserve project boundaries.
 2. Do not put project-specific files at repository root.
-3. For a new project, create `projects/<project-slug>/BUSINESS_REQUIREMENT.md` first.
+3. For a new project, require the requester to provide `projects/<project-slug>/BUSINESS_REQUIREMENT.md` first.
 4. Structure the requirement into `PROJECT_BRIEF.md`.
 5. Apply the Nexora Project Analysis and MVP Workflow before implementation.
 6. Apply the Nexora Agent-to-MVP Recipe before implementation.
@@ -103,9 +103,11 @@ If continuing Healthcare Operations Platform, implement:
 
 `projects/healthcare-operations-platform` → `MVP-MOD-001 Platform Foundation`
 
-If starting a new solution, create:
+If starting a new solution, first ensure the requester has provided:
 
 `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
+
+This file must be supplied by the requester. Do not generate it as an agent.
 
 Then create:
 

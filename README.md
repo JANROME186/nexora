@@ -19,7 +19,7 @@ Agents must use the Nexora framework to scan `projects/`, validate whether each 
 ## How New Projects Start
 
 1. Create a folder under `projects/<project-slug>/`.
-2. Add `BUSINESS_REQUIREMENT.md` with the high-level business requirement.
+2. The requester provides `BUSINESS_REQUIREMENT.md` with the high-level business requirement.
 3. Structure it into `PROJECT_BRIEF.md`.
 4. Apply `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.md`.
 5. Apply `nexora-framework/recipes/agent-to-mvp-recipe.md`.

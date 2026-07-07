@@ -8,6 +8,8 @@ artifact:
 
 purpose: Inspect projects under projects/, validate whether each project has been analyzed with the Nexora framework, and complete missing definitions until specialized subagents can start MVP implementation from repository artifacts.
 
+non_negotiable_input_rule: BUSINESS_REQUIREMENT.md is external input supplied by the requester. Agents must consume it, validate that it exists, and stop if it is missing. Agents must not generate, synthesize or silently create BUSINESS_REQUIREMENT.md.
+
 scope:
   applies_to: projects/*
   excludes:
@@ -37,6 +39,8 @@ project_discovery:
       - PROJECT_BRIEF.md
       - SOURCE_OF_TRUTH.yaml
       - PROJECT_STATE.yaml
+    stop_if_missing:
+      - BUSINESS_REQUIREMENT.md
     create_missing_control_files_from_template:
       - PROJECT_BRIEF.md
       - SOURCE_OF_TRUTH.yaml
@@ -44,6 +48,9 @@ project_discovery:
 
 business_requirement:
   required_file: BUSINESS_REQUIREMENT.md
+  supplied_by: requester
+  agent_may_create: false
+  agent_may_modify_without_explicit_request: false
   purpose: Provide the high-level business need, user problem and expected outcome that drive analysis, proposed solution and MVP scope.
   minimum_sections:
     - Business Context
@@ -53,6 +60,17 @@ business_requirement:
     - MVP Expectation
     - Constraints
   blocking_gap_if_missing: business_requirement_missing
+  missing_behavior:
+    action: stop_project_analysis
+    allowed_outputs:
+      - Existing or newly initialized PROJECT_STATE.yaml with business_requirement_missing, only if this can be done without creating or inventing BUSINESS_REQUIREMENT.md.
+      - A user-facing request asking the requester to provide BUSINESS_REQUIREMENT.md.
+    forbidden_outputs:
+      - Generated BUSINESS_REQUIREMENT.md
+      - PROJECT_BRIEF.md inferred without BUSINESS_REQUIREMENT.md
+      - Capability map
+      - MVP framework
+      - Module package
   relation_to_project_brief: PROJECT_BRIEF.md structures and refines BUSINESS_REQUIREMENT.md; it does not replace it.
 
 analysis_status_detection:
@@ -100,7 +118,7 @@ completion_workflow:
 
 mvp_required_outputs:
   project_level:
-    - BUSINESS_REQUIREMENT.md
+    - BUSINESS_REQUIREMENT.md supplied by requester
     - PROJECT_BRIEF.md
     - SOURCE_OF_TRUTH.yaml
     - PROJECT_STATE.yaml
@@ -149,7 +167,7 @@ specialized_subagent_handoff:
 readiness_gate:
   status: ready
   required_truths:
-    - High-level business requirement exists.
+    - High-level business requirement exists and was supplied by the requester.
     - Project brief refines the business requirement.
     - Source of truth lists all authoritative artifacts.
     - Project state has no blocking definition gaps.

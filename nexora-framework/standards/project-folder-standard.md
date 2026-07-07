@@ -39,7 +39,7 @@ Every project must start with:
 
 `BUSINESS_REQUIREMENT.md`
 
-This file captures the high-level business requirement. `PROJECT_BRIEF.md` structures and refines it into the formal product and MVP context.
+This file captures the high-level business requirement supplied by the requester. Agents must not generate it. `PROJECT_BRIEF.md` structures and refines it into the formal product and MVP context.
 
 ## Readiness Rule
 

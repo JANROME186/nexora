@@ -44,7 +44,8 @@ folder_purposes:
 rules:
   - Project-specific files stay inside the project folder.
   - Root-level files describe Nexora and repository orchestration only.
-  - Every project must start from BUSINESS_REQUIREMENT.md.
+  - Every project must start from requester-supplied BUSINESS_REQUIREMENT.md.
+  - Agents must not generate BUSINESS_REQUIREMENT.md.
   - PROJECT_BRIEF.md must structure and refine BUSINESS_REQUIREMENT.md.
   - Every project must declare its own SOURCE_OF_TRUTH.yaml.
   - Every project must declare readiness in PROJECT_STATE.yaml.

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.47.0] - 2026-07-07
+
+### Changed
+- Enforced `BUSINESS_REQUIREMENT.md` as requester-supplied source material, not agent-generated output.
+- Updated orchestration, recipe, bootstrap, usage guide and project folder standards so agents stop when the business requirement is missing.
+- Removed the `BUSINESS_REQUIREMENT.md` project template to avoid implying that agents should generate the business requirement.
+
 ## [0.46.0] - 2026-07-07
 
 ### Added

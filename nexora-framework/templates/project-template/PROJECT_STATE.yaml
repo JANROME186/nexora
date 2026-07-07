@@ -6,7 +6,7 @@ development_readiness:
   ready_to_start_module: null
   business_requirement_ready: false
   blocking_definition_gaps:
-    - business_requirement_missing
+    - business_requirement_missing_requester_must_provide
     - project_brief_not_completed
     - capability_map_missing
     - mvp_framework_missing

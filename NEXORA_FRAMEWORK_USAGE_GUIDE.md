@@ -9,10 +9,11 @@ Esta pensada para una persona o equipo que llega al repositorio sin contexto pre
 El flujo completo es:
 
 1. Crear o seleccionar una carpeta de proyecto dentro de `projects/`.
-2. Documentar el requerimiento de negocio de alto nivel.
-3. Iniciar un agente de analisis para aplicar el framework Nexora.
-4. Validar que el agente genero todas las definiciones requeridas.
-5. Iniciar un agente de desarrollo para implementar el primer modulo del MVP usando solo artefactos del repositorio.
+2. Recibir del solicitante el requerimiento de negocio de alto nivel.
+3. Colocar ese requerimiento en `BUSINESS_REQUIREMENT.md`.
+4. Iniciar un agente de analisis para aplicar el framework Nexora.
+5. Validar que el agente genero todas las definiciones requeridas.
+6. Iniciar un agente de desarrollo para implementar el primer modulo del MVP usando solo artefactos del repositorio.
 
 ## Regla Principal
 
@@ -105,11 +106,17 @@ El primer archivo obligatorio del proyecto es:
 
 `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
 
-Sin ese archivo, el agente no debe iniciar el analisis.
+Este archivo lo provee quien requiere el sistema. No lo genera el agente.
+
+Sin ese archivo, el agente no debe iniciar el analisis, no debe crear `PROJECT_BRIEF.md`, no debe crear mapas de capacidades, no debe proponer MVP y no debe generar paquetes de modulo.
 
 ## Etapa 2: Documentar el Requerimiento de Negocio
 
-`BUSINESS_REQUIREMENT.md` es el primer artefacto fuente especifico del proyecto.
+`BUSINESS_REQUIREMENT.md` es la materia prima del framework y el primer artefacto fuente especifico del proyecto.
+
+Debe ser proporcionado por la persona, empresa o equipo que requiere el sistema.
+
+El agente puede leerlo, detectar si esta incompleto y pedir aclaraciones, pero no debe generarlo desde cero ni sustituirlo con supuestos.
 
 Debe explicar la necesidad de negocio antes de crear una propuesta de solucion, arquitectura, alcance MVP o backlog de desarrollo.
 
@@ -197,6 +204,8 @@ Si faltan archivos de control del proyecto, el agente debe crearlos usando el te
 
 Si falta `BUSINESS_REQUIREMENT.md`, el analisis queda bloqueado. El agente no debe inventar silenciosamente el requerimiento de negocio.
 
+En ese caso, el agente debe detenerse y responder que necesita que el solicitante proporcione `projects/<project-slug>/BUSINESS_REQUIREMENT.md`.
+
 ## Etapa 4: Que Debe Generar el Agente de Analisis
 
 El agente de analisis debe completar la carpeta del proyecto hasta que pueda entregarse a agentes especializados de desarrollo.
@@ -207,7 +216,7 @@ Los nombres exactos pueden variar si `SOURCE_OF_TRUTH.yaml` documenta la variaci
 
 Salidas requeridas:
 
-- `BUSINESS_REQUIREMENT.md`
+- `BUSINESS_REQUIREMENT.md` proporcionado por el solicitante
 - `PROJECT_BRIEF.md`
 - `SOURCE_OF_TRUTH.yaml`
 - `PROJECT_STATE.yaml`
@@ -216,7 +225,7 @@ Salidas requeridas:
 
 Proposito:
 
-- `BUSINESS_REQUIREMENT.md` explica la necesidad de negocio.
+- `BUSINESS_REQUIREMENT.md` explica la necesidad de negocio y actua como materia prima externa del framework.
 - `PROJECT_BRIEF.md` estructura esa necesidad en contexto de producto.
 - `SOURCE_OF_TRUTH.yaml` enumera los artefactos autoritativos.
 - `PROJECT_STATE.yaml` declara readiness y bloqueos.
@@ -646,7 +655,7 @@ Usar este checklist al aplicar el framework.
 
 Readiness de analisis:
 
-- `BUSINESS_REQUIREMENT.md` existe y tiene contenido suficiente.
+- `BUSINESS_REQUIREMENT.md` existe, fue proporcionado por el solicitante y tiene contenido suficiente.
 - `PROJECT_BRIEF.md` estructura el requerimiento.
 - La carpeta del proyecto sigue el estandar.
 - `SOURCE_OF_TRUTH.yaml` existe.
@@ -690,6 +699,6 @@ La auditoria no debe encontrar coincidencias en artefactos fuente, salvo que un 
 
 ## Principio Final
 
-El framework Nexora funciona correctamente cuando una persona puede agregar un requerimiento de negocio, pedir a un agente de analisis que complete la definicion del proyecto, validar readiness y despues pedir a un agente de desarrollo diferente que implemente el primer modulo MVP sin perder contexto.
+El framework Nexora funciona correctamente cuando una persona proporciona un requerimiento de negocio, pide a un agente de analisis que complete la definicion del proyecto, valida readiness y despues pide a un agente de desarrollo diferente que implemente el primer modulo MVP sin perder contexto.
 
 Si el siguiente agente necesita una conversacion previa para entender que hacer, el framework no fue aplicado completamente.
