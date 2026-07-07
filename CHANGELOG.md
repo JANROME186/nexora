@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.46.0] - 2026-07-07
+
+### Added
+- Added `NEXORA_FRAMEWORK_USAGE_GUIDE.md` as the root-level operating guide for using the Nexora framework.
+- Documented analysis-agent startup, expected analysis outputs, validation gates and development-agent handoff instructions.
+
+### Changed
+- Updated repository source of truth, manifest, state and README to make the usage guide an official entry point.
+
 ## [0.45.0] - 2026-07-07
 
 ### Added

@@ -1,10 +1,11 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.45.0
+  version: 0.46.0
   status: approved
 sources:
   repository_readme: README.md
+  framework_usage_guide: NEXORA_FRAMEWORK_USAGE_GUIDE.md
   repository_state: PROJECT_STATE.yaml
   agent_bootstrap: AGENT_BOOTSTRAP.md
   agent_agnostic_standard: nexora-framework/standards/agent-agnostic-standard.yaml
@@ -29,6 +30,7 @@ rules:
   - Each project owns its PROJECT_BRIEF.md, PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
   - Project-specific artifacts must not be added directly at repository root.
   - Agents must load the Nexora framework first, then the target project source of truth.
+  - Agents and users must use NEXORA_FRAMEWORK_USAGE_GUIDE.md as the human-facing operating guide for analysis and development handoff.
   - Agents must scan projects/ and validate project analysis status before implementation.
   - Agents must not require agent-specific files, prompts, runtime features or vendor configuration.
   - Generated artifacts must not be edited manually.

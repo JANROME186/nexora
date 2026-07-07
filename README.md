@@ -26,6 +26,10 @@ Agents must use the Nexora framework to scan `projects/`, validate whether each 
 6. Generate the required source artifacts until `PROJECT_STATE.yaml` has no blocking definition gaps.
 7. Start implementation from the first module definition package.
 
+For detailed step-by-step usage, analysis-agent instructions, validation gates and development-agent handoff, read:
+
+`NEXORA_FRAMEWORK_USAGE_GUIDE.md`
+
 ## Current First Project
 
 Healthcare Operations Platform is ready to start development of:
@@ -39,6 +43,7 @@ Project folder:
 ## Agent Entry Points
 
 - `AGENT_BOOTSTRAP.md`
+- `NEXORA_FRAMEWORK_USAGE_GUIDE.md`
 - `nexora-framework/README.md`
 - `nexora-framework/standards/agent-agnostic-standard.md`
 - `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.md`

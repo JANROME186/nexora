@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.45.0
+  version: 0.46.0
   status: ready
 
 company:
@@ -18,6 +18,7 @@ company:
 framework:
   path: nexora-framework/
   purpose: Defines how Nexora documents and prepares AI-agent-assisted software solutions.
+  usage_guide: NEXORA_FRAMEWORK_USAGE_GUIDE.md
   standards:
     project_folder: nexora-framework/standards/project-folder-standard.yaml
     documentation: nexora-framework/standards/documentation-standard.yaml
@@ -43,6 +44,7 @@ agent_policy:
   agent_agnostic: true
   repository_loading_order:
     - AGENT_BOOTSTRAP.md
+    - NEXORA_FRAMEWORK_USAGE_GUIDE.md
     - SOURCE_OF_TRUTH.yaml
     - nexora-framework/README.md
     - nexora-framework/standards/agent-agnostic-standard.md
