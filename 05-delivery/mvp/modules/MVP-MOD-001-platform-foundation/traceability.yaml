@@ -1,0 +1,43 @@
+artifact:
+  id: MVP-MOD-001-TRACE
+  type: traceability-record
+  name: Platform Foundation Traceability
+  version: 1.0.0
+  status: draft
+
+module: MVP-MOD-001
+source_artifacts:
+  - 05-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml
+  - 02-platform-definition/actors/acm-001/actor-catalog.yaml
+  - 02-platform-definition/processes/hrp-001/healthcare-reference-processes.yaml
+  - 02-platform-definition/business-rules/brm-001/business-rules-catalog.yaml
+  - 02-platform-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
+
+capability_to_api:
+  BCM-ORG-001: [/platform/tenants]
+  BCM-ORG-002: [/organization/laboratories]
+  BCM-ORG-003: [/organization/branches]
+  BCM-ORG-006: [/identity/users]
+  BCM-ORG-008: [/organization/laboratories, /organization/branches]
+  BCM-PLT-001: [/identity/users, /identity/users/{userId}/role-assignments]
+  BCM-PLT-002: [/platform/tenants]
+  BCM-PLT-006: [local_observability_profile]
+  BCM-PLT-007: [/audit/events]
+
+actor_to_permissions:
+  ACT-001: [manage_tenants, manage_platform_settings, view_platform_audit]
+  ACT-002: [manage_laboratories, manage_branches, manage_users, manage_roles]
+  ACT-003: [manage_branch_operations, manage_branch_users, view_branch_audit]
+  ACT-018: [append_audit_event, query_audit_events_with_authorization]
+
+rules:
+  - BRM-001-R001
+  - BRM-001-R002
+  - BRM-001-R018
+
+processes:
+  - HRP-001-P01
+
+development_start_status:
+  ready: true
+  notes: Platform Foundation has actors, rules, process, APIs, data model, UI map, tests and traceability.

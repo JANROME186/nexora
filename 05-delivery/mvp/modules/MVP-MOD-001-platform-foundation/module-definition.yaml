@@ -1,0 +1,115 @@
+artifact:
+  id: MVP-MOD-001-DEF
+  type: mvp-module-definition
+  name: Platform Foundation Definition Package
+  version: 1.0.0
+  status: ready-for-implementation
+  owner: Product Architecture Team
+  source_of_truth: 05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
+  depends_on:
+    - HOP-MVP-FWK-001
+    - ACM-001
+    - HRP-001
+    - BRM-001
+
+module:
+  id: MVP-MOD-001
+  name: Platform Foundation
+  objective: Establish tenant, laboratory, branch, identity, authorization, audit and observability baseline.
+  implementation_start_allowed: true
+  start_condition: "All source artifacts required for Platform Foundation are present and mapped."
+
+capabilities:
+  - BCM-ORG-001
+  - BCM-ORG-002
+  - BCM-ORG-003
+  - BCM-ORG-006
+  - BCM-ORG-008
+  - BCM-PLT-001
+  - BCM-PLT-002
+  - BCM-PLT-006
+  - BCM-PLT-007
+
+bounded_contexts:
+  - organization-management
+  - identity-access
+  - audit-compliance
+  - observability
+
+actors:
+  - ACT-001
+  - ACT-002
+  - ACT-003
+  - ACT-018
+
+primary_aggregates:
+  - Laboratory
+  - Branch
+  - UserAccount
+
+implementation_units:
+  backend:
+    language: Java 21
+    framework: Spring Boot 3.x
+    architecture: Spring Modulith with hexagonal module boundaries
+    modules:
+      - organization-management
+      - identity-access
+      - audit-compliance
+      - observability
+  database:
+    engine: PostgreSQL
+    migration_tool: implementation-choice
+    schemas:
+      - organization
+      - identity
+      - audit
+  frontend:
+    framework: React + TypeScript
+    surfaces:
+      - tenant administration
+      - laboratory administration
+      - branch administration
+      - user and role administration
+  infrastructure:
+    local_runtime:
+      - Docker Compose
+      - PostgreSQL
+      - Redis
+      - OpenTelemetry collector
+
+required_artifacts:
+  - domain-model.md
+  - api-contract.openapi.yaml
+  - database-migration-plan.md
+  - ui-screen-map.md
+  - security-and-audit-rules.md
+  - test-plan.md
+  - traceability.yaml
+
+implementation_backlog:
+  - id: PF-BE-001
+    title: Create backend project skeleton
+    output: Java Spring Boot Modulith baseline with organization, identity, audit and observability modules.
+  - id: PF-BE-002
+    title: Implement tenant, laboratory and branch commands
+    output: Domain services, repositories and OpenAPI endpoints.
+  - id: PF-BE-003
+    title: Implement user account and role assignment baseline
+    output: Authentication adapter boundary, local dev auth mode and scoped authorization policies.
+  - id: PF-BE-004
+    title: Implement append-only audit event recording
+    output: Audit API, persistence model and event publisher hooks.
+  - id: PF-FE-001
+    title: Create employee portal administration screens
+    output: Tenant, laboratory, branch, user and role screens.
+  - id: PF-OPS-001
+    title: Create local development compose profile
+    output: PostgreSQL, Redis, application and observability collector.
+  - id: PF-QA-001
+    title: Add smoke and contract tests
+    output: Auth, organization and audit verification suite.
+
+ready_to_code:
+  value: true
+  rationale: Actors, scopes, processes, business rules, API surface, data model plan, UI surfaces, security rules and tests are defined.

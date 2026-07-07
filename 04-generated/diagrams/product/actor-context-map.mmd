@@ -1,0 +1,29 @@
+flowchart LR
+  Staff["Internal Staff\nAdmin, Reception, Cashier, Lab"]
+  Doctor["Referring Doctor"]
+  Patient["Patient / Representative"]
+  Partner["Integration Partner"]
+  Device["Laboratory Device"]
+  Fiscal["Fiscal Authority Adapter"]
+  Services["Platform Services\nAudit, Notifications"]
+
+  EmployeePortal["Employee Portal"]
+  DoctorPortal["Doctor Portal"]
+  PatientPortal["Patient Portal / Mobile"]
+  API["Public/Internal APIs"]
+  Adapter["Integration Adapters"]
+  Platform["HOP Platform Core"]
+
+  Staff --> EmployeePortal
+  Doctor --> DoctorPortal
+  Patient --> PatientPortal
+  Partner --> API
+  Device --> Adapter
+  Fiscal --> Adapter
+  Services --> Platform
+
+  EmployeePortal --> Platform
+  DoctorPortal --> Platform
+  PatientPortal --> Platform
+  API --> Platform
+  Adapter --> Platform

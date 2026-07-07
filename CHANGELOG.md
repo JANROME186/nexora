@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.41.0] - 2026-07-07
+
+### Added
+- Added ACM-001 Actor Catalog with MVP actors, permissions, scopes and audit expectations.
+- Added HRP-001 Healthcare Reference Processes for the MVP operational spine.
+- Added BRM-001 Business Rules Catalog for security, privacy, clinical validation, audit and integration guardrails.
+- Added MVP-MOD-001 Platform Foundation Definition Package with API contract, domain model, migration plan, UI map, security rules, tests and traceability.
+- Added validators for actor catalog, reference processes and business rules.
+- Added ADR-030 for actor catalog and access scopes.
+
+### Changed
+- Updated project phase to Ready for MVP Development.
+- Updated bootstraps so the next task starts implementation of MVP-MOD-001.
+- Updated SOURCE_OF_TRUTH with actor, process, rule and MVP module sources.
+
 ## [0.40.0] - 2026-07-07
 
 ### Added

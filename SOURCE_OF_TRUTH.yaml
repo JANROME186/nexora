@@ -1,7 +1,7 @@
 artifact:
   id: SOT-001
   type: source-of-truth-registry
-  version: 0.40.0
+  version: 0.41.0
   status: approved
 sources:
   company_profile: 01-enterprise/company/company-profile.yaml
@@ -9,8 +9,12 @@ sources:
   codex_bootstrap: NEXORA_CODEX_BOOTSTRAP.md
   business_capability_map: 02-platform-definition/business-capabilities/bcm-001/business-capability-map.yaml
   capability_dependency_map: 02-platform-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
+  actor_catalog: 02-platform-definition/actors/acm-001/actor-catalog.yaml
+  healthcare_reference_processes: 02-platform-definition/processes/hrp-001/healthcare-reference-processes.yaml
+  business_rules_catalog: 02-platform-definition/business-rules/brm-001/business-rules-catalog.yaml
   hop_mvp_framework: 05-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml
   hop_mvp_agent_framework: 03-engineering/agents/hop-mvp-agent-framework.md
+  mvp_mod_001_platform_foundation: 05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
   bounded_contexts: 02-platform-definition/domain-foundation/bounded-contexts/
   context_map: 02-platform-definition/domain-foundation/context-map/context-map.yaml
   shared_kernel: 02-platform-definition/domain-foundation/shared-kernel/shared-kernel.yaml
@@ -21,5 +25,9 @@ rules:
 - BCM-001 is the official product capability index.
 - BCM-002 is the official capability dependency and MVP sequencing map.
 - HOP-MVP-FWK-001 is the official agent-agnostic implementation framework for the first MVP.
+- ACM-001 is the official actor, role intent, permission and scope catalog.
+- HRP-001 is the official MVP reference process catalog.
+- BRM-001 is the official MVP business rules baseline.
+- MVP-MOD-001 is ready for implementation from its module definition package.
 - Generated artifacts must not be edited manually.
 - Architecture changes require ADR.

@@ -189,18 +189,22 @@ Completed baseline artifacts include:
 - Project State registry.
 - BCM-002 Capability Dependency Map.
 - HOP MVP Agent-Agnostic Implementation Framework.
+- ACM-001 Actor Catalog.
+- HRP-001 Healthcare Reference Processes.
+- BRM-001 Business Rules Catalog.
+- MVP-MOD-001 Platform Foundation Definition Package.
 
 Current phase:
 
-# Product Definition
+# Ready for MVP Development
 
 Next expected deliverables:
 
-1. ACM-001 Actor Catalog.
-2. HRP-001 Healthcare Reference Processes.
-3. BRM-001 Business Rules Catalog.
-4. CBV-001 Canonical Business Vocabulary expansion.
-5. MVP-MOD-001 Platform Foundation Definition Package.
+1. Implement MVP-MOD-001 Platform Foundation.
+2. Create backend Spring Boot Modulith skeleton.
+3. Create local Docker Compose development runtime.
+4. Create employee portal administration shell.
+5. Continue MVP-MOD-002 Diagnostic Catalog definition package.
 
 ---
 
@@ -251,23 +255,24 @@ Codex must:
 
 Start with:
 
-# ACM-001 — Actor Catalog
+# Implement MVP-MOD-001 — Platform Foundation
 
 Goal:
 
-Define the human, system and external actors that participate in the Healthcare Operations Platform MVP.
+Create the first executable MVP baseline from the approved definition package.
 
-The actor catalog must align with BCM-001, BCM-002 and the HOP MVP Framework.
+Required starting package:
 
-Expected files:
+- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
+- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.md`
+- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/api-contract.openapi.yaml`
+- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.md`
+- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.md`
+- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.md`
+- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.md`
+- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/traceability.yaml`
 
-- `02-platform-definition/actors/acm-001/actor-catalog.yaml`
-- `02-platform-definition/actors/acm-001/actor-catalog.md`
-- `04-generated/diagrams/product/actor-context-map.mmd`
-- `03-engineering/validators/actor-catalog-validator.md`
-- ADR if actor taxonomy introduces a governance decision.
-- Update `PROJECT_STATE.yaml`
-- Update `SOURCE_OF_TRUTH.yaml`
+Implementation may start because no blocking definition gaps remain for MVP-MOD-001.
 
 ---
 
@@ -276,7 +281,7 @@ Expected files:
 Use:
 
 ```bash
-feat(product): add ACM-001 actor catalog
+feat(mvp): implement platform foundation baseline
 ```
 
 ---
