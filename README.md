@@ -1,42 +1,38 @@
 # Nexora
 
-Nexora is a **software development and Artificial Intelligence company**.
+Nexora is a software development and Artificial Intelligence company.
 
-This repository contains the current definition and engineering knowledge base for Nexora's first product:
+This repository defines how Nexora documents, governs and prepares software solutions for AI-agent-assisted development.
 
-# Healthcare Operations Platform
+## Repository Structure
 
-A platform for clinical laboratories, imaging centers and diagnostic healthcare organizations.
+| Path | Purpose |
+| --- | --- |
+| `nexora-framework/` | Nexora company framework, documentation standards, agent recipes, templates, schemas and governance assets. |
+| `projects/` | Self-contained product or solution projects. Each project has its own brief, state, source of truth and implementation readiness package. |
+| `projects/healthcare-operations-platform/` | First Nexora project and current MVP-ready solution definition. |
 
-## Current Status
+## How New Projects Start
 
-- Architecture Freeze v1.0.
-- Product Definition phase.
-- BCM-001 completed.
-- Next deliverable: BCM-002 Capability Dependency Map.
+1. Create a folder under `projects/<project-slug>/`.
+2. Add `PROJECT_BRIEF.md` with the user need and project description.
+3. Apply `nexora-framework/recipes/agent-to-mvp-recipe.md`.
+4. Generate the required source artifacts until `PROJECT_STATE.yaml` has no blocking definition gaps.
+5. Start implementation from the first module definition package.
 
-## Important Distinction
+## Current First Project
 
-Nexora is the company.
+Healthcare Operations Platform is ready to start development of:
 
-Healthcare Operations Platform is the first product.
+`MVP-MOD-001 Platform Foundation`
 
-## AI Agent Bootstrap
+Project folder:
 
-Start here:
+`projects/healthcare-operations-platform/`
+
+## Agent Entry Points
 
 - `NEXORA_CODEX_BOOTSTRAP.md`
-- `.ai/NEXORA_CODEX_BOOTSTRAP.md`
-
-## Repository Role
-
-This repository should be treated as the future `nexora-definition` repository.
-
-It is the source of truth for:
-
-- Company definition.
-- Product definition.
-- Domain foundation.
-- Business capability map.
-- Architecture decisions.
-- AI agent instructions.
+- `nexora-framework/README.md`
+- `nexora-framework/recipes/agent-to-mvp-recipe.md`
+- `projects/healthcare-operations-platform/PROJECT_BRIEF.md`

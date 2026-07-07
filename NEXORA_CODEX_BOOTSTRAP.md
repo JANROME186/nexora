@@ -1,297 +1,103 @@
-# NEXORA — CODEX BOOTSTRAP
+# NEXORA — AGENT BOOTSTRAP
 
-## 1. Purpose
+## Purpose
 
-This file is the starting context for Codex or any AI engineering agent working on the Nexora repository.
+This file is the starting context for Codex or any AI engineering agent working in the Nexora repository.
 
-The agent must continue the project from the repository, not from previous chat context.
+The agent must continue from repository artifacts, not previous chat context.
 
----
+## Company Definition
 
-## 2. Company Definition
+Nexora is a software development and Artificial Intelligence company.
 
-**Nexora** is a technology company focused on:
+Nexora is not only a healthcare product. Healthcare Operations Platform is Nexora's first project.
 
-- Software development.
-- Artificial Intelligence.
-- AI-assisted engineering.
-- Business automation.
-- SaaS platforms.
-- Data-driven products.
-- Cloud/on-premise deployable enterprise software.
+## Repository Model
 
-Nexora is not only a healthcare software product.
+This repository is now organized as a multi-project, agent-ready definition repository.
 
-Nexora is the company and engineering organization.
+Root level contains:
 
----
+- Nexora framework and standards.
+- Repository-level state and source of truth.
+- Project folders.
 
-## 3. First Product
+Project-specific work lives under:
 
-The first product developed by Nexora is:
+`projects/<project-slug>/`
 
-# Healthcare Operations Platform
+## Required Loading Order
 
-A SaaS and deployable platform for diagnostic healthcare organizations, initially focused on:
+1. `SOURCE_OF_TRUTH.yaml`
+2. `PROJECT_STATE.yaml`
+3. `nexora-framework/README.md`
+4. `nexora-framework/standards/project-folder-standard.md`
+5. `nexora-framework/standards/documentation-standard.md`
+6. `nexora-framework/recipes/agent-to-mvp-recipe.md`
+7. Target project `SOURCE_OF_TRUTH.yaml`
+8. Target project `PROJECT_BRIEF.md`
+9. Target project `PROJECT_STATE.yaml`
 
-- Clinical laboratories.
-- Imaging centers.
-- Multi-branch diagnostic companies.
-- Patient portals.
-- Doctor portals.
-- Employee portals.
-- Mobile apps.
-- AI-assisted operations.
-- Interoperability with ASTM, HL7, FHIR and DICOM.
-- Data migration from legacy systems.
+## Nexora Framework
 
-Commercial product name may be:
+Use these files for the reusable method:
 
-# Nexora Healthcare Operations Platform
+- `nexora-framework/standards/project-folder-standard.yaml`
+- `nexora-framework/standards/documentation-standard.yaml`
+- `nexora-framework/recipes/agent-to-mvp-recipe.yaml`
+- `nexora-framework/templates/project-template/`
 
-Internal short name:
+## First Project
 
-# HOP
+Project:
 
----
+`projects/healthcare-operations-platform/`
 
-## 4. Repository Role
+Current status:
 
-This repository is currently the definition and engineering knowledge base for the first Nexora product.
+Ready for MVP development.
 
-It contains:
+Ready module:
 
-- Company foundation.
-- Product definition.
-- Architecture baseline.
-- Domain foundation.
-- Business capability map.
-- Engineering rules.
-- Source-of-truth registries.
-- AI agent instructions.
+`MVP-MOD-001 Platform Foundation`
 
-This repository should evolve into `nexora-definition`.
+Required project entry files:
 
----
-
-## 5. Architecture Status
-
-**Architecture Freeze v1.0**
-
-Do not redesign the architecture.
-
-Any architectural change requires an ADR.
-
-The approved architecture must be treated as stable.
-
----
-
-## 6. Approved Principles
-
-- Business First
-- Domain Driven Design
-- OpenAPI First
-- Contract First
-- API First
-- AI Native
-- AI Agent Agnostic
-- Cloud Agnostic
-- Compute Agnostic
-- Platform Agnostic
-- Docker First
-- Kubernetes Ready
-- On-Premise Supported
-- Serverless Preferred, not mandatory
-- Mobile First
-- Accessibility First
-- Internationalization Ready
-- Security by Design
-- Privacy by Design
-- Observability by Design
-- Documentation as Code
-- Knowledge as Code
-- Infrastructure as Code
-
----
-
-## 7. Official Technology Direction
-
-Backend:
-- Java 21
-- Spring Boot 3.x
-- Spring Modulith initially
-- Hexagonal Architecture
-- DDD
-- CQRS where useful
-- Event Driven where useful
-- PostgreSQL
-- Redis
-- OpenAPI 3.1
-
-Frontend:
-- React
-- TypeScript
-- Responsive UI
-- Accessibility-focused
-
-Mobile:
-- Flutter
-- Android and iOS
-- Support for low, mid and high-end devices
-- Progressive capabilities
-- Offline where operationally necessary
-
-Infrastructure:
-- Docker
-- Docker Compose for local development
-- Docker Swarm as simple team deployment option
-- Kubernetes for enterprise deployments
-- Helm
-- Terraform
-- Cloud agnostic
-- On-premise compatible
-
-Observability:
-- OpenTelemetry
-- Structured logs
-- Metrics
-- Traces
-- Audit logs
-
----
-
-## 8. Product Scope
-
-Healthcare Operations Platform must support four main access areas:
-
-1. Public website.
-2. Employee portal.
-3. Doctor portal.
-4. Patient portal.
-
-It must also support mobile apps where appropriate.
-
----
-
-## 9. Current Repository State
-
-Completed baseline artifacts include:
-
-- Bounded Context Catalog.
-- Context Map.
-- Shared Kernel.
-- Aggregate Catalog.
-- BCM-001 Business Capability Map.
-- Business Capability Agent.
-- Validators.
-- ADRs.
-- Source of Truth registry.
-- Project State registry.
-- BCM-002 Capability Dependency Map.
-- HOP MVP Agent-Agnostic Implementation Framework.
-- ACM-001 Actor Catalog.
-- HRP-001 Healthcare Reference Processes.
-- BRM-001 Business Rules Catalog.
-- MVP-MOD-001 Platform Foundation Definition Package.
-
-Current phase:
-
-# Ready for MVP Development
-
-Next expected deliverables:
-
-1. Implement MVP-MOD-001 Platform Foundation.
-2. Create backend Spring Boot Modulith skeleton.
-3. Create local Docker Compose development runtime.
-4. Create employee portal administration shell.
-5. Continue MVP-MOD-002 Diagnostic Catalog definition package.
-
----
-
-## 10. Source of Truth Rules
-
-Editable source artifacts:
-- Business capability definitions.
-- Domain definitions.
-- Business rules.
-- Process models.
-- Canonical vocabulary.
-- OpenAPI source contracts.
-- Architecture decisions.
-- Project state and source-of-truth registries.
-
-Generated artifacts:
-- Generated markdown.
-- Generated diagrams.
-- Generated OpenAPI indexes.
-- Generated agent context packages.
-- Generated backlog views.
-
-Never manually edit generated artifacts unless explicitly converting them into source artifacts through an ADR.
-
----
-
-## 11. Working Rules for Codex
-
-Codex must:
-
-1. Read this file first.
-2. Inspect the repository structure.
-3. Preserve Architecture Freeze v1.0.
-4. Work through small commits or clearly separated file groups.
-5. Update `PROJECT_STATE.yaml` for every meaningful iteration.
-6. Update `SOURCE_OF_TRUTH.yaml` when new source artifacts are introduced.
-7. Add or update ADRs for architectural decisions.
-8. Avoid duplicated concepts.
-9. Preserve traceability.
-10. Prefer YAML source artifacts plus human-readable Markdown.
-11. Avoid provider-specific lock-in.
-12. Avoid agent-specific instructions except through adapters.
-13. Never continue architecture discussion unless the user explicitly asks for architecture change.
-
----
-
-## 12. Immediate Task for Codex
-
-Start with:
-
-# Implement MVP-MOD-001 — Platform Foundation
-
-Goal:
-
-Create the first executable MVP baseline from the approved definition package.
+- `projects/healthcare-operations-platform/PROJECT_BRIEF.md`
+- `projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml`
+- `projects/healthcare-operations-platform/PROJECT_STATE.yaml`
 
 Required starting package:
 
-- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
-- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.md`
-- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/api-contract.openapi.yaml`
-- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.md`
-- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.md`
-- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.md`
-- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.md`
-- `05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/traceability.yaml`
+- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
+- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.md`
+- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/api-contract.openapi.yaml`
+- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.md`
+- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.md`
+- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.md`
+- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.md`
+- `projects/healthcare-operations-platform/05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/traceability.yaml`
 
-Implementation may start because no blocking definition gaps remain for MVP-MOD-001.
+## Rules
 
----
+1. Preserve project boundaries.
+2. Do not put project-specific files at repository root.
+3. For a new project, create `projects/<project-slug>/PROJECT_BRIEF.md` first.
+4. Apply the Nexora Agent-to-MVP Recipe before implementation.
+5. Update project-level `PROJECT_STATE.yaml` and `SOURCE_OF_TRUTH.yaml` for project work.
+6. Update root state only for repository or framework changes.
+7. Avoid provider, cloud or agent lock-in unless explicitly required.
 
-## 13. Commit Message Suggestion
+## Immediate Task
 
-Use:
+If continuing Healthcare Operations Platform, implement:
 
-```bash
-feat(mvp): implement platform foundation baseline
-```
+`projects/healthcare-operations-platform` → `MVP-MOD-001 Platform Foundation`
 
----
+If starting a new solution, create:
 
-## 14. Important Clarification
+`projects/<project-slug>/PROJECT_BRIEF.md`
 
-Nexora is the company.
+Then run:
 
-Healthcare Operations Platform is the first product.
-
-Do not model Nexora as only a healthcare product.
-
-Do not rename the whole company to the healthcare platform.
+`nexora-framework/recipes/agent-to-mvp-recipe.md`

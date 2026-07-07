@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.42.0] - 2026-07-07
+
+### Added
+- Added `nexora-framework/` as the reusable Nexora documentation and agent-delivery framework.
+- Added project folder standard, documentation standard and Agent-to-MVP recipe.
+- Added reusable new-project template under `nexora-framework/templates/project-template/`.
+- Added `projects/` as the home for self-contained Nexora solutions.
+- Added `projects/healthcare-operations-platform/PROJECT_BRIEF.md`.
+- Added project-level state and source-of-truth registries for Healthcare Operations Platform.
+- Added canonical project-stage folders for Healthcare Operations Platform.
+
+### Changed
+- Moved Healthcare Operations Platform artifacts into `projects/healthcare-operations-platform/`.
+- Moved reusable/company/framework assets into `nexora-framework/`.
+- Rewrote root `README.md`, `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, `PROJECT_MANIFEST.yaml`, `KNOWLEDGE_INDEX.yaml` and bootstraps for the multi-project structure.
+
 ## [0.41.0] - 2026-07-07
 
 ### Added

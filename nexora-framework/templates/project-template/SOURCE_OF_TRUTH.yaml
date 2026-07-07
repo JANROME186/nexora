@@ -1,0 +1,11 @@
+artifact:
+  id: PROJECT-SOT
+  type: source-of-truth-registry
+  version: 0.1.0
+  status: draft
+sources:
+  project_brief: PROJECT_BRIEF.md
+  project_state: PROJECT_STATE.yaml
+rules:
+  - This project folder is the boundary for project-specific artifacts.
+  - Generated artifacts must not be edited manually.

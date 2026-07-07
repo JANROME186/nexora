@@ -1,0 +1,10 @@
+project: TBD
+repository_version: 0.1.0
+current_phase: Intake
+development_readiness:
+  status: not_ready
+  ready_to_start_module: null
+  blocking_definition_gaps:
+    - project_brief_not_completed
+    - capability_map_missing
+    - mvp_framework_missing

@@ -1,0 +1,45 @@
+artifact:
+  id: NXF-STD-002
+  type: documentation-standard
+  name: Nexora Documentation Standard
+  version: 1.0.0
+  status: approved
+  owner: Nexora Engineering
+
+artifact_rules:
+  dual_format:
+    required: true
+    machine_readable: yaml
+    human_readable: markdown
+  source_first:
+    - YAML source artifacts are authoritative when automation is expected.
+    - Markdown explains intent, tradeoffs and usage.
+    - Generated artifacts must reference their source.
+  traceability:
+    required_links:
+      - project_brief
+      - capability
+      - actor
+      - process
+      - business_rule
+      - contract
+      - test
+
+minimum_artifacts_to_reach_mvp_development:
+  - project_brief
+  - source_of_truth
+  - project_state
+  - capability_map
+  - dependency_map
+  - actor_catalog
+  - reference_processes
+  - business_rules_catalog
+  - mvp_framework
+  - first_module_definition_package
+
+agent_context_rules:
+  - Agents load root Nexora framework first.
+  - Agents load the target project SOURCE_OF_TRUTH second.
+  - Agents must not infer requirements from chat if PROJECT_BRIEF is missing.
+  - Agents must update project state after meaningful iterations.
+  - Agents must preserve project boundaries.

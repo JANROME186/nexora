@@ -1,0 +1,81 @@
+artifact:
+  id: NXF-REC-001
+  type: agent-recipe
+  name: Nexora Agent-to-MVP Recipe
+  version: 1.0.0
+  status: approved
+  owner: Nexora Engineering
+
+inputs:
+  required:
+    - projects/<project-slug>/PROJECT_BRIEF.md
+    - nexora-framework/standards/project-folder-standard.yaml
+    - nexora-framework/standards/documentation-standard.yaml
+  optional:
+    - existing_source_material
+    - reference_systems
+    - regulatory_constraints
+    - design_preferences
+
+phases:
+  - id: PHASE-001
+    name: Intake normalization
+    goal: Convert user need into structured project context.
+    outputs:
+      - PROJECT_BRIEF.md
+      - 00-intake/user-needs.yaml
+      - 00-intake/assumptions.md
+
+  - id: PHASE-002
+    name: Product definition
+    goal: Define product scope, personas, capabilities and MVP boundary.
+    outputs:
+      - 01-product-definition/product.yaml
+      - 01-product-definition/capability-map.yaml
+      - 01-product-definition/capability-dependency-map.yaml
+
+  - id: PHASE-003
+    name: Domain foundation
+    goal: Define bounded contexts, aggregates, vocabulary, actors, processes and rules.
+    outputs:
+      - 02-domain-definition/context-map.yaml
+      - 02-domain-definition/aggregate-catalog.yaml
+      - 02-domain-definition/actor-catalog.yaml
+      - 02-domain-definition/reference-processes.yaml
+      - 02-domain-definition/business-rules-catalog.yaml
+
+  - id: PHASE-004
+    name: Architecture baseline
+    goal: Define application, data, security, integration, AI and deployment architecture.
+    outputs:
+      - 03-architecture/application-architecture.yaml
+      - 03-architecture/technology-architecture.yaml
+      - 03-architecture/security-architecture.yaml
+      - 03-architecture/integration-architecture.yaml
+
+  - id: PHASE-005
+    name: MVP delivery framework
+    goal: Convert definition into executable implementation modules.
+    outputs:
+      - 06-delivery/mvp-framework.yaml
+      - 06-delivery/modules/<module-id>/module-definition.yaml
+      - 06-delivery/modules/<module-id>/api-contract.openapi.yaml
+      - 06-delivery/modules/<module-id>/test-plan.md
+      - 06-delivery/modules/<module-id>/traceability.yaml
+
+  - id: PHASE-006
+    name: Development readiness gate
+    goal: Decide whether coding may start.
+    outputs:
+      - PROJECT_STATE.yaml
+      - SOURCE_OF_TRUTH.yaml
+    readiness_condition:
+      status: ready
+      blocking_definition_gaps: []
+
+rules:
+  - Never start implementation without PROJECT_BRIEF.md.
+  - Never place project-specific artifacts outside the project folder.
+  - Never skip actor, process, rule and contract traceability.
+  - Do not introduce provider lock-in unless the project brief explicitly requires it.
+  - Implementation starts with the first module definition package, not with an empty app scaffold.

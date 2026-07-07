@@ -1,94 +1,45 @@
-project:
+repository:
   id: nexora
   name: Nexora
-  repository: https://github.com/JANROME186/nexora.git
-  type: engineering-knowledge-platform
-  specification_version: 0.12.0
-  status: foundation
+  type: multi-project-agent-ready-definition-repository
+  version: 0.42.0
+  status: ready
 
-product:
+company:
   name: Nexora
-  category: Healthcare Operations Platform
-  model: SaaS
-  target_markets:
-    - laboratories
-    - diagnostic_centers
-    - imaging_centers
-    - clinics
-  multi_tenant: true
-  multi_language: true
-  default_language: es
-  supported_languages:
-    - es
-    - en
-    - pt
+  focus:
+    - software_development
+    - artificial_intelligence
+    - ai_assisted_engineering
+    - business_automation
+    - saas_platforms
+    - deployable_enterprise_software
 
-architecture_principles:
-  - business_first
-  - process_driven
-  - specification_driven_development
-  - domain_driven_design
-  - api_contract_first
-  - agent_agnostic
-  - cloud_agnostic
-  - platform_agnostic
-  - compute_agnostic
-  - local_development_first
-  - security_by_design
-  - privacy_by_design
-  - progressive_capability
-  - low_resource_first
-  - open_standards_first
+framework:
+  path: nexora-framework/
+  purpose: Defines how Nexora documents and prepares AI-agent-assisted software solutions.
+  standards:
+    project_folder: nexora-framework/standards/project-folder-standard.yaml
+    documentation: nexora-framework/standards/documentation-standard.yaml
+  recipe:
+    agent_to_mvp: nexora-framework/recipes/agent-to-mvp-recipe.yaml
+  template:
+    new_project: nexora-framework/templates/project-template/
 
-technology_reference:
-  backend:
-    language: TypeScript
-    primary_framework: NestJS
-    runtime: Node.js
-  frontend:
-    framework: Next.js
-    language: TypeScript
-  mobile:
-    framework: React Native / Expo
-    language: TypeScript
-  database:
-    relational: PostgreSQL
-    document: MongoDB
-    cache: Redis
-  contracts:
-    api: OpenAPI 3.1
-  observability:
-    standard: OpenTelemetry
-  containers:
-    standard: OCI
-  deployment_profiles:
-    - local_docker_compose
-    - docker_swarm
-    - kubernetes
-    - on_premise
-    - cloud
+projects:
+  healthcare_operations_platform:
+    path: projects/healthcare-operations-platform/
+    status: ready_for_mvp_development
+    project_brief: projects/healthcare-operations-platform/PROJECT_BRIEF.md
+    source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
+    ready_to_start_module: MVP-MOD-001
 
 agent_policy:
   agent_agnostic: true
-  supported_agent_profiles:
-    - github_copilot
-    - claude_code
-    - cursor
-    - codex
-    - gemini_cli
-    - aider
-    - windsurf
-  primary_input_files:
-    - PROJECT_MANIFEST.yaml
-    - PROJECT_STATE.yaml
-    - KNOWLEDGE_INDEX.yaml
+  repository_loading_order:
+    - NEXORA_CODEX_BOOTSTRAP.md
     - SOURCE_OF_TRUTH.yaml
-    - playbooks/
-    - agents/
-
-metaModel:
-  name: Nexora Meta Model
-  version: 0.15.0
-  dualFormatArtifacts: true
-  machineReadableFormat: yaml
-  humanReadableFormat: markdown
+    - nexora-framework/README.md
+    - nexora-framework/recipes/agent-to-mvp-recipe.md
+    - target_project/SOURCE_OF_TRUTH.yaml
+    - target_project/PROJECT_BRIEF.md
