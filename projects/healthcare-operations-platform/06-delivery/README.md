@@ -2,8 +2,8 @@
 
 Current delivery artifacts are in:
 
-- `../05-delivery/`
+- `../06-delivery/`
 
 The first implementation-ready module is:
 
-- `../05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/`
+- `../06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/`

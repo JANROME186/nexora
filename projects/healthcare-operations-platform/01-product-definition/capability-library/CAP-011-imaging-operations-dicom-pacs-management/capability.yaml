@@ -53,7 +53,7 @@ domainEvents:
 - IMG-EVT-011
 - IMG-EVT-012
 openapi:
-- contracts/openapi/imaging/imaging.yaml
+- 05-contracts/contracts/openapi/imaging/imaging.yaml
 entities:
 - ImagingStudy
 - ImagingAppointment

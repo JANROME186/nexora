@@ -2,7 +2,7 @@
 
 ## Summary
 
-This release imports the v0.39.0 Codex base into the local Git repository and adds the first implementation-ready framework for the Healthcare Operations Platform MVP.
+This release imports the v0.39.0 agent-ready base into the local Git repository and adds the first implementation-ready framework for the Healthcare Operations Platform MVP.
 
 ## Added
 
@@ -17,8 +17,8 @@ This release imports the v0.39.0 Codex base into the local Git repository and ad
 
 - `PROJECT_STATE.yaml`
 - `SOURCE_OF_TRUTH.yaml`
-- `NEXORA_CODEX_BOOTSTRAP.md`
-- `.ai/NEXORA_CODEX_BOOTSTRAP.md`
+- `AGENT_BOOTSTRAP.md`
+- `.ai/AGENT_BOOTSTRAP.md`
 
 ## Next Recommended Work
 

@@ -4,7 +4,7 @@
 
 Initial contract path:
 
-`contracts/openapi/imaging/imaging.yaml`
+`05-contracts/contracts/openapi/imaging/imaging.yaml`
 
 ## Endpoint Groups
 

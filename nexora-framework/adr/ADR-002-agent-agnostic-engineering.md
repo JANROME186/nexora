@@ -6,7 +6,7 @@ Approved
 
 ## Contexto
 
-El proyecto puede usar GitHub Copilot, Claude Code, Cursor, Codex, Gemini CLI u otros agentes futuros. Depender de un agente específico limitaría la evolución.
+El proyecto puede ser desarrollado por agentes de IA, automatizaciones determinísticas o ingenieros humanos. Depender de un agente específico limitaría la evolución.
 
 ## Decisión
 

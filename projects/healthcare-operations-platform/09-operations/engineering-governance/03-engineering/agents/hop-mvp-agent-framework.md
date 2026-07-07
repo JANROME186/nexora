@@ -8,17 +8,20 @@ The agent may be any AI or deterministic automation. This document defines repos
 
 ## Required Context Loading
 
-Load these files before planning:
+Load these files before planning. Paths are relative to `projects/healthcare-operations-platform` unless they start with `../../` for repository-level Nexora framework files.
 
-1. `NEXORA_CODEX_BOOTSTRAP.md`
-2. `PROJECT_STATE.yaml`
-3. `SOURCE_OF_TRUTH.yaml`
-4. `05-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
-5. `02-platform-definition/business-capabilities/bcm-001/business-capability-map.yaml`
-6. `02-platform-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
-7. `02-platform-definition/domain-foundation/context-map/context-map.yaml`
-8. `02-platform-definition/domain-foundation/shared-kernel/shared-kernel.yaml`
-9. `02-platform-definition/domain-foundation/aggregates/aggregate-catalog.yaml`
+1. `../../AGENT_BOOTSTRAP.md`
+2. `../../PROJECT_STATE.yaml`
+3. `../../SOURCE_OF_TRUTH.yaml`
+4. `../../nexora-framework/standards/agent-agnostic-standard.yaml`
+5. `PROJECT_STATE.yaml`
+6. `SOURCE_OF_TRUTH.yaml`
+7. `06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
+8. `01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml`
+9. `01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
+10. `02-domain-definition/domain-foundation/context-map/context-map.yaml`
+11. `02-domain-definition/domain-foundation/shared-kernel/shared-kernel.yaml`
+12. `02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml`
 
 ## Planning Protocol
 
@@ -73,4 +76,4 @@ Agents must not:
 
 An agent may mark a module plan ready only when every capability in the module satisfies the Definition of Ready in:
 
-`05-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
+`06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`

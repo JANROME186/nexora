@@ -150,9 +150,9 @@
 
 | Código | Español | English | Prioridad | Roadmap |
 |---|---|---|---|---|
-| BCM-AI-001 | Copilot Administrativo | Administrative Copilot | High | MVP3 |
-| BCM-AI-002 | Copilot Clínico | Clinical Copilot | High | MVP3 |
-| BCM-AI-003 | Copilot Médico | Doctor Copilot | High | MVP3 |
+| BCM-AI-001 | Asistente Administrativo | Administrative Assistant | High | MVP3 |
+| BCM-AI-002 | Asistente Clínico | Clinical Assistant | High | MVP3 |
+| BCM-AI-003 | Asistente Médico | Doctor Assistant | High | MVP3 |
 | BCM-AI-004 | OCR Inteligente | Intelligent OCR | High | MVP2 |
 | BCM-AI-005 | Resumen Clínico | Clinical Summary | High | MVP3 |
 | BCM-AI-006 | Búsqueda Semántica | Semantic Search | High | MVP3 |

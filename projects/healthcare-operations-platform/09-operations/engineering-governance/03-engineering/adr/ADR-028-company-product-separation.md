@@ -21,6 +21,6 @@ The product may be commercially presented as **Nexora Healthcare Operations Plat
 ## Consequences
 
 - Company-level strategy belongs under `01-enterprise/company`.
-- Product-level definition belongs under `02-platform-definition/products/healthcare-operations-platform`.
+- Product-level definition belongs under `01-product-definition/products/healthcare-operations-platform`.
 - Future products may be added without redefining Nexora.
 - AI agents must not treat Nexora as only a healthcare product.

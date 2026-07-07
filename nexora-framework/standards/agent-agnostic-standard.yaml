@@ -1,0 +1,32 @@
+artifact:
+  id: NXF-STD-003
+  type: agent-agnostic-standard
+  name: Nexora Agent-Agnostic Standard
+  version: 1.0.0
+  status: approved
+  owner: Nexora Engineering
+
+purpose: Ensure every Nexora project can be understood, planned and implemented by any capable AI agent, deterministic automation or human engineering team without dependency on a specific assistant, vendor, model runtime or hosted platform.
+
+principles:
+  - Repository artifacts are the source of truth.
+  - Agent prompts are adapters, not requirements.
+  - Tooling may accelerate work but must not be required to understand the project.
+  - Vendor, model, cloud and runtime choices must remain replaceable behind ports or adapters.
+  - Project folders must contain enough context to start development without chat history.
+
+forbidden_in_source_artifacts:
+  - Named AI coding agents or assistants as required execution environments.
+  - Agent-specific configuration files as mandatory source of truth.
+  - Vendor-specific model APIs as direct domain dependencies.
+  - Hosted-platform features as required architecture assumptions.
+  - Chat transcripts as requirements.
+
+allowed_with_constraints:
+  - Vendor examples are allowed only in non-authoritative examples and must be marked replaceable.
+  - Generated artifacts may mention the generator only as metadata, never as required context.
+  - Implementation repositories may add local tool adapters if source artifacts remain portable.
+
+validation:
+  required_result: No source artifact may contain named agent, assistant, model-vendor or platform-runtime requirements unless an approved ADR documents a temporary migration exception.
+  method: Run a repository text audit for known agent, assistant, model-vendor and platform-runtime names before marking any project ready for implementation.

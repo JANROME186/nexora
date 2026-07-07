@@ -7,11 +7,11 @@ artifact:
 
 module: MVP-MOD-001
 source_artifacts:
-  - 05-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml
-  - 02-platform-definition/actors/acm-001/actor-catalog.yaml
-  - 02-platform-definition/processes/hrp-001/healthcare-reference-processes.yaml
-  - 02-platform-definition/business-rules/brm-001/business-rules-catalog.yaml
-  - 02-platform-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
+  - 06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml
+  - 02-domain-definition/actors/acm-001/actor-catalog.yaml
+  - 02-domain-definition/processes/hrp-001/healthcare-reference-processes.yaml
+  - 02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml
+  - 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
 
 capability_to_api:
   BCM-ORG-001: [/platform/tenants]

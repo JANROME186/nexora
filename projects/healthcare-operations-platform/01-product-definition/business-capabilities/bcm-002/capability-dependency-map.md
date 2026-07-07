@@ -23,7 +23,7 @@ Each capability is mapped to:
 
 The machine-readable source is:
 
-`02-platform-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
+`01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
 
 ## Dependency Profiles
 
@@ -39,7 +39,7 @@ The machine-readable source is:
 | inventory_quality | Inventory, reagents, equipment, calibration, QC and audit workflows. | MVP2-MVP3 |
 | imaging | Imaging scheduling, DICOM/PACS, dictation, radiology signature and delivery. | MVP2-MVP3 |
 | platform_extension | Integration, API management, workflow, notifications and documents. | MVP1-MVP2 |
-| ai_overlay | Provider-agnostic AI capabilities and copilots. | MVP2-MVP3 |
+| ai_overlay | Provider-agnostic AI capabilities and assistants. | MVP2-MVP3 |
 
 ## MVP1 Implementation Spine
 
@@ -56,7 +56,7 @@ The first executable product slice must be a usable laboratory operations flow:
 9. Release results.
 10. Generate PDF and deliver results through patient and doctor channels.
 
-This spine is the minimum practical foundation for agents to begin implementation without waiting for imaging, advanced quality, inventory automation or AI copilots.
+This spine is the minimum practical foundation for agents to begin implementation without waiting for imaging, advanced quality, inventory automation or AI assistants.
 
 ## Agent Usage Rules
 
@@ -72,7 +72,7 @@ Agents implementing a capability must:
 
 Agents must not:
 
-- Introduce provider-specific AI, cloud or deployment dependencies into capability definitions.
+- Introduce provider-bound AI, cloud or deployment dependencies into capability definitions.
 - Mutate another bounded context aggregate directly.
 - Treat generated diagrams as source of truth.
 - Promote an optional capability into MVP1 without an ADR.

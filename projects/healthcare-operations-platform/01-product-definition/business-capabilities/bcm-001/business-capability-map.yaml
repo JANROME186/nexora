@@ -5,9 +5,9 @@ artifact:
   version: 1.0.0
   status: approved
   owner: Product Architecture Team
-  source_of_truth: 02-platform-definition/business-capabilities/bcm-001/business-capability-map.yaml
+  source_of_truth: 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
   generated_artifacts:
-  - 02-platform-definition/business-capabilities/bcm-001/business-capability-map.md
+  - 01-product-definition/business-capabilities/bcm-001/business-capability-map.md
   - 04-generated/markdown/product/business-capability-map.md
   - 04-generated/diagrams/product/business-capability-map.mmd
 summary:
@@ -708,24 +708,24 @@ domains:
     capabilities:
     - id: BCM-AI-001
       name:
-        en: Administrative Copilot
-        es: Copilot Administrativo
+        en: Administrative Assistant
+        es: Asistente Administrativo
       priority: High
       roadmap: MVP3
       status: draft
       source: BCM-001
     - id: BCM-AI-002
       name:
-        en: Clinical Copilot
-        es: Copilot Clínico
+        en: Clinical Assistant
+        es: Asistente Clínico
       priority: High
       roadmap: MVP3
       status: draft
       source: BCM-001
     - id: BCM-AI-003
       name:
-        en: Doctor Copilot
-        es: Copilot Médico
+        en: Doctor Assistant
+        es: Asistente Médico
       priority: High
       roadmap: MVP3
       status: draft

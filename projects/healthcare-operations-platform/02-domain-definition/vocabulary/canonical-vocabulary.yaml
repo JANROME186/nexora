@@ -62,5 +62,5 @@ terms:
 - canonical: Agent
   spanish: Agente
   avoid:
-  - Copilot as generic
+  - assistant as generic
   definition: Herramienta o sistema de IA que consume conocimiento para ejecutar tareas.

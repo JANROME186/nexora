@@ -4,6 +4,6 @@ Current API and integration contracts are in:
 
 - `../contracts/`
 - `../architecture/events/`
-- `../integration-architecture/`
+- `../03-architecture/integration-architecture/`
 
 Future contracts should remain OpenAPI/event-contract first.

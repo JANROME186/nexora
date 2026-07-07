@@ -4,6 +4,8 @@ Nexora is a software development and Artificial Intelligence company.
 
 This repository defines how Nexora documents, governs and prepares software solutions for AI-agent-assisted development.
 
+All framework and project artifacts are agent agnostic: no project may require a named coding agent, assistant, platform prompt, model vendor or runtime-specific configuration to understand or implement the solution.
+
 ## Repository Structure
 
 | Path | Purpose |
@@ -32,7 +34,8 @@ Project folder:
 
 ## Agent Entry Points
 
-- `NEXORA_CODEX_BOOTSTRAP.md`
+- `AGENT_BOOTSTRAP.md`
 - `nexora-framework/README.md`
+- `nexora-framework/standards/agent-agnostic-standard.md`
 - `nexora-framework/recipes/agent-to-mvp-recipe.md`
 - `projects/healthcare-operations-platform/PROJECT_BRIEF.md`

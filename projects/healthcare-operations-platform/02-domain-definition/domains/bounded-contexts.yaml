@@ -3,7 +3,7 @@ type: bounded-context-catalog
 owner: Domain Architecture
 status: approved
 version: 0.34.0
-source_of_truth: 02-platform-definition/domains/bounded-contexts.yaml
+source_of_truth: 02-domain-definition/domains/bounded-contexts.yaml
 contexts:
 - id: BC-CLINICAL
   name: Clinical Operations

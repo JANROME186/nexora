@@ -4,7 +4,7 @@
 
 This framework turns the Nexora definition repository into an implementation-ready work system for agents.
 
-An agent must be able to start from repository files, select a module, load the right definitions, generate contracts and implementation tasks, and verify traceability without relying on chat history or a specific AI platform.
+An agent must be able to start from repository files, select a module, load the right definitions, generate contracts and implementation tasks, and verify traceability without relying on chat history or any named AI platform.
 
 ## MVP Principle
 
@@ -19,7 +19,7 @@ The MVP is not the full healthcare platform. It is the smallest coherent diagnos
 - Result validation, reporting and digital delivery.
 - Integration and migration readiness boundaries.
 
-Imaging, advanced inventory, advanced quality and AI copilots are intentionally staged after the first operational spine.
+Imaging, advanced inventory, advanced quality and AI assistants are intentionally staged after the first operational spine.
 
 ## MVP Modules
 
@@ -88,4 +88,4 @@ A module is complete when:
 
 The repository is the source of truth.
 
-Agent prompts, tool wrappers, MCP servers, cloud services, AI providers and local runtimes are replaceable adapters. They may accelerate work, but they must not become required context for understanding or implementing the Healthcare Operations Platform.
+Agent prompts, tool wrappers, external services, cloud services, AI providers and local runtimes are replaceable adapters. They may accelerate work, but they must not become required context for understanding or implementing the Healthcare Operations Platform.

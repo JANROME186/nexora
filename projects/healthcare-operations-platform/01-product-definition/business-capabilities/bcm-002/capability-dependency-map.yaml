@@ -5,13 +5,13 @@ artifact:
   version: 1.0.0
   status: draft
   owner: Product Architecture Team
-  source_of_truth: 02-platform-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
+  source_of_truth: 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
   depends_on:
     - BCM-001
     - CTX-MAP-001
     - AGG-CATALOG-001
   generated_artifacts:
-    - 02-platform-definition/business-capabilities/bcm-002/capability-dependency-map.md
+    - 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.md
     - 04-generated/diagrams/product/capability-dependency-map.mmd
 
 principles:
@@ -886,32 +886,32 @@ capabilities:
     ai_opportunities: [workflow-bottleneck-analysis]
 
   - id: BCM-AI-001
-    name: Administrative Copilot
+    name: Administrative Assistant
     profile: ai_overlay
     mvp_phase: MVP3
     product_area: employee_portal
     related_bounded_contexts: [ai-platform]
     related_aggregates: []
     downstream_dependencies: []
-    ai_opportunities: [administrative-copilot]
+    ai_opportunities: [administrative-assistant]
   - id: BCM-AI-002
-    name: Clinical Copilot
+    name: Clinical Assistant
     profile: ai_overlay
     mvp_phase: MVP3
     product_area: employee_portal
     related_bounded_contexts: [ai-platform, laboratory-results]
     related_aggregates: [LaboratoryResult]
     downstream_dependencies: []
-    ai_opportunities: [clinical-copilot]
+    ai_opportunities: [clinical-assistant]
   - id: BCM-AI-003
-    name: Doctor Copilot
+    name: Doctor Assistant
     profile: ai_overlay
     mvp_phase: MVP3
     product_area: doctor_portal
     related_bounded_contexts: [ai-platform, medical-staff]
     related_aggregates: [Doctor, LaboratoryResult]
     downstream_dependencies: []
-    ai_opportunities: [doctor-copilot]
+    ai_opportunities: [doctor-assistant]
   - id: BCM-AI-004
     name: Intelligent OCR
     profile: ai_overlay

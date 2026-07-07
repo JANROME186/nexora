@@ -5,7 +5,7 @@ artifact:
   version: 1.0.0
   status: ready-for-implementation
   owner: Product Architecture Team
-  source_of_truth: 05-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
+  source_of_truth: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
   depends_on:
     - HOP-MVP-FWK-001
     - ACM-001

@@ -5,7 +5,7 @@ artifact:
   version: 1.0.0
   status: approved
   owner: Architecture Domain Team
-  source_of_truth: 02-platform-definition/domain-foundation/context-map/context-map.yaml
+  source_of_truth: 02-domain-definition/domain-foundation/context-map/context-map.yaml
   generated_artifacts:
   - 04-generated/diagrams/domain/context-map.mmd
   - 04-generated/markdown/domain/context-map.md

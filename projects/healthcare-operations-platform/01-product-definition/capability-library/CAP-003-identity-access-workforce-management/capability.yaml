@@ -62,5 +62,5 @@ relationships:
 source_of_truth:
   capability: capability-library/CAP-003-identity-access-workforce-management/README.md
   rules: capability-library/CAP-003-identity-access-workforce-management/02-business-rules.md
-  contract: contracts/openapi/iam/iam.openapi.yaml
+  contract: 05-contracts/contracts/openapi/iam/iam.openapi.yaml
   knowledge_node: knowledge/capabilities/CAP-003-identity-access-workforce-management.yaml

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This file is the starting context for Codex or any AI engineering agent working in the Nexora repository.
+This file is the starting context for any AI engineering agent working in the Nexora repository.
 
 The agent must continue from repository artifacts, not previous chat context.
 

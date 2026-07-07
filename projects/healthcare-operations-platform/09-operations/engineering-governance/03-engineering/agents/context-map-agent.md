@@ -6,9 +6,9 @@ Maintain, validate and evolve the Nexora Context Map.
 
 ## Inputs
 
-- `02-platform-definition/domain-foundation/bounded-contexts/`
-- `02-platform-definition/domain-foundation/context-map/context-map.yaml`
-- `02-platform-definition/domain-foundation/shared-kernel/`
+- `02-domain-definition/domain-foundation/bounded-contexts/`
+- `02-domain-definition/domain-foundation/context-map/context-map.yaml`
+- `02-domain-definition/domain-foundation/shared-kernel/`
 - Capability definitions
 - Domain event catalog
 

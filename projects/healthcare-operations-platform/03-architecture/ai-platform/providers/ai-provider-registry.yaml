@@ -4,19 +4,16 @@ artifact:
   version: 0.21.0
 providers:
   llm:
-    - id: llm-openai-compatible
-      type: openai_compatible_api
+    - id: llm-provider-api
+      type: generic_llm_api
       deployment: cloud_or_self_hosted
-    - id: llm-anthropic-compatible
-      type: anthropic_api
-      deployment: cloud
-    - id: llm-local
+    - id: llm-local-runtime
       type: local_model_runtime
       deployment: on_premise
   embeddings:
-    - id: embeddings-openai-compatible
-      type: embedding_api
-    - id: embeddings-local
+    - id: embeddings-provider-api
+      type: generic_embedding_api
+    - id: embeddings-local-runtime
       type: local_embedding_model
   vector_store:
     - id: pgvector

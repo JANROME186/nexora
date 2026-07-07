@@ -29,7 +29,7 @@ Implementation agents can now plan work by capability without relying on prior c
 
 MVP1 is constrained to the laboratory operations spine: foundation, master data, catalog, care delivery, revenue cycle, clinical operations and results delivery.
 
-Imaging, advanced inventory/quality and AI copilots remain sequenced after MVP1 unless an ADR changes their scope.
+Imaging, advanced inventory/quality and AI assistants remain sequenced after MVP1 unless an ADR changes their scope.
 
 ## Non-Goals
 
@@ -39,7 +39,7 @@ Imaging, advanced inventory/quality and AI copilots remain sequenced after MVP1 
 
 ## Related Artifacts
 
-- `02-platform-definition/business-capabilities/bcm-001/business-capability-map.yaml`
-- `02-platform-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
-- `02-platform-definition/domain-foundation/context-map/context-map.yaml`
-- `02-platform-definition/domain-foundation/aggregates/aggregate-catalog.yaml`
+- `01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml`
+- `01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
+- `02-domain-definition/domain-foundation/context-map/context-map.yaml`
+- `02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml`

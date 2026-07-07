@@ -308,9 +308,9 @@ flowchart TD
 
 Contratos iniciales:
 
-- `contracts/openapi/orders/orders.openapi.yaml`.
-- `contracts/openapi/appointments/appointments.openapi.yaml`.
-- `contracts/openapi/samples/samples.openapi.yaml`.
+- `05-contracts/contracts/openapi/orders/orders.openapi.yaml`.
+- `05-contracts/contracts/openapi/appointments/appointments.openapi.yaml`.
+- `05-contracts/contracts/openapi/samples/samples.openapi.yaml`.
 
 Endpoints iniciales:
 

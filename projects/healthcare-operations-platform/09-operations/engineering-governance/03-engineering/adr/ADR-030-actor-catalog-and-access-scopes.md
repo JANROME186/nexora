@@ -23,5 +23,5 @@ Actors are platform-agnostic. Implementations may use JWT claims, groups, roles,
 
 ## Related Artifacts
 
-- `02-platform-definition/actors/acm-001/actor-catalog.yaml`
-- `05-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
+- `02-domain-definition/actors/acm-001/actor-catalog.yaml`
+- `06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`

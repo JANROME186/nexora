@@ -70,8 +70,8 @@ relationships:
 source_of_truth:
   capability: business/capabilities/catalog-test-configuration-management/README.md
   machine_model: business/capabilities/catalog-test-configuration-management/capability.yaml
-  catalog_contract: contracts/openapi/catalogs/catalogs.openapi.yaml
-  test_configuration_contract: contracts/openapi/test-configuration/test-configuration.openapi.yaml
+  catalog_contract: 05-contracts/contracts/openapi/catalogs/catalogs.openapi.yaml
+  test_configuration_contract: 05-contracts/contracts/openapi/test-configuration/test-configuration.openapi.yaml
   knowledge_node: knowledge/capabilities/CAP-005-catalog-test-configuration-management.yaml
   adr: adr/ADR-016-catalog-test-configuration-as-configuration-engine.md
 quality_gates:

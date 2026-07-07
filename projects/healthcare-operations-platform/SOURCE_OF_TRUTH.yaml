@@ -1,12 +1,13 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.43.0
+  version: 0.44.0
   status: approved
 sources:
   project_brief: PROJECT_BRIEF.md
   project_state: PROJECT_STATE.yaml
   ordered_development_guide: ORDERED_DEVELOPMENT_GUIDE.md
+  agent_agnostic_standard: ../../nexora-framework/standards/agent-agnostic-standard.yaml
   product_definition: 01-product-definition/products/healthcare-operations-platform/product.yaml
   business_capability_map: 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
   capability_dependency_map: 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
@@ -23,5 +24,6 @@ rules:
   - This folder is the boundary for HOP-specific artifacts.
   - HOP project root must contain only numbered folders plus project control files.
   - Nexora framework standards are inherited from ../../nexora-framework/.
+  - HOP source artifacts must remain agent agnostic and free of named-agent requirements.
   - Generated artifacts must not be edited manually.
   - Architecture changes require ADR.

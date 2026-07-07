@@ -2,7 +2,7 @@
 
 The source of truth for Organization & Branch APIs is:
 
-`contracts/openapi/organizations/organizations.openapi.yaml`
+`05-contracts/contracts/openapi/organizations/organizations.openapi.yaml`
 
 ## Initial endpoint scope
 

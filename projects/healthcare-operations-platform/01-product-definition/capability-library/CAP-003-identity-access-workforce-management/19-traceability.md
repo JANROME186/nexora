@@ -11,7 +11,7 @@
 | Commands | CMD-IAM-001 to CMD-IAM-020 |
 | Queries | QRY-IAM-001 to QRY-IAM-010 |
 | User Stories | US-IAM-001, US-IAM-002, US-IAM-010, US-IAM-011, US-IAM-020, US-IAM-021, US-IAM-030, US-IAM-031 |
-| API Contract | contracts/openapi/iam/iam.openapi.yaml |
+| API Contract | 05-contracts/contracts/openapi/iam/iam.openapi.yaml |
 | Knowledge Node | knowledge/capabilities/CAP-003-identity-access-workforce-management.yaml |
 
 ## Dependency Direction

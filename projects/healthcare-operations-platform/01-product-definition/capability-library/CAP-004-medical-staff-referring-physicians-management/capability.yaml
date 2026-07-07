@@ -42,5 +42,5 @@ relationships:
 source_of_truth:
   capability: capability-library/CAP-004-medical-staff-referring-physicians-management/README.md
   rules: capability-library/CAP-004-medical-staff-referring-physicians-management/02-business-rules.md
-  contract: contracts/openapi/doctors/doctors.openapi.yaml
+  contract: 05-contracts/contracts/openapi/doctors/doctors.openapi.yaml
   knowledge_node: knowledge/capabilities/CAP-004-medical-staff-referring-physicians-management.yaml

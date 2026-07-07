@@ -24,7 +24,7 @@ La lógica de negocio vive en el dominio. La infraestructura, frameworks y prove
 
 ## 6. Agent Agnostic
 
-Nexora no depende de GitHub Copilot ni de ningún agente específico. Los agentes consumen manifiestos, playbooks y artefactos neutrales.
+Nexora no depende de ningún agente, asistente, plataforma o runtime específico. Los agentes consumen manifiestos, playbooks y artefactos neutrales.
 
 ## 7. Anywhere First
 

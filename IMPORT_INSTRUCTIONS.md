@@ -19,16 +19,16 @@ git diff
 
 ```bash
 git add .
-git commit -m "docs(ai): bootstrap Codex with company and product separation"
+git commit -m "docs(agent): bootstrap agent-agnostic company and product context"
 git push
 ```
 
-## Start Codex
+## Start an AI agent
 
-Ask Codex:
+Ask the AI agent:
 
 ```text
-Read NEXORA_CODEX_BOOTSTRAP.md.
+Read AGENT_BOOTSTRAP.md.
 Treat Nexora as the company and Healthcare Operations Platform as the first product.
 Do not redesign the architecture.
 Continue with BCM-002 Capability Dependency Map.

@@ -46,7 +46,7 @@ events:
 - ResultDelivered
 - ResultAmended
 apis:
-- contracts/openapi/results/results-api.yaml
+- 05-contracts/contracts/openapi/results/results-api.yaml
 ui:
 - Result Worklist
 - Result Entry

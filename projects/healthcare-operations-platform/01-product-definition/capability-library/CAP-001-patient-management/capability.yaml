@@ -81,7 +81,7 @@ events:
   - EVT-007
   - EVT-008
 apis:
-  openapi: contracts/openapi/patients/patients.openapi.yaml
+  openapi: 05-contracts/contracts/openapi/patients/patients.openapi.yaml
   endpoints:
     - POST /v1/patients
     - GET /v1/patients
@@ -101,5 +101,5 @@ traceability:
   knowledge_index: knowledge/capabilities/CAP-001-patient-management.yaml
   source_of_truth:
     rules: capability-library/CAP-001-patient-management/02-business-rules.md
-    api: contracts/openapi/patients/patients.openapi.yaml
+    api: 05-contracts/contracts/openapi/patients/patients.openapi.yaml
     domain: capability-library/CAP-001-patient-management/07-domain-model.md

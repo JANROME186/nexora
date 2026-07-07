@@ -5,7 +5,7 @@ artifact:
   version: 1.0.0
   status: draft
   owner: Product Architecture Team
-  source_of_truth: 05-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml
+  source_of_truth: 06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml
   depends_on:
     - BCM-001
     - BCM-002
@@ -19,38 +19,42 @@ mission:
   architecture_status: Architecture Freeze v1.0
 
 agent_independence_rules:
-  - Agents may be Codex, Claude, Gemini, local LLMs, deterministic generators or human engineers.
+  - Agents may be AI agents, local model runtimes, deterministic generators or human engineers.
   - All required context must come from repository artifacts.
   - Prompts are operational adapters, not source of truth.
   - Generated code must trace back to YAML or Markdown source artifacts.
   - Cloud, AI provider, orchestration and deployment targets must remain replaceable.
 
 required_agent_context:
+  path_convention: Paths are relative to projects/healthcare-operations-platform unless they start with ../../ for repository-level Nexora framework files.
   always_load:
-    - NEXORA_CODEX_BOOTSTRAP.md
+    - ../../AGENT_BOOTSTRAP.md
+    - ../../PROJECT_STATE.yaml
+    - ../../SOURCE_OF_TRUTH.yaml
+    - ../../nexora-framework/standards/agent-agnostic-standard.yaml
     - PROJECT_STATE.yaml
     - SOURCE_OF_TRUTH.yaml
-    - 02-platform-definition/business-capabilities/bcm-001/business-capability-map.yaml
-    - 02-platform-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
-    - 02-platform-definition/domain-foundation/context-map/context-map.yaml
-    - 02-platform-definition/domain-foundation/shared-kernel/shared-kernel.yaml
-    - 02-platform-definition/domain-foundation/aggregates/aggregate-catalog.yaml
+    - 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
+    - 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
+    - 02-domain-definition/domain-foundation/context-map/context-map.yaml
+    - 02-domain-definition/domain-foundation/shared-kernel/shared-kernel.yaml
+    - 02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml
   load_when_building_contracts:
-    - contracts/openapi/
-    - templates/openapi-template.yaml
+    - 05-contracts/contracts/openapi/
+    - ../../nexora-framework/templates/openapi-template.yaml
   load_when_building_ui:
-    - ux/
-    - ui/
-    - application-architecture/channel-architecture/channel-strategy.md
+    - 04-requirements/ux/
+    - 04-requirements/ui/
+    - 03-architecture/application-architecture/channel-architecture/channel-strategy.md
   load_when_building_mobile:
-    - mobile/
-    - ui/mobile/
+    - 04-requirements/mobile/
+    - 04-requirements/ui/mobile/
   load_when_building_security:
-    - security-compliance/
-    - 03-engineering/validators/
+    - 03-architecture/security-compliance/
+    - 09-operations/engineering-governance/03-engineering/validators/
   load_when_building_ai:
-    - ai-platform/
-    - integration-architecture/
+    - 03-architecture/ai-platform/
+    - 03-architecture/integration-architecture/
 
 mvp_modules:
   - id: MVP-MOD-001

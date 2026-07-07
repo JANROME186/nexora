@@ -8,7 +8,7 @@ summary: Manages tenants, organizations, branches, schedules, services and organ
 artifacts:
   capability: capability-library/CAP-002-organization-branch-management/README.md
   metadata: capability-library/CAP-002-organization-branch-management/capability.yaml
-  openapi: contracts/openapi/organizations/organizations.openapi.yaml
+  openapi: 05-contracts/contracts/openapi/organizations/organizations.openapi.yaml
 relationships:
   depends_on:
   - CAP-LICENSING

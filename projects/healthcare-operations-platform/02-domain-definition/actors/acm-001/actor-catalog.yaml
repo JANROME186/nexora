@@ -5,7 +5,7 @@ artifact:
   version: 1.0.0
   status: draft
   owner: Product Architecture Team
-  source_of_truth: 02-platform-definition/actors/acm-001/actor-catalog.yaml
+  source_of_truth: 02-domain-definition/actors/acm-001/actor-catalog.yaml
   depends_on:
     - BCM-001
     - BCM-002

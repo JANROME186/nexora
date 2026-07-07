@@ -93,9 +93,9 @@ queries:
   - GetPendingCollections
   - GetSampleTraceability
 openapi_contracts:
-  - contracts/openapi/orders/orders.openapi.yaml
-  - contracts/openapi/appointments/appointments.openapi.yaml
-  - contracts/openapi/samples/samples.openapi.yaml
+  - 05-contracts/contracts/openapi/orders/orders.openapi.yaml
+  - 05-contracts/contracts/openapi/appointments/appointments.openapi.yaml
+  - 05-contracts/contracts/openapi/samples/samples.openapi.yaml
 knowledge_nodes:
   - knowledge/capabilities/cap-006-orders-appointments-sample-collection/capability-node.yaml
 quality_gates:

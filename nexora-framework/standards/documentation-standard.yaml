@@ -41,5 +41,6 @@ agent_context_rules:
   - Agents load root Nexora framework first.
   - Agents load the target project SOURCE_OF_TRUTH second.
   - Agents must not infer requirements from chat if PROJECT_BRIEF is missing.
+  - Agents must follow nexora-framework/standards/agent-agnostic-standard.yaml.
   - Agents must update project state after meaningful iterations.
   - Agents must preserve project boundaries.

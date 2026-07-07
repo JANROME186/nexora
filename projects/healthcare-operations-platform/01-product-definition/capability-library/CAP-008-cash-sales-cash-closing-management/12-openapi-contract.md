@@ -2,7 +2,7 @@
 
 Primary contract:
 
-- `contracts/openapi/cash/cash-api.yaml`
+- `05-contracts/contracts/openapi/cash/cash-api.yaml`
 
 Initial resources:
 

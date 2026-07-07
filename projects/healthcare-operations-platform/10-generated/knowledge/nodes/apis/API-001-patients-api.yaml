@@ -4,7 +4,7 @@ type: api_contract
 status: draft
 version: 0.13.0
 owner: API Architecture
-source_path: contracts/openapi/patients/patients-api.yaml
+source_path: 05-contracts/contracts/openapi/patients/patients-api.yaml
 description: Contract-first API for patient management.
 related_nodes:
   - CAP-001

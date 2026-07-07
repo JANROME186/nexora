@@ -12,13 +12,20 @@ artifact_classes:
 - DEPRECATED
 - ARCHIVED
 known_source_roots:
-- 01-enterprise
-- 02-platform-definition
-- 03-engineering
+- 00-intake
+- 01-product-definition
+- 02-domain-definition
+- 03-architecture
+- 04-requirements
+- 05-contracts
+- 06-delivery
+- 07-implementation
+- 08-qa
+- 09-operations
 known_generated_roots:
-- 04-generated
+- 10-generated
 cleanup_required:
-- path: legacy prompt files referencing GitHub Copilot only
+- path: legacy prompt files referencing named assistants only
   action: replace_with_agent_playbook_or_archive
 - path: docs referencing Serverless First as mandatory
   action: replace_with_compute_agnostic

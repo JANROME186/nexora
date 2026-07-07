@@ -4,10 +4,10 @@ owner: Architecture Governance
 status: approved
 version: 0.34.0
 concepts:
-- deprecated: GitHub Copilot Development Kit
+- deprecated: Named Assistant Development Kit
   replacement: Agent Agnostic Engineering Framework
   reason: Nexora no depende de un agente específico.
-- deprecated: Copilot Prompt
+- deprecated: assistant Prompt
   replacement: Agent Playbook / Agent Context Package
   reason: Los prompts deben ser consumibles por cualquier agente.
 - deprecated: Serverless First

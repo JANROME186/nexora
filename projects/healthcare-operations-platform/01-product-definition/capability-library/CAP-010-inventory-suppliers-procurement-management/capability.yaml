@@ -73,6 +73,6 @@ domain_events:
   - INV-EVT-011
   - INV-EVT-012
 openapi:
-  path: contracts/openapi/inventory/inventory.openapi.yaml
+  path: 05-contracts/contracts/openapi/inventory/inventory.openapi.yaml
 knowledge_node:
   path: knowledge/nodes/CAP-010-inventory-suppliers-procurement-management.yaml

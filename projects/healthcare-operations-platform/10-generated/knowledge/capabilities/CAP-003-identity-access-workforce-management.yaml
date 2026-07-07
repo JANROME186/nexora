@@ -29,4 +29,4 @@ relationships:
 sources:
   markdown: capability-library/CAP-003-identity-access-workforce-management/README.md
   yaml: capability-library/CAP-003-identity-access-workforce-management/capability.yaml
-  openapi: contracts/openapi/iam/iam.openapi.yaml
+  openapi: 05-contracts/contracts/openapi/iam/iam.openapi.yaml

@@ -49,7 +49,7 @@ events:
   - CashDifferenceDetected
   - CashClosingApproved
 apis:
-  - contracts/openapi/cash/cash-api.yaml
+  - 05-contracts/contracts/openapi/cash/cash-api.yaml
 ui:
   - Sales Workbench
   - Payment Capture

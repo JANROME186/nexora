@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.44.0] - 2026-07-07
+
+### Added
+- Added Nexora Agent-Agnostic Standard in Markdown and YAML.
+- Added agent-agnostic readiness flags to repository and HOP project state.
+
+### Changed
+- Renamed bootstrap entrypoints to `AGENT_BOOTSTRAP.md`.
+- Removed named-agent, named-assistant and named-provider references from source artifacts.
+- Updated HOP framework paths to the current numbered project structure.
+- Generalized AI provider registry to replaceable provider and local-runtime categories.
+
 ## [0.43.0] - 2026-07-07
 
 ### Changed
@@ -51,7 +63,7 @@
 ## [0.40.0] - 2026-07-07
 
 ### Added
-- Imported `nexora-codex-base-v0.39.0` into the local Git repository.
+- Imported `nexora-agent-base-v0.39.0` into the local Git repository.
 - Added BCM-002 Capability Dependency Map covering all 90 BCM-001 capabilities.
 - Added HOP MVP Agent-Agnostic Implementation Framework.
 - Added HOP MVP Agent Framework for repository-driven implementation planning.
@@ -61,12 +73,12 @@
 ### Changed
 - Updated `PROJECT_STATE.yaml` to v0.40.0.
 - Updated `SOURCE_OF_TRUTH.yaml` with BCM-002 and HOP MVP framework sources.
-- Updated root and `.ai` Codex bootstrap files so the next task starts at ACM-001.
+- Updated root and `.ai` agent bootstrap files so the next task starts at ACM-001.
 
 ## [0.39.0] - 2026-07-07
 
 ### Added
-- Updated Codex bootstrap.
+- Updated agent bootstrap.
 - Company/product separation.
 - Nexora company profile.
 - Healthcare Operations Platform product definition.

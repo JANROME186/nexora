@@ -27,5 +27,5 @@ relations:
     - INV-EVT-010
 traceability:
   capability_path: capability-library/CAP-010-inventory-suppliers-procurement-management
-  openapi_path: contracts/openapi/inventory/inventory.openapi.yaml
+  openapi_path: 05-contracts/contracts/openapi/inventory/inventory.openapi.yaml
   yaml_path: capability-library/CAP-010-inventory-suppliers-procurement-management/capability.yaml

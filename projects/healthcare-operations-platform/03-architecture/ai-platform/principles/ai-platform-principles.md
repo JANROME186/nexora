@@ -10,7 +10,7 @@ Cualquier sugerencia relacionada con interpretación clínica, validación de re
 
 ## Provider Independence
 
-El dominio nunca debe depender directamente de OpenAI, Anthropic, Google, modelos locales u otro proveedor. Las capacidades se invocan mediante puertos de aplicación.
+El dominio nunca debe depender directamente de un proveedor, modelo, runtime o plataforma de IA específica. Las capacidades se invocan mediante puertos de aplicación.
 
 ## Privacy by Design
 

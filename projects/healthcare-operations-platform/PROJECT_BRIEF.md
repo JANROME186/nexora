@@ -69,7 +69,7 @@ Create the first executable operating spine for diagnostic laboratory operations
 ## Out of Scope for First MVP
 
 - Full PACS/DICOM implementation.
-- Advanced AI copilots.
+- Advanced AI assistants.
 - Full inventory and procurement automation.
 - Advanced CAPA and external quality workflows.
 - Country-specific fiscal connector implementation beyond adapter boundaries.
