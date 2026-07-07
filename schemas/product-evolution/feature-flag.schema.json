@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexora.local/schemas/product-evolution/feature-flag.schema.json",
+  "title": "Nexora Feature Flag",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "type",
+    "status",
+    "owner",
+    "defaultValue",
+    "targeting",
+    "rollbackStrategy"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "release",
+        "experiment",
+        "operational",
+        "permission",
+        "compatibility",
+        "ai"
+      ]
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "active",
+        "paused",
+        "deprecated",
+        "removed"
+      ]
+    },
+    "owner": {
+      "type": "string"
+    },
+    "defaultValue": {
+      "type": [
+        "boolean",
+        "string",
+        "number"
+      ]
+    },
+    "targeting": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rollbackStrategy": {
+      "type": "string"
+    },
+    "reviewDate": {
+      "type": "string"
+    }
+  }
+}

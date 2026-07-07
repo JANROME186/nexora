@@ -1,0 +1,15 @@
+id: END-001
+name: Create Patient Endpoint
+type: api_endpoint
+status: draft
+version: 0.13.0
+owner: API Architecture
+source_path: contracts/openapi/patients/patients-api.yaml
+method: POST
+path: /patients
+related_nodes:
+  - API-001
+  - US-001
+  - BR-001
+  - ENT-001
+  - EVT-001

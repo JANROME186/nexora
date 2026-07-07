@@ -1,0 +1,66 @@
+id: VOC-001
+type: canonical-vocabulary
+owner: Business Architecture
+status: approved
+version: 0.34.0
+terms:
+- canonical: Laboratory
+  spanish: Laboratorio
+  avoid:
+  - Company
+  - Business
+  - Organization as tenant
+  definition: Entidad cliente/tenant que opera una o más sucursales.
+- canonical: Branch
+  spanish: Sucursal
+  avoid:
+  - Office
+  - Site
+  - Store
+  definition: Unidad operativa física o virtual perteneciente a un laboratorio.
+- canonical: Diagnostic Order
+  spanish: Orden Diagnóstica
+  avoid:
+  - Ticket
+  - Pedido
+  - Solicitud
+  definition: Solicitud formal de estudios/pruebas para un paciente.
+- canonical: Patient
+  spanish: Paciente
+  avoid:
+  - Cliente
+  - Consumer
+  - Customer
+  definition: Persona que recibe servicios diagnósticos.
+- canonical: Referring Physician
+  spanish: Médico Referidor
+  avoid:
+  - Seller Doctor
+  - External Customer
+  definition: Médico que refiere pacientes o consulta resultados.
+- canonical: Sample
+  spanish: Muestra
+  avoid:
+  - Specimen when not clinical standard
+  definition: Material biológico recolectado para análisis.
+- canonical: Result
+  spanish: Resultado
+  avoid:
+  - Outcome
+  - Response
+  definition: Valor, interpretación o conclusión derivada de una prueba diagnóstica.
+- canonical: Report
+  spanish: Reporte
+  avoid:
+  - PDF as concept
+  definition: Documento clínico entregable que agrupa resultados o interpretación.
+- canonical: Deployable Unit
+  spanish: Unidad Desplegable
+  avoid:
+  - Microservice as mandatory
+  definition: Unidad que puede desplegarse como módulo, servicio, worker o función.
+- canonical: Agent
+  spanish: Agente
+  avoid:
+  - Copilot as generic
+  definition: Herramienta o sistema de IA que consume conocimiento para ejecutar tareas.

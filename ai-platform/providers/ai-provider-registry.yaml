@@ -1,0 +1,27 @@
+artifact:
+  id: AI-PROV-REG-001
+  type: ai_provider_registry
+  version: 0.21.0
+providers:
+  llm:
+    - id: llm-openai-compatible
+      type: openai_compatible_api
+      deployment: cloud_or_self_hosted
+    - id: llm-anthropic-compatible
+      type: anthropic_api
+      deployment: cloud
+    - id: llm-local
+      type: local_model_runtime
+      deployment: on_premise
+  embeddings:
+    - id: embeddings-openai-compatible
+      type: embedding_api
+    - id: embeddings-local
+      type: local_embedding_model
+  vector_store:
+    - id: pgvector
+      type: postgresql_extension
+    - id: qdrant
+      type: vector_database
+    - id: opensearch-vector
+      type: search_engine_vector

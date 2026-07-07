@@ -1,0 +1,28 @@
+id: QA-001
+type: qaTest
+name: Register Patient Test Suite
+status: draft
+version: 0.15.0
+owner: QA
+testTypes:
+  - acceptance
+  - contract
+  - integration
+  - accessibility
+  - mobile-compatibility
+scenarios:
+  - Register valid adult patient.
+  - Reject minor patient without guardian data.
+  - Emit PatientCreated event.
+  - Validate OpenAPI response schema.
+relations:
+  - type: verifies
+    target: US-001
+  - type: verifies
+    target: BR-001
+  - type: verifies
+    target: API-001
+  - type: verifies
+    target: UI-001
+  - type: verifies
+    target: MOB-001

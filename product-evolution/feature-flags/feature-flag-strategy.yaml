@@ -1,0 +1,35 @@
+id: FFS-001
+name: Feature Flag Strategy
+type: feature-flag-strategy
+version: 0.22.0
+status: draft
+evaluation_dimensions:
+  - environment
+  - tenant
+  - laboratory
+  - branch
+  - country
+  - plan
+  - role
+  - user
+  - deviceCapability
+  - appVersion
+  - browserCapability
+  - aiProviderAvailability
+flag_types:
+  - release
+  - experiment
+  - operational
+  - permission
+  - compatibility
+  - ai
+required_metadata:
+  - owner
+  - purpose
+  - creationDate
+  - reviewDate
+  - rollbackStrategy
+  - defaultValue
+  - targetingRules
+  - auditTrail
+cleanup_policy: Temporary flags require a removal plan.

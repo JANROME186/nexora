@@ -1,0 +1,94 @@
+project:
+  id: nexora
+  name: Nexora
+  repository: https://github.com/JANROME186/nexora.git
+  type: engineering-knowledge-platform
+  specification_version: 0.12.0
+  status: foundation
+
+product:
+  name: Nexora
+  category: Healthcare Operations Platform
+  model: SaaS
+  target_markets:
+    - laboratories
+    - diagnostic_centers
+    - imaging_centers
+    - clinics
+  multi_tenant: true
+  multi_language: true
+  default_language: es
+  supported_languages:
+    - es
+    - en
+    - pt
+
+architecture_principles:
+  - business_first
+  - process_driven
+  - specification_driven_development
+  - domain_driven_design
+  - api_contract_first
+  - agent_agnostic
+  - cloud_agnostic
+  - platform_agnostic
+  - compute_agnostic
+  - local_development_first
+  - security_by_design
+  - privacy_by_design
+  - progressive_capability
+  - low_resource_first
+  - open_standards_first
+
+technology_reference:
+  backend:
+    language: TypeScript
+    primary_framework: NestJS
+    runtime: Node.js
+  frontend:
+    framework: Next.js
+    language: TypeScript
+  mobile:
+    framework: React Native / Expo
+    language: TypeScript
+  database:
+    relational: PostgreSQL
+    document: MongoDB
+    cache: Redis
+  contracts:
+    api: OpenAPI 3.1
+  observability:
+    standard: OpenTelemetry
+  containers:
+    standard: OCI
+  deployment_profiles:
+    - local_docker_compose
+    - docker_swarm
+    - kubernetes
+    - on_premise
+    - cloud
+
+agent_policy:
+  agent_agnostic: true
+  supported_agent_profiles:
+    - github_copilot
+    - claude_code
+    - cursor
+    - codex
+    - gemini_cli
+    - aider
+    - windsurf
+  primary_input_files:
+    - PROJECT_MANIFEST.yaml
+    - PROJECT_STATE.yaml
+    - KNOWLEDGE_INDEX.yaml
+    - SOURCE_OF_TRUTH.yaml
+    - playbooks/
+    - agents/
+
+metaModel:
+  name: Nexora Meta Model
+  version: 0.15.0
+  dualFormatArtifacts: true
+  machineReadableFormat: yaml
+  humanReadableFormat: markdown

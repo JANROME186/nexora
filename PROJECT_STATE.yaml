@@ -1,0 +1,26 @@
+project: Nexora
+company:
+  name: Nexora
+  type: Software Development and Artificial Intelligence Company
+first_product:
+  name: Healthcare Operations Platform
+  short_name: HOP
+  commercial_name: Nexora Healthcare Operations Platform
+repository_version: 0.40.0
+architecture_status: Architecture Freeze v1.0
+current_phase: Product Definition
+completed_deliverables:
+- E03.01 Bounded Context Catalog
+- E03.02 Context Map
+- E03.03 Shared Kernel
+- E03.04 Aggregate Catalog
+- BCM-001 Business Capability Map
+- Company/Product separation for Codex bootstrap
+- BCM-002 Capability Dependency Map
+- HOP-MVP-FWK-001 Agent-Agnostic MVP Implementation Framework
+next_deliverables:
+- ACM-001 Actor Catalog
+- HRP-001 Healthcare Reference Processes
+- BRM-001 Business Rules Catalog
+- MVP-MOD-001 Platform Foundation Definition Package
+agent_entrypoint: NEXORA_CODEX_BOOTSTRAP.md

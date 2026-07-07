@@ -1,0 +1,20 @@
+id: FF-AI-001
+name: Patient Result Explanation Assistant
+type: ai
+status: draft
+owner: AI Platform
+purpose: Enable AI-assisted patient-friendly result explanations in the patient portal.
+defaultValue: false
+targeting:
+  - tenant
+  - plan
+  - country
+  - language
+  - aiProviderAvailability
+  - patientPortalEnabled
+rollbackStrategy: Disable flag and fall back to standard PDF/result display.
+reviewDate: 2026-10-01
+related_artifacts:
+  - ai-platform/use-cases/mvp1-ai-use-cases.md
+  - security-compliance/privacy/privacy-architecture.md
+  - product-evolution/feature-flags/feature-flag-strategy.md

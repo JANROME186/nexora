@@ -1,0 +1,14 @@
+id: MOB-001
+name: Patient Registration Mobile Screen
+type: mobile_screen
+status: draft
+version: 0.13.0
+owner: Mobile Architecture
+source_path: mobile/screens/patient-registration.md
+description: >
+  Low-resource compatible mobile screen for registering patients using progressive enhancement.
+related_nodes:
+  - CAP-001
+  - US-001
+  - API-001
+  - BR-001

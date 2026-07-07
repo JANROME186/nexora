@@ -1,0 +1,26 @@
+id: PEA-001
+name: Product Evolution Architecture Baseline
+type: product-evolution-architecture
+version: 0.22.0
+status: draft
+owner: Product Architecture
+principles:
+  - Evolution First
+  - Backward Compatibility
+  - Capability-Based Product Design
+  - Feature-Flagged Delivery
+  - Marketplace Ready
+  - Commercial Configuration Over Code
+mvp1_scope:
+  - Tenant-level plan assignment
+  - Feature flag evaluation model
+  - License entitlement model
+  - Country pack abstraction
+  - API compatibility policy
+  - Product lifecycle states
+related_artifacts:
+  - CONSTITUTION.md
+  - SOURCE_OF_TRUTH.yaml
+  - product-evolution/licensing/licensing-engine.md
+  - product-evolution/feature-flags/feature-flag-strategy.md
+  - product-evolution/marketplace/marketplace-architecture.md

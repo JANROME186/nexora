@@ -1,0 +1,21 @@
+id: EVT-001
+name: PatientCreated
+type: domain_event
+status: draft
+version: 0.13.0
+owner: Domain Architecture
+source_path: architecture/events/EVT-001-patient-created.md
+description: >
+  Event emitted when a patient is successfully registered.
+payload:
+  patient_id: uuid
+  tenant_id: uuid
+  laboratory_id: uuid
+  branch_id: uuid
+  created_by: uuid
+  occurred_at: datetime
+related_nodes:
+  - DOM-001
+  - US-001
+  - API-001
+  - ENT-001

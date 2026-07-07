@@ -1,0 +1,22 @@
+id: CAP-007
+type: BusinessCapability
+name: Laboratory Results & Report Management
+path: capability-library/CAP-007-laboratory-results-report-management
+relations:
+  dependsOn:
+  - CAP-001
+  - CAP-002
+  - CAP-003
+  - CAP-004
+  - CAP-005
+  - CAP-006
+  governedBy:
+  - BR-RES-001
+  - BR-RES-002
+  - BR-RES-003
+  exposes:
+  - API-RESULTS-001
+  emits:
+  - EV-RES-001
+  - EV-RES-003
+  - EV-RES-008

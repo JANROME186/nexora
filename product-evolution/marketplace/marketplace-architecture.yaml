@@ -1,0 +1,32 @@
+id: MKT-001
+name: Marketplace Architecture
+type: marketplace-architecture
+version: 0.22.0
+status: draft
+extension_types:
+  - connector
+  - country-pack
+  - healthcare-pack
+  - ai-pack
+  - report-pack
+  - workflow-pack
+principles:
+  - Extensions must be isolated from core domain logic.
+  - Extensions must declare capabilities, permissions, events and data access.
+  - Extensions must be versioned.
+  - Extensions must be installable per tenant.
+  - Extensions must be auditable.
+  - Extensions must support rollback.
+lifecycle:
+  - draft
+  - review
+  - certified
+  - published
+  - installed
+  - updated
+  - deprecated
+  - removed
+mvp1_scope:
+  - Define extension metadata.
+  - Define tenant installation concept.
+  - Defer marketplace UI.

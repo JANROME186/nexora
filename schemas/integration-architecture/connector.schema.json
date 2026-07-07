@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexora.local/schemas/integration-architecture/connector.schema.json",
+  "title": "Nexora Connector Artifact",
+  "type": "object",
+  "required": ["id", "name", "type", "version", "status", "owner", "protocols"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^CONN-[0-9]{3,}$" },
+    "name": { "type": "string" },
+    "type": { "type": "string" },
+    "version": { "type": "string" },
+    "status": { "enum": ["Draft", "Review", "Approved", "Deprecated", "Removed"] },
+    "owner": { "type": "string" },
+    "protocols": { "type": "array", "items": { "type": "string" } },
+    "inputMessages": { "type": "array", "items": { "type": "string" } },
+    "outputMessages": { "type": "array", "items": { "type": "string" } },
+    "canonicalMessages": { "type": "array", "items": { "type": "string" } }
+  }
+}

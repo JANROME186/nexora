@@ -1,0 +1,187 @@
+openapi: 3.1.0
+info:
+  title: Nexora Orders API
+  version: 0.28.0
+  description: API contract for diagnostic order management. This contract is the source of truth for orders endpoints.
+servers:
+  - url: /api/v1
+security:
+  - bearerAuth: []
+paths:
+  /orders:
+    post:
+      operationId: createDiagnosticOrder
+      summary: Create diagnostic order
+      tags: [Orders]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDiagnosticOrderRequest'
+      responses:
+        '201':
+          description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiagnosticOrder'
+        '400': { description: Invalid request }
+    get:
+      operationId: searchOrders
+      summary: Search diagnostic orders
+      tags: [Orders]
+      parameters:
+        - in: query
+          name: patientId
+          schema: { type: string }
+        - in: query
+          name: status
+          schema: { type: string }
+      responses:
+        '200':
+          description: Orders page
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: '#/components/schemas/DiagnosticOrder' }
+  /orders/{orderId}:
+    get:
+      operationId: getOrderById
+      summary: Get order by ID
+      tags: [Orders]
+      parameters:
+        - $ref: '#/components/parameters/OrderId'
+      responses:
+        '200':
+          description: Order detail
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DiagnosticOrder' }
+  /orders/{orderId}/confirm:
+    post:
+      operationId: confirmDiagnosticOrder
+      summary: Confirm diagnostic order
+      tags: [Orders]
+      parameters:
+        - $ref: '#/components/parameters/OrderId'
+      responses:
+        '200':
+          description: Confirmed order
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DiagnosticOrder' }
+  /orders/{orderId}/cancel:
+    post:
+      operationId: cancelDiagnosticOrder
+      summary: Cancel diagnostic order
+      tags: [Orders]
+      parameters:
+        - $ref: '#/components/parameters/OrderId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason: { type: string }
+      responses:
+        '200': { description: Cancelled }
+  /orders/{orderId}/timeline:
+    get:
+      operationId: getOrderTimeline
+      summary: Get order timeline
+      tags: [Orders]
+      parameters:
+        - $ref: '#/components/parameters/OrderId'
+      responses:
+        '200':
+          description: Timeline
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/OrderTimelineEvent' }
+  /orders/{orderId}/labels:
+    post:
+      operationId: generateSampleLabels
+      summary: Generate sample labels for order
+      tags: [Orders, Samples]
+      parameters:
+        - $ref: '#/components/parameters/OrderId'
+      responses:
+        '200':
+          description: Labels generated
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/SampleLabel' }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    OrderId:
+      in: path
+      name: orderId
+      required: true
+      schema: { type: string }
+  schemas:
+    CreateDiagnosticOrderRequest:
+      type: object
+      required: [laboratoryId, branchId, patientId, orderLines]
+      properties:
+        laboratoryId: { type: string }
+        branchId: { type: string }
+        patientId: { type: string }
+        physicianId: { type: string, nullable: true }
+        appointmentId: { type: string, nullable: true }
+        orderLines:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required: [testId]
+            properties:
+              testId: { type: string }
+              priority: { type: string, enum: [routine, urgent], default: routine }
+        notes: { type: string }
+    DiagnosticOrder:
+      type: object
+      required: [id, orderNumber, laboratoryId, branchId, patientId, status]
+      properties:
+        id: { type: string }
+        orderNumber: { type: string }
+        laboratoryId: { type: string }
+        branchId: { type: string }
+        patientId: { type: string }
+        physicianId: { type: string, nullable: true }
+        status:
+          type: string
+          enum: [draft, confirmed, awaiting_payment, ready_for_collection, in_collection, collected, in_processing, results_pending, completed, cancelled]
+        paymentClearanceStatus:
+          type: string
+          enum: [not_required, pending, cleared, exception_authorized]
+        createdAt: { type: string, format: date-time }
+    OrderTimelineEvent:
+      type: object
+      properties:
+        id: { type: string }
+        eventType: { type: string }
+        occurredAt: { type: string, format: date-time }
+        actorUserId: { type: string }
+        description: { type: string }
+    SampleLabel:
+      type: object
+      properties:
+        sampleId: { type: string }
+        sampleCode: { type: string }
+        labelUrl: { type: string }

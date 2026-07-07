@@ -1,0 +1,22 @@
+id: HPK-001
+name: Healthcare Pack Architecture
+type: healthcare-pack-architecture
+version: 0.22.0
+status: draft
+packs:
+  - id: clinical-lab
+    scope: Laboratory tests, samples, results, reference values.
+  - id: imaging
+    scope: RIS, PACS, DICOM, radiology reports.
+  - id: pathology
+    scope: Specimens, slides, pathology workflow, structured reports.
+  - id: blood-bank
+    scope: Donor, units, compatibility, transfusion traceability.
+  - id: veterinary
+    scope: Species, breeds, veterinary patients and owners.
+rules:
+  - A healthcare pack may add domain concepts.
+  - A healthcare pack may extend workflows.
+  - A healthcare pack may add UI surfaces.
+  - A healthcare pack must not modify core platform contracts without versioning.
+  - A healthcare pack must declare required capabilities and permissions.

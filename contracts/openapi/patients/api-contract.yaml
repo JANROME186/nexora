@@ -1,0 +1,18 @@
+id: API-001
+type: apiContract
+name: Patients API
+status: draft
+version: 0.15.0
+owner: API Architecture
+openapi: contracts/openapi/patients/openapi.yaml
+style: REST
+versioning: semantic-and-url-versioned
+relations:
+  - type: implements
+    target: US-001
+  - type: exposesEntity
+    target: ENT-001
+  - type: emits
+    target: EVT-001
+  - type: verifiedBy
+    target: QA-001

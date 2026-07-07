@@ -1,0 +1,55 @@
+openapi: 3.1.0
+info:
+  title: Patients API
+  version: 0.1.0
+  x-nexora-node-id: API-001
+paths:
+  /patients:
+    post:
+      operationId: createPatient
+      summary: Create patient
+      x-nexora-node-id: END-001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePatientRequest'
+      responses:
+        '201':
+          description: Patient created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatientResponse'
+components:
+  schemas:
+    CreatePatientRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - birthDate
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+    PatientResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string

@@ -1,0 +1,24 @@
+id: VCM-001
+name: Version Compatibility Matrix
+version: 0.22.0
+status: draft
+compatibility_dimensions:
+  - backend
+  - web
+  - mobile
+  - publicApi
+  - integrationConnector
+  - databaseMigration
+  - countryPack
+  - healthcarePack
+policies:
+  publicApi:
+    breakingChangesRequireMajorVersion: true
+    deprecationWindowRequired: true
+    sourceOfTruth: OpenAPI
+  mobile:
+    olderClientsMustReceiveCompatibleResponses: true
+    forcedUpgradeOnlyForSecurityOrCriticalIntegrity: true
+  database:
+    migrationsMustBeBackwardCompatibleWhenPossible: true
+    rollbackPlanRequired: true

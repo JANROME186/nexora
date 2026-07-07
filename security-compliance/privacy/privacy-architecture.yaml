@@ -1,0 +1,31 @@
+id: PRIV-ARCH-001
+name: Privacy Architecture
+version: 0.19.0
+status: Draft
+privacy_capabilities:
+  - data_classification
+  - consent_management
+  - data_minimization
+  - purpose_limitation
+  - retention_policy
+  - data_subject_request_workflow
+  - export_governance
+  - anonymization
+  - pseudonymization
+  - ai_privacy_controls
+sensitive_data_categories:
+  - personal_identity
+  - contact
+  - clinical_results
+  - medical_images
+  - physician_relationships
+  - payment
+  - billing_tax
+  - credentials_sessions
+  - audit_metadata
+mvp_scope:
+  - consent_artifacts
+  - retention_metadata
+  - access_audit
+  - export_logging
+  - privacy_classification

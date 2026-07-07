@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nexora Artifact Metadata",
+  "type": "object",
+  "required": ["id", "name", "type", "status", "version", "owner"],
+  "properties": {
+    "id": {"type": "string"},
+    "name": {"type": "string"},
+    "type": {"type": "string"},
+    "status": {"enum": ["draft", "review", "approved", "deprecated"]},
+    "version": {"type": "string"},
+    "owner": {"type": "string"},
+    "dependencies": {"type": "array", "items": {"type": "string"}}
+  }
+}

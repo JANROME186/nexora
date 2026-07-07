@@ -1,0 +1,31 @@
+id: CPK-001
+name: Country Pack Architecture
+type: country-pack-architecture
+version: 0.22.0
+status: draft
+responsibilities:
+  - fiscalRules
+  - invoiceProviderIntegration
+  - taxIdentifiers
+  - addressFormats
+  - legalConsentTemplates
+  - dataRetentionRules
+  - languageVariants
+  - regulatoryReports
+  - localCatalogMappings
+  - paymentMethodRules
+examples:
+  mexico:
+    - cfdiIntegration
+    - rfcValidation
+    - satCatalogs
+    - mexicanAddressStructure
+    - es-MXLocalization
+  colombia:
+    - dianIntegration
+    - nitValidation
+    - geographicCatalogs
+  peru:
+    - sunatIntegration
+    - rucValidation
+design_rule: Country-specific behavior must be provided by country packs, not hard-coded inside the core domain.

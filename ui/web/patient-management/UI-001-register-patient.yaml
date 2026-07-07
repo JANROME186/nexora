@@ -1,0 +1,24 @@
+id: UI-001
+type: uiScreen
+name: Register Patient Web Screen
+status: draft
+version: 0.15.0
+owner: UX
+channel: employee-web
+capability: CAP-001
+story: US-001
+progressiveCapabilities:
+  core:
+    - manual patient form
+    - duplicate search
+    - validation messages
+  enhanced:
+    - document upload
+    - keyboard shortcuts
+  intelligent:
+    - AI-assisted demographic extraction
+relations:
+  - type: represents
+    target: US-001
+  - type: consumes
+    target: API-001

@@ -1,0 +1,37 @@
+flowchart LR
+    IAM[Identity & Access]
+    ORG[Organization Management]
+    PAT[Patient Management]
+    CAT[Catalog & Test Configuration]
+    ORD[Orders & Samples]
+    RES[Laboratory Results]
+    CASH[Cash & Sales]
+    BILL[Billing & Tax]
+    INV[Inventory & Procurement]
+    IMG[Imaging Operations]
+    AI[AI Platform]
+    INT[Integration & Interoperability]
+    MIG[Data Migration & Portability]
+    NOTIF[Notifications]
+    AUDIT[Audit & Compliance]
+
+    IAM <-- Shared Kernel --> ORG
+    ORD -->|Customer/Supplier| PAT
+    ORD -->|Customer/Supplier| CAT
+    RES -->|Published Language| ORD
+    CASH -->|Customer/Supplier| ORD
+    BILL -->|Customer/Supplier| CASH
+    INV -->|Customer/Supplier| CAT
+    IMG -->|Published Language| ORD
+    AI -->|ACL| PAT
+    AI -->|ACL| RES
+    INT -->|ACL| ORD
+    INT -->|ACL| RES
+    MIG -->|ACL + UIM/CDM| PAT
+    MIG -->|ACL + UIM/CDM| ORD
+    MIG -->|ACL + UIM/CDM| RES
+    NOTIF -->|Event Subscriber| ORD
+    NOTIF -->|Event Subscriber| RES
+    AUDIT -->|Event Subscriber| IAM
+    AUDIT -->|Event Subscriber| ORD
+    AUDIT -->|Event Subscriber| BILL

@@ -1,0 +1,130 @@
+openapi: 3.1.0
+info:
+  title: Nexora IAM API
+  version: 0.25.0
+  description: Contract-first API for CAP-003 Identity, Access & Workforce Management.
+servers:
+  - url: http://localhost:3000
+    description: Local development
+security:
+  - bearerAuth: []
+tags:
+  - name: Employees
+  - name: Users
+  - name: Roles
+  - name: Permissions
+  - name: Access
+paths:
+  /v1/employees:
+    post:
+      tags: [Employees]
+      operationId: createEmployee
+      summary: Create employee profile
+      x-nexora-node-id: END-IAM-001
+      responses:
+        '201':
+          description: Employee created
+    get:
+      tags: [Employees]
+      operationId: searchEmployees
+      summary: Search employees
+      responses:
+        '200':
+          description: Employee list
+  /v1/employees/{employeeId}:
+    get:
+      tags: [Employees]
+      operationId: getEmployee
+      summary: Get employee by ID
+      parameters:
+        - $ref: '#/components/parameters/EmployeeId'
+      responses:
+        '200':
+          description: Employee detail
+    patch:
+      tags: [Employees]
+      operationId: updateEmployee
+      summary: Update employee profile
+      parameters:
+        - $ref: '#/components/parameters/EmployeeId'
+      responses:
+        '200':
+          description: Employee updated
+  /v1/users/invitations:
+    post:
+      tags: [Users]
+      operationId: inviteUser
+      summary: Invite user
+      responses:
+        '201':
+          description: User invited
+  /v1/users/{userId}/suspend:
+    post:
+      tags: [Users]
+      operationId: suspendUser
+      summary: Suspend user
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: User suspended
+  /v1/roles:
+    post:
+      tags: [Roles]
+      operationId: createRole
+      summary: Create role
+      responses:
+        '201':
+          description: Role created
+    get:
+      tags: [Roles]
+      operationId: listRoles
+      summary: List roles
+      responses:
+        '200':
+          description: Role list
+  /v1/permissions:
+    get:
+      tags: [Permissions]
+      operationId: listPermissions
+      summary: List permissions
+      responses:
+        '200':
+          description: Permission list
+  /v1/users/{userId}/effective-permissions:
+    get:
+      tags: [Access]
+      operationId: getUserEffectivePermissions
+      summary: Get effective permissions for a user
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: Effective permissions
+  /v1/access/evaluate:
+    post:
+      tags: [Access]
+      operationId: evaluateAccess
+      summary: Evaluate authorization decision
+      responses:
+        '200':
+          description: Access decision
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    EmployeeId:
+      name: employeeId
+      in: path
+      required: true
+      schema:
+        type: string
+    UserId:
+      name: userId
+      in: path
+      required: true
+      schema:
+        type: string

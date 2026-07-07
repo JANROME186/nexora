@@ -1,0 +1,91 @@
+knowledge_index:
+  version: 0.13.0
+  updated_at: 2026-07-07
+  description: Nexora Product Knowledge Graph index.
+  indexes:
+    patient_management: knowledge/indexes/patient-management-index.yaml
+  root_nodes:
+  - id: CAP-001
+    name: Patient Management
+    type: business_capability
+    source_path: knowledge/nodes/business/capabilities/CAP-001-patient-management.yaml
+  - id: DOM-001
+    name: Patient Domain
+    type: domain
+    source_path: knowledge/nodes/domains/DOM-001-patient-domain.yaml
+  - id: BR-001
+    name: Minor Patient Requires Guardian
+    type: business_rule
+    source_path: knowledge/nodes/rules/BR-001-minor-patient-requires-guardian.yaml
+  - id: US-001
+    name: Register Patient
+    type: user_story
+    source_path: knowledge/nodes/stories/US-001-register-patient.yaml
+  - id: API-001
+    name: Patients API
+    type: api_contract
+    source_path: contracts/openapi/patients/patients-api.yaml
+  - id: ENT-001
+    name: Patient
+    type: entity
+    source_path: database/entities/patient.md
+  - id: EVT-001
+    name: PatientCreated
+    type: domain_event
+    source_path: architecture/events/EVT-001-patient-created.md
+  - id: UI-001
+    name: Patient Registration Web Screen
+    type: web_screen
+    source_path: ux/screens/patient-registration.md
+  - id: MOB-001
+    name: Patient Registration Mobile Screen
+    type: mobile_screen
+    source_path: mobile/screens/patient-registration.md
+  - id: TEST-001
+    name: Register Patient Contract Test
+    type: test_artifact
+    source_path: qa/contract-tests/patients/register-patient.md
+business_architecture:
+  value_chain: BA-VC-001
+  capability_model: BCM-001
+  patient_journey: JRN-001
+  patient_intake_process: BPMN-001
+  patient_event_storming: ES-001
+  patient_business_rules: BRG-001
+  patient_traceability: TRC-001
+technology_architecture:
+  main: technology-architecture/technology-architecture.yaml
+  deployment_profiles: technology-architecture/deployment-profiles/deployment-profiles.yaml
+  adr: adr/ADR-007-technology-architecture-and-anywhere-first.md
+security_compliance:
+  baseline: SEC-ARCH-001
+  identity: IAM-ARCH-001
+  authorization: AUTHZ-ARCH-001
+  audit: AUD-ARCH-001
+  privacy: PRIV-ARCH-001
+  regulatory: REG-ARCH-001
+  country_pack_model: CP-ARCH-001
+  threat_model_mvp1: THREAT-MVP1-001
+productEvolution:
+  baseline: product-evolution/product-evolution-baseline.yaml
+  lifecycle: product-evolution/lifecycle/product-lifecycle.yaml
+  licensing: product-evolution/licensing/licensing-engine.yaml
+  featureFlags: product-evolution/feature-flags/feature-flag-strategy.yaml
+  marketplace: product-evolution/marketplace/marketplace-architecture.yaml
+  countryPacks: product-evolution/packs/country-packs.yaml
+  healthcarePacks: product-evolution/packs/healthcare-packs.yaml
+
+capabilities_update_v0_24_0:
+  CAP-002: knowledge/capabilities/CAP-002-organization-branch-management.yaml
+
+  - id: CAP-003
+    name: Identity, Access & Workforce Management
+    path: knowledge/capabilities/CAP-003-identity-access-workforce-management.yaml
+
+  CAP-005:
+    name: Catalog & Test Configuration Management
+    path: knowledge/capabilities/CAP-005-catalog-test-configuration-management.yaml
+    capability_path: business/capabilities/catalog-test-configuration-management/README.md
+    contracts:
+      - contracts/openapi/catalogs/catalogs.openapi.yaml
+      - contracts/openapi/test-configuration/test-configuration.openapi.yaml

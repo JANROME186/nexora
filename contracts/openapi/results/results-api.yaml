@@ -1,0 +1,162 @@
+openapi: 3.0.3
+info:
+  title: Nexora Results API
+  version: 0.1.0
+  description: Contract-first API for laboratory results and reports.
+servers:
+- url: https://api.nexora.local
+paths:
+  /v1/results/orders:
+    get:
+      summary: Search result orders
+      operationId: searchResultOrders
+      parameters:
+      - name: status
+        in: query
+        schema:
+          type: string
+      - name: patientId
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Result order page
+    post:
+      summary: Create result order
+      operationId: createResultOrder
+      responses:
+        '201':
+          description: Created
+  /v1/results/orders/{resultOrderId}:
+    get:
+      summary: Get result order
+      operationId: getResultOrder
+      parameters:
+      - name: resultOrderId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Result order
+  /v1/results/orders/{resultOrderId}/items:
+    post:
+      summary: Enter result item
+      operationId: enterResultItem
+      parameters:
+      - name: resultOrderId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnterResultItemRequest'
+      responses:
+        '201':
+          description: Result item saved
+  /v1/results/orders/{resultOrderId}/technical-validation:
+    post:
+      summary: Validate result technically
+      operationId: validateResultTechnically
+      parameters:
+      - name: resultOrderId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Validated
+  /v1/results/orders/{resultOrderId}/clinical-validation:
+    post:
+      summary: Validate result clinically
+      operationId: validateResultClinically
+      parameters:
+      - name: resultOrderId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Validated
+  /v1/results/reports:
+    post:
+      summary: Generate result report
+      operationId: generateResultReport
+      responses:
+        '201':
+          description: Generated
+  /v1/results/reports/{reportId}/release:
+    post:
+      summary: Release result report
+      operationId: releaseResultReport
+      parameters:
+      - name: reportId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Released
+  /v1/results/reports/{reportId}/delivery:
+    post:
+      summary: Deliver result report
+      operationId: deliverResultReport
+      parameters:
+      - name: reportId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '202':
+          description: Delivery accepted
+  /v1/results/critical-alerts:
+    get:
+      summary: List critical alerts
+      operationId: listCriticalAlerts
+      responses:
+        '200':
+          description: Critical alerts
+  /v1/results/{resultOrderId}/versions:
+    get:
+      summary: List result versions
+      operationId: listResultVersions
+      parameters:
+      - name: resultOrderId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Versions
+components:
+  schemas:
+    EnterResultItemRequest:
+      type: object
+      required:
+      - testCode
+      - analyteCode
+      - value
+      properties:
+        testCode:
+          type: string
+        analyteCode:
+          type: string
+        value:
+          type: string
+        unit:
+          type: string
+        method:
+          type: string
+        notes:
+          type: string

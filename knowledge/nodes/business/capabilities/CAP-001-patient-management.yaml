@@ -1,0 +1,30 @@
+id: CAP-001
+name: Patient Management
+type: business_capability
+status: draft
+version: 0.13.0
+owner: Business Architecture
+source_path: knowledge/nodes/business/capabilities/CAP-001-patient-management.yaml
+description: >
+  Capability responsible for registering, updating, identifying and managing patients across web, mobile, API, reception, medical and patient portal channels.
+tags:
+  - mvp-1
+  - patient
+  - core-domain
+related_nodes:
+  - DOM-001
+  - BR-001
+  - US-001
+  - API-001
+  - ENT-001
+  - EVT-001
+  - UI-001
+  - MOB-001
+dependencies:
+  - CAP-002
+  - CAP-003
+downstream:
+  - CAP-004
+  - CAP-005
+created_at: 2026-07-07
+updated_at: 2026-07-07

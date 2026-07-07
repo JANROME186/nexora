@@ -1,0 +1,85 @@
+id: APP-ARCH-001
+name: Application Architecture Baseline
+version: 0.17.0
+status: Approved
+owner: Enterprise Architecture
+principles:
+  - Capability Driven Applications
+  - API Contract First
+  - Channel Independence
+  - Deployable Unit Agnostic
+  - Integration Ready
+layers:
+  - id: app-layer-experience
+    name: Experience Layer
+    responsibility: Web, mobile, portals and administrative consoles.
+  - id: app-layer-api-bff
+    name: API/BFF Layer
+    responsibility: Stable APIs and experience-specific adaptation.
+  - id: app-layer-application-services
+    name: Application Service Layer
+    responsibility: Use case orchestration, authorization, transactions and events.
+  - id: app-layer-domain
+    name: Domain Layer
+    responsibility: Business rules, aggregates, entities, value objects and domain events.
+  - id: app-layer-infrastructure
+    name: Infrastructure Layer
+    responsibility: Persistence, messaging, identity, storage and providers.
+applications:
+  - id: APP-001
+    name: Nexora Public Website
+    type: Web
+    channels: [public]
+    capabilities: [Marketing, Quotation, AppointmentRequest]
+  - id: APP-002
+    name: Nexora Admin Portal
+    type: Web
+    channels: [employee]
+    capabilities: [PatientManagement, Orders, Results, Cashier, Billing, Inventory, IAM]
+  - id: APP-003
+    name: Nexora Patient Portal
+    type: Web
+    channels: [patient]
+    capabilities: [PatientSelfService, ResultsDelivery, Appointments, Payments]
+  - id: APP-004
+    name: Nexora Doctor Portal
+    type: Web
+    channels: [doctor]
+    capabilities: [DoctorManagement, ResultsConsultation, ReferralManagement]
+  - id: APP-005
+    name: Nexora Mobile Patient App
+    type: Mobile
+    channels: [patient]
+    capabilities: [PatientSelfService, ResultsDelivery, Notifications]
+  - id: APP-006
+    name: Nexora Mobile Doctor App
+    type: Mobile
+    channels: [doctor]
+    capabilities: [ResultsConsultation, CriticalAlerts, PatientFollowUp]
+  - id: APP-007
+    name: Nexora Public API
+    type: API
+    channels: [external, partner]
+    capabilities: [Integration, Marketplace, PublicContracts]
+  - id: APP-008
+    name: Nexora Integration Gateway
+    type: Integration
+    channels: [external-systems]
+    capabilities: [ASTM, HL7, FHIR, DICOM, Webhooks, SFTP]
+  - id: APP-009
+    name: Nexora AI Assistant Layer
+    type: AI
+    channels: [employee, patient, doctor]
+    capabilities: [OCR, LLM, RAG, Summarization, TriageSupport]
+  - id: APP-010
+    name: Nexora Analytics Console
+    type: Analytics
+    channels: [executive, administrator]
+    capabilities: [KPIs, BI, OperationalAnalytics]
+rules:
+  - No channel may access the database directly.
+  - No channel may implement critical business, clinical or fiscal rules.
+  - Public APIs must have OpenAPI contracts.
+  - Domain events must be documented and versioned.
+  - Applications must support i18n by design.
+  - AI capabilities must provide fallback behavior when unavailable.

@@ -1,0 +1,184 @@
+openapi: 3.1.0
+info:
+  title: Nexora Test Configuration API
+  version: 0.27.0
+  description: Contract-first API for diagnostic study, analyte, reference range and report schema configuration.
+servers:
+  - url: /api/v1
+security:
+  - bearerAuth: []
+tags:
+  - name: Study Configuration
+paths:
+  /study-configurations:
+    get:
+      tags: [Study Configuration]
+      operationId: searchStudyConfigurations
+      summary: Search study configurations
+      parameters:
+        - name: q
+          in: query
+          schema: { type: string }
+        - name: status
+          in: query
+          schema: { type: string, enum: [draft, review, approved, published, deprecated, retired] }
+        - name: sellable
+          in: query
+          schema: { type: boolean }
+      responses:
+        '200':
+          description: Study configuration list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/StudyConfigurationSummary' }
+    post:
+      tags: [Study Configuration]
+      operationId: createStudyConfiguration
+      summary: Create draft study configuration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateStudyConfigurationRequest' }
+      responses:
+        '201':
+          description: Created study configuration
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StudyConfiguration' }
+  /study-configurations/{studyConfigurationId}:
+    get:
+      tags: [Study Configuration]
+      operationId: getStudyConfiguration
+      summary: Get study configuration detail
+      parameters:
+        - $ref: '#/components/parameters/StudyConfigurationId'
+      responses:
+        '200':
+          description: Study configuration
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StudyConfiguration' }
+  /study-configurations/{studyConfigurationId}/submit-review:
+    post:
+      tags: [Study Configuration]
+      operationId: submitStudyConfigurationForReview
+      summary: Submit study configuration for review
+      parameters:
+        - $ref: '#/components/parameters/StudyConfigurationId'
+      responses:
+        '202': { description: Submitted for review }
+  /study-configurations/{studyConfigurationId}/approve:
+    post:
+      tags: [Study Configuration]
+      operationId: approveStudyConfiguration
+      summary: Approve study configuration
+      parameters:
+        - $ref: '#/components/parameters/StudyConfigurationId'
+      responses:
+        '202': { description: Approved }
+  /study-configurations/{studyConfigurationId}/publish:
+    post:
+      tags: [Study Configuration]
+      operationId: publishStudyConfiguration
+      summary: Publish immutable configuration version
+      parameters:
+        - $ref: '#/components/parameters/StudyConfigurationId'
+      responses:
+        '201':
+          description: Published version
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StudyVersion' }
+  /study-configurations/{studyConfigurationId}/reference-ranges:
+    post:
+      tags: [Study Configuration]
+      operationId: configureReferenceRange
+      summary: Configure reference range
+      parameters:
+        - $ref: '#/components/parameters/StudyConfigurationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReferenceRangeRequest' }
+      responses:
+        '201': { description: Reference range configured }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    StudyConfigurationId:
+      name: studyConfigurationId
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+  schemas:
+    StudyConfigurationSummary:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        code: { type: string }
+        displayName: { type: string }
+        status: { type: string }
+        currentVersion: { type: integer }
+        sellable: { type: boolean }
+    StudyConfiguration:
+      type: object
+      required: [id, code, status, components]
+      properties:
+        id: { type: string, format: uuid }
+        code: { type: string, example: GLUCOSE }
+        displayName: { type: string, example: Glucose }
+        category: { type: string, example: Chemistry }
+        modality: { type: string, enum: [laboratory, imaging, pathology, other] }
+        status: { type: string, enum: [draft, review, approved, published, deprecated, retired] }
+        components:
+          type: array
+          items: { $ref: '#/components/schemas/StudyComponent' }
+    StudyComponent:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        code: { type: string }
+        name: { type: string }
+        dataType: { type: string, enum: [numeric, text, coded, boolean, calculated] }
+        unit: { type: string }
+    StudyVersion:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        studyConfigurationId: { type: string, format: uuid }
+        version: { type: integer }
+        publishedAt: { type: string, format: date-time }
+        immutable: { type: boolean, const: true }
+    CreateStudyConfigurationRequest:
+      type: object
+      required: [code, displayName, modality]
+      properties:
+        code: { type: string }
+        displayName: { type: string }
+        category: { type: string }
+        modality: { type: string, enum: [laboratory, imaging, pathology, other] }
+    ReferenceRangeRequest:
+      type: object
+      required: [componentCode, effectiveFrom]
+      properties:
+        componentCode: { type: string }
+        sex: { type: string, enum: [female, male, any, unknown] }
+        minAgeDays: { type: integer }
+        maxAgeDays: { type: integer }
+        lowerBound: { type: number }
+        upperBound: { type: number }
+        unit: { type: string }
+        method: { type: string }
+        effectiveFrom: { type: string, format: date }
+        effectiveTo: { type: string, format: date }

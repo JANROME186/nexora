@@ -1,0 +1,58 @@
+version: 0.15.0
+catalog: Nexora Artifact Type Catalog
+artifactTypes:
+  - type: businessCapability
+    prefix: CAP
+    humanPath: business/capabilities/{slug}/{slug}.md
+    machinePath: business/capabilities/{slug}/{slug}.yaml
+    schema: meta-model/schemas/business-capability.schema.json
+  - type: businessProcess
+    prefix: BPR
+    humanPath: business/processes/{slug}/{slug}.md
+    machinePath: business/processes/{slug}/{slug}.yaml
+    schema: meta-model/schemas/business-process.schema.json
+  - type: businessRule
+    prefix: BR
+    humanPath: business/rules/{slug}/{id}.md
+    machinePath: business/rules/{slug}/{id}.yaml
+    schema: meta-model/schemas/business-rule.schema.json
+  - type: domain
+    prefix: DOM
+    humanPath: domains/{slug}/{slug}.md
+    machinePath: domains/{slug}/{slug}.yaml
+    schema: meta-model/schemas/domain.schema.json
+  - type: entity
+    prefix: ENT
+    humanPath: database/entities/{slug}.md
+    machinePath: database/entities/{slug}.yaml
+    schema: meta-model/schemas/entity.schema.json
+  - type: event
+    prefix: EVT
+    humanPath: architecture/events/{domain}/{slug}.md
+    machinePath: architecture/events/{domain}/{slug}.yaml
+    schema: meta-model/schemas/domain-event.schema.json
+  - type: userStory
+    prefix: US
+    humanPath: stories/{capability}/{id}.md
+    machinePath: stories/{capability}/{id}.yaml
+    schema: meta-model/schemas/user-story.schema.json
+  - type: apiContract
+    prefix: API
+    humanPath: contracts/openapi/{api}/README.md
+    machinePath: contracts/openapi/{api}/openapi.yaml
+    schema: meta-model/schemas/api-contract.schema.json
+  - type: uiScreen
+    prefix: UI
+    humanPath: ui/web/{capability}/{slug}.md
+    machinePath: ui/web/{capability}/{slug}.yaml
+    schema: meta-model/schemas/ui-screen.schema.json
+  - type: mobileScreen
+    prefix: MOB
+    humanPath: ui/mobile/{capability}/{slug}.md
+    machinePath: ui/mobile/{capability}/{slug}.yaml
+    schema: meta-model/schemas/mobile-screen.schema.json
+  - type: qaTest
+    prefix: QA
+    humanPath: qa/{capability}/{id}.md
+    machinePath: qa/{capability}/{id}.yaml
+    schema: meta-model/schemas/qa-test.schema.json

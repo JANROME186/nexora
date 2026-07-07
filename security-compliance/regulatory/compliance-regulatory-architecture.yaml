@@ -1,0 +1,27 @@
+id: REG-ARCH-001
+name: Compliance and Regulatory Architecture
+version: 0.19.0
+status: Draft
+strategy:
+  core_compliance_capabilities: true
+  local_rules_in_country_packs: true
+baseline_concerns:
+  - personal_data_protection
+  - clinical_record_retention
+  - consent_management
+  - laboratory_quality_traceability
+  - electronic_signatures
+  - tax_invoicing
+  - cross_border_data_transfer
+  - patient_rights
+  - audit_evidence
+country_pack_fields:
+  - legal_texts
+  - consent_templates
+  - retention_rules
+  - tax_invoicing_rules
+  - required_catalogs
+  - data_residency
+  - document_formats
+  - electronic_signature_policies
+  - privacy_workflows

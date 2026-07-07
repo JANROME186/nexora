@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nexora.local/schemas/product-evolution/license-plan.schema.json",
+  "title": "Nexora License Plan",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "status",
+    "entitlements"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "active",
+        "deprecated",
+        "removed"
+      ]
+    },
+    "targetMarket": {
+      "type": "string"
+    },
+    "entitlements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "addons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
