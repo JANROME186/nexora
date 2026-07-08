@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.61.0] - 2026-07-08
+
+### Added
+- Added `PF-QA-001` smoke and contract tests for `MVP-MOD-001 Platform Foundation`.
+- Added backend OpenAPI contract tests for implemented Platform Foundation endpoints and schemas.
+- Added backend MVP smoke test for tenant, laboratory, branch, user, role assignment and audit flow.
+- Added employee portal navigation smoke test across all administration screens.
+- Added mobile foundation smoke test for login, session, home and navigation.
+- Added QA evidence for `PF-QA-001` in Markdown and YAML.
+
+### Changed
+- Updated repository and project state to mark `PF-QA-001` complete and move the active backlog item to `MVP-MOD-001-CLOSEOUT`.
+
 ## [0.60.0] - 2026-07-08
 
 ### Added

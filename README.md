@@ -52,9 +52,11 @@ Completed backlog item:
 
 `PF-APP-001 Create mobile app foundation`
 
+`PF-QA-001 Add smoke and contract tests`
+
 Current backlog item:
 
-`PF-QA-001 Add smoke and contract tests`
+`MVP-MOD-001-CLOSEOUT Validate and close the module`
 
 Project folder:
 

@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.60.0
+  version: 0.61.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -50,6 +50,8 @@ sources:
   mvp_mod_001_pf_fe_001_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-FE-001-employee-portal-administration.yaml
   mvp_mod_001_pf_app_001_qa_evidence: 08-qa/qa/platform-foundation/PF-APP-001-mobile-app-foundation.md
   mvp_mod_001_pf_app_001_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-APP-001-mobile-app-foundation.yaml
+  mvp_mod_001_pf_qa_001_qa_evidence: 08-qa/qa/platform-foundation/PF-QA-001-smoke-and-contract-tests.md
+  mvp_mod_001_pf_qa_001_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-QA-001-smoke-and-contract-tests.yaml
   mvp_mod_001_pf_be_004_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-BE-004-audit-event-recording.yaml
   context_map: 02-domain-definition/domain-foundation/context-map/context-map.yaml
   shared_kernel: 02-domain-definition/domain-foundation/shared-kernel/shared-kernel.yaml

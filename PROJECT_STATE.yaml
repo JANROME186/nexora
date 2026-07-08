@@ -1,6 +1,6 @@
 repository: Nexora
-repository_version: 0.60.0
-current_phase: MVP Mobile App Foundation Increment Completed
+repository_version: 0.61.0
+current_phase: MVP Smoke and Contract Tests Increment Completed
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -22,7 +22,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: mvp_implementation_in_progress
     active_module: MVP-MOD-001
-    active_backlog_item: PF-QA-001
+    active_backlog_item: MVP-MOD-001-CLOSEOUT
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -31,9 +31,10 @@ projects:
       - PF-BE-004
       - PF-FE-001
       - PF-APP-001
+      - PF-QA-001
     structure: ordered_numbered_folders
 next_deliverables:
-  - Implement projects/healthcare-operations-platform MVP-MOD-001 PF-QA-001 smoke and contract tests
+  - Validate and close projects/healthcare-operations-platform MVP-MOD-001 Platform Foundation
   - Use Nexora Agent-to-MVP Recipe for any new project under projects/
 agent_entrypoint: AGENT_BOOTSTRAP.md
 development_readiness:
