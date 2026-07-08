@@ -1,0 +1,110 @@
+artifact:
+  id: SRS-HOP-001
+  type: software-requirements-specification
+  name: Healthcare Operations Platform SRS
+  version: 1.0.0
+  status: approved
+  owner: Product Requirements Team
+product: Healthcare Operations Platform
+company: Nexora
+description: AI-native, cloud-agnostic operations platform for diagnostic healthcare
+  organizations.
+access_areas:
+- public_website
+- employee_portal
+- doctor_portal
+- patient_portal
+- mobile_apps
+major_capabilities:
+- BCM-ORG-001
+- BCM-ORG-002
+- BCM-ORG-003
+- BCM-ORG-004
+- BCM-ORG-005
+- BCM-ORG-006
+- BCM-ORG-007
+- BCM-ORG-008
+- BCM-PER-001
+- BCM-PER-002
+- BCM-PER-003
+- BCM-PER-004
+- BCM-PER-005
+- BCM-PER-006
+- BCM-PER-007
+- BCM-SVC-001
+- BCM-SVC-002
+- BCM-SVC-003
+- BCM-SVC-004
+- BCM-SVC-005
+- BCM-SVC-006
+- BCM-SVC-007
+- BCM-SVC-008
+- BCM-SVC-009
+- BCM-ATT-001
+- BCM-ATT-002
+- BCM-ATT-003
+- BCM-ATT-004
+- BCM-ATT-005
+- BCM-ATT-006
+- BCM-ATT-007
+- BCM-ATT-008
+- BCM-LAB-001
+- BCM-LAB-002
+- BCM-LAB-003
+- BCM-LAB-004
+- BCM-LAB-005
+- BCM-LAB-006
+- BCM-LAB-007
+- BCM-LAB-008
+- BCM-LAB-009
+- BCM-LAB-010
+- BCM-IMG-001
+- BCM-IMG-002
+- BCM-IMG-003
+- BCM-IMG-004
+- BCM-IMG-005
+- BCM-IMG-006
+- BCM-IMG-007
+- BCM-IMG-008
+- BCM-RES-001
+- BCM-RES-002
+- BCM-RES-003
+- BCM-RES-004
+- BCM-RES-005
+- BCM-RES-006
+- BCM-RES-007
+- BCM-INV-001
+- BCM-INV-002
+- BCM-INV-003
+- BCM-INV-004
+- BCM-INV-005
+- BCM-INV-006
+- BCM-INV-007
+- BCM-INV-008
+- BCM-INV-009
+- BCM-QLT-001
+- BCM-QLT-002
+- BCM-QLT-003
+- BCM-QLT-004
+- BCM-QLT-005
+- BCM-QLT-006
+- BCM-QLT-007
+- BCM-PLT-001
+- BCM-PLT-002
+- BCM-PLT-003
+- BCM-PLT-004
+- BCM-PLT-005
+- BCM-PLT-006
+- BCM-PLT-007
+- BCM-PLT-008
+- BCM-PLT-009
+- BCM-AI-001
+- BCM-AI-002
+- BCM-AI-003
+- BCM-AI-004
+- BCM-AI-005
+- BCM-AI-006
+- BCM-AI-007
+- BCM-AI-008
+development_entry_condition: A capability must have requirements, traceability, OpenAPI
+  scope and acceptance criteria before implementation starts.

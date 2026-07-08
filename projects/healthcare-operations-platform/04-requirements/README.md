@@ -1,11 +1,31 @@
-# 04 Requirements
+# Healthcare Operations Platform — Requirements
 
-Current requirements and story artifacts are in:
+## Status
 
-- `../stories/`
-- `../business/`
-- `../ux/`
-- `../ui/`
-- `../mobile/`
+Approved baseline for development.
 
-Use this folder for future user stories, acceptance criteria, workflows and requirements traceability.
+## Scope
+
+This requirements package defines the initial complete requirements baseline for the Healthcare Operations Platform.
+
+## Contents
+
+- `requirements-manifest.yaml`
+- `srs/healthcare-operations-platform-srs.md`
+- `functional/functional-requirements-catalog.md`
+- `non-functional/non-functional-requirements.md`
+- `capabilities/*/requirements.md`
+- `traceability/requirements-traceability-matrix.md`
+- `acceptance/definition-of-ready-done.md`
+
+## Summary
+
+- Business capabilities: 90
+- Functional requirements: 450
+- User stories: 450
+- Product areas: 11
+- Roadmap phases: MVP1, MVP2, MVP3
+
+## Rule
+
+No development should begin for a capability unless its requirements file exists and is traceable to BCM-001.
