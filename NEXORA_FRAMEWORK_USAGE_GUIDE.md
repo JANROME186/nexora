@@ -19,10 +19,10 @@ El flujo completo es:
 
 El framework incluye un playbook de prompts reutilizable para cualquier proyecto:
 
-- `nexora-framework/prompts/generic-project-lifecycle-prompts.md`
-- `nexora-framework/prompts/generic-project-lifecycle-prompts.yaml`
-- `nexora-framework/prompts/auxiliary-development-prompts.md`
-- `nexora-framework/prompts/auxiliary-development-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md`
+- `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md`
+- `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
 
 La version YAML es la fuente operativa para agentes. La version Markdown es para lectura humana.
 
@@ -89,12 +89,12 @@ No se deben colocar definiciones especificas de un proyecto en la raiz.
 Archivos importantes:
 
 - `nexora-framework/README.md`
-- `nexora-framework/standards/project-folder-standard.yaml`
-- `nexora-framework/standards/documentation-standard.yaml`
-- `nexora-framework/standards/agent-agnostic-standard.yaml`
-- `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml`
-- `nexora-framework/recipes/agent-to-mvp-recipe.yaml`
-- `nexora-framework/templates/project-template/`
+- `nexora-framework/02-standards/standards/project-folder-standard.yaml`
+- `nexora-framework/02-standards/standards/documentation-standard.yaml`
+- `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
+- `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
+- `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
+- `nexora-framework/06-templates/templates/project-template/`
 
 Todo agente debe cargar el framework antes de analizar o implementar un proyecto.
 
@@ -149,7 +149,7 @@ Usar un identificador en minusculas y con guiones. Ejemplo:
 
 Para un proyecto nuevo, copiar o reproducir la estructura de:
 
-`nexora-framework/templates/project-template/`
+`nexora-framework/06-templates/templates/project-template/`
 
 El primer archivo obligatorio del proyecto es:
 
@@ -211,8 +211,8 @@ Lee AGENT_BOOTSTRAP.md.
 Lee NEXORA_FRAMEWORK_USAGE_GUIDE.md.
 Lee SOURCE_OF_TRUTH.yaml y PROJECT_STATE.yaml.
 Carga el framework Nexora desde nexora-framework/.
-Aplica nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml.
-Aplica nexora-framework/recipes/agent-to-mvp-recipe.yaml.
+Aplica nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml.
+Aplica nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml.
 
 Proyecto objetivo:
 projects/<project-slug>/
@@ -239,11 +239,11 @@ El agente de analisis debe cargar estos archivos en este orden:
 3. `SOURCE_OF_TRUTH.yaml`
 4. `PROJECT_STATE.yaml`
 5. `nexora-framework/README.md`
-6. `nexora-framework/standards/project-folder-standard.yaml`
-7. `nexora-framework/standards/documentation-standard.yaml`
-8. `nexora-framework/standards/agent-agnostic-standard.yaml`
-9. `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml`
-10. `nexora-framework/recipes/agent-to-mvp-recipe.yaml`
+6. `nexora-framework/02-standards/standards/project-folder-standard.yaml`
+7. `nexora-framework/02-standards/standards/documentation-standard.yaml`
+8. `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
+9. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
+10. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
 11. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
 12. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`, si existe
 13. `projects/<project-slug>/PROJECT_BRIEF.md`, si existe
@@ -512,7 +512,7 @@ El proyecto no debe requerir un agente de IA, asistente de codigo, proveedor de 
 
 Usar el estandar:
 
-`nexora-framework/standards/agent-agnostic-standard.yaml`
+`nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
 
 Expectativa:
 
@@ -613,7 +613,7 @@ El agente de desarrollo debe cargar:
 2. `NEXORA_FRAMEWORK_USAGE_GUIDE.md`
 3. `SOURCE_OF_TRUTH.yaml`
 4. `PROJECT_STATE.yaml`
-5. `nexora-framework/standards/agent-agnostic-standard.yaml`
+5. `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
 6. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
 7. `projects/<project-slug>/PROJECT_BRIEF.md`
 8. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`

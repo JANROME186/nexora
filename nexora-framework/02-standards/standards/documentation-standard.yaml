@@ -44,9 +44,9 @@ minimum_artifacts_to_reach_mvp_development:
 
 agent_context_rules:
   - Agents load root Nexora framework first.
-  - Agents scan projects/ using nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml before implementation.
+  - Agents scan projects/ using nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml before implementation.
   - Agents load the target project SOURCE_OF_TRUTH second.
   - Agents must not infer requirements from chat if PROJECT_BRIEF is missing.
-  - Agents must follow nexora-framework/standards/agent-agnostic-standard.yaml.
+  - Agents must follow nexora-framework/02-standards/standards/agent-agnostic-standard.yaml.
   - Agents must update project state after meaningful iterations.
   - Agents must preserve project boundaries.

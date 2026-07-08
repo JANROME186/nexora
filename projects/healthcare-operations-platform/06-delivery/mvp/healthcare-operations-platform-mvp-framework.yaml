@@ -31,7 +31,7 @@ required_agent_context:
     - ../../AGENT_BOOTSTRAP.md
     - ../../PROJECT_STATE.yaml
     - ../../SOURCE_OF_TRUTH.yaml
-    - ../../nexora-framework/standards/agent-agnostic-standard.yaml
+    - ../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
     - BUSINESS_REQUIREMENT.md
     - PROJECT_STATE.yaml
     - SOURCE_OF_TRUTH.yaml
@@ -42,7 +42,7 @@ required_agent_context:
     - 02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml
   load_when_building_contracts:
     - 05-contracts/contracts/openapi/
-    - ../../nexora-framework/templates/openapi-template.yaml
+    - ../../nexora-framework/06-templates/templates/openapi-template.yaml
   load_when_building_ui:
     - 04-requirements/ux/
     - 04-requirements/ui/

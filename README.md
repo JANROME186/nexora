@@ -21,8 +21,8 @@ Agents must use the Nexora framework to scan `projects/`, validate whether each 
 1. Create a folder under `projects/<project-slug>/`.
 2. The requester provides `BUSINESS_REQUIREMENT.md` with the high-level business requirement.
 3. Structure it into `PROJECT_BRIEF.md`.
-4. Apply `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.md`.
-5. Apply `nexora-framework/recipes/agent-to-mvp-recipe.md`.
+4. Apply `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`.
+5. Apply `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`.
 6. Generate the required source artifacts until `PROJECT_STATE.yaml` has no blocking definition gaps.
 7. Start implementation from the first module definition package.
 
@@ -45,8 +45,8 @@ Project folder:
 - `AGENT_BOOTSTRAP.md`
 - `NEXORA_FRAMEWORK_USAGE_GUIDE.md`
 - `nexora-framework/README.md`
-- `nexora-framework/standards/agent-agnostic-standard.md`
-- `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.md`
-- `nexora-framework/recipes/agent-to-mvp-recipe.md`
+- `nexora-framework/02-standards/standards/agent-agnostic-standard.md`
+- `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`
+- `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`
 - `projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md`
 - `projects/healthcare-operations-platform/PROJECT_BRIEF.md`

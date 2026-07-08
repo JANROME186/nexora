@@ -17,7 +17,7 @@ prompt_hierarchy:
     - PROMPT-VALIDATE-001
     - PROMPT-DEVELOP-001
   auxiliary_prompt_playbooks:
-    - nexora-framework/prompts/auxiliary-development-prompts.yaml
+    - nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
     - target_project/06-delivery/mvp/*backlog*execution*.yaml
   precedence_rule: Auxiliary prompts may refine execution but must not contradict this file, the project source of truth or the target module package.
 
@@ -61,12 +61,12 @@ prompts:
       - PROJECT_STATE.yaml
       - NEXORA_FRAMEWORK_USAGE_GUIDE.md
       - nexora-framework/README.md
-      - nexora-framework/standards/project-folder-standard.yaml
-      - nexora-framework/standards/documentation-standard.yaml
-      - nexora-framework/standards/agent-agnostic-standard.yaml
-      - nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml
-      - nexora-framework/recipes/agent-to-mvp-recipe.yaml
-      - nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+      - nexora-framework/02-standards/standards/project-folder-standard.yaml
+      - nexora-framework/02-standards/standards/documentation-standard.yaml
+      - nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+      - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
+      - nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
+      - nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
 
       Rules:
       - Do not generate or replace BUSINESS_REQUIREMENT.md.
@@ -151,12 +151,12 @@ prompts:
       - SOURCE_OF_TRUTH.yaml
       - PROJECT_STATE.yaml
       - NEXORA_FRAMEWORK_USAGE_GUIDE.md
-      - nexora-framework/standards/project-folder-standard.yaml
-      - nexora-framework/standards/documentation-standard.yaml
-      - nexora-framework/standards/agent-agnostic-standard.yaml
-      - nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml
-      - nexora-framework/recipes/agent-to-mvp-recipe.yaml
-      - nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+      - nexora-framework/02-standards/standards/project-folder-standard.yaml
+      - nexora-framework/02-standards/standards/documentation-standard.yaml
+      - nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+      - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
+      - nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
+      - nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
       - projects/<project-slug>/SOURCE_OF_TRUTH.yaml
       - projects/<project-slug>/PROJECT_STATE.yaml
 
@@ -205,10 +205,10 @@ prompts:
       - SOURCE_OF_TRUTH.yaml
       - PROJECT_STATE.yaml
       - NEXORA_FRAMEWORK_USAGE_GUIDE.md
-      - nexora-framework/standards/agent-agnostic-standard.yaml
-      - nexora-framework/standards/documentation-standard.yaml
-      - nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
-      - nexora-framework/prompts/auxiliary-development-prompts.yaml
+      - nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+      - nexora-framework/02-standards/standards/documentation-standard.yaml
+      - nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
+      - nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
       - projects/<project-slug>/SOURCE_OF_TRUTH.yaml
       - projects/<project-slug>/PROJECT_STATE.yaml
       - projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.yaml

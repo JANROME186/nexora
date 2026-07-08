@@ -31,6 +31,6 @@ Root-level state describes the repository and framework, not the product impleme
 
 ## Related Artifacts
 
-- `nexora-framework/standards/project-folder-standard.yaml`
-- `nexora-framework/recipes/agent-to-mvp-recipe.yaml`
+- `nexora-framework/02-standards/standards/project-folder-standard.yaml`
+- `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
 - `projects/healthcare-operations-platform/PROJECT_BRIEF.md`

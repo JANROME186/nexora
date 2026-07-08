@@ -11,7 +11,7 @@ artifact:
 purpose: Provide optional development prompts that support the generic MVP development prompt without overriding it.
 
 prompt_hierarchy:
-  primary_prompt: nexora-framework/prompts/generic-project-lifecycle-prompts.yaml#prompts.mvp_development
+  primary_prompt: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml#prompts.mvp_development
   auxiliary_role: These prompts refine execution for one development slice after the primary development prompt has selected the project, module and backlog item.
   precedence:
     - Project BUSINESS_REQUIREMENT.md and project source-of-truth files.
@@ -25,8 +25,8 @@ shared_loading_order:
   - AGENT_BOOTSTRAP.md
   - SOURCE_OF_TRUTH.yaml
   - PROJECT_STATE.yaml
-  - nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
-  - nexora-framework/prompts/auxiliary-development-prompts.yaml
+  - nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
+  - nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
   - projects/<project-slug>/SOURCE_OF_TRUTH.yaml
   - projects/<project-slug>/PROJECT_STATE.yaml
   - projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.yaml

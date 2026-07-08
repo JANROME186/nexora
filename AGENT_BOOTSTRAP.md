@@ -31,32 +31,34 @@ Project-specific work lives under:
 1. `SOURCE_OF_TRUTH.yaml`
 2. `PROJECT_STATE.yaml`
 3. `nexora-framework/README.md`
-4. `nexora-framework/standards/project-folder-standard.md`
-5. `nexora-framework/standards/documentation-standard.md`
-6. `nexora-framework/standards/agent-agnostic-standard.md`
-7. `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.md`
-8. `nexora-framework/recipes/agent-to-mvp-recipe.md`
-9. `nexora-framework/prompts/generic-project-lifecycle-prompts.yaml`
-10. `nexora-framework/prompts/auxiliary-development-prompts.yaml`
-11. Target project `BUSINESS_REQUIREMENT.md`
-12. Target project `SOURCE_OF_TRUTH.yaml`
-13. Target project `PROJECT_BRIEF.yaml`
-14. Target project `PROJECT_STATE.yaml`
+4. `nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml`
+5. `nexora-framework/02-standards/standards/project-folder-standard.md`
+6. `nexora-framework/02-standards/standards/documentation-standard.md`
+7. `nexora-framework/02-standards/standards/agent-agnostic-standard.md`
+8. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`
+9. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`
+10. `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
+11. `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
+12. Target project `BUSINESS_REQUIREMENT.md`
+13. Target project `SOURCE_OF_TRUTH.yaml`
+14. Target project `PROJECT_BRIEF.yaml`
+15. Target project `PROJECT_STATE.yaml`
 
 ## Nexora Framework
 
 Use these files for the reusable method:
 
-- `nexora-framework/docs/vision/NEXORA_FINAL_VISION.yaml`
-- `nexora-framework/docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml`
-- `nexora-framework/standards/project-folder-standard.yaml`
-- `nexora-framework/standards/documentation-standard.yaml`
-- `nexora-framework/standards/agent-agnostic-standard.yaml`
-- `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml`
-- `nexora-framework/recipes/agent-to-mvp-recipe.yaml`
-- `nexora-framework/prompts/generic-project-lifecycle-prompts.yaml`
-- `nexora-framework/prompts/auxiliary-development-prompts.yaml`
-- `nexora-framework/templates/project-template/`
+- `nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.yaml`
+- `nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml`
+- `nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml`
+- `nexora-framework/02-standards/standards/project-folder-standard.yaml`
+- `nexora-framework/02-standards/standards/documentation-standard.yaml`
+- `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
+- `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
+- `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
+- `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
+- `nexora-framework/06-templates/templates/project-template/`
 
 ## First Project
 
@@ -128,8 +130,8 @@ and:
 
 Then run:
 
-`nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.md`
+`nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`
 
 Then run:
 
-`nexora-framework/recipes/agent-to-mvp-recipe.md`
+`nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`

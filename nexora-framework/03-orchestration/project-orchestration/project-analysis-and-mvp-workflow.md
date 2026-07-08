@@ -23,7 +23,7 @@ If `BUSINESS_REQUIREMENT.md` is missing, the project is not ready to analyze.
 2. Enumerate `projects/<project-slug>/`.
 3. For each project, load its business requirement, brief, state and source of truth.
 4. Decide whether the project is already analyzed.
-5. If it is not analyzed, apply `nexora-framework/recipes/agent-to-mvp-recipe.yaml`.
+5. If it is not analyzed, apply `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`.
 6. Produce source artifacts first.
 7. Create the MVP delivery framework and first module package.
 8. Update `SOURCE_OF_TRUTH.yaml` and `PROJECT_STATE.yaml`.

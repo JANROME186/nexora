@@ -8,5 +8,5 @@ Current projects:
 
 To create another project, copy or follow:
 
-- `nexora-framework/templates/project-template/`
-- `nexora-framework/recipes/agent-to-mvp-recipe.md`
+- `nexora-framework/06-templates/templates/project-template/`
+- `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`

@@ -11,7 +11,7 @@ sources:
   project_state: PROJECT_STATE.yaml
   ordered_development_guide: ORDERED_DEVELOPMENT_GUIDE.md
   ordered_development_guide_yaml: ORDERED_DEVELOPMENT_GUIDE.yaml
-  agent_agnostic_standard: ../../nexora-framework/standards/agent-agnostic-standard.yaml
+  agent_agnostic_standard: ../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
   product_definition: 01-product-definition/products/healthcare-operations-platform/product.yaml
   business_capability_map: 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
   capability_dependency_map: 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
@@ -23,8 +23,8 @@ sources:
   mvp_backlog_execution_prompts_yaml: 06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml
   mvp_development_readiness_decision: 06-delivery/mvp/MVP_DEVELOPMENT_READINESS_DECISION.md
   mvp_development_readiness_decision_yaml: 06-delivery/mvp/MVP_DEVELOPMENT_READINESS_DECISION.yaml
-  generic_project_lifecycle_prompts_yaml: ../../nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
-  auxiliary_development_prompts_yaml: ../../nexora-framework/prompts/auxiliary-development-prompts.yaml
+  generic_project_lifecycle_prompts_yaml: ../../nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
+  auxiliary_development_prompts_yaml: ../../nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
   mvp_mod_001_platform_foundation: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
   mvp_mod_001_domain_model: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.yaml
   mvp_mod_001_database_migration_plan: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.yaml

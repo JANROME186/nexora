@@ -11,8 +11,8 @@ inputs:
     - projects/<project-slug>/BUSINESS_REQUIREMENT.md
     - projects/<project-slug>/PROJECT_BRIEF.md
     - projects/<project-slug>/PROJECT_BRIEF.yaml
-    - nexora-framework/standards/project-folder-standard.yaml
-    - nexora-framework/standards/documentation-standard.yaml
+    - nexora-framework/02-standards/standards/project-folder-standard.yaml
+    - nexora-framework/02-standards/standards/documentation-standard.yaml
   optional:
     - existing_source_material
     - reference_systems

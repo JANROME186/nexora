@@ -13,7 +13,7 @@ Load root source of truth, Nexora framework standards, then the target project f
 1. `SOURCE_OF_TRUTH.yaml`
 2. `PROJECT_STATE.yaml`
 3. `nexora-framework/README.md`
-4. `nexora-framework/recipes/agent-to-mvp-recipe.md`
+4. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`
 5. Target project `SOURCE_OF_TRUTH.yaml`
 6. Target project `PROJECT_BRIEF.md`
 7. Target project `PROJECT_STATE.yaml`
@@ -32,4 +32,4 @@ Create:
 
 Then apply:
 
-`nexora-framework/recipes/agent-to-mvp-recipe.md`
+`nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`

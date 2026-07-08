@@ -1,0 +1,77 @@
+artifact:
+  id: NXF-EXEC-001
+  type: framework-execution-sequence
+  name: Nexora Framework Execution Sequence
+  version: 1.0.0
+  status: approved
+  human_readable: FRAMEWORK_EXECUTION_SEQUENCE.md
+  machine_readable: FRAMEWORK_EXECUTION_SEQUENCE.yaml
+  owner: Nexora Engineering
+
+purpose: Define the logical loading and execution order of the Nexora Framework.
+
+sequence:
+  - step: "00"
+    folder: 00-start-here
+    responsibility: Load vision, strategic handoff and execution sequence.
+    primary_files:
+      - 00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml
+      - 00-start-here/docs/vision/NEXORA_FINAL_VISION.yaml
+      - 00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml
+  - step: "01"
+    folder: 01-enterprise
+    responsibility: Load Nexora company context and enterprise identity.
+  - step: "02"
+    folder: 02-standards
+    responsibility: Load project folder, documentation and agent-agnostic standards.
+    primary_files:
+      - 02-standards/standards/project-folder-standard.yaml
+      - 02-standards/standards/documentation-standard.yaml
+      - 02-standards/standards/agent-agnostic-standard.yaml
+  - step: "03"
+    folder: 03-orchestration
+    responsibility: Decide whether a target project needs analysis, validation or development.
+    primary_files:
+      - 03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
+  - step: "04"
+    folder: 04-recipes
+    responsibility: Apply the Agent-to-MVP recipe when project definitions are incomplete.
+    primary_files:
+      - 04-recipes/recipes/agent-to-mvp-recipe.yaml
+  - step: "05"
+    folder: 05-prompts
+    responsibility: Provide generic and auxiliary prompts for analysis, validation and development.
+    primary_files:
+      - 05-prompts/prompts/generic-project-lifecycle-prompts.yaml
+      - 05-prompts/prompts/auxiliary-development-prompts.yaml
+  - step: "06"
+    folder: 06-templates
+    responsibility: Provide templates for creating or completing project artifacts.
+    primary_files:
+      - 06-templates/templates/project-template/
+  - step: "07"
+    folder: 07-governance
+    responsibility: Provide ADRs, RFCs, roadmap and release governance.
+  - step: "08"
+    folder: 08-engineering
+    responsibility: Provide engineering playbooks, agent roles, security, AI and DevOps guidance.
+  - step: "09"
+    folder: 09-specifications
+    responsibility: Provide schemas, meta-models and specification assets.
+  - step: "10"
+    folder: 10-examples
+    responsibility: Provide examples for reference only.
+
+development_gate:
+  required:
+    - Target project BUSINESS_REQUIREMENT.md exists.
+    - Target project PROJECT_STATE.yaml exists.
+    - development_readiness.status is ready.
+    - development_readiness.blocking_definition_gaps is empty.
+    - Target module package exists.
+    - Target module package required artifacts exist.
+
+current_first_product:
+  project: projects/healthcare-operations-platform/
+  module: MVP-MOD-001
+  module_name: Platform Foundation

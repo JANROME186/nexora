@@ -1,30 +1,32 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.52.0
+  version: 0.53.0
   status: approved
 sources:
   repository_readme: README.md
   framework_usage_guide: NEXORA_FRAMEWORK_USAGE_GUIDE.md
   repository_state: PROJECT_STATE.yaml
   agent_bootstrap: AGENT_BOOTSTRAP.md
-  agent_agnostic_standard: nexora-framework/standards/agent-agnostic-standard.yaml
-  project_orchestration_workflow: nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml
+  agent_agnostic_standard: nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+  project_orchestration_workflow: nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
   company_profile: nexora-framework/01-enterprise/company/company-profile.yaml
   framework_readme: nexora-framework/README.md
-  final_vision: nexora-framework/docs/vision/NEXORA_FINAL_VISION.md
-  final_vision_yaml: nexora-framework/docs/vision/NEXORA_FINAL_VISION.yaml
-  strategic_handoff: nexora-framework/docs/vision/NEXORA_STRATEGIC_HANDOFF.md
-  strategic_handoff_yaml: nexora-framework/docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml
-  project_folder_standard: nexora-framework/standards/project-folder-standard.yaml
-  documentation_standard: nexora-framework/standards/documentation-standard.yaml
-  agent_to_mvp_recipe: nexora-framework/recipes/agent-to-mvp-recipe.yaml
-  generic_project_lifecycle_prompts: nexora-framework/prompts/generic-project-lifecycle-prompts.md
-  generic_project_lifecycle_prompts_yaml: nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
-  auxiliary_development_prompts: nexora-framework/prompts/auxiliary-development-prompts.md
-  auxiliary_development_prompts_yaml: nexora-framework/prompts/auxiliary-development-prompts.yaml
-  multi_project_structure_adr: nexora-framework/adr/ADR-024-multi-project-repository-structure.md
-  project_template: nexora-framework/templates/project-template/
+  framework_execution_sequence: nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md
+  framework_execution_sequence_yaml: nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml
+  final_vision: nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md
+  final_vision_yaml: nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.yaml
+  strategic_handoff: nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md
+  strategic_handoff_yaml: nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml
+  project_folder_standard: nexora-framework/02-standards/standards/project-folder-standard.yaml
+  documentation_standard: nexora-framework/02-standards/standards/documentation-standard.yaml
+  agent_to_mvp_recipe: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
+  generic_project_lifecycle_prompts: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
+  generic_project_lifecycle_prompts_yaml: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
+  auxiliary_development_prompts: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
+  auxiliary_development_prompts_yaml: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
+  multi_project_structure_adr: nexora-framework/07-governance/adr/ADR-024-multi-project-repository-structure.md
+  project_template: nexora-framework/06-templates/templates/project-template/
   projects_index: projects/README.md
   healthcare_operations_platform: projects/healthcare-operations-platform/
   hop_project_brief: projects/healthcare-operations-platform/PROJECT_BRIEF.md
@@ -42,13 +44,14 @@ sources:
 rules:
   - Nexora is the company and repository-level framework owner.
   - Nexora final vision and strategic handoff define company-level intent and must remain agent agnostic.
+  - Agents must start framework loading from nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml.
   - Every solution lives under projects/<project-slug>/.
   - Each project owns human-readable Markdown and machine-readable YAML for agent-executable project artifacts.
   - Project-specific artifacts must not be added directly at repository root.
   - Agents must load the Nexora framework first, then the target project source of truth.
   - Agents and users must use NEXORA_FRAMEWORK_USAGE_GUIDE.md as the human-facing operating guide for analysis and development handoff.
   - Agents must scan projects/ and validate project analysis status before implementation.
-  - Agents must use nexora-framework/prompts/generic-project-lifecycle-prompts.yaml when a user requests generic analysis, validation or MVP development for a project folder.
+  - Agents must use nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml when a user requests generic analysis, validation or MVP development for a project folder.
   - Auxiliary prompts must support, not override, the generic lifecycle prompts and project source artifacts.
   - Agents must stop analysis when BUSINESS_REQUIREMENT.md is missing because it is requester-supplied source material.
   - Agent-executable project artifacts must prefer YAML machine-readable files; Markdown remains the human-readable companion.

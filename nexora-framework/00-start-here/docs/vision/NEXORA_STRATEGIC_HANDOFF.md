@@ -127,8 +127,8 @@ projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-plat
 
 The development prompt hierarchy is:
 
-1. `nexora-framework/prompts/generic-project-lifecycle-prompts.yaml`
-2. `nexora-framework/prompts/auxiliary-development-prompts.yaml`
+1. `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
+2. `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
 3. `projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml`
 4. Target module package files.
 

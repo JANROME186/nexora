@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.53.0] - 2026-07-08
+
+### Changed
+- Reordered `nexora-framework/` into numbered folders that reflect the framework execution sequence.
+- Moved standards, orchestration, recipes, prompts, templates, governance, engineering, specifications and examples under ordered framework stages.
+- Updated repository and project references to the new numbered framework paths.
+
+### Added
+- Added `00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md` and `.yaml` as the first framework loading artifact.
+- Added README files for the numbered framework stages so each folder explains its role in the execution sequence.
+
 ## [0.52.0] - 2026-07-08
 
 ### Added
@@ -25,7 +36,7 @@
 
 ### Added
 - Added generic framework-level lifecycle prompts for project analysis, framework compliance validation and MVP development.
-- Added Markdown and YAML prompt playbooks under `nexora-framework/prompts/`.
+- Added Markdown and YAML prompt playbooks under `nexora-framework/05-prompts/prompts/`.
 - Registered the generic prompt playbook in repository source-of-truth and project manifest files.
 
 ## [0.49.0] - 2026-07-08
@@ -106,7 +117,7 @@
 ### Added
 - Added `nexora-framework/` as the reusable Nexora documentation and agent-delivery framework.
 - Added project folder standard, documentation standard and Agent-to-MVP recipe.
-- Added reusable new-project template under `nexora-framework/templates/project-template/`.
+- Added reusable new-project template under `nexora-framework/06-templates/templates/project-template/`.
 - Added `projects/` as the home for self-contained Nexora solutions.
 - Added `projects/healthcare-operations-platform/PROJECT_BRIEF.md`.
 - Added project-level state and source-of-truth registries for Healthcare Operations Platform.

@@ -4,6 +4,30 @@ This folder defines how Nexora documents, governs and prepares software solution
 
 Nexora is the company and engineering organization. Product or client solutions live under `projects/`.
 
+## Start Here
+
+The framework is intentionally ordered by numbered folders.
+
+Begin with:
+
+- `00-start-here/README.md`
+- `00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md`
+- `00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml`
+
+The short sequence is:
+
+1. `00-start-here/` - Understand vision, handoff and execution order.
+2. `01-enterprise/` - Load Nexora company context.
+3. `02-standards/` - Load documentation, project folder and agent-agnostic standards.
+4. `03-orchestration/` - Decide whether a project needs analysis, validation or implementation.
+5. `04-recipes/` - Apply the Agent-to-MVP recipe when definitions are missing.
+6. `05-prompts/` - Use generic and auxiliary prompts for analysis, validation and development.
+7. `06-templates/` - Use templates when creating or completing a project.
+8. `07-governance/` - Use ADRs, RFCs, roadmap and release governance.
+9. `08-engineering/` - Use engineering playbooks, agents and operational guidance.
+10. `09-specifications/` - Use schemas, meta-models and specification assets.
+11. `10-examples/` - Use examples as references only.
+
 ## Purpose
 
 The framework gives agents and human teams a repeatable path from project description to implementation-ready MVP.
@@ -13,45 +37,35 @@ It defines:
 - Repository and project folder standards.
 - Documentation rules.
 - Source-of-truth rules.
-- Agent execution recipes.
 - Project discovery and analysis workflow.
+- Agent execution recipes.
+- Generic and auxiliary prompts.
 - Templates for new projects.
 - Shared meta-models, schemas, playbooks and governance assets.
 
-## Vision Sources
-
-- `docs/vision/NEXORA_FINAL_VISION.md`
-- `docs/vision/NEXORA_FINAL_VISION.yaml`
-- `docs/vision/NEXORA_STRATEGIC_HANDOFF.md`
-- `docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml`
-
-These files define company-level intent. They guide prioritization and roadmap decisions, but implementation starts from project source-of-truth files and approved module packages.
-
 ## Core Entry Points
 
-- `standards/project-folder-standard.md`
-- `standards/documentation-standard.md`
-- `standards/agent-agnostic-standard.md`
-- `project-orchestration/README.md`
-- `project-orchestration/project-analysis-and-mvp-workflow.md`
-- `recipes/agent-to-mvp-recipe.md`
-- `prompts/generic-project-lifecycle-prompts.md`
-- `prompts/generic-project-lifecycle-prompts.yaml`
-- `prompts/auxiliary-development-prompts.md`
-- `prompts/auxiliary-development-prompts.yaml`
-- `templates/project-template/`
+- `00-start-here/docs/vision/NEXORA_FINAL_VISION.yaml`
+- `00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml`
+- `02-standards/standards/project-folder-standard.yaml`
+- `02-standards/standards/documentation-standard.yaml`
+- `02-standards/standards/agent-agnostic-standard.yaml`
+- `03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
+- `04-recipes/recipes/agent-to-mvp-recipe.yaml`
+- `05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
+- `05-prompts/prompts/auxiliary-development-prompts.yaml`
+- `06-templates/templates/project-template/`
 
-## Agent Project Scan
+## Execution Logic
 
-An agent must use `project-orchestration/project-analysis-and-mvp-workflow.yaml` before starting implementation.
+For any project under `projects/<project-slug>/`:
 
-The workflow requires the agent to:
-
-1. Enumerate `projects/<project-slug>/`.
-2. Validate whether each project has `BUSINESS_REQUIREMENT.md`, `PROJECT_BRIEF.md`, `SOURCE_OF_TRUTH.yaml` and `PROJECT_STATE.yaml`.
-3. Detect whether the project has already been analyzed with the Nexora framework.
-4. Apply `recipes/agent-to-mvp-recipe.yaml` when definitions are missing.
-5. Leave the project folder with the MVP artifacts required for specialized subagents.
+1. Confirm `BUSINESS_REQUIREMENT.md` exists.
+2. Load the framework sequence from `00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml`.
+3. Apply the orchestration workflow.
+4. If analysis is incomplete, apply the Agent-to-MVP recipe.
+5. Validate the project against the framework.
+6. Start development only from the approved project state and module package.
 
 ## Project Rule
 
@@ -65,16 +79,4 @@ Every project must start from a high-level business requirement in:
 
 `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
 
-`PROJECT_BRIEF.md` structures that requirement into a product and MVP analysis context.
-
-## Generic Prompts
-
-Use `prompts/generic-project-lifecycle-prompts.yaml` as the machine-readable prompt playbook for any project under `projects/`.
-
-It defines three reusable prompts:
-
-1. Analyze a project from `BUSINESS_REQUIREMENT.md` and generate all MVP-ready definitions.
-2. Validate that the generated project complies with the Nexora framework.
-3. Develop the MVP from the prepared project folder and ordered module package.
-
-Use `prompts/auxiliary-development-prompts.yaml` only after the generic MVP development prompt has selected the project, module and backlog item.
+`PROJECT_BRIEF.md` and `PROJECT_BRIEF.yaml` structure that requirement into a product and MVP analysis context.

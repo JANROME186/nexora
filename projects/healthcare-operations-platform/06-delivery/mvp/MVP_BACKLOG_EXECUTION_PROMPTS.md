@@ -7,7 +7,7 @@ This document is the execution playbook for implementing the Healthcare Operatio
 It supports the generic MVP development prompt at:
 
 ```text
-nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
 ```
 
 If this playbook conflicts with the generic prompt, `SOURCE_OF_TRUTH.yaml`, `PROJECT_STATE.yaml` or the module package, stop and report the conflict.

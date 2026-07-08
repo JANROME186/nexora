@@ -15,13 +15,13 @@ After that, every prompt references only the project folder. The agent must read
 The machine-readable version of this playbook is:
 
 ```text
-nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
 ```
 
 Auxiliary development prompts are available at:
 
 ```text
-nexora-framework/prompts/auxiliary-development-prompts.yaml
+nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
 ```
 
 Auxiliary prompts help with module kickoff, backlog slices, backend, web, mobile, QA and closeout. They do not replace the generic lifecycle prompts.
@@ -55,12 +55,12 @@ Load and follow:
 - PROJECT_STATE.yaml
 - NEXORA_FRAMEWORK_USAGE_GUIDE.md
 - nexora-framework/README.md
-- nexora-framework/standards/project-folder-standard.yaml
-- nexora-framework/standards/documentation-standard.yaml
-- nexora-framework/standards/agent-agnostic-standard.yaml
-- nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml
-- nexora-framework/recipes/agent-to-mvp-recipe.yaml
-- nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+- nexora-framework/02-standards/standards/project-folder-standard.yaml
+- nexora-framework/02-standards/standards/documentation-standard.yaml
+- nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+- nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
+- nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
+- nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
 
 Rules:
 - Do not generate or replace BUSINESS_REQUIREMENT.md.
@@ -146,12 +146,12 @@ Load and follow:
 - SOURCE_OF_TRUTH.yaml
 - PROJECT_STATE.yaml
 - NEXORA_FRAMEWORK_USAGE_GUIDE.md
-- nexora-framework/standards/project-folder-standard.yaml
-- nexora-framework/standards/documentation-standard.yaml
-- nexora-framework/standards/agent-agnostic-standard.yaml
-- nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml
-- nexora-framework/recipes/agent-to-mvp-recipe.yaml
-- nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+- nexora-framework/02-standards/standards/project-folder-standard.yaml
+- nexora-framework/02-standards/standards/documentation-standard.yaml
+- nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+- nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
+- nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
+- nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
 - projects/<project-slug>/SOURCE_OF_TRUTH.yaml
 - projects/<project-slug>/PROJECT_STATE.yaml
 
@@ -201,10 +201,10 @@ Load and follow:
 - SOURCE_OF_TRUTH.yaml
 - PROJECT_STATE.yaml
 - NEXORA_FRAMEWORK_USAGE_GUIDE.md
-- nexora-framework/standards/agent-agnostic-standard.yaml
-- nexora-framework/standards/documentation-standard.yaml
-- nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
-- nexora-framework/prompts/auxiliary-development-prompts.yaml
+- nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+- nexora-framework/02-standards/standards/documentation-standard.yaml
+- nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
+- nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
 - projects/<project-slug>/SOURCE_OF_TRUTH.yaml
 - projects/<project-slug>/PROJECT_STATE.yaml
 - projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.yaml

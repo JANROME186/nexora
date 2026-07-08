@@ -39,8 +39,8 @@ development_position:
   first_backlog_item: PF-BE-001
 
 prompt_hierarchy:
-  - nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
-  - nexora-framework/prompts/auxiliary-development-prompts.yaml
+  - nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
+  - nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
   - projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml
   - target module package files
 

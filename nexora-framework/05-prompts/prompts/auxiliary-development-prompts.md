@@ -6,7 +6,7 @@ These prompts support development after the generic MVP development prompt has s
 
 They do not replace the main lifecycle prompts:
 
-- `nexora-framework/prompts/generic-project-lifecycle-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
 
 If there is a conflict, the project source artifacts and the generic MVP development prompt win.
 
@@ -30,7 +30,7 @@ If there is a conflict, the project source artifacts and the generic MVP develop
 The machine-readable source is:
 
 ```text
-nexora-framework/prompts/auxiliary-development-prompts.yaml
+nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
 ```
 
 ## Minimal User Prompts

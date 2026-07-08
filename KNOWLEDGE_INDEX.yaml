@@ -5,10 +5,10 @@ knowledge_index:
 
 framework:
   readme: nexora-framework/README.md
-  project_folder_standard: nexora-framework/standards/project-folder-standard.yaml
-  documentation_standard: nexora-framework/standards/documentation-standard.yaml
-  agent_to_mvp_recipe: nexora-framework/recipes/agent-to-mvp-recipe.yaml
-  project_template: nexora-framework/templates/project-template/
+  project_folder_standard: nexora-framework/02-standards/standards/project-folder-standard.yaml
+  documentation_standard: nexora-framework/02-standards/standards/documentation-standard.yaml
+  agent_to_mvp_recipe: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
+  project_template: nexora-framework/06-templates/templates/project-template/
 
 projects:
   healthcare_operations_platform:

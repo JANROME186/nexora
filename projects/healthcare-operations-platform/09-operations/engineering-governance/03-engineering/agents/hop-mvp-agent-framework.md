@@ -13,7 +13,7 @@ Load these files before planning. Paths are relative to `projects/healthcare-ope
 1. `../../AGENT_BOOTSTRAP.md`
 2. `../../PROJECT_STATE.yaml`
 3. `../../SOURCE_OF_TRUTH.yaml`
-4. `../../nexora-framework/standards/agent-agnostic-standard.yaml`
+4. `../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
 5. `PROJECT_STATE.yaml`
 6. `SOURCE_OF_TRUTH.yaml`
 7. `06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
