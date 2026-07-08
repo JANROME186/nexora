@@ -15,6 +15,43 @@ El flujo completo es:
 5. Validar que el agente genero todas las definiciones requeridas.
 6. Iniciar un agente de desarrollo para implementar el primer modulo del MVP usando solo artefactos del repositorio.
 
+## Prompts Genericos Oficiales
+
+El framework incluye un playbook de prompts reutilizable para cualquier proyecto:
+
+- `nexora-framework/prompts/generic-project-lifecycle-prompts.md`
+- `nexora-framework/prompts/generic-project-lifecycle-prompts.yaml`
+
+La version YAML es la fuente operativa para agentes. La version Markdown es para lectura humana.
+
+Para usar el framework con un nuevo proyecto, la persona usuaria solo debe:
+
+1. Crear o seleccionar `projects/<project-slug>/`.
+2. Colocar `BUSINESS_REQUIREMENT.md` dentro de esa carpeta.
+3. Pedir al agente que aplique el prompt generico de analisis.
+4. Pedir al agente que aplique el prompt generico de validacion.
+5. Si la validacion aprueba, pedir al agente que aplique el prompt generico de desarrollo.
+
+Prompt minimo de analisis:
+
+```text
+Apply the Nexora framework to projects/<project-slug>/ and generate all MVP-ready definitions from BUSINESS_REQUIREMENT.md.
+```
+
+Prompt minimo de validacion:
+
+```text
+Validate projects/<project-slug>/ against the Nexora framework and report whether it is ready for MVP development.
+```
+
+Prompt minimo de desarrollo:
+
+```text
+Develop the MVP for projects/<project-slug>/ using its PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml and ordered module package.
+```
+
+En los tres casos, reemplazar `<project-slug>` por la carpeta real del proyecto.
+
 ## Regla Principal
 
 El repositorio es la fuente de verdad.

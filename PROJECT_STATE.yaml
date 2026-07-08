@@ -1,6 +1,6 @@
 repository: Nexora
-repository_version: 0.49.0
-current_phase: Agent YAML Execution Artifacts Added
+repository_version: 0.50.0
+current_phase: Generic Project Lifecycle Prompts Added
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -35,4 +35,5 @@ development_readiness:
   framework_usage_guide_ready: true
   requester_business_requirement_required: true
   agent_yaml_execution_artifacts_ready: true
+  generic_project_lifecycle_prompts_ready: true
   blocking_definition_gaps: []

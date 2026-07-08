@@ -36,10 +36,11 @@ Project-specific work lives under:
 6. `nexora-framework/standards/agent-agnostic-standard.md`
 7. `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.md`
 8. `nexora-framework/recipes/agent-to-mvp-recipe.md`
-9. Target project `BUSINESS_REQUIREMENT.md`
-10. Target project `SOURCE_OF_TRUTH.yaml`
-11. Target project `PROJECT_BRIEF.yaml`
-12. Target project `PROJECT_STATE.yaml`
+9. `nexora-framework/prompts/generic-project-lifecycle-prompts.yaml`
+10. Target project `BUSINESS_REQUIREMENT.md`
+11. Target project `SOURCE_OF_TRUTH.yaml`
+12. Target project `PROJECT_BRIEF.yaml`
+13. Target project `PROJECT_STATE.yaml`
 
 ## Nexora Framework
 
@@ -50,6 +51,7 @@ Use these files for the reusable method:
 - `nexora-framework/standards/agent-agnostic-standard.yaml`
 - `nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml`
 - `nexora-framework/recipes/agent-to-mvp-recipe.yaml`
+- `nexora-framework/prompts/generic-project-lifecycle-prompts.yaml`
 - `nexora-framework/templates/project-template/`
 
 ## First Project

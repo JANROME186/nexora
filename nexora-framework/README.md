@@ -26,6 +26,8 @@ It defines:
 - `project-orchestration/README.md`
 - `project-orchestration/project-analysis-and-mvp-workflow.md`
 - `recipes/agent-to-mvp-recipe.md`
+- `prompts/generic-project-lifecycle-prompts.md`
+- `prompts/generic-project-lifecycle-prompts.yaml`
 - `templates/project-template/`
 
 ## Agent Project Scan
@@ -53,3 +55,13 @@ Every project must start from a high-level business requirement in:
 `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
 
 `PROJECT_BRIEF.md` structures that requirement into a product and MVP analysis context.
+
+## Generic Prompts
+
+Use `prompts/generic-project-lifecycle-prompts.yaml` as the machine-readable prompt playbook for any project under `projects/`.
+
+It defines three reusable prompts:
+
+1. Analyze a project from `BUSINESS_REQUIREMENT.md` and generate all MVP-ready definitions.
+2. Validate that the generated project complies with the Nexora framework.
+3. Develop the MVP from the prepared project folder and ordered module package.

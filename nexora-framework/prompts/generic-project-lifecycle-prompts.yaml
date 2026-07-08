@@ -1,0 +1,249 @@
+artifact:
+  id: NXF-PROMPTS-001
+  type: generic-project-lifecycle-prompts
+  name: Nexora Generic Project Lifecycle Prompts
+  version: 1.0.0
+  status: approved
+  human_readable: generic-project-lifecycle-prompts.md
+  machine_readable: generic-project-lifecycle-prompts.yaml
+  owner: Nexora Engineering
+
+purpose: Provide reusable, agent-agnostic prompts for analysis, validation and MVP development of any project under projects/.
+
+usage_model:
+  required_user_input:
+    - target_project_folder
+  target_project_folder_format: projects/<project-slug>/
+  required_project_input:
+    - BUSINESS_REQUIREMENT.md
+  input_rule: BUSINESS_REQUIREMENT.md must be supplied by the requester before analysis starts.
+  execution_rule: The agent must reference only the target project folder and repository framework files, not previous chat context.
+  output_rule: Agent-executable outputs must include YAML machine-readable files and Markdown human-readable companions when applicable.
+
+shared_rules:
+  - Do not generate or replace BUSINESS_REQUIREMENT.md.
+  - Stop if the target project folder does not contain BUSINESS_REQUIREMENT.md.
+  - Load the Nexora framework before modifying the project.
+  - Keep all project-specific artifacts inside the target project folder.
+  - Do not create unnumbered project-root folders outside the project folder standard.
+  - Prefer YAML files for agent execution and Markdown files for human readability.
+  - Preserve agent-agnostic, provider-agnostic and cloud-agnostic definitions unless the business requirement explicitly requires otherwise.
+  - Commit coherent milestones when repository changes are made.
+
+prompts:
+  analysis_and_mvp_definition:
+    id: PROMPT-ANALYZE-001
+    name: Analyze project and generate MVP-ready definitions
+    when_to_use: Use after a requester places BUSINESS_REQUIREMENT.md inside projects/<project-slug>/.
+    prompt: |
+      Apply the Nexora framework to the target project folder and leave it ready for MVP development.
+
+      Target project folder:
+      projects/<project-slug>/
+
+      Required starting input:
+      projects/<project-slug>/BUSINESS_REQUIREMENT.md
+
+      Load and follow:
+      - AGENT_BOOTSTRAP.md
+      - SOURCE_OF_TRUTH.yaml
+      - PROJECT_STATE.yaml
+      - NEXORA_FRAMEWORK_USAGE_GUIDE.md
+      - nexora-framework/README.md
+      - nexora-framework/standards/project-folder-standard.yaml
+      - nexora-framework/standards/documentation-standard.yaml
+      - nexora-framework/standards/agent-agnostic-standard.yaml
+      - nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml
+      - nexora-framework/recipes/agent-to-mvp-recipe.yaml
+      - nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+
+      Rules:
+      - Do not generate or replace BUSINESS_REQUIREMENT.md.
+      - If BUSINESS_REQUIREMENT.md is missing, stop and report that the requester must provide it.
+      - Do not implement application code.
+      - Do not depend on previous chat context.
+      - Keep all project-specific artifacts inside projects/<project-slug>/.
+      - Generate Markdown for human readability and YAML for agent execution.
+      - Prefer YAML as the machine-readable source for agent handoff.
+      - Preserve agent-agnostic, provider-agnostic and cloud-agnostic definitions unless BUSINESS_REQUIREMENT.md explicitly requires otherwise.
+
+      Required result:
+      Analyze the business requirement and complete the target project folder with all definitions required for MVP development.
+
+      Required project-level outputs:
+      - PROJECT_BRIEF.md
+      - PROJECT_BRIEF.yaml
+      - SOURCE_OF_TRUTH.yaml
+      - PROJECT_STATE.yaml
+      - README.md
+      - ORDERED_DEVELOPMENT_GUIDE.md
+      - ORDERED_DEVELOPMENT_GUIDE.yaml
+
+      Required definition outputs:
+      - Product definition.
+      - Business capability map.
+      - Capability dependency map.
+      - Domain foundation.
+      - Actor catalog.
+      - Reference processes.
+      - Business rules catalog.
+      - Architecture baseline.
+      - Requirements and UX definitions.
+      - API, event and adapter contracts.
+      - MVP framework.
+      - Ordered MVP modules.
+      - First implementation-ready module package.
+
+      Required first module package:
+      - module-definition.yaml
+      - domain-model.md
+      - domain-model.yaml
+      - api-contract.openapi.yaml
+      - database-migration-plan.md
+      - database-migration-plan.yaml
+      - ui-screen-map.md
+      - ui-screen-map.yaml
+      - security-and-audit-rules.md
+      - security-and-audit-rules.yaml
+      - test-plan.md
+      - test-plan.yaml
+      - traceability.yaml
+
+      Readiness requirement:
+      PROJECT_STATE.yaml must show:
+      development_readiness.status: ready
+      development_readiness.blocking_definition_gaps: []
+      development_readiness.ready_to_start_module: <first-module-id>
+
+      Before finishing:
+      - Validate all YAML files parse correctly.
+      - Validate SOURCE_OF_TRUTH.yaml lists the authoritative project artifacts.
+      - Validate the first module package has all required files.
+      - Validate no agent-specific or provider-specific dependency was introduced.
+      - Commit the completed definition milestone.
+
+      Final response:
+      Report the project slug, first MVP module, module package path, readiness status, validations executed and commit hash.
+
+  framework_compliance_validation:
+    id: PROMPT-VALIDATE-001
+    name: Validate project compliance with the Nexora framework
+    when_to_use: Use after the analysis prompt completes or before starting development.
+    prompt: |
+      Validate that the target project complies with the Nexora framework and is ready for MVP development.
+
+      Target project folder:
+      projects/<project-slug>/
+
+      Load and follow:
+      - AGENT_BOOTSTRAP.md
+      - SOURCE_OF_TRUTH.yaml
+      - PROJECT_STATE.yaml
+      - NEXORA_FRAMEWORK_USAGE_GUIDE.md
+      - nexora-framework/standards/project-folder-standard.yaml
+      - nexora-framework/standards/documentation-standard.yaml
+      - nexora-framework/standards/agent-agnostic-standard.yaml
+      - nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml
+      - nexora-framework/recipes/agent-to-mvp-recipe.yaml
+      - nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+      - projects/<project-slug>/SOURCE_OF_TRUTH.yaml
+      - projects/<project-slug>/PROJECT_STATE.yaml
+
+      Validate:
+      - BUSINESS_REQUIREMENT.md exists and is requester-supplied source material.
+      - BUSINESS_REQUIREMENT.md was not replaced by generated content.
+      - PROJECT_BRIEF.md and PROJECT_BRIEF.yaml exist.
+      - SOURCE_OF_TRUTH.yaml lists all authoritative artifacts.
+      - PROJECT_STATE.yaml has no blocking definition gaps.
+      - ORDERED_DEVELOPMENT_GUIDE.md and ORDERED_DEVELOPMENT_GUIDE.yaml exist.
+      - Project root follows the numbered folder standard.
+      - Agent-executable artifacts have YAML machine-readable versions.
+      - Human-facing artifacts have Markdown companions when applicable.
+      - Product, domain, architecture, requirements, contracts, delivery, QA and operations definitions exist.
+      - The MVP framework identifies ordered modules.
+      - The first module package exists and contains all required Markdown/YAML/contract/traceability files.
+      - Traceability connects business requirement, capabilities, actors, rules, contracts, UI/workflows and tests.
+      - No mandatory agent, provider, model, cloud or platform dependency was introduced unless explicitly required by BUSINESS_REQUIREMENT.md.
+      - All YAML files in the repository parse successfully.
+
+      If the project passes:
+      - Update PROJECT_STATE.yaml only if needed to reflect validated readiness.
+      - Commit the validation milestone if files changed.
+      - Report readiness as approved.
+
+      If the project fails:
+      - Do not mark it ready.
+      - Update PROJECT_STATE.yaml with concrete blocking_definition_gaps.
+      - Report each blocker with file path and expected correction.
+
+      Final response:
+      Provide a concise compliance report with pass/fail status, blockers, validations executed and commit hash if a commit was made.
+
+  mvp_development:
+    id: PROMPT-DEVELOP-001
+    name: Develop MVP from the prepared project folder
+    when_to_use: Use only after validation confirms the target project is ready for MVP development.
+    prompt: |
+      Implement the MVP for the target project using only the definitions inside the project folder and the Nexora framework.
+
+      Target project folder:
+      projects/<project-slug>/
+
+      Load and follow:
+      - AGENT_BOOTSTRAP.md
+      - SOURCE_OF_TRUTH.yaml
+      - PROJECT_STATE.yaml
+      - NEXORA_FRAMEWORK_USAGE_GUIDE.md
+      - nexora-framework/standards/agent-agnostic-standard.yaml
+      - nexora-framework/standards/documentation-standard.yaml
+      - nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+      - projects/<project-slug>/SOURCE_OF_TRUTH.yaml
+      - projects/<project-slug>/PROJECT_STATE.yaml
+      - projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.yaml
+
+      Determine the first module from:
+      projects/<project-slug>/PROJECT_STATE.yaml
+
+      Then load the module package path from:
+      projects/<project-slug>/SOURCE_OF_TRUTH.yaml
+
+      Required module package files:
+      - module-definition.yaml
+      - domain-model.yaml
+      - api-contract.openapi.yaml
+      - database-migration-plan.yaml
+      - ui-screen-map.yaml
+      - security-and-audit-rules.yaml
+      - test-plan.yaml
+      - traceability.yaml
+
+      Rules:
+      - Do not redesign the product.
+      - Do not modify BUSINESS_REQUIREMENT.md.
+      - Do not implement outside the selected module unless the module definition requires it.
+      - Place code under projects/<project-slug>/07-implementation/ unless SOURCE_OF_TRUTH.yaml defines another implementation boundary.
+      - Implement one backlog item or module slice at a time.
+      - Keep backend, web, mobile, infrastructure and tests aligned with the module package.
+      - Preserve bounded contexts, business rules, security rules, audit rules and contracts.
+      - Update tests and traceability when implementation changes behavior.
+      - Update PROJECT_STATE.yaml after verified progress.
+      - Stop and record a blocking gap if definitions are missing or contradictory.
+
+      Required development flow:
+      1. Confirm PROJECT_STATE.yaml shows development_readiness.status: ready.
+      2. Confirm blocking_definition_gaps is empty.
+      3. Confirm the selected module package is complete.
+      4. Create or update implementation assets under 07-implementation/.
+      5. Implement the first pending backlog item or module slice.
+      6. Add or update tests according to test-plan.yaml.
+      7. Validate locally where possible.
+      8. Update PROJECT_STATE.yaml, traceability and implementation README files.
+      9. Commit the implementation milestone.
+
+      Final response:
+      Report implemented slice, files changed, validation commands executed, remaining backlog, known gaps and commit hash.
+
+minimal_user_prompts:
+  analysis: "Apply the Nexora framework to projects/<project-slug>/ and generate all MVP-ready definitions from BUSINESS_REQUIREMENT.md."
+  validation: "Validate projects/<project-slug>/ against the Nexora framework and report whether it is ready for MVP development."
+  development: "Develop the MVP for projects/<project-slug>/ using its PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml and ordered module package."

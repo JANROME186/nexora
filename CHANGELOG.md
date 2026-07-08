@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.50.0] - 2026-07-08
+
+### Added
+- Added generic framework-level lifecycle prompts for project analysis, framework compliance validation and MVP development.
+- Added Markdown and YAML prompt playbooks under `nexora-framework/prompts/`.
+- Registered the generic prompt playbook in repository source-of-truth and project manifest files.
+
 ## [0.49.0] - 2026-07-08
 
 ### Added
