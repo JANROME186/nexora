@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.59.0] - 2026-07-08
+
+### Added
+- Added `PF-FE-001` employee portal administration web shell under `projects/healthcare-operations-platform/07-implementation/employee-portal/`.
+- Added React + TypeScript screens for Tenants, Laboratories, Branches, Users, Role Assignments and Audit Events.
+- Added a Platform Foundation API client that consumes only the already-implemented backend endpoints.
+- Added a shared administration scope indicator and a confirmation dialog for the access-changing role assignment action.
+- Added Vitest and Testing Library specs for the API client, tenant creation flow and role assignment confirmation flow.
+- Added a frontend README with install, run, build and test commands.
+- Added QA evidence for `PF-FE-001` in Markdown and YAML.
+
+### Changed
+- Updated repository and project state to mark `PF-FE-001` complete and move the active backlog item to `PF-APP-001`.
+
 ## [0.58.0] - 2026-07-08
 
 ### Added

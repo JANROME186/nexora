@@ -1,0 +1,145 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: #f5f6f8;
+  color: #1a1f2b;
+}
+
+.app-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.app-shell__header h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.app-shell__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.app-shell__tab {
+  padding: 0.5rem 0.9rem;
+  border: 1px solid #c7cad1;
+  border-radius: 999px;
+  background: white;
+  cursor: pointer;
+}
+
+.app-shell__tab--active {
+  background: #1a4fd6;
+  color: white;
+  border-color: #1a4fd6;
+}
+
+.app-shell__content {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 420px;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e6e8ec;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+input,
+select {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #c7cad1;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+button {
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background: #1a4fd6;
+  color: white;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid #e6e8ec;
+  font-size: 0.9rem;
+}
+
+.scope-indicator {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: #4a4f5a;
+  margin-bottom: 1rem;
+}
+
+.status-banner {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.status-banner--error {
+  color: #b3261e;
+}
+
+.status-banner--success {
+  color: #1e7a34;
+}
+
+.confirm-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirm-dialog {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  max-width: 420px;
+}
+
+.confirm-dialog__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}

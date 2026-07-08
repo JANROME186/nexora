@@ -6,6 +6,7 @@ Current status:
 
 - `MVP-MOD-001 Platform Foundation` implementation has started.
 - Backend skeleton is located in `backend/`.
+- Employee portal administration web app is located in `employee-portal/`.
 - Local runtime profile is located in `compose.local.yml`.
 
 Implementation order:

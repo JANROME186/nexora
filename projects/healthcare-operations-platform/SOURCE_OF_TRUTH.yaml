@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.58.0
+  version: 0.59.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -33,6 +33,7 @@ sources:
   mvp_mod_001_security_and_audit_rules: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.yaml
   mvp_mod_001_test_plan: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.yaml
   mvp_mod_001_backend_implementation: 07-implementation/backend/
+  mvp_mod_001_frontend_implementation: 07-implementation/employee-portal/
   mvp_mod_001_local_runtime_compose: 07-implementation/compose.local.yml
   mvp_mod_001_local_runtime_env_example: 07-implementation/.env.example
   mvp_mod_001_pf_be_001_qa_evidence: 08-qa/qa/platform-foundation/PF-BE-001-backend-skeleton.md
@@ -44,6 +45,8 @@ sources:
   mvp_mod_001_pf_be_003_qa_evidence: 08-qa/qa/platform-foundation/PF-BE-003-identity-access.md
   mvp_mod_001_pf_be_003_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-BE-003-identity-access.yaml
   mvp_mod_001_pf_be_004_qa_evidence: 08-qa/qa/platform-foundation/PF-BE-004-audit-event-recording.md
+  mvp_mod_001_pf_fe_001_qa_evidence: 08-qa/qa/platform-foundation/PF-FE-001-employee-portal-administration.md
+  mvp_mod_001_pf_fe_001_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-FE-001-employee-portal-administration.yaml
   mvp_mod_001_pf_be_004_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-BE-004-audit-event-recording.yaml
   context_map: 02-domain-definition/domain-foundation/context-map/context-map.yaml
   shared_kernel: 02-domain-definition/domain-foundation/shared-kernel/shared-kernel.yaml

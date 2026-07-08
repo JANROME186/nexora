@@ -48,9 +48,11 @@ Completed backlog item:
 
 `PF-BE-004 Implement append-only audit event recording`
 
+`PF-FE-001 Create employee portal administration screens`
+
 Current backlog item:
 
-`PF-FE-001 Create employee portal administration screens`
+`PF-APP-001 Create mobile app foundation`
 
 Project folder:
 
