@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.52.0] - 2026-07-08
+
+### Added
+- Added agent-agnostic strategic handoff and YAML vision artifacts.
+- Added Healthcare Operations Platform MVP development readiness decision in Markdown and YAML.
+- Registered vision and readiness decision artifacts in repository and project source-of-truth files.
+
+### Changed
+- Replaced tool-specific handoff with an agent-agnostic strategic handoff.
+- Marked MVP-MOD-001 development start as approved while keeping enterprise-wide roadmap items non-blocking for the first module.
+
 ## [0.51.0] - 2026-07-08
 
 ### Added

@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.51.0
+  version: 0.52.0
   status: ready
 
 company:
@@ -19,6 +19,9 @@ framework:
   path: nexora-framework/
   purpose: Defines how Nexora documents and prepares AI-agent-assisted software solutions.
   usage_guide: NEXORA_FRAMEWORK_USAGE_GUIDE.md
+  vision:
+    final_vision: nexora-framework/docs/vision/NEXORA_FINAL_VISION.yaml
+    strategic_handoff: nexora-framework/docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml
   standards:
     project_folder: nexora-framework/standards/project-folder-standard.yaml
     documentation: nexora-framework/standards/documentation-standard.yaml
@@ -45,6 +48,7 @@ projects:
     ordered_development_guide_yaml: projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.yaml
     mvp_backlog_execution_prompts: projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md
     mvp_backlog_execution_prompts_yaml: projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml
+    mvp_development_readiness_decision: projects/healthcare-operations-platform/06-delivery/mvp/MVP_DEVELOPMENT_READINESS_DECISION.yaml
     source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
     ready_to_start_module: MVP-MOD-001
 

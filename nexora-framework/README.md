@@ -18,6 +18,15 @@ It defines:
 - Templates for new projects.
 - Shared meta-models, schemas, playbooks and governance assets.
 
+## Vision Sources
+
+- `docs/vision/NEXORA_FINAL_VISION.md`
+- `docs/vision/NEXORA_FINAL_VISION.yaml`
+- `docs/vision/NEXORA_STRATEGIC_HANDOFF.md`
+- `docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml`
+
+These files define company-level intent. They guide prioritization and roadmap decisions, but implementation starts from project source-of-truth files and approved module packages.
+
 ## Core Entry Points
 
 - `standards/project-folder-standard.md`

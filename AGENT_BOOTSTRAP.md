@@ -47,6 +47,8 @@ Project-specific work lives under:
 
 Use these files for the reusable method:
 
+- `nexora-framework/docs/vision/NEXORA_FINAL_VISION.yaml`
+- `nexora-framework/docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml`
 - `nexora-framework/standards/project-folder-standard.yaml`
 - `nexora-framework/standards/documentation-standard.yaml`
 - `nexora-framework/standards/agent-agnostic-standard.yaml`
