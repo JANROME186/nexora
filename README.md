@@ -50,9 +50,11 @@ Completed backlog item:
 
 `PF-FE-001 Create employee portal administration screens`
 
+`PF-APP-001 Create mobile app foundation`
+
 Current backlog item:
 
-`PF-APP-001 Create mobile app foundation`
+`PF-QA-001 Add smoke and contract tests`
 
 Project folder:
 

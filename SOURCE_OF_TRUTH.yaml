@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.59.0
+  version: 0.60.0
   status: approved
 sources:
   repository_readme: README.md
@@ -43,6 +43,7 @@ sources:
   hop_source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
   hop_mvp_mod_001_backend_implementation: projects/healthcare-operations-platform/07-implementation/backend/
   hop_mvp_mod_001_frontend_implementation: projects/healthcare-operations-platform/07-implementation/employee-portal/
+  hop_mvp_mod_001_mobile_implementation: projects/healthcare-operations-platform/07-implementation/mobile-app/
   hop_mvp_mod_001_local_runtime_compose: projects/healthcare-operations-platform/07-implementation/compose.local.yml
   hop_mvp_mod_001_local_runtime_env_example: projects/healthcare-operations-platform/07-implementation/.env.example
   hop_mvp_mod_001_pf_be_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-001-backend-skeleton.md
@@ -57,6 +58,8 @@ sources:
   hop_mvp_mod_001_pf_be_004_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-004-audit-event-recording.yaml
   hop_mvp_mod_001_pf_fe_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-FE-001-employee-portal-administration.md
   hop_mvp_mod_001_pf_fe_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-FE-001-employee-portal-administration.yaml
+  hop_mvp_mod_001_pf_app_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-APP-001-mobile-app-foundation.md
+  hop_mvp_mod_001_pf_app_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-APP-001-mobile-app-foundation.yaml
 rules:
   - Nexora is the company and repository-level framework owner.
   - Nexora final vision and strategic handoff define company-level intent and must remain agent agnostic.

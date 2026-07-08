@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.60.0] - 2026-07-08
+
+### Added
+- Added `PF-APP-001` mobile app foundation under `projects/healthcare-operations-platform/07-implementation/mobile-app/`.
+- Added local baseline login, session handling, authenticated navigation and initial home screen model.
+- Added a mobile Platform Foundation API client prepared for backend integration.
+- Added mobile tests for local authentication, navigation, API client behavior and app composition.
+- Added QA evidence for `PF-APP-001` in Markdown and YAML.
+
+### Changed
+- Updated repository and project state to mark `PF-APP-001` complete and move the active backlog item to `PF-QA-001`.
+
 ## [0.59.0] - 2026-07-08
 
 ### Added

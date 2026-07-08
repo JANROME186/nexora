@@ -1,0 +1,12 @@
+{
+  "name": "hop-mobile-app",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Healthcare Operations Platform mobile app foundation for MVP-MOD-001 Platform Foundation.",
+  "type": "module",
+  "scripts": {
+    "build": "npm run typecheck",
+    "test": "..\\employee-portal\\node_modules\\.bin\\vitest.cmd run --environment node",
+    "typecheck": "..\\employee-portal\\node_modules\\.bin\\tsc.cmd -p tsconfig.json"
+  }
+}
