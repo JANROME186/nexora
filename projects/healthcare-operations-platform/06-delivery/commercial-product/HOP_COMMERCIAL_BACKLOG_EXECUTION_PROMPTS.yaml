@@ -1,0 +1,170 @@
+artifact:
+  id: HOP-COM-PROMPTS-001
+  type: backlog-execution-prompts
+  name: HOP Commercial Backlog Execution Prompts
+  version: 1.0.0
+  status: approved
+  human_readable: HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
+  machine_readable: HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
+  created_date: 2026-07-08
+  owner: Nexora Product Architecture Team
+
+rules:
+  - These prompts are operational instructions only; source artifacts remain authoritative.
+  - Agents must load YAML files before Markdown when both exist.
+  - Agents must not continue if BUSINESS_REQUIREMENT.md is missing.
+  - Agents must not require a vendor-specific agent, runtime, prompt extension or configuration.
+  - Agents must execute modules in dependency order unless an explicit mock strategy is documented.
+  - Agents must update project registries and QA evidence before closing any backlog item.
+
+required_context:
+  repository_level:
+    - ../../../../AGENT_BOOTSTRAP.md
+    - ../../../../PROJECT_STATE.yaml
+    - ../../../../SOURCE_OF_TRUTH.yaml
+    - ../../../../nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml
+    - ../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+    - ../../../../nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
+  project_level:
+    - ../../BUSINESS_REQUIREMENT.md
+    - ../../PROJECT_BRIEF.yaml
+    - ../../SOURCE_OF_TRUTH.yaml
+    - ../../PROJECT_STATE.yaml
+    - ../../01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
+    - ../../01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
+    - ../../02-domain-definition/domain-foundation/context-map/context-map.yaml
+    - ../../02-domain-definition/domain-foundation/shared-kernel/shared-kernel.yaml
+    - ../../02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml
+    - ../mvp/healthcare-operations-platform-mvp-framework.yaml
+    - HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
+
+prompt_sequence:
+  - id: HOP-COM-PROMPT-001
+    name: Select next executable backlog item
+    intent: Determine the next backlog item to execute using project state and commercial backlog dependency order.
+    input:
+      - ../../PROJECT_STATE.yaml
+      - HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
+    expected_output:
+      - selected_module_id
+      - selected_backlog_item_id
+      - dependency_status
+      - blocking_gaps
+      - execution_plan
+    prompt: |
+      Load the HOP project state and HOP commercial product backlog.
+      Select the next executable backlog item by dependency order.
+      If any dependency is incomplete, stop and report the exact blocker.
+      If the selected item is a definition item, prepare the module definition package plan.
+      If the selected item is an implementation item, verify that the definition package exists first.
+
+  - id: HOP-COM-PROMPT-002
+    name: Generate module definition package
+    intent: Create all required module definition artifacts before implementation.
+    input:
+      - HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
+      - ../../01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
+      - ../../01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
+      - ../../02-domain-definition/domain-foundation/context-map/context-map.yaml
+      - ../../02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml
+    expected_output:
+      - module-definition.yaml
+      - module-definition.md
+      - domain-model.yaml
+      - domain-model.md
+      - api-contract.openapi.yaml
+      - database-migration-plan.yaml
+      - database-migration-plan.md
+      - ui-screen-map.yaml
+      - ui-screen-map.md
+      - security-and-audit-rules.yaml
+      - security-and-audit-rules.md
+      - test-plan.yaml
+      - test-plan.md
+      - traceability.yaml
+    prompt: |
+      Generate the complete definition package for the selected HOP module.
+      Use the commercial product backlog as the module source, BCM-001 for capabilities, BCM-002 for dependency profiles, and the domain foundation for bounded contexts and aggregate ownership.
+      Place the package under the module folder declared by the backlog or under 06-delivery/mvp/modules for MVP modules and 06-delivery/commercial-product/modules for commercial modules.
+      Do not implement code during this step.
+      Every machine-executable artifact must be YAML when applicable, with Markdown as the human companion.
+
+  - id: HOP-COM-PROMPT-003
+    name: Validate module definition package
+    intent: Confirm that generated module definitions satisfy framework, traceability and agent-agnostic requirements.
+    input:
+      - selected_module_folder
+      - ../../SOURCE_OF_TRUTH.yaml
+      - HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
+    expected_output:
+      - validation_report
+      - missing_artifacts
+      - traceability_gaps
+      - agent_agnostic_findings
+      - ready_for_implementation_decision
+    prompt: |
+      Validate the selected module definition package.
+      Confirm that all required artifacts exist, YAML is parseable, Markdown companion files exist where required, capabilities trace to BCM-001, dependencies trace to BCM-002, API surfaces are classified, and security/audit/test expectations are present.
+      Scan for named-agent dependencies or vendor-specific execution requirements.
+      If any blocking gap exists, update the package before allowing implementation.
+
+  - id: HOP-COM-PROMPT-004
+    name: Implement selected backlog item
+    intent: Implement one backlog item at a time using the validated module definition package.
+    input:
+      - selected_backlog_item
+      - selected_module_folder
+      - ../../07-implementation
+      - ../../08-qa
+    expected_output:
+      - code_changes
+      - tests
+      - qa_evidence_yaml
+      - qa_evidence_md
+      - registry_updates
+    prompt: |
+      Implement only the selected backlog item.
+      Load the selected module definition package first and follow existing project implementation patterns.
+      Keep changes scoped to the selected backlog item.
+      Add or update tests appropriate to the backend, web, mobile, portal, integration or operations scope.
+      Write QA evidence under 08-qa and update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
+      Stop before starting the next backlog item.
+
+  - id: HOP-COM-PROMPT-005
+    name: Close module
+    intent: Validate and close a completed module before moving to the next dependency.
+    input:
+      - selected_module_folder
+      - ../../PROJECT_STATE.yaml
+      - ../../SOURCE_OF_TRUTH.yaml
+      - ../../08-qa
+    expected_output:
+      - closeout_evidence_yaml
+      - closeout_evidence_md
+      - updated_project_state
+      - updated_source_of_truth
+      - next_module_recommendation
+    prompt: |
+      Close the selected HOP module.
+      Validate all backlog items for the module, confirm all required tests and QA evidence are present, confirm traceability is complete, and update project state and source registries.
+      Recommend the next module only after closeout evidence is written.
+
+validation_commands:
+  yaml_parse:
+    intent: Validate YAML syntax for source artifacts.
+    command_template: "Parse all YAML files outside generated dependency folders and fail on syntax errors."
+  registry_references:
+    intent: Confirm source registries point to existing files or folders.
+    command_template: "Validate SOURCE_OF_TRUTH.yaml and PROJECT_MANIFEST.yaml references."
+  agent_agnostic_scan:
+    intent: Confirm no artifact requires a specific named agent or vendor runtime.
+    command_template: "Scan source artifacts for named-agent or vendor-specific requirements and resolve findings."
+  git_whitespace:
+    intent: Confirm no whitespace errors before commit.
+    command_template: "Run repository whitespace validation before closing the item."
+
+next_backlog_item:
+  module_id: MVP-MOD-002
+  backlog_item_id: MVP-MOD-002-DEF
+  name: Diagnostic Catalog definition package
+  expected_folder: ../mvp/modules/MVP-MOD-002-diagnostic-catalog/

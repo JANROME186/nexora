@@ -1,0 +1,852 @@
+artifact:
+  id: HOP-COM-BACKLOG-001
+  type: commercial-product-backlog
+  name: Healthcare Operations Platform Commercial Product Backlog
+  version: 1.0.0
+  status: approved
+  human_readable: HOP_COMMERCIAL_PRODUCT_BACKLOG.md
+  machine_readable: HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
+  created_date: 2026-07-08
+  owner: Nexora Product Architecture Team
+  scope: Full product delivery after MVP-MOD-001 completion
+
+product:
+  name: Healthcare Operations Platform
+  short_name: HOP
+  commercial_name: Nexora Healthcare Operations Platform
+  company: Nexora
+  current_baseline:
+    completed_module: MVP-MOD-001 Platform Foundation
+    completed_status: ready_for_functional_validation
+    next_module: MVP-MOD-002 Diagnostic Catalog
+
+source_inputs:
+  framework:
+    - ../../../../nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml
+    - ../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+    - ../../../../nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
+  project:
+    - ../../BUSINESS_REQUIREMENT.md
+    - ../../PROJECT_BRIEF.yaml
+    - ../../SOURCE_OF_TRUTH.yaml
+    - ../../01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
+    - ../../01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
+    - ../../02-domain-definition/domain-foundation/context-map/context-map.yaml
+    - ../../02-domain-definition/domain-foundation/shared-kernel/shared-kernel.yaml
+    - ../../02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml
+    - ../mvp/healthcare-operations-platform-mvp-framework.yaml
+
+commercialization_objective:
+  summary: Deliver HOP as a commercial healthcare operations product for diagnostic laboratory and imaging organizations.
+  product_is_commercializable_when:
+    - Core operational workflows run from tenant setup through result delivery.
+    - Web employee portal, patient and doctor digital channels, mobile foundation and backend APIs are aligned.
+    - Revenue, billing request, payments and reconciliation boundaries are usable by a real operation.
+    - Security, audit, observability, supportability and deployment operations are production-ready.
+    - Integration and migration boundaries allow customers to onboard without coupling HOP to legacy platforms.
+    - Compliance, quality, documentation and customer enablement are sufficient for a paid pilot and general availability.
+  explicit_boundaries:
+    - Country-specific fiscal connectors are adapter implementations and must not block core billing request readiness.
+    - AI features are commercial differentiators but cannot validate, release or amend clinical results.
+    - Imaging may be delivered as an expansion package if the first commercial launch focuses on clinical laboratory operations.
+
+commercial_readiness_pillars:
+  - id: CRP-001
+    name: Operational completeness
+    description: The product supports the diagnostic organization operating cycle across branches.
+  - id: CRP-002
+    name: Revenue readiness
+    description: The product supports prices, payments, cash sessions, billing requests and reconciliation evidence.
+  - id: CRP-003
+    name: Digital channel readiness
+    description: Patients, doctors and employees can interact through appropriate web and mobile surfaces.
+  - id: CRP-004
+    name: Compliance and audit readiness
+    description: Clinical, financial and administrative actions are traceable, controlled and reviewable.
+  - id: CRP-005
+    name: SaaS and operations readiness
+    description: The product can be deployed, monitored, supported, backed up and upgraded predictably.
+  - id: CRP-006
+    name: Integration and migration readiness
+    description: External systems and legacy datasets pass through stable anti-corruption and validation boundaries.
+  - id: CRP-007
+    name: Customer enablement readiness
+    description: Onboarding, configuration, training, support and launch materials exist for customers.
+  - id: CRP-008
+    name: Expansion readiness
+    description: Imaging, advanced quality and AI overlays can be added without rewriting the operational core.
+
+release_plan:
+  - id: REL-000
+    name: Foundation Completed
+    status: completed
+    modules:
+      - MVP-MOD-001
+    outcome: Platform foundation implemented and ready for functional validation.
+  - id: REL-001
+    name: Operational Core
+    status: planned
+    target_readiness: internal_alpha
+    modules:
+      - MVP-MOD-002
+      - MVP-MOD-003
+      - MVP-MOD-004
+      - MVP-MOD-005
+      - MVP-MOD-006
+      - MVP-MOD-007
+      - MVP-MOD-008
+    outcome: A diagnostic laboratory can configure catalog, register people, create orders, collect samples, validate results and deliver reports.
+  - id: REL-002
+    name: Commercial Beta
+    status: planned
+    target_readiness: customer_beta
+    modules:
+      - COM-MOD-009
+      - COM-MOD-010
+      - COM-MOD-011
+      - COM-MOD-012
+    outcome: HOP can run a controlled paid pilot with customer-facing channels, inventory/quality baseline and SaaS operations.
+  - id: REL-003
+    name: Commercial General Availability
+    status: planned
+    target_readiness: commercial_ga
+    modules:
+      - COM-MOD-013
+      - COM-MOD-016
+    outcome: HOP is ready to be sold, onboarded, supported and governed as a commercial product.
+  - id: REL-004
+    name: Expansion Packages
+    status: planned
+    target_readiness: commercial_expansion
+    modules:
+      - COM-MOD-014
+      - COM-MOD-015
+    outcome: Imaging operations and AI-assisted overlays can be commercialized as optional product packages.
+
+global_definition_of_ready:
+  - BUSINESS_REQUIREMENT.md exists and remains requester-supplied source material.
+  - Required framework and project source artifacts can be loaded from SOURCE_OF_TRUTH.yaml.
+  - Target module appears in this backlog and has all dependencies completed or explicitly mocked.
+  - Capabilities are mapped to BCM-001 and dependency profile exists in BCM-002.
+  - Bounded context and aggregate ownership are known.
+  - API surface classification is defined as public, internal, partner or system.
+  - Security roles, audit events, data retention and privacy expectations are documented.
+  - Web, mobile and portal surfaces are classified as in-scope, deferred or not applicable.
+  - Tests, traceability and closeout evidence expected for the module are defined before implementation.
+
+global_definition_of_done:
+  - Module required artifacts exist in YAML and Markdown when applicable.
+  - Backend implementation passes unit, integration and contract tests relevant to the module.
+  - Web implementation passes typecheck, automated tests and build.
+  - Mobile or portal implementation passes typecheck, automated tests and build when in scope.
+  - Database migrations are reversible where practical and documented when not reversible.
+  - Security and audit rules are implemented and validated.
+  - OpenAPI contracts are updated and remain compatible or have migration notes.
+  - Traceability links capabilities, requirements, APIs, UI, domain events and tests.
+  - QA evidence is written under 08-qa.
+  - PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml are updated.
+  - No agent-specific dependency, prompt or configuration is required.
+
+module_execution_contract:
+  required_definition_artifacts:
+    - module-definition.yaml
+    - module-definition.md
+    - domain-model.yaml
+    - domain-model.md
+    - api-contract.openapi.yaml
+    - database-migration-plan.yaml
+    - database-migration-plan.md
+    - ui-screen-map.yaml
+    - ui-screen-map.md
+    - security-and-audit-rules.yaml
+    - security-and-audit-rules.md
+    - test-plan.yaml
+    - test-plan.md
+    - traceability.yaml
+  required_implementation_streams:
+    - backend
+    - employee_portal
+    - mobile_app_when_applicable
+    - patient_or_doctor_portal_when_applicable
+    - qa_evidence
+    - operations_and_support_when_applicable
+
+modules:
+  - id: MVP-MOD-002
+    name: Diagnostic Catalog
+    release: REL-001
+    priority: 10
+    status: next
+    source: mvp_framework
+    objective: Configure diagnostic services, tests, panels, analytes, sample requirements, preparation instructions, reference ranges and prices.
+    depends_on:
+      - MVP-MOD-001
+    capabilities:
+      - BCM-SVC-001
+      - BCM-SVC-002
+      - BCM-SVC-003
+      - BCM-SVC-004
+      - BCM-SVC-005
+      - BCM-SVC-006
+      - BCM-SVC-007
+      - BCM-SVC-009
+    product_surfaces:
+      backend: required
+      employee_portal: required
+      patient_portal: read_only_later
+      doctor_portal: read_only_later
+      mobile_app: not_required
+    backlog_items:
+      - id: MVP-MOD-002-DEF
+        name: Definition package
+      - id: MVP-MOD-002-BE-001
+        name: Catalog domain, persistence and API baseline
+      - id: MVP-MOD-002-BE-002
+        name: Catalog versioning, publish workflow and price snapshots
+      - id: MVP-MOD-002-FE-001
+        name: Employee catalog administration screens
+      - id: MVP-MOD-002-QA-001
+        name: Catalog contract, regression and smoke evidence
+      - id: MVP-MOD-002-CLOSEOUT
+        name: Module closeout and registry update
+    acceptance_summary:
+      - Staff can define and publish tests, panels, analytes and sample requirements.
+      - Orders can consume only published catalog snapshots.
+      - Reference ranges and prices are version-aware and auditable.
+
+  - id: MVP-MOD-003
+    name: People and Clinical Master Data
+    release: REL-001
+    priority: 20
+    status: planned
+    source: mvp_framework
+    objective: Manage patients, doctors and person records needed by order, result and portal workflows.
+    depends_on:
+      - MVP-MOD-001
+    capabilities:
+      - BCM-PER-001
+      - BCM-PER-002
+      - BCM-PER-003
+      - BCM-ATT-002
+    product_surfaces:
+      backend: required
+      employee_portal: required
+      patient_portal: account_linking_later
+      doctor_portal: account_linking_later
+      mobile_app: patient_profile_later
+    backlog_items:
+      - id: MVP-MOD-003-DEF
+        name: Definition package
+      - id: MVP-MOD-003-BE-001
+        name: Patient, doctor and person APIs
+      - id: MVP-MOD-003-BE-002
+        name: Duplicate detection and portal identity linking hooks
+      - id: MVP-MOD-003-FE-001
+        name: Patient and doctor management screens
+      - id: MVP-MOD-003-QA-001
+        name: Master data validation and privacy evidence
+      - id: MVP-MOD-003-CLOSEOUT
+        name: Module closeout and registry update
+    acceptance_summary:
+      - Staff can register, search and update patients and doctors.
+      - Patient and doctor records remain authoritative and cannot be mutated by downstream modules.
+      - Privacy, audit and duplicate handling rules are enforced.
+
+  - id: MVP-MOD-004
+    name: Front Desk and Care Delivery
+    release: REL-001
+    priority: 30
+    status: planned
+    source: mvp_framework
+    objective: Support appointments, reception, admission, quotations and diagnostic order intake.
+    depends_on:
+      - MVP-MOD-002
+      - MVP-MOD-003
+    capabilities:
+      - BCM-ATT-001
+      - BCM-ATT-003
+      - BCM-ATT-004
+      - BCM-ATT-006
+      - BCM-LAB-001
+    product_surfaces:
+      backend: required
+      employee_portal: required
+      patient_portal: appointment_request_later
+      doctor_portal: order_request_later
+      mobile_app: check_in_later
+    backlog_items:
+      - id: MVP-MOD-004-DEF
+        name: Definition package
+      - id: MVP-MOD-004-BE-001
+        name: Appointment, reception and order APIs
+      - id: MVP-MOD-004-BE-002
+        name: Quote calculation and order lifecycle events
+      - id: MVP-MOD-004-FE-001
+        name: Front desk worklist and order creation screens
+      - id: MVP-MOD-004-QA-001
+        name: Order lifecycle and snapshot evidence
+      - id: MVP-MOD-004-CLOSEOUT
+        name: Module closeout and registry update
+    acceptance_summary:
+      - Staff can create walk-in and scheduled diagnostic orders.
+      - Orders reference immutable patient, doctor, branch, catalog and price snapshots.
+      - Order lifecycle changes are controlled and auditable.
+
+  - id: MVP-MOD-005
+    name: Cashier and Billing Request
+    release: REL-001
+    priority: 40
+    status: planned
+    source: mvp_framework
+    objective: Register payments, cash sessions, sales and fiscal billing requests through adapter boundaries.
+    depends_on:
+      - MVP-MOD-002
+      - MVP-MOD-003
+      - MVP-MOD-004
+    capabilities:
+      - BCM-ATT-005
+      - BCM-ATT-008
+    product_surfaces:
+      backend: required
+      employee_portal: required
+      patient_portal: payment_history_later
+      doctor_portal: not_required
+      mobile_app: payment_receipt_later
+    backlog_items:
+      - id: MVP-MOD-005-DEF
+        name: Definition package
+      - id: MVP-MOD-005-BE-001
+        name: Cash session, payment and sale APIs
+      - id: MVP-MOD-005-BE-002
+        name: Billing request adapter boundary
+      - id: MVP-MOD-005-FE-001
+        name: Cashier and billing request screens
+      - id: MVP-MOD-005-QA-001
+        name: Financial audit and reconciliation evidence
+      - id: MVP-MOD-005-CLOSEOUT
+        name: Module closeout and registry update
+    acceptance_summary:
+      - Cashiers can open and close sessions and register payments.
+      - Billing requests are traceable and decoupled from country-specific fiscal adapters.
+      - Financial actions cannot mutate patient or clinical aggregates directly.
+
+  - id: MVP-MOD-006
+    name: Laboratory Workflow
+    release: REL-001
+    priority: 50
+    status: planned
+    source: mvp_framework
+    objective: Manage sample collection, labeling, reception, processing, result capture and validation workflow.
+    depends_on:
+      - MVP-MOD-002
+      - MVP-MOD-003
+      - MVP-MOD-004
+    capabilities:
+      - BCM-LAB-002
+      - BCM-LAB-003
+      - BCM-LAB-005
+      - BCM-LAB-006
+      - BCM-LAB-008
+      - BCM-LAB-009
+      - BCM-LAB-010
+    product_surfaces:
+      backend: required
+      employee_portal: required
+      patient_portal: status_later
+      doctor_portal: status_later
+      mobile_app: sample_collection_later
+    backlog_items:
+      - id: MVP-MOD-006-DEF
+        name: Definition package
+      - id: MVP-MOD-006-BE-001
+        name: Sample lifecycle APIs
+      - id: MVP-MOD-006-BE-002
+        name: Result capture and validation workflow APIs
+      - id: MVP-MOD-006-FE-001
+        name: Sample, processing and validation worklists
+      - id: MVP-MOD-006-QA-001
+        name: Lab workflow and clinical control evidence
+      - id: MVP-MOD-006-CLOSEOUT
+        name: Module closeout and registry update
+    acceptance_summary:
+      - Samples can be collected, labeled, received, rejected and processed.
+      - Technical and medical validation are separate controlled actions.
+      - Released results become immutable except through an amendment workflow.
+
+  - id: MVP-MOD-007
+    name: Results and Digital Delivery
+    release: REL-001
+    priority: 60
+    status: planned
+    source: mvp_framework
+    objective: Generate reports and deliver released results to authorized patients, doctors and internal users.
+    depends_on:
+      - MVP-MOD-003
+      - MVP-MOD-006
+    capabilities:
+      - BCM-RES-001
+      - BCM-RES-002
+      - BCM-RES-004
+      - BCM-RES-005
+      - BCM-RES-006
+      - BCM-RES-007
+      - BCM-PLT-003
+      - BCM-PLT-008
+    product_surfaces:
+      backend: required
+      employee_portal: required
+      patient_portal: required
+      doctor_portal: required
+      mobile_app: result_view_required
+    backlog_items:
+      - id: MVP-MOD-007-DEF
+        name: Definition package
+      - id: MVP-MOD-007-BE-001
+        name: Result report and document generation APIs
+      - id: MVP-MOD-007-BE-002
+        name: Digital delivery, notification and critical result workflows
+      - id: MVP-MOD-007-FE-001
+        name: Employee result delivery screens
+      - id: MVP-MOD-007-PORTAL-001
+        name: Patient and doctor released result views
+      - id: MVP-MOD-007-APP-001
+        name: Mobile result view and notification baseline
+      - id: MVP-MOD-007-QA-001
+        name: Result access, PDF and notification evidence
+      - id: MVP-MOD-007-CLOSEOUT
+        name: Module closeout and registry update
+    acceptance_summary:
+      - Released results can generate a PDF report.
+      - Patients and doctors see only authorized released results.
+      - Critical results trigger traceable notification workflows.
+
+  - id: MVP-MOD-008
+    name: Integration and Migration Readiness
+    release: REL-001
+    priority: 70
+    status: planned
+    source: mvp_framework
+    objective: Provide adapter interfaces, import validation, migration dry runs and public API governance.
+    depends_on:
+      - MVP-MOD-002
+      - MVP-MOD-003
+      - MVP-MOD-004
+      - MVP-MOD-005
+      - MVP-MOD-006
+      - MVP-MOD-007
+    capabilities:
+      - BCM-PLT-004
+      - BCM-PLT-005
+    product_surfaces:
+      backend: required
+      employee_portal: admin_required
+      patient_portal: not_required
+      doctor_portal: partner_api_later
+      mobile_app: not_required
+    backlog_items:
+      - id: MVP-MOD-008-DEF
+        name: Definition package
+      - id: MVP-MOD-008-BE-001
+        name: Integration adapter contracts and API governance
+      - id: MVP-MOD-008-BE-002
+        name: Migration import validation and dry-run reports
+      - id: MVP-MOD-008-FE-001
+        name: Integration and migration administration screens
+      - id: MVP-MOD-008-QA-001
+        name: Adapter, import and observability evidence
+      - id: MVP-MOD-008-CLOSEOUT
+        name: Operational Core closeout
+    acceptance_summary:
+      - External messages are normalized before reaching domain modules.
+      - Imports validate data before mutation and produce actionable reports.
+      - Public, internal and partner APIs are classified and governed.
+
+  - id: COM-MOD-009
+    name: Patient and Doctor Portals
+    release: REL-002
+    priority: 80
+    status: planned
+    source: derived_from_capability_dependency_map
+    objective: Turn patient and doctor digital channels into coherent commercial-facing experiences.
+    depends_on:
+      - MVP-MOD-003
+      - MVP-MOD-004
+      - MVP-MOD-007
+      - MVP-MOD-008
+    capabilities:
+      - BCM-PER-002
+      - BCM-PER-003
+      - BCM-ATT-001
+      - BCM-ATT-002
+      - BCM-RES-004
+      - BCM-RES-005
+      - BCM-RES-007
+      - BCM-PLT-001
+      - BCM-PLT-003
+    product_surfaces:
+      backend: required
+      employee_portal: support_required
+      patient_portal: required
+      doctor_portal: required
+      mobile_app: required
+    backlog_items:
+      - id: COM-MOD-009-DEF
+        name: Definition package
+      - id: COM-MOD-009-BE-001
+        name: Portal access and authorization APIs
+      - id: COM-MOD-009-PORTAL-001
+        name: Patient portal commercial workflow
+      - id: COM-MOD-009-PORTAL-002
+        name: Doctor portal commercial workflow
+      - id: COM-MOD-009-APP-001
+        name: Patient mobile workflow
+      - id: COM-MOD-009-QA-001
+        name: Channel access and privacy evidence
+      - id: COM-MOD-009-CLOSEOUT
+        name: Module closeout and registry update
+    acceptance_summary:
+      - Patients can access profile, appointments, orders, results and notifications where authorized.
+      - Doctors can access referred patient results and order/status information where authorized.
+      - Support users can assist channel access without bypassing audit controls.
+
+  - id: COM-MOD-010
+    name: Inventory and Internal Quality
+    release: REL-002
+    priority: 90
+    status: planned
+    source: mvp_framework_future_module
+    objective: Add inventory, reagent, lot, stock movement, equipment, maintenance and internal quality controls needed by operational customers.
+    depends_on:
+      - MVP-MOD-002
+      - MVP-MOD-006
+      - MVP-MOD-008
+    capabilities:
+      - BCM-INV-001
+      - BCM-INV-002
+      - BCM-INV-003
+      - BCM-INV-004
+      - BCM-INV-005
+      - BCM-INV-006
+      - BCM-INV-007
+      - BCM-INV-008
+      - BCM-INV-009
+      - BCM-QLT-001
+      - BCM-QLT-003
+      - BCM-QLT-004
+      - BCM-QLT-005
+    product_surfaces:
+      backend: required
+      employee_portal: required
+      patient_portal: not_required
+      doctor_portal: not_required
+      mobile_app: optional_for_stock_actions
+    backlog_items:
+      - id: COM-MOD-010-DEF
+        name: Definition package
+      - id: COM-MOD-010-BE-001
+        name: Product, reagent, lot and stock APIs
+      - id: COM-MOD-010-BE-002
+        name: Equipment, maintenance and internal QC APIs
+      - id: COM-MOD-010-FE-001
+        name: Inventory and internal quality screens
+      - id: COM-MOD-010-QA-001
+        name: Traceability, stock and quality evidence
+      - id: COM-MOD-010-CLOSEOUT
+        name: Module closeout and registry update
+    acceptance_summary:
+      - Reagents and supplies can be tracked by lot and stock movement.
+      - Quality controls can be recorded and reviewed.
+      - Lab processing can reference inventory and equipment without tight coupling.
+
+  - id: COM-MOD-011
+    name: Public Website and Digital Growth
+    release: REL-002
+    priority: 100
+    status: planned
+    source: derived_from_capability_dependency_map
+    objective: Provide commercial public-facing discovery, service catalog visibility, contact flows and conversion paths.
+    depends_on:
+      - MVP-MOD-002
+      - MVP-MOD-004
+      - COM-MOD-009
+    capabilities:
+      - BCM-SVC-001
+      - BCM-SVC-002
+      - BCM-SVC-003
+      - BCM-SVC-005
+      - BCM-ATT-001
+      - BCM-ATT-006
+      - BCM-PLT-005
+    product_surfaces:
+      backend: required
+      employee_portal: content_admin_required
+      public_website: required
+      patient_portal: handoff_required
+      doctor_portal: handoff_required
+      mobile_app: not_required
+    backlog_items:
+      - id: COM-MOD-011-DEF
+        name: Definition package
+      - id: COM-MOD-011-BE-001
+        name: Public catalog, location and request APIs
+      - id: COM-MOD-011-WEB-001
+        name: Public website service discovery and conversion flows
+      - id: COM-MOD-011-FE-001
+        name: Content and request administration screens
+      - id: COM-MOD-011-QA-001
+        name: Public web, SEO and privacy evidence
+      - id: COM-MOD-011-CLOSEOUT
+        name: Module closeout and registry update
+    acceptance_summary:
+      - Prospective patients can discover services, preparation instructions, branches and contact paths.
+      - Public requests can be routed into internal workflows without exposing private APIs.
+      - Public content remains governed and auditable.
+
+  - id: COM-MOD-012
+    name: Platform Hardening and SaaS Operations
+    release: REL-002
+    priority: 110
+    status: planned
+    source: derived_from_commercial_readiness
+    objective: Harden HOP for production deployment, monitoring, support, data protection, tenant operations and upgrade safety.
+    depends_on:
+      - MVP-MOD-001
+      - MVP-MOD-008
+    capabilities:
+      - BCM-ORG-001
+      - BCM-PLT-001
+      - BCM-PLT-002
+      - BCM-PLT-005
+      - BCM-PLT-006
+      - BCM-PLT-007
+      - BCM-PLT-008
+      - BCM-PLT-009
+    product_surfaces:
+      backend: required
+      employee_portal: admin_required
+      operations_console: required
+      patient_portal: compatibility_required
+      doctor_portal: compatibility_required
+      mobile_app: compatibility_required
+    backlog_items:
+      - id: COM-MOD-012-DEF
+        name: Definition package
+      - id: COM-MOD-012-OPS-001
+        name: Production deployment and environment strategy
+      - id: COM-MOD-012-OPS-002
+        name: Observability, backup, restore and incident runbooks
+      - id: COM-MOD-012-BE-001
+        name: Tenant operations, feature flags and operational controls
+      - id: COM-MOD-012-QA-001
+        name: Performance, resilience and security evidence
+      - id: COM-MOD-012-CLOSEOUT
+        name: Module closeout and registry update
+    acceptance_summary:
+      - HOP can be deployed and operated in a production-like environment.
+      - Backups, restores, upgrades and incidents have executable runbooks.
+      - Observability can support customer operations and troubleshooting.
+
+  - id: COM-MOD-013
+    name: Advanced Quality and Compliance
+    release: REL-003
+    priority: 120
+    status: planned
+    source: mvp_framework_future_module
+    objective: Add external quality, CAPA, audit management and compliance workflows for regulated customers.
+    depends_on:
+      - MVP-MOD-006
+      - COM-MOD-010
+      - COM-MOD-012
+    capabilities:
+      - BCM-QLT-002
+      - BCM-QLT-006
+      - BCM-QLT-007
+      - BCM-PLT-007
+      - BCM-PLT-008
+    product_surfaces:
+      backend: required
+      employee_portal: required
+      patient_portal: not_required
+      doctor_portal: not_required
+      mobile_app: not_required
+    backlog_items:
+      - id: COM-MOD-013-DEF
+        name: Definition package
+      - id: COM-MOD-013-BE-001
+        name: External QC, CAPA and audit management APIs
+      - id: COM-MOD-013-FE-001
+        name: Quality and compliance screens
+      - id: COM-MOD-013-QA-001
+        name: Compliance workflow and evidence retention validation
+      - id: COM-MOD-013-CLOSEOUT
+        name: Module closeout and registry update
+    acceptance_summary:
+      - Quality teams can manage external QC, CAPA and audit workflows.
+      - Compliance evidence is traceable, searchable and retained.
+      - Clinical and operational events can feed quality investigations.
+
+  - id: COM-MOD-014
+    name: Imaging Operations
+    release: REL-004
+    priority: 130
+    status: planned
+    source: mvp_framework_future_module
+    objective: Add imaging appointment, reception, study management, DICOM/PACS integration, dictation, signature and delivery.
+    depends_on:
+      - MVP-MOD-003
+      - MVP-MOD-004
+      - MVP-MOD-007
+      - MVP-MOD-008
+      - COM-MOD-012
+    capabilities:
+      - BCM-IMG-001
+      - BCM-IMG-002
+      - BCM-IMG-003
+      - BCM-IMG-004
+      - BCM-IMG-005
+      - BCM-IMG-006
+      - BCM-IMG-007
+      - BCM-IMG-008
+    product_surfaces:
+      backend: required
+      employee_portal: required
+      patient_portal: required
+      doctor_portal: required
+      mobile_app: result_view_required
+      external_integrations: dicom_and_pacs_required
+    backlog_items:
+      - id: COM-MOD-014-DEF
+        name: Definition package
+      - id: COM-MOD-014-BE-001
+        name: Imaging workflow APIs
+      - id: COM-MOD-014-INT-001
+        name: DICOM and PACS adapter boundaries
+      - id: COM-MOD-014-FE-001
+        name: Imaging operations screens
+      - id: COM-MOD-014-PORTAL-001
+        name: Imaging study delivery views
+      - id: COM-MOD-014-QA-001
+        name: Imaging integration and report evidence
+      - id: COM-MOD-014-CLOSEOUT
+        name: Module closeout and registry update
+    acceptance_summary:
+      - Imaging studies can be scheduled, received, managed, interpreted and delivered.
+      - DICOM/PACS interactions remain behind replaceable adapters.
+      - Imaging delivery follows the same authorization and audit model as laboratory results.
+
+  - id: COM-MOD-015
+    name: AI Overlay
+    release: REL-004
+    priority: 140
+    status: planned
+    source: mvp_framework_future_module
+    objective: Add assistant, OCR, summary, semantic search and retrieval capabilities with strict clinical guardrails.
+    depends_on:
+      - MVP-MOD-008
+      - COM-MOD-012
+      - COM-MOD-013
+    capabilities:
+      - BCM-AI-001
+      - BCM-AI-002
+      - BCM-AI-003
+      - BCM-AI-004
+      - BCM-AI-005
+      - BCM-AI-006
+      - BCM-AI-007
+      - BCM-AI-008
+    product_surfaces:
+      backend: required
+      employee_portal: required
+      patient_portal: optional
+      doctor_portal: optional
+      mobile_app: optional
+      model_provider: replaceable
+    backlog_items:
+      - id: COM-MOD-015-DEF
+        name: Definition package
+      - id: COM-MOD-015-BE-001
+        name: AI orchestration, policy and audit boundaries
+      - id: COM-MOD-015-BE-002
+        name: OCR, summary, search and retrieval capabilities
+      - id: COM-MOD-015-FE-001
+        name: Assistant and review screens
+      - id: COM-MOD-015-QA-001
+        name: Safety, explainability and human-control evidence
+      - id: COM-MOD-015-CLOSEOUT
+        name: Module closeout and registry update
+    acceptance_summary:
+      - AI capabilities assist administrative and clinical workflows without autonomous clinical validation.
+      - All AI outputs are attributable, reviewable and auditable.
+      - Model providers and runtimes remain replaceable.
+
+  - id: COM-MOD-016
+    name: Commercial Launch and Customer Enablement
+    release: REL-003
+    priority: 150
+    status: planned
+    source: derived_from_commercial_readiness
+    objective: Prepare packaging, onboarding, support, training, release governance and commercial launch assets.
+    depends_on:
+      - MVP-MOD-008
+      - COM-MOD-009
+      - COM-MOD-010
+      - COM-MOD-012
+      - COM-MOD-013
+    capabilities:
+      - BCM-ORG-001
+      - BCM-ORG-002
+      - BCM-ORG-003
+      - BCM-PLT-002
+      - BCM-PLT-006
+      - BCM-PLT-007
+      - BCM-PLT-008
+    product_surfaces:
+      backend: support_required
+      employee_portal: admin_required
+      public_website: packaging_required
+      documentation: required
+      support_processes: required
+    backlog_items:
+      - id: COM-MOD-016-DEF
+        name: Definition package
+      - id: COM-MOD-016-DOC-001
+        name: Customer onboarding and configuration guides
+      - id: COM-MOD-016-OPS-001
+        name: Support, escalation and release governance
+      - id: COM-MOD-016-COM-001
+        name: Pricing package, sales demo and launch readiness assets
+      - id: COM-MOD-016-QA-001
+        name: Commercial readiness validation
+      - id: COM-MOD-016-CLOSEOUT
+        name: General availability closeout
+    acceptance_summary:
+      - A customer can be onboarded with documented configuration and support paths.
+      - Launch, release, support and training artifacts exist.
+      - Commercial readiness is validated against all readiness pillars.
+
+commercial_ga_gates:
+  - id: GA-001
+    name: Operational workflow gate
+    criteria:
+      - REL-001 modules are complete and validated.
+      - End-to-end order to released result flow passes.
+  - id: GA-002
+    name: Digital channel gate
+    criteria:
+      - Patient, doctor, employee and mobile surfaces pass access and privacy validation.
+      - Public website handoffs do not expose private APIs.
+  - id: GA-003
+    name: Security and compliance gate
+    criteria:
+      - Role, permission, audit, retention and privacy controls are validated.
+      - Clinical authority restrictions are enforced.
+  - id: GA-004
+    name: Operations gate
+    criteria:
+      - Deployment, monitoring, backup, restore and incident procedures are validated.
+      - Performance and resilience tests pass agreed thresholds.
+  - id: GA-005
+    name: Commercial enablement gate
+    criteria:
+      - Onboarding, training, support and release governance documents are complete.
+      - Sales demo and customer pilot package are ready.

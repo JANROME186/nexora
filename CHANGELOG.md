@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.63.0] - 2026-07-08
+
+### Added
+- Added HOP commercial product backlog in Markdown and YAML.
+- Added HOP commercial backlog execution prompt playbook in Markdown and YAML.
+- Added commercial module folder index for post-MVP module definition packages.
+
+### Changed
+- Updated repository and HOP project state to start `MVP-MOD-002-DEF Diagnostic Catalog definition package`.
+- Registered commercial product backlog artifacts in repository and project source-of-truth files.
+
 ## [0.62.0] - 2026-07-08
 
 ### Added

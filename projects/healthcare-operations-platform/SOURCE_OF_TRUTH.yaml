@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.62.0
+  version: 0.63.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -23,6 +23,11 @@ sources:
   mvp_backlog_execution_prompts_yaml: 06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml
   mvp_development_readiness_decision: 06-delivery/mvp/MVP_DEVELOPMENT_READINESS_DECISION.md
   mvp_development_readiness_decision_yaml: 06-delivery/mvp/MVP_DEVELOPMENT_READINESS_DECISION.yaml
+  commercial_product_backlog: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
+  commercial_product_backlog_yaml: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
+  commercial_backlog_execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
+  commercial_backlog_execution_prompts_yaml: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
+  commercial_module_folder_index_yaml: 06-delivery/commercial-product/modules/module-folder-index.yaml
   generic_project_lifecycle_prompts_yaml: ../../nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
   auxiliary_development_prompts_yaml: ../../nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
   mvp_mod_001_platform_foundation: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
@@ -68,5 +73,6 @@ rules:
   - Agent-executable artifacts must have YAML machine-readable files and Markdown human-readable files when applicable.
   - BUSINESS_REQUIREMENT.md remains requester-supplied source material; BUSINESS_REQUIREMENT.yaml is only a structured index derived from it.
   - MVP-MOD-001 development is approved by the MVP development readiness decision; strategic enterprise roadmap items do not block the first module.
+  - HOP development after MVP-MOD-001 must follow 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml.
   - Generated artifacts must not be edited manually.
   - Architecture changes require ADR.

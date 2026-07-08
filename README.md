@@ -32,7 +32,7 @@ For detailed step-by-step usage, analysis-agent instructions, validation gates a
 
 ## Current First Project
 
-Healthcare Operations Platform has started development of:
+Healthcare Operations Platform completed the first MVP module:
 
 `MVP-MOD-001 Platform Foundation`
 
@@ -59,6 +59,18 @@ Completed backlog item:
 Current module status:
 
 `MVP-MOD-001 Platform Foundation implemented and ready for functional validation`
+
+Current commercial product status:
+
+`HOP commercial product backlog defined and ready to start MVP-MOD-002`
+
+Next backlog item:
+
+`MVP-MOD-002-DEF Generate Diagnostic Catalog definition package`
+
+Commercial backlog:
+
+`projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
 
 Project folder:
 

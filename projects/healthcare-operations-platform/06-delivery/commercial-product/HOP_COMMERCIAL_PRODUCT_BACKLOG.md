@@ -1,0 +1,147 @@
+# HOP Commercial Product Backlog
+
+Artifact ID: `HOP-COM-BACKLOG-001`
+Version: `1.0.0`
+Status: `approved`
+Date: `2026-07-08`
+
+This document defines the complete backlog required to take Healthcare Operations Platform from the completed MVP foundation into a commercial product. The machine-readable source for agents is `HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`.
+
+## Starting Point
+
+`MVP-MOD-001 Platform Foundation` is complete and ready for functional validation. The next module is `MVP-MOD-002 Diagnostic Catalog`.
+
+The product must now move from MVP foundation to commercial readiness through an ordered backlog. Each module must be implemented, validated and closed before dependent modules begin, unless the dependency is explicitly mocked in that module definition.
+
+## Commercial Objective
+
+HOP is commercializable when it can support a diagnostic healthcare organization from configuration to result delivery, with secure digital channels, revenue operations, auditability, integrations, migration readiness, supportability and customer enablement.
+
+The product is considered ready for commercial general availability only when:
+
+- Core operational workflows run from tenant setup through result delivery.
+- Web employee portal, patient and doctor digital channels, mobile foundation and backend APIs are aligned.
+- Revenue, billing request, payments and reconciliation boundaries are usable by a real operation.
+- Security, audit, observability, supportability and deployment operations are production-ready.
+- Integration and migration boundaries allow customers to onboard without coupling HOP to legacy platforms.
+- Compliance, quality, documentation and customer enablement are sufficient for a paid pilot and general availability.
+
+## Release Plan
+
+### REL-000 Foundation Completed
+
+Status: `completed`
+
+Includes:
+
+- `MVP-MOD-001 Platform Foundation`
+
+Outcome: platform foundation implemented and ready for functional validation.
+
+### REL-001 Operational Core
+
+Status: `planned`
+
+Includes:
+
+- `MVP-MOD-002 Diagnostic Catalog`
+- `MVP-MOD-003 People and Clinical Master Data`
+- `MVP-MOD-004 Front Desk and Care Delivery`
+- `MVP-MOD-005 Cashier and Billing Request`
+- `MVP-MOD-006 Laboratory Workflow`
+- `MVP-MOD-007 Results and Digital Delivery`
+- `MVP-MOD-008 Integration and Migration Readiness`
+
+Outcome: a diagnostic laboratory can configure catalog, register people, create orders, collect samples, validate results and deliver reports.
+
+### REL-002 Commercial Beta
+
+Status: `planned`
+
+Includes:
+
+- `COM-MOD-009 Patient and Doctor Portals`
+- `COM-MOD-010 Inventory and Internal Quality`
+- `COM-MOD-011 Public Website and Digital Growth`
+- `COM-MOD-012 Platform Hardening and SaaS Operations`
+
+Outcome: HOP can run a controlled paid pilot with customer-facing channels, inventory/quality baseline and SaaS operations.
+
+### REL-003 Commercial General Availability
+
+Status: `planned`
+
+Includes:
+
+- `COM-MOD-013 Advanced Quality and Compliance`
+- `COM-MOD-016 Commercial Launch and Customer Enablement`
+
+Outcome: HOP is ready to be sold, onboarded, supported and governed as a commercial product.
+
+### REL-004 Expansion Packages
+
+Status: `planned`
+
+Includes:
+
+- `COM-MOD-014 Imaging Operations`
+- `COM-MOD-015 AI Overlay`
+
+Outcome: imaging operations and AI-assisted overlays can be commercialized as optional product packages.
+
+## Module Sequence
+
+| Order | Module | Release | Purpose |
+| --- | --- | --- | --- |
+| 1 | `MVP-MOD-002 Diagnostic Catalog` | REL-001 | Configure services, tests, panels, analytes, samples, preparation, reference ranges and prices. |
+| 2 | `MVP-MOD-003 People and Clinical Master Data` | REL-001 | Manage patients, doctors and person records. |
+| 3 | `MVP-MOD-004 Front Desk and Care Delivery` | REL-001 | Manage appointments, reception, admission, quotations and diagnostic order intake. |
+| 4 | `MVP-MOD-005 Cashier and Billing Request` | REL-001 | Manage cash sessions, payments, sales and billing request boundaries. |
+| 5 | `MVP-MOD-006 Laboratory Workflow` | REL-001 | Manage sample collection, labeling, reception, processing and validation. |
+| 6 | `MVP-MOD-007 Results and Digital Delivery` | REL-001 | Generate reports and deliver released results. |
+| 7 | `MVP-MOD-008 Integration and Migration Readiness` | REL-001 | Provide adapter contracts, import validation, migration dry runs and API governance. |
+| 8 | `COM-MOD-009 Patient and Doctor Portals` | REL-002 | Provide commercial patient and doctor digital channels. |
+| 9 | `COM-MOD-010 Inventory and Internal Quality` | REL-002 | Add inventory, reagent, equipment, maintenance and internal quality controls. |
+| 10 | `COM-MOD-011 Public Website and Digital Growth` | REL-002 | Provide public service discovery and conversion flows. |
+| 11 | `COM-MOD-012 Platform Hardening and SaaS Operations` | REL-002 | Harden deployment, observability, support, backup, restore and tenant operations. |
+| 12 | `COM-MOD-013 Advanced Quality and Compliance` | REL-003 | Add external quality, CAPA, audit management and compliance workflows. |
+| 13 | `COM-MOD-014 Imaging Operations` | REL-004 | Add imaging workflows and DICOM/PACS adapter boundaries. |
+| 14 | `COM-MOD-015 AI Overlay` | REL-004 | Add assistant, OCR, summary, semantic search and retrieval capabilities with clinical guardrails. |
+| 15 | `COM-MOD-016 Commercial Launch and Customer Enablement` | REL-003 | Prepare onboarding, support, training, release governance and launch assets. |
+
+## Execution Contract
+
+Before implementation, every module must have:
+
+- `module-definition.yaml`
+- `module-definition.md`
+- `domain-model.yaml`
+- `domain-model.md`
+- `api-contract.openapi.yaml`
+- `database-migration-plan.yaml`
+- `database-migration-plan.md`
+- `ui-screen-map.yaml`
+- `ui-screen-map.md`
+- `security-and-audit-rules.yaml`
+- `security-and-audit-rules.md`
+- `test-plan.yaml`
+- `test-plan.md`
+- `traceability.yaml`
+
+During implementation, every module must produce backend, frontend, applicable portal/mobile work, QA evidence and registry updates.
+
+## Commercial GA Gates
+
+HOP reaches commercial general availability only after these gates pass:
+
+- `GA-001 Operational workflow gate`: REL-001 modules complete and order-to-result flow passes.
+- `GA-002 Digital channel gate`: patient, doctor, employee and mobile surfaces pass access and privacy validation.
+- `GA-003 Security and compliance gate`: role, permission, audit, retention and privacy controls are validated.
+- `GA-004 Operations gate`: deployment, monitoring, backup, restore and incident procedures are validated.
+- `GA-005 Commercial enablement gate`: onboarding, training, support, release governance and sales demo materials are complete.
+
+## Next Action
+
+Start `MVP-MOD-002-DEF` and generate the complete definition package for `MVP-MOD-002 Diagnostic Catalog` under:
+
+`06-delivery/mvp/modules/MVP-MOD-002-diagnostic-catalog/`
