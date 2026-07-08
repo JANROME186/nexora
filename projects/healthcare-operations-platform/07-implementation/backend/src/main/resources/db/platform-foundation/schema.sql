@@ -48,3 +48,15 @@ CREATE TABLE IF NOT EXISTS identity.role_assignments (
     created_at timestamp with time zone NOT NULL,
     created_by varchar(80) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS audit.audit_events (
+    audit_event_id varchar(36) PRIMARY KEY,
+    occurred_at timestamp with time zone NOT NULL,
+    tenant_id varchar(36),
+    actor_id varchar(80) NOT NULL,
+    actor_type varchar(40) NOT NULL,
+    action varchar(120) NOT NULL,
+    subject_type varchar(80) NOT NULL,
+    subject_id varchar(80) NOT NULL,
+    metadata_json jsonb NOT NULL
+);

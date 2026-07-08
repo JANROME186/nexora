@@ -21,6 +21,8 @@ The package layout follows hexagonal boundaries inside each context:
 
 `identityaccess` depends on `organizationmanagement` only through the `TenantDirectory` port exposed at the base package of `organizationmanagement`, used to validate tenant existence when creating a user account.
 
+`organizationmanagement` and `identityaccess` record audit events through the `AuditRecorder` port exposed at the base package of `auditcompliance`, preserving module boundaries while allowing critical platform actions to be audited.
+
 ## Run
 
 ```bash
@@ -40,6 +42,7 @@ The application exposes:
 - `POST /api/identity/users`
 - `GET /api/identity/users/{userId}`
 - `POST /api/identity/users/{userId}/role-assignments`
+- `GET /api/audit/events`
 
 ## Test
 
@@ -52,7 +55,7 @@ The project includes `.mvn/settings.xml` so local validation uses a repository i
 Run the optional local database integration test only after the local runtime is started:
 
 ```bash
-mvn --settings .mvn/settings.xml "-Dhop.local-db-tests=true" "-Dtest=PlatformFoundationLocalDatabaseTest,OrganizationManagementLocalDatabaseTest,IdentityAccessLocalDatabaseTest" test
+mvn --settings .mvn/settings.xml "-Dhop.local-db-tests=true" "-Dtest=PlatformFoundationLocalDatabaseTest,OrganizationManagementLocalDatabaseTest,IdentityAccessLocalDatabaseTest,AuditComplianceLocalDatabaseTest" test
 ```
 
 ## Local Database Profile

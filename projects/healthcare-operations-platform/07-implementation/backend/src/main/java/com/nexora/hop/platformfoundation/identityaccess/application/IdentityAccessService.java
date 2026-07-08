@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
 import com.nexora.hop.platformfoundation.identityaccess.domain.IdentityRepository;
 import com.nexora.hop.platformfoundation.identityaccess.domain.RoleAssignment;
 import com.nexora.hop.platformfoundation.identityaccess.domain.UserAccount;
@@ -17,20 +18,28 @@ import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 public class IdentityAccessService {
 
     private static final String CREATED_STATUS = "created";
-    private static final String SYSTEM_ACTOR = "system";
 
     private final IdentityRepository repository;
     private final TenantDirectory tenantDirectory;
+    private final AuditRecorder auditRecorder;
     private final Clock clock;
 
     @Autowired
-    public IdentityAccessService(IdentityRepository repository, TenantDirectory tenantDirectory) {
-        this(repository, tenantDirectory, Clock.systemUTC());
+    public IdentityAccessService(
+            IdentityRepository repository,
+            TenantDirectory tenantDirectory,
+            AuditRecorder auditRecorder) {
+        this(repository, tenantDirectory, auditRecorder, Clock.systemUTC());
     }
 
-    private IdentityAccessService(IdentityRepository repository, TenantDirectory tenantDirectory, Clock clock) {
+    private IdentityAccessService(
+            IdentityRepository repository,
+            TenantDirectory tenantDirectory,
+            AuditRecorder auditRecorder,
+            Clock clock) {
         this.repository = repository;
         this.tenantDirectory = tenantDirectory;
+        this.auditRecorder = auditRecorder;
         this.clock = clock;
     }
 
@@ -45,7 +54,10 @@ public class IdentityAccessService {
 
         Instant now = Instant.now(clock);
         UserAccount user = new UserAccount(newId(), tenantId, displayName, email, CREATED_STATUS, now, now);
-        return repository.saveUser(user);
+        UserAccount saved = repository.saveUser(user);
+        recordAudit(saved.tenantId(), "UserCreated", "UserAccount", saved.userId(),
+                "{\"email\":\"%s\"}".formatted(jsonText(saved.email())));
+        return saved;
     }
 
     public UserAccount getUser(String userId) {
@@ -60,8 +72,16 @@ public class IdentityAccessService {
 
         Instant now = Instant.now(clock);
         RoleAssignment assignment = new RoleAssignment(
-                newId(), user.userId(), roleCode, scopeType, scopeId, now, SYSTEM_ACTOR);
-        return repository.saveRoleAssignment(assignment);
+                newId(), user.userId(), roleCode, scopeType, scopeId, now, "system");
+        RoleAssignment saved = repository.saveRoleAssignment(assignment);
+        recordAudit(user.tenantId(), "RoleAssigned", "RoleAssignment", saved.roleAssignmentId(),
+                "{\"userId\":\"%s\",\"roleCode\":\"%s\",\"scopeType\":\"%s\",\"scopeId\":\"%s\"}"
+                        .formatted(
+                                jsonText(saved.userId()),
+                                jsonText(saved.roleCode()),
+                                jsonText(saved.scopeType()),
+                                jsonText(saved.scopeId())));
+        return saved;
     }
 
     private UserAccount requireUser(String userId) {
@@ -78,5 +98,13 @@ public class IdentityAccessService {
 
     private static String newId() {
         return UUID.randomUUID().toString();
+    }
+
+    private static String jsonText(String value) {
+        return value.replace("\\", "\\\\").replace("\"", "\\\"");
+    }
+
+    private void recordAudit(String tenantId, String action, String subjectType, String subjectId, String metadataJson) {
+        auditRecorder.recordSystemEvent(tenantId, action, subjectType, subjectId, metadataJson);
     }
 }

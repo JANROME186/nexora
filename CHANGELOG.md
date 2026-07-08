@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.58.0] - 2026-07-08
+
+### Added
+- Added `PF-BE-004` audit-compliance baseline for append-only audit event recording.
+- Added audit events for tenant, laboratory, branch, user account and role assignment actions.
+- Added `GET /api/audit/events` query support with tenant and subject filters.
+- Added default in-memory audit repository and local PostgreSQL JDBC audit repository.
+- Added idempotent audit schema table for local profile and Docker Compose runtime.
+- Added backend API tests and local PostgreSQL persistence tests for audit event recording.
+- Added QA evidence for `PF-BE-004` in Markdown and YAML.
+
+### Changed
+- Updated repository and project state to mark `PF-BE-004` complete and move the active backlog item to `PF-FE-001`.
+- Updated the MVP-MOD-001 API contract with the implemented audit event response fields.
+
 ## [0.57.0] - 2026-07-08
 
 ### Added

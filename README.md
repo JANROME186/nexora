@@ -46,9 +46,11 @@ Completed backlog item:
 
 `PF-BE-003 Implement user account and role assignment baseline`
 
+`PF-BE-004 Implement append-only audit event recording`
+
 Current backlog item:
 
-`PF-BE-004 Implement append-only audit event recording`
+`PF-FE-001 Create employee portal administration screens`
 
 Project folder:
 

@@ -325,18 +325,24 @@ components:
           type: string
     AuditEventResponse:
       type: object
-      required: [auditEventId, occurredAt, actorId, action, subjectType, subjectId]
+      required: [auditEventId, occurredAt, actorId, actorType, action, subjectType, subjectId, metadataJson]
       properties:
         auditEventId:
           type: string
         occurredAt:
           type: string
           format: date-time
+        tenantId:
+          type: string
         actorId:
+          type: string
+        actorType:
           type: string
         action:
           type: string
         subjectType:
           type: string
         subjectId:
+          type: string
+        metadataJson:
           type: string

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
 import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 import com.nexora.hop.platformfoundation.organizationmanagement.domain.Branch;
 import com.nexora.hop.platformfoundation.organizationmanagement.domain.Laboratory;
@@ -20,22 +21,32 @@ public class OrganizationManagementService implements TenantDirectory {
     private static final String ACTIVE_STATUS = "active";
 
     private final OrganizationRepository repository;
+    private final AuditRecorder auditRecorder;
     private final Clock clock;
 
     @Autowired
-    public OrganizationManagementService(OrganizationRepository repository) {
-        this(repository, Clock.systemUTC());
+    public OrganizationManagementService(
+            OrganizationRepository repository,
+            AuditRecorder auditRecorder) {
+        this(repository, auditRecorder, Clock.systemUTC());
     }
 
-    private OrganizationManagementService(OrganizationRepository repository, Clock clock) {
+    private OrganizationManagementService(
+            OrganizationRepository repository,
+            AuditRecorder auditRecorder,
+            Clock clock) {
         this.repository = repository;
+        this.auditRecorder = auditRecorder;
         this.clock = clock;
     }
 
     public Tenant createTenant(CreateTenantCommand command) {
         String name = requiredText(command.name(), "Tenant name is required.");
         Instant now = Instant.now(clock);
-        return repository.saveTenant(new Tenant(newId(), name, ACTIVE_STATUS, now, now));
+        Tenant tenant = repository.saveTenant(new Tenant(newId(), name, ACTIVE_STATUS, now, now));
+        recordAudit(tenant.tenantId(), "TenantCreated", "Tenant", tenant.tenantId(),
+                "{\"name\":\"%s\"}".formatted(jsonText(tenant.name())));
+        return tenant;
     }
 
     public Laboratory createLaboratory(CreateLaboratoryCommand command) {
@@ -45,7 +56,10 @@ public class OrganizationManagementService implements TenantDirectory {
 
         Instant now = Instant.now(clock);
         Laboratory laboratory = new Laboratory(newId(), tenantId, name, ACTIVE_STATUS, now, now);
-        return repository.saveLaboratory(laboratory);
+        Laboratory saved = repository.saveLaboratory(laboratory);
+        recordAudit(saved.tenantId(), "LaboratoryCreated", "Laboratory", saved.laboratoryId(),
+                "{\"name\":\"%s\"}".formatted(jsonText(saved.name())));
+        return saved;
     }
 
     public Branch createBranch(CreateBranchCommand command) {
@@ -55,7 +69,10 @@ public class OrganizationManagementService implements TenantDirectory {
 
         Instant now = Instant.now(clock);
         Branch branch = new Branch(newId(), laboratory.tenantId(), laboratory.laboratoryId(), name, ACTIVE_STATUS, now, now);
-        return repository.saveBranch(branch);
+        Branch saved = repository.saveBranch(branch);
+        recordAudit(saved.tenantId(), "BranchCreated", "Branch", saved.branchId(),
+                "{\"name\":\"%s\",\"laboratoryId\":\"%s\"}".formatted(jsonText(saved.name()), jsonText(saved.laboratoryId())));
+        return saved;
     }
 
     public Tenant getTenant(String tenantId) {
@@ -99,5 +116,13 @@ public class OrganizationManagementService implements TenantDirectory {
 
     private static String newId() {
         return UUID.randomUUID().toString();
+    }
+
+    private static String jsonText(String value) {
+        return value.replace("\\", "\\\\").replace("\"", "\\\"");
+    }
+
+    private void recordAudit(String tenantId, String action, String subjectType, String subjectId, String metadataJson) {
+        auditRecorder.recordSystemEvent(tenantId, action, subjectType, subjectId, metadataJson);
     }
 }
