@@ -14,7 +14,7 @@ Agents must use the Nexora framework to scan `projects/`, validate whether each 
 | --- | --- |
 | `nexora-framework/` | Nexora company framework, documentation standards, agent recipes, templates, schemas and governance assets. |
 | `projects/` | Self-contained product or solution projects. Each project has its own brief, state, source of truth and implementation readiness package. |
-| `projects/healthcare-operations-platform/` | First Nexora project and current MVP-ready solution definition. |
+| `projects/healthcare-operations-platform/` | First Nexora project and current MVP implementation target. |
 
 ## How New Projects Start
 
@@ -32,9 +32,17 @@ For detailed step-by-step usage, analysis-agent instructions, validation gates a
 
 ## Current First Project
 
-Healthcare Operations Platform is ready to start development of:
+Healthcare Operations Platform has started development of:
 
 `MVP-MOD-001 Platform Foundation`
+
+Completed backlog item:
+
+`PF-BE-001 Create backend project skeleton`
+
+Current backlog item:
+
+`PF-OPS-001 Create local development compose profile`
 
 Project folder:
 

@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: ${HOP_DB_URL:jdbc:postgresql://localhost:5432/hop}
+    username: ${HOP_DB_USERNAME:hop}
+    password: ${HOP_DB_PASSWORD:hop}
+    driver-class-name: org.postgresql.Driver
+
+management:
+  endpoint:
+    health:
+      show-details: when_authorized

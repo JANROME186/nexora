@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.54.0] - 2026-07-08
+
+### Added
+- Added `PF-BE-001` backend skeleton for Healthcare Operations Platform `MVP-MOD-001 Platform Foundation`.
+- Added Java 21, Spring Boot 3.x and Spring Modulith Maven baseline under `projects/healthcare-operations-platform/07-implementation/backend/`.
+- Added organization management, identity access, audit compliance and observability module boundaries.
+- Added actuator and platform health smoke tests plus Modulith boundary verification.
+- Added QA evidence for `PF-BE-001` in Markdown and YAML.
+- Added repository `.gitignore` for build outputs and local dependency caches.
+
+### Changed
+- Updated repository and project state to mark `PF-BE-001` complete and move the active backlog item to `PF-OPS-001`.
+
 ## [0.53.0] - 2026-07-08
 
 ### Changed
