@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.62.0] - 2026-07-08
+
+### Added
+- Added `MVP-MOD-001` Platform Foundation closeout evidence in Markdown and YAML.
+- Added implementation closeout references to the Platform Foundation traceability record.
+
+### Changed
+- Marked `MVP-MOD-001 Platform Foundation` as implemented and ready for functional validation.
+- Updated repository and project state to clear the active backlog item for the completed module.
+
 ## [0.61.0] - 2026-07-08
 
 ### Added

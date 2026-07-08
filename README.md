@@ -54,9 +54,11 @@ Completed backlog item:
 
 `PF-QA-001 Add smoke and contract tests`
 
-Current backlog item:
-
 `MVP-MOD-001-CLOSEOUT Validate and close the module`
+
+Current module status:
+
+`MVP-MOD-001 Platform Foundation implemented and ready for functional validation`
 
 Project folder:
 

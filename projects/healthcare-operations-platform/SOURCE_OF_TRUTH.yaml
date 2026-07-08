@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.61.0
+  version: 0.62.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -32,6 +32,7 @@ sources:
   mvp_mod_001_ui_screen_map: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.yaml
   mvp_mod_001_security_and_audit_rules: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.yaml
   mvp_mod_001_test_plan: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.yaml
+  mvp_mod_001_traceability: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/traceability.yaml
   mvp_mod_001_backend_implementation: 07-implementation/backend/
   mvp_mod_001_frontend_implementation: 07-implementation/employee-portal/
   mvp_mod_001_mobile_implementation: 07-implementation/mobile-app/
@@ -52,6 +53,8 @@ sources:
   mvp_mod_001_pf_app_001_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-APP-001-mobile-app-foundation.yaml
   mvp_mod_001_pf_qa_001_qa_evidence: 08-qa/qa/platform-foundation/PF-QA-001-smoke-and-contract-tests.md
   mvp_mod_001_pf_qa_001_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-QA-001-smoke-and-contract-tests.yaml
+  mvp_mod_001_closeout_evidence: 08-qa/qa/platform-foundation/MVP-MOD-001-closeout.md
+  mvp_mod_001_closeout_evidence_yaml: 08-qa/qa/platform-foundation/MVP-MOD-001-closeout.yaml
   mvp_mod_001_pf_be_004_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-BE-004-audit-event-recording.yaml
   context_map: 02-domain-definition/domain-foundation/context-map/context-map.yaml
   shared_kernel: 02-domain-definition/domain-foundation/shared-kernel/shared-kernel.yaml
