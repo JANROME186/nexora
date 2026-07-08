@@ -1,13 +1,16 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.48.0
+  version: 0.49.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
+  business_requirement_yaml: BUSINESS_REQUIREMENT.yaml
   project_brief: PROJECT_BRIEF.md
+  project_brief_yaml: PROJECT_BRIEF.yaml
   project_state: PROJECT_STATE.yaml
   ordered_development_guide: ORDERED_DEVELOPMENT_GUIDE.md
+  ordered_development_guide_yaml: ORDERED_DEVELOPMENT_GUIDE.yaml
   agent_agnostic_standard: ../../nexora-framework/standards/agent-agnostic-standard.yaml
   product_definition: 01-product-definition/products/healthcare-operations-platform/product.yaml
   business_capability_map: 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
@@ -17,7 +20,13 @@ sources:
   business_rules_catalog: 02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml
   hop_mvp_framework: 06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml
   mvp_backlog_execution_prompts: 06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md
+  mvp_backlog_execution_prompts_yaml: 06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml
   mvp_mod_001_platform_foundation: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
+  mvp_mod_001_domain_model: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.yaml
+  mvp_mod_001_database_migration_plan: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.yaml
+  mvp_mod_001_ui_screen_map: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.yaml
+  mvp_mod_001_security_and_audit_rules: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.yaml
+  mvp_mod_001_test_plan: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.yaml
   context_map: 02-domain-definition/domain-foundation/context-map/context-map.yaml
   shared_kernel: 02-domain-definition/domain-foundation/shared-kernel/shared-kernel.yaml
   aggregate_catalog: 02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml
@@ -27,5 +36,7 @@ rules:
   - HOP project root must contain only numbered folders plus project control files.
   - Nexora framework standards are inherited from ../../nexora-framework/.
   - HOP source artifacts must remain agent agnostic and free of named-agent requirements.
+  - Agent-executable artifacts must have YAML machine-readable files and Markdown human-readable files when applicable.
+  - BUSINESS_REQUIREMENT.md remains requester-supplied source material; BUSINESS_REQUIREMENT.yaml is only a structured index derived from it.
   - Generated artifacts must not be edited manually.
   - Architecture changes require ADR.

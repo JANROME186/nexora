@@ -7,3 +7,4 @@ Current QA artifacts are in:
 The first module test plan is:
 
 - `../06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.md`
+- `../06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.yaml`

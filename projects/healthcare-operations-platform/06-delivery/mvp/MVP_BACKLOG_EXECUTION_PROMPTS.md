@@ -32,18 +32,18 @@ The agent must then read this document, load the required project context, and e
 Before implementing any backlog item, the agent must read these files in order:
 
 1. `BUSINESS_REQUIREMENT.md`
-2. `PROJECT_BRIEF.md`
+2. `PROJECT_BRIEF.yaml`
 3. `SOURCE_OF_TRUTH.yaml`
 4. `PROJECT_STATE.yaml`
-5. `ORDERED_DEVELOPMENT_GUIDE.md`
+5. `ORDERED_DEVELOPMENT_GUIDE.yaml`
 6. `06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
 7. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
-8. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.md`
+8. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.yaml`
 9. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/api-contract.openapi.yaml`
-10. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.md`
-11. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.md`
-12. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.md`
-13. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.md`
+10. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.yaml`
+11. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.yaml`
+12. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.yaml`
+13. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.yaml`
 14. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/traceability.yaml`
 
 ## Execution Order
@@ -68,10 +68,10 @@ Use this instruction when starting development:
 Implement Healthcare Operations Platform MVP-MOD-001 using the project backlog execution playbook.
 
 Read:
-- projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md
+- projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.yaml
 - projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
 - projects/healthcare-operations-platform/PROJECT_STATE.yaml
-- projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md
+- projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml
 
 Then execute the first pending backlog item in the documented order.
 
@@ -92,7 +92,7 @@ Act as a senior development agent for Healthcare Operations Platform.
 
 Work inside the local repository and strictly respect the existing project definitions. Before implementing, read the required loading order from:
 
-projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md
+projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml
 
 Rules:
 - Implement only the requested backlog item.
@@ -168,14 +168,14 @@ Objective:
 Implement the organization-management functional baseline for tenant, laboratory and branch.
 
 Required scope:
-- Entities or aggregates defined in domain-model.md.
+- Entities or aggregates defined in domain-model.yaml.
 - Use cases and commands to create and query:
   - tenant
   - laboratory
   - branch
 - Hexagonal repository ports.
 - PostgreSQL persistence adapters.
-- Database migrations aligned with database-migration-plan.md.
+- Database migrations aligned with database-migration-plan.yaml.
 - REST endpoints aligned with api-contract.openapi.yaml.
 - Applicable business validations.
 - Domain events if defined.
@@ -196,10 +196,10 @@ Objective:
 Implement the identity-access baseline for users, roles and initial authorization.
 
 Required scope:
-- UserAccount and role model according to domain-model.md.
+- UserAccount and role model according to domain-model.yaml.
 - Local development authentication mode.
 - Role assignment to users.
-- Authorization policies according to security-and-audit-rules.md.
+- Authorization policies according to security-and-audit-rules.yaml.
 - REST endpoints aligned with api-contract.openapi.yaml.
 - PostgreSQL persistence.
 - Scope and role validations.
@@ -228,7 +228,7 @@ Required scope:
   - branch creation
   - user creation or role changes
 - Audit query API if defined.
-- Audit security rules according to security-and-audit-rules.md.
+- Audit security rules according to security-and-audit-rules.yaml.
 - Tests proving audit events are recorded and cannot be modified.
 
 Completion criteria:
@@ -248,7 +248,7 @@ Create the administrative web portal for Platform Foundation.
 Required scope:
 - React + TypeScript.
 - Web implementation under 07-implementation/.
-- Screens according to ui-screen-map.md:
+- Screens according to ui-screen-map.yaml:
   - tenant administration
   - laboratory administration
   - branch administration
@@ -341,7 +341,7 @@ Review:
 - projects/healthcare-operations-platform/PROJECT_STATE.yaml
 - projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
 - projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/traceability.yaml
-- projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.md
+- projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.yaml
 - projects/healthcare-operations-platform/07-implementation/
 - projects/healthcare-operations-platform/08-qa/
 

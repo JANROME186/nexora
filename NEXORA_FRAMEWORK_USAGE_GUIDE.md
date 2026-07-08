@@ -69,9 +69,17 @@ Archivos requeridos en la raiz de cada proyecto:
 
 - `BUSINESS_REQUIREMENT.md`
 - `PROJECT_BRIEF.md`
+- `PROJECT_BRIEF.yaml`
 - `SOURCE_OF_TRUTH.yaml`
 - `PROJECT_STATE.yaml`
 - `README.md`
+
+Regla de formato:
+
+- Los archivos `.md` son para lectura, revision y explicacion humana.
+- Los archivos `.yaml` son para consumo operativo de agentes y automatizacion.
+- Todo artefacto que un agente deba ejecutar o seguir debe tener version YAML cuando aplique.
+- `BUSINESS_REQUIREMENT.md` siempre lo provee el solicitante; si existe `BUSINESS_REQUIREMENT.yaml`, es un indice estructurado derivado, no un reemplazo del requerimiento original.
 
 Carpetas requeridas por proyecto:
 

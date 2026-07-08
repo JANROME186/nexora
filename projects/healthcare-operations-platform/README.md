@@ -7,10 +7,13 @@ It is a SaaS and deployable platform for diagnostic healthcare organizations, in
 ## Project Entry Points
 
 - `PROJECT_BRIEF.md`
+- `PROJECT_BRIEF.yaml`
 - `ORDERED_DEVELOPMENT_GUIDE.md`
+- `ORDERED_DEVELOPMENT_GUIDE.yaml`
 - `PROJECT_STATE.yaml`
 - `SOURCE_OF_TRUTH.yaml`
 - `06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md`
+- `06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml`
 - `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/`
 
 ## Development Status
@@ -27,5 +30,5 @@ To start implementation with an agent, provide this instruction:
 
 ```text
 Implement Healthcare Operations Platform MVP-MOD-001 using the project backlog execution playbook.
-Read projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md and execute the first pending backlog item in the documented order.
+Read projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml and execute the first pending backlog item in the documented order.
 ```

@@ -1,0 +1,159 @@
+artifact:
+  id: HOP-BR-001
+  type: business-requirement-structured-index
+  name: Healthcare Operations Platform Business Requirement
+  version: 1.0.0
+  status: approved
+  human_readable: BUSINESS_REQUIREMENT.md
+  machine_readable: BUSINESS_REQUIREMENT.yaml
+  source_rule: derived_from_requester_supplied_business_requirement
+
+input_governance:
+  requester_supplied_source: BUSINESS_REQUIREMENT.md
+  agent_may_generate_source: false
+  agent_may_replace_source: false
+  missing_source_behavior: stop_and_request_business_requirement
+  yaml_role: Structured machine-readable index of the requester-supplied requirement.
+
+project:
+  name: Healthcare Operations Platform
+  company: Nexora
+  product_type:
+    - SaaS platform
+    - Deployable enterprise software
+    - Diagnostic healthcare operations platform
+  initial_domain_focus:
+    - Clinical laboratories
+    - Imaging centers
+    - Multi-branch diagnostic organizations
+
+business_context:
+  summary: Diagnostic healthcare organizations need a unified operating platform to replace fragmented legacy tools.
+  primary_drivers:
+    - Operational standardization across branches.
+    - Traceability across clinical and administrative workflows.
+    - Interoperability with devices, portals, external systems and migration sources.
+    - Secure patient, doctor and employee digital experiences.
+    - AI-assisted operations without delegating clinical validation to AI.
+
+business_opportunity:
+  summary: Build Nexora's reusable healthcare product foundation and first reference solution.
+  outcomes:
+    - Establish a repeatable product architecture for healthcare operations.
+    - Create a module-based MVP path suitable for agent-assisted development.
+    - Support future projects by acting as a reference implementation pattern.
+
+user_need:
+  summary: Users need a secure, auditable and interoperable platform for managing diagnostic operations from intake to result delivery.
+  required_channels:
+    - Employee portal
+    - Patient portal
+    - Doctor portal
+    - Mobile apps
+    - Integration adapters
+
+current_pain:
+  - Fragmented legacy systems.
+  - Duplicated patient, order and result data.
+  - Weak auditability and traceability.
+  - Slow result delivery.
+  - Difficult migrations.
+  - Limited interoperability.
+  - Manual operational coordination across branches.
+
+desired_outcome:
+  - A modern healthcare operations platform.
+  - Multi-tenant laboratory and branch management.
+  - Auditable identity, authorization and operational activity.
+  - OpenAPI-first integration boundaries.
+  - MVP modules that can be implemented incrementally by agents.
+
+target_users_and_actors:
+  - Laboratory administrators
+  - Branch administrators
+  - Receptionists
+  - Cashiers
+  - Sample collectors
+  - Laboratory technicians
+  - Technical validators
+  - Medical validators
+  - Referring doctors
+  - Patients
+  - Patient representatives
+  - Integration partners
+  - Fiscal and regulatory adapters
+  - Laboratory devices
+
+business_capabilities:
+  - Patient management
+  - Organization and branch management
+  - Identity, access and workforce management
+  - Medical staff and referring physician management
+  - Catalog and test configuration management
+  - Orders, appointments and sample collection
+  - Laboratory results and report management
+  - Portals and digital delivery
+  - Billing, invoicing and tax compliance
+  - Inventory, suppliers and procurement management
+  - Imaging operations and DICOM/PACS management
+
+mvp_expectation:
+  summary: Deliver an executable operating spine for diagnostic laboratory operations.
+  first_module: MVP-MOD-001 Platform Foundation
+  delivery_model: Incremental module packages with domain, API, data, UI, security, testing and traceability definitions.
+
+first_mvp_module_requirement:
+  module_id: MVP-MOD-001
+  name: Platform Foundation
+  required_baseline:
+    - Tenant management
+    - Laboratory management
+    - Branch management
+    - Identity baseline
+    - Scoped roles and permissions
+    - Append-only audit
+    - Observability baseline
+    - Local development runtime
+
+guardrails:
+  - Clinical actions must be auditable.
+  - AI cannot validate, release or amend clinical results.
+  - External integrations and migrations must pass through anti-corruption layers.
+  - Tenant isolation is mandatory.
+  - Architecture Freeze v1.0 must be preserved unless changed through ADR.
+
+architecture_expectations:
+  backend:
+    language: Java 21
+    framework: Spring Boot 3.x
+    architecture: Spring Modulith with hexagonal boundaries
+  frontend:
+    framework: React + TypeScript
+  database:
+    engine: PostgreSQL
+  local_runtime:
+    - Docker Compose
+    - PostgreSQL
+    - Redis
+    - Observability collector when applicable
+
+out_of_scope_first_mvp:
+  - Full PACS/DICOM implementation
+  - Advanced AI assistants
+  - Full inventory and procurement automation
+  - Advanced CAPA and external quality workflows
+  - Country-specific fiscal connector implementation beyond adapter boundaries
+
+success_criteria:
+  - MVP-MOD-001 can start development with no blocking definition gaps.
+  - Backend, web, mobile foundation and local runtime can be implemented from documented module packages.
+  - Documentation remains agent-agnostic and provider-agnostic.
+  - Future projects can reuse the same framework pattern.
+
+downstream_source_artifacts:
+  - PROJECT_BRIEF.yaml
+  - SOURCE_OF_TRUTH.yaml
+  - ORDERED_DEVELOPMENT_GUIDE.yaml
+  - 06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml
+  - 06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml
+  - 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml

@@ -80,11 +80,16 @@ implementation_units:
 
 required_artifacts:
   - domain-model.md
+  - domain-model.yaml
   - api-contract.openapi.yaml
   - database-migration-plan.md
+  - database-migration-plan.yaml
   - ui-screen-map.md
+  - ui-screen-map.yaml
   - security-and-audit-rules.md
+  - security-and-audit-rules.yaml
   - test-plan.md
+  - test-plan.yaml
   - traceability.yaml
 
 implementation_backlog:

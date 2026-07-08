@@ -26,17 +26,24 @@ The project root intentionally contains only numbered folders plus project contr
 ## Agent Loading Order
 
 1. `BUSINESS_REQUIREMENT.md`
-2. `PROJECT_BRIEF.md`
-3. `SOURCE_OF_TRUTH.yaml`
-4. `PROJECT_STATE.yaml`
-5. `01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml`
-6. `01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
-7. `02-domain-definition/actors/acm-001/actor-catalog.yaml`
-8. `02-domain-definition/processes/hrp-001/healthcare-reference-processes.yaml`
-9. `02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml`
-10. `06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
-11. `06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md`
-12. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
+2. `BUSINESS_REQUIREMENT.yaml`
+3. `PROJECT_BRIEF.yaml`
+4. `SOURCE_OF_TRUTH.yaml`
+5. `PROJECT_STATE.yaml`
+6. `01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml`
+7. `01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
+8. `02-domain-definition/actors/acm-001/actor-catalog.yaml`
+9. `02-domain-definition/processes/hrp-001/healthcare-reference-processes.yaml`
+10. `02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml`
+11. `06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
+12. `06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml`
+13. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
+14. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.yaml`
+15. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.yaml`
+16. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.yaml`
+17. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.yaml`
+18. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.yaml`
+19. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/traceability.yaml`
 
 ## Development Start Point
 
@@ -46,7 +53,7 @@ The first implementation target is:
 
 The backlog execution playbook is:
 
-`06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md`
+`06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml`
 
 Start by creating the implementation baseline in:
 

@@ -15,6 +15,10 @@ artifact_rules:
     - YAML source artifacts are authoritative when automation is expected.
     - Markdown explains intent, tradeoffs and usage.
     - Generated artifacts must reference their source.
+  agent_execution:
+    - Agents must prefer YAML files when both YAML and Markdown versions exist.
+    - Markdown files remain the human-readable companion for understanding, review and explanation.
+    - BUSINESS_REQUIREMENT.md is requester-supplied; any BUSINESS_REQUIREMENT.yaml is a structured index derived from the requester input, not a replacement.
   traceability:
     required_links:
       - project_brief

@@ -1,0 +1,87 @@
+artifact:
+  id: HOP-ODG-001
+  type: ordered-development-guide
+  name: Healthcare Operations Platform Ordered Development Guide
+  version: 1.0.0
+  status: approved
+  human_readable: ORDERED_DEVELOPMENT_GUIDE.md
+  machine_readable: ORDERED_DEVELOPMENT_GUIDE.yaml
+
+purpose: Defines the predictable incremental execution order for agents working inside the project.
+
+project_folder_order:
+  - step: "00"
+    folder: 00-intake
+    use: Understand user needs, project brief, assumptions and constraints.
+  - step: "01"
+    folder: 01-product-definition
+    use: Define product scope, capability map, dependency map and MVP boundary.
+  - step: "02"
+    folder: 02-domain-definition
+    use: Define domain, actors, processes, business rules, vocabulary and migration model.
+  - step: "03"
+    folder: 03-architecture
+    use: Define application, data, security, integration, AI and technology architecture.
+  - step: "04"
+    folder: 04-requirements
+    use: Define stories, UI/mobile flows, business workflows and acceptance criteria.
+  - step: "05"
+    folder: 05-contracts
+    use: Define OpenAPI, events, adapter and import/export contracts.
+  - step: "06"
+    folder: 06-delivery
+    use: Define MVP modules, implementation packages, releases and traceability.
+  - step: "07"
+    folder: 07-implementation
+    use: Place code or generated implementation assets when implementation is colocated.
+  - step: "08"
+    folder: 08-qa
+    use: Define and store tests, fixtures and quality evidence.
+  - step: "09"
+    folder: 09-operations
+    use: Define engineering governance, deployment, observability and runbooks.
+  - step: "10"
+    folder: 10-generated
+    use: Store generated diagrams, indexes and context packages.
+  - step: "99"
+    folder: 99-legacy
+    use: Preserve old readmes or migration notes only. Do not use for new work.
+
+agent_loading_order:
+  - BUSINESS_REQUIREMENT.md
+  - BUSINESS_REQUIREMENT.yaml
+  - PROJECT_BRIEF.yaml
+  - SOURCE_OF_TRUTH.yaml
+  - PROJECT_STATE.yaml
+  - 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
+  - 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
+  - 02-domain-definition/actors/acm-001/actor-catalog.yaml
+  - 02-domain-definition/processes/hrp-001/healthcare-reference-processes.yaml
+  - 02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml
+  - 06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml
+  - 06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml
+  - 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
+  - 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.yaml
+  - 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.yaml
+  - 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.yaml
+  - 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.yaml
+  - 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.yaml
+  - 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/traceability.yaml
+
+development_start_point:
+  first_implementation_target: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/
+  backlog_execution_playbook: 06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml
+  implementation_baseline_folder: 07-implementation/
+
+incremental_rule:
+  - Select one MVP module.
+  - Load the module definition package from 06-delivery.
+  - Confirm actors, rules, processes and contracts.
+  - Implement only the selected module slice.
+  - Add or update tests in 08-qa.
+  - Add operations notes in 09-operations when runtime behavior changes.
+  - Update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
+
+boundary_rule:
+  project_root: Do not add new unnumbered folders at the project root.
+  placement: If a new artifact does not fit the current sequence, add it under the closest numbered folder and update SOURCE_OF_TRUTH.yaml.

@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.49.0] - 2026-07-08
+
+### Added
+- Added YAML machine-readable counterparts for Healthcare Operations Platform agent execution artifacts.
+- Added structured YAML files for project brief, ordered development guide, backlog execution playbook and MVP-MOD-001 implementation package documents.
+- Added `BUSINESS_REQUIREMENT.yaml` as a structured index derived from requester-supplied `BUSINESS_REQUIREMENT.md`.
+
+### Changed
+- Updated source-of-truth registries and module definition to prefer YAML for agent execution while preserving Markdown for human readability.
+
 ## [0.48.0] - 2026-07-08
 
 ### Added

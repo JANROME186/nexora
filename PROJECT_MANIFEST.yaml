@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.48.0
+  version: 0.49.0
   status: ready
 
 company:
@@ -35,9 +35,13 @@ projects:
     path: projects/healthcare-operations-platform/
     status: ready_for_mvp_development
     business_requirement: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md
+    business_requirement_yaml: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.yaml
     project_brief: projects/healthcare-operations-platform/PROJECT_BRIEF.md
+    project_brief_yaml: projects/healthcare-operations-platform/PROJECT_BRIEF.yaml
     ordered_development_guide: projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md
+    ordered_development_guide_yaml: projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.yaml
     mvp_backlog_execution_prompts: projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md
+    mvp_backlog_execution_prompts_yaml: projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml
     source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
     ready_to_start_module: MVP-MOD-001
 
@@ -54,4 +58,4 @@ agent_policy:
     - nexora-framework/recipes/agent-to-mvp-recipe.md
     - target_project/BUSINESS_REQUIREMENT.md
     - target_project/SOURCE_OF_TRUTH.yaml
-    - target_project/PROJECT_BRIEF.md
+    - target_project/PROJECT_BRIEF.yaml

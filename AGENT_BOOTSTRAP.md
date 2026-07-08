@@ -38,7 +38,7 @@ Project-specific work lives under:
 8. `nexora-framework/recipes/agent-to-mvp-recipe.md`
 9. Target project `BUSINESS_REQUIREMENT.md`
 10. Target project `SOURCE_OF_TRUTH.yaml`
-11. Target project `PROJECT_BRIEF.md`
+11. Target project `PROJECT_BRIEF.yaml`
 12. Target project `PROJECT_STATE.yaml`
 
 ## Nexora Framework
@@ -69,20 +69,23 @@ Ready module:
 Required project entry files:
 
 - `projects/healthcare-operations-platform/PROJECT_BRIEF.md`
+- `projects/healthcare-operations-platform/PROJECT_BRIEF.yaml`
 - `projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md`
+- `projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.yaml`
 - `projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md`
+- `projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.yaml`
 - `projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml`
 - `projects/healthcare-operations-platform/PROJECT_STATE.yaml`
 
 Required starting package:
 
 - `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
-- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.md`
+- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.yaml`
 - `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/api-contract.openapi.yaml`
-- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.md`
-- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.md`
-- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.md`
-- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.md`
+- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.yaml`
+- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.yaml`
+- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.yaml`
+- `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.yaml`
 - `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/traceability.yaml`
 
 ## Rules
@@ -90,7 +93,7 @@ Required starting package:
 1. Preserve project boundaries.
 2. Do not put project-specific files at repository root.
 3. For a new project, require the requester to provide `projects/<project-slug>/BUSINESS_REQUIREMENT.md` first.
-4. Structure the requirement into `PROJECT_BRIEF.md`.
+4. Structure the requirement into `PROJECT_BRIEF.md` and `PROJECT_BRIEF.yaml`.
 5. Apply the Nexora Project Analysis and MVP Workflow before implementation.
 6. Apply the Nexora Agent-to-MVP Recipe before implementation.
 7. Update project-level `PROJECT_STATE.yaml` and `SOURCE_OF_TRUTH.yaml` for project work.
@@ -112,6 +115,10 @@ This file must be supplied by the requester. Do not generate it as an agent.
 Then create:
 
 `projects/<project-slug>/PROJECT_BRIEF.md`
+
+and:
+
+`projects/<project-slug>/PROJECT_BRIEF.yaml`
 
 Then run:
 

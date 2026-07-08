@@ -37,12 +37,14 @@ project_discovery:
     load_if_present:
       - BUSINESS_REQUIREMENT.md
       - PROJECT_BRIEF.md
+      - PROJECT_BRIEF.yaml
       - SOURCE_OF_TRUTH.yaml
       - PROJECT_STATE.yaml
     stop_if_missing:
       - BUSINESS_REQUIREMENT.md
     create_missing_control_files_from_template:
       - PROJECT_BRIEF.md
+      - PROJECT_BRIEF.yaml
       - SOURCE_OF_TRUTH.yaml
       - PROJECT_STATE.yaml
 
@@ -71,12 +73,13 @@ business_requirement:
       - Capability map
       - MVP framework
       - Module package
-  relation_to_project_brief: PROJECT_BRIEF.md structures and refines BUSINESS_REQUIREMENT.md; it does not replace it.
+  relation_to_project_brief: PROJECT_BRIEF.md explains and PROJECT_BRIEF.yaml structures BUSINESS_REQUIREMENT.md; neither replaces requester-supplied source material.
 
 analysis_status_detection:
   ready_when_all_exist:
     - BUSINESS_REQUIREMENT.md
     - PROJECT_BRIEF.md
+    - PROJECT_BRIEF.yaml
     - SOURCE_OF_TRUTH.yaml
     - PROJECT_STATE.yaml
     - 01-product-definition/
@@ -113,16 +116,18 @@ completion_workflow:
       - create_mvp_delivery_framework
       - create_first_module_package
       - update_source_of_truth_and_project_state
-  source_first_rule: YAML and Markdown source artifacts must be completed before generated artifacts.
+  source_first_rule: YAML and Markdown source artifacts must be completed before generated artifacts; agents consume YAML first and humans read Markdown companions.
   implementation_rule: Do not create application code until the first module package satisfies the readiness gate.
 
 mvp_required_outputs:
   project_level:
     - BUSINESS_REQUIREMENT.md supplied by requester
     - PROJECT_BRIEF.md
+    - PROJECT_BRIEF.yaml
     - SOURCE_OF_TRUTH.yaml
     - PROJECT_STATE.yaml
     - ORDERED_DEVELOPMENT_GUIDE.md
+    - ORDERED_DEVELOPMENT_GUIDE.yaml
   product_definition:
     - capability map
     - capability dependency map
@@ -149,15 +154,21 @@ specialized_subagent_handoff:
   required_package_per_module:
     - module-definition.yaml
     - domain-model.md
+    - domain-model.yaml
     - api-contract.openapi.yaml
     - database-migration-plan.md
+    - database-migration-plan.yaml
     - ui-screen-map.md
+    - ui-screen-map.yaml
     - security-and-audit-rules.md
+    - security-and-audit-rules.yaml
     - test-plan.md
+    - test-plan.yaml
     - traceability.yaml
   required_context_for_subagents:
     - BUSINESS_REQUIREMENT.md
     - PROJECT_BRIEF.md
+    - PROJECT_BRIEF.yaml
     - SOURCE_OF_TRUTH.yaml
     - PROJECT_STATE.yaml
     - target module package

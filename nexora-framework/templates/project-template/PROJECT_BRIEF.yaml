@@ -1,0 +1,34 @@
+artifact:
+  id: PROJECT-BRIEF
+  type: project-brief
+  name: Project Brief
+  version: 0.1.0
+  status: draft
+  human_readable: PROJECT_BRIEF.md
+  machine_readable: PROJECT_BRIEF.yaml
+  source_business_requirement: BUSINESS_REQUIREMENT.md
+
+input_governance:
+  business_requirement_required: true
+  business_requirement_supplied_by: requester
+  agent_may_generate_business_requirement: false
+  missing_business_requirement_behavior: stop_and_request_input
+
+project:
+  name: TBD
+  slug: TBD
+  company: Nexora
+
+user_need:
+  summary: TBD_FROM_BUSINESS_REQUIREMENT
+
+problem_statement:
+  summary: TBD_FROM_BUSINESS_REQUIREMENT
+
+mvp_objective:
+  summary: TBD_FROM_BUSINESS_REQUIREMENT
+
+must_have: []
+out_of_scope_first_mvp: []
+constraints: []
+success_criteria: []
