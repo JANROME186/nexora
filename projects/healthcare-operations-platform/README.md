@@ -10,6 +10,7 @@ It is a SaaS and deployable platform for diagnostic healthcare organizations, in
 - `ORDERED_DEVELOPMENT_GUIDE.md`
 - `PROJECT_STATE.yaml`
 - `SOURCE_OF_TRUTH.yaml`
+- `06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md`
 - `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/`
 
 ## Development Status
@@ -19,3 +20,12 @@ This project is ready to start implementation of:
 `MVP-MOD-001 Platform Foundation`
 
 The project root is ordered by numbered folders. New work must be added under the closest numbered folder and must not create unnumbered root folders.
+
+## Generic Development Instruction
+
+To start implementation with an agent, provide this instruction:
+
+```text
+Implement Healthcare Operations Platform MVP-MOD-001 using the project backlog execution playbook.
+Read projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md and execute the first pending backlog item in the documented order.
+```

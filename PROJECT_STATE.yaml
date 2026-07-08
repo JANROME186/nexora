@@ -1,6 +1,6 @@
 repository: Nexora
-repository_version: 0.47.0
-current_phase: Requester-Supplied Business Requirement Enforced
+repository_version: 0.48.0
+current_phase: MVP Backlog Execution Playbook Added
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -24,7 +24,7 @@ projects:
     ready_to_start_module: MVP-MOD-001
     structure: ordered_numbered_folders
 next_deliverables:
-  - Implement projects/healthcare-operations-platform MVP-MOD-001 Platform Foundation
+  - Implement projects/healthcare-operations-platform MVP-MOD-001 Platform Foundation using the backlog execution playbook
   - Use Nexora Agent-to-MVP Recipe for any new project under projects/
 agent_entrypoint: AGENT_BOOTSTRAP.md
 development_readiness:

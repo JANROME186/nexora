@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.45.0
+  version: 0.48.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -16,6 +16,7 @@ sources:
   healthcare_reference_processes: 02-domain-definition/processes/hrp-001/healthcare-reference-processes.yaml
   business_rules_catalog: 02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml
   hop_mvp_framework: 06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml
+  mvp_backlog_execution_prompts: 06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md
   mvp_mod_001_platform_foundation: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
   context_map: 02-domain-definition/domain-foundation/context-map/context-map.yaml
   shared_kernel: 02-domain-definition/domain-foundation/shared-kernel/shared-kernel.yaml

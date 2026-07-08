@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.48.0] - 2026-07-08
+
+### Added
+- Added the Healthcare Operations Platform MVP backlog execution prompt playbook.
+- Registered the playbook in project and repository source-of-truth files so agents can start from a generic instruction and execute backlog items in order.
+
 ## [0.47.0] - 2026-07-07
 
 ### Changed

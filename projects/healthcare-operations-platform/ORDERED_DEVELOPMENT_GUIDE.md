@@ -35,13 +35,18 @@ The project root intentionally contains only numbered folders plus project contr
 8. `02-domain-definition/processes/hrp-001/healthcare-reference-processes.yaml`
 9. `02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml`
 10. `06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
-11. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
+11. `06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md`
+12. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
 
 ## Development Start Point
 
 The first implementation target is:
 
 `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/`
+
+The backlog execution playbook is:
+
+`06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md`
 
 Start by creating the implementation baseline in:
 
