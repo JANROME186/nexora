@@ -10,6 +10,17 @@ artifact:
 
 purpose: Provide reusable, agent-agnostic prompts for analysis, validation and MVP development of any project under projects/.
 
+prompt_hierarchy:
+  role: This file defines the primary generic prompts for the project lifecycle.
+  primary_prompts:
+    - PROMPT-ANALYZE-001
+    - PROMPT-VALIDATE-001
+    - PROMPT-DEVELOP-001
+  auxiliary_prompt_playbooks:
+    - nexora-framework/prompts/auxiliary-development-prompts.yaml
+    - target_project/06-delivery/mvp/*backlog*execution*.yaml
+  precedence_rule: Auxiliary prompts may refine execution but must not contradict this file, the project source of truth or the target module package.
+
 usage_model:
   required_user_input:
     - target_project_folder
@@ -197,6 +208,7 @@ prompts:
       - nexora-framework/standards/agent-agnostic-standard.yaml
       - nexora-framework/standards/documentation-standard.yaml
       - nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+      - nexora-framework/prompts/auxiliary-development-prompts.yaml
       - projects/<project-slug>/SOURCE_OF_TRUTH.yaml
       - projects/<project-slug>/PROJECT_STATE.yaml
       - projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.yaml
@@ -206,6 +218,8 @@ prompts:
 
       Then load the module package path from:
       projects/<project-slug>/SOURCE_OF_TRUTH.yaml
+
+      If the target project has a project-specific backlog execution playbook, load it after the module package and use it to identify the first pending backlog item.
 
       Required module package files:
       - module-definition.yaml
@@ -228,6 +242,7 @@ prompts:
       - Update tests and traceability when implementation changes behavior.
       - Update PROJECT_STATE.yaml after verified progress.
       - Stop and record a blocking gap if definitions are missing or contradictory.
+      - Auxiliary prompts may help implement a selected slice, but they must not override this prompt, SOURCE_OF_TRUTH.yaml, PROJECT_STATE.yaml or the module package.
 
       Required development flow:
       1. Confirm PROJECT_STATE.yaml shows development_readiness.status: ready.

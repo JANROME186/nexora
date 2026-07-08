@@ -28,6 +28,8 @@ It defines:
 - `recipes/agent-to-mvp-recipe.md`
 - `prompts/generic-project-lifecycle-prompts.md`
 - `prompts/generic-project-lifecycle-prompts.yaml`
+- `prompts/auxiliary-development-prompts.md`
+- `prompts/auxiliary-development-prompts.yaml`
 - `templates/project-template/`
 
 ## Agent Project Scan
@@ -65,3 +67,5 @@ It defines three reusable prompts:
 1. Analyze a project from `BUSINESS_REQUIREMENT.md` and generate all MVP-ready definitions.
 2. Validate that the generated project complies with the Nexora framework.
 3. Develop the MVP from the prepared project folder and ordered module package.
+
+Use `prompts/auxiliary-development-prompts.yaml` only after the generic MVP development prompt has selected the project, module and backlog item.

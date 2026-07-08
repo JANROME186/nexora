@@ -4,6 +4,14 @@
 
 This document is the execution playbook for implementing the Healthcare Operations Platform MVP with any capable development agent.
 
+It supports the generic MVP development prompt at:
+
+```text
+nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+```
+
+If this playbook conflicts with the generic prompt, `SOURCE_OF_TRUTH.yaml`, `PROJECT_STATE.yaml` or the module package, stop and report the conflict.
+
 The user should only need to give a generic instruction such as:
 
 ```text
@@ -16,6 +24,7 @@ The agent must then read this document, load the required project context, and e
 ## Non-Negotiable Rules
 
 - Work only from the definitions already present in the project.
+- Use the generic MVP development prompt as the primary instruction.
 - Do not modify `BUSINESS_REQUIREMENT.md`.
 - Do not create unnumbered folders at the project root.
 - Place implementation code under `07-implementation/`.

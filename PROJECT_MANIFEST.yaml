@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.50.0
+  version: 0.51.0
   status: ready
 
 company:
@@ -27,6 +27,7 @@ framework:
     agent_to_mvp: nexora-framework/recipes/agent-to-mvp-recipe.yaml
   prompts:
     generic_project_lifecycle: nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+    auxiliary_development: nexora-framework/prompts/auxiliary-development-prompts.yaml
   orchestration:
     project_analysis_to_mvp: nexora-framework/project-orchestration/project-analysis-and-mvp-workflow.yaml
   template:

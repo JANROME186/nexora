@@ -96,6 +96,9 @@ implementation_backlog:
   - id: PF-BE-001
     title: Create backend project skeleton
     output: Java Spring Boot Modulith baseline with organization, identity, audit and observability modules.
+  - id: PF-OPS-001
+    title: Create local development compose profile
+    output: PostgreSQL, Redis, application and observability collector.
   - id: PF-BE-002
     title: Implement tenant, laboratory and branch commands
     output: Domain services, repositories and OpenAPI endpoints.
@@ -108,9 +111,9 @@ implementation_backlog:
   - id: PF-FE-001
     title: Create employee portal administration screens
     output: Tenant, laboratory, branch, user and role screens.
-  - id: PF-OPS-001
-    title: Create local development compose profile
-    output: PostgreSQL, Redis, application and observability collector.
+  - id: PF-APP-001
+    title: Create mobile app foundation
+    output: Mobile shell, local authentication baseline, navigation and API client prepared for Platform Foundation.
   - id: PF-QA-001
     title: Add smoke and contract tests
     output: Auth, organization and audit verification suite.

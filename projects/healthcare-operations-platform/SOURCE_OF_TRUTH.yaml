@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.49.0
+  version: 0.51.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -21,6 +21,8 @@ sources:
   hop_mvp_framework: 06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml
   mvp_backlog_execution_prompts: 06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md
   mvp_backlog_execution_prompts_yaml: 06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml
+  generic_project_lifecycle_prompts_yaml: ../../nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+  auxiliary_development_prompts_yaml: ../../nexora-framework/prompts/auxiliary-development-prompts.yaml
   mvp_mod_001_platform_foundation: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
   mvp_mod_001_domain_model: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.yaml
   mvp_mod_001_database_migration_plan: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.yaml

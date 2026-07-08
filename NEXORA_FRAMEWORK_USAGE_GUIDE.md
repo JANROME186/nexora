@@ -21,8 +21,12 @@ El framework incluye un playbook de prompts reutilizable para cualquier proyecto
 
 - `nexora-framework/prompts/generic-project-lifecycle-prompts.md`
 - `nexora-framework/prompts/generic-project-lifecycle-prompts.yaml`
+- `nexora-framework/prompts/auxiliary-development-prompts.md`
+- `nexora-framework/prompts/auxiliary-development-prompts.yaml`
 
 La version YAML es la fuente operativa para agentes. La version Markdown es para lectura humana.
+
+Los prompts auxiliares de desarrollo ayudan a ejecutar kickoff de modulo, slices de backlog, backend, web, movil, QA y cierre. No reemplazan a los prompts genericos; solo se usan despues de que el prompt generico de desarrollo selecciona proyecto, modulo y slice.
 
 Para usar el framework con un nuevo proyecto, la persona usuaria solo debe:
 

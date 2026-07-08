@@ -10,6 +10,12 @@ artifact:
 
 purpose: Enables any capable development agent to implement the MVP incrementally from a generic instruction.
 
+prompt_hierarchy:
+  primary_prompt: ../../../../nexora-framework/prompts/generic-project-lifecycle-prompts.yaml#prompts.mvp_development
+  auxiliary_prompt: ../../../../nexora-framework/prompts/auxiliary-development-prompts.yaml
+  role: This project-specific playbook defines HOP backlog order and completion criteria for MVP-MOD-001.
+  conflict_rule: If this playbook conflicts with BUSINESS_REQUIREMENT.md, SOURCE_OF_TRUTH.yaml, PROJECT_STATE.yaml or the module package, stop and report the conflict.
+
 generic_agent_instruction: >-
   Implement Healthcare Operations Platform MVP-MOD-001 using the project backlog execution playbook.
   Read projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml
@@ -17,6 +23,7 @@ generic_agent_instruction: >-
 
 non_negotiable_rules:
   - Work only from the definitions already present in the project.
+  - Use the generic MVP development prompt as the primary instruction.
   - Do not modify BUSINESS_REQUIREMENT.md.
   - Do not create unnumbered folders at the project root.
   - Place implementation code under 07-implementation/.

@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.51.0] - 2026-07-08
+
+### Added
+- Added auxiliary development prompts for module kickoff, backlog slices, backend, web, mobile, QA and closeout.
+- Added prompt hierarchy rules so auxiliary prompts support but do not override generic lifecycle prompts or project source artifacts.
+
+### Changed
+- Aligned Healthcare Operations Platform MVP-MOD-001 backlog order across the module definition and backlog execution playbook.
+- Added the mobile foundation backlog item to the MVP-MOD-001 module definition.
+
 ## [0.50.0] - 2026-07-08
 
 ### Added

@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.50.0
+  version: 0.51.0
   status: approved
 sources:
   repository_readme: README.md
@@ -17,6 +17,8 @@ sources:
   agent_to_mvp_recipe: nexora-framework/recipes/agent-to-mvp-recipe.yaml
   generic_project_lifecycle_prompts: nexora-framework/prompts/generic-project-lifecycle-prompts.md
   generic_project_lifecycle_prompts_yaml: nexora-framework/prompts/generic-project-lifecycle-prompts.yaml
+  auxiliary_development_prompts: nexora-framework/prompts/auxiliary-development-prompts.md
+  auxiliary_development_prompts_yaml: nexora-framework/prompts/auxiliary-development-prompts.yaml
   multi_project_structure_adr: nexora-framework/adr/ADR-024-multi-project-repository-structure.md
   project_template: nexora-framework/templates/project-template/
   projects_index: projects/README.md
@@ -40,6 +42,7 @@ rules:
   - Agents and users must use NEXORA_FRAMEWORK_USAGE_GUIDE.md as the human-facing operating guide for analysis and development handoff.
   - Agents must scan projects/ and validate project analysis status before implementation.
   - Agents must use nexora-framework/prompts/generic-project-lifecycle-prompts.yaml when a user requests generic analysis, validation or MVP development for a project folder.
+  - Auxiliary prompts must support, not override, the generic lifecycle prompts and project source artifacts.
   - Agents must stop analysis when BUSINESS_REQUIREMENT.md is missing because it is requester-supplied source material.
   - Agent-executable project artifacts must prefer YAML machine-readable files; Markdown remains the human-readable companion.
   - Agents must not require agent-specific files, prompts, runtime features or vendor configuration.
