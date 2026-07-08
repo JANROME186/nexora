@@ -42,9 +42,11 @@ Completed backlog item:
 
 `PF-OPS-001 Create local development compose profile`
 
+`PF-BE-002 Implement tenant, laboratory and branch commands`
+
 Current backlog item:
 
-`PF-BE-002 Implement tenant, laboratory and branch commands`
+`PF-BE-003 Implement user account and role assignment baseline`
 
 Project folder:
 

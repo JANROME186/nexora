@@ -6,6 +6,10 @@ spring:
     username: ${HOP_DB_USERNAME:hop}
     password: ${HOP_DB_PASSWORD:hop}
     driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/platform-foundation/schema.sql
 
 management:
   endpoint:

@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.55.0
+  version: 0.56.0
   status: ready
 
 company:
@@ -55,7 +55,8 @@ projects:
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
-    active_backlog_item: PF-BE-002
+      - PF-BE-002
+    active_backlog_item: PF-BE-003
 
   agent_policy:
   agent_agnostic: true

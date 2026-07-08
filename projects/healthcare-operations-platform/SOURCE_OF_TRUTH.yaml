@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.55.0
+  version: 0.56.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -26,6 +26,7 @@ sources:
   generic_project_lifecycle_prompts_yaml: ../../nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
   auxiliary_development_prompts_yaml: ../../nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
   mvp_mod_001_platform_foundation: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml
+  mvp_mod_001_api_contract: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/api-contract.openapi.yaml
   mvp_mod_001_domain_model: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.yaml
   mvp_mod_001_database_migration_plan: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.yaml
   mvp_mod_001_ui_screen_map: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.yaml
@@ -38,6 +39,8 @@ sources:
   mvp_mod_001_pf_be_001_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-BE-001-backend-skeleton.yaml
   mvp_mod_001_pf_ops_001_qa_evidence: 08-qa/qa/platform-foundation/PF-OPS-001-local-runtime.md
   mvp_mod_001_pf_ops_001_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-OPS-001-local-runtime.yaml
+  mvp_mod_001_pf_be_002_qa_evidence: 08-qa/qa/platform-foundation/PF-BE-002-organization-commands.md
+  mvp_mod_001_pf_be_002_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-BE-002-organization-commands.yaml
   context_map: 02-domain-definition/domain-foundation/context-map/context-map.yaml
   shared_kernel: 02-domain-definition/domain-foundation/shared-kernel/shared-kernel.yaml
   aggregate_catalog: 02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml

@@ -28,6 +28,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TenantResponse'
+  /platform/tenants/{tenantId}:
+    get:
+      operationId: getTenant
+      tags: [Platform Foundation]
+      summary: Get tenant by id
+      x-actors: [ACT-001]
+      x-permissions: [manage_tenants]
+      parameters:
+        - name: tenantId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tenant found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantResponse'
   /organization/laboratories:
     post:
       operationId: createLaboratory
@@ -48,6 +68,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LaboratoryResponse'
+  /organization/laboratories/{laboratoryId}:
+    get:
+      operationId: getLaboratory
+      tags: [Organization]
+      summary: Get laboratory by id
+      x-actors: [ACT-001, ACT-002]
+      x-permissions: [manage_laboratories]
+      parameters:
+        - name: laboratoryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Laboratory found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaboratoryResponse'
   /organization/branches:
     post:
       operationId: createBranch
@@ -64,6 +104,26 @@ paths:
       responses:
         '201':
           description: Branch created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BranchResponse'
+  /organization/branches/{branchId}:
+    get:
+      operationId: getBranch
+      tags: [Organization]
+      summary: Get branch by id
+      x-actors: [ACT-002, ACT-003]
+      x-permissions: [manage_branches]
+      parameters:
+        - name: branchId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Branch found
           content:
             application/json:
               schema:
@@ -156,6 +216,8 @@ components:
           type: string
         name:
           type: string
+        status:
+          type: string
     CreateLaboratoryRequest:
       type: object
       required: [tenantId, name]
@@ -174,6 +236,8 @@ components:
           type: string
         name:
           type: string
+        status:
+          type: string
     CreateBranchRequest:
       type: object
       required: [laboratoryId, name]
@@ -184,13 +248,17 @@ components:
           type: string
     BranchResponse:
       type: object
-      required: [branchId, laboratoryId, name]
+      required: [branchId, tenantId, laboratoryId, name]
       properties:
         branchId:
+          type: string
+        tenantId:
           type: string
         laboratoryId:
           type: string
         name:
+          type: string
+        status:
           type: string
     CreateUserRequest:
       type: object

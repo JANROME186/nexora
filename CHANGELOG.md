@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.56.0] - 2026-07-08
+
+### Added
+- Added `PF-BE-002` organization-management commands for tenant, laboratory and branch.
+- Added REST endpoints to create and query tenant, laboratory and branch records.
+- Added default in-memory organization repository and local PostgreSQL JDBC repository.
+- Added idempotent platform foundation schema initialization for application local profile and local runtime.
+- Added backend API tests and local PostgreSQL persistence tests for the organization command flow.
+- Added QA evidence for `PF-BE-002` in Markdown and YAML.
+
+### Changed
+- Updated repository and project state to mark `PF-BE-002` complete and move the active backlog item to `PF-BE-003`.
+- Updated the MVP-MOD-001 API contract with tenant, laboratory and branch query endpoints.
+
 ## [0.55.0] - 2026-07-08
 
 ### Added

@@ -16,7 +16,8 @@ The package layout follows hexagonal boundaries inside each context:
 - `domain`
 - `application`
 - `adapter.in.web`
-- `adapter.out.persistence`
+- `adapter.out.memory`
+- `adapter.out.jdbc`
 
 ## Run
 
@@ -28,6 +29,12 @@ The application exposes:
 
 - `GET /actuator/health`
 - `GET /api/platform/health`
+- `POST /api/platform/tenants`
+- `GET /api/platform/tenants/{tenantId}`
+- `POST /api/organization/laboratories`
+- `GET /api/organization/laboratories/{laboratoryId}`
+- `POST /api/organization/branches`
+- `GET /api/organization/branches/{branchId}`
 
 ## Test
 
@@ -40,12 +47,12 @@ The project includes `.mvn/settings.xml` so local validation uses a repository i
 Run the optional local database integration test only after the local runtime is started:
 
 ```bash
-mvn --settings .mvn/settings.xml "-Dhop.local-db-tests=true" "-Dtest=PlatformFoundationLocalDatabaseTest" test
+mvn --settings .mvn/settings.xml "-Dhop.local-db-tests=true" "-Dtest=PlatformFoundationLocalDatabaseTest,OrganizationManagementLocalDatabaseTest" test
 ```
 
 ## Local Database Profile
 
-The `local` profile contains PostgreSQL connection placeholders for the next runtime backlog item.
+The `local` profile uses PostgreSQL through the JDBC adapter and initializes the platform foundation schema idempotently.
 
 ```bash
 mvn spring-boot:run -Dspring-boot.run.profiles=local
