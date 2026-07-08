@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.55.0] - 2026-07-08
+
+### Added
+- Added `PF-OPS-001` local development runtime for Healthcare Operations Platform `MVP-MOD-001 Platform Foundation`.
+- Added Docker Compose profile with PostgreSQL, Redis and OpenTelemetry Collector.
+- Added local environment variable example file and PostgreSQL schema initialization script.
+- Added optional backend local database integration test for the PostgreSQL profile.
+- Added QA evidence for `PF-OPS-001` in Markdown and YAML.
+
+### Changed
+- Updated repository and project state to mark `PF-OPS-001` complete and move the active backlog item to `PF-BE-002`.
+
 ## [0.54.0] - 2026-07-08
 
 ### Added

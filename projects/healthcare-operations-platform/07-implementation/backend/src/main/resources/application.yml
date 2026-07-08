@@ -1,6 +1,9 @@
 spring:
   application:
     name: hop-platform-foundation
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
 hop:
   platform-foundation:

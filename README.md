@@ -40,9 +40,11 @@ Completed backlog item:
 
 `PF-BE-001 Create backend project skeleton`
 
+`PF-OPS-001 Create local development compose profile`
+
 Current backlog item:
 
-`PF-OPS-001 Create local development compose profile`
+`PF-BE-002 Implement tenant, laboratory and branch commands`
 
 Project folder:
 

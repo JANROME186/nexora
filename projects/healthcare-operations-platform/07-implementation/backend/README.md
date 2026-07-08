@@ -37,6 +37,12 @@ mvn --settings .mvn/settings.xml test
 
 The project includes `.mvn/settings.xml` so local validation uses a repository inside this backend folder and does not depend on workstation-wide Maven settings.
 
+Run the optional local database integration test only after the local runtime is started:
+
+```bash
+mvn --settings .mvn/settings.xml "-Dhop.local-db-tests=true" "-Dtest=PlatformFoundationLocalDatabaseTest" test
+```
+
 ## Local Database Profile
 
 The `local` profile contains PostgreSQL connection placeholders for the next runtime backlog item.
@@ -51,4 +57,4 @@ Expected environment variables:
 - `HOP_DB_USERNAME`
 - `HOP_DB_PASSWORD`
 
-The Docker Compose runtime is intentionally deferred to `PF-OPS-001`.
+The Docker Compose runtime is defined in `../compose.local.yml`.

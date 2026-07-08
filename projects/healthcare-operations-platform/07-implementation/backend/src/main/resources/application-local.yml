@@ -1,4 +1,6 @@
 spring:
+  autoconfigure:
+    exclude: []
   datasource:
     url: ${HOP_DB_URL:jdbc:postgresql://localhost:5432/hop}
     username: ${HOP_DB_USERNAME:hop}
