@@ -148,6 +148,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
+  /identity/users/{userId}:
+    get:
+      operationId: getUser
+      tags: [Identity]
+      summary: Get user account by id
+      x-actors: [ACT-001, ACT-002, ACT-003]
+      x-permissions: [manage_users]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
   /identity/users/{userId}/role-assignments:
     post:
       operationId: assignRole

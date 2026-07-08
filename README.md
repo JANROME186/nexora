@@ -44,9 +44,11 @@ Completed backlog item:
 
 `PF-BE-002 Implement tenant, laboratory and branch commands`
 
+`PF-BE-003 Implement user account and role assignment baseline`
+
 Current backlog item:
 
-`PF-BE-003 Implement user account and role assignment baseline`
+`PF-BE-004 Implement append-only audit event recording`
 
 Project folder:
 

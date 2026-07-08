@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 import com.nexora.hop.platformfoundation.organizationmanagement.domain.Branch;
 import com.nexora.hop.platformfoundation.organizationmanagement.domain.Laboratory;
 import com.nexora.hop.platformfoundation.organizationmanagement.domain.OrganizationRepository;
 import com.nexora.hop.platformfoundation.organizationmanagement.domain.Tenant;
 
 @Service
-public class OrganizationManagementService {
+public class OrganizationManagementService implements TenantDirectory {
 
     private static final String ACTIVE_STATUS = "active";
 
@@ -69,6 +70,14 @@ public class OrganizationManagementService {
     public Branch getBranch(String branchId) {
         return repository.findBranchById(requiredText(branchId, "Branch id is required."))
                 .orElseThrow(() -> new OrganizationEntityNotFoundException("Branch was not found."));
+    }
+
+    @Override
+    public boolean tenantExists(String tenantId) {
+        if (!StringUtils.hasText(tenantId)) {
+            return false;
+        }
+        return repository.findTenantById(tenantId).isPresent();
     }
 
     private Tenant requireTenant(String tenantId) {

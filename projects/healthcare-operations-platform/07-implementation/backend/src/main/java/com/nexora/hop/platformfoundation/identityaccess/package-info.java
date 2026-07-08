@@ -1,4 +1,4 @@
 @org.springframework.modulith.ApplicationModule(
         displayName = "Identity Access",
-        allowedDependencies = "auditcompliance")
+        allowedDependencies = { "auditcompliance", "organizationmanagement" })
 package com.nexora.hop.platformfoundation.identityaccess;

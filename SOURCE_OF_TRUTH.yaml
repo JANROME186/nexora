@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.56.0
+  version: 0.57.0
   status: approved
 sources:
   repository_readme: README.md
@@ -50,6 +50,8 @@ sources:
   hop_mvp_mod_001_pf_ops_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-OPS-001-local-runtime.yaml
   hop_mvp_mod_001_pf_be_002_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-002-organization-commands.md
   hop_mvp_mod_001_pf_be_002_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-002-organization-commands.yaml
+  hop_mvp_mod_001_pf_be_003_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-003-identity-access.md
+  hop_mvp_mod_001_pf_be_003_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-003-identity-access.yaml
 rules:
   - Nexora is the company and repository-level framework owner.
   - Nexora final vision and strategic handoff define company-level intent and must remain agent agnostic.

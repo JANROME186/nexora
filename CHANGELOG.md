@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.57.0] - 2026-07-08
+
+### Added
+- Added `PF-BE-003` identity-access commands for user account creation, query and scoped role assignment.
+- Added REST endpoints to create and query user accounts and to assign scoped roles.
+- Added default in-memory identity repository and local PostgreSQL JDBC identity repository.
+- Added idempotent identity schema tables for user accounts and role assignments.
+- Added a read-only `TenantDirectory` port so identity-access can validate tenant existence without depending on internal organization-management types.
+- Added backend API tests and local PostgreSQL persistence tests for the identity access command flow.
+- Added QA evidence for `PF-BE-003` in Markdown and YAML.
+
+### Changed
+- Updated repository and project state to mark `PF-BE-003` complete and move the active backlog item to `PF-BE-004`.
+- Updated the MVP-MOD-001 API contract with the get user account endpoint.
+
 ## [0.56.0] - 2026-07-08
 
 ### Added

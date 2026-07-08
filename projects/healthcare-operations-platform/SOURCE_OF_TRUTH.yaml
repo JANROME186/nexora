@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.56.0
+  version: 0.57.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -41,6 +41,8 @@ sources:
   mvp_mod_001_pf_ops_001_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-OPS-001-local-runtime.yaml
   mvp_mod_001_pf_be_002_qa_evidence: 08-qa/qa/platform-foundation/PF-BE-002-organization-commands.md
   mvp_mod_001_pf_be_002_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-BE-002-organization-commands.yaml
+  mvp_mod_001_pf_be_003_qa_evidence: 08-qa/qa/platform-foundation/PF-BE-003-identity-access.md
+  mvp_mod_001_pf_be_003_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-BE-003-identity-access.yaml
   context_map: 02-domain-definition/domain-foundation/context-map/context-map.yaml
   shared_kernel: 02-domain-definition/domain-foundation/shared-kernel/shared-kernel.yaml
   aggregate_catalog: 02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml

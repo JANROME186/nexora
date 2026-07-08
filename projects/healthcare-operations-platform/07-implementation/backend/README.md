@@ -19,6 +19,8 @@ The package layout follows hexagonal boundaries inside each context:
 - `adapter.out.memory`
 - `adapter.out.jdbc`
 
+`identityaccess` depends on `organizationmanagement` only through the `TenantDirectory` port exposed at the base package of `organizationmanagement`, used to validate tenant existence when creating a user account.
+
 ## Run
 
 ```bash
@@ -35,6 +37,9 @@ The application exposes:
 - `GET /api/organization/laboratories/{laboratoryId}`
 - `POST /api/organization/branches`
 - `GET /api/organization/branches/{branchId}`
+- `POST /api/identity/users`
+- `GET /api/identity/users/{userId}`
+- `POST /api/identity/users/{userId}/role-assignments`
 
 ## Test
 
@@ -47,7 +52,7 @@ The project includes `.mvn/settings.xml` so local validation uses a repository i
 Run the optional local database integration test only after the local runtime is started:
 
 ```bash
-mvn --settings .mvn/settings.xml "-Dhop.local-db-tests=true" "-Dtest=PlatformFoundationLocalDatabaseTest,OrganizationManagementLocalDatabaseTest" test
+mvn --settings .mvn/settings.xml "-Dhop.local-db-tests=true" "-Dtest=PlatformFoundationLocalDatabaseTest,OrganizationManagementLocalDatabaseTest,IdentityAccessLocalDatabaseTest" test
 ```
 
 ## Local Database Profile
