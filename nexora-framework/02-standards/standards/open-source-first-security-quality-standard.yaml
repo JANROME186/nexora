@@ -2,7 +2,7 @@ artifact:
   id: NXF-OSS-SEC-QUAL-001
   type: framework-standard
   name: Open Source First Security and Quality Standard
-  version: 1.1.0
+  version: 1.2.0
   status: approved
   human_readable: open-source-first-security-quality-standard.md
   machine_readable: open-source-first-security-quality-standard.yaml
@@ -46,6 +46,71 @@ technology_evolution_policy:
   preferred_behavior: >
     Address technology debt incrementally when normal backlog work touches the
     affected component, dependency boundary or runtime surface.
+
+client_stack_market_validation_policy:
+  purpose: >
+    Ensure any technology stack proposed by a requester, client, prior project
+    or initial architecture is validated against current open source market
+    practice before implementation and during iterative backlog execution.
+  default_position: >
+    A client-proposed stack is input, not an automatic mandate. Agents must
+    preserve valid business constraints, but must evaluate whether the proposed
+    runtime, framework, libraries, build tools and quality tooling remain
+    secure, actively maintained, cost-effective and aligned with current
+    ecosystem practice at execution time.
+  required_when:
+    - new_project_analysis
+    - technology_architecture_definition
+    - mvp_definition
+    - every_code_changing_backlog_item
+    - dependency_or_runtime_change
+    - module_closeout
+    - release_readiness
+  agents_must_compare:
+    - requester_proposed_stack
+    - current_project_stack
+    - current_stable_or_lts_versions_from_official_sources
+    - current_open_source_alternatives_used_by_the_ecosystem
+    - required_quality_gate_tooling_for_each_stack
+    - licensing_and_total_cost_of_ownership
+    - security_advisories_and_known_cves
+    - maintenance_activity_and_release_cadence
+    - compatibility_with_deployment_targets_and_team_skills
+  evidence_must_include:
+    - stack_inventory
+    - official_sources_checked
+    - current_stable_or_lts_version_decisions
+    - risks_found
+    - rejected_or_deferred_alternatives
+    - selected_stack_baseline
+    - quality_toolchain_baseline
+    - immediate_changes_applied
+    - technical_debt_items_created_or_updated
+    - decision_rationale
+  version_selection_rule: >
+    Prefer current stable or LTS versions that are supported by official
+    maintainers and compatible with required quality gates. Do not adopt a
+    newer major version only because it exists; evaluate stability, ecosystem
+    support, security posture, migration cost and compatibility.
+  source_policy:
+    preferred_sources:
+      - official_project_documentation
+      - official_release_notes
+      - official_security_advisories
+      - package_registry_metadata
+      - foundation_or_vendor_lifecycle_pages
+      - national_vulnerability_database_or_osv_sources
+    avoid_as_authoritative:
+      - unsourced_blog_posts
+      - marketing_claims
+      - outdated_tutorials
+      - isolated_social_media_opinions
+  decision_rule: >
+    Apply immediately any update required to remove critical/high security
+    findings, unsupported runtimes, incompatible quality gates or blocking
+    build failures. For beneficial but non-blocking improvements, create or
+    update technical-debt backlog items and plan gradual remediation when the
+    affected components are touched.
 
 scope:
   applies_to:
@@ -109,12 +174,16 @@ open_source_first_policy:
     - Prefer portable Docker, OCI, OpenAPI, SQL, OAuth2/OIDC, OpenTelemetry, Prometheus and standard CI primitives.
 
 recommended_open_source_toolchain:
+  ide_feedback:
+    java:
+      - SonarLint
   sast:
     generic:
       - Semgrep
       - Gitleaks
     java:
       - SpotBugs
+      - Find Security Bugs
       - PMD
       - Checkstyle
       - Error Prone
@@ -141,6 +210,12 @@ recommended_open_source_toolchain:
       - Syft
       - CycloneDX Maven Plugin
       - CycloneDX npm tools
+    build_rules:
+      java:
+        - Maven Enforcer
+    license_review:
+      java:
+        - License Maven Plugin
   code_coverage:
     java:
       - JaCoCo
@@ -162,10 +237,109 @@ recommended_open_source_toolchain:
     - OpenTelemetry
     - Prometheus compatible metrics
     - Grafana compatible dashboards
+  architecture_quality:
+    java:
+      - ArchUnit
+  mutation_testing:
+    java:
+      - PIT
+      - Pitest
+  refactor_and_modernization:
+    java:
+      - OpenRewrite
+  duplication:
+    java:
+      - PMD CPD
+
+stack_quality_toolchain_baselines:
+  java_maven:
+    description: Baseline open source quality toolchain for Java services built with Maven.
+    required_or_recommended_tools:
+      - category: IDE
+        tool: SonarLint
+        primary_use: Real-time developer feedback in common IDEs.
+        gate_level: recommended_local
+      - category: Quality and bugs
+        tool: SpotBugs
+        primary_use: Bytecode bug analysis.
+        gate_level: required_when_java_code_changes
+      - category: Code security
+        tool: Find Security Bugs
+        primary_use: SpotBugs plugin for SQL injection, weak cryptography, command injection and related Java security issues.
+        gate_level: required_when_java_code_changes
+      - category: Style
+        tool: Checkstyle
+        primary_use: Team conventions, formatting and structural rules.
+        gate_level: required_when_java_code_changes
+      - category: Static analysis
+        tool: PMD
+        primary_use: Bad practices, dead code and complexity.
+        gate_level: required_when_java_code_changes
+      - category: Duplication
+        tool: PMD CPD
+        primary_use: Copy and paste detection for duplicated code.
+        gate_level: recommended_for_module_closeout
+      - category: Coverage
+        tool: JaCoCo
+        primary_use: Unit and integration test coverage.
+        gate_level: required_when_java_code_changes
+      - category: Dependency vulnerabilities
+        tool: OWASP Dependency-Check
+        primary_use: CVE detection in Maven dependencies.
+        gate_level: required_when_dependencies_change
+      - category: Containers, filesystem and secrets
+        tool: Trivy
+        primary_use: CVEs, SBOM, licenses, misconfigurations and secrets.
+        gate_level: required_for_release_and_when_runtime_assets_change
+      - category: SBOM
+        tool: CycloneDX Maven Plugin
+        primary_use: Direct and transitive dependency inventory.
+        gate_level: required_for_release
+      - category: Build rules
+        tool: Maven Enforcer
+        primary_use: Block unsupported Java/Maven versions, duplicate dependencies and disallowed dependencies.
+        gate_level: required_for_java_maven_projects
+      - category: Licenses
+        tool: License Maven Plugin
+        primary_use: Validate license headers and dependency license policy.
+        gate_level: recommended_for_release
+      - category: Advanced tests
+        tool: PIT or Pitest
+        primary_use: Mutation testing to measure test effectiveness.
+        gate_level: recommended_for_core_domain_or_high_risk_modules
+      - category: Architecture
+        tool: ArchUnit
+        primary_use: Validate architecture rules for layers, packages, DDD boundaries or hexagonal architecture.
+        gate_level: required_when_architecture_rules_exist
+      - category: Refactor and technical debt
+        tool: OpenRewrite
+        primary_use: Automate migrations and safe refactors through Maven.
+        gate_level: recommended_for_modernization_debt
+      - category: Additional SAST
+        tool: Semgrep CE
+        primary_use: Security and bug rules for Java in local or CI quality gates.
+        gate_level: recommended_defense_in_depth
+    minimum_evidence:
+      - java_and_maven_versions_selected_from_current_supported_stable_or_lts_sources
+      - maven_dependency_tree_or_equivalent_dependency_inventory
+      - unit_or_integration_test_results
+      - coverage_report
+      - static_analysis_results
+      - dependency_vulnerability_results
+      - secrets_or_filesystem_scan_results
+      - sbom_for_release_or_release_candidate
+      - architecture_test_results_when_architecture_rules_exist
+      - technical_debt_items_for_unavailable_or_deferred_tools
+    adoption_rule: >
+      Use the project-local build system where practical. If a tool cannot be
+      added safely during the active backlog item, document the reason and
+      register gradual technical debt unless the missing tool blocks release or
+      hides critical/high risk.
 
 quality_gates:
   backlog_item_gate:
     required_for_every_code_backlog:
+      - client_stack_market_validation_when_stack_or_dependencies_are_relevant
       - unit_tests
       - relevant_integration_or_contract_tests
       - dependency_vulnerability_scan
@@ -186,6 +360,7 @@ quality_gates:
       - proprietary_dependency_without_exception_adr
   module_closeout_gate:
     required:
+      - stack_baseline_reviewed_against_current_market_and_official_versions
       - all_backlog_item_gates_passed
       - aggregate_coverage_report
       - dependency_and_container_scan_when_applicable
@@ -195,6 +370,7 @@ quality_gates:
       - accepted_risk_register_updated
   release_gate:
     required:
+      - client_or_project_stack_validated_against_current_stable_versions
       - sast_passed
       - dast_passed_or_not_applicable_with_reason
       - dependency_scan_passed
@@ -216,7 +392,7 @@ technical_debt_backlog_policy:
     - technology_review_finds_non_blocking_migration_or_upgrade
     - dependency_or_framework_is_outdated_but_not_immediate_blocker
     - security_or_quality_tooling_gap_needs_gradual_remediation
-    - stack_migration_is_recommended_but_must_be coordinated with touched components
+    - stack_migration_is_recommended_but_must_be_coordinated_with_touched_components
   debt_item_must_include:
     - id
     - title
@@ -281,6 +457,8 @@ evidence_requirements:
     - module_id
     - changed_components
     - open_source_first_assessment
+    - client_stack_market_validation_when_applicable
+    - stack_toolchain_baseline
     - tools_run
     - commands_or_equivalent_steps
     - results
@@ -300,6 +478,8 @@ agent_rules:
   - Agents must prefer open source libraries, frameworks, tools and standards unless the requester explicitly requires otherwise or an ADR approves an exception.
   - Agents must not introduce proprietary runtimes, hosted services, paid-only SDKs or closed-source dependencies as mandatory product dependencies without an exception ADR.
   - Agents must add or update quality-gate evidence for every backlog item that changes code, dependencies, runtime configuration, APIs or deployment assets.
+  - Agents must validate requester-proposed stacks against current stable or LTS versions, official lifecycle information, security advisories, ecosystem health and required quality gates before accepting them as the implementation baseline.
+  - Agents must define a stack-specific open source quality toolchain during architecture analysis and revisit it during backlog work, module closeout and release readiness.
   - Agents must run the security and quality gates that are applicable to the changed stack; unavailable tools must be documented with the reason and a replacement or follow-up.
   - Agents must not treat the initial project stack as permanently fixed. Each code-changing iteration must evaluate whether newer open source frameworks, libraries, runtimes or tools are materially safer, better maintained, more portable or more cost-effective.
   - Agents must create or update technical-debt backlog items for beneficial technology upgrades or migrations that are not safe or necessary to execute immediately.

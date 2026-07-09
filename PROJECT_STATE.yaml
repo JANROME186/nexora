@@ -1,6 +1,6 @@
 repository: Nexora
-repository_version: 0.72.0
-current_phase: HOP MVP-MOD-002 Diagnostic Catalog Quality Validation Complete
+repository_version: 0.73.0
+current_phase: Framework Client Stack Market Validation Standard Added
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -55,6 +55,8 @@ next_deliverables:
   - Continue HOP capability packages in commercial backlog dependency order
   - Use Nexora Agent-to-MVP Recipe for any new project under projects/
   - Apply open-source-first technology selection and security quality gates to code-changing backlog items
+  - Validate requester-proposed stacks against current stable or LTS open source market practice
+  - Define stack-specific quality toolchain baselines and route non-blocking gaps to technical debt
 agent_entrypoint: AGENT_BOOTSTRAP.md
 development_readiness:
   status: ready
@@ -84,4 +86,6 @@ development_readiness:
   security_quality_gate_prompts_ready: true
   technology_evolution_review_ready: true
   technical_debt_backlog_standard_ready: true
+  client_stack_market_validation_standard_ready: true
+  stack_quality_toolchain_baseline_ready: true
   blocking_definition_gaps: []

@@ -26,7 +26,7 @@ The machine-readable version is:
    Load Nexora company context and enterprise identity.
 
 3. `02-standards/`
-   Load project folder, documentation, agent-agnostic, MDPE, capability package, open data ingestion, product marketplace, business requirement versioning and open-source security quality standards.
+   Load project folder, documentation, agent-agnostic, MDPE, capability package, open data ingestion, product marketplace, business requirement versioning, open-source security quality, client stack validation and technology debt standards.
 
 4. `03-orchestration/`
    Decide whether the target project needs analysis, validation or development.
@@ -63,6 +63,8 @@ Development can start only after:
 - The target module package exists.
 - The target module package has YAML, Markdown, OpenAPI and traceability artifacts required by the module definition.
 - Open-source-first and security quality gates are defined for code-changing work.
+- The requester-proposed or existing stack has been validated against current stable or LTS open source market practice.
+- A stack-specific quality toolchain baseline exists.
 
 ## Current First Product
 

@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.72.0
+  version: 0.73.0
   status: approved
 sources:
   repository_readme: README.md
@@ -109,6 +109,8 @@ sources:
   hop_technical_debt_td_qa_001: projects/healthcare-operations-platform/08-qa/technical-debt/TD-QA-001-dast-automation.yaml
   hop_technical_debt_td_qa_002: projects/healthcare-operations-platform/08-qa/technical-debt/TD-QA-002-trivy-tool-upgrade.yaml
   hop_technical_debt_td_be_001: projects/healthcare-operations-platform/08-qa/technical-debt/TD-BE-001-mockito-java-agent.yaml
+  hop_client_stack_market_validation: projects/healthcare-operations-platform/03-architecture/technology-architecture/client-stack-market-validation.yaml
+  hop_stack_quality_toolchain_baseline: projects/healthcare-operations-platform/03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
 rules:
   - Nexora is the company and repository-level framework owner.
   - Nexora final vision and strategic handoff define company-level intent and must remain agent agnostic.
@@ -137,6 +139,8 @@ rules:
   - Nexora products that require commercial extensibility must apply the Product Marketplace Standard.
   - HOP optional commercial capabilities must use marketplace packages, tenant entitlements and package installation models.
   - Nexora projects must apply open-source-first technology selection before introducing new mandatory technologies.
+  - Requester-proposed or existing project stacks must be validated against current stable or LTS open source market practice before implementation and during iterative quality gates.
+  - Projects must define a stack-specific open source quality toolchain baseline and revisit it during backlog work, module closeout and release readiness.
   - Code-changing backlog items must produce security quality evidence with applicable open source tests, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when runnable surfaces exist.
   - Technology, framework, dependency and quality reviews must not be permanently constrained by the initial project stack; agents must register non-blocking modernization findings as technical debt and remediate gradually when affected components are touched.
   - Generated artifacts must not be edited manually.

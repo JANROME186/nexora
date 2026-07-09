@@ -18,7 +18,7 @@ The short sequence is:
 
 1. `00-start-here/` - Understand vision, handoff and execution order.
 2. `01-enterprise/` - Load Nexora company context.
-3. `02-standards/` - Load documentation, project folder, agent-agnostic, open-source-first and security quality standards.
+3. `02-standards/` - Load documentation, project folder, agent-agnostic, open-source-first, stack validation and security quality standards.
 4. `03-orchestration/` - Decide whether a project needs analysis, validation or implementation.
 5. `04-recipes/` - Apply the Agent-to-MVP recipe when definitions are missing.
 6. `05-prompts/` - Use generic and auxiliary prompts for analysis, validation and development.
@@ -73,7 +73,7 @@ For any project under `projects/<project-slug>/`:
 4. Apply the orchestration workflow.
 5. If analysis is incomplete, apply the Agent-to-MVP recipe.
 6. If the business requirement changed, generate an impact assessment before modifying derived artifacts.
-7. Apply the open-source-first, technology evolution, security quality and technical-debt standards to technology choices and code-changing work.
+7. Apply the open-source-first, client stack market validation, technology evolution, security quality and technical-debt standards to technology choices and code-changing work.
 8. Validate the project against the framework.
 9. Start development only from the approved project state and module package.
 
@@ -82,6 +82,11 @@ current baseline, not as a permanent constraint. If newer open source frameworks
 dependencies or quality tools would materially improve security, maintainability, portability or
 cost, the agent must either apply the change when it is required for safe delivery or register it as
 technical debt under `08-qa/technical-debt/` for gradual remediation.
+
+When a client or requester proposes a stack, the agent must validate it before implementation:
+compare it with current stable or LTS versions from official sources, current open source ecosystem
+practice, security advisories, licensing, maintenance activity, cost and required quality gates. The
+result must define both the selected stack baseline and a stack-specific quality toolchain baseline.
 
 ## Project Rule
 

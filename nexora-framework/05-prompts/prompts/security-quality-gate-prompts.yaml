@@ -2,7 +2,7 @@ artifact:
   id: NXF-SQ-PROMPTS-001
   type: prompt-playbook
   name: Security and Quality Gate Prompts
-  version: 1.1.0
+  version: 1.2.0
   status: approved
   human_readable: security-quality-gate-prompts.md
   machine_readable: security-quality-gate-prompts.yaml
@@ -18,6 +18,29 @@ required_context:
   - target_project/08-qa/
 
 prompts:
+  - id: PROMPT-OSS-000
+    name: Client proposed stack market validation
+    intent: Validate a requester-proposed or existing project stack against current open source market practice before accepting it as the implementation baseline.
+    expected_output:
+      - stack_inventory
+      - official_sources_checked
+      - current_stable_or_lts_version_decisions
+      - market_practice_comparison
+      - required_quality_toolchain_by_stack
+      - risks_and_gaps
+      - immediate_changes_to_apply
+      - technical_debt_items_to_create_or_update
+      - selected_stack_baseline
+    prompt: |
+      Load the Open Source First Security and Quality Standard.
+      Identify the requester-proposed stack, the current project stack and every runtime, framework, package manager, build tool, database, deployment technology and quality tool that materially affects development.
+      Validate each stack element against current stable or LTS versions using official documentation, release notes, lifecycle pages, official security advisories and trusted vulnerability sources. Treat blogs, tutorials and marketing claims as supporting context only, not authority.
+      Compare the proposed stack with current open source ecosystem practice for security, maintainability, portability, cost, maturity, hiring risk, deployment fit and available quality gates.
+      Define the minimum open source quality toolchain required by the stack. For Java/Maven, consider SonarLint, SpotBugs, Find Security Bugs, Checkstyle, PMD, PMD CPD, JaCoCo, OWASP Dependency-Check, Trivy, CycloneDX Maven Plugin, Maven Enforcer, License Maven Plugin, PIT/Pitest, ArchUnit, OpenRewrite and Semgrep CE according to applicability.
+      Apply immediately any upgrade or replacement required to remove critical/high security findings, unsupported runtimes, incompatible quality gates or blocking build failures.
+      For beneficial but non-blocking upgrades, migrations or tooling gaps, create or update technical-debt items under 08-qa/technical-debt/ with risk, effort, cost, affected components and gradual remediation triggers.
+      Produce a selected_stack_baseline and stack_toolchain_baseline for architecture or backlog evidence.
+
   - id: PROMPT-OSS-001
     name: Open-source-first technology assessment
     intent: Confirm that new or changed technology choices prefer open source, portable and standards-based options.
@@ -33,6 +56,7 @@ prompts:
     prompt: |
       Load the Open Source First Security and Quality Standard.
       Review the changed architecture, dependencies, runtime tools and implementation choices.
+      If the requester or existing project proposes a stack, first run the client proposed stack market validation prompt and use its selected_stack_baseline as input.
       Prefer open source, self-hostable, standards-based technologies.
       Do not limit the review to the technology stack chosen at project inception. Treat the original stack as the current baseline and evaluate whether newer open source frameworks, runtimes, libraries or quality tools materially improve security, maintainability, portability, cost or ecosystem health.
       If a proprietary or paid-only dependency is introduced as mandatory, stop unless an ADR exception exists or is created.
@@ -52,6 +76,7 @@ prompts:
     prompt: |
       For the selected backlog item, identify changed backend, web, mobile, API, dependency, container and deployment surfaces.
       Run applicable open source checks for tests, SAST/static analysis, dependency vulnerabilities, secrets, coverage, contract quality and DAST when a runnable surface exists.
+      Confirm the stack-specific quality toolchain is complete for the changed surface. For Java/Maven changes, evaluate the Java baseline tools from the standard and run, add, document as not applicable or register technical debt for each relevant category.
       Run a technology evolution review even when the backlog item does not introduce a new stack. Compare the touched components and dependencies against current open source, security, maintenance and ecosystem signals.
       Do not block normal delivery for non-critical modernization findings. Instead, register them as gradual technical debt under 08-qa/technical-debt/ and link them to future backlog work that touches the affected components.
       Use the project's existing toolchain first. Add lightweight open source tools only when they fit the stack and can run reproducibly without vendor lock-in.
@@ -68,7 +93,7 @@ prompts:
       - unresolved_technology_debt_summary
     prompt: |
       Before closing a module, aggregate all backlog security-quality evidence for the module.
-      Confirm SAST/static analysis, dependency scans, coverage, DAST where applicable, tests, contract checks, SBOM, license review and technology evolution reviews are present or explicitly not applicable with reasons.
+      Confirm SAST/static analysis, dependency scans, coverage, DAST where applicable, tests, contract checks, SBOM, license review, stack market validation and technology evolution reviews are present or explicitly not applicable with reasons.
       Review 08-qa/technical-debt/ and confirm all technology debt discovered during the module is accepted, prioritized, resolved or explicitly deferred with rationale.
       Update module closeout QA evidence and PROJECT_STATE.yaml.
       Do not recommend the next module when unresolved critical or high security findings exist without accepted risk.

@@ -3,9 +3,32 @@
 **Artifact ID:** `NXF-SQ-PROMPTS-001`  
 **Status:** Approved  
 **Machine-readable source:** `security-quality-gate-prompts.yaml`
-**Version:** `1.1.0`
+**Version:** `1.2.0`
 
 Use these prompts with the Open Source First Security and Quality Standard.
+
+## Client Proposed Stack Market Validation
+
+When a requester, client or existing project proposes a technology stack, validate it before using it
+as the implementation baseline. The agent must inventory runtimes, frameworks, package managers,
+build tools, databases, deployment technology and quality tools, then compare them against current
+stable or LTS versions from official sources.
+
+The output must include:
+
+- Stack inventory.
+- Official sources checked.
+- Current stable or LTS version decisions.
+- Market-practice comparison.
+- Required quality toolchain by stack.
+- Risks and gaps.
+- Immediate changes to apply.
+- Technical-debt items to create or update.
+- Selected stack baseline.
+
+For Java/Maven, consider SonarLint, SpotBugs, Find Security Bugs, Checkstyle, PMD, PMD CPD, JaCoCo,
+OWASP Dependency-Check, Trivy, CycloneDX Maven Plugin, Maven Enforcer, License Maven Plugin,
+PIT/Pitest, ArchUnit, OpenRewrite and Semgrep CE according to applicability.
 
 ## Open-Source-First Assessment
 
@@ -28,6 +51,7 @@ For every code-changing backlog item, run or document applicable checks:
 - DAST when a runnable web/API surface exists.
 - Container/IaC scan when deployment assets change.
 - Technology evolution review.
+- Stack-specific quality toolchain completeness review.
 - Technical-debt backlog update when non-blocking modernization findings exist.
 
 Write evidence under:

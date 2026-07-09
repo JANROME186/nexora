@@ -1,0 +1,75 @@
+artifact:
+  id: HOP-STACK-MARKET-VALIDATION-001
+  type: client-stack-market-validation
+  name: HOP Client Stack Market Validation
+  version: 0.1.0
+  status: baseline_review_required
+  created_date: 2026-07-09
+  standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+
+purpose: Validate the requester-proposed and current HOP stack against current open source market practice before release-oriented module closeout.
+
+scope:
+  project: Healthcare Operations Platform
+  current_module: MVP-MOD-002
+  next_required_backlog_item: MVP-MOD-002-CLOSEOUT
+  validation_mode: initial_project_baseline_from_existing_repository_state
+
+current_project_stack:
+  backend:
+    runtime: Java 21
+    framework: Spring Boot 3.5.14
+    modularity: Spring Modulith 1.4.5
+    build: Maven
+    database_driver: PostgreSQL JDBC 42.7.11
+    embedded_runtime: Tomcat 10.1.55
+    json_baseline: Jackson BOM 2.21.4
+  frontend:
+    runtime: Node.js ecosystem
+    framework: React 18.3.1
+    language: TypeScript 5.9.3
+    build: Vite 6.x
+    tests: Vitest 3.x
+  mobile:
+    baseline: TypeScript renderer-agnostic package prepared for future React Native or Expo binding
+  database:
+    relational: PostgreSQL 16 local runtime
+  deployment:
+    local: Docker Compose
+
+official_sources_checked: []
+
+known_evidence_from_repository:
+  - 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.yaml
+  - 08-qa/qa/catalog-test-configuration/MVP-MOD-002-QA-001-validation.yaml
+
+market_validation_required:
+  status: pending
+  required_during:
+    - MVP-MOD-002-CLOSEOUT
+    - next dependency-changing backlog item
+    - release readiness
+  required_checks:
+    - Validate Java, Spring Boot, Spring Modulith, Tomcat, Jackson and PostgreSQL JDBC against official stable or LTS sources.
+    - Validate React, Vite, TypeScript and Vitest against official stable sources and ecosystem compatibility.
+    - Validate mobile stack direction before native UI implementation begins.
+    - Confirm quality toolchain completeness for Java/Maven, frontend TypeScript and future mobile stack.
+    - Register technical debt for non-blocking gaps under 08-qa/technical-debt/.
+
+immediate_decision:
+  status: accepted_for_next_closeout_validation
+  rationale: >
+    MVP-MOD-002-QA-001 remediated blocking HIGH/CRITICAL backend dependency findings and validated
+    the current stack locally. A full official-source market refresh is now required during module
+    closeout so future development proceeds from an explicit selected stack baseline.
+
+blocking_findings: []
+
+technical_debt_items_created_or_updated:
+  - TD-QA-001
+  - TD-QA-002
+  - TD-BE-001
+
+decision:
+  ready_for_mvp_mod_002_closeout_execution: true
+  ready_for_release_without_market_refresh: false

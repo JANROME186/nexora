@@ -1,0 +1,117 @@
+artifact:
+  id: HOP-STACK-QUALITY-TOOLCHAIN-001
+  type: stack-quality-toolchain-baseline
+  name: HOP Stack Quality Toolchain Baseline
+  version: 0.1.0
+  status: active_with_gaps_registered
+  created_date: 2026-07-09
+  standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+
+selected_stack_reference: 03-architecture/technology-architecture/client-stack-market-validation.yaml
+
+toolchain_by_stack:
+  java_maven:
+    applicable: true
+    component: 07-implementation/backend
+    tools:
+      - category: Quality and bugs
+        tool: SpotBugs
+        status: not_yet_configured
+        required_action: evaluate_and_add_or_register_debt_during_backend_quality_hardening
+      - category: Code security
+        tool: Find Security Bugs
+        status: not_yet_configured
+        required_action: evaluate_and_add_or_register_debt_during_backend_quality_hardening
+      - category: Style
+        tool: Checkstyle
+        status: not_yet_configured
+        required_action: define_team_rules_before_ga
+      - category: Static analysis
+        tool: PMD
+        status: not_yet_configured
+        required_action: evaluate_and_add_or_register_debt_during_backend_quality_hardening
+      - category: Duplication
+        tool: PMD CPD
+        status: not_yet_configured
+        required_action: run_before_module_or_release_closeout_when_codebase_is_large_enough
+      - category: Coverage
+        tool: JaCoCo
+        status: not_yet_configured
+        required_action: add_backend_coverage_gate
+      - category: Dependency vulnerabilities
+        tool: OWASP Dependency-Check
+        status: not_yet_configured
+        required_action: add_or_document_alternative_dependency_scan
+      - category: Containers, filesystem and secrets
+        tool: Trivy
+        status: configured_manually
+        evidence: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.yaml
+      - category: SBOM
+        tool: CycloneDX Maven Plugin
+        status: not_yet_configured
+        required_action: add_before_release_readiness
+      - category: Build rules
+        tool: Maven Enforcer
+        status: not_yet_configured
+        required_action: add_java_maven_version_and_dependency_rules
+      - category: Licenses
+        tool: License Maven Plugin
+        status: not_yet_configured
+        required_action: add_or_document_license_review_process
+      - category: Advanced tests
+        tool: PIT or Pitest
+        status: deferred
+        required_action: apply_to_core_domain_or_high_risk_modules
+      - category: Architecture
+        tool: ArchUnit
+        status: partially_covered_by_spring_modulith_tests
+        required_action: evaluate_archunit_for_explicit_layer_and_package_rules
+      - category: Refactor and technical debt
+        tool: OpenRewrite
+        status: deferred
+        required_action: use_for_future_modernization_debt_or_framework_migrations
+      - category: Additional SAST
+        tool: Semgrep CE
+        status: not_yet_configured
+        required_action: evaluate_for_ci_defense_in_depth
+  typescript_web:
+    applicable: true
+    component: 07-implementation/employee-portal
+    configured_tools:
+      - TypeScript strict project check
+      - Vitest
+      - V8 coverage provider
+      - npm audit
+      - Trivy filesystem scan
+    gaps_to_evaluate:
+      - ESLint
+      - Semgrep CE
+      - frontend DAST with OWASP ZAP when runnable surface is available
+      - SBOM generation
+      - license review automation
+  mobile_typescript:
+    applicable: true
+    component: 07-implementation/mobile-app
+    status: foundation_only
+    gaps_to_evaluate:
+      - final mobile renderer stack before native UI implementation
+      - mobile test and coverage gate
+      - dependency and license scans
+
+technical_debt_items_created_or_updated:
+  - id: TD-QA-001
+    reason: DAST automation gap.
+  - id: TD-QA-002
+    reason: Trivy scanner version upgrade.
+  - id: TD-BE-001
+    reason: Mockito Java agent future compatibility.
+
+next_actions:
+  - During MVP-MOD-002-CLOSEOUT, decide which Java/Maven tools must be configured immediately and which become gradual technical debt.
+  - Add backend coverage and build-rule gates before commercial release readiness.
+  - Add SBOM and license review gates before release readiness.
+  - Add automated DAST before release hardening.
+
+decision:
+  ready_for_mvp_mod_002_closeout_execution: true
+  ready_for_release_without_toolchain_gap_review: false

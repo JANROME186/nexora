@@ -3,7 +3,7 @@
 **Artifact ID:** `NXF-OSS-SEC-QUAL-001`  
 **Status:** Approved  
 **Machine-readable source:** `open-source-first-security-quality-standard.yaml`
-**Version:** `1.1.0`
+**Version:** `1.2.0`
 
 ## Purpose
 
@@ -85,6 +85,31 @@ tool exists; instead, split migrations into small backlog items and address them
 component is already being modified. Security-critical or unsupported runtime findings may be
 promoted to blocking work.
 
+## Client Stack Market Validation
+
+A requester-proposed stack is input, not an automatic mandate. During project analysis,
+architecture definition, MVP definition, code-changing backlog work, module closeout and release
+readiness, agents must validate the proposed and current stack against current open source market
+practice.
+
+The validation must compare:
+
+- Requester-proposed stack and current project stack.
+- Current stable or LTS versions from official sources.
+- Current open source alternatives used by the ecosystem.
+- Quality gate tooling available for the stack.
+- Licensing, total cost of ownership and lock-in risk.
+- Security advisories and known CVEs.
+- Maintenance activity, release cadence and compatibility with deployment targets.
+
+Agents must prefer supported stable or LTS versions. They must not adopt a new major version only
+because it exists; they must evaluate stability, ecosystem support, security posture, migration cost
+and compatibility with the required quality gates.
+
+When an update is required to remove critical/high risk, unsupported runtimes, incompatible quality
+gates or blocking build failures, it must be handled before closing the backlog item. Beneficial but
+non-blocking updates must be registered as technical debt for gradual remediation.
+
 ## Open Source Tooling Baseline
 
 Preferred open source tools include:
@@ -96,6 +121,33 @@ Preferred open source tools include:
 - Coverage: JaCoCo, Vitest coverage, Istanbul, c8, Flutter coverage and lcov.
 - IaC/container quality: Checkov, TFLint, Hadolint, Trivy.
 - API quality: Spectral and Schemathesis.
+
+### Java Maven Baseline
+
+For Java/Maven services, the framework expects a stack-specific quality toolchain similar to:
+
+| Category | Open source tool | Main use |
+|---|---|---|
+| IDE feedback | SonarLint | Real-time review in common IDEs. |
+| Quality / bugs | SpotBugs | Bytecode bug analysis. |
+| Code security | Find Security Bugs | SpotBugs rules for injection, weak cryptography and related security issues. |
+| Style | Checkstyle | Team conventions, formatting and structural rules. |
+| Static analysis | PMD | Bad practices, dead code and complexity. |
+| Duplication | PMD CPD | Copy/paste detection. |
+| Coverage | JaCoCo | Unit and integration test coverage. |
+| Dependency vulnerabilities | OWASP Dependency-Check | CVE detection in Maven dependencies. |
+| Containers / filesystem / secrets | Trivy | CVEs, SBOM, licenses, misconfigurations and secrets. |
+| SBOM | CycloneDX Maven Plugin | Direct and transitive dependency inventory. |
+| Build rules | Maven Enforcer | Java/Maven versions, duplicate dependencies and disallowed dependencies. |
+| Licenses | License Maven Plugin | Header and dependency license policy. |
+| Advanced testing | PIT / Pitest | Mutation testing for test effectiveness. |
+| Architecture | ArchUnit | Architecture rules for layers, packages, DDD or hexagonal boundaries. |
+| Refactor / technical debt | OpenRewrite | Automated migrations and refactors. |
+| Additional SAST | Semgrep CE | Security and bug rules for Java in CI/CD. |
+
+This table is a baseline, not a universal command to install every tool immediately. If a tool is
+not safe or practical to adopt during the active backlog item, the agent must document the reason and
+register technical debt unless the missing tool blocks release or hides critical/high risk.
 
 ## Fail Conditions
 
@@ -116,6 +168,8 @@ Each evidence YAML must include:
 - Backlog item and module.
 - Changed components.
 - Open-source-first assessment.
+- Client stack market validation when applicable.
+- Stack-specific quality toolchain baseline.
 - Tools and commands run.
 - Results.
 - Coverage summary.
