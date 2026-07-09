@@ -1,11 +1,13 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.67.0
+  version: 0.68.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
   business_requirement_yaml: BUSINESS_REQUIREMENT.yaml
+  business_requirement_to_yaml_prompt: 04-requirements/prompts/business-requirement-to-yaml-prompt.md
+  business_requirement_to_yaml_prompt_yaml: 04-requirements/prompts/business-requirement-to-yaml-prompt.yaml
   project_brief: PROJECT_BRIEF.md
   project_brief_yaml: PROJECT_BRIEF.yaml
   project_state: PROJECT_STATE.yaml
@@ -84,6 +86,8 @@ rules:
   - HOP source artifacts must remain agent agnostic and free of named-agent requirements.
   - Agent-executable artifacts must have YAML machine-readable files and Markdown human-readable files when applicable.
   - BUSINESS_REQUIREMENT.md remains requester-supplied source material; BUSINESS_REQUIREMENT.yaml is only a structured index derived from it.
+  - HOP BUSINESS_REQUIREMENT.md is curated as the business intake template for future Nexora projects.
+  - BUSINESS_REQUIREMENT.yaml must be derived from BUSINESS_REQUIREMENT.md using the documented transformation prompt.
   - MVP-MOD-001 development is approved by the MVP development readiness decision; strategic enterprise roadmap items do not block the first module.
   - HOP development after MVP-MOD-001 must follow 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml.
   - HOP follows Nexora Model Driven Product Engineering.

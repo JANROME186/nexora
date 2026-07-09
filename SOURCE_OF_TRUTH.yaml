@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.67.0
+  version: 0.68.0
   status: approved
 sources:
   repository_readme: README.md
@@ -43,6 +43,8 @@ sources:
   hop_project_brief_yaml: projects/healthcare-operations-platform/PROJECT_BRIEF.yaml
   hop_business_requirement: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md
   hop_business_requirement_yaml: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.yaml
+  hop_business_requirement_to_yaml_prompt: projects/healthcare-operations-platform/04-requirements/prompts/business-requirement-to-yaml-prompt.md
+  hop_business_requirement_to_yaml_prompt_yaml: projects/healthcare-operations-platform/04-requirements/prompts/business-requirement-to-yaml-prompt.yaml
   hop_ordered_development_guide: projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md
   hop_ordered_development_guide_yaml: projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.yaml
   hop_mvp_backlog_execution_prompts: projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md
@@ -100,6 +102,8 @@ rules:
   - Agents must use nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml when a user requests generic analysis, validation or MVP development for a project folder.
   - Auxiliary prompts must support, not override, the generic lifecycle prompts and project source artifacts.
   - Agents must stop analysis when BUSINESS_REQUIREMENT.md is missing because it is requester-supplied source material.
+  - HOP BUSINESS_REQUIREMENT.md is the reference business intake template for subsequent Nexora projects.
+  - BUSINESS_REQUIREMENT.yaml must be derived from BUSINESS_REQUIREMENT.md using a documented transformation prompt.
   - Agent-executable project artifacts must prefer YAML machine-readable files; Markdown remains the human-readable companion.
   - Agents must not require agent-specific files, prompts, runtime features or vendor configuration.
   - HOP commercial product development must follow projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml after MVP-MOD-001.

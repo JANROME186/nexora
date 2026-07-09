@@ -94,6 +94,14 @@ HOP product marketplace contract:
 
 `projects/healthcare-operations-platform/05-contracts/marketplace/product-marketplace/product-marketplace-contract.yaml`
 
+HOP business requirement reference template:
+
+`projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md`
+
+Business requirement to YAML prompt:
+
+`projects/healthcare-operations-platform/04-requirements/prompts/business-requirement-to-yaml-prompt.yaml`
+
 Project folder:
 
 `projects/healthcare-operations-platform/`

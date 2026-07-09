@@ -1,417 +1,662 @@
-# Healthcare Operations Platform Business Requirement
+# Healthcare Operations Platform — Business Requirement
 
-## Purpose of This Document
+## 1. Propósito del Documento
 
-This document is the high-level business requirement for Healthcare Operations Platform.
+Este documento describe, desde una perspectiva de negocio, la necesidad del producto **Healthcare Operations Platform**.
 
-It explains why the product exists, which operational problems it solves, what the first MVP must prove, and which constraints must guide every analysis, architecture decision and implementation module.
+Su objetivo es que una persona que requiere el sistema pueda explicar con claridad:
 
-This file is intentionally broader than `PROJECT_BRIEF.md`. The brief structures this requirement into product scope, while the downstream artifacts translate it into capabilities, domain boundaries, architecture, contracts, MVP modules and implementation packages.
+- Qué problema de negocio se quiere resolver.
+- Para quién se construye el producto.
+- Qué operación debe soportar.
+- Qué resultados se esperan.
+- Qué límites, riesgos y reglas deben respetarse.
+- Qué capacidades comerciales debe tener el producto.
+- Qué información necesita un agente para convertir este requerimiento en artefactos de análisis, definición, YAML ejecutable y backlog de implementación.
 
-## Business Context
+Este documento es la materia prima del proyecto. En proyectos futuros, el solicitante debe proporcionar un documento equivalente antes de que cualquier agente genere análisis, propuesta de solución, MVP, YAML, backlog o implementación.
 
-Diagnostic healthcare organizations operate through a chain of administrative, clinical, financial and digital interactions:
+## 2. Cómo Debe Usarse Este Documento
 
-- Patients request appointments, register information, attend branches and receive results.
-- Reception teams manage appointments, intake, quotations, orders and patient communication.
-- Cashiers manage payments, cash sessions and billing requests.
-- Sample collection and laboratory teams manage collection, labeling, reception, processing, validation and release.
-- Medical validators authorize clinical release of results.
-- Referring doctors need secure access to released patient results.
-- Administrators need multi-branch configuration, users, roles, auditing and operational visibility.
-- External systems, devices, fiscal services and migration processes need controlled integration boundaries.
+Este archivo debe ser leído primero por personas de negocio, producto y arquitectura.
 
-Many organizations still operate this chain through fragmented tools, legacy systems, spreadsheets, manual handoffs and local integrations that are difficult to audit, scale or migrate.
+Después, un agente puede transformarlo en `BUSINESS_REQUIREMENT.yaml` usando el prompt definido en:
 
-Nexora needs Healthcare Operations Platform to become a reusable, specification-driven reference project for building agent-assisted enterprise software. The first domain is diagnostic laboratory operations, but the method, folder structure and MVP definition approach must serve as a model for future Nexora solutions.
+`04-requirements/prompts/business-requirement-to-yaml-prompt.yaml`
 
-## Business Opportunity
+Reglas de uso:
 
-Healthcare Operations Platform should help diagnostic organizations move from disconnected operational tools to a unified, secure and traceable operating model.
+- El agente puede estructurar, resumir y normalizar este contenido.
+- El agente no debe inventar necesidades de negocio ausentes.
+- El agente debe marcar como `requires_clarification` cualquier dato faltante que sea necesario para análisis o desarrollo.
+- El YAML resultante debe ser un índice estructurado de este requerimiento, no un reemplazo del documento humano.
+- Si este archivo no existe en un proyecto, el agente debe detenerse y solicitarlo.
 
-The opportunity is not only to replace a legacy laboratory system. The larger opportunity is to define a platform foundation that can support:
+## 3. Resumen Ejecutivo
 
-- Multi-tenant diagnostic organizations.
-- Multi-branch laboratory operations.
-- Consistent patient, doctor and catalog master data.
-- Auditable clinical and administrative workflows.
-- Digital result delivery.
-- Integration and migration readiness.
-- Future healthcare modules such as imaging, inventory, quality, advanced compliance and AI-assisted operations.
+Healthcare Operations Platform, abreviado como **HOP**, es una plataforma de operaciones para organizaciones de diagnóstico médico.
 
-The platform should also prove that Nexora can transform a high-level business need into an MVP-ready project folder that specialized agents can implement incrementally from repository artifacts.
+El producto debe permitir que laboratorios clínicos, centros de imagenología y organizaciones diagnósticas multi-sucursal administren su operación desde la configuración organizacional hasta la entrega segura de resultados.
 
-## User Need
+El producto debe cubrir:
 
-Diagnostic healthcare operators need a platform that lets them manage the end-to-end laboratory operating spine from organization setup to released result delivery.
+- Operación administrativa.
+- Gestión de pacientes.
+- Gestión de médicos.
+- Catálogo diagnóstico.
+- Recepción y admisión.
+- Órdenes.
+- Caja y solicitudes de facturación.
+- Toma y trazabilidad de muestras.
+- Procesamiento de laboratorio.
+- Validación técnica y médica.
+- Liberación y entrega digital de resultados.
+- Integraciones.
+- Migración de datos.
+- Auditoría.
+- Seguridad.
+- Evolución comercial mediante paquetes y marketplace.
+- Extensiones futuras de imagenología, calidad, inventario e inteligencia artificial.
 
-The platform must support:
+HOP también debe funcionar como primer producto de referencia de Nexora para demostrar cómo una necesidad de negocio se convierte en un producto dirigido por modelos y desarrollado incrementalmente con agentes de IA de manera agnóstica a herramientas.
 
-- Administrators configuring tenants, laboratories, branches, employees, roles and operational settings.
-- Catalog managers defining diagnostic services, tests, panels, analytes, samples, reference ranges, preparation instructions and prices.
-- Front desk teams registering patients, scheduling appointments, creating orders and managing reception queues.
-- Cashiers opening sessions, registering payments and requesting billing through fiscal adapter boundaries.
-- Sample collectors collecting and labeling samples with full traceability.
-- Laboratory technicians receiving samples, processing work and capturing results.
-- Technical and medical validators controlling result validation and release.
-- Patients and representatives accessing only authorized released results.
-- Referring doctors accessing only assigned and released results.
-- External systems and devices integrating through normalized, validated and auditable adapters.
+## 4. Contexto de Negocio
 
-## Current Pain
+Las organizaciones de diagnóstico médico operan con una cadena de actividades que involucra pacientes, médicos, personal administrativo, personal clínico, laboratorios, sucursales, equipos, integraciones, pagos, facturación, reportes y resultados.
 
-The business pain is caused by operational fragmentation and weak traceability.
+En muchas organizaciones esta operación está fragmentada:
 
-Common pain points include:
+- Una herramienta registra pacientes.
+- Otra administra órdenes.
+- Otra maneja resultados.
+- El cobro se controla por separado.
+- Las muestras se trazan manualmente.
+- Las integraciones se resuelven de forma puntual.
+- Los resultados se entregan por canales poco controlados.
+- Las migraciones desde sistemas anteriores son difíciles y riesgosas.
 
-- Patient data is duplicated or inconsistently updated across tools.
-- Orders, payments, samples and results are not always linked through a single traceable lifecycle.
-- Branch operations depend on local practices instead of consistent workflows.
-- Catalog configuration is hard to govern, version and audit.
-- Sample collection and rejection events may be disconnected from order and result release decisions.
-- Technical validation, medical validation and result release are not always clearly separated.
-- Billing and fiscal logic can leak into clinical or cashier workflows.
-- External device and partner integrations can bypass validation when implemented as direct point-to-point connections.
-- Migrations from legacy systems are risky because imported records are not normalized before entering operational domains.
-- Audits are difficult when systems allow direct mutation without append-only event traces.
-- Digital portals may expose privacy risk if released-result authorization is not strict.
+Esta fragmentación reduce trazabilidad, dificulta auditorías, aumenta errores operativos y limita la capacidad de crecer.
 
-## Desired Outcome
+## 5. Oportunidad de Negocio
 
-The desired outcome is a modern healthcare operations platform that standardizes the first diagnostic laboratory operating spine and makes every critical action traceable.
+La oportunidad es construir una plataforma comercializable que permita a organizaciones diagnósticas operar de forma integrada, segura, auditable y extensible.
 
-At a business level, the platform must enable:
+La oportunidad para Nexora es doble:
 
-- A diagnostic organization to configure its tenant, laboratories and branches.
-- Authorized users to work with scoped permissions.
-- Patients and doctors to be represented as managed master data.
-- Diagnostic catalog items to be published before order use.
-- Orders to preserve patient, catalog and price snapshots.
-- Payments and billing requests to remain auditable and adapter-driven.
-- Samples to trace back to order, patient snapshot, collector, branch and collection time.
-- Technical validation to precede medical validation unless policy explicitly allows an exception.
-- Released results to become available through authorized digital channels.
-- Critical results to create traceable notification or escalation records.
-- Integrations and migrations to pass through anti-corruption and validation layers.
+- Crear un producto de salud que pueda venderse, instalarse, operar y evolucionar comercialmente.
+- Crear una referencia reutilizable para que futuros productos Nexora sean definidos con el mismo framework, usando requerimientos de negocio, modelos, capabilities, contratos, backlog, validación y generación incremental.
 
-At an engineering level, the platform must enable:
+El producto debe estar preparado para venderse como solución SaaS o como software empresarial desplegable, sin depender de un proveedor cloud, agente de IA, modelo específico, runtime propietario o canal único de comercialización.
 
-- Agents to read repository artifacts and begin implementation without chat history.
-- Specialized subagents to work by module without breaking bounded-context ownership.
-- Every implementation output to trace back to source artifacts.
-- The MVP to start from `MVP-MOD-001 Platform Foundation`.
+## 6. Problema a Resolver
 
-## Target Users and Actors
+Las organizaciones diagnósticas necesitan controlar toda la operación desde un solo modelo coherente.
 
-The product must serve the following actor groups.
+Problemas actuales:
 
-Internal operational staff:
+- Duplicidad e inconsistencia de datos de pacientes.
+- Falta de trazabilidad entre cita, recepción, orden, pago, muestra, resultado y entrega.
+- Catálogos de pruebas y precios difíciles de gobernar.
+- Validaciones clínicas no siempre separadas por rol y responsabilidad.
+- Resultados entregados sin suficiente control de autorización.
+- Procesos manuales en caja, recepción y toma de muestras.
+- Sucursales con prácticas operativas distintas.
+- Integraciones punto a punto difíciles de mantener.
+- Migraciones desde sistemas existentes sin validación suficiente.
+- Auditorías complicadas por ausencia de eventos inmutables.
+- Falta de canales digitales robustos para pacientes y médicos.
+- Dificultad para agregar nuevas funcionalidades comerciales sin modificar el núcleo del producto.
 
-- Platform Super Administrator.
-- Tenant Administrator.
-- Branch Administrator.
-- Receptionist.
-- Cashier.
-- Sample Collector.
-- Laboratory Technician.
-- Technical Validator.
-- Medical Validator.
-- Catalog Manager.
+## 7. Necesidad del Usuario
 
-External clinical and patient users:
+Los usuarios necesitan una plataforma que les permita operar de forma continua, trazable y segura.
 
-- Referring Doctor.
-- Patient.
-- Patient Representative.
+Los administradores necesitan configurar organizaciones, laboratorios, sucursales, usuarios, roles, permisos y reglas operativas.
 
-External systems and platform services:
+El personal de recepción necesita registrar pacientes, gestionar citas, crear órdenes, admitir pacientes y coordinar el flujo de atención.
 
-- Integration Partner System.
-- Laboratory Device.
-- Fiscal Authority Adapter.
-- Notification Service.
-- Audit Service.
+El personal de caja necesita gestionar pagos, sesiones de caja, ventas y solicitudes de facturación sin mezclar la lógica fiscal con la operación clínica.
 
-Actor definitions, permissions, scopes and audit levels are refined in:
+El personal de laboratorio necesita tomar muestras, etiquetarlas, recibirlas, procesarlas y capturar resultados con trazabilidad completa.
 
-`02-domain-definition/actors/acm-001/actor-catalog.yaml`
+Los validadores técnicos y médicos necesitan separar responsabilidades, revisar resultados, validar hallazgos y liberar únicamente resultados autorizados.
 
-## Business Capabilities
+Los pacientes necesitan recibir resultados de forma segura y entender el estado de sus estudios.
 
-The business capability map defines 11 domains and 90 capabilities.
+Los médicos referidores necesitan consultar resultados autorizados de sus pacientes.
 
-The first MVP concentrates on the operational spine across:
+Los responsables comerciales y de operación necesitan agregar capacidades, paquetes, integraciones y extensiones sin crear forks del producto.
 
-- Organization.
-- People.
-- Diagnostic Services.
-- Care Delivery.
-- Clinical Operations.
-- Results.
-- Platform.
-- Integration and migration readiness.
+## 8. Usuarios y Actores Principales
 
-MVP1 intentionally uses a smaller coherent scope than the full capability map. Advanced imaging, inventory, advanced quality, external quality programs, advanced workflow automation and advanced AI overlays are staged for later phases.
+Actores internos:
 
-Capability definitions are refined in:
+- Administrador de plataforma.
+- Administrador de tenant.
+- Administrador de laboratorio.
+- Administrador de sucursal.
+- Responsable de catálogo.
+- Recepcionista.
+- Cajero.
+- Tomador de muestra.
+- Técnico de laboratorio.
+- Validador técnico.
+- Validador médico.
+- Supervisor operativo.
+- Personal de soporte.
 
-`01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml`
+Actores externos:
 
-Capability dependency and sequencing rules are refined in:
+- Paciente.
+- Representante del paciente.
+- Médico referidor.
+- Empresa o convenio.
+- Proveedor.
+- Partner de integración.
+- Autoridad fiscal o regulatoria a través de adaptadores.
 
-`01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
+Sistemas externos:
 
-## MVP Expectation
+- Equipos de laboratorio.
+- Sistemas legados.
+- Sistemas fiscales.
+- Sistemas de notificación.
+- Portales externos.
+- Sistemas de pago.
+- Sistemas de marketplace o billing, cuando aplique.
 
-The MVP must prove the first executable diagnostic laboratory operating spine.
+## 9. Alcance del Producto
 
-MVP modules:
+HOP debe cubrir el ciclo operativo diagnóstico completo.
 
-| Module | Name | Business Purpose |
+Alcance funcional principal:
+
+- Gestión organizacional.
+- Gestión de personas.
+- Gestión de pacientes.
+- Gestión de médicos.
+- Gestión de empresas y convenios.
+- Catálogo de servicios diagnósticos.
+- Catálogo de pruebas, paneles, analitos, muestras y contenedores.
+- Preparaciones de paciente.
+- Rangos de referencia.
+- Tarifas y precios.
+- Agenda.
+- Recepción.
+- Admisión.
+- Cotizaciones.
+- Órdenes.
+- Caja.
+- Solicitudes de facturación.
+- Toma de muestra.
+- Etiquetado.
+- Recepción de muestra.
+- Procesamiento.
+- Validación técnica.
+- Validación médica.
+- Liberación de resultados.
+- Reportes PDF.
+- Entrega digital.
+- Notificaciones.
+- Auditoría.
+- Configuración.
+- Integraciones.
+- API management.
+- Ingesta abierta de datos y migración.
+- Marketplace de producto y derechos de uso.
+
+Alcance de expansión:
+
+- Inventario.
+- Reactivos.
+- Equipos.
+- Calidad.
+- CAPA.
+- Auditorías avanzadas.
+- Imagenología.
+- DICOM.
+- PACS.
+- Dictado médico.
+- Firma radiológica.
+- IA administrativa.
+- IA clínica asistida.
+- OCR inteligente.
+- Búsqueda semántica.
+- Motor RAG.
+- Agentes especializados.
+
+## 10. Business Capability Map Esperado
+
+El producto debe organizarse por capacidades de negocio, no por pantallas ni por CRUD.
+
+El Business Capability Map actual de HOP contiene:
+
+- 11 dominios.
+- 92 capacidades de negocio.
+- 460 requerimientos funcionales.
+- 460 historias de usuario.
+
+Dominios principales:
+
+1. Organization.
+2. People.
+3. Diagnostic Services.
+4. Care Delivery.
+5. Clinical Operations.
+6. Imaging.
+7. Results.
+8. Inventory.
+9. Quality.
+10. Platform.
+11. Artificial Intelligence.
+
+Cada capacidad debe evolucionar como un paquete autónomo con modelo de negocio, reglas, procesos, eventos, contratos, permisos, UI, mobile, pruebas, observabilidad, trazabilidad y documentación.
+
+## 11. Enfoque de Ingeniería del Producto
+
+HOP debe seguir **Model Driven Product Engineering**.
+
+Esto significa:
+
+- Los modelos son la fuente editable.
+- Los artefactos repetitivos se generan o derivan de los modelos.
+- El desarrollo se organiza por Business Capability Packages.
+- Los módulos son agrupadores de roadmap, no la fuente de verdad.
+- La implementación debe seguir la secuencia `Model -> Compile -> Implement Rules -> Validate -> Release`.
+
+No se deben escribir manualmente como fuente primaria:
+
+- CRUD repetitivo.
+- DTOs repetitivos.
+- Controllers repetitivos.
+- Repositories repetitivos.
+- Swagger derivado.
+- SDKs derivados.
+- Documentación repetitiva.
+- Casos de prueba repetitivos.
+- Modelos duplicados.
+
+Sí se deben escribir y gobernar cuidadosamente:
+
+- Modelo de negocio.
+- Reglas de negocio.
+- Procesos.
+- Decisiones de dominio.
+- Contratos OpenAPI fuente.
+- Reglas no generables.
+- Adaptadores externos.
+- Plantillas de generación.
+- ADRs.
+
+## 12. MVP Esperado
+
+El MVP debe demostrar que una organización diagnóstica puede operar el flujo mínimo completo de laboratorio clínico.
+
+Módulos MVP:
+
+| Módulo | Nombre | Propósito de negocio |
 | --- | --- | --- |
-| MVP-MOD-001 | Platform Foundation | Establish tenant, laboratory, branch, identity, authorization, audit and observability baseline. |
-| MVP-MOD-002 | Diagnostic Catalog | Configure services, tests, panels, analytes, reference ranges, samples, preparation rules and prices. |
-| MVP-MOD-003 | People and Clinical Master Data | Manage patients, doctors and core person records used by orders and results. |
-| MVP-MOD-004 | Front Desk and Care Delivery | Support appointments, reception, admission, quotations and order intake. |
-| MVP-MOD-005 | Cashier and Billing Request | Register sales, payments, cash sessions and billing requests through fiscal boundaries. |
-| MVP-MOD-006 | Laboratory Workflow | Manage sample collection, labeling, reception, processing and validation. |
-| MVP-MOD-007 | Results and Digital Delivery | Generate reports and deliver released results to patient and doctor channels. |
-| MVP-MOD-008 | MVP Integration and Migration Readiness | Define adapter boundaries, import validation and public API governance. |
+| MVP-MOD-001 | Platform Foundation | Establecer tenants, laboratorios, sucursales, identidad, permisos, auditoría y observabilidad. |
+| MVP-MOD-002 | Diagnostic Catalog | Configurar servicios, pruebas, paneles, analitos, muestras, preparaciones, rangos y precios. |
+| MVP-MOD-003 | People and Clinical Master Data | Gestionar pacientes, médicos y personas. |
+| MVP-MOD-004 | Front Desk and Care Delivery | Gestionar agenda, recepción, admisión, cotizaciones y órdenes. |
+| MVP-MOD-005 | Cashier and Billing Request | Gestionar caja, pagos, ventas y solicitudes de facturación. |
+| MVP-MOD-006 | Laboratory Workflow | Gestionar toma, etiquetado, recepción, procesamiento y validación de muestras. |
+| MVP-MOD-007 | Results and Digital Delivery | Generar reportes y entregar resultados liberados a canales autorizados. |
+| MVP-MOD-008 | Integration and Migration Readiness | Definir integraciones, APIs, importación, validación, reconciliación y migración. |
 
-The first implementation target is:
+Estado actual:
 
-`06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/`
+- `MVP-MOD-001 Platform Foundation` ya fue implementado y cerrado técnicamente.
+- El siguiente paso activo es `MVP-MOD-002-DEF`, que debe generar los Business Capability Packages del catálogo diagnóstico.
 
-## First MVP Module Requirement
+## 13. Producto Comercial Completo
 
-`MVP-MOD-001 Platform Foundation` must be implemented first because the rest of the platform depends on identity, organization, audit and observability.
+Después del MVP, HOP debe evolucionar hasta ser un producto comercializable.
 
-It must establish:
+El producto comercial debe incluir:
 
-- Tenant management.
-- Laboratory management.
-- Branch management.
-- Employee baseline.
-- Organizational configuration.
-- Identity and access management.
-- Platform configuration.
-- Observability.
-- Append-only audit trail.
+- Portales de pacientes y médicos.
+- Mobile app base.
+- Inventario e calidad interna.
+- Sitio público y crecimiento digital.
+- Operación SaaS.
+- Seguridad productiva.
+- Observabilidad productiva.
+- Backup y restore.
+- Soporte.
+- Onboarding.
+- Documentación de cliente.
+- Marketplace de funcionalidades.
+- Paquetes de expansión.
+- Imagenología.
+- IA asistida.
+- Cumplimiento y calidad avanzada.
 
-The module is ready to code only because it already has:
+El backlog comercial vigente está en:
 
-- Domain model.
-- API contract.
-- Database migration plan.
-- UI screen map.
-- Security and audit rules.
-- Test plan.
-- Traceability.
+`06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
 
-The module definition is:
+## 14. Marketplace y Extensibilidad Comercial
 
-`06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
+HOP debe permitir que nuevas funcionalidades se publiquen, compren, asignen, instalen, activen y consuman por cliente o tenant.
 
-## Business Rules and Guardrails
+El marketplace no debe ser una idea posterior. Debe formar parte del modelo de producto.
 
-The solution must enforce these business guardrails:
+El producto debe soportar:
 
-- Protected actions require authenticated human or service actors.
-- Role assignments must be scoped to platform, tenant, laboratory or branch.
-- Patient master data is owned by patient-management.
-- Orders must use patient snapshots and must not mutate patient master data.
-- Only published catalog items can be ordered.
-- Accepted orders must preserve price snapshots.
-- Payments require active cashier sessions.
-- Fiscal billing must go through country-pack adapter interfaces.
-- Every collected sample must trace to order, patient snapshot, branch, collector and collection time.
-- Rejected samples block dependent result release unless a replacement or override process is completed.
-- Technical validation precedes medical validation unless explicitly waived by policy.
-- Medical validation is required before external result release.
-- Critical results require traceable notification or escalation.
-- Patient and doctor portals show only authorized released results.
-- Patient representative access requires active authorization.
-- External messages and migrations must be normalized and validated before reaching domain commands.
-- AI may assist, summarize or accelerate work, but cannot validate, release, amend or diagnose clinical results.
-- Audit records are append-only.
+- Catálogo de paquetes.
+- Ofertas comerciales.
+- Trials.
+- Bundles.
+- Planes de licencia.
+- Entitlements por tenant.
+- Instalación por tenant.
+- Activación.
+- Suspensión.
+- Upgrade.
+- Rollback.
+- Uninstall.
+- Retiro.
+- Auditoría.
+- Observabilidad.
+- Adaptadores de billing y pago reemplazables.
 
-Detailed rules are refined in:
+Tipos de paquetes esperados:
 
-`02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml`
+- Capability packages.
+- Integration adapters.
+- UI extensions.
+- Mobile extensions.
+- AI extensions.
+- Report templates.
+- Country packs.
+- Data ingestion adapters.
+- Workflow templates.
 
-## Domain and Integration Principles
+Reglas:
 
-The platform must preserve clear domain ownership.
+- Comprar una funcionalidad no otorga permisos por sí mismo.
+- Todo uso debe validar entitlement, IAM, permisos, auditoría y reglas de negocio.
+- Un paquete no puede debilitar validaciones clínicas, financieras, fiscales o de privacidad.
+- Los proveedores de billing, pagos y marketplace deben ser adaptadores reemplazables.
 
-Required domain principles:
+## 15. Migración e Ingesta Abierta
 
-- A bounded context owns its aggregates.
-- Other contexts reference external aggregates only through stable identifiers or snapshots.
-- Cross-context behavior must use APIs, events, commands, published language or anti-corruption layers.
-- External protocols must be translated before entering domain logic.
-- AI, migration and integration contexts cannot bypass validation or authorization.
+HOP debe facilitar que clientes que ya tienen un sistema puedan migrar datos a la plataforma.
 
-Strategic relationships include:
+La migración debe basarse en formatos simples que cualquier proveedor incumbente pueda entregar razonablemente:
 
-- Identity and Organization share core identifiers such as tenant, laboratory, branch, user and permission.
-- Orders consume patient snapshots but cannot mutate patient master data.
-- Orders consume catalog definitions and sample requirements.
-- Results follow upstream order and sample lifecycle events.
-- Billing consumes fiscal-eligible sale and payment events.
-- Migration imports pass through a universal import model, canonical data model, validation and reconciliation.
+- CSV.
+- XLSX.
+- JSON.
+- NDJSON.
+- ZIP con manifiesto.
 
-The context map is refined in:
+La plataforma debe soportar:
 
-`02-domain-definition/domain-foundation/context-map/context-map.yaml`
+- Paquetes de importación.
+- Manifiesto.
+- Validación previa.
+- Dry run.
+- Reconciliación.
+- Reportes de errores.
+- Trazabilidad origen-destino.
+- Auditoría.
+- Reintentos.
+- Ejecución mediante comandos de dominio.
 
-## Architecture Expectations
+La migración no debe insertar datos directamente saltándose reglas de negocio.
 
-The architecture must support modular implementation without forcing deployment lock-in.
+## 16. Reglas de Negocio Críticas
 
-Expected architectural qualities:
+Reglas base:
 
-- Modular domain boundaries.
-- OpenAPI-first service contracts.
-- Event-aware workflows where lifecycle traceability matters.
-- Scoped authorization and audit by default.
-- Data ownership by bounded context.
-- Adapter boundaries for devices, fiscal services, public APIs, webhooks and migration.
-- Local development runtime for implementation speed.
-- Replaceable cloud, AI, orchestration and deployment choices.
-- Observability through logs, metrics and traces.
+- Toda acción protegida requiere actor autenticado.
+- Todo acceso debe estar limitado por tenant, laboratorio, sucursal y rol.
+- Las asignaciones de rol deben tener alcance.
+- Los pacientes son master data y no deben ser mutados por órdenes o resultados.
+- Las órdenes deben usar snapshots de paciente, catálogo y precio.
+- Solo servicios publicados pueden ser ordenados.
+- Los pagos requieren sesión de caja activa.
+- La facturación fiscal debe pasar por adaptadores de país.
+- Toda muestra debe trazar a orden, paciente, sucursal, tomador y tiempo de toma.
+- Una muestra rechazada bloquea resultados dependientes salvo proceso de reemplazo u override autorizado.
+- La validación técnica precede a la validación médica, salvo regla explícita.
+- La validación médica es requerida antes de liberar resultados externamente.
+- Resultados críticos deben generar notificación o escalamiento trazable.
+- Pacientes y médicos solo ven resultados liberados y autorizados.
+- Integraciones y migraciones deben pasar por capas anti-corrupción.
+- IA puede asistir, pero no validar, liberar, corregir ni diagnosticar resultados clínicos.
+- Los eventos de auditoría son append-only.
 
-Architecture source artifacts live under:
+## 17. Datos, Privacidad y Auditoría
 
-`03-architecture/`
+El producto maneja información sensible.
 
-## Data, Privacy and Audit Expectations
+Debe proteger:
 
-The platform handles sensitive patient, clinical, operational and fiscal data.
+- Datos personales.
+- Datos clínicos.
+- Resultados.
+- Historial de resultados.
+- Pagos.
+- Información fiscal.
+- Documentos.
+- Usuarios y permisos.
+- Evidencia de auditoría.
 
-The business requirement demands:
+Expectativas:
 
-- Patient information must be protected by scoped access.
-- External users may access only authorized released information.
-- Clinical validation and release actions must be auditable.
-- Audit events must be immutable and correction-friendly through additional events.
-- Imported data must be validated before mutation.
-- Result history must be available only through authorized channels.
-- Notifications for critical results must be traceable.
-- Country-specific fiscal and regulatory behavior must be isolated through extension packs or adapters.
+- Acceso mínimo necesario.
+- Auditoría de acciones críticas.
+- Evidencia inmutable.
+- Correcciones mediante nuevos eventos.
+- Trazabilidad de liberación de resultados.
+- Control de acceso a portales.
+- Separación entre autorización clínica, administrativa y comercial.
+- Protección de información importada durante migraciones.
 
-## AI and Automation Expectations
+## 18. Integraciones
 
-AI is a progressive capability, not a dependency for the first operating spine.
+HOP debe integrarse con sistemas externos sin acoplar el dominio interno a protocolos o proveedores.
 
-AI may later support:
+Integraciones esperadas:
 
-- Administrative assistance.
-- Clinical summarization support.
-- Intelligent OCR.
-- Semantic search.
-- RAG-based knowledge retrieval.
-- Specialized operational agents.
+- Equipos de laboratorio.
+- Sistemas fiscales.
+- Sistemas de pago.
+- Sistemas de notificación.
+- Portales.
+- APIs públicas.
+- Webhooks.
+- Sistemas legados.
+- Marketplace o billing provider.
 
-AI must not:
+Reglas:
 
-- Validate clinical results.
-- Release results.
-- Amend clinical results.
-- Make diagnoses.
-- Become required for core business continuity.
-- Bypass privacy, authorization, audit or validation rules.
+- Todo protocolo externo debe traducirse antes de entrar al dominio.
+- Ninguna integración debe mutar agregados de otro bounded context directamente.
+- Los errores deben ser observables y auditables.
+- Las integraciones deben poder reemplazarse.
 
-AI capability details are refined in:
+## 19. Canales Digitales
 
-`03-architecture/ai-platform/`
+HOP debe soportar diferentes superficies de usuario:
 
-## Out of Scope for First MVP
+- Employee portal.
+- Patient portal.
+- Doctor portal.
+- Public website.
+- Mobile app.
+- Operations console.
 
-The following are intentionally outside the first MVP:
+Los canales deben respetar la misma política de seguridad, privacidad, auditoría y entitlement.
 
-- Full PACS implementation.
-- Full DICOM operational flow.
-- Advanced imaging reporting.
-- Full inventory and procurement automation.
-- Advanced quality management.
-- External quality control programs.
-- CAPA workflows.
-- Equipment maintenance automation.
-- Country-specific fiscal connector implementations beyond adapter boundaries.
-- Advanced AI assistants as required operational features.
-- Advanced workflow engine as a core dependency.
+## 20. Inteligencia Artificial
 
-These capabilities can be promoted later only when the MVP operating spine remains stable.
+IA es una capacidad progresiva, no una dependencia del núcleo operativo.
 
-## Constraints
+IA puede apoyar:
 
-The solution must respect these constraints:
+- Resúmenes administrativos.
+- Asistencia clínica supervisada.
+- OCR.
+- Búsqueda semántica.
+- RAG.
+- Recomendaciones operativas.
+- Revisión de calidad de datos.
+- Explicación de errores de migración.
 
-- Development must remain agent agnostic.
-- Architecture must remain cloud agnostic and provider agnostic.
-- Source artifacts are the source of truth.
-- Chat history is not source of truth.
-- Project-specific artifacts must stay inside the project folder.
-- Generated artifacts must not replace authoritative source artifacts.
-- Architecture Freeze v1.0 must be preserved unless an ADR changes it.
-- Implementation must begin from module definition packages, not from an empty scaffold.
-- Each module must update traceability, tests and project state.
+IA no puede:
 
-## Success Criteria
+- Diagnosticar.
+- Validar resultados.
+- Liberar resultados.
+- Modificar resultados clínicos.
+- Saltarse reglas de privacidad.
+- Tomar decisiones clínicas autónomas.
+- Ser requisito para continuidad operativa básica.
 
-The business requirement is satisfied for MVP readiness when:
+## 21. Restricciones
 
-- A development agent can load the project folder without prior conversation.
-- `SOURCE_OF_TRUTH.yaml` identifies the authoritative artifacts.
-- `PROJECT_STATE.yaml` has no blocking definition gaps.
-- MVP modules are ordered and traceable.
-- `MVP-MOD-001 Platform Foundation` is ready to implement.
-- Specialized subagents can receive module packages and start work independently.
-- Security, audit, privacy and integration guardrails are visible before coding.
-- Every module can trace implementation outputs back to business capabilities and this requirement.
+Restricciones obligatorias:
 
-## Reference Pattern for Future Nexora Projects
+- El proyecto debe ser agent agnostic.
+- El proyecto debe ser cloud agnostic.
+- El proyecto debe ser provider agnostic.
+- El proyecto debe poder entenderse desde el repositorio, sin historial de conversación.
+- Los artefactos fuente viven dentro del proyecto.
+- El framework vive en `nexora-framework/`.
+- El código vive bajo `07-implementation/`.
+- Los modelos son fuente de verdad.
+- Los artefactos generados no deben editarse manualmente como fuente primaria.
+- Cambios de arquitectura deben documentarse con ADR.
 
-Future Nexora projects should use this document as a model for `BUSINESS_REQUIREMENT.md`.
+## 22. Fuera de Alcance Inicial
 
-A robust business requirement should describe:
+Fuera del MVP operativo:
 
-- Business context.
-- Business opportunity.
-- User need.
-- Current pain.
-- Desired outcome.
-- Target users and actors.
-- Capability areas.
-- MVP expectation.
-- First module requirement.
-- Business rules and guardrails.
-- Domain and integration principles.
-- Architecture expectations.
-- Data, privacy and audit expectations.
-- AI and automation expectations when relevant.
-- Out-of-scope boundaries.
-- Constraints.
-- Success criteria.
-- Links to downstream source artifacts.
+- PACS completo.
+- DICOM completo.
+- Dictado radiológico avanzado.
+- Firma radiológica avanzada.
+- Inventario completo.
+- Compras completas.
+- CAPA completo.
+- Control externo de calidad completo.
+- Conectores fiscales específicos.
+- Conectores de equipo específicos.
+- Marketplace UI avanzado.
+- IA avanzada obligatoria.
 
-The purpose is to give agents enough context to perform analysis and produce an MVP proposal without relying on unstated assumptions.
+Estas capacidades pueden desarrollarse después si el core operativo ya es estable.
 
-## Downstream Source Artifacts
+## 23. Criterios de Éxito
 
-This requirement is refined by:
+El producto será exitoso cuando:
 
+- Un laboratorio pueda configurar su organización, sucursales, usuarios y permisos.
+- Se pueda configurar catálogo diagnóstico versionado.
+- Se puedan registrar pacientes y médicos.
+- Se puedan crear órdenes.
+- Se puedan cobrar servicios.
+- Se puedan tomar y procesar muestras.
+- Se puedan validar resultados.
+- Se puedan liberar resultados.
+- Pacientes y médicos puedan consultar resultados autorizados.
+- Integraciones y migraciones estén gobernadas.
+- Todo evento crítico sea auditable.
+- Se puedan agregar capacidades comerciales mediante paquetes.
+- El producto pueda evolucionar por modelos.
+- Un agente pueda continuar el desarrollo leyendo solamente el repositorio.
+
+## 24. Información Faltante o a Confirmar
+
+El solicitante del negocio deberá confirmar en etapas posteriores:
+
+- País inicial de operación comercial.
+- Reglas fiscales específicas del primer país.
+- Tipos de laboratorio objetivo para el primer cliente.
+- Volumen esperado de órdenes, resultados y sucursales.
+- Canales de notificación prioritarios.
+- Integraciones obligatorias para el primer cliente.
+- Paquetes comerciales iniciales.
+- Modelo de precios.
+- Estrategia de despliegue preferida para primeros clientes.
+- Requisitos regulatorios específicos por país.
+
+El agente debe registrar estos puntos como aclaraciones pendientes, no inventarlos.
+
+## 25. Estructura Reutilizable para Futuros Proyectos
+
+Para un nuevo proyecto Nexora, quien solicita el sistema debe documentar un `BUSINESS_REQUIREMENT.md` siguiendo esta estructura mínima:
+
+1. Propósito del documento.
+2. Resumen ejecutivo.
+3. Contexto de negocio.
+4. Oportunidad de negocio.
+5. Problema a resolver.
+6. Necesidad del usuario.
+7. Usuarios y actores.
+8. Alcance del producto.
+9. Capacidades de negocio esperadas.
+10. MVP esperado.
+11. Producto comercial completo.
+12. Extensibilidad o marketplace, si aplica.
+13. Migración e ingesta, si aplica.
+14. Reglas críticas.
+15. Datos, privacidad y auditoría.
+16. Integraciones.
+17. Canales digitales.
+18. IA y automatización, si aplica.
+19. Restricciones.
+20. Fuera de alcance.
+21. Criterios de éxito.
+22. Información faltante o por confirmar.
+
+## 26. Prompt para Transformar este Documento a YAML
+
+El prompt oficial vive en:
+
+`04-requirements/prompts/business-requirement-to-yaml-prompt.md`
+
+Uso esperado:
+
+1. El solicitante escribe o actualiza `BUSINESS_REQUIREMENT.md`.
+2. El agente carga el prompt.
+3. El agente transforma el documento en `BUSINESS_REQUIREMENT.yaml`.
+4. El agente no inventa datos faltantes.
+5. El agente marca aclaraciones.
+6. El agente valida que el YAML sea legible por otros agentes.
+7. El agente actualiza `SOURCE_OF_TRUTH.yaml` si corresponde.
+
+## 27. Artefactos Relacionados
+
+Artefactos principales:
+
+- `BUSINESS_REQUIREMENT.yaml`
 - `PROJECT_BRIEF.md`
+- `PROJECT_BRIEF.yaml`
 - `SOURCE_OF_TRUTH.yaml`
 - `PROJECT_STATE.yaml`
 - `ORDERED_DEVELOPMENT_GUIDE.md`
 - `01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml`
 - `01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
+- `01-product-definition/business-capabilities/packages/capability-package-index.yaml`
 - `02-domain-definition/actors/acm-001/actor-catalog.yaml`
 - `02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml`
 - `02-domain-definition/domain-foundation/context-map/context-map.yaml`
-- `03-architecture/`
-- `04-requirements/`
-- `05-contracts/`
+- `04-requirements/requirements-manifest.yaml`
+- `05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml`
+- `05-contracts/marketplace/product-marketplace/product-marketplace-contract.yaml`
 - `06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
-- `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
+- `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
+
+## 28. Declaración Final
+
+Healthcare Operations Platform debe convertirse en un producto comercial, extensible y gobernado por modelos.
+
+El objetivo no es construir pantallas aisladas ni CRUDs sueltos.
+
+El objetivo es construir capacidades de negocio completas, trazables, versionables y comercializables, de forma que Nexora pueda repetir este método en futuros productos.

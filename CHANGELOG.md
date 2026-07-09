@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.68.0] - 2026-07-08
+
+### Added
+- Added a reusable Business Requirement to YAML prompt in Markdown and YAML for HOP project intake.
+- Registered the HOP business requirement transformation prompt in repository and project source-of-truth files.
+
+### Changed
+- Redesigned HOP `BUSINESS_REQUIREMENT.md` as a clearer business-facing requirement and future-project intake template.
+- Updated `BUSINESS_REQUIREMENT.yaml` to reflect the current HOP state, including MDPE, 92 capabilities, open data ingestion and product marketplace.
+
 ## [0.67.0] - 2026-07-08
 
 ### Added
