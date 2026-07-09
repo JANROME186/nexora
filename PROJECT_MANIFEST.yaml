@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.75.0
+  version: 0.76.0
   status: ready
 
 company:
@@ -33,6 +33,7 @@ framework:
     product_marketplace: nexora-framework/02-standards/standards/product-marketplace-standard.yaml
     business_requirement_versioning: nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
     open_source_first_security_quality: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+    integrated_local_solution_runbook: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml
     framework_feedback_continuous_improvement: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
     technology_debt_backlog_policy: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
     framework_improvement_backlog_policy: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
@@ -43,6 +44,7 @@ framework:
     auxiliary_development: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
     business_requirement_impact: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
     security_quality_gate: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
+    integrated_local_runbook: nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml
     framework_feedback: nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml
   orchestration:
     project_analysis_to_mvp: nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
@@ -76,6 +78,8 @@ projects:
     source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
     technical_debt_index: projects/healthcare-operations-platform/08-qa/technical-debt/technical-debt-index.yaml
     framework_feedback_index: projects/healthcare-operations-platform/08-qa/framework-feedback/framework-feedback-index.yaml
+    local_solution_runbook: projects/healthcare-operations-platform/09-operations/runbooks/local-solution-runbook.md
+    local_solution_runbook_yaml: projects/healthcare-operations-platform/09-operations/runbooks/local-solution-runbook.yaml
     active_module: MVP-MOD-003
     completed_backlog_items:
       - PF-BE-001
@@ -109,11 +113,13 @@ agent_policy:
     - nexora-framework/02-standards/standards/product-marketplace-standard.md
     - nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
     - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+    - nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md
     - nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.md
     - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
     - nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
     - nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
     - nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
+    - nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml
     - nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml
     - target_project/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml
     - target_project/BUSINESS_REQUIREMENT.md

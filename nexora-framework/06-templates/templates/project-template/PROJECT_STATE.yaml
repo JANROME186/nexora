@@ -7,11 +7,13 @@ development_readiness:
   business_requirement_ready: false
   technology_debt_backlog_ready: true
   framework_feedback_ready: true
+  integrated_local_solution_runbook_ready: false
   client_stack_market_validation_ready: false
   stack_quality_toolchain_baseline_ready: false
   blocking_definition_gaps:
     - business_requirement_missing_requester_must_provide
     - project_brief_not_completed
+    - integrated_local_solution_runbook_missing
     - client_stack_market_validation_missing
     - stack_quality_toolchain_baseline_missing
     - capability_map_missing
@@ -24,3 +26,7 @@ framework_feedback:
   index: 08-qa/framework-feedback/framework-feedback-index.yaml
   capture_policy: Capture feedback when execution reveals reusable framework ambiguity, gaps or automation opportunities.
   implementation_policy: Agents may propose framework improvements but must not implement them unless Nexora explicitly assigns the central framework backlog item.
+local_solution_runbook:
+  human_readable: 09-operations/runbooks/local-solution-runbook.md
+  machine_readable: 09-operations/runbooks/local-solution-runbook.yaml
+  review_policy: Maintain a single integrated local startup, validation and shutdown guide for human reviewers.

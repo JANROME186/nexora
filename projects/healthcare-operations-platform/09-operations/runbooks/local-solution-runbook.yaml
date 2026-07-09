@@ -1,0 +1,240 @@
+artifact:
+  id: HOP-LOCAL-RUNBOOK-001
+  type: integrated-local-solution-runbook
+  name: HOP Integrated Local Solution Runbook
+  version: 1.0.0
+  status: active
+  human_readable: local-solution-runbook.md
+  machine_readable: local-solution-runbook.yaml
+  standard: ../../../../nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml
+  owner: Nexora Engineering
+
+project:
+  name: Healthcare Operations Platform
+  slug: healthcare-operations-platform
+  current_active_backlog_item: MVP-MOD-003-DEF
+  intended_audience:
+    - human_reviewer
+    - qa_reviewer
+    - development_agent
+
+local_ports:
+  backend_api: http://localhost:8080
+  employee_portal: http://localhost:5173
+  postgres: localhost:5432
+  redis: localhost:6379
+  otel_grpc: localhost:4317
+  otel_http: localhost:4318
+  otel_health: http://localhost:13133
+
+prerequisites:
+  - id: PRE-001
+    name: Docker with Compose support
+    required_for: infrastructure_services
+  - id: PRE-002
+    name: Java 21
+    required_for: backend_api
+  - id: PRE-003
+    name: Maven 3.9.x or compatible Maven wrapper/settings usage
+    required_for: backend_build_and_run
+  - id: PRE-004
+    name: Node.js and npm
+    required_for: employee_portal_and_mobile_validation
+  - id: PRE-005
+    name: PowerShell or compatible shell
+    required_for: local_commands_on_windows
+
+component_inventory:
+  - id: INF-001
+    name: Local infrastructure services
+    type: infrastructure
+    path: 07-implementation/compose.local.yml
+    depends_on:
+      - 07-implementation/.env
+    port_or_url: postgres:5432, redis:6379, otel:4317/4318/13133
+    start_command: docker compose --env-file .env -f compose.local.yml up -d
+    health_check: docker compose --env-file .env -f compose.local.yml ps
+    stop_command_or_process_note: docker compose --env-file .env -f compose.local.yml down
+    owner_area: platform_operations
+  - id: BE-001
+    name: HOP backend API
+    type: backend
+    path: 07-implementation/backend
+    depends_on:
+      - INF-001
+    port_or_url: http://localhost:8080
+    start_command: mvn --settings .mvn/settings.xml spring-boot:run "-Dspring-boot.run.profiles=local"
+    health_check: GET http://localhost:8080/actuator/health and GET http://localhost:8080/api/platform/health
+    stop_command_or_process_note: Stop the Maven Spring Boot process in its terminal.
+    owner_area: backend
+  - id: WEB-001
+    name: Employee portal web app
+    type: frontend_webapp
+    path: 07-implementation/employee-portal
+    depends_on:
+      - BE-001
+    port_or_url: http://localhost:5173
+    start_command: npm run dev -- --host 127.0.0.1
+    health_check: Open http://localhost:5173 and confirm the app loads.
+    stop_command_or_process_note: Stop the Vite process in its terminal.
+    owner_area: frontend
+  - id: APP-001
+    name: Mobile app foundation package
+    type: mobile_validation_package
+    path: 07-implementation/mobile-app
+    depends_on:
+      - WEB-001 dependencies installed
+    port_or_url: not_applicable_renderer_agnostic_package
+    start_command: npm test
+    health_check: npm run typecheck and npm test
+    stop_command_or_process_note: No long-running process.
+    owner_area: mobile
+
+startup_order:
+  - id: STEP-001
+    name: Prepare environment file
+    working_directory: 07-implementation
+    command: Copy-Item .env.example .env
+    when: Run only if .env does not exist.
+  - id: STEP-002
+    name: Start infrastructure services
+    working_directory: 07-implementation
+    command: docker compose --env-file .env -f compose.local.yml up -d
+    expected_result: PostgreSQL, Redis and OpenTelemetry Collector containers are running.
+  - id: STEP-003
+    name: Verify infrastructure services
+    working_directory: 07-implementation
+    command: docker compose --env-file .env -f compose.local.yml ps
+    expected_result: postgres, redis and otel-collector are Up or healthy.
+  - id: STEP-004
+    name: Start backend API
+    working_directory: 07-implementation/backend
+    command: mvn --settings .mvn/settings.xml spring-boot:run "-Dspring-boot.run.profiles=local"
+    expected_result: Backend starts on http://localhost:8080.
+  - id: STEP-005
+    name: Install employee portal dependencies
+    working_directory: 07-implementation/employee-portal
+    command: npm install
+    when: Run when node_modules is missing or package-lock.json changed.
+  - id: STEP-006
+    name: Start employee portal web app
+    working_directory: 07-implementation/employee-portal
+    command: npm run dev -- --host 127.0.0.1
+    expected_result: Employee portal starts on http://localhost:5173 and proxies /api to backend.
+
+health_checks:
+  - id: HC-001
+    name: Backend actuator health
+    working_directory: repository_root
+    command: Invoke-RestMethod http://localhost:8080/actuator/health
+    expected_result: status is UP.
+  - id: HC-002
+    name: Platform health
+    working_directory: repository_root
+    command: Invoke-RestMethod http://localhost:8080/api/platform/health
+    expected_result: status is UP.
+  - id: HC-003
+    name: Employee portal availability
+    working_directory: repository_root
+    command: Invoke-WebRequest http://localhost:5173
+    expected_result: HTTP 200.
+
+smoke_validation:
+  - id: SMOKE-001
+    name: Open employee portal
+    url: http://localhost:5173
+    expected_result: HOP employee portal shell loads.
+  - id: SMOKE-002
+    name: Create and inspect platform tenant through UI or API
+    expected_result: Tenant creation succeeds and can be retrieved.
+  - id: SMOKE-003
+    name: Diagnostic Catalog baseline
+    expected_result: Diagnostic catalog screens load and can use backend /api/catalog endpoints when backend is running.
+
+quality_validation:
+  - id: QA-001
+    name: Backend standard tests
+    working_directory: 07-implementation/backend
+    command: mvn --settings .mvn/settings.xml test
+  - id: QA-002
+    name: Backend PostgreSQL tests
+    working_directory: 07-implementation/backend
+    command: mvn --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
+    depends_on:
+      - INF-001
+  - id: QA-003
+    name: Employee portal typecheck
+    working_directory: 07-implementation/employee-portal
+    command: npm run typecheck
+  - id: QA-004
+    name: Employee portal coverage
+    working_directory: 07-implementation/employee-portal
+    command: npm run test:coverage
+  - id: QA-005
+    name: Employee portal build
+    working_directory: 07-implementation/employee-portal
+    command: npm run build
+  - id: QA-006
+    name: Employee portal dependency audit
+    working_directory: 07-implementation/employee-portal
+    command: npm audit --audit-level=high
+  - id: QA-007
+    name: Mobile foundation typecheck
+    working_directory: 07-implementation/mobile-app
+    command: npm run typecheck
+  - id: QA-008
+    name: Mobile foundation tests
+    working_directory: 07-implementation/mobile-app
+    command: npm test
+
+stop_steps:
+  - id: STOP-001
+    name: Stop employee portal
+    instruction: Stop the Vite terminal process with Ctrl+C.
+  - id: STOP-002
+    name: Stop backend API
+    instruction: Stop the Maven Spring Boot terminal process with Ctrl+C.
+  - id: STOP-003
+    name: Stop infrastructure services
+    working_directory: 07-implementation
+    command: docker compose --env-file .env -f compose.local.yml down
+
+reset_steps:
+  - id: RESET-001
+    name: Remove local infrastructure volumes
+    working_directory: 07-implementation
+    command: docker compose --env-file .env -f compose.local.yml down -v
+    warning: This deletes local PostgreSQL and Redis data.
+
+troubleshooting:
+  - symptom: Backend cannot connect to PostgreSQL.
+    checks:
+      - Confirm docker compose services are running.
+      - Confirm 07-implementation/.env matches backend local profile variables.
+      - Confirm port 5432 is not occupied by another PostgreSQL instance.
+  - symptom: Employee portal API calls fail.
+    checks:
+      - Confirm backend is running on http://localhost:8080.
+      - Confirm Vite proxy configuration still points /api to http://localhost:8080.
+  - symptom: Mobile tests cannot find TypeScript or Vitest commands.
+    checks:
+      - Run npm install in 07-implementation/employee-portal first because mobile currently reuses that toolchain.
+
+known_limitations:
+  - Mobile app is currently a renderer-agnostic TypeScript foundation, not a native runnable app.
+  - DAST automation remains tracked as technical debt TD-QA-001.
+  - Release supply-chain gates remain tracked as technical debt TD-BE-004.
+
+component_readmes:
+  - 07-implementation/README.md
+  - 07-implementation/backend/README.md
+  - 07-implementation/employee-portal/README.md
+  - 07-implementation/mobile-app/README.md
+
+feedback_capture:
+  project_feedback_index: 08-qa/framework-feedback/framework-feedback-index.yaml
+  technical_debt_index: 08-qa/technical-debt/technical-debt-index.yaml
+  instruction: >
+    If this runbook is incomplete, ambiguous, or still requires hidden manual
+    component-by-component knowledge for basic startup, capture project feedback
+    and propose framework feedback when reusable.

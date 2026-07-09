@@ -23,6 +23,12 @@ Implementation order:
 
 ## Local Runtime
 
+For the complete integrated local startup, validation and shutdown path, use:
+
+`../09-operations/runbooks/local-solution-runbook.md`
+
+The component notes below remain useful for service-level details, but human review should start from the integrated runbook.
+
 Create a local environment file from the example when needed:
 
 ```bash

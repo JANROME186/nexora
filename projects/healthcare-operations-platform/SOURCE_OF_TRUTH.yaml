@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.75.0
+  version: 0.76.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -22,9 +22,11 @@ sources:
   product_marketplace_standard: ../../nexora-framework/02-standards/standards/product-marketplace-standard.yaml
   business_requirement_versioning_standard: ../../nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
   open_source_first_security_quality_standard: ../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  integrated_local_solution_runbook_standard: ../../nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml
   framework_feedback_continuous_improvement_standard: ../../nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
   business_requirement_impact_prompts_yaml: ../../nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
   security_quality_gate_prompts_yaml: ../../nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
+  integrated_local_runbook_prompts_yaml: ../../nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml
   framework_feedback_prompts_yaml: ../../nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml
   product_definition: 01-product-definition/products/healthcare-operations-platform/product.yaml
   business_capability_map: 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
@@ -115,6 +117,8 @@ sources:
   mvp_mod_001_mobile_implementation: 07-implementation/mobile-app/
   mvp_mod_001_local_runtime_compose: 07-implementation/compose.local.yml
   mvp_mod_001_local_runtime_env_example: 07-implementation/.env.example
+  local_solution_runbook: 09-operations/runbooks/local-solution-runbook.md
+  local_solution_runbook_yaml: 09-operations/runbooks/local-solution-runbook.yaml
   mvp_mod_001_pf_be_001_qa_evidence: 08-qa/qa/platform-foundation/PF-BE-001-backend-skeleton.md
   mvp_mod_001_pf_be_001_qa_evidence_yaml: 08-qa/qa/platform-foundation/PF-BE-001-backend-skeleton.yaml
   mvp_mod_001_pf_ops_001_qa_evidence: 08-qa/qa/platform-foundation/PF-OPS-001-local-runtime.md
@@ -160,6 +164,8 @@ rules:
   - HOP must validate requester-proposed and current stack choices against current stable or LTS open source market practice before release-oriented decisions.
   - HOP must maintain stack-specific quality toolchain baselines and register non-blocking tooling gaps as technical debt.
   - HOP code-changing backlog items must produce security quality evidence with applicable tests, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when runnable surfaces exist.
+  - HOP must maintain 09-operations/runbooks/local-solution-runbook.md and .yaml as the single integrated local startup, validation and shutdown guide for human reviewers.
+  - HOP agents must update or explicitly confirm the integrated local runbook whenever runtime components, ports, variables, startup order, validation commands or review surfaces change.
   - HOP technology reviews must not be constrained permanently by the initial stack; agents must register non-blocking upgrade, migration, dependency, framework or tooling findings in 08-qa/technical-debt/ and remediate gradually when affected components are touched.
   - HOP execution feedback that can improve the Nexora framework must be registered under 08-qa/framework-feedback/.
   - HOP agents may propose central framework backlog items but must not implement framework improvements unless Nexora explicitly assigns them.

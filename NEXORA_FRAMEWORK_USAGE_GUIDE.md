@@ -25,6 +25,8 @@ El framework incluye un playbook de prompts reutilizable para cualquier proyecto
 - `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
 - `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md`
 - `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md`
+- `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml`
 - `nexora-framework/05-prompts/prompts/framework-feedback-prompts.md`
 - `nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml`
 
@@ -33,6 +35,8 @@ La version YAML es la fuente operativa para agentes. La version Markdown es para
 Los prompts auxiliares de desarrollo ayudan a ejecutar kickoff de modulo, slices de backlog, backend, web, movil, QA y cierre. No reemplazan a los prompts genericos; solo se usan despues de que el prompt generico de desarrollo selecciona proyecto, modulo y slice.
 
 Los prompts de security quality gate aplican la politica open-source-first y las validaciones de seguridad, dependencias, cobertura y buenas practicas para cada backlog que cambia codigo.
+
+Los prompts de integrated local runbook mantienen una guia unica para levantar, validar y detener toda la solucion local sin entrar manualmente a cada componente.
 
 Los prompts de framework feedback capturan aprendizaje de ejecucion para proponer mejoras al framework. Los agentes pueden crear feedback y propuestas de backlog de framework, pero no deben implementar esas mejoras salvo que Nexora lo asigne explicitamente.
 
@@ -106,10 +110,14 @@ Archivos importantes:
 - `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
 - `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
 - `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
+- `nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml`
+- `nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml`
 - `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
 - `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
 - `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
 - `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml`
 - `nexora-framework/06-templates/templates/project-template/`
 
 Todo agente debe cargar el framework antes de analizar o implementar un proyecto.
@@ -264,17 +272,19 @@ El agente de analisis debe cargar estos archivos en este orden:
 12. `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
 13. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
 14. `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
-15. `nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml`
-16. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
-17. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
-18. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
-19. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
-20. `nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml`
-21. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
-22. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
-23. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`, si existe
-24. `projects/<project-slug>/PROJECT_BRIEF.md`, si existe
-25. `projects/<project-slug>/PROJECT_STATE.yaml`, si existe
+15. `nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml`
+16. `nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml`
+17. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
+18. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
+19. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
+20. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
+21. `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml`
+22. `nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml`
+23. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
+24. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
+25. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`, si existe
+26. `projects/<project-slug>/PROJECT_BRIEF.md`, si existe
+27. `projects/<project-slug>/PROJECT_STATE.yaml`, si existe
 
 Si faltan archivos de control del proyecto, el agente debe crearlos usando el template del framework.
 
@@ -449,6 +459,8 @@ Salidas esperadas:
 - Validadores.
 - Notas de runtime.
 - Expectativas de observabilidad y runbooks.
+- Runbook local integrado en `09-operations/runbooks/local-solution-runbook.md`.
+- Version YAML operativa en `09-operations/runbooks/local-solution-runbook.yaml`.
 
 ### Artefactos Generados
 
@@ -651,24 +663,26 @@ El agente de desarrollo debe cargar:
 5. `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
 6. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
 7. `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
-8. `nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml`
-9. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
-10. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
-11. `nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml`
-12. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
-13. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
-14. `projects/<project-slug>/PROJECT_BRIEF.md`
-15. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`
-16. `projects/<project-slug>/PROJECT_STATE.yaml`
-17. `projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.md`
-18. `module-definition.yaml` del modulo objetivo
-19. `domain-model.md` del modulo objetivo
-20. `api-contract.openapi.yaml` del modulo objetivo
-21. `database-migration-plan.md` del modulo objetivo
-22. `ui-screen-map.md` del modulo objetivo
-23. `security-and-audit-rules.md` del modulo objetivo
-24. `test-plan.md` del modulo objetivo
-25. `traceability.yaml` del modulo objetivo
+8. `nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml`
+9. `nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml`
+10. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
+11. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
+12. `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml`
+13. `nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml`
+14. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
+15. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
+16. `projects/<project-slug>/PROJECT_BRIEF.md`
+17. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`
+18. `projects/<project-slug>/PROJECT_STATE.yaml`
+19. `projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.md`
+20. `module-definition.yaml` del modulo objetivo
+21. `domain-model.md` del modulo objetivo
+22. `api-contract.openapi.yaml` del modulo objetivo
+23. `database-migration-plan.md` del modulo objetivo
+24. `ui-screen-map.md` del modulo objetivo
+25. `security-and-audit-rules.md` del modulo objetivo
+26. `test-plan.md` del modulo objetivo
+27. `traceability.yaml` del modulo objetivo
 
 El agente tambien debe cargar cualquier artefacto de producto, dominio, arquitectura, contrato o QA referenciado por el paquete del modulo.
 
@@ -686,7 +700,7 @@ El agente de desarrollo debe:
 - Escribir evidencia en `08-qa/security-quality/<backlog-item-id>/`.
 - Registrar feedback de framework en `08-qa/framework-feedback/` cuando la ejecucion revele ambiguedades, plantillas faltantes, prompts faltantes, trabajo repetitivo o mejoras reutilizables.
 - Actualizar trazabilidad.
-- Actualizar notas de operaciones cuando cambie el comportamiento runtime.
+- Actualizar notas de operaciones y `09-operations/runbooks/local-solution-runbook.*` cuando cambie el comportamiento runtime, puertos, variables, dependencias, orden de arranque o comandos de validacion.
 - Actualizar estado del proyecto despues de avances significativos.
 
 El agente de desarrollo no debe:
@@ -699,7 +713,7 @@ El agente de desarrollo no debe:
 - Introducir dependencias propietarias obligatorias sin ADR de excepcion.
 - Saltarse boundaries de adaptadores o anti-corruption layers.
 
-## Etapa 8.1: Feedback de Mejora Continua del Framework
+## Etapa 8: Feedback de Mejora Continua del Framework
 
 Al finalizar analisis, validacion, implementacion de backlog, cierre de modulo o release readiness, el agente debe revisar si la ejecucion dejo aprendizaje reutilizable para mejorar el framework.
 
@@ -719,7 +733,36 @@ Si el aprendizaje aplica a varios proyectos o al framework en general, el agente
 
 El agente no debe implementar esa mejora al framework salvo que Nexora lo asigne explicitamente como backlog de framework.
 
-## Etapa 8: Validar Handoff de Desarrollo
+## Etapa 9: Levantar y Validar la Solucion Local Integrada
+
+Cada proyecto con componentes ejecutables debe tener una guia unica para revision humana:
+
+`projects/<project-slug>/09-operations/runbooks/local-solution-runbook.md`
+
+La version YAML correspondiente es:
+
+`projects/<project-slug>/09-operations/runbooks/local-solution-runbook.yaml`
+
+Esta guia debe indicar, paso a paso y en orden de dependencias:
+
+- Prerrequisitos locales.
+- Variables de ambiente.
+- Infraestructura local.
+- Backend.
+- Frontend o webapp.
+- App movil o validacion movil, si aplica.
+- Health checks.
+- Smoke checks.
+- Quality gates minimos.
+- Como detener la solucion.
+- Como reiniciar o limpiar datos de forma controlada.
+- Problemas comunes.
+
+En cada backlog, el agente debe actualizar o confirmar explicitamente este runbook si cambia cualquier elemento de runtime, puerto, variable de ambiente, dependencia, startup order, comando de validacion o superficie revisable por una persona.
+
+El revisor humano debe usar primero este runbook integrado. Los README de cada componente sirven como detalle tecnico, pero no deben ser necesarios para levantar la solucion completa.
+
+## Etapa 10: Validar Handoff de Desarrollo
 
 Antes de iniciar desarrollo, confirmar:
 
@@ -736,7 +779,7 @@ Para Healthcare Operations Platform, el primer objetivo de desarrollo es:
 
 `projects/healthcare-operations-platform/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/`
 
-## Etapa 9: Control de Cambios
+## Etapa 11: Control de Cambios
 
 Si un agente encuentra una definicion faltante o contradictoria durante implementacion:
 
@@ -749,7 +792,7 @@ Si un agente encuentra una definicion faltante o contradictoria durante implemen
 
 No ocultar gaps de definicion dentro del codigo.
 
-## Etapa 10: Disciplina Git
+## Etapa 12: Disciplina Git
 
 Los agentes deben commitear hitos coherentes.
 
@@ -784,6 +827,8 @@ Readiness de analisis:
 - Existen requerimientos y contratos.
 - Existe framework MVP.
 - Existe primer paquete de modulo.
+- Existe runbook local integrado en `09-operations/runbooks/local-solution-runbook.md`.
+- Existe version YAML del runbook local integrado en `09-operations/runbooks/local-solution-runbook.yaml`.
 - Existe trazabilidad.
 - `blocking_definition_gaps` esta vacio.
 
@@ -794,6 +839,7 @@ Handoff de desarrollo:
 - Los artefactos fuente del modulo estan en source of truth o referenciados por el framework MVP.
 - Reglas de seguridad, auditoria y privacidad son visibles.
 - El plan de pruebas es visible.
+- El runbook local integrado permite levantar, validar y detener la solucion completa en orden de dependencias.
 - El agente de desarrollo tiene orden de carga exacto.
 - El alcance de implementacion esta limitado a un slice de modulo.
 

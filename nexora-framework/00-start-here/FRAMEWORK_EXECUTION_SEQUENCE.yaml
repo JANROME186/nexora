@@ -23,7 +23,7 @@ sequence:
     responsibility: Load Nexora company context and enterprise identity.
   - step: "02"
     folder: 02-standards
-    responsibility: Load project folder, documentation, agent-agnostic, MDPE, capability package, ingestion, marketplace, business requirement versioning, open-source security quality, client stack market validation, technology debt and framework feedback standards.
+    responsibility: Load project folder, documentation, agent-agnostic, MDPE, capability package, ingestion, marketplace, business requirement versioning, open-source security quality, client stack market validation, integrated local runbook, technology debt and framework feedback standards.
     primary_files:
       - 02-standards/standards/project-folder-standard.yaml
       - 02-standards/standards/documentation-standard.yaml
@@ -34,6 +34,7 @@ sequence:
       - 02-standards/standards/product-marketplace-standard.yaml
       - 02-standards/standards/business-requirement-versioning-standard.yaml
       - 02-standards/standards/open-source-first-security-quality-standard.yaml
+      - 02-standards/standards/integrated-local-solution-runbook-standard.yaml
       - 02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
   - step: "03"
     folder: 03-orchestration
@@ -47,12 +48,13 @@ sequence:
       - 04-recipes/recipes/agent-to-mvp-recipe.yaml
   - step: "05"
     folder: 05-prompts
-    responsibility: Provide generic and auxiliary prompts for analysis, validation, development and framework feedback capture.
+    responsibility: Provide generic and auxiliary prompts for analysis, validation, development, integrated local runbook maintenance and framework feedback capture.
     primary_files:
       - 05-prompts/prompts/generic-project-lifecycle-prompts.yaml
       - 05-prompts/prompts/auxiliary-development-prompts.yaml
       - 05-prompts/prompts/business-requirement-impact-prompts.yaml
       - 05-prompts/prompts/security-quality-gate-prompts.yaml
+      - 05-prompts/prompts/integrated-local-runbook-prompts.yaml
       - 05-prompts/prompts/framework-feedback-prompts.yaml
   - step: "06"
     folder: 06-templates
@@ -85,6 +87,7 @@ development_gate:
     - Open-source-first and security quality gates are defined for code-changing work.
     - Requester-proposed or existing stack has been validated against current stable or LTS open source market practice.
     - Stack-specific quality toolchain baseline is defined.
+    - Integrated local solution runbook is defined for human review and validation.
     - Technology evolution reviews and technical-debt backlog handling are defined for iterative work.
     - Framework feedback capture mechanism is available for agent execution learning.
 
