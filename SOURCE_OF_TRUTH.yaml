@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.73.0
+  version: 0.74.0
   status: approved
 sources:
   repository_readme: README.md
@@ -106,9 +106,17 @@ sources:
   hop_mvp_mod_002_qa_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/catalog-test-configuration/MVP-MOD-002-QA-001-validation.yaml
   hop_mvp_mod_002_qa_001_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.md
   hop_mvp_mod_002_qa_001_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.yaml
+  hop_mvp_mod_002_closeout_evidence: projects/healthcare-operations-platform/08-qa/qa/catalog-test-configuration/MVP-MOD-002-CLOSEOUT.md
+  hop_mvp_mod_002_closeout_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/catalog-test-configuration/MVP-MOD-002-CLOSEOUT.yaml
+  hop_mvp_mod_002_closeout_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-002-CLOSEOUT/security-quality-evidence.md
+  hop_mvp_mod_002_closeout_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-002-CLOSEOUT/security-quality-evidence.yaml
   hop_technical_debt_td_qa_001: projects/healthcare-operations-platform/08-qa/technical-debt/TD-QA-001-dast-automation.yaml
   hop_technical_debt_td_qa_002: projects/healthcare-operations-platform/08-qa/technical-debt/TD-QA-002-trivy-tool-upgrade.yaml
   hop_technical_debt_td_be_001: projects/healthcare-operations-platform/08-qa/technical-debt/TD-BE-001-mockito-java-agent.yaml
+  hop_technical_debt_td_be_002: projects/healthcare-operations-platform/08-qa/technical-debt/TD-BE-002-backend-static-analysis-toolchain.yaml
+  hop_technical_debt_td_be_003: projects/healthcare-operations-platform/08-qa/technical-debt/TD-BE-003-backend-coverage-gate.yaml
+  hop_technical_debt_td_be_004: projects/healthcare-operations-platform/08-qa/technical-debt/TD-BE-004-release-supply-chain-gates.yaml
+  hop_technical_debt_td_stack_001: projects/healthcare-operations-platform/08-qa/technical-debt/TD-STACK-001-stack-modernization-roadmap.yaml
   hop_client_stack_market_validation: projects/healthcare-operations-platform/03-architecture/technology-architecture/client-stack-market-validation.yaml
   hop_stack_quality_toolchain_baseline: projects/healthcare-operations-platform/03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
 rules:

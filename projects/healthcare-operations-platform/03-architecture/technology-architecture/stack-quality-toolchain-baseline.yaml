@@ -2,9 +2,10 @@ artifact:
   id: HOP-STACK-QUALITY-TOOLCHAIN-001
   type: stack-quality-toolchain-baseline
   name: HOP Stack Quality Toolchain Baseline
-  version: 0.1.0
-  status: active_with_gaps_registered
+  version: 1.0.0
+  status: active_with_gaps_dispositioned
   created_date: 2026-07-09
+  last_refreshed_date: 2026-07-09
   standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
 
 selected_stack_reference: 03-architecture/technology-architecture/client-stack-market-validation.yaml
@@ -98,20 +99,63 @@ toolchain_by_stack:
       - mobile test and coverage gate
       - dependency and license scans
 
+mvp_mod_002_closeout_disposition:
+  performed_during: MVP-MOD-002-CLOSEOUT
+  performed_on: 2026-07-09
+  mandatory_now:
+    description: Gates required and executed for this module closeout.
+    tools:
+      - Backend Maven test suite (JUnit) - passed 42/0/0 (standard) and 42/0/0 (PostgreSQL-backed).
+      - Trivy filesystem scan (vuln, secret, misconfig) - passed 0 HIGH/CRITICAL.
+      - Frontend TypeScript strict check, Vitest coverage, production build and npm audit - passed.
+  already_covered:
+    description: Categories already satisfied by existing tooling.
+    tools:
+      - Dependency vulnerability + secrets + misconfiguration - Trivy (backend and frontend) and npm audit.
+      - Architecture rules - partially covered by Spring Modulith structure verification (ArchUnit available transitively).
+      - Frontend coverage - Vitest V8 provider (68.7% lines).
+  not_applicable_now:
+    description: Categories deferred with documented reason.
+    tools:
+      - Full automated DAST - OWASP ZAP unavailable locally; manual integrated HTTP smoke passed (TD-QA-001).
+      - PIT/Pitest mutation testing - reserved for core-domain/high-risk hardening.
+      - OpenRewrite - reserved for future modernization or framework migration.
+  registered_as_gradual_debt:
+    description: Non-blocking gaps routed to the technical-debt backlog.
+    items:
+      - id: TD-BE-002
+        tools: [SpotBugs, Find Security Bugs, PMD, PMD CPD, Checkstyle, Semgrep CE]
+      - id: TD-BE-003
+        tools: [JaCoCo backend coverage]
+      - id: TD-BE-004
+        tools: [CycloneDX Maven Plugin, Maven Enforcer, License Maven Plugin, OWASP Dependency-Check]
+      - id: TD-STACK-001
+        tools: [major framework and runtime upgrades]
+
 technical_debt_items_created_or_updated:
   - id: TD-QA-001
     reason: DAST automation gap.
   - id: TD-QA-002
-    reason: Trivy scanner version upgrade.
+    reason: Trivy scanner version upgrade (0.69.2 available -> 0.72.0).
   - id: TD-BE-001
     reason: Mockito Java agent future compatibility.
+  - id: TD-BE-002
+    reason: Backend Java/Maven static analysis and SAST toolchain gap.
+  - id: TD-BE-003
+    reason: Backend test coverage measurement gate (JaCoCo) gap.
+  - id: TD-BE-004
+    reason: Backend release readiness supply-chain gates (SBOM, license, enforcer) gap.
+  - id: TD-STACK-001
+    reason: Gradual major framework/runtime modernization roadmap.
 
 next_actions:
-  - During MVP-MOD-002-CLOSEOUT, decide which Java/Maven tools must be configured immediately and which become gradual technical debt.
-  - Add backend coverage and build-rule gates before commercial release readiness.
-  - Add SBOM and license review gates before release readiness.
-  - Add automated DAST before release hardening.
+  - Add backend static analysis and SAST (TD-BE-002) when shared backend infrastructure is next touched.
+  - Add backend coverage gate (TD-BE-003) with JaCoCo before commercial release readiness.
+  - Add SBOM, license and build-rule gates (TD-BE-004) before release readiness.
+  - Add automated DAST (TD-QA-001) before release hardening.
+  - Revisit the stack modernization roadmap (TD-STACK-001) at each module closeout.
 
 decision:
+  mvp_mod_002_closeout_toolchain_review_completed: true
   ready_for_mvp_mod_002_closeout_execution: true
   ready_for_release_without_toolchain_gap_review: false

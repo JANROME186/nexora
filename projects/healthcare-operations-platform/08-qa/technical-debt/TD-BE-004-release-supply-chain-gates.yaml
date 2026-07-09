@@ -1,0 +1,61 @@
+artifact:
+  id: TD-BE-004
+  type: technical-debt-item
+  name: Add backend release readiness supply-chain gates (SBOM, license, build rules)
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-09
+
+source:
+  discovered_during_backlog_item: MVP-MOD-002-CLOSEOUT
+  module: MVP-MOD-002 Diagnostic Catalog
+  evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-CLOSEOUT.yaml
+
+classification:
+  category: supply_chain_and_release_gating
+  affected_area: backend_build_and_release_evidence
+  affected_components:
+    - 07-implementation/backend
+  risk_level: medium
+  blocking: false
+  reason_non_blocking: >
+    These tools are required for release readiness, not for MVP module closeout. Dependency and
+    license posture is currently validated by Trivy (0 HIGH/CRITICAL) and the accepted open-source
+    license families in the reviewed stack (Apache-2.0, MIT, BSD-2-Clause).
+
+current_state:
+  issue: >
+    The backend build does not yet generate a CycloneDX SBOM, enforce dependency and Java/Maven
+    version rules with Maven Enforcer, or run automated license-policy validation with the License
+    Maven Plugin.
+  compensating_control:
+    - Trivy filesystem scan covers dependency CVEs, secrets and misconfiguration.
+    - Reviewed dependency licenses are all within the accepted open-source families.
+
+target_state:
+  preferred_open_source_tooling:
+    - CycloneDX Maven Plugin for SBOM generation.
+    - Maven Enforcer for Java/Maven version and dependency convergence rules.
+    - License Maven Plugin for license header and dependency license policy validation.
+  expected_integration_points:
+    - backend Maven package/verify phase
+    - release readiness evidence
+    - CI release workflow
+
+remediation:
+  strategy: gradual_before_release_readiness
+  recommended_trigger:
+    - first release-candidate preparation
+    - release readiness gate
+    - CI pipeline implementation
+  acceptance_criteria:
+    - A CycloneDX SBOM is produced for release candidates.
+    - Maven Enforcer blocks unsupported Java/Maven versions and duplicate dependencies.
+    - License policy validation passes or exceptions are documented via ADR.
+
+dependency_note:
+  owasp_dependency_check:
+    status: covered_by_alternative_for_now
+    detail: >
+      OWASP Dependency-Check is not configured; dependency CVE detection is currently provided by
+      Trivy. Evaluate adding OWASP Dependency-Check for defense in depth during release hardening.

@@ -56,3 +56,39 @@ entries:
     affected_area: backend_test_infrastructure
     file: 08-qa/technical-debt/TD-BE-001-mockito-java-agent.yaml
     remediation_strategy: gradual_when_backend_test_infrastructure_is_touched
+  - id: TD-BE-002
+    title: Configure backend Java/Maven static analysis and SAST toolchain
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-002-CLOSEOUT
+    affected_area: backend_static_analysis_and_sast
+    file: 08-qa/technical-debt/TD-BE-002-backend-static-analysis-toolchain.yaml
+    remediation_strategy: gradual_when_backend_code_or_quality_toolchain_is_touched
+  - id: TD-BE-003
+    title: Add backend test coverage measurement and gate (JaCoCo)
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-002-CLOSEOUT
+    affected_area: backend_test_coverage
+    file: 08-qa/technical-debt/TD-BE-003-backend-coverage-gate.yaml
+    remediation_strategy: gradual_when_backend_test_infrastructure_is_touched
+  - id: TD-BE-004
+    title: Add backend release readiness supply-chain gates (SBOM, license, build rules)
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-002-CLOSEOUT
+    affected_area: backend_build_and_release_evidence
+    file: 08-qa/technical-debt/TD-BE-004-release-supply-chain-gates.yaml
+    remediation_strategy: gradual_before_release_readiness
+  - id: TD-STACK-001
+    title: Gradual stack modernization roadmap for major framework and runtime upgrades
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: MVP-MOD-002-CLOSEOUT
+    affected_area: full_stack
+    file: 08-qa/technical-debt/TD-STACK-001-stack-modernization-roadmap.yaml
+    remediation_strategy: gradual_when_affected_components_are_touched

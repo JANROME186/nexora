@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.73.0
+  version: 0.74.0
   status: ready
 
 company:
@@ -70,7 +70,7 @@ projects:
     product_marketplace_requirements: projects/healthcare-operations-platform/04-requirements/capabilities/bcm-plt-011-product-marketplace-and-entitlements/requirements.yaml
     source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
     technical_debt_index: projects/healthcare-operations-platform/08-qa/technical-debt/technical-debt-index.yaml
-    active_module: MVP-MOD-002
+    active_module: MVP-MOD-003
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -86,7 +86,8 @@ projects:
       - MVP-MOD-002-BE-002
       - MVP-MOD-002-FE-001
       - MVP-MOD-002-QA-001
-    active_backlog_item: MVP-MOD-002-CLOSEOUT
+      - MVP-MOD-002-CLOSEOUT
+    active_backlog_item: MVP-MOD-003-DEF
 
 agent_policy:
   agent_agnostic: true

@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.73.0
+  version: 0.74.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -57,6 +57,10 @@ sources:
   mvp_mod_002_qa_001_qa_evidence_yaml: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-QA-001-validation.yaml
   mvp_mod_002_qa_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.md
   mvp_mod_002_qa_001_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.yaml
+  mvp_mod_002_closeout_evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-CLOSEOUT.md
+  mvp_mod_002_closeout_evidence_yaml: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-CLOSEOUT.yaml
+  mvp_mod_002_closeout_security_quality_evidence: 08-qa/security-quality/MVP-MOD-002-CLOSEOUT/security-quality-evidence.md
+  mvp_mod_002_closeout_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-002-CLOSEOUT/security-quality-evidence.yaml
   mvp_mod_002_backend_pom: 07-implementation/backend/pom.xml
   security_quality_evidence_root: 08-qa/security-quality/
   security_quality_evidence_index: 08-qa/security-quality/security-quality-index.yaml
@@ -66,6 +70,10 @@ sources:
   technical_debt_td_qa_001: 08-qa/technical-debt/TD-QA-001-dast-automation.yaml
   technical_debt_td_qa_002: 08-qa/technical-debt/TD-QA-002-trivy-tool-upgrade.yaml
   technical_debt_td_be_001: 08-qa/technical-debt/TD-BE-001-mockito-java-agent.yaml
+  technical_debt_td_be_002: 08-qa/technical-debt/TD-BE-002-backend-static-analysis-toolchain.yaml
+  technical_debt_td_be_003: 08-qa/technical-debt/TD-BE-003-backend-coverage-gate.yaml
+  technical_debt_td_be_004: 08-qa/technical-debt/TD-BE-004-release-supply-chain-gates.yaml
+  technical_debt_td_stack_001: 08-qa/technical-debt/TD-STACK-001-stack-modernization-roadmap.yaml
   client_stack_market_validation: 03-architecture/technology-architecture/client-stack-market-validation.yaml
   stack_quality_toolchain_baseline: 03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
   open_data_ingestion_contract: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md

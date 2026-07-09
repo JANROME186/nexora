@@ -1,0 +1,149 @@
+artifact:
+  id: HOP-SQ-MVP-MOD-002-CLOSEOUT-001
+  type: security-quality-evidence
+  name: MVP-MOD-002-CLOSEOUT Open Source Security Quality Evidence
+  version: 1.0.0
+  status: passed
+  human_readable: security-quality-evidence.md
+  machine_readable: security-quality-evidence.yaml
+  created_date: 2026-07-09
+  owner: Nexora Product Architecture Team
+
+scope:
+  backlog_item: MVP-MOD-002-CLOSEOUT
+  module: MVP-MOD-002 Diagnostic Catalog
+  implementation_root: 07-implementation/
+  standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  objective: >
+    Record security and quality evidence for the module closeout, including the official-source stack
+    market refresh and the low-risk PostgreSQL JDBC security patch applied during closeout.
+
+changed_components:
+  - path: 07-implementation/backend/pom.xml
+    change: PostgreSQL JDBC driver 42.7.11 -> 42.7.12 (security patch)
+
+open_source_first_assessment:
+  status: passed
+  proprietary_runtime_dependency_detected: false
+  official_source_market_refresh_completed: true
+  reference: 03-architecture/technology-architecture/client-stack-market-validation.yaml
+  reviewed_stack_licenses_all_accepted: true
+
+client_stack_market_validation:
+  performed: true
+  reference: 03-architecture/technology-architecture/client-stack-market-validation.yaml
+  immediate_change:
+    component: PostgreSQL JDBC
+    from: 42.7.11
+    to: 42.7.12
+    reason: Official security release addressing channelBinding=require enforcement.
+
+stack_toolchain_baseline:
+  reference: 03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
+  review_completed: true
+
+tools_run:
+  - Maven (backend tests)
+  - Vitest and tsc (frontend)
+  - npm audit
+  - Trivy filesystem scan
+
+quality_gates:
+  - id: SQ-CO-001
+    name: Backend automated tests (standard)
+    command: mvn --settings .mvn/settings.xml test
+    working_directory: 07-implementation/backend
+    result: passed
+    notes: 42 tests run, 0 failures, 0 errors, 5 skipped.
+  - id: SQ-CO-002
+    name: Backend database-backed tests
+    command: mvn --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
+    working_directory: 07-implementation/backend
+    result: passed
+    notes: 42 tests run, 0 failures, 0 errors, 0 skipped against PostgreSQL 16.
+  - id: SQ-CO-003
+    name: Frontend static analysis
+    command: npm run typecheck
+    working_directory: 07-implementation/employee-portal
+    result: passed
+  - id: SQ-CO-004
+    name: Frontend coverage
+    command: npm run test:coverage
+    working_directory: 07-implementation/employee-portal
+    result: passed
+    measured:
+      lines: 68.7
+      branches: 85.83
+      functions: 35.43
+  - id: SQ-CO-005
+    name: Frontend dependency vulnerability scan
+    command: npm audit --audit-level=high
+    working_directory: 07-implementation/employee-portal
+    result: passed
+    notes: found 0 vulnerabilities.
+  - id: SQ-CO-006
+    name: Filesystem vulnerability, secret and misconfiguration scan
+    command: trivy fs --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --exit-code 1 --no-progress .
+    working_directory: 07-implementation
+    result: passed
+    notes: 0 HIGH/CRITICAL findings after pgjdbc 42.7.12 upgrade.
+  - id: SQ-CO-007
+    name: Production frontend build
+    command: npm run build
+    working_directory: 07-implementation/employee-portal
+    result: passed
+  - id: SQ-CO-008
+    name: DAST
+    command: not_executed
+    result: deferred_with_technical_debt
+    notes: OWASP ZAP unavailable locally; manual integrated HTTP smoke passed in MVP-MOD-002-QA-001. Tracked by TD-QA-001.
+
+coverage_summary:
+  frontend_lines: 68.7
+  backend_coverage_tool: not_configured_tracked_by_TD-BE-003
+
+dependency_vulnerability_summary:
+  backend_high_or_critical: 0
+  frontend_high_or_critical: 0
+
+sast_summary:
+  deep_java_sast_configured: false
+  tracked_by: TD-BE-002
+  compensating_control: Trivy scanning and passing 42-test backend suite.
+
+dast_summary_when_applicable:
+  status: deferred_with_technical_debt
+  tracked_by: TD-QA-001
+
+secrets_scan_summary:
+  result: passed
+  findings: 0
+
+license_summary:
+  reviewed_licenses_all_accepted: true
+  automated_license_gate_configured: false
+  tracked_by: TD-BE-004
+
+technology_evolution_review:
+  performed: true
+  reference: 08-qa/technical-debt/TD-STACK-001-stack-modernization-roadmap.yaml
+
+technical_debt_items_created_or_updated:
+  - TD-QA-001
+  - TD-QA-002
+  - TD-BE-001
+  - TD-BE-002
+  - TD-BE-003
+  - TD-BE-004
+  - TD-STACK-001
+
+accepted_risks:
+  - AR-MOD-002-001
+  - AR-MOD-002-002
+
+blocking_findings: []
+
+decision:
+  security_quality_status: passed
+  module_closeout_supported: true
+  next_backlog_item: MVP-MOD-003-DEF

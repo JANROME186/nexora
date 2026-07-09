@@ -22,7 +22,7 @@
         <spring-modulith.version>1.4.5</spring-modulith.version>
         <jackson-bom.version>2.21.4</jackson-bom.version>
         <tomcat.version>10.1.55</tomcat.version>
-        <postgresql.version>42.7.11</postgresql.version>
+        <postgresql.version>42.7.12</postgresql.version>
     </properties>
 
     <dependencyManagement>
