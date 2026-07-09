@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,19 +44,24 @@ class CatalogTestConfigurationLocalDatabaseTest {
 
     @Test
     void diagnosticServiceAndPriceListEntriesArePersistedInPostgres() throws Exception {
+        // Catalog codes are unique per code within a laboratory (RN-001). Suffix them with a random
+        // run token so the test tolerates a Postgres volume retained from a previous run without
+        // requiring "docker compose down -v" between executions.
+        String runToken = UUID.randomUUID().toString().substring(0, 8);
+
         JsonNode tenant = postJson("/api/platform/tenants", "{\"name\":\"Catalog DB Tenant\"}");
         String tenantId = tenant.get("tenantId").asText();
 
         JsonNode service = postJson("/api/catalog/diagnostic-services", """
-                {"tenantId":"%s","laboratoryId":"%s","code":"DB-SVC-1","nameEn":"Basic","nameEs":"Basico",
+                {"tenantId":"%s","laboratoryId":"%s","code":"DB-SVC-%s","nameEn":"Basic","nameEs":"Basico",
                  "serviceType":"test","components":[]}
-                """.formatted(tenantId, LAB));
+                """.formatted(tenantId, LAB, runToken));
         String serviceId = service.get("serviceId").asText();
 
         JsonNode priceList = postJson("/api/catalog/price-lists", """
-                {"tenantId":"%s","laboratoryId":"%s","code":"DB-PRC-1","nameEn":"Standard","nameEs":"Estandar",
+                {"tenantId":"%s","laboratoryId":"%s","code":"DB-PRC-%s","nameEn":"Standard","nameEs":"Estandar",
                  "currency":"USD","effectiveFrom":"2026-01-01"}
-                """.formatted(tenantId, LAB));
+                """.formatted(tenantId, LAB, runToken));
         String priceListId = priceList.get("priceListId").asText();
 
         mockMvc.perform(post("/api/catalog/price-lists/{id}/entries", priceListId)

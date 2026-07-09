@@ -214,16 +214,16 @@ validations:
       expectations.
   - id: VAL-003
     name: Backend test suite passes against real Postgres
-    method: docker compose -f compose.local.yml down -v; docker compose -f compose.local.yml up -d postgres; mvn --settings .mvn/settings.xml test -Dhop.local-db-tests=true
+    method: docker compose -f compose.local.yml up -d postgres; mvn --settings .mvn/settings.xml test -Dhop.local-db-tests=true
     result: passed
     detail: >-
       42 tests run, 0 failures, 0 errors, 0 skipped against a real Postgres 16 instance via docker
       compose, exercising every LocalDatabaseTest including CatalogTestConfigurationLocalDatabaseTest
-      and the extended JDBC adapters (ReferenceRange.findByAnalyteRefId, PriceList.findByStatus). The
-      Postgres volume must be reset (docker compose down -v) before the run because
-      CatalogTestConfigurationLocalDatabaseTest uses fixed codes (DB-SVC-1, DB-PRC-1) and is not
-      self-cleaning; a volume retained from the MVP-MOD-002-BE-001 run causes a legitimate
-      duplicate-code 400 (existsByCode), not a defect.
+      and the extended JDBC adapters (ReferenceRange.findByAnalyteRefId, PriceList.findByStatus).
+      CatalogTestConfigurationLocalDatabaseTest now suffixes its catalog codes (DB-SVC-<token>,
+      DB-PRC-<token>) with a random per-run token so it tolerates a Postgres volume retained from a
+      previous run; a volume reset (docker compose down -v) is no longer required and the run was
+      confirmed repeatable against a non-empty volume.
   - id: VAL-004
     name: Spring Modulith module boundaries remain valid
     method: PlatformFoundationModulithTest

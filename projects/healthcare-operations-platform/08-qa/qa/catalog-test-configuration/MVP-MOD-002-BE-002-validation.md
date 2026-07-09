@@ -97,11 +97,10 @@ behavior.
 > VAL-003 note: the Postgres-backed suite passes with 42 tests, 0 failures and 0 skipped against a
 > real Postgres 16 instance, exercising every `LocalDatabaseTest` (including
 > `CatalogTestConfigurationLocalDatabaseTest`) and the extended JDBC adapters
-> (`ReferenceRange.findByAnalyteRefId`, `PriceList.findByStatus`). The Postgres volume must be reset
-> (`docker compose -f compose.local.yml down -v`) before the run, because
-> `CatalogTestConfigurationLocalDatabaseTest` uses fixed codes (`DB-SVC-1`, `DB-PRC-1`) and is not
-> self-cleaning; a volume retained from the MVP-MOD-002-BE-001 run produces a legitimate
-> duplicate-code 400 (`existsByCode`), not a defect.
+> (`ReferenceRange.findByAnalyteRefId`, `PriceList.findByStatus`).
+> `CatalogTestConfigurationLocalDatabaseTest` now suffixes its catalog codes with a random per-run
+> token, so it tolerates a Postgres volume retained from a previous run — no `docker compose down -v`
+> is required (confirmed by two consecutive runs against a non-empty volume).
 
 ## Readiness
 

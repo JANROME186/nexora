@@ -102,7 +102,7 @@ implementation_progress:
     - MVP-MOD-002-CLOSEOUT
   latest_validation:
     backlog_item_id: MVP-MOD-002-BE-002
-    command: mvn --settings .mvn/settings.xml test; docker compose -f compose.local.yml down -v; docker compose -f compose.local.yml up -d postgres; mvn --settings .mvn/settings.xml test -Dhop.local-db-tests=true
+    command: mvn --settings .mvn/settings.xml test; docker compose -f compose.local.yml up -d postgres; mvn --settings .mvn/settings.xml test -Dhop.local-db-tests=true
     working_directory: 07-implementation/backend
     status: passed
     tests_run: 42
@@ -113,8 +113,8 @@ implementation_progress:
       - Backend standard suite passed with 42 tests, 0 failures, 0 errors, 5 skipped (local-db tests
         skipped without a running Postgres)
       - Backend suite passed with 42 tests, 0 failures, 0 errors, 0 skipped against a real Postgres 16
-        instance via docker compose (fresh volume required; CatalogTestConfigurationLocalDatabaseTest
-        uses fixed codes and is not self-cleaning)
+        instance via docker compose (CatalogTestConfigurationLocalDatabaseTest now uses per-run
+        unique catalog codes, so no volume reset is required between runs)
       - New CatalogCustomRulesApiTest (10 tests) covers publication, published snapshots, published
         immutability (HTTP 409), preparation assignment gating, effective-dated overlap prevention
         (HTTP 409) and effective-context resolution across the 8 capabilities
