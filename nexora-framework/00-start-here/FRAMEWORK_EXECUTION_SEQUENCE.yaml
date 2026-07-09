@@ -23,7 +23,7 @@ sequence:
     responsibility: Load Nexora company context and enterprise identity.
   - step: "02"
     folder: 02-standards
-    responsibility: Load project folder, documentation and agent-agnostic standards.
+    responsibility: Load project folder, documentation, agent-agnostic, MDPE, capability package, ingestion, marketplace and business requirement versioning standards.
     primary_files:
       - 02-standards/standards/project-folder-standard.yaml
       - 02-standards/standards/documentation-standard.yaml
@@ -32,6 +32,7 @@ sequence:
       - 02-standards/standards/capability-package-standard.yaml
       - 02-standards/standards/open-data-ingestion-standard.yaml
       - 02-standards/standards/product-marketplace-standard.yaml
+      - 02-standards/standards/business-requirement-versioning-standard.yaml
   - step: "03"
     folder: 03-orchestration
     responsibility: Decide whether a target project needs analysis, validation or development.
@@ -48,6 +49,7 @@ sequence:
     primary_files:
       - 05-prompts/prompts/generic-project-lifecycle-prompts.yaml
       - 05-prompts/prompts/auxiliary-development-prompts.yaml
+      - 05-prompts/prompts/business-requirement-impact-prompts.yaml
   - step: "06"
     folder: 06-templates
     responsibility: Provide templates for creating or completing project artifacts.

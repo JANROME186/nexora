@@ -54,6 +54,7 @@ It defines:
 - `02-standards/standards/capability-package-standard.yaml`
 - `02-standards/standards/open-data-ingestion-standard.yaml`
 - `02-standards/standards/product-marketplace-standard.yaml`
+- `02-standards/standards/business-requirement-versioning-standard.yaml`
 - `03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
 - `04-recipes/recipes/agent-to-mvp-recipe.yaml`
 - `05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
@@ -65,11 +66,13 @@ It defines:
 For any project under `projects/<project-slug>/`:
 
 1. Confirm `BUSINESS_REQUIREMENT.md` exists.
-2. Load the framework sequence from `00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml`.
-3. Apply the orchestration workflow.
-4. If analysis is incomplete, apply the Agent-to-MVP recipe.
-5. Validate the project against the framework.
-6. Start development only from the approved project state and module package.
+2. Resolve the latest business requirement version using the business requirement versioning standard.
+3. Load the framework sequence from `00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml`.
+4. Apply the orchestration workflow.
+5. If analysis is incomplete, apply the Agent-to-MVP recipe.
+6. If the business requirement changed, generate an impact assessment before modifying derived artifacts.
+7. Validate the project against the framework.
+8. Start development only from the approved project state and module package.
 
 ## Project Rule
 

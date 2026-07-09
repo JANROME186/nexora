@@ -26,7 +26,7 @@ The machine-readable version is:
    Load Nexora company context and enterprise identity.
 
 3. `02-standards/`
-   Load project folder, documentation, agent-agnostic, MDPE, capability package, open data ingestion and product marketplace standards.
+   Load project folder, documentation, agent-agnostic, MDPE, capability package, open data ingestion, product marketplace and business requirement versioning standards.
 
 4. `03-orchestration/`
    Decide whether the target project needs analysis, validation or development.

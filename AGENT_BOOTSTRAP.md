@@ -39,14 +39,17 @@ Project-specific work lives under:
 9. `nexora-framework/02-standards/standards/capability-package-standard.md`
 10. `nexora-framework/02-standards/standards/open-data-ingestion-standard.md`
 11. `nexora-framework/02-standards/standards/product-marketplace-standard.md`
-12. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`
-13. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`
-14. `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
-15. `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
-16. Target project `BUSINESS_REQUIREMENT.md`
-17. Target project `SOURCE_OF_TRUTH.yaml`
-18. Target project `PROJECT_BRIEF.yaml`
-19. Target project `PROJECT_STATE.yaml`
+12. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.md`
+13. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`
+14. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`
+15. `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
+16. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
+17. `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
+18. Target project `00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml` if present
+19. Target project `BUSINESS_REQUIREMENT.md`
+20. Target project `SOURCE_OF_TRUTH.yaml`
+21. Target project `PROJECT_BRIEF.yaml`
+22. Target project `PROJECT_STATE.yaml`
 
 ## Nexora Framework
 
@@ -62,9 +65,11 @@ Use these files for the reusable method:
 - `nexora-framework/02-standards/standards/capability-package-standard.yaml`
 - `nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
 - `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
+- `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
 - `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
 - `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
 - `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
 - `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
 - `nexora-framework/06-templates/templates/project-template/`
 

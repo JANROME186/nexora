@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.68.0
+  version: 0.69.0
   status: ready
 
 company:
@@ -31,11 +31,13 @@ framework:
     capability_package: nexora-framework/02-standards/standards/capability-package-standard.yaml
     open_data_ingestion: nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml
     product_marketplace: nexora-framework/02-standards/standards/product-marketplace-standard.yaml
+    business_requirement_versioning: nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
   recipe:
     agent_to_mvp: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   prompts:
     generic_project_lifecycle: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
     auxiliary_development: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
+    business_requirement_impact: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
   orchestration:
     project_analysis_to_mvp: nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
   template:
@@ -47,6 +49,7 @@ projects:
     status: commercial_product_backlog_ready
     business_requirement: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md
     business_requirement_yaml: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.yaml
+    business_requirement_index: projects/healthcare-operations-platform/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml
     business_requirement_to_yaml_prompt: projects/healthcare-operations-platform/04-requirements/prompts/business-requirement-to-yaml-prompt.yaml
     project_brief: projects/healthcare-operations-platform/PROJECT_BRIEF.md
     project_brief_yaml: projects/healthcare-operations-platform/PROJECT_BRIEF.yaml
@@ -88,8 +91,11 @@ agent_policy:
     - nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
     - nexora-framework/02-standards/standards/capability-package-standard.md
     - nexora-framework/02-standards/standards/product-marketplace-standard.md
+    - nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
     - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
     - nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
+    - nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
+    - target_project/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml
     - target_project/BUSINESS_REQUIREMENT.md
     - target_project/SOURCE_OF_TRUTH.yaml
     - target_project/PROJECT_BRIEF.yaml

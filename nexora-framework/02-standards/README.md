@@ -11,5 +11,6 @@ Start with:
 - `standards/capability-package-standard.yaml`
 - `standards/open-data-ingestion-standard.yaml`
 - `standards/product-marketplace-standard.yaml`
+- `standards/business-requirement-versioning-standard.yaml`
 
-These files control project structure, documentation format, agent-agnostic execution, model-driven engineering, capability packages, open data ingestion and product marketplace extensibility.
+These files control project structure, documentation format, agent-agnostic execution, model-driven engineering, capability packages, open data ingestion, product marketplace extensibility and business requirement change impact analysis.

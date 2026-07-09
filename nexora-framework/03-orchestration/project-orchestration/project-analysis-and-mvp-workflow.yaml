@@ -26,6 +26,7 @@ repository_context:
     - nexora-framework/02-standards/standards/project-folder-standard.yaml
     - nexora-framework/02-standards/standards/documentation-standard.yaml
     - nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+    - nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
     - nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
 
 project_discovery:
@@ -54,6 +55,16 @@ business_requirement:
   agent_may_create: false
   agent_may_modify_without_explicit_request: false
   purpose: Provide the high-level business need, user problem and expected outcome that drive analysis, proposed solution and MVP scope.
+  latest_version_resolution:
+    standard: nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
+    index_file: 00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml
+    current_pointer: BUSINESS_REQUIREMENT.md
+    structured_index: BUSINESS_REQUIREMENT.yaml
+    rule: Agents must resolve the latest business requirement version before analysis, validation, planning or development.
+    if_changed_since_last_analysis:
+      required_action: create_business_requirement_impact_assessment
+      impact_prompt: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
+      implementation_behavior: do_not_implement_changed_scope_until_impact_is_accepted_or_governance_allows_progress
   minimum_sections:
     - Business Context
     - User Need
@@ -106,6 +117,8 @@ completion_workflow:
   if_not_analyzed:
     apply_recipe: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
     phases:
+      - resolve_latest_business_requirement_version
+      - assess_business_requirement_change_impact_when_needed
       - normalize_business_requirement
       - complete_project_brief
       - create_project_folder_structure

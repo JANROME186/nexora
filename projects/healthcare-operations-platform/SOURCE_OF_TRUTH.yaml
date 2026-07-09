@@ -1,11 +1,13 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.68.0
+  version: 0.69.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
   business_requirement_yaml: BUSINESS_REQUIREMENT.yaml
+  business_requirement_index: 00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml
+  business_requirement_index_md: 00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.md
   business_requirement_to_yaml_prompt: 04-requirements/prompts/business-requirement-to-yaml-prompt.md
   business_requirement_to_yaml_prompt_yaml: 04-requirements/prompts/business-requirement-to-yaml-prompt.yaml
   project_brief: PROJECT_BRIEF.md
@@ -18,6 +20,8 @@ sources:
   capability_package_standard: ../../nexora-framework/02-standards/standards/capability-package-standard.yaml
   open_data_ingestion_standard: ../../nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml
   product_marketplace_standard: ../../nexora-framework/02-standards/standards/product-marketplace-standard.yaml
+  business_requirement_versioning_standard: ../../nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
+  business_requirement_impact_prompts_yaml: ../../nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
   product_definition: 01-product-definition/products/healthcare-operations-platform/product.yaml
   business_capability_map: 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
   capability_dependency_map: 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
@@ -88,6 +92,8 @@ rules:
   - BUSINESS_REQUIREMENT.md remains requester-supplied source material; BUSINESS_REQUIREMENT.yaml is only a structured index derived from it.
   - HOP BUSINESS_REQUIREMENT.md is curated as the business intake template for future Nexora projects.
   - BUSINESS_REQUIREMENT.yaml must be derived from BUSINESS_REQUIREMENT.md using the documented transformation prompt.
+  - Agents must resolve the latest business requirement version from 00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml before analysis or development.
+  - Business requirement changes require impact assessment before derived artifacts or implementation are modified.
   - MVP-MOD-001 development is approved by the MVP development readiness decision; strategic enterprise roadmap items do not block the first module.
   - HOP development after MVP-MOD-001 must follow 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml.
   - HOP follows Nexora Model Driven Product Engineering.

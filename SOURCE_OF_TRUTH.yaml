@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.68.0
+  version: 0.69.0
   status: approved
 sources:
   repository_readme: README.md
@@ -28,6 +28,8 @@ sources:
   open_data_ingestion_standard_md: nexora-framework/02-standards/standards/open-data-ingestion-standard.md
   product_marketplace_standard: nexora-framework/02-standards/standards/product-marketplace-standard.yaml
   product_marketplace_standard_md: nexora-framework/02-standards/standards/product-marketplace-standard.md
+  business_requirement_versioning_standard: nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
+  business_requirement_versioning_standard_md: nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
   model_driven_product_engineering_adr: nexora-framework/07-governance/adr/ADR-031-model-driven-product-engineering-and-capability-packages.md
   product_marketplace_adr: nexora-framework/07-governance/adr/ADR-032-product-marketplace-and-commercial-extension-architecture.md
   agent_to_mvp_recipe: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
@@ -35,6 +37,8 @@ sources:
   generic_project_lifecycle_prompts_yaml: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
   auxiliary_development_prompts: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
   auxiliary_development_prompts_yaml: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
+  business_requirement_impact_prompts: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
+  business_requirement_impact_prompts_yaml: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
   multi_project_structure_adr: nexora-framework/07-governance/adr/ADR-024-multi-project-repository-structure.md
   project_template: nexora-framework/06-templates/templates/project-template/
   projects_index: projects/README.md
@@ -43,6 +47,8 @@ sources:
   hop_project_brief_yaml: projects/healthcare-operations-platform/PROJECT_BRIEF.yaml
   hop_business_requirement: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md
   hop_business_requirement_yaml: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.yaml
+  hop_business_requirement_index: projects/healthcare-operations-platform/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml
+  hop_business_requirement_index_md: projects/healthcare-operations-platform/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.md
   hop_business_requirement_to_yaml_prompt: projects/healthcare-operations-platform/04-requirements/prompts/business-requirement-to-yaml-prompt.md
   hop_business_requirement_to_yaml_prompt_yaml: projects/healthcare-operations-platform/04-requirements/prompts/business-requirement-to-yaml-prompt.yaml
   hop_ordered_development_guide: projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md
@@ -104,6 +110,8 @@ rules:
   - Agents must stop analysis when BUSINESS_REQUIREMENT.md is missing because it is requester-supplied source material.
   - HOP BUSINESS_REQUIREMENT.md is the reference business intake template for subsequent Nexora projects.
   - BUSINESS_REQUIREMENT.yaml must be derived from BUSINESS_REQUIREMENT.md using a documented transformation prompt.
+  - Agents must resolve the latest BUSINESS_REQUIREMENT version before analysis, validation, planning or development.
+  - Business requirement changes must produce impact, effort, timeline and cost assessment before changing derived artifacts or implementation.
   - Agent-executable project artifacts must prefer YAML machine-readable files; Markdown remains the human-readable companion.
   - Agents must not require agent-specific files, prompts, runtime features or vendor configuration.
   - HOP commercial product development must follow projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml after MVP-MOD-001.

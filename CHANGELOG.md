@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.69.0] - 2026-07-08
+
+### Added
+- Added Nexora Business Requirement Versioning and Impact Standard in Markdown and YAML.
+- Added business requirement impact prompts for resolving latest requirements and estimating impacted components, effort, timeline and cost.
+- Added HOP `BUSINESS_REQUIREMENT_INDEX` under `00-intake/business-requirements/`.
+
+### Changed
+- Updated framework orchestration, lifecycle prompts, bootstrap and usage guide so agents always resolve the latest `BUSINESS_REQUIREMENT` before analysis, planning or development.
+- Updated HOP ordered development guide and project state to block implementation when a newer business requirement lacks impact assessment.
+
 ## [0.68.0] - 2026-07-08
 
 ### Added

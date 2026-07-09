@@ -21,6 +21,11 @@ input_governance:
     - Do not invent missing business facts.
     - Mark missing information as requires_clarification.
     - Keep Markdown as human source and YAML as agent index.
+  versioning:
+    index: 00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml
+    current_version: v0.68.0
+    latest_version_must_be_resolved_before_analysis: true
+    impact_assessment_required_when_changed: true
 
 project:
   name: Healthcare Operations Platform
@@ -433,6 +438,7 @@ future_project_template:
     - Out of scope
     - Success criteria
     - Clarifications
+    - Business requirement versioning
 
 downstream_source_artifacts:
   - PROJECT_BRIEF.yaml

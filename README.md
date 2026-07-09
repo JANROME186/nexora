@@ -102,6 +102,14 @@ Business requirement to YAML prompt:
 
 `projects/healthcare-operations-platform/04-requirements/prompts/business-requirement-to-yaml-prompt.yaml`
 
+Business requirement version index:
+
+`projects/healthcare-operations-platform/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`
+
+Business requirement versioning standard:
+
+`nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
+
 Project folder:
 
 `projects/healthcare-operations-platform/`

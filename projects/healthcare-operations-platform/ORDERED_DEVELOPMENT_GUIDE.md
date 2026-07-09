@@ -25,25 +25,26 @@ The project root intentionally contains only numbered folders plus project contr
 
 ## Agent Loading Order
 
-1. `BUSINESS_REQUIREMENT.md`
-2. `BUSINESS_REQUIREMENT.yaml`
-3. `PROJECT_BRIEF.yaml`
-4. `SOURCE_OF_TRUTH.yaml`
-5. `PROJECT_STATE.yaml`
-6. `01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml`
-7. `01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
-8. `02-domain-definition/actors/acm-001/actor-catalog.yaml`
-9. `02-domain-definition/processes/hrp-001/healthcare-reference-processes.yaml`
-10. `02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml`
-11. `06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
-12. `06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml`
-13. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
-14. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.yaml`
-15. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.yaml`
-16. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.yaml`
-17. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.yaml`
-18. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.yaml`
-19. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/traceability.yaml`
+1. `00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`
+2. `BUSINESS_REQUIREMENT.md`
+3. `BUSINESS_REQUIREMENT.yaml`
+4. `PROJECT_BRIEF.yaml`
+5. `SOURCE_OF_TRUTH.yaml`
+6. `PROJECT_STATE.yaml`
+7. `01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml`
+8. `01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
+9. `02-domain-definition/actors/acm-001/actor-catalog.yaml`
+10. `02-domain-definition/processes/hrp-001/healthcare-reference-processes.yaml`
+11. `02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml`
+12. `06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
+13. `06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.yaml`
+14. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/module-definition.yaml`
+15. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/domain-model.yaml`
+16. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/database-migration-plan.yaml`
+17. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/ui-screen-map.yaml`
+18. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/security-and-audit-rules.yaml`
+19. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/test-plan.yaml`
+20. `06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/traceability.yaml`
 
 ## Development Start Point
 
@@ -63,13 +64,27 @@ Start by creating the implementation baseline in:
 
 Each implementation iteration must:
 
-1. Select one MVP module.
-2. Load the module definition package from `06-delivery`.
-3. Confirm actors, rules, processes and contracts.
-4. Implement only the selected module slice.
-5. Add or update tests in `08-qa`.
-6. Add operations notes in `09-operations` when runtime behavior changes.
-7. Update `PROJECT_STATE.yaml` and `SOURCE_OF_TRUTH.yaml`.
+1. Resolve the latest `BUSINESS_REQUIREMENT` version.
+2. Stop if a newer business requirement version exists without accepted impact assessment.
+3. Select one MVP module.
+4. Load the module definition package from `06-delivery`.
+5. Confirm actors, rules, processes and contracts.
+6. Implement only the selected module slice.
+7. Add or update tests in `08-qa`.
+8. Add operations notes in `09-operations` when runtime behavior changes.
+9. Update `PROJECT_STATE.yaml` and `SOURCE_OF_TRUTH.yaml`.
+
+## Business Requirement Change Rule
+
+The active requirement version is declared in:
+
+`00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`
+
+If the business updates `BUSINESS_REQUIREMENT.md`, the agent must generate an impact assessment under:
+
+`00-intake/business-requirements/impact-assessments/`
+
+The impact assessment must estimate impacted components, effort, timeline and cost. If no rate card exists, cost must be marked as requiring a rate card.
 
 ## Boundary Rule
 

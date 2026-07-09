@@ -96,8 +96,10 @@ Archivos importantes:
 - `nexora-framework/02-standards/standards/capability-package-standard.yaml`
 - `nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
 - `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
+- `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
 - `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
 - `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
+- `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
 - `nexora-framework/06-templates/templates/project-template/`
 
 Todo agente debe cargar el framework antes de analizar o implementar un proyecto.
@@ -250,18 +252,23 @@ El agente de analisis debe cargar estos archivos en este orden:
 10. `nexora-framework/02-standards/standards/capability-package-standard.yaml`
 11. `nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
 12. `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
-13. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
-14. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
-15. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
-16. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`, si existe
-17. `projects/<project-slug>/PROJECT_BRIEF.md`, si existe
-18. `projects/<project-slug>/PROJECT_STATE.yaml`, si existe
+13. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
+14. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
+15. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
+16. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
+17. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
+18. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
+19. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`, si existe
+20. `projects/<project-slug>/PROJECT_BRIEF.md`, si existe
+21. `projects/<project-slug>/PROJECT_STATE.yaml`, si existe
 
 Si faltan archivos de control del proyecto, el agente debe crearlos usando el template del framework.
 
 Si falta `BUSINESS_REQUIREMENT.md`, el analisis queda bloqueado. El agente no debe inventar silenciosamente el requerimiento de negocio.
 
 En ese caso, el agente debe detenerse y responder que necesita que el solicitante proporcione `projects/<project-slug>/BUSINESS_REQUIREMENT.md`.
+
+Si existe `00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, el agente debe usar la version actual declarada en ese indice. Si la version actual cambio desde el ultimo analisis, debe generar un analisis de impacto antes de modificar artefactos derivados o codigo.
 
 ## Etapa 4: Que Debe Generar el Agente de Analisis
 
@@ -594,6 +601,7 @@ Lee AGENT_BOOTSTRAP.md.
 Lee NEXORA_FRAMEWORK_USAGE_GUIDE.md.
 Lee SOURCE_OF_TRUTH.yaml y PROJECT_STATE.yaml.
 Carga SOURCE_OF_TRUTH.yaml y PROJECT_STATE.yaml del proyecto objetivo.
+Resuelve la version vigente de BUSINESS_REQUIREMENT usando el indice del proyecto si existe.
 
 Proyecto objetivo:
 projects/<project-slug>/
@@ -606,6 +614,7 @@ Inicia desde el paquete de modulo documentado en PROJECT_STATE.yaml y SOURCE_OF_
 No redisenes el producto.
 No omitas el paquete de definicion del modulo.
 No infieras requerimientos desde el historial de conversacion.
+No implementes si hay una version nueva de BUSINESS_REQUIREMENT sin analisis de impacto resuelto.
 Implementa solo el slice del modulo seleccionado.
 Actualiza pruebas, trazabilidad y PROJECT_STATE.yaml despues de avances significativos.
 Preserva limites agent-agnostic, provider-agnostic y cloud-agnostic salvo que los artefactos fuente indiquen lo contrario.
@@ -622,19 +631,22 @@ El agente de desarrollo debe cargar:
 3. `SOURCE_OF_TRUTH.yaml`
 4. `PROJECT_STATE.yaml`
 5. `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
-6. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
-7. `projects/<project-slug>/PROJECT_BRIEF.md`
-8. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`
-9. `projects/<project-slug>/PROJECT_STATE.yaml`
-10. `projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.md`
-11. `module-definition.yaml` del modulo objetivo
-12. `domain-model.md` del modulo objetivo
-13. `api-contract.openapi.yaml` del modulo objetivo
-14. `database-migration-plan.md` del modulo objetivo
-15. `ui-screen-map.md` del modulo objetivo
-16. `security-and-audit-rules.md` del modulo objetivo
-17. `test-plan.md` del modulo objetivo
-18. `traceability.yaml` del modulo objetivo
+6. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
+7. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
+8. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
+9. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
+10. `projects/<project-slug>/PROJECT_BRIEF.md`
+11. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`
+12. `projects/<project-slug>/PROJECT_STATE.yaml`
+13. `projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.md`
+14. `module-definition.yaml` del modulo objetivo
+15. `domain-model.md` del modulo objetivo
+16. `api-contract.openapi.yaml` del modulo objetivo
+17. `database-migration-plan.md` del modulo objetivo
+18. `ui-screen-map.md` del modulo objetivo
+19. `security-and-audit-rules.md` del modulo objetivo
+20. `test-plan.md` del modulo objetivo
+21. `traceability.yaml` del modulo objetivo
 
 El agente tambien debe cargar cualquier artefacto de producto, dominio, arquitectura, contrato o QA referenciado por el paquete del modulo.
 

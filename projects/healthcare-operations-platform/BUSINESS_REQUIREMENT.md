@@ -631,11 +631,34 @@ Uso esperado:
 6. El agente valida que el YAML sea legible por otros agentes.
 7. El agente actualiza `SOURCE_OF_TRUTH.yaml` si corresponde.
 
-## 27. Artefactos Relacionados
+## 27. Versionado del Requerimiento de Negocio
+
+El negocio puede incrementar o modificar este requerimiento con nuevas versiones.
+
+La versión vigente debe resolverse mediante:
+
+`00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`
+
+Reglas:
+
+- `BUSINESS_REQUIREMENT.md` en la raíz del proyecto representa el requerimiento vigente para lectura humana.
+- `BUSINESS_REQUIREMENT.yaml` representa el índice estructurado derivado de la versión vigente.
+- El índice de versiones declara cuál versión debe usar el agente.
+- Si el negocio modifica el requerimiento, el agente debe comparar la versión vigente contra la versión anterior.
+- Antes de modificar artefactos derivados o código, el agente debe generar un análisis de impacto.
+- El análisis de impacto debe estimar componentes afectados, esfuerzo, tiempo y costo.
+- Si no existe una tarifa o rate card, el costo debe marcarse como pendiente de tarifa y no inventarse.
+
+Los análisis de impacto deben guardarse en:
+
+`00-intake/business-requirements/impact-assessments/<version>/`
+
+## 28. Artefactos Relacionados
 
 Artefactos principales:
 
 - `BUSINESS_REQUIREMENT.yaml`
+- `00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`
 - `PROJECT_BRIEF.md`
 - `PROJECT_BRIEF.yaml`
 - `SOURCE_OF_TRUTH.yaml`
@@ -653,7 +676,7 @@ Artefactos principales:
 - `06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
 - `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
 
-## 28. Declaración Final
+## 29. Declaración Final
 
 Healthcare Operations Platform debe convertirse en un producto comercial, extensible y gobernado por modelos.
 

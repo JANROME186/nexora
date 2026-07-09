@@ -19,6 +19,7 @@ artifact_rules:
     - Agents must prefer YAML files when both YAML and Markdown versions exist.
     - Markdown files remain the human-readable companion for understanding, review and explanation.
     - BUSINESS_REQUIREMENT.md is requester-supplied; any BUSINESS_REQUIREMENT.yaml is a structured index derived from the requester input, not a replacement.
+    - Agents must verify BUSINESS_REQUIREMENT.yaml is derived from the latest resolved BUSINESS_REQUIREMENT.md version.
   traceability:
     required_links:
       - project_brief
@@ -46,6 +47,7 @@ agent_context_rules:
   - Agents load root Nexora framework first.
   - Agents scan projects/ using nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml before implementation.
   - Agents load the target project SOURCE_OF_TRUTH second.
+  - Agents resolve the latest business requirement version before consuming derived YAML or generated artifacts.
   - Agents must not infer requirements from chat if PROJECT_BRIEF is missing.
   - Agents must follow nexora-framework/02-standards/standards/agent-agnostic-standard.yaml.
   - Agents must update project state after meaningful iterations.

@@ -48,6 +48,7 @@ project_folder_order:
     use: Preserve old readmes or migration notes only. Do not use for new work.
 
 agent_loading_order:
+  - 00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml
   - BUSINESS_REQUIREMENT.md
   - BUSINESS_REQUIREMENT.yaml
   - PROJECT_BRIEF.yaml
@@ -74,6 +75,8 @@ development_start_point:
   implementation_baseline_folder: 07-implementation/
 
 incremental_rule:
+  - Resolve the latest BUSINESS_REQUIREMENT version before selecting work.
+  - Stop if a newer BUSINESS_REQUIREMENT version exists without accepted impact assessment.
   - Select one MVP module.
   - Load the module definition package from 06-delivery.
   - Confirm actors, rules, processes and contracts.
@@ -85,3 +88,13 @@ incremental_rule:
 boundary_rule:
   project_root: Do not add new unnumbered folders at the project root.
   placement: If a new artifact does not fit the current sequence, add it under the closest numbered folder and update SOURCE_OF_TRUTH.yaml.
+
+business_requirement_change_rule:
+  index: 00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml
+  impact_assessment_folder: 00-intake/business-requirements/impact-assessments/
+  required_before_derived_changes: true
+  required_estimates:
+    - impacted_components
+    - effort
+    - timeline
+    - cost_or_rate_card_required

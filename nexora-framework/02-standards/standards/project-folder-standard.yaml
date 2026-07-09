@@ -28,7 +28,7 @@ required_project_folders:
   - 99-legacy
 
 folder_purposes:
-  00-intake: User needs, assumptions, constraints and source material.
+  00-intake: User needs, assumptions, constraints, business requirement versions, change impact assessments and source material.
   01-product-definition: Product vision, personas, scope, capabilities, roadmap and MVP definition.
   02-domain-definition: Domain model, bounded contexts, aggregates, vocabulary and business rules.
   03-architecture: Application, technology, data, security, integration and AI architecture.
@@ -45,6 +45,9 @@ rules:
   - Project-specific files stay inside the project folder.
   - Root-level files describe Nexora and repository orchestration only.
   - Every project must start from requester-supplied BUSINESS_REQUIREMENT.md.
+  - Agents must resolve the latest BUSINESS_REQUIREMENT version before project analysis, validation, planning or development.
+  - Projects may version business requirements under 00-intake/business-requirements/.
+  - Business requirement changes require impact assessment before modifying derived artifacts or implementation.
   - Agents must not generate BUSINESS_REQUIREMENT.md.
   - PROJECT_BRIEF.md must structure and refine BUSINESS_REQUIREMENT.md.
   - Every project must declare its own SOURCE_OF_TRUTH.yaml.
