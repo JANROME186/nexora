@@ -1,0 +1,21 @@
+artifact:
+  id: HOP-MOB-BCM-PER-002
+  type: mobile-model
+  name: Patient Management Mobile Model
+  version: 0.1.0
+  status: deferred
+  classification: editable_model
+  capability: BCM-PER-002
+
+mobile_scope:
+  status: patient_profile_later
+  rationale: >
+    MVP-MOD-003 declares mobile_app patient_profile_later for Patient
+    Management. The mobile app foundation reuses the renderer-agnostic
+    TypeScript toolchain and does not yet consume Patient management
+    operations. Read-only patient self-profile view is planned when the
+    patient portal and mobile experience module (COM-MOD-009) begins.
+  deferred_to:
+    - COM-MOD-009 Patient and Doctor Portals
+  flows: []
+  offline_expectations: none

@@ -1,0 +1,68 @@
+artifact:
+  id: HOP-OBS-BCM-ATT-002
+  type: observability-model
+  name: Patient Registration Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-002
+  depends_on_capability: BCM-PLT-006
+
+logs:
+  - event: patient_registration_started
+    level: info
+    fields: [registrationRequestId, branchId, actorId, intakeChannel]
+  - event: patient_registration_committed
+    level: info
+    fields: [registrationRequestId, outcomePatientId, actorId, branchId]
+  - event: patient_registration_cancelled
+    level: info
+    fields: [registrationRequestId, actorId, reasonCode]
+  - event: patient_registration_rejected
+    level: warn
+    fields: [registrationRequestId, reasonCode]
+  - event: patient_registration_duplicate_reuse
+    level: info
+    fields: [registrationRequestId, matchedPatientId, actorId, confidenceScore]
+
+metrics:
+  - name: patient_registration_started_total
+    type: counter
+    labels: [tenantId, branchId, intakeChannel]
+  - name: patient_registration_committed_total
+    type: counter
+    labels: [tenantId, branchId, registrationKind]
+  - name: patient_registration_cancelled_total
+    type: counter
+    labels: [tenantId, branchId, reasonCode]
+  - name: patient_registration_duration_ms
+    type: histogram
+    labels: [tenantId, branchId]
+  - name: patient_registration_duplicate_match_rate
+    type: histogram
+    labels: [tenantId]
+
+traces:
+  - span: StartPatientRegistration
+    child_spans:
+      - InvokeDuplicateDetection
+      - PersistRegistrationRequest
+  - span: CommitPatientRegistration
+    child_spans:
+      - InvokeRegisterOrReusePatient
+      - AttachRepresentative
+      - AttachConsents
+      - PublishRegistrationCommitted
+
+audit_events:
+  - PatientRegistrationStarted
+  - PatientRegistrationCommitted
+  - PatientRegistrationCancelled
+
+alerts:
+  - name: HighPatientRegistrationCancellationRate
+    condition: patient_registration_cancelled_total rate exceeds threshold
+    severity: warning
+  - name: HighPatientRegistrationRejectionRate
+    condition: patient_registration_rejected rate exceeds threshold
+    severity: warning

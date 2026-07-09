@@ -1,0 +1,105 @@
+artifact:
+  id: HOP-TRACE-BCM-PER-003
+  type: traceability
+  name: Doctor Management Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PER-003
+
+traces:
+  capability_map:
+    bcm_001: BCM-PER-003
+    domain: DOM-02 People
+  dependency_map:
+    bcm_002_profile: master_data
+    required_capabilities: [BCM-PER-001, BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-001, BCM-PLT-007]
+    downstream_capabilities: [BCM-LAB-001, BCM-RES-004, BCM-IMG-007]
+  domain_foundation:
+    bounded_context: medical-staff
+    aggregate: AGG-005 Doctor
+    context_relationships: [REL-CTX-001]
+    shared_kernel_refs: [VO-ID-001, VO-ID-002, VO-ID-006, VO-002, VO-003, VO-005, VO-007]
+  brm_alignment:
+    - rule: BRM-001-R003
+      alignment: Related to Doctor aggregate isolation (medical-staff owning context) mirroring patient master data ownership pattern.
+    - rule: BRM-001-R017
+      alignment: AI cannot verify credentials or grant doctor access.
+    - rule: BRM-001-R018
+      alignment: Doctor events are append-only.
+  rules_to_tests:
+    - rule: RN-001
+      tests: [TST-DOC-003-01]
+    - rule: RN-002
+      tests: [TST-DOC-003-02]
+    - rule: RN-003
+      tests: [TST-DOC-003-03]
+    - rule: RN-004
+      tests: [TST-DOC-003-04, TST-DOC-003-05]
+    - rule: RN-005
+      tests: [TST-DOC-003-06]
+    - rule: RN-006
+      tests: [TST-DOC-003-07]
+    - rule: RN-007
+      tests: [TST-DOC-003-08]
+    - rule: RN-008
+      tests: [TST-DOC-003-09]
+    - rule: RN-009
+      tests: [TST-DOC-003-10]
+  processes_to_commands:
+    - process: PRC-DOC-003-01
+      commands: [RegisterDoctor]
+    - process: PRC-DOC-003-02
+      commands: [AttachProfessionalCredential, VerifyProfessionalCredential, RevokeProfessionalCredential]
+    - process: PRC-DOC-003-03
+      commands: [UpdateDoctor, AssignSpecialty, UnassignSpecialty]
+    - process: PRC-DOC-003-04
+      commands: [SuspendDoctor, RetireDoctor]
+    - process: PRC-DOC-003-05
+      commands: [PreparePortalAccess]
+  api_to_permissions:
+    - operation: registerDoctor
+      scope: doctor.write
+    - operation: updateDoctor
+      scope: doctor.write
+    - operation: verifyDoctorCredential
+      scope: doctor.credential.verify
+    - operation: preparePortalAccess
+      scope: doctor.portal.prepare
+    - operation: suspendDoctor
+      scope: doctor.write
+  events_to_audit:
+    - event: DoctorRegistered
+      audit_sink: BCM-PLT-007
+    - event: DoctorUpdated
+      audit_sink: BCM-PLT-007
+    - event: DoctorCredentialAttached
+      audit_sink: BCM-PLT-007
+    - event: DoctorCredentialVerified
+      audit_sink: BCM-PLT-007
+    - event: DoctorCredentialRevoked
+      audit_sink: BCM-PLT-007
+    - event: DoctorSuspended
+      audit_sink: BCM-PLT-007
+    - event: DoctorRetired
+      audit_sink: BCM-PLT-007
+    - event: DoctorPortalAccessPrepared
+      audit_sink: BCM-PLT-007
+  ui_to_api:
+    - screen: SCR-DOC-003-01
+      operations: [listDoctors]
+    - screen: SCR-DOC-003-02
+      operations: [getDoctor, registerDoctor, updateDoctor]
+    - screen: SCR-DOC-003-03
+      operations: [listDoctorCredentials, attachDoctorCredential, verifyDoctorCredential, revokeDoctorCredential]
+    - screen: SCR-DOC-003-04
+      operations: [listSpecialtyAssignments, assignSpecialty, unassignSpecialty]
+    - screen: SCR-DOC-003-05
+      operations: [preparePortalAccess]
+  generated_outputs_ref: generation-plan.yaml
+  qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
+  backlog_items:
+    definition: MVP-MOD-003-DEF
+    compilation: MVP-MOD-003-BE-001
+    custom_rules: MVP-MOD-003-BE-002
+    ui: MVP-MOD-003-FE-001

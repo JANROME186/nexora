@@ -1,0 +1,77 @@
+artifact:
+  id: HOP-PROC-BCM-ATT-002
+  type: processes
+  name: Patient Registration Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-002
+
+actors:
+  - id: receptionist
+    actor_ref: ACT-004
+    name: Receptionist
+    source: ACM-001
+  - id: patient
+    actor_ref: ACT-012
+    name: Patient
+    source: ACM-001
+    note: Portal handoff channel only in later modules.
+  - id: patient-representative
+    actor_ref: ACT-013
+    name: Patient Representative
+    source: ACM-001
+
+processes:
+  - id: PRC-REG-002-01
+    name: Start patient registration
+    actor: receptionist
+    trigger: A patient must be registered or confirmed at intake.
+    commands:
+      - StartPatientRegistration
+    preconditions:
+      - Actor holds patient.register.
+    steps:
+      - Capture registration natural key and draft data.
+      - Consult PersonDuplicateDetector.
+      - Present candidate matches to actor.
+      - Persist PatientRegistrationRequest with pending outcome.
+    outcome: PatientRegistrationStarted
+    rules: [RN-001, RN-004, RN-008]
+  - id: PRC-REG-002-02
+    name: Commit patient registration
+    actor: receptionist
+    trigger: Actor confirms the registration decision.
+    commands:
+      - CommitPatientRegistration
+    preconditions:
+      - Registration request exists and duplicate decision has been resolved.
+    steps:
+      - Validate consent selections and representative details.
+      - Delegate to BCM-PER-002 RegisterPatient or reuse existing patient.
+      - Attach representative if representative registration.
+      - Attach initial consents.
+      - Publish PatientRegistrationCommitted.
+    outcome: PatientRegistrationCommitted
+    rules: [RN-001, RN-002, RN-003, RN-005, RN-006, RN-007]
+  - id: PRC-REG-002-03
+    name: Cancel patient registration
+    actor: receptionist
+    trigger: The registration request must be discarded.
+    commands:
+      - CancelPatientRegistration
+    steps:
+      - Mark registration request cancelled with reason.
+      - Publish PatientRegistrationCancelled.
+    outcome: PatientRegistrationCancelled
+    rules: [RN-004]
+
+commands:
+  - name: StartPatientRegistration
+    generatable: false
+    custom_reason: Consults duplicate detector and applies age-of-majority default.
+  - name: CommitPatientRegistration
+    generatable: false
+    custom_reason: Orchestrates BCM-PER-002 aggregate commands with consent, representative and audit.
+  - name: CancelPatientRegistration
+    generatable: true

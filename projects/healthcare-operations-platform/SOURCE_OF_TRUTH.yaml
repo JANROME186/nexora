@@ -41,6 +41,12 @@ sources:
   mvp_mod_002_pkg_bcm_svc_006: 01-product-definition/business-capabilities/packages/bcm-svc-006-reference-range-management/
   mvp_mod_002_pkg_bcm_svc_007: 01-product-definition/business-capabilities/packages/bcm-svc-007-sample-catalog/
   mvp_mod_002_pkg_bcm_svc_009: 01-product-definition/business-capabilities/packages/bcm-svc-009-price-list-management/
+  mvp_mod_003_pkg_bcm_per_001: 01-product-definition/business-capabilities/packages/bcm-per-001-person-management/
+  mvp_mod_003_pkg_bcm_per_002: 01-product-definition/business-capabilities/packages/bcm-per-002-patient-management/
+  mvp_mod_003_pkg_bcm_per_003: 01-product-definition/business-capabilities/packages/bcm-per-003-doctor-management/
+  mvp_mod_003_pkg_bcm_att_002: 01-product-definition/business-capabilities/packages/bcm-att-002-patient-registration/
+  mvp_mod_003_def_qa_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
+  mvp_mod_003_def_qa_evidence_yaml: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
   mvp_mod_002_def_qa_evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.md
   mvp_mod_002_def_qa_evidence_yaml: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.yaml
   mvp_mod_002_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/catalogtestconfiguration/

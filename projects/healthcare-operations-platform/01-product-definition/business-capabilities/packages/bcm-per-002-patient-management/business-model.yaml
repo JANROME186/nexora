@@ -1,0 +1,237 @@
+artifact:
+  id: HOP-BM-BCM-PER-002
+  type: business-model
+  name: Patient Management Business Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PER-002
+  bounded_context: patient-management
+  primary_aggregate: Patient
+
+entities:
+  - id: ENT-PAT-001
+    name: Patient
+    is_aggregate_root: true
+    aggregate_ref: AGG-001
+    description: Master data record for a person receiving diagnostic services.
+    fields:
+      - name: patientId
+        type: PatientId
+        shared_kernel_ref: VO-ID-005
+        required: true
+        identifier: true
+      - name: tenantId
+        type: TenantId
+        shared_kernel_ref: VO-ID-001
+        required: true
+      - name: laboratoryId
+        type: LaboratoryId
+        shared_kernel_ref: VO-ID-002
+        required: true
+      - name: patientCode
+        type: string
+        required: true
+        unique_scope: [tenantId]
+      - name: name
+        type: PersonName
+        shared_kernel_ref: VO-002
+        required: true
+      - name: birthDate
+        type: date
+        required: true
+      - name: sexAtBirth
+        type: enum
+        values: [female, male, unknown, not_disclosed]
+        required: true
+      - name: primaryDocument
+        type: PersonDocument
+        required: true
+      - name: additionalDocuments
+        type: list[PersonDocument]
+        required: false
+      - name: contacts
+        type: list[PersonContact]
+        required: false
+      - name: address
+        type: Address
+        shared_kernel_ref: VO-005
+        required: false
+      - name: status
+        type: enum
+        values: [active, inactive, merged, deceased]
+        required: true
+      - name: preferredLocale
+        type: Locale
+        shared_kernel_ref: VO-008
+        required: false
+      - name: audit
+        type: AuditMetadata
+        shared_kernel_ref: VO-007
+        required: true
+  - id: ENT-PAT-002
+    name: PatientEmergencyContact
+    is_aggregate_root: false
+    owned_by_aggregate: Patient
+    description: Contact reachable in case of emergency.
+    fields:
+      - name: emergencyContactId
+        type: uuid
+        required: true
+        identifier: true
+      - name: patientId
+        type: PatientId
+        required: true
+      - name: relationship
+        type: string
+        required: true
+      - name: name
+        type: PersonName
+        shared_kernel_ref: VO-002
+        required: true
+      - name: phone
+        type: PhoneNumber
+        shared_kernel_ref: VO-004
+        required: true
+      - name: preferred
+        type: boolean
+        required: false
+  - id: ENT-PAT-003
+    name: PatientRepresentative
+    is_aggregate_root: false
+    owned_by_aggregate: Patient
+    description: Authorized representative that may act on behalf of the patient.
+    fields:
+      - name: representativeId
+        type: uuid
+        required: true
+        identifier: true
+      - name: patientId
+        type: PatientId
+        required: true
+      - name: relationship
+        type: enum
+        values: [parent, legal_guardian, spouse, adult_child, other_authorized]
+        required: true
+      - name: representativeName
+        type: PersonName
+        shared_kernel_ref: VO-002
+        required: true
+      - name: representativeDocument
+        type: PersonDocument
+        required: true
+      - name: contact
+        type: PersonContact
+        required: false
+      - name: authorizationValidRange
+        type: DateRange
+        shared_kernel_ref: VO-006
+        required: true
+      - name: status
+        type: enum
+        values: [active, revoked, expired]
+        required: true
+  - id: ENT-PAT-004
+    name: PatientConsent
+    is_aggregate_root: false
+    owned_by_aggregate: Patient
+    description: Recorded consent statement given by the patient or representative.
+    fields:
+      - name: consentId
+        type: uuid
+        required: true
+        identifier: true
+      - name: patientId
+        type: PatientId
+        required: true
+      - name: consentType
+        type: enum
+        values: [data_processing, portal_access, notification_channel, marketing, research]
+        required: true
+      - name: granted
+        type: boolean
+        required: true
+      - name: grantedBy
+        type: enum
+        values: [patient, representative]
+        required: true
+      - name: grantedAt
+        type: datetime
+        required: true
+      - name: revokedAt
+        type: datetime
+        required: false
+      - name: evidenceReference
+        type: string
+        required: false
+  - id: ENT-PAT-005
+    name: PatientDocument
+    is_aggregate_root: false
+    owned_by_aggregate: Patient
+    description: Attached identification, insurance or medical support document.
+    fields:
+      - name: documentId
+        type: uuid
+        required: true
+        identifier: true
+      - name: patientId
+        type: PatientId
+        required: true
+      - name: category
+        type: enum
+        values: [identification, insurance, authorization, medical_report, other]
+        required: true
+      - name: fileReference
+        type: string
+        required: true
+      - name: uploadedAt
+        type: datetime
+        required: true
+      - name: expiresAt
+        type: date
+        required: false
+
+read_models:
+  - id: RM-PAT-001
+    name: PatientSnapshot
+    description: Immutable minimal patient projection consumed by downstream contexts.
+    fields:
+      - patientId
+      - tenantId
+      - laboratoryId
+      - patientCode
+      - fullName
+      - birthDate
+      - sexAtBirth
+      - primaryDocumentType
+      - primaryDocumentNumberMasked
+      - status
+      - version
+    consumers:
+      - orders-samples
+      - laboratory-results
+      - imaging-operations
+      - cash-sales
+      - billing-tax
+
+invariants:
+  - id: INV-PAT-001
+    statement: A patient must have a unique patientCode within the tenant.
+  - id: INV-PAT-002
+    statement: Only the patient-management context may mutate Patient aggregate state.
+  - id: INV-PAT-003
+    statement: A patient status of merged must reference a surviving patient id.
+  - id: INV-PAT-004
+    statement: A representative authorization range must be non-empty and current for the relationship to be active.
+  - id: INV-PAT-005
+    statement: A deceased patient cannot become active again through update commands.
+
+external_references:
+  - shared_kernel:
+      - VO-ID-005 PatientId
+      - VO-002 PersonName
+      - VO-005 Address
+      - VO-004 PhoneNumber
+      - VO-007 AuditMetadata
+  - context_map:
+      - REL-CTX-002 orders-samples consumer of PatientSnapshot

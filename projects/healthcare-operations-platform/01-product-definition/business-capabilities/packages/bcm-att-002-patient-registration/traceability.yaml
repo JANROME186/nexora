@@ -1,0 +1,88 @@
+artifact:
+  id: HOP-TRACE-BCM-ATT-002
+  type: traceability
+  name: Patient Registration Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-002
+
+traces:
+  capability_map:
+    bcm_001: BCM-ATT-002
+    domain: DOM-04 Care Delivery
+  dependency_map:
+    bcm_002_profile: care_delivery
+    required_capabilities: [BCM-PER-001, BCM-PER-002, BCM-PER-003, BCM-ORG-003, BCM-PLT-001, BCM-PLT-007]
+    downstream_capabilities: [BCM-ATT-003, BCM-LAB-001, BCM-ATT-005]
+  domain_foundation:
+    bounded_context: patient-management
+    aggregate_reference: AGG-001 Patient
+    context_relationships: [REL-CTX-001, REL-CTX-002]
+    shared_kernel_refs: [VO-ID-001, VO-ID-002, VO-ID-003, VO-ID-005, VO-007]
+  brm_alignment:
+    - rule: BRM-001-R003
+      alignment: Registration commit delegates to patient-management (RN-002).
+    - rule: BRM-001-R015
+      alignment: Representative attachment enforces active authorization (RN-003).
+    - rule: BRM-001-R018
+      alignment: Registration events are append-only and audit trace fields are required (RN-007).
+  hrp_alignment:
+    - process: HRP-001-P03 Patient Registration and Order Intake
+      capability_role: Patient registration segment; order intake continues in MVP-MOD-004.
+  rules_to_tests:
+    - rule: RN-001
+      tests: [TST-REG-002-01]
+    - rule: RN-002
+      tests: [TST-REG-002-02]
+    - rule: RN-003
+      tests: [TST-REG-002-03]
+    - rule: RN-004
+      tests: [TST-REG-002-04]
+    - rule: RN-005
+      tests: [TST-REG-002-05]
+    - rule: RN-006
+      tests: [TST-REG-002-06, TST-REG-002-07]
+    - rule: RN-007
+      tests: [TST-REG-002-08]
+    - rule: RN-008
+      tests: [TST-REG-002-09]
+  processes_to_commands:
+    - process: PRC-REG-002-01
+      commands: [StartPatientRegistration]
+    - process: PRC-REG-002-02
+      commands: [CommitPatientRegistration]
+    - process: PRC-REG-002-03
+      commands: [CancelPatientRegistration]
+  api_to_permissions:
+    - operation: startPatientRegistration
+      scope: patient.register
+    - operation: commitPatientRegistration
+      scope: patient.register
+    - operation: cancelPatientRegistration
+      scope: patient.register
+    - operation: listPatientRegistrations
+      scope: patient.register
+    - operation: getPatientRegistration
+      scope: patient.register
+  events_to_audit:
+    - event: PatientRegistrationStarted
+      audit_sink: BCM-PLT-007
+    - event: PatientRegistrationCommitted
+      audit_sink: BCM-PLT-007
+    - event: PatientRegistrationCancelled
+      audit_sink: BCM-PLT-007
+  ui_to_api:
+    - screen: SCR-REG-002-01
+      operations: [startPatientRegistration, commitPatientRegistration, cancelPatientRegistration]
+    - screen: SCR-REG-002-02
+      operations: [listPatientRegistrations]
+    - screen: SCR-REG-002-03
+      operations: [getPatientRegistration]
+  generated_outputs_ref: generation-plan.yaml
+  qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
+  backlog_items:
+    definition: MVP-MOD-003-DEF
+    compilation: MVP-MOD-003-BE-001
+    custom_rules: MVP-MOD-003-BE-002
+    ui: MVP-MOD-003-FE-001

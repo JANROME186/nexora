@@ -1,0 +1,19 @@
+artifact:
+  id: HOP-MOB-BCM-PER-003
+  type: mobile-model
+  name: Doctor Management Mobile Model
+  version: 0.1.0
+  status: not_required
+  classification: editable_model
+  capability: BCM-PER-003
+
+mobile_scope:
+  status: not_required
+  rationale: >
+    Doctor Management is an internal master-data capability. The MVP-MOD-003
+    module declares mobile_app not_required. Read-only doctor portal
+    experience will be introduced in COM-MOD-009.
+  deferred_to:
+    - COM-MOD-009 Patient and Doctor Portals
+  flows: []
+  offline_expectations: none

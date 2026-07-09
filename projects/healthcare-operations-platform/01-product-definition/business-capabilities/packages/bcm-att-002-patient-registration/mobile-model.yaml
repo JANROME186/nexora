@@ -1,0 +1,20 @@
+artifact:
+  id: HOP-MOB-BCM-ATT-002
+  type: mobile-model
+  name: Patient Registration Mobile Model
+  version: 0.1.0
+  status: deferred
+  classification: editable_model
+  capability: BCM-ATT-002
+
+mobile_scope:
+  status: check_in_later
+  rationale: >
+    MVP-MOD-003 declares mobile_app check_in_later for Patient Registration.
+    Patient self check-in through mobile app is planned in COM-MOD-009 Patient
+    and Doctor Portals, and it will invoke this capability through the same
+    orchestration commands documented in openapi-source.yaml.
+  deferred_to:
+    - COM-MOD-009 Patient and Doctor Portals
+  flows: []
+  offline_expectations: none

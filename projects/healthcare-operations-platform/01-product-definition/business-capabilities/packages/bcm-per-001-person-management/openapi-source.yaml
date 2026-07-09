@@ -1,0 +1,72 @@
+artifact:
+  id: HOP-API-SRC-BCM-PER-001
+  type: openapi-source
+  name: Person Management API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PER-001
+  note: >
+    Source contract model. The rendered OpenAPI document, controllers, DTOs
+    and SDKs are generated outputs declared in generation-plan.yaml and must
+    not be authored manually.
+
+api:
+  base_path: /api/people/persons
+  surface_classification: internal
+  future_surfaces: []
+  security:
+    scheme: bearer_jwt
+    required_scopes_default: [person.read]
+
+resources:
+  - name: PersonSearchIndex
+    operations:
+      - id: searchPersons
+        method: GET
+        path: /search
+        scopes: [person.read]
+        generatable: true
+      - id: detectPersonDuplicates
+        method: POST
+        path: /duplicates/detect
+        scopes: [person.read]
+        generatable: false
+        custom_reason: Confidence scoring and audit trace are custom rules.
+      - id: rebuildPersonSearchIndex
+        method: POST
+        path: /index/rebuild
+        scopes: [person.index.rebuild]
+        generatable: false
+        custom_reason: Requires projection replay orchestration.
+      - id: getPersonMergeCoordination
+        method: GET
+        path: /merges/{coordinationId}
+        scopes: [person.merge.read]
+        generatable: true
+      - id: initiatePersonMergeCoordination
+        method: POST
+        path: /merges
+        scopes: [person.merge.write]
+        generatable: false
+        custom_reason: Cross-context coordination is a custom rule.
+
+schemas_source:
+  - PersonNaturalKey
+  - PersonName
+  - PersonDocument
+  - PersonContact
+  - PersonAddress
+  - PersonSearchResult
+  - PersonDuplicateDetectionResult
+  - PersonMergeCoordination
+
+error_model:
+  standard: rfc7807
+  domain_errors:
+    - code: PERSON_DUPLICATE_DETECTION_FORBIDDEN
+      maps_to_rule: RN-005
+    - code: PERSON_NATURAL_KEY_NORMALIZATION_ERROR
+      maps_to_rule: RN-001
+    - code: PERSON_MERGE_CONTEXT_UNAUTHORIZED
+      maps_to_rule: RN-004

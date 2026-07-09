@@ -1,0 +1,145 @@
+artifact:
+  id: HOP-API-SRC-BCM-PER-002
+  type: openapi-source
+  name: Patient Management API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PER-002
+  note: >
+    Source contract model. The rendered OpenAPI document, controllers, DTOs
+    and SDKs are generated outputs declared in generation-plan.yaml.
+
+api:
+  base_path: /api/people/patients
+  surface_classification: internal
+  future_surfaces:
+    - classification: public
+      status: account_linking_later
+      note: Patient portal read of own PatientSnapshot planned for COM-MOD-009.
+  security:
+    scheme: bearer_jwt
+    required_scopes_default: [patient.read]
+
+resources:
+  - name: Patient
+    operations:
+      - id: listPatients
+        method: GET
+        path: /
+        scopes: [patient.read]
+        generatable: true
+      - id: getPatient
+        method: GET
+        path: /{patientId}
+        scopes: [patient.read]
+        generatable: true
+      - id: getPatientSnapshot
+        method: GET
+        path: /{patientId}/snapshot
+        scopes: [patient.read]
+        generatable: false
+        custom_reason: Serves downstream consumers with published-language projection.
+      - id: registerPatient
+        method: POST
+        path: /
+        scopes: [patient.write]
+        generatable: false
+        custom_reason: Duplicate detection integration is a custom rule.
+      - id: updatePatient
+        method: PUT
+        path: /{patientId}
+        scopes: [patient.write]
+        generatable: true
+      - id: deactivatePatient
+        method: POST
+        path: /{patientId}/deactivate
+        scopes: [patient.write]
+        generatable: true
+      - id: mergePatient
+        method: POST
+        path: /{patientId}/merge
+        scopes: [patient.merge]
+        generatable: false
+        custom_reason: Cross-projection rewiring is custom rule.
+  - name: PatientRepresentative
+    operations:
+      - id: listPatientRepresentatives
+        method: GET
+        path: /{patientId}/representatives
+        scopes: [patient.read]
+        generatable: true
+      - id: attachPatientRepresentative
+        method: POST
+        path: /{patientId}/representatives
+        scopes: [patient.write]
+        generatable: true
+      - id: updatePatientRepresentative
+        method: PUT
+        path: /{patientId}/representatives/{representativeId}
+        scopes: [patient.write]
+        generatable: true
+      - id: revokePatientRepresentative
+        method: POST
+        path: /{patientId}/representatives/{representativeId}/revoke
+        scopes: [patient.write]
+        generatable: false
+        custom_reason: Revocation close-out and audit trace are custom.
+  - name: PatientConsent
+    operations:
+      - id: listPatientConsents
+        method: GET
+        path: /{patientId}/consents
+        scopes: [patient.read]
+        generatable: true
+      - id: recordPatientConsent
+        method: POST
+        path: /{patientId}/consents
+        scopes: [patient.write]
+        generatable: true
+      - id: revokePatientConsent
+        method: POST
+        path: /{patientId}/consents/{consentId}/revoke
+        scopes: [patient.write]
+        generatable: false
+        custom_reason: Append-only revocation record with immutable evidence.
+  - name: PatientDocument
+    operations:
+      - id: listPatientDocuments
+        method: GET
+        path: /{patientId}/documents
+        scopes: [patient.read]
+        generatable: true
+      - id: attachPatientDocument
+        method: POST
+        path: /{patientId}/documents
+        scopes: [patient.write]
+        generatable: true
+      - id: removePatientDocument
+        method: DELETE
+        path: /{patientId}/documents/{documentId}
+        scopes: [patient.write]
+        generatable: true
+
+schemas_source:
+  - Patient
+  - PatientEmergencyContact
+  - PatientRepresentative
+  - PatientConsent
+  - PatientDocument
+  - PatientSnapshot
+  - PatientEligibilityStatus
+
+error_model:
+  standard: rfc7807
+  domain_errors:
+    - code: PATIENT_CODE_CONFLICT
+      maps_to_rule: RN-001
+    - code: PATIENT_DUPLICATE_DETECTION_REQUIRED
+      maps_to_rule: RN-002
+    - code: PATIENT_TERMINAL_STATUS
+      maps_to_rule: RN-009
+    - code: PATIENT_REPRESENTATIVE_UNAUTHORIZED
+      maps_to_rule: RN-006
+    - code: PATIENT_MERGE_INVALID
+      maps_to_rule: RN-005

@@ -1,0 +1,65 @@
+artifact:
+  id: HOP-TEST-BCM-ATT-002
+  type: test-model
+  name: Patient Registration Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-002
+
+test_cases:
+  - id: TST-REG-002-01
+    type: acceptance
+    validates_rule: RN-001
+    statement: Registration cannot commit if duplicate detection has not been consulted.
+    generatable: false
+  - id: TST-REG-002-02
+    type: architecture
+    validates_rule: RN-002
+    statement: Registration commit invokes BCM-PER-002 aggregate commands, not direct persistence.
+    generatable: false
+  - id: TST-REG-002-03
+    type: acceptance
+    validates_rule: RN-003
+    statement: Representative registration attaches a PatientRepresentative during commit.
+    generatable: false
+  - id: TST-REG-002-04
+    type: contract
+    validates_rule: RN-004
+    statement: Unauthorized or out-of-scope actors cannot commit registration.
+    generatable: true
+  - id: TST-REG-002-05
+    type: acceptance
+    validates_rule: RN-005
+    statement: Missing mandatory consent according to tenant policy blocks commit.
+    generatable: false
+  - id: TST-REG-002-06
+    type: acceptance
+    validates_rule: RN-006
+    statement: High-confidence match without explicit resolution blocks new patient commit.
+    generatable: false
+  - id: TST-REG-002-07
+    type: acceptance
+    validates_rule: RN-006
+    statement: Explicit reuse decision commits registration against the existing patient.
+    generatable: false
+  - id: TST-REG-002-08
+    type: unit
+    validates_rule: RN-007
+    statement: Registration commit event carries actor, branch and intake channel.
+    generatable: true
+  - id: TST-REG-002-09
+    type: acceptance
+    validates_rule: RN-008
+    statement: Minor patient registration defaults to representative registration.
+    generatable: false
+
+test_layers:
+  - contract_tests
+  - unit_tests
+  - acceptance_tests
+  - architecture_tests
+
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests: [TST-REG-002-01, TST-REG-002-02, TST-REG-002-03, TST-REG-002-05, TST-REG-002-06, TST-REG-002-07, TST-REG-002-09]

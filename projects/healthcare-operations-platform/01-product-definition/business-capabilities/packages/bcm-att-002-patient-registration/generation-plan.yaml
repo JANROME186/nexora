@@ -1,0 +1,75 @@
+artifact:
+  id: HOP-GEN-BCM-ATT-002
+  type: generation-plan
+  name: Patient Registration Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-002
+  compiler_strategy: model_to_platform
+
+generated_outputs:
+  backend:
+    - CRUD scaffolding for PatientRegistrationRequest
+    - DTOs for PatientRegistrationRequest, DraftPatientData, DraftRepresentativeData, ConsentSelection and PatientRegistrationOutcome
+    - Controllers for generatable operations (list, get, cancel)
+    - Repository interfaces and persistence adapters
+    - Event consumers for PersonDuplicateDetectionRequested, PatientRegistered, PatientRepresentativeAttached and PatientConsentRecorded
+    - API adapters
+  frontend:
+    - Employee portal registration list and detail (SCR-REG-002-02, SCR-REG-002-03)
+    - Routes and Client SDK usage
+  contracts:
+    - Rendered OpenAPI document from openapi-source.yaml
+    - Typed SDK
+    - Swagger documentation
+  tests:
+    - Repetitive unit tests for RN-004 and RN-007
+    - Contract tests for authorization
+    - Acceptance test skeletons for orchestration rules
+  operations:
+    - Metric and log wiring from observability-model.yaml
+    - Dashboard skeleton
+    - Alert definitions
+
+custom_implementation_points:
+  - id: CUS-REG-002-01
+    description: Orchestration of duplicate detection consultation and match decision (RN-001, RN-006).
+    maps_to_backlog: MVP-MOD-003-BE-002
+  - id: CUS-REG-002-02
+    description: Cross-capability commit delegating to BCM-PER-002 aggregate commands (RN-002).
+    maps_to_backlog: MVP-MOD-003-BE-002
+  - id: CUS-REG-002-03
+    description: Atomic representative attach during registration commit (RN-003).
+    maps_to_backlog: MVP-MOD-003-BE-002
+  - id: CUS-REG-002-04
+    description: Tenant-configurable mandatory consent enforcement (RN-005).
+    maps_to_backlog: MVP-MOD-003-BE-002
+  - id: CUS-REG-002-05
+    description: Age-of-majority default for minor patient registration (RN-008).
+    maps_to_backlog: MVP-MOD-003-BE-002
+  - id: CUS-REG-002-06
+    description: Registration wizard UI with duplicate candidate panel and match resolution.
+    maps_to_backlog: MVP-MOD-003-FE-001
+
+do_not_write_manually:
+  - CRUD scaffolding
+  - DTOs
+  - Controllers
+  - Repositories
+  - Swagger documentation
+  - SDKs
+  - Repetitive documentation
+  - Repetitive test cases
+
+provenance:
+  source_models:
+    - business-model.yaml
+    - business-rules.yaml
+    - processes.yaml
+    - events.yaml
+    - openapi-source.yaml
+    - ui-model.yaml
+    - permissions.yaml
+    - observability-model.yaml
+  generation_metadata_required: true
