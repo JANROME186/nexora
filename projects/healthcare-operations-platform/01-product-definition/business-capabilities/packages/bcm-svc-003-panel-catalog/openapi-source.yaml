@@ -1,0 +1,77 @@
+artifact:
+  id: HOP-API-SRC-BCM-SVC-003
+  type: openapi-source
+  name: Panel Catalog API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-003
+  note: >
+    Source contract model. Rendered OpenAPI, controllers, DTOs and SDKs are
+    generated outputs declared in generation-plan.yaml.
+
+api:
+  base_path: /api/catalog/panels
+  surface_classification: internal
+  future_surfaces:
+    - classification: public
+      status: read_only_later
+  security:
+    scheme: bearer_jwt
+    required_scopes_default: [catalog.panel.read]
+
+resources:
+  - name: PanelDefinition
+    operations:
+      - id: listPanels
+        method: GET
+        path: /
+        scopes: [catalog.panel.read]
+        generatable: true
+      - id: getPanel
+        method: GET
+        path: /{panelId}
+        scopes: [catalog.panel.read]
+        generatable: true
+      - id: createPanel
+        method: POST
+        path: /
+        scopes: [catalog.panel.write]
+        generatable: true
+      - id: updatePanel
+        method: PUT
+        path: /{panelId}
+        scopes: [catalog.panel.write]
+        generatable: true
+      - id: publishPanel
+        method: POST
+        path: /{panelId}/publish
+        scopes: [catalog.panel.publish]
+        generatable: false
+        custom_reason: Member publication validation and snapshot freeze are custom rules.
+      - id: deprecatePanel
+        method: POST
+        path: /{panelId}/deprecate
+        scopes: [catalog.panel.publish]
+        generatable: true
+      - id: getPublishedPanelSnapshot
+        method: GET
+        path: /{panelId}/published-snapshot
+        scopes: [catalog.panel.read]
+        generatable: false
+        custom_reason: Returns frozen version-aware snapshot for downstream consumers.
+
+schemas_source:
+  - PanelDefinition
+  - PanelMember
+  - PublishedPanelSnapshot
+
+error_model:
+  standard: rfc7807
+  domain_errors:
+    - code: CATALOG_PANEL_CODE_CONFLICT
+      maps_to_rule: RN-001
+    - code: CATALOG_PANEL_INSUFFICIENT_MEMBERS
+      maps_to_rule: RN-002
+    - code: CATALOG_PANEL_NOT_PUBLISHABLE
+      maps_to_rule: RN-003

@@ -27,6 +27,16 @@ sources:
   capability_dependency_map: 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.yaml
   capability_packages_root: 01-product-definition/business-capabilities/packages/
+  mvp_mod_002_pkg_bcm_svc_001: 01-product-definition/business-capabilities/packages/bcm-svc-001-diagnostic-service-catalog/
+  mvp_mod_002_pkg_bcm_svc_002: 01-product-definition/business-capabilities/packages/bcm-svc-002-test-catalog/
+  mvp_mod_002_pkg_bcm_svc_003: 01-product-definition/business-capabilities/packages/bcm-svc-003-panel-catalog/
+  mvp_mod_002_pkg_bcm_svc_004: 01-product-definition/business-capabilities/packages/bcm-svc-004-analyte-catalog/
+  mvp_mod_002_pkg_bcm_svc_005: 01-product-definition/business-capabilities/packages/bcm-svc-005-patient-preparation-management/
+  mvp_mod_002_pkg_bcm_svc_006: 01-product-definition/business-capabilities/packages/bcm-svc-006-reference-range-management/
+  mvp_mod_002_pkg_bcm_svc_007: 01-product-definition/business-capabilities/packages/bcm-svc-007-sample-catalog/
+  mvp_mod_002_pkg_bcm_svc_009: 01-product-definition/business-capabilities/packages/bcm-svc-009-price-list-management/
+  mvp_mod_002_def_qa_evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.md
+  mvp_mod_002_def_qa_evidence_yaml: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.yaml
   open_data_ingestion_contract: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md
   open_data_ingestion_contract_yaml: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml
   open_data_ingestion_requirements: 04-requirements/capabilities/bcm-plt-010-open-data-ingestion-and-migration/requirements.yaml

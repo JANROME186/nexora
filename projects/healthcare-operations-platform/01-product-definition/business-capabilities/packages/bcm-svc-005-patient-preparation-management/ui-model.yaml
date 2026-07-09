@@ -1,0 +1,50 @@
+artifact:
+  id: HOP-UI-BCM-SVC-005
+  type: ui-model
+  name: Patient Preparation Management UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-005
+  target_surface: employee_portal
+
+surfaces:
+  employee_portal:
+    status: required
+    generatable: true
+  patient_portal:
+    status: read_only_later
+    generatable: deferred
+  public_website:
+    status: read_only_later
+    generatable: deferred
+
+screens:
+  - id: SCR-SVC-005-01
+    name: Preparation List
+    route: /catalog/preparations
+    type: list
+    scopes: [catalog.preparation.read]
+    components: [DataTable, CategoryFilter, StatusFilter, SearchBar]
+    generatable: true
+  - id: SCR-SVC-005-02
+    name: Preparation Editor
+    route: /catalog/preparations/{preparationId}
+    type: form
+    scopes: [catalog.preparation.write]
+    components: [PreparationDetailForm, LocalizedTextEditor, AssignmentEditor, CategorySelector]
+    generatable: true
+  - id: SCR-SVC-005-03
+    name: Publish Preparation Dialog
+    route: /catalog/preparations/{preparationId}/publish
+    type: confirmation
+    scopes: [catalog.preparation.publish]
+    components: [LocalizationCompletenessSummary]
+    generatable: false
+    custom_reason: Displays localization completeness validation results.
+
+states: [draft, published, deprecated, retired]
+
+localization:
+  languages: [en, es]
+  default: es

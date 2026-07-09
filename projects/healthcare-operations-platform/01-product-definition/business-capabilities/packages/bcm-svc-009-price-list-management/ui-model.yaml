@@ -1,0 +1,50 @@
+artifact:
+  id: HOP-UI-BCM-SVC-009
+  type: ui-model
+  name: Price List Management UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-009
+  target_surface: employee_portal
+
+surfaces:
+  employee_portal:
+    status: required
+    generatable: true
+  patient_portal:
+    status: read_only_later
+    generatable: deferred
+  doctor_portal:
+    status: read_only_later
+    generatable: deferred
+
+screens:
+  - id: SCR-SVC-009-01
+    name: Price List Index
+    route: /catalog/price-lists
+    type: list
+    scopes: [catalog.price.read]
+    components: [DataTable, CurrencyFilter, StatusFilter, EffectiveDateFilter]
+    generatable: true
+  - id: SCR-SVC-009-02
+    name: Price List Editor
+    route: /catalog/price-lists/{priceListId}
+    type: form
+    scopes: [catalog.price.write]
+    components: [PriceListDetailForm, PriceEntryGrid, CurrencySelector, EffectiveDatePicker]
+    generatable: true
+  - id: SCR-SVC-009-03
+    name: Publish Price List Dialog
+    route: /catalog/price-lists/{priceListId}/publish
+    type: confirmation
+    scopes: [catalog.price.publish]
+    components: [ItemEligibilitySummary, EffectiveOverlapSummary]
+    generatable: false
+    custom_reason: Displays item publication and effective-date overlap validation results.
+
+states: [draft, published, deprecated, retired]
+
+localization:
+  languages: [en, es]
+  default: es

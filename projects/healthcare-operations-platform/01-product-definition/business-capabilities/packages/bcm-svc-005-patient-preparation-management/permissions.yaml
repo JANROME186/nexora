@@ -1,0 +1,43 @@
+artifact:
+  id: HOP-PERM-BCM-SVC-005
+  type: permissions
+  name: Patient Preparation Management Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-005
+  depends_on_capability: BCM-PLT-001
+
+scopes:
+  - code: catalog.preparation.read
+    description: Read preparation instructions and published guidance.
+  - code: catalog.preparation.write
+    description: Create, update and assign preparation drafts.
+  - code: catalog.preparation.publish
+    description: Publish and deprecate preparations.
+
+roles:
+  - role: catalog-administrator
+    grants: [catalog.preparation.read, catalog.preparation.write]
+  - role: laboratory-manager
+    grants: [catalog.preparation.read, catalog.preparation.write, catalog.preparation.publish]
+  - role: reception-agent
+    grants: [catalog.preparation.read]
+
+access_policies:
+  - id: POL-SVC-005-01
+    statement: Catalog write and publish operations are tenant and laboratory scoped.
+    enforcement: row_level_tenant_laboratory_filter
+  - id: POL-SVC-005-02
+    statement: Published preparation guidance is readable by patient-facing surfaces without authoring scopes.
+    enforcement: published_snapshot_public_read_later
+
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+    - event: PreparationCreated
+      fields: [preparationId, actorId, tenantId]
+    - event: PreparationPublished
+      fields: [preparationId, version, actorId]
+    - event: PreparationAssigned
+      fields: [assignmentId, preparationId, targetRefId, actorId]

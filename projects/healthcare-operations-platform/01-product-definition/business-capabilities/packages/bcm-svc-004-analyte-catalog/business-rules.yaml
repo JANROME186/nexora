@@ -1,0 +1,73 @@
+artifact:
+  id: HOP-BR-BCM-SVC-004
+  type: business-rules
+  name: Analyte Catalog Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-004
+  rule_id_pattern: "RN-###"
+
+rules:
+  - id: RN-001
+    statement: An analyte must have a unique code within its laboratory scope.
+    applies_to: AnalyteDefinition
+    enforcement_point: command:CreateAnalyte, command:UpdateAnalyte
+    severity: high
+    audit_required: true
+    generatable: true
+    test_refs: [TST-SVC-004-01]
+  - id: RN-002
+    statement: A numeric analyte must declare a measurement unit and decimal precision.
+    applies_to: AnalyteDefinition
+    enforcement_point: command:CreateAnalyte, command:UpdateAnalyte
+    severity: high
+    audit_required: true
+    generatable: true
+    test_refs: [TST-SVC-004-02]
+  - id: RN-003
+    statement: A coded analyte must declare at least one coded value before publication.
+    applies_to: AnalyteDefinition
+    enforcement_point: command:PublishAnalyte
+    severity: high
+    audit_required: true
+    generatable: true
+    test_refs: [TST-SVC-004-03]
+  - id: RN-004
+    statement: A published analyte version is immutable; edits create a new draft version.
+    applies_to: AnalyteDefinition
+    enforcement_point: command:UpdateAnalyte
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Snapshot copy and version increment logic; ripple review for dependent tests and ranges.
+    test_refs: [TST-SVC-004-04]
+  - id: RN-005
+    statement: Analyte result constraints must be internally consistent (min less than or equal to max).
+    applies_to: AnalyteResultConstraint
+    enforcement_point: command:CreateAnalyte, command:UpdateAnalyte
+    severity: medium
+    audit_required: true
+    generatable: true
+    test_refs: [TST-SVC-004-05]
+  - id: RN-006
+    statement: Changing a published analyte data type requires a new analyte version and dependent range review.
+    applies_to: AnalyteDefinition
+    enforcement_point: command:UpdateAnalyte
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Cross-capability ripple to reference ranges and result capture.
+    test_refs: [TST-SVC-004-06]
+  - id: RN-007
+    statement: Only users with catalog authoring permission may create, update or publish analytes.
+    applies_to: AnalyteDefinition
+    enforcement_point: authorization:catalog.analyte.write
+    severity: critical
+    audit_required: true
+    generatable: true
+    test_refs: [TST-SVC-004-07]
+
+enforcement_summary:
+  generatable_rules: [RN-001, RN-002, RN-003, RN-005, RN-007]
+  custom_implementation_rules: [RN-004, RN-006]

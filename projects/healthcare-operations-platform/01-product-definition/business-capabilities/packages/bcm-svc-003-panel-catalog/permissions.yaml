@@ -1,0 +1,43 @@
+artifact:
+  id: HOP-PERM-BCM-SVC-003
+  type: permissions
+  name: Panel Catalog Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-003
+  depends_on_capability: BCM-PLT-001
+
+scopes:
+  - code: catalog.panel.read
+    description: Read panel definitions and published snapshots.
+  - code: catalog.panel.write
+    description: Create and update panel drafts.
+  - code: catalog.panel.publish
+    description: Publish and deprecate panels.
+
+roles:
+  - role: catalog-administrator
+    grants: [catalog.panel.read, catalog.panel.write]
+  - role: laboratory-manager
+    grants: [catalog.panel.read, catalog.panel.write, catalog.panel.publish]
+  - role: reception-agent
+    grants: [catalog.panel.read]
+
+access_policies:
+  - id: POL-SVC-003-01
+    statement: Catalog write and publish operations are tenant and laboratory scoped.
+    enforcement: row_level_tenant_laboratory_filter
+  - id: POL-SVC-003-02
+    statement: Unpublished drafts are visible only to authors and managers.
+    enforcement: status_based_filter
+
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+    - event: PanelDefinitionCreated
+      fields: [panelId, actorId, tenantId]
+    - event: PanelDefinitionPublished
+      fields: [panelId, version, actorId]
+    - event: PanelDefinitionDeprecated
+      fields: [panelId, actorId]

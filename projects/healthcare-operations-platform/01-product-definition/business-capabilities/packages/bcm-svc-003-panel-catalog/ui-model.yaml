@@ -1,0 +1,50 @@
+artifact:
+  id: HOP-UI-BCM-SVC-003
+  type: ui-model
+  name: Panel Catalog UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-003
+  target_surface: employee_portal
+
+surfaces:
+  employee_portal:
+    status: required
+    generatable: true
+  patient_portal:
+    status: read_only_later
+    generatable: deferred
+  doctor_portal:
+    status: read_only_later
+    generatable: deferred
+
+screens:
+  - id: SCR-SVC-003-01
+    name: Panel List
+    route: /catalog/panels
+    type: list
+    scopes: [catalog.panel.read]
+    components: [DataTable, StatusFilter, SearchBar]
+    generatable: true
+  - id: SCR-SVC-003-02
+    name: Panel Editor
+    route: /catalog/panels/{panelId}
+    type: form
+    scopes: [catalog.panel.write]
+    components: [PanelDetailForm, MemberTestSelector, MemberOrderEditor]
+    generatable: true
+  - id: SCR-SVC-003-03
+    name: Publish Panel Dialog
+    route: /catalog/panels/{panelId}/publish
+    type: confirmation
+    scopes: [catalog.panel.publish]
+    components: [PublicationChecklist, MemberEligibilitySummary]
+    generatable: false
+    custom_reason: Displays cross-aggregate member publication validation results.
+
+states: [draft, published, deprecated, retired]
+
+localization:
+  languages: [en, es]
+  default: es

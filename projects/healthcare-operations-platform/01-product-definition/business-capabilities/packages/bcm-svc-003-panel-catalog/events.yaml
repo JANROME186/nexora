@@ -1,0 +1,42 @@
+artifact:
+  id: HOP-EVT-BCM-SVC-003
+  type: events
+  name: Panel Catalog Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-003
+  aggregate: TestDefinition
+
+domain_events:
+  - name: PanelDefinitionCreated
+    description: A panel draft was created.
+    payload: [panelId, tenantId, laboratoryId, code, version]
+    audit: true
+  - name: PanelDefinitionPublished
+    description: A panel version was published and frozen.
+    payload: [panelId, version, publishedAt, publishedBy]
+    audit: true
+  - name: PanelDefinitionDeprecated
+    description: A panel was deprecated.
+    payload: [panelId, version, deprecatedAt]
+    audit: true
+
+integration_events:
+  published:
+    - name: PanelDefinitionPublished
+      description: Published language consumed by orders and quotations.
+      consumers:
+        - orders-samples
+        - cash-sales
+        - BCM-SVC-001
+  consumed:
+    - name: TestDefinitionPublished
+      source: BCM-SVC-002
+      description: Used to validate member publication eligibility.
+    - name: TestDefinitionDeprecated
+      source: BCM-SVC-002
+      description: Signals potential panel review when a member is deprecated.
+
+published_language:
+  - PanelDefinition

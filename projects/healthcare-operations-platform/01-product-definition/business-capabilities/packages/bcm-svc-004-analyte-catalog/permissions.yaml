@@ -1,0 +1,43 @@
+artifact:
+  id: HOP-PERM-BCM-SVC-004
+  type: permissions
+  name: Analyte Catalog Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-004
+  depends_on_capability: BCM-PLT-001
+
+scopes:
+  - code: catalog.analyte.read
+    description: Read analyte definitions and published snapshots.
+  - code: catalog.analyte.write
+    description: Create and update analyte drafts.
+  - code: catalog.analyte.publish
+    description: Publish and deprecate analytes.
+
+roles:
+  - role: catalog-administrator
+    grants: [catalog.analyte.read, catalog.analyte.write]
+  - role: laboratory-manager
+    grants: [catalog.analyte.read, catalog.analyte.write, catalog.analyte.publish]
+  - role: lab-technician
+    grants: [catalog.analyte.read]
+
+access_policies:
+  - id: POL-SVC-004-01
+    statement: Catalog write and publish operations are tenant and laboratory scoped.
+    enforcement: row_level_tenant_laboratory_filter
+  - id: POL-SVC-004-02
+    statement: Unpublished drafts are visible only to authors and managers.
+    enforcement: status_based_filter
+
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+    - event: AnalyteCreated
+      fields: [analyteId, actorId, tenantId]
+    - event: AnalyteDefinitionPublished
+      fields: [analyteId, version, actorId]
+    - event: AnalyteDefinitionRevised
+      fields: [analyteId, previousVersion, newVersion, actorId]

@@ -2,10 +2,11 @@ artifact:
   id: HOP-CAP-PKG-IDX-001
   type: capability-package-index
   name: HOP Business Capability Package Index
-  version: 1.0.0
+  version: 1.1.0
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.yaml
+  qa_evidence: ../../../08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.yaml
 
 policy:
   primary_development_unit: business_capability_package
@@ -31,27 +32,81 @@ do_not_write_manually:
   - Duplicate models
   - Repetitive test cases
 
-next_capability_package_group:
+active_capability_package_group:
   roadmap_group: MVP-MOD-002
   name: Diagnostic Catalog
-  package_status: not_started
+  package_status: modeled
+  backlog_item: MVP-MOD-002-DEF
+  modeled_date: 2026-07-08
+  required_artifacts_per_package:
+    - capability-package.yaml
+    - business-model.yaml
+    - business-rules.yaml
+    - processes.yaml
+    - events.yaml
+    - openapi-source.yaml
+    - permissions.yaml
+    - ui-model.yaml
+    - mobile-model.yaml
+    - test-model.yaml
+    - observability-model.yaml
+    - generation-plan.yaml
+    - traceability.yaml
+    - README.md
+  next_backlog_item: MVP-MOD-002-BE-001
   capabilities:
     - capability_id: BCM-SVC-001
       package_folder: bcm-svc-001-diagnostic-service-catalog/
+      package_status: modeled
+      bounded_context: catalog-test-configuration
+      primary_aggregate: AGG-006
+      mobile_scope: not_required
     - capability_id: BCM-SVC-002
       package_folder: bcm-svc-002-test-catalog/
+      package_status: modeled
+      bounded_context: catalog-test-configuration
+      primary_aggregate: AGG-006
+      mobile_scope: not_required
     - capability_id: BCM-SVC-003
       package_folder: bcm-svc-003-panel-catalog/
+      package_status: modeled
+      bounded_context: catalog-test-configuration
+      primary_aggregate: AGG-006
+      mobile_scope: not_required
     - capability_id: BCM-SVC-004
       package_folder: bcm-svc-004-analyte-catalog/
+      package_status: modeled
+      bounded_context: catalog-test-configuration
+      secondary_bounded_context: laboratory-results
+      primary_aggregate: AGG-006
+      mobile_scope: not_required
     - capability_id: BCM-SVC-005
       package_folder: bcm-svc-005-patient-preparation-management/
+      package_status: modeled
+      bounded_context: catalog-test-configuration
+      primary_aggregate: AGG-006
+      mobile_scope: deferred
     - capability_id: BCM-SVC-006
       package_folder: bcm-svc-006-reference-range-management/
+      package_status: modeled
+      bounded_context: catalog-test-configuration
+      secondary_bounded_context: laboratory-results
+      primary_aggregate: AGG-006
+      mobile_scope: not_required
     - capability_id: BCM-SVC-007
       package_folder: bcm-svc-007-sample-catalog/
+      package_status: modeled
+      bounded_context: catalog-test-configuration
+      secondary_bounded_context: orders-samples
+      primary_aggregate: AGG-006
+      mobile_scope: not_required
     - capability_id: BCM-SVC-009
       package_folder: bcm-svc-009-price-list-management/
+      package_status: modeled
+      bounded_context: catalog-test-configuration
+      secondary_bounded_context: cash-sales
+      primary_aggregate: AGG-006
+      mobile_scope: not_required
 
 planned_capability_package_groups:
   - roadmap_group: COM-MOD-017

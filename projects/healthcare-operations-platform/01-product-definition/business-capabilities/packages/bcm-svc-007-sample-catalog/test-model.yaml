@@ -1,0 +1,46 @@
+artifact:
+  id: HOP-TEST-BCM-SVC-007
+  type: test-model
+  name: Sample Catalog Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-007
+
+test_cases:
+  - id: TST-SVC-007-01
+    type: unit
+    validates_rule: RN-001
+    statement: Reject duplicate sample type code within a laboratory.
+    generatable: true
+  - id: TST-SVC-007-02
+    type: unit
+    validates_rule: RN-002
+    statement: Reject non-positive minimum volume.
+    generatable: true
+  - id: TST-SVC-007-03
+    type: acceptance
+    validates_rule: RN-003
+    statement: Publishing a requirement fails when the sample type is not published.
+    generatable: false
+  - id: TST-SVC-007-04
+    type: regression
+    validates_rule: RN-004
+    statement: Editing a published requirement creates a new draft and preserves the frozen version.
+    generatable: false
+  - id: TST-SVC-007-05
+    type: acceptance
+    validates_rule: RN-005
+    statement: Publishing fails when storage temperature is missing for a frozen-sensitive matrix.
+    generatable: false
+  - id: TST-SVC-007-06
+    type: contract
+    validates_rule: RN-006
+    statement: Unauthorized users cannot create, update or publish sample catalog entries.
+    generatable: true
+
+test_layers: [contract_tests, unit_tests, acceptance_tests, regression_tests]
+
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests: [TST-SVC-007-03, TST-SVC-007-04, TST-SVC-007-05]

@@ -1,0 +1,89 @@
+artifact:
+  id: HOP-CAP-PKG-BCM-SVC-003
+  type: capability-package
+  name: Panel Catalog Capability Package
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.yaml
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-08
+  roadmap_group: MVP-MOD-002
+  execution_flow_stage: model
+
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+
+capability:
+  id: BCM-SVC-003
+  name:
+    en: Panel Catalog
+    es: Catálogo de Paneles
+  domain: DOM-03 Diagnostic Services
+  priority: High
+  roadmap: MVP1
+  dependency_profile: catalog
+  bounded_context: catalog-test-configuration
+  primary_aggregate: TestDefinition
+  aggregate_ref: AGG-006
+
+scope:
+  summary: >
+    Defines panels that group multiple tests into a single orderable clinical set
+    with shared preparation and sample handling, lifecycle and publication controls.
+  in_scope:
+    - Panel definition and member test composition.
+    - Panel lifecycle draft, published, deprecated.
+    - Published panel snapshot exposure for orders and quotations.
+  out_of_scope:
+    - Individual test definition (BCM-SVC-002).
+    - Service catalog grouping (BCM-SVC-001).
+    - Pricing (BCM-SVC-009).
+
+roadmap:
+  module: MVP-MOD-002
+  release: REL-001
+  package_status: modeled
+  next_backlog_item: MVP-MOD-002-BE-001
+
+dependencies:
+  required_capabilities:
+    - BCM-ORG-001
+    - BCM-ORG-002
+    - BCM-PLT-001
+    - BCM-PLT-007
+    - BCM-SVC-002
+  optional_capabilities: []
+  downstream_capabilities:
+    - BCM-LAB-001
+    - BCM-ATT-006
+  upstream_contexts:
+    - organization-management
+    - identity-access
+    - audit-compliance
+
+product_surfaces:
+  backend: required
+  employee_portal: required
+  patient_portal: read_only_later
+  doctor_portal: read_only_later
+  mobile_app: not_required
+
+required_artifacts:
+  - capability-package.yaml
+  - business-model.yaml
+  - business-rules.yaml
+  - processes.yaml
+  - events.yaml
+  - openapi-source.yaml
+  - permissions.yaml
+  - ui-model.yaml
+  - mobile-model.yaml
+  - test-model.yaml
+  - observability-model.yaml
+  - generation-plan.yaml
+  - traceability.yaml
+  - README.md
