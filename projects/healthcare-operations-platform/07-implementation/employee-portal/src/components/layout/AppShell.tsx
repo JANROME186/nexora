@@ -6,7 +6,8 @@ export type ScreenKey =
   | "branches"
   | "users"
   | "role-assignments"
-  | "audit-events";
+  | "audit-events"
+  | "diagnostic-catalog";
 
 interface ScreenTab {
   key: ScreenKey;
@@ -19,7 +20,8 @@ const TABS: ScreenTab[] = [
   { key: "branches", label: "Branches" },
   { key: "users", label: "Users" },
   { key: "role-assignments", label: "Role Assignments" },
-  { key: "audit-events", label: "Audit Events" }
+  { key: "audit-events", label: "Audit Events" },
+  { key: "diagnostic-catalog", label: "Diagnostic Catalog" }
 ];
 
 interface AppShellProps {
@@ -36,7 +38,7 @@ export function AppShell({ activeScreen, onSelectScreen, children }: AppShellPro
     <div className="app-shell">
       <header className="app-shell__header">
         <h1>Healthcare Operations Platform - Employee Portal Administration</h1>
-        <p>Platform Foundation: tenants, laboratories, branches, users, roles and audit.</p>
+        <p>Platform Foundation and Diagnostic Catalog: administration, audit and catalog configuration.</p>
       </header>
       <nav className="app-shell__nav" aria-label="Administration screens">
         {TABS.map((tab) => (

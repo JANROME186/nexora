@@ -25,5 +25,8 @@ describe("Employee portal app smoke", () => {
 
     await user.click(screen.getByRole("button", { name: "Audit Events" }));
     expect(screen.getByRole("heading", { name: "Audit Search" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Diagnostic Catalog" }));
+    expect(screen.getByRole("heading", { name: "Diagnostic Catalog" })).toBeInTheDocument();
   });
 });

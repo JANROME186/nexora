@@ -6,6 +6,7 @@ import { BranchesScreen } from "./components/screens/BranchesScreen";
 import { UsersScreen } from "./components/screens/UsersScreen";
 import { RoleAssignmentsScreen } from "./components/screens/RoleAssignmentsScreen";
 import { AuditEventsScreen } from "./components/screens/AuditEventsScreen";
+import { DiagnosticCatalogScreen } from "./components/screens/DiagnosticCatalogScreen";
 import { AdminScopeProvider } from "./state/AdminScopeContext";
 
 function renderScreen(screen: ScreenKey) {
@@ -22,6 +23,8 @@ function renderScreen(screen: ScreenKey) {
       return <RoleAssignmentsScreen />;
     case "audit-events":
       return <AuditEventsScreen />;
+    case "diagnostic-catalog":
+      return <DiagnosticCatalogScreen />;
     default:
       return null;
   }

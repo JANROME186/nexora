@@ -48,7 +48,7 @@ framework:
 projects:
   healthcare_operations_platform:
     path: projects/healthcare-operations-platform/
-    status: commercial_product_backlog_ready
+    status: commercial_product_development_in_progress
     business_requirement: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md
     business_requirement_yaml: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.yaml
     business_requirement_index: projects/healthcare-operations-platform/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml
@@ -82,7 +82,8 @@ projects:
       - MVP-MOD-002-DEF
       - MVP-MOD-002-BE-001
       - MVP-MOD-002-BE-002
-    active_backlog_item: MVP-MOD-002-FE-001
+      - MVP-MOD-002-FE-001
+    active_backlog_item: MVP-MOD-002-QA-001
 
 agent_policy:
   agent_agnostic: true

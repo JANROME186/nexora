@@ -53,3 +53,7 @@ export function get<TResponse>(path: string): Promise<TResponse> {
 export function post<TResponse, TBody = unknown>(path: string, body: TBody): Promise<TResponse> {
   return request<TResponse>(path, { method: "POST", body: JSON.stringify(body) });
 }
+
+export function put<TResponse, TBody = unknown>(path: string, body: TBody): Promise<TResponse> {
+  return request<TResponse>(path, { method: "PUT", body: JSON.stringify(body) });
+}

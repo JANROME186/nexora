@@ -26,9 +26,9 @@ projects:
   - slug: healthcare-operations-platform
     name: Healthcare Operations Platform
     path: projects/healthcare-operations-platform/
-    status: commercial_product_backlog_ready
+    status: commercial_product_development_in_progress
     active_module: MVP-MOD-002
-    active_backlog_item: MVP-MOD-002-FE-001
+    active_backlog_item: MVP-MOD-002-QA-001
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -42,9 +42,10 @@ projects:
       - MVP-MOD-002-DEF
       - MVP-MOD-002-BE-001
       - MVP-MOD-002-BE-002
+      - MVP-MOD-002-FE-001
     structure: ordered_numbered_folders
 next_deliverables:
-  - Compile MVP-MOD-002 employee catalog UI outputs (MVP-MOD-002-FE-001)
+  - Validate MVP-MOD-002 generated outputs, contracts, rules, UI and quality evidence (MVP-MOD-002-QA-001)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake

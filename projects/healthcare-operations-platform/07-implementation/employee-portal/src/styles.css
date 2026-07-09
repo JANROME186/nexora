@@ -143,3 +143,56 @@ td {
   gap: 0.5rem;
   margin-top: 1rem;
 }
+
+.catalog-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.catalog-toolbar__button {
+  background: #eef2ff;
+  color: #1a1f2b;
+  border: 1px solid #ccd5ff;
+}
+
+.catalog-toolbar__button--active {
+  background: #1a4fd6;
+  color: white;
+  border-color: #1a4fd6;
+}
+
+.catalog-status {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: #eef2f5;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.catalog-status--published {
+  background: #e6f4ea;
+  color: #1e7a34;
+}
+
+.catalog-status--draft {
+  background: #fff4ce;
+  color: #735c00;
+}
+
+.catalog-status--deprecated,
+.catalog-status--retired {
+  background: #fce8e6;
+  color: #b3261e;
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #1a4fd6;
+  text-align: left;
+  text-decoration: underline;
+}
