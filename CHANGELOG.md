@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.65.0] - 2026-07-08
+
+### Added
+- Added `BCM-PLT-010 Open Data Ingestion and Migration` as a critical MVP1 platform capability.
+- Added the HOP Open Data Ingestion Contract in Markdown and YAML.
+- Added simple migration package expectations for CSV, XLSX, JSON, NDJSON and ZIP bundles with manifest, validation, reconciliation and audit outputs.
+
+### Changed
+- Updated the HOP commercial backlog so `MVP-MOD-008` includes open data ingestion and migration readiness.
+- Updated capability dependency coverage from 90 to 91 mapped capabilities.
+
 ## [0.64.0] - 2026-07-08
 
 ### Added

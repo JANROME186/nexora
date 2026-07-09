@@ -46,6 +46,7 @@ commercialization_objective:
     - Revenue, billing request, payments and reconciliation boundaries are usable by a real operation.
     - Security, audit, observability, supportability and deployment operations are production-ready.
     - Integration and migration boundaries allow customers to onboard without coupling HOP to legacy platforms.
+    - Customer data can be ingested from simple open formats that any incumbent system provider can deliver without proprietary dependencies.
     - Compliance, quality, documentation and customer enablement are sufficient for a paid pilot and general availability.
   explicit_boundaries:
     - Country-specific fiscal connectors are adapter implementations and must not block core billing request readiness.
@@ -101,7 +102,7 @@ commercial_readiness_pillars:
     description: The product can be deployed, monitored, supported, backed up and upgraded predictably.
   - id: CRP-006
     name: Integration and migration readiness
-    description: External systems and legacy datasets pass through stable anti-corruption and validation boundaries.
+    description: External systems and legacy datasets pass through stable anti-corruption, simple-format ingestion, validation and reconciliation boundaries.
   - id: CRP-007
     name: Customer enablement readiness
     description: Onboarding, configuration, training, support and launch materials exist for customers.
@@ -486,6 +487,7 @@ modules:
     capabilities:
       - BCM-PLT-004
       - BCM-PLT-005
+      - BCM-PLT-010
     product_surfaces:
       backend: required
       employee_portal: admin_required
@@ -498,7 +500,7 @@ modules:
       - id: MVP-MOD-008-BE-001
         name: Compile integration adapter contracts and API governance outputs
       - id: MVP-MOD-008-BE-002
-        name: Implement migration import validation custom rules
+        name: Implement simple-format ingestion, validation and reconciliation custom rules
       - id: MVP-MOD-008-FE-001
         name: Compile integration and migration administration UI outputs
       - id: MVP-MOD-008-QA-001
@@ -507,7 +509,9 @@ modules:
         name: Operational Core closeout
     acceptance_summary:
       - External messages are normalized before reaching domain modules.
-      - Imports validate data before mutation and produce actionable reports.
+      - Imports use simple provider-deliverable formats such as CSV, XLSX, JSON, NDJSON and ZIP bundles.
+      - Imports validate data before mutation and produce actionable reconciliation reports.
+      - Migration jobs are auditable, retryable and never bypass domain commands.
       - Public, internal and partner APIs are classified and governed.
 
   - id: COM-MOD-009

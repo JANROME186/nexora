@@ -126,6 +126,15 @@ dependency_profiles:
     affected_mobile_apps: [patient_app, doctor_app, staff_app]
     integration_requirements: [openapi, webhooks, eventing]
     migration_relevance: medium
+  data_ingestion_migration:
+    required_capabilities: [BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-001, BCM-PLT-007]
+    optional_capabilities: [BCM-PLT-005, BCM-PLT-006, BCM-PLT-008]
+    upstream_dependencies: [organization-management, identity-access, audit-compliance, observability]
+    downstream_dependency_role: "Imports legacy customer data through simple open formats, validation, reconciliation and anti-corruption mappings before domain mutation."
+    affected_portals: [employee_portal]
+    affected_mobile_apps: []
+    integration_requirements: [csv, xlsx, json, ndjson, zip, openapi]
+    migration_relevance: critical
   ai_overlay:
     required_capabilities: [BCM-PLT-001, BCM-PLT-006, BCM-PLT-007, BCM-PLT-004]
     optional_capabilities: [BCM-RES-001, BCM-LAB-009, BCM-PLT-008]
@@ -884,6 +893,15 @@ capabilities:
     related_aggregates: []
     downstream_dependencies: [BCM-LAB-008, BCM-LAB-009, BCM-QLT-006]
     ai_opportunities: [workflow-bottleneck-analysis]
+  - id: BCM-PLT-010
+    name: Open Data Ingestion and Migration
+    profile: data_ingestion_migration
+    mvp_phase: MVP1
+    product_area: platform_core
+    related_bounded_contexts: [data-migration-portability, integration-interoperability, audit-compliance]
+    related_aggregates: [MigrationJob, ImportBatch, ImportValidationReport]
+    downstream_dependencies: [BCM-PER-001, BCM-PER-002, BCM-PER-003, BCM-SVC-001, BCM-SVC-002, BCM-SVC-009, BCM-LAB-001, BCM-RES-001]
+    ai_opportunities: [field-mapping-assistant, import-error-explanation, data-quality-summary]
 
   - id: BCM-AI-001
     name: Administrative Assistant
@@ -960,8 +978,8 @@ capabilities:
 
 coverage:
   expected_capability_source: BCM-001
-  expected_capability_count: 90
-  mapped_capability_count: 90
+  expected_capability_count: 91
+  mapped_capability_count: 91
   open_items:
     - BCM-001 has no explicit capability for tax authority connector variants; keep them as country-pack adapters under Billing Request Management.
     - Imaging is intentionally sequenced after laboratory MVP because DICOM/PACS requires separate operational readiness.

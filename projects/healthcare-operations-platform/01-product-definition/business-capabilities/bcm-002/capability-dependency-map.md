@@ -8,7 +8,7 @@ This artifact is not a runtime architecture diagram. It is a sequencing and trac
 
 ## Scope
 
-BCM-002 covers all 90 capabilities from BCM-001.
+BCM-002 covers all 91 capabilities from BCM-001.
 
 Each capability is mapped to:
 

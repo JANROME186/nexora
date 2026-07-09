@@ -78,6 +78,10 @@ Capability package index:
 
 `projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/capability-package-index.yaml`
 
+Open data ingestion contract:
+
+`projects/healthcare-operations-platform/05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml`
+
 Project folder:
 
 `projects/healthcare-operations-platform/`

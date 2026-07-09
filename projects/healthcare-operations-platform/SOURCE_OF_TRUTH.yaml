@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.64.0
+  version: 0.65.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -19,6 +19,8 @@ sources:
   capability_dependency_map: 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.yaml
   capability_packages_root: 01-product-definition/business-capabilities/packages/
+  open_data_ingestion_contract: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md
+  open_data_ingestion_contract_yaml: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml
   actor_catalog: 02-domain-definition/actors/acm-001/actor-catalog.yaml
   healthcare_reference_processes: 02-domain-definition/processes/hrp-001/healthcare-reference-processes.yaml
   business_rules_catalog: 02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml
@@ -81,5 +83,6 @@ rules:
   - HOP follows Nexora Model Driven Product Engineering.
   - Business Capability Packages are the primary development unit.
   - Modules are roadmap groupings and must not replace capability packages as source of truth.
+  - Migration must support simple open ingestion formats that incumbent providers can reasonably export.
   - Generated artifacts must not be edited manually.
   - Architecture changes require ADR.

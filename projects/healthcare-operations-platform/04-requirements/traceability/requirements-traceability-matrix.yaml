@@ -4,9 +4,9 @@ artifact:
   version: 1.0.0
   status: approved
 summary:
-  capabilities: 90
-  functional_requirements: 450
-  user_stories: 450
+  capabilities: 91
+  functional_requirements: 455
+  user_stories: 455
 traceability:
 - capability: BCM-ORG-001
   requirements:
@@ -1508,6 +1508,31 @@ traceability:
   events: *id029
   portals: *id030
   roadmap: MVP2
+- capability: BCM-PLT-010
+  requirements:
+  - FR-PLT-010-001
+  - FR-PLT-010-002
+  - FR-PLT-010-003
+  - FR-PLT-010-004
+  - FR-PLT-010-005
+  stories:
+  - US-PLT-010-001
+  - US-PLT-010-002
+  - US-PLT-010-003
+  - US-PLT-010-004
+  - US-PLT-010-005
+  aggregates:
+  - MigrationJob
+  - ImportBatch
+  - ImportValidationReport
+  events:
+  - MigrationJobCreated
+  - ImportPackageReceived
+  - ImportDryRunValidated
+  - ImportReconciled
+  portals:
+  - employee_portal
+  roadmap: MVP1
 - capability: BCM-AI-001
   requirements:
   - FR-AI-001-001

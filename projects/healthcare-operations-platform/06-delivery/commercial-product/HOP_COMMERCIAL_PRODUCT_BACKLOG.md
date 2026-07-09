@@ -50,6 +50,7 @@ The product is considered ready for commercial general availability only when:
 - Revenue, billing request, payments and reconciliation boundaries are usable by a real operation.
 - Security, audit, observability, supportability and deployment operations are production-ready.
 - Integration and migration boundaries allow customers to onboard without coupling HOP to legacy platforms.
+- Customer data can be ingested from simple open formats that any incumbent system provider can deliver without proprietary dependencies.
 - Compliance, quality, documentation and customer enablement are sufficient for a paid pilot and general availability.
 
 ## Release Plan

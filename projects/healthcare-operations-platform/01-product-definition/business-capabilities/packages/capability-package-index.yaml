@@ -52,3 +52,15 @@ next_capability_package_group:
       package_folder: bcm-svc-007-sample-catalog/
     - capability_id: BCM-SVC-009
       package_folder: bcm-svc-009-price-list-management/
+
+planned_capability_package_groups:
+  - roadmap_group: MVP-MOD-008
+    name: Integration and Migration Readiness
+    package_status: not_started
+    capabilities:
+      - capability_id: BCM-PLT-004
+        package_folder: bcm-plt-004-integration-management/
+      - capability_id: BCM-PLT-005
+        package_folder: bcm-plt-005-api-management/
+      - capability_id: BCM-PLT-010
+        package_folder: bcm-plt-010-open-data-ingestion-and-migration/

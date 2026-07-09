@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.64.0
+  version: 0.65.0
   status: ready
 
 company:
@@ -55,6 +55,7 @@ projects:
     commercial_product_backlog: projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
     commercial_backlog_execution_prompts: projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
     capability_package_index: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/capability-package-index.yaml
+    open_data_ingestion_contract: projects/healthcare-operations-platform/05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml
     source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
     active_module: MVP-MOD-002
     completed_backlog_items:

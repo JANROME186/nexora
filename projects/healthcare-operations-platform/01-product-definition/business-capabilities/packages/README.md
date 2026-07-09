@@ -24,3 +24,7 @@ The first capability packages to create belong to `MVP-MOD-002 Diagnostic Catalo
 - `bcm-svc-006-reference-range-management/`
 - `bcm-svc-007-sample-catalog/`
 - `bcm-svc-009-price-list-management/`
+
+The ingestion and migration capability package to create for `MVP-MOD-008` is:
+
+- `bcm-plt-010-open-data-ingestion-and-migration/`

@@ -20,7 +20,7 @@ This requirements package defines the initial complete requirements baseline for
 
 ## Summary
 
-- Business capabilities: 90
+- Business capabilities: 91
 - Functional requirements: 450
 - User stories: 450
 - Product areas: 11

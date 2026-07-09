@@ -12,8 +12,8 @@ artifact:
   - 04-generated/diagrams/product/business-capability-map.mmd
 summary:
   domains: 11
-  capabilities: 90
-  critical: 25
+  capabilities: 91
+  critical: 26
   high: 59
   medium: 6
 domains:
@@ -701,6 +701,14 @@ domains:
         es: Motor de Workflows
       priority: High
       roadmap: MVP2
+      status: draft
+      source: BCM-001
+    - id: BCM-PLT-010
+      name:
+        en: Open Data Ingestion and Migration
+        es: Ingesta Abierta de Datos y Migración
+      priority: Critical
+      roadmap: MVP1
       status: draft
       source: BCM-001
   DOM-11:
