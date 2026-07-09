@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.65.0
+  version: 0.66.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -14,6 +14,7 @@ sources:
   agent_agnostic_standard: ../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
   model_driven_product_engineering_standard: ../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
   capability_package_standard: ../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+  open_data_ingestion_standard: ../../nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml
   product_definition: 01-product-definition/products/healthcare-operations-platform/product.yaml
   business_capability_map: 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
   capability_dependency_map: 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml

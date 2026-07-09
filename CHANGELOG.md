@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.66.0] - 2026-07-08
+
+### Added
+- Added reusable Nexora Open Data Ingestion Standard in Markdown and YAML.
+- Registered the Open Data Ingestion Standard in the framework execution sequence and repository source of truth.
+
+### Changed
+- Linked the HOP Open Data Ingestion Contract to the reusable framework standard.
+- Updated repository and HOP project state to mark open data ingestion as framework-level guidance.
+
 ## [0.65.0] - 2026-07-08
 
 ### Added

@@ -4,6 +4,8 @@ Artifact ID: `HOP-ODI-001`
 Version: `1.0.0`
 Status: `approved`
 
+Framework standard: `NXF-ODI-STD-001 Open Data Ingestion Standard`
+
 ## Purpose
 
 This contract defines how HOP ingests information from another laboratory platform during migration.

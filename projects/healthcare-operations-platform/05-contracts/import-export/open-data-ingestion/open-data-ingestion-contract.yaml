@@ -7,8 +7,14 @@ artifact:
   human_readable: open-data-ingestion-contract.md
   machine_readable: open-data-ingestion-contract.yaml
   owner: Nexora Product Architecture Team
+  implements_framework_standard: ../../../../nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml
 
 purpose: Define simple, provider-deliverable ingestion formats and validation processes for migrating a diagnostic laboratory from another platform into HOP.
+
+framework_standard:
+  id: NXF-ODI-STD-001
+  name: Open Data Ingestion Standard
+  path: ../../../../nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml
 
 capability:
   id: BCM-PLT-010

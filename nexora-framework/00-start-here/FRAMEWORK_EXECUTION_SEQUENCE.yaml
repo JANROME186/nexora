@@ -30,6 +30,7 @@ sequence:
       - 02-standards/standards/agent-agnostic-standard.yaml
       - 02-standards/standards/model-driven-product-engineering-standard.yaml
       - 02-standards/standards/capability-package-standard.yaml
+      - 02-standards/standards/open-data-ingestion-standard.yaml
   - step: "03"
     folder: 03-orchestration
     responsibility: Decide whether a target project needs analysis, validation or development.

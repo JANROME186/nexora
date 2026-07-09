@@ -1,6 +1,6 @@
 repository: Nexora
-repository_version: 0.65.0
-current_phase: Open Data Ingestion Capability Added
+repository_version: 0.66.0
+current_phase: Open Data Ingestion Framework Standard Added
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -14,6 +14,7 @@ framework:
     - nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
     - nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
     - nexora-framework/02-standards/standards/capability-package-standard.yaml
+    - nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml
   orchestration:
     - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
   recipe:
@@ -60,4 +61,5 @@ development_readiness:
   mdpe_standard_ready: true
   capability_package_standard_ready: true
   open_data_ingestion_contract_ready: true
+  open_data_ingestion_standard_ready: true
   blocking_definition_gaps: []

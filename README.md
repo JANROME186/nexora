@@ -82,6 +82,10 @@ Open data ingestion contract:
 
 `projects/healthcare-operations-platform/05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml`
 
+Reusable framework standard:
+
+`nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
+
 Project folder:
 
 `projects/healthcare-operations-platform/`

@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.65.0
+  version: 0.66.0
   status: approved
 sources:
   repository_readme: README.md
@@ -24,6 +24,8 @@ sources:
   model_driven_product_engineering_standard_md: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
   capability_package_standard: nexora-framework/02-standards/standards/capability-package-standard.yaml
   capability_package_standard_md: nexora-framework/02-standards/standards/capability-package-standard.md
+  open_data_ingestion_standard: nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml
+  open_data_ingestion_standard_md: nexora-framework/02-standards/standards/open-data-ingestion-standard.md
   model_driven_product_engineering_adr: nexora-framework/07-governance/adr/ADR-031-model-driven-product-engineering-and-capability-packages.md
   agent_to_mvp_recipe: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   generic_project_lifecycle_prompts: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
@@ -97,5 +99,6 @@ rules:
   - Nexora follows Model Driven Product Engineering; editable models are the durable source of truth.
   - HOP development must deliver Business Capability Packages as the primary development unit.
   - Modules are roadmap groupings and must not replace capability packages as source of truth.
+  - Nexora projects that require migration must apply the Open Data Ingestion Standard.
   - HOP migration must support simple open ingestion formats that incumbent providers can reasonably export.
   - Generated artifacts must not be edited manually.
