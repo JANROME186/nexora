@@ -26,6 +26,33 @@ policy:
     - unsupported_runtime_blocks_safe_development
     - quality_gate_cannot_run_without_upgrade
 
-item_path_pattern: 08-qa/technical-debt/<debt-id>.yaml
+item_path_pattern: 08-qa/technical-debt/<debt-id>-<short-name>.yaml
 
-entries: []
+entries:
+  - id: TD-QA-001
+    title: Automate DAST baseline scans for runnable web and API surfaces
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-002-QA-001
+    affected_area: integrated_web_and_api_runtime
+    file: 08-qa/technical-debt/TD-QA-001-dast-automation.yaml
+    remediation_strategy: gradual_when_affected_components_are_touched
+  - id: TD-QA-002
+    title: Upgrade Trivy scanner version in local and CI quality toolchain
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: MVP-MOD-002-QA-001
+    affected_area: vulnerability_secret_misconfiguration_scanning
+    file: 08-qa/technical-debt/TD-QA-002-trivy-tool-upgrade.yaml
+    remediation_strategy: gradual_when_quality_toolchain_is_touched
+  - id: TD-BE-001
+    title: Configure Mockito Java agent for future JDK test compatibility
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: MVP-MOD-002-QA-001
+    affected_area: backend_test_infrastructure
+    file: 08-qa/technical-debt/TD-BE-001-mockito-java-agent.yaml
+    remediation_strategy: gradual_when_backend_test_infrastructure_is_touched

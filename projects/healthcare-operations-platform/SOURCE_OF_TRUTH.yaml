@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.71.0
+  version: 0.72.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -53,11 +53,19 @@ sources:
   mvp_mod_002_fe_001_qa_evidence_yaml: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-FE-001-validation.yaml
   mvp_mod_002_fe_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-002-FE-001/security-quality-evidence.md
   mvp_mod_002_fe_001_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-002-FE-001/security-quality-evidence.yaml
+  mvp_mod_002_qa_001_qa_evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-QA-001-validation.md
+  mvp_mod_002_qa_001_qa_evidence_yaml: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-QA-001-validation.yaml
+  mvp_mod_002_qa_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.md
+  mvp_mod_002_qa_001_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.yaml
+  mvp_mod_002_backend_pom: 07-implementation/backend/pom.xml
   security_quality_evidence_root: 08-qa/security-quality/
   security_quality_evidence_index: 08-qa/security-quality/security-quality-index.yaml
   security_quality_evidence_readme: 08-qa/security-quality/README.md
   technical_debt_index: 08-qa/technical-debt/technical-debt-index.yaml
   technical_debt_readme: 08-qa/technical-debt/README.md
+  technical_debt_td_qa_001: 08-qa/technical-debt/TD-QA-001-dast-automation.yaml
+  technical_debt_td_qa_002: 08-qa/technical-debt/TD-QA-002-trivy-tool-upgrade.yaml
+  technical_debt_td_be_001: 08-qa/technical-debt/TD-BE-001-mockito-java-agent.yaml
   open_data_ingestion_contract: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md
   open_data_ingestion_contract_yaml: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml
   open_data_ingestion_requirements: 04-requirements/capabilities/bcm-plt-010-open-data-ingestion-and-migration/requirements.yaml

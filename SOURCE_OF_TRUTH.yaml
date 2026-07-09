@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.71.0
+  version: 0.72.0
   status: approved
 sources:
   repository_readme: README.md
@@ -101,6 +101,14 @@ sources:
   hop_mvp_mod_001_closeout_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/MVP-MOD-001-closeout.yaml
   hop_security_quality_evidence_root: projects/healthcare-operations-platform/08-qa/security-quality/
   hop_security_quality_evidence_index: projects/healthcare-operations-platform/08-qa/security-quality/security-quality-index.yaml
+  hop_technical_debt_index: projects/healthcare-operations-platform/08-qa/technical-debt/technical-debt-index.yaml
+  hop_mvp_mod_002_qa_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/catalog-test-configuration/MVP-MOD-002-QA-001-validation.md
+  hop_mvp_mod_002_qa_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/catalog-test-configuration/MVP-MOD-002-QA-001-validation.yaml
+  hop_mvp_mod_002_qa_001_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.md
+  hop_mvp_mod_002_qa_001_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.yaml
+  hop_technical_debt_td_qa_001: projects/healthcare-operations-platform/08-qa/technical-debt/TD-QA-001-dast-automation.yaml
+  hop_technical_debt_td_qa_002: projects/healthcare-operations-platform/08-qa/technical-debt/TD-QA-002-trivy-tool-upgrade.yaml
+  hop_technical_debt_td_be_001: projects/healthcare-operations-platform/08-qa/technical-debt/TD-BE-001-mockito-java-agent.yaml
 rules:
   - Nexora is the company and repository-level framework owner.
   - Nexora final vision and strategic handoff define company-level intent and must remain agent agnostic.

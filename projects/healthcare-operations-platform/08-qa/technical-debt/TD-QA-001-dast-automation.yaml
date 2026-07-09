@@ -1,0 +1,44 @@
+artifact:
+  id: TD-QA-001
+  type: technical-debt-item
+  name: Automate DAST baseline scans for runnable web and API surfaces
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-09
+
+source:
+  discovered_during_backlog_item: MVP-MOD-002-QA-001
+  module: MVP-MOD-002 Diagnostic Catalog
+  evidence: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.yaml
+
+classification:
+  category: quality_tooling
+  affected_area: integrated_web_and_api_runtime
+  risk_level: medium
+  blocking: false
+  reason_non_blocking: Manual integrated HTTP smoke passed and no HIGH/CRITICAL dependency findings remain.
+
+current_state:
+  issue: OWASP ZAP CLI or container execution was not available in the local validation toolchain.
+  compensating_control: Manual health and Diagnostic Catalog create/list/publish HTTP smoke was executed successfully.
+
+target_state:
+  preferred_open_source_tooling:
+    - OWASP ZAP baseline scan for employee portal routes.
+    - OWASP ZAP API scan for OpenAPI-backed backend surfaces.
+  expected_integration_points:
+    - local quality gate script
+    - CI security quality workflow
+    - module closeout evidence
+
+remediation:
+  strategy: gradual_when_affected_components_are_touched
+  recommended_trigger:
+    - next integrated runtime quality gate
+    - release hardening
+    - CI pipeline implementation
+    - security-quality standard expansion
+  acceptance_criteria:
+    - DAST can run repeatably against local backend and employee portal.
+    - Findings are exported to YAML/Markdown evidence.
+    - HIGH or CRITICAL DAST findings block release unless explicitly accepted through governance.

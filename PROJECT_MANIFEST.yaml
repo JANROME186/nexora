@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.71.0
+  version: 0.72.0
   status: ready
 
 company:
@@ -85,7 +85,8 @@ projects:
       - MVP-MOD-002-BE-001
       - MVP-MOD-002-BE-002
       - MVP-MOD-002-FE-001
-    active_backlog_item: MVP-MOD-002-QA-001
+      - MVP-MOD-002-QA-001
+    active_backlog_item: MVP-MOD-002-CLOSEOUT
 
 agent_policy:
   agent_agnostic: true

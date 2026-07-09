@@ -43,3 +43,17 @@ entries:
       coverage: passed
       dast_for_runnable_web_or_api_surfaces: not_applicable_for_backlog
       container_or_iac_scan_when_assets_change: not_applicable_for_backlog
+  - backlog_item: MVP-MOD-002-QA-001
+    module: MVP-MOD-002 Diagnostic Catalog
+    status: passed
+    evidence_path: 08-qa/security-quality/MVP-MOD-002-QA-001/
+    human_readable: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: passed
+      dependency_vulnerability_scan: passed_after_remediation
+      secrets_scan: passed
+      coverage: passed
+      dast_for_runnable_web_or_api_surfaces: deferred_with_technical_debt
+      container_or_iac_scan_when_assets_change: passed
