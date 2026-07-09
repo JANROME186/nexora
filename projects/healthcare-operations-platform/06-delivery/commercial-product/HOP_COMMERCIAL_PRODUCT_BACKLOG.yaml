@@ -24,6 +24,8 @@ source_inputs:
   framework:
     - ../../../../nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml
     - ../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+    - ../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+    - ../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
     - ../../../../nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   project:
     - ../../BUSINESS_REQUIREMENT.md
@@ -49,6 +51,37 @@ commercialization_objective:
     - Country-specific fiscal connectors are adapter implementations and must not block core billing request readiness.
     - AI features are commercial differentiators but cannot validate, release or amend clinical results.
     - Imaging may be delivered as an expansion package if the first commercial launch focuses on clinical laboratory operations.
+
+mdpe_policy:
+  architecture: Model Driven Product Engineering
+  primary_development_unit: Business Capability Package
+  roadmap_grouping_unit: module
+  source_of_truth_rule: Models are the only durable editable source of truth.
+  execution_flow:
+    - model
+    - compile
+    - implement_rules
+    - validate
+    - release
+  do_not_write_manually:
+    - CRUD scaffolding
+    - DTOs
+    - Controllers
+    - Repositories
+    - Swagger documentation
+    - SDKs
+    - Repetitive documentation
+    - Duplicate models
+    - Repetitive test cases
+  write_manually:
+    - Business model
+    - Business rules
+    - Business processes
+    - Domain decisions
+    - OpenAPI source contracts
+    - Non-generatable custom rule implementation
+    - Compiler templates and generators
+    - Architecture decisions
 
 commercial_readiness_pillars:
   - id: CRP-001
@@ -133,12 +166,15 @@ global_definition_of_ready:
   - Security roles, audit events, data retention and privacy expectations are documented.
   - Web, mobile and portal surfaces are classified as in-scope, deferred or not applicable.
   - Tests, traceability and closeout evidence expected for the module are defined before implementation.
+  - Capability Package models exist for every capability included in the target roadmap group.
+  - Generation plan identifies generated outputs and custom implementation points.
 
 global_definition_of_done:
-  - Module required artifacts exist in YAML and Markdown when applicable.
-  - Backend implementation passes unit, integration and contract tests relevant to the module.
-  - Web implementation passes typecheck, automated tests and build.
-  - Mobile or portal implementation passes typecheck, automated tests and build when in scope.
+  - Capability Package required artifacts exist in YAML and Markdown when applicable.
+  - Generated outputs trace to source models.
+  - Backend implementation passes generated and custom unit, integration and contract tests relevant to the capability.
+  - Web implementation passes generated and custom typecheck, automated tests and build.
+  - Mobile or portal implementation passes generated and custom typecheck, automated tests and build when in scope.
   - Database migrations are reversible where practical and documented when not reversible.
   - Security and audit rules are implemented and validated.
   - OpenAPI contracts are updated and remain compatible or have migration notes.
@@ -147,29 +183,42 @@ global_definition_of_done:
   - PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml are updated.
   - No agent-specific dependency, prompt or configuration is required.
 
-module_execution_contract:
-  required_definition_artifacts:
-    - module-definition.yaml
-    - module-definition.md
-    - domain-model.yaml
-    - domain-model.md
-    - api-contract.openapi.yaml
-    - database-migration-plan.yaml
-    - database-migration-plan.md
-    - ui-screen-map.yaml
-    - ui-screen-map.md
-    - security-and-audit-rules.yaml
-    - security-and-audit-rules.md
-    - test-plan.yaml
-    - test-plan.md
+capability_package_execution_contract:
+  package_root: ../../01-product-definition/business-capabilities/packages/
+  required_model_artifacts:
+    - capability-package.yaml
+    - business-model.yaml
+    - business-rules.yaml
+    - processes.yaml
+    - events.yaml
+    - openapi-source.yaml
+    - permissions.yaml
+    - ui-model.yaml
+    - mobile-model.yaml
+    - test-model.yaml
+    - observability-model.yaml
+    - generation-plan.yaml
     - traceability.yaml
-  required_implementation_streams:
+    - README.md
+  generated_platform_outputs:
     - backend
     - employee_portal
     - mobile_app_when_applicable
     - patient_or_doctor_portal_when_applicable
-    - qa_evidence
-    - operations_and_support_when_applicable
+    - openapi_rendered_contracts
+    - sdk_when_applicable
+    - repetitive_tests
+    - repetitive_documentation
+    - observability_assets
+  custom_implementation_streams:
+    - non_generatable_business_rules
+    - external_adapters
+    - security_sensitive_policies
+    - performance_sensitive_queries
+    - ambiguous_migration_mappings
+  legacy_module_definition_artifacts:
+    status: compatibility_only
+    rule: Module definition packages may group capability packages but must not replace them as the source of truth.
 
 modules:
   - id: MVP-MOD-002
@@ -198,17 +247,17 @@ modules:
       mobile_app: not_required
     backlog_items:
       - id: MVP-MOD-002-DEF
-        name: Definition package
+        name: Capability package models for Diagnostic Catalog
       - id: MVP-MOD-002-BE-001
-        name: Catalog domain, persistence and API baseline
+        name: Compile catalog backend outputs from capability packages
       - id: MVP-MOD-002-BE-002
-        name: Catalog versioning, publish workflow and price snapshots
+        name: Implement catalog custom business rules
       - id: MVP-MOD-002-FE-001
-        name: Employee catalog administration screens
+        name: Compile employee catalog UI outputs from UI models
       - id: MVP-MOD-002-QA-001
-        name: Catalog contract, regression and smoke evidence
+        name: Validate generated outputs, contracts, rules and smoke evidence
       - id: MVP-MOD-002-CLOSEOUT
-        name: Module closeout and registry update
+        name: Capability package group closeout and registry update
     acceptance_summary:
       - Staff can define and publish tests, panels, analytes and sample requirements.
       - Orders can consume only published catalog snapshots.
@@ -236,13 +285,13 @@ modules:
       mobile_app: patient_profile_later
     backlog_items:
       - id: MVP-MOD-003-DEF
-        name: Definition package
+        name: Capability package models
       - id: MVP-MOD-003-BE-001
-        name: Patient, doctor and person APIs
+        name: Compile patient, doctor and person backend outputs
       - id: MVP-MOD-003-BE-002
-        name: Duplicate detection and portal identity linking hooks
+        name: Implement duplicate detection and portal identity custom rules
       - id: MVP-MOD-003-FE-001
-        name: Patient and doctor management screens
+        name: Compile patient and doctor management UI outputs
       - id: MVP-MOD-003-QA-001
         name: Master data validation and privacy evidence
       - id: MVP-MOD-003-CLOSEOUT
@@ -276,13 +325,13 @@ modules:
       mobile_app: check_in_later
     backlog_items:
       - id: MVP-MOD-004-DEF
-        name: Definition package
+        name: Capability package models
       - id: MVP-MOD-004-BE-001
-        name: Appointment, reception and order APIs
+        name: Compile appointment, reception and order backend outputs
       - id: MVP-MOD-004-BE-002
-        name: Quote calculation and order lifecycle events
+        name: Implement quote calculation and order lifecycle custom rules
       - id: MVP-MOD-004-FE-001
-        name: Front desk worklist and order creation screens
+        name: Compile front desk worklist and order creation UI outputs
       - id: MVP-MOD-004-QA-001
         name: Order lifecycle and snapshot evidence
       - id: MVP-MOD-004-CLOSEOUT
@@ -314,13 +363,13 @@ modules:
       mobile_app: payment_receipt_later
     backlog_items:
       - id: MVP-MOD-005-DEF
-        name: Definition package
+        name: Capability package models
       - id: MVP-MOD-005-BE-001
-        name: Cash session, payment and sale APIs
+        name: Compile cash session, payment and sale backend outputs
       - id: MVP-MOD-005-BE-002
-        name: Billing request adapter boundary
+        name: Implement billing request adapter custom boundary
       - id: MVP-MOD-005-FE-001
-        name: Cashier and billing request screens
+        name: Compile cashier and billing request UI outputs
       - id: MVP-MOD-005-QA-001
         name: Financial audit and reconciliation evidence
       - id: MVP-MOD-005-CLOSEOUT
@@ -357,13 +406,13 @@ modules:
       mobile_app: sample_collection_later
     backlog_items:
       - id: MVP-MOD-006-DEF
-        name: Definition package
+        name: Capability package models
       - id: MVP-MOD-006-BE-001
-        name: Sample lifecycle APIs
+        name: Compile sample lifecycle backend outputs
       - id: MVP-MOD-006-BE-002
-        name: Result capture and validation workflow APIs
+        name: Implement result capture and validation custom rules
       - id: MVP-MOD-006-FE-001
-        name: Sample, processing and validation worklists
+        name: Compile sample, processing and validation UI outputs
       - id: MVP-MOD-006-QA-001
         name: Lab workflow and clinical control evidence
       - id: MVP-MOD-006-CLOSEOUT
@@ -400,17 +449,17 @@ modules:
       mobile_app: result_view_required
     backlog_items:
       - id: MVP-MOD-007-DEF
-        name: Definition package
+        name: Capability package models
       - id: MVP-MOD-007-BE-001
-        name: Result report and document generation APIs
+        name: Compile result report and document generation outputs
       - id: MVP-MOD-007-BE-002
-        name: Digital delivery, notification and critical result workflows
+        name: Implement digital delivery, notification and critical result custom rules
       - id: MVP-MOD-007-FE-001
-        name: Employee result delivery screens
+        name: Compile employee result delivery UI outputs
       - id: MVP-MOD-007-PORTAL-001
-        name: Patient and doctor released result views
+        name: Compile patient and doctor released result views
       - id: MVP-MOD-007-APP-001
-        name: Mobile result view and notification baseline
+        name: Compile mobile result view and notification baseline
       - id: MVP-MOD-007-QA-001
         name: Result access, PDF and notification evidence
       - id: MVP-MOD-007-CLOSEOUT
@@ -445,13 +494,13 @@ modules:
       mobile_app: not_required
     backlog_items:
       - id: MVP-MOD-008-DEF
-        name: Definition package
+        name: Capability package models
       - id: MVP-MOD-008-BE-001
-        name: Integration adapter contracts and API governance
+        name: Compile integration adapter contracts and API governance outputs
       - id: MVP-MOD-008-BE-002
-        name: Migration import validation and dry-run reports
+        name: Implement migration import validation custom rules
       - id: MVP-MOD-008-FE-001
-        name: Integration and migration administration screens
+        name: Compile integration and migration administration UI outputs
       - id: MVP-MOD-008-QA-001
         name: Adapter, import and observability evidence
       - id: MVP-MOD-008-CLOSEOUT
@@ -491,13 +540,13 @@ modules:
       mobile_app: required
     backlog_items:
       - id: COM-MOD-009-DEF
-        name: Definition package
+        name: Capability package models
       - id: COM-MOD-009-BE-001
-        name: Portal access and authorization APIs
+        name: Compile portal access and authorization outputs
       - id: COM-MOD-009-PORTAL-001
-        name: Patient portal commercial workflow
+        name: Compile patient portal commercial workflow
       - id: COM-MOD-009-PORTAL-002
-        name: Doctor portal commercial workflow
+        name: Compile doctor portal commercial workflow
       - id: COM-MOD-009-APP-001
         name: Patient mobile workflow
       - id: COM-MOD-009-QA-001
@@ -542,13 +591,13 @@ modules:
       mobile_app: optional_for_stock_actions
     backlog_items:
       - id: COM-MOD-010-DEF
-        name: Definition package
+        name: Capability package models
       - id: COM-MOD-010-BE-001
-        name: Product, reagent, lot and stock APIs
+        name: Compile product, reagent, lot and stock outputs
       - id: COM-MOD-010-BE-002
-        name: Equipment, maintenance and internal QC APIs
+        name: Compile equipment, maintenance and internal QC outputs
       - id: COM-MOD-010-FE-001
-        name: Inventory and internal quality screens
+        name: Compile inventory and internal quality UI outputs
       - id: COM-MOD-010-QA-001
         name: Traceability, stock and quality evidence
       - id: COM-MOD-010-CLOSEOUT
@@ -586,11 +635,11 @@ modules:
       mobile_app: not_required
     backlog_items:
       - id: COM-MOD-011-DEF
-        name: Definition package
+        name: Capability package models
       - id: COM-MOD-011-BE-001
-        name: Public catalog, location and request APIs
+        name: Compile public catalog, location and request outputs
       - id: COM-MOD-011-WEB-001
-        name: Public website service discovery and conversion flows
+        name: Compile public website service discovery and conversion flows
       - id: COM-MOD-011-FE-001
         name: Content and request administration screens
       - id: COM-MOD-011-QA-001
@@ -630,13 +679,13 @@ modules:
       mobile_app: compatibility_required
     backlog_items:
       - id: COM-MOD-012-DEF
-        name: Definition package
+        name: Capability package models
       - id: COM-MOD-012-OPS-001
         name: Production deployment and environment strategy
       - id: COM-MOD-012-OPS-002
         name: Observability, backup, restore and incident runbooks
       - id: COM-MOD-012-BE-001
-        name: Tenant operations, feature flags and operational controls
+        name: Compile tenant operations, feature flags and operational controls
       - id: COM-MOD-012-QA-001
         name: Performance, resilience and security evidence
       - id: COM-MOD-012-CLOSEOUT
@@ -671,11 +720,11 @@ modules:
       mobile_app: not_required
     backlog_items:
       - id: COM-MOD-013-DEF
-        name: Definition package
+        name: Capability package models
       - id: COM-MOD-013-BE-001
-        name: External QC, CAPA and audit management APIs
+        name: Compile external QC, CAPA and audit management outputs
       - id: COM-MOD-013-FE-001
-        name: Quality and compliance screens
+        name: Compile quality and compliance UI outputs
       - id: COM-MOD-013-QA-001
         name: Compliance workflow and evidence retention validation
       - id: COM-MOD-013-CLOSEOUT
@@ -716,13 +765,13 @@ modules:
       external_integrations: dicom_and_pacs_required
     backlog_items:
       - id: COM-MOD-014-DEF
-        name: Definition package
+        name: Capability package models
       - id: COM-MOD-014-BE-001
-        name: Imaging workflow APIs
+        name: Compile imaging workflow outputs
       - id: COM-MOD-014-INT-001
-        name: DICOM and PACS adapter boundaries
+        name: Implement DICOM and PACS adapter custom boundaries
       - id: COM-MOD-014-FE-001
-        name: Imaging operations screens
+        name: Compile imaging operations UI outputs
       - id: COM-MOD-014-PORTAL-001
         name: Imaging study delivery views
       - id: COM-MOD-014-QA-001
@@ -763,13 +812,13 @@ modules:
       model_provider: replaceable
     backlog_items:
       - id: COM-MOD-015-DEF
-        name: Definition package
+        name: Capability package models
       - id: COM-MOD-015-BE-001
-        name: AI orchestration, policy and audit boundaries
+        name: Compile AI orchestration, policy and audit outputs
       - id: COM-MOD-015-BE-002
-        name: OCR, summary, search and retrieval capabilities
+        name: Implement OCR, summary, search and retrieval custom rules
       - id: COM-MOD-015-FE-001
-        name: Assistant and review screens
+        name: Compile assistant and review UI outputs
       - id: COM-MOD-015-QA-001
         name: Safety, explainability and human-control evidence
       - id: COM-MOD-015-CLOSEOUT
@@ -808,7 +857,7 @@ modules:
       support_processes: required
     backlog_items:
       - id: COM-MOD-016-DEF
-        name: Definition package
+        name: Capability package models
       - id: COM-MOD-016-DOC-001
         name: Customer onboarding and configuration guides
       - id: COM-MOD-016-OPS-001

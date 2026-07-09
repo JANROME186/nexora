@@ -14,7 +14,8 @@ rules:
   - Agents must load YAML files before Markdown when both exist.
   - Agents must not continue if BUSINESS_REQUIREMENT.md is missing.
   - Agents must not require a vendor-specific agent, runtime, prompt extension or configuration.
-  - Agents must execute modules in dependency order unless an explicit mock strategy is documented.
+  - Agents must execute capability packages in dependency order unless an explicit mock strategy is documented.
+  - Agents must not manually create repetitive CRUD, DTO, controller, repository, SDK, Swagger, documentation or test artifacts when they can be generated from models.
   - Agents must update project registries and QA evidence before closing any backlog item.
 
 required_context:
@@ -24,6 +25,8 @@ required_context:
     - ../../../../SOURCE_OF_TRUTH.yaml
     - ../../../../nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml
     - ../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+    - ../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+    - ../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
     - ../../../../nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   project_level:
     - ../../BUSINESS_REQUIREMENT.md
@@ -55,12 +58,12 @@ prompt_sequence:
       Load the HOP project state and HOP commercial product backlog.
       Select the next executable backlog item by dependency order.
       If any dependency is incomplete, stop and report the exact blocker.
-      If the selected item is a definition item, prepare the module definition package plan.
+      If the selected item is a definition item, prepare the capability package modeling plan.
       If the selected item is an implementation item, verify that the definition package exists first.
 
   - id: HOP-COM-PROMPT-002
-    name: Generate module definition package
-    intent: Create all required module definition artifacts before implementation.
+    name: Generate capability package models
+    intent: Create all required capability package model artifacts before compilation or implementation.
     input:
       - HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
       - ../../01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
@@ -68,32 +71,32 @@ prompt_sequence:
       - ../../02-domain-definition/domain-foundation/context-map/context-map.yaml
       - ../../02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml
     expected_output:
-      - module-definition.yaml
-      - module-definition.md
-      - domain-model.yaml
-      - domain-model.md
-      - api-contract.openapi.yaml
-      - database-migration-plan.yaml
-      - database-migration-plan.md
-      - ui-screen-map.yaml
-      - ui-screen-map.md
-      - security-and-audit-rules.yaml
-      - security-and-audit-rules.md
-      - test-plan.yaml
-      - test-plan.md
+      - capability-package.yaml
+      - business-model.yaml
+      - business-rules.yaml
+      - processes.yaml
+      - events.yaml
+      - openapi-source.yaml
+      - permissions.yaml
+      - ui-model.yaml
+      - mobile-model.yaml
+      - test-model.yaml
+      - observability-model.yaml
+      - generation-plan.yaml
       - traceability.yaml
     prompt: |
-      Generate the complete definition package for the selected HOP module.
-      Use the commercial product backlog as the module source, BCM-001 for capabilities, BCM-002 for dependency profiles, and the domain foundation for bounded contexts and aggregate ownership.
-      Place the package under the module folder declared by the backlog or under 06-delivery/mvp/modules for MVP modules and 06-delivery/commercial-product/modules for commercial modules.
+      Generate the complete Capability Package model set for every capability in the selected HOP roadmap group.
+      Use the commercial product backlog as sequencing context, BCM-001 for capabilities, BCM-002 for dependency profiles, and the domain foundation for bounded contexts and aggregate ownership.
+      Place each package under 01-product-definition/business-capabilities/packages/.
       Do not implement code during this step.
+      Do not manually define CRUD, DTO, controller, repository, SDK, Swagger, repetitive documentation or repetitive test artifacts as implementation work; capture them in generation-plan.yaml as generated outputs.
       Every machine-executable artifact must be YAML when applicable, with Markdown as the human companion.
 
   - id: HOP-COM-PROMPT-003
-    name: Validate module definition package
-    intent: Confirm that generated module definitions satisfy framework, traceability and agent-agnostic requirements.
+    name: Validate capability package models
+    intent: Confirm that generated capability packages satisfy MDPE, traceability and agent-agnostic requirements.
     input:
-      - selected_module_folder
+      - selected_capability_package_folders
       - ../../SOURCE_OF_TRUTH.yaml
       - HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
     expected_output:
@@ -101,19 +104,20 @@ prompt_sequence:
       - missing_artifacts
       - traceability_gaps
       - agent_agnostic_findings
-      - ready_for_implementation_decision
+      - ready_for_compilation_decision
     prompt: |
-      Validate the selected module definition package.
+      Validate the selected Capability Package model set.
       Confirm that all required artifacts exist, YAML is parseable, Markdown companion files exist where required, capabilities trace to BCM-001, dependencies trace to BCM-002, API surfaces are classified, and security/audit/test expectations are present.
+      Confirm that generation-plan.yaml separates generated outputs from custom implementation points.
       Scan for named-agent dependencies or vendor-specific execution requirements.
-      If any blocking gap exists, update the package before allowing implementation.
+      If any blocking gap exists, update the package before allowing compilation or implementation.
 
   - id: HOP-COM-PROMPT-004
-    name: Implement selected backlog item
-    intent: Implement one backlog item at a time using the validated module definition package.
+    name: Compile and implement selected backlog item
+    intent: Compile generated outputs and implement only custom rule points for one backlog item at a time.
     input:
       - selected_backlog_item
-      - selected_module_folder
+      - selected_capability_package_folders
       - ../../07-implementation
       - ../../08-qa
     expected_output:
@@ -124,9 +128,10 @@ prompt_sequence:
       - registry_updates
     prompt: |
       Implement only the selected backlog item.
-      Load the selected module definition package first and follow existing project implementation patterns.
+      Load the selected Capability Package models first and follow existing project implementation patterns.
+      Generate repetitive platform artifacts from the models before writing custom code.
       Keep changes scoped to the selected backlog item.
-      Add or update tests appropriate to the backend, web, mobile, portal, integration or operations scope.
+      Add or update only generated tests or custom rule tests appropriate to the backend, web, mobile, portal, integration or operations scope.
       Write QA evidence under 08-qa and update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
       Stop before starting the next backlog item.
 
@@ -166,5 +171,5 @@ validation_commands:
 next_backlog_item:
   module_id: MVP-MOD-002
   backlog_item_id: MVP-MOD-002-DEF
-  name: Diagnostic Catalog definition package
-  expected_folder: ../mvp/modules/MVP-MOD-002-diagnostic-catalog/
+  name: Diagnostic Catalog capability package models
+  expected_folder: ../../01-product-definition/business-capabilities/packages/

@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.63.0
+  version: 0.64.0
   status: approved
 sources:
   repository_readme: README.md
@@ -20,6 +20,11 @@ sources:
   strategic_handoff_yaml: nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml
   project_folder_standard: nexora-framework/02-standards/standards/project-folder-standard.yaml
   documentation_standard: nexora-framework/02-standards/standards/documentation-standard.yaml
+  model_driven_product_engineering_standard: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+  model_driven_product_engineering_standard_md: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  capability_package_standard: nexora-framework/02-standards/standards/capability-package-standard.yaml
+  capability_package_standard_md: nexora-framework/02-standards/standards/capability-package-standard.md
+  model_driven_product_engineering_adr: nexora-framework/07-governance/adr/ADR-031-model-driven-product-engineering-and-capability-packages.md
   agent_to_mvp_recipe: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   generic_project_lifecycle_prompts: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
   generic_project_lifecycle_prompts_yaml: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
@@ -44,6 +49,8 @@ sources:
   hop_commercial_backlog_execution_prompts: projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   hop_commercial_backlog_execution_prompts_yaml: projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   hop_commercial_module_folder_index_yaml: projects/healthcare-operations-platform/06-delivery/commercial-product/modules/module-folder-index.yaml
+  hop_capability_package_index: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/capability-package-index.yaml
+  hop_capability_packages_root: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/
   hop_project_state: projects/healthcare-operations-platform/PROJECT_STATE.yaml
   hop_source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
   hop_mvp_mod_001_backend_implementation: projects/healthcare-operations-platform/07-implementation/backend/
@@ -85,4 +92,7 @@ rules:
   - Agent-executable project artifacts must prefer YAML machine-readable files; Markdown remains the human-readable companion.
   - Agents must not require agent-specific files, prompts, runtime features or vendor configuration.
   - HOP commercial product development must follow projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml after MVP-MOD-001.
+  - Nexora follows Model Driven Product Engineering; editable models are the durable source of truth.
+  - HOP development must deliver Business Capability Packages as the primary development unit.
+  - Modules are roadmap groupings and must not replace capability packages as source of truth.
   - Generated artifacts must not be edited manually.

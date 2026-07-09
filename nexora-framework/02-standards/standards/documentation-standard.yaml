@@ -40,7 +40,7 @@ minimum_artifacts_to_reach_mvp_development:
   - reference_processes
   - business_rules_catalog
   - mvp_framework
-  - first_module_definition_package
+  - first_business_capability_package_or_roadmap_group_package
 
 agent_context_rules:
   - Agents load root Nexora framework first.

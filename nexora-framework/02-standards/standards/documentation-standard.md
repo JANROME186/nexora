@@ -23,7 +23,7 @@ A project is ready for MVP development only when it has:
 - Reference processes.
 - Business rules catalog.
 - MVP framework.
-- First module definition package.
+- First Business Capability Package or roadmap group package.
 
 ## Agent Rule
 

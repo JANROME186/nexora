@@ -176,6 +176,76 @@ Software never generates knowledge.
 
 ---
 
+# Model Driven Product Engineering
+
+Nexora is a Model Driven Product Engineering company.
+
+This is not low-code.
+
+This is not only a code generator.
+
+Nexora is an engineering system where models are the only durable editable source of truth and platform artifacts are generated, compiled or derived from those models.
+
+The definitive architecture is:
+
+```text
+NEXORA
+  |
+  +-- NEXORA DEFINITION
+  |     Knowledge and editable models
+  |
+  +-- NEXORA PLATFORM
+        Implementation and generated outputs
+```
+
+Nexora Definition contains:
+
+- Healthcare Operating Model
+- Business Capability Map
+- Business Capability Packages
+- Canonical Business Vocabulary
+- Business Rules
+- Canonical Data Model
+- DDD
+- OpenAPI Sources
+- UI Model
+- Mobile Model
+- AI Model
+- Deployment Model
+
+Nexora Platform contains:
+
+- Backend
+- Frontend
+- Flutter
+- Docker
+- Terraform
+- Tests
+- CI/CD
+- Observability
+
+Nexora must not manually write repetitive artifacts that can be generated from models:
+
+- CRUD
+- DTO
+- Controllers
+- Repositories
+- Swagger
+- SDK
+- Repetitive documentation
+- Duplicate models
+- Repetitive test cases
+
+The official product engineering flow is:
+
+```text
+Model -> Compile -> Implement Rules -> Validate -> Release
+```
+
+Nexora develops Business Capabilities, not standalone modules. Each capability becomes a versionable Capability Package with business model, rules, processes, events, contracts, UI, mobile, tests, observability, telemetry, documentation and implementation context.
+
+---
+
 # Source of Truth Philosophy
 
 The repository becomes the permanent memory of the organization.

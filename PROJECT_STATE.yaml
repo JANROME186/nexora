@@ -1,6 +1,6 @@
 repository: Nexora
-repository_version: 0.63.0
-current_phase: HOP Commercial Product Backlog Defined
+repository_version: 0.64.0
+current_phase: MDPE Capability Package Architecture Adopted
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -12,6 +12,8 @@ framework:
     - nexora-framework/02-standards/standards/project-folder-standard.yaml
     - nexora-framework/02-standards/standards/documentation-standard.yaml
     - nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+    - nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+    - nexora-framework/02-standards/standards/capability-package-standard.yaml
   orchestration:
     - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
   recipe:
@@ -35,9 +37,9 @@ projects:
       - MVP-MOD-001-CLOSEOUT
     structure: ordered_numbered_folders
 next_deliverables:
-  - Generate the MVP-MOD-002 Diagnostic Catalog definition package
-  - Validate MVP-MOD-002 against the HOP commercial product backlog
-  - Continue HOP modules in commercial backlog dependency order
+  - Generate MVP-MOD-002 Diagnostic Catalog Business Capability Packages
+  - Validate MVP-MOD-002 capability packages against MDPE and Capability Package standards
+  - Continue HOP capability packages in commercial backlog dependency order
   - Use Nexora Agent-to-MVP Recipe for any new project under projects/
 agent_entrypoint: AGENT_BOOTSTRAP.md
 development_readiness:
@@ -54,4 +56,6 @@ development_readiness:
   vision_handoff_ready: true
   mvp_development_start_approved: true
   commercial_product_backlog_ready: true
+  mdpe_standard_ready: true
+  capability_package_standard_ready: true
   blocking_definition_gaps: []

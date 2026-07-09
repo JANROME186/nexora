@@ -6,6 +6,8 @@ This repository defines how Nexora documents, governs and prepares software solu
 
 All framework and project artifacts are agent agnostic: no project may require a named coding agent, assistant, platform prompt, model vendor or runtime-specific configuration to understand or implement the solution.
 
+Nexora follows Model Driven Product Engineering: editable models are the durable source of truth, Business Capability Packages are the primary development unit, and repetitive platform artifacts are generated or derived from models.
+
 Agents must use the Nexora framework to scan `projects/`, validate whether each project has already been analyzed, and complete missing definitions before handing work to specialized subagents.
 
 ## Repository Structure
@@ -71,6 +73,10 @@ Next backlog item:
 Commercial backlog:
 
 `projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
+
+Capability package index:
+
+`projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/capability-package-index.yaml`
 
 Project folder:
 

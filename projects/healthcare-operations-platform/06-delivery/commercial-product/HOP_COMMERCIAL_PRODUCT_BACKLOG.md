@@ -7,6 +7,32 @@ Date: `2026-07-08`
 
 This document defines the complete backlog required to take Healthcare Operations Platform from the completed MVP foundation into a commercial product. The machine-readable source for agents is `HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`.
 
+## MDPE Rule
+
+HOP now follows Nexora Model Driven Product Engineering.
+
+The primary development unit is the `Business Capability Package`.
+
+Modules remain only as roadmap groupings. They do not replace capability packages as the source of truth.
+
+The official flow is:
+
+```text
+Model -> Compile -> Implement Rules -> Validate -> Release
+```
+
+Do not manually write repetitive artifacts that must come from the model:
+
+- CRUD scaffolding
+- DTOs
+- Controllers
+- Repositories
+- Swagger documentation
+- SDKs
+- Repetitive documentation
+- Duplicate models
+- Repetitive test cases
+
 ## Starting Point
 
 `MVP-MOD-001 Platform Foundation` is complete and ready for functional validation. The next module is `MVP-MOD-002 Diagnostic Catalog`.
@@ -89,9 +115,9 @@ Includes:
 
 Outcome: imaging operations and AI-assisted overlays can be commercialized as optional product packages.
 
-## Module Sequence
+## Capability Group Sequence
 
-| Order | Module | Release | Purpose |
+| Order | Roadmap Group | Release | Purpose |
 | --- | --- | --- | --- |
 | 1 | `MVP-MOD-002 Diagnostic Catalog` | REL-001 | Configure services, tests, panels, analytes, samples, preparation, reference ranges and prices. |
 | 2 | `MVP-MOD-003 People and Clinical Master Data` | REL-001 | Manage patients, doctors and person records. |
@@ -111,24 +137,28 @@ Outcome: imaging operations and AI-assisted overlays can be commercialized as op
 
 ## Execution Contract
 
-Before implementation, every module must have:
+Before implementation, every capability in a roadmap group must have a Capability Package under:
 
-- `module-definition.yaml`
-- `module-definition.md`
-- `domain-model.yaml`
-- `domain-model.md`
-- `api-contract.openapi.yaml`
-- `database-migration-plan.yaml`
-- `database-migration-plan.md`
-- `ui-screen-map.yaml`
-- `ui-screen-map.md`
-- `security-and-audit-rules.yaml`
-- `security-and-audit-rules.md`
-- `test-plan.yaml`
-- `test-plan.md`
+`01-product-definition/business-capabilities/packages/`
+
+Each Capability Package must include:
+
+- `capability-package.yaml`
+- `business-model.yaml`
+- `business-rules.yaml`
+- `processes.yaml`
+- `events.yaml`
+- `openapi-source.yaml`
+- `permissions.yaml`
+- `ui-model.yaml`
+- `mobile-model.yaml`
+- `test-model.yaml`
+- `observability-model.yaml`
+- `generation-plan.yaml`
 - `traceability.yaml`
+- `README.md`
 
-During implementation, every module must produce backend, frontend, applicable portal/mobile work, QA evidence and registry updates.
+During implementation, generated outputs must be produced from those models. Manual work is limited to custom business rules, external adapters, security-sensitive policies, performance-sensitive queries and ambiguous migration mappings.
 
 ## Commercial GA Gates
 
@@ -142,6 +172,6 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-Start `MVP-MOD-002-DEF` and generate the complete definition package for `MVP-MOD-002 Diagnostic Catalog` under:
+Start `MVP-MOD-002-DEF` and generate the Capability Package models for `MVP-MOD-002 Diagnostic Catalog` under:
 
-`06-delivery/mvp/modules/MVP-MOD-002-diagnostic-catalog/`
+`01-product-definition/business-capabilities/packages/`

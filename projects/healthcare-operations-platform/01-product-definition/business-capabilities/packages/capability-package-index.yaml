@@ -1,0 +1,54 @@
+artifact:
+  id: HOP-CAP-PKG-IDX-001
+  type: capability-package-index
+  name: HOP Business Capability Package Index
+  version: 1.0.0
+  status: approved
+  human_readable: README.md
+  machine_readable: capability-package-index.yaml
+
+policy:
+  primary_development_unit: business_capability_package
+  roadmap_grouping_allowed: true
+  source_capability_map: ../bcm-001/business-capability-map.yaml
+  dependency_map: ../bcm-002/capability-dependency-map.yaml
+  standard: ../../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+  execution_flow:
+    - model
+    - compile
+    - implement_rules
+    - validate
+    - release
+
+do_not_write_manually:
+  - CRUD scaffolding
+  - DTOs
+  - Controllers
+  - Repositories
+  - Swagger documentation
+  - SDKs
+  - Repetitive documentation
+  - Duplicate models
+  - Repetitive test cases
+
+next_capability_package_group:
+  roadmap_group: MVP-MOD-002
+  name: Diagnostic Catalog
+  package_status: not_started
+  capabilities:
+    - capability_id: BCM-SVC-001
+      package_folder: bcm-svc-001-diagnostic-service-catalog/
+    - capability_id: BCM-SVC-002
+      package_folder: bcm-svc-002-test-catalog/
+    - capability_id: BCM-SVC-003
+      package_folder: bcm-svc-003-panel-catalog/
+    - capability_id: BCM-SVC-004
+      package_folder: bcm-svc-004-analyte-catalog/
+    - capability_id: BCM-SVC-005
+      package_folder: bcm-svc-005-patient-preparation-management/
+    - capability_id: BCM-SVC-006
+      package_folder: bcm-svc-006-reference-range-management/
+    - capability_id: BCM-SVC-007
+      package_folder: bcm-svc-007-sample-catalog/
+    - capability_id: BCM-SVC-009
+      package_folder: bcm-svc-009-price-list-management/

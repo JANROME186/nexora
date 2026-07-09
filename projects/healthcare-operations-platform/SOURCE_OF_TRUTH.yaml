@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.63.0
+  version: 0.64.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -12,9 +12,13 @@ sources:
   ordered_development_guide: ORDERED_DEVELOPMENT_GUIDE.md
   ordered_development_guide_yaml: ORDERED_DEVELOPMENT_GUIDE.yaml
   agent_agnostic_standard: ../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+  model_driven_product_engineering_standard: ../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+  capability_package_standard: ../../nexora-framework/02-standards/standards/capability-package-standard.yaml
   product_definition: 01-product-definition/products/healthcare-operations-platform/product.yaml
   business_capability_map: 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
   capability_dependency_map: 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
+  capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.yaml
+  capability_packages_root: 01-product-definition/business-capabilities/packages/
   actor_catalog: 02-domain-definition/actors/acm-001/actor-catalog.yaml
   healthcare_reference_processes: 02-domain-definition/processes/hrp-001/healthcare-reference-processes.yaml
   business_rules_catalog: 02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml
@@ -74,5 +78,8 @@ rules:
   - BUSINESS_REQUIREMENT.md remains requester-supplied source material; BUSINESS_REQUIREMENT.yaml is only a structured index derived from it.
   - MVP-MOD-001 development is approved by the MVP development readiness decision; strategic enterprise roadmap items do not block the first module.
   - HOP development after MVP-MOD-001 must follow 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml.
+  - HOP follows Nexora Model Driven Product Engineering.
+  - Business Capability Packages are the primary development unit.
+  - Modules are roadmap groupings and must not replace capability packages as source of truth.
   - Generated artifacts must not be edited manually.
   - Architecture changes require ADR.

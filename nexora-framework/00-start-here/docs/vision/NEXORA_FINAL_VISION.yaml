@@ -12,6 +12,7 @@ executive_vision:
   summary: Nexora is a software engineering and Artificial Intelligence company created to repeatedly build enterprise-grade products through structured knowledge, reusable engineering practices and AI-assisted development.
   first_product: Healthcare Operations Platform
   strategic_asset: Nexora AI Engineering Framework
+  engineering_model: Model Driven Product Engineering
 
 company_focus:
   - Enterprise Software Engineering
@@ -23,6 +24,7 @@ company_focus:
   - Intelligent Integrations
   - Knowledge Engineering
   - Model Driven Engineering
+  - Model Driven Product Engineering
   - AI Agent Engineering
 
 strategic_layers:
@@ -34,6 +36,16 @@ strategic_layers:
     role: Enterprise products created and evolved through the framework.
 
 engineering_philosophy:
+  architecture:
+    definition_layer: Nexora Definition
+    platform_layer: Nexora Platform
+  primary_development_unit: Business Capability Package
+  execution_flow:
+    - Model
+    - Compile
+    - Implement Rules
+    - Validate
+    - Release
   sequence:
     - Business Vision
     - Business Model
@@ -47,6 +59,41 @@ engineering_philosophy:
     - Deployment
     - Operations
   rule: Knowledge generates software; software never generates knowledge.
+
+model_driven_product_engineering:
+  rule: Models are the only durable editable source of truth.
+  nexora_definition:
+    - Healthcare Operating Model
+    - Business Capability Map
+    - Business Capability Packages
+    - Canonical Business Vocabulary
+    - Business Rules
+    - Canonical Data Model
+    - DDD
+    - OpenAPI Sources
+    - UI Model
+    - Mobile Model
+    - AI Model
+    - Deployment Model
+  nexora_platform:
+    - Backend
+    - Frontend
+    - Flutter
+    - Docker
+    - Terraform
+    - Tests
+    - CI/CD
+    - Observability
+  do_not_write_manually:
+    - CRUD
+    - DTO
+    - Controllers
+    - Repositories
+    - Swagger
+    - SDK
+    - Repetitive documentation
+    - Duplicate models
+    - Repetitive test cases
 
 source_of_truth_philosophy:
   repository_role: Permanent organizational memory.

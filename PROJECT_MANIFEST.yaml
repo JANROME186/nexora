@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.63.0
+  version: 0.64.0
   status: ready
 
 company:
@@ -27,6 +27,8 @@ framework:
     project_folder: nexora-framework/02-standards/standards/project-folder-standard.yaml
     documentation: nexora-framework/02-standards/standards/documentation-standard.yaml
     agent_agnostic: nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+    model_driven_product_engineering: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+    capability_package: nexora-framework/02-standards/standards/capability-package-standard.yaml
   recipe:
     agent_to_mvp: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   prompts:
@@ -52,6 +54,7 @@ projects:
     mvp_development_readiness_decision: projects/healthcare-operations-platform/06-delivery/mvp/MVP_DEVELOPMENT_READINESS_DECISION.yaml
     commercial_product_backlog: projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
     commercial_backlog_execution_prompts: projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
+    capability_package_index: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/capability-package-index.yaml
     source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
     active_module: MVP-MOD-002
     completed_backlog_items:
@@ -75,6 +78,8 @@ agent_policy:
     - SOURCE_OF_TRUTH.yaml
     - nexora-framework/README.md
     - nexora-framework/02-standards/standards/agent-agnostic-standard.md
+    - nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+    - nexora-framework/02-standards/standards/capability-package-standard.md
     - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
     - nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
     - target_project/BUSINESS_REQUIREMENT.md

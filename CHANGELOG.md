@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.64.0] - 2026-07-08
+
+### Added
+- Added Nexora Model Driven Product Engineering standard in Markdown and YAML.
+- Added Business Capability Package standard in Markdown and YAML.
+- Added ADR-031 for MDPE and capability package architecture.
+- Added HOP Business Capability Package index under product definition.
+
+### Changed
+- Updated Nexora final vision to formalize Nexora Definition, Nexora Platform and the `Model -> Compile -> Implement Rules -> Validate -> Release` flow.
+- Reframed HOP commercial backlog and execution prompts around Business Capability Packages instead of manual module artifacts.
+- Updated repository and project state to make `MVP-MOD-002-DEF` the Diagnostic Catalog capability package modeling step.
+
 ## [0.63.0] - 2026-07-08
 
 ### Added

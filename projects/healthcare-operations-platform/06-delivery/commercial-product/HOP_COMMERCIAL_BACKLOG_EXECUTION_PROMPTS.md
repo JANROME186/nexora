@@ -8,7 +8,17 @@ The machine-readable source is `HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml`.
 
 ## Purpose
 
-Use this playbook after `MVP-MOD-001 Platform Foundation` to continue HOP toward a commercial product. It tells an agent how to select the next backlog item, generate module definitions, validate them, implement one item at a time and close each module.
+Use this playbook after `MVP-MOD-001 Platform Foundation` to continue HOP toward a commercial product. It tells an agent how to select the next backlog item, generate capability package models, validate them, compile generated outputs, implement custom rule points and close each capability group.
+
+## MDPE Rule
+
+HOP follows:
+
+```text
+Model -> Compile -> Implement Rules -> Validate -> Release
+```
+
+Do not manually write CRUD scaffolding, DTOs, controllers, repositories, SDKs, Swagger documentation, repetitive documentation, duplicate models or repetitive tests when they can be generated from models.
 
 ## Required Rule
 
@@ -23,6 +33,8 @@ Load these first:
 - `../../../../SOURCE_OF_TRUTH.yaml`
 - `../../../../nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml`
 - `../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
+- `../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml`
+- `../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml`
 - `../../BUSINESS_REQUIREMENT.md`
 - `../../PROJECT_BRIEF.yaml`
 - `../../SOURCE_OF_TRUTH.yaml`
@@ -40,7 +52,7 @@ Instruction:
 Load the HOP project state and HOP commercial product backlog.
 Select the next executable backlog item by dependency order.
 If any dependency is incomplete, stop and report the exact blocker.
-If the selected item is a definition item, prepare the module definition package plan.
+If the selected item is a definition item, prepare the capability package modeling plan.
 If the selected item is an implementation item, verify that the definition package exists first.
 ```
 
@@ -52,44 +64,45 @@ Expected result:
 - Blocking gaps, if any.
 - Execution plan.
 
-## Prompt 2: Generate Module Definition Package
+## Prompt 2: Generate Capability Package Models
 
 Instruction:
 
 ```text
-Generate the complete definition package for the selected HOP module.
-Use the commercial product backlog as the module source, BCM-001 for capabilities, BCM-002 for dependency profiles, and the domain foundation for bounded contexts and aggregate ownership.
-Place the package under the module folder declared by the backlog or under 06-delivery/mvp/modules for MVP modules and 06-delivery/commercial-product/modules for commercial modules.
+Generate the complete Capability Package model set for every capability in the selected HOP roadmap group.
+Use the commercial product backlog as sequencing context, BCM-001 for capabilities, BCM-002 for dependency profiles, and the domain foundation for bounded contexts and aggregate ownership.
+Place each package under 01-product-definition/business-capabilities/packages/.
 Do not implement code during this step.
+Do not manually define CRUD, DTO, controller, repository, SDK, Swagger, repetitive documentation or repetitive test artifacts as implementation work; capture them in generation-plan.yaml as generated outputs.
 Every machine-executable artifact must be YAML when applicable, with Markdown as the human companion.
 ```
 
 Expected result:
 
-- `module-definition.yaml`
-- `module-definition.md`
-- `domain-model.yaml`
-- `domain-model.md`
-- `api-contract.openapi.yaml`
-- `database-migration-plan.yaml`
-- `database-migration-plan.md`
-- `ui-screen-map.yaml`
-- `ui-screen-map.md`
-- `security-and-audit-rules.yaml`
-- `security-and-audit-rules.md`
-- `test-plan.yaml`
-- `test-plan.md`
+- `capability-package.yaml`
+- `business-model.yaml`
+- `business-rules.yaml`
+- `processes.yaml`
+- `events.yaml`
+- `openapi-source.yaml`
+- `permissions.yaml`
+- `ui-model.yaml`
+- `mobile-model.yaml`
+- `test-model.yaml`
+- `observability-model.yaml`
+- `generation-plan.yaml`
 - `traceability.yaml`
 
-## Prompt 3: Validate Module Definition Package
+## Prompt 3: Validate Capability Package Models
 
 Instruction:
 
 ```text
-Validate the selected module definition package.
+Validate the selected Capability Package model set.
 Confirm that all required artifacts exist, YAML is parseable, Markdown companion files exist where required, capabilities trace to BCM-001, dependencies trace to BCM-002, API surfaces are classified, and security/audit/test expectations are present.
+Confirm that generation-plan.yaml separates generated outputs from custom implementation points.
 Scan for named-agent dependencies or vendor-specific execution requirements.
-If any blocking gap exists, update the package before allowing implementation.
+If any blocking gap exists, update the package before allowing compilation or implementation.
 ```
 
 Expected result:
@@ -100,15 +113,16 @@ Expected result:
 - Agent-agnostic findings.
 - Ready-for-implementation decision.
 
-## Prompt 4: Implement Selected Backlog Item
+## Prompt 4: Compile and Implement Selected Backlog Item
 
 Instruction:
 
 ```text
 Implement only the selected backlog item.
-Load the selected module definition package first and follow existing project implementation patterns.
+Load the selected Capability Package models first and follow existing project implementation patterns.
+Generate repetitive platform artifacts from the models before writing custom code.
 Keep changes scoped to the selected backlog item.
-Add or update tests appropriate to the backend, web, mobile, portal, integration or operations scope.
+Add or update only generated tests or custom rule tests appropriate to the backend, web, mobile, portal, integration or operations scope.
 Write QA evidence under 08-qa and update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
 Stop before starting the next backlog item.
 ```
@@ -143,4 +157,4 @@ Start with:
 
 - Module: `MVP-MOD-002 Diagnostic Catalog`
 - Backlog item: `MVP-MOD-002-DEF`
-- Folder: `06-delivery/mvp/modules/MVP-MOD-002-diagnostic-catalog/`
+- Folder: `01-product-definition/business-capabilities/packages/`
