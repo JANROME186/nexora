@@ -1,0 +1,65 @@
+artifact:
+  id: NXF-FWK-FEEDBACK-PROMPTS-001
+  type: prompt-playbook
+  name: Framework Feedback Prompts
+  version: 1.0.0
+  status: approved
+  human_readable: framework-feedback-prompts.md
+  machine_readable: framework-feedback-prompts.yaml
+  owner: Nexora Engineering
+
+purpose: Provide agent-agnostic prompts for capturing framework feedback and proposing company-owned framework backlog items.
+
+required_context:
+  - nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
+  - target_project/SOURCE_OF_TRUTH.yaml
+  - target_project/PROJECT_STATE.yaml
+  - target_project/08-qa/framework-feedback/
+  - nexora-framework/07-governance/framework-improvement-backlog/framework-improvement-backlog.yaml
+
+prompts:
+  - id: PROMPT-FWK-FEEDBACK-001
+    name: Capture execution feedback for framework improvement
+    intent: Capture project execution learning that may improve the Nexora framework.
+    expected_output:
+      - project_framework_feedback_item_yaml
+      - project_framework_feedback_index_update
+      - optional_central_framework_backlog_item
+    prompt: |
+      At the end of the current analysis, validation, backlog implementation, module closeout or release readiness work, review the execution experience and identify whether the Nexora framework caused ambiguity, repeated manual work, missing templates, missing prompts, contradictory guidance, validation gaps, source-of-truth gaps, handoff gaps or automation opportunities.
+      If no useful framework learning exists, record no new feedback and state that no framework feedback was generated.
+      If useful feedback exists, create a project-local feedback item under 08-qa/framework-feedback/ and update 08-qa/framework-feedback/framework-feedback-index.yaml.
+      Include the source project, source backlog item or phase, affected framework area, observed friction, evidence, proposed improvement, expected benefit, priority recommendation, impact, urgency, estimated effort and risk if not addressed.
+      If the feedback is reusable beyond the project, create or update a proposed central item under nexora-framework/07-governance/framework-improvement-backlog/items/ and link it from the project feedback item.
+      Do not implement the framework improvement unless the user explicitly assigned framework backlog implementation work.
+
+  - id: PROMPT-FWK-FEEDBACK-002
+    name: Triage proposed framework improvement backlog
+    intent: Help Nexora review and prioritize framework improvement items.
+    expected_output:
+      - updated_framework_improvement_backlog
+      - duplicate_or_related_item_mapping
+      - recommended_priority_changes
+      - implementation_candidates
+    prompt: |
+      Load the Framework Feedback and Continuous Improvement Standard and the central framework improvement backlog.
+      Review proposed items, group duplicates, evaluate evidence, compare cross-project impact and recommend priority changes.
+      Do not implement items during triage. Produce a prioritized backlog recommendation for Nexora, including accepted, deferred, rejected or merged items with rationale.
+      Update the central backlog index only when explicitly asked to perform backlog triage.
+
+  - id: PROMPT-FWK-FEEDBACK-003
+    name: Implement assigned framework improvement
+    intent: Implement a framework improvement only after Nexora explicitly assigns it.
+    expected_output:
+      - framework_changes
+      - source_of_truth_updates
+      - validation_evidence
+      - linked_feedback_items_closed_or_updated
+    prompt: |
+      Implement only the explicitly assigned framework improvement item.
+      Load the central framework improvement backlog item, linked project feedback items and affected framework files.
+      Make the smallest coherent framework change that resolves the accepted improvement.
+      Update YAML and Markdown companions, source-of-truth registries, templates and prompts as needed.
+      Validate YAML parsing, agent-agnostic language and absence of contradictory prompts.
+      Update the framework improvement item status and link validation evidence.
+      Commit the framework improvement milestone.

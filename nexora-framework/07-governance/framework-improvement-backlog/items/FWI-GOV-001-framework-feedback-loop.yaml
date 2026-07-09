@@ -1,0 +1,39 @@
+artifact:
+  id: FWI-GOV-001
+  type: framework-improvement-backlog-item
+  name: Define framework feedback and continuous improvement loop
+  version: 1.0.0
+  status: implemented
+  created_date: 2026-07-09
+  owner: Nexora Engineering
+
+source:
+  source_feedback_ids:
+    - user-request-2026-07-09-framework-continuous-improvement
+  source_project: repository-level
+  source_phase: framework_governance_improvement
+
+classification:
+  affected_framework_area: governance
+  feedback_type: governance_gap
+  priority: P1_high
+  implementation_owner: Nexora Engineering
+
+observed_gap: >
+  The framework had project technical debt and quality feedback loops, but did
+  not define a governed mechanism for agents to submit framework improvement
+  proposals after project execution.
+
+implemented_improvement:
+  - Created the Framework Feedback and Continuous Improvement Standard.
+  - Created framework feedback prompt playbook.
+  - Created central framework improvement backlog.
+  - Added project template feedback capture folder and index.
+  - Updated framework execution, recipe and source-of-truth registries.
+
+decision:
+  status: implemented
+  rationale: >
+    A governed framework improvement backlog allows Nexora to collect agent
+    execution learning while preserving company ownership over prioritization
+    and implementation.

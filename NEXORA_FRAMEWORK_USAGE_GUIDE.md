@@ -25,12 +25,16 @@ El framework incluye un playbook de prompts reutilizable para cualquier proyecto
 - `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
 - `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md`
 - `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/framework-feedback-prompts.md`
+- `nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml`
 
 La version YAML es la fuente operativa para agentes. La version Markdown es para lectura humana.
 
 Los prompts auxiliares de desarrollo ayudan a ejecutar kickoff de modulo, slices de backlog, backend, web, movil, QA y cierre. No reemplazan a los prompts genericos; solo se usan despues de que el prompt generico de desarrollo selecciona proyecto, modulo y slice.
 
 Los prompts de security quality gate aplican la politica open-source-first y las validaciones de seguridad, dependencias, cobertura y buenas practicas para cada backlog que cambia codigo.
+
+Los prompts de framework feedback capturan aprendizaje de ejecucion para proponer mejoras al framework. Los agentes pueden crear feedback y propuestas de backlog de framework, pero no deben implementar esas mejoras salvo que Nexora lo asigne explicitamente.
 
 Para usar el framework con un nuevo proyecto, la persona usuaria solo debe:
 
@@ -260,15 +264,17 @@ El agente de analisis debe cargar estos archivos en este orden:
 12. `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
 13. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
 14. `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
-15. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
-16. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
-17. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
-18. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
-19. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
-20. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
-21. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`, si existe
-22. `projects/<project-slug>/PROJECT_BRIEF.md`, si existe
-23. `projects/<project-slug>/PROJECT_STATE.yaml`, si existe
+15. `nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml`
+16. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
+17. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
+18. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
+19. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
+20. `nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml`
+21. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
+22. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
+23. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`, si existe
+24. `projects/<project-slug>/PROJECT_BRIEF.md`, si existe
+25. `projects/<project-slug>/PROJECT_STATE.yaml`, si existe
 
 Si faltan archivos de control del proyecto, el agente debe crearlos usando el template del framework.
 
@@ -428,6 +434,7 @@ Salidas esperadas:
 - Definiciones de acceptance tests.
 - Estructura de fixtures o evidencia de calidad cuando aplique.
 - Estructura `security-quality/<backlog-item-id>/` para evidencia de SAST/static analysis, DAST cuando aplique, analisis de dependencias, vulnerabilidades, secrets scan y cobertura.
+- Estructura `framework-feedback/` para aprendizaje reutilizable que pueda convertirse en mejoras al framework Nexora.
 
 ### Operaciones
 
@@ -644,22 +651,24 @@ El agente de desarrollo debe cargar:
 5. `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
 6. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
 7. `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
-8. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
-9. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
-10. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
-11. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
-12. `projects/<project-slug>/PROJECT_BRIEF.md`
-13. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`
-14. `projects/<project-slug>/PROJECT_STATE.yaml`
-15. `projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.md`
-16. `module-definition.yaml` del modulo objetivo
-17. `domain-model.md` del modulo objetivo
-18. `api-contract.openapi.yaml` del modulo objetivo
-19. `database-migration-plan.md` del modulo objetivo
-20. `ui-screen-map.md` del modulo objetivo
-21. `security-and-audit-rules.md` del modulo objetivo
-22. `test-plan.md` del modulo objetivo
-23. `traceability.yaml` del modulo objetivo
+8. `nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml`
+9. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
+10. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
+11. `nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml`
+12. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
+13. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
+14. `projects/<project-slug>/PROJECT_BRIEF.md`
+15. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`
+16. `projects/<project-slug>/PROJECT_STATE.yaml`
+17. `projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.md`
+18. `module-definition.yaml` del modulo objetivo
+19. `domain-model.md` del modulo objetivo
+20. `api-contract.openapi.yaml` del modulo objetivo
+21. `database-migration-plan.md` del modulo objetivo
+22. `ui-screen-map.md` del modulo objetivo
+23. `security-and-audit-rules.md` del modulo objetivo
+24. `test-plan.md` del modulo objetivo
+25. `traceability.yaml` del modulo objetivo
 
 El agente tambien debe cargar cualquier artefacto de producto, dominio, arquitectura, contrato o QA referenciado por el paquete del modulo.
 
@@ -675,6 +684,7 @@ El agente de desarrollo debe:
 - Preferir frameworks y herramientas open source.
 - Ejecutar o documentar SAST/static analysis, DAST cuando aplique, analisis de dependencias, vulnerabilidades, secrets scan y cobertura para cada backlog que cambia codigo.
 - Escribir evidencia en `08-qa/security-quality/<backlog-item-id>/`.
+- Registrar feedback de framework en `08-qa/framework-feedback/` cuando la ejecucion revele ambiguedades, plantillas faltantes, prompts faltantes, trabajo repetitivo o mejoras reutilizables.
 - Actualizar trazabilidad.
 - Actualizar notas de operaciones cuando cambie el comportamiento runtime.
 - Actualizar estado del proyecto despues de avances significativos.
@@ -688,6 +698,26 @@ El agente de desarrollo no debe:
 - Introducir dependencia obligatoria a un agente, proveedor o nube especifica.
 - Introducir dependencias propietarias obligatorias sin ADR de excepcion.
 - Saltarse boundaries de adaptadores o anti-corruption layers.
+
+## Etapa 8.1: Feedback de Mejora Continua del Framework
+
+Al finalizar analisis, validacion, implementacion de backlog, cierre de modulo o release readiness, el agente debe revisar si la ejecucion dejo aprendizaje reutilizable para mejorar el framework.
+
+Si no hay aprendizaje util, no debe inventar feedback.
+
+Si hay aprendizaje util, debe crear un item en:
+
+`projects/<project-slug>/08-qa/framework-feedback/`
+
+y actualizar:
+
+`projects/<project-slug>/08-qa/framework-feedback/framework-feedback-index.yaml`
+
+Si el aprendizaje aplica a varios proyectos o al framework en general, el agente puede crear una propuesta en:
+
+`nexora-framework/07-governance/framework-improvement-backlog/items/`
+
+El agente no debe implementar esa mejora al framework salvo que Nexora lo asigne explicitamente como backlog de framework.
 
 ## Etapa 8: Validar Handoff de Desarrollo
 

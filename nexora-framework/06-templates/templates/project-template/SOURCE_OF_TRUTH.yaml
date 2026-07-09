@@ -12,6 +12,8 @@ sources:
   stack_quality_toolchain_baseline: 03-architecture/stack-quality-toolchain-baseline.yaml
   technical_debt_index: 08-qa/technical-debt/technical-debt-index.yaml
   technical_debt_readme: 08-qa/technical-debt/README.md
+  framework_feedback_index: 08-qa/framework-feedback/framework-feedback-index.yaml
+  framework_feedback_readme: 08-qa/framework-feedback/README.md
 rules:
   - This project folder is the boundary for project-specific artifacts.
   - Agent-executable artifacts must have YAML machine-readable files and Markdown human-readable companions when applicable.
@@ -19,4 +21,6 @@ rules:
   - Requester-proposed or existing stack must be validated against current stable or LTS open source market practice before implementation.
   - Stack-specific quality toolchain baseline must be defined and revisited during backlog execution, module closeout and release readiness.
   - Technology debt must be registered under 08-qa/technical-debt/ when quality, vulnerability, dependency, framework or technology reviews identify non-blocking modernization work.
+  - Framework feedback must be registered under 08-qa/framework-feedback/ when execution reveals reusable improvements to the Nexora framework.
+  - Agents may propose framework improvement backlog items but must not implement them unless Nexora explicitly assigns the work.
   - Generated artifacts must not be edited manually.

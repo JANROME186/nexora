@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.74.0
+  version: 0.75.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -22,8 +22,10 @@ sources:
   product_marketplace_standard: ../../nexora-framework/02-standards/standards/product-marketplace-standard.yaml
   business_requirement_versioning_standard: ../../nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
   open_source_first_security_quality_standard: ../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  framework_feedback_continuous_improvement_standard: ../../nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
   business_requirement_impact_prompts_yaml: ../../nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
   security_quality_gate_prompts_yaml: ../../nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
+  framework_feedback_prompts_yaml: ../../nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml
   product_definition: 01-product-definition/products/healthcare-operations-platform/product.yaml
   business_capability_map: 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
   capability_dependency_map: 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
@@ -74,6 +76,9 @@ sources:
   technical_debt_td_be_003: 08-qa/technical-debt/TD-BE-003-backend-coverage-gate.yaml
   technical_debt_td_be_004: 08-qa/technical-debt/TD-BE-004-release-supply-chain-gates.yaml
   technical_debt_td_stack_001: 08-qa/technical-debt/TD-STACK-001-stack-modernization-roadmap.yaml
+  framework_feedback_index: 08-qa/framework-feedback/framework-feedback-index.yaml
+  framework_feedback_readme: 08-qa/framework-feedback/README.md
+  framework_feedback_fwf_hop_001: 08-qa/framework-feedback/FWF-HOP-001-framework-feedback-loop.yaml
   client_stack_market_validation: 03-architecture/technology-architecture/client-stack-market-validation.yaml
   stack_quality_toolchain_baseline: 03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
   open_data_ingestion_contract: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md
@@ -156,5 +161,7 @@ rules:
   - HOP must maintain stack-specific quality toolchain baselines and register non-blocking tooling gaps as technical debt.
   - HOP code-changing backlog items must produce security quality evidence with applicable tests, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when runnable surfaces exist.
   - HOP technology reviews must not be constrained permanently by the initial stack; agents must register non-blocking upgrade, migration, dependency, framework or tooling findings in 08-qa/technical-debt/ and remediate gradually when affected components are touched.
+  - HOP execution feedback that can improve the Nexora framework must be registered under 08-qa/framework-feedback/.
+  - HOP agents may propose central framework backlog items but must not implement framework improvements unless Nexora explicitly assigns them.
   - Generated artifacts must not be edited manually.
   - Architecture changes require ADR.

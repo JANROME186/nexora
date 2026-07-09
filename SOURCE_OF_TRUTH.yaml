@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.74.0
+  version: 0.75.0
   status: approved
 sources:
   repository_readme: README.md
@@ -32,6 +32,8 @@ sources:
   business_requirement_versioning_standard_md: nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
   open_source_first_security_quality_standard: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
   open_source_first_security_quality_standard_md: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+  framework_feedback_continuous_improvement_standard: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
+  framework_feedback_continuous_improvement_standard_md: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.md
   model_driven_product_engineering_adr: nexora-framework/07-governance/adr/ADR-031-model-driven-product-engineering-and-capability-packages.md
   product_marketplace_adr: nexora-framework/07-governance/adr/ADR-032-product-marketplace-and-commercial-extension-architecture.md
   agent_to_mvp_recipe: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
@@ -43,6 +45,11 @@ sources:
   business_requirement_impact_prompts_yaml: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
   security_quality_gate_prompts: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
   security_quality_gate_prompts_yaml: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
+  framework_feedback_prompts: nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+  framework_feedback_prompts_yaml: nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml
+  framework_improvement_backlog: nexora-framework/07-governance/framework-improvement-backlog/framework-improvement-backlog.yaml
+  framework_improvement_backlog_readme: nexora-framework/07-governance/framework-improvement-backlog/README.md
+  framework_improvement_fwi_gov_001: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-001-framework-feedback-loop.yaml
   multi_project_structure_adr: nexora-framework/07-governance/adr/ADR-024-multi-project-repository-structure.md
   project_template: nexora-framework/06-templates/templates/project-template/
   projects_index: projects/README.md
@@ -117,6 +124,8 @@ sources:
   hop_technical_debt_td_be_003: projects/healthcare-operations-platform/08-qa/technical-debt/TD-BE-003-backend-coverage-gate.yaml
   hop_technical_debt_td_be_004: projects/healthcare-operations-platform/08-qa/technical-debt/TD-BE-004-release-supply-chain-gates.yaml
   hop_technical_debt_td_stack_001: projects/healthcare-operations-platform/08-qa/technical-debt/TD-STACK-001-stack-modernization-roadmap.yaml
+  hop_framework_feedback_index: projects/healthcare-operations-platform/08-qa/framework-feedback/framework-feedback-index.yaml
+  hop_framework_feedback_fwf_hop_001: projects/healthcare-operations-platform/08-qa/framework-feedback/FWF-HOP-001-framework-feedback-loop.yaml
   hop_client_stack_market_validation: projects/healthcare-operations-platform/03-architecture/technology-architecture/client-stack-market-validation.yaml
   hop_stack_quality_toolchain_baseline: projects/healthcare-operations-platform/03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
 rules:
@@ -151,4 +160,6 @@ rules:
   - Projects must define a stack-specific open source quality toolchain baseline and revisit it during backlog work, module closeout and release readiness.
   - Code-changing backlog items must produce security quality evidence with applicable open source tests, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when runnable surfaces exist.
   - Technology, framework, dependency and quality reviews must not be permanently constrained by the initial project stack; agents must register non-blocking modernization findings as technical debt and remediate gradually when affected components are touched.
+  - Agents must capture reusable framework feedback under project 08-qa/framework-feedback/ and may propose central framework improvement backlog items without implementing them.
+  - Nexora owns triage, priority and implementation of central framework improvement backlog items.
   - Generated artifacts must not be edited manually.

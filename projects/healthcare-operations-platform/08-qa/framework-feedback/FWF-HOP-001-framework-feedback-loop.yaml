@@ -1,0 +1,50 @@
+artifact:
+  id: FWF-HOP-001
+  type: project-framework-feedback-item
+  name: Add governed feedback loop for framework improvement
+  version: 1.0.0
+  status: implemented_in_framework
+  created_date: 2026-07-09
+
+source:
+  source_project: healthcare-operations-platform
+  source_backlog_item_or_phase: framework_continuous_improvement_request
+  related_framework_backlog_item: FWI-GOV-001
+
+classification:
+  feedback_type: governance_gap
+  affected_framework_area: framework_feedback_and_governance
+  priority_recommendation: P1_high
+  urgency: near_term
+
+observed_friction_or_gap: >
+  HOP backlog execution produced practical improvements to the framework, but
+  the framework did not yet define a governed route for agents to record future
+  lessons as backlog items for Nexora prioritization.
+
+evidence:
+  - Repeated framework refinements were discovered while executing HOP backlog items.
+  - Project technical debt existed, but framework improvement feedback needed a separate company-owned backlog.
+
+proposed_improvement: >
+  Add a framework feedback standard, project-local feedback index, central
+  framework improvement backlog and prompts that allow agents to propose
+  improvements without self-implementing them.
+
+expected_benefit:
+  - Converts execution learning into reusable framework improvements.
+  - Preserves Nexora ownership over framework prioritization and implementation.
+  - Prevents product agents from blocking delivery for non-critical framework ideas.
+
+impact_assessment:
+  impacted_project_types:
+    - all_nexora_projects
+  impact_on_project_delivery: high
+  recurrence_probability: systemic
+  framework_reusability: all_projects
+  estimated_effort: medium
+  risk_if_not_addressed: Framework lessons remain trapped in project execution context and may be lost.
+
+decision:
+  central_backlog_item: FWI-GOV-001
+  status: implemented_in_framework

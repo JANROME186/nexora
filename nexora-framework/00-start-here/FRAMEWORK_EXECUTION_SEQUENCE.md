@@ -26,7 +26,7 @@ The machine-readable version is:
    Load Nexora company context and enterprise identity.
 
 3. `02-standards/`
-   Load project folder, documentation, agent-agnostic, MDPE, capability package, open data ingestion, product marketplace, business requirement versioning, open-source security quality, client stack validation and technology debt standards.
+   Load project folder, documentation, agent-agnostic, MDPE, capability package, open data ingestion, product marketplace, business requirement versioning, open-source security quality, client stack validation, technology debt and framework feedback standards.
 
 4. `03-orchestration/`
    Decide whether the target project needs analysis, validation or development.
@@ -35,13 +35,13 @@ The machine-readable version is:
    Apply the Agent-to-MVP recipe when project definitions are incomplete.
 
 6. `05-prompts/`
-   Use generic prompts for analysis, validation, development, impact and security quality gates. Use auxiliary prompts only after the generic development prompt selects a project, module and slice.
+   Use generic prompts for analysis, validation, development, impact, security quality gates and framework feedback capture. Use auxiliary prompts only after the generic development prompt selects a project, module and slice.
 
 7. `06-templates/`
    Use templates when creating or completing required project artifacts.
 
 8. `07-governance/`
-   Use ADRs, RFCs, roadmap and release governance for decisions and changes.
+   Use ADRs, RFCs, roadmap, release governance and the company-owned framework improvement backlog for decisions and changes.
 
 9. `08-engineering/`
    Use engineering playbooks, agent role descriptions, security, AI and DevOps guidance.
@@ -65,6 +65,7 @@ Development can start only after:
 - Open-source-first and security quality gates are defined for code-changing work.
 - The requester-proposed or existing stack has been validated against current stable or LTS open source market practice.
 - A stack-specific quality toolchain baseline exists.
+- The framework feedback capture mechanism exists so agents can propose framework improvements without implementing them.
 
 ## Current First Product
 

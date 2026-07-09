@@ -1,6 +1,6 @@
 repository: Nexora
-repository_version: 0.74.0
-current_phase: HOP MVP-MOD-002 Diagnostic Catalog Closed Out
+repository_version: 0.75.0
+current_phase: Framework Continuous Improvement Feedback Loop Added
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -18,6 +18,7 @@ framework:
     - nexora-framework/02-standards/standards/product-marketplace-standard.yaml
     - nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
     - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+    - nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
   orchestration:
     - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
   recipe:
@@ -58,6 +59,7 @@ next_deliverables:
   - Apply open-source-first technology selection and security quality gates to code-changing backlog items
   - Validate requester-proposed stacks against current stable or LTS open source market practice
   - Define stack-specific quality toolchain baselines and route non-blocking gaps to technical debt
+  - Capture framework feedback from project execution and route reusable improvements to the Nexora framework improvement backlog
 agent_entrypoint: AGENT_BOOTSTRAP.md
 development_readiness:
   status: ready
@@ -89,4 +91,6 @@ development_readiness:
   technical_debt_backlog_standard_ready: true
   client_stack_market_validation_standard_ready: true
   stack_quality_toolchain_baseline_ready: true
+  framework_feedback_continuous_improvement_ready: true
+  framework_improvement_backlog_ready: true
   blocking_definition_gaps: []

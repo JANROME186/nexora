@@ -23,7 +23,7 @@ sequence:
     responsibility: Load Nexora company context and enterprise identity.
   - step: "02"
     folder: 02-standards
-    responsibility: Load project folder, documentation, agent-agnostic, MDPE, capability package, ingestion, marketplace, business requirement versioning, open-source security quality, client stack market validation and technology debt standards.
+    responsibility: Load project folder, documentation, agent-agnostic, MDPE, capability package, ingestion, marketplace, business requirement versioning, open-source security quality, client stack market validation, technology debt and framework feedback standards.
     primary_files:
       - 02-standards/standards/project-folder-standard.yaml
       - 02-standards/standards/documentation-standard.yaml
@@ -34,6 +34,7 @@ sequence:
       - 02-standards/standards/product-marketplace-standard.yaml
       - 02-standards/standards/business-requirement-versioning-standard.yaml
       - 02-standards/standards/open-source-first-security-quality-standard.yaml
+      - 02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
   - step: "03"
     folder: 03-orchestration
     responsibility: Decide whether a target project needs analysis, validation or development.
@@ -46,12 +47,13 @@ sequence:
       - 04-recipes/recipes/agent-to-mvp-recipe.yaml
   - step: "05"
     folder: 05-prompts
-    responsibility: Provide generic and auxiliary prompts for analysis, validation and development.
+    responsibility: Provide generic and auxiliary prompts for analysis, validation, development and framework feedback capture.
     primary_files:
       - 05-prompts/prompts/generic-project-lifecycle-prompts.yaml
       - 05-prompts/prompts/auxiliary-development-prompts.yaml
       - 05-prompts/prompts/business-requirement-impact-prompts.yaml
       - 05-prompts/prompts/security-quality-gate-prompts.yaml
+      - 05-prompts/prompts/framework-feedback-prompts.yaml
   - step: "06"
     folder: 06-templates
     responsibility: Provide templates for creating or completing project artifacts.
@@ -59,7 +61,9 @@ sequence:
       - 06-templates/templates/project-template/
   - step: "07"
     folder: 07-governance
-    responsibility: Provide ADRs, RFCs, roadmap and release governance.
+    responsibility: Provide ADRs, RFCs, roadmap, release governance and company-owned framework improvement backlog.
+    primary_files:
+      - 07-governance/framework-improvement-backlog/framework-improvement-backlog.yaml
   - step: "08"
     folder: 08-engineering
     responsibility: Provide engineering playbooks, agent roles, security, AI and DevOps guidance.
@@ -82,6 +86,7 @@ development_gate:
     - Requester-proposed or existing stack has been validated against current stable or LTS open source market practice.
     - Stack-specific quality toolchain baseline is defined.
     - Technology evolution reviews and technical-debt backlog handling are defined for iterative work.
+    - Framework feedback capture mechanism is available for agent execution learning.
 
 current_first_product:
   project: projects/healthcare-operations-platform/
