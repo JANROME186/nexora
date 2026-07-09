@@ -164,6 +164,8 @@ Each Capability Package must include:
 
 During implementation, generated outputs must be produced from those models. Manual work is limited to custom business rules, external adapters, security-sensitive policies, performance-sensitive queries and ambiguous migration mappings.
 
+Every code-changing backlog item must also apply the Nexora open-source-first security quality standard. Evidence belongs under `08-qa/security-quality/<backlog-item-id>/` and must cover applicable tests, SAST/static analysis, dependency vulnerabilities, secrets scan, coverage and DAST when a runnable surface exists.
+
 ## Commercial GA Gates
 
 HOP reaches commercial general availability only after these gates pass:
@@ -177,6 +179,6 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-Start `MVP-MOD-002-DEF` and generate the Capability Package models for `MVP-MOD-002 Diagnostic Catalog` under:
+Start `MVP-MOD-002-FE-001` and compile the employee catalog UI outputs for `MVP-MOD-002 Diagnostic Catalog` under:
 
-`01-product-definition/business-capabilities/packages/`
+`07-implementation/employee-portal/`

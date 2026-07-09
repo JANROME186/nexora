@@ -36,7 +36,7 @@ folder_purposes:
   05-contracts: OpenAPI, events, async contracts, import/export contracts and adapters.
   06-delivery: MVP modules, release packages, implementation backlogs and delivery plans.
   07-implementation: Code or code-generation outputs when implementation is colocated.
-  08-qa: Test plans, contract tests, fixtures and quality evidence.
+  08-qa: Test plans, contract tests, fixtures, quality evidence and security quality gate evidence.
   09-operations: DevOps, deployment profiles, observability and runbooks.
   10-generated: Generated diagrams, markdown, indexes and agent context packs.
   99-legacy: Imported or previous-structure assets kept for continuity.
@@ -48,6 +48,7 @@ rules:
   - Agents must resolve the latest BUSINESS_REQUIREMENT version before project analysis, validation, planning or development.
   - Projects may version business requirements under 00-intake/business-requirements/.
   - Business requirement changes require impact assessment before modifying derived artifacts or implementation.
+  - Code-changing backlog items must place security quality evidence under 08-qa/security-quality/<backlog-item-id>/.
   - Agents must not generate BUSINESS_REQUIREMENT.md.
   - PROJECT_BRIEF.md must structure and refine BUSINESS_REQUIREMENT.md.
   - Every project must declare its own SOURCE_OF_TRUTH.yaml.

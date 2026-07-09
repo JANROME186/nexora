@@ -28,7 +28,7 @@ Each project must include:
 | `05-contracts` | OpenAPI, events, async contracts, imports, exports and adapters. |
 | `06-delivery` | MVP modules, release packages, implementation backlogs and delivery plans. |
 | `07-implementation` | Code or generated implementation assets when colocated. |
-| `08-qa` | Test plans, fixtures, contract tests and quality evidence. |
+| `08-qa` | Test plans, fixtures, contract tests, quality evidence and security quality gate evidence. |
 | `09-operations` | Deployment, local runtime, observability and runbooks. |
 | `10-generated` | Generated diagrams, indexes and agent context packs. |
 | `99-legacy` | Imported previous-structure assets kept for continuity. |
@@ -50,3 +50,11 @@ development_readiness:
   status: ready
   blocking_definition_gaps: []
 ```
+
+## Security Quality Evidence Rule
+
+Code-changing backlog items must write security quality evidence under:
+
+`08-qa/security-quality/<backlog-item-id>/`
+
+The evidence records applicable open source checks for tests, SAST/static analysis, dependency vulnerabilities, secrets, coverage and DAST when a runnable surface exists.

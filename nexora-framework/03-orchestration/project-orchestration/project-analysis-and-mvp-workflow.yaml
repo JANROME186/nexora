@@ -27,6 +27,7 @@ repository_context:
     - nexora-framework/02-standards/standards/documentation-standard.yaml
     - nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
     - nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
+    - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
     - nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
 
 project_discovery:
@@ -125,6 +126,7 @@ completion_workflow:
       - define_product_and_capabilities
       - define_domain_foundation
       - define_architecture_baseline
+      - define_open_source_first_security_quality_baseline
       - define_requirements_contracts_and_tests
       - create_mvp_delivery_framework
       - create_first_module_package
@@ -158,6 +160,8 @@ mvp_required_outputs:
     - security and compliance baseline
     - integration architecture
     - deployment or runtime baseline
+    - open-source-first technology baseline
+    - security quality gate strategy
   delivery:
     - MVP framework
     - first module definition package
@@ -198,3 +202,4 @@ readiness_gate:
     - MVP modules are ordered incrementally.
     - First module package is complete.
     - Agent-agnostic validation passes.
+    - Open-source-first technology selection and security quality gate expectations are defined.

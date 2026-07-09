@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.69.0
+  version: 0.70.0
   status: ready
 
 company:
@@ -32,12 +32,14 @@ framework:
     open_data_ingestion: nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml
     product_marketplace: nexora-framework/02-standards/standards/product-marketplace-standard.yaml
     business_requirement_versioning: nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
+    open_source_first_security_quality: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
   recipe:
     agent_to_mvp: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   prompts:
     generic_project_lifecycle: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
     auxiliary_development: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
     business_requirement_impact: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
+    security_quality_gate: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
   orchestration:
     project_analysis_to_mvp: nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
   template:
@@ -77,7 +79,10 @@ projects:
       - PF-APP-001
       - PF-QA-001
       - MVP-MOD-001-CLOSEOUT
-    active_backlog_item: MVP-MOD-002-DEF
+      - MVP-MOD-002-DEF
+      - MVP-MOD-002-BE-001
+      - MVP-MOD-002-BE-002
+    active_backlog_item: MVP-MOD-002-FE-001
 
 agent_policy:
   agent_agnostic: true
@@ -92,9 +97,11 @@ agent_policy:
     - nexora-framework/02-standards/standards/capability-package-standard.md
     - nexora-framework/02-standards/standards/product-marketplace-standard.md
     - nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+    - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
     - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
     - nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
     - nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
+    - nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
     - target_project/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml
     - target_project/BUSINESS_REQUIREMENT.md
     - target_project/SOURCE_OF_TRUTH.yaml

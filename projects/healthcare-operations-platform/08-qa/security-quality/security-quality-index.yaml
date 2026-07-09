@@ -1,0 +1,31 @@
+artifact:
+  id: HOP-SQ-IDX-001
+  type: security-quality-evidence-index
+  name: HOP Security Quality Evidence Index
+  version: 1.0.0
+  status: active
+  human_readable: README.md
+  machine_readable: security-quality-index.yaml
+
+standard:
+  framework_standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  prompt_playbook: ../../../../nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
+
+purpose: Track security quality evidence generated for code-changing HOP backlog items.
+
+evidence_path_pattern: 08-qa/security-quality/<backlog-item-id>/
+
+required_files_per_backlog:
+  - security-quality-evidence.yaml
+  - security-quality-evidence.md
+
+required_checks_when_applicable:
+  - tests
+  - sast_or_static_analysis
+  - dependency_vulnerability_scan
+  - secrets_scan
+  - coverage
+  - dast_for_runnable_web_or_api_surfaces
+  - container_or_iac_scan_when_assets_change
+
+entries: []

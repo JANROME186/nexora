@@ -40,16 +40,18 @@ Project-specific work lives under:
 10. `nexora-framework/02-standards/standards/open-data-ingestion-standard.md`
 11. `nexora-framework/02-standards/standards/product-marketplace-standard.md`
 12. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.md`
-13. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`
-14. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`
-15. `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
-16. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
-17. `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
-18. Target project `00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml` if present
-19. Target project `BUSINESS_REQUIREMENT.md`
-20. Target project `SOURCE_OF_TRUTH.yaml`
-21. Target project `PROJECT_BRIEF.yaml`
-22. Target project `PROJECT_STATE.yaml`
+13. `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md`
+14. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`
+15. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`
+16. `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
+17. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
+18. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
+19. `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
+20. Target project `00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml` if present
+21. Target project `BUSINESS_REQUIREMENT.md`
+22. Target project `SOURCE_OF_TRUTH.yaml`
+23. Target project `PROJECT_BRIEF.yaml`
+24. Target project `PROJECT_STATE.yaml`
 
 ## Nexora Framework
 
@@ -66,10 +68,12 @@ Use these files for the reusable method:
 - `nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
 - `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
 - `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
+- `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
 - `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
 - `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
 - `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
 - `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
 - `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
 - `nexora-framework/06-templates/templates/project-template/`
 
@@ -120,6 +124,8 @@ Required starting package:
 7. Update project-level `PROJECT_STATE.yaml` and `SOURCE_OF_TRUTH.yaml` for project work.
 8. Update root state only for repository or framework changes.
 9. Avoid provider, cloud or agent lock-in unless explicitly required.
+10. Prefer open source, self-hostable and standards-based technologies.
+11. For code-changing work, produce security quality evidence with applicable tests, SAST/static analysis, dependency vulnerability checks, secrets scan and coverage.
 
 ## Immediate Task
 

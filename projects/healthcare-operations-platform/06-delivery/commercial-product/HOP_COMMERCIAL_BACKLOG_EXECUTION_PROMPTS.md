@@ -20,6 +20,18 @@ Model -> Compile -> Implement Rules -> Validate -> Release
 
 Do not manually write CRUD scaffolding, DTOs, controllers, repositories, SDKs, Swagger documentation, repetitive documentation, duplicate models or repetitive tests when they can be generated from models.
 
+## Open Source And Security Quality Rule
+
+HOP must prefer open source, self-hostable and standards-based technologies. Any mandatory proprietary dependency requires an ADR exception.
+
+Every code-changing backlog item must write security quality evidence under:
+
+```text
+08-qa/security-quality/<backlog-item-id>/
+```
+
+The evidence must cover applicable tests, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when a runnable web/API surface exists.
+
 ## Required Rule
 
 If `BUSINESS_REQUIREMENT.md` is missing, stop. That file is requester-supplied source material and is the raw input for all product analysis.
@@ -35,6 +47,8 @@ Load these first:
 - `../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
 - `../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml`
 - `../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml`
+- `../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
+- `../../../../nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
 - `../../BUSINESS_REQUIREMENT.md`
 - `../../PROJECT_BRIEF.yaml`
 - `../../SOURCE_OF_TRUTH.yaml`
@@ -123,6 +137,8 @@ Load the selected Capability Package models first and follow existing project im
 Generate repetitive platform artifacts from the models before writing custom code.
 Keep changes scoped to the selected backlog item.
 Add or update only generated tests or custom rule tests appropriate to the backend, web, mobile, portal, integration or operations scope.
+Run or document applicable open source security quality gates for the changed stack, including SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when a runnable surface exists.
+Write security quality evidence under 08-qa/security-quality/<selected-backlog-item-id>/.
 Write QA evidence under 08-qa and update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
 Stop before starting the next backlog item.
 ```
@@ -131,6 +147,7 @@ Expected result:
 
 - Code changes.
 - Tests.
+- Security quality evidence in YAML and Markdown.
 - QA evidence in YAML and Markdown.
 - Registry updates.
 
@@ -156,5 +173,5 @@ Expected result:
 Start with:
 
 - Module: `MVP-MOD-002 Diagnostic Catalog`
-- Backlog item: `MVP-MOD-002-DEF`
-- Folder: `01-product-definition/business-capabilities/packages/`
+- Backlog item: `MVP-MOD-002-FE-001`
+- Folder: `07-implementation/employee-portal/`

@@ -27,6 +27,7 @@ source_inputs:
     - ../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
     - ../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
     - ../../../../nexora-framework/02-standards/standards/product-marketplace-standard.yaml
+    - ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
     - ../../../../nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   project:
     - ../../BUSINESS_REQUIREMENT.md
@@ -188,9 +189,11 @@ global_definition_of_done:
   - OpenAPI contracts are updated and remain compatible or have migration notes.
   - Traceability links capabilities, requirements, APIs, UI, domain events and tests.
   - QA evidence is written under 08-qa.
+  - Security quality evidence is written under 08-qa/security-quality/<backlog-item-id>/ for code-changing work.
   - PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml are updated.
   - Marketplace-ready capabilities validate purchase, entitlement, installation, activation, upgrade and retirement flows where applicable.
   - No agent-specific dependency, prompt or configuration is required.
+  - Mandatory proprietary technology choices have an approved exception ADR.
 
 capability_package_execution_contract:
   package_root: ../../01-product-definition/business-capabilities/packages/

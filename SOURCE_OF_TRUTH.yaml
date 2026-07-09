@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.69.0
+  version: 0.70.0
   status: approved
 sources:
   repository_readme: README.md
@@ -30,6 +30,8 @@ sources:
   product_marketplace_standard_md: nexora-framework/02-standards/standards/product-marketplace-standard.md
   business_requirement_versioning_standard: nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
   business_requirement_versioning_standard_md: nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+  open_source_first_security_quality_standard: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  open_source_first_security_quality_standard_md: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
   model_driven_product_engineering_adr: nexora-framework/07-governance/adr/ADR-031-model-driven-product-engineering-and-capability-packages.md
   product_marketplace_adr: nexora-framework/07-governance/adr/ADR-032-product-marketplace-and-commercial-extension-architecture.md
   agent_to_mvp_recipe: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
@@ -39,6 +41,8 @@ sources:
   auxiliary_development_prompts_yaml: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
   business_requirement_impact_prompts: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
   business_requirement_impact_prompts_yaml: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
+  security_quality_gate_prompts: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+  security_quality_gate_prompts_yaml: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
   multi_project_structure_adr: nexora-framework/07-governance/adr/ADR-024-multi-project-repository-structure.md
   project_template: nexora-framework/06-templates/templates/project-template/
   projects_index: projects/README.md
@@ -95,6 +99,8 @@ sources:
   hop_mvp_mod_001_pf_qa_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-QA-001-smoke-and-contract-tests.yaml
   hop_mvp_mod_001_closeout_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/MVP-MOD-001-closeout.md
   hop_mvp_mod_001_closeout_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/MVP-MOD-001-closeout.yaml
+  hop_security_quality_evidence_root: projects/healthcare-operations-platform/08-qa/security-quality/
+  hop_security_quality_evidence_index: projects/healthcare-operations-platform/08-qa/security-quality/security-quality-index.yaml
 rules:
   - Nexora is the company and repository-level framework owner.
   - Nexora final vision and strategic handoff define company-level intent and must remain agent agnostic.
@@ -122,4 +128,6 @@ rules:
   - HOP migration must support simple open ingestion formats that incumbent providers can reasonably export.
   - Nexora products that require commercial extensibility must apply the Product Marketplace Standard.
   - HOP optional commercial capabilities must use marketplace packages, tenant entitlements and package installation models.
+  - Nexora projects must apply open-source-first technology selection before introducing new mandatory technologies.
+  - Code-changing backlog items must produce security quality evidence with applicable open source tests, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when runnable surfaces exist.
   - Generated artifacts must not be edited manually.

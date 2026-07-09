@@ -13,6 +13,7 @@ inputs:
     - projects/<project-slug>/PROJECT_BRIEF.yaml
     - nexora-framework/02-standards/standards/project-folder-standard.yaml
     - nexora-framework/02-standards/standards/documentation-standard.yaml
+    - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
   optional:
     - existing_source_material
     - reference_systems
@@ -49,12 +50,14 @@ phases:
 
   - id: PHASE-004
     name: Architecture baseline
-    goal: Define application, data, security, integration, AI and deployment architecture.
+    goal: Define application, technology, data, security, integration, AI, deployment and open-source-first quality architecture.
     outputs:
       - 03-architecture/application-architecture.yaml
       - 03-architecture/technology-architecture.yaml
       - 03-architecture/security-architecture.yaml
       - 03-architecture/integration-architecture.yaml
+      - 03-architecture/open-source-first-technology-baseline.yaml
+      - 03-architecture/security-quality-gates.yaml
 
   - id: PHASE-005
     name: MVP delivery framework
@@ -94,4 +97,6 @@ rules:
   - Never place project-specific artifacts outside the project folder.
   - Never skip actor, process, rule and contract traceability.
   - Do not introduce provider lock-in unless the project brief explicitly requires it.
+  - Prefer open source, self-hostable and standards-based technologies unless an ADR approves an exception.
+  - Define security quality gates for SAST/static analysis, DAST when applicable, dependency vulnerability checks, secrets scan and coverage before implementation starts.
   - Implementation starts with the first module definition package, not with an empty app scaffold.

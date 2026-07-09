@@ -1,0 +1,229 @@
+artifact:
+  id: NXF-OSS-SEC-QUAL-001
+  type: framework-standard
+  name: Open Source First Security and Quality Standard
+  version: 1.0.0
+  status: approved
+  human_readable: open-source-first-security-quality-standard.md
+  machine_readable: open-source-first-security-quality-standard.yaml
+  owner: Nexora Engineering
+
+purpose: >
+  Ensure Nexora solutions prefer open source technologies and continuously apply
+  security, vulnerability, dependency, coverage and engineering quality gates as
+  the product is built, reducing cost, lock-in and technical debt.
+
+scope:
+  applies_to:
+    - new_project_analysis
+    - architecture_definition
+    - capability_package_definition
+    - backlog_implementation
+    - module_closeout
+    - release_readiness
+    - commercial_general_availability
+  project_types:
+    - web
+    - backend
+    - mobile
+    - api
+    - data
+    - ai
+    - integration
+    - deployment
+
+open_source_first_policy:
+  default_position: Prefer open source, self-hostable, standards-based technologies.
+  accepted_license_families:
+    - Apache-2.0
+    - MIT
+    - BSD-2-Clause
+    - BSD-3-Clause
+    - MPL-2.0
+    - EPL-2.0
+    - PostgreSQL
+  restricted_license_families:
+    - AGPL
+    - SSPL
+    - BUSL
+    - Commons-Clause
+    - custom-commercial-source-available
+  proprietary_exception_required: true
+  proprietary_exception_file: 07-governance/adr/<adr-id>-technology-exception.md
+  proprietary_exception_must_include:
+    - business_reason
+    - open_source_alternatives_evaluated
+    - total_cost_of_ownership_impact
+    - lock_in_risk
+    - migration_exit_strategy
+    - security_and_compliance_impact
+    - approval_decision
+  selection_criteria:
+    - mature_open_source_project
+    - active_maintenance
+    - clear_license
+    - broad_community_or_foundation_backing
+    - standards_based_interfaces
+    - self_hostable_or_portable_runtime
+    - automation_friendly
+    - observable_and_testable
+    - compatible_with_agent_agnostic_execution
+  lock_in_controls:
+    - Prefer open standards and replaceable adapters.
+    - Keep provider-specific code behind ports, adapters or configuration boundaries.
+    - Do not make a proprietary service the only way to run, test or develop the product unless approved by ADR.
+    - Prefer portable Docker, OCI, OpenAPI, SQL, OAuth2/OIDC, OpenTelemetry, Prometheus and standard CI primitives.
+
+recommended_open_source_toolchain:
+  sast:
+    generic:
+      - Semgrep
+      - Gitleaks
+    java:
+      - SpotBugs
+      - PMD
+      - Checkstyle
+      - Error Prone
+    javascript_typescript:
+      - ESLint
+      - TypeScript strict mode
+    flutter_dart:
+      - dart analyze
+      - flutter analyze
+  dast:
+    web_api:
+      - OWASP ZAP baseline scan
+      - OWASP ZAP API scan
+  dependency_and_supply_chain:
+    dependency_vulnerability:
+      - OSV-Scanner
+      - OWASP Dependency-Check
+      - npm audit when Node package managers are used
+      - pip-audit when Python is used
+    container_and_filesystem:
+      - Trivy
+      - Grype
+    sbom:
+      - Syft
+      - CycloneDX Maven Plugin
+      - CycloneDX npm tools
+  code_coverage:
+    java:
+      - JaCoCo
+    javascript_typescript:
+      - Vitest coverage
+      - Istanbul
+      - c8
+    flutter_dart:
+      - flutter test --coverage
+      - lcov
+  infrastructure_as_code:
+    - Checkov
+    - TFLint
+    - Hadolint
+  api_and_contract_quality:
+    - Spectral
+    - Schemathesis
+  observability_quality:
+    - OpenTelemetry
+    - Prometheus compatible metrics
+    - Grafana compatible dashboards
+
+quality_gates:
+  backlog_item_gate:
+    required_for_every_code_backlog:
+      - unit_tests
+      - relevant_integration_or_contract_tests
+      - dependency_vulnerability_scan
+      - secrets_scan
+      - sast_or_static_analysis_for_changed_stack
+      - coverage_report_for_changed_stack
+      - qa_evidence_yaml
+      - qa_evidence_md_when_human_review_is_needed
+    fail_conditions:
+      - new_critical_or_high_vulnerability_without_accepted_risk
+      - secret_detected
+      - critical_or_high_sast_finding_without_accepted_risk
+      - tests_failing
+      - coverage_decreases_without_documented_reason
+      - generated_artifacts_modified_without_source_model_change
+      - proprietary_dependency_without_exception_adr
+  module_closeout_gate:
+    required:
+      - all_backlog_item_gates_passed
+      - aggregate_coverage_report
+      - dependency_and_container_scan_when_applicable
+      - dast_baseline_when_web_api_or_ui_is_runnable
+      - openapi_contract_validation_when_api_changed
+      - threat_model_or_security_notes_for_security_sensitive_module
+      - accepted_risk_register_updated
+  release_gate:
+    required:
+      - sast_passed
+      - dast_passed_or_not_applicable_with_reason
+      - dependency_scan_passed
+      - container_scan_passed_when_containers_exist
+      - sbom_generated
+      - coverage_threshold_met_or_exception_approved
+      - known_vulnerabilities_reviewed
+      - license_review_passed
+      - security_quality_evidence_registered
+
+default_thresholds:
+  vulnerability_policy:
+    critical: fail
+    high: fail
+    medium: warn_for_mvp_fail_for_ga_unless_accepted
+    low: warn
+  sast_policy:
+    critical: fail
+    high: fail
+    medium: warn_or_fail_by_module_risk
+    low: warn
+  coverage_policy:
+    mvp_minimum_line_coverage_target: 70
+    commercial_ga_line_coverage_target: 80
+    branch_coverage_target: project_defined
+    changed_code_must_not_reduce_existing_coverage: true
+  license_policy:
+    restricted_license_requires_review: true
+    proprietary_dependency_requires_exception_adr: true
+
+evidence_requirements:
+  root_folder: 08-qa/security-quality/
+  per_backlog_path_pattern: 08-qa/security-quality/<backlog-item-id>/
+  required_files:
+    - security-quality-evidence.yaml
+    - security-quality-evidence.md
+  evidence_yaml_must_include:
+    - backlog_item_id
+    - module_id
+    - changed_components
+    - open_source_first_assessment
+    - tools_run
+    - commands_or_equivalent_steps
+    - results
+    - coverage_summary
+    - dependency_vulnerability_summary
+    - sast_summary
+    - dast_summary_when_applicable
+    - secrets_scan_summary
+    - license_summary
+    - accepted_risks
+    - blocking_findings
+    - decision
+
+agent_rules:
+  - Agents must prefer open source libraries, frameworks, tools and standards unless the requester explicitly requires otherwise or an ADR approves an exception.
+  - Agents must not introduce proprietary runtimes, hosted services, paid-only SDKs or closed-source dependencies as mandatory product dependencies without an exception ADR.
+  - Agents must add or update quality-gate evidence for every backlog item that changes code, dependencies, runtime configuration, APIs or deployment assets.
+  - Agents must run the security and quality gates that are applicable to the changed stack; unavailable tools must be documented with the reason and a replacement or follow-up.
+  - Agents must fail the backlog item when critical or high findings are introduced and no accepted risk exists.
+  - Agents must keep quality tooling project-local, reproducible and agent agnostic.
+  - Agents must keep generated security and quality evidence in YAML first, with Markdown as the human companion.
+
+non_goals:
+  - This standard does not require one specific CI/CD vendor.
+  - This standard does not require proprietary security platforms.
+  - This standard does not replace domain security, IAM, privacy or regulatory requirements.
+  - This standard does not force every tool on every project; applicability depends on the stack and changed surface.

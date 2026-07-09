@@ -18,7 +18,7 @@ The short sequence is:
 
 1. `00-start-here/` - Understand vision, handoff and execution order.
 2. `01-enterprise/` - Load Nexora company context.
-3. `02-standards/` - Load documentation, project folder and agent-agnostic standards.
+3. `02-standards/` - Load documentation, project folder, agent-agnostic, open-source-first and security quality standards.
 4. `03-orchestration/` - Decide whether a project needs analysis, validation or implementation.
 5. `04-recipes/` - Apply the Agent-to-MVP recipe when definitions are missing.
 6. `05-prompts/` - Use generic and auxiliary prompts for analysis, validation and development.
@@ -55,10 +55,12 @@ It defines:
 - `02-standards/standards/open-data-ingestion-standard.yaml`
 - `02-standards/standards/product-marketplace-standard.yaml`
 - `02-standards/standards/business-requirement-versioning-standard.yaml`
+- `02-standards/standards/open-source-first-security-quality-standard.yaml`
 - `03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
 - `04-recipes/recipes/agent-to-mvp-recipe.yaml`
 - `05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
 - `05-prompts/prompts/auxiliary-development-prompts.yaml`
+- `05-prompts/prompts/security-quality-gate-prompts.yaml`
 - `06-templates/templates/project-template/`
 
 ## Execution Logic
@@ -71,8 +73,9 @@ For any project under `projects/<project-slug>/`:
 4. Apply the orchestration workflow.
 5. If analysis is incomplete, apply the Agent-to-MVP recipe.
 6. If the business requirement changed, generate an impact assessment before modifying derived artifacts.
-7. Validate the project against the framework.
-8. Start development only from the approved project state and module package.
+7. Apply the open-source-first and security quality standard to technology choices and code-changing work.
+8. Validate the project against the framework.
+9. Start development only from the approved project state and module package.
 
 ## Project Rule
 

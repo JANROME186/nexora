@@ -20,6 +20,7 @@ prompt_hierarchy:
     - PROMPT-DEVELOP-001
   auxiliary_prompt_playbooks:
     - nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
+    - nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
     - nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
     - target_project/06-delivery/mvp/*backlog*execution*.yaml
   precedence_rule: Auxiliary prompts may refine execution but must not contradict this file, the project source of truth or the target module package.
@@ -44,6 +45,8 @@ shared_rules:
   - Do not create unnumbered project-root folders outside the project folder standard.
   - Prefer YAML files for agent execution and Markdown files for human readability.
   - Preserve agent-agnostic, provider-agnostic and cloud-agnostic definitions unless the business requirement explicitly requires otherwise.
+  - Prefer open source, self-hostable and standards-based technologies unless an approved ADR documents an exception.
+  - Code-changing work must produce security quality evidence with applicable tests, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when runnable surfaces exist.
   - Commit coherent milestones when repository changes are made.
 
 prompts:
@@ -70,10 +73,12 @@ prompts:
       - nexora-framework/02-standards/standards/documentation-standard.yaml
       - nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
       - nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
+      - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
       - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
       - nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
       - nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
       - nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
+      - nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
 
       Rules:
       - Do not generate or replace BUSINESS_REQUIREMENT.md.
@@ -86,6 +91,7 @@ prompts:
       - Generate Markdown for human readability and YAML for agent execution.
       - Prefer YAML as the machine-readable source for agent handoff.
       - Preserve agent-agnostic, provider-agnostic and cloud-agnostic definitions unless BUSINESS_REQUIREMENT.md explicitly requires otherwise.
+      - Prefer open source technology choices and document any proprietary exception by ADR.
 
       Required result:
       Analyze the business requirement and complete the target project folder with all definitions required for MVP development.
@@ -168,9 +174,11 @@ prompts:
       - nexora-framework/02-standards/standards/documentation-standard.yaml
       - nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
       - nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
+      - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
       - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
       - nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
       - nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
+      - nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
       - projects/<project-slug>/SOURCE_OF_TRUTH.yaml
       - projects/<project-slug>/PROJECT_STATE.yaml
 
@@ -192,6 +200,8 @@ prompts:
       - The first module package exists and contains all required Markdown/YAML/contract/traceability files.
       - Traceability connects business requirement, capabilities, actors, rules, contracts, UI/workflows and tests.
       - No mandatory agent, provider, model, cloud or platform dependency was introduced unless explicitly required by BUSINESS_REQUIREMENT.md.
+      - Open-source-first technology selection is documented or proprietary exceptions have ADRs.
+      - Security quality gate expectations exist for code-changing backlog items.
       - All YAML files in the repository parse successfully.
 
       If the project passes:
@@ -225,8 +235,10 @@ prompts:
       - nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
       - nexora-framework/02-standards/standards/documentation-standard.yaml
       - nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
+      - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
       - nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
       - nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
+      - nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
       - nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
       - projects/<project-slug>/SOURCE_OF_TRUTH.yaml
       - projects/<project-slug>/PROJECT_STATE.yaml
@@ -260,6 +272,8 @@ prompts:
       - Implement one backlog item or module slice at a time.
       - Keep backend, web, mobile, infrastructure and tests aligned with the module package.
       - Preserve bounded contexts, business rules, security rules, audit rules and contracts.
+      - Prefer open source frameworks and tooling; do not introduce a mandatory proprietary dependency without an exception ADR.
+      - For any code-changing slice, run or document applicable security quality gates and write evidence under 08-qa/security-quality/<backlog-item-id>/.
       - Update tests and traceability when implementation changes behavior.
       - Update PROJECT_STATE.yaml after verified progress.
       - Stop and record a blocking gap if definitions are missing or contradictory.
@@ -275,8 +289,9 @@ prompts:
       7. Implement the first pending backlog item or module slice.
       8. Add or update tests according to test-plan.yaml.
       9. Validate locally where possible.
-      10. Update PROJECT_STATE.yaml, traceability and implementation README files.
-      11. Commit the implementation milestone.
+      10. Run or document applicable security quality gates.
+      11. Update PROJECT_STATE.yaml, traceability, security quality evidence and implementation README files.
+      12. Commit the implementation milestone.
 
       Final response:
       Report implemented slice, files changed, validation commands executed, remaining backlog, known gaps and commit hash.
@@ -284,6 +299,7 @@ prompts:
 minimal_user_prompts:
   resolve_business_requirement: "Resolve the latest BUSINESS_REQUIREMENT version for projects/<project-slug>/ and report whether derived YAML or impact assessment is required."
   business_requirement_impact: "Analyze the impact of the latest BUSINESS_REQUIREMENT change for projects/<project-slug>/ and estimate impacted components, effort, time and cost."
+  security_quality_gate: "Run the open-source-first security quality gate for the selected backlog item in projects/<project-slug>/ and write evidence under 08-qa/security-quality/."
   analysis: "Apply the Nexora framework to projects/<project-slug>/ and generate all MVP-ready definitions from BUSINESS_REQUIREMENT.md."
   validation: "Validate projects/<project-slug>/ against the Nexora framework and report whether it is ready for MVP development."
   development: "Develop the MVP for projects/<project-slug>/ using its PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml and ordered module package."

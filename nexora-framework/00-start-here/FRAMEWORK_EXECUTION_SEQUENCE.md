@@ -26,7 +26,7 @@ The machine-readable version is:
    Load Nexora company context and enterprise identity.
 
 3. `02-standards/`
-   Load project folder, documentation, agent-agnostic, MDPE, capability package, open data ingestion, product marketplace and business requirement versioning standards.
+   Load project folder, documentation, agent-agnostic, MDPE, capability package, open data ingestion, product marketplace, business requirement versioning and open-source security quality standards.
 
 4. `03-orchestration/`
    Decide whether the target project needs analysis, validation or development.
@@ -35,7 +35,7 @@ The machine-readable version is:
    Apply the Agent-to-MVP recipe when project definitions are incomplete.
 
 6. `05-prompts/`
-   Use generic prompts for analysis, validation and development. Use auxiliary prompts only after the generic development prompt selects a project, module and slice.
+   Use generic prompts for analysis, validation, development, impact and security quality gates. Use auxiliary prompts only after the generic development prompt selects a project, module and slice.
 
 7. `06-templates/`
    Use templates when creating or completing required project artifacts.
@@ -62,6 +62,7 @@ Development can start only after:
 - `blocking_definition_gaps` is empty.
 - The target module package exists.
 - The target module package has YAML, Markdown, OpenAPI and traceability artifacts required by the module definition.
+- Open-source-first and security quality gates are defined for code-changing work.
 
 ## Current First Product
 

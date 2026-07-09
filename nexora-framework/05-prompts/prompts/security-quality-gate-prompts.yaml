@@ -1,0 +1,65 @@
+artifact:
+  id: NXF-SQ-PROMPTS-001
+  type: prompt-playbook
+  name: Security and Quality Gate Prompts
+  version: 1.0.0
+  status: approved
+  human_readable: security-quality-gate-prompts.md
+  machine_readable: security-quality-gate-prompts.yaml
+  owner: Nexora Engineering
+
+purpose: Provide reusable agent-agnostic prompts for open-source-first technology selection and security quality gate validation.
+
+required_context:
+  - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  - nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+  - target_project/SOURCE_OF_TRUTH.yaml
+  - target_project/PROJECT_STATE.yaml
+  - target_project/08-qa/
+
+prompts:
+  - id: PROMPT-OSS-001
+    name: Open-source-first technology assessment
+    intent: Confirm that new or changed technology choices prefer open source, portable and standards-based options.
+    expected_output:
+      - selected_technologies
+      - open_source_assessment
+      - license_summary
+      - proprietary_exceptions_required
+      - lock_in_risks
+      - recommendation
+    prompt: |
+      Load the Open Source First Security and Quality Standard.
+      Review the changed architecture, dependencies, runtime tools and implementation choices.
+      Prefer open source, self-hostable, standards-based technologies.
+      If a proprietary or paid-only dependency is introduced as mandatory, stop unless an ADR exception exists or is created.
+      Produce the open_source_first_assessment section for the backlog security-quality evidence.
+
+  - id: PROMPT-SQ-001
+    name: Backlog security and quality gate
+    intent: Run or document all security and quality checks required for a code-changing backlog item.
+    expected_output:
+      - security-quality-evidence.yaml
+      - security-quality-evidence.md
+      - pass_fail_decision
+      - blocking_findings
+      - accepted_risks
+    prompt: |
+      For the selected backlog item, identify changed backend, web, mobile, API, dependency, container and deployment surfaces.
+      Run applicable open source checks for tests, SAST/static analysis, dependency vulnerabilities, secrets, coverage, contract quality and DAST when a runnable surface exists.
+      Use the project's existing toolchain first. Add lightweight open source tools only when they fit the stack and can run reproducibly without vendor lock-in.
+      Write evidence under 08-qa/security-quality/<backlog-item-id>/.
+      Do not close the backlog item when critical or high findings, secrets, failing tests or undocumented coverage regressions remain unresolved.
+
+  - id: PROMPT-SQ-002
+    name: Module closeout security and quality gate
+    intent: Validate aggregate module quality before moving to the next module.
+    expected_output:
+      - aggregate_security_quality_report
+      - module_closeout_decision
+      - release_blockers
+    prompt: |
+      Before closing a module, aggregate all backlog security-quality evidence for the module.
+      Confirm SAST/static analysis, dependency scans, coverage, DAST where applicable, tests, contract checks, SBOM and license review are present or explicitly not applicable with reasons.
+      Update module closeout QA evidence and PROJECT_STATE.yaml.
+      Do not recommend the next module when unresolved critical or high security findings exist without accepted risk.

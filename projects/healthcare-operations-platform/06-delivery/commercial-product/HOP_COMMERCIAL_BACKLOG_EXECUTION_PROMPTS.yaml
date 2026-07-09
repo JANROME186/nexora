@@ -14,6 +14,8 @@ rules:
   - Agents must load YAML files before Markdown when both exist.
   - Agents must not continue if BUSINESS_REQUIREMENT.md is missing.
   - Agents must not require a vendor-specific agent, runtime, prompt extension or configuration.
+  - Agents must prefer open source, self-hostable and standards-based technologies unless an ADR approves an exception.
+  - Agents must produce security quality evidence for every code-changing backlog item.
   - Agents must execute capability packages in dependency order unless an explicit mock strategy is documented.
   - Agents must not manually create repetitive CRUD, DTO, controller, repository, SDK, Swagger, documentation or test artifacts when they can be generated from models.
   - Agents must update project registries and QA evidence before closing any backlog item.
@@ -27,6 +29,8 @@ required_context:
     - ../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
     - ../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
     - ../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+    - ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+    - ../../../../nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
     - ../../../../nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   project_level:
     - ../../BUSINESS_REQUIREMENT.md
@@ -123,6 +127,8 @@ prompt_sequence:
     expected_output:
       - code_changes
       - tests
+      - security_quality_evidence_yaml
+      - security_quality_evidence_md
       - qa_evidence_yaml
       - qa_evidence_md
       - registry_updates
@@ -132,6 +138,8 @@ prompt_sequence:
       Generate repetitive platform artifacts from the models before writing custom code.
       Keep changes scoped to the selected backlog item.
       Add or update only generated tests or custom rule tests appropriate to the backend, web, mobile, portal, integration or operations scope.
+      Run or document applicable open source security quality gates for the changed stack, including SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when a runnable surface exists.
+      Write security quality evidence under 08-qa/security-quality/<selected-backlog-item-id>/.
       Write QA evidence under 08-qa and update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
       Stop before starting the next backlog item.
 
@@ -164,12 +172,15 @@ validation_commands:
   agent_agnostic_scan:
     intent: Confirm no artifact requires a specific named agent or vendor runtime.
     command_template: "Scan source artifacts for named-agent or vendor-specific requirements and resolve findings."
+  security_quality_gate:
+    intent: Confirm open-source-first and security quality checks were run or documented for code-changing work.
+    command_template: "Run applicable open source SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST where applicable; write evidence under 08-qa/security-quality/<backlog-item-id>/."
   git_whitespace:
     intent: Confirm no whitespace errors before commit.
     command_template: "Run repository whitespace validation before closing the item."
 
 next_backlog_item:
   module_id: MVP-MOD-002
-  backlog_item_id: MVP-MOD-002-DEF
-  name: Diagnostic Catalog capability package models
-  expected_folder: ../../01-product-definition/business-capabilities/packages/
+  backlog_item_id: MVP-MOD-002-FE-001
+  name: Compile employee catalog UI outputs
+  expected_folder: ../../07-implementation/employee-portal/

@@ -23,10 +23,14 @@ El framework incluye un playbook de prompts reutilizable para cualquier proyecto
 - `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
 - `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md`
 - `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md`
+- `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
 
 La version YAML es la fuente operativa para agentes. La version Markdown es para lectura humana.
 
 Los prompts auxiliares de desarrollo ayudan a ejecutar kickoff de modulo, slices de backlog, backend, web, movil, QA y cierre. No reemplazan a los prompts genericos; solo se usan despues de que el prompt generico de desarrollo selecciona proyecto, modulo y slice.
+
+Los prompts de security quality gate aplican la politica open-source-first y las validaciones de seguridad, dependencias, cobertura y buenas practicas para cada backlog que cambia codigo.
 
 Para usar el framework con un nuevo proyecto, la persona usuaria solo debe:
 
@@ -97,9 +101,11 @@ Archivos importantes:
 - `nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
 - `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
 - `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
+- `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
 - `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
 - `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
 - `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
 - `nexora-framework/06-templates/templates/project-template/`
 
 Todo agente debe cargar el framework antes de analizar o implementar un proyecto.
@@ -253,14 +259,16 @@ El agente de analisis debe cargar estos archivos en este orden:
 11. `nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
 12. `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
 13. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
-14. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
-15. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
-16. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
-17. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
-18. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
-19. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`, si existe
-20. `projects/<project-slug>/PROJECT_BRIEF.md`, si existe
-21. `projects/<project-slug>/PROJECT_STATE.yaml`, si existe
+14. `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
+15. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
+16. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
+17. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
+18. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
+19. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
+20. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
+21. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`, si existe
+22. `projects/<project-slug>/PROJECT_BRIEF.md`, si existe
+23. `projects/<project-slug>/PROJECT_STATE.yaml`, si existe
 
 Si faltan archivos de control del proyecto, el agente debe crearlos usando el template del framework.
 
@@ -350,6 +358,8 @@ Salidas esperadas:
 
 La arquitectura debe ser reemplazable por diseno. Evitar dependencias obligatorias a una nube, proveedor, runtime de modelo o plataforma de agente, salvo que el requerimiento de negocio lo exija explicitamente.
 
+La seleccion tecnologica debe seguir open-source-first: frameworks, librerias, herramientas y runtimes abiertos, self-hostable y basados en estandares. Cualquier dependencia propietaria obligatoria requiere ADR de excepcion con alternativas open source evaluadas, costo total, riesgo de lock-in y estrategia de salida.
+
 ### Requerimientos y UX
 
 Carpeta esperada:
@@ -417,6 +427,7 @@ Salidas esperadas:
 - Expectativas de contract tests.
 - Definiciones de acceptance tests.
 - Estructura de fixtures o evidencia de calidad cuando aplique.
+- Estructura `security-quality/<backlog-item-id>/` para evidencia de SAST/static analysis, DAST cuando aplique, analisis de dependencias, vulnerabilidades, secrets scan y cobertura.
 
 ### Operaciones
 
@@ -632,21 +643,23 @@ El agente de desarrollo debe cargar:
 4. `PROJECT_STATE.yaml`
 5. `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
 6. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
-7. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
-8. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
-9. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
-10. `projects/<project-slug>/PROJECT_BRIEF.md`
-11. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`
-12. `projects/<project-slug>/PROJECT_STATE.yaml`
-13. `projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.md`
-14. `module-definition.yaml` del modulo objetivo
-15. `domain-model.md` del modulo objetivo
-16. `api-contract.openapi.yaml` del modulo objetivo
-17. `database-migration-plan.md` del modulo objetivo
-18. `ui-screen-map.md` del modulo objetivo
-19. `security-and-audit-rules.md` del modulo objetivo
-20. `test-plan.md` del modulo objetivo
-21. `traceability.yaml` del modulo objetivo
+7. `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
+8. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
+9. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
+10. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
+11. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
+12. `projects/<project-slug>/PROJECT_BRIEF.md`
+13. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`
+14. `projects/<project-slug>/PROJECT_STATE.yaml`
+15. `projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.md`
+16. `module-definition.yaml` del modulo objetivo
+17. `domain-model.md` del modulo objetivo
+18. `api-contract.openapi.yaml` del modulo objetivo
+19. `database-migration-plan.md` del modulo objetivo
+20. `ui-screen-map.md` del modulo objetivo
+21. `security-and-audit-rules.md` del modulo objetivo
+22. `test-plan.md` del modulo objetivo
+23. `traceability.yaml` del modulo objetivo
 
 El agente tambien debe cargar cualquier artefacto de producto, dominio, arquitectura, contrato o QA referenciado por el paquete del modulo.
 
@@ -659,6 +672,9 @@ El agente de desarrollo debe:
 - Respetar reglas de negocio y auditoria.
 - Mantener contratos sincronizados con implementacion.
 - Agregar o actualizar pruebas.
+- Preferir frameworks y herramientas open source.
+- Ejecutar o documentar SAST/static analysis, DAST cuando aplique, analisis de dependencias, vulnerabilidades, secrets scan y cobertura para cada backlog que cambia codigo.
+- Escribir evidencia en `08-qa/security-quality/<backlog-item-id>/`.
 - Actualizar trazabilidad.
 - Actualizar notas de operaciones cuando cambie el comportamiento runtime.
 - Actualizar estado del proyecto despues de avances significativos.
@@ -670,6 +686,7 @@ El agente de desarrollo no debe:
 - Mover artefactos especificos del proyecto a la raiz del repositorio.
 - Tratar artefactos generados como autoritativos por encima de fuentes.
 - Introducir dependencia obligatoria a un agente, proveedor o nube especifica.
+- Introducir dependencias propietarias obligatorias sin ADR de excepcion.
 - Saltarse boundaries de adaptadores o anti-corruption layers.
 
 ## Etapa 8: Validar Handoff de Desarrollo

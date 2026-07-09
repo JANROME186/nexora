@@ -27,7 +27,7 @@ If the project brief is missing, the agent must create it from the business requ
 1. Intake normalization.
 2. Product definition.
 3. Domain foundation.
-4. Architecture baseline.
+4. Architecture baseline, including open-source-first technology baseline and security quality gates.
 5. MVP delivery framework.
 6. Development readiness gate.
 
@@ -43,6 +43,8 @@ Development can start when:
 - Actor catalog exists.
 - Reference processes exist.
 - Business rules exist.
+- Open-source-first technology baseline exists.
+- Security quality gate strategy exists for SAST/static analysis, DAST when applicable, dependency vulnerability checks, secrets scan and coverage.
 - MVP framework exists.
 - First module definition package exists.
 - `blocking_definition_gaps` is empty.

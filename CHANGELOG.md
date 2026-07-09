@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.70.0] - 2026-07-09
+
+### Added
+- Added Nexora Open Source First Security and Quality Standard in Markdown and YAML.
+- Added reusable security quality gate prompts for open-source-first assessment, backlog gates and module closeout gates.
+
+### Changed
+- Updated framework execution sequence, bootstrap, generic lifecycle prompts, usage guide and HOP commercial backlog prompts so code-changing backlog items require security quality evidence.
+- Updated repository and HOP source-of-truth registries to load the new standard and prompt playbook.
+
 ## [0.69.0] - 2026-07-08
 
 ### Added

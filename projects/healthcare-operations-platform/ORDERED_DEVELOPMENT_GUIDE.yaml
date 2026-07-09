@@ -36,7 +36,7 @@ project_folder_order:
     use: Place code or generated implementation assets when implementation is colocated.
   - step: "08"
     folder: 08-qa
-    use: Define and store tests, fixtures and quality evidence.
+    use: Define and store tests, fixtures, quality evidence and security quality gate evidence.
   - step: "09"
     folder: 09-operations
     use: Define engineering governance, deployment, observability and runbooks.
@@ -54,6 +54,8 @@ agent_loading_order:
   - PROJECT_BRIEF.yaml
   - SOURCE_OF_TRUTH.yaml
   - PROJECT_STATE.yaml
+  - ../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  - ../../nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
   - 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml
   - 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml
   - 02-domain-definition/actors/acm-001/actor-catalog.yaml
@@ -82,6 +84,7 @@ incremental_rule:
   - Confirm actors, rules, processes and contracts.
   - Implement only the selected module slice.
   - Add or update tests in 08-qa.
+  - Run or document applicable open source security quality gates and write evidence under 08-qa/security-quality/<backlog-item-id>/.
   - Add operations notes in 09-operations when runtime behavior changes.
   - Update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
 
@@ -98,3 +101,22 @@ business_requirement_change_rule:
     - effort
     - timeline
     - cost_or_rate_card_required
+
+security_quality_rule:
+  standard: ../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  prompt_playbook: ../../nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
+  evidence_folder: 08-qa/security-quality/
+  applies_to: code-changing backlog items
+  required_checks_when_applicable:
+    - tests
+    - sast_or_static_analysis
+    - dependency_vulnerability_scan
+    - secrets_scan
+    - coverage
+    - dast_for_runnable_web_or_api_surfaces
+  fail_on:
+    - critical_or_high_vulnerability_without_accepted_risk
+    - secret_detected
+    - failing_tests
+    - undocumented_coverage_regression
+    - mandatory_proprietary_dependency_without_adr

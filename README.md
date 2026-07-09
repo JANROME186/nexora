@@ -8,6 +8,8 @@ All framework and project artifacts are agent agnostic: no project may require a
 
 Nexora follows Model Driven Product Engineering: editable models are the durable source of truth, Business Capability Packages are the primary development unit, and repetitive platform artifacts are generated or derived from models.
 
+Nexora also follows open-source-first engineering: product stacks should prefer open source, self-hostable and standards-based technologies, with security quality gates applied during each code-changing backlog item.
+
 Agents must use the Nexora framework to scan `projects/`, validate whether each project has already been analyzed, and complete missing definitions before handing work to specialized subagents.
 
 ## Repository Structure
@@ -58,17 +60,23 @@ Completed backlog item:
 
 `MVP-MOD-001-CLOSEOUT Validate and close the module`
 
+`MVP-MOD-002-DEF Generate Diagnostic Catalog capability packages`
+
+`MVP-MOD-002-BE-001 Compile Diagnostic Catalog backend outputs`
+
+`MVP-MOD-002-BE-002 Implement Diagnostic Catalog custom business rules`
+
 Current module status:
 
 `MVP-MOD-001 Platform Foundation implemented and ready for functional validation`
 
 Current commercial product status:
 
-`HOP commercial product backlog defined and ready to start MVP-MOD-002`
+`HOP MVP-MOD-002 Diagnostic Catalog backend is ready for employee portal UI compilation`
 
 Next backlog item:
 
-`MVP-MOD-002-DEF Generate Diagnostic Catalog definition package`
+`MVP-MOD-002-FE-001 Compile employee catalog UI outputs`
 
 Commercial backlog:
 
@@ -110,6 +118,10 @@ Business requirement versioning standard:
 
 `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
 
+Open-source-first security quality standard:
+
+`nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
+
 Project folder:
 
 `projects/healthcare-operations-platform/`
@@ -120,6 +132,7 @@ Project folder:
 - `NEXORA_FRAMEWORK_USAGE_GUIDE.md`
 - `nexora-framework/README.md`
 - `nexora-framework/02-standards/standards/agent-agnostic-standard.md`
+- `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md`
 - `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`
 - `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`
 - `projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md`

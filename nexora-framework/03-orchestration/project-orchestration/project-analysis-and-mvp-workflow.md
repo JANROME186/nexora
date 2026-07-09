@@ -25,9 +25,10 @@ If `BUSINESS_REQUIREMENT.md` is missing, the project is not ready to analyze.
 4. Decide whether the project is already analyzed.
 5. If it is not analyzed, apply `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`.
 6. Produce source artifacts first.
-7. Create the MVP delivery framework and first module package.
-8. Update `SOURCE_OF_TRUTH.yaml` and `PROJECT_STATE.yaml`.
-9. Handoff module packages to specialized subagents.
+7. Define the open-source-first technology baseline and security quality gate strategy.
+8. Create the MVP delivery framework and first module package.
+9. Update `SOURCE_OF_TRUTH.yaml` and `PROJECT_STATE.yaml`.
+10. Handoff module packages to specialized subagents.
 
 ## MVP Readiness
 
@@ -37,6 +38,7 @@ A project is ready for development when:
 - Product, domain, architecture, requirements, contracts and QA definitions exist.
 - MVP modules are ordered incrementally.
 - The first module has a complete implementation package.
+- Open-source-first technology selection and security quality gate expectations are defined.
 - `PROJECT_STATE.yaml` has `development_readiness.status: ready`.
 - `blocking_definition_gaps` is empty.
 
