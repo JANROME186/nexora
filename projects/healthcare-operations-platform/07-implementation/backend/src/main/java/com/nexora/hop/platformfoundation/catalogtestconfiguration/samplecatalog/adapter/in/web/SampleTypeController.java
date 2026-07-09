@@ -58,6 +58,11 @@ class SampleTypeController {
         return ResponseEntity.ok(SampleTypeResponse.from(updated));
     }
 
+    @PostMapping("/{sampleTypeId}/publish")
+    ResponseEntity<SampleTypeResponse> publishSampleType(@PathVariable String sampleTypeId) {
+        return ResponseEntity.ok(SampleTypeResponse.from(service.publishSampleType(sampleTypeId)));
+    }
+
     record CreateSampleTypeRequest(
             @NotBlank String tenantId,
             @NotBlank String laboratoryId,

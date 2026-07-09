@@ -11,6 +11,12 @@ public interface ReferenceRangeRepository {
 
     List<ReferenceRange> findByLaboratoryId(String laboratoryId);
 
+    /**
+     * Returns every reference range recorded for the given analyte, across statuses. Used by the
+     * effective-dated resolution (RN-006) and publication overlap detection (RN-005) custom rules.
+     */
+    List<ReferenceRange> findByAnalyteRefId(String analyteRefId);
+
     void replaceSegments(String rangeId, List<ReferenceRangeSegment> segments);
 
     List<ReferenceRangeSegment> findSegments(String rangeId);

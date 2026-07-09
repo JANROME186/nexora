@@ -19,11 +19,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Functional coverage for the catalog-test-configuration bounded context compiled for
- * MVP-MOD-002-BE-001. Exercises the generatable create/list/get/deprecate flows for each of the
- * eight Diagnostic Catalog capabilities and confirms that every custom rule declared as a
- * generation-plan.yaml custom_implementation_point responds as an explicit 501 hook reserved for
- * MVP-MOD-002-BE-002.
+ * Functional coverage for the generatable CRUD flows of the catalog-test-configuration bounded
+ * context. The custom publication, versioning, assignment and effective-resolution rules delivered
+ * by MVP-MOD-002-BE-002 are covered in detail by {@link CatalogCustomRulesApiTest}; this suite
+ * confirms the generatable create/list/get/deprecate flows still behave and that the endpoints that
+ * were HTTP 501 hooks in MVP-MOD-002-BE-001 now expose functional behavior.
  */
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -46,7 +46,7 @@ class CatalogTestConfigurationApiTest {
     }
 
     @Test
-    void diagnosticServiceCanBeCreatedListedAndDeprecatedAndPublishIsAHook() throws Exception {
+    void diagnosticServiceCanBeCreatedListedPublishedAndDeprecated() throws Exception {
         JsonNode service = postJson("/api/catalog/diagnostic-services", """
                 {"tenantId":"%s","laboratoryId":"%s","code":"SVC-1","nameEn":"Basic Panel","nameEs":"Panel Basico",
                  "serviceType":"panel","components":[{"componentType":"panel","componentRefId":"panel-1"}]}
@@ -59,8 +59,8 @@ class CatalogTestConfigurationApiTest {
                 .andExpect(jsonPath("$[0].serviceId").exists());
 
         mockMvc.perform(post("/api/catalog/diagnostic-services/{id}/publish", serviceId))
-                .andExpect(status().isNotImplemented())
-                .andExpect(jsonPath("$.backlogItem").value("MVP-MOD-002-BE-002"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("published"));
 
         mockMvc.perform(post("/api/catalog/diagnostic-services/{id}/deprecate", serviceId))
                 .andExpect(status().isOk())
@@ -83,12 +83,13 @@ class CatalogTestConfigurationApiTest {
                 """.formatted(tenantId, LAB));
         String testId = test.get("testDefinitionId").asText();
 
+        // Publication requires analyte and sample requirement references; this test declares none.
         mockMvc.perform(post("/api/catalog/tests/{id}/publish", testId))
-                .andExpect(status().isNotImplemented());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    void panelRequiresMinimumMembersHookOnPublish() throws Exception {
+    void panelPublishesWithMembersAndCanBeDeprecated() throws Exception {
         JsonNode panel = postJson("/api/catalog/panels", """
                 {"tenantId":"%s","laboratoryId":"%s","code":"PNL-1","nameEn":"Chem Panel","nameEs":"Panel Quimico",
                  "members":[{"testRefId":"test-1","mandatory":true},{"testRefId":"test-2","mandatory":false}]}
@@ -96,7 +97,8 @@ class CatalogTestConfigurationApiTest {
         String panelId = panel.get("panelId").asText();
 
         mockMvc.perform(post("/api/catalog/panels/{id}/publish", panelId))
-                .andExpect(status().isNotImplemented());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("published"));
 
         mockMvc.perform(post("/api/catalog/panels/{id}/deprecate", panelId))
                 .andExpect(status().isOk())
@@ -104,7 +106,7 @@ class CatalogTestConfigurationApiTest {
     }
 
     @Test
-    void analyteRequiresUnitAndPrecisionForNumericType() throws Exception {
+    void analyteRequiresUnitAndPrecisionForNumericTypeAndPublishes() throws Exception {
         mockMvc.perform(post("/api/catalog/analytes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
@@ -121,11 +123,12 @@ class CatalogTestConfigurationApiTest {
         String analyteId = analyte.get("analyteId").asText();
 
         mockMvc.perform(post("/api/catalog/analytes/{id}/publish", analyteId))
-                .andExpect(status().isNotImplemented());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("published"));
     }
 
     @Test
-    void preparationRequiresDurationForFastingCategoryAndAssignIsAHook() throws Exception {
+    void preparationRequiresDurationForFastingCategoryAndAssignRequiresPublication() throws Exception {
         mockMvc.perform(post("/api/catalog/preparations")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
@@ -142,14 +145,15 @@ class CatalogTestConfigurationApiTest {
                 """.formatted(tenantId, LAB));
         String preparationId = preparation.get("preparationId").asText();
 
+        // A draft preparation cannot yet be assigned to a test or panel.
         mockMvc.perform(post("/api/catalog/preparations/{id}/assignments", preparationId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"targetType\":\"test\",\"targetRefId\":\"test-1\"}"))
-                .andExpect(status().isNotImplemented());
+                .andExpect(status().isConflict());
     }
 
     @Test
-    void referenceRangeValidatesSegmentBoundsAndUpdateIsAHook() throws Exception {
+    void referenceRangeValidatesSegmentBoundsAndDraftUpdateSucceeds() throws Exception {
         mockMvc.perform(post("/api/catalog/reference-ranges")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
@@ -167,14 +171,15 @@ class CatalogTestConfigurationApiTest {
         mockMvc.perform(put("/api/catalog/reference-ranges/{id}", rangeId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"effectiveFrom\":\"2026-01-01\",\"segments\":[]}"))
-                .andExpect(status().isNotImplemented());
+                .andExpect(status().isOk());
 
+        // No range has been published for this analyte yet, so effective resolution finds nothing.
         mockMvc.perform(get("/api/catalog/reference-ranges/effective").param("analyteId", "analyte-1"))
-                .andExpect(status().isNotImplemented());
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    void sampleTypeAndRequirementValidateMinimumVolumeAndPublishIsAHook() throws Exception {
+    void sampleRequirementValidatesMinimumVolumeAndPublishRequiresPublishedSampleType() throws Exception {
         JsonNode sampleType = postJson("/api/catalog/samples/types", """
                 {"tenantId":"%s","laboratoryId":"%s","code":"SMP-1","nameEn":"Serum","nameEs":"Suero","matrix":"serum"}
                 """.formatted(tenantId, LAB));
@@ -192,12 +197,13 @@ class CatalogTestConfigurationApiTest {
                 """.formatted(tenantId, LAB, sampleTypeId));
         String requirementId = requirement.get("requirementId").asText();
 
+        // The referenced sample type is still draft, so the requirement cannot be published yet.
         mockMvc.perform(post("/api/catalog/samples/requirements/{id}/publish", requirementId))
-                .andExpect(status().isNotImplemented());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    void priceListAddsEntriesAndPublishUpdateAndEffectiveSnapshotAreHooks() throws Exception {
+    void priceListAddsEntriesUpdatesPublishesAndResolvesEffectivePrice() throws Exception {
         JsonNode priceList = postJson("/api/catalog/price-lists", """
                 {"tenantId":"%s","laboratoryId":"%s","code":"PRC-1","nameEn":"Standard","nameEs":"Estandar",
                  "currency":"USD","effectiveFrom":"2026-01-01"}
@@ -217,15 +223,18 @@ class CatalogTestConfigurationApiTest {
         mockMvc.perform(put("/api/catalog/price-lists/{id}", priceListId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"nameEn\":\"Updated\",\"nameEs\":\"Actualizado\"}"))
-                .andExpect(status().isNotImplemented());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nameEn").value("Updated"));
 
         mockMvc.perform(post("/api/catalog/price-lists/{id}/publish", priceListId))
-                .andExpect(status().isNotImplemented());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("published"));
 
         mockMvc.perform(get("/api/catalog/price-lists/effective")
                         .param("itemType", "test")
                         .param("itemRefId", "test-1"))
-                .andExpect(status().isNotImplemented());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.priceListId").value(priceListId));
 
         mockMvc.perform(post("/api/catalog/price-lists/{id}/deprecate", priceListId))
                 .andExpect(status().isOk())

@@ -69,6 +69,16 @@ class JdbcPriceListRepository implements PriceListRepository {
     }
 
     @Override
+    public List<PriceList> findByStatus(String status) {
+        return jdbcTemplate.query("""
+                select price_list_id, tenant_id, laboratory_id, code, name_en, name_es, currency, agreement_ref_id,
+                       effective_from, effective_to, status, version, created_at, updated_at
+                from catalog.price_lists
+                where status = ?
+                """, JdbcPriceListRepository::mapPriceList, status);
+    }
+
+    @Override
     public boolean existsByCode(String laboratoryId, String code, String excludePriceListId) {
         Integer count = jdbcTemplate.queryForObject("""
                 select count(*) from catalog.price_lists

@@ -18,16 +18,16 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.analytecatalog
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.analytecatalog.domain.AnalyteDefinition;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.analytecatalog.domain.AnalyteDefinitionRepository;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.analytecatalog.domain.AnalyteResultConstraint;
-import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogCustomRuleNotImplementedException;
+import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogConflictException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogEntityNotFoundException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.InvalidCatalogCommandException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.LocalizedText;
 import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 
 /**
- * Compiles generatable outputs from bcm-svc-004-analyte-catalog/generation-plan.yaml.
- * Custom points CUS-SVC-004-01..03 (versioning, data type ripple review, published snapshot)
- * are hooks deferred to MVP-MOD-002-BE-002.
+ * Compiles generatable outputs from bcm-svc-004-analyte-catalog/generation-plan.yaml and implements
+ * the custom rules CUS-SVC-004-01..03 (completeness-gated publication, immutable versioning and the
+ * published snapshot) delivered by MVP-MOD-002-BE-002.
  */
 @Service
 public class AnalyteCatalogService {
@@ -93,10 +93,9 @@ public class AnalyteCatalogService {
     public AnalyteDefinition update(String analyteId, UpdateAnalyteDefinitionCommand command) {
         AnalyteDefinition current = require(analyteId);
         if (!AnalyteDefinition.STATUS_DRAFT.equals(current.status())) {
-            throw new CatalogCustomRuleNotImplementedException(
-                    "RN-004",
-                    "A published analyte is immutable; editing it requires the versioning, snapshot-freeze "
-                            + "and dependent ripple review behavior reserved for MVP-MOD-002-BE-002.");
+            throw new CatalogConflictException(
+                    "A published analyte is immutable. Its published snapshot is the source of truth; create a "
+                            + "new draft version instead of editing it directly (RN-004).");
         }
 
         String code = requiredText(command.code(), "Analyte code is required.");
@@ -134,19 +133,43 @@ public class AnalyteCatalogService {
         return repository.save(deprecated);
     }
 
+    /**
+     * RN-003/RN-006 publication rule: only a complete analyte can be published from draft. A
+     * numeric analyte must declare a measurement unit and decimal precision; a coded analyte must
+     * declare at least one coded value. Publishing freezes the record; the published record is the
+     * immutable snapshot returned by {@link #getPublishedSnapshot}.
+     */
     public AnalyteDefinition publish(String analyteId) {
-        require(analyteId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "RN-003",
-                "Publishing an analyte requires coded value completeness validation, snapshot freeze and "
-                        + "dependent ripple flagging reserved for MVP-MOD-002-BE-002.");
+        AnalyteDefinition current = require(analyteId);
+        if (!AnalyteDefinition.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogConflictException(
+                    "Only a draft analyte can be published (current status: " + current.status() + ").");
+        }
+        validateNumericRequirements(current.resultDataType(), current.measurementUnit(), current.decimalPrecision());
+        if (AnalyteDefinition.TYPE_CODED.equals(current.resultDataType())
+                && repository.findCodedValues(current.analyteId()).isEmpty()) {
+            throw new InvalidCatalogCommandException(
+                    "A coded analyte must declare at least one coded value before publication.");
+        }
+
+        AnalyteDefinition published = new AnalyteDefinition(
+                current.analyteId(), current.tenantId(), current.laboratoryId(), current.code(), current.name(),
+                current.loincCode(), current.resultDataType(), current.measurementUnit(), current.decimalPrecision(),
+                AnalyteDefinition.STATUS_PUBLISHED, current.version(), current.createdAt(), Instant.now(clock));
+        AnalyteDefinition saved = repository.save(published);
+        auditRecorder.recordSystemEvent(saved.tenantId(), "AnalytePublished", "AnalyteDefinition",
+                saved.analyteId(), "{\"version\":%d}".formatted(saved.version()));
+        return saved;
     }
 
+    /** CUS-SVC-004-03: the immutable published snapshot projection of an analyte. */
     public AnalyteDefinition getPublishedSnapshot(String analyteId) {
-        require(analyteId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "CUS-SVC-004-03",
-                "The published analyte snapshot projection is reserved for MVP-MOD-002-BE-002.");
+        AnalyteDefinition current = require(analyteId);
+        if (AnalyteDefinition.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogEntityNotFoundException(
+                    "This analyte has no published snapshot; it has never been published.");
+        }
+        return current;
     }
 
     public AnalyteDefinition get(String analyteId) {

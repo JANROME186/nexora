@@ -37,6 +37,11 @@ class InMemoryPriceListRepository implements PriceListRepository {
     }
 
     @Override
+    public List<PriceList> findByStatus(String status) {
+        return priceLists.values().stream().filter(list -> list.status().equals(status)).toList();
+    }
+
+    @Override
     public boolean existsByCode(String laboratoryId, String code, String excludePriceListId) {
         return priceLists.values().stream()
                 .anyMatch(list -> list.laboratoryId().equals(laboratoryId)

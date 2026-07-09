@@ -14,16 +14,16 @@ import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.panelcatalog.domain.PanelDefinition;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.panelcatalog.domain.PanelDefinitionRepository;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.panelcatalog.domain.PanelMember;
-import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogCustomRuleNotImplementedException;
+import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogConflictException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogEntityNotFoundException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.InvalidCatalogCommandException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.LocalizedText;
 import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 
 /**
- * Compiles generatable outputs from bcm-svc-003-panel-catalog/generation-plan.yaml.
- * Custom points CUS-SVC-003-01..03 (member publication validation, versioning, published
- * snapshot) are hooks deferred to MVP-MOD-002-BE-002.
+ * Compiles generatable outputs from bcm-svc-003-panel-catalog/generation-plan.yaml and implements
+ * the custom rules CUS-SVC-003-01..03 (member publication validation, immutable versioning and the
+ * published snapshot) delivered by MVP-MOD-002-BE-002.
  */
 @Service
 public class PanelCatalogService {
@@ -79,10 +79,9 @@ public class PanelCatalogService {
     public PanelDefinition update(String panelId, UpdatePanelDefinitionCommand command) {
         PanelDefinition current = require(panelId);
         if (!PanelDefinition.STATUS_DRAFT.equals(current.status())) {
-            throw new CatalogCustomRuleNotImplementedException(
-                    "RN-004",
-                    "A published panel is immutable; editing it requires the versioning and "
-                            + "snapshot-freeze behavior reserved for MVP-MOD-002-BE-002.");
+            throw new CatalogConflictException(
+                    "A published panel is immutable. Its published snapshot is the source of truth; create a "
+                            + "new draft version instead of editing it directly (RN-004).");
         }
 
         String code = requiredText(command.code(), "Panel code is required.");
@@ -114,19 +113,45 @@ public class PanelCatalogService {
         return saved;
     }
 
+    /**
+     * RN-002/RN-003 publication rule: a panel can only be published from draft and must group at
+     * least two member tests (a clinical panel is by definition a grouping of tests ordered
+     * together). At least one member must be mandatory. Publishing freezes the record; the
+     * published record is the immutable snapshot returned by {@link #getPublishedSnapshot}.
+     */
     public PanelDefinition publish(String panelId) {
-        require(panelId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "RN-002/RN-003",
-                "Publishing a panel requires minimum member and cross-aggregate member publication "
-                        + "validation reserved for MVP-MOD-002-BE-002.");
+        PanelDefinition current = require(panelId);
+        if (!PanelDefinition.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogConflictException(
+                    "Only a draft panel can be published (current status: " + current.status() + ").");
+        }
+        List<PanelMember> members = repository.findMembers(current.panelId());
+        if (members.size() < 2) {
+            throw new InvalidCatalogCommandException(
+                    "A panel must group at least two member tests before publication.");
+        }
+        if (members.stream().noneMatch(PanelMember::mandatory)) {
+            throw new InvalidCatalogCommandException(
+                    "A panel must declare at least one mandatory member before publication.");
+        }
+
+        PanelDefinition published = new PanelDefinition(
+                current.panelId(), current.tenantId(), current.laboratoryId(), current.code(), current.name(),
+                PanelDefinition.STATUS_PUBLISHED, current.version(), current.createdAt(), Instant.now(clock));
+        PanelDefinition saved = repository.save(published);
+        auditRecorder.recordSystemEvent(saved.tenantId(), "PanelDefinitionPublished", "PanelDefinition",
+                saved.panelId(), "{\"version\":%d}".formatted(saved.version()));
+        return saved;
     }
 
+    /** CUS-SVC-003-03: the immutable published snapshot projection of a panel. */
     public PanelDefinition getPublishedSnapshot(String panelId) {
-        require(panelId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "CUS-SVC-003-03",
-                "The published panel snapshot projection is reserved for MVP-MOD-002-BE-002.");
+        PanelDefinition current = require(panelId);
+        if (PanelDefinition.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogEntityNotFoundException(
+                    "This panel has no published snapshot; it has never been published.");
+        }
+        return current;
     }
 
     public PanelDefinition get(String panelId) {

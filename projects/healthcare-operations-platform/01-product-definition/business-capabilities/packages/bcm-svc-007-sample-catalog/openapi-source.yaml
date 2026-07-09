@@ -35,6 +35,16 @@ resources:
         path: /types/{sampleTypeId}
         scopes: [catalog.sample.write]
         generatable: true
+      - id: publishSampleType
+        method: POST
+        path: /types/{sampleTypeId}/publish
+        scopes: [catalog.sample.publish]
+        generatable: false
+        custom_reason: >
+          Publication transition for a sample type. Required so a SampleRequirement can satisfy
+          RN-003 (CATALOG_SAMPLE_TYPE_NOT_PUBLISHED); added in MVP-MOD-002-BE-002 to close model
+          gap GAP-BE-002-01 where the sample type lifecycle had a published status and RN-003 but
+          no publication operation.
   - name: SampleRequirement
     operations:
       - id: listSampleRequirements

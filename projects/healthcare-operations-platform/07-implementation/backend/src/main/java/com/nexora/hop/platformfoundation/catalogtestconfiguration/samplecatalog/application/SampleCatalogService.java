@@ -17,17 +17,17 @@ import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.samplecatalog.domain.SampleCatalogRepository;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.samplecatalog.domain.SampleRequirement;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.samplecatalog.domain.SampleType;
-import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogCustomRuleNotImplementedException;
+import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogConflictException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogEntityNotFoundException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.InvalidCatalogCommandException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.LocalizedText;
 import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 
 /**
- * Compiles generatable outputs from bcm-svc-007-sample-catalog/generation-plan.yaml.
- * Custom points CUS-SVC-007-01..04 (sample type publication validation, versioning,
- * matrix-specific handling completeness, published snapshot) are hooks deferred to
- * MVP-MOD-002-BE-002.
+ * Compiles generatable outputs from bcm-svc-007-sample-catalog/generation-plan.yaml and implements
+ * the custom rules CUS-SVC-007-01..04 (sample type publication, sample requirement completeness and
+ * sample-type-publication-gated publication, immutable versioning and the published snapshot)
+ * delivered by MVP-MOD-002-BE-002.
  */
 @Service
 public class SampleCatalogService {
@@ -143,10 +143,9 @@ public class SampleCatalogService {
     public SampleRequirement updateSampleRequirement(String requirementId, UpdateSampleRequirementCommand command) {
         SampleRequirement current = requireSampleRequirement(requirementId);
         if (!SampleRequirement.STATUS_DRAFT.equals(current.status())) {
-            throw new CatalogCustomRuleNotImplementedException(
-                    "RN-004",
-                    "A published sample requirement is immutable; editing it requires the versioning "
-                            + "behavior reserved for MVP-MOD-002-BE-002.");
+            throw new CatalogConflictException(
+                    "A published sample requirement is immutable. Its published snapshot is the source of truth; "
+                            + "create a new draft version instead of editing it directly (RN-004).");
         }
 
         String sampleTypeRefId = requiredText(command.sampleTypeRefId(), "Sample type reference id is required.");
@@ -168,19 +167,70 @@ public class SampleCatalogService {
         return repository.saveSampleRequirement(updated);
     }
 
+    /**
+     * RN-003/RN-005 publication rule: a sample requirement can only be published from draft, it must
+     * declare a minimum volume (collection completeness), and the sample type it references must
+     * itself already be published. Publishing freezes the record; the published record is the
+     * immutable snapshot returned by {@link #getPublishedSampleRequirementSnapshot}.
+     */
     public SampleRequirement publishSampleRequirement(String requirementId) {
-        requireSampleRequirement(requirementId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "RN-003/RN-005",
-                "Publishing a sample requirement requires sample type publication validation and "
-                        + "matrix-specific handling completeness reserved for MVP-MOD-002-BE-002.");
+        SampleRequirement current = requireSampleRequirement(requirementId);
+        if (!SampleRequirement.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogConflictException(
+                    "Only a draft sample requirement can be published (current status: " + current.status() + ").");
+        }
+        if (current.minVolumeMl() == null) {
+            throw new InvalidCatalogCommandException(
+                    "A sample requirement must declare a minimum volume before publication.");
+        }
+        SampleType sampleType = repository.findSampleTypeById(current.sampleTypeRefId())
+                .orElseThrow(() -> new InvalidCatalogCommandException(
+                        "The referenced sample type could not be resolved for publication."));
+        if (!SampleType.STATUS_PUBLISHED.equals(sampleType.status())) {
+            throw new InvalidCatalogCommandException(
+                    "A sample requirement can only be published when its referenced sample type is published.");
+        }
+
+        SampleRequirement published = new SampleRequirement(
+                current.requirementId(), current.tenantId(), current.laboratoryId(), current.sampleTypeRefId(),
+                current.minVolumeMl(), current.containerRefId(), current.handlingInstructions(),
+                current.storageTemperature(), SampleRequirement.STATUS_PUBLISHED, current.version(),
+                current.createdAt(), Instant.now(clock));
+        SampleRequirement saved = repository.saveSampleRequirement(published);
+        auditRecorder.recordSystemEvent(saved.tenantId(), "SampleRequirementPublished", "SampleRequirement",
+                saved.requirementId(), "{\"version\":%d}".formatted(saved.version()));
+        return saved;
     }
 
+    /** CUS-SVC-007-04: the immutable published snapshot projection of a sample requirement. */
     public SampleRequirement getPublishedSampleRequirementSnapshot(String requirementId) {
-        requireSampleRequirement(requirementId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "CUS-SVC-007-04",
-                "The published sample requirement snapshot projection is reserved for MVP-MOD-002-BE-002.");
+        SampleRequirement current = requireSampleRequirement(requirementId);
+        if (SampleRequirement.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogEntityNotFoundException(
+                    "This sample requirement has no published snapshot; it has never been published.");
+        }
+        return current;
+    }
+
+    /**
+     * Publishes a sample type from draft. Sample requirements can only be published once their
+     * referenced sample type is published, so exposing sample type publication keeps the sample
+     * catalog usable end-to-end.
+     */
+    public SampleType publishSampleType(String sampleTypeId) {
+        SampleType current = requireSampleType(sampleTypeId);
+        if (!SampleType.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogConflictException(
+                    "Only a draft sample type can be published (current status: " + current.status() + ").");
+        }
+        SampleType published = new SampleType(
+                current.sampleTypeId(), current.tenantId(), current.laboratoryId(), current.code(), current.name(),
+                current.matrix(), SampleType.STATUS_PUBLISHED, current.version(), current.createdAt(),
+                Instant.now(clock));
+        SampleType saved = repository.saveSampleType(published);
+        auditRecorder.recordSystemEvent(saved.tenantId(), "SampleTypePublished", "SampleType",
+                saved.sampleTypeId(), "{\"version\":%d}".formatted(saved.version()));
+        return saved;
     }
 
     public SampleRequirement getSampleRequirement(String requirementId) {

@@ -42,8 +42,9 @@ completed_deliverables:
   - MVP-MOD-002-DEF capability package model validation evidence
   - MVP-MOD-002-BE-001 catalog-test-configuration backend compilation (catalog, tests, panels, analytes,
     preparations, reference ranges, samples, price lists)
+  - MVP-MOD-002-BE-002 catalog custom business rules (publication, immutable versioning/snapshots,
+    preparation assignment, effective-dated overlap prevention and effective-context resolution)
 next_deliverables:
-  - Implement MVP-MOD-002 catalog custom business rules (MVP-MOD-002-BE-002)
   - Compile MVP-MOD-002 employee catalog UI outputs (MVP-MOD-002-FE-001)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
@@ -80,7 +81,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-002
-  current_backlog_item: MVP-MOD-002-BE-002
+  current_backlog_item: MVP-MOD-002-FE-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -93,28 +94,38 @@ implementation_progress:
     - MVP-MOD-001-CLOSEOUT
     - MVP-MOD-002-DEF
     - MVP-MOD-002-BE-001
+    - MVP-MOD-002-BE-002
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-002-BE-002
     - MVP-MOD-002-FE-001
     - MVP-MOD-002-QA-001
     - MVP-MOD-002-CLOSEOUT
   latest_validation:
-    backlog_item_id: MVP-MOD-002-BE-001
-    command: mvn --settings .mvn/settings.xml test; mvn --settings .mvn/settings.xml test -Dhop.local-db-tests=true (with docker compose postgres)
+    backlog_item_id: MVP-MOD-002-BE-002
+    command: mvn --settings .mvn/settings.xml test (Postgres-backed run not executed - Docker daemon unavailable)
     working_directory: 07-implementation/backend
     status: passed
-    tests_run: 32
+    tests_run: 42
     failures: 0
     errors: 0
+    skipped: 5
     additional_checks:
-      - Backend standard suite passed with 31 tests (4 skipped without Postgres)
-      - Backend suite passed with 32 tests against real Postgres via docker compose (0 skipped)
-      - New catalogtestconfiguration Spring Modulith module boundaries verified valid
-      - CatalogTestConfigurationContractTest confirmed every openapi-source.yaml operation across
-        the 8 capability packages resolves to a registered Spring MVC route
-      - Custom rule hooks (publish, effective-snapshot queries, update-when-published, assign)
-        confirmed to return HTTP 501 with ruleId and backlogItem MVP-MOD-002-BE-002
+      - Backend standard suite passed with 42 tests, 0 failures, 0 errors, 5 skipped (local-db tests
+        skipped without a running Postgres)
+      - New CatalogCustomRulesApiTest (10 tests) covers publication, published snapshots, published
+        immutability (HTTP 409), preparation assignment gating, effective-dated overlap prevention
+        (HTTP 409) and effective-context resolution across the 8 capabilities
+      - CatalogTestConfigurationApiTest (8 tests) updated so former HTTP 501 assertions now assert
+        functional behavior
+      - Spring Modulith catalogtestconfiguration module boundaries remain valid
+      - CatalogTestConfigurationContractTest confirmed every openapi-source.yaml operation across the
+        8 capability packages (including the newly modeled publishSampleType) resolves to a
+        registered Spring MVC route
+      - All former CatalogCustomRuleNotImplementedException HTTP 501 hooks replaced by functional
+        behavior; no service still throws the 501 hook
+      - GAP-BE-002-01 resolved by adding publishSampleType to the bcm-svc-007 openapi-source.yaml model
+      - Postgres-backed run with -Dhop.local-db-tests=true was not executed because the Docker daemon
+        was unavailable in this environment (HTTP 500 / API version mismatch)
       - Repository YAML validation passed
       - Agent-agnostic reference scan passed
 module_closeout:
@@ -132,16 +143,16 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_release: REL-001
   next_module: MVP-MOD-002
-  next_backlog_item: MVP-MOD-002-BE-002
+  next_backlog_item: MVP-MOD-002-FE-001
   primary_development_unit: business_capability_package
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.yaml
   capability_package_progress:
     MVP-MOD-002:
       name: Diagnostic Catalog
-      package_status: backend_compiled
-      backlog_item: MVP-MOD-002-BE-001
+      package_status: custom_rules_implemented
+      backlog_item: MVP-MOD-002-BE-002
       backlog_item_status: closed
-      execution_flow_stage: compile
+      execution_flow_stage: implement_rules
       packages_modeled:
         - BCM-SVC-001
         - BCM-SVC-002
@@ -156,8 +167,11 @@ commercial_product_progress:
       backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/catalogtestconfiguration/
       qa_evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.yaml
       qa_evidence_be_001: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-BE-001-validation.yaml
+      qa_evidence_be_002: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-BE-002-validation.yaml
       ready_for_compilation: true
       ready_for_custom_rule_implementation: true
+      custom_rules_implemented: true
+      ready_for_ui_compilation: true
   execution_flow:
     - model
     - compile

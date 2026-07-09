@@ -16,7 +16,7 @@ import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.diagnosticservicecatalog.domain.DiagnosticService;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.diagnosticservicecatalog.domain.DiagnosticServiceRepository;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.diagnosticservicecatalog.domain.ServiceComponentLink;
-import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogCustomRuleNotImplementedException;
+import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogConflictException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogEntityNotFoundException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.InvalidCatalogCommandException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.LocalizedText;
@@ -24,10 +24,9 @@ import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 
 /**
  * Compiles the generatable outputs declared in
- * bcm-svc-001-diagnostic-service-catalog/generation-plan.yaml.
- * Custom implementation points CUS-SVC-001-01..04 (publication validation, immutable
- * versioning, published snapshot projection) are explicit hooks deferred to
- * MVP-MOD-002-BE-002 and surfaced as {@link CatalogCustomRuleNotImplementedException}.
+ * bcm-svc-001-diagnostic-service-catalog/generation-plan.yaml and implements the custom rules
+ * CUS-SVC-001-01..04 (publication validation, immutable versioning and the published snapshot
+ * projection) delivered by MVP-MOD-002-BE-002.
  */
 @Service
 public class DiagnosticServiceCatalogService {
@@ -90,10 +89,9 @@ public class DiagnosticServiceCatalogService {
     public DiagnosticService update(String serviceId, UpdateDiagnosticServiceCommand command) {
         DiagnosticService current = require(serviceId);
         if (!DiagnosticService.STATUS_DRAFT.equals(current.status())) {
-            throw new CatalogCustomRuleNotImplementedException(
-                    "RN-003",
-                    "A published diagnostic service is immutable; editing it requires the versioning "
-                            + "and snapshot-freeze behavior reserved for MVP-MOD-002-BE-002.");
+            throw new CatalogConflictException(
+                    "A published diagnostic service is immutable. Its published snapshot is the source of "
+                            + "truth; create a new draft version instead of editing it directly (RN-003).");
         }
 
         String code = requiredText(command.code(), "Diagnostic service code is required.");
@@ -130,19 +128,42 @@ public class DiagnosticServiceCatalogService {
         return saved;
     }
 
+    /**
+     * RN-002 publication rule: a diagnostic service can only be published from draft, and it must
+     * declare at least one orderable component (test or panel). Publishing freezes the record: once
+     * published it is immutable ({@link #update} is rejected with {@link CatalogConflictException}),
+     * so the published record itself is the immutable published snapshot returned by
+     * {@link #getPublishedSnapshot}.
+     */
     public DiagnosticService publish(String serviceId) {
-        require(serviceId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "RN-002",
-                "Publishing a diagnostic service requires cross-aggregate component publication "
-                        + "validation reserved for MVP-MOD-002-BE-002.");
+        DiagnosticService current = require(serviceId);
+        if (!DiagnosticService.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogConflictException(
+                    "Only a draft diagnostic service can be published (current status: " + current.status() + ").");
+        }
+        if (repository.findComponentLinks(current.serviceId()).isEmpty()) {
+            throw new InvalidCatalogCommandException(
+                    "A diagnostic service must declare at least one component before publication.");
+        }
+
+        DiagnosticService published = new DiagnosticService(
+                current.serviceId(), current.tenantId(), current.laboratoryId(), current.code(), current.name(),
+                current.categoryId(), current.serviceType(), DiagnosticService.STATUS_PUBLISHED, current.version(),
+                current.createdAt(), Instant.now(clock));
+        DiagnosticService saved = repository.save(published);
+        auditRecorder.recordSystemEvent(saved.tenantId(), "DiagnosticServicePublished", "DiagnosticService",
+                saved.serviceId(), "{\"version\":%d}".formatted(saved.version()));
+        return saved;
     }
 
+    /** CUS-SVC-001-03: the immutable published snapshot projection of a diagnostic service. */
     public DiagnosticService getPublishedSnapshot(String serviceId) {
-        require(serviceId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "CUS-SVC-001-03",
-                "The published diagnostic service snapshot projection is reserved for MVP-MOD-002-BE-002.");
+        DiagnosticService current = require(serviceId);
+        if (DiagnosticService.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogEntityNotFoundException(
+                    "This diagnostic service has no published snapshot; it has never been published.");
+        }
+        return current;
     }
 
     public DiagnosticService get(String serviceId) {

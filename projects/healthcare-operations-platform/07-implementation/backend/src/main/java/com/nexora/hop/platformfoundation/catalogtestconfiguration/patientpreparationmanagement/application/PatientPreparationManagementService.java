@@ -15,16 +15,16 @@ import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.patientpreparationmanagement.domain.PreparationAssignment;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.patientpreparationmanagement.domain.PreparationInstruction;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.patientpreparationmanagement.domain.PreparationInstructionRepository;
-import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogCustomRuleNotImplementedException;
+import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogConflictException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogEntityNotFoundException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.InvalidCatalogCommandException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.LocalizedText;
 import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 
 /**
- * Compiles generatable outputs from bcm-svc-005-patient-preparation-management/generation-plan.yaml.
- * Custom points CUS-SVC-005-01..03 (assignment target validation, versioning, patient-facing
- * snapshot) are hooks deferred to MVP-MOD-002-BE-002.
+ * Compiles generatable outputs from bcm-svc-005-patient-preparation-management/generation-plan.yaml
+ * and implements the custom rules CUS-SVC-005-01..03 (localization-gated publication, published
+ * preparation assignment and immutable versioning) delivered by MVP-MOD-002-BE-002.
  */
 @Service
 public class PatientPreparationManagementService {
@@ -92,10 +92,9 @@ public class PatientPreparationManagementService {
     public PreparationInstruction update(String preparationId, UpdatePreparationInstructionCommand command) {
         PreparationInstruction current = require(preparationId);
         if (!PreparationInstruction.STATUS_DRAFT.equals(current.status())) {
-            throw new CatalogCustomRuleNotImplementedException(
-                    "RN-005",
-                    "A published preparation is immutable; editing it requires the versioning and "
-                            + "snapshot-freeze behavior reserved for MVP-MOD-002-BE-002.");
+            throw new CatalogConflictException(
+                    "A published preparation is immutable. Its published snapshot is the source of truth; create "
+                            + "a new draft version instead of editing it directly (RN-005).");
         }
 
         String code = requiredText(command.code(), "Preparation code is required.");
@@ -132,20 +131,57 @@ public class PatientPreparationManagementService {
         return repository.save(deprecated);
     }
 
+    /**
+     * RN-002 publication rule: a preparation can only be published from draft and must be fully
+     * localized (title and instruction text in every supported language). A fasting preparation
+     * must also declare its duration. Publishing freezes the localized patient-facing content.
+     */
     public PreparationInstruction publish(String preparationId) {
-        require(preparationId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "RN-002",
-                "Publishing a preparation requires localization completeness validation and snapshot "
-                        + "freeze reserved for MVP-MOD-002-BE-002.");
+        PreparationInstruction current = require(preparationId);
+        if (!PreparationInstruction.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogConflictException(
+                    "Only a draft preparation can be published (current status: " + current.status() + ").");
+        }
+        requireLocalized(current.title(), "title");
+        requireLocalized(current.instructionText(), "instruction text");
+        if (PreparationInstruction.CATEGORY_FASTING.equals(current.category()) && current.durationHours() == null) {
+            throw new InvalidCatalogCommandException(
+                    "A fasting preparation must declare a duration in hours before publication.");
+        }
+
+        PreparationInstruction published = new PreparationInstruction(
+                current.preparationId(), current.tenantId(), current.laboratoryId(), current.code(),
+                current.title(), current.instructionText(), current.category(), current.durationHours(),
+                PreparationInstruction.STATUS_PUBLISHED, current.version(), current.createdAt(), Instant.now(clock));
+        PreparationInstruction saved = repository.save(published);
+        auditRecorder.recordSystemEvent(saved.tenantId(), "PreparationPublished", "PreparationInstruction",
+                saved.preparationId(), "{\"version\":%d}".formatted(saved.version()));
+        return saved;
     }
 
+    /**
+     * RN-004 assignment rule: a preparation may only be assigned to a test or panel once it has been
+     * published (a draft preparation is not yet safe to surface to patients). The assignment target
+     * type and reference are validated before the assignment is persisted.
+     */
     public PreparationAssignment assign(String preparationId, AssignPreparationCommand command) {
-        require(preparationId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "RN-004",
-                "Assigning a preparation requires cross-aggregate target publication validation "
-                        + "reserved for MVP-MOD-002-BE-002.");
+        PreparationInstruction current = require(preparationId);
+        if (!PreparationInstruction.STATUS_PUBLISHED.equals(current.status())) {
+            throw new CatalogConflictException(
+                    "Only a published preparation can be assigned to a test or panel (current status: "
+                            + current.status() + ").");
+        }
+        String targetType = requiredOneOf(command.targetType(), "Assignment target type is invalid.",
+                PreparationAssignment.TARGET_TEST, PreparationAssignment.TARGET_PANEL);
+        String targetRefId = requiredText(command.targetRefId(), "Assignment target reference id is required.");
+
+        PreparationAssignment assignment = new PreparationAssignment(newId(), current.preparationId(), targetType, targetRefId);
+        PreparationAssignment saved = repository.saveAssignment(assignment);
+        auditRecorder.recordSystemEvent(current.tenantId(), "PreparationAssigned", "PreparationAssignment",
+                saved.assignmentId(),
+                "{\"preparationId\":\"%s\",\"targetType\":\"%s\"}".formatted(
+                        jsonText(current.preparationId()), jsonText(targetType)));
+        return saved;
     }
 
     public PreparationInstruction get(String preparationId) {
@@ -164,6 +200,14 @@ public class PatientPreparationManagementService {
     private PreparationInstruction require(String preparationId) {
         return repository.findById(requiredText(preparationId, "Preparation id is required."))
                 .orElseThrow(() -> new CatalogEntityNotFoundException("Preparation was not found."));
+    }
+
+    private static void requireLocalized(LocalizedText text, String field) {
+        if (text == null || !org.springframework.util.StringUtils.hasText(text.en())
+                || !org.springframework.util.StringUtils.hasText(text.es())) {
+            throw new InvalidCatalogCommandException(
+                    "A preparation must provide a localized " + field + " in every language before publication.");
+        }
     }
 
     private static String newId() {

@@ -6,7 +6,10 @@ import static com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.
 
 import java.time.Clock;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +19,19 @@ import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.pricelistmanagement.domain.PriceEntry;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.pricelistmanagement.domain.PriceList;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.pricelistmanagement.domain.PriceListRepository;
-import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogCustomRuleNotImplementedException;
+import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogConflictException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogEntityNotFoundException;
+import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.EffectiveDating;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.InvalidCatalogCommandException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.LocalizedText;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.Money;
 import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 
 /**
- * Compiles generatable outputs from bcm-svc-009-price-list-management/generation-plan.yaml.
- * Custom points CUS-SVC-009-01..04 (catalog item publication validation, versioning,
- * effective-date overlap detection, effective price resolution) are hooks deferred to
- * MVP-MOD-002-BE-002. updatePriceList is entirely a hook because openapi-source.yaml marks it
- * non-generatable (effective-dated versioning and snapshot freeze).
+ * Compiles generatable outputs from bcm-svc-009-price-list-management/generation-plan.yaml and
+ * implements the custom rules CUS-SVC-009-01..04 (draft-only editing, entry-gated publication with
+ * effective-date overlap detection, and effective-dated price resolution) delivered by
+ * MVP-MOD-002-BE-002.
  */
 @Service
 public class PriceListManagementService {
@@ -100,12 +103,28 @@ public class PriceListManagementService {
         return repository.saveEntry(entry);
     }
 
+    /**
+     * RN-004 update rule: only a draft price list can be edited directly. A published price list is
+     * an immutable effective-dated version; changes require publishing a new version instead.
+     */
     public PriceList update(String priceListId, UpdatePriceListCommand command) {
-        require(priceListId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "RN-004",
-                "Updating a price list requires effective-dated versioning and snapshot freeze "
-                        + "reserved for MVP-MOD-002-BE-002.");
+        PriceList current = require(priceListId);
+        if (!PriceList.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogConflictException(
+                    "A published price list is immutable. Publish a new effective-dated version instead of "
+                            + "editing it directly (RN-004).");
+        }
+        String nameEn = requiredText(command.nameEn(), "English name is required.");
+        String nameEs = requiredText(command.nameEs(), "Spanish name is required.");
+        LocalDate effectiveFrom = command.effectiveFrom() == null ? current.effectiveFrom() : command.effectiveFrom();
+        validateEffectiveWindow(effectiveFrom, command.effectiveTo());
+
+        PriceList updated = new PriceList(
+                current.priceListId(), current.tenantId(), current.laboratoryId(), current.code(),
+                new LocalizedText(nameEn, nameEs), current.currency(), optionalText(command.agreementRefId()),
+                effectiveFrom, command.effectiveTo(), current.status(), current.version(), current.createdAt(),
+                Instant.now(clock));
+        return repository.save(updated);
     }
 
     public PriceList deprecate(String priceListId) {
@@ -120,20 +139,96 @@ public class PriceListManagementService {
         return repository.save(deprecated);
     }
 
+    /**
+     * RN-003/RN-005 publication rule: a price list can only be published from draft, must carry at
+     * least one price entry, and its effective window must not overlap any other published price
+     * list that shares the same laboratory, currency and commercial agreement scope. Publishing
+     * freezes the price list.
+     */
     public PriceList publish(String priceListId) {
-        require(priceListId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "RN-003/RN-005",
-                "Publishing a price list requires catalog item publication validation and effective-date "
-                        + "overlap detection reserved for MVP-MOD-002-BE-002.");
+        PriceList current = require(priceListId);
+        if (!PriceList.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogConflictException(
+                    "Only a draft price list can be published (current status: " + current.status() + ").");
+        }
+        if (repository.findEntries(current.priceListId()).isEmpty()) {
+            throw new InvalidCatalogCommandException(
+                    "A price list must contain at least one price entry before publication.");
+        }
+
+        boolean overlaps = repository.findByLaboratoryId(current.laboratoryId()).stream()
+                .filter(other -> !other.priceListId().equals(current.priceListId()))
+                .filter(other -> PriceList.STATUS_PUBLISHED.equals(other.status()))
+                .filter(other -> other.currency().equals(current.currency()))
+                .filter(other -> Objects.equals(other.agreementRefId(), current.agreementRefId()))
+                .anyMatch(other -> EffectiveDating.windowsOverlap(
+                        current.effectiveFrom(), current.effectiveTo(), other.effectiveFrom(), other.effectiveTo()));
+        if (overlaps) {
+            throw new CatalogConflictException(
+                    "Another published price list for the same currency and agreement already covers an "
+                            + "overlapping effective period (RN-005).");
+        }
+
+        PriceList published = new PriceList(
+                current.priceListId(), current.tenantId(), current.laboratoryId(), current.code(), current.name(),
+                current.currency(), current.agreementRefId(), current.effectiveFrom(), current.effectiveTo(),
+                PriceList.STATUS_PUBLISHED, current.version(), current.createdAt(), Instant.now(clock));
+        PriceList saved = repository.save(published);
+        auditRecorder.recordSystemEvent(saved.tenantId(), "PriceListPublished", "PriceList", saved.priceListId(),
+                "{\"code\":\"%s\"}".formatted(jsonText(saved.code())));
+        return saved;
     }
 
-    public PriceList getEffectivePriceSnapshot(String itemType, String itemRefId, String currency, String agreementRefId, String saleDate) {
-        requiredText(itemRefId, "Item reference id is required.");
-        throw new CatalogCustomRuleNotImplementedException(
-                "RN-006",
-                "Effective-dated price resolution for quotation, cash and billing is reserved for "
-                        + "MVP-MOD-002-BE-002.");
+    /**
+     * RN-006 effective-dated price resolution: returns the published price list that prices the
+     * requested catalog item on the sale date, honouring an optional currency and commercial
+     * agreement filter. When several published price lists apply, the most recently effective one
+     * wins.
+     *
+     * <p>The contract does not carry a laboratory in this query, so resolution searches published
+     * price lists by their entries; see the MVP-MOD-002-BE-002 validation evidence for the
+     * documented scoping boundary.</p>
+     */
+    public PriceList getEffectivePriceSnapshot(
+            String itemType, String itemRefId, String currency, String agreementRefId, String saleDate) {
+        String type = requiredOneOf(itemType, "Item type is invalid.", ITEM_TYPES.toArray(String[]::new));
+        String refId = requiredText(itemRefId, "Item reference id is required.");
+        LocalDate onDate = parseSaleDate(saleDate);
+
+        return repository.findByStatus(PriceList.STATUS_PUBLISHED).stream()
+                .filter(list -> currency == null || currency.isBlank() || list.currency().equals(currency))
+                .filter(list -> agreementRefId == null || agreementRefId.isBlank()
+                        || agreementRefId.equals(list.agreementRefId()))
+                .filter(list -> EffectiveDating.isEffectiveOn(list.effectiveFrom(), list.effectiveTo(), onDate))
+                .filter(list -> pricesItem(list.priceListId(), type, refId))
+                .max(Comparator.comparing(PriceList::effectiveFrom))
+                .orElseThrow(() -> new CatalogEntityNotFoundException(
+                        "No published price list resolves for the requested item and sale context."));
+    }
+
+    private boolean pricesItem(String priceListId, String itemType, String itemRefId) {
+        return repository.findEntries(priceListId).stream()
+                .anyMatch(entry -> entry.itemType().equals(itemType) && entry.itemRefId().equals(itemRefId));
+    }
+
+    private LocalDate parseSaleDate(String saleDate) {
+        if (saleDate == null || saleDate.isBlank()) {
+            return LocalDate.now(clock);
+        }
+        try {
+            return LocalDate.parse(saleDate);
+        } catch (RuntimeException exception) {
+            throw new InvalidCatalogCommandException("Sale date must be an ISO-8601 date (yyyy-MM-dd).");
+        }
+    }
+
+    private static void validateEffectiveWindow(LocalDate effectiveFrom, LocalDate effectiveTo) {
+        if (effectiveFrom == null) {
+            throw new InvalidCatalogCommandException("Effective from date is required.");
+        }
+        if (effectiveTo != null && effectiveTo.isBefore(effectiveFrom)) {
+            throw new InvalidCatalogCommandException("Effective to date must not be before effective from date.");
+        }
     }
 
     public PriceList get(String priceListId) {

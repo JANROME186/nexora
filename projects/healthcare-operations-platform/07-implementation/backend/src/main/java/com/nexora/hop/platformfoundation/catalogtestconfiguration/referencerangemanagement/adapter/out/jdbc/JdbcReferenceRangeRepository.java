@@ -65,6 +65,16 @@ class JdbcReferenceRangeRepository implements ReferenceRangeRepository {
     }
 
     @Override
+    public List<ReferenceRange> findByAnalyteRefId(String analyteRefId) {
+        return jdbcTemplate.query("""
+                select range_id, tenant_id, laboratory_id, analyte_ref_id, version, status, effective_from,
+                       effective_to, created_at, updated_at
+                from catalog.reference_ranges
+                where analyte_ref_id = ?
+                """, JdbcReferenceRangeRepository::mapRange, analyteRefId);
+    }
+
+    @Override
     @Transactional
     public void replaceSegments(String rangeId, List<ReferenceRangeSegment> segments) {
         jdbcTemplate.update("delete from catalog.reference_range_segments where range_id = ?", rangeId);

@@ -37,6 +37,11 @@ class InMemoryReferenceRangeRepository implements ReferenceRangeRepository {
     }
 
     @Override
+    public List<ReferenceRange> findByAnalyteRefId(String analyteRefId) {
+        return ranges.values().stream().filter(range -> range.analyteRefId().equals(analyteRefId)).toList();
+    }
+
+    @Override
     public void replaceSegments(String rangeId, List<ReferenceRangeSegment> rangeSegments) {
         segments.put(rangeId, new ArrayList<>(rangeSegments));
     }

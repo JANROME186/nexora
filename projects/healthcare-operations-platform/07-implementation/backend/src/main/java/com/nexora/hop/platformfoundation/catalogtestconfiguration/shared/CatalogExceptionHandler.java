@@ -26,6 +26,11 @@ public class CatalogExceptionHandler {
         return error(HttpStatus.BAD_REQUEST, "Catalog command is invalid.", null, null);
     }
 
+    @ExceptionHandler(CatalogConflictException.class)
+    ResponseEntity<CatalogApiErrorResponse> conflict(CatalogConflictException exception) {
+        return error(HttpStatus.CONFLICT, exception.getMessage(), null, null);
+    }
+
     @ExceptionHandler(CatalogCustomRuleNotImplementedException.class)
     ResponseEntity<CatalogApiErrorResponse> notImplemented(CatalogCustomRuleNotImplementedException exception) {
         return error(HttpStatus.NOT_IMPLEMENTED, exception.getMessage(), exception.ruleId(), exception.backlogItem());

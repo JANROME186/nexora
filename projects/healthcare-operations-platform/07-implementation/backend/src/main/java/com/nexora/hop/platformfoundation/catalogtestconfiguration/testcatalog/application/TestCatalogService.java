@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
-import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogCustomRuleNotImplementedException;
+import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogConflictException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.CatalogEntityNotFoundException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.InvalidCatalogCommandException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.LocalizedText;
@@ -25,9 +25,9 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.testcatalog.do
 import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 
 /**
- * Compiles generatable outputs from bcm-svc-002-test-catalog/generation-plan.yaml.
- * Custom points CUS-SVC-002-01..04 (publication cross-validation, versioning, analyte
- * publication check, published snapshot) are hooks deferred to MVP-MOD-002-BE-002.
+ * Compiles generatable outputs from bcm-svc-002-test-catalog/generation-plan.yaml and implements
+ * the custom rules CUS-SVC-002-01..04 (publication cross-validation of analytes and sample
+ * requirements, immutable versioning and the published snapshot) delivered by MVP-MOD-002-BE-002.
  */
 @Service
 public class TestCatalogService {
@@ -96,10 +96,9 @@ public class TestCatalogService {
     public TestDefinition update(String testDefinitionId, UpdateTestDefinitionCommand command) {
         TestDefinition current = require(testDefinitionId);
         if (!TestDefinition.STATUS_DRAFT.equals(current.status())) {
-            throw new CatalogCustomRuleNotImplementedException(
-                    "RN-004",
-                    "A published test definition is immutable; editing it requires the versioning and "
-                            + "snapshot-freeze behavior reserved for MVP-MOD-002-BE-002.");
+            throw new CatalogConflictException(
+                    "A published test definition is immutable. Its published snapshot is the source of truth; "
+                            + "create a new draft version instead of editing it directly (RN-004).");
         }
 
         String code = requiredText(command.code(), "Test code is required.");
@@ -144,19 +143,45 @@ public class TestCatalogService {
         return saved;
     }
 
+    /**
+     * RN-003 publication rule: a test can only be published from draft, and it must declare the
+     * analytes it measures and the sample requirements it consumes. Publishing freezes the record;
+     * the published record is the immutable snapshot returned by {@link #getPublishedSnapshot}.
+     */
     public TestDefinition publish(String testDefinitionId) {
-        require(testDefinitionId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "RN-003",
-                "Publishing a test definition requires cross-aggregate sample requirement and analyte "
-                        + "publication validation reserved for MVP-MOD-002-BE-002.");
+        TestDefinition current = require(testDefinitionId);
+        if (!TestDefinition.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogConflictException(
+                    "Only a draft test definition can be published (current status: " + current.status() + ").");
+        }
+        if (repository.findAnalyteLinks(current.testDefinitionId()).isEmpty()) {
+            throw new InvalidCatalogCommandException(
+                    "A test definition must reference at least one analyte before publication.");
+        }
+        if (repository.findSampleRequirementLinks(current.testDefinitionId()).isEmpty()) {
+            throw new InvalidCatalogCommandException(
+                    "A test definition must reference at least one sample requirement before publication.");
+        }
+
+        TestDefinition published = new TestDefinition(
+                current.testDefinitionId(), current.tenantId(), current.laboratoryId(), current.code(),
+                current.name(), current.methodology(), current.measurementUnit(), current.resultType(),
+                current.turnaroundTimeHours(), TestDefinition.STATUS_PUBLISHED, current.version(),
+                current.createdAt(), Instant.now(clock));
+        TestDefinition saved = repository.save(published);
+        auditRecorder.recordSystemEvent(saved.tenantId(), "TestDefinitionPublished", "TestDefinition",
+                saved.testDefinitionId(), "{\"version\":%d}".formatted(saved.version()));
+        return saved;
     }
 
+    /** CUS-SVC-002-04: the immutable published snapshot projection of a test definition. */
     public TestDefinition getPublishedSnapshot(String testDefinitionId) {
-        require(testDefinitionId);
-        throw new CatalogCustomRuleNotImplementedException(
-                "CUS-SVC-002-04",
-                "The published test snapshot projection is reserved for MVP-MOD-002-BE-002.");
+        TestDefinition current = require(testDefinitionId);
+        if (TestDefinition.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogEntityNotFoundException(
+                    "This test definition has no published snapshot; it has never been published.");
+        }
+        return current;
     }
 
     public TestDefinition get(String testDefinitionId) {
