@@ -9,7 +9,9 @@ spring:
   sql:
     init:
       mode: always
-      schema-locations: classpath:db/platform-foundation/schema.sql
+      schema-locations:
+        - classpath:db/platform-foundation/schema.sql
+        - classpath:db/catalog-test-configuration/schema.sql
 
 management:
   endpoint:

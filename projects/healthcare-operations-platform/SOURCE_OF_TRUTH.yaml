@@ -37,6 +37,10 @@ sources:
   mvp_mod_002_pkg_bcm_svc_009: 01-product-definition/business-capabilities/packages/bcm-svc-009-price-list-management/
   mvp_mod_002_def_qa_evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.md
   mvp_mod_002_def_qa_evidence_yaml: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.yaml
+  mvp_mod_002_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/catalogtestconfiguration/
+  mvp_mod_002_be_001_schema: 07-implementation/backend/src/main/resources/db/catalog-test-configuration/schema.sql
+  mvp_mod_002_be_001_qa_evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-BE-001-validation.md
+  mvp_mod_002_be_001_qa_evidence_yaml: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-BE-001-validation.yaml
   open_data_ingestion_contract: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md
   open_data_ingestion_contract_yaml: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml
   open_data_ingestion_requirements: 04-requirements/capabilities/bcm-plt-010-open-data-ingestion-and-migration/requirements.yaml
