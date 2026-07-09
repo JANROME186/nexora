@@ -4,7 +4,7 @@ artifact:
   version: 1.0.0
   status: approved
 summary:
-  count: 450
+  count: 460
 requirements:
 - id: FR-ORG-001-001
   type: functional
@@ -7536,6 +7536,116 @@ requirements:
     platform rejects it with a standardized error response.
   - Given a successful state change, when the transaction is completed, then the platform
     publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-010-001
+  type: functional
+  capability: BCM-PLT-010
+  domain: DOM-10
+  statement: The platform shall ingest customer migration data from simple open formats including CSV, XLSX, JSON, NDJSON and ZIP bundles.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an import package is submitted, when the format is supported, then the platform validates the manifest and file structure before processing.
+  - Given an unsupported or malformed file is submitted, when validation runs, then the platform rejects it with actionable errors.
+  - Given source files contain provider-specific exports, when mappings exist, then the platform normalizes them through anti-corruption mappings.
+- id: FR-PLT-010-002
+  type: functional
+  capability: BCM-PLT-010
+  domain: DOM-10
+  statement: The platform shall perform dry-run validation before any imported data mutates operational domains.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an import batch is uploaded, when dry-run is executed, then validation reports errors, warnings and record counts.
+  - Given blocking validation errors exist, when import execution is requested, then domain mutation is denied.
+  - Given validation passes, when import execution is approved, then records are submitted through domain commands.
+- id: FR-PLT-010-003
+  type: functional
+  capability: BCM-PLT-010
+  domain: DOM-10
+  statement: The platform shall produce reconciliation reports for migrated records, rejected rows and transformed values.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an import completes, when reconciliation is requested, then accepted, rejected and transformed records are visible.
+  - Given source identifiers exist, when records are imported, then source-to-target traceability is retained.
+  - Given a customer reviews migration evidence, when reports are exported, then reports use simple portable formats.
+- id: FR-PLT-010-004
+  type: functional
+  capability: BCM-PLT-010
+  domain: DOM-10
+  statement: The platform shall make migration jobs auditable, retryable and observable without bypassing domain rules.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given a migration job changes state, when the state changes, then an audit event is recorded.
+  - Given retry is requested, when a job is retryable, then only failed or pending work is retried.
+  - Given imported records require domain behavior, when execution occurs, then domain commands enforce business rules.
+- id: FR-PLT-010-005
+  type: functional
+  capability: BCM-PLT-010
+  domain: DOM-10
+  statement: The platform shall define provider-deliverable migration packages that incumbent systems can export without proprietary dependencies.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given a customer requests migration, when the package specification is shared, then required files and columns are clear.
+  - Given a provider exports data, when the package follows the specification, then HOP can validate it without custom proprietary tooling.
+  - Given optional files are omitted, when validation runs, then the platform reports only relevant missing dependencies.
+- id: FR-PLT-011-001
+  type: functional
+  capability: BCM-PLT-011
+  domain: DOM-10
+  statement: The platform shall maintain a marketplace catalog of versioned product packages with capability, compatibility, pricing, support and security metadata.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given a package is published, when a user views the catalog, then package metadata, version, compatibility, support owner and package type are visible to authorized users.
+  - Given a package is not certified, when publication is requested, then the platform blocks publication and records the reason.
+  - Given a package version is superseded, when the catalog is queried, then compatibility and upgrade guidance remain available.
+- id: FR-PLT-011-002
+  type: functional
+  capability: BCM-PLT-011
+  domain: DOM-10
+  statement: The platform shall model commercial offers, trials, bundles, quotas and billing events through provider-agnostic marketplace boundaries.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an offer is published, when a customer selects it, then purchase or grant flow is initiated without coupling to a specific billing provider.
+  - Given a trial or bundle has limits, when entitlement is resolved, then the limits are enforced consistently.
+  - Given a billing provider is unavailable, when a purchase event is pending, then the platform keeps product domain state isolated from provider state.
+- id: FR-PLT-011-003
+  type: functional
+  capability: BCM-PLT-011
+  domain: DOM-10
+  statement: The platform shall grant and resolve tenant entitlements separately from IAM permissions and feature flags.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given a tenant has a valid entitlement, when an authorized administrator installs a package, then the entitlement allows installation.
+  - Given a tenant lacks entitlement, when package execution is requested, then the platform denies execution before domain mutation.
+  - Given a user lacks role permission, when entitlement exists, then the platform still denies access through IAM authorization.
+- id: FR-PLT-011-004
+  type: functional
+  capability: BCM-PLT-011
+  domain: DOM-10
+  statement: The platform shall install, activate, suspend, upgrade, roll back, uninstall and retire marketplace packages per tenant with compatibility validation.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given a package has unmet dependencies, when installation is requested, then the platform blocks installation with actionable validation errors.
+  - Given a package is activated, when runtime consumption begins, then feature flags, entitlements, permissions and audit checks are applied.
+  - Given an upgrade fails, when rollback is allowed, then the previous compatible package version is restored or a migration-bound exception is recorded.
+- id: FR-PLT-011-005
+  type: functional
+  capability: BCM-PLT-011
+  domain: DOM-10
+  statement: The platform shall provide audit, observability and support evidence for marketplace package lifecycle, entitlement and consumption events.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given a package lifecycle operation occurs, when the operation completes or fails, then an audit event is recorded.
+  - Given package usage is metered, when consumption occurs, then telemetry is emitted without exposing protected health or financial data unnecessarily.
+  - Given support reviews a tenant package issue, when evidence is requested, then installation, entitlement, compatibility and lifecycle history are available.
 - id: FR-AI-008-001
   type: functional
   capability: BCM-AI-008

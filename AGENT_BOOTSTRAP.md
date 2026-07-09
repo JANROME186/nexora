@@ -35,14 +35,18 @@ Project-specific work lives under:
 5. `nexora-framework/02-standards/standards/project-folder-standard.md`
 6. `nexora-framework/02-standards/standards/documentation-standard.md`
 7. `nexora-framework/02-standards/standards/agent-agnostic-standard.md`
-8. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`
-9. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`
-10. `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
-11. `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
-12. Target project `BUSINESS_REQUIREMENT.md`
-13. Target project `SOURCE_OF_TRUTH.yaml`
-14. Target project `PROJECT_BRIEF.yaml`
-15. Target project `PROJECT_STATE.yaml`
+8. `nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md`
+9. `nexora-framework/02-standards/standards/capability-package-standard.md`
+10. `nexora-framework/02-standards/standards/open-data-ingestion-standard.md`
+11. `nexora-framework/02-standards/standards/product-marketplace-standard.md`
+12. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`
+13. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`
+14. `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
+15. `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
+16. Target project `BUSINESS_REQUIREMENT.md`
+17. Target project `SOURCE_OF_TRUTH.yaml`
+18. Target project `PROJECT_BRIEF.yaml`
+19. Target project `PROJECT_STATE.yaml`
 
 ## Nexora Framework
 
@@ -54,6 +58,10 @@ Use these files for the reusable method:
 - `nexora-framework/02-standards/standards/project-folder-standard.yaml`
 - `nexora-framework/02-standards/standards/documentation-standard.yaml`
 - `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
+- `nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml`
+- `nexora-framework/02-standards/standards/capability-package-standard.yaml`
+- `nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
+- `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
 - `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
 - `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
 - `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`

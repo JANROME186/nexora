@@ -20,9 +20,9 @@ This requirements package defines the initial complete requirements baseline for
 
 ## Summary
 
-- Business capabilities: 91
-- Functional requirements: 450
-- User stories: 450
+- Business capabilities: 92
+- Functional requirements: 460
+- User stories: 460
 - Product areas: 11
 - Roadmap phases: MVP1, MVP2, MVP3
 

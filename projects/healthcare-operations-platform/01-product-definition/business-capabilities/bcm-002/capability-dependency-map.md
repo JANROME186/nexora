@@ -8,7 +8,7 @@ This artifact is not a runtime architecture diagram. It is a sequencing and trac
 
 ## Scope
 
-BCM-002 covers all 91 capabilities from BCM-001.
+BCM-002 covers all 92 capabilities from BCM-001.
 
 Each capability is mapped to:
 
@@ -39,6 +39,7 @@ The machine-readable source is:
 | inventory_quality | Inventory, reagents, equipment, calibration, QC and audit workflows. | MVP2-MVP3 |
 | imaging | Imaging scheduling, DICOM/PACS, dictation, radiology signature and delivery. | MVP2-MVP3 |
 | platform_extension | Integration, API management, workflow, notifications and documents. | MVP1-MVP2 |
+| marketplace_entitlements | Marketplace catalog, commercial packages, tenant entitlements, installation, activation and package lifecycle. | MVP2 |
 | ai_overlay | Provider-agnostic AI capabilities and assistants. | MVP2-MVP3 |
 
 ## MVP1 Implementation Spine

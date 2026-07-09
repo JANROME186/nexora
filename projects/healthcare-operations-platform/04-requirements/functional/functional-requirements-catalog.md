@@ -414,6 +414,16 @@ Total functional requirements: **450**
 | FR-PLT-009-003 | BCM-PLT-009 | The platform shall expose Workflow Engine through APIs and reusable services without coupling business domains to providers. | High | MVP2 |
 | FR-PLT-009-004 | BCM-PLT-009 | The platform shall support monitoring, auditability and operational reporting for motor de workflows. | High | MVP2 |
 | FR-PLT-009-005 | BCM-PLT-009 | The platform shall remain cloud-agnostic, compute-agnostic and on-premise compatible for Workflow Engine. | High | MVP2 |
+| FR-PLT-010-001 | BCM-PLT-010 | The platform shall ingest customer migration data from simple open formats including CSV, XLSX, JSON, NDJSON and ZIP bundles. | Critical | MVP1 |
+| FR-PLT-010-002 | BCM-PLT-010 | The platform shall perform dry-run validation before any imported data mutates operational domains. | Critical | MVP1 |
+| FR-PLT-010-003 | BCM-PLT-010 | The platform shall produce reconciliation reports for migrated records, rejected rows and transformed values. | Critical | MVP1 |
+| FR-PLT-010-004 | BCM-PLT-010 | The platform shall make migration jobs auditable, retryable and observable without bypassing domain rules. | Critical | MVP1 |
+| FR-PLT-010-005 | BCM-PLT-010 | The platform shall define provider-deliverable migration packages that incumbent systems can export without proprietary dependencies. | Critical | MVP1 |
+| FR-PLT-011-001 | BCM-PLT-011 | The platform shall maintain a marketplace catalog of versioned product packages with capability, compatibility, pricing, support and security metadata. | High | MVP2 |
+| FR-PLT-011-002 | BCM-PLT-011 | The platform shall model commercial offers, trials, bundles, quotas and billing events through provider-agnostic marketplace boundaries. | High | MVP2 |
+| FR-PLT-011-003 | BCM-PLT-011 | The platform shall grant and resolve tenant entitlements separately from IAM permissions and feature flags. | High | MVP2 |
+| FR-PLT-011-004 | BCM-PLT-011 | The platform shall install, activate, suspend, upgrade, roll back, uninstall and retire marketplace packages per tenant with compatibility validation. | High | MVP2 |
+| FR-PLT-011-005 | BCM-PLT-011 | The platform shall provide audit, observability and support evidence for marketplace package lifecycle, entitlement and consumption events. | High | MVP2 |
 | FR-AI-001-001 | BCM-AI-001 | The platform shall provide asistente administrativo as an AI-assisted capability with human oversight where clinical or administrative risk exists. | High | MVP3 |
 | FR-AI-001-002 | BCM-AI-001 | The platform shall use privacy-safe context packages and avoid exposing unnecessary sensitive data to AI providers. | High | MVP3 |
 | FR-AI-001-003 | BCM-AI-001 | The platform shall keep AI provider usage behind an abstraction layer. | High | MVP3 |

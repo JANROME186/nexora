@@ -92,6 +92,10 @@ Archivos importantes:
 - `nexora-framework/02-standards/standards/project-folder-standard.yaml`
 - `nexora-framework/02-standards/standards/documentation-standard.yaml`
 - `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
+- `nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml`
+- `nexora-framework/02-standards/standards/capability-package-standard.yaml`
+- `nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
+- `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
 - `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
 - `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
 - `nexora-framework/06-templates/templates/project-template/`
@@ -242,12 +246,16 @@ El agente de analisis debe cargar estos archivos en este orden:
 6. `nexora-framework/02-standards/standards/project-folder-standard.yaml`
 7. `nexora-framework/02-standards/standards/documentation-standard.yaml`
 8. `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
-9. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
-10. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
-11. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
-12. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`, si existe
-13. `projects/<project-slug>/PROJECT_BRIEF.md`, si existe
-14. `projects/<project-slug>/PROJECT_STATE.yaml`, si existe
+9. `nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml`
+10. `nexora-framework/02-standards/standards/capability-package-standard.yaml`
+11. `nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
+12. `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
+13. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
+14. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
+15. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
+16. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`, si existe
+17. `projects/<project-slug>/PROJECT_BRIEF.md`, si existe
+18. `projects/<project-slug>/PROJECT_STATE.yaml`, si existe
 
 Si faltan archivos de control del proyecto, el agente debe crearlos usando el template del framework.
 

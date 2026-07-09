@@ -86,6 +86,14 @@ Reusable framework standard:
 
 `nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
 
+Product marketplace standard:
+
+`nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
+
+HOP product marketplace contract:
+
+`projects/healthcare-operations-platform/05-contracts/marketplace/product-marketplace/product-marketplace-contract.yaml`
+
 Project folder:
 
 `projects/healthcare-operations-platform/`

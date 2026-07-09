@@ -54,6 +54,12 @@ next_capability_package_group:
       package_folder: bcm-svc-009-price-list-management/
 
 planned_capability_package_groups:
+  - roadmap_group: COM-MOD-017
+    name: Product Marketplace and Extension Packaging
+    package_status: not_started
+    capabilities:
+      - capability_id: BCM-PLT-011
+        package_folder: bcm-plt-011-product-marketplace-and-entitlements/
   - roadmap_group: MVP-MOD-008
     name: Integration and Migration Readiness
     package_status: not_started

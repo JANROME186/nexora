@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.67.0] - 2026-07-08
+
+### Added
+- Added reusable Nexora Product Marketplace Standard in Markdown and YAML.
+- Added ADR-032 for product marketplace and commercial extension architecture.
+- Added `BCM-PLT-011 Product Marketplace and Entitlements` to the HOP capability map and dependency map.
+- Added HOP Product Marketplace and Entitlements Contract in Markdown and YAML.
+- Added `COM-MOD-017 Product Marketplace and Extension Packaging` to the HOP commercial backlog.
+
+### Changed
+- Promoted marketplace from product-evolution draft guidance to framework-level commercial extensibility guidance.
+- Updated repository and HOP source-of-truth registries to load marketplace standards and contracts.
+
 ## [0.66.0] - 2026-07-08
 
 ### Added

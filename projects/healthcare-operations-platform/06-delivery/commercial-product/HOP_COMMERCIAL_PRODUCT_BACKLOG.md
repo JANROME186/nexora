@@ -51,6 +51,7 @@ The product is considered ready for commercial general availability only when:
 - Security, audit, observability, supportability and deployment operations are production-ready.
 - Integration and migration boundaries allow customers to onboard without coupling HOP to legacy platforms.
 - Customer data can be ingested from simple open formats that any incumbent system provider can deliver without proprietary dependencies.
+- Optional product capabilities can be offered, purchased, entitled, installed and consumed through a marketplace-ready extension model.
 - Compliance, quality, documentation and customer enablement are sufficient for a paid pilot and general availability.
 
 ## Release Plan
@@ -102,8 +103,9 @@ Includes:
 
 - `COM-MOD-013 Advanced Quality and Compliance`
 - `COM-MOD-016 Commercial Launch and Customer Enablement`
+- `COM-MOD-017 Product Marketplace and Extension Packaging`
 
-Outcome: HOP is ready to be sold, onboarded, supported and governed as a commercial product.
+Outcome: HOP is ready to be sold, onboarded, extended, supported and governed as a commercial product.
 
 ### REL-004 Expansion Packages
 
@@ -135,6 +137,7 @@ Outcome: imaging operations and AI-assisted overlays can be commercialized as op
 | 13 | `COM-MOD-014 Imaging Operations` | REL-004 | Add imaging workflows and DICOM/PACS adapter boundaries. |
 | 14 | `COM-MOD-015 AI Overlay` | REL-004 | Add assistant, OCR, summary, semantic search and retrieval capabilities with clinical guardrails. |
 | 15 | `COM-MOD-016 Commercial Launch and Customer Enablement` | REL-003 | Prepare onboarding, support, training, release governance and launch assets. |
+| 16 | `COM-MOD-017 Product Marketplace and Extension Packaging` | REL-003 | Publish, sell, entitle, install, activate, upgrade and retire optional product packages. |
 
 ## Execution Contract
 
@@ -170,6 +173,7 @@ HOP reaches commercial general availability only after these gates pass:
 - `GA-003 Security and compliance gate`: role, permission, audit, retention and privacy controls are validated.
 - `GA-004 Operations gate`: deployment, monitoring, backup, restore and incident procedures are validated.
 - `GA-005 Commercial enablement gate`: onboarding, training, support, release governance and sales demo materials are complete.
+- `GA-006 Marketplace gate`: product marketplace standard, package lifecycle, entitlement, installation and observability evidence are complete.
 
 ## Next Action
 

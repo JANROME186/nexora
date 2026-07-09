@@ -28,3 +28,7 @@ The first capability packages to create belong to `MVP-MOD-002 Diagnostic Catalo
 The ingestion and migration capability package to create for `MVP-MOD-008` is:
 
 - `bcm-plt-010-open-data-ingestion-and-migration/`
+
+The marketplace capability package to create for `COM-MOD-017` is:
+
+- `bcm-plt-011-product-marketplace-and-entitlements/`

@@ -4,9 +4,9 @@ artifact:
   version: 1.0.0
   status: approved
 summary:
-  capabilities: 91
-  functional_requirements: 455
-  user_stories: 455
+  capabilities: 92
+  functional_requirements: 460
+  user_stories: 460
 traceability:
 - capability: BCM-ORG-001
   requirements:
@@ -1533,6 +1533,36 @@ traceability:
   portals:
   - employee_portal
   roadmap: MVP1
+- capability: BCM-PLT-011
+  requirements:
+  - FR-PLT-011-001
+  - FR-PLT-011-002
+  - FR-PLT-011-003
+  - FR-PLT-011-004
+  - FR-PLT-011-005
+  stories:
+  - US-PLT-011-001
+  - US-PLT-011-002
+  - US-PLT-011-003
+  - US-PLT-011-004
+  - US-PLT-011-005
+  aggregates:
+  - MarketplacePackage
+  - CommercialOffer
+  - LicensePlan
+  - TenantEntitlement
+  - PackageInstallation
+  events:
+  - MarketplacePackagePublished
+  - CommercialOfferPublished
+  - PackagePurchased
+  - TenantEntitlementGranted
+  - PackageInstalled
+  - PackageActivated
+  portals:
+  - employee_portal
+  - public_website
+  roadmap: MVP2
 - capability: BCM-AI-001
   requirements:
   - FR-AI-001-001

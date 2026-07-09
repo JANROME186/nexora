@@ -126,6 +126,15 @@ dependency_profiles:
     affected_mobile_apps: [patient_app, doctor_app, staff_app]
     integration_requirements: [openapi, webhooks, eventing]
     migration_relevance: medium
+  marketplace_entitlements:
+    required_capabilities: [BCM-ORG-001, BCM-PLT-001, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007]
+    optional_capabilities: [BCM-PLT-003, BCM-PLT-004, BCM-PLT-005, BCM-PLT-009, BCM-PLT-010]
+    upstream_dependencies: [tenant-management, identity-access, platform-configuration, audit-compliance, observability]
+    downstream_dependency_role: "Publishes, sells, entitles, installs, activates and governs optional product packages for tenants."
+    affected_portals: [employee_portal, public_website]
+    affected_mobile_apps: []
+    integration_requirements: [openapi, billing-provider-adapter, entitlement-events, webhooks]
+    migration_relevance: medium
   data_ingestion_migration:
     required_capabilities: [BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-001, BCM-PLT-007]
     optional_capabilities: [BCM-PLT-005, BCM-PLT-006, BCM-PLT-008]
@@ -902,6 +911,15 @@ capabilities:
     related_aggregates: [MigrationJob, ImportBatch, ImportValidationReport]
     downstream_dependencies: [BCM-PER-001, BCM-PER-002, BCM-PER-003, BCM-SVC-001, BCM-SVC-002, BCM-SVC-009, BCM-LAB-001, BCM-RES-001]
     ai_opportunities: [field-mapping-assistant, import-error-explanation, data-quality-summary]
+  - id: BCM-PLT-011
+    name: Product Marketplace and Entitlements
+    profile: marketplace_entitlements
+    mvp_phase: MVP2
+    product_area: platform_core
+    related_bounded_contexts: [product-marketplace, identity-access, platform-configuration, billing-tax, audit-compliance, observability]
+    related_aggregates: [MarketplacePackage, CommercialOffer, LicensePlan, TenantEntitlement, PackageInstallation]
+    downstream_dependencies: [COM-MOD-017, optional-commercial-packages, country-packs, ai-overlays, imaging-packages, integration-adapters]
+    ai_opportunities: [package-readiness-review, entitlement-impact-analysis, customer-package-recommendation]
 
   - id: BCM-AI-001
     name: Administrative Assistant
@@ -978,8 +996,8 @@ capabilities:
 
 coverage:
   expected_capability_source: BCM-001
-  expected_capability_count: 91
-  mapped_capability_count: 91
+  expected_capability_count: 92
+  mapped_capability_count: 92
   open_items:
     - BCM-001 has no explicit capability for tax authority connector variants; keep them as country-pack adapters under Billing Request Management.
     - Imaging is intentionally sequenced after laboratory MVP because DICOM/PACS requires separate operational readiness.

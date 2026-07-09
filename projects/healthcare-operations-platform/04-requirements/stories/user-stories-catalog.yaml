@@ -4,7 +4,7 @@ artifact:
   version: 1.0.0
   status: approved
 summary:
-  count: 450
+  count: 460
 stories:
 - id: US-ORG-001-001
   capability: BCM-ORG-001
@@ -4926,6 +4926,106 @@ stories:
   - 'Scenario: required fields and business rules are validated.'
   - 'Scenario: the action is auditable.'
   - 'Scenario: the UI provides clear feedback and supports localization.'
+- id: US-PLT-010-001
+  capability: BCM-PLT-010
+  title: Upload migration package
+  story: As an implementation specialist, I want to upload a provider-deliverable migration package so that customer data can be validated before onboarding.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: supported simple formats are accepted.'
+  - 'Scenario: malformed files are rejected with actionable errors.'
+  - 'Scenario: provider-specific fields pass through approved mappings.'
+- id: US-PLT-010-002
+  capability: BCM-PLT-010
+  title: Validate import dry run
+  story: As a data migration lead, I want to run validation before mutation so that migration issues are resolved safely.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: dry-run produces errors, warnings and record counts.'
+  - 'Scenario: blocking errors prevent execution.'
+  - 'Scenario: approved data is submitted through domain commands.'
+- id: US-PLT-010-003
+  capability: BCM-PLT-010
+  title: Review reconciliation report
+  story: As a customer administrator, I want to review migrated, rejected and transformed records so that onboarding evidence is clear.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: accepted and rejected records are visible.'
+  - 'Scenario: source-to-target identifiers are traceable.'
+  - 'Scenario: reports can be exported in portable formats.'
+- id: US-PLT-010-004
+  capability: BCM-PLT-010
+  title: Retry migration job
+  story: As an implementation specialist, I want migration jobs to be retryable and auditable so that recovery does not bypass domain rules.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: job state changes are audited.'
+  - 'Scenario: failed work can be retried safely.'
+  - 'Scenario: domain commands enforce business rules.'
+- id: US-PLT-010-005
+  capability: BCM-PLT-010
+  title: Share migration package specification
+  story: As a customer success lead, I want a simple export specification so that incumbent providers can deliver data without proprietary excuses.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: required files and columns are documented.'
+  - 'Scenario: no proprietary tooling is required.'
+  - 'Scenario: optional files are validated only when relevant.'
+- id: US-PLT-011-001
+  capability: BCM-PLT-011
+  title: Discover marketplace packages
+  story: As a tenant administrator, I want to discover available packages so that I can evaluate optional product functionality for my organization.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - 'Scenario: only published and compatible packages are shown.'
+  - 'Scenario: package type, version, support owner and compatibility are visible.'
+  - 'Scenario: unavailable packages show actionable reasons.'
+- id: US-PLT-011-002
+  capability: BCM-PLT-011
+  title: Purchase or grant a package offer
+  story: As a customer buyer, I want to purchase or receive a commercial offer so that my tenant can be entitled to use a package.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - 'Scenario: purchase, trial and private grant flows are distinguishable.'
+  - 'Scenario: billing provider details remain behind an adapter boundary.'
+  - 'Scenario: commercial offer state is auditable.'
+- id: US-PLT-011-003
+  capability: BCM-PLT-011
+  title: Resolve entitlement before usage
+  story: As a platform administrator, I want package execution to require entitlement and authorization so that purchased functionality remains controlled.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - 'Scenario: entitlement exists and IAM permission exists, so execution is allowed.'
+  - 'Scenario: entitlement exists but IAM permission is missing, so execution is denied.'
+  - 'Scenario: IAM permission exists but entitlement is missing, so execution is denied.'
+- id: US-PLT-011-004
+  capability: BCM-PLT-011
+  title: Install and manage tenant packages
+  story: As a tenant administrator, I want to install, activate, upgrade and remove packages so that my tenant can evolve without custom product forks.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - 'Scenario: compatibility is validated before installation.'
+  - 'Scenario: activation can be suspended without deleting package history.'
+  - 'Scenario: rollback or migration-bound uninstall behavior is documented.'
+- id: US-PLT-011-005
+  capability: BCM-PLT-011
+  title: Support marketplace package issues
+  story: As a support analyst, I want lifecycle and usage evidence for packages so that customer issues can be diagnosed and resolved.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - 'Scenario: package lifecycle history is available.'
+  - 'Scenario: entitlement decisions are explainable.'
+  - 'Scenario: telemetry supports troubleshooting without unnecessary protected data exposure.'
 - id: US-AI-001-001
   capability: BCM-AI-001
   title: Manage Administrative Assistant

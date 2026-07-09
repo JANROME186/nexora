@@ -1,8 +1,10 @@
 id: MKT-001
 name: Marketplace Architecture
 type: marketplace-architecture
-version: 0.22.0
-status: draft
+version: 1.0.0
+status: approved
+framework_standard: ../../../../../nexora-framework/02-standards/standards/product-marketplace-standard.yaml
+project_contract: ../../../05-contracts/marketplace/product-marketplace/product-marketplace-contract.yaml
 extension_types:
   - connector
   - country-pack
@@ -10,6 +12,8 @@ extension_types:
   - ai-pack
   - report-pack
   - workflow-pack
+  - data-ingestion-adapter
+  - capability-package
 principles:
   - Extensions must be isolated from core domain logic.
   - Extensions must declare capabilities, permissions, events and data access.
@@ -17,16 +21,41 @@ principles:
   - Extensions must be installable per tenant.
   - Extensions must be auditable.
   - Extensions must support rollback.
+  - Customers buy offers, tenants receive entitlements and installations activate packages.
+  - Marketplace packages must remain provider-agnostic and agent-agnostic.
 lifecycle:
-  - draft
-  - review
+  - modeled
+  - validated
   - certified
   - published
+  - purchased
+  - entitled
   - installed
+  - activated
   - updated
+  - suspended
   - deprecated
   - removed
+commercial_model:
+  objects:
+    - marketplace_package
+    - commercial_offer
+    - license_plan
+    - tenant_entitlement
+    - package_installation
+  required_controls:
+    - centralized_entitlement_check
+    - iam_authorization_check
+    - audit_events
+    - compatibility_validation
+    - rollback_or_migration_bound_uninstall
 mvp1_scope:
   - Define extension metadata.
   - Define tenant installation concept.
   - Defer marketplace UI.
+commercial_ga_scope:
+  - Publish package catalog.
+  - Define offer and entitlement models.
+  - Install and activate packages per tenant.
+  - Gate package consumption with entitlement and authorization checks.
+  - Emit lifecycle, billing and observability events.

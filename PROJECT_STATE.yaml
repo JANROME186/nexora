@@ -1,6 +1,6 @@
 repository: Nexora
-repository_version: 0.66.0
-current_phase: Open Data Ingestion Framework Standard Added
+repository_version: 0.67.0
+current_phase: Product Marketplace Framework Standard Added
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -15,6 +15,7 @@ framework:
     - nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
     - nexora-framework/02-standards/standards/capability-package-standard.yaml
     - nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml
+    - nexora-framework/02-standards/standards/product-marketplace-standard.yaml
   orchestration:
     - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
   recipe:
@@ -41,6 +42,7 @@ next_deliverables:
   - Generate MVP-MOD-002 Diagnostic Catalog Business Capability Packages
   - Validate MVP-MOD-002 capability packages against MDPE and Capability Package standards
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
+  - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Continue HOP capability packages in commercial backlog dependency order
   - Use Nexora Agent-to-MVP Recipe for any new project under projects/
 agent_entrypoint: AGENT_BOOTSTRAP.md
@@ -62,4 +64,6 @@ development_readiness:
   capability_package_standard_ready: true
   open_data_ingestion_contract_ready: true
   open_data_ingestion_standard_ready: true
+  product_marketplace_standard_ready: true
+  product_marketplace_contract_ready: true
   blocking_definition_gaps: []

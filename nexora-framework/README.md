@@ -50,6 +50,10 @@ It defines:
 - `02-standards/standards/project-folder-standard.yaml`
 - `02-standards/standards/documentation-standard.yaml`
 - `02-standards/standards/agent-agnostic-standard.yaml`
+- `02-standards/standards/model-driven-product-engineering-standard.yaml`
+- `02-standards/standards/capability-package-standard.yaml`
+- `02-standards/standards/open-data-ingestion-standard.yaml`
+- `02-standards/standards/product-marketplace-standard.yaml`
 - `03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
 - `04-recipes/recipes/agent-to-mvp-recipe.yaml`
 - `05-prompts/prompts/generic-project-lifecycle-prompts.yaml`

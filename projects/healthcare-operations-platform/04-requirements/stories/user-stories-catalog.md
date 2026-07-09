@@ -414,6 +414,16 @@ Total user stories: **450**
 | US-PLT-009-003 | BCM-PLT-009 | Audit Workflow Engine | MVP2 |
 | US-PLT-009-004 | BCM-PLT-009 | Configure Workflow Engine | MVP2 |
 | US-PLT-009-005 | BCM-PLT-009 | Report Workflow Engine | MVP2 |
+| US-PLT-010-001 | BCM-PLT-010 | Upload migration package | MVP1 |
+| US-PLT-010-002 | BCM-PLT-010 | Validate import dry run | MVP1 |
+| US-PLT-010-003 | BCM-PLT-010 | Review reconciliation report | MVP1 |
+| US-PLT-010-004 | BCM-PLT-010 | Retry migration job | MVP1 |
+| US-PLT-010-005 | BCM-PLT-010 | Share migration package specification | MVP1 |
+| US-PLT-011-001 | BCM-PLT-011 | Discover marketplace packages | MVP2 |
+| US-PLT-011-002 | BCM-PLT-011 | Purchase or grant a package offer | MVP2 |
+| US-PLT-011-003 | BCM-PLT-011 | Resolve entitlement before usage | MVP2 |
+| US-PLT-011-004 | BCM-PLT-011 | Install and manage tenant packages | MVP2 |
+| US-PLT-011-005 | BCM-PLT-011 | Support marketplace package issues | MVP2 |
 | US-AI-001-001 | BCM-AI-001 | Manage Administrative Assistant | MVP3 |
 | US-AI-001-002 | BCM-AI-001 | Search Administrative Assistant | MVP3 |
 | US-AI-001-003 | BCM-AI-001 | Audit Administrative Assistant | MVP3 |

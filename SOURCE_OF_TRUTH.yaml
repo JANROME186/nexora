@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.66.0
+  version: 0.67.0
   status: approved
 sources:
   repository_readme: README.md
@@ -26,7 +26,10 @@ sources:
   capability_package_standard_md: nexora-framework/02-standards/standards/capability-package-standard.md
   open_data_ingestion_standard: nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml
   open_data_ingestion_standard_md: nexora-framework/02-standards/standards/open-data-ingestion-standard.md
+  product_marketplace_standard: nexora-framework/02-standards/standards/product-marketplace-standard.yaml
+  product_marketplace_standard_md: nexora-framework/02-standards/standards/product-marketplace-standard.md
   model_driven_product_engineering_adr: nexora-framework/07-governance/adr/ADR-031-model-driven-product-engineering-and-capability-packages.md
+  product_marketplace_adr: nexora-framework/07-governance/adr/ADR-032-product-marketplace-and-commercial-extension-architecture.md
   agent_to_mvp_recipe: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   generic_project_lifecycle_prompts: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
   generic_project_lifecycle_prompts_yaml: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
@@ -55,6 +58,10 @@ sources:
   hop_capability_packages_root: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/
   hop_open_data_ingestion_contract: projects/healthcare-operations-platform/05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md
   hop_open_data_ingestion_contract_yaml: projects/healthcare-operations-platform/05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml
+  hop_open_data_ingestion_requirements: projects/healthcare-operations-platform/04-requirements/capabilities/bcm-plt-010-open-data-ingestion-and-migration/requirements.yaml
+  hop_product_marketplace_contract: projects/healthcare-operations-platform/05-contracts/marketplace/product-marketplace/product-marketplace-contract.md
+  hop_product_marketplace_contract_yaml: projects/healthcare-operations-platform/05-contracts/marketplace/product-marketplace/product-marketplace-contract.yaml
+  hop_product_marketplace_requirements: projects/healthcare-operations-platform/04-requirements/capabilities/bcm-plt-011-product-marketplace-and-entitlements/requirements.yaml
   hop_project_state: projects/healthcare-operations-platform/PROJECT_STATE.yaml
   hop_source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
   hop_mvp_mod_001_backend_implementation: projects/healthcare-operations-platform/07-implementation/backend/
@@ -101,4 +108,6 @@ rules:
   - Modules are roadmap groupings and must not replace capability packages as source of truth.
   - Nexora projects that require migration must apply the Open Data Ingestion Standard.
   - HOP migration must support simple open ingestion formats that incumbent providers can reasonably export.
+  - Nexora products that require commercial extensibility must apply the Product Marketplace Standard.
+  - HOP optional commercial capabilities must use marketplace packages, tenant entitlements and package installation models.
   - Generated artifacts must not be edited manually.

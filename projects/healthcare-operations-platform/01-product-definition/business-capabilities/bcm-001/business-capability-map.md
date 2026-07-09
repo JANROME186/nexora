@@ -145,6 +145,8 @@
 | BCM-PLT-007 | Auditoría | Audit Trail | Critical | MVP1 |
 | BCM-PLT-008 | Gestión Documental | Document Management | High | MVP1 |
 | BCM-PLT-009 | Motor de Workflows | Workflow Engine | High | MVP2 |
+| BCM-PLT-010 | Ingesta Abierta de Datos y Migración | Open Data Ingestion and Migration | Critical | MVP1 |
+| BCM-PLT-011 | Marketplace de Producto y Derechos de Uso | Product Marketplace and Entitlements | High | MVP2 |
 
 ## DOM-11 — Artificial Intelligence
 

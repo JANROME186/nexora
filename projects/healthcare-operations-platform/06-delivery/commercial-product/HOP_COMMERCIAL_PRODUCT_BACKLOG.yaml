@@ -26,6 +26,7 @@ source_inputs:
     - ../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
     - ../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
     - ../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+    - ../../../../nexora-framework/02-standards/standards/product-marketplace-standard.yaml
     - ../../../../nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   project:
     - ../../BUSINESS_REQUIREMENT.md
@@ -47,6 +48,7 @@ commercialization_objective:
     - Security, audit, observability, supportability and deployment operations are production-ready.
     - Integration and migration boundaries allow customers to onboard without coupling HOP to legacy platforms.
     - Customer data can be ingested from simple open formats that any incumbent system provider can deliver without proprietary dependencies.
+    - Optional product capabilities can be offered, purchased, entitled, installed and consumed through a marketplace-ready extension model.
     - Compliance, quality, documentation and customer enablement are sufficient for a paid pilot and general availability.
   explicit_boundaries:
     - Country-specific fiscal connectors are adapter implementations and must not block core billing request readiness.
@@ -109,6 +111,9 @@ commercial_readiness_pillars:
   - id: CRP-008
     name: Expansion readiness
     description: Imaging, advanced quality and AI overlays can be added without rewriting the operational core.
+  - id: CRP-009
+    name: Marketplace readiness
+    description: Product packages can be published, purchased, entitled, installed, activated, upgraded and consumed per tenant.
 
 release_plan:
   - id: REL-000
@@ -147,6 +152,7 @@ release_plan:
     modules:
       - COM-MOD-013
       - COM-MOD-016
+      - COM-MOD-017
     outcome: HOP is ready to be sold, onboarded, supported and governed as a commercial product.
   - id: REL-004
     name: Expansion Packages
@@ -169,6 +175,7 @@ global_definition_of_ready:
   - Tests, traceability and closeout evidence expected for the module are defined before implementation.
   - Capability Package models exist for every capability included in the target roadmap group.
   - Generation plan identifies generated outputs and custom implementation points.
+  - Marketplace-ready capabilities apply the Product Marketplace Standard and declare offer, entitlement, installation and compatibility models.
 
 global_definition_of_done:
   - Capability Package required artifacts exist in YAML and Markdown when applicable.
@@ -182,6 +189,7 @@ global_definition_of_done:
   - Traceability links capabilities, requirements, APIs, UI, domain events and tests.
   - QA evidence is written under 08-qa.
   - PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml are updated.
+  - Marketplace-ready capabilities validate purchase, entitlement, installation, activation, upgrade and retirement flows where applicable.
   - No agent-specific dependency, prompt or configuration is required.
 
 capability_package_execution_contract:
@@ -877,6 +885,55 @@ modules:
       - Launch, release, support and training artifacts exist.
       - Commercial readiness is validated against all readiness pillars.
 
+  - id: COM-MOD-017
+    name: Product Marketplace and Extension Packaging
+    release: REL-003
+    priority: 160
+    status: planned
+    source: derived_from_product_marketplace_standard
+    objective: Enable HOP to publish, sell, entitle, install, activate, update and retire optional commercial product packages per tenant.
+    depends_on:
+      - MVP-MOD-008
+      - COM-MOD-012
+      - COM-MOD-016
+    capabilities:
+      - BCM-PLT-011
+      - BCM-PLT-001
+      - BCM-PLT-002
+      - BCM-PLT-005
+      - BCM-PLT-006
+      - BCM-PLT-007
+      - BCM-PLT-009
+    product_surfaces:
+      backend: required
+      employee_portal: admin_required
+      public_website: marketplace_listing_required
+      patient_portal: entitlement_aware
+      doctor_portal: entitlement_aware
+      mobile_app: entitlement_aware
+      billing_adapter: required
+    backlog_items:
+      - id: COM-MOD-017-DEF
+        name: Marketplace capability package and commercial package models
+      - id: COM-MOD-017-BE-001
+        name: Compile marketplace catalog, offer, entitlement and installation backend outputs
+      - id: COM-MOD-017-BE-002
+        name: Implement custom entitlement enforcement and billing provider adapter boundary
+      - id: COM-MOD-017-FE-001
+        name: Compile marketplace administration and package installation UI outputs
+      - id: COM-MOD-017-WEB-001
+        name: Compile public marketplace listing and package discovery surfaces
+      - id: COM-MOD-017-QA-001
+        name: Validate purchase, entitlement, installation, activation, upgrade, rollback and retirement evidence
+      - id: COM-MOD-017-CLOSEOUT
+        name: Marketplace readiness closeout and registry update
+    acceptance_summary:
+      - Published packages can be discovered with version, compatibility, support and pricing metadata.
+      - Customers can purchase or receive offers through a provider-agnostic commercial boundary.
+      - Tenant entitlements gate installation and runtime consumption.
+      - Packages can be installed, activated, suspended, upgraded, rolled back, uninstalled and retired with audit evidence.
+      - Marketplace packages cannot bypass IAM, audit, privacy, clinical authority or financial controls.
+
 commercial_ga_gates:
   - id: GA-001
     name: Operational workflow gate
@@ -903,3 +960,9 @@ commercial_ga_gates:
     criteria:
       - Onboarding, training, support and release governance documents are complete.
       - Sales demo and customer pilot package are ready.
+  - id: GA-006
+    name: Marketplace gate
+    criteria:
+      - Product Marketplace Standard is applied to HOP.
+      - BCM-PLT-011 and COM-MOD-017 are modeled and traceable.
+      - Marketplace package lifecycle, entitlement, installation and observability evidence is complete.

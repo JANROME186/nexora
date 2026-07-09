@@ -12,9 +12,9 @@ artifact:
   - 04-generated/diagrams/product/business-capability-map.mmd
 summary:
   domains: 11
-  capabilities: 91
+  capabilities: 92
   critical: 26
-  high: 59
+  high: 60
   medium: 6
 domains:
   DOM-01:
@@ -709,6 +709,14 @@ domains:
         es: Ingesta Abierta de Datos y Migración
       priority: Critical
       roadmap: MVP1
+      status: draft
+      source: BCM-001
+    - id: BCM-PLT-011
+      name:
+        en: Product Marketplace and Entitlements
+        es: Marketplace de Producto y Derechos de Uso
+      priority: High
+      roadmap: MVP2
       status: draft
       source: BCM-001
   DOM-11:

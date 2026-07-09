@@ -7,9 +7,9 @@ artifact:
   owner: Product Requirements Team
   source_of_truth: 04-requirements/requirements-manifest.yaml
 summary:
-  capabilities: 91
-  functional_requirements: 455
-  user_stories: 455
+  capabilities: 92
+  functional_requirements: 460
+  user_stories: 460
   non_functional_categories: 12
   source: BCM-001
 requirement_sets:

@@ -11,6 +11,7 @@ principles:
   - Feature-Flagged Delivery
   - Marketplace Ready
   - Commercial Configuration Over Code
+  - Entitlement-Gated Package Consumption
 mvp1_scope:
   - Tenant-level plan assignment
   - Feature flag evaluation model
@@ -18,9 +19,18 @@ mvp1_scope:
   - Country pack abstraction
   - API compatibility policy
   - Product lifecycle states
+commercial_ga_scope:
+  - Marketplace package catalog
+  - Commercial offer model
+  - Tenant entitlement model
+  - Package installation and activation model
+  - Billing-provider adapter boundary
+  - Package compatibility and rollback policy
 related_artifacts:
   - CONSTITUTION.md
   - SOURCE_OF_TRUTH.yaml
   - product-evolution/licensing/licensing-engine.md
   - product-evolution/feature-flags/feature-flag-strategy.md
   - product-evolution/marketplace/marketplace-architecture.md
+  - ../../05-contracts/marketplace/product-marketplace/product-marketplace-contract.md
+  - ../../../../nexora-framework/02-standards/standards/product-marketplace-standard.md
