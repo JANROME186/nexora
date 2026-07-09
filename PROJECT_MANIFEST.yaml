@@ -2,7 +2,7 @@ repository:
   id: nexora
   name: Nexora
   type: multi-project-agent-ready-definition-repository
-  version: 0.70.0
+  version: 0.71.0
   status: ready
 
 company:
@@ -33,6 +33,7 @@ framework:
     product_marketplace: nexora-framework/02-standards/standards/product-marketplace-standard.yaml
     business_requirement_versioning: nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
     open_source_first_security_quality: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+    technology_debt_backlog_policy: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
   recipe:
     agent_to_mvp: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   prompts:
@@ -68,6 +69,7 @@ projects:
     product_marketplace_contract: projects/healthcare-operations-platform/05-contracts/marketplace/product-marketplace/product-marketplace-contract.yaml
     product_marketplace_requirements: projects/healthcare-operations-platform/04-requirements/capabilities/bcm-plt-011-product-marketplace-and-entitlements/requirements.yaml
     source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.yaml
+    technical_debt_index: projects/healthcare-operations-platform/08-qa/technical-debt/technical-debt-index.yaml
     active_module: MVP-MOD-002
     completed_backlog_items:
       - PF-BE-001

@@ -2,7 +2,7 @@ artifact:
   id: NXF-OSS-SEC-QUAL-001
   type: framework-standard
   name: Open Source First Security and Quality Standard
-  version: 1.0.0
+  version: 1.1.0
   status: approved
   human_readable: open-source-first-security-quality-standard.md
   machine_readable: open-source-first-security-quality-standard.yaml
@@ -12,6 +12,40 @@ purpose: >
   Ensure Nexora solutions prefer open source technologies and continuously apply
   security, vulnerability, dependency, coverage and engineering quality gates as
   the product is built, reducing cost, lock-in and technical debt.
+
+technology_evolution_policy:
+  default_position: >
+    Quality, vulnerability, dependency, framework and technology reviews are not
+    permanently constrained by the technology stack selected at project inception.
+    Agents must evaluate the current implementation against the best available
+    open source, secure, maintainable and commercially viable options at the time
+    each backlog item is executed.
+  review_frequency:
+    - every_code_changing_backlog_item
+    - every_dependency_change
+    - every_module_closeout
+    - every_release_readiness_gate
+    - whenever a critical/high vulnerability, unsupported runtime, deprecated framework or major ecosystem shift is detected
+  agents_must_detect:
+    - unsupported_or_end_of_life_runtime
+    - deprecated_framework_or_library
+    - safer_open_source_alternative
+    - lower_cost_or_more_portable_open_source_alternative
+    - security_relevant_major_upgrade
+    - license_or_governance_change
+    - ecosystem_shift_that_changes_maintainability_or_hiring_risk
+    - platform_or_language_version_that_blocks_quality_tools
+    - architectural_lock_in_that_can_be_reduced_by_adapters_or_migration
+  decision_rule: >
+    Do not force immediate migration during unrelated work unless the finding is
+    blocking, critical or necessary to complete the current backlog safely. When
+    migration is beneficial but not immediately required, create or update a
+    technical-debt backlog item with impact, risk, effort, affected components,
+    recommended target state and gradual remediation plan.
+  source_stack_is_baseline_not_prison: true
+  preferred_behavior: >
+    Address technology debt incrementally when normal backlog work touches the
+    affected component, dependency boundary or runtime surface.
 
 scope:
   applies_to:
@@ -138,6 +172,8 @@ quality_gates:
       - secrets_scan
       - sast_or_static_analysis_for_changed_stack
       - coverage_report_for_changed_stack
+      - technology_evolution_review
+      - technical_debt_backlog_update_when_findings_exist
       - qa_evidence_yaml
       - qa_evidence_md_when_human_review_is_needed
     fail_conditions:
@@ -167,7 +203,52 @@ quality_gates:
       - coverage_threshold_met_or_exception_approved
       - known_vulnerabilities_reviewed
       - license_review_passed
+      - technology_debt_register_reviewed
       - security_quality_evidence_registered
+
+technical_debt_backlog_policy:
+  root_folder: 08-qa/technical-debt/
+  index_file: 08-qa/technical-debt/technical-debt-index.yaml
+  human_readable_index: 08-qa/technical-debt/README.md
+  item_path_pattern: 08-qa/technical-debt/<debt-id>.yaml
+  debt_id_pattern: TD-<component-or-area>-<sequence>
+  required_when:
+    - technology_review_finds_non_blocking_migration_or_upgrade
+    - dependency_or_framework_is_outdated_but_not_immediate_blocker
+    - security_or_quality_tooling_gap_needs_gradual_remediation
+    - stack_migration_is_recommended_but_must_be coordinated with touched components
+  debt_item_must_include:
+    - id
+    - title
+    - source_backlog_item
+    - detection_date
+    - affected_components
+    - current_state
+    - recommended_target_state
+    - reason
+    - risk_level
+    - urgency
+    - estimated_effort
+    - estimated_cost_impact
+    - migration_strategy
+    - incremental_remediation_triggers
+    - dependencies_or_prerequisites
+    - acceptance_criteria
+    - owner_or_responsible_role
+    - status
+  statuses:
+    - proposed
+    - accepted
+    - in_progress
+    - partially_resolved
+    - resolved
+    - rejected_with_reason
+  remediation_rules:
+    - Do not rewrite stable components solely to chase novelty.
+    - Prefer opportunistic remediation when the affected component is already being modified.
+    - Break broad migrations into small backlog items with explicit test and rollback strategy.
+    - Security-critical or unsupported runtime findings may be promoted to blocking backlog items.
+    - Every resolved debt item must reference validation evidence and the backlog item that resolved it.
 
 default_thresholds:
   vulnerability_policy:
@@ -209,6 +290,8 @@ evidence_requirements:
     - dast_summary_when_applicable
     - secrets_scan_summary
     - license_summary
+    - technology_evolution_review
+    - technical_debt_items_created_or_updated
     - accepted_risks
     - blocking_findings
     - decision
@@ -218,6 +301,9 @@ agent_rules:
   - Agents must not introduce proprietary runtimes, hosted services, paid-only SDKs or closed-source dependencies as mandatory product dependencies without an exception ADR.
   - Agents must add or update quality-gate evidence for every backlog item that changes code, dependencies, runtime configuration, APIs or deployment assets.
   - Agents must run the security and quality gates that are applicable to the changed stack; unavailable tools must be documented with the reason and a replacement or follow-up.
+  - Agents must not treat the initial project stack as permanently fixed. Each code-changing iteration must evaluate whether newer open source frameworks, libraries, runtimes or tools are materially safer, better maintained, more portable or more cost-effective.
+  - Agents must create or update technical-debt backlog items for beneficial technology upgrades or migrations that are not safe or necessary to execute immediately.
+  - Agents must recommend gradual remediation of technology debt when future backlog work touches the affected components.
   - Agents must fail the backlog item when critical or high findings are introduced and no accepted risk exists.
   - Agents must keep quality tooling project-local, reproducible and agent agnostic.
   - Agents must keep generated security and quality evidence in YAML first, with Markdown as the human companion.
@@ -227,3 +313,4 @@ non_goals:
   - This standard does not require proprietary security platforms.
   - This standard does not replace domain security, IAM, privacy or regulatory requirements.
   - This standard does not force every tool on every project; applicability depends on the stack and changed surface.
+  - This standard does not require immediate migration to every new framework or version; it requires explicit detection, documentation, prioritization and gradual remediation.

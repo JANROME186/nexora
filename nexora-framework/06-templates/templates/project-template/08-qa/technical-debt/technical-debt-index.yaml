@@ -1,0 +1,22 @@
+artifact:
+  id: PROJECT-TD-IDX
+  type: technical-debt-index
+  version: 0.1.0
+  status: active
+  human_readable: README.md
+  machine_readable: technical-debt-index.yaml
+
+purpose: Track non-blocking technology modernization and migration debt discovered by iterative quality reviews.
+
+policy:
+  standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  review_required_during:
+    - every_code_changing_backlog_item
+    - dependency_change
+    - module_closeout
+    - release_readiness
+  remediation_strategy: gradual_when_affected_components_are_touched
+
+item_path_pattern: 08-qa/technical-debt/<debt-id>.yaml
+
+entries: []

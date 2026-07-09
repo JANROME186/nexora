@@ -73,9 +73,15 @@ For any project under `projects/<project-slug>/`:
 4. Apply the orchestration workflow.
 5. If analysis is incomplete, apply the Agent-to-MVP recipe.
 6. If the business requirement changed, generate an impact assessment before modifying derived artifacts.
-7. Apply the open-source-first and security quality standard to technology choices and code-changing work.
+7. Apply the open-source-first, technology evolution, security quality and technical-debt standards to technology choices and code-changing work.
 8. Validate the project against the framework.
 9. Start development only from the approved project state and module package.
+
+During every code-changing backlog item, the agent must treat the initial technology stack as the
+current baseline, not as a permanent constraint. If newer open source frameworks, runtimes,
+dependencies or quality tools would materially improve security, maintainability, portability or
+cost, the agent must either apply the change when it is required for safe delivery or register it as
+technical debt under `08-qa/technical-debt/` for gradual remediation.
 
 ## Project Rule
 

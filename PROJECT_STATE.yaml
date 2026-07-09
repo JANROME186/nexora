@@ -1,6 +1,6 @@
 repository: Nexora
-repository_version: 0.70.0
-current_phase: Open Source First Security Quality Framework Added
+repository_version: 0.71.0
+current_phase: Technology Evolution Debt Backlog Framework Added
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -81,4 +81,6 @@ development_readiness:
   business_requirement_impact_prompt_ready: true
   open_source_first_security_quality_standard_ready: true
   security_quality_gate_prompts_ready: true
+  technology_evolution_review_ready: true
+  technical_debt_backlog_standard_ready: true
   blocking_definition_gaps: []

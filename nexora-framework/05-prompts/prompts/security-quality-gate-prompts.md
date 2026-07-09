@@ -3,12 +3,17 @@
 **Artifact ID:** `NXF-SQ-PROMPTS-001`  
 **Status:** Approved  
 **Machine-readable source:** `security-quality-gate-prompts.yaml`
+**Version:** `1.1.0`
 
 Use these prompts with the Open Source First Security and Quality Standard.
 
 ## Open-Source-First Assessment
 
 Load `open-source-first-security-quality-standard.yaml`, review the changed technology choices, and confirm that open source, self-hostable and standards-based options are preferred. If a proprietary mandatory dependency appears, require an ADR exception before continuing.
+
+The review must not be limited to the stack selected at project inception. Treat the original stack as
+the current baseline and evaluate whether newer open source frameworks, runtimes, libraries or tools
+would materially improve security, maintainability, portability, cost or ecosystem health.
 
 ## Backlog Gate
 
@@ -22,6 +27,8 @@ For every code-changing backlog item, run or document applicable checks:
 - Contract quality.
 - DAST when a runnable web/API surface exists.
 - Container/IaC scan when deployment assets change.
+- Technology evolution review.
+- Technical-debt backlog update when non-blocking modernization findings exist.
 
 Write evidence under:
 
@@ -29,6 +36,20 @@ Write evidence under:
 
 Do not close the backlog when critical/high findings, secrets, failing tests or undocumented coverage regressions remain unresolved.
 
+## Technology Debt Backlog
+
+When a modernization, migration or quality-tooling finding is beneficial but not immediately required
+to complete the backlog safely, register it under:
+
+`08-qa/technical-debt/`
+
+Each item must describe the affected components, current state, recommended target state, risk,
+urgency, effort, cost impact, migration strategy, incremental remediation triggers and acceptance
+criteria. Remediation should be gradual and preferably attached to future backlog work that already
+touches the affected component.
+
 ## Module Closeout Gate
 
-Before closing a module, aggregate backlog evidence and confirm that the module meets the required security and quality gates.
+Before closing a module, aggregate backlog evidence and confirm that the module meets the required
+security and quality gates. Also review the project technology debt index and confirm each item is
+resolved, accepted, prioritized or explicitly deferred with rationale.

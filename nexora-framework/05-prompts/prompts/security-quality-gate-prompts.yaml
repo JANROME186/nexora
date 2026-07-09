@@ -2,7 +2,7 @@ artifact:
   id: NXF-SQ-PROMPTS-001
   type: prompt-playbook
   name: Security and Quality Gate Prompts
-  version: 1.0.0
+  version: 1.1.0
   status: approved
   human_readable: security-quality-gate-prompts.md
   machine_readable: security-quality-gate-prompts.yaml
@@ -24,15 +24,19 @@ prompts:
     expected_output:
       - selected_technologies
       - open_source_assessment
+      - technology_evolution_review
       - license_summary
       - proprietary_exceptions_required
       - lock_in_risks
+      - technical_debt_items_to_create_or_update
       - recommendation
     prompt: |
       Load the Open Source First Security and Quality Standard.
       Review the changed architecture, dependencies, runtime tools and implementation choices.
       Prefer open source, self-hostable, standards-based technologies.
+      Do not limit the review to the technology stack chosen at project inception. Treat the original stack as the current baseline and evaluate whether newer open source frameworks, runtimes, libraries or quality tools materially improve security, maintainability, portability, cost or ecosystem health.
       If a proprietary or paid-only dependency is introduced as mandatory, stop unless an ADR exception exists or is created.
+      If a beneficial upgrade or migration is identified but is not required to safely finish the current backlog item, create or update a technical-debt backlog item under 08-qa/technical-debt/ with impact, risk, effort, estimated cost, affected components and incremental remediation triggers.
       Produce the open_source_first_assessment section for the backlog security-quality evidence.
 
   - id: PROMPT-SQ-001
@@ -44,9 +48,12 @@ prompts:
       - pass_fail_decision
       - blocking_findings
       - accepted_risks
+      - technical_debt_backlog_updates
     prompt: |
       For the selected backlog item, identify changed backend, web, mobile, API, dependency, container and deployment surfaces.
       Run applicable open source checks for tests, SAST/static analysis, dependency vulnerabilities, secrets, coverage, contract quality and DAST when a runnable surface exists.
+      Run a technology evolution review even when the backlog item does not introduce a new stack. Compare the touched components and dependencies against current open source, security, maintenance and ecosystem signals.
+      Do not block normal delivery for non-critical modernization findings. Instead, register them as gradual technical debt under 08-qa/technical-debt/ and link them to future backlog work that touches the affected components.
       Use the project's existing toolchain first. Add lightweight open source tools only when they fit the stack and can run reproducibly without vendor lock-in.
       Write evidence under 08-qa/security-quality/<backlog-item-id>/.
       Do not close the backlog item when critical or high findings, secrets, failing tests or undocumented coverage regressions remain unresolved.
@@ -58,8 +65,25 @@ prompts:
       - aggregate_security_quality_report
       - module_closeout_decision
       - release_blockers
+      - unresolved_technology_debt_summary
     prompt: |
       Before closing a module, aggregate all backlog security-quality evidence for the module.
-      Confirm SAST/static analysis, dependency scans, coverage, DAST where applicable, tests, contract checks, SBOM and license review are present or explicitly not applicable with reasons.
+      Confirm SAST/static analysis, dependency scans, coverage, DAST where applicable, tests, contract checks, SBOM, license review and technology evolution reviews are present or explicitly not applicable with reasons.
+      Review 08-qa/technical-debt/ and confirm all technology debt discovered during the module is accepted, prioritized, resolved or explicitly deferred with rationale.
       Update module closeout QA evidence and PROJECT_STATE.yaml.
       Do not recommend the next module when unresolved critical or high security findings exist without accepted risk.
+
+  - id: PROMPT-SQ-003
+    name: Technology debt backlog update
+    intent: Convert non-blocking modernization, migration or quality-tooling findings into gradual technical debt backlog items.
+    expected_output:
+      - technical-debt-index.yaml
+      - technical_debt_item_yaml
+      - remediation_triggers
+      - backlog_recommendation
+    prompt: |
+      Load the Open Source First Security and Quality Standard and the target project technical debt index.
+      For each non-blocking finding related to outdated dependencies, deprecated frameworks, unsupported runtimes, quality tooling gaps, lock-in risk or recommended open source migration, create or update a debt item under 08-qa/technical-debt/.
+      Include affected components, current state, recommended target state, reason, risk, urgency, estimated effort, estimated cost impact, migration strategy, incremental remediation triggers, dependencies and acceptance criteria.
+      Prefer gradual remediation tied to normal backlog work that already touches the affected components.
+      Promote the debt item to blocking only when the finding is critical/high without accepted risk, prevents required quality gates from running, or involves an unsupported runtime that makes continued development unsafe.

@@ -5,8 +5,13 @@ development_readiness:
   status: not_ready
   ready_to_start_module: null
   business_requirement_ready: false
+  technology_debt_backlog_ready: true
   blocking_definition_gaps:
     - business_requirement_missing_requester_must_provide
     - project_brief_not_completed
     - capability_map_missing
     - mvp_framework_missing
+technology_debt:
+  index: 08-qa/technical-debt/technical-debt-index.yaml
+  review_policy: Review during every code-changing backlog item, module closeout and release readiness gate.
+  remediation_policy: Address accepted debt gradually when affected components are touched.

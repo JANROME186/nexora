@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.70.0
+  version: 0.71.0
   status: approved
 sources:
   repository_readme: README.md
@@ -130,4 +130,5 @@ rules:
   - HOP optional commercial capabilities must use marketplace packages, tenant entitlements and package installation models.
   - Nexora projects must apply open-source-first technology selection before introducing new mandatory technologies.
   - Code-changing backlog items must produce security quality evidence with applicable open source tests, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when runnable surfaces exist.
+  - Technology, framework, dependency and quality reviews must not be permanently constrained by the initial project stack; agents must register non-blocking modernization findings as technical debt and remediate gradually when affected components are touched.
   - Generated artifacts must not be edited manually.

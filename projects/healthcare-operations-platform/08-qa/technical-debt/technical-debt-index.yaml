@@ -1,0 +1,31 @@
+artifact:
+  id: HOP-TD-IDX-001
+  type: technical-debt-index
+  name: HOP Technology Debt Index
+  version: 1.0.0
+  status: active
+  human_readable: README.md
+  machine_readable: technical-debt-index.yaml
+
+standard:
+  framework_standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  prompt_playbook: ../../../../nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
+
+purpose: Track non-blocking HOP technology modernization and migration debt discovered by iterative quality reviews.
+
+policy:
+  initial_stack_is_baseline_not_permanent_constraint: true
+  review_required_during:
+    - every_code_changing_backlog_item
+    - dependency_change
+    - module_closeout
+    - release_readiness
+  remediation_strategy: gradual_when_affected_components_are_touched
+  promote_to_blocking_when:
+    - critical_or_high_security_risk_without_accepted_risk
+    - unsupported_runtime_blocks_safe_development
+    - quality_gate_cannot_run_without_upgrade
+
+item_path_pattern: 08-qa/technical-debt/<debt-id>.yaml
+
+entries: []

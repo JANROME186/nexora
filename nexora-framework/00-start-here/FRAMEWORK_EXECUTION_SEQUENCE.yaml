@@ -23,7 +23,7 @@ sequence:
     responsibility: Load Nexora company context and enterprise identity.
   - step: "02"
     folder: 02-standards
-    responsibility: Load project folder, documentation, agent-agnostic, MDPE, capability package, ingestion, marketplace, business requirement versioning and open-source security quality standards.
+    responsibility: Load project folder, documentation, agent-agnostic, MDPE, capability package, ingestion, marketplace, business requirement versioning, open-source security quality and technology debt standards.
     primary_files:
       - 02-standards/standards/project-folder-standard.yaml
       - 02-standards/standards/documentation-standard.yaml
@@ -79,6 +79,7 @@ development_gate:
     - Target module package exists.
     - Target module package required artifacts exist.
     - Open-source-first and security quality gates are defined for code-changing work.
+    - Technology evolution reviews and technical-debt backlog handling are defined for iterative work.
 
 current_first_product:
   project: projects/healthcare-operations-platform/
