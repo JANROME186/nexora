@@ -82,7 +82,7 @@ at the model level so contract/route parity is preserved.
 |---|---|---|
 | VAL-001 | Backend compiles (`mvn test-compile`) | passed |
 | VAL-002 | Backend test suite (`mvn test`) | passed — 42 run, 0 failures, 0 errors, 5 skipped |
-| VAL-003 | Suite against real Postgres (`-Dhop.local-db-tests=true`) | **not executed** — Docker daemon unavailable in this environment |
+| VAL-003 | Suite against real Postgres (`-Dhop.local-db-tests=true`) | passed — 42 run, 0 failures, 0 errors, 0 skipped (fresh volume) |
 | VAL-004 | Spring Modulith boundaries | passed |
 | VAL-005 | OpenAPI/contract coverage (incl. new `publishSampleType`) | passed |
 | VAL-006 | Former 501 hooks now functional | passed |
@@ -94,11 +94,14 @@ New/updated tests: `CatalogCustomRulesApiTest` (10 tests) added; `CatalogTestCon
 publication, snapshot, immutability (409), assignment gating, effective resolution and overlap (409)
 behavior.
 
-> VAL-003 note: the Postgres-backed run is the only validation not executed, solely because the
-> Docker daemon in this environment returned HTTP 500 / API-version errors. The JDBC adapters were
-> extended only with additive read queries (`ReferenceRange.findByAnalyteRefId`,
-> `PriceList.findByStatus`) that compile and follow the existing JDBC style; publication writes reuse
-> the status upsert paths already validated by MVP-MOD-002-BE-001.
+> VAL-003 note: the Postgres-backed suite passes with 42 tests, 0 failures and 0 skipped against a
+> real Postgres 16 instance, exercising every `LocalDatabaseTest` (including
+> `CatalogTestConfigurationLocalDatabaseTest`) and the extended JDBC adapters
+> (`ReferenceRange.findByAnalyteRefId`, `PriceList.findByStatus`). The Postgres volume must be reset
+> (`docker compose -f compose.local.yml down -v`) before the run, because
+> `CatalogTestConfigurationLocalDatabaseTest` uses fixed codes (`DB-SVC-1`, `DB-PRC-1`) and is not
+> self-cleaning; a volume retained from the MVP-MOD-002-BE-001 run produces a legitimate
+> duplicate-code 400 (`existsByCode`), not a defect.
 
 ## Readiness
 

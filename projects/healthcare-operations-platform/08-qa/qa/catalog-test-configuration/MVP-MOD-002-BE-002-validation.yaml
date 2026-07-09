@@ -214,13 +214,16 @@ validations:
       expectations.
   - id: VAL-003
     name: Backend test suite passes against real Postgres
-    method: docker compose -f compose.local.yml up -d postgres; mvn --settings .mvn/settings.xml test -Dhop.local-db-tests=true
-    result: not_executed
-    detail: The Docker daemon in this environment was unresponsive (HTTP 500 / API version mismatch),
-      so the Postgres-backed run could not be executed. The JDBC adapters were extended only with
-      additive read queries (ReferenceRange.findByAnalyteRefId, PriceList.findByStatus), which compile
-      and follow the existing JDBC style; publication writes reuse the existing status upsert paths
-      already validated by MVP-MOD-002-BE-001.
+    method: docker compose -f compose.local.yml down -v; docker compose -f compose.local.yml up -d postgres; mvn --settings .mvn/settings.xml test -Dhop.local-db-tests=true
+    result: passed
+    detail: >-
+      42 tests run, 0 failures, 0 errors, 0 skipped against a real Postgres 16 instance via docker
+      compose, exercising every LocalDatabaseTest including CatalogTestConfigurationLocalDatabaseTest
+      and the extended JDBC adapters (ReferenceRange.findByAnalyteRefId, PriceList.findByStatus). The
+      Postgres volume must be reset (docker compose down -v) before the run because
+      CatalogTestConfigurationLocalDatabaseTest uses fixed codes (DB-SVC-1, DB-PRC-1) and is not
+      self-cleaning; a volume retained from the MVP-MOD-002-BE-001 run causes a legitimate
+      duplicate-code 400 (existsByCode), not a defect.
   - id: VAL-004
     name: Spring Modulith module boundaries remain valid
     method: PlatformFoundationModulithTest
@@ -259,7 +262,7 @@ readiness:
     Every custom business rule reserved for MVP-MOD-002-BE-002 in the MVP-MOD-002-BE-001 validation
     is now implemented with functional publication, immutable versioning/snapshot, assignment,
     effective-dated overlap prevention and effective-context resolution behavior, covered by new and
-    updated automated tests. The standard backend suite passes with 42 tests and no failures. The
-    one model gap discovered (GAP-BE-002-01, missing publishSampleType) was closed in the editable
-    contract model. The Postgres-backed run is the only validation not executed, solely due to an
-    unavailable Docker daemon in this environment.
+    updated automated tests. The standard backend suite passes with 42 tests and no failures, and the
+    Postgres-backed suite passes with 42 tests, 0 failures and 0 skipped against a real Postgres 16
+    instance. The one model gap discovered (GAP-BE-002-01, missing publishSampleType) was closed in
+    the editable contract model.
