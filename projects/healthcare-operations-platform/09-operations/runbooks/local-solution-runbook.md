@@ -139,6 +139,13 @@ Expected result:
 2. Confirm the employee portal shell loads.
 3. Create or inspect a tenant through the Platform Foundation UI or API.
 4. Open Diagnostic Catalog navigation and confirm catalog screens load.
+5. Register a patient, register a doctor and search persons through the People and Clinical
+   Master Data API (`POST /api/people/patients`, `POST /api/people/doctors`,
+   `GET /api/people/persons/search?tenantId=...`). Start a patient registration through
+   `POST /api/care-delivery/patient-registrations`. Deferred custom-rule endpoints (patient
+   merge, doctor suspension, credential verification, credential revocation, portal access
+   preparation, registration commit) return HTTP 501 with `backlogItem`
+   `MVP-MOD-003-BE-002`; that is the expected MVP-MOD-003-BE-001 behavior.
 
 ## Quality Validation
 

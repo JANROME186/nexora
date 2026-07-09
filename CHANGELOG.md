@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.77.0] - 2026-07-09
+
+### Added
+- HOP MVP-MOD-003-BE-001 compiles the People and Clinical Master Data backend outputs
+  (personmanagement, patientmanagement, doctormanagement, patientregistration) from the four
+  MVP-MOD-003 capability packages (BCM-PER-001/002/003, BCM-ATT-002).
+- New `people` PostgreSQL schema and JDBC adapters for the Patient and Doctor aggregates and the
+  patient registration process record.
+- Cross-module directory ports `PatientDirectory` and `DoctorDirectory` for downstream contexts to
+  consume snapshots without depending on aggregate types.
+- QA validation and security-quality evidence for MVP-MOD-003-BE-001.
+
+### Changed
+- Updated HOP `PROJECT_STATE.yaml`, root `PROJECT_STATE.yaml`, HOP `SOURCE_OF_TRUTH.yaml`, HOP
+  security-quality index and capability-package traceability files (BCM-PER-001/002/003,
+  BCM-ATT-002) to reflect that MVP-MOD-003-BE-001 is closed and MVP-MOD-003-BE-002 is next.
+- Updated the HOP integrated local runbook with a People and Clinical Master Data smoke check.
+
 ## [0.70.0] - 2026-07-09
 
 ### Added

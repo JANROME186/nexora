@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.76.0
+  version: 0.77.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -47,6 +47,12 @@ sources:
   mvp_mod_003_pkg_bcm_att_002: 01-product-definition/business-capabilities/packages/bcm-att-002-patient-registration/
   mvp_mod_003_def_qa_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
   mvp_mod_003_def_qa_evidence_yaml: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
+  mvp_mod_003_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/peopleclinicalmasterdata/
+  mvp_mod_003_be_001_schema: 07-implementation/backend/src/main/resources/db/people-and-clinical-master-data/schema.sql
+  mvp_mod_003_be_001_qa_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.md
+  mvp_mod_003_be_001_qa_evidence_yaml: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.yaml
+  mvp_mod_003_be_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.md
+  mvp_mod_003_be_001_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.yaml
   mvp_mod_002_def_qa_evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.md
   mvp_mod_002_def_qa_evidence_yaml: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.yaml
   mvp_mod_002_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/catalogtestconfiguration/

@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.76.0
+  version: 0.77.0
   status: approved
 sources:
   repository_readme: README.md
@@ -87,6 +87,12 @@ sources:
   hop_mvp_mod_003_pkg_bcm_att_002: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-att-002-patient-registration/
   hop_mvp_mod_003_def_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
   hop_mvp_mod_003_def_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
+  hop_mvp_mod_003_be_001_backend_implementation: projects/healthcare-operations-platform/07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/peopleclinicalmasterdata/
+  hop_mvp_mod_003_be_001_schema: projects/healthcare-operations-platform/07-implementation/backend/src/main/resources/db/people-and-clinical-master-data/schema.sql
+  hop_mvp_mod_003_be_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.md
+  hop_mvp_mod_003_be_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.yaml
+  hop_mvp_mod_003_be_001_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.md
+  hop_mvp_mod_003_be_001_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.yaml
   hop_open_data_ingestion_contract: projects/healthcare-operations-platform/05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md
   hop_open_data_ingestion_contract_yaml: projects/healthcare-operations-platform/05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml
   hop_open_data_ingestion_requirements: projects/healthcare-operations-platform/04-requirements/capabilities/bcm-plt-010-open-data-ingestion-and-migration/requirements.yaml

@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-003-BE-001
+  current_active_backlog_item: MVP-MOD-003-BE-002
   intended_audience:
     - human_reviewer
     - qa_reviewer
@@ -150,6 +150,14 @@ smoke_validation:
   - id: SMOKE-003
     name: Diagnostic Catalog baseline
     expected_result: Diagnostic catalog screens load and can use backend /api/catalog endpoints when backend is running.
+  - id: SMOKE-004
+    name: People and Clinical Master Data baseline
+    expected_result: >
+      POST /api/people/patients and POST /api/people/doctors register a patient and doctor;
+      GET /api/people/persons/search returns both records. POST /api/care-delivery/patient-registrations
+      starts a registration and returns outcome pending. Deferred custom-rule endpoints
+      (merge, verify, commit, portal preparation, etc.) return HTTP 501 with backlogItem
+      MVP-MOD-003-BE-002.
 
 quality_validation:
   - id: QA-001

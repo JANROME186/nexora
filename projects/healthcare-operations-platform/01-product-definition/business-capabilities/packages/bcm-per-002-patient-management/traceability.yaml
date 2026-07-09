@@ -104,8 +104,13 @@ traces:
       operations: [listPatientDocuments, attachPatientDocument, removePatientDocument]
   generated_outputs_ref: generation-plan.yaml
   qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
+  compilation_qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.yaml
+  compilation_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.yaml
+  compilation_backend_root: ../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/peopleclinicalmasterdata/patientmanagement/
+  compilation_schema: ../../../../07-implementation/backend/src/main/resources/db/people-and-clinical-master-data/schema.sql
   backlog_items:
     definition: MVP-MOD-003-DEF
     compilation: MVP-MOD-003-BE-001
+    compilation_status: closed
     custom_rules: MVP-MOD-003-BE-002
     ui: MVP-MOD-003-FE-001
