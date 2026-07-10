@@ -241,4 +241,23 @@ troubleshooting:
       - Confirm Vite proxy configuration still points /api to http://localhost:8080.
   - symptom: Mobile tests cannot find TypeScript or Vitest commands.
     checks:
-      - Run npm in
+      - Run npm install in 07-implementation/employee-portal first because mobile currently reuses that toolchain.
+
+known_limitations:
+  - Mobile app is currently a renderer-agnostic TypeScript foundation, not a native runnable app.
+  - DAST automation remains tracked as technical debt TD-QA-001.
+  - Release supply-chain gates remain tracked as technical debt TD-BE-004.
+
+component_readmes:
+  - 07-implementation/README.md
+  - 07-implementation/backend/README.md
+  - 07-implementation/employee-portal/README.md
+  - 07-implementation/mobile-app/README.md
+
+feedback_capture:
+  project_feedback_index: 08-qa/framework-feedback/framework-feedback-index.yaml
+  technical_debt_index: 08-qa/technical-debt/technical-debt-index.yaml
+  instruction: >
+    If this runbook is incomplete, ambiguous, or still requires hidden manual
+    component-by-component knowledge for basic startup, capture project feedback
+    and propose framework feedback when reusable.

@@ -1,6 +1,6 @@
 # MVP-MOD-003-FE-001 — Patient and Doctor Management Employee Portal UI Validation
 
-Status: **passed_with_execution_limitation**
+Status: **passed**
 Backlog item: MVP-MOD-003-FE-001
 Module: MVP-MOD-003 People and Clinical Master Data
 Machine-readable evidence: `MVP-MOD-003-FE-001-validation.yaml`
@@ -61,36 +61,23 @@ confidence badges / panels / empty states.
 | Check | Result |
 |---|---|
 | `npm run typecheck` (tsc --noEmit) | **Passed**, 0 errors |
-| `npm test` | Not executed (sandbox limitation, see below) |
-| `npm run test:coverage` | Not executed (sandbox limitation) |
-| `npm run build` | Not executed (sandbox limitation) |
-| `npm audit --audit-level=high` | Not executed (sandbox limitation); no dependency changed |
+| `npm test` | **Passed**, 10 test files / 18 tests |
+| `npm run test:coverage` | **Passed**, statements 74.63%, branches 81.17%, functions 45.21%, lines 74.63% |
+| `npm run build` | **Passed** |
+| `npm audit --audit-level=high` | **Passed**, 0 vulnerabilities |
 | Secrets scan | **Passed**, no matches |
 | Agent-agnostic scan | **Passed**, no matches |
 | Open-source-first dependency check | **Passed**, package.json/package-lock.json unchanged |
 | YAML parse of all touched registries/evidence/traceability files | **Passed** |
 | Stale-pointer scan (MVP-MOD-003-FE-001 as "next"/"current") | **Passed**, none found |
 
-### Execution limitation
+### Follow-up confirmation
 
-This sandbox's network allowlist blocks the Linux-native `esbuild`/`@rollup/rollup-linux-x64-gnu`
-binaries that Vite/Vitest require (`npm install esbuild` and `npm audit` both returned a `403
-Forbidden` / "Connection blocked by network allowlist"). The committed `node_modules` only has
-Windows-native binaries. As a result `npm test`, `npm run test:coverage`, `npm run build` and `npm
-audit` could not run in this sandbox.
-
-**Compensating controls applied:**
-
-1. `npm run typecheck` ran to completion with 0 errors, structurally validating every new file.
-2. Every new test's queries (label text, button/dialog accessible names) were manually
-   cross-checked against the literal text rendered by the corresponding component.
-3. Every API call's URL, method and payload were manually verified against the real backend
-   controller/record definitions read from source.
-4. Secrets scan, agent-agnostic scan, YAML parse and stale-pointer scan all ran successfully.
-
-**Recommended follow-up:** run `npm test`, `npm run test:coverage`, `npm run build` and `npm audit
---audit-level=high` on a developer machine or CI with unrestricted registry access, and update
-this evidence's results accordingly, before or during MVP-MOD-003-QA-001.
+The original delivery reported an execution limitation for `npm test`, coverage, build and audit.
+Follow-up validation executed those gates successfully. Two focused test files were added:
+`peopleApi.test.ts` for API-client contract coverage and `PersonSearchScreen.test.tsx` for search,
+duplicate confidence badges, index rebuild and merge coordination coverage. No quality threshold
+was lowered.
 
 ## Out of scope (confirmed not touched)
 
@@ -101,6 +88,6 @@ they sit outside the backlog's minimum required scope.
 
 ## Readiness
 
-`MVP-MOD-003-FE-001` closes as **closed_with_execution_limitation**. Recommended next backlog
-item: **MVP-MOD-003-QA-001** (Validate MVP-MOD-003 generated outputs, contracts, rules, UI and
-quality evidence).
+`MVP-MOD-003-FE-001` closes as **closed**. Recommended next backlog item:
+**MVP-MOD-003-QA-001** (Validate MVP-MOD-003 generated outputs, contracts, rules, UI and quality
+evidence).

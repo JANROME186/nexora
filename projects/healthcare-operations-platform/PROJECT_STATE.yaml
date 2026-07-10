@@ -144,13 +144,13 @@ implementation_progress:
     - MVP-MOD-003-CLOSEOUT
   latest_validation:
     backlog_item_id: MVP-MOD-003-FE-001
-    command: npm run typecheck; targeted programmatic YAML parse; secrets scan; agent-agnostic scan; stale-pointer scan
+    command: npm run typecheck; npm test; npm run test:coverage; npm run build; npm audit --audit-level=high; YAML parse; secrets scan; agent-agnostic scan; stale-pointer scan
     working_directory: projects/healthcare-operations-platform/07-implementation/employee-portal
-    status: passed_with_execution_limitation
-    tests_run: not_executed
-    failures: not_executed
-    errors: not_executed
-    skipped: not_executed
+    status: passed
+    tests_run: 18
+    failures: 0
+    errors: 0
+    skipped: 0
     additional_checks:
       - Employee portal UI compiled for people search/duplicate resolution/merge coordination
         (BCM-PER-001), patient registration/snapshot/merge/representative/consent lifecycle
@@ -158,16 +158,11 @@ implementation_progress:
         and patient registration intake/commit/cancel with visual duplicate resolution (BCM-ATT-002).
       - npm run typecheck (tsc --noEmit) passed with 0 errors across the whole employee-portal
         project, including all new/changed files.
-      - >-
-        npm test, npm run test:coverage, npm run build and npm audit could NOT be executed in this
-        sandbox because the toolchain (vite/vitest/esbuild/rollup) requires downloading a
-        Linux-native binary package, and every such request was rejected by the sandbox's own
-        network allowlist (Connection blocked by network allowlist / HTTP 403 from
-        registry.npmjs.org for esbuild and the npm audit endpoint). The pre-existing node_modules
-        in this repository only contains Windows-native binaries, so these commands remain
-        runnable on the developer's own machine outside this sandbox. New and updated component
-        tests were manually cross-checked line-by-line against the actual rendered label text,
-        button names and status codes of the components under test.
+      - >
+        npm test passed with 10 test files and 18 tests. npm run test:coverage passed configured
+        thresholds with statements 74.63%, branches 81.17%, functions 45.21% and lines 74.63%.
+        npm run build completed successfully and npm audit --audit-level=high found 0
+        vulnerabilities.
       - Agent-agnostic scan and secrets scan of the new/changed employee-portal source report 0
         named-agent, vendor-runtime or credential findings.
       - No new npm dependency was added; package.json/package-lock.json are unchanged.
@@ -211,7 +206,7 @@ commercial_product_progress:
       name: People and Clinical Master Data
       package_status: ui_compiled
       backlog_item: MVP-MOD-003-FE-001
-      backlog_item_status: closed_with_execution_limitation
+      backlog_item_status: closed
       execution_flow_stage: validate
       packages_modeled:
         - BCM-PER-001

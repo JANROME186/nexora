@@ -191,4 +191,9 @@ rules:
   - HOP must maintain stack-specific quality toolchain baselines and register non-blocking tooling gaps as technical debt.
   - HOP code-changing backlog items must produce security quality evidence with applicable tests, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when runnable surfaces exist.
   - HOP must maintain 09-operations/runbooks/local-solution-runbook.md and .yaml as the single integrated local startup, validation and shutdown guide for human reviewers.
-  - HOP agents must update or explicitly confirm the i
+  - HOP agents must update or explicitly confirm the integrated local runbook whenever runtime components, ports, variables, startup order, validation commands or review surfaces change.
+  - HOP technology reviews must not be constrained permanently by the initial stack; agents must register non-blocking upgrade, migration, dependency, framework or tooling findings in 08-qa/technical-debt/ and remediate gradually when affected components are touched.
+  - HOP execution feedback that can improve the Nexora framework must be registered under 08-qa/framework-feedback/.
+  - HOP agents may propose central framework backlog items but must not implement framework improvements unless Nexora explicitly assigns them.
+  - Generated artifacts must not be edited manually.
+  - Architecture changes require ADR.

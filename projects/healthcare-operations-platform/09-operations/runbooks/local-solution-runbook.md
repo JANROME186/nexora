@@ -227,4 +227,30 @@ Backend cannot connect to PostgreSQL:
 Employee portal API calls fail:
 
 - Confirm backend is running on `http://localhost:8080`.
-- Confirm `employee-portal/vite.config.ts` still proxie
+- Confirm `employee-portal/vite.config.ts` still proxies `/api` to `http://localhost:8080`.
+
+Mobile tests cannot find TypeScript or Vitest:
+
+- Run `npm install` in `07-implementation/employee-portal` first.
+
+## Known Limitations
+
+- Mobile app is currently a renderer-agnostic TypeScript foundation, not a native runnable app.
+- DAST automation remains tracked as `TD-QA-001`.
+- Release supply-chain gates remain tracked as `TD-BE-004`.
+
+## Component Detail
+
+- `07-implementation/README.md`
+- `07-implementation/backend/README.md`
+- `07-implementation/employee-portal/README.md`
+- `07-implementation/mobile-app/README.md`
+
+## Feedback
+
+If this runbook is incomplete, ambiguous or still requires hidden manual component-by-component
+knowledge for basic startup, register feedback under:
+
+```text
+08-qa/framework-feedback/
+```

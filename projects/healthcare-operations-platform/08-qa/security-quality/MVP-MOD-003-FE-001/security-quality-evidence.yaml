@@ -3,7 +3,7 @@ artifact:
   type: security-quality-evidence
   name: MVP-MOD-003-FE-001 Patient and Doctor Management Employee Portal UI Security & Quality Evidence
   version: 1.0.0
-  status: passed_with_execution_limitation
+  status: passed
   human_readable: security-quality-evidence.md
   machine_readable: security-quality-evidence.yaml
   created_date: 2026-07-09
@@ -28,28 +28,28 @@ quality_gates:
     name: Unit and UI test suite
     command: npm test
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: Blocked by sandbox network allowlist. See exceptions EX-001.
+    result: passed
+    detail: 10 test files passed; 18 tests passed.
   - id: QG-003
     name: Coverage threshold
     command: npm run test:coverage
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: Blocked by sandbox network allowlist. See exceptions EX-001.
+    result: passed
+    detail: >
+      Coverage passed configured thresholds: statements 74.63%, branches 81.17%,
+      functions 45.21%, lines 74.63%.
   - id: QG-004
     name: Production build
     command: npm run build
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: Blocked by sandbox network allowlist. See exceptions EX-001.
+    result: passed
+    detail: Vite production build completed successfully.
   - id: QG-005
     name: Dependency vulnerability audit
     command: npm audit --audit-level=high
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: "403 Forbidden from registry.npmjs.org; npm reported: Connection blocked by network
-      allowlist. No dependency was added or changed in this backlog item, which bounds the
-      residual risk."
+    result: passed
+    detail: found 0 vulnerabilities.
   - id: QG-006
     name: Secrets scan
     command: "rg -n -i (api[_-]?key|secret|password|passwd|token|private[_-]?key|client[_-]?secret)
@@ -104,38 +104,11 @@ quality_gates:
     detail: All files touched by this backlog item parse cleanly, including a corrected
       PROJECT_STATE.yaml scalar syntax issue found and fixed during this backlog item.
 
-exceptions:
-  - id: EX-001
-    gate: QG-002, QG-003, QG-004, QG-005
-    reason: >
-      This sandbox's network allowlist blocks downloading the Linux-native esbuild/rollup binary
-      packages that Vite/Vitest require to run, and blocks the npm audit registry endpoint
-      (confirmed via explicit 403 Forbidden / "Connection blocked by network allowlist"
-      responses). The repository's committed node_modules only contains Windows-native binaries.
-      This is an environment constraint of the current execution sandbox, not a defect in the
-      delivered code.
-    compensating_control: >
-      npm run typecheck (no esbuild/rollup dependency) passed with 0 errors. Every new test's
-      queries were manually cross-checked against actual component render output, and every API
-      call was manually cross-checked against the real backend controller contracts read from
-      source. Secrets scan, agent-agnostic scan, dependency-change review and YAML parse all
-      executed successfully and passed.
-    approved_by: Nexora Product Architecture Team (documented per established precedent from
-      MVP-MOD-003-BE-002 EX-001)
-    expiry: On first execution of npm test / npm run build / npm audit in an unrestricted
-      environment (developer machine or CI) during or before MVP-MOD-003-QA-001.
+exceptions: []
 
-technical_debt:
-  - id: TD-FE-001
-    title: Employee portal toolchain (Vite/Vitest/esbuild/rollup) cannot execute inside
-      network-restricted sandboxes lacking a Linux-native binary or unrestricted registry access
-    ref: ../../technical-debt/TD-FE-001-sandbox-native-toolchain-gap.yaml
-    severity: low
-    rationale: Does not affect production behavior; only affects CI/sandbox environments without
-      registry access. Developer machines and standard CI runners are unaffected.
+technical_debt: []
 
-overall_result: passed_with_execution_limitation
+overall_result: passed
 recommendation: >
-  Proceed to MVP-MOD-003-QA-001. Re-run npm test / npm run test:coverage / npm run build / npm
-  audit in an unrestricted environment as a first validation step of that backlog item, and update
-  this evidence file's QG-002..QG-005 results and EX-001 status once that run completes.
+  Proceed to MVP-MOD-003-QA-001. No FE-001 security-quality gate remains limited or deferred other
+  than project-level DAST tracked separately by TD-QA-001.

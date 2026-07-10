@@ -3,7 +3,7 @@ artifact:
   type: qa-validation-evidence
   name: MVP-MOD-003-FE-001 Patient and Doctor Management Employee Portal UI Validation
   version: 1.0.0
-  status: passed_with_execution_limitation
+  status: passed
   human_readable: MVP-MOD-003-FE-001-validation.md
   machine_readable: MVP-MOD-003-FE-001-validation.yaml
   created_date: 2026-07-09
@@ -87,6 +87,14 @@ implemented_outputs:
   - id: FE-013
     path: 07-implementation/employee-portal/src/test/AppSmoke.test.tsx
     description: Extended to navigate to and assert the four new tabs render.
+  - id: FE-014
+    path: 07-implementation/employee-portal/src/test/peopleApi.test.ts
+    description: API-client contract coverage for all People and Clinical Master Data UI calls,
+      including URL encoding, optional query parameters and default empty POST bodies.
+  - id: FE-015
+    path: 07-implementation/employee-portal/src/test/PersonSearchScreen.test.tsx
+    description: UI coverage for global search, duplicate confidence badges, index rebuild,
+      merge coordination and tenant/empty states.
 
 capability_coverage:
   - capability: BCM-PER-001
@@ -140,31 +148,28 @@ validations:
     name: Employee portal unit and UI tests
     method: npm test
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: See execution_limitation. New/updated tests were manually cross-checked line-by-line
-      against the actual rendered label text (label htmlFor targets), button accessible names,
-      dialog titles and status-banner copy of the components under test, and against the real
-      request/response field names read from the backend controllers.
+    result: passed
+    detail: 10 test files passed; 18 tests passed.
   - id: VAL-003
     name: Coverage gate
     method: npm run test:coverage
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: See execution_limitation.
+    result: passed
+    detail: >
+      10 test files passed; 18 tests passed. Coverage passed configured thresholds:
+      statements 74.63%, branches 81.17%, functions 45.21%, lines 74.63%.
   - id: VAL-004
     name: Production build
     method: npm run build
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: See execution_limitation.
+    result: passed
+    detail: Vite production build completed successfully after TypeScript project build.
   - id: VAL-005
     name: Dependency vulnerability audit
     method: npm audit --audit-level=high
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: "npm warn audit 403 Forbidden - POST https://registry.npmjs.org/-/npm/v1/security/audits/quick;
-      Connection blocked by network allowlist. No new dependency was added in this backlog item
-      (package.json/package-lock.json are unchanged), which limits the residual risk of this gap."
+    result: passed
+    detail: found 0 vulnerabilities.
   - id: VAL-006
     name: Secrets scan
     method: "rg -n -i (api[_-]?key|secret|password|passwd|token|private[_-]?key|client[_-]?secret)
@@ -206,41 +211,17 @@ validations:
       point to MVP-MOD-003-QA-001. Remaining MVP-MOD-003-FE-001 references are historical
       (identifying which backlog item implemented a given output), which is expected and correct.
 
-execution_limitation:
+execution_confirmation:
   description: >
-    This sandbox's network allowlist blocks fetching the Linux-native binaries that vite/vitest
-    depend on (esbuild, @rollup/rollup-linux-x64-gnu). `npm install esbuild` and `npm audit` both
-    returned an explicit 403 with the message "Connection blocked by network allowlist" /
-    "403 Forbidden ... on a server you do not have access to". The repository's committed
-    node_modules only contains Windows-native esbuild/rollup binaries (built on the developer's
-    machine), which do not run in this Linux sandbox, so `npm test`, `npm run test:coverage`,
-    `npm run build` and `npm audit` could not be executed here even though they are expected to
-    work normally on the developer's own machine or in a CI runner with unrestricted npm registry
-    access.
-  mitigation_applied:
-    - npm run typecheck (pure TypeScript compiler, no esbuild/rollup dependency) was run to
-      completion with 0 errors, which structurally validates every new file (JSX correctness, prop
-      types, hook usage, and every field reference against the DTOs in types.ts).
-    - Every new test's queries (getByLabelText, getByRole name) were manually verified against the
-      literal label/button text rendered by the corresponding component source.
-    - Every API client call's URL, method and payload shape was manually verified against the
-      actual backend controller/record definitions (PersonController, PatientController,
-      DoctorController, PatientRegistrationController and their request/response records) read
-      directly from source, not assumed from the openapi-source.yaml model alone.
-    - Secrets scan, agent-agnostic scan, YAML parse and stale-pointer scan were all executed
-      successfully in this sandbox since they do not require the blocked toolchain.
-  residual_risk: >
-    A runtime/rendering defect that only a real browser-DOM test run would catch (for example, a
-    prop mismatch that TypeScript's structural typing does not flag, or a Testing Library query
-    that resolves to more than one element after both the register and detail panels are visible)
-    cannot be fully ruled out without an actual `npm test` execution. This is recorded honestly
-    rather than asserting a passing test run that did not happen.
-  recommended_follow_up: >
-    Run `npm test`, `npm run test:coverage`, `npm run build` and `npm audit --audit-level=high` in
-    `07-implementation/employee-portal` on the developer's machine or in CI (both have working
-    platform-native esbuild/rollup binaries and unrestricted registry access) before or during
-    MVP-MOD-003-QA-001, and correct this evidence file's VAL-002..VAL-005 results to the actual
-    outcome.
+    Follow-up validation executed the previously limited npm gates successfully, then added
+    focused People API and Person Search UI tests to satisfy the configured coverage thresholds
+    without lowering quality gates.
+  commands_executed:
+    - npm run typecheck
+    - npm test
+    - npm run test:coverage
+    - npm run build
+    - npm audit --audit-level=high
 
 model_gaps_identified: []
 
@@ -259,16 +240,12 @@ out_of_scope_confirmed:
 
 backend_defects_found_blocking: []
 
-technical_debt_newly_registered:
-  - id: TD-FE-001
-    title: Employee portal cannot run its Vitest/Vite toolchain inside network-restricted sandboxes
-      lacking a Linux-native esbuild/rollup binary
-    file: 08-qa/technical-debt/TD-FE-001-sandbox-native-toolchain-gap.yaml
+technical_debt_newly_registered: []
 
 blocking_gaps: []
 
 readiness:
-  mvp_mod_003_fe_001_status: closed_with_execution_limitation
+  mvp_mod_003_fe_001_status: closed
   ready_for_next_backlog_item: MVP-MOD-003-QA-001
   next_backlog_item_name: Validate MVP-MOD-003 generated outputs, contracts, rules, UI and quality
     evidence
@@ -278,8 +255,7 @@ readiness:
     patient registration/snapshot/merge/representative/consent lifecycle, doctor directory/
     credential/suspension/portal-access lifecycle, and patient registration intake/commit/cancel
     with visual high-confidence duplicate handling and explicit 2xx/4xx response handling.
-    TypeScript static analysis passed cleanly and every new test was manually verified against the
-    actual component and backend contracts. The one open item is that this sandbox's network
-    allowlist blocks the Linux-native esbuild/rollup binaries needed for npm test/build/audit; this
-    is recorded transparently (execution_limitation, TD-FE-001) rather than asserted as passed, and
-    is the recommended first follow-up alongside MVP-MOD-003-QA-001.
+    TypeScript static analysis, unit/UI tests, coverage, production build, npm audit, YAML parsing,
+    secrets scan, agent-agnostic scan and stale-pointer scan all pass. Focused People API and
+    Person Search tests were added during follow-up validation to close the real coverage gap found
+    by the executable quality gate.
