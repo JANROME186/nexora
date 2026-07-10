@@ -59,7 +59,10 @@ class PatientController {
 
     @GetMapping("/{patientId}/snapshot")
     ResponseEntity<PatientSnapshot> getPatientSnapshot(@PathVariable String patientId) {
-        return ResponseEntity.ok(service.snapshot(patientId));
+        return service.findSnapshot(patientId)
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PeopleEntityNotFoundException(
+                        "Patient was not found."));
     }
 
     @PostMapping

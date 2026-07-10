@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientregistration.application.CommitPatientRegistrationCommand;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientregistration.application.PatientRegistrationService;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientregistration.application.StartPatientRegistrationCommand;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientregistration.domain.PatientRegistrationRequest;
@@ -59,8 +60,10 @@ class PatientRegistrationController {
 
     @PostMapping("/{registrationRequestId}/commit")
     ResponseEntity<PatientRegistrationRequest> commitPatientRegistration(
-            @PathVariable String registrationRequestId) {
-        return ResponseEntity.ok(service.commit(registrationRequestId));
+            @PathVariable String registrationRequestId,
+            @RequestBody(required = false) CommitRegistrationRequest request) {
+        return ResponseEntity.ok(service.commit(registrationRequestId,
+                request == null ? null : request.toCommand()));
     }
 
     @PostMapping("/{registrationRequestId}/cancel")
@@ -87,5 +90,49 @@ class PatientRegistrationController {
     }
 
     record CancelRegistrationRequest(String reasonCode) {
+    }
+
+    record ConsentSelectionRequest(
+            @NotBlank String consentType,
+            boolean granted,
+            @NotBlank String grantedBy,
+            String evidenceReference) {
+        CommitPatientRegistrationCommand.ConsentSelection toCommand() {
+            return new CommitPatientRegistrationCommand.ConsentSelection(
+                    consentType, granted, grantedBy, evidenceReference);
+        }
+    }
+
+    record CommitRegistrationRequest(
+            String resolvedExistingPatientId,
+            String patientCode,
+            String sexAtBirth,
+            String addressCountry,
+            String addressState,
+            String addressCity,
+            String addressPostalCode,
+            String addressStreet,
+            String preferredLocale,
+            String representativeRelationship,
+            String representativeGivenName,
+            String representativeMiddleName,
+            String representativeFamilyName,
+            String representativeSecondFamilyName,
+            String representativeDocumentType,
+            String representativeDocumentNumber,
+            LocalDate representativeAuthorizationFrom,
+            LocalDate representativeAuthorizationTo,
+            java.util.List<ConsentSelectionRequest> consents) {
+        CommitPatientRegistrationCommand toCommand() {
+            return new CommitPatientRegistrationCommand(
+                    resolvedExistingPatientId, patientCode, sexAtBirth, addressCountry, addressState,
+                    addressCity, addressPostalCode, addressStreet, preferredLocale,
+                    representativeRelationship, representativeGivenName, representativeMiddleName,
+                    representativeFamilyName, representativeSecondFamilyName, representativeDocumentType,
+                    representativeDocumentNumber, representativeAuthorizationFrom,
+                    representativeAuthorizationTo,
+                    consents == null ? java.util.List.of()
+                            : consents.stream().map(ConsentSelectionRequest::toCommand).toList());
+        }
     }
 }

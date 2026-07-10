@@ -21,6 +21,7 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanageme
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.application.PersonManagementService;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.application.SearchPersonsQuery;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.domain.PersonDuplicateCandidate;
+import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.domain.PersonMergeCoordination;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.domain.PersonSearchEntry;
 
 /**
@@ -57,32 +58,26 @@ class PersonController {
     }
 
     @PostMapping("/index/rebuild")
-    ResponseEntity<Void> rebuildPersonSearchIndex(@RequestParam String tenantId) {
-        service.rebuildIndex(tenantId);
-        return ResponseEntity.accepted().build();
+    ResponseEntity<PersonManagementService.PersonSearchIndexRebuildResult> rebuildPersonSearchIndex(
+            @RequestParam String tenantId) {
+        return ResponseEntity.accepted().body(service.rebuildIndex(tenantId));
     }
 
     @GetMapping("/merges/{coordinationId}")
     ResponseEntity<PersonMergeCoordinationResponse> getPersonMergeCoordination(
             @PathVariable String coordinationId) {
-        // No merge coordination is persisted yet; expose the read side as an explicit
-        // not-implemented hook without going through the service so the controller signature is
-        // still discoverable in Spring routes for the contract test.
-        return ResponseEntity.status(501)
-                .body(new PersonMergeCoordinationResponse(coordinationId, "not_implemented",
-                        "MVP-MOD-003-BE-002"));
+        return ResponseEntity.ok(PersonMergeCoordinationResponse.from(
+                service.getMergeCoordination(coordinationId)));
     }
 
     @PostMapping("/merges")
     ResponseEntity<PersonMergeCoordinationResponse> initiatePersonMergeCoordination(
             @Valid @RequestBody InitiateMergeRequest request) {
-        service.initiateMergeCoordination(request.tenantId(), request.sourceRecordId(),
-                request.targetRecordId());
-        // Unreachable: service throws PeopleCustomRuleNotImplementedException, mapped to HTTP 501
-        // by the shared exception handler. Kept as a returnable value for compile safety.
-        return ResponseEntity.created(URI.create("/api/people/persons/merges/deferred"))
-                .body(new PersonMergeCoordinationResponse("deferred", "not_implemented",
-                        "MVP-MOD-003-BE-002"));
+        PersonMergeCoordination coordination = service.initiateMergeCoordination(request.tenantId(),
+                request.sourceRecordId(), request.targetRecordId());
+        return ResponseEntity.created(
+                URI.create("/api/people/persons/merges/" + coordination.coordinationId()))
+                .body(PersonMergeCoordinationResponse.from(coordination));
     }
 
     record DetectDuplicatesRequest(
@@ -101,6 +96,20 @@ class PersonController {
             @NotBlank String targetRecordId) {
     }
 
-    record PersonMergeCoordinationResponse(String coordinationId, String status, String backlogItem) {
+    record PersonMergeCoordinationResponse(
+            String coordinationId,
+            String tenantId,
+            String sourceKind,
+            String sourceRecordId,
+            String targetKind,
+            String targetRecordId,
+            String status,
+            boolean patientMergeApplied) {
+        static PersonMergeCoordinationResponse from(PersonMergeCoordination coordination) {
+            return new PersonMergeCoordinationResponse(
+                    coordination.coordinationId(), coordination.tenantId(), coordination.sourceKind(),
+                    coordination.sourceRecordId(), coordination.targetKind(), coordination.targetRecordId(),
+                    coordination.status(), coordination.patientMergeApplied());
+        }
     }
 }

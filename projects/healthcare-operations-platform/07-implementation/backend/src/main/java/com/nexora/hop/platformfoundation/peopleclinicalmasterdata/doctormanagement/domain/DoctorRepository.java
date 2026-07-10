@@ -20,6 +20,9 @@ public interface DoctorRepository {
 
     boolean existsByDoctorCode(String tenantId, String doctorCode, String excludeDoctorId);
 
+    boolean existsByPrimaryDocument(String tenantId, String documentType, String documentNumber,
+            String excludeDoctorId);
+
     void saveCredential(ProfessionalCredential credential);
 
     List<ProfessionalCredential> findCredentials(String doctorId);

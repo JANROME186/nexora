@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -120,18 +121,25 @@ class JdbcPatientRepository implements PatientRepository {
     @Override
     public List<Patient> searchByNaturalKey(String tenantId, String normalizedFamilyName,
             String normalizedGivenName, LocalDate birthDate) {
-        return jdbcTemplate.query("""
+        StringBuilder sql = new StringBuilder("""
                 select * from people.patients
                 where tenant_id = ?
-                  and (? is null or normalized_family_name = ?)
-                  and (? is null or normalized_given_name = ?)
-                  and (? is null or birth_date = ?)
-                """,
-                JdbcPatientRepository::mapPatient,
-                tenantId,
-                normalizedFamilyName, normalizedFamilyName,
-                normalizedGivenName, normalizedGivenName,
-                sqlDate(birthDate), sqlDate(birthDate));
+                """);
+        List<Object> params = new ArrayList<>();
+        params.add(tenantId);
+        if (normalizedFamilyName != null) {
+            sql.append("  and normalized_family_name = ?\n");
+            params.add(normalizedFamilyName);
+        }
+        if (normalizedGivenName != null) {
+            sql.append("  and normalized_given_name = ?\n");
+            params.add(normalizedGivenName);
+        }
+        if (birthDate != null) {
+            sql.append("  and birth_date = ?\n");
+            params.add(sqlDate(birthDate));
+        }
+        return jdbcTemplate.query(sql.toString(), JdbcPatientRepository::mapPatient, params.toArray());
     }
 
     @Override
@@ -140,6 +148,18 @@ class JdbcPatientRepository implements PatientRepository {
                 select count(*) from people.patients
                 where tenant_id = ? and patient_code = ? and patient_id <> ?
                 """, Integer.class, tenantId, patientCode, excludePatientId == null ? "" : excludePatientId);
+        return count != null && count > 0;
+    }
+
+    @Override
+    public boolean existsByPrimaryDocument(String tenantId, String documentType, String documentNumber,
+            String excludePatientId) {
+        Integer count = jdbcTemplate.queryForObject("""
+                select count(*) from people.patients
+                where tenant_id = ? and primary_document_type = ? and primary_document_number = ?
+                  and patient_id <> ?
+                """, Integer.class, tenantId, documentType, documentNumber,
+                excludePatientId == null ? "" : excludePatientId);
         return count != null && count > 0;
     }
 

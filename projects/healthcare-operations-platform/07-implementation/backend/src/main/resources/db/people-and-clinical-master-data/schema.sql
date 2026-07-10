@@ -144,6 +144,20 @@ CREATE TABLE IF NOT EXISTS people.doctor_specialty_assignments (
     primary_flag boolean NOT NULL DEFAULT false
 );
 
+-- BCM-PER-001 Person merge coordination (cross-context, not an owning aggregate)
+CREATE TABLE IF NOT EXISTS people.person_merge_coordinations (
+    coordination_id varchar(36) PRIMARY KEY,
+    tenant_id varchar(36) NOT NULL,
+    source_kind varchar(20) NOT NULL,
+    source_record_id varchar(36) NOT NULL,
+    target_kind varchar(20) NOT NULL,
+    target_record_id varchar(36) NOT NULL,
+    status varchar(40) NOT NULL,
+    patient_merge_applied boolean NOT NULL DEFAULT false,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
 -- BCM-ATT-002 Patient Registration process record
 CREATE TABLE IF NOT EXISTS people.patient_registrations (
     registration_request_id varchar(36) PRIMARY KEY,

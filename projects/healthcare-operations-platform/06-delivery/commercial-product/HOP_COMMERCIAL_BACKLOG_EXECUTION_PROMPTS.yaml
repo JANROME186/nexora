@@ -141,6 +141,13 @@ prompt_sequence:
       Run or document applicable open source security quality gates for the changed stack, including SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when a runnable surface exists.
       Write security quality evidence under 08-qa/security-quality/<selected-backlog-item-id>/.
       Write QA evidence under 08-qa and update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
+      Before closure, reconcile every backlog pointer and status registry that references the
+      current or next backlog item, including PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml,
+      HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml, affected capability traceability.yaml files,
+      local-solution-runbook.yaml/.md and any QA/security indexes. The current backlog item must
+      be consistently closed, and the next_backlog_item pointer must match PROJECT_STATE.yaml.
+      Run a repository search for stale current-backlog ids, previous next-backlog ids and
+      intermediate pending/limited validation statuses before handing off.
       Stop before starting the next backlog item.
 
   - id: HOP-COM-PROMPT-005
@@ -181,6 +188,6 @@ validation_commands:
 
 next_backlog_item:
   module_id: MVP-MOD-003
-  backlog_item_id: MVP-MOD-003-BE-002
-  name: Implement duplicate detection and portal identity custom rules
-  expected_folder: ../../07-implementation/backend/
+  backlog_item_id: MVP-MOD-003-FE-001
+  name: Compile patient and doctor management UI outputs
+  expected_folder: ../../07-implementation/employee-portal/

@@ -1,8 +1,8 @@
 project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
-repository_version: 0.77.0
-current_phase: MVP-MOD-003 People and Clinical Master Data Backend Compiled
+repository_version: 0.78.0
+current_phase: MVP-MOD-003 People and Clinical Master Data Custom Rules Implemented
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -57,8 +57,10 @@ completed_deliverables:
   - MVP-MOD-003-DEF capability package model validation evidence
   - MVP-MOD-003-BE-001 people-and-clinical-master-data backend compilation (person, patient, doctor
     and patient-registration generatable outputs plus explicit deferred custom-rule hooks)
+  - MVP-MOD-003-BE-002 duplicate detection, natural-key/document-uniqueness matching, tenant-configurable
+    scoring, merge coordination and portal identity custom rules for BCM-PER-001/002/003 and BCM-ATT-002
 next_deliverables:
-  - Continue MVP-MOD-003 with MVP-MOD-003-BE-002 duplicate detection and portal identity custom rules
+  - Continue MVP-MOD-003 with MVP-MOD-003-FE-001 compile patient and doctor management UI outputs
   - Apply security quality gate evidence to subsequent code-changing backlog items
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
@@ -71,7 +73,7 @@ development_readiness:
   status: ready
   ready_to_start_module: MVP-MOD-003
   in_progress_module: MVP-MOD-003
-  next_backlog_item: MVP-MOD-003-BE-002
+  next_backlog_item: MVP-MOD-003-FE-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -112,7 +114,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-003
-  current_backlog_item: MVP-MOD-003-BE-002
+  current_backlog_item: MVP-MOD-003-FE-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -131,29 +133,35 @@ implementation_progress:
     - MVP-MOD-002-CLOSEOUT
     - MVP-MOD-003-DEF
     - MVP-MOD-003-BE-001
+    - MVP-MOD-003-BE-002
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-003-BE-002
     - MVP-MOD-003-FE-001
     - MVP-MOD-003-QA-001
     - MVP-MOD-003-CLOSEOUT
   latest_validation:
-    backlog_item_id: MVP-MOD-003-BE-001
+    backlog_item_id: MVP-MOD-003-BE-002
     command: mvn --settings .mvn/settings.xml test (with and without -Dhop.local-db-tests=true); trivy fs vuln+secret+misconfig scan; agent-agnostic scan; YAML parse
     working_directory: projects/healthcare-operations-platform/07-implementation/backend
     status: passed
-    tests_run: 52
+    tests_run: 58
     failures: 0
     errors: 0
     skipped: 0
     additional_checks:
-      - Backend compiles under Spring Boot 3.5.14 with no warnings.
-      - PeopleClinicalMasterDataApiTest covers generatable CRUD flows and HTTP 501 hooks for every deferred custom rule.
-      - PeopleClinicalMasterDataContractTest verifies every operation declared in the 4 capability packages' openapi-source.yaml files resolves to a Spring MVC route.
-      - PeopleClinicalMasterDataLocalDatabaseTest validates the JDBC adapters against a real Postgres instance using db/people-and-clinical-master-data/schema.sql.
-      - Spring Modulith module boundary check passes; peopleclinicalmasterdata declares allowedDependencies [organizationmanagement, auditcompliance].
-      - Trivy filesystem scan reports 0 HIGH/CRITICAL vulnerabilities, 0 secrets and 0 misconfigurations.
-      - Agent-agnostic scan of the new Java, YAML and SQL artifacts reports 0 named-agent or vendor-runtime findings.
+      - Duplicate detection, natural-key/document-uniqueness matching, tenant-configurable scoring,
+        merge coordination and portal identity custom rules implemented for BCM-PER-001/002/003 and
+        BCM-ATT-002; no operation in scope remains at HTTP 501.
+      - New/rewritten tests (PeopleClinicalMasterDataApiTest, new DoctorEligibilityRulesTest) pass
+        in the backend Maven suite.
+      - Follow-up validation resolved the original build-confirmation limitation by running Maven
+        tests with and without local Postgres, programmatic YAML parsing and Trivy filesystem
+        security scan.
+      - >
+        Issues found during confirmation were fixed before closure: in-memory child record
+        replacement, merge-chain snapshot lookup and PostgreSQL-safe optional natural-key filters.
+      - Agent-agnostic scan of active BE-002 project state and evidence files reports 0 named-agent
+        or vendor-runtime findings.
 module_closeout:
   MVP-MOD-001:
     status: implemented
@@ -186,16 +194,16 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_release: REL-001
   active_module: MVP-MOD-003
-  active_backlog_item: MVP-MOD-003-BE-002
+  active_backlog_item: MVP-MOD-003-FE-001
   primary_development_unit: business_capability_package
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.yaml
   capability_package_progress:
     MVP-MOD-003:
       name: People and Clinical Master Data
-      package_status: backend_compiled
-      backlog_item: MVP-MOD-003-BE-001
+      package_status: custom_rules_implemented
+      backlog_item: MVP-MOD-003-BE-002
       backlog_item_status: closed
-      execution_flow_stage: compile
+      execution_flow_stage: implement_rules
       packages_modeled:
         - BCM-PER-001
         - BCM-PER-002
@@ -214,11 +222,15 @@ commercial_product_progress:
       qa_evidence_be_001_md: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.md
       security_quality_evidence_be_001: 08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.yaml
       security_quality_evidence_be_001_md: 08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.md
+      qa_evidence_be_002: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-002-validation.yaml
+      qa_evidence_be_002_md: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-002-validation.md
+      security_quality_evidence_be_002: 08-qa/security-quality/MVP-MOD-003-BE-002/security-quality-evidence.yaml
+      security_quality_evidence_be_002_md: 08-qa/security-quality/MVP-MOD-003-BE-002/security-quality-evidence.md
       ready_for_compilation: true
       backend_compilation_completed: true
       ready_for_custom_rule_implementation: true
-      custom_rules_implemented: false
-      ready_for_ui_compilation: false
+      custom_rules_implemented: true
+      ready_for_ui_compilation: true
       ready_for_module_validation: false
       module_validated: false
       ready_for_closeout: false

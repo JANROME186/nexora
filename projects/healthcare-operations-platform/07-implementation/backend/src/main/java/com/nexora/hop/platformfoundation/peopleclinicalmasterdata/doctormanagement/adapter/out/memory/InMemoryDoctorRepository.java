@@ -65,8 +65,22 @@ class InMemoryDoctorRepository implements DoctorRepository {
     }
 
     @Override
+    public boolean existsByPrimaryDocument(String tenantId, String documentType, String documentNumber,
+            String excludeDoctorId) {
+        return doctors.values().stream()
+                .anyMatch(doctor -> doctor.tenantId().equals(tenantId)
+                        && doctor.primaryDocument() != null
+                        && documentType.equals(doctor.primaryDocument().documentType())
+                        && documentNumber.equals(doctor.primaryDocument().documentNumber())
+                        && !doctor.doctorId().equals(excludeDoctorId));
+    }
+
+    @Override
     public void saveCredential(ProfessionalCredential credential) {
-        credentials.computeIfAbsent(credential.doctorId(), key -> new ArrayList<>()).add(credential);
+        List<ProfessionalCredential> doctorCredentials =
+                credentials.computeIfAbsent(credential.doctorId(), key -> new ArrayList<>());
+        doctorCredentials.removeIf(existing -> existing.credentialId().equals(credential.credentialId()));
+        doctorCredentials.add(credential);
     }
 
     @Override

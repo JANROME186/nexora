@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.77.0
+  version: 0.78.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -53,6 +53,10 @@ sources:
   mvp_mod_003_be_001_qa_evidence_yaml: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.yaml
   mvp_mod_003_be_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.md
   mvp_mod_003_be_001_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.yaml
+  mvp_mod_003_be_002_qa_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-002-validation.md
+  mvp_mod_003_be_002_qa_evidence_yaml: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-002-validation.yaml
+  mvp_mod_003_be_002_security_quality_evidence: 08-qa/security-quality/MVP-MOD-003-BE-002/security-quality-evidence.md
+  mvp_mod_003_be_002_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-003-BE-002/security-quality-evidence.yaml
   mvp_mod_002_def_qa_evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.md
   mvp_mod_002_def_qa_evidence_yaml: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.yaml
   mvp_mod_002_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/catalogtestconfiguration/
@@ -90,9 +94,12 @@ sources:
   technical_debt_td_be_003: 08-qa/technical-debt/TD-BE-003-backend-coverage-gate.yaml
   technical_debt_td_be_004: 08-qa/technical-debt/TD-BE-004-release-supply-chain-gates.yaml
   technical_debt_td_stack_001: 08-qa/technical-debt/TD-STACK-001-stack-modernization-roadmap.yaml
+  technical_debt_td_be_005: 08-qa/technical-debt/TD-BE-005-doctor-activation-gating-via-eligibility-query.yaml
+  technical_debt_td_be_006: 08-qa/technical-debt/TD-BE-006-patient-registration-commit-non-atomic.yaml
   framework_feedback_index: 08-qa/framework-feedback/framework-feedback-index.yaml
   framework_feedback_readme: 08-qa/framework-feedback/README.md
   framework_feedback_fwf_hop_001: 08-qa/framework-feedback/FWF-HOP-001-framework-feedback-loop.yaml
+  framework_feedback_fwf_hop_002: 08-qa/framework-feedback/FWF-HOP-002-tenant-configurable-business-parameters.yaml
   client_stack_market_validation: 03-architecture/technology-architecture/client-stack-market-validation.yaml
   stack_quality_toolchain_baseline: 03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
   open_data_ingestion_contract: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md

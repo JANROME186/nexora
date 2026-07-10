@@ -141,11 +141,13 @@ Expected result:
 4. Open Diagnostic Catalog navigation and confirm catalog screens load.
 5. Register a patient, register a doctor and search persons through the People and Clinical
    Master Data API (`POST /api/people/patients`, `POST /api/people/doctors`,
-   `GET /api/people/persons/search?tenantId=...`). Start a patient registration through
-   `POST /api/care-delivery/patient-registrations`. Deferred custom-rule endpoints (patient
-   merge, doctor suspension, credential verification, credential revocation, portal access
-   preparation, registration commit) return HTTP 501 with `backlogItem`
-   `MVP-MOD-003-BE-002`; that is the expected MVP-MOD-003-BE-001 behavior.
+   `GET /api/people/persons/search?tenantId=...` — now includes tenant-configurable
+   duplicate-detection confidence scoring). Start a patient registration through
+   `POST /api/care-delivery/patient-registrations` and commit it through
+   `POST .../{id}/commit` (blocks with HTTP 409 on an unresolved high-confidence duplicate or a
+   missing mandatory consent). Patient merge, representative/consent revocation, doctor
+   suspension, portal-access preparation and credential verify/revoke are all functional
+   (`MVP-MOD-003-BE-002`) and no longer return HTTP 501.
 
 ## Quality Validation
 

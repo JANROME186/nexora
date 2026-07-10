@@ -23,6 +23,9 @@ public interface PatientRepository {
 
     boolean existsByPatientCode(String tenantId, String patientCode, String excludePatientId);
 
+    boolean existsByPrimaryDocument(String tenantId, String documentType, String documentNumber,
+            String excludePatientId);
+
     void saveRepresentative(PatientRepresentative representative);
 
     List<PatientRepresentative> findRepresentatives(String patientId);

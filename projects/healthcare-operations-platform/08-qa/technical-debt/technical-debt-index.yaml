@@ -92,3 +92,21 @@ entries:
     affected_area: full_stack
     file: 08-qa/technical-debt/TD-STACK-001-stack-modernization-roadmap.yaml
     remediation_strategy: gradual_when_affected_components_are_touched
+  - id: TD-BE-005
+    title: Doctor referring-eligibility is a computed query, not an activation-gated status field
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-003-BE-002
+    affected_area: doctor_management_activation
+    file: 08-qa/technical-debt/TD-BE-005-doctor-activation-gating-via-eligibility-query.yaml
+    remediation_strategy: gradual_when_doctor_state_machine_is_next_modeled
+  - id: TD-BE-006
+    title: PatientRegistrationService.commit() orchestration is not wrapped in a database transaction
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-003-BE-002
+    affected_area: patient_registration_commit_orchestration
+    file: 08-qa/technical-debt/TD-BE-006-patient-registration-commit-non-atomic.yaml
+    remediation_strategy: gradual_when_backend_transaction_infrastructure_is_next_touched

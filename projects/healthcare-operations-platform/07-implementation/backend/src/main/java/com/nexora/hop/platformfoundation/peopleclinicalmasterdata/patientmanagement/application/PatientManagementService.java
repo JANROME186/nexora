@@ -23,9 +23,11 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagem
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagement.domain.PatientRepository;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagement.domain.PatientRepresentative;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagement.domain.PatientSnapshot;
+import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.application.PersonDocumentUniquenessPolicy;
+import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.application.PersonDuplicateDetectionEngine;
+import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.domain.PersonKind;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.InvalidPeopleCommandException;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PeopleConflictException;
-import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PeopleCustomRuleNotImplementedException;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PeopleEntityNotFoundException;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PersonAddress;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PersonDocument;
@@ -33,15 +35,15 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PersonN
 
 /**
  * Compiles the generatable outputs of {@code bcm-per-002-patient-management/generation-plan.yaml}
- * (MVP-MOD-003-BE-001). The custom rules listed in
- * {@code business-rules.yaml.enforcement_summary.custom_implementation_rules} — RN-002 (duplicate
- * detection integration), RN-005 (patient merge), RN-006 (representative active window) and RN-007
- * (append-only consent history) — are deferred to MVP-MOD-003-BE-002 and surface as explicit
- * {@link PeopleCustomRuleNotImplementedException} hooks so downstream work has a discoverable
- * plug-in point.
+ * (MVP-MOD-003-BE-001) and implements its custom rules (MVP-MOD-003-BE-002): RN-002 (duplicate
+ * detection integration at registration), RN-005 (patient merge with snapshot archival and
+ * downstream reference rewiring), RN-006 (representative active-window enforcement on revocation)
+ * and RN-007 (append-only consent revocation history).
  */
 @Service
 public class PatientManagementService implements PatientDirectory {
+
+    private static final int MAX_MERGE_CHAIN_HOPS = 10;
 
     private static final List<String> SEX_VALUES = List.of(
             Patient.SEX_FEMALE, Patient.SEX_MALE, Patient.SEX_UNKNOWN, Patient.SEX_NOT_DISCLOSED);
@@ -71,24 +73,33 @@ public class PatientManagementService implements PatientDirectory {
     private final PatientRepository repository;
     private final TenantDirectory tenantDirectory;
     private final AuditRecorder auditRecorder;
+    private final PersonDocumentUniquenessPolicy documentUniquenessPolicy;
+    private final PersonDuplicateDetectionEngine duplicateDetectionEngine;
     private final Clock clock;
 
     @Autowired
     public PatientManagementService(
             PatientRepository repository,
             TenantDirectory tenantDirectory,
-            AuditRecorder auditRecorder) {
-        this(repository, tenantDirectory, auditRecorder, Clock.systemUTC());
+            AuditRecorder auditRecorder,
+            PersonDocumentUniquenessPolicy documentUniquenessPolicy,
+            PersonDuplicateDetectionEngine duplicateDetectionEngine) {
+        this(repository, tenantDirectory, auditRecorder, documentUniquenessPolicy, duplicateDetectionEngine,
+                Clock.systemUTC());
     }
 
     PatientManagementService(
             PatientRepository repository,
             TenantDirectory tenantDirectory,
             AuditRecorder auditRecorder,
+            PersonDocumentUniquenessPolicy documentUniquenessPolicy,
+            PersonDuplicateDetectionEngine duplicateDetectionEngine,
             Clock clock) {
         this.repository = repository;
         this.tenantDirectory = tenantDirectory;
         this.auditRecorder = auditRecorder;
+        this.documentUniquenessPolicy = documentUniquenessPolicy;
+        this.duplicateDetectionEngine = duplicateDetectionEngine;
         this.clock = clock;
     }
 
@@ -114,6 +125,17 @@ public class PatientManagementService implements PatientDirectory {
         if (repository.existsByPatientCode(tenantId, patientCode, null)) {
             throw new PeopleConflictException("Patient code already exists in this tenant.");
         }
+        // BCM-PER-001 RN-002: primary document number must be unique within tenant across Patient
+        // and Doctor scopes.
+        documentUniquenessPolicy.ensureUnique(tenantId, primaryDocument.documentType(),
+                primaryDocument.documentNumber(), null, null);
+
+        // BCM-PER-002 RN-002: duplicate detection must be invoked and its result recorded before a
+        // Patient is registered. The aggregate command itself remains non-blocking; strict match
+        // resolution is enforced by the higher-level BCM-ATT-002 registration orchestration
+        // (commitPatientRegistration), which is the actor-facing intake flow.
+        duplicateDetectionEngine.detect(tenantId, PersonKind.PATIENT, command.familyName(),
+                command.givenName(), birthDate, sexAtBirth, null, true);
 
         PersonAddress address = optionalAddress(command.addressCountry(), command.addressState(),
                 command.addressCity(), command.addressPostalCode(), command.addressStreet());
@@ -180,15 +202,44 @@ public class PatientManagementService implements PatientDirectory {
     }
 
     /**
-     * Merge cascade rewires downstream references and archives the source snapshot. Deferred to
-     * MVP-MOD-003-BE-002 (BCM-PER-002 RN-005). Validates only the request shape here so the deferred
-     * hook is discoverable without depending on prior aggregate state.
+     * BCM-PER-002 RN-005: nominates a surviving patient id and archives the merged patient. The
+     * merged (source) record is never deleted: its status becomes {@link Patient#STATUS_MERGED} and
+     * {@code mergedIntoPatientId} points at the survivor, which both preserves the record for
+     * historical references and makes the operation idempotent (a repeated merge into the same
+     * survivor is a no-op). Downstream snapshot references are rewired transparently by
+     * {@link #findSnapshot(String)}, which follows the merge chain to the surviving patient.
      */
     public Patient merge(String patientId, String survivingPatientId) {
-        requiredText(patientId, "Patient id is required.");
-        requiredText(survivingPatientId, "Surviving patient id is required.");
-        throw new PeopleCustomRuleNotImplementedException("BCM-PER-002-RN-005",
-                "Patient merge cascade is deferred to MVP-MOD-003-BE-002.");
+        String sourceId = requiredText(patientId, "Patient id is required.");
+        String targetId = requiredText(survivingPatientId, "Surviving patient id is required.");
+        if (sourceId.equals(targetId)) {
+            throw new InvalidPeopleCommandException("A patient cannot be merged into itself.");
+        }
+        Patient source = require(sourceId);
+        Patient target = require(targetId);
+        if (Patient.STATUS_MERGED.equals(target.status())) {
+            throw new PeopleConflictException("Surviving patient id must not itself be a merged patient.");
+        }
+
+        if (Patient.STATUS_MERGED.equals(source.status())) {
+            if (targetId.equals(source.mergedIntoPatientId())) {
+                // RN-005 idempotent replay: already merged into the requested survivor.
+                return source;
+            }
+            throw new PeopleConflictException(
+                    "Patient is already merged into a different surviving patient (" + source.mergedIntoPatientId()
+                            + ").");
+        }
+
+        Patient merged = new Patient(
+                source.patientId(), source.tenantId(), source.laboratoryId(), source.patientCode(),
+                source.name(), source.birthDate(), source.sexAtBirth(), source.primaryDocument(),
+                source.address(), source.preferredLocale(), Patient.STATUS_MERGED, targetId,
+                source.version() + 1, source.createdAt(), Instant.now(clock));
+        Patient saved = repository.save(merged);
+        auditRecorder.recordSystemEvent(saved.tenantId(), "PatientMerged", "Patient", saved.patientId(),
+                "{\"survivingPatientId\":\"%s\"}".formatted(jsonText(targetId)));
+        return saved;
     }
 
     public Patient get(String patientId) {
@@ -233,12 +284,38 @@ public class PatientManagementService implements PatientDirectory {
         return repository.findRepresentatives(patientId);
     }
 
+    /**
+     * BCM-PER-002 RN-006: closes a representative's active authorization window. A representative
+     * is only "honored" while {@link PatientRepresentative#status()} is
+     * {@link PatientRepresentative#STATUS_ACTIVE} and today falls within the authorization range;
+     * revocation closes that window explicitly (status becomes {@code revoked} and
+     * {@code authorizationTo} is capped at today) so read paths never need to re-derive the decision.
+     */
     public PatientRepresentative revokeRepresentative(String patientId, String representativeId) {
-        require(patientId);
-        require(requiredText(representativeId, "Representative id is required.") != null ? patientId : patientId);
-        // RN-007 append-only history and RN-006 active-window enforcement are deferred to BE-002.
-        throw new PeopleCustomRuleNotImplementedException("BCM-PER-002-RN-006",
-                "Representative revocation with append-only history is deferred to MVP-MOD-003-BE-002.");
+        Patient patient = require(patientId);
+        String repId = requiredText(representativeId, "Representative id is required.");
+        PatientRepresentative representative = repository.findRepresentativeById(repId)
+                .orElseThrow(() -> new PeopleEntityNotFoundException("Patient representative was not found."));
+        if (!patientId.equals(representative.patientId())) {
+            throw new PeopleEntityNotFoundException("Patient representative was not found.");
+        }
+        if (PatientRepresentative.STATUS_REVOKED.equals(representative.status())) {
+            throw new PeopleConflictException("Patient representative is already revoked.");
+        }
+        LocalDate today = LocalDate.now(clock);
+        LocalDate closedAuthorizationTo = representative.authorizationTo() != null
+                && representative.authorizationTo().isBefore(today)
+                        ? representative.authorizationTo()
+                        : today;
+        PatientRepresentative revoked = new PatientRepresentative(
+                representative.representativeId(), representative.patientId(), representative.relationship(),
+                representative.representativeName(), representative.representativeDocument(),
+                representative.authorizationFrom(), closedAuthorizationTo, PatientRepresentative.STATUS_REVOKED);
+        repository.saveRepresentative(revoked);
+        auditRecorder.recordSystemEvent(patient.tenantId(), "PatientRepresentativeRevoked",
+                "PatientRepresentative", revoked.representativeId(),
+                "{\"patientId\":\"%s\"}".formatted(jsonText(patientId)));
+        return revoked;
     }
 
     // -- Consent commands ----------------------------------------------------------------------
@@ -264,11 +341,36 @@ public class PatientManagementService implements PatientDirectory {
         return repository.findConsents(patientId);
     }
 
+    /**
+     * BCM-PER-002 RN-007: a consent may be revoked but existing consent evidence must remain
+     * immutable. The JDBC adapter for {@code people.patient_consents} only supports insert (no
+     * update), by design: revocation always appends a new consent record (granted=false,
+     * evidence referencing the original consent id) rather than mutating the original row. The
+     * original grant evidence is never altered.
+     */
     public PatientConsent revokeConsent(String patientId, String consentId) {
-        require(patientId);
-        requiredText(consentId, "Consent id is required.");
-        throw new PeopleCustomRuleNotImplementedException("BCM-PER-002-RN-007",
-                "Consent revocation with immutable evidence history is deferred to MVP-MOD-003-BE-002.");
+        Patient patient = require(patientId);
+        String originalId = requiredText(consentId, "Consent id is required.");
+        PatientConsent original = repository.findConsentById(originalId)
+                .orElseThrow(() -> new PeopleEntityNotFoundException("Patient consent was not found."));
+        if (!patientId.equals(original.patientId())) {
+            throw new PeopleEntityNotFoundException("Patient consent was not found.");
+        }
+        boolean alreadyRevoked = repository.findConsents(patientId).stream()
+                .anyMatch(consent -> originalId.equals(consent.evidenceReference()));
+        if (alreadyRevoked) {
+            throw new PeopleConflictException("Patient consent is already revoked.");
+        }
+
+        Instant now = Instant.now(clock);
+        PatientConsent revocation = new PatientConsent(
+                newId(), patient.patientId(), original.consentType(), false, original.grantedBy(),
+                now, now, originalId);
+        repository.saveConsent(revocation);
+        auditRecorder.recordSystemEvent(patient.tenantId(), "PatientConsentRevoked", "PatientConsent",
+                revocation.consentId(), "{\"patientId\":\"%s\",\"revokesConsentId\":\"%s\"}"
+                        .formatted(jsonText(patient.patientId()), jsonText(originalId)));
+        return revocation;
     }
 
     // -- Document commands ---------------------------------------------------------------------
@@ -297,12 +399,24 @@ public class PatientManagementService implements PatientDirectory {
 
     // -- PatientDirectory implementation -------------------------------------------------------
 
+    /**
+     * BCM-PER-002 RN-005: downstream snapshot references are rewired transparently across a merge.
+     * A merged patient's snapshot resolves to its surviving patient (following the merge chain, in
+     * case of a chain of merges) so consumers never need to know a record was merged away.
+     */
     @Override
     public Optional<PatientSnapshot> findSnapshot(String patientId) {
         if (patientId == null || patientId.isBlank()) {
             return Optional.empty();
         }
-        return repository.findById(patientId).map(PatientSnapshot::from);
+        Optional<Patient> current = repository.findById(patientId);
+        int hops = 0;
+        while (current.isPresent() && Patient.STATUS_MERGED.equals(current.get().status())
+                && current.get().mergedIntoPatientId() != null && hops < MAX_MERGE_CHAIN_HOPS) {
+            current = repository.findById(current.get().mergedIntoPatientId());
+            hops++;
+        }
+        return current.map(PatientSnapshot::from);
     }
 
     @Override
@@ -367,9 +481,9 @@ public class PatientManagementService implements PatientDirectory {
     // -- Cross-service helpers used by other capabilities (e.g., patient registration) --------
 
     /**
-     * Used by BCM-ATT-002 to check duplicates using a simplified normalized-natural-key match. The
-     * advanced weighted-confidence duplicate detection required by BCM-PER-001 RN-003 remains
-     * deferred to MVP-MOD-003-BE-002.
+     * Broad normalized-natural-key lookup used by person search and by
+     * {@link PersonDuplicateDetectionEngine} (through {@link PatientRepository} directly) for
+     * weighted-confidence duplicate detection (BCM-PER-001 RN-003).
      */
     public List<Patient> searchByNaturalKey(String tenantId, String normalizedFamilyName,
             String normalizedGivenName, LocalDate birthDate) {

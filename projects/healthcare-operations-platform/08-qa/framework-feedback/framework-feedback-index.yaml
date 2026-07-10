@@ -28,3 +28,10 @@ entries:
     priority_recommendation: P1_high
     central_backlog_item: FWI-GOV-001
     status: implemented_in_framework
+  - feedback_id: FWF-HOP-002
+    source_backlog_item_or_phase: MVP-MOD-003-BE-002
+    feedback_type: modeling_gap
+    affected_framework_area: capability_package_standard
+    priority_recommendation: P2_medium
+    central_backlog_item: null
+    status: proposed

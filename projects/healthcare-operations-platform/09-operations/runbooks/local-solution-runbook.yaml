@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-003-BE-002
+  current_active_backlog_item: MVP-MOD-003-FE-001
   intended_audience:
     - human_reviewer
     - qa_reviewer
@@ -154,10 +154,13 @@ smoke_validation:
     name: People and Clinical Master Data baseline
     expected_result: >
       POST /api/people/patients and POST /api/people/doctors register a patient and doctor;
-      GET /api/people/persons/search returns both records. POST /api/care-delivery/patient-registrations
-      starts a registration and returns outcome pending. Deferred custom-rule endpoints
-      (merge, verify, commit, portal preparation, etc.) return HTTP 501 with backlogItem
-      MVP-MOD-003-BE-002.
+      GET /api/people/persons/search returns both records with duplicate-detection scoring.
+      POST /api/care-delivery/patient-registrations starts a registration and returns outcome
+      pending; POST .../{id}/commit commits the registration through Patient Management (blocks
+      with HTTP 409 on an unresolved high-confidence duplicate or missing mandatory consent).
+      Patient merge, representative/consent revocation, doctor suspension, portal-access
+      preparation and credential verify/revoke custom-rule endpoints (MVP-MOD-003-BE-002) are
+      functional and no longer return HTTP 501.
 
 quality_validation:
   - id: QA-001

@@ -71,9 +71,23 @@ class InMemoryPatientRepository implements PatientRepository {
     }
 
     @Override
+    public boolean existsByPrimaryDocument(String tenantId, String documentType, String documentNumber,
+            String excludePatientId) {
+        return patients.values().stream()
+                .anyMatch(patient -> patient.tenantId().equals(tenantId)
+                        && patient.primaryDocument() != null
+                        && documentType.equals(patient.primaryDocument().documentType())
+                        && documentNumber.equals(patient.primaryDocument().documentNumber())
+                        && !patient.patientId().equals(excludePatientId));
+    }
+
+    @Override
     public void saveRepresentative(PatientRepresentative representative) {
-        representatives.computeIfAbsent(representative.patientId(), key -> new ArrayList<>())
-                .add(representative);
+        List<PatientRepresentative> patientRepresentatives =
+                representatives.computeIfAbsent(representative.patientId(), key -> new ArrayList<>());
+        patientRepresentatives.removeIf(existing -> existing.representativeId()
+                .equals(representative.representativeId()));
+        patientRepresentatives.add(representative);
     }
 
     @Override

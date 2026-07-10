@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,16 +107,21 @@ class JdbcDoctorRepository implements DoctorRepository {
             String normalizedGivenName, LocalDate birthDate) {
         // Doctors do not carry birthDate in the business model; the parameter stays in the port
         // for symmetry with Patient. See MVP-MOD-003-BE-001 QA evidence for the deferred plan.
-        return jdbcTemplate.query("""
+        StringBuilder sql = new StringBuilder("""
                 select * from people.doctors
                 where tenant_id = ?
-                  and (? is null or normalized_family_name = ?)
-                  and (? is null or normalized_given_name = ?)
-                """,
-                JdbcDoctorRepository::mapDoctor,
-                tenantId,
-                normalizedFamilyName, normalizedFamilyName,
-                normalizedGivenName, normalizedGivenName);
+                """);
+        List<Object> params = new ArrayList<>();
+        params.add(tenantId);
+        if (normalizedFamilyName != null) {
+            sql.append("  and normalized_family_name = ?\n");
+            params.add(normalizedFamilyName);
+        }
+        if (normalizedGivenName != null) {
+            sql.append("  and normalized_given_name = ?\n");
+            params.add(normalizedGivenName);
+        }
+        return jdbcTemplate.query(sql.toString(), JdbcDoctorRepository::mapDoctor, params.toArray());
     }
 
     @Override
@@ -124,6 +130,18 @@ class JdbcDoctorRepository implements DoctorRepository {
                 select count(*) from people.doctors
                 where tenant_id = ? and doctor_code = ? and doctor_id <> ?
                 """, Integer.class, tenantId, doctorCode, excludeDoctorId == null ? "" : excludeDoctorId);
+        return count != null && count > 0;
+    }
+
+    @Override
+    public boolean existsByPrimaryDocument(String tenantId, String documentType, String documentNumber,
+            String excludeDoctorId) {
+        Integer count = jdbcTemplate.queryForObject("""
+                select count(*) from people.doctors
+                where tenant_id = ? and primary_document_type = ? and primary_document_number = ?
+                  and doctor_id <> ?
+                """, Integer.class, tenantId, documentType, documentNumber,
+                excludeDoctorId == null ? "" : excludeDoctorId);
         return count != null && count > 0;
     }
 
