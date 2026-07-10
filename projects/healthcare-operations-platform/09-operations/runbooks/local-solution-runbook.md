@@ -148,6 +148,14 @@ Expected result:
    missing mandatory consent). Patient merge, representative/consent revocation, doctor
    suspension, portal-access preparation and credential verify/revoke are all functional
    (`MVP-MOD-003-BE-002`) and no longer return HTTP 501.
+6. With a tenant, laboratory and branch selected in the employee portal (Tenants/Laboratories/
+   Branches tabs), open the four new People and Clinical Master Data tabs (`MVP-MOD-003-FE-001`):
+   "People Search" (search, duplicate detection with a confidence badge, merge coordination),
+   "Patients" (register, snapshot, representative attach/revoke, consent record/revoke, merge),
+   "Doctors" (register, snapshot, credential attach/verify/revoke, suspend, prepare portal access)
+   and "Patient Registrations" (start, commit with a visual high-confidence duplicate candidate
+   list on a 409 conflict, cancel). Every action shows a loading, success or error banner and
+   destructive actions (revoke, merge, suspend, cancel) require an explicit confirmation dialog.
 
 ## Quality Validation
 
@@ -219,30 +227,4 @@ Backend cannot connect to PostgreSQL:
 Employee portal API calls fail:
 
 - Confirm backend is running on `http://localhost:8080`.
-- Confirm `employee-portal/vite.config.ts` still proxies `/api` to `http://localhost:8080`.
-
-Mobile tests cannot find TypeScript or Vitest:
-
-- Run `npm install` in `07-implementation/employee-portal` first.
-
-## Known Limitations
-
-- Mobile app is currently a renderer-agnostic TypeScript foundation, not a native runnable app.
-- DAST automation remains tracked as `TD-QA-001`.
-- Release supply-chain gates remain tracked as `TD-BE-004`.
-
-## Component Detail
-
-- `07-implementation/README.md`
-- `07-implementation/backend/README.md`
-- `07-implementation/employee-portal/README.md`
-- `07-implementation/mobile-app/README.md`
-
-## Feedback
-
-If this runbook is incomplete, ambiguous or still requires hidden manual component-by-component
-knowledge for basic startup, register feedback under:
-
-```text
-08-qa/framework-feedback/
-```
+- Confirm `employee-portal/vite.config.ts` still proxie

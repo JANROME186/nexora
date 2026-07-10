@@ -196,3 +196,50 @@ td {
   text-align: left;
   text-decoration: underline;
 }
+
+.confidence-badge {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: #eef2f5;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.confidence-badge--high {
+  background: #fce8e6;
+  color: #b3261e;
+}
+
+.confidence-badge--medium {
+  background: #fff4ce;
+  color: #735c00;
+}
+
+.confidence-badge--low {
+  background: #eef2f5;
+  color: #4a4f5a;
+}
+
+.panel {
+  border: 1px solid #e6e8ec;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.panel h3 {
+  margin-top: 0;
+}
+
+.field-hint {
+  font-size: 0.8rem;
+  color: #4a4f5a;
+  margin: 0;
+}
+
+.empty-state {
+  font-size: 0.9rem;
+  color: #4a4f5a;
+  font-style: italic;
+}

@@ -110,3 +110,12 @@ entries:
     affected_area: patient_registration_commit_orchestration
     file: 08-qa/technical-debt/TD-BE-006-patient-registration-commit-non-atomic.yaml
     remediation_strategy: gradual_when_backend_transaction_infrastructure_is_next_touched
+  - id: TD-FE-001
+    title: Employee portal Vite/Vitest toolchain requires a Linux-native esbuild/rollup binary and unrestricted registry access
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: MVP-MOD-003-FE-001
+    affected_area: employee_portal_frontend_toolchain
+    file: 08-qa/technical-debt/TD-FE-001-sandbox-native-toolchain-gap.yaml
+    remediation_strategy: gradual_when_ci_pipeline_is_implemented

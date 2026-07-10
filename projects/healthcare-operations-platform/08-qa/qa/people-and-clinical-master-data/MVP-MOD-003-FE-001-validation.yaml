@@ -1,0 +1,285 @@
+artifact:
+  id: HOP-QA-MVP-MOD-003-FE-001-001
+  type: qa-validation-evidence
+  name: MVP-MOD-003-FE-001 Patient and Doctor Management Employee Portal UI Validation
+  version: 1.0.0
+  status: passed_with_execution_limitation
+  human_readable: MVP-MOD-003-FE-001-validation.md
+  machine_readable: MVP-MOD-003-FE-001-validation.yaml
+  created_date: 2026-07-09
+  owner: Nexora Product Architecture Team
+
+scope:
+  backlog_item: MVP-MOD-003-FE-001
+  module: MVP-MOD-003 People and Clinical Master Data
+  release: REL-001
+  execution_flow_stage: compile_ui
+  business_requirement_version: v0.68.0
+  impact_assessment_required: false
+  implementation_root: 07-implementation/employee-portal/
+  predecessor_evidence:
+    - 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.yaml
+    - 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-002-validation.yaml
+    - 08-qa/security-quality/MVP-MOD-003-BE-002/security-quality-evidence.yaml
+  objective: >
+    Compile the employee portal UI outputs that let operators use the already-implemented People
+    and Clinical Master Data backend capabilities (BCM-PER-001, BCM-PER-002, BCM-PER-003,
+    BCM-ATT-002): patient/doctor search and duplicate resolution, patient registration/snapshot/
+    merge/representative/consent lifecycle, doctor directory/credential/suspension/portal-access
+    lifecycle, and the patient registration intake/commit/cancel workflow with visual handling of
+    high-confidence duplicates.
+
+implemented_outputs:
+  - id: FE-001
+    path: 07-implementation/employee-portal/src/api/peopleApi.ts
+    description: People and Clinical Master Data API client covering /api/people/persons,
+      /api/people/patients, /api/people/doctors and /api/care-delivery/patient-registrations.
+  - id: FE-002
+    path: 07-implementation/employee-portal/src/api/types.ts
+    description: TypeScript DTOs appended for BCM-PER-001/002/003 and BCM-ATT-002 (Patient, Doctor,
+      PersonSearchEntry, PersonDuplicateCandidate, PersonMergeCoordination, PatientRepresentative,
+      PatientConsent, ProfessionalCredential, PatientRegistrationRequestRecord and their request
+      DTOs), matching the actual backend controller request/response records field-for-field.
+  - id: FE-003
+    path: 07-implementation/employee-portal/src/components/screens/PersonSearchScreen.tsx
+    description: SCR-PER-001-01/02/03 - global person search, duplicate detection with a
+      tenant-configurable confidence badge, search-index rebuild, and merge coordination
+      initiation/lookup.
+  - id: FE-004
+    path: 07-implementation/employee-portal/src/components/screens/PatientsScreen.tsx
+    description: SCR-PAT-002-01/03/04/05 - patient registration, list, snapshot, representative
+      attach/list/revoke (with confirmation), consent record/list/revoke (with confirmation), and
+      patient merge into a surviving record (with confirmation).
+  - id: FE-005
+    path: 07-implementation/employee-portal/src/components/screens/DoctorsScreen.tsx
+    description: SCR-DOC-003-01/02/03/05 - doctor registration, list, snapshot, credential
+      attach/list/verify/revoke (with confirmation), suspension (with confirmation), and portal
+      access preparation.
+  - id: FE-006
+    path: 07-implementation/employee-portal/src/components/screens/PatientRegistrationsScreen.tsx
+    description: SCR-REG-002-01/02/03 - registration intake (age-of-majority hint), request list,
+      detail with commit (representative/consent fields shown conditionally, explicit 409 handling
+      that triggers a live duplicate-detection lookup and a visual high-confidence candidate list
+      with a one-click "use this patient" resolution), and cancel (with confirmation).
+  - id: FE-007
+    path: 07-implementation/employee-portal/src/components/layout/AppShell.tsx
+    description: Four new navigation tabs (People Search, Patients, Doctors, Patient
+      Registrations) added to the employee administration shell.
+  - id: FE-008
+    path: 07-implementation/employee-portal/src/App.tsx
+    description: New screens wired into the screen router.
+  - id: FE-009
+    path: 07-implementation/employee-portal/src/styles.css
+    description: Confidence-badge, panel, field-hint and empty-state styles added for the new
+      screens, reusing the existing design tokens.
+  - id: FE-010
+    path: 07-implementation/employee-portal/src/test/PatientsScreen.test.tsx
+    description: UI tests for scoped patient registration/list and the laboratory-empty state.
+  - id: FE-011
+    path: 07-implementation/employee-portal/src/test/DoctorsScreen.test.tsx
+    description: UI test for doctor registration and suspension behind an explicit confirmation
+      dialog.
+  - id: FE-012
+    path: 07-implementation/employee-portal/src/test/PatientRegistrationsScreen.test.tsx
+    description: UI test for the registration-start flow and the explicit 409
+      REGISTRATION_MATCH_RESOLUTION_REQUIRED handling, asserting the visual duplicate-candidate
+      list and the "use this patient" resolution action.
+  - id: FE-013
+    path: 07-implementation/employee-portal/src/test/AppSmoke.test.tsx
+    description: Extended to navigate to and assert the four new tabs render.
+
+capability_coverage:
+  - capability: BCM-PER-001
+    name: Person Management
+    ui_support: global search, duplicate detection with confidence scoring, search-index rebuild,
+      merge coordination initiate/lookup
+  - capability: BCM-PER-002
+    name: Patient Management
+    ui_support: register, list, snapshot, representative attach/revoke, consent record/revoke,
+      merge
+  - capability: BCM-PER-003
+    name: Doctor Management
+    ui_support: register, list, snapshot, credential attach/verify/revoke, suspend, prepare portal
+      access
+  - capability: BCM-ATT-002
+    name: Patient Registration
+    ui_support: start, list, detail, commit (with visual duplicate resolution), cancel
+
+ux_requirements_covered:
+  - requirement: Loading, error, empty and confirmation states
+    implementation: Every async action uses the shared useAsyncAction hook and StatusBanner
+      (idle/loading/success/error). Empty result sets render an explicit "No … yet" message
+      instead of a blank table. Revoke, merge, suspend and cancel actions require an explicit
+      ConfirmDialog confirmation before the request is sent.
+  - requirement: Explicit handling of expected 2xx/4xx backend responses
+    implementation: Successful 2xx responses update local state and show a success banner. Known
+      4xx responses surface the backend's message text directly (e.g. 409
+      REGISTRATION_MATCH_RESOLUTION_REQUIRED, REGISTRATION_REPRESENTATIVE_REQUIRED,
+      REGISTRATION_CONSENT_MISSING, 404 not found). The registration commit flow specifically
+      inspects the ApiError status code; on a 409 whose message contains MATCH_RESOLUTION_REQUIRED it calls
+      detectPersonDuplicates and renders the real candidate list with confidence badges and a
+      one-click resolution action, rather than just showing a generic error string.
+  - requirement: Manejo visual de duplicados de alta confianza
+    implementation: PersonSearchScreen's duplicate-detection panel and
+      PatientRegistrationsScreen's post-409 duplicate panel both render candidates with a
+      color-coded confidence badge (>=85% high / >=50% medium / below low) and the match reason
+      returned by the backend.
+  - requirement: No agent, vendor or runtime specific dependency
+    implementation: Only React, the existing httpClient fetch wrapper and the project's own
+      shared components are used; no new npm dependency was added.
+
+validations:
+  - id: VAL-001
+    name: TypeScript static analysis
+    method: npm run typecheck
+    working_directory: 07-implementation/employee-portal
+    result: passed
+    detail: tsc --noEmit completed with 0 errors across the whole project, including every
+      new/changed file.
+  - id: VAL-002
+    name: Employee portal unit and UI tests
+    method: npm test
+    working_directory: 07-implementation/employee-portal
+    result: not_executed
+    detail: See execution_limitation. New/updated tests were manually cross-checked line-by-line
+      against the actual rendered label text (label htmlFor targets), button accessible names,
+      dialog titles and status-banner copy of the components under test, and against the real
+      request/response field names read from the backend controllers.
+  - id: VAL-003
+    name: Coverage gate
+    method: npm run test:coverage
+    working_directory: 07-implementation/employee-portal
+    result: not_executed
+    detail: See execution_limitation.
+  - id: VAL-004
+    name: Production build
+    method: npm run build
+    working_directory: 07-implementation/employee-portal
+    result: not_executed
+    detail: See execution_limitation.
+  - id: VAL-005
+    name: Dependency vulnerability audit
+    method: npm audit --audit-level=high
+    working_directory: 07-implementation/employee-portal
+    result: not_executed
+    detail: "npm warn audit 403 Forbidden - POST https://registry.npmjs.org/-/npm/v1/security/audits/quick;
+      Connection blocked by network allowlist. No new dependency was added in this backlog item
+      (package.json/package-lock.json are unchanged), which limits the residual risk of this gap."
+  - id: VAL-006
+    name: Secrets scan
+    method: "rg -n -i (api[_-]?key|secret|password|passwd|token|private[_-]?key|client[_-]?secret)
+      against every new/changed employee-portal source file"
+    working_directory: 07-implementation/employee-portal
+    result: passed
+    detail: No matches found.
+  - id: VAL-007
+    name: Agent-agnostic scan
+    method: "rg -n -i (claude|anthropic|openai|gpt-|gemini|copilot|cursor\\.so|azure openai) against
+      every new/changed employee-portal source file"
+    working_directory: 07-implementation/employee-portal
+    result: passed
+    detail: No matches found.
+  - id: VAL-008
+    name: Open-source-first dependency check
+    method: git diff of package.json/package-lock.json
+    working_directory: 07-implementation/employee-portal
+    result: passed
+    detail: No dependency was added, removed or changed. The screens reuse existing React,
+      Testing Library, Vitest and the project's own httpClient/useAsyncAction/ScopeIndicator/
+      StatusBanner/ConfirmDialog components.
+  - id: VAL-009
+    name: YAML parse (targeted)
+    method: Programmatic YAML parse (PyYAML) of every registry, evidence, runbook and
+      traceability file created or modified by this backlog item.
+    result: passed
+    detail: All targeted files parsed successfully after a syntax issue introduced in
+      PROJECT_STATE.yaml's latest_validation block (a plain scalar list item containing a
+      colon-space sequence that YAML parsed as an unintended mapping key) was found and corrected
+      using a folded block scalar.
+  - id: VAL-010
+    name: Agent-agnostic and stale-pointer scan of updated registries
+    method: rg scan of PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml,
+      HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml, local-solution-runbook.yaml/.md and the four
+      capability traceability.yaml files for MVP-MOD-003-FE-001 as a "next" or "current" pointer.
+    result: passed
+    detail: No file lists MVP-MOD-003-FE-001 as the next or current backlog item; all consistently
+      point to MVP-MOD-003-QA-001. Remaining MVP-MOD-003-FE-001 references are historical
+      (identifying which backlog item implemented a given output), which is expected and correct.
+
+execution_limitation:
+  description: >
+    This sandbox's network allowlist blocks fetching the Linux-native binaries that vite/vitest
+    depend on (esbuild, @rollup/rollup-linux-x64-gnu). `npm install esbuild` and `npm audit` both
+    returned an explicit 403 with the message "Connection blocked by network allowlist" /
+    "403 Forbidden ... on a server you do not have access to". The repository's committed
+    node_modules only contains Windows-native esbuild/rollup binaries (built on the developer's
+    machine), which do not run in this Linux sandbox, so `npm test`, `npm run test:coverage`,
+    `npm run build` and `npm audit` could not be executed here even though they are expected to
+    work normally on the developer's own machine or in a CI runner with unrestricted npm registry
+    access.
+  mitigation_applied:
+    - npm run typecheck (pure TypeScript compiler, no esbuild/rollup dependency) was run to
+      completion with 0 errors, which structurally validates every new file (JSX correctness, prop
+      types, hook usage, and every field reference against the DTOs in types.ts).
+    - Every new test's queries (getByLabelText, getByRole name) were manually verified against the
+      literal label/button text rendered by the corresponding component source.
+    - Every API client call's URL, method and payload shape was manually verified against the
+      actual backend controller/record definitions (PersonController, PatientController,
+      DoctorController, PatientRegistrationController and their request/response records) read
+      directly from source, not assumed from the openapi-source.yaml model alone.
+    - Secrets scan, agent-agnostic scan, YAML parse and stale-pointer scan were all executed
+      successfully in this sandbox since they do not require the blocked toolchain.
+  residual_risk: >
+    A runtime/rendering defect that only a real browser-DOM test run would catch (for example, a
+    prop mismatch that TypeScript's structural typing does not flag, or a Testing Library query
+    that resolves to more than one element after both the register and detail panels are visible)
+    cannot be fully ruled out without an actual `npm test` execution. This is recorded honestly
+    rather than asserting a passing test run that did not happen.
+  recommended_follow_up: >
+    Run `npm test`, `npm run test:coverage`, `npm run build` and `npm audit --audit-level=high` in
+    `07-implementation/employee-portal` on the developer's machine or in CI (both have working
+    platform-native esbuild/rollup binaries and unrestricted registry access) before or during
+    MVP-MOD-003-QA-001, and correct this evidence file's VAL-002..VAL-005 results to the actual
+    outcome.
+
+model_gaps_identified: []
+
+out_of_scope_confirmed:
+  - MVP-MOD-003-QA-001 (module validation) was not started.
+  - No capability package was redesigned; BUSINESS_REQUIREMENT.md was not modified.
+  - No new capability was created outside MVP-MOD-003-FE-001.
+  - Patient/doctor self-service portal UI remains out of scope (only the employee portal was
+    compiled); doctor Portal Access Baseline Panel (SCR-DOC-003-05) exposes the backend's
+    preparation step only, consistent with its custom_reason "Displays deferred provisioning
+    boundary explicitly" in bcm-per-003-doctor-management/ui-model.yaml.
+  - Patient/Doctor "Editor" full-update screens (SCR-PAT-002-02, SCR-DOC-003-02) and the documents
+    panel (SCR-PAT-002-06) and specialty panel (SCR-DOC-003-04) were not built; they are pure CRUD
+    over already-generatable endpoints not called out in the backlog's minimum scope. Registration
+    already covers patient/doctor creation with the primary demographic and document fields.
+
+backend_defects_found_blocking: []
+
+technical_debt_newly_registered:
+  - id: TD-FE-001
+    title: Employee portal cannot run its Vitest/Vite toolchain inside network-restricted sandboxes
+      lacking a Linux-native esbuild/rollup binary
+    file: 08-qa/technical-debt/TD-FE-001-sandbox-native-toolchain-gap.yaml
+
+blocking_gaps: []
+
+readiness:
+  mvp_mod_003_fe_001_status: closed_with_execution_limitation
+  ready_for_next_backlog_item: MVP-MOD-003-QA-001
+  next_backlog_item_name: Validate MVP-MOD-003 generated outputs, contracts, rules, UI and quality
+    evidence
+  rationale: >
+    The employee portal now exposes every UI surface required by the backlog's minimum scope for
+    the already-implemented People and Clinical Master Data backend: search/duplicate resolution,
+    patient registration/snapshot/merge/representative/consent lifecycle, doctor directory/
+    credential/suspension/portal-access lifecycle, and patient registration intake/commit/cancel
+    with visual high-confidence duplicate handling and explicit 2xx/4xx response handling.
+    TypeScript static analysis passed cleanly and every new test was manually verified against the
+    actual component and backend contracts. The one open item is that this sandbox's network
+    allowlist blocks the Linux-native esbuild/rollup binaries needed for npm test/build/audit; this
+    is recorded transparently (execution_limitation, TD-FE-001) rather than asserted as passed, and
+    is the recommended first follow-up alongside MVP-MOD-003-QA-001.

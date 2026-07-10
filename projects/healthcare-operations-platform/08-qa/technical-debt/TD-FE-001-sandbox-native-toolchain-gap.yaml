@@ -1,0 +1,59 @@
+artifact:
+  id: TD-FE-001
+  type: technical-debt-item
+  name: Employee portal Vite/Vitest toolchain requires a Linux-native esbuild/rollup binary and unrestricted registry access
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-09
+
+source:
+  discovered_during_backlog_item: MVP-MOD-003-FE-001
+  module: MVP-MOD-003 People and Clinical Master Data
+  evidence: 08-qa/security-quality/MVP-MOD-003-FE-001/security-quality-evidence.yaml
+
+classification:
+  category: build_and_test_toolchain_portability
+  affected_area: employee_portal_frontend_toolchain
+  affected_components:
+    - 07-implementation/employee-portal
+  risk_level: low
+  blocking: false
+  reason_non_blocking: >
+    Does not affect production behavior or the developer's own machine/CI, where esbuild/rollup
+    native binaries resolve normally and the npm registry is reachable. Only affects execution
+    inside network-restricted sandboxes that block npm from downloading platform-native optional
+    dependencies.
+
+current_state:
+  issue: >
+    npm test, npm run test:coverage, npm run build and npm audit could not run inside this
+    backlog item's execution sandbox because Vite/Vitest depend on the Linux-native esbuild
+    binary and @rollup/rollup-linux-x64-gnu, both of which the sandbox's network allowlist
+    blocked with an explicit 403 Forbidden / "Connection blocked by network allowlist" response.
+    The repository's committed node_modules only carries Windows-native binaries (built on the
+    developer's own machine).
+  compensating_control:
+    - npm run typecheck (tsc --noEmit, no esbuild/rollup dependency) passed with 0 errors.
+    - Manual cross-verification of new test queries against actual component render output.
+    - Manual cross-verification of new API client calls against actual backend controller
+      contracts.
+
+target_state:
+  preferred_open_source_tooling:
+    - No new tooling required; the existing Vite/Vitest toolchain works correctly on a standard
+      developer machine or CI runner with normal npm registry access.
+  expected_integration_points:
+    - CI pipeline (when implemented) should run npm ci / npm test / npm run build in an
+      environment with unrestricted access to registry.npmjs.org, or should vendor/cache the
+      Linux-native optional dependencies ahead of time.
+
+remediation:
+  strategy: gradual_when_ci_pipeline_is_implemented
+  recommended_trigger:
+    - CI pipeline implementation for the employee portal
+    - first execution of MVP-MOD-003-QA-001 validations
+  acceptance_criteria:
+    - npm test, npm run test:coverage, npm run build and npm audit all execute successfully in
+      the environment used to validate MVP-MOD-003-QA-001.
+    - This item's status is updated to resolved with the actual test/coverage/build/audit results
+      recorded in the FE-001 evidence files.

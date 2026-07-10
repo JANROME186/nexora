@@ -324,3 +324,341 @@ export interface AddPriceEntryRequest {
   itemRefId: string;
   amount: number;
 }
+
+
+// -- People and Clinical Master Data (MVP-MOD-003: BCM-PER-001/002/003, BCM-ATT-002) -----------
+
+export type PersonKind = "patient" | "doctor";
+
+export interface PersonSearchEntry {
+  tenantId: string;
+  laboratoryId: string;
+  personKind: string;
+  sourceAggregateId: string;
+  personCode: string;
+  fullName: string;
+  normalizedFamilyName: string;
+  normalizedGivenName: string;
+  birthDate?: string;
+  primaryDocumentType?: string;
+  primaryDocumentNumberMasked?: string;
+  status: string;
+}
+
+export interface PersonDuplicateCandidate {
+  personKind: string;
+  sourceAggregateId: string;
+  fullName: string;
+  confidence: number;
+  matchReason: string;
+}
+
+export interface DetectPersonDuplicatesRequest {
+  tenantId: string;
+  personKind?: string;
+  familyName?: string;
+  givenName?: string;
+  birthDate?: string;
+  sexAtBirth?: string;
+  nationalIdentifier?: string;
+}
+
+export interface PersonSearchIndexRebuildResult {
+  tenantId: string;
+  patientCount: number;
+  doctorCount: number;
+  rebuiltAt: string;
+}
+
+export interface PersonMergeCoordination {
+  coordinationId: string;
+  tenantId: string;
+  sourceKind: string;
+  sourceRecordId: string;
+  targetKind: string;
+  targetRecordId: string;
+  status: string;
+  patientMergeApplied: boolean;
+}
+
+export interface InitiateMergeCoordinationRequest {
+  tenantId: string;
+  sourceRecordId: string;
+  targetRecordId: string;
+}
+
+export interface PersonName {
+  givenName?: string;
+  middleName?: string;
+  familyName?: string;
+  secondFamilyName?: string;
+  preferredName?: string;
+}
+
+export interface PersonDocumentValue {
+  documentType: string;
+  documentNumber?: string;
+  issuingCountry?: string;
+  issuedAt?: string;
+  expiresAt?: string;
+}
+
+export interface Patient {
+  patientId: string;
+  tenantId: string;
+  laboratoryId: string;
+  patientCode: string;
+  givenName?: string;
+  middleName?: string;
+  familyName?: string;
+  secondFamilyName?: string;
+  preferredName?: string;
+  fullName?: string;
+  birthDate?: string;
+  sexAtBirth?: string;
+  primaryDocumentType?: string;
+  primaryDocumentNumberMasked?: string;
+  status: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface PatientSnapshot {
+  patientId: string;
+  tenantId: string;
+  laboratoryId: string;
+  patientCode: string;
+  fullName?: string;
+  birthDate?: string;
+  sexAtBirth?: string;
+  primaryDocumentType?: string;
+  primaryDocumentNumberMasked?: string;
+  status: string;
+  version: number;
+}
+
+export interface RegisterPatientRequest {
+  tenantId: string;
+  laboratoryId: string;
+  patientCode: string;
+  givenName: string;
+  middleName?: string;
+  familyName: string;
+  secondFamilyName?: string;
+  preferredName?: string;
+  birthDate?: string;
+  sexAtBirth: string;
+  primaryDocumentType: string;
+  primaryDocumentNumber: string;
+  primaryDocumentIssuingCountry?: string;
+  primaryDocumentIssuedAt?: string;
+  primaryDocumentExpiresAt?: string;
+  addressCountry?: string;
+  addressState?: string;
+  addressCity?: string;
+  addressPostalCode?: string;
+  addressStreet?: string;
+  preferredLocale?: string;
+}
+
+export interface MergePatientRequest {
+  survivingPatientId: string;
+}
+
+export interface PatientRepresentative {
+  representativeId: string;
+  patientId: string;
+  relationship: string;
+  representativeName?: PersonName;
+  representativeDocument?: PersonDocumentValue;
+  authorizationFrom?: string;
+  authorizationTo?: string;
+  status: string;
+}
+
+export interface AttachPatientRepresentativeRequest {
+  relationship: string;
+  givenName: string;
+  middleName?: string;
+  familyName: string;
+  secondFamilyName?: string;
+  documentType: string;
+  documentNumber: string;
+  authorizationFrom?: string;
+  authorizationTo?: string;
+}
+
+export interface PatientConsent {
+  consentId: string;
+  patientId: string;
+  consentType: string;
+  granted: boolean;
+  grantedBy: string;
+  grantedAt?: string;
+  revokedAt?: string;
+  evidenceReference?: string;
+}
+
+export interface RecordPatientConsentRequest {
+  consentType: string;
+  granted: boolean;
+  grantedBy: string;
+  evidenceReference?: string;
+}
+
+export interface Doctor {
+  doctorId: string;
+  tenantId: string;
+  laboratoryId: string;
+  doctorCode: string;
+  givenName?: string;
+  middleName?: string;
+  familyName?: string;
+  secondFamilyName?: string;
+  fullName?: string;
+  doctorType: string;
+  primaryDocumentType?: string;
+  primaryDocumentNumberMasked?: string;
+  status: string;
+  portalStatus: string;
+  portalEmail?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface DoctorSnapshot {
+  doctorId: string;
+  tenantId: string;
+  laboratoryId: string;
+  doctorCode: string;
+  fullName?: string;
+  primaryDocumentType?: string;
+  primaryDocumentNumberMasked?: string;
+  doctorType: string;
+  status: string;
+  version: number;
+}
+
+export interface RegisterDoctorRequest {
+  tenantId: string;
+  laboratoryId: string;
+  doctorCode: string;
+  givenName: string;
+  middleName?: string;
+  familyName: string;
+  secondFamilyName?: string;
+  doctorType: string;
+  primaryDocumentType: string;
+  primaryDocumentNumber: string;
+  primaryDocumentIssuingCountry?: string;
+  primaryDocumentIssuedAt?: string;
+  primaryDocumentExpiresAt?: string;
+  addressCountry?: string;
+  addressCity?: string;
+  addressStreet?: string;
+}
+
+export interface SuspendDoctorRequest {
+  reasonCode?: string;
+}
+
+export interface PreparePortalAccessRequest {
+  portalEmail?: string;
+}
+
+export interface ProfessionalCredential {
+  credentialId: string;
+  doctorId: string;
+  credentialType: string;
+  credentialNumber: string;
+  issuingAuthority: string;
+  issuingCountry?: string;
+  issuedAt?: string;
+  expiresAt?: string;
+  verificationStatus: string;
+  verifiedAt?: string;
+}
+
+export interface AttachCredentialRequest {
+  credentialType: string;
+  credentialNumber: string;
+  issuingAuthority: string;
+  issuingCountry?: string;
+  issuedAt?: string;
+  expiresAt?: string;
+}
+
+export type PatientRegistrationOutcome = "pending" | "committed" | "cancelled" | "rejected";
+
+export interface PatientRegistrationRequestRecord {
+  registrationRequestId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  intakeChannel: string;
+  candidatePatientId?: string;
+  registrationKind: string;
+  normalizedFamilyName?: string;
+  normalizedGivenName?: string;
+  birthDate?: string;
+  draftGivenName?: string;
+  draftFamilyName?: string;
+  draftDocumentType?: string;
+  draftDocumentNumber?: string;
+  draftPatientCode?: string;
+  outcome: PatientRegistrationOutcome | string;
+  outcomePatientId?: string;
+  actorId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface StartPatientRegistrationRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  intakeChannel: string;
+  registrationKind: string;
+  givenName: string;
+  familyName: string;
+  birthDate?: string;
+  documentType: string;
+  documentNumber: string;
+  draftPatientCode?: string;
+  actorId?: string;
+}
+
+export interface ConsentSelectionRequest {
+  consentType: string;
+  granted: boolean;
+  grantedBy: string;
+  evidenceReference?: string;
+}
+
+export interface CommitPatientRegistrationRequest {
+  resolvedExistingPatientId?: string;
+  patientCode?: string;
+  sexAtBirth?: string;
+  addressCountry?: string;
+  addressState?: string;
+  addressCity?: string;
+  addressPostalCode?: string;
+  addressStreet?: string;
+  preferredLocale?: string;
+  representativeRelationship?: string;
+  representativeGivenName?: string;
+  representativeMiddleName?: string;
+  representativeFamilyName?: string;
+  representativeSecondFamilyName?: string;
+  representativeDocumentType?: string;
+  representativeDocumentNumber?: string;
+  representativeAuthorizationFrom?: string;
+  representativeAuthorizationTo?: string;
+  consents?: ConsentSelectionRequest[];
+}
+
+export interface CancelPatientRegistrationRequest {
+  reasonCode?: string;
+}

@@ -188,6 +188,6 @@ validation_commands:
 
 next_backlog_item:
   module_id: MVP-MOD-003
-  backlog_item_id: MVP-MOD-003-FE-001
-  name: Compile patient and doctor management UI outputs
-  expected_folder: ../../07-implementation/employee-portal/
+  backlog_item_id: MVP-MOD-003-QA-001
+  name: Validate MVP-MOD-003 generated outputs, contracts, rules, UI and quality evidence
+  expected_folder: ../../08

@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-003-FE-001
+  current_active_backlog_item: MVP-MOD-003-QA-001
   intended_audience:
     - human_reviewer
     - qa_reviewer
@@ -161,6 +161,18 @@ smoke_validation:
       Patient merge, representative/consent revocation, doctor suspension, portal-access
       preparation and credential verify/revoke custom-rule endpoints (MVP-MOD-003-BE-002) are
       functional and no longer return HTTP 501.
+  - id: SMOKE-005
+    name: People and Clinical Master Data employee portal screens (MVP-MOD-003-FE-001)
+    expected_result: >
+      With tenant, laboratory and branch scope selected (Tenants/Laboratories/Branches tabs), the
+      "People Search" tab searches patients and doctors and runs duplicate detection with a visible
+      confidence badge; "Patients" registers a patient and can load its snapshot, attach/revoke a
+      representative, record/revoke a consent, and merge a duplicate into a survivor; "Doctors"
+      registers a doctor and can attach/verify/revoke a credential, suspend the doctor (with
+      confirmation) and prepare portal access; "Patient Registrations" starts a registration,
+      commits it (showing a visual high-confidence duplicate candidate list and a 409 message when
+      a match must be resolved or a mandatory consent is missing), and cancels a pending
+      registration (with confirmation).
 
 quality_validation:
   - id: QA-001
@@ -229,23 +241,4 @@ troubleshooting:
       - Confirm Vite proxy configuration still points /api to http://localhost:8080.
   - symptom: Mobile tests cannot find TypeScript or Vitest commands.
     checks:
-      - Run npm install in 07-implementation/employee-portal first because mobile currently reuses that toolchain.
-
-known_limitations:
-  - Mobile app is currently a renderer-agnostic TypeScript foundation, not a native runnable app.
-  - DAST automation remains tracked as technical debt TD-QA-001.
-  - Release supply-chain gates remain tracked as technical debt TD-BE-004.
-
-component_readmes:
-  - 07-implementation/README.md
-  - 07-implementation/backend/README.md
-  - 07-implementation/employee-portal/README.md
-  - 07-implementation/mobile-app/README.md
-
-feedback_capture:
-  project_feedback_index: 08-qa/framework-feedback/framework-feedback-index.yaml
-  technical_debt_index: 08-qa/technical-debt/technical-debt-index.yaml
-  instruction: >
-    If this runbook is incomplete, ambiguous, or still requires hidden manual
-    component-by-component knowledge for basic startup, capture project feedback
-    and propose framework feedback when reusable.
+      - Run npm in

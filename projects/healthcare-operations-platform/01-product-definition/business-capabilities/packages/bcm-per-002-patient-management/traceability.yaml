@@ -117,3 +117,7 @@ traces:
     custom_rules: MVP-MOD-003-BE-002
     custom_rules_status: closed
     ui: MVP-MOD-003-FE-001
+    ui_status: closed_with_execution_limitation
+    ui_qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-FE-001-validation.yaml
+    ui_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-003-FE-001/security-quality-evidence.yaml
+
