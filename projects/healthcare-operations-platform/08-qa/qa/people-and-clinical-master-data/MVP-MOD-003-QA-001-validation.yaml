@@ -1,0 +1,397 @@
+artifact:
+  id: HOP-QA-MVP-MOD-003-QA-001-001
+  type: qa-validation-evidence
+  name: MVP-MOD-003 People and Clinical Master Data Integrated Module Validation
+  version: 1.0.0
+  status: passed_with_execution_limitation
+  human_readable: MVP-MOD-003-QA-001-validation.md
+  machine_readable: MVP-MOD-003-QA-001-validation.yaml
+  created_date: 2026-07-14
+  owner: Nexora Product Architecture Team
+
+scope:
+  backlog_item: MVP-MOD-003-QA-001
+  module: MVP-MOD-003 People and Clinical Master Data
+  release: REL-001
+  execution_flow_stage: validate
+  business_requirement_version: v0.68.0
+  impact_assessment_required: false
+  objective: >
+    Integrally validate MVP-MOD-003 People and Clinical Master Data without implementing new
+    functionality and without starting MVP-MOD-003-CLOSEOUT: capability package models,
+    capability-to-rule-to-API-to-permission-to-backend-to-UI-to-test traceability, OpenAPI
+    contracts against backend endpoints, BE-002 custom rule implementation, FE-001 employee
+    portal UI, existing QA and security-quality evidence, the integrated local runbook, backlog
+    pointers and source of truth, agent-agnostic status, and open-source-first/security-quality
+    gates.
+  predecessor_evidence:
+    - 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
+    - 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.yaml
+    - 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-002-validation.yaml
+    - 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-FE-001-validation.yaml
+    - 08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.yaml
+    - 08-qa/security-quality/MVP-MOD-003-BE-002/security-quality-evidence.yaml
+    - 08-qa/security-quality/MVP-MOD-003-FE-001/security-quality-evidence.yaml
+
+capability_package_model_validation:
+  method: Re-read business-model.yaml, business-rules.yaml, permissions.yaml, openapi-source.yaml,
+    ui-model.yaml and traceability.yaml for all 4 packages and cross-checked internal consistency
+    and prior MVP-MOD-003-DEF-validation.yaml findings.
+  result: passed
+  detail: >
+    BCM-PER-001, BCM-PER-002, BCM-PER-003 and BCM-ATT-002 remain internally consistent: rule ids,
+    scopes, operation ids and screen ids referenced in traceability.yaml exist in their respective
+    business-rules.yaml, permissions.yaml, openapi-source.yaml and ui-model.yaml. No capability
+    package was redesigned during this review.
+
+traceability_validation:
+  method: Cross-checked each package's traceability.yaml (capability_map, rules_to_tests,
+    api_to_permissions, events_to_audit, ui_to_api, backlog_items) against the actual backend
+    controllers, employee-portal API client and test files.
+  result: passed_with_findings
+  findings:
+    - id: TRACE-001
+      description: All 4 traceability.yaml files' backlog_items block is consistent and up to
+        date (compilation/custom_rules/ui all closed, ui_status closed, correct evidence paths).
+      severity: informational
+    - id: TRACE-002
+      description: capability-package-index.yaml's active_capability_package_group block was
+        stale (still showed package_status modeled, backlog_item MVP-MOD-003-DEF, next_backlog_item
+        MVP-MOD-003-BE-001, unchanged since the DEF backlog item closed). Corrected in this backlog
+        item to package_status validated, backlog_item MVP-MOD-003-QA-001, next_backlog_item
+        MVP-MOD-003-CLOSEOUT.
+      severity: low
+      status: fixed
+
+openapi_contract_validation:
+  method: For each of the 4 packages, compared every openapi-source.yaml operation (id, method,
+    path) against the corresponding backend controller's Spring MVC route mappings.
+  result: passed
+  detail: >
+    BCM-PER-001/PersonController (5/5 operations), BCM-PER-002/PatientController (17/17
+    operations), BCM-PER-003/DoctorController (15/15 operations) and
+    BCM-ATT-002/PatientRegistrationController (5/5 operations) all map one-to-one in both
+    directions. No declared operation is missing a route and no route exists outside its
+    openapi-source declaration, consistent with the existing PeopleClinicalMasterDataContractTest
+    referenced by MVP-MOD-003-BE-001-validation.yaml and MVP-MOD-003-BE-002-validation.yaml.
+
+be_002_custom_rule_validation:
+  method: Read the actual backend Java source for every custom rule BE-002 claims to have
+    implemented and compared it against the rule statement in each package's business-rules.yaml.
+  result: passed_with_findings
+  findings:
+    - id: GAP-001
+      rule: RN-005 (BCM-PER-003)
+      description: >
+        RN-005 requires a scheduler that proactively transitions expired credentials and flags the
+        doctor for re-verification. Only a reactive check exists at verification time; no
+        scheduled job or watcher is implemented. Doctor referring-eligibility is still computed
+        correctly in real time against expiresAt, so no incorrect business outcome results today.
+      severity: medium
+      blocking: false
+      disposition: >
+        MVP-MOD-003-BE-002-validation.yaml's model_gaps_identified was corrected to record this
+        gap. Registered as 08-qa/technical-debt/TD-BE-007-credential-expiration-scheduler-missing.yaml.
+    - id: GAP-002
+      rule: RN-008 (BCM-PER-002 and BCM-PER-003)
+      description: >
+        RN-008 requires tenant-configured masking of document/credential numbers in read models.
+        A fixed, tenant-agnostic masking algorithm is applied instead; document numbers are never
+        shown unmasked, so there is no raw data-exposure regression, but the masking policy is not
+        tenant-configurable as modeled. Credential numbers are not exposed via DoctorSnapshot at
+        all, so that half of the rule does not currently apply.
+      severity: medium
+      blocking: false
+      disposition: >
+        MVP-MOD-003-BE-002-validation.yaml's model_gaps_identified was corrected to record this
+        gap. Registered as 08-qa/technical-debt/TD-BE-008-read-model-masking-not-tenant-configurable.yaml.
+    - id: CONFIRM-001
+      rule: RN-004 (BCM-PER-003)
+      description: >
+        Doctor status is set to active unconditionally at registration rather than gated on a
+        verified credential; the rule is instead enforced for referring-eligibility purposes via
+        isEligibleAsReferringDoctor. This is a previously disclosed deviation
+        (08-qa/technical-debt/TD-BE-005-doctor-activation-gating-via-eligibility-query.yaml), and
+        this validation confirms the disclosure still accurately describes the code.
+      severity: medium
+      blocking: false
+      disposition: no new action; existing TD-BE-005 remains accurate.
+    - id: CONFIRM-002
+      rule: TD-BE-006 (patient registration commit transaction)
+      description: >
+        Confirmed PatientRegistrationService.commit() still has no @Transactional boundary, as
+        already tracked by TD-BE-006-patient-registration-commit-non-atomic.yaml.
+      severity: medium
+      blocking: false
+      disposition: no new action; existing TD-BE-006 remains accurate.
+    - id: CONFIRM-003
+      rule: RN-002 (BCM-PER-001 cross-context document uniqueness)
+      description: >
+        PersonDocumentUniquenessPolicy.ensureUnique() is confirmed invoked from both
+        PatientManagementService.register() and DoctorManagementService.register(), enforcing
+        primary document uniqueness across Patient and Doctor scopes within a tenant.
+      severity: informational
+      disposition: no action needed.
+
+fe_001_ui_validation:
+  method: For each of the 4 packages, compared every openapi-source.yaml operation against
+    peopleApi.ts exported functions, and cross-checked traceability.yaml ui_to_api entries against
+    actual calls in PersonSearchScreen.tsx, PatientsScreen.tsx, DoctorsScreen.tsx and
+    PatientRegistrationsScreen.tsx. Also read the two test files added after the original FE-001
+    session (PersonSearchScreen.test.tsx, peopleApi.test.ts) in full and cross-checked several
+    assertions against actual component/API source.
+  result: passed_with_findings
+  findings:
+    - id: GAP-003
+      description: >
+        11 of 42 modeled operations have no exported peopleApi.ts function and therefore no UI:
+        updatePatient, deactivatePatient, updatePatientRepresentative, listPatientDocuments,
+        attachPatientDocument, removePatientDocument (BCM-PER-002); updateDoctor, retireDoctor,
+        listSpecialtyAssignments, assignSpecialty, unassignSpecialty (BCM-PER-003). All 11 were
+        already explicitly named as out of scope in MVP-MOD-003-FE-001-validation.yaml's
+        out_of_scope_confirmed section (patient/doctor editor screens, documents panel, specialty
+        panel); this validation confirms that disclosure is accurate and complete, and additionally
+        flags that patient-representative update (SCR-PAT-002-04) was not separately called out
+        even though it is also missing.
+      severity: low
+      blocking: false
+      disposition: Registered as 08-qa/technical-debt/TD-FE-002-patient-doctor-update-documents-specialty-ui-missing.yaml
+        for a future UI backlog item. Backend already supports every one of these operations as
+        generatable, contract-tested endpoints, so there is no backend risk.
+    - id: GAP-004
+      description: >
+        getPatient, getDoctor and getPatientRegistration are exported by peopleApi.ts but never
+        called from any screen (the screens use the *Snapshot variants or in-memory list data
+        instead). Minor dead code, not a functional gap.
+      severity: informational
+      disposition: Tracked in the same TD-FE-002 entry as a cleanup note.
+    - id: CONFIRM-004
+      description: >
+        The 31 operations that do have client functions all match their openapi-source.yaml
+        method and path exactly. PersonSearchScreen.test.tsx and peopleApi.test.ts (added after
+        the original FE-001 session) are legitimate, well-constructed tests whose assertions were
+        spot-checked against the actual component/API source and would pass.
+      severity: informational
+      disposition: no action needed.
+
+qa_and_security_quality_evidence_review:
+  method: Re-read MVP-MOD-003-DEF/BE-001/BE-002/FE-001 QA evidence and their security-quality
+    evidence counterparts, and security-quality-index.yaml.
+  result: passed
+  detail: >
+    All 4 prior QA evidence files and 3 prior security-quality evidence files report status
+    passed (FE-001 was independently re-validated with a full npm test/coverage/build/audit run
+    after this project's earlier execution-limited attempt, closing that limitation). No exception
+    or deferred gate remains open for MVP-MOD-003 other than the project-wide TD-QA-001 DAST
+    automation debt, which is not specific to this module.
+
+local_runbook_validation:
+  method: Re-read 09-operations/runbooks/local-solution-runbook.yaml and .md.
+  result: passed
+  detail: >
+    current_active_backlog_item already reads MVP-MOD-003-QA-001. SMOKE-004 and SMOKE-005 already
+    describe the People and Clinical Master Data backend and employee-portal validation steps
+    accurately; no runtime, port, startup-order or validation-command change was introduced by
+    this backlog item, so no runbook step required an update beyond the current_active_backlog_item
+    pointer, which was already correct.
+
+backlog_and_source_of_truth_pointer_validation:
+  method: Repository-wide grep for next_backlog_item/current_backlog_item/active_backlog_item/
+    current_active_backlog_item and for MVP-MOD-003-FE-001 used as a "next" or "current" pointer.
+  result: passed_after_fix
+  detail: >
+    PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml,
+    local-solution-runbook.yaml and the 4 capability traceability.yaml files all correctly point to
+    MVP-MOD-003-QA-001 as current and MVP-MOD-003-CLOSEOUT as next after this backlog item's
+    updates. The one stale pointer found (capability-package-index.yaml, see TRACE-002) was
+    corrected. All remaining MVP-MOD-003-FE-001 references are historical backlog-item identifiers
+    (e.g. "ui: MVP-MOD-003-FE-001", qa_evidence_fe_001 paths), which is expected and correct.
+
+project_state_defect_found_and_fixed:
+  id: DEFECT-001
+  description: >
+    PROJECT_STATE.yaml was found truncated at 261 lines, cut off mid-list inside
+    commercial_product_progress.capability_package_progress.MVP-MOD-002.packages_modeled, missing
+    the remainder of the MVP-MOD-002 block (artifacts_per_package, qa/security-quality evidence
+    pointers, readiness booleans) and the entire trailing execution_flow and ga_gates_defined
+    sections. Root cause: a prior session's file-patch operation truncated the file without a
+    post-write full-file verification; the truncation predates this backlog item's own commit
+    history (present since commit 0f1d745, before MVP-MOD-003-FE-001) and both the FE-001 commit
+    and a subsequent external evidence-closing commit inherited it without noticing because their
+    diffs only touched earlier sections of the file.
+  fix: >
+    Reconstructed the missing tail from the last known-good committed version of PROJECT_STATE.yaml
+    (git commit 0f1d745) and re-appended it after the current (correct) MVP-MOD-003 section. File
+    now parses as valid YAML and contains the complete MVP-MOD-002 closeout record and the
+    execution_flow/ga_gates_defined sections again.
+  severity: high
+  blocking: true
+  status: fixed
+
+agent_agnostic_validation:
+  method: Repository-wide case-insensitive scan of Java/TypeScript/YAML/Markdown source (excluding
+    node_modules, target, .git) for named-agent or vendor-runtime references (claude, anthropic,
+    openai, gpt-, chatgpt, copilot, cursor.so, gemini, azure openai).
+  result: passed
+  detail: No matches outside of the scan pattern definitions themselves inside evidence files
+    (e.g. the rg command text quoted in VAL entries), which are not real findings.
+
+open_source_first_and_security_quality_gate_validation:
+  method: See 08-qa/security-quality/MVP-MOD-003-QA-001/security-quality-evidence.yaml.
+  result: passed_with_execution_limitation
+
+validations:
+  - id: VAL-001
+    name: Backend Maven test suite (no local database)
+    method: mvn --settings .mvn/settings.xml test
+    working_directory: 07-implementation/backend
+    result: not_executed
+    detail: >
+      This sandbox has no Maven executable on PATH or anywhere on the filesystem, and only OpenJDK
+      11 is installed, while the runbook's PRE-002/PRE-003 prerequisites call for Java 21 and
+      Maven 3.9.x. The backend Maven test suite could not be executed here. Backend logic was
+      instead validated by direct source review (see be_002_custom_rule_validation and
+      openapi_contract_validation above) rather than by re-running the existing, already-passing
+      BE-001/BE-002 Maven evidence.
+  - id: VAL-002
+    name: Backend Maven test suite (with local Postgres)
+    method: docker compose --env-file .env.example -f compose.local.yml up -d postgres; mvn
+      --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
+    working_directory: 07-implementation/backend and 07-implementation
+    result: not_executed
+    detail: Same as VAL-001; additionally, this sandbox has no docker executable available.
+  - id: VAL-003
+    name: Employee portal TypeScript static analysis
+    method: npm run typecheck
+    working_directory: 07-implementation/employee-portal
+    result: passed
+    detail: tsc --noEmit completed with 0 errors.
+  - id: VAL-004
+    name: Employee portal unit and UI tests
+    method: npm test -- --run
+    working_directory: 07-implementation/employee-portal
+    result: not_executed
+    detail: "Cannot find module @rollup/rollup-linux-x64-gnu. Confirmed this sandbox's network
+      allowlist still blocks downloading the Linux-native rollup/esbuild binaries (403 Forbidden
+      from registry.npmjs.org), the same limitation documented in
+      MVP-MOD-003-FE-001-validation.yaml before its own follow-up validation resolved it on an
+      unrestricted machine. The FE-001 evidence's own passing 18-test run is accepted as current
+      ground truth for this validation rather than re-executed here."
+  - id: VAL-005
+    name: Employee portal coverage
+    method: npm run test:coverage
+    working_directory: 07-implementation/employee-portal
+    result: not_executed
+    detail: Same root cause as VAL-004.
+  - id: VAL-006
+    name: Employee portal production build
+    method: npm run build
+    working_directory: 07-implementation/employee-portal
+    result: not_executed
+    detail: Same root cause as VAL-004 (Vite build also requires the native rollup binary).
+  - id: VAL-007
+    name: Employee portal dependency audit
+    method: npm audit --audit-level=high
+    working_directory: 07-implementation/employee-portal
+    result: not_executed
+    detail: "npm warn audit 403 Forbidden - POST https://registry.npmjs.org/-/npm/v1/security/audits/quick;
+      Connection blocked by network allowlist."
+  - id: VAL-008
+    name: Full project and framework YAML parse
+    method: Recursive PyYAML safe_load_all over every .yaml/.yml file in the repository excluding
+      node_modules.
+    result: passed
+    detail: "481 files parsed, 0 failures (after fixing DEFECT-001)."
+  - id: VAL-009
+    name: Secrets scan
+    method: "rg -n -i (api[_-]?key|secret|password|passwd|private[_-]?key|client[_-]?secret) with a
+      value-assignment pattern over Java/TypeScript/YAML/properties source, excluding
+      node_modules/target/.git"
+    result: passed
+    detail: No matches found.
+  - id: VAL-010
+    name: Agent-agnostic scan
+    method: See agent_agnostic_validation above.
+    result: passed
+  - id: VAL-011
+    name: Stale-pointer scan
+    method: See backlog_and_source_of_truth_pointer_validation above.
+    result: passed_after_fix
+  - id: VAL-012
+    name: git diff --check (whitespace)
+    method: git diff --check against the working tree, then git diff --cached --check scoped to
+      the files intentionally staged for this backlog item.
+    result: passed_with_preexisting_noise
+    detail: >
+      The unscoped working-tree git diff --check flags trailing-whitespace/line-ending warnings
+      across roughly 1471 files repository-wide. Confirmed via git diff --stat -w (ignoring
+      whitespace) that this is 100% pre-existing CRLF/LF mount-related noise unrelated to any
+      content change made in this or prior HOP backlog items; the only real content change
+      present before this backlog item's own edits was DEFECT-001. git diff --cached --check,
+      scoped to the files intentionally staged for this backlog item's commit, is clean.
+
+model_gaps_identified:
+  - GAP-001 (see be_002_custom_rule_validation)
+  - GAP-002 (see be_002_custom_rule_validation)
+  - GAP-003 (see fe_001_ui_validation)
+  - GAP-004 (see fe_001_ui_validation)
+
+out_of_scope_confirmed:
+  - MVP-MOD-003-CLOSEOUT was not started.
+  - No capability package was redesigned; BUSINESS_REQUIREMENT.md was not modified.
+  - No new capability was created.
+  - No new UI screen, API operation or business rule implementation was added; all findings above
+    were either corrected as evidence/registry defects or registered as non-blocking technical
+    debt for a future backlog item.
+
+backend_defects_found_blocking: []
+
+technical_debt_newly_registered:
+  - TD-BE-007
+  - TD-BE-008
+  - TD-FE-002
+
+blocking_gaps: []
+
+execution_limitation:
+  description: >
+    This sandbox cannot execute the backend Maven suite (no Maven executable, only Java 11 present
+    against a Java 21/Maven 3.9.x requirement, no Docker for the Postgres-backed run) or the
+    employee-portal's Vite/Vitest-based commands (npm test, npm run test:coverage, npm run build,
+    npm audit — all blocked by the same network allowlist restriction on Linux-native rollup/esbuild
+    binaries documented in MVP-MOD-003-FE-001-validation.yaml).
+  mitigation_applied:
+    - Backend custom-rule and contract correctness was validated by direct, line-level review of
+      the actual Java source against each capability's business-rules.yaml and openapi-source.yaml,
+      rather than by re-running the already-passing BE-001/BE-002 Maven evidence.
+    - Frontend contract and UI coverage was validated by direct comparison of peopleApi.ts and the
+      screen components against openapi-source.yaml and traceability.yaml, and by reading the two
+      newly added test files in full and spot-checking their assertions against actual source.
+    - npm run typecheck, the full-project YAML parse, the secrets scan, the agent-agnostic scan and
+      the stale-pointer scan all executed successfully in this sandbox.
+  recommended_follow_up: >
+    Re-run mvn test (with and without -Dhop.local-db-tests=true) and npm test / npm run
+    test:coverage / npm run build / npm audit on a developer machine or CI runner with Java 21,
+    Maven and unrestricted registry access before or during MVP-MOD-003-CLOSEOUT, to reconfirm the
+    already-passing BE-001/BE-002/FE-001 results still hold after this backlog item's evidence and
+    registry corrections (none of which touched application source code).
+
+readiness:
+  mvp_mod_003_qa_001_status: closed_with_execution_limitation
+  module_validated: true
+  ready_for_next_backlog_item: MVP-MOD-003-CLOSEOUT
+  next_backlog_item_name: Module closeout and registry update
+  rationale: >
+    MVP-MOD-003 People and Clinical Master Data has been integrally validated: capability package
+    models are internally consistent, OpenAPI contracts map one-to-one to backend controllers,
+    BE-002 custom rules are implemented with two disclosed medium-severity gaps (proactive
+    credential-expiration scheduling and tenant-configurable read-model masking) now tracked as
+    non-blocking technical debt, FE-001 UI covers its documented minimum scope with a disclosed
+    UI-completeness gap for patient/doctor editing and doctor specialties also now tracked as
+    non-blocking technical debt, all prior QA and security-quality evidence remains passing, the
+    integrated local runbook and all backlog/source-of-truth pointers are consistent and current,
+    a real truncation defect in PROJECT_STATE.yaml was found and fixed, and the project remains
+    agent-agnostic. Executable backend and frontend build/test gates could not run in this sandbox
+    due to missing Maven/Docker and a network allowlist restriction on frontend native binaries;
+    this is disclosed transparently rather than asserted as passing, with source-level review used
+    as a compensating control. No blocking gap remains for MVP-MOD-003-CLOSEOUT.

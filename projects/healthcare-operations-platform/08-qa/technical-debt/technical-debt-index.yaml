@@ -110,3 +110,30 @@ entries:
     affected_area: patient_registration_commit_orchestration
     file: 08-qa/technical-debt/TD-BE-006-patient-registration-commit-non-atomic.yaml
     remediation_strategy: gradual_when_backend_transaction_infrastructure_is_next_touched
+  - id: TD-BE-007
+    title: Professional credential expiration is not proactively transitioned by a scheduler and does not flag doctors for re-verification
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-003-QA-001
+    affected_area: doctor_management_credential_lifecycle
+    file: 08-qa/technical-debt/TD-BE-007-credential-expiration-scheduler-missing.yaml
+    remediation_strategy: gradual_when_doctor_credential_lifecycle_is_next_touched
+  - id: TD-BE-008
+    title: PatientSnapshot/DoctorSnapshot document and credential number masking is fixed, not tenant-configurable
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-003-QA-001
+    affected_area: patient_and_doctor_read_model_privacy
+    file: 08-qa/technical-debt/TD-BE-008-read-model-masking-not-tenant-configurable.yaml
+    remediation_strategy: gradual_when_tenant_configuration_surface_is_next_extended
+  - id: TD-FE-002
+    title: Employee portal is missing patient/doctor update, patient document management and doctor specialty assignment UI
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: MVP-MOD-003-QA-001
+    affected_area: employee_portal_people_and_clinical_master_data_screens
+    file: 08-qa/technical-debt/TD-FE-002-patient-doctor-update-documents-specialty-ui-missing.yaml
+    remediation_strategy: gradual_when_a_future_ui_backlog_item_covers_patient_or_doctor_editing

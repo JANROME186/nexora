@@ -120,4 +120,8 @@ traces:
     ui_status: closed
     ui_qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-FE-001-validation.yaml
     ui_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-003-FE-001/security-quality-evidence.yaml
+    validation: MVP-MOD-003-QA-001
+    validation_status: closed_with_execution_limitation
+    validation_qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-QA-001-validation.yaml
+    validation_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-003-QA-001/security-quality-evidence.yaml
 

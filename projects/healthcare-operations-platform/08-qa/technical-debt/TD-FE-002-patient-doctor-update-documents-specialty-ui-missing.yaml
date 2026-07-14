@@ -1,0 +1,73 @@
+artifact:
+  id: TD-FE-002
+  type: technical-debt-item
+  name: Employee portal is missing patient/doctor update, patient document management and doctor specialty assignment UI
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-14
+
+source:
+  discovered_during_backlog_item: MVP-MOD-003-QA-001
+  module: MVP-MOD-003 People and Clinical Master Data
+  evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-QA-001-validation.yaml
+
+classification:
+  category: ui_completeness
+  affected_area: employee_portal_people_and_clinical_master_data_screens
+  affected_components:
+    - 07-implementation/employee-portal/src/api/peopleApi.ts
+    - 07-implementation/employee-portal/src/components/screens/PatientsScreen.tsx
+    - 07-implementation/employee-portal/src/components/screens/DoctorsScreen.tsx
+  risk_level: low
+  blocking: false
+  reason_non_blocking: >
+    All operations were already explicitly scoped out of MVP-MOD-003-FE-001's minimum required
+    scope (see MVP-MOD-003-FE-001-validation.yaml out_of_scope_confirmed, which named the
+    patient/doctor editor screens, patient documents panel and doctor specialty panel as
+    deliberately not built). The backend already supports every one of these operations as
+    generatable, tested endpoints (verified by PeopleClinicalMasterDataContractTest and the BE-001
+    contract check), so this is a pure client/UI gap with no backend risk. Registering it here makes
+    the gap trackable for a future backlog item instead of leaving it as an undocumented omission.
+
+current_state:
+  issue: >
+    Comparing the four capability packages' openapi-source.yaml operations against
+    07-implementation/employee-portal/src/api/peopleApi.ts, 11 of 42 modeled operations have no
+    exported client function and therefore no UI: updatePatient, deactivatePatient,
+    updatePatientRepresentative, listPatientDocuments, attachPatientDocument, removePatientDocument
+    (all BCM-PER-002), and updateDoctor, retireDoctor, listSpecialtyAssignments, assignSpecialty,
+    unassignSpecialty (all BCM-PER-003). Additionally, 3 functions that do exist in peopleApi.ts
+    (getPatient, getDoctor, getPatientRegistration) are exported but never called from any screen
+    (PatientsScreen/DoctorsScreen use the *Snapshot variants instead, and
+    PatientRegistrationsScreen relies on the in-memory list rather than a per-row detail fetch),
+    which is minor dead code rather than a functional gap.
+  compensating_control:
+    - Every operation in this list is reachable and already tested through the backend REST API
+      directly (e.g. via the smoke validation SMOKE-004 in the local runbook), so administrators
+      with API access are not blocked; only the employee-portal UI convenience is missing.
+
+target_state:
+  preferred_open_source_tooling:
+    - No new tooling required; extend peopleApi.ts with the 11 missing client functions and add
+      edit/documents/specialty panels to PatientsScreen.tsx and DoctorsScreen.tsx following the
+      same useAsyncAction/StatusBanner/ConfirmDialog patterns already used in those files.
+  expected_integration_points:
+    - 07-implementation/employee-portal/src/api/peopleApi.ts
+    - 07-implementation/employee-portal/src/components/screens/PatientsScreen.tsx (SCR-PAT-002-02
+      editor, SCR-PAT-002-06 documents panel, representative update)
+    - 07-implementation/employee-portal/src/components/screens/DoctorsScreen.tsx (SCR-DOC-003-02
+      editor, SCR-DOC-003-04 specialty panel)
+
+remediation:
+  strategy: gradual_when_a_future_ui_backlog_item_covers_patient_or_doctor_editing
+  recommended_trigger:
+    - A future MVP-MOD-003 follow-up UI backlog item, or a subsequent module that requires
+      editing patient/doctor demographic data, documents or doctor specialties from the portal
+  acceptance_criteria:
+    - peopleApi.ts exports a function for every operation declared in the 4 capability packages'
+      openapi-source.yaml files.
+    - PatientsScreen.tsx and DoctorsScreen.tsx expose update, and PatientsScreen.tsx exposes
+      document management, and DoctorsScreen.tsx exposes specialty assignment, each with
+      loading/error/empty/confirmation states consistent with the rest of the module.
+    - getPatient/getDoctor/getPatientRegistration are either wired into a screen or removed if
+      confirmed unnecessary.

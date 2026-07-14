@@ -1,0 +1,184 @@
+artifact:
+  id: HOP-SEC-MVP-MOD-003-QA-001-001
+  type: security-quality-evidence
+  name: MVP-MOD-003-QA-001 People and Clinical Master Data Integrated Validation Security & Quality Evidence
+  version: 1.0.0
+  status: passed_with_execution_limitation
+  human_readable: security-quality-evidence.md
+  machine_readable: security-quality-evidence.yaml
+  created_date: 2026-07-14
+  owner: Nexora Product Architecture Team
+
+scope:
+  backlog_item: MVP-MOD-003-QA-001
+  module: MVP-MOD-003 People and Clinical Master Data
+  related_qa_evidence: ../../qa/people-and-clinical-master-data/MVP-MOD-003-QA-001-validation.yaml
+  predecessor_evidence:
+    - 08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.yaml
+    - 08-qa/security-quality/MVP-MOD-003-BE-002/security-quality-evidence.yaml
+    - 08-qa/security-quality/MVP-MOD-003-FE-001/security-quality-evidence.yaml
+
+quality_gates:
+  - id: QG-001
+    name: Backend Maven test suite (no local database)
+    command: mvn --settings .mvn/settings.xml test
+    working_directory: 07-implementation/backend
+    result: not_executed
+    detail: No Maven executable available in this sandbox; only OpenJDK 11 present against the
+      runbook's Java 21/Maven 3.9.x prerequisite. See exception EX-001.
+  - id: QG-002
+    name: Backend Maven test suite (with local Postgres)
+    command: docker compose --env-file .env.example -f compose.local.yml up -d postgres; mvn
+      --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
+    working_directory: 07-implementation/backend and 07-implementation
+    result: not_executed
+    detail: Same as QG-001; no Docker executable available either. See exception EX-001.
+  - id: QG-003
+    name: Employee portal TypeScript static analysis
+    command: npm run typecheck
+    working_directory: 07-implementation/employee-portal
+    result: passed
+    detail: tsc --noEmit completed with 0 errors.
+  - id: QG-004
+    name: Employee portal unit/UI test suite
+    command: npm test -- --run
+    working_directory: 07-implementation/employee-portal
+    result: not_executed
+    detail: "Cannot find module @rollup/rollup-linux-x64-gnu; 403 Forbidden from
+      registry.npmjs.org for the native binary. See exception EX-002."
+  - id: QG-005
+    name: Employee portal coverage
+    command: npm run test:coverage
+    working_directory: 07-implementation/employee-portal
+    result: not_executed
+    detail: Same as QG-004. See exception EX-002.
+  - id: QG-006
+    name: Employee portal production build
+    command: npm run build
+    working_directory: 07-implementation/employee-portal
+    result: not_executed
+    detail: Same as QG-004 (Vite build needs the same native rollup binary). See exception EX-002.
+  - id: QG-007
+    name: Employee portal dependency vulnerability audit
+    command: npm audit --audit-level=high
+    working_directory: 07-implementation/employee-portal
+    result: not_executed
+    detail: "403 Forbidden - POST registry.npmjs.org/-/npm/v1/security/audits/quick; Connection
+      blocked by network allowlist. See exception EX-002."
+  - id: QG-008
+    name: Full project and framework YAML parse
+    command: Recursive PyYAML safe_load_all over every .yaml/.yml file excluding node_modules
+    result: passed
+    detail: "481 files parsed, 0 failures, after fixing a genuine PROJECT_STATE.yaml truncation
+      defect found during this validation (see related QA evidence DEFECT-001)."
+  - id: QG-009
+    name: Secrets scan
+    command: "rg -n -i (api[_-]?key|secret|password|passwd|private[_-]?key|client[_-]?secret) with
+      a value-assignment pattern over Java/TypeScript/YAML/properties source"
+    working_directory: repository_root
+    result: passed
+    detail: No matches found.
+  - id: QG-010
+    name: Agent-agnostic scan
+    command: "rg -n -i (claude|anthropic|openai|gpt-|chatgpt|copilot|cursor\\.so|gemini|azure
+      openai) over Java/TypeScript/YAML/Markdown source"
+    working_directory: repository_root
+    result: passed
+    detail: No matches outside of scan-pattern text quoted inside evidence files (not real
+      findings).
+  - id: QG-011
+    name: Stale-pointer / backlog registry scan
+    command: rg scan for next_backlog_item/current_backlog_item/active_backlog_item and for
+      MVP-MOD-003-FE-001 used as a next/current pointer, across PROJECT_STATE.yaml,
+      SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml, the local runbook, the
+      4 capability traceability.yaml files, and capability-package-index.yaml
+    result: passed_after_fix
+    detail: One stale pointer found (capability-package-index.yaml active_capability_package_group)
+      and corrected. All other registries were already consistent.
+  - id: QG-012
+    name: OpenAPI-to-controller contract cross-check
+    command: Manual line-level comparison of all 4 packages' openapi-source.yaml operations
+      against their backend controllers' Spring MVC route mappings
+    result: passed
+    detail: 42/42 operations map one-to-one in both directions across PersonController,
+      PatientController, DoctorController and PatientRegistrationController.
+  - id: QG-013
+    name: BE-002 custom-rule source-level review
+    command: Manual review of the actual backend Java source against each capability's
+      business-rules.yaml custom rule statements
+    result: passed_with_findings
+    detail: Two medium-severity, non-blocking gaps found and disclosed (RN-005 credential
+      expiration scheduler, RN-008 tenant-configurable read-model masking); tracked as TD-BE-007
+      and TD-BE-008. See related QA evidence for detail.
+  - id: QG-014
+    name: FE-001 API/UI coverage source-level review
+    command: Manual comparison of peopleApi.ts and the 4 screen components against
+      openapi-source.yaml operations and traceability.yaml ui_to_api entries
+    result: passed_with_findings
+    detail: One low-severity, non-blocking, previously-disclosed-as-out-of-scope UI-completeness
+      gap formally tracked as TD-FE-002. See related QA evidence for detail.
+  - id: QG-015
+    name: git diff --check (whitespace)
+    command: git diff --check (unstaged, whole working tree) and git diff --cached --check
+      (scoped to this backlog item's intentional staged changes)
+    result: passed_with_preexisting_noise
+    detail: Unscoped check flags ~1471 pre-existing CRLF/LF files unrelated to this backlog item's
+      changes (confirmed via git diff --stat -w). Scoped cached check is clean.
+
+exceptions:
+  - id: EX-001
+    gate: QG-001, QG-002
+    reason: >
+      This execution sandbox has no Maven executable anywhere on the filesystem and only OpenJDK
+      11 is installed, while the project's runbook (09-operations/runbooks/local-solution-runbook.yaml
+      PRE-002/PRE-003) requires Java 21 and Maven 3.9.x. Docker is also unavailable, so the
+      Postgres-backed run could not be attempted either. This is an environment constraint of the
+      current execution sandbox, not a defect in the delivered evidence or code.
+    compensating_control: >
+      Backend correctness was validated by direct source-level review (QG-012, QG-013) against
+      the modeled contracts and rules, rather than by re-running the already-passing
+      BE-001/BE-002 Maven evidence (58 tests, 0 failures, both with and without local Postgres,
+      per MVP-MOD-003-BE-002-validation.yaml).
+    approved_by: Nexora Product Architecture Team
+    expiry: On first execution of mvn test in an environment with Java 21, Maven and Docker
+      available (developer machine or CI), during or before MVP-MOD-003-CLOSEOUT.
+  - id: EX-002
+    gate: QG-004, QG-005, QG-006, QG-007
+    reason: >
+      This sandbox's network allowlist blocks downloading the Linux-native
+      @rollup/rollup-linux-x64-gnu binary (403 Forbidden from registry.npmjs.org) and the npm audit
+      endpoint, the same constraint already documented and later resolved on an unrestricted
+      machine in MVP-MOD-003-FE-001-validation.yaml.
+    compensating_control: >
+      npm run typecheck passed with 0 errors (QG-003). FE-001's own already-passing 18-test/
+      coverage/build/audit results (recorded after that backlog item's own follow-up validation on
+      an unrestricted machine) are accepted as current ground truth. Additionally, the two new
+      FE-001 test files were read in full and their assertions spot-checked against actual
+      component/API source as a further compensating control (QG-014).
+    approved_by: Nexora Product Architecture Team
+    expiry: On first execution of npm test / npm run build / npm audit in an unrestricted
+      environment, during or before MVP-MOD-003-CLOSEOUT.
+
+technical_debt:
+  - id: TD-BE-007
+    title: Professional credential expiration is not proactively transitioned by a scheduler and
+      does not flag doctors for re-verification
+    ref: ../../technical-debt/TD-BE-007-credential-expiration-scheduler-missing.yaml
+    severity: medium
+  - id: TD-BE-008
+    title: PatientSnapshot/DoctorSnapshot document and credential number masking is fixed, not
+      tenant-configurable
+    ref: ../../technical-debt/TD-BE-008-read-model-masking-not-tenant-configurable.yaml
+    severity: medium
+  - id: TD-FE-002
+    title: Employee portal is missing patient/doctor update, patient document management and
+      doctor specialty assignment UI
+    ref: ../../technical-debt/TD-FE-002-patient-doctor-update-documents-specialty-ui-missing.yaml
+    severity: low
+
+overall_result: passed_with_execution_limitation
+recommendation: >
+  Proceed to MVP-MOD-003-CLOSEOUT. Re-run the backend Maven suite and the employee-portal
+  npm test/coverage/build/audit gates in an unrestricted environment as an early step of that
+  backlog item, and update QG-001/QG-002/QG-004..QG-007 and EX-001/EX-002 here once that run
+  completes. TD-BE-007, TD-BE-008 and TD-FE-002 do not block closeout.

@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-003-QA-001
+  current_active_backlog_item: MVP-MOD-003-CLOSEOUT
   intended_audience:
     - human_reviewer
     - qa_reviewer
