@@ -3,7 +3,7 @@ artifact:
   type: stack-quality-toolchain-baseline
   name: HOP Stack Quality Toolchain Baseline
   version: 1.0.0
-  status: active_with_gaps_dispositioned
+  status: active_with_mandatory_debt_first_remediation
   created_date: 2026-07-09
   last_refreshed_date: 2026-07-09
   standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
@@ -42,11 +42,12 @@ toolchain_by_stack:
       - category: Dependency vulnerabilities
         tool: OWASP Dependency-Check
         status: not_yet_configured
-        required_action: add_or_document_alternative_dependency_scan
+        required_action: add_or_document_alternative_dependency_scan_all_severities
       - category: Containers, filesystem and secrets
         tool: Trivy
         status: configured_manually
         evidence: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.yaml
+        required_action: run_without_severity_filter_for_backlog_closure
       - category: SBOM
         tool: CycloneDX Maven Plugin
         status: not_yet_configured
@@ -87,9 +88,12 @@ toolchain_by_stack:
     gaps_to_evaluate:
       - ESLint
       - Semgrep CE
+      - duplicate-code detector such as jscpd
+      - complexity rules such as ESLint complexity or sonarjs cognitive-complexity
       - frontend DAST with OWASP ZAP when runnable surface is available
       - SBOM generation
       - license review automation
+      - localization/i18n literal scan for user-visible strings
   mobile_typescript:
     applicable: true
     component: 07-implementation/mobile-app
@@ -98,6 +102,37 @@ toolchain_by_stack:
       - final mobile renderer stack before native UI implementation
       - mobile test and coverage gate
       - dependency and license scans
+      - duplicate-code and complexity analysis
+      - secure-code analysis
+      - localization resource validation
+
+enterprise_quality_gate_policy:
+  effective_from_next_code_changing_backlog: true
+  debt_first_required: true
+  all_severity_vulnerability_scans_required: true
+  message_externalization_required: true
+  required_per_changed_stack:
+    - best_practices
+    - coding_standards
+    - duplicate_code
+    - complexity
+    - owasp_or_secure_code
+    - dependency_vulnerabilities_all_severities
+    - secrets
+    - coverage
+    - message_externalization_and_i18n
+  closure_blockers:
+    - no_existing_technical_debt_item_resolved_or_materially_reduced_when_open_debt_exists
+    - vulnerability_scan_filtered_only_to_high_or_critical
+    - missing_duplicate_code_or_complexity_analysis
+    - missing_owasp_or_secure_code_analysis
+    - unexternalized_user_visible_messages_error_prose_or_magic_strings
+  next_iteration_debt_candidates:
+    - TD-BE-002
+    - TD-BE-003
+    - TD-BE-004
+    - TD-QA-001
+    - TD-FE-002
 
 mvp_mod_002_closeout_disposition:
   performed_during: MVP-MOD-002-CLOSEOUT
@@ -121,7 +156,7 @@ mvp_mod_002_closeout_disposition:
       - PIT/Pitest mutation testing - reserved for core-domain/high-risk hardening.
       - OpenRewrite - reserved for future modernization or framework migration.
   registered_as_gradual_debt:
-    description: Non-blocking gaps routed to the technical-debt backlog.
+    description: Active gaps routed to the technical-debt backlog. At least one open item must be resolved or materially reduced before every code-changing backlog item.
     items:
       - id: TD-BE-002
         tools: [SpotBugs, Find Security Bugs, PMD, PMD CPD, Checkstyle, Semgrep CE]
@@ -149,13 +184,14 @@ technical_debt_items_created_or_updated:
     reason: Gradual major framework/runtime modernization roadmap.
 
 next_actions:
-  - Add backend static analysis and SAST (TD-BE-002) when shared backend infrastructure is next touched.
-  - Add backend coverage gate (TD-BE-003) with JaCoCo before commercial release readiness.
-  - Add SBOM, license and build-rule gates (TD-BE-004) before release readiness.
-  - Add automated DAST (TD-QA-001) before release hardening.
+  - Add backend static analysis and SAST (TD-BE-002) during the next backend-touching iteration or earlier.
+  - Add backend coverage gate (TD-BE-003) with JaCoCo during the next backend-touching iteration or earlier.
+  - Add SBOM, license and build-rule gates (TD-BE-004) as incremental debt remediation, not only at release readiness.
+  - Add automated DAST (TD-QA-001) as an active quality debt item; do not wait for release hardening when a runnable surface is available.
   - Revisit the stack modernization roadmap (TD-STACK-001) at each module closeout.
 
 decision:
   mvp_mod_002_closeout_toolchain_review_completed: true
   ready_for_mvp_mod_002_closeout_execution: true
   ready_for_release_without_toolchain_gap_review: false
+  ready_for_future_code_backlog_without_debt_first_action: false

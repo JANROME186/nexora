@@ -3,7 +3,7 @@
 **Artifact ID:** `NXF-OSS-SEC-QUAL-001`  
 **Status:** Approved  
 **Machine-readable source:** `open-source-first-security-quality-standard.yaml`
-**Version:** `1.2.0`
+**Version:** `1.3.0`
 
 ## Purpose
 
@@ -57,14 +57,71 @@ Required checks, when applicable:
 
 - Unit, integration and contract tests.
 - SAST or static analysis for the changed stack.
-- Dependency vulnerability analysis.
+- Dependency vulnerability analysis across all severities supported by the selected tool.
 - Secrets scan.
+- Best-practice and coding-standard analysis for the changed stack.
+- Duplicate-code analysis.
+- Complexity analysis.
+- OWASP Top 10 or stack-equivalent secure-code analysis.
 - Code coverage report.
+- Message externalization, i18n and magic-string review.
 - DAST when a runnable web/API surface exists.
 - Container and infrastructure scan when deployment assets change.
 - License review when dependencies change.
 - Technology evolution review against current open source options.
 - Technical-debt backlog update when non-blocking upgrade or migration findings exist.
+
+## Enterprise Stack Quality
+
+Every changed layer must be reviewed with stack-appropriate open source tooling:
+
+- Backend.
+- Frontend web.
+- Mobile app.
+- API contracts.
+- Infrastructure and containers.
+- Integrations.
+- Generated code when it is part of the delivered runtime.
+
+The review must cover best practices, standards, duplicated code, complexity, OWASP or equivalent
+secure-coding checks, dependency vulnerabilities, secrets, coverage, architecture boundaries when
+defined, and message externalization/i18n.
+
+Filtering vulnerability scans to only `HIGH` and `CRITICAL` is not enough. The scan must include all
+severities supported by the tool, and every finding must be fixed, triaged or recorded as an
+immediate remediation item with owner, target backlog and expiration.
+
+## Debt First
+
+Before any code-changing backlog item starts feature implementation, the agent must inspect:
+
+`08-qa/technical-debt/technical-debt-index.yaml`
+
+If open debt exists, at least one item must be resolved or materially reduced first. Selection order:
+
+- Blocking or security-related debt.
+- Debt affecting the stack or component being touched.
+- Highest urgency, then highest risk.
+- Oldest open item.
+
+If no open debt exists, the evidence must explicitly say so. A backlog item cannot close when open
+debt existed at the start and no debt item was addressed before feature work.
+
+## Messages And I18n
+
+Applications must be multilingual-ready by design. Agents must not leave new user-visible text,
+validation copy, error prose, status labels, repeated magic strings or configurable business values
+hard-coded inside implementation code.
+
+Expected patterns:
+
+- Backend: stable domain error codes, resource bundles/message catalogs, policy/configuration
+  providers, constants, enums or value objects for repeated identifiers.
+- Frontend web: localization dictionaries, stable API error-code mapping, constants for routes,
+  permissions, statuses, query keys and feature flags.
+- Mobile app: platform localization resources such as ARB, JSON, ICU messages or equivalent.
+
+Tests should assert stable codes and parameters instead of prose messages when possible.
 
 ## Technical-Debt Backlog
 
@@ -106,8 +163,9 @@ Agents must prefer supported stable or LTS versions. They must not adopt a new m
 because it exists; they must evaluate stability, ecosystem support, security posture, migration cost
 and compatibility with the required quality gates.
 
-When an update is required to remove critical/high risk, unsupported runtimes, incompatible quality
-gates or blocking build failures, it must be handled before closing the backlog item. Beneficial but
+When an update is required to remove security risk that cannot be safely accepted, unsupported
+runtimes, incompatible quality gates or blocking build failures, it must be handled before closing
+the backlog item. Beneficial but
 non-blocking updates must be registered as technical debt for gradual remediation.
 
 ## Quality Gate Execution Policy
@@ -185,17 +243,24 @@ For Java/Maven services, the framework expects a stack-specific quality toolchai
 
 This table is a baseline, not a universal command to install every tool immediately. If a tool is
 not safe or practical to adopt during the active backlog item, the agent must document the reason and
-register technical debt unless the missing tool blocks release or hides critical/high risk.
+register technical debt unless the missing tool blocks release or hides unresolved security risk.
 
 ## Fail Conditions
 
 A backlog item must not be closed when it introduces:
 
-- Critical or high vulnerabilities without an accepted risk.
+- New or unresolved vulnerabilities of any severity without remediation, accepted risk and an
+  immediate target backlog.
 - Secrets.
-- Critical or high SAST findings without an accepted risk.
+- SAST or secure-code findings without disposition.
 - Failing tests.
 - Undocumented coverage regression.
+- Missing best-practice, coding-standard, duplicate-code, complexity or OWASP/secure-code analysis
+  for the changed stack.
+- Open technical debt at iteration start when no debt item was resolved or materially reduced before
+  feature work.
+- New hard-coded user-facing messages, validation copy, error prose, status labels, configurable
+  values or repeated magic strings that are not externalized or dispositioned.
 - Required executable quality gates that were not actually run.
 - Missing or unsupported required toolchains, runtimes, native build binaries or audit endpoints.
 - Evidence marked `passed_with_execution_limitation` or `closed_with_execution_limitation`.
@@ -211,6 +276,7 @@ Each evidence YAML must include:
 - Open-source-first assessment.
 - Client stack market validation when applicable.
 - Stack-specific quality toolchain baseline.
+- Technical-debt first action.
 - Tools and commands run.
 - Results.
 - Coverage summary.
@@ -218,6 +284,10 @@ Each evidence YAML must include:
 - SAST summary.
 - DAST summary when applicable.
 - Secrets scan summary.
+- Duplicate-code summary.
+- Complexity summary.
+- OWASP or secure-code summary.
+- Message externalization summary.
 - License summary.
 - Technology evolution review.
 - Technical-debt items created or updated.

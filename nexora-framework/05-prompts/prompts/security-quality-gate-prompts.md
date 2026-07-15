@@ -3,7 +3,7 @@
 **Artifact ID:** `NXF-SQ-PROMPTS-001`  
 **Status:** Approved  
 **Machine-readable source:** `security-quality-gate-prompts.yaml`
-**Version:** `1.2.0`
+**Version:** `1.3.0`
 
 Use these prompts with the Open Source First Security and Quality Standard.
 
@@ -20,15 +20,18 @@ The output must include:
 - Official sources checked.
 - Current stable or LTS version decisions.
 - Market-practice comparison.
-- Required quality toolchain by stack.
+- Required quality toolchain by stack and layer.
 - Risks and gaps.
 - Immediate changes to apply.
 - Technical-debt items to create or update.
 - Selected stack baseline.
 
-For Java/Maven, consider SonarLint, SpotBugs, Find Security Bugs, Checkstyle, PMD, PMD CPD, JaCoCo,
-OWASP Dependency-Check, Trivy, CycloneDX Maven Plugin, Maven Enforcer, License Maven Plugin,
-PIT/Pitest, ArchUnit, OpenRewrite and Semgrep CE according to applicability.
+The required toolchain must cover best practices, coding standards, duplicate code, complexity,
+OWASP or stack-equivalent secure coding, dependency vulnerabilities across all severities, secrets,
+coverage, architecture rules when applicable and message externalization/i18n. For Java/Maven,
+consider SonarLint, SpotBugs, Find Security Bugs, Checkstyle, PMD, PMD CPD, JaCoCo, OWASP
+Dependency-Check, Trivy, CycloneDX Maven Plugin, Maven Enforcer, License Maven Plugin, PIT/Pitest,
+ArchUnit, OpenRewrite and Semgrep CE according to applicability.
 
 ## Open-Source-First Assessment
 
@@ -43,11 +46,18 @@ would materially improve security, maintainability, portability, cost or ecosyst
 For every code-changing backlog item, probe the required toolchain first and then run applicable
 checks:
 
+- Technical-debt first action: resolve or materially reduce at least one open debt item before
+  feature work, unless no debt exists.
 - Tests.
+- Best-practice and coding-standard checks.
 - SAST/static analysis.
-- Dependency vulnerability scan.
+- Duplicate-code checks.
+- Complexity checks.
+- OWASP or stack-equivalent secure-code checks.
+- Dependency vulnerability scan across all severities.
 - Secrets scan.
 - Coverage.
+- Message externalization, i18n and magic-string review.
 - Contract quality.
 - DAST when a runnable web/API surface exists.
 - Container/IaC scan when deployment assets change.
@@ -64,8 +74,10 @@ Write evidence under:
 
 `08-qa/security-quality/<backlog-item-id>/`
 
-Do not close the backlog when critical/high findings, secrets, failing tests, undocumented coverage
-regressions or unexecuted mandatory gates remain unresolved. Do not use
+Do not close the backlog when vulnerabilities of any severity, secure-code findings, secrets,
+failing tests, missing duplicate/complexity/OWASP analysis, undocumented coverage regressions,
+missing debt-first execution, hard-coded messages/magic strings or unexecuted mandatory gates remain
+unresolved. Do not use
 `passed_with_execution_limitation` or `closed_with_execution_limitation` as final states. Use
 `blocked_by_environment` or `ready_for_external_validation`, keep `next_backlog_item` unchanged,
 and write exact remediation commands.
@@ -89,7 +101,8 @@ security and quality gates. Also review the project technology debt index and co
 resolved, accepted, prioritized or explicitly deferred with rationale.
 
 Module closeout must re-run or verify non-limited passed evidence for all required backend,
-frontend, mobile, API, dependency, coverage, build and security gates. Do not recommend the next
+frontend, mobile, API, dependency, coverage, build and security gates, including duplicate-code,
+complexity, OWASP/secure-code and message externalization reviews. Do not recommend the next
 module while any required gate is `not_executed`, `passed_with_execution_limitation`,
 `closed_with_execution_limitation`, `blocked_by_missing_toolchain`, `blocked_by_network` or
 `blocked_by_unsupported_runtime`.

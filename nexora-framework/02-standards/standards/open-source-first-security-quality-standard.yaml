@@ -2,7 +2,7 @@ artifact:
   id: NXF-OSS-SEC-QUAL-001
   type: framework-standard
   name: Open Source First Security and Quality Standard
-  version: 1.2.0
+  version: 1.3.0
   status: approved
   human_readable: open-source-first-security-quality-standard.md
   machine_readable: open-source-first-security-quality-standard.yaml
@@ -25,7 +25,7 @@ technology_evolution_policy:
     - every_dependency_change
     - every_module_closeout
     - every_release_readiness_gate
-    - whenever a critical/high vulnerability, unsupported runtime, deprecated framework or major ecosystem shift is detected
+    - whenever an unresolved vulnerability, unsupported runtime, deprecated framework or major ecosystem shift is detected
   agents_must_detect:
     - unsupported_or_end_of_life_runtime
     - deprecated_framework_or_library
@@ -106,9 +106,9 @@ client_stack_market_validation_policy:
       - outdated_tutorials
       - isolated_social_media_opinions
   decision_rule: >
-    Apply immediately any update required to remove critical/high security
-    findings, unsupported runtimes, incompatible quality gates or blocking
-    build failures. For beneficial but non-blocking improvements, create or
+    Apply immediately any update required to remove security findings that
+    cannot be safely accepted, unsupported runtimes, incompatible quality gates
+    or blocking build failures. For beneficial but non-blocking improvements, create or
     update technical-debt backlog items and plan gradual remediation when the
     affected components are touched.
 
@@ -195,6 +195,155 @@ quality_gate_execution_policy:
       as final closure states.
     - Use blocked_by_environment or ready_for_external_validation for incomplete
       mandatory gates.
+
+enterprise_stack_quality_policy:
+  purpose: >
+    Ensure every technology stack and product layer is analyzed with enterprise
+    quality, security and maintainability expectations before development
+    continues.
+  applies_to_layers:
+    - backend
+    - frontend_web
+    - mobile_app
+    - api_contracts
+    - infrastructure
+    - integration
+    - generated_code
+  required_analysis_categories_for_each_changed_stack:
+    - best_practices
+    - coding_standards_and_style
+    - duplicate_code
+    - cyclomatic_or_cognitive_complexity
+    - owasp_top_10_or_stack_equivalent
+    - secure_coding
+    - dependency_vulnerabilities_all_severities
+    - secrets
+    - license_and_open_source_policy_when_dependencies_change
+    - coverage
+    - architecture_boundaries_when_architecture_rules_exist
+    - message_externalization_and_i18n
+  required_tool_categories:
+    backend:
+      - unit_and_integration_tests
+      - style_or_lint
+      - static_analysis
+      - sast_secure_code
+      - duplicate_code_detector
+      - complexity_detector
+      - dependency_vulnerability_scan_all_severities
+      - secrets_scan
+      - coverage
+      - architecture_rules_when_available
+      - i18n_or_message_catalog_validation
+    frontend_web:
+      - typecheck
+      - lint_or_static_analysis
+      - sast_secure_code
+      - duplicate_code_detector
+      - complexity_detector
+      - dependency_vulnerability_scan_all_severities
+      - secrets_scan
+      - coverage
+      - production_build
+      - accessibility_when_ui_changes
+      - i18n_literal_scan
+    mobile_app:
+      - analyzer_or_lint
+      - unit_widget_or_component_tests
+      - sast_secure_code
+      - duplicate_code_detector
+      - complexity_detector
+      - dependency_vulnerability_scan_all_severities
+      - secrets_scan
+      - coverage
+      - localization_resource_validation
+    infrastructure:
+      - infrastructure_static_analysis
+      - container_scan_all_severities
+      - secrets_scan
+      - misconfiguration_scan
+      - sbom_when_releasable
+  vulnerability_policy:
+    severity_scope: all
+    required_scan_configuration: >
+      Vulnerability and dependency scans must include all severities supported
+      by the tool. Filtering only HIGH or CRITICAL is insufficient for backlog
+      closure.
+    closure_rule: >
+      A backlog item must not close with unresolved known vulnerabilities of any
+      severity introduced or exposed by the changed stack. If remediation is too
+      large for the current slice, create an immediate technical-debt item, mark
+      it as next-priority remediation, notify it in the handoff and do not hide
+      the risk from module or release closeout.
+    accepted_risk_required_for_any_unresolved_vulnerability: true
+    accepted_risk_must_include:
+      - vulnerability_id_or_tool_finding
+      - affected_component
+      - severity
+      - exploitability_or_reachability
+      - business_impact
+      - reason_not_fixed_now
+      - target_backlog_item
+      - owner_or_responsible_role
+      - expiration_date
+  message_externalization_policy:
+    purpose: >
+      Keep business messages, UI labels, validation text, error descriptions,
+      error codes and configurable values decoupled from implementation code so
+      products are multilingual, modular and easier to evolve.
+    applies_to:
+      - user_visible_text
+      - validation_messages
+      - error_titles_and_descriptions
+      - domain_error_codes
+      - audit_or_notification_templates
+      - status_labels
+      - configurable_business_thresholds
+      - repeated_magic_strings_or_numbers
+    backend_expectations:
+      - Use stable domain error codes and message/resource bundles or equivalent message catalogs.
+      - Return API error codes and parameters; avoid asserting prose messages in tests.
+      - Keep tenant-configurable values in configuration, rule models or policy providers.
+      - Use constants, value objects or enums for repeated technical identifiers.
+    frontend_web_expectations:
+      - Use localization dictionaries or message catalogs for visible text and validation copy.
+      - Keep API error mapping by stable codes, not hard-coded prose.
+      - Avoid magic strings for routes, permissions, statuses, query keys and feature flags.
+    mobile_app_expectations:
+      - Use platform localization resources such as ARB, JSON, ICU messages or equivalent.
+      - Keep shared status/error mappings aligned with canonical API error codes.
+    closure_rule: >
+      New or changed user-visible messages, validation text, error prose, status
+      labels or repeated magic strings must be externalized or explicitly
+      registered as immediate technical debt before the backlog can close.
+
+technical_debt_first_execution_policy:
+  purpose: >
+    Prevent technical debt from accumulating as passive documentation while
+    normal feature development continues.
+  rule: >
+    Before implementing any code-changing backlog item, the agent must inspect
+    08-qa/technical-debt/technical-debt-index.yaml and select at least one open
+    technical-debt item to resolve or materially reduce first.
+  selection_order:
+    - blocking_or_security_related_items
+    - items_affecting_the_stack_or_component_touched_by_the_selected_backlog
+    - highest_urgency_then_highest_risk
+    - oldest_open_item
+  no_open_debt_rule: >
+    If no open technical-debt item exists, evidence must explicitly record that
+    the index was reviewed and no debt-first action was required.
+  evidence_must_include:
+    - technical_debt_index_reviewed
+    - selected_technical_debt_item
+    - reason_selected
+    - action_taken_before_feature_work
+    - validation_evidence
+    - resulting_status
+  closure_rule: >
+    A code-changing backlog item must not close unless at least one existing
+    technical-debt item was resolved or materially reduced first, or the project
+    had no open technical debt at iteration start.
 
 open_source_first_policy:
   default_position: Prefer open source, self-hostable, standards-based technologies.
@@ -399,28 +548,37 @@ stack_quality_toolchain_baselines:
       Use the project-local build system where practical. If a tool cannot be
       added safely during the active backlog item, document the reason and
       register gradual technical debt unless the missing tool blocks release or
-      hides critical/high risk.
+      hides unresolved security risk.
 
 quality_gates:
   backlog_item_gate:
     required_for_every_code_backlog:
+      - technical_debt_first_action
       - client_stack_market_validation_when_stack_or_dependencies_are_relevant
       - unit_tests
       - relevant_integration_or_contract_tests
       - dependency_vulnerability_scan
       - secrets_scan
       - sast_or_static_analysis_for_changed_stack
+      - best_practices_and_standards_scan_for_changed_stack
+      - duplicate_code_scan_for_changed_stack
+      - complexity_scan_for_changed_stack
+      - owasp_or_secure_code_scan_for_changed_stack
       - coverage_report_for_changed_stack
+      - message_externalization_and_magic_string_review
       - technology_evolution_review
       - technical_debt_backlog_update_when_findings_exist
       - qa_evidence_yaml
       - qa_evidence_md_when_human_review_is_needed
     fail_conditions:
-      - new_critical_or_high_vulnerability_without_accepted_risk
+      - new_or_unresolved_vulnerability_of_any_severity_without_accepted_risk_and_immediate_remediation_plan
       - secret_detected
-      - critical_or_high_sast_finding_without_accepted_risk
+      - sast_or_secure_code_finding_without_disposition
       - tests_failing
       - coverage_decreases_without_documented_reason
+      - missing_duplicate_code_or_complexity_analysis_for_changed_stack
+      - new_user_visible_text_error_message_or_magic_string_not_externalized_or_dispositioned
+      - no_existing_technical_debt_item_resolved_or_materially_reduced_when_open_debt_exists
       - generated_artifacts_modified_without_source_model_change
       - proprietary_dependency_without_exception_adr
   module_closeout_gate:
@@ -495,13 +653,15 @@ default_thresholds:
   vulnerability_policy:
     critical: fail
     high: fail
-    medium: warn_for_mvp_fail_for_ga_unless_accepted
-    low: warn
+    medium: fail_unless_fixed_or_immediate_accepted_risk_with_target_backlog
+    low: fail_unless_fixed_or_immediate_accepted_risk_with_target_backlog
+    informational: review_and_disposition_required
+    unknown: fail_until_triaged
   sast_policy:
     critical: fail
     high: fail
-    medium: warn_or_fail_by_module_risk
-    low: warn
+    medium: fail_unless_dispositioned_by_module_risk
+    low: review_and_disposition_required
   coverage_policy:
     mvp_minimum_line_coverage_target: 70
     commercial_ga_line_coverage_target: 80
@@ -524,6 +684,7 @@ evidence_requirements:
     - open_source_first_assessment
     - client_stack_market_validation_when_applicable
     - stack_toolchain_baseline
+    - technical_debt_first_action
     - tools_run
     - commands_or_equivalent_steps
     - results
@@ -532,6 +693,10 @@ evidence_requirements:
     - sast_summary
     - dast_summary_when_applicable
     - secrets_scan_summary
+    - duplicate_code_summary
+    - complexity_summary
+    - owasp_or_secure_code_summary
+    - message_externalization_summary
     - license_summary
     - technology_evolution_review
     - technical_debt_items_created_or_updated
@@ -546,10 +711,14 @@ agent_rules:
   - Agents must validate requester-proposed stacks against current stable or LTS versions, official lifecycle information, security advisories, ecosystem health and required quality gates before accepting them as the implementation baseline.
   - Agents must define a stack-specific open source quality toolchain during architecture analysis and revisit it during backlog work, module closeout and release readiness.
   - Agents must run the security and quality gates that are applicable to the changed stack. If a mandatory executable gate cannot run because a tool, runtime, native binary, network endpoint or service is unavailable, the backlog item must remain blocked_by_environment or ready_for_external_validation; manual review is only a compensating control and must not be recorded as a passed gate.
+  - Agents must include best-practice, coding-standard, duplicate-code, complexity, OWASP or equivalent secure-code checks for every changed technology stack and product layer.
+  - Agents must scan dependency and vulnerability findings across all severities supported by the selected tool. Filtering only HIGH or CRITICAL is insufficient for backlog closure.
+  - Agents must address at least one existing technical-debt item before feature implementation in every code-changing iteration, unless the project has no open technical debt.
+  - Agents must externalize user-visible messages, validation copy, error prose, stable error codes and repeated magic values through stack-appropriate message catalogs, constants, configuration or policy providers.
   - Agents must not treat the initial project stack as permanently fixed. Each code-changing iteration must evaluate whether newer open source frameworks, libraries, runtimes or tools are materially safer, better maintained, more portable or more cost-effective.
   - Agents must create or update technical-debt backlog items for beneficial technology upgrades or migrations that are not safe or necessary to execute immediately.
   - Agents must recommend gradual remediation of technology debt when future backlog work touches the affected components.
-  - Agents must fail the backlog item when critical or high findings are introduced and no accepted risk exists.
+  - Agents must fail the backlog item when vulnerability or secure-code findings of any severity are introduced without remediation, accepted-risk disposition and immediate target backlog.
   - Agents must not advance next_backlog_item, module closeout or release readiness when any mandatory executable gate is not_executed, blocked_by_missing_toolchain, blocked_by_network, blocked_by_unsupported_runtime, passed_with_execution_limitation or closed_with_execution_limitation.
   - Agents must keep quality tooling project-local, reproducible and agent agnostic.
   - Agents must keep generated security and quality evidence in YAML first, with Markdown as the human companion.

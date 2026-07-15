@@ -16,6 +16,9 @@ rules:
   - Agents must not require a vendor-specific agent, runtime, prompt extension or configuration.
   - Agents must prefer open source, self-hostable and standards-based technologies unless an ADR approves an exception.
   - Agents must produce security quality evidence for every code-changing backlog item.
+  - Before feature implementation in any code-changing backlog item, agents must review 08-qa/technical-debt/technical-debt-index.yaml and resolve or materially reduce at least one open technical-debt item, unless no open debt exists.
+  - Agents must run stack-appropriate checks for best practices, coding standards, duplicate code, complexity, OWASP or equivalent secure coding, dependency vulnerabilities across all severities, secrets, coverage and message externalization/i18n.
+  - Agents must externalize new or changed user-facing text, validation copy, error prose, status labels, error codes and repeated magic values through message catalogs, constants, configuration or policy providers.
   - Agents must not close or advance a backlog item with passed_with_execution_limitation,
     closed_with_execution_limitation, not_executed mandatory gates, blocked toolchains,
     unsupported runtimes or blocked dependency/audit endpoints. Manual source review is only a
@@ -67,6 +70,7 @@ prompt_sequence:
       Load the HOP project state and HOP commercial product backlog.
       Select the next executable backlog item by dependency order.
       If any dependency is incomplete, stop and report the exact blocker.
+      If the selected item changes code, load 08-qa/technical-debt/technical-debt-index.yaml and include the required debt-first action in the execution plan.
       If the selected item is a definition item, prepare the capability package modeling plan.
       If the selected item is an implementation item, verify that the definition package exists first.
 
@@ -140,16 +144,19 @@ prompt_sequence:
     prompt: |
       Implement only the selected backlog item.
       Load the selected Capability Package models first and follow existing project implementation patterns.
+      Before feature work, load ../../08-qa/technical-debt/technical-debt-index.yaml and resolve or materially reduce at least one open debt item using the framework selection order. If no open debt exists, record that explicitly in evidence.
       Generate repetitive platform artifacts from the models before writing custom code.
       Keep changes scoped to the selected backlog item.
+      Externalize new or changed user-visible text, validation copy, error prose, status labels, error codes and repeated magic values through backend message bundles, frontend/mobile localization resources, constants, configuration or policy providers as appropriate.
       Add or update only generated tests or custom rule tests appropriate to the backend, web, mobile, portal, integration or operations scope.
-      Run or document applicable open source security quality gates for the changed stack, including SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when a runnable surface exists.
+      Run or document applicable open source security quality gates for the changed stack, including best practices, coding standards, duplicate code, complexity, SAST/static analysis, OWASP or equivalent secure-code rules, dependency vulnerability checks across all severities, secrets scan, coverage, message externalization/i18n review and DAST when a runnable surface exists.
       Mandatory executable gates must actually run before closure. If Maven, Java, Node, npm,
       native packages, Docker, database services, network access or audit endpoints are missing or
       blocked, first attempt documented remediation or request approval. If still unavailable, mark
       the backlog blocked_by_environment or ready_for_external_validation, keep next_backlog_item on
       the current backlog item, write exact remediation commands, and stop. Do not use manual source
       review to convert an unexecuted mandatory gate into a pass.
+      Do not close the backlog item with unresolved vulnerabilities of any severity, missing duplicate/complexity/OWASP analysis, missing debt-first action, or unexternalized user-facing messages/magic strings unless an immediate accepted-risk/debt disposition exists with owner and target backlog.
       Write security quality evidence under 08-qa/security-quality/<selected-backlog-item-id>/.
       Write QA evidence under 08-qa and update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
       Before closure, reconcile every backlog pointer and status registry that references the
@@ -179,7 +186,9 @@ prompt_sequence:
       Close the selected HOP module.
       Validate all backlog items for the module, confirm all required tests and QA evidence are present, confirm traceability is complete, and update project state and source registries.
       Re-run or verify non-limited passed evidence for all required backend, frontend, mobile,
-      contract, dependency, coverage, build and security gates. Do not close the module or recommend
+      contract, dependency, coverage, build and security gates, including debt-first execution,
+      best-practice/standards, duplicate-code, complexity, OWASP/secure-code and message
+      externalization/i18n reviews. Do not close the module or recommend
       the next module while any required gate is not_executed, passed_with_execution_limitation,
       closed_with_execution_limitation, blocked_by_missing_toolchain, blocked_by_network or
       blocked_by_unsupported_runtime.
@@ -198,7 +207,7 @@ validation_commands:
     command_template: "Scan source artifacts for named-agent or vendor-specific requirements and resolve findings."
   security_quality_gate:
     intent: Confirm open-source-first and security quality checks were run or documented for code-changing work.
-    command_template: "Run applicable open source tests, build, coverage, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST where applicable. If mandatory executable gates cannot run, stop as blocked_by_environment or ready_for_external_validation and do not advance next_backlog_item."
+    command_template: "Run applicable open source tests, build, coverage, best-practice and standards checks, duplicate-code checks, complexity checks, SAST/static analysis, OWASP/secure-code checks, dependency vulnerability checks across all severities, secrets scan, message externalization/i18n review and DAST where applicable. Address at least one open technical-debt item before feature work unless no open debt exists. If mandatory executable gates cannot run, stop as blocked_by_environment or ready_for_external_validation and do not advance next_backlog_item."
   git_whitespace:
     intent: Confirm no whitespace errors before commit.
     command_template: "Run repository whitespace validation before closing the item."

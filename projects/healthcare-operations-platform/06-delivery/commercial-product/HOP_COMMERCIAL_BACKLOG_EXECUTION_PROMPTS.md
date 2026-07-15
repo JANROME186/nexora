@@ -30,7 +30,13 @@ Every code-changing backlog item must write security quality evidence under:
 08-qa/security-quality/<backlog-item-id>/
 ```
 
-The evidence must cover applicable tests, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when a runnable web/API surface exists.
+Before feature work, the agent must review `08-qa/technical-debt/technical-debt-index.yaml` and
+resolve or materially reduce at least one open technical-debt item unless no open debt exists.
+
+The evidence must cover applicable tests, best practices, coding standards, duplicate code,
+complexity, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerability
+checks across all severities, secrets scan, coverage, message externalization/i18n and DAST when a
+runnable web/API surface exists.
 
 ## Required Rule
 
@@ -66,6 +72,7 @@ Instruction:
 Load the HOP project state and HOP commercial product backlog.
 Select the next executable backlog item by dependency order.
 If any dependency is incomplete, stop and report the exact blocker.
+If the selected item changes code, include the required debt-first action in the execution plan.
 If the selected item is a definition item, prepare the capability package modeling plan.
 If the selected item is an implementation item, verify that the definition package exists first.
 ```
@@ -134,11 +141,14 @@ Instruction:
 ```text
 Implement only the selected backlog item.
 Load the selected Capability Package models first and follow existing project implementation patterns.
+Before feature work, load ../../08-qa/technical-debt/technical-debt-index.yaml and resolve or materially reduce at least one open debt item using the framework selection order. If no open debt exists, record that explicitly in evidence.
 Generate repetitive platform artifacts from the models before writing custom code.
 Keep changes scoped to the selected backlog item.
+Externalize new or changed user-visible text, validation copy, error prose, status labels, error codes and repeated magic values through backend message bundles, frontend/mobile localization resources, constants, configuration or policy providers as appropriate.
 Add or update only generated tests or custom rule tests appropriate to the backend, web, mobile, portal, integration or operations scope.
-Run applicable open source security quality gates for the changed stack, including tests, build, coverage, SAST/static analysis, dependency vulnerability checks, secrets scan and DAST when a runnable surface exists.
+Run applicable open source security quality gates for the changed stack, including tests, build, coverage, best practices, coding standards, duplicate code, complexity, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerability checks across all severities, secrets scan, message externalization/i18n review and DAST when a runnable surface exists.
 If Maven, Java, Node, npm, native packages, Docker, database services, network access or audit endpoints are missing or blocked, first attempt documented remediation or request approval. If still unavailable, mark the backlog `blocked_by_environment` or `ready_for_external_validation`, keep `next_backlog_item` on the current backlog item, write exact remediation commands, and stop. Manual source review is only a compensating control and cannot replace executable gates.
+Do not close the backlog item with unresolved vulnerabilities of any severity, missing duplicate/complexity/OWASP analysis, missing debt-first action, or unexternalized user-facing messages/magic strings unless an immediate accepted-risk/debt disposition exists with owner and target backlog.
 Write security quality evidence under 08-qa/security-quality/<selected-backlog-item-id>/.
 Write QA evidence under 08-qa and update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
 Before closure, reconcile every backlog pointer and status registry that references the current or next backlog item, including PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml, affected capability traceability.yaml files, local-solution-runbook.yaml/.md and any QA/security indexes.
@@ -161,7 +171,7 @@ Instruction:
 ```text
 Close the selected HOP module.
 Validate all backlog items for the module, confirm all required tests and QA evidence are present, confirm traceability is complete, and update project state and source registries.
-Re-run or verify non-limited passed evidence for all required backend, frontend, mobile, contract, dependency, coverage, build and security gates. Do not close the module or recommend the next module while any required gate is not executed, limited by the environment, blocked by missing toolchain, blocked by network or blocked by unsupported runtime.
+Re-run or verify non-limited passed evidence for all required backend, frontend, mobile, contract, dependency, coverage, build and security gates, including debt-first execution, best-practice/standards, duplicate-code, complexity, OWASP/secure-code and message externalization/i18n reviews. Do not close the module or recommend the next module while any required gate is not executed, limited by the environment, blocked by missing toolchain, blocked by network or blocked by unsupported runtime.
 Recommend the next module only after closeout evidence is written and all mandatory executable gates have passed or are explicitly not applicable.
 ```
 
@@ -177,5 +187,5 @@ Expected result:
 Start with:
 
 - Module: `MVP-MOD-004 Front Desk and Care Delivery`
-- Backlog item: `MVP-MOD-004-DEF`
+- Backlog item: `MVP-MOD-004-FE-001`
 - Folder: `01-product-definition/business-capabilities/packages/`

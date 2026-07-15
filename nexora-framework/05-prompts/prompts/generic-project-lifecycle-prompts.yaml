@@ -48,7 +48,8 @@ shared_rules:
   - Prefer YAML files for agent execution and Markdown files for human readability.
   - Preserve agent-agnostic, provider-agnostic and cloud-agnostic definitions unless the business requirement explicitly requires otherwise.
   - Prefer open source, self-hostable and standards-based technologies unless an approved ADR documents an exception.
-  - Code-changing work must produce security quality evidence with applicable tests, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when runnable surfaces exist.
+  - Code-changing work must resolve or materially reduce at least one open technical-debt item before feature implementation, unless no open technical debt exists.
+  - Code-changing work must produce security quality evidence with applicable tests, best-practice and coding-standard checks, duplicate-code checks, complexity checks, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerability checks across all severities, secrets scan, coverage, message externalization/i18n review and DAST when runnable surfaces exist.
   - Code-changing work must update or explicitly confirm the integrated local solution runbook when runtime components, ports, environment variables, startup order or validation commands change.
   - Execution learning that can improve the Nexora framework must be captured under 08-qa/framework-feedback/ and may propose central framework backlog items without implementing them.
   - Commit coherent milestones when repository changes are made.
@@ -302,13 +303,15 @@ prompts:
       4. Confirm blocking_definition_gaps is empty.
       5. Confirm the selected module package is complete.
       6. Create or update implementation assets under 07-implementation/.
-      7. Implement the first pending backlog item or module slice.
-      8. Add or update tests according to test-plan.yaml.
-      9. Validate locally using the project runbook and stack baseline.
-      10. Run applicable security quality gates. If a mandatory gate cannot run because the environment lacks Maven, Java, Node, npm, native packages, Docker, database services or network access, attempt remediation or request approval. If still unavailable, mark the backlog blocked_by_environment or ready_for_external_validation, keep next_backlog_item unchanged and stop.
-      11. Update PROJECT_STATE.yaml, traceability, security quality evidence, implementation README files and the integrated local solution runbook.
-      12. Capture framework feedback if execution exposed reusable framework gaps, ambiguity, missing templates or automation opportunities.
-      13. Commit the implementation milestone.
+      7. Review 08-qa/technical-debt/technical-debt-index.yaml and resolve or materially reduce at least one open technical-debt item before feature work, unless no open debt exists.
+      8. Implement the first pending backlog item or module slice.
+      9. Externalize new or changed user-visible text, validation copy, error prose, status labels, error codes and repeated magic values through stack-appropriate message catalogs, constants, configuration or policy providers.
+      10. Add or update tests according to test-plan.yaml.
+      11. Validate locally using the project runbook and stack baseline.
+      12. Run applicable security quality gates, including best practices, standards, duplicated code, complexity, OWASP/secure-code checks, dependency vulnerabilities across all severities, secrets, coverage, message externalization/i18n and DAST where applicable. If a mandatory gate cannot run because the environment lacks Maven, Java, Node, npm, native packages, Docker, database services or network access, attempt remediation or request approval. If still unavailable, mark the backlog blocked_by_environment or ready_for_external_validation, keep next_backlog_item unchanged and stop.
+      13. Update PROJECT_STATE.yaml, traceability, security quality evidence, implementation README files and the integrated local solution runbook.
+      14. Capture framework feedback if execution exposed reusable framework gaps, ambiguity, missing templates or automation opportunities.
+      15. Commit the implementation milestone.
 
       Final response:
       Report implemented slice, files changed, validation commands executed, remaining backlog, known gaps and commit hash.
@@ -316,7 +319,7 @@ prompts:
 minimal_user_prompts:
   resolve_business_requirement: "Resolve the latest BUSINESS_REQUIREMENT version for projects/<project-slug>/ and report whether derived YAML or impact assessment is required."
   business_requirement_impact: "Analyze the impact of the latest BUSINESS_REQUIREMENT change for projects/<project-slug>/ and estimate impacted components, effort, time and cost."
-  security_quality_gate: "Run the open-source-first security quality gate for the selected backlog item in projects/<project-slug>/ and write evidence under 08-qa/security-quality/. Do not close or advance the backlog when mandatory executable gates are not_executed or limited by the environment."
+  security_quality_gate: "Run the open-source-first security quality gate for the selected backlog item in projects/<project-slug>/ and write evidence under 08-qa/security-quality/. Include debt-first execution, best practices, standards, duplicate code, complexity, OWASP/secure-code, all-severity vulnerability scans, message externalization/i18n and DAST where applicable. Do not close or advance the backlog when mandatory executable gates are not_executed or limited by the environment."
   integrated_local_runbook: "Update or validate the integrated local solution runbook for projects/<project-slug>/ so a reviewer can start and validate the complete local solution from 09-operations/runbooks/."
   framework_feedback: "Capture framework feedback for the completed execution in projects/<project-slug>/ and propose central framework improvement backlog items when reusable."
   analysis: "Apply the Nexora framework to projects/<project-slug>/ and generate all MVP-ready definitions from BUSINESS_REQUIREMENT.md."
