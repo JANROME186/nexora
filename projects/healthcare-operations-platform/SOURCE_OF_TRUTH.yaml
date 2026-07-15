@@ -45,6 +45,13 @@ sources:
   mvp_mod_003_pkg_bcm_per_002: 01-product-definition/business-capabilities/packages/bcm-per-002-patient-management/
   mvp_mod_003_pkg_bcm_per_003: 01-product-definition/business-capabilities/packages/bcm-per-003-doctor-management/
   mvp_mod_003_pkg_bcm_att_002: 01-product-definition/business-capabilities/packages/bcm-att-002-patient-registration/
+  mvp_mod_004_pkg_bcm_att_001: 01-product-definition/business-capabilities/packages/bcm-att-001-appointment-scheduling/
+  mvp_mod_004_pkg_bcm_att_003: 01-product-definition/business-capabilities/packages/bcm-att-003-reception-management/
+  mvp_mod_004_pkg_bcm_att_004: 01-product-definition/business-capabilities/packages/bcm-att-004-admission-management/
+  mvp_mod_004_pkg_bcm_att_006: 01-product-definition/business-capabilities/packages/bcm-att-006-quotation-management/
+  mvp_mod_004_pkg_bcm_lab_001: 01-product-definition/business-capabilities/packages/bcm-lab-001-diagnostic-order-management/
+  mvp_mod_004_def_qa_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.md
+  mvp_mod_004_def_qa_evidence_yaml: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.yaml
   mvp_mod_003_def_qa_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
   mvp_mod_003_def_qa_evidence_yaml: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
   mvp_mod_003_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/peopleclinicalmasterdata/
@@ -111,6 +118,8 @@ sources:
   technical_debt_td_stack_001: 08-qa/technical-debt/TD-STACK-001-stack-modernization-roadmap.yaml
   technical_debt_td_be_005: 08-qa/technical-debt/TD-BE-005-doctor-activation-gating-via-eligibility-query.yaml
   technical_debt_td_be_006: 08-qa/technical-debt/TD-BE-006-patient-registration-commit-non-atomic.yaml
+  technical_debt_td_def_001: 08-qa/technical-debt/TD-DEF-001-quotation-to-sale-conversion-deferred.yaml
+  technical_debt_td_def_002: 08-qa/technical-debt/TD-DEF-002-appointment-capacity-planning-deferred.yaml
   framework_feedback_index: 08-qa/framework-feedback/framework-feedback-index.yaml
   framework_feedback_readme: 08-qa/framework-feedback/README.md
   framework_feedback_fwf_hop_001: 08-qa/framework-feedback/FWF-HOP-001-framework-feedback-loop.yaml

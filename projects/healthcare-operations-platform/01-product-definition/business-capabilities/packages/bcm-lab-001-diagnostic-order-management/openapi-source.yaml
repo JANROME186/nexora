@@ -1,0 +1,95 @@
+artifact:
+  id: HOP-API-SRC-BCM-LAB-001
+  type: openapi-source
+  name: Diagnostic Order Management API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-001
+  note: >
+    Source contract model. The rendered OpenAPI document, controllers, DTOs
+    and SDKs are generated outputs declared in generation-plan.yaml.
+
+api:
+  base_path: /api/clinical-operations/diagnostic-orders
+  surface_classification: internal
+  future_surfaces:
+    - classification: partner
+      status: order_request_later
+      note: Doctor portal order request handoff planned for COM-MOD-009.
+  security:
+    scheme: bearer_jwt
+    required_scopes_default: [order.create, order.manage]
+
+resources:
+  - name: DiagnosticOrder
+    operations:
+      - id: listDiagnosticOrders
+        method: GET
+        path: /
+        scopes: [order.read]
+        generatable: true
+      - id: getDiagnosticOrder
+        method: GET
+        path: /{orderId}
+        scopes: [order.read]
+        generatable: true
+      - id: createDiagnosticOrder
+        method: POST
+        path: /
+        scopes: [order.create]
+        generatable: false
+        custom_reason: Snapshot capture and published-catalog validation.
+      - id: priceDiagnosticOrder
+        method: POST
+        path: /{orderId}/price
+        scopes: [order.manage]
+        generatable: false
+        custom_reason: Price-list resolution and snapshot capture.
+      - id: acceptDiagnosticOrder
+        method: POST
+        path: /{orderId}/accept
+        scopes: [order.manage]
+        generatable: false
+        custom_reason: Preconditions on pricing and clinical completeness.
+      - id: cancelDiagnosticOrder
+        method: POST
+        path: /{orderId}/cancel
+        scopes: [order.manage]
+        generatable: false
+        custom_reason: Downstream state check and override justification.
+      - id: completeDiagnosticOrder
+        method: POST
+        path: /{orderId}/complete
+        scopes: [order.manage]
+        generatable: true
+
+schemas_source:
+  - DiagnosticOrder
+  - OrderLine
+  - PatientSnapshot
+  - DoctorSnapshot
+  - BranchSnapshot
+  - CatalogSnapshot
+  - OrderPricingSnapshot
+  - OrderClinicalNotes
+
+error_model:
+  standard: rfc7807
+  domain_errors:
+    - code: ORDER_SNAPSHOT_INCOMPLETE
+      maps_to_rule: RN-001
+    - code: ORDER_CATALOG_ITEM_NOT_PUBLISHED
+      maps_to_rule: RN-002
+    - code: ORDER_PRICING_SNAPSHOT_REQUIRED
+      maps_to_rule: RN-003
+    - code: ORDER_BOUNDARY_VIOLATION
+      maps_to_rule: RN-004
+    - code: ORDER_SCOPE_MISMATCH
+      maps_to_rule: RN-005
+    - code: ORDER_TERMINAL_STATE_IMMUTABLE
+      maps_to_rule: RN-006
+    - code: ORDER_CANCELLATION_OVERRIDE_REQUIRED
+      maps_to_rule: RN-007
+    - code: ORDER_NO_LINES
+      maps_to_rule: RN-009

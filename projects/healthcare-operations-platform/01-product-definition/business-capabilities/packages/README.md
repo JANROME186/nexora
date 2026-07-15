@@ -25,6 +25,21 @@ The first capability packages to create belong to `MVP-MOD-002 Diagnostic Catalo
 - `bcm-svc-007-sample-catalog/`
 - `bcm-svc-009-price-list-management/`
 
+`MVP-MOD-003 People and Clinical Master Data` capability packages:
+
+- `bcm-per-001-person-management/`
+- `bcm-per-002-patient-management/`
+- `bcm-per-003-doctor-management/`
+- `bcm-att-002-patient-registration/`
+
+`MVP-MOD-004 Front Desk and Care Delivery` capability packages:
+
+- `bcm-att-001-appointment-scheduling/`
+- `bcm-att-003-reception-management/`
+- `bcm-att-004-admission-management/`
+- `bcm-att-006-quotation-management/`
+- `bcm-lab-001-diagnostic-order-management/`
+
 The ingestion and migration capability package to create for `MVP-MOD-008` is:
 
 - `bcm-plt-010-open-data-ingestion-and-migration/`

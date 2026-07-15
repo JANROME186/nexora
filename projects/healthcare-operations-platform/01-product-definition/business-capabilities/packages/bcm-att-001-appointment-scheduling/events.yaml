@@ -1,0 +1,68 @@
+artifact:
+  id: HOP-EVT-BCM-ATT-001
+  type: events
+  name: Appointment Scheduling Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-001
+
+domain_events:
+  - name: AppointmentRequested
+    description: An appointment was requested and preparation instructions were surfaced.
+    payload:
+      - appointmentId
+      - tenantId
+      - branchId
+      - patientId
+      - actorId
+      - channel
+    audit: true
+  - name: AppointmentConfirmed
+    description: An appointment was confirmed after branch and overlap validation.
+    payload:
+      - appointmentId
+      - branchId
+      - scheduledWindow
+      - actorId
+    audit: true
+  - name: AppointmentCheckedIn
+    description: The patient checked in for a confirmed appointment.
+    payload:
+      - appointmentId
+      - branchId
+      - actorId
+    audit: true
+  - name: AppointmentCancelled
+    description: An appointment was cancelled before check-in.
+    payload:
+      - appointmentId
+      - reasonCode
+      - actorId
+    audit: true
+  - name: AppointmentNoShowMarked
+    description: An appointment was marked no-show after the grace period elapsed.
+    payload:
+      - appointmentId
+      - branchId
+    audit: true
+
+integration_events:
+  published:
+    - name: AppointmentCheckedIn
+      description: Signals Reception Management that a patient has arrived for a scheduled appointment.
+      consumers:
+        - orders-samples
+  consumed:
+    - name: PatientRegistrationCommitted
+      source: BCM-ATT-002
+    - name: TestDefinitionPublished
+      source: BCM-SVC-002
+    - name: BranchUpdated
+      source: BCM-ORG-003
+    - name: DiagnosticOrderCreated
+      source: BCM-LAB-001
+
+published_language:
+  - AppointmentConfirmed
+  - AppointmentCheckedIn

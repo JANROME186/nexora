@@ -1,0 +1,55 @@
+artifact:
+  id: HOP-TEST-BCM-ATT-003
+  type: test-model
+  name: Reception Management Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-003
+
+test_cases:
+  - id: TST-REC-003-01
+    type: acceptance
+    validates_rule: RN-001
+    statement: Advancing a visit to admission without confirmed identity is rejected.
+    generatable: false
+  - id: TST-REC-003-02
+    type: acceptance
+    validates_rule: RN-002
+    statement: Starting a reception visit linked to a non-checked-in appointment is rejected.
+    generatable: false
+  - id: TST-REC-003-03
+    type: architecture
+    validates_rule: RN-003
+    statement: Reception identity confirmation performs no write against the Patient aggregate.
+    generatable: false
+  - id: TST-REC-003-04
+    type: contract
+    validates_rule: RN-004
+    statement: Unauthorized or out-of-scope actors cannot manage reception visits.
+    generatable: true
+  - id: TST-REC-003-05
+    type: acceptance
+    validates_rule: RN-005
+    statement: An urgent-priority visit is ordered ahead of normal-priority visits with an earlier arrival time.
+    generatable: false
+  - id: TST-REC-003-06
+    type: architecture
+    validates_rule: RN-006
+    statement: Advancing to admission does not write DiagnosticOrder state directly.
+    generatable: false
+  - id: TST-REC-003-07
+    type: unit
+    validates_rule: RN-007
+    statement: ReceptionVisitReadyForAdmission event carries actor, branch and intake channel.
+    generatable: true
+
+test_layers:
+  - contract_tests
+  - unit_tests
+  - acceptance_tests
+  - architecture_tests
+
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests: [TST-REC-003-01, TST-REC-003-02, TST-REC-003-03, TST-REC-003-05, TST-REC-003-06]

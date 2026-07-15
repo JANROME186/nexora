@@ -1,0 +1,112 @@
+artifact:
+  id: HOP-CAP-PKG-BCM-ATT-006
+  type: capability-package
+  name: Quotation Management Capability Package
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.yaml
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-15
+  roadmap_group: MVP-MOD-004
+  execution_flow_stage: model
+
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+
+capability:
+  id: BCM-ATT-006
+  name:
+    en: Quotation Management
+    es: Cotizaciones
+  domain: DOM-04 Care Delivery
+  priority: High
+  roadmap: MVP1
+  dependency_profile: care_delivery
+  bounded_context: cash-sales
+  secondary_bounded_context: catalog-test-configuration
+  primary_aggregate: none
+  aggregate_ref: none
+  aggregate_ownership_note: >
+    QuotationRequest is a lightweight process entity owned by this
+    capability. The cash-sales Sale aggregate (AGG-010) is not yet
+    implemented (it belongs to the future MVP-MOD-005 Cashier and Billing
+    Request module); until then, this capability is the sole owner of
+    quotation state. On acceptance, a quotation may convert into a diagnostic
+    order through BCM-LAB-001 CreateDiagnosticOrder, and later, once
+    MVP-MOD-005 exists, into a Sale.
+  process_ref: HRP-001-P03
+
+scope:
+  summary: >
+    Produces pre-order price estimates for prospective or existing patients
+    from published catalog items and price lists, applying tenant commercial
+    rules (discounts, promotions) within policy limits. A quotation is a
+    standalone, versionable record; it never mutates catalog, price list or
+    order state. Accepted quotations may be converted into a diagnostic
+    order through BCM-LAB-001.
+  in_scope:
+    - Quotation draft, issuance, acceptance, expiration, cancellation and conversion.
+    - Immutable catalog and price-list snapshot capture at issuance time.
+    - Tenant-configured discount/commercial-rule application within policy limits.
+    - Quotation validity window management.
+    - Conversion of an accepted quotation into a diagnostic order.
+  out_of_scope:
+    - Catalog and price list definition and publication (BCM-SVC-001/002/003/009).
+    - Diagnostic order aggregate mutation (BCM-LAB-001).
+    - Sale and payment aggregate ownership (BCM-ATT-005, MVP-MOD-005, future).
+    - Promotion rule authoring (BCM-ATT-007, MVP2).
+
+roadmap:
+  module: MVP-MOD-004
+  release: REL-001
+  package_status: modeled
+  next_backlog_item: MVP-MOD-004-BE-001
+
+dependencies:
+  required_capabilities:
+    - BCM-SVC-001
+    - BCM-SVC-002
+    - BCM-SVC-003
+    - BCM-SVC-009
+    - BCM-PLT-001
+    - BCM-PLT-007
+  optional_capabilities:
+    - BCM-PER-002
+    - BCM-ATT-007
+    - BCM-LAB-001
+  downstream_capabilities:
+    - BCM-LAB-001
+    - BCM-ATT-005
+    - BCM-ATT-008
+  upstream_contexts:
+    - catalog-test-configuration
+    - identity-access
+    - audit-compliance
+
+product_surfaces:
+  backend: required
+  employee_portal: required
+  patient_portal: not_required
+  doctor_portal: not_required
+  mobile_app: not_required
+  public_website: request_only_later
+
+required_artifacts:
+  - capability-package.yaml
+  - business-model.yaml
+  - business-rules.yaml
+  - processes.yaml
+  - events.yaml
+  - openapi-source.yaml
+  - permissions.yaml
+  - ui-model.yaml
+  - mobile-model.yaml
+  - test-model.yaml
+  - observability-model.yaml
+  - generation-plan.yaml
+  - traceability.yaml
+  - README.md

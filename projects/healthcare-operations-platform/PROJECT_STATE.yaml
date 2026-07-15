@@ -1,8 +1,8 @@
 project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
-repository_version: 0.80.0
-current_phase: MVP-MOD-004 Front Desk and Care Delivery Definition Ready
+repository_version: 0.81.0
+current_phase: MVP-MOD-004 Front Desk and Care Delivery Backend Compilation Ready
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -66,8 +66,12 @@ completed_deliverables:
     BE-002 custom rules, FE-001 UI, QA/security evidence, the local runbook, backlog pointers and
     executable backend/frontend/security quality gates
   - MVP-MOD-003 People and Clinical Master Data closeout (MVP-MOD-003-CLOSEOUT)
+  - MVP-MOD-004 Front Desk and Care Delivery Business Capability Packages (BCM-ATT-001/003/004/006,
+    BCM-LAB-001)
+  - MVP-MOD-004-DEF capability package model validation evidence
 next_deliverables:
-  - Start MVP-MOD-004 with MVP-MOD-004-DEF capability package models for Front Desk and Care Delivery
+  - Continue MVP-MOD-004 with MVP-MOD-004-BE-001 to compile appointment, reception and order backend
+    outputs from the modeled capability packages
   - Apply security quality gate evidence to subsequent code-changing backlog items
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
@@ -80,7 +84,7 @@ development_readiness:
   status: ready
   ready_to_start_module: MVP-MOD-004
   in_progress_module: MVP-MOD-004
-  next_backlog_item: MVP-MOD-004-DEF
+  next_backlog_item: MVP-MOD-004-BE-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -121,7 +125,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-004
-  current_backlog_item: MVP-MOD-004-DEF
+  current_backlog_item: MVP-MOD-004-BE-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -144,50 +148,46 @@ implementation_progress:
     - MVP-MOD-003-FE-001
     - MVP-MOD-003-QA-001
     - MVP-MOD-003-CLOSEOUT
+    - MVP-MOD-004-DEF
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-004-DEF
+    - MVP-MOD-004-BE-001
+    - MVP-MOD-004-BE-002
+    - MVP-MOD-004-FE-001
+    - MVP-MOD-004-QA-001
+    - MVP-MOD-004-CLOSEOUT
   latest_validation:
-    backlog_item_id: MVP-MOD-003-CLOSEOUT
-    command: mvn --settings .mvn/settings.xml test; docker compose --env-file .env.example -f
-      compose.local.yml up -d postgres; mvn --settings .mvn/settings.xml test
-      "-Dhop.local-db-tests=true"; npm run typecheck; npm test; npm run test:coverage; npm run
-      build; npm audit --audit-level=high; trivy fs --skip-db-update; full-project YAML parse;
-      secrets scan; agent-agnostic scan; stale-pointer scan
+    backlog_item_id: MVP-MOD-004-DEF
+    command: full-project YAML parse; capability-package-standard artifact-completeness check;
+      BCM-001/BCM-002/domain-foundation/BRM-001/HRP-001 traceability cross-check; agent-agnostic
+      scan; registry pointer sync check; git diff --check
     working_directory: projects/healthcare-operations-platform
     status: passed
-    tests_run: "backend 58; employee-portal 18"
+    tests_run: "n/a (definition/modeling backlog item, no runnable code changed)"
     failures: 0
     errors: 0
     skipped: 0
     additional_checks:
-      - Integrally validated MVP-MOD-003 (capability models, traceability, OpenAPI contracts,
-        BE-002 custom rules, FE-001 UI, QA/security evidence, local runbook, backlog pointers)
-        without implementing new functionality and without starting MVP-MOD-003-CLOSEOUT.
-      - >-
-        42/42 OpenAPI operations across the 4 capability packages map one-to-one to backend
-        controller routes. Two medium-severity non-blocking backend rule gaps were found and
-        disclosed (RN-005 credential-expiration scheduler, RN-008 tenant-configurable read-model
-        masking; tracked as TD-BE-007/TD-BE-008), and one low-severity non-blocking frontend
-        UI-completeness gap already disclosed as out-of-scope in FE-001 was formally tracked
-        (TD-FE-002).
-      - >-
-        Follow-up validation executed in a compatible local toolchain: Docker/Postgres local,
-        Maven 3.9.11 with Java 21, npm run typecheck, npm test, npm run test:coverage, npm run
-        build, npm audit and Trivy offline scan all passed. The prior execution-limited QA evidence
-        was corrected so MVP-MOD-003-QA-001 no longer carries an exception.
-      - A genuine PROJECT_STATE.yaml truncation defect (missing MVP-MOD-002 tail and
-        execution_flow/ga_gates_defined sections, present since before the FE-001 commit) was
-        found and fixed; framework and project YAML files now parse successfully (480/480 files pass
-        in the latest validation run, excluding node_modules and target).
-      - A stale pointer in capability-package-index.yaml's active_capability_package_group block
-        (still referencing MVP-MOD-003-DEF as current) was found and corrected.
-      - Agent-agnostic scan and secrets scan report 0 named-agent, vendor-runtime or credential
-        findings project-wide.
-      - >-
-        MVP-MOD-003-CLOSEOUT executed all mandatory backend, frontend, dependency, filesystem,
-        YAML, secrets and pointer gates. The module is closed and the active backlog advances to
-        MVP-MOD-004-DEF.
+      - Modeled 5 Front Desk and Care Delivery capability packages (BCM-ATT-001, BCM-ATT-003,
+        BCM-ATT-004, BCM-ATT-006, BCM-LAB-001), 14 artifacts each, 70 artifacts total, under
+        01-product-definition/business-capabilities/packages/.
+      - BCM-LAB-001 owns the DiagnosticOrder aggregate (AGG-007) end to end and models immutable
+        PatientSnapshot, DoctorSnapshot, BranchSnapshot, CatalogSnapshot and OrderPricingSnapshot
+        value objects; BCM-ATT-001, BCM-ATT-003 and BCM-ATT-004 orchestrate around it and delegate
+        every order mutation to its commands, mirroring the BCM-ATT-002/BCM-PER-002 pattern.
+      - BCM-ATT-006 Quotation Management owns a standalone QuotationRequest process aggregate and
+        depends on catalog and price-list capabilities without taking a forward dependency on the
+        unbuilt MVP-MOD-005 Sale aggregate (AGG-010); the deferral is tracked as TD-DEF-001.
+      - Appointment capacity planning beyond branch operational-status and overlap checks is
+        deferred to BCM-ORG-007 (MVP2) and tracked as TD-DEF-002.
+      - Full-project YAML parse, agent-agnostic scan and secrets scan report 0 syntax errors and 0
+        named-agent, vendor-runtime or credential findings across the modeled packages and updated
+        registries.
+      - capability-package-index.yaml, PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml and
+        HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml were reconciled so MVP-MOD-004-DEF is closed
+        and the active backlog advances to MVP-MOD-004-BE-001.
+      - MVP-MOD-004-DEF is a definition-only backlog item; no backend, frontend, mobile or
+        infrastructure code was implemented, consistent with the MDPE model-compile-implement flow.
 module_closeout:
   MVP-MOD-001:
     status: implemented
@@ -236,10 +236,39 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_release: REL-001
   active_module: MVP-MOD-004
-  active_backlog_item: MVP-MOD-004-DEF
+  active_backlog_item: MVP-MOD-004-BE-001
   primary_development_unit: business_capability_package
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.yaml
   capability_package_progress:
+    MVP-MOD-004:
+      name: Front Desk and Care Delivery
+      package_status: modeled
+      backlog_item: MVP-MOD-004-DEF
+      backlog_item_status: closed
+      execution_flow_stage: model
+      packages_modeled:
+        - BCM-ATT-001
+        - BCM-ATT-003
+        - BCM-ATT-004
+        - BCM-ATT-006
+        - BCM-LAB-001
+      artifacts_per_package: 14
+      bounded_contexts:
+        - orders-samples
+        - cash-sales
+      backend_bounded_context_root: frontdeskcaredelivery
+      qa_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.yaml
+      qa_evidence_md: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.md
+      ready_for_compilation: true
+      backend_compilation_completed: false
+      ready_for_custom_rule_implementation: false
+      custom_rules_implemented: false
+      ready_for_ui_compilation: false
+      employee_portal_ui_compiled: false
+      ready_for_module_validation: false
+      module_validated: false
+      ready_for_closeout: false
+      module_closed: false
     MVP-MOD-003:
       name: People and Clinical Master Data
       package_status: module_closed

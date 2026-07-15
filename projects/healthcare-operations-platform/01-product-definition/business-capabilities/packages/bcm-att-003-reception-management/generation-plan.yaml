@@ -1,0 +1,72 @@
+artifact:
+  id: HOP-GEN-BCM-ATT-003
+  type: generation-plan
+  name: Reception Management Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-003
+  compiler_strategy: model_to_platform
+
+generated_outputs:
+  backend:
+    - CRUD scaffolding for ReceptionVisit
+    - DTOs for ReceptionVisit and QueuePosition
+    - Controllers for generatable operations (list, get, abandon)
+    - Repository interfaces and persistence adapters
+    - Event consumers for AppointmentCheckedIn and PatientRegistrationCommitted
+    - API adapters
+  frontend:
+    - Employee portal reception visit detail (SCR-REC-003-03)
+    - Routes and Client SDK usage
+  contracts:
+    - Rendered OpenAPI document from openapi-source.yaml
+    - Typed SDK
+    - Swagger documentation
+  tests:
+    - Repetitive unit tests for RN-004 and RN-007
+    - Contract tests for authorization
+    - Acceptance test skeletons for orchestration rules
+  operations:
+    - Metric and log wiring from observability-model.yaml
+    - Dashboard skeleton
+    - Alert definitions
+
+custom_implementation_points:
+  - id: CUS-REC-003-01
+    description: Read-only patient identity confirmation against BCM-PER-002 (RN-001, RN-003).
+    maps_to_backlog: MVP-MOD-004-BE-002
+  - id: CUS-REC-003-02
+    description: Appointment linkage validation against BCM-ATT-001 checked-in state (RN-002).
+    maps_to_backlog: MVP-MOD-004-BE-002
+  - id: CUS-REC-003-03
+    description: Tenant-configurable queue prioritization (RN-005).
+    maps_to_backlog: MVP-MOD-004-BE-002
+  - id: CUS-REC-003-04
+    description: Admission handoff boundary enforcement (RN-006).
+    maps_to_backlog: MVP-MOD-004-BE-002
+  - id: CUS-REC-003-05
+    description: Reception queue worklist UI with real-time priority ordering.
+    maps_to_backlog: MVP-MOD-004-FE-001
+
+do_not_write_manually:
+  - CRUD scaffolding
+  - DTOs
+  - Controllers
+  - Repositories
+  - Swagger documentation
+  - SDKs
+  - Repetitive documentation
+  - Repetitive test cases
+
+provenance:
+  source_models:
+    - business-model.yaml
+    - business-rules.yaml
+    - processes.yaml
+    - events.yaml
+    - openapi-source.yaml
+    - ui-model.yaml
+    - permissions.yaml
+    - observability-model.yaml
+  generation_metadata_required: true

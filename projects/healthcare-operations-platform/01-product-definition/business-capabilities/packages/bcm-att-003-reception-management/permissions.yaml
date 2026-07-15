@@ -1,0 +1,43 @@
+artifact:
+  id: HOP-PERM-BCM-ATT-003
+  type: permissions
+  name: Reception Management Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-003
+  depends_on_capability: BCM-PLT-001
+
+scopes:
+  - code: reception.manage
+    description: Start, confirm identity, advance, reprioritize or abandon a reception visit.
+  - code: reception.read
+    description: Read the reception queue and visit history for audit and review.
+
+roles:
+  - role: receptionist
+    grants: [reception.manage, reception.read]
+  - role: branch-administrator
+    grants: [reception.manage, reception.read]
+  - role: tenant-administrator
+    grants: [reception.read]
+
+access_policies:
+  - id: POL-REC-003-01
+    statement: Reception commands are scoped to the actor's tenant, laboratory and branch.
+    enforcement: row_level_tenant_laboratory_branch_filter
+  - id: POL-REC-003-02
+    statement: Identity confirmation must be a read-only lookup against BCM-PER-002 and must never mutate patient data.
+    enforcement: cross_capability_delegation_policy
+
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+    - event: ReceptionVisitStarted
+      fields: [visitId, actorId, branchId, intakeChannel]
+    - event: ReceptionIdentityConfirmed
+      fields: [visitId, actorId, identityConfirmationMethod]
+    - event: ReceptionVisitReadyForAdmission
+      fields: [visitId, actorId, branchId]
+    - event: ReceptionVisitAbandoned
+      fields: [visitId, actorId]

@@ -1,0 +1,86 @@
+artifact:
+  id: HOP-PROC-BCM-ATT-004
+  type: processes
+  name: Admission Management Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-004
+
+actors:
+  - id: receptionist
+    actor_ref: ACT-004
+    name: Receptionist
+    source: ACM-001
+
+processes:
+  - id: PRC-ADM-004-01
+    name: Start admission request
+    actor: receptionist
+    trigger: A reception visit has confirmed identity and is ready for order intake.
+    commands:
+      - StartAdmissionRequest
+    preconditions:
+      - Actor holds admission.manage.
+      - Reception visit identityConfirmed is true.
+    steps:
+      - Capture referring doctor if applicable.
+      - Capture catalog selection.
+      - Persist AdmissionRequest with draft status.
+    outcome: AdmissionRequestStarted
+    rules: [RN-001, RN-005]
+  - id: PRC-ADM-004-02
+    name: Mark admission ready
+    actor: receptionist
+    trigger: Catalog selection and clinical notes are complete.
+    commands:
+      - MarkAdmissionReady
+    preconditions:
+      - Catalog selection is non-empty and every item is published.
+    steps:
+      - Validate catalog selection publication state.
+      - Capture clinical notes draft.
+      - Transition admission to ready_for_order status.
+    outcome: AdmissionMarkedReady
+    rules: [RN-002]
+  - id: PRC-ADM-004-03
+    name: Commit admission request
+    actor: receptionist
+    trigger: Consent and sample-requirement acknowledgement are captured.
+    commands:
+      - CommitAdmissionRequest
+    preconditions:
+      - Admission is ready_for_order.
+      - consentConfirmed and, if required, sampleRequirementsAcknowledged are true.
+    steps:
+      - Invoke BCM-LAB-001 CreateDiagnosticOrder with catalog selection and doctor reference.
+      - Invoke BCM-LAB-001 PriceDiagnosticOrder.
+      - Invoke BCM-LAB-001 AcceptDiagnosticOrder with clinical notes.
+      - Transition admission to order_created status and record createdOrderId.
+      - Publish AdmissionRequestCommitted.
+    outcome: AdmissionRequestCommitted
+    rules: [RN-003, RN-004, RN-007]
+  - id: PRC-ADM-004-04
+    name: Reject admission request
+    actor: receptionist
+    trigger: Completeness validation fails or the actor cancels intake.
+    commands:
+      - RejectAdmissionRequest
+    steps:
+      - Capture rejection reason.
+      - Transition admission to rejected status.
+    outcome: AdmissionRequestRejected
+    rules: [RN-006]
+
+commands:
+  - name: StartAdmissionRequest
+    generatable: false
+    custom_reason: Reception visit precondition check.
+  - name: MarkAdmissionReady
+    generatable: false
+    custom_reason: Published-catalog validation.
+  - name: CommitAdmissionRequest
+    generatable: false
+    custom_reason: Cross-capability delegation to BCM-LAB-001 commands.
+  - name: RejectAdmissionRequest
+    generatable: true

@@ -2,11 +2,11 @@ artifact:
   id: HOP-CAP-PKG-IDX-001
   type: capability-package-index
   name: HOP Business Capability Package Index
-  version: 1.2.0
+  version: 1.3.0
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.yaml
-  qa_evidence: ../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
+  qa_evidence: ../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.yaml
 
 policy:
   primary_development_unit: business_capability_package
@@ -35,8 +35,10 @@ do_not_write_manually:
 active_capability_package_group:
   roadmap_group: MVP-MOD-004
   name: Front Desk and Care Delivery
-  package_status: not_started
+  package_status: modeled
   backlog_item: MVP-MOD-004-DEF
+  backlog_item_status: closed
+  qa_evidence: ../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.yaml
   required_artifacts_per_package:
     - capability-package.yaml
     - business-model.yaml
@@ -52,23 +54,41 @@ active_capability_package_group:
     - generation-plan.yaml
     - traceability.yaml
     - README.md
-  next_backlog_item: MVP-MOD-004-DEF
+  next_backlog_item: MVP-MOD-004-BE-001
   capabilities:
     - capability_id: BCM-ATT-001
       package_folder: bcm-att-001-appointment-scheduling/
-      package_status: not_started
+      package_status: modeled
+      bounded_context: orders-samples
+      secondary_bounded_context: organization-management
+      primary_aggregate: AGG-007 DiagnosticOrder (owned by BCM-LAB-001)
+      mobile_scope: check_in_later
     - capability_id: BCM-ATT-003
       package_folder: bcm-att-003-reception-management/
-      package_status: not_started
+      package_status: modeled
+      bounded_context: orders-samples
+      secondary_bounded_context: patient-management
+      primary_aggregate: AGG-007 DiagnosticOrder (owned by BCM-LAB-001)
+      mobile_scope: not_required
     - capability_id: BCM-ATT-004
       package_folder: bcm-att-004-admission-management/
-      package_status: not_started
+      package_status: modeled
+      bounded_context: orders-samples
+      primary_aggregate: AGG-007 DiagnosticOrder (owned by BCM-LAB-001)
+      mobile_scope: not_required
     - capability_id: BCM-ATT-006
       package_folder: bcm-att-006-quotation-management/
-      package_status: not_started
+      package_status: modeled
+      bounded_context: cash-sales
+      secondary_bounded_context: catalog-test-configuration
+      primary_aggregate: none (standalone QuotationRequest; Sale AGG-010 deferred to MVP-MOD-005)
+      mobile_scope: not_required
     - capability_id: BCM-LAB-001
       package_folder: bcm-lab-001-diagnostic-order-management/
-      package_status: not_started
+      package_status: modeled
+      bounded_context: orders-samples
+      primary_aggregate: AGG-007 DiagnosticOrder
+      mobile_scope: not_required
 
 completed_capability_package_groups:
   - roadmap_group: MVP-MOD-003

@@ -1,0 +1,117 @@
+artifact:
+  id: HOP-TRACE-BCM-ATT-006
+  type: traceability
+  name: Quotation Management Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-006
+
+traces:
+  capability_map:
+    bcm_001: BCM-ATT-006
+    domain: DOM-04 Care Delivery
+  dependency_map:
+    bcm_002_profile: care_delivery
+    required_capabilities: [BCM-SVC-001, BCM-SVC-002, BCM-SVC-003, BCM-SVC-009, BCM-PLT-001, BCM-PLT-007]
+    downstream_capabilities: [BCM-LAB-001, BCM-ATT-005, BCM-ATT-008]
+  domain_foundation:
+    bounded_context: cash-sales
+    secondary_bounded_context: catalog-test-configuration
+    aggregate_reference: none (Sale AGG-010 deferred to future MVP-MOD-005; QuotationRequest is a standalone process aggregate owned by this capability)
+    context_relationships: [REL-CTX-003, REL-CTX-006]
+    shared_kernel_refs: [VO-ID-001, VO-ID-002, VO-ID-003, VO-ID-005, VO-ID-007, VO-001, VO-003, VO-004, VO-007]
+  brm_alignment:
+    - rule: BRM-001-R005
+      alignment: Quotation lines must reference only published catalog items (RN-001).
+    - rule: BRM-001-R006
+      alignment: Quotations preserve a price snapshot before acceptance and conversion (RN-002).
+    - rule: BRM-001-R018
+      alignment: Quotation events are append-only and audit trace fields are required (RN-008).
+  hrp_alignment:
+    - process: HRP-001-P03 Patient Registration and Order Intake
+      capability_role: Optional pre-order price estimation segment feeding order intake on acceptance.
+  rules_to_tests:
+    - rule: RN-001
+      tests: [TST-QUO-006-01]
+    - rule: RN-002
+      tests: [TST-QUO-006-02]
+    - rule: RN-003
+      tests: [TST-QUO-006-03]
+    - rule: RN-004
+      tests: [TST-QUO-006-04]
+    - rule: RN-005
+      tests: [TST-QUO-006-05]
+    - rule: RN-006
+      tests: [TST-QUO-006-06]
+    - rule: RN-007
+      tests: [TST-QUO-006-07]
+    - rule: RN-008
+      tests: [TST-QUO-006-08]
+  processes_to_commands:
+    - process: PRC-QUO-006-01
+      commands: [StartQuotation]
+    - process: PRC-QUO-006-02
+      commands: [IssueQuotation]
+    - process: PRC-QUO-006-03
+      commands: [AcceptQuotation]
+    - process: PRC-QUO-006-04
+      commands: [ConvertQuotation]
+    - process: PRC-QUO-006-05
+      commands: [CancelQuotation, ExpireQuotation]
+  api_to_permissions:
+    - operation: startQuotation
+      scope: quotation.manage
+    - operation: issueQuotation
+      scope: quotation.manage
+    - operation: acceptQuotation
+      scope: quotation.manage
+    - operation: convertQuotation
+      scope: quotation.manage
+    - operation: cancelQuotation
+      scope: quotation.manage
+    - operation: expireQuotation
+      scope: quotation.manage
+    - operation: listQuotations
+      scope: quotation.read
+    - operation: getQuotation
+      scope: quotation.read
+  events_to_audit:
+    - event: QuotationDrafted
+      audit_sink: BCM-PLT-007
+    - event: QuotationIssued
+      audit_sink: BCM-PLT-007
+    - event: QuotationAccepted
+      audit_sink: BCM-PLT-007
+    - event: QuotationConverted
+      audit_sink: BCM-PLT-007
+    - event: QuotationClosed
+      audit_sink: BCM-PLT-007
+  ui_to_api:
+    - screen: SCR-QUO-006-01
+      operations: [startQuotation, issueQuotation]
+    - screen: SCR-QUO-006-02
+      operations: [listQuotations]
+    - screen: SCR-QUO-006-03
+      operations: [getQuotation, acceptQuotation, convertQuotation, cancelQuotation]
+  future_aggregate_note: >
+    Once MVP-MOD-005 Cashier and Billing Request models the Sale aggregate
+    (AGG-010), a follow-up capability-package revision may add an optional
+    QuotationRequest-to-Sale conversion path alongside the existing
+    QuotationRequest-to-DiagnosticOrder path. No forward dependency is taken
+    on unbuilt MVP-MOD-005 artifacts.
+  generated_outputs_ref: generation-plan.yaml
+  qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.yaml
+  backlog_items:
+    definition: MVP-MOD-004-DEF
+    definition_status: closed
+    compilation: MVP-MOD-004-BE-001
+    compilation_status: pending
+    custom_rules: MVP-MOD-004-BE-002
+    custom_rules_status: pending
+    ui: MVP-MOD-004-FE-001
+    ui_status: pending
+    validation: MVP-MOD-004-QA-001
+    validation_status: pending
+    closeout: MVP-MOD-004-CLOSEOUT
+    closeout_status: pending

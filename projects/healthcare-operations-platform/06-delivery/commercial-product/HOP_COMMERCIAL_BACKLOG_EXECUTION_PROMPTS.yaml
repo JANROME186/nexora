@@ -205,6 +205,6 @@ validation_commands:
 
 next_backlog_item:
   module_id: MVP-MOD-004
-  backlog_item_id: MVP-MOD-004-DEF
-  name: Capability package models for Front Desk and Care Delivery
+  backlog_item_id: MVP-MOD-004-BE-001
+  name: Compile appointment, reception and order backend outputs
   expected_folder: ../../01-product-definition/business-capabilities/packages/

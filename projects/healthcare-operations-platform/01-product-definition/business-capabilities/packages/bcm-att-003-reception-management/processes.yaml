@@ -1,0 +1,93 @@
+artifact:
+  id: HOP-PROC-BCM-ATT-003
+  type: processes
+  name: Reception Management Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-003
+
+actors:
+  - id: receptionist
+    actor_ref: ACT-004
+    name: Receptionist
+    source: ACM-001
+
+processes:
+  - id: PRC-REC-003-01
+    name: Start reception visit
+    actor: receptionist
+    trigger: A patient arrives at the branch, walk-in or scheduled.
+    commands:
+      - StartReceptionVisit
+    preconditions:
+      - Actor holds reception.manage.
+      - Linked appointment, if any, is checked_in.
+    steps:
+      - Capture patient and intake channel.
+      - Link checked-in appointment if applicable.
+      - Persist ReceptionVisit with waiting queue status.
+    outcome: ReceptionVisitStarted
+    rules: [RN-002, RN-004]
+  - id: PRC-REC-003-02
+    name: Confirm reception identity
+    actor: receptionist
+    trigger: The receptionist verifies the patient's identity at the desk.
+    commands:
+      - ConfirmReceptionIdentity
+    preconditions:
+      - Reception visit exists.
+    steps:
+      - Verify patient identity against BCM-PER-002 read-only reference.
+      - Mark identityConfirmed and confirmation method.
+    outcome: ReceptionIdentityConfirmed
+    rules: [RN-001, RN-003]
+  - id: PRC-REC-003-03
+    name: Advance to admission
+    actor: receptionist
+    trigger: Identity is confirmed and the visit is ready for order intake.
+    commands:
+      - AdvanceToAdmission
+    preconditions:
+      - identityConfirmed is true.
+    steps:
+      - Transition queueStatus to in_admission.
+      - Publish ReceptionVisitReadyForAdmission for BCM-ATT-004.
+    outcome: ReceptionVisitReadyForAdmission
+    rules: [RN-001, RN-006, RN-007]
+  - id: PRC-REC-003-04
+    name: Update reception queue priority
+    actor: receptionist
+    trigger: A visit requires reprioritization (clinical urgency, elapsed wait time).
+    commands:
+      - UpdateReceptionPriority
+    steps:
+      - Recompute queue ordering per tenant priority rules.
+    outcome: ReceptionQueueReordered
+    rules: [RN-005]
+  - id: PRC-REC-003-05
+    name: Mark reception visit abandoned
+    actor: receptionist
+    trigger: The patient leaves before admission.
+    commands:
+      - AbandonReceptionVisit
+    steps:
+      - Transition queueStatus to abandoned.
+    outcome: ReceptionVisitAbandoned
+    rules: [RN-004]
+
+commands:
+  - name: StartReceptionVisit
+    generatable: false
+    custom_reason: Appointment linkage validation.
+  - name: ConfirmReceptionIdentity
+    generatable: false
+    custom_reason: Read-only cross-capability identity check against Patient master data.
+  - name: AdvanceToAdmission
+    generatable: false
+    custom_reason: Precondition enforcement and handoff to Admission Management.
+  - name: UpdateReceptionPriority
+    generatable: false
+    custom_reason: Tenant-configurable priority computation.
+  - name: AbandonReceptionVisit
+    generatable: true

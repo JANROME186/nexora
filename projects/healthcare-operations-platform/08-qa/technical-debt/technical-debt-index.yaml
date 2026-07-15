@@ -137,3 +137,21 @@ entries:
     affected_area: employee_portal_people_and_clinical_master_data_screens
     file: 08-qa/technical-debt/TD-FE-002-patient-doctor-update-documents-specialty-ui-missing.yaml
     remediation_strategy: gradual_when_a_future_ui_backlog_item_covers_patient_or_doctor_editing
+  - id: TD-DEF-001
+    title: Quotation-to-Sale conversion path deferred until MVP-MOD-005 models the Sale aggregate
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: MVP-MOD-004-DEF
+    affected_area: quotation_management_conversion_lifecycle
+    file: 08-qa/technical-debt/TD-DEF-001-quotation-to-sale-conversion-deferred.yaml
+    remediation_strategy: gradual_when_mvp_mod_005_cashier_and_billing_request_is_modeled
+  - id: TD-DEF-002
+    title: Appointment capacity planning against detailed branch schedules is deferred to BCM-ORG-007
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: MVP-MOD-004-DEF
+    affected_area: appointment_scheduling_capacity_validation
+    file: 08-qa/technical-debt/TD-DEF-002-appointment-capacity-planning-deferred.yaml
+    remediation_strategy: gradual_when_bcm_org_007_schedule_management_is_modeled

@@ -1,0 +1,108 @@
+artifact:
+  id: HOP-CAP-PKG-BCM-ATT-001
+  type: capability-package
+  name: Appointment Scheduling Capability Package
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.yaml
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-15
+  roadmap_group: MVP-MOD-004
+  execution_flow_stage: model
+
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+
+capability:
+  id: BCM-ATT-001
+  name:
+    en: Appointment Scheduling
+    es: Agenda
+  domain: DOM-04 Care Delivery
+  priority: High
+  roadmap: MVP1
+  dependency_profile: care_delivery
+  bounded_context: orders-samples
+  secondary_bounded_context: organization-management
+  primary_aggregate: DiagnosticOrder
+  aggregate_ref: AGG-007
+  aggregate_ownership_note: >
+    AppointmentSlot is a process-level entity owned by this capability. It
+    does not mutate DiagnosticOrder directly; on confirmation or check-in it
+    is handed off as sourceReferenceId to BCM-LAB-001 CreateDiagnosticOrder.
+  process_ref: HRP-001-P03
+
+scope:
+  summary: >
+    Manages appointment slot requests, confirmation and cancellation for a
+    branch. Validates branch operational status and, when applicable,
+    published catalog and preparation-instruction availability before
+    confirming a slot. Confirmed or checked-in appointments become the
+    intake reference that Reception Management and Admission Management use
+    to start a diagnostic order through BCM-LAB-001.
+  in_scope:
+    - Appointment slot creation, confirmation, rescheduling and cancellation.
+    - Branch operational-status and basic capacity validation at scheduling time.
+    - Preparation-instruction and catalog-availability surfacing for the selected service.
+    - Handoff of a confirmed appointment as an order intake reference.
+    - No-show tracking.
+  out_of_scope:
+    - Patient and doctor master data ownership (BCM-PER-002, BCM-PER-003).
+    - Diagnostic order creation and pricing (BCM-LAB-001).
+    - Front-desk check-in queue management (BCM-ATT-003).
+    - Detailed staff/branch schedule capacity planning (BCM-ORG-007, MVP2).
+
+roadmap:
+  module: MVP-MOD-004
+  release: REL-001
+  package_status: modeled
+  next_backlog_item: MVP-MOD-004-BE-001
+
+dependencies:
+  required_capabilities:
+    - BCM-PER-002
+    - BCM-ORG-003
+    - BCM-PLT-001
+    - BCM-PLT-007
+  optional_capabilities:
+    - BCM-PER-003
+    - BCM-SVC-001
+    - BCM-SVC-005
+    - BCM-ORG-007
+    - BCM-PLT-003
+  downstream_capabilities:
+    - BCM-ATT-003
+    - BCM-LAB-001
+  upstream_contexts:
+    - identity-access
+    - organization-management
+    - audit-compliance
+    - patient-management
+    - catalog-test-configuration
+
+product_surfaces:
+  backend: required
+  employee_portal: required
+  patient_portal: appointment_request_later
+  doctor_portal: not_required
+  mobile_app: check_in_later
+
+required_artifacts:
+  - capability-package.yaml
+  - business-model.yaml
+  - business-rules.yaml
+  - processes.yaml
+  - events.yaml
+  - openapi-source.yaml
+  - permissions.yaml
+  - ui-model.yaml
+  - mobile-model.yaml
+  - test-model.yaml
+  - observability-model.yaml
+  - generation-plan.yaml
+  - traceability.yaml
+  - README.md

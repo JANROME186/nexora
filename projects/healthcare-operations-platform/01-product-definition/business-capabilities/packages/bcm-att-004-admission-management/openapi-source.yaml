@@ -1,0 +1,74 @@
+artifact:
+  id: HOP-API-SRC-BCM-ATT-004
+  type: openapi-source
+  name: Admission Management API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-004
+  note: >
+    Source contract model. The rendered OpenAPI document, controllers, DTOs
+    and SDKs are generated outputs declared in generation-plan.yaml.
+
+api:
+  base_path: /api/care-delivery/admission-requests
+  surface_classification: internal
+  future_surfaces: []
+  security:
+    scheme: bearer_jwt
+    required_scopes_default: [admission.manage]
+
+resources:
+  - name: AdmissionRequest
+    operations:
+      - id: listAdmissionRequests
+        method: GET
+        path: /
+        scopes: [admission.read]
+        generatable: true
+      - id: getAdmissionRequest
+        method: GET
+        path: /{admissionId}
+        scopes: [admission.read]
+        generatable: true
+      - id: startAdmissionRequest
+        method: POST
+        path: /
+        scopes: [admission.manage]
+        generatable: false
+        custom_reason: Reception visit precondition check.
+      - id: markAdmissionReady
+        method: POST
+        path: /{admissionId}/mark-ready
+        scopes: [admission.manage]
+        generatable: false
+        custom_reason: Published-catalog validation.
+      - id: commitAdmissionRequest
+        method: POST
+        path: /{admissionId}/commit
+        scopes: [admission.manage]
+        generatable: false
+        custom_reason: Cross-capability delegation to BCM-LAB-001 commands.
+      - id: rejectAdmissionRequest
+        method: POST
+        path: /{admissionId}/reject
+        scopes: [admission.manage]
+        generatable: true
+
+schemas_source:
+  - AdmissionRequest
+  - AdmissionCatalogSelection
+
+error_model:
+  standard: rfc7807
+  domain_errors:
+    - code: ADMISSION_IDENTITY_NOT_CONFIRMED
+      maps_to_rule: RN-001
+    - code: ADMISSION_CATALOG_INCOMPLETE
+      maps_to_rule: RN-002
+    - code: ADMISSION_CONSENT_OR_SAMPLE_ACK_MISSING
+      maps_to_rule: RN-003
+    - code: ADMISSION_ORDER_BOUNDARY_VIOLATION
+      maps_to_rule: RN-004
+    - code: ADMISSION_SCOPE_MISMATCH
+      maps_to_rule: RN-005

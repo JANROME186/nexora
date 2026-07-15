@@ -1,0 +1,21 @@
+artifact:
+  id: HOP-MOB-BCM-ATT-001
+  type: mobile-model
+  name: Appointment Scheduling Mobile Model
+  version: 0.1.0
+  status: deferred
+  classification: editable_model
+  capability: BCM-ATT-001
+
+mobile_scope:
+  status: check_in_later
+  rationale: >
+    MVP-MOD-004 declares mobile_app check_in_later for Appointment
+    Scheduling. Patient self check-in and appointment requests through the
+    mobile app are planned in COM-MOD-009 Patient and Doctor Portals, and
+    will invoke this capability through the same orchestration commands
+    documented in openapi-source.yaml.
+  deferred_to:
+    - COM-MOD-009 Patient and Doctor Portals
+  flows: []
+  offline_expectations: none

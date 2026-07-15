@@ -1,0 +1,55 @@
+artifact:
+  id: HOP-TEST-BCM-ATT-004
+  type: test-model
+  name: Admission Management Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-004
+
+test_cases:
+  - id: TST-ADM-004-01
+    type: acceptance
+    validates_rule: RN-001
+    statement: Starting an admission request from a visit without confirmed identity is rejected.
+    generatable: false
+  - id: TST-ADM-004-02
+    type: acceptance
+    validates_rule: RN-002
+    statement: Marking an admission ready with an unpublished catalog item is rejected.
+    generatable: false
+  - id: TST-ADM-004-03
+    type: acceptance
+    validates_rule: RN-003
+    statement: Committing an admission without required consent or sample-requirement acknowledgement is rejected.
+    generatable: false
+  - id: TST-ADM-004-04
+    type: architecture
+    validates_rule: RN-004
+    statement: Admission commit invokes BCM-LAB-001 order commands, not direct order persistence.
+    generatable: false
+  - id: TST-ADM-004-05
+    type: contract
+    validates_rule: RN-005
+    statement: Unauthorized or out-of-scope actors cannot manage admission requests.
+    generatable: true
+  - id: TST-ADM-004-06
+    type: acceptance
+    validates_rule: RN-006
+    statement: A rejected admission request records a rejection reason.
+    generatable: true
+  - id: TST-ADM-004-07
+    type: unit
+    validates_rule: RN-007
+    statement: AdmissionRequestCommitted event carries actor, branch and created order id.
+    generatable: true
+
+test_layers:
+  - contract_tests
+  - unit_tests
+  - acceptance_tests
+  - architecture_tests
+
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests: [TST-ADM-004-01, TST-ADM-004-02, TST-ADM-004-03, TST-ADM-004-04]

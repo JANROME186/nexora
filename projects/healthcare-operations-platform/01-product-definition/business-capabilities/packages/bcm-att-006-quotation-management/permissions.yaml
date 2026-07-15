@@ -1,0 +1,50 @@
+artifact:
+  id: HOP-PERM-BCM-ATT-006
+  type: permissions
+  name: Quotation Management Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-006
+  depends_on_capability: BCM-PLT-001
+
+scopes:
+  - code: quotation.manage
+    description: Draft, issue, accept, convert, cancel or expire a quotation.
+  - code: quotation.discount.override
+    description: Apply a discount beyond the standard receptionist policy limit.
+  - code: quotation.read
+    description: Read quotation history for audit and review.
+
+roles:
+  - role: receptionist
+    grants: [quotation.manage, quotation.read]
+  - role: branch-administrator
+    grants: [quotation.manage, quotation.discount.override, quotation.read]
+  - role: tenant-administrator
+    grants: [quotation.read]
+
+access_policies:
+  - id: POL-QUO-006-01
+    statement: Quotation commands are scoped to the actor's tenant, laboratory and branch.
+    enforcement: row_level_tenant_laboratory_branch_filter
+  - id: POL-QUO-006-02
+    statement: A discount beyond the standard policy limit requires quotation.discount.override.
+    enforcement: scope_escalation_policy
+  - id: POL-QUO-006-03
+    statement: Converting a quotation must delegate order mutation to BCM-LAB-001 aggregate commands.
+    enforcement: cross_capability_delegation_policy
+
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+    - event: QuotationDrafted
+      fields: [quotationId, actorId, branchId]
+    - event: QuotationIssued
+      fields: [quotationId, actorId, totalAmount, validUntil]
+    - event: QuotationAccepted
+      fields: [quotationId, actorId, totalAmount]
+    - event: QuotationConverted
+      fields: [quotationId, convertedOrderId, actorId]
+    - event: QuotationClosed
+      fields: [quotationId, actorId, reasonCode]

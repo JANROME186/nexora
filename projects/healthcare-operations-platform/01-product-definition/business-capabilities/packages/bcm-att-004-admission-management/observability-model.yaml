@@ -1,0 +1,56 @@
+artifact:
+  id: HOP-OBS-BCM-ATT-004
+  type: observability-model
+  name: Admission Management Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-004
+  depends_on_capability: BCM-PLT-006
+
+logs:
+  - event: admission_request_started
+    level: info
+    fields: [admissionId, branchId, actorId, visitId]
+  - event: admission_marked_ready
+    level: info
+    fields: [admissionId, actorId]
+  - event: admission_request_committed
+    level: info
+    fields: [admissionId, createdOrderId, actorId, branchId]
+  - event: admission_request_rejected
+    level: warn
+    fields: [admissionId, actorId, rejectionReason]
+
+metrics:
+  - name: admission_request_started_total
+    type: counter
+    labels: [tenantId, branchId]
+  - name: admission_request_committed_total
+    type: counter
+    labels: [tenantId, branchId]
+  - name: admission_request_rejected_total
+    type: counter
+    labels: [tenantId, branchId, rejectionReason]
+  - name: admission_intake_duration_ms
+    type: histogram
+    labels: [tenantId, branchId]
+
+traces:
+  - span: CommitAdmissionRequest
+    child_spans:
+      - InvokeCreateDiagnosticOrder
+      - InvokePriceDiagnosticOrder
+      - InvokeAcceptDiagnosticOrder
+      - PublishAdmissionRequestCommitted
+
+audit_events:
+  - AdmissionRequestStarted
+  - AdmissionMarkedReady
+  - AdmissionRequestCommitted
+  - AdmissionRequestRejected
+
+alerts:
+  - name: HighAdmissionRejectionRate
+    condition: admission_request_rejected_total rate exceeds threshold
+    severity: warning

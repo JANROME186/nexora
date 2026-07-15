@@ -1,0 +1,104 @@
+artifact:
+  id: HOP-TRACE-BCM-ATT-001
+  type: traceability
+  name: Appointment Scheduling Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-001
+
+traces:
+  capability_map:
+    bcm_001: BCM-ATT-001
+    domain: DOM-04 Care Delivery
+  dependency_map:
+    bcm_002_profile: care_delivery
+    required_capabilities: [BCM-PER-002, BCM-ORG-003, BCM-PLT-001, BCM-PLT-007]
+    downstream_capabilities: [BCM-ATT-003, BCM-LAB-001]
+  domain_foundation:
+    bounded_context: orders-samples
+    aggregate_reference: AGG-007 DiagnosticOrder (owned by BCM-LAB-001)
+    context_relationships: [REL-CTX-002, REL-CTX-003]
+    shared_kernel_refs: [VO-ID-001, VO-ID-002, VO-ID-003, VO-ID-005, VO-ID-006, VO-006, VO-007]
+  brm_alignment:
+    - rule: BRM-001-R005
+      alignment: Requested catalog items must be published (RN-003).
+    - rule: BRM-001-R018
+      alignment: Appointment events are append-only and audit trace fields are required (RN-007).
+  hrp_alignment:
+    - process: HRP-001-P03 Patient Registration and Order Intake
+      capability_role: Appointment request, confirmation and check-in segment preceding order intake.
+  rules_to_tests:
+    - rule: RN-001
+      tests: [TST-APT-001-01]
+    - rule: RN-002
+      tests: [TST-APT-001-02]
+    - rule: RN-003
+      tests: [TST-APT-001-03]
+    - rule: RN-004
+      tests: [TST-APT-001-04]
+    - rule: RN-005
+      tests: [TST-APT-001-05]
+    - rule: RN-006
+      tests: [TST-APT-001-06]
+    - rule: RN-007
+      tests: [TST-APT-001-07]
+  processes_to_commands:
+    - process: PRC-APT-001-01
+      commands: [RequestAppointment]
+    - process: PRC-APT-001-02
+      commands: [ConfirmAppointment]
+    - process: PRC-APT-001-03
+      commands: [CheckInAppointment]
+    - process: PRC-APT-001-04
+      commands: [CancelAppointment]
+    - process: PRC-APT-001-05
+      commands: [MarkAppointmentNoShow]
+  api_to_permissions:
+    - operation: requestAppointment
+      scope: appointment.manage
+    - operation: confirmAppointment
+      scope: appointment.manage
+    - operation: checkInAppointment
+      scope: appointment.manage
+    - operation: cancelAppointment
+      scope: appointment.manage
+    - operation: markAppointmentNoShow
+      scope: appointment.manage
+    - operation: listAppointments
+      scope: appointment.read
+    - operation: getAppointment
+      scope: appointment.read
+  events_to_audit:
+    - event: AppointmentRequested
+      audit_sink: BCM-PLT-007
+    - event: AppointmentConfirmed
+      audit_sink: BCM-PLT-007
+    - event: AppointmentCheckedIn
+      audit_sink: BCM-PLT-007
+    - event: AppointmentCancelled
+      audit_sink: BCM-PLT-007
+    - event: AppointmentNoShowMarked
+      audit_sink: BCM-PLT-007
+  ui_to_api:
+    - screen: SCR-APT-001-01
+      operations: [requestAppointment, confirmAppointment]
+    - screen: SCR-APT-001-02
+      operations: [listAppointments, checkInAppointment]
+    - screen: SCR-APT-001-03
+      operations: [getAppointment, cancelAppointment]
+  generated_outputs_ref: generation-plan.yaml
+  qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.yaml
+  backlog_items:
+    definition: MVP-MOD-004-DEF
+    definition_status: closed
+    compilation: MVP-MOD-004-BE-001
+    compilation_status: pending
+    custom_rules: MVP-MOD-004-BE-002
+    custom_rules_status: pending
+    ui: MVP-MOD-004-FE-001
+    ui_status: pending
+    validation: MVP-MOD-004-QA-001
+    validation_status: pending
+    closeout: MVP-MOD-004-CLOSEOUT
+    closeout_status: pending
