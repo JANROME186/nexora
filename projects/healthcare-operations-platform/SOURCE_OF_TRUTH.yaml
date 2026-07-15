@@ -163,6 +163,8 @@ sources:
   quality_alignment_backlog_yaml: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
   quality_alignment_gap_analysis: 08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.md
   quality_alignment_gap_analysis_yaml: 08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.yaml
+  engineering_excellence_prioritization: 08-qa/qa/quality-alignment/HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.md
+  engineering_excellence_prioritization_yaml: 08-qa/qa/quality-alignment/HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.yaml
   commercial_backlog_execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   commercial_backlog_execution_prompts_yaml: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   commercial_module_folder_index_yaml: 06-delivery/commercial-product/modules/module-folder-index.yaml
@@ -230,6 +232,7 @@ rules:
   - HOP code-changing backlog items must produce security quality evidence with applicable tests, best-practice and coding-standard checks, duplicate-code checks, complexity checks, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerability checks across all severities, secrets scan, coverage, message externalization/i18n review and DAST when runnable surfaces exist.
   - HOP functional development is blocked by 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml until HOP-QA-ALIGN-CLOSEOUT passes.
   - HOP agents must execute at least one technical-debt remediation or material reduction before feature implementation in each code-changing backlog item unless no open debt exists.
+  - HOP engineering excellence findings must be classified as P0 minimum, P1 technical-debt backlog or P2 contextual/desirable before deciding whether they block delivery.
   - HOP must maintain 09-operations/runbooks/local-solution-runbook.md and .yaml as the single integrated local startup, validation and shutdown guide for human reviewers.
   - HOP agents must update or explicitly confirm the integrated local runbook whenever runtime components, ports, variables, startup order, validation commands or review surfaces change.
   - HOP technology reviews must not be constrained permanently by the initial stack; agents must register non-blocking upgrade, migration, dependency, framework or tooling findings in 08-qa/technical-debt/ and remediate gradually when affected components are touched.

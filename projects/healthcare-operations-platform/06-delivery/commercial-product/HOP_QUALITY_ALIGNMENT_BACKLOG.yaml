@@ -24,8 +24,10 @@ scope:
     - filesystem_container_security
   source_analysis: ../../08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.yaml
   framework_standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  engineering_excellence_standard: ../../../../nexora-framework/02-standards/standards/engineering-excellence-prioritization-standard.yaml
   stack_baseline: ../../03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
   technical_debt_index: ../../08-qa/technical-debt/technical-debt-index.yaml
+  engineering_excellence_prioritization: ../../08-qa/qa/quality-alignment/HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.yaml
 
 execution_policy:
   functional_development_blocked_until_closeout: true
@@ -43,6 +45,10 @@ definition_of_done:
   - All all-severity vulnerability, secret and misconfiguration scans either pass or create immediate target debt with accepted-risk details.
   - Backend, frontend, mobile and runtime quality gates are documented as executable commands.
   - Message externalization and magic-string inventory is created and routed to remediation.
+  - Engineering excellence findings are classified as P0, P1 or P2.
+  - P0 findings are satisfied for changed scope or explicitly blocked with owner and target backlog.
+  - P1 findings are registered as technical debt with target backlog and acceptance criteria.
+  - P2 findings are documented but do not block functional development unless risk promotes them.
   - PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml and execution prompts are synchronized at closeout.
 
 backlog_items:
@@ -70,11 +76,13 @@ backlog_items:
     required_outputs:
       - updated_technical_debt_index
       - updated_debt_items_with_blocking_or_immediate_priority_flags
+      - engineering_excellence_p0_p1_p2_classification
       - qa_evidence_yaml
       - qa_evidence_md
     acceptance_criteria:
       - Quality-tooling debt items identify owner/responsible role, target backlog, urgency and closeout criteria.
       - At least one existing debt item is materially reduced or split into executable remediation items.
+      - All open quality debt is classified as P0, P1 or P2 using HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.yaml.
       - PROJECT_STATE.yaml continues to block MVP-MOD-004-FE-001 until closeout.
 
   - id: HOP-QA-ALIGN-002
@@ -234,6 +242,9 @@ backlog_items:
       enterprise quality alignment passes.
     acceptance_criteria:
       - HOP-QA-ALIGN-001 through HOP-QA-ALIGN-006 are closed or explicitly blocked with approved remediation ownership.
+      - P0 minimum enterprise baseline is satisfied for the scope required to resume MVP-MOD-004-FE-001.
+      - P1 findings are registered or updated as technical debt and scheduled through debt-first execution.
+      - P2 findings are not used as functional development blockers unless promoted by documented risk.
       - No mandatory gate is marked passed_with_execution_limitation or closed_with_execution_limitation.
       - PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml and quality indexes are synchronized.
       - next_backlog_item returns to MVP-MOD-004-FE-001.

@@ -38,3 +38,11 @@ HOP has several of these documented as debt, but not yet sequenced as mandatory 
 ## Rule
 
 Do not continue HOP functional development until `HOP-QA-ALIGN-CLOSEOUT` passes and the project state returns the next backlog pointer to `MVP-MOD-004-FE-001`.
+
+Use the P0/P1/P2 prioritization in:
+
+`08-qa/qa/quality-alignment/HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.yaml`
+
+- P0 findings must be satisfied for the changed scope before resuming functionality.
+- P1 findings must be registered or updated as technical debt and consumed through debt-first execution.
+- P2 findings are desirable/contextual and must not block delivery unless risk promotes them.

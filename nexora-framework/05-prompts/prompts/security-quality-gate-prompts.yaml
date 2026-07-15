@@ -12,6 +12,7 @@ purpose: Provide reusable agent-agnostic prompts for open-source-first technolog
 
 required_context:
   - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  - nexora-framework/02-standards/standards/engineering-excellence-prioritization-standard.yaml
   - nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
   - target_project/SOURCE_OF_TRUTH.yaml
   - target_project/PROJECT_STATE.yaml
@@ -33,7 +34,7 @@ prompts:
       - technical_debt_items_to_create_or_update
       - selected_stack_baseline
     prompt: |
-      Load the Open Source First Security and Quality Standard.
+      Load the Open Source First Security and Quality Standard and the Engineering Excellence Prioritization Standard.
       Identify the requester-proposed stack, the current project stack and every runtime, framework, package manager, build tool, database, deployment technology and quality tool that materially affects development.
       Validate each stack element against current stable or LTS versions using official documentation, release notes, lifecycle pages, official security advisories and trusted vulnerability sources. Treat blogs, tutorials and marketing claims as supporting context only, not authority.
       Compare the proposed stack with current open source ecosystem practice for security, maintainability, portability, cost, maturity, hiring risk, deployment fit and available quality gates.
@@ -44,6 +45,7 @@ prompts:
       If a better, safer, more current or actively maintained tool replaces a framework baseline tool, document the proposed substitution, create framework feedback and update project technical debt before closing the analysis.
       Apply immediately any upgrade or replacement required to remove security findings that cannot be safely accepted, unsupported runtimes, incompatible quality gates or blocking build failures.
       For beneficial but non-blocking upgrades, migrations or tooling gaps, create or update technical-debt items under 08-qa/technical-debt/ with risk, effort, cost, affected components and gradual remediation triggers.
+      Classify quality and engineering gaps as P0, P1 or P2. P0 gaps block closure for changed scope; P1 gaps must become technical debt with target backlog; P2 gaps must not block delivery unless project risk promotes them.
       Produce a selected_stack_baseline and stack_toolchain_baseline for architecture or backlog evidence.
 
   - id: PROMPT-OSS-001
@@ -59,7 +61,7 @@ prompts:
       - technical_debt_items_to_create_or_update
       - recommendation
     prompt: |
-      Load the Open Source First Security and Quality Standard.
+      Load the Open Source First Security and Quality Standard and the Engineering Excellence Prioritization Standard.
       Review the changed architecture, dependencies, runtime tools and implementation choices.
       If the requester or existing project proposes a stack, first run the client proposed stack market validation prompt and use its selected_stack_baseline as input.
       Prefer open source, self-hostable, standards-based technologies.
@@ -126,7 +128,7 @@ prompts:
       - remediation_triggers
       - backlog_recommendation
     prompt: |
-      Load the Open Source First Security and Quality Standard and the target project technical debt index.
+      Load the Open Source First Security and Quality Standard, the Engineering Excellence Prioritization Standard and the target project technical debt index.
       For each non-blocking finding related to outdated dependencies, deprecated frameworks, unsupported runtimes, quality tooling gaps, lock-in risk or recommended open source migration, create or update a debt item under 08-qa/technical-debt/.
       Include affected components, current state, recommended target state, reason, risk, urgency, estimated effort, estimated cost impact, migration strategy, incremental remediation triggers, dependencies and acceptance criteria.
       Prefer gradual remediation tied to normal backlog work that already touches the affected components.

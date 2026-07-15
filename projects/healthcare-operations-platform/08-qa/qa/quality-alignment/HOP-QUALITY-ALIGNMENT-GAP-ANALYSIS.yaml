@@ -9,6 +9,7 @@ artifact:
   machine_readable: HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.yaml
   framework_standard: ../../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
   project_stack_baseline: ../../../03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
+  engineering_excellence_prioritization: HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.yaml
 
 purpose: >
   Analyze Healthcare Operations Platform against the updated Nexora enterprise
@@ -97,6 +98,7 @@ required_backlog_strategy:
     Each item must resolve or materially reduce at least one open technical-debt
     item and produce YAML and Markdown evidence.
   minimum_exit_criteria:
+    - Engineering excellence findings are classified as P0, P1 or P2.
     - Backend Java/Maven quality profile exists or every missing tool has an immediate technical-debt item with owner, target backlog and accepted rationale.
     - Frontend web quality profile exists or every missing tool has an immediate technical-debt item with owner, target backlog and accepted rationale.
     - All-severity vulnerability scans are documented for current backend, frontend, mobile and filesystem/container surfaces where applicable.

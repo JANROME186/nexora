@@ -5,7 +5,7 @@
 **Machine-readable source:** `security-quality-gate-prompts.yaml`
 **Version:** `1.4.0`
 
-Use these prompts with the Open Source First Security and Quality Standard.
+Use these prompts with the Open Source First Security and Quality Standard and the Engineering Excellence Prioritization Standard.
 
 ## Client Proposed Stack Market Validation
 
@@ -47,6 +47,12 @@ MobSF when native artifacts are available.
 If a better, safer, more current or actively maintained tool replaces a framework baseline tool, the
 agent must document the proposed substitution, create framework feedback and update project
 technical debt before closing the analysis.
+
+The agent must classify findings as:
+
+- `P0`: closure blocker for changed scope.
+- `P1`: technical debt with target backlog and acceptance criteria.
+- `P2`: contextual/desirable, not blocking unless risk promotes it.
 
 ## Open-Source-First Assessment
 
