@@ -13,6 +13,8 @@ public interface AppointmentSlotRepository {
 
     List<AppointmentSlot> findByPatientAndBranch(String patientId, String branchId);
 
+    List<AppointmentSlot> findByBranchId(String branchId);
+
     RequestedCatalogItem saveRequestedItem(RequestedCatalogItem item);
 
     List<RequestedCatalogItem> findRequestedItems(String appointmentId);

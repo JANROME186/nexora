@@ -33,19 +33,24 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.quotationmanageme
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.quotationmanagement.domain.QuotationRequestRepository;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskConflictException;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskEntityNotFoundException;
+import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskPolicyStore;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.InvalidFrontDeskCommandException;
 
 /**
- * Compiles BCM-ATT-006 (Quotation Management) generatable outputs and a functional baseline for
+ * Compiles BCM-ATT-006 (Quotation Management) generatable outputs and implements its custom rules
  * RN-001..RN-008. Owns a standalone {@link QuotationRequest} aggregate; conversion delegates to
  * {@link DiagnosticOrderManagementService} (BCM-LAB-001) rather than persisting order state
- * itself (RN-005), and never depends on the unbuilt MVP-MOD-005 Sale aggregate (TD-DEF-001).
+ * itself (RN-005), and never depends on the unbuilt MVP-MOD-005 Sale aggregate (TD-DEF-001,
+ * still open).
  * <p>
- * <b>BE-002 hooks:</b> discount policy here is a fixed baseline
- * ({@value #STANDARD_MAX_DISCOUNT_PERCENTAGE}% without override,
- * {@value #OVERRIDE_MAX_DISCOUNT_PERCENTAGE}% with {@code quotation.discount.override}); the
- * tenant-configurable, role-aware policy described in RN-003 is deferred. Quotation validity
- * defaults to {@value #DEFAULT_VALIDITY_DAYS} days when not supplied.
+ * <b>MVP-MOD-004-BE-002 refinements:</b> {@link #issue(String, IssueQuotationCommand)} now
+ * resolves a published price list independently for every quotation line instead of reusing the
+ * first line's price list (RN-002 multi-price-list resolution, mirroring the same fix in
+ * {@code DiagnosticOrderManagementService.price}); its discount policy limits are now
+ * tenant-configurable through {@link FrontDeskPolicyStore
+ * #standardMaxDiscountPercentageFor(String)} and {@link FrontDeskPolicyStore
+ * #overrideMaxDiscountPercentageFor(String)} instead of fixed constants (RN-003). Quotation
+ * validity defaults to {@value #DEFAULT_VALIDITY_DAYS} days when not supplied.
  */
 @Service
 public class QuotationManagementService {
@@ -55,8 +60,6 @@ public class QuotationManagementService {
             QuotationRequest.DISCOUNT_PERCENTAGE, QuotationRequest.DISCOUNT_FIXED_AMOUNT,
             QuotationRequest.DISCOUNT_PROMOTION_CODE);
 
-    static final int STANDARD_MAX_DISCOUNT_PERCENTAGE = 20;
-    static final int OVERRIDE_MAX_DISCOUNT_PERCENTAGE = 50;
     static final int DEFAULT_VALIDITY_DAYS = 15;
     private static final String DEFAULT_CURRENCY = "USD";
 
@@ -65,6 +68,7 @@ public class QuotationManagementService {
     private final PanelCatalogService panelCatalogService;
     private final PriceListManagementService priceListManagementService;
     private final DiagnosticOrderManagementService diagnosticOrderManagementService;
+    private final FrontDeskPolicyStore policyStore;
     private final AuditRecorder auditRecorder;
     private final Clock clock;
 
@@ -75,9 +79,10 @@ public class QuotationManagementService {
             PanelCatalogService panelCatalogService,
             PriceListManagementService priceListManagementService,
             DiagnosticOrderManagementService diagnosticOrderManagementService,
+            FrontDeskPolicyStore policyStore,
             AuditRecorder auditRecorder) {
         this(repository, testCatalogService, panelCatalogService, priceListManagementService,
-                diagnosticOrderManagementService, auditRecorder, Clock.systemUTC());
+                diagnosticOrderManagementService, policyStore, auditRecorder, Clock.systemUTC());
     }
 
     QuotationManagementService(
@@ -86,6 +91,7 @@ public class QuotationManagementService {
             PanelCatalogService panelCatalogService,
             PriceListManagementService priceListManagementService,
             DiagnosticOrderManagementService diagnosticOrderManagementService,
+            FrontDeskPolicyStore policyStore,
             AuditRecorder auditRecorder,
             Clock clock) {
         this.repository = repository;
@@ -93,6 +99,7 @@ public class QuotationManagementService {
         this.panelCatalogService = panelCatalogService;
         this.priceListManagementService = priceListManagementService;
         this.diagnosticOrderManagementService = diagnosticOrderManagementService;
+        this.policyStore = policyStore;
         this.auditRecorder = auditRecorder;
         this.clock = clock;
     }
@@ -126,7 +133,16 @@ public class QuotationManagementService {
         return saved;
     }
 
-    /** RN-002, RN-003, RN-008: price-list resolution, discount policy and pricing snapshot capture. */
+    /**
+     * RN-002, RN-003, RN-008: resolves a published price list independently for every quotation
+     * line (a multi-service quotation may span catalog items only priced in different price
+     * lists), prices each line from its own resolved entry, and applies a tenant-configurable
+     * discount policy ({@link FrontDeskPolicyStore#standardMaxDiscountPercentageFor(String)},
+     * {@link FrontDeskPolicyStore#overrideMaxDiscountPercentageFor(String)}). The quotation's
+     * pricing snapshot records the primary price list — the one resolved for the first line — for
+     * backward-compatible auditing; the audit event additionally lists how many distinct price
+     * lists were actually used.
+     */
     public QuotationRequest issue(String quotationId, IssueQuotationCommand command) {
         QuotationRequest quotation = require(quotationId);
         List<QuotationLine> lines = repository.findLines(quotationId);
@@ -135,20 +151,24 @@ public class QuotationManagementService {
         }
         String currency = optionalText(command.currency()) == null ? DEFAULT_CURRENCY : command.currency();
 
-        QuotationLine firstLine = lines.get(0);
-        PriceList priceList = priceListManagementService.getEffectivePriceSnapshot(
-                firstLine.catalogItemKind(), firstLine.testDefinitionId(), currency, null, null);
-        List<PriceEntry> entries = priceListManagementService.getEntries(priceList.priceListId());
-
         BigDecimal subtotal = BigDecimal.ZERO;
+        PriceList primaryPriceList = null;
+        java.util.Set<String> priceListIdsUsed = new java.util.LinkedHashSet<>();
         for (QuotationLine line : lines) {
+            PriceList priceList = priceListManagementService.getEffectivePriceSnapshot(
+                    line.catalogItemKind(), line.testDefinitionId(), currency, null, null);
+            if (primaryPriceList == null) {
+                primaryPriceList = priceList;
+            }
+            priceListIdsUsed.add(priceList.priceListId());
+            List<PriceEntry> entries = priceListManagementService.getEntries(priceList.priceListId());
             PriceEntry entry = entries.stream()
                     .filter(candidate -> candidate.itemType().equals(line.catalogItemKind())
                             && candidate.itemRefId().equals(line.testDefinitionId()))
                     .findFirst()
                     .orElseThrow(() -> new FrontDeskConflictException(
                             "QUOTATION_PRICING_SNAPSHOT_REQUIRED: no price entry resolves for catalog item "
-                                    + line.testDefinitionId() + " in the resolved price list."));
+                                    + line.testDefinitionId() + " in its resolved price list."));
             QuotationLine priced = new QuotationLine(line.lineId(), line.quotationId(), line.testDefinitionId(),
                     line.catalogItemKind(), line.publishedVersion(), line.quantity(), entry.price());
             repository.saveLine(priced);
@@ -162,16 +182,18 @@ public class QuotationManagementService {
             discountKind = requiredOneOf(command.discountKind(), "Discount kind is invalid.",
                     DISCOUNT_KINDS.toArray(String[]::new));
             discountValue = command.discountValue() == null ? BigDecimal.ZERO : command.discountValue();
-            int maxPercentage = command.discountOverride() ? OVERRIDE_MAX_DISCOUNT_PERCENTAGE : STANDARD_MAX_DISCOUNT_PERCENTAGE;
+            BigDecimal maxPercentage = command.discountOverride()
+                    ? policyStore.overrideMaxDiscountPercentageFor(quotation.tenantId())
+                    : policyStore.standardMaxDiscountPercentageFor(quotation.tenantId());
             if (QuotationRequest.DISCOUNT_PERCENTAGE.equals(discountKind)) {
-                if (discountValue.compareTo(BigDecimal.valueOf(maxPercentage)) > 0) {
+                if (discountValue.compareTo(maxPercentage) > 0) {
                     throw new FrontDeskConflictException(
                             "QUOTATION_DISCOUNT_POLICY_EXCEEDED: discount exceeds the " + maxPercentage
                                     + "% policy limit.");
                 }
                 total = subtotal.subtract(subtotal.multiply(discountValue).divide(BigDecimal.valueOf(100)));
             } else if (QuotationRequest.DISCOUNT_FIXED_AMOUNT.equals(discountKind)) {
-                BigDecimal maxAmount = subtotal.multiply(BigDecimal.valueOf(maxPercentage)).divide(BigDecimal.valueOf(100));
+                BigDecimal maxAmount = subtotal.multiply(maxPercentage).divide(BigDecimal.valueOf(100));
                 if (discountValue.compareTo(maxAmount) > 0) {
                     throw new FrontDeskConflictException(
                             "QUOTATION_DISCOUNT_POLICY_EXCEEDED: discount exceeds the " + maxPercentage
@@ -187,14 +209,15 @@ public class QuotationManagementService {
         QuotationRequest issued = new QuotationRequest(
                 quotation.quotationId(), quotation.tenantId(), quotation.laboratoryId(), quotation.branchId(),
                 quotation.patientId(), quotation.prospectiveFullName(), quotation.prospectivePhone(),
-                quotation.prospectiveEmail(), priceList.priceListId(), priceList.version(),
+                quotation.prospectiveEmail(), primaryPriceList.priceListId(), primaryPriceList.version(),
                 new Money(currency, total), discountKind, discountValue, validUntil, QuotationRequest.STATUS_ISSUED,
                 quotation.convertedOrderId(), quotation.cancellationReason(), quotation.actorId(),
                 quotation.version() + 1, quotation.createdAt(), Instant.now(clock));
         QuotationRequest saved = repository.save(issued);
         auditRecorder.recordSystemEvent(saved.tenantId(), "QuotationIssued", "QuotationRequest", quotationId,
-                "{\"priceListId\":\"%s\",\"totalAmount\":\"%s\",\"validUntil\":\"%s\"}"
-                        .formatted(jsonText(priceList.priceListId()), total.toPlainString(), validUntil));
+                "{\"priceListId\":\"%s\",\"totalAmount\":\"%s\",\"validUntil\":\"%s\",\"priceListCount\":%d,\"multiPriceList\":%b}"
+                        .formatted(jsonText(primaryPriceList.priceListId()), total.toPlainString(), validUntil,
+                                priceListIdsUsed.size(), priceListIdsUsed.size() > 1));
         return saved;
     }
 

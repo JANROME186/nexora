@@ -78,7 +78,7 @@ class DiagnosticOrderController {
     @PostMapping("/{orderId}/cancel")
     ResponseEntity<DiagnosticOrder> cancelDiagnosticOrder(@PathVariable String orderId,
             @Valid @RequestBody CancelOrderRequest request) {
-        return ResponseEntity.ok(service.cancel(orderId, request.reasonCode()));
+        return ResponseEntity.ok(service.cancel(orderId, request.reasonCode(), request.overrideJustification()));
     }
 
     @PostMapping("/{orderId}/complete")
@@ -110,6 +110,6 @@ class DiagnosticOrderController {
     record AcceptOrderRequest(String clinicalNotes) {
     }
 
-    record CancelOrderRequest(@NotBlank String reasonCode) {
+    record CancelOrderRequest(@NotBlank String reasonCode, String overrideJustification) {
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nexora.hop.platformfoundation.catalogtestconfiguration.patientpreparationmanagement.domain.PreparationInstruction;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.appointmentscheduling.application.AppointmentSchedulingService;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.appointmentscheduling.application.RequestAppointmentCommand;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.appointmentscheduling.domain.AppointmentSlot;
@@ -82,6 +83,11 @@ class AppointmentController {
     @PostMapping("/{appointmentId}/no-show")
     ResponseEntity<AppointmentSlot> markAppointmentNoShow(@PathVariable String appointmentId) {
         return ResponseEntity.ok(service.markNoShow(appointmentId));
+    }
+
+    @GetMapping("/{appointmentId}/preparation-instructions")
+    ResponseEntity<List<PreparationInstruction>> getAppointmentPreparationInstructions(@PathVariable String appointmentId) {
+        return ResponseEntity.ok(service.getPreparationInstructions(appointmentId));
     }
 
     record RequestedItemRequest(@NotBlank String testDefinitionId, @NotBlank String catalogItemKind) {

@@ -23,14 +23,15 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskE
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagement.PatientDirectory;
 
 /**
- * Compiles BCM-ATT-003 (Reception Management) generatable outputs and a functional baseline for
+ * Compiles BCM-ATT-003 (Reception Management) generatable outputs and implements its custom rules
  * RN-001..RN-007. Identity confirmation is a read-only lookup against BCM-PER-002 (RN-003);
  * advancing to admission never writes DiagnosticOrder state (RN-006), it only signals readiness so
  * Admission Management (in the same module) can start its own process record.
  * <p>
- * <b>BE-002 hook:</b> {@link #updatePriority(String, String)} applies the requested priority
- * directly; tenant-configurable priority rules that also weigh elapsed wait time (RN-005) are
- * deferred.
+ * <b>MVP-MOD-004-BE-002 refinement:</b> {@link #list(String)} now orders the queue by priority
+ * (urgent, then priority, then normal) and, within the same priority, by longest elapsed wait
+ * time first (RN-005); {@link #advanceToAdmission(String)}'s audit event now records the actor
+ * and the queue-status transition for full reception-to-admission traceability (RN-007).
  */
 @Service
 public class ReceptionManagementService {
@@ -41,6 +42,8 @@ public class ReceptionManagementService {
             ReceptionVisit.IDENTITY_REPRESENTATIVE_VERIFICATION);
     private static final List<String> PRIORITIES = List.of(
             ReceptionVisit.PRIORITY_NORMAL, ReceptionVisit.PRIORITY_PRIORITY, ReceptionVisit.PRIORITY_URGENT);
+    private static final List<String> PRIORITY_RANK_HIGH_TO_LOW = List.of(
+            ReceptionVisit.PRIORITY_URGENT, ReceptionVisit.PRIORITY_PRIORITY, ReceptionVisit.PRIORITY_NORMAL);
 
     private final ReceptionVisitRepository repository;
     private final PatientDirectory patientDirectory;
@@ -120,17 +123,24 @@ public class ReceptionManagementService {
         return saved;
     }
 
-    /** RN-001, RN-006: identity must be confirmed; this never writes DiagnosticOrder state. */
+    /**
+     * RN-001, RN-006: identity must be confirmed; this never writes DiagnosticOrder state. The
+     * audit event records the actor and the queue-status transition (RN-007) so the
+     * reception-to-admission handoff is fully traceable.
+     */
     public ReceptionVisit advanceToAdmission(String visitId) {
         ReceptionVisit visit = require(visitId);
         if (!visit.identityConfirmed()) {
             throw new FrontDeskConflictException(
                     "RECEPTION_IDENTITY_NOT_CONFIRMED: identity must be confirmed before advancing to admission.");
         }
+        String fromQueueStatus = visit.queueStatus();
         ReceptionVisit advanced = withQueueStatus(visit, ReceptionVisit.QUEUE_IN_ADMISSION);
         ReceptionVisit saved = repository.save(advanced);
         auditRecorder.recordSystemEvent(saved.tenantId(), "ReceptionVisitReadyForAdmission", "ReceptionVisit",
-                visitId, "{\"branchId\":\"%s\"}".formatted(jsonText(saved.branchId())));
+                visitId, "{\"branchId\":\"%s\",\"actorId\":\"%s\",\"fromQueueStatus\":\"%s\",\"toQueueStatus\":\"%s\"}"
+                        .formatted(jsonText(saved.branchId()), jsonText(saved.actorId()), jsonText(fromQueueStatus),
+                                jsonText(saved.queueStatus())));
         return saved;
     }
 
@@ -158,8 +168,17 @@ public class ReceptionManagementService {
         return require(visitId);
     }
 
+    /**
+     * RN-005: orders the reception queue by priority (urgent first, then priority, then normal)
+     * and, within the same priority, by longest elapsed wait time first (earliest
+     * {@code createdAt} first) so front desk staff always see whom to attend next.
+     */
     public List<ReceptionVisit> list(String tenantId) {
-        return repository.findByTenantId(requiredText(tenantId, "Tenant id is required."));
+        return repository.findByTenantId(requiredText(tenantId, "Tenant id is required.")).stream()
+                .sorted(java.util.Comparator
+                        .comparingInt((ReceptionVisit visit) -> PRIORITY_RANK_HIGH_TO_LOW.indexOf(visit.priority()))
+                        .thenComparing(ReceptionVisit::createdAt))
+                .toList();
     }
 
     private ReceptionVisit withQueueStatus(ReceptionVisit visit, String queueStatus) {

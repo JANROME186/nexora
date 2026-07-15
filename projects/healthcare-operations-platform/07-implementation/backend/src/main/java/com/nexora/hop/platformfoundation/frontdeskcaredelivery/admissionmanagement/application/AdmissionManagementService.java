@@ -29,15 +29,19 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.receptionmanageme
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.receptionmanagement.domain.ReceptionVisit;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskConflictException;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskEntityNotFoundException;
+import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskPolicyStore;
 
 /**
- * Compiles BCM-ATT-004 (Admission Management) generatable outputs and a functional baseline for
+ * Compiles BCM-ATT-004 (Admission Management) generatable outputs and implements its custom rules
  * RN-001..RN-007. Commit is the completeness gate that delegates order creation to
  * {@link DiagnosticOrderManagementService} (BCM-LAB-001) rather than persisting order state itself
  * (RN-004).
  * <p>
- * <b>BE-002 hook:</b> consent and sample-requirement acknowledgement are required unconditionally
- * today; RN-003's tenant-configurable policy on which acknowledgements are mandatory is deferred.
+ * <b>MVP-MOD-004-BE-002 refinement:</b> {@link #commit(String, CommitAdmissionRequestCommand)}
+ * gates only the acknowledgements the tenant's policy actually requires
+ * ({@link FrontDeskPolicyStore#requiredAdmissionAcknowledgementsFor(String)}, both consent and
+ * sample-requirement acknowledgement by default), rather than requiring both unconditionally
+ * (RN-003). A required acknowledgement that is missing still blocks the commit safely.
  */
 @Service
 public class AdmissionManagementService {
@@ -50,6 +54,7 @@ public class AdmissionManagementService {
     private final DiagnosticOrderManagementService diagnosticOrderManagementService;
     private final TestCatalogService testCatalogService;
     private final PanelCatalogService panelCatalogService;
+    private final FrontDeskPolicyStore policyStore;
     private final AuditRecorder auditRecorder;
     private final Clock clock;
 
@@ -60,9 +65,10 @@ public class AdmissionManagementService {
             DiagnosticOrderManagementService diagnosticOrderManagementService,
             TestCatalogService testCatalogService,
             PanelCatalogService panelCatalogService,
+            FrontDeskPolicyStore policyStore,
             AuditRecorder auditRecorder) {
         this(repository, receptionManagementService, diagnosticOrderManagementService, testCatalogService,
-                panelCatalogService, auditRecorder, Clock.systemUTC());
+                panelCatalogService, policyStore, auditRecorder, Clock.systemUTC());
     }
 
     AdmissionManagementService(
@@ -71,6 +77,7 @@ public class AdmissionManagementService {
             DiagnosticOrderManagementService diagnosticOrderManagementService,
             TestCatalogService testCatalogService,
             PanelCatalogService panelCatalogService,
+            FrontDeskPolicyStore policyStore,
             AuditRecorder auditRecorder,
             Clock clock) {
         this.repository = repository;
@@ -78,6 +85,7 @@ public class AdmissionManagementService {
         this.diagnosticOrderManagementService = diagnosticOrderManagementService;
         this.testCatalogService = testCatalogService;
         this.panelCatalogService = panelCatalogService;
+        this.policyStore = policyStore;
         this.auditRecorder = auditRecorder;
         this.clock = clock;
     }
@@ -142,13 +150,24 @@ public class AdmissionManagementService {
         return saved;
     }
 
-    /** RN-003, RN-004: consent/sample acknowledgement gate, then delegates to BCM-LAB-001. */
+    /**
+     * RN-003, RN-004: gates only the tenant-required acknowledgements, then delegates to
+     * BCM-LAB-001. A required acknowledgement (consent, sample requirements, or both, per
+     * {@link FrontDeskPolicyStore#requiredAdmissionAcknowledgementsFor(String)}) that is missing
+     * blocks the commit safely; an acknowledgement the tenant does not require does not.
+     */
     public AdmissionRequest commit(String admissionId, CommitAdmissionRequestCommand command) {
         AdmissionRequest admission = require(admissionId);
         if (!AdmissionRequest.STATUS_READY_FOR_ORDER.equals(admission.admissionStatus())) {
             throw new FrontDeskConflictException("Only an admission ready for order can be committed.");
         }
-        if (!command.consentConfirmed() || !command.sampleRequirementsAcknowledged()) {
+        java.util.Set<String> requiredAcknowledgements =
+                policyStore.requiredAdmissionAcknowledgementsFor(admission.tenantId());
+        boolean consentMissing = requiredAcknowledgements.contains(FrontDeskPolicyStore.ACK_CONSENT)
+                && !command.consentConfirmed();
+        boolean sampleAckMissing = requiredAcknowledgements.contains(FrontDeskPolicyStore.ACK_SAMPLE_REQUIREMENTS)
+                && !command.sampleRequirementsAcknowledged();
+        if (consentMissing || sampleAckMissing) {
             throw new FrontDeskConflictException(
                     "ADMISSION_CONSENT_OR_SAMPLE_ACK_MISSING: consent and sample-requirement acknowledgement are required.");
         }

@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-004-BE-002
+  current_active_backlog_item: MVP-MOD-004-FE-001
   intended_audience:
     - human_reviewer
     - qa_reviewer
@@ -189,6 +189,24 @@ smoke_validation:
       Order Management and returns createdOrderId. POST /api/care-delivery/quotations creates a
       quotation; .../issue resolves price-list pricing and enforces a discount policy cap (HTTP
       409 beyond the limit); .../accept and .../convert produce a linked diagnostic order.
+  - id: SMOKE-007
+    name: Front Desk and Care Delivery custom rules (MVP-MOD-004-BE-002)
+    expected_result: >
+      POST /api/clinical-operations/diagnostic-orders rejects a doctorId that is not
+      isEligibleAsReferringDoctor with HTTP 409; .../price resolves each order line's price
+      independently, so a two-line order spanning two price lists still prices correctly;
+      .../cancel accepts just a reasonCode for a draft/priced order but requires an additional
+      overrideJustification of at least 15 characters once the order is accepted or in_progress.
+      POST /api/care-delivery/appointments/{id}/confirm additionally rejects once the tenant's
+      configured daily branch capacity is reached; .../no-show requires the tenant's configured
+      grace period to have elapsed after scheduledEnd; GET .../preparation-instructions returns
+      published preparation instructions for the appointment's requested catalog items. GET
+      /api/care-delivery/reception-visits orders the queue by priority (urgent first) then by
+      longest wait time. POST /api/care-delivery/admission-requests/{id}/commit only requires the
+      acknowledgements the tenant's policy marks mandatory (both consent and sample-requirement
+      acknowledgement by default). POST /api/care-delivery/quotations/{id}/issue resolves each
+      quotation line's price independently and applies a tenant-configurable discount cap instead
+      of a fixed constant.
 
 quality_validation:
   - id: QA-001

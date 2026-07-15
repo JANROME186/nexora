@@ -19,13 +19,13 @@ rules:
     custom_reason: Requires reading BranchOperationalStatus from BCM-ORG-003 at confirmation time.
     test_refs: [TST-APT-001-01]
   - id: RN-002
-    statement: An appointment cannot be confirmed if the requested window overlaps an existing confirmed appointment for the same patient at the same branch.
+    statement: An appointment cannot be confirmed if the requested window overlaps an existing confirmed appointment for the same patient at the same branch, nor if confirming it would exceed the branch's tenant-configurable daily appointment capacity.
     applies_to: AppointmentSlot
     enforcement_point: command:ConfirmAppointment
     severity: high
     audit_required: true
     generatable: false
-    custom_reason: Overlap detection requires querying existing confirmed slots for the patient and branch.
+    custom_reason: Overlap detection requires querying existing confirmed slots for the patient and branch; capacity enforcement requires a tenant-configurable policy and a branch-wide same-window count.
     test_refs: [TST-APT-001-02]
   - id: RN-003
     statement: Requested catalog items must reference only published tests or panels.

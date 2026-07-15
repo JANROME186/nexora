@@ -1,0 +1,68 @@
+artifact:
+  id: TD-BE-010
+  type: technical-debt-item
+  name: Diagnostic order cancellation override uses order-status as a proxy for downstream sample/processing state
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-15
+
+source:
+  discovered_during_backlog_item: MVP-MOD-004-BE-002
+  module: MVP-MOD-004 Front Desk and Care Delivery
+  evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-002-validation.yaml
+
+classification:
+  category: capability_scope_boundary
+  affected_area: diagnostic_order_cancellation_downstream_state_check
+  affected_components:
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/frontdeskcaredelivery/diagnosticordermanagement/application/DiagnosticOrderManagementService.java
+    - 01-product-definition/business-capabilities/packages/bcm-lab-001-diagnostic-order-management/business-rules.yaml
+  risk_level: medium
+  blocking: false
+  reason_non_blocking: >
+    BCM-LAB-001 RN-007 requires an explicit override reason when cancelling an order that already
+    has collected samples or in-progress laboratory work. The Sample aggregate does not exist yet
+    (it is modeled by MVP-MOD-006 Laboratory Workflow, not yet built), so there is no real
+    sample/processing-state signal to check. Order status (accepted, in_progress) is used as the
+    closest enforceable proxy: an order that has left simple front-desk intake requires a written
+    overrideJustification of at least 15 characters to cancel. This gives every accepted-or-later
+    cancellation a deliberate second step and an audit trail, which is a safe compensating control
+    until the real sample-state check can be modeled.
+
+current_state:
+  issue: >
+    DiagnosticOrderManagementService.cancel(orderId, reasonCode, overrideJustification) branches on
+    DiagnosticOrder.status() (accepted or in_progress) rather than on whether a Sample has actually
+    been collected or laboratory work has actually started. This means an accepted order with no
+    real downstream activity yet still requires the override justification (over-strict), while a
+    future in_progress order state that genuinely has no collected sample would also require it
+    (a false positive, though currently unreachable since MVP-MOD-004 does not populate in_progress
+    orders). There is no false negative: no code path today can have real sample/processing state
+    without the order already being accepted or later.
+  compensating_control:
+    - Every cancellation of an accepted or in_progress order requires a written
+      overrideJustification of at least 15 characters, recorded on the audit event
+      (OrderCancelled, clinicallyEngaged=true, overrideProvided=true).
+    - A draft or priced order (never handed to the lab) cancels with a plain reason code, matching
+      the actual risk profile.
+
+target_state:
+  preferred_open_source_tooling: []
+  expected_integration_points:
+    - future MVP-MOD-006 Laboratory Workflow Sample aggregate (collection/processing state source)
+    - frontdeskcaredelivery/diagnosticordermanagement/application/DiagnosticOrderManagementService.java
+      cancel() (replace the order-status tier with a real Sample-state read, likely through a new
+      SampleDirectory cross-module read port mirroring DoctorDirectory/PatientDirectory)
+
+remediation:
+  strategy: gradual_when_mvp_mod_006_laboratory_workflow_is_modeled
+  recommended_trigger:
+    - MVP-MOD-006 Laboratory Workflow capability package modeling and its Sample aggregate
+      compilation.
+  acceptance_criteria:
+    - cancel() checks real collected-sample / in-progress-work state via a SampleDirectory-style
+      read port instead of DiagnosticOrder.status() as a proxy.
+    - The order-status tier introduced by MVP-MOD-004-BE-002 is either replaced or kept only as a
+      fallback for orders with no linked sample record.
+    - No regression in existing cancellation tests (draft/priced simple cancel,
+      accepted/in_progress override-required cancel).

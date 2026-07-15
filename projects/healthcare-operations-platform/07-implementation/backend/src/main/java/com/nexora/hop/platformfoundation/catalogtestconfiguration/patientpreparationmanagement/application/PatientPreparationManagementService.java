@@ -197,6 +197,23 @@ public class PatientPreparationManagementService {
         return repository.findByLaboratoryId(requiredText(laboratoryId, "Laboratory id is required."));
     }
 
+    /**
+     * Cross-module read used by BCM-ATT-001 (Appointment Scheduling) to surface preparation
+     * instructions for a requested test or panel (VO-APT-002 PreparationSummary). Only published
+     * preparations are returned; a draft or deprecated assignment is not yet safe to surface to
+     * patients.
+     */
+    public List<PreparationInstruction> findPublishedForTarget(String targetType, String targetRefId) {
+        String type = requiredOneOf(targetType, "Preparation target type is invalid.",
+                PreparationAssignment.TARGET_TEST, PreparationAssignment.TARGET_PANEL);
+        String refId = requiredText(targetRefId, "Preparation target reference id is required.");
+        return repository.findAssignmentsByTarget(type, refId).stream()
+                .map(assignment -> repository.findById(assignment.preparationId()))
+                .flatMap(java.util.Optional::stream)
+                .filter(preparation -> PreparationInstruction.STATUS_PUBLISHED.equals(preparation.status()))
+                .toList();
+    }
+
     private PreparationInstruction require(String preparationId) {
         return repository.findById(requiredText(preparationId, "Preparation id is required."))
                 .orElseThrow(() -> new CatalogEntityNotFoundException("Preparation was not found."));

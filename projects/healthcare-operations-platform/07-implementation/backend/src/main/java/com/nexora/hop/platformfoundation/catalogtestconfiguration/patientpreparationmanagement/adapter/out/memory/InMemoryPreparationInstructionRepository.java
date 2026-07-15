@@ -56,4 +56,13 @@ class InMemoryPreparationInstructionRepository implements PreparationInstruction
     public List<PreparationAssignment> findAssignments(String preparationId) {
         return List.copyOf(assignments.getOrDefault(preparationId, List.of()));
     }
+
+    @Override
+    public List<PreparationAssignment> findAssignmentsByTarget(String targetType, String targetRefId) {
+        return assignments.values().stream()
+                .flatMap(List::stream)
+                .filter(assignment -> assignment.targetType().equals(targetType)
+                        && assignment.targetRefId().equals(targetRefId))
+                .toList();
+    }
 }

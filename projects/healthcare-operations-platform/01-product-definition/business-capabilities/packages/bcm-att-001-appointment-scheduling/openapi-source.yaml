@@ -63,6 +63,17 @@ resources:
         scopes: [appointment.manage]
         generatable: false
         custom_reason: Tenant-configurable grace-period policy.
+      - id: getRequestedItems
+        method: GET
+        path: /{appointmentId}/requested-items
+        scopes: [appointment.read]
+        generatable: true
+      - id: getAppointmentPreparationInstructions
+        method: GET
+        path: /{appointmentId}/preparation-instructions
+        scopes: [appointment.read]
+        generatable: false
+        custom_reason: Aggregates published PreparationSummary content across every requested catalog item (RN-007).
 
 schemas_source:
   - AppointmentSlot
@@ -76,9 +87,13 @@ error_model:
       maps_to_rule: RN-001
     - code: APPOINTMENT_WINDOW_OVERLAP
       maps_to_rule: RN-002
+    - code: APPOINTMENT_BRANCH_CAPACITY_EXCEEDED
+      maps_to_rule: RN-002
     - code: APPOINTMENT_CATALOG_ITEM_NOT_PUBLISHED
       maps_to_rule: RN-003
     - code: APPOINTMENT_SCOPE_MISMATCH
       maps_to_rule: RN-004
     - code: APPOINTMENT_ORDER_HANDOFF_VIOLATION
       maps_to_rule: RN-005
+    - code: APPOINTMENT_NO_SHOW_GRACE_PERIOD_ACTIVE
+      maps_to_rule: RN-006

@@ -19,22 +19,22 @@ rules:
     custom_reason: Requires cross-capability validation against BCM-SVC-001/002/003 publication state.
     test_refs: [TST-QUO-006-01]
   - id: RN-002
-    statement: A quotation cannot be issued without a captured QuotationPricingSnapshot referencing a published price list.
+    statement: A quotation cannot be issued without a captured QuotationPricingSnapshot referencing a published price list; each quotation line is priced from its own independently resolved price list, since a multi-service quotation may span catalog items only priced in different lists.
     applies_to: QuotationRequest
     enforcement_point: command:IssueQuotation
     severity: critical
     audit_required: true
     generatable: false
-    custom_reason: Pricing snapshot must be sourced from BCM-SVC-009 and validated for currency and effective-dated coverage.
+    custom_reason: Pricing snapshot must be sourced from BCM-SVC-009 and validated for currency and effective-dated coverage; multi-price-list resolution requires one price-list lookup per quotation line rather than one for the whole quotation.
     test_refs: [TST-QUO-006-02]
   - id: RN-003
-    statement: A discount application must not exceed the tenant-configured maximum discount policy for the actor's role.
+    statement: A discount application must not exceed the tenant-configured maximum discount policy for the actor's role (a standard cap, and a higher cap only reachable through the quotation.discount.override authorization scope).
     applies_to: DiscountApplication
     enforcement_point: command:ApplyQuotationDiscount
     severity: high
     audit_required: true
     generatable: false
-    custom_reason: Discount policy limits are tenant-configurable and role-dependent.
+    custom_reason: Discount policy limits are tenant-configurable (FrontDeskPolicyStore standard/override caps) and role-dependent through the discountOverride authorization gate.
     test_refs: [TST-QUO-006-03]
   - id: RN-004
     statement: A quotation cannot be accepted after its validUntil date; it must be reissued or explicitly extended first.

@@ -79,6 +79,8 @@ error_model:
   domain_errors:
     - code: ORDER_SNAPSHOT_INCOMPLETE
       maps_to_rule: RN-001
+    - code: ORDER_DOCTOR_NOT_ELIGIBLE
+      maps_to_rule: RN-001
     - code: ORDER_CATALOG_ITEM_NOT_PUBLISHED
       maps_to_rule: RN-002
     - code: ORDER_PRICING_SNAPSHOT_REQUIRED

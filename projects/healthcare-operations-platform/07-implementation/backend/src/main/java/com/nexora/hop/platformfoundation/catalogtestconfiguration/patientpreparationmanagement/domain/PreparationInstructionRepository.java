@@ -16,4 +16,6 @@ public interface PreparationInstructionRepository {
     PreparationAssignment saveAssignment(PreparationAssignment assignment);
 
     List<PreparationAssignment> findAssignments(String preparationId);
+
+    List<PreparationAssignment> findAssignmentsByTarget(String targetType, String targetRefId);
 }

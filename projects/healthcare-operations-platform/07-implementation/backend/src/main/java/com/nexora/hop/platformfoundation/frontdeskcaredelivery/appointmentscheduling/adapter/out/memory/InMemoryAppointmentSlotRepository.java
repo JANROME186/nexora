@@ -43,6 +43,11 @@ class InMemoryAppointmentSlotRepository implements AppointmentSlotRepository {
     }
 
     @Override
+    public List<AppointmentSlot> findByBranchId(String branchId) {
+        return appointments.values().stream().filter(a -> a.branchId().equals(branchId)).toList();
+    }
+
+    @Override
     public RequestedCatalogItem saveRequestedItem(RequestedCatalogItem item) {
         requestedItems.put(item.itemId(), item);
         return item;

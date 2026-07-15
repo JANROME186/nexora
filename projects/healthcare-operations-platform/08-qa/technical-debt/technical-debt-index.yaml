@@ -164,3 +164,12 @@ entries:
     affected_area: organization_management_branch_versioning
     file: 08-qa/technical-debt/TD-BE-009-branch-snapshot-version-placeholder.yaml
     remediation_strategy: gradual_when_organization_management_branch_lifecycle_is_next_touched
+  - id: TD-BE-010
+    title: Diagnostic order cancellation override uses order-status as a proxy for downstream sample/processing state
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-004-BE-002
+    affected_area: diagnostic_order_cancellation_downstream_state_check
+    file: 08-qa/technical-debt/TD-BE-010-order-cancellation-sample-state-check-deferred.yaml
+    remediation_strategy: gradual_when_mvp_mod_006_laboratory_workflow_is_modeled

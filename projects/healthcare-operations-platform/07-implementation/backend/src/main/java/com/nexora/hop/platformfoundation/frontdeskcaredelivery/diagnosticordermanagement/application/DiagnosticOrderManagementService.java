@@ -37,22 +37,26 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.doctormanageme
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagement.PatientDirectory;
 
 /**
- * Compiles the generatable outputs of BCM-LAB-001 (Diagnostic Order Management) and implements a
- * functional baseline for its custom rules RN-001..RN-009: multi-source snapshot capture,
- * published-catalog validation, price-list resolution, aggregate-boundary enforcement and
- * terminal-state immutability. This is the sole capability allowed to mutate
- * {@link DiagnosticOrder} state (RN-004); Appointment Scheduling, Reception Management, Admission
- * Management and Quotation Management call these public methods directly rather than persisting
- * order state themselves, mirroring the BCM-ATT-002 → BCM-PER-002 delegation pattern.
+ * Compiles the generatable outputs of BCM-LAB-001 (Diagnostic Order Management) and implements its
+ * custom rules RN-001..RN-009: multi-source snapshot capture, published-catalog validation,
+ * per-line price-list resolution, referring-doctor eligibility gating, aggregate-boundary
+ * enforcement and tiered terminal-state cancellation. This is the sole capability allowed to
+ * mutate {@link DiagnosticOrder} state (RN-004); Appointment Scheduling, Reception Management,
+ * Admission Management and Quotation Management call these public methods directly rather than
+ * persisting order state themselves, mirroring the BCM-ATT-002 → BCM-PER-002 delegation pattern.
  * <p>
- * <b>BE-002 hooks (MVP-MOD-004-BE-002):</b> the baseline behavior implemented here intentionally
- * keeps pricing and lifecycle rules simple so this backlog item compiles and every endpoint
- * responds without a 501. The follow-up backlog item is expected to refine: (1) multi-price-list
- * resolution per order line instead of resolving one price list from the first line and reusing it
- * for the remaining lines; (2) referring-doctor eligibility gating via
- * {@link DoctorDirectory#isEligibleAsReferringDoctor(String)} (existence only is checked today);
- * (3) the RN-007 cancellation override requirement, which cannot be evaluated yet because sample
- * and processing state does not exist before MVP-MOD-006.
+ * <b>MVP-MOD-004-BE-002 refinements:</b> {@link #price(String, String)} now resolves a published
+ * price list independently for every order line instead of reusing the first line's price list
+ * (RN-003 multi-price-list resolution); {@link #create(CreateDiagnosticOrderCommand)} gates a
+ * referring doctor through {@link DoctorDirectory#isEligibleAsReferringDoctor(String)} instead of
+ * existence only; {@link #cancel(String, String, String)} applies a tiered rule — a draft or
+ * priced order cancels with a reason code, while an accepted or in-progress order additionally
+ * requires an explicit override justification, since it has already left simple front-desk intake.
+ * <p>
+ * <b>Remaining hook (tracked as TD-BE-010):</b> RN-007's full downstream sample/processing-state
+ * override check cannot be evaluated until MVP-MOD-006 (Laboratory Workflow) models the Sample
+ * aggregate; the override-justification tier above is the closest enforceable proxy available
+ * with only order-lifecycle state.
  */
 @Service
 public class DiagnosticOrderManagementService {
@@ -137,6 +141,12 @@ public class DiagnosticOrderManagementService {
             com.nexora.hop.platformfoundation.peopleclinicalmasterdata.doctormanagement.domain.DoctorSnapshot
                     doctorSource = doctorDirectory.findSnapshot(doctorId)
                             .orElseThrow(() -> new FrontDeskEntityNotFoundException("Doctor was not found."));
+            // RN-001 refinement: a referring doctor must be eligible (active, at least one
+            // verified credential, not suspended), not merely exist.
+            if (!doctorDirectory.isEligibleAsReferringDoctor(doctorId)) {
+                throw new FrontDeskConflictException(
+                        "ORDER_DOCTOR_NOT_ELIGIBLE: the referring doctor is not eligible (inactive, unverified or suspended).");
+            }
             doctorSnapshot = new DoctorSnapshot(doctorSource.doctorId(), doctorSource.version(),
                     doctorSource.fullName(), doctorSource.primaryDocumentNumberMasked(), now);
         }
@@ -172,9 +182,12 @@ public class DiagnosticOrderManagementService {
     }
 
     /**
-     * RN-003, RN-009: resolves a published price list from the first order line and prices every
-     * line from its entries. See the class-level BE-002 hook note for the multi-price-list
-     * simplification.
+     * RN-003, RN-009: resolves a published price list independently for every order line (a
+     * multi-service order may span catalog items that are only priced in different price lists)
+     * and prices each line from its own resolved entry. The order's {@link OrderPricingSnapshot}
+     * records the primary price list — the one resolved for the first line — for backward-
+     * compatible auditing; the per-line {@link OrderLine#unitAmount()} is always the authoritative
+     * price for that line, and the audit event lists every distinct price list actually used.
      */
     public DiagnosticOrder price(String orderId, String currency) {
         DiagnosticOrder order = require(orderId);
@@ -184,37 +197,41 @@ public class DiagnosticOrderManagementService {
         }
         String resolvedCurrency = optionalText(currency) == null ? DEFAULT_CURRENCY : currency;
 
-        OrderLine firstLine = lines.get(0);
-        PriceList priceList = priceListManagementService.getEffectivePriceSnapshot(
-                firstLine.catalogItemKind(), firstLine.testDefinitionId(), resolvedCurrency, null, null);
-        List<PriceEntry> entries = priceListManagementService.getEntries(priceList.priceListId());
-
         BigDecimal total = BigDecimal.ZERO;
-        List<OrderLine> pricedLines = new ArrayList<>();
+        PriceList primaryPriceList = null;
+        java.util.Set<String> priceListIdsUsed = new java.util.LinkedHashSet<>();
         for (OrderLine line : lines) {
+            PriceList priceList = priceListManagementService.getEffectivePriceSnapshot(
+                    line.catalogItemKind(), line.testDefinitionId(), resolvedCurrency, null, null);
+            if (primaryPriceList == null) {
+                primaryPriceList = priceList;
+            }
+            priceListIdsUsed.add(priceList.priceListId());
+            List<PriceEntry> entries = priceListManagementService.getEntries(priceList.priceListId());
             PriceEntry entry = entries.stream()
                     .filter(candidate -> candidate.itemType().equals(line.catalogItemKind())
                             && candidate.itemRefId().equals(line.testDefinitionId()))
                     .findFirst()
                     .orElseThrow(() -> new FrontDeskConflictException(
                             "ORDER_PRICING_SNAPSHOT_REQUIRED: no price entry resolves for catalog item "
-                                    + line.testDefinitionId() + " in the resolved price list."));
+                                    + line.testDefinitionId() + " in its resolved price list."));
             OrderLine priced = new OrderLine(line.orderLineId(), line.orderId(), line.testDefinitionId(),
                     line.catalogItemKind(), line.catalogItemName(), line.catalogPublishedVersion(),
                     line.quantity(), entry.price(), line.lineStatus());
             repository.saveOrderLine(priced);
-            pricedLines.add(priced);
             total = total.add(entry.price().amount().multiply(BigDecimal.valueOf(line.quantity())));
         }
 
         OrderPricingSnapshot pricingSnapshot = new OrderPricingSnapshot(
-                priceList.priceListId(), priceList.version(), new Money(resolvedCurrency, total), Instant.now(clock));
+                primaryPriceList.priceListId(), primaryPriceList.version(), new Money(resolvedCurrency, total),
+                Instant.now(clock));
         DiagnosticOrder priced = withStatus(order, DiagnosticOrder.STATUS_PRICED, order.cancellationReason(),
                 pricingSnapshot, order.clinicalNotes());
         DiagnosticOrder saved = repository.save(priced);
         auditRecorder.recordSystemEvent(saved.tenantId(), "OrderPriced", "DiagnosticOrder", orderId,
-                "{\"priceListId\":\"%s\",\"totalAmount\":\"%s\"}"
-                        .formatted(jsonText(priceList.priceListId()), total.toPlainString()));
+                "{\"priceListId\":\"%s\",\"totalAmount\":\"%s\",\"priceListCount\":%d,\"multiPriceList\":%b}"
+                        .formatted(jsonText(primaryPriceList.priceListId()), total.toPlainString(),
+                                priceListIdsUsed.size(), priceListIdsUsed.size() > 1));
         return saved;
     }
 
@@ -241,12 +258,22 @@ public class DiagnosticOrderManagementService {
         return saved;
     }
 
+    private static final int MIN_CANCELLATION_OVERRIDE_JUSTIFICATION_LENGTH = 15;
+
+    private static final List<String> CLINICALLY_ENGAGED_STATUSES = List.of(
+            DiagnosticOrder.STATUS_ACCEPTED, DiagnosticOrder.STATUS_IN_PROGRESS);
+
     /**
-     * RN-006: a cancelled or completed order is immutable. RN-007's downstream sample/processing
-     * override check cannot be evaluated until MVP-MOD-006 exists; every cancellation is accepted
-     * with a required reason code until then (BE-002 hook).
+     * RN-006: a cancelled or completed order is immutable. RN-007 tiered override: a draft or
+     * priced order (never accepted for clinical processing) cancels with a plain reason code; an
+     * accepted or in-progress order additionally requires an explicit
+     * {@code overrideJustification} of at least {@value #MIN_CANCELLATION_OVERRIDE_JUSTIFICATION_LENGTH}
+     * characters, since downstream clinical work may already depend on it. The full downstream
+     * sample/processing-state check described by RN-007 cannot be evaluated until MVP-MOD-006
+     * models the Sample aggregate (tracked as TD-BE-010); this order-status tier is the closest
+     * enforceable proxy available today.
      */
-    public DiagnosticOrder cancel(String orderId, String reasonCode) {
+    public DiagnosticOrder cancel(String orderId, String reasonCode, String overrideJustification) {
         DiagnosticOrder order = require(orderId);
         if (DiagnosticOrder.STATUS_CANCELLED.equals(order.status())
                 || DiagnosticOrder.STATUS_COMPLETED.equals(order.status())) {
@@ -254,11 +281,23 @@ public class DiagnosticOrderManagementService {
                     "ORDER_TERMINAL_STATE_IMMUTABLE: a cancelled or completed order cannot be modified.");
         }
         String resolvedReason = requiredText(reasonCode, "Cancellation reason code is required.");
-        DiagnosticOrder cancelled = withStatus(order, DiagnosticOrder.STATUS_CANCELLED, resolvedReason,
+        boolean clinicallyEngaged = CLINICALLY_ENGAGED_STATUSES.contains(order.status());
+        String resolvedOverride = optionalText(overrideJustification);
+        if (clinicallyEngaged) {
+            if (resolvedOverride == null || resolvedOverride.length() < MIN_CANCELLATION_OVERRIDE_JUSTIFICATION_LENGTH) {
+                throw new FrontDeskConflictException(
+                        "ORDER_CANCELLATION_OVERRIDE_REQUIRED: cancelling an accepted or in-progress order requires "
+                                + "an override justification of at least "
+                                + MIN_CANCELLATION_OVERRIDE_JUSTIFICATION_LENGTH + " characters.");
+            }
+        }
+        String combinedReason = resolvedOverride == null ? resolvedReason : resolvedReason + " | " + resolvedOverride;
+        DiagnosticOrder cancelled = withStatus(order, DiagnosticOrder.STATUS_CANCELLED, combinedReason,
                 order.pricingSnapshot(), order.clinicalNotes());
         DiagnosticOrder saved = repository.save(cancelled);
         auditRecorder.recordSystemEvent(saved.tenantId(), "OrderCancelled", "DiagnosticOrder", orderId,
-                "{\"reasonCode\":\"%s\"}".formatted(jsonText(resolvedReason)));
+                "{\"reasonCode\":\"%s\",\"clinicallyEngaged\":%b,\"overrideProvided\":%b}"
+                        .formatted(jsonText(resolvedReason), clinicallyEngaged, resolvedOverride != null));
         return saved;
     }
 

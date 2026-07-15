@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.panelcatalog.application.PanelCatalogService;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.panelcatalog.domain.PanelDefinition;
+import com.nexora.hop.platformfoundation.catalogtestconfiguration.patientpreparationmanagement.application.PatientPreparationManagementService;
+import com.nexora.hop.platformfoundation.catalogtestconfiguration.patientpreparationmanagement.domain.PreparationInstruction;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.testcatalog.application.TestCatalogService;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.testcatalog.domain.TestDefinition;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.appointmentscheduling.domain.AppointmentSlot;
@@ -22,17 +24,21 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.appointmentschedu
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.appointmentscheduling.domain.RequestedCatalogItem;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskConflictException;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskEntityNotFoundException;
+import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskPolicyStore;
 import com.nexora.hop.platformfoundation.organizationmanagement.BranchDirectory;
 
 /**
- * Compiles BCM-ATT-001 (Appointment Scheduling) generatable outputs and a functional baseline for
- * RN-001..RN-007. Never mutates DiagnosticOrder state directly (RN-005); check-in only hands the
- * appointment off, order creation happens downstream in Admission Management.
+ * Compiles BCM-ATT-001 (Appointment Scheduling) generatable outputs and implements its custom
+ * rules RN-001..RN-007. Never mutates DiagnosticOrder state directly (RN-005); check-in only
+ * hands the appointment off, order creation happens downstream in Admission Management.
  * <p>
- * <b>BE-002 hooks:</b> RN-006's no-show grace-period policy is tenant-configurable and not
- * evaluated automatically here; {@link #markNoShow(String)} exposes a manual trigger so the
- * endpoint is functional without a scheduler. Preparation-instruction surfacing (VO-APT-002) is
- * deferred; requested items are validated for catalog publication only.
+ * <b>MVP-MOD-004-BE-002 refinements:</b> {@link #confirm(String)} now also enforces a tenant-
+ * configurable daily appointment capacity per branch (RN-002, {@link FrontDeskPolicyStore
+ * #branchDailyAppointmentCapacityFor(String)}); {@link #markNoShow(String)} enforces a tenant-
+ * configurable grace period after the scheduled date before a confirmed appointment can be
+ * marked no-show (RN-006, {@link FrontDeskPolicyStore#noShowGraceDaysFor(String)}); and
+ * {@link #getPreparationInstructions(String)} surfaces published preparation instructions
+ * (VO-APT-002) for every requested catalog item.
  */
 @Service
 public class AppointmentSchedulingService {
@@ -48,6 +54,8 @@ public class AppointmentSchedulingService {
     private final BranchDirectory branchDirectory;
     private final TestCatalogService testCatalogService;
     private final PanelCatalogService panelCatalogService;
+    private final PatientPreparationManagementService preparationManagementService;
+    private final FrontDeskPolicyStore policyStore;
     private final AuditRecorder auditRecorder;
     private final Clock clock;
 
@@ -57,8 +65,11 @@ public class AppointmentSchedulingService {
             BranchDirectory branchDirectory,
             TestCatalogService testCatalogService,
             PanelCatalogService panelCatalogService,
+            PatientPreparationManagementService preparationManagementService,
+            FrontDeskPolicyStore policyStore,
             AuditRecorder auditRecorder) {
-        this(repository, branchDirectory, testCatalogService, panelCatalogService, auditRecorder, Clock.systemUTC());
+        this(repository, branchDirectory, testCatalogService, panelCatalogService, preparationManagementService,
+                policyStore, auditRecorder, Clock.systemUTC());
     }
 
     AppointmentSchedulingService(
@@ -66,12 +77,16 @@ public class AppointmentSchedulingService {
             BranchDirectory branchDirectory,
             TestCatalogService testCatalogService,
             PanelCatalogService panelCatalogService,
+            PatientPreparationManagementService preparationManagementService,
+            FrontDeskPolicyStore policyStore,
             AuditRecorder auditRecorder,
             Clock clock) {
         this.repository = repository;
         this.branchDirectory = branchDirectory;
         this.testCatalogService = testCatalogService;
         this.panelCatalogService = panelCatalogService;
+        this.preparationManagementService = preparationManagementService;
+        this.policyStore = policyStore;
         this.auditRecorder = auditRecorder;
         this.clock = clock;
     }
@@ -112,7 +127,12 @@ public class AppointmentSchedulingService {
         return saved;
     }
 
-    /** RN-001, RN-002: branch operational-status and same-patient overlap validation. */
+    /**
+     * RN-001, RN-002: branch operational-status, same-patient overlap and tenant-configurable
+     * daily branch capacity validation ({@link FrontDeskPolicyStore
+     * #branchDailyAppointmentCapacityFor(String)}, default
+     * {@value FrontDeskPolicyStore#DEFAULT_BRANCH_DAILY_APPOINTMENT_CAPACITY}).
+     */
     public AppointmentSlot confirm(String appointmentId) {
         AppointmentSlot appointment = require(appointmentId);
         if (!AppointmentSlot.STATUS_REQUESTED.equals(appointment.status())) {
@@ -130,6 +150,17 @@ public class AppointmentSchedulingService {
         if (overlaps) {
             throw new FrontDeskConflictException(
                     "APPOINTMENT_WINDOW_OVERLAP: an overlapping confirmed appointment already exists for this patient.");
+        }
+        int capacity = policyStore.branchDailyAppointmentCapacityFor(appointment.tenantId());
+        long confirmedOnDate = repository.findByBranchId(appointment.branchId()).stream()
+                .filter(other -> !other.appointmentId().equals(appointmentId))
+                .filter(other -> AppointmentSlot.STATUS_CONFIRMED.equals(other.status())
+                        || AppointmentSlot.STATUS_CHECKED_IN.equals(other.status()))
+                .filter(other -> windowsOverlap(appointment, other))
+                .count();
+        if (confirmedOnDate >= capacity) {
+            throw new FrontDeskConflictException(
+                    "APPOINTMENT_BRANCH_CAPACITY_EXCEEDED: the branch has reached its daily appointment capacity.");
         }
         AppointmentSlot confirmed = withStatus(appointment, AppointmentSlot.STATUS_CONFIRMED, appointment.cancellationReason());
         AppointmentSlot saved = repository.save(confirmed);
@@ -171,16 +202,29 @@ public class AppointmentSchedulingService {
         return saved;
     }
 
-    /** RN-006 baseline: manual no-show trigger; automatic grace-period evaluation is a BE-002 hook. */
+    /**
+     * RN-006: a confirmed appointment can only be marked no-show once its tenant-configurable
+     * grace period ({@link FrontDeskPolicyStore#noShowGraceDaysFor(String)}, in days, consistent
+     * with {@link AppointmentSlot}'s date-only scheduling granularity) has elapsed after the
+     * scheduled end date. This remains a manually triggered endpoint (no scheduler exists yet)
+     * but is no longer evaluated unconditionally.
+     */
     public AppointmentSlot markNoShow(String appointmentId) {
         AppointmentSlot appointment = require(appointmentId);
         if (!AppointmentSlot.STATUS_CONFIRMED.equals(appointment.status())) {
             throw new FrontDeskConflictException("Only a confirmed appointment can be marked no-show.");
         }
+        int graceDays = policyStore.noShowGraceDaysFor(appointment.tenantId());
+        java.time.LocalDate earliestNoShowDate = appointment.scheduledEnd().plusDays(graceDays);
+        java.time.LocalDate today = java.time.LocalDate.now(clock);
+        if (today.isBefore(earliestNoShowDate)) {
+            throw new FrontDeskConflictException(
+                    "APPOINTMENT_NO_SHOW_GRACE_PERIOD_ACTIVE: the no-show grace period has not elapsed yet.");
+        }
         AppointmentSlot noShow = withStatus(appointment, AppointmentSlot.STATUS_NO_SHOW, appointment.cancellationReason());
         AppointmentSlot saved = repository.save(noShow);
         auditRecorder.recordSystemEvent(saved.tenantId(), "AppointmentNoShowMarked", "AppointmentSlot", appointmentId,
-                "{\"branchId\":\"%s\"}".formatted(jsonText(saved.branchId())));
+                "{\"branchId\":\"%s\",\"graceDays\":%d}".formatted(jsonText(saved.branchId()), graceDays));
         return saved;
     }
 
@@ -195,6 +239,27 @@ public class AppointmentSchedulingService {
     public List<RequestedCatalogItem> getRequestedItems(String appointmentId) {
         require(appointmentId);
         return repository.findRequestedItems(appointmentId);
+    }
+
+    /**
+     * VO-APT-002: surfaces published preparation instructions for every catalog item requested on
+     * this appointment, so front desk staff and patients can see fasting/medication/activity
+     * guidance before the visit.
+     */
+    public List<PreparationInstruction> getPreparationInstructions(String appointmentId) {
+        require(appointmentId);
+        List<RequestedCatalogItem> items = repository.findRequestedItems(appointmentId);
+        java.util.LinkedHashMap<String, PreparationInstruction> byId = new java.util.LinkedHashMap<>();
+        for (RequestedCatalogItem item : items) {
+            String targetType = RequestedCatalogItem.KIND_TEST.equals(item.catalogItemKind())
+                    ? com.nexora.hop.platformfoundation.catalogtestconfiguration.patientpreparationmanagement.domain.PreparationAssignment.TARGET_TEST
+                    : com.nexora.hop.platformfoundation.catalogtestconfiguration.patientpreparationmanagement.domain.PreparationAssignment.TARGET_PANEL;
+            for (PreparationInstruction preparation
+                    : preparationManagementService.findPublishedForTarget(targetType, item.testDefinitionId())) {
+                byId.putIfAbsent(preparation.preparationId(), preparation);
+            }
+        }
+        return List.copyOf(byId.values());
     }
 
     private void validateCatalogItemPublished(String testDefinitionId, String catalogItemKind) {

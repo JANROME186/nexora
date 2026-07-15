@@ -99,6 +99,20 @@ class JdbcPreparationInstructionRepository implements PreparationInstructionRepo
                 preparationId);
     }
 
+    @Override
+    public List<PreparationAssignment> findAssignmentsByTarget(String targetType, String targetRefId) {
+        return jdbcTemplate.query("""
+                select assignment_id, preparation_id, target_type, target_ref_id
+                from catalog.preparation_assignments
+                where target_type = ? and target_ref_id = ?
+                """, (resultSet, rowNumber) -> new PreparationAssignment(
+                        resultSet.getString("assignment_id"),
+                        resultSet.getString("preparation_id"),
+                        resultSet.getString("target_type"),
+                        resultSet.getString("target_ref_id")),
+                targetType, targetRefId);
+    }
+
     private static PreparationInstruction mapPreparation(ResultSet resultSet, int rowNumber) throws SQLException {
         int duration = resultSet.getInt("duration_hours");
         return new PreparationInstruction(

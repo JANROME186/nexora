@@ -70,6 +70,12 @@ class JdbcAppointmentSlotRepository implements AppointmentSlotRepository {
     }
 
     @Override
+    public List<AppointmentSlot> findByBranchId(String branchId) {
+        return jdbcTemplate.query("select * from care_delivery.appointments where branch_id = ?",
+                JdbcAppointmentSlotRepository::map, branchId);
+    }
+
+    @Override
     public RequestedCatalogItem saveRequestedItem(RequestedCatalogItem item) {
         jdbcTemplate.update("""
                 insert into care_delivery.appointment_requested_items (
