@@ -3,7 +3,7 @@
 **Artifact ID:** `NXF-SQ-PROMPTS-001`  
 **Status:** Approved  
 **Machine-readable source:** `security-quality-gate-prompts.yaml`
-**Version:** `1.3.0`
+**Version:** `1.4.0`
 
 Use these prompts with the Open Source First Security and Quality Standard.
 
@@ -28,10 +28,25 @@ The output must include:
 
 The required toolchain must cover best practices, coding standards, duplicate code, complexity,
 OWASP or stack-equivalent secure coding, dependency vulnerabilities across all severities, secrets,
-coverage, architecture rules when applicable and message externalization/i18n. For Java/Maven,
-consider SonarLint, SpotBugs, Find Security Bugs, Checkstyle, PMD, PMD CPD, JaCoCo, OWASP
-Dependency-Check, Trivy, CycloneDX Maven Plugin, Maven Enforcer, License Maven Plugin, PIT/Pitest,
-ArchUnit, OpenRewrite and Semgrep CE according to applicability.
+coverage, architecture rules when applicable and message externalization/i18n.
+
+For Java/Maven, consider SonarLint, SonarCloud only when hosted SaaS use is approved, JaCoCo, PMD,
+PMD CPD, SpotBugs, Checkstyle, Maven Surefire Plugin, OWASP Dependency-Check, Trivy, Spotless,
+Google Error Prone, ArchUnit, PIT/Pitest, CycloneDX SBOM, Maven Enforcer, Maven Versions Plugin,
+License Maven Plugin or License Checker, Revapi, Duplicate Finder Maven Plugin, Find Security Bugs,
+OpenRewrite and Semgrep CE according to applicability.
+
+For TypeScript web, consider TypeScript strict mode, ESLint with `typescript-eslint`,
+`eslint-plugin-security`, `eslint-plugin-sonarjs`, Semgrep CE, Vitest or Jest, Istanbul/c8 coverage,
+`jscpd`, Prettier, `npm audit`, OSV-Scanner or Trivy, CycloneDX npm tools or Syft, an actively
+maintained license checker, OWASP ZAP, accessibility checks and i18n literal-string linting.
+
+For mobile TypeScript or Flutter/Dart, apply the matching mobile baseline from the standard and add
+MobSF when native artifacts are available.
+
+If a better, safer, more current or actively maintained tool replaces a framework baseline tool, the
+agent must document the proposed substitution, create framework feedback and update project
+technical debt before closing the analysis.
 
 ## Open-Source-First Assessment
 

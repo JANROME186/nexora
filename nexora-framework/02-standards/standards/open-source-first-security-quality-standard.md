@@ -3,7 +3,7 @@
 **Artifact ID:** `NXF-OSS-SEC-QUAL-001`  
 **Status:** Approved  
 **Machine-readable source:** `open-source-first-security-quality-standard.yaml`
-**Version:** `1.3.0`
+**Version:** `1.4.0`
 
 ## Purpose
 
@@ -218,6 +218,27 @@ Preferred open source tools include:
 - IaC/container quality: Checkov, TFLint, Hadolint, Trivy.
 - API quality: Spectral and Schemathesis.
 
+## Toolchain Evolution
+
+Tool baselines are living standards. During analysis, backlog work, module closeout and release
+readiness, agents must compare the current baseline against official tool status, ecosystem
+practice, license/hosting changes and runtime compatibility.
+
+If an agent detects a new tool, a better replacement, a deprecated tool or a license/hosting change,
+it must document:
+
+- Affected stack.
+- Current baseline tool.
+- Proposed new or replacement tool.
+- Reason for the change.
+- License and hosting model.
+- Migration impact.
+- Project technical-debt items to update.
+- Framework feedback or framework backlog item for Nexora to review.
+
+Hosted tools such as SonarCloud may be used only when approved by the organization and must not
+become mandatory for local development unless an exception is documented.
+
 ### Java Maven Baseline
 
 For Java/Maven services, the framework expects a stack-specific quality toolchain similar to:
@@ -225,25 +246,63 @@ For Java/Maven services, the framework expects a stack-specific quality toolchai
 | Category | Open source tool | Main use |
 |---|---|---|
 | IDE feedback | SonarLint | Real-time review in common IDEs. |
+| Centralized quality analysis | SonarCloud | Hosted quality/security hotspot analysis when SaaS use is approved; not mandatory for local development. |
+| Test execution | Maven Surefire Plugin | Unit test execution and reporting. |
 | Quality / bugs | SpotBugs | Bytecode bug analysis. |
 | Code security | Find Security Bugs | SpotBugs rules for injection, weak cryptography and related security issues. |
 | Style | Checkstyle | Team conventions, formatting and structural rules. |
+| Formatting | Spotless | Reproducible formatting and import hygiene. |
 | Static analysis | PMD | Bad practices, dead code and complexity. |
 | Duplication | PMD CPD | Copy/paste detection. |
+| Duplicate dependencies/classes | Duplicate Finder Maven Plugin | Duplicate classes and resource conflict detection. |
 | Coverage | JaCoCo | Unit and integration test coverage. |
 | Dependency vulnerabilities | OWASP Dependency-Check | CVE detection in Maven dependencies. |
 | Containers / filesystem / secrets | Trivy | CVEs, SBOM, licenses, misconfigurations and secrets. |
 | SBOM | CycloneDX Maven Plugin | Direct and transitive dependency inventory. |
 | Build rules | Maven Enforcer | Java/Maven versions, duplicate dependencies and disallowed dependencies. |
-| Licenses | License Maven Plugin | Header and dependency license policy. |
+| Dependency currency | Maven Versions Plugin | Dependency, plugin and parent version drift detection. |
+| Licenses | License Maven Plugin / License Checker | Header and dependency license policy. |
 | Advanced testing | PIT / Pitest | Mutation testing for test effectiveness. |
 | Architecture | ArchUnit | Architecture rules for layers, packages, DDD or hexagonal boundaries. |
 | Refactor / technical debt | OpenRewrite | Automated migrations and refactors. |
+| API compatibility | Revapi | Binary/source compatibility checks for public Java APIs. |
+| Compiler static analysis | Google Error Prone | Compile-time Java bug pattern detection. |
 | Additional SAST | Semgrep CE | Security and bug rules for Java in CI/CD. |
 
 This table is a baseline, not a universal command to install every tool immediately. If a tool is
 not safe or practical to adopt during the active backlog item, the agent must document the reason and
 register technical debt unless the missing tool blocks release or hides unresolved security risk.
+
+### TypeScript Web Baseline
+
+For TypeScript web applications, the framework expects:
+
+- TypeScript strict mode.
+- Vitest or Jest for tests.
+- Vitest coverage, Istanbul or c8 for coverage.
+- ESLint with `typescript-eslint`.
+- `eslint-plugin-security`, `eslint-plugin-sonarjs` and Semgrep CE for secure-code and complexity checks.
+- `jscpd` for duplicated code.
+- Prettier for formatting.
+- `npm audit`, OSV-Scanner or Trivy for dependency vulnerabilities across all severities.
+- CycloneDX npm tools or Syft for SBOM.
+- An actively maintained license checker.
+- OWASP ZAP and accessibility checks when a runnable UI exists.
+- i18n/message catalog tooling such as i18next or react-intl plus literal-string lint rules.
+
+### Mobile Baselines
+
+For TypeScript mobile applications such as React Native or Expo, use the TypeScript web baseline
+adapted to mobile, plus React Native Testing Library and MobSF when native artifacts are available.
+
+For Flutter/Dart applications, use `dart analyze`, `flutter analyze`, `dart format`,
+`flutter test --coverage`, lcov, OSV-Scanner or Trivy, Flutter `gen-l10n` with ARB resources, and
+MobSF when native artifacts are available.
+
+### Infrastructure Baseline
+
+For containers and infrastructure, use Trivy or Grype, Checkov, TFLint, Hadolint, Syft or CycloneDX
+tools, and all-severity vulnerability/misconfiguration scanning.
 
 ## Fail Conditions
 

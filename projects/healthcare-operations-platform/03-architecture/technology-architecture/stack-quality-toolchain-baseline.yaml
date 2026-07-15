@@ -2,7 +2,7 @@ artifact:
   id: HOP-STACK-QUALITY-TOOLCHAIN-001
   type: stack-quality-toolchain-baseline
   name: HOP Stack Quality Toolchain Baseline
-  version: 1.0.0
+  version: 1.1.0
   status: active_with_mandatory_debt_first_remediation
   created_date: 2026-07-09
   last_refreshed_date: 2026-07-09
@@ -15,6 +15,14 @@ toolchain_by_stack:
     applicable: true
     component: 07-implementation/backend
     tools:
+      - category: Centralized quality analysis
+        tool: SonarCloud
+        status: candidate_not_mandatory
+        required_action: evaluate_only_if_nexora_approves_hosted_saas_quality_analysis
+      - category: Test execution
+        tool: Maven Surefire Plugin
+        status: configured_by_maven_test_lifecycle
+        required_action: keep_test_reports_as_backlog_evidence
       - category: Quality and bugs
         tool: SpotBugs
         status: not_yet_configured
@@ -26,7 +34,11 @@ toolchain_by_stack:
       - category: Style
         tool: Checkstyle
         status: not_yet_configured
-        required_action: define_team_rules_before_ga
+        required_action: add_or_register_debt_before_next_backend_backlog_closure
+      - category: Formatting
+        tool: Spotless
+        status: not_yet_configured
+        required_action: add_or_register_debt_before_next_backend_backlog_closure
       - category: Static analysis
         tool: PMD
         status: not_yet_configured
@@ -34,7 +46,11 @@ toolchain_by_stack:
       - category: Duplication
         tool: PMD CPD
         status: not_yet_configured
-        required_action: run_before_module_or_release_closeout_when_codebase_is_large_enough
+        required_action: add_or_register_debt_before_next_backend_backlog_closure
+      - category: Duplicate dependencies and classes
+        tool: Duplicate Finder Maven Plugin
+        status: not_yet_configured
+        required_action: add_or_register_debt_when_backend_dependencies_are_touched
       - category: Coverage
         tool: JaCoCo
         status: not_yet_configured
@@ -56,8 +72,12 @@ toolchain_by_stack:
         tool: Maven Enforcer
         status: not_yet_configured
         required_action: add_java_maven_version_and_dependency_rules
+      - category: Dependency currency
+        tool: Maven Versions Plugin
+        status: not_yet_configured
+        required_action: add_to_stack_evolution_review_or_register_debt
       - category: Licenses
-        tool: License Maven Plugin
+        tool: License Maven Plugin or License Checker
         status: not_yet_configured
         required_action: add_or_document_license_review_process
       - category: Advanced tests
@@ -72,10 +92,21 @@ toolchain_by_stack:
         tool: OpenRewrite
         status: deferred
         required_action: use_for_future_modernization_debt_or_framework_migrations
+      - category: API compatibility
+        tool: Revapi
+        status: conditional_not_yet_configured
+        required_action: evaluate_when_public_java_api_or_sdk_changes
+      - category: Compiler static analysis
+        tool: Google Error Prone
+        status: not_yet_configured
+        required_action: evaluate_compatibility_with_current_jdk_and_maven_build
       - category: Additional SAST
         tool: Semgrep CE
         status: not_yet_configured
         required_action: evaluate_for_ci_defense_in_depth
+  toolchain_evolution:
+    required: true
+    rule: If an agent detects newer, safer, better maintained or replacement tools for any stack baseline, it must document the substitution, update project technical debt and create framework feedback before closing the backlog item.
   typescript_web:
     applicable: true
     component: 07-implementation/employee-portal
@@ -87,12 +118,17 @@ toolchain_by_stack:
       - Trivy filesystem scan
     gaps_to_evaluate:
       - ESLint
+      - typescript-eslint
+      - eslint-plugin-security
+      - eslint-plugin-sonarjs
       - Semgrep CE
       - duplicate-code detector such as jscpd
       - complexity rules such as ESLint complexity or sonarjs cognitive-complexity
+      - Prettier formatting gate
       - frontend DAST with OWASP ZAP when runnable surface is available
       - SBOM generation
       - license review automation
+      - accessibility checks such as axe-core or Playwright accessibility assertions
       - localization/i18n literal scan for user-visible strings
   mobile_typescript:
     applicable: true
@@ -105,6 +141,7 @@ toolchain_by_stack:
       - duplicate-code and complexity analysis
       - secure-code analysis
       - localization resource validation
+      - MobSF when native mobile artifacts are available
 
 enterprise_quality_gate_policy:
   effective_from_next_code_changing_backlog: true
@@ -133,6 +170,7 @@ enterprise_quality_gate_policy:
     - TD-BE-004
     - TD-QA-001
     - TD-FE-002
+    - new_or_updated_toolchain_debt_from_quality_toolchain_evolution_review
 
 mvp_mod_002_closeout_disposition:
   performed_during: MVP-MOD-002-CLOSEOUT
@@ -141,7 +179,7 @@ mvp_mod_002_closeout_disposition:
     description: Gates required and executed for this module closeout.
     tools:
       - Backend Maven test suite (JUnit) - passed 42/0/0 (standard) and 42/0/0 (PostgreSQL-backed).
-      - Trivy filesystem scan (vuln, secret, misconfig) - passed 0 HIGH/CRITICAL.
+      - Historical Trivy filesystem scan (vuln, secret, misconfig) - passed with a HIGH/CRITICAL filter at the time; future closure requires all-severity scans.
       - Frontend TypeScript strict check, Vitest coverage, production build and npm audit - passed.
   already_covered:
     description: Categories already satisfied by existing tooling.
@@ -159,11 +197,11 @@ mvp_mod_002_closeout_disposition:
     description: Active gaps routed to the technical-debt backlog. At least one open item must be resolved or materially reduced before every code-changing backlog item.
     items:
       - id: TD-BE-002
-        tools: [SpotBugs, Find Security Bugs, PMD, PMD CPD, Checkstyle, Semgrep CE]
+        tools: [SpotBugs, Find Security Bugs, PMD, PMD CPD, Checkstyle, Spotless, Google Error Prone, Semgrep CE]
       - id: TD-BE-003
         tools: [JaCoCo backend coverage]
       - id: TD-BE-004
-        tools: [CycloneDX Maven Plugin, Maven Enforcer, License Maven Plugin, OWASP Dependency-Check]
+        tools: [CycloneDX Maven Plugin, Maven Enforcer, Maven Versions Plugin, License Maven Plugin or License Checker, OWASP Dependency-Check, Duplicate Finder Maven Plugin, Revapi]
       - id: TD-STACK-001
         tools: [major framework and runtime upgrades]
 

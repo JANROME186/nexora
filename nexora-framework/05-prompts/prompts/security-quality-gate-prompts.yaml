@@ -2,7 +2,7 @@ artifact:
   id: NXF-SQ-PROMPTS-001
   type: prompt-playbook
   name: Security and Quality Gate Prompts
-  version: 1.3.0
+  version: 1.4.0
   status: approved
   human_readable: security-quality-gate-prompts.md
   machine_readable: security-quality-gate-prompts.yaml
@@ -37,7 +37,11 @@ prompts:
       Identify the requester-proposed stack, the current project stack and every runtime, framework, package manager, build tool, database, deployment technology and quality tool that materially affects development.
       Validate each stack element against current stable or LTS versions using official documentation, release notes, lifecycle pages, official security advisories and trusted vulnerability sources. Treat blogs, tutorials and marketing claims as supporting context only, not authority.
       Compare the proposed stack with current open source ecosystem practice for security, maintainability, portability, cost, maturity, hiring risk, deployment fit and available quality gates.
-      Define the minimum open source quality toolchain required by each stack and layer. The toolchain must cover best practices, coding standards, duplicated code, complexity, OWASP or stack-equivalent secure coding, dependency vulnerabilities across all severities, secrets, coverage, architecture rules when applicable and message externalization/i18n. For Java/Maven, consider SonarLint, SpotBugs, Find Security Bugs, Checkstyle, PMD, PMD CPD, JaCoCo, OWASP Dependency-Check, Trivy, CycloneDX Maven Plugin, Maven Enforcer, License Maven Plugin, PIT/Pitest, ArchUnit, OpenRewrite and Semgrep CE according to applicability.
+      Define the minimum open source quality toolchain required by each stack and layer. The toolchain must cover best practices, coding standards, duplicated code, complexity, OWASP or stack-equivalent secure coding, dependency vulnerabilities across all severities, secrets, coverage, architecture rules when applicable and message externalization/i18n.
+      For Java/Maven, consider SonarLint, SonarCloud only when hosted SaaS use is approved, JaCoCo, PMD, PMD CPD, SpotBugs, Checkstyle, Maven Surefire Plugin, OWASP Dependency-Check, Trivy, Spotless, Google Error Prone, ArchUnit, PIT/Pitest, CycloneDX SBOM, Maven Enforcer, Maven Versions Plugin, License Maven Plugin or License Checker, Revapi, Duplicate Finder Maven Plugin, Find Security Bugs, OpenRewrite and Semgrep CE according to applicability.
+      For TypeScript web, consider TypeScript strict mode, ESLint with typescript-eslint, eslint-plugin-security, eslint-plugin-sonarjs, Semgrep CE, Vitest or Jest, Istanbul/c8 coverage, jscpd, Prettier, npm audit, OSV-Scanner or Trivy, CycloneDX npm tools or Syft, license checker, OWASP ZAP, accessibility checks and i18n literal-string linting.
+      For mobile TypeScript or Flutter/Dart, apply the matching mobile baseline from the standard and add MobSF when native artifacts are available.
+      If a better, safer, more current or actively maintained tool replaces a framework baseline tool, document the proposed substitution, create framework feedback and update project technical debt before closing the analysis.
       Apply immediately any upgrade or replacement required to remove security findings that cannot be safely accepted, unsupported runtimes, incompatible quality gates or blocking build failures.
       For beneficial but non-blocking upgrades, migrations or tooling gaps, create or update technical-debt items under 08-qa/technical-debt/ with risk, effort, cost, affected components and gradual remediation triggers.
       Produce a selected_stack_baseline and stack_toolchain_baseline for architecture or backlog evidence.
