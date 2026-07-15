@@ -8,5 +8,6 @@
  */
 @org.springframework.modulith.ApplicationModule(
         displayName = "People and Clinical Master Data",
-        allowedDependencies = { "organizationmanagement", "auditcompliance" })
+        allowedDependencies = { "organizationmanagement", "auditcompliance" },
+        type = org.springframework.modulith.ApplicationModule.Type.OPEN)
 package com.nexora.hop.platformfoundation.peopleclinicalmasterdata;

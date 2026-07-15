@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-004-BE-001
+  current_active_backlog_item: MVP-MOD-004-BE-002
   intended_audience:
     - human_reviewer
     - qa_reviewer
@@ -173,6 +173,22 @@ smoke_validation:
       commits it (showing a visual high-confidence duplicate candidate list and a 409 message when
       a match must be resolved or a mandatory consent is missing), and cancels a pending
       registration (with confirmation).
+  - id: SMOKE-006
+    name: Front Desk and Care Delivery baseline (MVP-MOD-004-BE-001)
+    expected_result: >
+      POST /api/clinical-operations/diagnostic-orders creates a diagnostic order with immutable
+      patient/doctor/branch snapshots; POST .../{id}/price, .../accept and .../complete transition
+      it through priced, accepted and completed (no endpoint returns HTTP 501).
+      POST /api/care-delivery/appointments creates an appointment; .../confirm rejects a
+      non-operational branch or an overlapping confirmed appointment for the same patient;
+      .../check-in hands off to reception. POST /api/care-delivery/reception-visits starts a
+      visit; .../confirm-identity performs a read-only identity check against Patient Management;
+      .../advance-to-admission blocks with HTTP 409 until identity is confirmed. POST
+      /api/care-delivery/admission-requests starts an admission from a confirmed reception visit;
+      .../mark-ready validates published catalog selection; .../commit delegates to Diagnostic
+      Order Management and returns createdOrderId. POST /api/care-delivery/quotations creates a
+      quotation; .../issue resolves price-list pricing and enforces a discount policy cap (HTTP
+      409 beyond the limit); .../accept and .../convert produce a linked diagnostic order.
 
 quality_validation:
   - id: QA-001

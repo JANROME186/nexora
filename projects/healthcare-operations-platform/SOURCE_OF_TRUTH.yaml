@@ -52,6 +52,12 @@ sources:
   mvp_mod_004_pkg_bcm_lab_001: 01-product-definition/business-capabilities/packages/bcm-lab-001-diagnostic-order-management/
   mvp_mod_004_def_qa_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.md
   mvp_mod_004_def_qa_evidence_yaml: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.yaml
+  mvp_mod_004_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/frontdeskcaredelivery/
+  mvp_mod_004_be_001_schema: 07-implementation/backend/src/main/resources/db/front-desk-care-delivery/schema.sql
+  mvp_mod_004_be_001_qa_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-001-validation.md
+  mvp_mod_004_be_001_qa_evidence_yaml: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-001-validation.yaml
+  mvp_mod_004_be_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-004-BE-001/security-quality-evidence.md
+  mvp_mod_004_be_001_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-004-BE-001/security-quality-evidence.yaml
   mvp_mod_003_def_qa_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
   mvp_mod_003_def_qa_evidence_yaml: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
   mvp_mod_003_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/peopleclinicalmasterdata/
@@ -120,10 +126,12 @@ sources:
   technical_debt_td_be_006: 08-qa/technical-debt/TD-BE-006-patient-registration-commit-non-atomic.yaml
   technical_debt_td_def_001: 08-qa/technical-debt/TD-DEF-001-quotation-to-sale-conversion-deferred.yaml
   technical_debt_td_def_002: 08-qa/technical-debt/TD-DEF-002-appointment-capacity-planning-deferred.yaml
+  technical_debt_td_be_009: 08-qa/technical-debt/TD-BE-009-branch-snapshot-version-placeholder.yaml
   framework_feedback_index: 08-qa/framework-feedback/framework-feedback-index.yaml
   framework_feedback_readme: 08-qa/framework-feedback/README.md
   framework_feedback_fwf_hop_001: 08-qa/framework-feedback/FWF-HOP-001-framework-feedback-loop.yaml
   framework_feedback_fwf_hop_002: 08-qa/framework-feedback/FWF-HOP-002-tenant-configurable-business-parameters.yaml
+  framework_feedback_fwf_hop_003: 08-qa/framework-feedback/FWF-HOP-003-spring-modulith-cross-module-api-visibility.yaml
   client_stack_market_validation: 03-architecture/technology-architecture/client-stack-market-validation.yaml
   stack_quality_toolchain_baseline: 03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
   open_data_ingestion_contract: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md

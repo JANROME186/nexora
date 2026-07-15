@@ -155,3 +155,12 @@ entries:
     affected_area: appointment_scheduling_capacity_validation
     file: 08-qa/technical-debt/TD-DEF-002-appointment-capacity-planning-deferred.yaml
     remediation_strategy: gradual_when_bcm_org_007_schedule_management_is_modeled
+  - id: TD-BE-009
+    title: Branch snapshot version is a fixed placeholder, not a real optimistic-concurrency counter
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: MVP-MOD-004-BE-001
+    affected_area: organization_management_branch_versioning
+    file: 08-qa/technical-debt/TD-BE-009-branch-snapshot-version-placeholder.yaml
+    remediation_strategy: gradual_when_organization_management_branch_lifecycle_is_next_touched

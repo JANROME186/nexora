@@ -2,6 +2,7 @@ package com.nexora.hop.platformfoundation.organizationmanagement.application;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +10,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
+import com.nexora.hop.platformfoundation.organizationmanagement.BranchDirectory;
 import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 import com.nexora.hop.platformfoundation.organizationmanagement.domain.Branch;
+import com.nexora.hop.platformfoundation.organizationmanagement.domain.BranchSnapshot;
 import com.nexora.hop.platformfoundation.organizationmanagement.domain.Laboratory;
 import com.nexora.hop.platformfoundation.organizationmanagement.domain.OrganizationRepository;
 import com.nexora.hop.platformfoundation.organizationmanagement.domain.Tenant;
 
 @Service
-public class OrganizationManagementService implements TenantDirectory {
+public class OrganizationManagementService implements TenantDirectory, BranchDirectory {
 
     private static final String ACTIVE_STATUS = "active";
 
@@ -95,6 +98,32 @@ public class OrganizationManagementService implements TenantDirectory {
             return false;
         }
         return repository.findTenantById(tenantId).isPresent();
+    }
+
+    @Override
+    public Optional<BranchSnapshot> findSnapshot(String branchId) {
+        if (!StringUtils.hasText(branchId)) {
+            return Optional.empty();
+        }
+        return repository.findBranchById(branchId).map(BranchSnapshot::from);
+    }
+
+    @Override
+    public boolean branchExists(String branchId) {
+        if (!StringUtils.hasText(branchId)) {
+            return false;
+        }
+        return repository.findBranchById(branchId).isPresent();
+    }
+
+    @Override
+    public boolean isBranchOperational(String branchId) {
+        if (!StringUtils.hasText(branchId)) {
+            return false;
+        }
+        return repository.findBranchById(branchId)
+                .map(branch -> ACTIVE_STATUS.equals(branch.status()))
+                .orElse(false);
     }
 
     private Tenant requireTenant(String tenantId) {

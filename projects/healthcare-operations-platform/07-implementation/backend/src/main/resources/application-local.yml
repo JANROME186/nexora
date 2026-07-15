@@ -13,6 +13,7 @@ spring:
         - classpath:db/platform-foundation/schema.sql
         - classpath:db/catalog-test-configuration/schema.sql
         - classpath:db/people-and-clinical-master-data/schema.sql
+        - classpath:db/front-desk-care-delivery/schema.sql
 
 management:
   endpoint:

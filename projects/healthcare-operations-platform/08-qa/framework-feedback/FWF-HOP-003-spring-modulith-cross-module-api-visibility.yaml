@@ -1,0 +1,85 @@
+artifact:
+  id: FWF-HOP-003
+  type: project-framework-feedback-item
+  name: Nexora agent-to-mvp recipe does not document Spring Modulith cross-module API visibility rules
+  version: 1.0.0
+  status: proposed
+  created_date: 2026-07-15
+
+source:
+  source_project: healthcare-operations-platform
+  source_backlog_item_or_phase: MVP-MOD-004-BE-001
+  related_framework_backlog_item: null
+
+classification:
+  feedback_type: implementation_guidance_gap
+  affected_framework_area: agent_to_mvp_recipe_and_backend_scaffolding_conventions
+  priority_recommendation: P2_medium
+  urgency: next_planning_cycle
+
+observed_friction_or_gap: >
+  The established HOP backend convention (introduced in MVP-MOD-001/002/003) exposes read-only
+  cross-module lookups through small "Directory" ports (TenantDirectory, PatientDirectory,
+  DoctorDirectory) placed directly in a Spring Modulith top-level module's root package, and
+  documents a "direct service injection" pattern for cross-module writes (an orchestrating
+  capability injects the owning capability's @Service class directly and calls its public command
+  methods). Neither the framework's agent-to-mvp-recipe.yaml nor any project-level convention
+  document explains that Spring Modulith's default (CLOSED) module type only exposes types that
+  live directly in a module's root package as its public API; types in nested sub-packages
+  (application/, domain/, or capability-named sub-packages like patientmanagement/,
+  testcatalog/) are treated as internal, even when the target module is listed in the consuming
+  module's allowedDependencies. This was invisible through MVP-MOD-002/003 because every prior
+  cross-module reference happened to be either intra-module (same top-level Spring Modulith
+  module) or to a type already sitting at a provider module's root (TenantDirectory,
+  AuditRecorder). The first genuinely new top-level module with real cross-module dependencies
+  into other modules' nested application/domain packages (frontdeskcaredelivery, consuming
+  catalogtestconfiguration's TestCatalogService/PanelCatalogService/PriceListManagementService and
+  peopleclinicalmasterdata's PatientDirectory/DoctorDirectory return types) immediately produced
+  30+ ApplicationModules.verify() violations that were not caught by any prior module's tests.
+
+evidence:
+  - >-
+    PlatformFoundationModulithTest failed with
+    "Module 'frontdeskcaredelivery' depends on module 'catalogtestconfiguration' via
+    ...AdmissionManagementService -> ...testcatalog.application.TestCatalogService. Allowed
+    targets - organizationmanagement, peopleclinicalmasterdata, catalogtestconfiguration,
+    auditcompliance." even though catalogtestconfiguration was correctly listed in
+    allowedDependencies — the actual failure was type-visibility (nested package = internal), not
+    module-list membership, which the error message phrasing does not make obvious at a glance.
+  - The fix required understanding Spring Modulith's org.springframework.modulith.ApplicationModule
+    Type.OPEN vs the default CLOSED semantics (undocumented anywhere in this repository) and
+    applying it to 3 pre-existing modules (catalogtestconfiguration, peopleclinicalmasterdata,
+    organizationmanagement) that had never needed it before.
+
+proposed_improvement: >
+  Extend the agent-to-mvp-recipe.yaml (or a dedicated backend architecture convention document)
+  with an explicit "Spring Modulith cross-module API surface" section: (1) state that a module's
+  default CLOSED type only exposes its root-package types cross-module, (2) recommend that any
+  module expected to be consumed by future sibling modules either keep its cross-module read/write
+  surface in root-level Directory-style ports (current convention) OR declare
+  type = ApplicationModule.Type.OPEN up front when the whole module is meant to be freely
+  consumable, and (3) recommend running PlatformFoundationModulithTest (or the project's
+  equivalent) as part of every new capability package's backend compilation checklist, before
+  assuming a cross-module service injection will compile-and-verify cleanly.
+
+expected_benefit:
+  - Removes a recurring "why did verify() suddenly fail" surprise the first time any Nexora
+    project's Nth module needs a genuine cross-module dependency into another module's internals.
+  - Gives agents a documented decision rule (Directory port at root vs. module-wide OPEN) instead
+    of discovering Spring Modulith's default visibility semantics empirically mid-backlog.
+
+impact_assessment:
+  impacted_project_types:
+    - all_nexora_projects_using_spring_modulith_with_more_than_two_top_level_backend_modules
+  impact_on_project_delivery: low
+  recurrence_probability: likely_in_every_later_hop_module_and_any_future_spring_modulith_project
+  framework_reusability: all_spring_modulith_based_projects
+  estimated_effort: low
+  risk_if_not_addressed: >
+    Each new module in HOP (and in future Nexora projects using Spring Modulith) re-discovers this
+    constraint empirically during its first cross-module compilation backlog item, costing
+    debugging time that documentation could eliminate.
+
+decision:
+  central_backlog_item: null
+  status: proposed

@@ -35,3 +35,10 @@ entries:
     priority_recommendation: P2_medium
     central_backlog_item: null
     status: proposed
+  - feedback_id: FWF-HOP-003
+    source_backlog_item_or_phase: MVP-MOD-004-BE-001
+    feedback_type: implementation_guidance_gap
+    affected_framework_area: agent_to_mvp_recipe_and_backend_scaffolding_conventions
+    priority_recommendation: P2_medium
+    central_backlog_item: null
+    status: proposed
