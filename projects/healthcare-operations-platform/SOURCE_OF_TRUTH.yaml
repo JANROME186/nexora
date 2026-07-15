@@ -68,6 +68,10 @@ sources:
   mvp_mod_003_qa_001_qa_evidence_yaml: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-QA-001-validation.yaml
   mvp_mod_003_qa_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-003-QA-001/security-quality-evidence.md
   mvp_mod_003_qa_001_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-003-QA-001/security-quality-evidence.yaml
+  mvp_mod_003_closeout_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-CLOSEOUT.md
+  mvp_mod_003_closeout_evidence_yaml: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-CLOSEOUT.yaml
+  mvp_mod_003_closeout_security_quality_evidence: 08-qa/security-quality/MVP-MOD-003-CLOSEOUT/security-quality-evidence.md
+  mvp_mod_003_closeout_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-003-CLOSEOUT/security-quality-evidence.yaml
   mvp_mod_002_def_qa_evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.md
   mvp_mod_002_def_qa_evidence_yaml: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.yaml
   mvp_mod_002_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/catalogtestconfiguration/

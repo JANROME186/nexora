@@ -118,3 +118,7 @@ traces:
     validation_status: closed
     validation_qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-QA-001-validation.yaml
     validation_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-003-QA-001/security-quality-evidence.yaml
+    closeout: MVP-MOD-003-CLOSEOUT
+    closeout_status: closed
+    closeout_qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-CLOSEOUT.yaml
+    closeout_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-003-CLOSEOUT/security-quality-evidence.yaml

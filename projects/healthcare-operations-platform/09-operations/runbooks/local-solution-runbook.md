@@ -4,6 +4,8 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
+Current active backlog item: `MVP-MOD-004-DEF`.
+
 ## Prerequisites
 
 - Docker with Compose support.
@@ -178,6 +180,7 @@ Employee portal:
 ```powershell
 cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation\employee-portal
 npm run typecheck
+npm test
 npm run test:coverage
 npm run build
 npm audit --audit-level=high

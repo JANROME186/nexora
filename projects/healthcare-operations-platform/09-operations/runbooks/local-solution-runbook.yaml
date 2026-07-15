@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-003-CLOSEOUT
+  current_active_backlog_item: MVP-MOD-004-DEF
   intended_audience:
     - human_reviewer
     - qa_reviewer
@@ -190,22 +190,26 @@ quality_validation:
     working_directory: 07-implementation/employee-portal
     command: npm run typecheck
   - id: QA-004
+    name: Employee portal unit and UI tests
+    working_directory: 07-implementation/employee-portal
+    command: npm test
+  - id: QA-005
     name: Employee portal coverage
     working_directory: 07-implementation/employee-portal
     command: npm run test:coverage
-  - id: QA-005
+  - id: QA-006
     name: Employee portal build
     working_directory: 07-implementation/employee-portal
     command: npm run build
-  - id: QA-006
+  - id: QA-007
     name: Employee portal dependency audit
     working_directory: 07-implementation/employee-portal
     command: npm audit --audit-level=high
-  - id: QA-007
+  - id: QA-008
     name: Mobile foundation typecheck
     working_directory: 07-implementation/mobile-app
     command: npm run typecheck
-  - id: QA-008
+  - id: QA-009
     name: Mobile foundation tests
     working_directory: 07-implementation/mobile-app
     command: npm test

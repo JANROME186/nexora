@@ -176,6 +176,6 @@ Expected result:
 
 Start with:
 
-- Module: `MVP-MOD-002 Diagnostic Catalog`
-- Backlog item: `MVP-MOD-002-FE-001`
-- Folder: `07-implementation/employee-portal/`
+- Module: `MVP-MOD-004 Front Desk and Care Delivery`
+- Backlog item: `MVP-MOD-004-DEF`
+- Folder: `01-product-definition/business-capabilities/packages/`

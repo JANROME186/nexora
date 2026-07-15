@@ -33,12 +33,10 @@ do_not_write_manually:
   - Repetitive test cases
 
 active_capability_package_group:
-  roadmap_group: MVP-MOD-003
-  name: People and Clinical Master Data
-  package_status: validated
-  backlog_item: MVP-MOD-003-QA-001
-  modeled_date: 2026-07-09
-  validated_date: 2026-07-14
+  roadmap_group: MVP-MOD-004
+  name: Front Desk and Care Delivery
+  package_status: not_started
+  backlog_item: MVP-MOD-004-DEF
   required_artifacts_per_package:
     - capability-package.yaml
     - business-model.yaml
@@ -54,35 +52,56 @@ active_capability_package_group:
     - generation-plan.yaml
     - traceability.yaml
     - README.md
-  next_backlog_item: MVP-MOD-003-CLOSEOUT
+  next_backlog_item: MVP-MOD-004-DEF
   capabilities:
-    - capability_id: BCM-PER-001
-      package_folder: bcm-per-001-person-management/
-      package_status: modeled
-      bounded_context: patient-management
-      secondary_bounded_context: medical-staff
-      primary_aggregate: cross-cutting
-      mobile_scope: not_required
-    - capability_id: BCM-PER-002
-      package_folder: bcm-per-002-patient-management/
-      package_status: modeled
-      bounded_context: patient-management
-      primary_aggregate: AGG-001
-      mobile_scope: deferred
-    - capability_id: BCM-PER-003
-      package_folder: bcm-per-003-doctor-management/
-      package_status: modeled
-      bounded_context: medical-staff
-      primary_aggregate: AGG-005
-      mobile_scope: not_required
-    - capability_id: BCM-ATT-002
-      package_folder: bcm-att-002-patient-registration/
-      package_status: modeled
-      bounded_context: patient-management
-      primary_aggregate: AGG-001
-      mobile_scope: deferred
+    - capability_id: BCM-ATT-001
+      package_folder: bcm-att-001-appointment-scheduling/
+      package_status: not_started
+    - capability_id: BCM-ATT-003
+      package_folder: bcm-att-003-reception-management/
+      package_status: not_started
+    - capability_id: BCM-ATT-004
+      package_folder: bcm-att-004-admission-management/
+      package_status: not_started
+    - capability_id: BCM-ATT-006
+      package_folder: bcm-att-006-quotation-management/
+      package_status: not_started
+    - capability_id: BCM-LAB-001
+      package_folder: bcm-lab-001-diagnostic-order-management/
+      package_status: not_started
 
 completed_capability_package_groups:
+  - roadmap_group: MVP-MOD-003
+    name: People and Clinical Master Data
+    package_status: module_closed
+    backlog_item: MVP-MOD-003-CLOSEOUT
+    qa_evidence: ../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-CLOSEOUT.yaml
+    capabilities:
+      - capability_id: BCM-PER-001
+        package_folder: bcm-per-001-person-management/
+        package_status: modeled
+        bounded_context: patient-management
+        secondary_bounded_context: medical-staff
+        primary_aggregate: cross-cutting
+        mobile_scope: not_required
+      - capability_id: BCM-PER-002
+        package_folder: bcm-per-002-patient-management/
+        package_status: modeled
+        bounded_context: patient-management
+        primary_aggregate: AGG-001
+        mobile_scope: deferred
+      - capability_id: BCM-PER-003
+        package_folder: bcm-per-003-doctor-management/
+        package_status: modeled
+        bounded_context: medical-staff
+        primary_aggregate: AGG-005
+        mobile_scope: not_required
+      - capability_id: BCM-ATT-002
+        package_folder: bcm-att-002-patient-registration/
+        package_status: modeled
+        bounded_context: patient-management
+        primary_aggregate: AGG-001
+        mobile_scope: deferred
   - roadmap_group: MVP-MOD-002
     name: Diagnostic Catalog
     package_status: module_closed

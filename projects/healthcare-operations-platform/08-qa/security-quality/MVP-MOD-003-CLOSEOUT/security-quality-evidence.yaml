@@ -1,0 +1,170 @@
+artifact:
+  id: HOP-SQ-MVP-MOD-003-CLOSEOUT-001
+  type: security-quality-evidence
+  name: MVP-MOD-003-CLOSEOUT Open Source Security Quality Evidence
+  version: 1.0.0
+  status: passed
+  human_readable: security-quality-evidence.md
+  machine_readable: security-quality-evidence.yaml
+  created_date: 2026-07-15
+  owner: Nexora Product Architecture Team
+
+scope:
+  backlog_item: MVP-MOD-003-CLOSEOUT
+  module: MVP-MOD-003 People and Clinical Master Data
+  implementation_root: 07-implementation/
+  standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  objective: Record security and quality evidence for the People and Clinical Master Data module closeout.
+
+changed_components:
+  - path: 07-implementation/employee-portal/vite.config.ts
+    change: Set Vitest testTimeout to 10000 ms to prevent coverage-instrumentation false timeouts.
+
+open_source_first_assessment:
+  status: passed
+  proprietary_runtime_dependency_detected: false
+  stack_remains_open_source_first: true
+  reviewed_stack_licenses_all_accepted: true
+
+stack_toolchain_baseline:
+  reference: 03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
+  review_completed: true
+
+tools_run:
+  - Maven backend tests
+  - Docker Compose PostgreSQL local service
+  - Vitest, V8 coverage and TypeScript
+  - npm audit
+  - Trivy filesystem scan
+  - PyYAML parser
+  - ripgrep repository scans
+
+quality_gates:
+  - id: SQ-CO-001
+    name: Backend automated tests (standard)
+    command: mvn --settings .mvn/settings.xml test
+    working_directory: 07-implementation/backend
+    result: passed
+    notes: 58 tests run, 0 failures, 0 errors, 6 skipped.
+  - id: SQ-CO-002
+    name: Backend database-backed tests
+    command: mvn --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
+    working_directory: 07-implementation/backend
+    result: passed
+    notes: 58 tests run, 0 failures, 0 errors, 0 skipped against local PostgreSQL.
+  - id: SQ-CO-003
+    name: Frontend static analysis
+    command: npm run typecheck
+    working_directory: 07-implementation/employee-portal
+    result: passed
+  - id: SQ-CO-004
+    name: Frontend unit/UI tests
+    command: npm test
+    working_directory: 07-implementation/employee-portal
+    result: passed
+    notes: 10 test files, 18 tests.
+  - id: SQ-CO-005
+    name: Frontend coverage
+    command: npm run test:coverage
+    working_directory: 07-implementation/employee-portal
+    result: passed
+    measured:
+      lines: 74.63
+      statements: 74.63
+      branches: 81.17
+      functions: 45.21
+  - id: SQ-CO-006
+    name: Frontend dependency vulnerability scan
+    command: npm audit --audit-level=high
+    working_directory: 07-implementation/employee-portal
+    result: passed
+    notes: found 0 vulnerabilities.
+  - id: SQ-CO-007
+    name: Filesystem vulnerability, secret and misconfiguration scan
+    command: trivy fs --skip-db-update --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --exit-code 1 --no-progress .
+    working_directory: 07-implementation
+    result: passed
+    notes: 0 HIGH/CRITICAL findings.
+  - id: SQ-CO-008
+    name: Production frontend build
+    command: npm run build
+    working_directory: 07-implementation/employee-portal
+    result: passed
+  - id: SQ-CO-009
+    name: Full YAML parse
+    command: PyYAML safe_load_all over framework and HOP YAML files
+    working_directory: repository_root
+    result: passed
+    notes: 480 files parsed, 0 failures.
+  - id: SQ-CO-010
+    name: Secrets scan
+    command: rg value-assignment scan for key, secret, password, private key and client secret patterns
+    working_directory: repository_root
+    result: passed
+    notes: 0 findings.
+  - id: SQ-CO-011
+    name: Agent-agnostic scan
+    command: rg scan for named-agent/vendor-runtime terms
+    working_directory: repository_root
+    result: passed
+    notes: Matches limited to quoted scan patterns inside historical evidence.
+  - id: SQ-CO-012
+    name: DAST
+    command: not_applicable_with_reason
+    result: deferred_with_technical_debt
+    notes: Full automated DAST remains tracked by TD-QA-001 and is not introduced by this closeout.
+
+coverage_summary:
+  frontend_lines: 74.63
+  frontend_statements: 74.63
+  frontend_branches: 81.17
+  frontend_functions: 45.21
+  backend_coverage_tool: not_configured_tracked_by_TD-BE-003
+
+dependency_vulnerability_summary:
+  backend_high_or_critical: 0
+  frontend_high_or_critical: 0
+
+sast_summary:
+  deep_java_sast_configured: false
+  tracked_by: TD-BE-002
+  compensating_control: Passing backend suites, Trivy scan and contract/custom-rule tests.
+
+dast_summary_when_applicable:
+  status: deferred_with_technical_debt
+  tracked_by: TD-QA-001
+
+secrets_scan_summary:
+  result: passed
+  findings: 0
+
+license_summary:
+  reviewed_licenses_all_accepted: true
+  automated_license_gate_configured: false
+  tracked_by: TD-BE-004
+
+technical_debt_items_reviewed:
+  - TD-QA-001
+  - TD-QA-002
+  - TD-BE-001
+  - TD-BE-002
+  - TD-BE-003
+  - TD-BE-004
+  - TD-STACK-001
+  - TD-BE-005
+  - TD-BE-006
+  - TD-BE-007
+  - TD-BE-008
+  - TD-FE-002
+
+accepted_risks:
+  - AR-MOD-003-001
+  - AR-MOD-003-002
+  - AR-MOD-003-003
+
+blocking_findings: []
+
+decision:
+  security_quality_status: passed
+  module_closeout_supported: true
+  next_backlog_item: MVP-MOD-004-DEF
