@@ -1,0 +1,56 @@
+artifact:
+  id: TD-FE-003
+  type: technical-debt-item
+  name: Implement frontend enterprise quality profile
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-15
+
+source:
+  discovered_during_backlog_item: HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS
+  module: HOP-QUALITY-ALIGNMENT
+  evidence: 08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.yaml
+
+classification:
+  category: quality_tooling
+  affected_area: employee_portal_quality_profile
+  affected_components:
+    - 07-implementation/employee-portal
+  risk_level: medium
+  blocking: true
+  reason_blocking: >
+    MVP-MOD-004-FE-001 will add new employee portal UI code. The updated Nexora
+    framework requires frontend lint, secure-code, duplication, complexity,
+    dependency, accessibility, coverage and i18n gates before additional UI
+    feature development continues.
+
+current_state:
+  issue: >
+    The employee portal has partial validation coverage, but no complete
+    enterprise quality profile covering ESLint/typescript-eslint,
+    eslint-plugin-security, complexity, jscpd duplication, accessibility and
+    i18n literal-string checks.
+
+target_state:
+  preferred_open_source_tooling:
+    - TypeScript strict mode
+    - Vitest or existing frontend test runner
+    - coverage provider
+    - ESLint with typescript-eslint
+    - eslint-plugin-security
+    - eslint-plugin-sonarjs or equivalent complexity rules
+    - jscpd
+    - Prettier
+    - npm audit, OSV-Scanner or Trivy all-severity scan
+    - license checker
+    - accessibility checks
+    - i18n literal-string scan or message catalog baseline
+
+remediation:
+  strategy: immediate_quality_alignment_before_mvp_mod_004_fe_001
+  recommended_trigger:
+    - HOP-QA-ALIGN-003
+  acceptance_criteria:
+    - Frontend quality commands are documented and executable.
+    - Frontend security-quality evidence includes lint, secure-code, duplication, complexity, coverage, dependency and i18n results.
+    - MVP-MOD-004-FE-001 can add UI code without bypassing the updated framework.

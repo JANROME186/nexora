@@ -1,0 +1,49 @@
+artifact:
+  id: TD-I18N-001
+  type: technical-debt-item
+  name: Establish message externalization and magic-string remediation baseline
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-15
+
+source:
+  discovered_during_backlog_item: HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS
+  module: HOP-QUALITY-ALIGNMENT
+  evidence: 08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.yaml
+
+classification:
+  category: i18n_and_code_decoupling
+  affected_area: backend_frontend_mobile_messages_and_magic_values
+  affected_components:
+    - 07-implementation/backend
+    - 07-implementation/employee-portal
+    - 07-implementation/mobile-app
+  risk_level: medium
+  blocking: true
+  reason_blocking: >
+    The updated framework requires multilingual readiness, stable error codes
+    and externalized user-facing messages before additional feature work
+    increases the amount of coupled text and magic values.
+
+current_state:
+  issue: >
+    HOP does not yet have a project-wide inventory of user-visible messages,
+    validation prose, error descriptions, status labels, repeated magic strings
+    or configurable values across backend, frontend and mobile.
+
+target_state:
+  preferred_open_source_tooling:
+    - backend message catalog or resource bundle strategy
+    - stable API/domain error codes
+    - frontend localization dictionaries or message catalog
+    - mobile localization resources
+    - literal-string and magic-value scan evidence
+
+remediation:
+  strategy: immediate_quality_alignment_before_mvp_mod_004_fe_001
+  recommended_trigger:
+    - HOP-QA-ALIGN-005
+  acceptance_criteria:
+    - Message externalization inventory exists in YAML and Markdown.
+    - Backend, frontend and mobile strategies are documented.
+    - Findings are remediated or assigned immediate technical-debt targets.

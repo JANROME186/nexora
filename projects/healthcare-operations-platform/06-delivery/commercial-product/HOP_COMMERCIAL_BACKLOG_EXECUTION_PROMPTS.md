@@ -63,6 +63,7 @@ Load these first:
 - `../../01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
 - `../mvp/healthcare-operations-platform-mvp-framework.yaml`
 - `HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
+- `HOP_QUALITY_ALIGNMENT_BACKLOG.yaml`
 
 ## Prompt 1: Select Next Executable Backlog Item
 
@@ -186,6 +187,7 @@ Expected result:
 
 Start with:
 
-- Module: `MVP-MOD-004 Front Desk and Care Delivery`
-- Backlog item: `MVP-MOD-004-FE-001`
+- Module: `HOP-QUALITY-ALIGNMENT Enterprise Quality Alignment`
+- Backlog item: `HOP-QA-ALIGN-001`
+- Paused functional backlog item: `MVP-MOD-004-FE-001`
 - Folder: `01-product-definition/business-capabilities/packages/`

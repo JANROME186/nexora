@@ -4,7 +4,11 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `MVP-MOD-004-FE-001`.
+Current active backlog item: `HOP-QA-ALIGN-001`.
+
+Paused functional backlog item: `MVP-MOD-004-FE-001`.
+
+Quality alignment backlog: `06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml`.
 
 ## Prerequisites
 

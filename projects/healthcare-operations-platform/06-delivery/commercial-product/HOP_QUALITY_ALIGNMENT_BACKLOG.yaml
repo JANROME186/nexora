@@ -1,0 +1,239 @@
+artifact:
+  id: HOP-QUALITY-ALIGNMENT-BACKLOG-001
+  type: intermediate-quality-backlog
+  name: HOP Enterprise Quality Alignment Backlog
+  version: 1.0.0
+  status: active_blocking
+  created_date: 2026-07-15
+  human_readable: HOP_QUALITY_ALIGNMENT_BACKLOG.md
+  machine_readable: HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
+  owner: Nexora Product Architecture Team
+
+purpose: >
+  Bring Healthcare Operations Platform up to the updated Nexora enterprise
+  quality framework before continuing functional delivery with MVP-MOD-004-FE-001.
+
+scope:
+  applies_before:
+    - MVP-MOD-004-FE-001
+  affected_stacks:
+    - backend_java_maven
+    - frontend_typescript_web
+    - mobile_typescript_foundation
+    - local_runtime_docker
+    - filesystem_container_security
+  source_analysis: ../../08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.yaml
+  framework_standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  stack_baseline: ../../03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
+  technical_debt_index: ../../08-qa/technical-debt/technical-debt-index.yaml
+
+execution_policy:
+  functional_development_blocked_until_closeout: true
+  next_functional_backlog_after_closeout: MVP-MOD-004-FE-001
+  debt_first_required_for_each_item: true
+  all_severity_vulnerability_scans_required: true
+  yaml_and_markdown_evidence_required: true
+  no_passed_with_execution_limitation: true
+  no_agent_specific_dependency: true
+
+definition_of_done:
+  - Each backlog item writes QA evidence under 08-qa/qa/quality-alignment/.
+  - Each code/tooling item writes security-quality evidence under 08-qa/security-quality/<backlog-item-id>/.
+  - At least one existing technical-debt item is resolved or materially reduced by each code/tooling item.
+  - All all-severity vulnerability, secret and misconfiguration scans either pass or create immediate target debt with accepted-risk details.
+  - Backend, frontend, mobile and runtime quality gates are documented as executable commands.
+  - Message externalization and magic-string inventory is created and routed to remediation.
+  - PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml and execution prompts are synchronized at closeout.
+
+backlog_items:
+  - id: HOP-QA-ALIGN-001
+    name: Reconcile technical debt under the updated enterprise quality framework
+    type: analysis_and_registry_alignment
+    priority: 1
+    status: pending
+    blocks_functional_development: true
+    objective: >
+      Reclassify open technical debt against the updated framework so quality
+      debt is no longer passive and the next execution order is explicit.
+    existing_debt_to_review:
+      - TD-BE-002
+      - TD-BE-003
+      - TD-BE-004
+      - TD-QA-001
+      - TD-QA-002
+      - TD-STACK-001
+      - TD-FE-002
+      - TD-FE-003
+      - TD-APP-001
+      - TD-QA-003
+      - TD-I18N-001
+    required_outputs:
+      - updated_technical_debt_index
+      - updated_debt_items_with_blocking_or_immediate_priority_flags
+      - qa_evidence_yaml
+      - qa_evidence_md
+    acceptance_criteria:
+      - Quality-tooling debt items identify owner/responsible role, target backlog, urgency and closeout criteria.
+      - At least one existing debt item is materially reduced or split into executable remediation items.
+      - PROJECT_STATE.yaml continues to block MVP-MOD-004-FE-001 until closeout.
+
+  - id: HOP-QA-ALIGN-002
+    name: Implement backend Java/Maven enterprise quality profile
+    type: backend_quality_toolchain
+    priority: 2
+    status: pending
+    blocks_functional_development: true
+    objective: >
+      Add or operationalize backend Java/Maven gates for tests, coverage,
+      standards, secure code, duplication, complexity, dependency risk, SBOM,
+      licenses, build rules and API compatibility.
+    debt_first_candidates:
+      - TD-BE-002
+      - TD-BE-003
+      - TD-BE-004
+      - TD-BE-001
+    required_tool_categories:
+      - Maven Surefire Plugin
+      - JaCoCo
+      - PMD
+      - PMD CPD
+      - SpotBugs
+      - Find Security Bugs
+      - Checkstyle
+      - Spotless
+      - Google Error Prone
+      - ArchUnit
+      - PIT or Pitest decision for high-risk domain code
+      - CycloneDX SBOM
+      - Maven Enforcer
+      - Maven Versions Plugin
+      - OWASP Dependency-Check or documented all-severity equivalent
+      - License Maven Plugin or License Checker
+      - Duplicate Finder Maven Plugin
+      - Revapi when public Java APIs or SDKs change
+      - Trivy all-severity filesystem/container scan
+    acceptance_criteria:
+      - Backend quality profile can run locally through Maven or documented project scripts.
+      - All configured backend gates run or are explicitly marked not applicable with framework-compliant rationale.
+      - All-severity dependency/filesystem vulnerability evidence is produced.
+      - TD-BE-002, TD-BE-003 and TD-BE-004 are resolved or materially reduced with updated status.
+
+  - id: HOP-QA-ALIGN-003
+    name: Implement frontend web enterprise quality profile
+    type: frontend_quality_toolchain
+    priority: 3
+    status: pending
+    blocks_functional_development: true
+    objective: >
+      Add or operationalize employee portal gates for typecheck, tests,
+      coverage, lint, secure code, duplication, complexity, accessibility,
+      dependency risk, build and i18n/literal-string control.
+    debt_first_candidates:
+      - TD-FE-002
+      - TD-FE-003
+      - TD-QA-002
+    required_tool_categories:
+      - TypeScript strict typecheck
+      - Vitest or existing test runner
+      - coverage report
+      - ESLint with typescript-eslint
+      - eslint-plugin-security
+      - eslint-plugin-sonarjs or equivalent complexity rules
+      - jscpd duplicate-code scan
+      - Prettier formatting gate
+      - npm audit, OSV-Scanner or Trivy all-severity scan
+      - CycloneDX npm tools or Syft SBOM decision
+      - license checker
+      - accessibility checks
+      - i18n literal-string scan or documented message catalog baseline
+    acceptance_criteria:
+      - Frontend quality commands are executable from the project runbook or package scripts.
+      - MVP-MOD-004-FE-001 has a ready quality baseline before it adds UI code.
+      - Unexternalized text and magic-string findings are inventoried for remediation.
+
+  - id: HOP-QA-ALIGN-004
+    name: Establish all-severity vulnerability, DAST and runtime security evidence
+    type: integrated_security_quality
+    priority: 4
+    status: pending
+    blocks_functional_development: true
+    objective: >
+      Replace historical HIGH/CRITICAL-only evidence with all-severity scans
+      and make DAST executable against local runnable API/UI surfaces when
+      Docker is available.
+    debt_first_candidates:
+      - TD-QA-001
+      - TD-QA-002
+      - TD-QA-003
+    required_tool_categories:
+      - Trivy or equivalent all-severity filesystem scan
+      - backend dependency all-severity scan
+      - frontend dependency all-severity scan
+      - container/runtime scan when images or compose runtime exist
+      - OWASP ZAP baseline or API scan for local backend/UI surfaces
+      - secrets scan
+    acceptance_criteria:
+      - Scans do not filter only HIGH/CRITICAL.
+      - DAST either runs successfully or remains blocked with exact Docker-based remediation commands and immediate target backlog.
+      - Security-quality evidence records tool versions, commands, working directories and results.
+
+  - id: HOP-QA-ALIGN-005
+    name: Establish message externalization and magic-string remediation baseline
+    type: i18n_and_code_decoupling
+    priority: 5
+    status: pending
+    blocks_functional_development: true
+    objective: >
+      Inventory backend/frontend/mobile user-visible text, validation messages,
+      error prose, error codes, status labels and repeated magic values, then
+      route remediation into immediate implementation tasks.
+    debt_first_candidates:
+      - TD-FE-002
+      - TD-BE-008
+      - TD-I18N-001
+    required_outputs:
+      - message_externalization_inventory_yaml
+      - message_externalization_inventory_md
+      - updated_technical_debt_items_or_new_items_for_unexternalized_messages
+      - proposed_backend_message_catalog_strategy
+      - proposed_frontend_i18n_strategy
+      - proposed_mobile_localization_strategy
+    acceptance_criteria:
+      - Backend error handling uses or plans stable error codes and message catalogs.
+      - Frontend UI text uses or plans localization dictionaries before new UI expansion.
+      - Magic strings for routes, statuses, permissions and query keys are inventoried.
+
+  - id: HOP-QA-ALIGN-006
+    name: Update integrated local runbook with quality gate execution
+    type: operations_runbook_alignment
+    priority: 6
+    status: pending
+    blocks_functional_development: true
+    objective: >
+      Make the integrated local runbook the single place a reviewer can start
+      HOP and run all backend, frontend, mobile, runtime and security quality
+      gates without entering each component manually.
+    required_outputs:
+      - updated_local_solution_runbook_yaml
+      - updated_local_solution_runbook_md
+      - quality_gate_command_matrix
+    acceptance_criteria:
+      - Runbook includes startup, health checks, backend gates, frontend gates, mobile gates where applicable, DAST, scans and shutdown.
+      - Docker-based dependencies are explicit.
+      - Missing permissions/toolchains trigger ask-for-support instructions, not silent limitations.
+
+  - id: HOP-QA-ALIGN-CLOSEOUT
+    name: Close HOP enterprise quality alignment and resume MVP-MOD-004-FE-001
+    type: closeout
+    priority: 7
+    status: pending
+    blocks_functional_development: true
+    objective: >
+      Validate all alignment backlog items, synchronize registries and restore
+      the next functional backlog pointer to MVP-MOD-004-FE-001 only after
+      enterprise quality alignment passes.
+    acceptance_criteria:
+      - HOP-QA-ALIGN-001 through HOP-QA-ALIGN-006 are closed or explicitly blocked with approved remediation ownership.
+      - No mandatory gate is marked passed_with_execution_limitation or closed_with_execution_limitation.
+      - PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml and quality indexes are synchronized.
+      - next_backlog_item returns to MVP-MOD-004-FE-001.

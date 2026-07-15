@@ -11,7 +11,7 @@ standard:
   framework_standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
   prompt_playbook: ../../../../nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
 
-purpose: Track non-blocking HOP technology modernization and migration debt discovered by iterative quality reviews.
+purpose: Track HOP technology modernization, migration and enterprise quality debt discovered by iterative quality reviews.
 
 policy:
   initial_stack_is_baseline_not_permanent_constraint: true
@@ -20,11 +20,12 @@ policy:
     - dependency_change
     - module_closeout
     - release_readiness
-  remediation_strategy: gradual_when_affected_components_are_touched
+  remediation_strategy: debt_first_and_gradual_when_affected_components_are_touched
   promote_to_blocking_when:
-    - critical_or_high_security_risk_without_accepted_risk
+    - vulnerability_or_secure_code_finding_without_disposition
     - unsupported_runtime_blocks_safe_development
     - quality_gate_cannot_run_without_upgrade
+    - enterprise_quality_alignment_blocks_functional_development
 
 item_path_pattern: 08-qa/technical-debt/<debt-id>-<short-name>.yaml
 
@@ -173,3 +174,39 @@ entries:
     affected_area: diagnostic_order_cancellation_downstream_state_check
     file: 08-qa/technical-debt/TD-BE-010-order-cancellation-sample-state-check-deferred.yaml
     remediation_strategy: gradual_when_mvp_mod_006_laboratory_workflow_is_modeled
+  - id: TD-FE-003
+    title: Implement frontend enterprise quality profile
+    status: open
+    risk_level: medium
+    blocking: true
+    source_backlog_item: HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS
+    affected_area: employee_portal_quality_profile
+    file: 08-qa/technical-debt/TD-FE-003-frontend-enterprise-quality-profile.yaml
+    remediation_strategy: immediate_quality_alignment_before_mvp_mod_004_fe_001
+  - id: TD-APP-001
+    title: Establish mobile application enterprise quality baseline
+    status: open
+    risk_level: medium
+    blocking: true
+    source_backlog_item: HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS
+    affected_area: mobile_app_quality_profile
+    file: 08-qa/technical-debt/TD-APP-001-mobile-quality-baseline.yaml
+    remediation_strategy: immediate_quality_alignment_baseline_before_mobile_expansion
+  - id: TD-QA-003
+    title: Refresh vulnerability evidence with all-severity scans
+    status: open
+    risk_level: medium
+    blocking: true
+    source_backlog_item: HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS
+    affected_area: vulnerability_evidence
+    file: 08-qa/technical-debt/TD-QA-003-all-severity-vulnerability-evidence.yaml
+    remediation_strategy: immediate_quality_alignment_before_functional_development
+  - id: TD-I18N-001
+    title: Establish message externalization and magic-string remediation baseline
+    status: open
+    risk_level: medium
+    blocking: true
+    source_backlog_item: HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS
+    affected_area: backend_frontend_mobile_messages_and_magic_values
+    file: 08-qa/technical-debt/TD-I18N-001-message-externalization-baseline.yaml
+    remediation_strategy: immediate_quality_alignment_before_mvp_mod_004_fe_001

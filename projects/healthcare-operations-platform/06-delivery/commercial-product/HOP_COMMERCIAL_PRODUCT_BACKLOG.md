@@ -35,7 +35,8 @@ Do not manually write repetitive artifacts that must come from the model:
 
 ## Starting Point
 
-`MVP-MOD-001 Platform Foundation` is complete and ready for functional validation. The next module is `MVP-MOD-002 Diagnostic Catalog`.
+HOP has advanced through `MVP-MOD-004-BE-002`, but functional development is paused by
+`HOP-QUALITY-ALIGNMENT` before `MVP-MOD-004-FE-001`.
 
 The product must now move from MVP foundation to commercial readiness through an ordered backlog. Each module must be implemented, validated and closed before dependent modules begin, unless the dependency is explicitly mocked in that module definition.
 
@@ -124,20 +125,21 @@ Outcome: imaging operations and AI-assisted overlays can be commercialized as op
 | --- | --- | --- | --- |
 | 1 | `MVP-MOD-002 Diagnostic Catalog` | REL-001 | Configure services, tests, panels, analytes, samples, preparation, reference ranges and prices. |
 | 2 | `MVP-MOD-003 People and Clinical Master Data` | REL-001 | Manage patients, doctors and person records. |
-| 3 | `MVP-MOD-004 Front Desk and Care Delivery` | REL-001 | Manage appointments, reception, admission, quotations and diagnostic order intake. |
-| 4 | `MVP-MOD-005 Cashier and Billing Request` | REL-001 | Manage cash sessions, payments, sales and billing request boundaries. |
-| 5 | `MVP-MOD-006 Laboratory Workflow` | REL-001 | Manage sample collection, labeling, reception, processing and validation. |
-| 6 | `MVP-MOD-007 Results and Digital Delivery` | REL-001 | Generate reports and deliver released results. |
-| 7 | `MVP-MOD-008 Integration and Migration Readiness` | REL-001 | Provide adapter contracts, import validation, migration dry runs and API governance. |
-| 8 | `COM-MOD-009 Patient and Doctor Portals` | REL-002 | Provide commercial patient and doctor digital channels. |
-| 9 | `COM-MOD-010 Inventory and Internal Quality` | REL-002 | Add inventory, reagent, equipment, maintenance and internal quality controls. |
-| 10 | `COM-MOD-011 Public Website and Digital Growth` | REL-002 | Provide public service discovery and conversion flows. |
-| 11 | `COM-MOD-012 Platform Hardening and SaaS Operations` | REL-002 | Harden deployment, observability, support, backup, restore and tenant operations. |
-| 12 | `COM-MOD-013 Advanced Quality and Compliance` | REL-003 | Add external quality, CAPA, audit management and compliance workflows. |
-| 13 | `COM-MOD-014 Imaging Operations` | REL-004 | Add imaging workflows and DICOM/PACS adapter boundaries. |
-| 14 | `COM-MOD-015 AI Overlay` | REL-004 | Add assistant, OCR, summary, semantic search and retrieval capabilities with clinical guardrails. |
-| 15 | `COM-MOD-016 Commercial Launch and Customer Enablement` | REL-003 | Prepare onboarding, support, training, release governance and launch assets. |
-| 16 | `COM-MOD-017 Product Marketplace and Extension Packaging` | REL-003 | Publish, sell, entitle, install, activate, upgrade and retire optional product packages. |
+| 3 | `HOP-QUALITY-ALIGNMENT Enterprise Quality Alignment` | REL-001 | Bring HOP up to the updated enterprise quality framework before continuing functionality. |
+| 4 | `MVP-MOD-004 Front Desk and Care Delivery` | REL-001 | Manage appointments, reception, admission, quotations and diagnostic order intake. |
+| 5 | `MVP-MOD-005 Cashier and Billing Request` | REL-001 | Manage cash sessions, payments, sales and billing request boundaries. |
+| 6 | `MVP-MOD-006 Laboratory Workflow` | REL-001 | Manage sample collection, labeling, reception, processing and validation. |
+| 7 | `MVP-MOD-007 Results and Digital Delivery` | REL-001 | Generate reports and deliver released results. |
+| 8 | `MVP-MOD-008 Integration and Migration Readiness` | REL-001 | Provide adapter contracts, import validation, migration dry runs and API governance. |
+| 9 | `COM-MOD-009 Patient and Doctor Portals` | REL-002 | Provide commercial patient and doctor digital channels. |
+| 10 | `COM-MOD-010 Inventory and Internal Quality` | REL-002 | Add inventory, reagent, equipment, maintenance and internal quality controls. |
+| 11 | `COM-MOD-011 Public Website and Digital Growth` | REL-002 | Provide public service discovery and conversion flows. |
+| 12 | `COM-MOD-012 Platform Hardening and SaaS Operations` | REL-002 | Harden deployment, observability, support, backup, restore and tenant operations. |
+| 13 | `COM-MOD-013 Advanced Quality and Compliance` | REL-003 | Add external quality, CAPA, audit management and compliance workflows. |
+| 14 | `COM-MOD-014 Imaging Operations` | REL-004 | Add imaging workflows and DICOM/PACS adapter boundaries. |
+| 15 | `COM-MOD-015 AI Overlay` | REL-004 | Add assistant, OCR, summary, semantic search and retrieval capabilities with clinical guardrails. |
+| 16 | `COM-MOD-016 Commercial Launch and Customer Enablement` | REL-003 | Prepare onboarding, support, training, release governance and launch assets. |
+| 17 | `COM-MOD-017 Product Marketplace and Extension Packaging` | REL-003 | Publish, sell, entitle, install, activate, upgrade and retire optional product packages. |
 
 ## Execution Contract
 
@@ -164,7 +166,12 @@ Each Capability Package must include:
 
 During implementation, generated outputs must be produced from those models. Manual work is limited to custom business rules, external adapters, security-sensitive policies, performance-sensitive queries and ambiguous migration mappings.
 
-Every code-changing backlog item must also apply the Nexora open-source-first security quality standard. Evidence belongs under `08-qa/security-quality/<backlog-item-id>/` and must cover applicable tests, SAST/static analysis, dependency vulnerabilities, secrets scan, coverage and DAST when a runnable surface exists.
+Every code-changing backlog item must also apply the Nexora open-source-first security quality
+standard. Evidence belongs under `08-qa/security-quality/<backlog-item-id>/` and must cover
+applicable tests, best-practice and coding-standard checks, duplicate-code checks, complexity
+checks, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerabilities
+across all severities, secrets scan, coverage, message externalization/i18n and DAST when a
+runnable surface exists.
 
 ## Commercial GA Gates
 
@@ -179,6 +186,8 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-Start `MVP-MOD-002-FE-001` and compile the employee catalog UI outputs for `MVP-MOD-002 Diagnostic Catalog` under:
+Start `HOP-QA-ALIGN-001` from:
 
-`07-implementation/employee-portal/`
+`06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml`
+
+Do not resume `MVP-MOD-004-FE-001` until `HOP-QA-ALIGN-CLOSEOUT` passes.

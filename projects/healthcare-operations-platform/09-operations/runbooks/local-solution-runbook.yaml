@@ -12,7 +12,9 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-004-FE-001
+  current_active_backlog_item: HOP-QA-ALIGN-001
+  paused_functional_backlog_item: MVP-MOD-004-FE-001
+  active_quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
   intended_audience:
     - human_reviewer
     - qa_reviewer

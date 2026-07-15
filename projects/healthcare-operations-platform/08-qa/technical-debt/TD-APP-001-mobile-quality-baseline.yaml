@@ -1,0 +1,51 @@
+artifact:
+  id: TD-APP-001
+  type: technical-debt-item
+  name: Establish mobile application enterprise quality baseline
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-15
+
+source:
+  discovered_during_backlog_item: HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS
+  module: HOP-QUALITY-ALIGNMENT
+  evidence: 08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.yaml
+
+classification:
+  category: quality_tooling
+  affected_area: mobile_app_quality_profile
+  affected_components:
+    - 07-implementation/mobile-app
+  risk_level: medium
+  blocking: true
+  reason_blocking: >
+    The mobile app is foundation-only, but HOP's framework now requires stack
+    baselines before future mobile expansion. The project must define the
+    executable mobile quality profile while quality alignment is active.
+
+current_state:
+  issue: >
+    Mobile quality gates are not yet fully defined for typecheck/lint,
+    secure-code, duplication, complexity, dependency vulnerabilities, coverage,
+    localization and native security scans when artifacts exist.
+
+target_state:
+  preferred_open_source_tooling:
+    - TypeScript strict mode or Flutter/Dart analyzer depending on final stack
+    - mobile unit/component test runner
+    - coverage report
+    - secure-code lint or Semgrep CE
+    - duplication and complexity checks
+    - all-severity dependency scan
+    - localization resource validation
+    - MobSF when native artifacts are available
+
+remediation:
+  strategy: immediate_quality_alignment_baseline_before_mobile_expansion
+  recommended_trigger:
+    - HOP-QA-ALIGN-003
+    - HOP-QA-ALIGN-006
+  acceptance_criteria:
+    - Final mobile stack quality baseline is documented.
+    - Runnable mobile quality commands or explicit not-applicable rationale are documented in the integrated runbook.
+    - Future mobile feature work has a clear closure gate.
