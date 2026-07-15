@@ -75,13 +75,16 @@ prompts:
       - technical_debt_backlog_updates
     prompt: |
       For the selected backlog item, identify changed backend, web, mobile, API, dependency, container and deployment surfaces.
+      Probe the required toolchain first (runtime versions, build tools, package managers, native build binaries, Docker/database services and command paths) and compare it with the project runbook and stack baseline.
       Run applicable open source checks for tests, SAST/static analysis, dependency vulnerabilities, secrets, coverage, contract quality and DAST when a runnable surface exists.
+      If a mandatory executable gate cannot run because Maven, Java, Node, npm, a native package, Docker, database service, network endpoint or equivalent toolchain dependency is missing, unsupported or blocked, attempt documented remediation or request approval for the required install/network access. Do not replace the gate with manual source review.
       Confirm the stack-specific quality toolchain is complete for the changed surface. For Java/Maven changes, evaluate the Java baseline tools from the standard and run, add, document as not applicable or register technical debt for each relevant category.
       Run a technology evolution review even when the backlog item does not introduce a new stack. Compare the touched components and dependencies against current open source, security, maintenance and ecosystem signals.
       Do not block normal delivery for non-critical modernization findings. Instead, register them as gradual technical debt under 08-qa/technical-debt/ and link them to future backlog work that touches the affected components.
       Use the project's existing toolchain first. Add lightweight open source tools only when they fit the stack and can run reproducibly without vendor lock-in.
       Write evidence under 08-qa/security-quality/<backlog-item-id>/.
-      Do not close the backlog item when critical or high findings, secrets, failing tests or undocumented coverage regressions remain unresolved.
+      Do not close the backlog item when critical or high findings, secrets, failing tests, undocumented coverage regressions or unexecuted mandatory gates remain unresolved.
+      Do not use passed_with_execution_limitation or closed_with_execution_limitation as final states. Use blocked_by_environment or ready_for_external_validation, keep next_backlog_item unchanged, and write exact remediation commands when required gates cannot run in the current environment.
 
   - id: PROMPT-SQ-002
     name: Module closeout security and quality gate
@@ -94,9 +97,10 @@ prompts:
     prompt: |
       Before closing a module, aggregate all backlog security-quality evidence for the module.
       Confirm SAST/static analysis, dependency scans, coverage, DAST where applicable, tests, contract checks, SBOM, license review, stack market validation and technology evolution reviews are present or explicitly not applicable with reasons.
+      Re-run required executable gates or verify that each has already passed in non-limited evidence. Do not accept passed_with_execution_limitation, closed_with_execution_limitation, not_executed, blocked_by_missing_toolchain, blocked_by_network or blocked_by_unsupported_runtime as closure evidence.
       Review 08-qa/technical-debt/ and confirm all technology debt discovered during the module is accepted, prioritized, resolved or explicitly deferred with rationale.
       Update module closeout QA evidence and PROJECT_STATE.yaml.
-      Do not recommend the next module when unresolved critical or high security findings exist without accepted risk.
+      Do not recommend the next module when unresolved critical or high security findings exist without accepted risk, or when any required executable gate has not actually run.
 
   - id: PROMPT-SQ-003
     name: Technology debt backlog update

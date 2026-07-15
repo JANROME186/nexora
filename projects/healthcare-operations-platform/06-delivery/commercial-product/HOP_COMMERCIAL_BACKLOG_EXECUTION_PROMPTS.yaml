@@ -16,6 +16,11 @@ rules:
   - Agents must not require a vendor-specific agent, runtime, prompt extension or configuration.
   - Agents must prefer open source, self-hostable and standards-based technologies unless an ADR approves an exception.
   - Agents must produce security quality evidence for every code-changing backlog item.
+  - Agents must not close or advance a backlog item with passed_with_execution_limitation,
+    closed_with_execution_limitation, not_executed mandatory gates, blocked toolchains,
+    unsupported runtimes or blocked dependency/audit endpoints. Manual source review is only a
+    compensating control and cannot replace executable tests, build, coverage, audit or required
+    backend validation gates.
   - Agents must execute capability packages in dependency order unless an explicit mock strategy is documented.
   - Agents must not manually create repetitive CRUD, DTO, controller, repository, SDK, Swagger, documentation or test artifacts when they can be generated from models.
   - Agents must update project registries and QA evidence before closing any backlog item.
@@ -139,6 +144,12 @@ prompt_sequence:
       Keep changes scoped to the selected backlog item.
       Add or update only generated tests or custom rule tests appropriate to the backend, web, mobile, portal, integration or operations scope.
       Run or document applicable open source security quality gates for the changed stack, including SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when a runnable surface exists.
+      Mandatory executable gates must actually run before closure. If Maven, Java, Node, npm,
+      native packages, Docker, database services, network access or audit endpoints are missing or
+      blocked, first attempt documented remediation or request approval. If still unavailable, mark
+      the backlog blocked_by_environment or ready_for_external_validation, keep next_backlog_item on
+      the current backlog item, write exact remediation commands, and stop. Do not use manual source
+      review to convert an unexecuted mandatory gate into a pass.
       Write security quality evidence under 08-qa/security-quality/<selected-backlog-item-id>/.
       Write QA evidence under 08-qa and update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
       Before closure, reconcile every backlog pointer and status registry that references the
@@ -167,7 +178,13 @@ prompt_sequence:
     prompt: |
       Close the selected HOP module.
       Validate all backlog items for the module, confirm all required tests and QA evidence are present, confirm traceability is complete, and update project state and source registries.
-      Recommend the next module only after closeout evidence is written.
+      Re-run or verify non-limited passed evidence for all required backend, frontend, mobile,
+      contract, dependency, coverage, build and security gates. Do not close the module or recommend
+      the next module while any required gate is not_executed, passed_with_execution_limitation,
+      closed_with_execution_limitation, blocked_by_missing_toolchain, blocked_by_network or
+      blocked_by_unsupported_runtime.
+      Recommend the next module only after closeout evidence is written and all mandatory executable
+      gates have passed or are explicitly not applicable.
 
 validation_commands:
   yaml_parse:
@@ -181,7 +198,7 @@ validation_commands:
     command_template: "Scan source artifacts for named-agent or vendor-specific requirements and resolve findings."
   security_quality_gate:
     intent: Confirm open-source-first and security quality checks were run or documented for code-changing work.
-    command_template: "Run applicable open source SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST where applicable; write evidence under 08-qa/security-quality/<backlog-item-id>/."
+    command_template: "Run applicable open source tests, build, coverage, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST where applicable. If mandatory executable gates cannot run, stop as blocked_by_environment or ready_for_external_validation and do not advance next_backlog_item."
   git_whitespace:
     intent: Confirm no whitespace errors before commit.
     command_template: "Run repository whitespace validation before closing the item."

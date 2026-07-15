@@ -1,6 +1,6 @@
 # MVP-MOD-003-QA-001 — People and Clinical Master Data Integrated Module Validation
 
-Status: **passed_with_execution_limitation**
+Status: **passed**
 Backlog item: MVP-MOD-003-QA-001
 Module: MVP-MOD-003 People and Clinical Master Data
 Machine-readable evidence: `MVP-MOD-003-QA-001-validation.yaml`
@@ -8,105 +8,67 @@ Machine-readable evidence: `MVP-MOD-003-QA-001-validation.yaml`
 ## Objective
 
 Integrally validate MVP-MOD-003 (capability package models, full traceability, OpenAPI contracts,
-BE-002 custom rules, FE-001 UI, existing QA/security evidence, the local runbook, backlog
+BE-002 custom rules, FE-001 UI, existing QA/security evidence, the local runbook and backlog
 pointers) without implementing new functionality and without starting MVP-MOD-003-CLOSEOUT.
 
 ## What was validated
 
-Capability package models for BCM-PER-001, BCM-PER-002, BCM-PER-003 and BCM-ATT-002 were re-read
-and remain internally consistent. Every OpenAPI operation declared in the 4 packages'
-`openapi-source.yaml` maps one-to-one to a backend controller route (PersonController,
-PatientController, DoctorController, PatientRegistrationController) — 42/42 operations, no gaps
-in either direction. BE-002's custom-rule implementation claims were checked against the actual
-backend Java source, and FE-001's UI claims were checked against the actual employee-portal
-source, rather than re-trusting the prior evidence at face value.
+Capability package models for BCM-PER-001, BCM-PER-002, BCM-PER-003 and BCM-ATT-002 remain
+internally consistent. Every OpenAPI operation declared in the 4 packages maps one-to-one to a
+backend controller route: 42/42 operations, no gaps in either direction. BE-002 custom rules and
+FE-001 UI/API coverage were checked against the actual Java and TypeScript source.
 
 ## Findings
 
-Two backend rule gaps were found and are now disclosed in `MVP-MOD-003-BE-002-validation.yaml`'s
-`model_gaps_identified` (previously an empty list):
+Two backend rule gaps remain disclosed and tracked as non-blocking technical debt:
 
-- **RN-005 (Doctor credential expiration)** — no scheduler proactively transitions expired
-  credentials or flags doctors for re-verification; only a reactive check exists at verification
-  time. Referring-eligibility is still computed correctly in real time, so no incorrect business
-  outcome results today. Tracked as `TD-BE-007`.
-- **RN-008 (read-model masking)** — document/credential number masking in `PatientSnapshot`/
-  `DoctorSnapshot` is a fixed algorithm, not the tenant-configurable policy the rule describes.
-  Document numbers are never shown unmasked, so there is no raw data-exposure regression. Tracked
-  as `TD-BE-008`.
+- **TD-BE-007 / RN-005**: no scheduler proactively transitions expired doctor credentials or flags
+  doctors for re-verification; referring eligibility is still computed correctly in real time.
+- **TD-BE-008 / RN-008**: read-model document/credential masking is fixed, not tenant-configurable;
+  document numbers are never shown unmasked.
 
-One frontend UI-completeness gap was found, already disclosed as out-of-scope in
-`MVP-MOD-003-FE-001-validation.yaml` but now formally tracked: 11 of 42 modeled operations
-(patient/doctor update, patient document management, doctor specialty assignment, plus patient
-representative update) have no client function and no UI. The backend already supports all of
-them as generatable, contract-tested endpoints, so this is a pure UI convenience gap. Tracked as
-`TD-FE-002`.
+One frontend completeness gap remains disclosed and tracked as **TD-FE-002**: patient/doctor update,
+patient document management, doctor specialty assignment and patient representative update UI are
+not yet built. Backend support for those operations already exists and is contract-tested.
 
-Two known, previously-disclosed items were re-confirmed still accurate and required no new
-action: `TD-BE-005` (doctor activation gated by eligibility query rather than a status field) and
-`TD-BE-006` (patient registration commit not wrapped in a database transaction).
+Known prior items **TD-BE-005** and **TD-BE-006** were re-confirmed and remain accurate.
 
 ## Defect found and fixed
 
-`PROJECT_STATE.yaml` was found truncated at 261 lines — a prior session's file patch had cut off
-the file mid-list, losing the rest of the MVP-MOD-002 closeout record and the trailing
-`execution_flow`/`ga_gates_defined` sections. This predates the MVP-MOD-003-FE-001 commit and had
-gone unnoticed since. Reconstructed from the last known-good committed version and reverified as
-valid YAML (300 lines).
+`PROJECT_STATE.yaml` had been truncated by a prior file patch. The missing tail was reconstructed
+from the last known-good committed version and reverified as valid YAML.
 
-A second, minor stale pointer was found and fixed: `capability-package-index.yaml`'s
-`active_capability_package_group` block still read `package_status: modeled`,
-`backlog_item: MVP-MOD-003-DEF`, `next_backlog_item: MVP-MOD-003-BE-001` — unchanged since the
-DEF backlog item closed. Corrected to reflect the current validated state and
-`next_backlog_item: MVP-MOD-003-CLOSEOUT`.
+`capability-package-index.yaml` also had a stale active package group pointer. It now reflects
+MVP-MOD-003-QA-001 as the validated backlog item and MVP-MOD-003-CLOSEOUT as the next item.
 
 ## Validations executed
 
 | Check | Result |
 |---|---|
-| `mvn test` (no local DB) | Not executed — no Maven in this sandbox, only Java 11 present |
-| `mvn test -Dhop.local-db-tests=true` | Not executed — same reason, plus no Docker |
+| `mvn --settings .mvn/settings.xml test` | **Passed**: 58 tests, 0 failures, 0 errors, 6 skipped |
+| `docker compose --env-file .env.example -f compose.local.yml up -d postgres` + `mvn --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"` | **Passed**: 58 tests, 0 failures, 0 errors, 0 skipped |
 | `npm run typecheck` | **Passed**, 0 errors |
-| `npm test` | Not executed — sandbox network allowlist blocks native rollup binary |
-| `npm run test:coverage` | Not executed — same reason |
-| `npm run build` | Not executed — same reason |
-| `npm audit --audit-level=high` | Not executed — network allowlist blocks audit endpoint |
-| Full project YAML parse | **Passed**, 481 files, 0 failures |
-| Secrets scan | **Passed**, no matches |
-| Agent-agnostic scan | **Passed**, no matches |
-| Stale-pointer scan | **Passed after fix** (capability-package-index.yaml corrected) |
-| `git diff --check` | Pre-existing repo-wide CRLF/LF noise (~1471 files), confirmed via `-w`
-  diff to be unrelated to any real content change; scoped `git diff --cached --check` is clean |
+| `npm test` | **Passed**, 10 files, 18 tests |
+| `npm run test:coverage` | **Passed**, 74.63% statements, 81.17% branches, 45.21% functions, 74.63% lines |
+| `npm run build` | **Passed** |
+| `npm audit --audit-level=high` | **Passed**, 0 vulnerabilities |
+| Trivy filesystem scan | **Passed**, 0 HIGH/CRITICAL dependency vulnerabilities and no blocking secret/misconfiguration findings |
+| Full project YAML parse | **Passed** |
+| Secrets scan | **Passed** |
+| Agent-agnostic scan | **Passed** |
+| Stale-pointer scan | **Passed after fix** |
 
-### Execution limitation
+## Framework correction
 
-This sandbox has no Maven executable and no Docker, and only OpenJDK 11 (the runbook requires
-Java 21 and Maven 3.9.x), so the backend test suite could not run here. The employee-portal's
-`npm test`/`test:coverage`/`build`/`audit` remain blocked by the same network allowlist
-restriction documented in `MVP-MOD-003-FE-001-validation.yaml` (its own follow-up validation later
-resolved this on an unrestricted machine; that passing 18-test result is accepted as current
-ground truth here rather than re-executed).
+The prior execution-limited evidence was corrected by running the missing gates. The Nexora
+Framework and HOP execution prompts now explicitly forbid closing or advancing a backlog item when
+mandatory executable gates are not run because of missing toolchains, unsupported runtimes, blocked
+dependency/audit endpoints, Docker/database unavailability or similar environment constraints.
 
-**Compensating controls:** backend custom-rule and contract correctness were validated by direct
-line-level review of the Java source against each capability's `business-rules.yaml` and
-`openapi-source.yaml`; frontend contract and UI coverage were validated by direct comparison of
-`peopleApi.ts` and the screen components against `openapi-source.yaml` and `traceability.yaml`;
-the two newly added FE-001 test files were read in full and spot-checked against actual source.
-`npm run typecheck`, the full YAML parse, and the secrets/agent-agnostic/stale-pointer scans all
-executed successfully.
-
-**Recommended follow-up:** re-run `mvn test` (with and without `-Dhop.local-db-tests=true`) and
-`npm test`/`npm run test:coverage`/`npm run build`/`npm audit` on a developer machine or CI with
-Java 21, Maven and unrestricted registry access, before or during MVP-MOD-003-CLOSEOUT.
-
-## Out of scope (confirmed not touched)
-
-MVP-MOD-003-CLOSEOUT was not started. No capability package was redesigned;
-`BUSINESS_REQUIREMENT.md` was not modified. No new capability, UI screen, API operation or
-business-rule implementation was added — every finding above was either corrected as an
-evidence/registry defect or registered as non-blocking technical debt.
+Manual source review remains valid supporting evidence, but it cannot replace mandatory executable
+tests, build, coverage, audit or security-quality gates required for closure.
 
 ## Readiness
 
-`MVP-MOD-003-QA-001` closes as **closed_with_execution_limitation**. Recommended next backlog
-item: **MVP-MOD-003-CLOSEOUT** (Module closeout and registry update).
+`MVP-MOD-003-QA-001` closes as **closed**. Recommended next backlog item:
+**MVP-MOD-003-CLOSEOUT** (Module closeout and registry update).

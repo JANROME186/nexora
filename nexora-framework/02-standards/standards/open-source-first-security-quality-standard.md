@@ -110,6 +110,44 @@ When an update is required to remove critical/high risk, unsupported runtimes, i
 gates or blocking build failures, it must be handled before closing the backlog item. Beneficial but
 non-blocking updates must be registered as technical debt for gradual remediation.
 
+## Quality Gate Execution Policy
+
+Executable gates must actually run before a backlog item, module validation, module closeout or
+release gate is marked closed. Manual source review, contract cross-checking and code inspection are
+valid compensating controls, but they do not replace tests, builds, coverage, dependency audits or
+vulnerability scans for runnable code.
+
+Before closing code-changing work, agents must verify required runtime versions and command paths
+against the project runbook and stack baseline. Examples include Java, Maven, Node, npm, Docker,
+Flutter and database services. If a tool is missing, unsupported or too old, the agent must first
+attempt project-local remediation using documented wrappers, checked-in settings, package
+installation, containerized services or approved toolchain paths. If remediation needs network or
+elevated permissions, the agent must request approval instead of downgrading validation.
+
+Allowed final gate states are:
+
+- `passed`
+- `not_applicable_with_reason`
+
+The following states are not allowed for closure:
+
+- `not_executed`
+- `blocked_by_missing_toolchain`
+- `blocked_by_network`
+- `blocked_by_unsupported_runtime`
+- `failed`
+- `passed_with_execution_limitation`
+- `closed_with_execution_limitation`
+
+If the execution environment cannot satisfy the stack baseline, the agent must mark the work
+`blocked_by_environment` or `ready_for_external_validation`, keep the active backlog pointer on the
+current item, write exact remediation commands, and stop. A later agent or CI runner may close the
+item only after executing the missing gates and updating the evidence to `passed`.
+
+Module validation and closeout must not rely on implementation evidence that is itself limited. Any
+missing Maven, Java, Node, native package, audit endpoint, Docker or database dependency is a
+blocking environment issue until resolved in a compatible local or CI environment.
+
 ## Open Source Tooling Baseline
 
 Preferred open source tools include:
@@ -158,6 +196,9 @@ A backlog item must not be closed when it introduces:
 - Critical or high SAST findings without an accepted risk.
 - Failing tests.
 - Undocumented coverage regression.
+- Required executable quality gates that were not actually run.
+- Missing or unsupported required toolchains, runtimes, native build binaries or audit endpoints.
+- Evidence marked `passed_with_execution_limitation` or `closed_with_execution_limitation`.
 - Proprietary dependency without an exception ADR.
 - Manual edits to generated artifacts without a source model change.
 

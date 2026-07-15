@@ -131,6 +131,71 @@ scope:
     - integration
     - deployment
 
+quality_gate_execution_policy:
+  purpose: >
+    Prevent backlog, module or release closure when required executable quality
+    gates were not actually run. Source review and manual traceability checks are
+    useful compensating controls, but they do not replace tests, builds,
+    coverage, dependency audits or vulnerability scans for runnable code.
+  required_before_code_changing_closure:
+    environment_probe:
+      - Verify required runtime versions before validation (for example Java,
+        Maven, Node, npm, Docker, Flutter or database services according to the
+        stack baseline and local runbook).
+      - Compare detected versions with the project runbook and stack toolchain
+        baseline.
+      - If a required runtime or build tool is missing, unsupported or too old,
+        attempt project-local remediation first (for example documented wrapper,
+        checked-in settings, package installation, containerized service or
+        approved toolchain path).
+      - If remediation needs network or elevated permissions, request approval
+        instead of silently downgrading validation.
+    mandatory_gate_results:
+      allowed_to_close:
+        - passed
+        - not_applicable_with_reason
+      not_allowed_to_close:
+        - not_executed
+        - blocked_by_missing_toolchain
+        - blocked_by_network
+        - blocked_by_unsupported_runtime
+        - failed
+        - passed_with_execution_limitation
+        - closed_with_execution_limitation
+    manual_review_rule: >
+      Manual source review, contract cross-checking or code inspection may be
+      recorded as a compensating control only. It cannot convert a mandatory
+      executable gate to passed and cannot justify advancing the backlog pointer.
+    closure_rule: >
+      A code-changing backlog item, validation backlog item, module closeout or
+      release gate must not be marked closed, passed or ready for next backlog
+      when a mandatory executable gate did not run. Mark the work
+      blocked_by_environment or ready_for_external_validation, keep the active
+      backlog pointer on the current item, and record exact remediation steps.
+    external_validation_rule: >
+      If the current execution environment cannot satisfy the stack baseline,
+      the agent must produce a precise external validation command list and stop.
+      The next agent or CI runner may close the item only after executing the
+      missing gates and updating the evidence from blocked/limited to passed.
+  module_validation_and_closeout:
+    - Module validation must re-run or verify successful execution evidence for
+      every required backend, frontend, mobile, API, dependency and build gate
+      touched by the module.
+    - Module closeout must not rely on implementation backlog evidence that is
+      itself passed_with_execution_limitation or closed_with_execution_limitation.
+    - Any missing Maven, Java, Node, native package, audit endpoint, Docker or
+      database dependency is a blocking environment issue until resolved in a
+      compatible local or CI environment.
+  evidence_requirements:
+    - Record detected runtime/tool versions and command paths for executed gates.
+    - Record exact commands executed, working directory, result and numeric
+      summaries (tests, failures, errors, skipped, coverage and vulnerabilities).
+    - Record not_applicable gates with a reason tied to changed surface.
+    - Do not use passed_with_execution_limitation or closed_with_execution_limitation
+      as final closure states.
+    - Use blocked_by_environment or ready_for_external_validation for incomplete
+      mandatory gates.
+
 open_source_first_policy:
   default_position: Prefer open source, self-hostable, standards-based technologies.
   accepted_license_families:
@@ -480,11 +545,12 @@ agent_rules:
   - Agents must add or update quality-gate evidence for every backlog item that changes code, dependencies, runtime configuration, APIs or deployment assets.
   - Agents must validate requester-proposed stacks against current stable or LTS versions, official lifecycle information, security advisories, ecosystem health and required quality gates before accepting them as the implementation baseline.
   - Agents must define a stack-specific open source quality toolchain during architecture analysis and revisit it during backlog work, module closeout and release readiness.
-  - Agents must run the security and quality gates that are applicable to the changed stack; unavailable tools must be documented with the reason and a replacement or follow-up.
+  - Agents must run the security and quality gates that are applicable to the changed stack. If a mandatory executable gate cannot run because a tool, runtime, native binary, network endpoint or service is unavailable, the backlog item must remain blocked_by_environment or ready_for_external_validation; manual review is only a compensating control and must not be recorded as a passed gate.
   - Agents must not treat the initial project stack as permanently fixed. Each code-changing iteration must evaluate whether newer open source frameworks, libraries, runtimes or tools are materially safer, better maintained, more portable or more cost-effective.
   - Agents must create or update technical-debt backlog items for beneficial technology upgrades or migrations that are not safe or necessary to execute immediately.
   - Agents must recommend gradual remediation of technology debt when future backlog work touches the affected components.
   - Agents must fail the backlog item when critical or high findings are introduced and no accepted risk exists.
+  - Agents must not advance next_backlog_item, module closeout or release readiness when any mandatory executable gate is not_executed, blocked_by_missing_toolchain, blocked_by_network, blocked_by_unsupported_runtime, passed_with_execution_limitation or closed_with_execution_limitation.
   - Agents must keep quality tooling project-local, reproducible and agent agnostic.
   - Agents must keep generated security and quality evidence in YAML first, with Markdown as the human companion.
 

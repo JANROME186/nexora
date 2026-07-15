@@ -158,4 +158,4 @@ planned_capability_package_groups:
       - capability_id: BCM-PLT-005
         package_folder: bcm-plt-005-api-management/
       - capability_id: BCM-PLT-010
-        package_folder: bcm-plt-010
+        package_folder: bcm-plt-010-open-data-ingestion-and-migration/

@@ -63,7 +63,8 @@ completed_deliverables:
     registration/snapshot/merge/representative/consent lifecycle and doctor directory/credential/
     suspension/portal-access lifecycle
   - MVP-MOD-003-QA-001 integrated validation of capability models, traceability, OpenAPI contracts,
-    BE-002 custom rules, FE-001 UI, QA/security evidence, the local runbook and backlog pointers
+    BE-002 custom rules, FE-001 UI, QA/security evidence, the local runbook, backlog pointers and
+    executable backend/frontend/security quality gates
 next_deliverables:
   - Continue MVP-MOD-003 with MVP-MOD-003-CLOSEOUT module closeout and registry update
   - Apply security quality gate evidence to subsequent code-changing backlog items
@@ -147,14 +148,17 @@ implementation_progress:
   latest_validation:
     backlog_item_id: MVP-MOD-003-QA-001
     command: openapi-to-controller contract cross-check; BE-002 custom-rule source review; FE-001
-      API/UI coverage source review; npm run typecheck; full-project YAML parse; secrets scan;
-      agent-agnostic scan; stale-pointer scan; git diff --check
+      API/UI coverage source review; mvn --settings .mvn/settings.xml test; docker compose
+      --env-file .env.example -f compose.local.yml up -d postgres; mvn --settings .mvn/settings.xml
+      test "-Dhop.local-db-tests=true"; npm run typecheck; npm test; npm run test:coverage; npm
+      run build; npm audit --audit-level=high; trivy fs --skip-db-update; full-project YAML parse;
+      secrets scan; agent-agnostic scan; stale-pointer scan; git diff --check
     working_directory: projects/healthcare-operations-platform
-    status: passed_with_execution_limitation
-    tests_run: not_executed
-    failures: not_executed
-    errors: not_executed
-    skipped: not_executed
+    status: passed
+    tests_run: "backend 58; employee-portal 18"
+    failures: 0
+    errors: 0
+    skipped: 0
     additional_checks:
       - Integrally validated MVP-MOD-003 (capability models, traceability, OpenAPI contracts,
         BE-002 custom rules, FE-001 UI, QA/security evidence, local runbook, backlog pointers)
@@ -167,15 +171,14 @@ implementation_progress:
         UI-completeness gap already disclosed as out-of-scope in FE-001 was formally tracked
         (TD-FE-002).
       - >-
-        mvn test could not run (no Maven executable and only Java 11 present in this sandbox
-        against the runbook's Java 21/Maven 3.9.x/Docker prerequisites). npm test/test:coverage/
-        build/audit could not run (sandbox network allowlist blocks the Linux-native rollup binary
-        and the npm audit endpoint, the same constraint FE-001 already resolved on an unrestricted
-        machine). npm run typecheck passed with 0 errors. Backend and frontend correctness were
-        instead validated by direct source-level review against the modeled contracts and rules.
+        Follow-up validation executed in a compatible local toolchain: Docker/Postgres local,
+        Maven 3.9.11 with Java 21, npm run typecheck, npm test, npm run test:coverage, npm run
+        build, npm audit and Trivy offline scan all passed. The prior execution-limited QA evidence
+        was corrected so MVP-MOD-003-QA-001 no longer carries an exception.
       - A genuine PROJECT_STATE.yaml truncation defect (missing MVP-MOD-002 tail and
         execution_flow/ga_gates_defined sections, present since before the FE-001 commit) was
-        found and fixed; the file now parses as valid YAML again (481/481 project YAML files pass).
+        found and fixed; framework and project YAML files now parse successfully (480/480 files pass
+        in the latest validation run, excluding node_modules and target).
       - A stale pointer in capability-package-index.yaml's active_capability_package_group block
         (still referencing MVP-MOD-003-DEF as current) was found and corrected.
       - Agent-agnostic scan and secrets scan report 0 named-agent, vendor-runtime or credential
@@ -220,7 +223,7 @@ commercial_product_progress:
       name: People and Clinical Master Data
       package_status: validated
       backlog_item: MVP-MOD-003-QA-001
-      backlog_item_status: closed_with_execution_limitation
+      backlog_item_status: closed
       execution_flow_stage: validate
       packages_modeled:
         - BCM-PER-001

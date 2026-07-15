@@ -137,9 +137,12 @@ Load the selected Capability Package models first and follow existing project im
 Generate repetitive platform artifacts from the models before writing custom code.
 Keep changes scoped to the selected backlog item.
 Add or update only generated tests or custom rule tests appropriate to the backend, web, mobile, portal, integration or operations scope.
-Run or document applicable open source security quality gates for the changed stack, including SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when a runnable surface exists.
+Run applicable open source security quality gates for the changed stack, including tests, build, coverage, SAST/static analysis, dependency vulnerability checks, secrets scan and DAST when a runnable surface exists.
+If Maven, Java, Node, npm, native packages, Docker, database services, network access or audit endpoints are missing or blocked, first attempt documented remediation or request approval. If still unavailable, mark the backlog `blocked_by_environment` or `ready_for_external_validation`, keep `next_backlog_item` on the current backlog item, write exact remediation commands, and stop. Manual source review is only a compensating control and cannot replace executable gates.
 Write security quality evidence under 08-qa/security-quality/<selected-backlog-item-id>/.
 Write QA evidence under 08-qa and update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
+Before closure, reconcile every backlog pointer and status registry that references the current or next backlog item, including PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml, affected capability traceability.yaml files, local-solution-runbook.yaml/.md and any QA/security indexes.
+Run a repository search for stale backlog ids and intermediate pending/limited validation statuses before handing off.
 Stop before starting the next backlog item.
 ```
 
@@ -158,7 +161,8 @@ Instruction:
 ```text
 Close the selected HOP module.
 Validate all backlog items for the module, confirm all required tests and QA evidence are present, confirm traceability is complete, and update project state and source registries.
-Recommend the next module only after closeout evidence is written.
+Re-run or verify non-limited passed evidence for all required backend, frontend, mobile, contract, dependency, coverage, build and security gates. Do not close the module or recommend the next module while any required gate is not executed, limited by the environment, blocked by missing toolchain, blocked by network or blocked by unsupported runtime.
+Recommend the next module only after closeout evidence is written and all mandatory executable gates have passed or are explicitly not applicable.
 ```
 
 Expected result:

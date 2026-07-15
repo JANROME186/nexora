@@ -3,7 +3,7 @@ artifact:
   type: qa-validation-evidence
   name: MVP-MOD-003 People and Clinical Master Data Integrated Module Validation
   version: 1.0.0
-  status: passed_with_execution_limitation
+  status: passed
   human_readable: MVP-MOD-003-QA-001-validation.md
   machine_readable: MVP-MOD-003-QA-001-validation.yaml
   created_date: 2026-07-14
@@ -189,11 +189,11 @@ local_runbook_validation:
   method: Re-read 09-operations/runbooks/local-solution-runbook.yaml and .md.
   result: passed
   detail: >
-    current_active_backlog_item already reads MVP-MOD-003-QA-001. SMOKE-004 and SMOKE-005 already
+    current_active_backlog_item now reads MVP-MOD-003-CLOSEOUT after this validation was completed.
+    SMOKE-004 and SMOKE-005 already
     describe the People and Clinical Master Data backend and employee-portal validation steps
     accurately; no runtime, port, startup-order or validation-command change was introduced by
-    this backlog item, so no runbook step required an update beyond the current_active_backlog_item
-    pointer, which was already correct.
+    this backlog item beyond the current_active_backlog_item pointer.
 
 backlog_and_source_of_truth_pointer_validation:
   method: Repository-wide grep for next_backlog_item/current_backlog_item/active_backlog_item/
@@ -201,11 +201,12 @@ backlog_and_source_of_truth_pointer_validation:
   result: passed_after_fix
   detail: >
     PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml,
-    local-solution-runbook.yaml and the 4 capability traceability.yaml files all correctly point to
-    MVP-MOD-003-QA-001 as current and MVP-MOD-003-CLOSEOUT as next after this backlog item's
-    updates. The one stale pointer found (capability-package-index.yaml, see TRACE-002) was
-    corrected. All remaining MVP-MOD-003-FE-001 references are historical backlog-item identifiers
-    (e.g. "ui: MVP-MOD-003-FE-001", qa_evidence_fe_001 paths), which is expected and correct.
+    local-solution-runbook.yaml, capability-package-index.yaml and the 4 capability
+    traceability.yaml files now consistently show MVP-MOD-003-QA-001 as closed/validated and
+    MVP-MOD-003-CLOSEOUT as the next active backlog item. The one stale pointer found
+    (capability-package-index.yaml, see TRACE-002) was corrected. All remaining
+    MVP-MOD-003-FE-001 references are historical backlog-item identifiers (e.g.
+    "ui: MVP-MOD-003-FE-001", qa_evidence_fe_001 paths), which is expected and correct.
 
 project_state_defect_found_and_fixed:
   id: DEFECT-001
@@ -238,28 +239,27 @@ agent_agnostic_validation:
 
 open_source_first_and_security_quality_gate_validation:
   method: See 08-qa/security-quality/MVP-MOD-003-QA-001/security-quality-evidence.yaml.
-  result: passed_with_execution_limitation
+  result: passed
 
 validations:
   - id: VAL-001
     name: Backend Maven test suite (no local database)
     method: mvn --settings .mvn/settings.xml test
     working_directory: 07-implementation/backend
-    result: not_executed
+    result: passed
     detail: >
-      This sandbox has no Maven executable on PATH or anywhere on the filesystem, and only OpenJDK
-      11 is installed, while the runbook's PRE-002/PRE-003 prerequisites call for Java 21 and
-      Maven 3.9.x. The backend Maven test suite could not be executed here. Backend logic was
-      instead validated by direct source review (see be_002_custom_rule_validation and
-      openapi_contract_validation above) rather than by re-running the existing, already-passing
-      BE-001/BE-002 Maven evidence.
+      Executed successfully with Apache Maven 3.9.11 and Java 21.0.7. Result: 58 tests run,
+      0 failures, 0 errors, 6 skipped for the non-local-database profile.
   - id: VAL-002
     name: Backend Maven test suite (with local Postgres)
     method: docker compose --env-file .env.example -f compose.local.yml up -d postgres; mvn
       --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
     working_directory: 07-implementation/backend and 07-implementation
-    result: not_executed
-    detail: Same as VAL-001; additionally, this sandbox has no docker executable available.
+    result: passed
+    detail: >
+      Docker/Postgres local was started through compose.local.yml and the backend suite executed
+      successfully with -Dhop.local-db-tests=true. Result: 58 tests run, 0 failures, 0 errors,
+      0 skipped. Local database tests connected to the Postgres container successfully.
   - id: VAL-003
     name: Employee portal TypeScript static analysis
     method: npm run typecheck
@@ -270,38 +270,34 @@ validations:
     name: Employee portal unit and UI tests
     method: npm test -- --run
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: "Cannot find module @rollup/rollup-linux-x64-gnu. Confirmed this sandbox's network
-      allowlist still blocks downloading the Linux-native rollup/esbuild binaries (403 Forbidden
-      from registry.npmjs.org), the same limitation documented in
-      MVP-MOD-003-FE-001-validation.yaml before its own follow-up validation resolved it on an
-      unrestricted machine. The FE-001 evidence's own passing 18-test run is accepted as current
-      ground truth for this validation rather than re-executed here."
+    result: passed
+    detail: 10 Vitest files passed; 18 tests passed.
   - id: VAL-005
     name: Employee portal coverage
     method: npm run test:coverage
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: Same root cause as VAL-004.
+    result: passed
+    detail: >
+      Coverage completed successfully. All files: 74.63% statements, 81.17% branches,
+      45.21% functions, 74.63% lines.
   - id: VAL-006
     name: Employee portal production build
     method: npm run build
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: Same root cause as VAL-004 (Vite build also requires the native rollup binary).
+    result: passed
+    detail: Vite production build completed successfully.
   - id: VAL-007
     name: Employee portal dependency audit
     method: npm audit --audit-level=high
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: "npm warn audit 403 Forbidden - POST https://registry.npmjs.org/-/npm/v1/security/audits/quick;
-      Connection blocked by network allowlist."
+    result: passed
+    detail: npm audit completed with 0 vulnerabilities.
   - id: VAL-008
     name: Full project and framework YAML parse
     method: Recursive PyYAML safe_load_all over every .yaml/.yml file in the repository excluding
       node_modules.
     result: passed
-    detail: "481 files parsed, 0 failures (after fixing DEFECT-001)."
+    detail: "480 framework and project YAML files parsed, 0 failures (excluding node_modules and target)."
   - id: VAL-009
     name: Secrets scan
     method: "rg -n -i (api[_-]?key|secret|password|passwd|private[_-]?key|client[_-]?secret) with a
@@ -329,6 +325,16 @@ validations:
       content change made in this or prior HOP backlog items; the only real content change
       present before this backlog item's own edits was DEFECT-001. git diff --cached --check,
       scoped to the files intentionally staged for this backlog item's commit, is clean.
+  - id: VAL-013
+    name: Trivy filesystem security scan
+    method: trivy fs --skip-db-update --scanners vuln,secret,misconfig --severity HIGH,CRITICAL
+      --exit-code 1 --no-progress .
+    working_directory: repository_root
+    result: passed
+    detail: >
+      Offline Trivy scan completed using the local vulnerability database. backend/pom.xml and
+      employee-portal/package-lock.json reported 0 HIGH/CRITICAL vulnerabilities; secrets and
+      misconfiguration scanners reported no blocking findings.
 
 model_gaps_identified:
   - GAP-001 (see be_002_custom_rule_validation)
@@ -353,31 +359,29 @@ technical_debt_newly_registered:
 
 blocking_gaps: []
 
-execution_limitation:
+execution_confirmation:
   description: >
-    This sandbox cannot execute the backend Maven suite (no Maven executable, only Java 11 present
-    against a Java 21/Maven 3.9.x requirement, no Docker for the Postgres-backed run) or the
-    employee-portal's Vite/Vitest-based commands (npm test, npm run test:coverage, npm run build,
-    npm audit — all blocked by the same network allowlist restriction on Linux-native rollup/esbuild
-    binaries documented in MVP-MOD-003-FE-001-validation.yaml).
-  mitigation_applied:
-    - Backend custom-rule and contract correctness was validated by direct, line-level review of
-      the actual Java source against each capability's business-rules.yaml and openapi-source.yaml,
-      rather than by re-running the already-passing BE-001/BE-002 Maven evidence.
-    - Frontend contract and UI coverage was validated by direct comparison of peopleApi.ts and the
-      screen components against openapi-source.yaml and traceability.yaml, and by reading the two
-      newly added test files in full and spot-checking their assertions against actual source.
-    - npm run typecheck, the full-project YAML parse, the secrets scan, the agent-agnostic scan and
-      the stale-pointer scan all executed successfully in this sandbox.
-  recommended_follow_up: >
-    Re-run mvn test (with and without -Dhop.local-db-tests=true) and npm test / npm run
-    test:coverage / npm run build / npm audit on a developer machine or CI runner with Java 21,
-    Maven and unrestricted registry access before or during MVP-MOD-003-CLOSEOUT, to reconfirm the
-    already-passing BE-001/BE-002/FE-001 results still hold after this backlog item's evidence and
-    registry corrections (none of which touched application source code).
+    The prior execution-limited evidence was revalidated on the local development environment with
+    Docker/Postgres, Java 21, Maven 3.9.11, Node/npm and the existing local Trivy database available.
+    All mandatory executable gates for MVP-MOD-003-QA-001 passed.
+  commands_executed:
+    - docker compose --env-file .env.example -f compose.local.yml up -d postgres
+    - mvn --settings .mvn/settings.xml test
+    - mvn --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
+    - npm run typecheck
+    - npm test
+    - npm run test:coverage
+    - npm run build
+    - npm audit --audit-level=high
+    - trivy fs --skip-db-update --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --exit-code 1 --no-progress .
+  framework_policy_update: >
+    Nexora Framework now forbids closing or advancing a backlog item with unexecuted mandatory
+    gates, missing toolchains, blocked endpoints or limited/exception-based final states. Manual
+    source review remains useful evidence, but cannot replace executable gates required for
+    closure.
 
 readiness:
-  mvp_mod_003_qa_001_status: closed_with_execution_limitation
+  mvp_mod_003_qa_001_status: closed
   module_validated: true
   ready_for_next_backlog_item: MVP-MOD-003-CLOSEOUT
   next_backlog_item_name: Module closeout and registry update
@@ -390,8 +394,6 @@ readiness:
     UI-completeness gap for patient/doctor editing and doctor specialties also now tracked as
     non-blocking technical debt, all prior QA and security-quality evidence remains passing, the
     integrated local runbook and all backlog/source-of-truth pointers are consistent and current,
-    a real truncation defect in PROJECT_STATE.yaml was found and fixed, and the project remains
-    agent-agnostic. Executable backend and frontend build/test gates could not run in this sandbox
-    due to missing Maven/Docker and a network allowlist restriction on frontend native binaries;
-    this is disclosed transparently rather than asserted as passing, with source-level review used
-    as a compensating control. No blocking gap remains for MVP-MOD-003-CLOSEOUT.
+    a real truncation defect in PROJECT_STATE.yaml was found and fixed, the project remains
+    agent-agnostic, and all mandatory executable backend, frontend and security-quality gates have
+    passed. No blocking gap remains for MVP-MOD-003-CLOSEOUT.

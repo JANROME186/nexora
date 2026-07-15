@@ -302,7 +302,7 @@ Rules:
 - Keep backend, web, mobile, infrastructure and tests aligned with the module package.
 - Preserve bounded contexts, business rules, security rules, audit rules and contracts.
 - Prefer open source frameworks and tooling; do not introduce a mandatory proprietary dependency without an exception ADR.
-- For any code-changing slice, run or document applicable security quality gates and write evidence under 08-qa/security-quality/<backlog-item-id>/.
+- For any code-changing slice, run applicable executable security quality gates and write evidence under 08-qa/security-quality/<backlog-item-id>/. Document not-applicable gates with a reason. Do not close work with mandatory gates marked not executed or limited.
 - Update or explicitly confirm `09-operations/runbooks/local-solution-runbook.yaml` and `.md` when runtime, startup or validation behavior changes.
 - Update tests and traceability when implementation changes behavior.
 - Update PROJECT_STATE.yaml after verified progress.
@@ -318,8 +318,8 @@ Required development flow:
 6. Create or update implementation assets under 07-implementation/.
 7. Implement the first pending backlog item or module slice.
 8. Add or update tests according to test-plan.yaml.
-9. Validate locally where possible.
-10. Run or document applicable security quality gates.
+9. Validate locally using the project runbook and stack baseline.
+10. Run applicable security quality gates. If a mandatory gate cannot run because the environment lacks Maven, Java, Node, npm, native packages, Docker, database services or network access, attempt remediation or request approval. If still unavailable, mark the backlog `blocked_by_environment` or `ready_for_external_validation`, keep `next_backlog_item` unchanged and stop.
 11. Update PROJECT_STATE.yaml, traceability, security quality evidence, implementation README files and the integrated local solution runbook.
 12. Capture framework feedback if execution exposed reusable framework gaps, ambiguity, missing templates or automation opportunities.
 13. Commit the implementation milestone.
@@ -345,7 +345,7 @@ Analyze the impact of the latest BUSINESS_REQUIREMENT change for projects/<proje
 Security quality gate:
 
 ```text
-Run the open-source-first security quality gate for the selected backlog item in projects/<project-slug>/ and write evidence under 08-qa/security-quality/.
+Run the open-source-first security quality gate for the selected backlog item in projects/<project-slug>/ and write evidence under 08-qa/security-quality/. Do not close or advance the backlog when mandatory executable gates are not executed or limited by the environment.
 ```
 
 Framework feedback:

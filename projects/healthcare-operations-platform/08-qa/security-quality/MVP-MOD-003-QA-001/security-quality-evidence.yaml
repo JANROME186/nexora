@@ -3,7 +3,7 @@ artifact:
   type: security-quality-evidence
   name: MVP-MOD-003-QA-001 People and Clinical Master Data Integrated Validation Security & Quality Evidence
   version: 1.0.0
-  status: passed_with_execution_limitation
+  status: passed
   human_readable: security-quality-evidence.md
   machine_readable: security-quality-evidence.yaml
   created_date: 2026-07-14
@@ -23,16 +23,19 @@ quality_gates:
     name: Backend Maven test suite (no local database)
     command: mvn --settings .mvn/settings.xml test
     working_directory: 07-implementation/backend
-    result: not_executed
-    detail: No Maven executable available in this sandbox; only OpenJDK 11 present against the
-      runbook's Java 21/Maven 3.9.x prerequisite. See exception EX-001.
+    result: passed
+    detail: >
+      Executed with Apache Maven 3.9.11 and Java 21.0.7. Result: 58 tests run, 0 failures,
+      0 errors, 6 skipped for the non-local-database profile.
   - id: QG-002
     name: Backend Maven test suite (with local Postgres)
     command: docker compose --env-file .env.example -f compose.local.yml up -d postgres; mvn
       --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
     working_directory: 07-implementation/backend and 07-implementation
-    result: not_executed
-    detail: Same as QG-001; no Docker executable available either. See exception EX-001.
+    result: passed
+    detail: >
+      Docker/Postgres local was started and the backend suite executed with
+      -Dhop.local-db-tests=true. Result: 58 tests run, 0 failures, 0 errors, 0 skipped.
   - id: QG-003
     name: Employee portal TypeScript static analysis
     command: npm run typecheck
@@ -43,34 +46,34 @@ quality_gates:
     name: Employee portal unit/UI test suite
     command: npm test -- --run
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: "Cannot find module @rollup/rollup-linux-x64-gnu; 403 Forbidden from
-      registry.npmjs.org for the native binary. See exception EX-002."
+    result: passed
+    detail: 10 Vitest files passed; 18 tests passed.
   - id: QG-005
     name: Employee portal coverage
     command: npm run test:coverage
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: Same as QG-004. See exception EX-002.
+    result: passed
+    detail: >
+      Coverage completed successfully. All files: 74.63% statements, 81.17% branches,
+      45.21% functions, 74.63% lines.
   - id: QG-006
     name: Employee portal production build
     command: npm run build
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: Same as QG-004 (Vite build needs the same native rollup binary). See exception EX-002.
+    result: passed
+    detail: Vite production build completed successfully.
   - id: QG-007
     name: Employee portal dependency vulnerability audit
     command: npm audit --audit-level=high
     working_directory: 07-implementation/employee-portal
-    result: not_executed
-    detail: "403 Forbidden - POST registry.npmjs.org/-/npm/v1/security/audits/quick; Connection
-      blocked by network allowlist. See exception EX-002."
+    result: passed
+    detail: npm audit completed with 0 vulnerabilities.
   - id: QG-008
     name: Full project and framework YAML parse
     command: Recursive PyYAML safe_load_all over every .yaml/.yml file excluding node_modules
     result: passed
-    detail: "481 files parsed, 0 failures, after fixing a genuine PROJECT_STATE.yaml truncation
-      defect found during this validation (see related QA evidence DEFECT-001)."
+    detail: "480 framework and project YAML files parsed, 0 failures, excluding node_modules and
+      target."
   - id: QG-009
     name: Secrets scan
     command: "rg -n -i (api[_-]?key|secret|password|passwd|private[_-]?key|client[_-]?secret) with
@@ -124,40 +127,33 @@ quality_gates:
     result: passed_with_preexisting_noise
     detail: Unscoped check flags ~1471 pre-existing CRLF/LF files unrelated to this backlog item's
       changes (confirmed via git diff --stat -w). Scoped cached check is clean.
+  - id: QG-016
+    name: Trivy filesystem vulnerability, secret and misconfiguration scan
+    command: trivy fs --skip-db-update --scanners vuln,secret,misconfig --severity HIGH,CRITICAL
+      --exit-code 1 --no-progress .
+    working_directory: repository_root
+    result: passed
+    detail: Offline Trivy scan completed using the local vulnerability database. backend/pom.xml
+      and employee-portal/package-lock.json reported 0 HIGH/CRITICAL vulnerabilities; no blocking
+      secret or misconfiguration findings were reported.
 
-exceptions:
-  - id: EX-001
-    gate: QG-001, QG-002
-    reason: >
-      This execution sandbox has no Maven executable anywhere on the filesystem and only OpenJDK
-      11 is installed, while the project's runbook (09-operations/runbooks/local-solution-runbook.yaml
-      PRE-002/PRE-003) requires Java 21 and Maven 3.9.x. Docker is also unavailable, so the
-      Postgres-backed run could not be attempted either. This is an environment constraint of the
-      current execution sandbox, not a defect in the delivered evidence or code.
-    compensating_control: >
-      Backend correctness was validated by direct source-level review (QG-012, QG-013) against
-      the modeled contracts and rules, rather than by re-running the already-passing
-      BE-001/BE-002 Maven evidence (58 tests, 0 failures, both with and without local Postgres,
-      per MVP-MOD-003-BE-002-validation.yaml).
-    approved_by: Nexora Product Architecture Team
-    expiry: On first execution of mvn test in an environment with Java 21, Maven and Docker
-      available (developer machine or CI), during or before MVP-MOD-003-CLOSEOUT.
-  - id: EX-002
-    gate: QG-004, QG-005, QG-006, QG-007
-    reason: >
-      This sandbox's network allowlist blocks downloading the Linux-native
-      @rollup/rollup-linux-x64-gnu binary (403 Forbidden from registry.npmjs.org) and the npm audit
-      endpoint, the same constraint already documented and later resolved on an unrestricted
-      machine in MVP-MOD-003-FE-001-validation.yaml.
-    compensating_control: >
-      npm run typecheck passed with 0 errors (QG-003). FE-001's own already-passing 18-test/
-      coverage/build/audit results (recorded after that backlog item's own follow-up validation on
-      an unrestricted machine) are accepted as current ground truth. Additionally, the two new
-      FE-001 test files were read in full and their assertions spot-checked against actual
-      component/API source as a further compensating control (QG-014).
-    approved_by: Nexora Product Architecture Team
-    expiry: On first execution of npm test / npm run build / npm audit in an unrestricted
-      environment, during or before MVP-MOD-003-CLOSEOUT.
+exceptions: []
+
+execution_confirmation:
+  summary: >
+    The execution-limited evidence initially left by the prior agent was re-run in the local
+    development environment after Docker became available. All mandatory backend, frontend,
+    dependency and filesystem security quality gates passed.
+  commands_executed:
+    - docker compose --env-file .env.example -f compose.local.yml up -d postgres
+    - mvn --settings .mvn/settings.xml test
+    - mvn --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
+    - npm run typecheck
+    - npm test
+    - npm run test:coverage
+    - npm run build
+    - npm audit --audit-level=high
+    - trivy fs --skip-db-update --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --exit-code 1 --no-progress .
 
 technical_debt:
   - id: TD-BE-007
@@ -176,9 +172,6 @@ technical_debt:
     ref: ../../technical-debt/TD-FE-002-patient-doctor-update-documents-specialty-ui-missing.yaml
     severity: low
 
-overall_result: passed_with_execution_limitation
+overall_result: passed
 recommendation: >
-  Proceed to MVP-MOD-003-CLOSEOUT. Re-run the backend Maven suite and the employee-portal
-  npm test/coverage/build/audit gates in an unrestricted environment as an early step of that
-  backlog item, and update QG-001/QG-002/QG-004..QG-007 and EX-001/EX-002 here once that run
-  completes. TD-BE-007, TD-BE-008 and TD-FE-002 do not block closeout.
+  Proceed to MVP-MOD-003-CLOSEOUT. TD-BE-007, TD-BE-008 and TD-FE-002 do not block closeout.

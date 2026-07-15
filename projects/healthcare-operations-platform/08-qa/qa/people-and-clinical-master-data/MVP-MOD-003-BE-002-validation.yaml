@@ -245,4 +245,29 @@ execution_confirmation:
     validation executed the required build, tests, YAML parser and security scan, corrected the
     issues found, and converted this backlog item from pending build confirmation to closed.
   issues_found_and_fixed:
-    - InMemoryDoctorRepository.saveCredential and InMemoryPa
+    - InMemoryDoctorRepository.saveCredential and InMemoryPatientRepository.saveRepresentative now
+      replace existing child records by id instead of appending stale versions.
+    - PatientController snapshot retrieval now follows patient merge chains through
+      PatientManagementService.findSnapshot.
+    - JdbcPatientRepository and JdbcDoctorRepository natural-key searches now build optional
+      predicates dynamically, avoiding PostgreSQL null-parameter type inference failures.
+    - YAML evidence formatting was corrected and validated programmatically.
+  commands_executed:
+    - mvn --settings .mvn/settings.xml test
+    - docker compose --env-file .env.example -f compose.local.yml up -d postgres
+    - mvn --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
+    - python/yaml parse of 470 framework and project YAML files
+    - trivy fs --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --exit-code 1 --no-progress .
+
+blocking_gaps: []
+
+readiness:
+  mvp_mod_003_be_002_status: closed
+  ready_for_next_backlog_item: MVP-MOD-003-FE-001
+  next_backlog_item_name: Compile patient and doctor management UI outputs
+  rationale: >
+    All custom rules explicitly scoped to MVP-MOD-003-BE-002 for BCM-PER-001, BCM-PER-002,
+    BCM-PER-003 and BCM-ATT-002 are implemented and covered by executed backend tests. No capability
+    was redesigned, AGG-001 Patient and AGG-005 Doctor ownership boundaries were preserved, no
+    operation in scope remains at HTTP 501, Maven tests pass with real Postgres, YAML files parse
+    and Trivy reports zero HIGH/CRITICAL findings for the scanned dependency targets.

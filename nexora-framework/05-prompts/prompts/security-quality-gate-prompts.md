@@ -40,7 +40,8 @@ would materially improve security, maintainability, portability, cost or ecosyst
 
 ## Backlog Gate
 
-For every code-changing backlog item, run or document applicable checks:
+For every code-changing backlog item, probe the required toolchain first and then run applicable
+checks:
 
 - Tests.
 - SAST/static analysis.
@@ -54,11 +55,20 @@ For every code-changing backlog item, run or document applicable checks:
 - Stack-specific quality toolchain completeness review.
 - Technical-debt backlog update when non-blocking modernization findings exist.
 
+If a mandatory executable gate cannot run because Maven, Java, Node, npm, a native package, Docker,
+a database service, network access or an audit endpoint is missing, unsupported or blocked, the
+agent must attempt documented remediation or request approval. Manual source review is only a
+compensating control; it does not turn an unexecuted gate into a pass.
+
 Write evidence under:
 
 `08-qa/security-quality/<backlog-item-id>/`
 
-Do not close the backlog when critical/high findings, secrets, failing tests or undocumented coverage regressions remain unresolved.
+Do not close the backlog when critical/high findings, secrets, failing tests, undocumented coverage
+regressions or unexecuted mandatory gates remain unresolved. Do not use
+`passed_with_execution_limitation` or `closed_with_execution_limitation` as final states. Use
+`blocked_by_environment` or `ready_for_external_validation`, keep `next_backlog_item` unchanged,
+and write exact remediation commands.
 
 ## Technology Debt Backlog
 
@@ -77,3 +87,9 @@ touches the affected component.
 Before closing a module, aggregate backlog evidence and confirm that the module meets the required
 security and quality gates. Also review the project technology debt index and confirm each item is
 resolved, accepted, prioritized or explicitly deferred with rationale.
+
+Module closeout must re-run or verify non-limited passed evidence for all required backend,
+frontend, mobile, API, dependency, coverage, build and security gates. Do not recommend the next
+module while any required gate is `not_executed`, `passed_with_execution_limitation`,
+`closed_with_execution_limitation`, `blocked_by_missing_toolchain`, `blocked_by_network` or
+`blocked_by_unsupported_runtime`.
