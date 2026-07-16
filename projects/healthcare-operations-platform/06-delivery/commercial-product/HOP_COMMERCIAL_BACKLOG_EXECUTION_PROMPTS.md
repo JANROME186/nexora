@@ -194,7 +194,7 @@ Expected result:
 
 Start with:
 
-- Module: `MVP-MOD-004 Front Desk and Care Delivery`
-- Backlog item: `MVP-MOD-004-CLOSEOUT`
+- Module: `MVP-MOD-005 Cashier and Billing Request`
+- Backlog item: `MVP-MOD-005-DEF`
 - Paused functional backlog item: none — HOP Enterprise Quality Alignment closed
-- Folder: `08-qa/qa/front-desk-care-delivery/`
+- Folder: `01-product-definition/business-capabilities/packages/`

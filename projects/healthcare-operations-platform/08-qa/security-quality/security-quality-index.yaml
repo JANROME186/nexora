@@ -267,3 +267,17 @@ entries:
       coverage: passed
       dast_for_runnable_web_or_api_surfaces: not_applicable_no_runtime_surface_changed
       container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  - backlog_item: MVP-MOD-004-CLOSEOUT
+    module: MVP-MOD-004 Front Desk and Care Delivery
+    status: passed
+    evidence_path: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/
+    human_readable: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: passed
+      dependency_vulnerability_scan: passed
+      secrets_scan: passed
+      coverage: passed_no_regression
+      dast_for_runnable_web_or_api_surfaces: covered_by_MVP_MOD_004_FE_001
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed

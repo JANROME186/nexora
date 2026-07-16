@@ -1,8 +1,8 @@
 project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
-repository_version: 0.88.0
-current_phase: MVP-MOD-004 Front Desk and Care Delivery (MVP-MOD-004-CLOSEOUT Ready)
+repository_version: 0.89.0
+current_phase: MVP-MOD-005 Cashier and Billing Request (MVP-MOD-005-DEF Ready)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -103,8 +103,12 @@ completed_deliverables:
     snapshot immutability after source patient profile changes; backend local database tests ran
     with Docker Compose PostgreSQL and 0 skipped local tests; debt-first TD-BE-003 materially
     reduced, backend coverage 66.48% -> 66.52%)
+  - MVP-MOD-004 Front Desk and Care Delivery closeout (MVP-MOD-004-CLOSEOUT; all module backlog
+    items closed, backend quality profile passed, Docker/PostgreSQL local tests passed with 0
+    skipped, frontend quality profile passed, backend/frontend dependency scans reported 0
+    vulnerabilities; not marked commercially complete or GA-ready)
 next_deliverables:
-  - MVP-MOD-004 module closeout and registry update (MVP-MOD-004-CLOSEOUT)
+  - MVP-MOD-005 Cashier and Billing Request capability package models (MVP-MOD-005-DEF)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -117,9 +121,9 @@ next_deliverables:
   - Compile generated outputs and implement custom rules in dependency order
 development_readiness:
   status: ready
-  ready_to_start_module: MVP-MOD-004
-  in_progress_module: MVP-MOD-004
-  next_backlog_item: MVP-MOD-004-CLOSEOUT
+  ready_to_start_module: MVP-MOD-005
+  in_progress_module: MVP-MOD-005
+  next_backlog_item: MVP-MOD-005-DEF
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -188,8 +192,8 @@ project_structure:
   implementation_folder: 07-implementation
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
-  current_module: MVP-MOD-004
-  current_backlog_item: MVP-MOD-004-CLOSEOUT
+  current_module: MVP-MOD-005
+  current_backlog_item: MVP-MOD-005-DEF
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -224,37 +228,42 @@ implementation_progress:
     - HOP-QA-ALIGN-CLOSEOUT
     - MVP-MOD-004-FE-001
     - MVP-MOD-004-QA-001
+    - MVP-MOD-004-CLOSEOUT
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-004-CLOSEOUT
+    - MVP-MOD-005-DEF
+    - MVP-MOD-005-BE-001
+    - MVP-MOD-005-BE-002
+    - MVP-MOD-005-FE-001
+    - MVP-MOD-005-QA-001
+    - MVP-MOD-005-CLOSEOUT
   latest_validation:
-    backlog_item_id: MVP-MOD-004-QA-001
+    backlog_item_id: MVP-MOD-004-CLOSEOUT
     command: >
-      backend focused FrontDeskCareDeliveryApiTest, backend quality profile, backend local database
-      tests with Docker Compose PostgreSQL, OWASP Dependency-Check, employee portal npm run quality
-      and npm audit --audit-level=low.
+      backend quality profile, backend local database tests with Docker Compose PostgreSQL, OWASP
+      Dependency-Check, employee portal npm run quality and npm audit --audit-level=low.
     working_directory: projects/healthcare-operations-platform
     status: passed
-    tests_run: "backend focused 18; backend quality 78; backend local-db 78; employee portal 24"
+    tests_run: "backend quality 78; backend local-db 78; employee portal 24"
     failures: 0
     errors: 0
     skipped: 0
     additional_checks:
       - >-
-        Debt-first action: TD-BE-003 materially reduced by adding backend immutable snapshot
-        regression coverage. Backend line coverage increased from 66.48% to 66.52% and becomes the
-        next backend lower-bound baseline.
+        Module closeout confirmed all MVP-MOD-004 backlog items closed with machine-readable and
+        human-readable QA/security evidence.
       - >-
         Docker Compose local services were healthy and backend local database tests ran with
         -Dhop.local-db-tests=true: 78 tests, 0 failures, 0 skipped.
       - >-
-        Dependency vulnerability checks across all severities passed: OWASP Dependency-Check
-        reported 0 backend vulnerabilities and npm audit reported 0 frontend vulnerabilities.
+        Dependency vulnerability checks across all severities passed during closeout: OWASP
+        Dependency-Check reported 0 backend vulnerabilities and npm audit reported 0 frontend
+        vulnerabilities.
       - >-
         PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml,
         security-quality-index.yaml, technical-debt-index.yaml and the local runbook were
-        reconciled so MVP-MOD-004-QA-001 is closed and the next backlog item advances to
-        MVP-MOD-004-CLOSEOUT.
+        reconciled so MVP-MOD-004-CLOSEOUT is closed and the next backlog item advances to
+        MVP-MOD-005-DEF.
 module_closeout:
   MVP-MOD-001:
     status: implemented
@@ -297,14 +306,30 @@ module_closeout:
       - Patient and doctor self-service portal account linking remains later scope.
       - Mobile patient profile surfaces remain later scope.
       - Additional patient/doctor editor, document and specialty UI surfaces remain tracked technical debt.
+  MVP-MOD-004:
+    status: completed
+    readiness: ready_for_next_module
+    closeout_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-CLOSEOUT.yaml
+    closeout_evidence_md: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-CLOSEOUT.md
+    security_quality_evidence: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/security-quality-evidence.yaml
+    security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/security-quality-evidence.md
+    technical_debt_registered:
+      - TD-BE-009
+      - TD-BE-010
+      - TD-FE-005
+      - TD-FE-006
+    known_boundaries:
+      - Appointment Scheduling, Admission Management and Quotation Management employee-portal screens remain tracked by TD-FE-006.
+      - Production CSP, COEP and cache-control headers remain tracked by TD-FE-005.
+      - Final HOP product closure still requires all technical debt closed and all applicable stack coverage at or above 80%.
 commercial_product_progress:
   status: active
   backlog: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_release: REL-001
-  active_module: MVP-MOD-004
-  active_backlog_item: MVP-MOD-004-CLOSEOUT
+  active_module: MVP-MOD-005
+  active_backlog_item: MVP-MOD-005-DEF
   quality_alignment_module_status: closed
   paused_functional_module: null
   paused_functional_backlog_item: null
@@ -313,10 +338,10 @@ commercial_product_progress:
   capability_package_progress:
     MVP-MOD-004:
       name: Front Desk and Care Delivery
-      package_status: modeled
-      backlog_item: MVP-MOD-004-BE-002
+      package_status: module_closed
+      backlog_item: MVP-MOD-004-CLOSEOUT
       backlog_item_status: closed
-      execution_flow_stage: implement_rules
+      execution_flow_stage: released
       packages_modeled:
         - BCM-ATT-001
         - BCM-ATT-003
@@ -348,6 +373,10 @@ commercial_product_progress:
       qa_evidence_qa_001_md: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-QA-001-validation.md
       security_quality_evidence_qa_001: 08-qa/security-quality/MVP-MOD-004-QA-001/security-quality-evidence.yaml
       security_quality_evidence_qa_001_md: 08-qa/security-quality/MVP-MOD-004-QA-001/security-quality-evidence.md
+      closeout_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-CLOSEOUT.yaml
+      closeout_evidence_md: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-CLOSEOUT.md
+      security_quality_evidence_closeout: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/security-quality-evidence.yaml
+      security_quality_evidence_closeout_md: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/security-quality-evidence.md
       ready_for_compilation: true
       backend_compilation_completed: true
       ready_for_custom_rule_implementation: true
@@ -357,7 +386,7 @@ commercial_product_progress:
       ready_for_module_validation: true
       module_validated: true
       ready_for_closeout: true
-      module_closed: false
+      module_closed: true
     MVP-MOD-003:
       name: People and Clinical Master Data
       package_status: module_closed
