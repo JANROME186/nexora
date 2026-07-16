@@ -24,11 +24,22 @@ Reviewed `08-qa/technical-debt/technical-debt-index.yaml`. Selected and **closed
 `argLine` to load Mockito as a supported `-javaagent`, verified by a full backend run (105 tests, 0
 failures) with no self-attach warning.
 
-As a side effect of the new test assertions, **`TD-BE-003`** (backend coverage) advanced from
-67.47% to 68.66% — a 1.19-point reduction of the gap to the 80% target, no regression.
-
 `TD-BE-002` and `TD-STACK-001` were reviewed and are out of scope for a validation-only backlog
 item.
+
+## Coverage measurement correction (added during MVP-MOD-005-CLOSEOUT)
+
+This evidence originally reported backend line coverage rising from 67.47% to **68.66%**. A
+clean-rebuild remeasurement performed during `MVP-MOD-005-CLOSEOUT` found the true figure is
+**67.47%, unchanged** — identical to `MVP-MOD-005-BE-002`'s baseline. The original number was
+inflated because `mvn ... test jacoco:report` had been run multiple times in the same session
+without an intervening `mvn clean`, so `target/jacoco.exec` accumulated hit-marks across separate
+invocations (default profile and `-Dhop.local-db-tests=true` profile) instead of reflecting a
+single clean run. Two independent `mvn clean ...` runs reproduced the same accurate figure: 3779
+lines covered / 5601 total = 67.47%. No regression occurred (67.47% still equals the previous
+floor exactly), but the claimed 1.19-point improvement did not actually happen; `TD-BE-003` remains
+`materially_reduced` from its pre-MVP-MOD-005 baseline, not further advanced by this backlog item.
+All downstream registries that copied the 68.66% figure were corrected during `MVP-MOD-005-CLOSEOUT`.
 
 ## What changed
 
@@ -81,7 +92,7 @@ item.
 | Command | Result |
 |---|---|
 | `mvn -Dtest=CashSalesApiTest,BillingRequestAdapterUnitTest test` | passed — 26 tests (up from 25), 0 failures |
-| Backend quality profile (checkstyle/pmd/spotbugs/cyclonedx/duplicate-finder) | passed — 105 tests, 0 failures, 8 skipped; **68.66%** line coverage (floor 67.47%, no regression) |
+| Backend quality profile (checkstyle/pmd/spotbugs/cyclonedx/duplicate-finder) | passed — 105 tests, 0 failures, 8 skipped; **67.47%** line coverage (floor 67.47%, no regression; corrected from an originally-reported 68.66%, see correction note above) |
 | Backend local PostgreSQL tests (`-Dhop.local-db-tests=true`) | passed — 105 tests, **0 skipped** |
 | OWASP Dependency-Check (backend) | passed — 0 vulnerabilities |
 | Trivy (backend) | passed — 0 vulnerabilities/secrets/misconfigurations |

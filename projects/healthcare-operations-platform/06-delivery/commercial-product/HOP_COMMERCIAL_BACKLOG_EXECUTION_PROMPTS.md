@@ -194,7 +194,7 @@ Expected result:
 
 Start with:
 
-- Module: `MVP-MOD-005 Cashier and Billing Request`
-- Backlog item: `MVP-MOD-005-CLOSEOUT`
+- Module: `MVP-MOD-006 Laboratory Workflow`
+- Backlog item: `MVP-MOD-006-DEF`
 - Paused functional backlog item: none — HOP Enterprise Quality Alignment closed
-- Folder: `08-qa/`
+- Folder: `01-product-definition/business-capabilities/packages/`

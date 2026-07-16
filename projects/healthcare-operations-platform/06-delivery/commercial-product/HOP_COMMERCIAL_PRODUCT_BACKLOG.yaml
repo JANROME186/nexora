@@ -16,10 +16,10 @@ product:
   commercial_name: Nexora Healthcare Operations Platform
   company: Nexora
   current_baseline:
-    completed_module: HOP-QUALITY-ALIGNMENT Enterprise Quality Alignment (HOP-QA-ALIGN-001 through HOP-QA-ALIGN-CLOSEOUT, all closed)
+    completed_module: MVP-MOD-005 Cashier and Billing Request (MVP-MOD-005-DEF through MVP-MOD-005-CLOSEOUT, all closed)
     completed_status: closed
-    active_module: MVP-MOD-005 Cashier and Billing Request
-    active_backlog_item: MVP-MOD-005-CLOSEOUT
+    active_module: MVP-MOD-006 Laboratory Workflow
+    active_backlog_item: MVP-MOD-006-DEF
 
 source_inputs:
   framework:
@@ -448,7 +448,7 @@ modules:
         status: closed
       - id: MVP-MOD-005-CLOSEOUT
         name: Module closeout and registry update
-        status: next
+        status: closed
     acceptance_summary:
       - Cashiers can open and close sessions and register payments.
       - Billing requests are traceable and decoupled from country-specific fiscal adapters.
@@ -482,6 +482,7 @@ modules:
     backlog_items:
       - id: MVP-MOD-006-DEF
         name: Capability package models
+        status: next
       - id: MVP-MOD-006-BE-001
         name: Compile sample lifecycle backend outputs
       - id: MVP-MOD-006-BE-002

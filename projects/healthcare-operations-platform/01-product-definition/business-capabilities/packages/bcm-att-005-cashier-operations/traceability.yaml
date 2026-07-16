@@ -2,8 +2,8 @@ artifact:
   id: HOP-TRACE-BCM-ATT-005
   type: traceability
   name: Cashier Operations Traceability
-  version: 0.3.0
-  status: validated
+  version: 0.4.0
+  status: module_closed
   classification: editable_model
   capability: BCM-ATT-005
 
@@ -45,7 +45,9 @@ implementation_trace:
   security_quality_evidence_fe_001: 08-qa/security-quality/MVP-MOD-005-FE-001/security-quality-evidence.yaml
   qa_evidence_qa_001: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.yaml
   security_quality_evidence_qa_001: 08-qa/security-quality/MVP-MOD-005-QA-001/security-quality-evidence.yaml
+  qa_evidence_closeout: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
+  security_quality_evidence_closeout: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.yaml
   module_boundary_verification: PlatformFoundationModulithTest (Spring Modulith ApplicationModules
     verify) confirms CashSales cannot mutate clinical/patient/order/catalog aggregates directly.
   current_backlog_item_status: closed
-  next_backlog_item: MVP-MOD-005-CLOSEOUT
+  next_backlog_item: none (module closed; see MVP-MOD-006-DEF for the next roadmap module)

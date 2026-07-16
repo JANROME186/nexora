@@ -18,7 +18,7 @@ resolve its jar path for Surefire's `argLine`, plus strengthened/added test asse
 | SAST / static analysis (Checkstyle, PMD, SpotBugs/Find Security Bugs, ESLint) | passed |
 | Dependency vulnerability scan (OWASP Dependency-Check, `npm audit`) | passed, 0 vulnerabilities |
 | Secrets scan (Trivy) | passed, 0 secrets |
-| Coverage | passed — backend 68.66% (floor 67.47%), frontend 80.66% (floor 80.57%), both improved, no regression |
+| Coverage | passed — backend 67.47% (floor 67.47%, unchanged; corrected from an originally-reported 68.66% during `MVP-MOD-005-CLOSEOUT`), frontend 80.66% (floor 80.57%, improved), no regression |
 | Message externalization / i18n review | not applicable — no user-facing text changed |
 | DAST (OWASP ZAP API scan + baseline) | passed — 0 FAIL on both scans |
 | Container-IaC scan | not applicable — no container or IaC assets changed |
@@ -74,7 +74,9 @@ None in code or dependencies.
 ## Technical debt
 
 - **Closed**: `TD-BE-001` (Mockito Java-agent configuration).
-- **Materially reduced**: `TD-BE-003` (backend coverage 67.47% → 68.66%).
+- **Materially reduced (unchanged this iteration)**: `TD-BE-003` (backend coverage confirmed at
+  67.47%; a 68.66% improvement figure was originally claimed here but corrected to 67.47% during
+  `MVP-MOD-005-CLOSEOUT` after a clean-rebuild remeasurement).
 - **Newly registered**: none.
 - **Unchanged, out of scope**: `TD-BE-002`, `TD-STACK-001`, `TD-FE-003`, `TD-FE-005`, `TD-FE-006`,
   `TD-I18N-002`, `TD-APP-002`.

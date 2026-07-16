@@ -2,8 +2,8 @@ artifact:
   id: HOP-TRACE-BCM-ATT-008
   type: traceability
   name: Billing Request Management Traceability
-  version: 0.3.0
-  status: validated
+  version: 0.4.0
+  status: module_closed
   classification: editable_model
   capability: BCM-ATT-008
 
@@ -46,5 +46,7 @@ implementation_trace:
   security_quality_evidence_qa_001: 08-qa/security-quality/MVP-MOD-005-QA-001/security-quality-evidence.yaml
   adapter_failure_retry_test_coverage: BillingRequestAdapterUnitTest (retryable/terminal
     FiscalAdapterException simulation) validated in MVP-MOD-005-QA-001.
+  qa_evidence_closeout: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
+  security_quality_evidence_closeout: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.yaml
   current_backlog_item_status: closed
-  next_backlog_item: MVP-MOD-005-CLOSEOUT
+  next_backlog_item: none (module closed; see MVP-MOD-006-DEF for the next roadmap module)

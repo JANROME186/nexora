@@ -35,9 +35,9 @@ Do not manually write repetitive artifacts that must come from the model:
 
 ## Starting Point
 
-HOP has advanced through `MVP-MOD-005-QA-001` and `HOP-QUALITY-ALIGNMENT`
-(`HOP-QA-ALIGN-001` through `HOP-QA-ALIGN-CLOSEOUT`) is closed. Functional development
-continues with `MVP-MOD-005-CLOSEOUT`.
+HOP has closed `MVP-MOD-005 Cashier and Billing Request` in full (`MVP-MOD-005-DEF` through
+`MVP-MOD-005-CLOSEOUT`) and `HOP-QUALITY-ALIGNMENT` (`HOP-QA-ALIGN-001` through
+`HOP-QA-ALIGN-CLOSEOUT`) is closed. Functional development continues with `MVP-MOD-006-DEF`.
 
 The product must now move from MVP foundation to commercial readiness through an ordered backlog. Each module must be implemented, validated and closed before dependent modules begin, unless the dependency is explicitly mocked in that module definition.
 
@@ -193,7 +193,7 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-`MVP-MOD-005-QA-001` is closed. Continue with `MVP-MOD-005-CLOSEOUT` from:
+`MVP-MOD-005 Cashier and Billing Request` is closed. Continue with `MVP-MOD-006-DEF` from:
 
 `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
 

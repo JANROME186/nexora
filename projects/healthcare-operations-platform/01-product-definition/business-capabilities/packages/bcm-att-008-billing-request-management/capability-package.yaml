@@ -2,8 +2,8 @@ artifact:
   id: HOP-CAP-PKG-BCM-ATT-008
   type: capability-package
   name: Billing Request Management Capability Package
-  version: 0.3.0
-  status: validated
+  version: 0.4.0
+  status: module_closed
   classification: editable_model
   human_readable: README.md
   machine_readable: capability-package.yaml
@@ -51,8 +51,8 @@ scope:
 roadmap:
   module: MVP-MOD-005
   release: REL-001
-  package_status: validated
-  next_backlog_item: MVP-MOD-005-CLOSEOUT
+  package_status: module_closed
+  next_backlog_item: none (module closed; see MVP-MOD-006-DEF for the next roadmap module)
 
 dependencies:
   required_capabilities: [BCM-ATT-005, BCM-PER-002, BCM-PLT-001, BCM-PLT-007]

@@ -334,6 +334,24 @@ entries:
       sast_or_static_analysis: passed
       dependency_vulnerability_scan: passed
       secrets_scan: passed
-      coverage: passed_no_regression_and_improved_both_stacks
+      coverage: passed_no_regression_frontend_improved_backend_unchanged
       dast_for_runnable_web_or_api_surfaces: passed
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    coverage_correction_note: >-
+      This entry originally recorded "improved both stacks"; corrected during MVP-MOD-005-CLOSEOUT
+      after a clean-rebuild remeasurement found backend coverage was unchanged at 67.47% (the
+      68.66% figure was an inflated non-clean jacoco.exec artifact).
+  - backlog_item: MVP-MOD-005-CLOSEOUT
+    module: MVP-MOD-005 Cashier and Billing Request
+    status: passed
+    evidence_path: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/
+    human_readable: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: passed
+      dependency_vulnerability_scan: passed
+      secrets_scan: passed
+      coverage: passed_no_regression_backend_unchanged_frontend_improved
+      dast_for_runnable_web_or_api_surfaces: covered_by_MVP_MOD_005_QA_001
       container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed

@@ -1,8 +1,8 @@
 project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
-repository_version: 0.93.0
-current_phase: MVP-MOD-005 Cashier and Billing Request (MVP-MOD-005-QA-001 Closed, MVP-MOD-005-CLOSEOUT Ready)
+repository_version: 0.94.0
+current_phase: MVP-MOD-005 Cashier and Billing Request closed (MVP-MOD-006 Laboratory Workflow ready to start)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -131,11 +131,20 @@ completed_deliverables:
     failure/retry, audit-event traceability confirmed via a live /api/audit/events query, and
     Spring Modulith-verified module-boundary purity; OWASP ZAP API scan against the backend
     OpenAPI surface deferred by MVP-MOD-005-BE-002 executed with 0 FAIL/0 WARN/118 PASS; full local
-    stack started, validated and stopped using only runbook-documented commands; TD-BE-001 closed,
-    TD-BE-003 materially advanced, backend coverage 67.47% -> 68.66%, frontend coverage 80.57% ->
-    80.66%, no regression on either stack)
+    stack started, validated and stopped using only runbook-documented commands; TD-BE-001 closed.
+    Its originally reported backend coverage of 68.66% was later found, during
+    MVP-MOD-005-CLOSEOUT, to be inflated by a non-clean multi-run jacoco.exec accumulation; the
+    corrected, reproducible clean-rebuild figure is 67.47% (unchanged from MVP-MOD-005-BE-002).
+    Frontend coverage 80.57% -> 80.66%, no regression on either stack.)
+  - MVP-MOD-005-CLOSEOUT module closeout and registry update (all 6 module backlog items
+    confirmed closed and traceable; a registry-consistency sweep found and corrected the
+    MVP-MOD-005-QA-001 coverage measurement bug above plus a stale technical-debt-index.yaml
+    frontend baseline; backend quality profile, dependency-check, integrated Trivy scan and the
+    full frontend quality suite re-executed clean with 0 regressions; capability package index and
+    BCM-ATT-005/BCM-ATT-008 traceability moved to module_closed; HOP explicitly documented as not
+    commercially complete or GA-ready)
 next_deliverables:
-  - MVP-MOD-005 module closeout and registry update (MVP-MOD-005-CLOSEOUT)
+  - MVP-MOD-006 Laboratory Workflow capability package models (MVP-MOD-006-DEF)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -148,9 +157,9 @@ next_deliverables:
   - Compile generated outputs and implement custom rules in dependency order
 development_readiness:
   status: ready
-  ready_to_start_module: MVP-MOD-005
-  in_progress_module: MVP-MOD-005
-  next_backlog_item: MVP-MOD-005-CLOSEOUT
+  ready_to_start_module: MVP-MOD-006
+  in_progress_module: MVP-MOD-006
+  next_backlog_item: MVP-MOD-006-DEF
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -194,14 +203,18 @@ development_readiness:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 68.66
-        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 68.66
+        current_line_coverage_percent: 67.47
+        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
+        next_iteration_minimum_line_coverage_percent: 67.47
         final_closure_target_percent: 80
         tracked_by: TD-BE-003
+        correction_note: >-
+          MVP-MOD-005-QA-001 originally reported 68.66% from a non-clean multi-run jacoco.exec
+          accumulation; corrected to the reproducible clean-rebuild figure during
+          MVP-MOD-005-CLOSEOUT.
       frontend_typescript_web:
         current_line_coverage_percent: 80.66
-        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.yaml
+        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
         next_iteration_minimum_line_coverage_percent: 80.66
         final_closure_target_percent: 80
         tracked_by: TD-FE-004 (closed; final-closure target reached)
@@ -219,8 +232,8 @@ project_structure:
   implementation_folder: 07-implementation
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
-  current_module: MVP-MOD-005
-  current_backlog_item: MVP-MOD-005-CLOSEOUT
+  current_module: MVP-MOD-006
+  current_backlog_item: MVP-MOD-006-DEF
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -261,47 +274,47 @@ implementation_progress:
     - MVP-MOD-005-BE-002
     - MVP-MOD-005-FE-001
     - MVP-MOD-005-QA-001
+    - MVP-MOD-005-CLOSEOUT
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-005-CLOSEOUT
+    - MVP-MOD-006-DEF
   latest_validation:
-    backlog_item_id: MVP-MOD-005-QA-001
+    backlog_item_id: MVP-MOD-005-CLOSEOUT
     command: >
-      Integrated financial audit and reconciliation validation: focused and full backend test
-      suites, backend quality profile, local PostgreSQL tests, OWASP Dependency-Check, Trivy
-      (backend and integrated), frontend typecheck/test/coverage/build/lint/duplication/format/
-      license/audit, a full local runtime walkthrough (Docker Compose, backend, employee portal)
-      and OWASP ZAP API scan against the backend OpenAPI surface plus ZAP baseline against the
-      employee portal.
+      Module closeout registry-consistency validation: clean-rebuild backend quality profile
+      (mvn clean verify ...), OWASP Dependency-Check, integrated Trivy scan, full frontend quality
+      suite (typecheck/lint/test:coverage/build/duplication/format/license) and npm audit,
+      re-executed to produce accurate closeout evidence and cross-checked against every registry
+      that references MVP-MOD-005.
     working_directory: projects/healthcare-operations-platform
     status: passed
-    tests_run: "105 backend tests (26 focused CashSalesApiTest/BillingRequestAdapterUnitTest, up from 25) and 33 frontend tests across 17 files"
+    tests_run: "105 backend tests (clean rebuild, reproduced twice) and 33 frontend tests across 17 files"
     failures: 0
     errors: 0
     skipped: 8
     additional_checks:
       - >-
-        Backend line coverage increased from 67.47% to 68.66%; frontend line coverage increased
-        from 80.57% to 80.66%; no regression on either stack.
+        Found and corrected a coverage measurement bug in MVP-MOD-005-QA-001: its reported 68.66%
+        backend line coverage was inflated by a non-clean multi-run jacoco.exec accumulation; two
+        independent clean-rebuild runs both reproduced the accurate figure, 67.47% (unchanged from
+        MVP-MOD-005-BE-002). Corrected across MVP-MOD-005-QA-001's own evidence, this file,
+        SOURCE_OF_TRUTH.yaml, technical-debt-index.yaml and TD-BE-003-backend-coverage-gate.yaml.
       - >-
-        Closed TD-BE-001 (Mockito Java-agent configuration in backend pom.xml) as this backlog
-        item's debt-first action.
+        Found and corrected a stale technical-debt-index.yaml frontend coverage baseline (still
+        80.57% from MVP-MOD-005-FE-001, never updated to the 80.66% MVP-MOD-005-QA-001 measured).
       - >-
-        Strengthened 3 existing CashSalesApiTest conflict assertions to check the exact backend
-        error code (CASH_VARIANCE_REASON_REQUIRED, PAYMENT_EXCEEDS_OUTSTANDING_BALANCE,
-        BILLING_SALE_REQUIRED) and added a new test that queries the real /api/audit/events
-        endpoint to prove audit traceability for the full financial chain.
+        Moved BCM-ATT-005 and BCM-ATT-008 to module_closed in capability-package-index.yaml and
+        their own traceability.yaml/capability-package.yaml files; advanced
+        active_capability_package_group to the MVP-MOD-006 not_started placeholder, matching the
+        pattern used at every prior module transition.
       - >-
-        OWASP ZAP API scan against http://host.docker.internal:8080/v3/api-docs returned 0 FAIL, 0
-        WARN, 118 PASS, fulfilling the DAST gate MVP-MOD-005-BE-002 had explicitly deferred to this
-        backlog item.
+        Confirmed all 6 MVP-MOD-005 backlog items closed and traceable; confirmed no exceptions or
+        blocking gaps; confirmed HOP is explicitly not commercially complete or GA-ready.
       - >-
-        Spring Modulith's PlatformFoundationModulithTest (module boundary verification) passed,
-        confirming CashSales cannot mutate clinical/patient/order/catalog aggregates directly.
-      - >-
-        Full local stack started, validated and stopped using only runbook-documented commands
-        (docker compose up/down, mvn spring-boot:run, npm run dev); added SMOKE-010 to the runbook
-        for the MVP-MOD-005-FE-001 UI walkthrough and synced the Markdown companion.
+        Advanced every active/current/next pointer (project and root PROJECT_STATE.yaml,
+        SOURCE_OF_TRUTH.yaml, the commercial backlog and execution prompts, the local runbook) to
+        MVP-MOD-006-DEF; confirmed via repository-wide grep that no registry still names
+        MVP-MOD-005 or MVP-MOD-005-CLOSEOUT as active/current/next.
 module_closeout:
   MVP-MOD-001:
     status: implemented
@@ -360,14 +373,39 @@ module_closeout:
       - Appointment Scheduling, Admission Management and Quotation Management employee-portal screens remain tracked by TD-FE-006.
       - Production CSP, COEP and cache-control headers remain tracked by TD-FE-005.
       - Final HOP product closure still requires all technical debt closed and all applicable stack coverage at or above 80%.
+  MVP-MOD-005:
+    status: completed
+    readiness: ready_for_next_module
+    closeout_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
+    closeout_evidence_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.md
+    security_quality_evidence: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.yaml
+    security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.md
+    technical_debt_registered:
+      - TD-DEF-001 (closed by MVP-MOD-005-BE-001)
+      - TD-BE-011 (closed by MVP-MOD-005-BE-002)
+      - TD-FE-004 (closed by MVP-MOD-005-FE-001)
+      - TD-BE-001 (closed by MVP-MOD-005-QA-001)
+    coverage_measurement_correction: >-
+      MVP-MOD-005-QA-001 originally reported backend line coverage at 68.66%; a clean-rebuild
+      remeasurement during MVP-MOD-005-CLOSEOUT found the accurate figure is 67.47% (unchanged from
+      MVP-MOD-005-BE-002), caused by a non-clean multi-run jacoco.exec accumulation. Corrected
+      across all referencing registries.
+    known_boundaries:
+      - Backend coverage (67.47%) remains below the 80% final-closure target, tracked by TD-BE-003.
+      - Frontend coverage (80.66%) meets the 80% target for this stack but must not regress.
+      - 14 technical-debt items remain open project-wide, none scoped to MVP-MOD-005; final HOP
+        product closure still requires all technical debt closed and all applicable stacks at or
+        above 80% coverage.
+      - HOP is not commercially complete or GA-ready; MVP-MOD-006, MVP-MOD-007 and MVP-MOD-008
+        remain planned within REL-001 alone.
 commercial_product_progress:
   status: active
   backlog: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_release: REL-001
-  active_module: MVP-MOD-005
-  active_backlog_item: MVP-MOD-005-CLOSEOUT
+  active_module: MVP-MOD-006
+  active_backlog_item: MVP-MOD-006-DEF
   quality_alignment_module_status: closed
   paused_functional_module: null
   paused_functional_backlog_item: null
@@ -376,10 +414,10 @@ commercial_product_progress:
   capability_package_progress:
     MVP-MOD-005:
       name: Cashier and Billing Request
-      package_status: validated
-      backlog_item: MVP-MOD-005-QA-001
+      package_status: module_closed
+      backlog_item: MVP-MOD-005-CLOSEOUT
       backlog_item_status: closed
-      execution_flow_stage: release
+      execution_flow_stage: released
       packages_modeled:
         - BCM-ATT-005
         - BCM-ATT-008
@@ -411,6 +449,10 @@ commercial_product_progress:
       qa_evidence_qa_001_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.md
       security_quality_evidence_qa_001: 08-qa/security-quality/MVP-MOD-005-QA-001/security-quality-evidence.yaml
       security_quality_evidence_qa_001_md: 08-qa/security-quality/MVP-MOD-005-QA-001/security-quality-evidence.md
+      closeout_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
+      closeout_evidence_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.md
+      security_quality_evidence_closeout: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.yaml
+      security_quality_evidence_closeout_md: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.md
       ready_for_compilation: true
       backend_compilation_completed: true
       ready_for_custom_rule_implementation: true
@@ -420,7 +462,7 @@ commercial_product_progress:
       ready_for_module_validation: true
       module_validated: true
       ready_for_closeout: true
-      module_closed: false
+      module_closed: true
     MVP-MOD-004:
       name: Front Desk and Care Delivery
       package_status: module_closed

@@ -4,11 +4,12 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `MVP-MOD-005-CLOSEOUT`.
+Current active backlog item: `MVP-MOD-006-DEF`.
 
 HOP Enterprise Quality Alignment (`HOP-QA-ALIGN-001` through `HOP-QA-ALIGN-CLOSEOUT`) is closed.
 
-Paused functional backlog item: none — `MVP-MOD-005-QA-001` is closed; `MVP-MOD-005-CLOSEOUT` is active.
+Paused functional backlog item: none — `MVP-MOD-005 Cashier and Billing Request` is closed in full
+(`MVP-MOD-005-DEF` through `MVP-MOD-005-CLOSEOUT`); `MVP-MOD-006-DEF` is active.
 
 ## Cashier And Billing Request Smoke
 

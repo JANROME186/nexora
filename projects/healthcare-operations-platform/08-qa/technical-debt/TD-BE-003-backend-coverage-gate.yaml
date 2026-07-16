@@ -28,10 +28,16 @@ classification:
 current_state:
   issue: >
     The backend Maven quality profile now produces an instrumented JaCoCo report. Current measured
-    line coverage is 68.66%, below the Nexora final project closure target of 80%.
+    line coverage is 67.47% (confirmed by two independent clean-rebuild runs during
+    MVP-MOD-005-CLOSEOUT), below the Nexora final project closure target of 80%.
   compensating_control:
     - 105 backend tests pass under the quality profile with 0 failures and 0 errors.
     - Employee portal reports 80.66% line coverage through Vitest V8 provider (target already met).
+  coverage_measurement_correction: >
+    MVP-MOD-005-QA-001 originally reported 68.66%, measured via a non-clean multi-run jacoco.exec
+    that accumulated hit-marks across separate Maven invocations in the same session. Corrected
+    during MVP-MOD-005-CLOSEOUT to the accurate, reproducible clean-rebuild figure: 67.47%,
+    unchanged from MVP-MOD-005-BE-002's baseline.
 
 target_state:
   preferred_open_source_tooling:
@@ -57,9 +63,9 @@ remediation:
     - Backend line coverage reaches at least 80% before final project closure or commercial GA.
     - Changed backend code does not reduce existing coverage.
   latest_evidence:
-    backlog_item: MVP-MOD-005-QA-001
-    evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.yaml
+    backlog_item: MVP-MOD-005-CLOSEOUT
+    evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
     status: materially_reduced
-    current_line_coverage_percent: 68.66
-    next_iteration_minimum_line_coverage_percent: 68.66
+    current_line_coverage_percent: 67.47
+    next_iteration_minimum_line_coverage_percent: 67.47
     target_line_coverage_percent: 80

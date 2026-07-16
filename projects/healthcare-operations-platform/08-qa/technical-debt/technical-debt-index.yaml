@@ -33,15 +33,22 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 68.66
-        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 68.66
+        current_line_coverage_percent: 67.47
+        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
+        next_iteration_minimum_line_coverage_percent: 67.47
         final_closure_target_percent: 80
+        correction_note: >-
+          MVP-MOD-005-QA-001 originally reported 68.66% from a non-clean multi-run jacoco.exec
+          accumulation; corrected to the reproducible clean-rebuild figure (67.47%, unchanged from
+          MVP-MOD-005-BE-002) during MVP-MOD-005-CLOSEOUT.
       frontend_typescript_web:
-        current_line_coverage_percent: 80.57
-        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-FE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 80.57
+        current_line_coverage_percent: 80.66
+        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
+        next_iteration_minimum_line_coverage_percent: 80.66
         final_closure_target_percent: 80
+        correction_note: >-
+          Baseline was stale at 80.57% (from MVP-MOD-005-FE-001); corrected to the value actually
+          measured by MVP-MOD-005-QA-001 and reconfirmed during MVP-MOD-005-CLOSEOUT.
       mobile_typescript_foundation:
         current_line_coverage_percent: not_measured
         source_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-003-validation.yaml
@@ -103,7 +110,7 @@ entries:
     source_backlog_item: MVP-MOD-002-CLOSEOUT
     affected_area: backend_test_coverage
     file: 08-qa/technical-debt/TD-BE-003-backend-coverage-gate.yaml
-    remediation_strategy: gradual_coverage_increase_when_backend_tests_are_touched_now_at_68_66_percent
+    remediation_strategy: gradual_coverage_increase_when_backend_tests_are_touched_now_at_67_47_percent
   - id: TD-BE-004
     title: Add backend release readiness supply-chain gates (SBOM, license, build rules)
     status: materially_reduced

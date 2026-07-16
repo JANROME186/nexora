@@ -56,10 +56,36 @@ debt_first_action:
     with a full backend test run (105 tests, 0 failures, 0 errors) showing no Mockito self-attach
     warning.
   also_advanced: >
-    TD-BE-003 (backend coverage gate) was materially advanced as a side effect of the new
-    CashSalesApiTest assertions and the new financialActionsProduceQueryableAuditEvents test: backend
-    line coverage rose from 67.47% to 68.66%, a 1.19-point reduction of the gap to the 80%
-    final-closure target, with no regression.
+    TD-BE-003 (backend coverage gate) was reviewed alongside the new CashSalesApiTest assertions and
+    the new financialActionsProduceQueryableAuditEvents test. CORRECTED during MVP-MOD-005-CLOSEOUT
+    (see coverage_measurement_correction below): a clean-rebuild remeasurement showed backend line
+    coverage unchanged at 67.47%, not the 68.66% originally reported here. The new test-side
+    assertions exercised already-instrumented main-source lines (the audit-query endpoint and the
+    conflict-throwing branches were already covered by pre-existing tests), so no new main-source
+    lines became covered; TD-BE-003 remains materially_reduced from its pre-MVP-MOD-005 baseline but
+    was not further advanced by this specific backlog item's test additions.
+
+coverage_measurement_correction:
+  corrected_during_backlog_item: MVP-MOD-005-CLOSEOUT
+  corrected_date: 2026-07-16
+  original_reported_backend_line_coverage_percent: 68.66
+  corrected_backend_line_coverage_percent: 67.47
+  root_cause: >
+    The 68.66% figure was measured by running `mvn ... test jacoco:report` multiple times in the
+    same session without an intervening `mvn clean`, so target/jacoco.exec accumulated hit-marks
+    across separate invocations (default profile and -Dhop.local-db-tests=true profile), inflating
+    the reported coverage above what any single test execution actually reaches. A `mvn clean ...
+    verify` and, independently, a second `mvn clean test jacoco:report` both reproduced the same
+    accurate figure: 3779 lines covered / 5601 total = 67.47%, identical to MVP-MOD-005-BE-002's
+    measured baseline.
+  impact: >
+    No regression occurred (67.47% still equals the previous measured floor exactly), but the
+    originally claimed 1.19-point improvement did not actually happen. All downstream registries
+    that copied the 68.66% figure (PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, technical-debt-index.yaml,
+    TD-BE-003-backend-coverage-gate.yaml, this file's own coverage fields below) were corrected to
+    67.47% during MVP-MOD-005-CLOSEOUT.
+  detection_method: Independent clean-rebuild coverage remeasurement performed during
+    MVP-MOD-005-CLOSEOUT's registry-consistency validation, before closing the module.
   other_candidates_reviewed_not_selected: >
     TD-BE-002 (static analysis/SAST toolchain) and TD-STACK-001 (stack modernization roadmap) were
     reviewed; both require broader, unrelated backend tooling or dependency work out of scope for a
@@ -211,10 +237,15 @@ validation_commands:
     failures: 0
     errors: 0
     skipped: 8
-    line_coverage_percent: 68.66
-    line_covered: 3850
-    line_missed: 1757
-    total_lines: 5607
+    line_coverage_percent: 67.47
+    line_covered: 3779
+    line_missed: 1822
+    total_lines: 5601
+    corrected_during: MVP-MOD-005-CLOSEOUT
+    correction_note: >-
+      Originally reported as 68.66% (3850/5607) from a non-clean multi-run jacoco.exec that
+      accumulated hit-marks across separate Maven invocations. Corrected to the clean-rebuild
+      figure; see coverage_measurement_correction above.
   - id: backend_local_database_tests
     working_directory: 07-implementation/backend
     command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -Pquality "-Dhop.local-db-tests=true" test
@@ -412,7 +443,8 @@ readiness:
     (Docker Compose infrastructure, backend, employee portal) using only its own documented commands,
     validated with the full gate suite including the OWASP ZAP API scan against the backend OpenAPI
     surface that MVP-MOD-005-BE-002 had explicitly deferred to this backlog item, and stopped
-    cleanly. Debt-first action taken (TD-BE-001 closed; TD-BE-003 materially advanced, 67.47% ->
-    68.66%, no regression). Frontend coverage remains at 80.66% (floor 80.57%, no regression). No
-    mandatory gate was left not_executed, passed_with_execution_limitation or
-    closed_with_execution_limitation.
+    cleanly. Debt-first action taken (TD-BE-001 closed; backend coverage confirmed at 67.47% with
+    no regression, corrected during MVP-MOD-005-CLOSEOUT from an inflated 68.66% figure caused by a
+    non-clean jacoco.exec accumulation — see coverage_measurement_correction). Frontend coverage
+    remains at 80.66% (floor 80.57%, no regression). No mandatory gate was left not_executed,
+    passed_with_execution_limitation or closed_with_execution_limitation.

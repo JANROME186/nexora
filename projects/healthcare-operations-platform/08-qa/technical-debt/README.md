@@ -12,22 +12,27 @@ register or update a debt item here. If the finding affects mandatory quality ga
 evidence, message externalization, DAST or safe development, promote it to blocking or immediate
 quality alignment work.
 
-## Active Blocking Quality Alignment Debt
+## Quality Alignment Debt (closed)
 
-- `TD-I18N-001` - message externalization and magic-string remediation baseline.
-- `TD-QA-001` - DAST automation for runnable web and API surfaces.
+- `TD-I18N-001` - message externalization and magic-string remediation baseline. Closed by
+  `HOP-QA-ALIGN-005`.
+- `TD-QA-001` - DAST automation for runnable web and API surfaces. Closed by `HOP-QA-ALIGN-004`.
 
-These items are addressed by:
+These items were addressed by:
 
 `06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml`
+
+(Corrected during `MVP-MOD-005-CLOSEOUT`: both entries had been closed in
+`technical-debt-index.yaml` since `HOP-QA-ALIGN-CLOSEOUT` but this section still listed them as
+active/blocking.)
 
 ## Final Closure Debt
 
 HOP cannot be marked commercially complete, GA-ready or finally closed while any technical-debt item
 remains open. Coverage-related final closure debt includes:
 
-- `TD-BE-003` - backend coverage must improve from 68.66% to at least 80%.
-- `TD-FE-004` - closed; frontend coverage reached 80.57% in MVP-MOD-005-FE-001 (was 76.51%).
+- `TD-BE-003` - backend coverage must improve from 67.47% to at least 80%.
+- `TD-FE-004` - closed; frontend coverage reached 80.66% in MVP-MOD-005-QA-001 (was 76.51%).
 - `TD-APP-002` - mobile coverage must become measurable and reach at least 80%.
 
 Until 80% is reached, the previous measured coverage is the hard lower bound for the next

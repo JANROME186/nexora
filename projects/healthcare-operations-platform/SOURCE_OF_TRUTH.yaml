@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.91.0
+  version: 0.92.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -103,6 +103,10 @@ sources:
   mvp_mod_005_qa_001_qa_evidence_yaml: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.yaml
   mvp_mod_005_qa_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-005-QA-001/security-quality-evidence.md
   mvp_mod_005_qa_001_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-005-QA-001/security-quality-evidence.yaml
+  mvp_mod_005_closeout_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.md
+  mvp_mod_005_closeout_evidence_yaml: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
+  mvp_mod_005_closeout_security_quality_evidence: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.md
+  mvp_mod_005_closeout_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.yaml
   mvp_mod_003_def_qa_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
   mvp_mod_003_def_qa_evidence_yaml: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
   mvp_mod_003_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/peopleclinicalmasterdata/
@@ -299,7 +303,7 @@ rules:
   - HOP must validate requester-proposed and current stack choices against current stable or LTS open source market practice before release-oriented decisions.
   - HOP must maintain stack-specific quality toolchain baselines and register non-blocking tooling gaps as technical debt.
   - HOP code-changing backlog items must produce security quality evidence with applicable tests, best-practice and coding-standard checks, duplicate-code checks, complexity checks, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerability checks across all severities, secrets scan, coverage, message externalization/i18n review and DAST when runnable surfaces exist.
-  - HOP functional development was unblocked by HOP-QA-ALIGN-CLOSEOUT; the current active backlog item is MVP-MOD-005-CLOSEOUT.
+  - HOP functional development was unblocked by HOP-QA-ALIGN-CLOSEOUT; MVP-MOD-005 is closed and the current active backlog item is MVP-MOD-006-DEF.
   - HOP agents must execute at least one technical-debt remediation or material reduction before feature implementation in each code-changing backlog item unless no open debt exists.
   - HOP technical-debt burn-down must become stricter as the project advances; final project closure requires no open technical debt.
   - HOP line coverage target is 80 percent for every applicable delivered stack.
