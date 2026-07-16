@@ -1,8 +1,8 @@
 project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
-repository_version: 0.89.0
-current_phase: MVP-MOD-005 Cashier and Billing Request (MVP-MOD-005-DEF Ready)
+repository_version: 0.90.0
+current_phase: MVP-MOD-005 Cashier and Billing Request (MVP-MOD-005-BE-001 Ready)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -107,8 +107,10 @@ completed_deliverables:
     items closed, backend quality profile passed, Docker/PostgreSQL local tests passed with 0
     skipped, frontend quality profile passed, backend/frontend dependency scans reported 0
     vulnerabilities; not marked commercially complete or GA-ready)
+  - MVP-MOD-005 Cashier and Billing Request Business Capability Packages (BCM-ATT-005/008)
+  - MVP-MOD-005-DEF capability package model validation evidence
 next_deliverables:
-  - MVP-MOD-005 Cashier and Billing Request capability package models (MVP-MOD-005-DEF)
+  - MVP-MOD-005 backend compilation for cash sessions, payments, sales and billing request model outputs (MVP-MOD-005-BE-001)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -123,7 +125,7 @@ development_readiness:
   status: ready
   ready_to_start_module: MVP-MOD-005
   in_progress_module: MVP-MOD-005
-  next_backlog_item: MVP-MOD-005-DEF
+  next_backlog_item: MVP-MOD-005-BE-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -193,7 +195,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-005
-  current_backlog_item: MVP-MOD-005-DEF
+  current_backlog_item: MVP-MOD-005-BE-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -229,41 +231,40 @@ implementation_progress:
     - MVP-MOD-004-FE-001
     - MVP-MOD-004-QA-001
     - MVP-MOD-004-CLOSEOUT
+    - MVP-MOD-005-DEF
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-005-DEF
     - MVP-MOD-005-BE-001
     - MVP-MOD-005-BE-002
     - MVP-MOD-005-FE-001
     - MVP-MOD-005-QA-001
     - MVP-MOD-005-CLOSEOUT
   latest_validation:
-    backlog_item_id: MVP-MOD-004-CLOSEOUT
+    backlog_item_id: MVP-MOD-005-DEF
     command: >
-      backend quality profile, backend local database tests with Docker Compose PostgreSQL, OWASP
-      Dependency-Check, employee portal npm run quality and npm audit --audit-level=low.
+      YAML parse for all project YAML files; capability package artifact completeness validation for
+      BCM-ATT-005 and BCM-ATT-008; model validation against BCM-001, BCM-002, aggregate boundaries,
+      generation separation, provider-agnostic billing adapter boundary and agent-agnostic source rules.
     working_directory: projects/healthcare-operations-platform
     status: passed
-    tests_run: "backend quality 78; backend local-db 78; employee portal 24"
+    tests_run: "not applicable; model-only backlog item"
     failures: 0
     errors: 0
     skipped: 0
     additional_checks:
       - >-
-        Module closeout confirmed all MVP-MOD-004 backlog items closed with machine-readable and
-        human-readable QA/security evidence.
+        Created two capability packages with the standard 14-artifact structure:
+        BCM-ATT-005 Cashier Operations and BCM-ATT-008 Billing Request Management.
       - >-
-        Docker Compose local services were healthy and backend local database tests ran with
-        -Dhop.local-db-tests=true: 78 tests, 0 failures, 0 skipped.
+        Cashier Operations owns sale/payment/cash-register modeling and delegates billing requests
+        without mutating clinical aggregates.
       - >-
-        Dependency vulnerability checks across all severities passed during closeout: OWASP
-        Dependency-Check reported 0 backend vulnerabilities and npm audit reported 0 frontend
-        vulnerabilities.
+        Billing Request Management models invoice requests and provider-agnostic fiscal adapter
+        boundaries while keeping country-specific fiscal connectors outside the core model.
       - >-
         PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml,
-        security-quality-index.yaml, technical-debt-index.yaml and the local runbook were
-        reconciled so MVP-MOD-004-CLOSEOUT is closed and the next backlog item advances to
-        MVP-MOD-005-DEF.
+        HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml and the local runbook were reconciled so
+        MVP-MOD-005-DEF is closed and the next backlog item advances to MVP-MOD-005-BE-001.
 module_closeout:
   MVP-MOD-001:
     status: implemented
@@ -329,13 +330,37 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_release: REL-001
   active_module: MVP-MOD-005
-  active_backlog_item: MVP-MOD-005-DEF
+  active_backlog_item: MVP-MOD-005-BE-001
   quality_alignment_module_status: closed
   paused_functional_module: null
   paused_functional_backlog_item: null
   primary_development_unit: business_capability_package
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.yaml
   capability_package_progress:
+    MVP-MOD-005:
+      name: Cashier and Billing Request
+      package_status: modeled
+      backlog_item: MVP-MOD-005-DEF
+      backlog_item_status: closed
+      execution_flow_stage: model
+      packages_modeled:
+        - BCM-ATT-005
+        - BCM-ATT-008
+      artifacts_per_package: 14
+      bounded_contexts:
+        - cash-sales
+        - billing-tax
+      backend_bounded_context_root: cashsales
+      qa_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-DEF-validation.yaml
+      qa_evidence_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-DEF-validation.md
+      ready_for_compilation: true
+      backend_compilation_completed: false
+      ready_for_custom_rule_implementation: false
+      custom_rules_implemented: false
+      ready_for_ui_compilation: false
+      module_validated: false
+      ready_for_closeout: false
+      module_closed: false
     MVP-MOD-004:
       name: Front Desk and Care Delivery
       package_status: module_closed

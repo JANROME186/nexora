@@ -223,7 +223,7 @@ validation_commands:
 
 next_backlog_item:
   module_id: MVP-MOD-005
-  backlog_item_id: MVP-MOD-005-DEF
-  name: Cashier and Billing Request capability package models
-  expected_folder: ../../01-product-definition/business-capabilities/packages/
+  backlog_item_id: MVP-MOD-005-BE-001
+  name: Compile cash session, payment and sale backend outputs
+  expected_folder: ../../07-implementation/backend/
   paused_functional_backlog_item: null

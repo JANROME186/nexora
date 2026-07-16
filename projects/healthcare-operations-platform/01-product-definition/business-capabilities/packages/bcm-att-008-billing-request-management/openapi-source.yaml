@@ -1,0 +1,68 @@
+artifact:
+  id: HOP-API-SRC-BCM-ATT-008
+  type: openapi-source
+  name: Billing Request Management API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-008
+
+api:
+  base_path: /api/revenue/billing-requests
+  surface_classification: internal
+  security:
+    scheme: bearer_jwt
+    required_scopes_default: [billing.manage]
+
+resources:
+  - name: InvoiceRequest
+    operations:
+      - id: listBillingRequests
+        method: GET
+        path: /
+        scopes: [billing.read]
+        generatable: true
+      - id: getBillingRequest
+        method: GET
+        path: /{invoiceRequestId}
+        scopes: [billing.read]
+        generatable: true
+      - id: createBillingRequest
+        method: POST
+        path: /
+        scopes: [billing.manage]
+        generatable: false
+        custom_reason: sale resolution and fiscal profile snapshot validation
+      - id: submitBillingRequest
+        method: POST
+        path: /{invoiceRequestId}/submit
+        scopes: [billing.manage]
+        generatable: false
+        custom_reason: billing adapter boundary and idempotency
+      - id: retryBillingRequest
+        method: POST
+        path: /{invoiceRequestId}/retry
+        scopes: [billing.manage]
+        generatable: false
+        custom_reason: failed-state retry policy
+      - id: cancelBillingRequest
+        method: POST
+        path: /{invoiceRequestId}/cancel
+        scopes: [billing.cancel]
+        generatable: false
+        custom_reason: adapter cancellation boundary
+
+schemas_source:
+  - InvoiceRequest
+  - FiscalProfileSnapshot
+  - TaxLine
+  - AdapterResponseSnapshot
+
+error_model:
+  standard: rfc7807
+  domain_errors:
+    - {code: BILLING_SALE_REQUIRED, maps_to_rule: RN-001}
+    - {code: FISCAL_PROFILE_SNAPSHOT_REQUIRED, maps_to_rule: RN-002}
+    - {code: BILLING_ADAPTER_NOT_CONFIGURED, maps_to_rule: RN-003}
+    - {code: BILLING_RETRY_NOT_ALLOWED, maps_to_rule: RN-004}
+    - {code: BILLING_TERMINAL_STATE_IMMUTABLE, maps_to_rule: RN-005}

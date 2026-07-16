@@ -1,0 +1,38 @@
+artifact:
+  id: HOP-EVT-BCM-ATT-005
+  type: events
+  name: Cashier Operations Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-005
+
+published_events:
+  - id: EVT-CASH-001
+    name: CashSessionOpened
+    payload: [sessionId, cashRegisterId, branchId, openedBy, openingAmount, openedAt]
+    consumers: [audit-compliance]
+  - id: EVT-CASH-002
+    name: SaleCreated
+    payload: [saleId, patientId, branchId, sourceType, sourceReferenceId, totalAmount]
+    consumers: [billing-tax, audit-compliance, reporting]
+  - id: EVT-CASH-003
+    name: PaymentRegistered
+    payload: [saleId, paymentId, amount, method, registeredBy, registeredAt]
+    consumers: [billing-tax, audit-compliance, results-delivery, reporting]
+  - id: EVT-CASH-004
+    name: CashSessionClosed
+    payload: [sessionId, expectedAmount, countedAmount, varianceAmount, closedBy]
+    consumers: [audit-compliance, reporting]
+  - id: EVT-CASH-005
+    name: CashVarianceDetected
+    payload: [sessionId, branchId, varianceAmount, varianceReason]
+    consumers: [audit-compliance, reporting, ai-platform]
+
+consumed_events:
+  - event: DiagnosticOrderAccepted
+    source_capability: BCM-LAB-001
+  - event: QuotationAccepted
+    source_capability: BCM-ATT-006
+  - event: InvoiceRequested
+    source_capability: BCM-ATT-008

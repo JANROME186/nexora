@@ -67,7 +67,7 @@ exceptions: []
 
 readiness:
   security_quality_status: passed
-  ready_for_next_backlog_item: MVP-MOD-005-DEF
+  ready_for_next_backlog_item: MVP-MOD-005-BE-001
   next_required_focus:
     - Model MVP-MOD-005 Cashier and Billing Request capability packages.
     - Continue debt-first execution and preserve backend/frontend coverage floors.

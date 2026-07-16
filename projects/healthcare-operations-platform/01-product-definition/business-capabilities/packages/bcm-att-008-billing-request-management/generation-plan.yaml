@@ -1,0 +1,45 @@
+artifact:
+  id: HOP-GEN-BCM-ATT-008
+  type: generation-plan
+  name: Billing Request Management Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-008
+  compiler_strategy: model_to_platform
+
+generated_outputs:
+  backend:
+    - CRUD scaffolding for InvoiceRequest read surfaces.
+    - DTOs for InvoiceRequest, FiscalProfileSnapshot, TaxLine and AdapterResponseSnapshot.
+    - Controllers for generatable list/get operations.
+    - Repository interfaces and persistence adapters.
+  frontend:
+    - Employee portal billing request worklist and request detail screens.
+  contracts:
+    - Rendered OpenAPI document from openapi-source.yaml.
+    - Typed SDK.
+  tests:
+    - Repetitive contract and read-operation tests.
+  operations:
+    - Metrics, logs and alert wiring from observability-model.yaml.
+
+custom_implementation_points:
+  - {id: CUS-BILL-001, description: Sale resolution and fiscal profile snapshot capture., maps_to_backlog: MVP-MOD-005-BE-002}
+  - {id: CUS-BILL-002, description: Provider-agnostic billing adapter port and country-pack selection., maps_to_backlog: MVP-MOD-005-BE-002}
+  - {id: CUS-BILL-003, description: Adapter idempotency and retry policy., maps_to_backlog: MVP-MOD-005-BE-002}
+  - {id: CUS-BILL-004, description: Issued/cancelled terminal-state enforcement., maps_to_backlog: MVP-MOD-005-BE-002}
+
+do_not_write_manually:
+  - CRUD scaffolding
+  - DTOs
+  - Controllers
+  - Repositories
+  - Swagger documentation
+  - SDKs
+  - Repetitive documentation
+  - Repetitive test cases
+
+provenance:
+  source_models: [business-model.yaml, business-rules.yaml, processes.yaml, events.yaml, openapi-source.yaml, ui-model.yaml, permissions.yaml, observability-model.yaml]
+  generation_metadata_required: true

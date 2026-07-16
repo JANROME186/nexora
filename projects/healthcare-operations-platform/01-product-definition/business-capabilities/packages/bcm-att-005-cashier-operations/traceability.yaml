@@ -1,0 +1,31 @@
+artifact:
+  id: HOP-TRACE-BCM-ATT-005
+  type: traceability
+  name: Cashier Operations Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-005
+
+links:
+  bcm_001: 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml#BCM-ATT-005
+  bcm_002: 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml#BCM-ATT-005
+  requirements: 04-requirements/capabilities/bcm-att-005-cashier-operations/requirements.yaml
+  aggregates:
+    - 02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml#AGG-010
+    - 02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml#AGG-011
+
+coverage:
+  requirements: [FR-ATT-005-001, FR-ATT-005-002, FR-ATT-005-003, FR-ATT-005-004, FR-ATT-005-005]
+  rules: [RN-001, RN-002, RN-003, RN-004, RN-005, RN-006]
+  processes: [PROC-CASH-001, PROC-CASH-002, PROC-CASH-003, PROC-CASH-004]
+  events: [CashSessionOpened, SaleCreated, PaymentRegistered, CashSessionClosed, CashVarianceDetected]
+
+hrp_alignment:
+  process: HRP-001-P04 Revenue Collection and Billing Request
+  segment: payment_and_cashier_execution
+
+brm_alignment:
+  rules: [BRM-001-R005, BRM-001-R006, BRM-001-R018]
+
+downstream_capabilities: [BCM-ATT-008, BCM-RES-004]

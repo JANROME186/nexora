@@ -1,0 +1,30 @@
+artifact:
+  id: HOP-TRACE-BCM-ATT-008
+  type: traceability
+  name: Billing Request Management Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-008
+
+links:
+  bcm_001: 01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml#BCM-ATT-008
+  bcm_002: 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml#BCM-ATT-008
+  requirements: 04-requirements/capabilities/bcm-att-008-billing-request-management/requirements.yaml
+  aggregate: 02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml#AGG-012
+
+coverage:
+  requirements: [FR-ATT-008-001, FR-ATT-008-002, FR-ATT-008-003, FR-ATT-008-004, FR-ATT-008-005]
+  rules: [RN-001, RN-002, RN-003, RN-004, RN-005]
+  processes: [PROC-BILL-001, PROC-BILL-002, PROC-BILL-003, PROC-BILL-004]
+  events: [InvoiceRequested, InvoiceSubmitted, InvoiceIssued, InvoiceFailed, InvoiceCancelled]
+
+hrp_alignment:
+  process: HRP-001-P04 Revenue Collection and Billing Request
+  segment: fiscal_billing_request_lifecycle
+
+brm_alignment:
+  rules: [BRM-001-R005, BRM-001-R006, BRM-001-R018]
+
+upstream_capabilities: [BCM-ATT-005, BCM-PER-002]
+downstream_capabilities: [BCM-RES-004]

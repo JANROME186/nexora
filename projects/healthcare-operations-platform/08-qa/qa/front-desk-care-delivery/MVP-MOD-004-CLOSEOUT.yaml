@@ -135,7 +135,7 @@ readiness:
   module_status: closed
   commercially_complete: false
   ga_ready: false
-  ready_for_next_backlog_item: MVP-MOD-005-DEF
+  ready_for_next_backlog_item: MVP-MOD-005-BE-001
   next_module: MVP-MOD-005 Cashier and Billing Request
   rationale: >
     All MVP-MOD-004 backlog items are closed with executable QA and security-quality evidence.

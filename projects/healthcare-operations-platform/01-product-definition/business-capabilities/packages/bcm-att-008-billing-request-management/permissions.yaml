@@ -1,0 +1,33 @@
+artifact:
+  id: HOP-PERM-BCM-ATT-008
+  type: permissions
+  name: Billing Request Management Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-008
+  depends_on_capability: BCM-PLT-001
+
+scopes:
+  - billing.read
+  - billing.manage
+  - billing.cancel
+
+roles:
+  - role: cashier
+    grants: [billing.read, billing.manage]
+  - role: branch_manager
+    grants: [billing.read, billing.manage, billing.cancel]
+  - role: auditor
+    grants: [billing.read]
+
+access_policies:
+  - id: POL-BILL-001
+    statement: Billing requests are scoped to tenant, laboratory and branch of the source sale.
+  - id: POL-BILL-002
+    statement: Adapter submissions require configured country-pack permissions.
+  - id: POL-BILL-003
+    statement: Cancellation of issued fiscal documents requires branch manager approval.
+
+audit:
+  required_events: [InvoiceRequested, InvoiceSubmitted, InvoiceIssued, InvoiceFailed, InvoiceCancelled]

@@ -1,0 +1,36 @@
+artifact:
+  id: HOP-UI-BCM-ATT-008
+  type: ui-model
+  name: Billing Request Management UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-008
+
+employee_portal:
+  required: true
+  navigation_group: Revenue Cycle
+  screens:
+    - id: SCR-BILL-001
+      name: Billing request worklist
+      purpose: Search billing requests by sale, patient, status and branch.
+      actions: [create_request, view_request, retry_failed]
+    - id: SCR-BILL-002
+      name: Fiscal profile capture
+      purpose: Capture and validate immutable fiscal profile snapshot before submission.
+      actions: [edit_profile_snapshot, submit_request]
+    - id: SCR-BILL-003
+      name: Adapter response detail
+      purpose: Show issued, failed or cancelled response snapshots from fiscal adapter.
+      actions: [cancel_request, retry_request]
+
+states:
+  loading: required
+  empty: required
+  error: required
+  confirmation: required_for_submit_cancel_retry
+  success: required
+
+i18n:
+  visible_text_externalization_required: true
+  repeated_message_catalog_required: true
