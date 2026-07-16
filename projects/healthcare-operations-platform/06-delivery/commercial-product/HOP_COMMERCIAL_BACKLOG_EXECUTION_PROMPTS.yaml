@@ -223,7 +223,7 @@ validation_commands:
 
 next_backlog_item:
   module_id: HOP-QUALITY-ALIGNMENT
-  backlog_item_id: HOP-QA-ALIGN-004
-  name: Establish all-severity vulnerability, DAST and runtime security evidence
-  expected_folder: ../../08-qa/security-quality/HOP-QA-ALIGN-004/
+  backlog_item_id: HOP-QA-ALIGN-005
+  name: Establish message externalization and magic-string remediation baseline
+  expected_folder: ../../08-qa/qa/quality-alignment/
   paused_functional_backlog_item: MVP-MOD-004-FE-001

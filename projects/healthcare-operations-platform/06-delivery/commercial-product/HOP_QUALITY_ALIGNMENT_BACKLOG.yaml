@@ -194,7 +194,7 @@ backlog_items:
     name: Establish all-severity vulnerability, DAST and runtime security evidence
     type: integrated_security_quality
     priority: 4
-    status: open_pending_dast
+    status: closed
     blocks_functional_development: true
     objective: >
       Replace historical HIGH/CRITICAL-only evidence with all-severity scans
@@ -220,9 +220,13 @@ backlog_items:
       qa_evidence_md: ../../08-qa/qa/quality-alignment/HOP-QA-ALIGN-004-validation.md
       security_quality_evidence_yaml: ../../08-qa/security-quality/HOP-QA-ALIGN-004/security-quality-evidence.yaml
       security_quality_evidence_md: ../../08-qa/security-quality/HOP-QA-ALIGN-004/security-quality-evidence.md
-    remaining_blocker:
-      id: TD-QA-001
-      reason: OWASP ZAP DAST still needs to run against local API/UI surfaces.
+    remaining_blocker: null
+    closure_note: >-
+      OWASP ZAP baseline (employee portal) and API (backend) scans both executed successfully
+      with 0 FAIL-NEW. TD-QA-001 (DAST automation) and TD-QA-002 (Trivy currency) are closed.
+      Residual Low/Medium findings are formally dispositioned as accepted-risk technical debt
+      (TD-FE-005, TD-QA-004) with owner, target backlog and expiration. See
+      08-qa/qa/quality-alignment/HOP-QA-ALIGN-004-validation.yaml for full evidence.
 
   - id: HOP-QA-ALIGN-005
     name: Establish message externalization and magic-string remediation baseline

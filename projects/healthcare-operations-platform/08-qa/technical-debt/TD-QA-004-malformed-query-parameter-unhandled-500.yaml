@@ -1,0 +1,71 @@
+artifact:
+  id: TD-QA-004
+  type: technical-debt-item
+  name: Malformed empty-key query parameter causes an unhandled 500 on POST /api/platform/tenants
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-16
+
+source:
+  discovered_during_backlog_item: HOP-QA-ALIGN-004
+  module: HOP Enterprise Quality Alignment
+  evidence: 08-qa/security-quality/HOP-QA-ALIGN-004/zap-backend-api.json
+
+classification:
+  category: robustness_hardening
+  affected_area: backend_servlet_parameter_parsing
+  affected_components:
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/organizationmanagement
+  risk_level: low
+  blocking: false
+  reason_non_blocking: >
+    OWASP ZAP classifies this finding as Low risk with High confidence. It requires a
+    deliberately malformed request (a query or form parameter with an empty key, e.g. "?=..."),
+    the response is a generic {"status":500,...} body with no stack trace or internal detail
+    leaked to the client, and the two other 500-causing defects found in the same scan run
+    (unvalidated tenantId reaching a length-constrained audit column, unvalidated name reaching a
+    length-constrained organization column) were fixed directly during HOP-QA-ALIGN-004. This one
+    is a Tomcat/servlet-container parameter-parsing edge case
+    (org.apache.tomcat.util.http.InvalidParameterException, logged as "ignored" internally by
+    Tomcat but still surfacing as an unhandled 500 on this endpoint) rather than an application
+    logic defect, and requires deeper servlet-container-level investigation to resolve safely
+    without risking a regression to legitimate parameter parsing.
+
+current_state:
+  issue: >
+    POST /api/platform/tenants (and potentially other endpoints, not yet exhaustively tested)
+    returns HTTP 500 instead of HTTP 400 when the request includes a query or form-encoded
+    parameter with an empty key (Tomcat's Parameters parser throws
+    org.apache.tomcat.util.http.InvalidParameterException: "Invalid chunk ... ignored", which does
+    not resolve to a clean 4xx response through Spring's default error handling).
+  compensating_control:
+    - >-
+      No stack trace, exception class or internal path detail is present in the HTTP response
+      body (verified: only a generic status/error/path JSON object is returned).
+    - Triggering the finding requires a deliberately malformed parameter syntax that no HOP
+      frontend, mobile client or documented API consumer sends.
+
+target_state:
+  preferred_open_source_tooling:
+    - Spring Boot's ErrorController/ResponseEntityExceptionHandler extended to map
+      InvalidParameterException-driven parsing failures to HTTP 400, or a Tomcat connector setting
+      that rejects malformed parameters at the container level with a clean 400 instead of
+      propagating an unchecked exception.
+  expected_integration_points:
+    - >-
+      A shared, platform-wide exception mapping (candidate location - the root
+      com.nexora.hop.platformfoundation package, alongside SecurityHeadersFilter, since this is
+      cross-module servlet-container behavior, not owned by any single business module).
+
+remediation:
+  strategy: gradual_when_backend_web_infrastructure_is_next_touched
+  owner: backend_platform_team
+  target_backlog: next_backend_infrastructure_hardening_backlog_item_not_yet_scheduled
+  expiration: review_at_next_HOP_QA_ALIGN_or_release_readiness_backlog_item
+  recommended_trigger:
+    - Next backend web/servlet infrastructure change.
+    - Release-readiness hardening backlog item.
+  acceptance_criteria:
+    - Malformed empty-key query/form parameters resolve to a clean HTTP 400 across all
+      controllers, verified by a re-run of the OWASP ZAP API scan (QA-010 in the local runbook)
+      showing 0 "A Server Error response code was returned by the server" findings.

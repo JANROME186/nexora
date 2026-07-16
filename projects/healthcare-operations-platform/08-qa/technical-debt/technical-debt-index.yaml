@@ -61,22 +61,22 @@ item_path_pattern: 08-qa/technical-debt/<debt-id>-<short-name>.yaml
 entries:
   - id: TD-QA-001
     title: Automate DAST baseline scans for runnable web and API surfaces
-    status: open
+    status: closed
     risk_level: medium
     blocking: false
     source_backlog_item: MVP-MOD-002-QA-001
     affected_area: integrated_web_and_api_runtime
     file: 08-qa/technical-debt/TD-QA-001-dast-automation.yaml
-    remediation_strategy: gradual_when_affected_components_are_touched
+    remediation_strategy: closed_by_HOP_QA_ALIGN_004_zap_baseline_and_api_scans
   - id: TD-QA-002
     title: Upgrade Trivy scanner version in local and CI quality toolchain
-    status: open
+    status: closed
     risk_level: low
     blocking: false
     source_backlog_item: MVP-MOD-002-QA-001
     affected_area: vulnerability_secret_misconfiguration_scanning
     file: 08-qa/technical-debt/TD-QA-002-trivy-tool-upgrade.yaml
-    remediation_strategy: gradual_when_quality_toolchain_is_touched
+    remediation_strategy: closed_by_HOP_QA_ALIGN_004_trivy_upgraded_to_0_72_0
   - id: TD-BE-001
     title: Configure Mockito Java agent for future JDK test compatibility
     status: open
@@ -257,3 +257,21 @@ entries:
     affected_area: mobile_app_test_coverage
     file: 08-qa/technical-debt/TD-APP-002-mobile-coverage-80-target.yaml
     remediation_strategy: establish_baseline_then_improve_to_80_before_final_closure
+  - id: TD-FE-005
+    title: Content-Security-Policy and Cross-Origin-Embedder-Policy deferred to the production hosting layer
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: HOP-QA-ALIGN-004
+    affected_area: employee_portal_response_headers
+    file: 08-qa/technical-debt/TD-FE-005-production-hosting-security-headers-deferred.yaml
+    remediation_strategy: gradual_before_first_production_deployment_of_employee_portal
+  - id: TD-QA-004
+    title: Malformed empty-key query parameter causes an unhandled 500 on POST /api/platform/tenants
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: HOP-QA-ALIGN-004
+    affected_area: backend_servlet_parameter_parsing
+    file: 08-qa/technical-debt/TD-QA-004-malformed-query-parameter-unhandled-500.yaml
+    remediation_strategy: gradual_when_backend_web_infrastructure_is_next_touched

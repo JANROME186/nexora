@@ -2,8 +2,39 @@ artifact:
   id: HOP-QA-ALIGN-004-SECURITY-QUALITY
   type: security-quality-evidence
   backlog_item: HOP-QA-ALIGN-004
-  status: partially_passed_dast_open
+  status: passed
   created_date: 2026-07-15
+  updated_date: 2026-07-16
+  standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+
+open_source_first:
+  status: passed
+  proprietary_runtime_dependency_detected: false
+  new_dependencies_introduced: true
+  reviewed_stack:
+    - name: springdoc-openapi-starter-webmvc-api
+      version: 3.0.3
+      license: Apache-2.0
+      role: exposes GET /v3/api-docs so the backend's real OpenAPI document can be scanned by
+        OWASP ZAP; deliberately not the -ui variant to avoid bundling swagger-ui/DOMPurify
+    - name: jackson-databind / jackson-core (classic 2.x line)
+      version: 2.22.1
+      license: Apache-2.0
+      role: pinned via dependencyManagement to a patched version; pulled transitively by
+        io.swagger.core.v3:swagger-core-jakarta independently of Spring Boot 4's Jackson 3.x
+        jackson-bom
+    - name: jackson-annotations (classic 2.x line)
+      version: "2.22"
+      license: Apache-2.0
+      role: pinned alongside jackson-databind/jackson-core for consistency
+    - name: OWASP ZAP
+      version: stable (ghcr.io/zaproxy/zaproxy:stable)
+      license: Apache-2.0
+      role: DAST baseline scan (employee portal) and API scan (backend)
+    - name: Trivy
+      version: 0.72.0
+      license: Apache-2.0
+      role: vulnerability, secret and misconfiguration scan (upgraded from 0.69.2)
 
 checks:
   backend_dependency_vulnerability_scan_all_severities: passed
@@ -11,7 +42,13 @@ checks:
   filesystem_vulnerability_scan_all_severities: passed
   secret_scan: passed
   misconfiguration_scan: passed
-  dast_for_runnable_web_or_api_surfaces: open
+  dast_baseline_employee_portal: passed
+  dast_api_scan_backend: passed
+  backend_tests: passed
+  frontend_tests: passed
+  mobile_tests: passed
+  backend_coverage_no_regression: passed
+  frontend_coverage_no_regression: passed
 
 results:
   dependency_check_vulnerabilities: 0
@@ -19,11 +56,92 @@ results:
   trivy_vulnerabilities: 0
   trivy_secrets: 0
   trivy_misconfigurations: 0
+  zap_baseline_fail_new: 0
+  zap_baseline_warn_new: 4
+  zap_api_scan_fail_new: 0
+  zap_api_scan_warn_new: 1
+  backend_tests_run: 77
+  backend_tests_failed: 0
+  frontend_tests_run: 18
+  frontend_tests_failed: 0
+  mobile_tests_run: 8
+  mobile_tests_failed: 0
+  backend_line_coverage_percent: 66.43
+  frontend_line_coverage_percent: 72.89
 
-open_items:
-  - id: TD-QA-001
-    status: open
-    reason: OWASP ZAP DAST execution still required.
-  - id: TD-QA-002
-    status: open
-    reason: Scanner currency remains tracked even though current scan passes.
+vulnerabilities_found_and_fixed:
+  - id: CVE-2026-54515
+    component: jackson-databind 2.21.4
+    cvss: 5.3
+    disposition: fixed
+    fix: Pinned jackson-databind/jackson-core to 2.22.1 via dependencyManagement.
+  - id: CVE-2026-41238_41239_41240_49458_49459_49978
+    component: DOMPurify 3.3.2 (bundled inside springdoc-openapi-starter-webmvc-ui's swagger-ui assets)
+    cvss: up_to_6.9
+    disposition: fixed
+    fix: Switched to springdoc-openapi-starter-webmvc-api, which does not bundle swagger-ui.
+
+application_defects_found_and_fixed:
+  - id: HOP-QA-ALIGN-004-DEFECT-001
+    endpoint: POST /api/people/persons/index/rebuild
+    defect: >-
+      Unvalidated caller-supplied tenantId reused as audit_events.tenant_id (varchar(36));
+      an oversized value caused an unhandled DataIntegrityViolationException (HTTP 500).
+    fix: >-
+      PersonManagementService.rebuildIndex now validates TenantDirectory.tenantExists(tenant)
+      before proceeding, returning a clean 404 for a nonexistent tenant.
+    found_by: OWASP ZAP API scan
+  - id: HOP-QA-ALIGN-004-DEFECT-002
+    endpoint: POST /api/platform/tenants, POST /api/organization/laboratories, POST /api/organization/branches
+    defect: >-
+      No max-length validation on the name field, which maps to a varchar(180) column; an
+      oversized value caused the same class of unhandled DataIntegrityViolationException.
+    fix: >-
+      OrganizationManagementService now validates name length (<=180 chars) via a new
+      requiredNameText helper, returning a clean 400.
+    found_by: OWASP ZAP API scan
+  - id: HOP-QA-ALIGN-004-DEFECT-003
+    surface: backend (all endpoints), employee portal (all routes)
+    defect: Missing X-Content-Type-Options, Cross-Origin-Resource-Policy (backend); missing
+      X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy,
+      Cross-Origin-Opener-Policy, Cross-Origin-Resource-Policy (employee portal).
+    fix: New SecurityHeadersFilter (backend); new securityHeadersPlugin dev-server middleware in
+      vite.config.ts (employee portal).
+    found_by: OWASP ZAP baseline and API scans
+
+residual_findings_accepted_risk:
+  - id: TD-FE-005
+    finding: Content-Security-Policy and Cross-Origin-Embedder-Policy not set on the employee
+      portal dev server.
+    risk_level: medium_and_low
+    owner: frontend_platform_team
+    target_backlog: production_hosting_and_deployment_backlog_item_not_yet_scheduled
+    expiration: must_be_resolved_before_employee_portal_first_production_deployment
+  - id: TD-QA-004
+    finding: A malformed empty-key query/form parameter causes an unhandled 500 on
+      POST /api/platform/tenants (Tomcat parameter-parsing edge case, no information disclosure).
+    risk_level: low
+    owner: backend_platform_team
+    target_backlog: next_backend_infrastructure_hardening_backlog_item_not_yet_scheduled
+    expiration: review_at_next_HOP_QA_ALIGN_or_release_readiness_backlog_item
+
+technical_debt:
+  closed:
+    - TD-QA-001
+    - TD-QA-002
+  newly_registered:
+    - TD-FE-005
+    - TD-QA-004
+  unchanged_out_of_scope:
+    - TD-APP-002
+  blocking: []
+
+exceptions: []
+
+readiness:
+  security_quality_status: passed
+  ready_for_next_backlog_item: HOP-QA-ALIGN-005
+  next_required_focus:
+    - Message externalization and magic-string remediation baseline (HOP-QA-ALIGN-005).
+    - Close TD-FE-005 before the employee portal's first production deployment.
+    - Close TD-QA-004 at the next backend web-infrastructure touch.

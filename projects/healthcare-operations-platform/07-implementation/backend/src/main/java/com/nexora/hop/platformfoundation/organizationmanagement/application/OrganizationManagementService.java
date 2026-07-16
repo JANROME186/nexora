@@ -22,6 +22,7 @@ import com.nexora.hop.platformfoundation.organizationmanagement.domain.Tenant;
 public class OrganizationManagementService implements TenantDirectory, BranchDirectory {
 
     private static final String ACTIVE_STATUS = "active";
+    private static final int NAME_MAX_LENGTH = 180;
 
     private final OrganizationRepository repository;
     private final AuditRecorder auditRecorder;
@@ -44,7 +45,7 @@ public class OrganizationManagementService implements TenantDirectory, BranchDir
     }
 
     public Tenant createTenant(CreateTenantCommand command) {
-        String name = requiredText(command.name(), "Tenant name is required.");
+        String name = requiredNameText(command.name(), "Tenant name is required.");
         Instant now = Instant.now(clock);
         Tenant tenant = repository.saveTenant(new Tenant(newId(), name, ACTIVE_STATUS, now, now));
         recordAudit(tenant.tenantId(), "TenantCreated", "Tenant", tenant.tenantId(),
@@ -54,7 +55,7 @@ public class OrganizationManagementService implements TenantDirectory, BranchDir
 
     public Laboratory createLaboratory(CreateLaboratoryCommand command) {
         String tenantId = requiredText(command.tenantId(), "Tenant id is required.");
-        String name = requiredText(command.name(), "Laboratory name is required.");
+        String name = requiredNameText(command.name(), "Laboratory name is required.");
         requireTenant(tenantId);
 
         Instant now = Instant.now(clock);
@@ -67,7 +68,7 @@ public class OrganizationManagementService implements TenantDirectory, BranchDir
 
     public Branch createBranch(CreateBranchCommand command) {
         String laboratoryId = requiredText(command.laboratoryId(), "Laboratory id is required.");
-        String name = requiredText(command.name(), "Branch name is required.");
+        String name = requiredNameText(command.name(), "Branch name is required.");
         Laboratory laboratory = requireLaboratory(laboratoryId);
 
         Instant now = Instant.now(clock);
@@ -141,6 +142,21 @@ public class OrganizationManagementService implements TenantDirectory, BranchDir
             throw new InvalidOrganizationCommandException(message);
         }
         return value.trim();
+    }
+
+    /**
+     * organization.tenants/laboratories/branches.name are all {@code varchar(180)}; validating the
+     * bound here turns an oversized name into a clean 400 instead of an unhandled
+     * DataIntegrityViolationException surfacing as a 500 (found via OWASP ZAP DAST,
+     * HOP-QA-ALIGN-004).
+     */
+    private static String requiredNameText(String value, String message) {
+        String trimmed = requiredText(value, message);
+        if (trimmed.length() > NAME_MAX_LENGTH) {
+            throw new InvalidOrganizationCommandException(
+                    "Name must not exceed " + NAME_MAX_LENGTH + " characters.");
+        }
+        return trimmed;
     }
 
     private static String newId() {

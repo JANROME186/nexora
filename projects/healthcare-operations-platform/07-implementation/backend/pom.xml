@@ -20,6 +20,7 @@
     <properties>
         <java.version>21</java.version>
         <spring-modulith.version>2.1.0</spring-modulith.version>
+        <springdoc-openapi.version>3.0.3</springdoc-openapi.version>
         <postgresql.version>42.7.13</postgresql.version>
         <tomcat.version>11.0.24</tomcat.version>
         <log4j2.version>2.26.1</log4j2.version>
@@ -38,6 +39,8 @@
         <duplicate-finder-maven-plugin.version>2.0.1</duplicate-finder-maven-plugin.version>
         <revapi-maven-plugin.version>0.15.1</revapi-maven-plugin.version>
         <pitest-maven.version>1.17.4</pitest-maven.version>
+        <jackson-classic.version>2.22.1</jackson-classic.version>
+        <jackson-classic-annotations.version>2.22</jackson-classic-annotations.version>
         <argLine></argLine>
         <quality.failOnViolation>false</quality.failOnViolation>
     </properties>
@@ -50,6 +53,24 @@
                 <version>${spring-modulith.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
+            </dependency>
+            <!-- io.swagger.core.v3:swagger-core-jakarta (pulled by springdoc-openapi) depends on the
+                 classic Jackson 2.x line independently of Spring Boot's managed Jackson 3.x jackson-bom;
+                 pin it to a patched release (CVE-2026-54515 fixed in jackson-databind >= 2.21.5). -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson-classic.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson-classic.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson-classic-annotations.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -70,6 +91,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+            <version>${springdoc-openapi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.modulith</groupId>

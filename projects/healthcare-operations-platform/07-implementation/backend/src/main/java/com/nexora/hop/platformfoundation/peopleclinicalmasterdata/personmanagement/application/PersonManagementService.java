@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
+import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.doctormanagement.application.DoctorManagementService;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.doctormanagement.domain.Doctor;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagement.application.PatientManagementService;
@@ -44,6 +45,7 @@ public class PersonManagementService {
     private final DoctorManagementService doctorManagementService;
     private final PersonDuplicateDetectionEngine duplicateDetectionEngine;
     private final PersonMergeCoordinationRepository mergeCoordinationRepository;
+    private final TenantDirectory tenantDirectory;
     private final AuditRecorder auditRecorder;
     private final Clock clock;
 
@@ -53,9 +55,10 @@ public class PersonManagementService {
             DoctorManagementService doctorManagementService,
             PersonDuplicateDetectionEngine duplicateDetectionEngine,
             PersonMergeCoordinationRepository mergeCoordinationRepository,
+            TenantDirectory tenantDirectory,
             AuditRecorder auditRecorder) {
         this(patientManagementService, doctorManagementService, duplicateDetectionEngine,
-                mergeCoordinationRepository, auditRecorder, Clock.systemUTC());
+                mergeCoordinationRepository, tenantDirectory, auditRecorder, Clock.systemUTC());
     }
 
     PersonManagementService(
@@ -63,12 +66,14 @@ public class PersonManagementService {
             DoctorManagementService doctorManagementService,
             PersonDuplicateDetectionEngine duplicateDetectionEngine,
             PersonMergeCoordinationRepository mergeCoordinationRepository,
+            TenantDirectory tenantDirectory,
             AuditRecorder auditRecorder,
             Clock clock) {
         this.patientManagementService = patientManagementService;
         this.doctorManagementService = doctorManagementService;
         this.duplicateDetectionEngine = duplicateDetectionEngine;
         this.mergeCoordinationRepository = mergeCoordinationRepository;
+        this.tenantDirectory = tenantDirectory;
         this.auditRecorder = auditRecorder;
         this.clock = clock;
     }
@@ -120,9 +125,18 @@ public class PersonManagementService {
      * is therefore an idempotent confirmation that the live projection is consistent with the
      * current aggregate counts; it always succeeds and never diverges from the aggregates because
      * every query recomputes the projection directly from them.
+     * <p>
+     * Validates that {@code tenantId} refers to a real tenant before recording the confirmation
+     * event: {@code tenantId} is echoed into the audit event's {@code tenant_id} column, which is
+     * length-constrained to a UUID-sized value, so an unvalidated caller-supplied value could
+     * otherwise reach the database as an oversized string and surface as an unhandled 500 instead
+     * of a clean 404 (found via OWASP ZAP DAST, HOP-QA-ALIGN-004).
      */
     public PersonSearchIndexRebuildResult rebuildIndex(String tenantId) {
         String tenant = requiredText(tenantId, "Tenant id is required.");
+        if (!tenantDirectory.tenantExists(tenant)) {
+            throw new PeopleEntityNotFoundException("Tenant was not found.");
+        }
         int patientCount = patientManagementService.searchByNaturalKey(tenant, null, null, null).size();
         int doctorCount = doctorManagementService.searchByNaturalKey(tenant, null, null, null).size();
         auditRecorder.recordSystemEvent(tenant, "PersonSearchIndexRebuilt", "PersonSearchIndex", tenant,

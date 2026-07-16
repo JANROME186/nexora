@@ -4,7 +4,7 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `HOP-QA-ALIGN-004`.
+Current active backlog item: `HOP-QA-ALIGN-005`.
 
 Paused functional backlog item: `MVP-MOD-004-FE-001`.
 
@@ -218,18 +218,21 @@ cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-oper
 trivy fs --scanners vuln,secret,misconfig --exit-code 1 --no-progress --skip-dirs "backend/.m2,backend/target,employee-portal/node_modules,employee-portal/dist,mobile-app/node_modules" .
 ```
 
-OWASP ZAP DAST baseline for the employee portal, with infrastructure, backend and employee portal already running:
+OWASP ZAP DAST baseline for the employee portal, with infrastructure, backend and employee portal already running. On Docker Desktop with a WSL2 backend, `--network host` does not bridge to the
+Windows host, so use `--add-host` and target `host.docker.internal`; `vite.config.ts`'s
+`server.allowedHosts` must include `"host.docker.internal"` or Vite returns HTTP 403 to the scanner:
 
 ```powershell
 cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation
-docker run --rm --network host -v "${PWD}/../08-qa/security-quality/HOP-QA-ALIGN-004:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://localhost:5173 -r zap-employee-portal.html -J zap-employee-portal.json
+docker run --rm --add-host=host.docker.internal:host-gateway -v "${PWD}/../08-qa/security-quality/HOP-QA-ALIGN-004:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://host.docker.internal:5173 -r zap-employee-portal.html -J zap-employee-portal.json -m 2
 ```
 
-OWASP ZAP API scan for the backend, with infrastructure and backend already running:
+OWASP ZAP API scan for the backend, with infrastructure and backend already running. The backend
+must expose a live OpenAPI document at `/v3/api-docs` (via `springdoc-openapi-starter-webmvc-api`):
 
 ```powershell
 cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation
-docker run --rm --network host -v "${PWD}/../08-qa/security-quality/HOP-QA-ALIGN-004:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable zap-api-scan.py -t http://localhost:8080/v3/api-docs -f openapi -r zap-backend-api.html -J zap-backend-api.json
+docker run --rm --add-host=host.docker.internal:host-gateway -v "${PWD}/../08-qa/security-quality/HOP-QA-ALIGN-004:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable zap-api-scan.py -t http://host.docker.internal:8080/v3/api-docs -f openapi -r zap-backend-api.html -J zap-backend-api.json
 ```
 
 If Maven, Java, Node, npm, Docker, network access or audit endpoints are missing or blocked, request support and keep the current backlog item open. Do not replace mandatory executable gates with manual source review.
@@ -276,7 +279,10 @@ Mobile tests cannot find TypeScript or Vitest:
 ## Known Limitations
 
 - Mobile app is currently a renderer-agnostic TypeScript foundation, not a native runnable app.
-- DAST execution remains tracked as `TD-QA-001` and blocks `HOP-QA-ALIGN-004` until executed or formally blocked with owner-approved remediation.
+- Mobile line coverage measurement is blocked by the shared-toolchain reuse pattern described above; tracked as `TD-APP-002`.
+- DAST (employee portal baseline, backend API scan) executed successfully during `HOP-QA-ALIGN-004`; `TD-QA-001` is closed.
+- The employee portal dev server does not set `Content-Security-Policy` or `Cross-Origin-Embedder-Policy` (a production-strength policy would break Vite's HMR); tracked as `TD-FE-005`, must close before any production deployment.
+- A malformed empty-key query/form parameter causes an unhandled 500 on `POST /api/platform/tenants`; tracked as `TD-QA-004`.
 - Release supply-chain gates are configured, but release-policy hardening remains tracked as `TD-BE-004`.
 - Message externalization and magic-string inventory remains tracked as `TD-I18N-001` and `HOP-QA-ALIGN-005`.
 

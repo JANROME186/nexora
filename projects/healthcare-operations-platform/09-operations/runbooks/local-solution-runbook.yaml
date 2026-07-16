@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: HOP-QA-ALIGN-004
+  current_active_backlog_item: HOP-QA-ALIGN-005
   paused_functional_backlog_item: MVP-MOD-004-FE-001
   active_quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
   intended_audience:
@@ -257,7 +257,16 @@ quality_validation:
   - id: QA-009
     name: OWASP ZAP DAST baseline for employee portal
     working_directory: 07-implementation
-    command: docker run --rm --network host -v "${PWD}/../08-qa/security-quality/HOP-QA-ALIGN-004:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://localhost:5173 -r zap-employee-portal.html -J zap-employee-portal.json
+    command: >-
+      docker run --rm --add-host=host.docker.internal:host-gateway -v
+      "<repo>/08-qa/security-quality/HOP-QA-ALIGN-004:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable
+      zap-baseline.py -t http://host.docker.internal:5173 -r zap-employee-portal.html -J
+      zap-employee-portal.json -m 2
+    windows_docker_desktop_note: >-
+      --network host does not bridge to the Windows host under Docker Desktop's WSL2 backend; use
+      --add-host=host.docker.internal:host-gateway and target host.docker.internal instead of
+      localhost/127.0.0.1. vite.config.ts's server.allowedHosts must include
+      "host.docker.internal" or Vite returns HTTP 403 to the scanner.
     depends_on:
       - INF-001
       - BE-001
@@ -269,7 +278,12 @@ quality_validation:
   - id: QA-010
     name: OWASP ZAP DAST API scan for backend
     working_directory: 07-implementation
-    command: docker run --rm --network host -v "${PWD}/../08-qa/security-quality/HOP-QA-ALIGN-004:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable zap-api-scan.py -t http://localhost:8080/v3/api-docs -f openapi -r zap-backend-api.html -J zap-backend-api.json
+    command: >-
+      docker run --rm --add-host=host.docker.internal:host-gateway -v
+      "<repo>/08-qa/security-quality/HOP-QA-ALIGN-004:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable
+      zap-api-scan.py -t http://host.docker.internal:8080/v3/api-docs -f openapi -r
+      zap-backend-api.html -J zap-backend-api.json
+    windows_docker_desktop_note: Same --add-host / host.docker.internal requirement as QA-009.
     depends_on:
       - INF-001
       - BE-001
@@ -313,7 +327,23 @@ troubleshooting:
 
 known_limitations:
   - Mobile app is currently a renderer-agnostic TypeScript foundation, not a native runnable app.
-  - DAST execution remains tracked as technical debt TD-QA-001 and blocks HOP-QA-ALIGN-004 until executed or formally blocked with owner-approved remediation.
+  - >-
+    Mobile line coverage measurement is blocked because mobile-app reuses employee-portal's
+    installed vitest toolchain via a relative binary path, which does not resolve
+    @vitest/coverage-v8 as a bare module specifier from a sibling directory; tracked as TD-APP-002.
+  - >-
+    DAST (QA-009 employee portal baseline, QA-010 backend API scan) executed successfully during
+    HOP-QA-ALIGN-004; both closed TD-QA-001. On Docker Desktop with a WSL2 backend, ZAP containers
+    must use --add-host=host.docker.internal:host-gateway and target
+    http://host.docker.internal:<port> because --network host does not bridge to the Windows host.
+  - >-
+    The employee portal dev server does not set Content-Security-Policy or
+    Cross-Origin-Embedder-Policy (a production-strength policy would break Vite's eval-based HMR);
+    tracked as TD-FE-005, must close before any production deployment of the employee portal.
+  - >-
+    A malformed empty-key query/form parameter causes an unhandled 500 on
+    POST /api/platform/tenants (Tomcat parameter-parsing edge case, no information disclosure);
+    tracked as TD-QA-004.
   - Release supply-chain gates are configured but release-policy hardening remains tracked as TD-BE-004.
   - Message externalization and magic-string inventory remains tracked as TD-I18N-001 and HOP-QA-ALIGN-005.
 
