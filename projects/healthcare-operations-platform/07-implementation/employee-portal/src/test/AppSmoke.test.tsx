@@ -52,5 +52,14 @@ describe("Employee portal app smoke", () => {
 
     await user.click(screen.getByRole("button", { name: "Diagnostic Orders" }));
     expect(screen.getByRole("heading", { name: "Diagnostic Orders" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Cash Sessions" }));
+    expect(screen.getByRole("heading", { name: "Cash Sessions" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Sales" }));
+    expect(screen.getByRole("heading", { name: "Sales" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Billing Requests" }));
+    expect(screen.getByRole("heading", { name: "Billing Requests" })).toBeInTheDocument();
   });
 });

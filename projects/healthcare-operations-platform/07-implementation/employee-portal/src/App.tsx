@@ -13,6 +13,9 @@ import { DoctorsScreen } from "./components/screens/DoctorsScreen";
 import { PatientRegistrationsScreen } from "./components/screens/PatientRegistrationsScreen";
 import { ReceptionScreen } from "./components/screens/ReceptionScreen";
 import { DiagnosticOrdersScreen } from "./components/screens/DiagnosticOrdersScreen";
+import { CashSessionsScreen } from "./components/screens/CashSessionsScreen";
+import { SalesScreen } from "./components/screens/SalesScreen";
+import { BillingRequestsScreen } from "./components/screens/BillingRequestsScreen";
 import { AdminScopeProvider } from "./state/AdminScopeContext";
 
 function renderScreen(screen: ScreenKey) {
@@ -43,6 +46,12 @@ function renderScreen(screen: ScreenKey) {
       return <ReceptionScreen />;
     case "diagnostic-orders":
       return <DiagnosticOrdersScreen />;
+    case "cash-sessions":
+      return <CashSessionsScreen />;
+    case "sales":
+      return <SalesScreen />;
+    case "billing-requests":
+      return <BillingRequestsScreen />;
     default:
       return null;
   }

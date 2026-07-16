@@ -13,7 +13,10 @@ export type ScreenKey =
   | "doctors"
   | "patient-registrations"
   | "reception"
-  | "diagnostic-orders";
+  | "diagnostic-orders"
+  | "cash-sessions"
+  | "sales"
+  | "billing-requests";
 
 interface ScreenTab {
   key: ScreenKey;
@@ -34,6 +37,9 @@ const TABS: ScreenTab[] = [
   { key: "patient-registrations", label: "Patient Registrations" },
   { key: "reception", label: "Front Desk" },
   { key: "diagnostic-orders", label: "Diagnostic Orders" },
+  { key: "cash-sessions", label: "Cash Sessions" },
+  { key: "sales", label: "Sales" },
+  { key: "billing-requests", label: "Billing Requests" },
 ];
 
 interface AppShellProps {

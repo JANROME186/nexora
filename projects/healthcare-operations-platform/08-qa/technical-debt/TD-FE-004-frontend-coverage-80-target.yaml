@@ -2,9 +2,10 @@ artifact:
   id: TD-FE-004
   type: technical-debt-item
   name: Raise employee portal line coverage to the 80 percent final-closure target
-  version: 1.0.0
-  status: open
+  version: 2.0.0
+  status: closed
   created_date: 2026-07-15
+  closed_date: 2026-07-16
 
 source:
   discovered_during_backlog_item: HOP-QA-ALIGN-003
@@ -24,25 +25,28 @@ classification:
     backlog item as long as coverage does not decrease and improvement is planned.
 
 current_state:
-  current_line_coverage_percent: 76.51
+  current_line_coverage_percent: 80.57
   previous_iteration_minimum_line_coverage_percent: 76.51
   final_project_closure_target_percent: 80
-  issue: Employee portal line coverage must be raised to at least 80% before HOP can be marked commercially complete or GA-ready.
+  issue: >
+    Closed by MVP-MOD-005-FE-001. Vitest v8 coverage now measures 80.57% statements/lines
+    (94 tests across 17 files), reaching the 80% final-closure target while covering
+    CashSessionsScreen, SalesScreen, BillingRequestsScreen and cashSalesApi.ts.
 
 target_state:
   line_coverage_percent: 80
-  rule: Coverage must never drop below 76.51% in the next frontend-touching iteration; once improved, the new value becomes the next lower bound.
+  rule: >
+    Achieved. Coverage must never drop below 80.57% in a future frontend-touching iteration; if a
+    later change drops it, re-open this item or register a new coverage debt item with the lower
+    measured baseline.
 
 remediation:
-  strategy: gradual_coverage_increase_without_dropping_below_76_51
+  strategy: closed_by_MVP_MOD_005_FE_001_new_screen_and_api_test_coverage
   owner: frontend_platform_team
-  target_backlog: next_employee_portal_code_changing_backlog_item
+  target_backlog: MVP-MOD-005-FE-001
   priority: P1
-  recommended_trigger:
-    - next employee portal code-changing backlog item
-    - next frontend-touching backlog item
-    - module closeout
-    - release readiness
+  closed_by: MVP-MOD-005-FE-001
+  closure_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-FE-001-validation.yaml
   acceptance_criteria:
     - Employee portal coverage is measured in every frontend-touching iteration.
     - Coverage does not drop below the previous measured baseline.

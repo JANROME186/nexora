@@ -11,4 +11,7 @@ export const MESSAGES = {
   unexpectedError: "Unexpected error. Please try again.",
   selectReceptionVisitFirst: "Select a reception visit first.",
   selectOrderFirst: "Select a diagnostic order first.",
+  selectCashSessionFirst: "Select a cash session first.",
+  selectSaleFirst: "Select a sale first.",
+  selectBillingRequestFirst: "Select a billing request first.",
 } as const;

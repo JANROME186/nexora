@@ -19,7 +19,7 @@ product:
     completed_module: HOP-QUALITY-ALIGNMENT Enterprise Quality Alignment (HOP-QA-ALIGN-001 through HOP-QA-ALIGN-CLOSEOUT, all closed)
     completed_status: closed
     active_module: MVP-MOD-005 Cashier and Billing Request
-    active_backlog_item: MVP-MOD-005-FE-001
+    active_backlog_item: MVP-MOD-005-QA-001
 
 source_inputs:
   framework:
@@ -442,9 +442,10 @@ modules:
         status: closed
       - id: MVP-MOD-005-FE-001
         name: Compile cashier and billing request UI outputs
-        status: next
+        status: closed
       - id: MVP-MOD-005-QA-001
         name: Financial audit and reconciliation evidence
+        status: next
       - id: MVP-MOD-005-CLOSEOUT
         name: Module closeout and registry update
     acceptance_summary:

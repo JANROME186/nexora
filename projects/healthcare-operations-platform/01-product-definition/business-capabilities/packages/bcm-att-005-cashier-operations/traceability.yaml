@@ -2,8 +2,8 @@ artifact:
   id: HOP-TRACE-BCM-ATT-005
   type: traceability
   name: Cashier Operations Traceability
-  version: 0.1.0
-  status: custom_rules_implemented
+  version: 0.2.0
+  status: ui_compiled
   classification: editable_model
   capability: BCM-ATT-005
 
@@ -38,5 +38,10 @@ implementation_trace:
   qa_evidence_be_002: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-002-validation.yaml
   security_quality_evidence_be_002: 08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.yaml
   public_frontdesk_source_port: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/frontdeskcaredelivery/application/FrontDeskSaleSourcePort.java
+  employee_portal_screens:
+    - 07-implementation/employee-portal/src/components/screens/CashSessionsScreen.tsx
+    - 07-implementation/employee-portal/src/components/screens/SalesScreen.tsx
+  qa_evidence_fe_001: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-FE-001-validation.yaml
+  security_quality_evidence_fe_001: 08-qa/security-quality/MVP-MOD-005-FE-001/security-quality-evidence.yaml
   current_backlog_item_status: closed
-  next_backlog_item: MVP-MOD-005-FE-001
+  next_backlog_item: MVP-MOD-005-QA-001

@@ -8,6 +8,7 @@ import {
   listDiagnosticOrders,
   priceDiagnosticOrder,
 } from "../../api/frontDeskApi";
+import { formatMoney } from "../../api/money";
 import type { DiagnosticOrder, OrderLineRequest } from "../../api/types";
 import { MESSAGES } from "../../i18n/messages";
 import { useAdminScope } from "../../state/AdminScopeContext";
@@ -20,11 +21,6 @@ const MIN_CANCELLATION_OVERRIDE_JUSTIFICATION_LENGTH = 15;
 
 function orderStatusClass(status: string) {
   return `catalog-status catalog-status--${status.toLowerCase()}`;
-}
-
-function formatMoney(money?: { currency: string; amount: number }) {
-  if (!money) return "—";
-  return `${money.currency} ${money.amount.toFixed(2)}`;
 }
 
 function newLine(): OrderLineRequest {

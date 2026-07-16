@@ -4,15 +4,18 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `MVP-MOD-005-FE-001`.
+Current active backlog item: `MVP-MOD-005-QA-001`.
 
 HOP Enterprise Quality Alignment (`HOP-QA-ALIGN-001` through `HOP-QA-ALIGN-CLOSEOUT`) is closed.
 
-Paused functional backlog item: none — `MVP-MOD-005-BE-002` is closed; `MVP-MOD-005-FE-001` is active.
+Paused functional backlog item: none — `MVP-MOD-005-FE-001` is closed; `MVP-MOD-005-QA-001` is active.
 
 ## Cashier And Billing Request Smoke
 
 For `MVP-MOD-005-BE-002`, create an accepted diagnostic order or accepted quotation, create a sale through `POST /api/revenue/cashier/sales`, open a cash session, register payment, verify the sale totals, close the cash session, create a billing request from the paid sale, then exercise billing submit/retry/cancel through the provider-agnostic local deterministic fiscal adapter boundary.
+
+For `MVP-MOD-005-FE-001`, use the employee portal's Cash Sessions, Sales and Billing Requests tabs
+to drive the same flow end to end from the UI instead of raw HTTP calls.
 
 Quality alignment backlog: `06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml`.
 

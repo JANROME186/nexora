@@ -816,3 +816,156 @@ export interface CancelOrderRequest {
   reasonCode: string;
   overrideJustification?: string;
 }
+
+// -- Cashier Operations and Billing Request (MVP-MOD-005: BCM-ATT-005, BCM-ATT-008) ---------------
+
+export type CashSessionStatus = "open" | "closed";
+
+export interface CashSession {
+  sessionId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  openedBy: string;
+  openingAmount: Money;
+  expectedAmount: Money;
+  countedAmount?: Money;
+  varianceAmount?: Money;
+  varianceReason?: string;
+  status: CashSessionStatus | string;
+  openedAt?: string;
+  closedAt?: string;
+}
+
+export interface OpenCashSessionRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  openedBy: string;
+  openingAmount: number;
+  currency?: string;
+}
+
+export interface CloseCashSessionRequest {
+  countedAmount: number;
+  currency?: string;
+  varianceReason?: string;
+}
+
+export interface SaleTotals {
+  subtotalAmount: Money;
+  discountAmount: Money;
+  totalAmount: Money;
+  paidAmount: Money;
+  outstandingAmount: Money;
+}
+
+export interface SaleLine {
+  saleLineId: string;
+  saleId: string;
+  catalogItemId: string;
+  catalogItemKind: string;
+  descriptionSnapshot: string;
+  quantity: number;
+  unitAmount: Money;
+  lineTotal: Money;
+}
+
+export interface PaymentAllocation {
+  paymentId: string;
+  saleId: string;
+  sessionId?: string;
+  amount: Money;
+  method: string;
+  reference?: string;
+  registeredBy: string;
+  registeredAt?: string;
+}
+
+export type SaleStatus = "payable" | "partially_paid" | "paid" | "cancelled" | "refunded";
+export type SaleSourceType = "diagnostic_order" | "quotation";
+export type PaymentMethod = "cash" | "card" | "transfer" | "wallet" | "mixed";
+
+export interface Sale {
+  saleId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  patientId: string;
+  sourceType: SaleSourceType | string;
+  sourceReferenceId: string;
+  totals: SaleTotals;
+  status: SaleStatus | string;
+  cancellationReason?: string;
+  actorId?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateSaleRequest {
+  tenantId: string;
+  sourceType: SaleSourceType | string;
+  sourceReferenceId: string;
+  actorId?: string;
+}
+
+export interface RegisterPaymentRequest {
+  amount: number;
+  currency?: string;
+  method: PaymentMethod | string;
+  sessionId?: string;
+  reference?: string;
+  registeredBy: string;
+}
+
+export interface CancelSaleRequest {
+  reasonCode: string;
+}
+
+export type BillingRequestStatus = "requested" | "submitted" | "issued" | "failed" | "cancelled";
+
+export interface FiscalProfileSnapshot {
+  legalName: string;
+  taxIdentifier: string;
+  fiscalAddress: string;
+  fiscalRegime?: string;
+  capturedAt: string;
+}
+
+export interface TaxLine {
+  taxLineId: string;
+  invoiceRequestId: string;
+  baseAmount: Money;
+  taxCode: string;
+  taxRate: number;
+  taxAmount: Money;
+}
+
+export interface InvoiceRequest {
+  invoiceRequestId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  saleId: string;
+  patientId: string;
+  fiscalProfileSnapshot: FiscalProfileSnapshot;
+  status: BillingRequestStatus | string;
+  adapterCorrelationId?: string;
+  adapterResponseSnapshot?: string;
+  actorId?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateBillingRequestRequest {
+  saleId: string;
+  legalName: string;
+  taxIdentifier: string;
+  fiscalAddress: string;
+  fiscalRegime?: string;
+  taxCode?: string;
+  taxRate?: number;
+  actorId?: string;
+}

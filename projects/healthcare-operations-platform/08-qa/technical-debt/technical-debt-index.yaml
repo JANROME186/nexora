@@ -38,9 +38,9 @@ policy:
         next_iteration_minimum_line_coverage_percent: 67.47
         final_closure_target_percent: 80
       frontend_typescript_web:
-        current_line_coverage_percent: 76.51
-        source_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-FE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 76.51
+        current_line_coverage_percent: 80.57
+        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-FE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 80.57
         final_closure_target_percent: 80
       mobile_typescript_foundation:
         current_line_coverage_percent: not_measured
@@ -241,13 +241,13 @@ entries:
     remediation_strategy: completed_by_HOP_QA_ALIGN_005_inventory_strategy_and_safe_remediation
   - id: TD-FE-004
     title: Raise employee portal line coverage to the 80 percent final-closure target
-    status: open
+    status: closed
     risk_level: medium
     blocking: false
     source_backlog_item: HOP-QA-ALIGN-003
     affected_area: employee_portal_test_coverage
     file: 08-qa/technical-debt/TD-FE-004-frontend-coverage-80-target.yaml
-    remediation_strategy: gradual_coverage_increase_without_dropping_below_76_51
+    remediation_strategy: closed_by_MVP_MOD_005_FE_001_new_screen_and_api_test_coverage_80_57_percent
   - id: TD-APP-002
     title: Establish mobile coverage measurement and raise it to the 80 percent final-closure target
     status: open

@@ -2,8 +2,8 @@ artifact:
   id: HOP-TRACE-BCM-ATT-008
   type: traceability
   name: Billing Request Management Traceability
-  version: 0.1.0
-  status: custom_rules_implemented
+  version: 0.2.0
+  status: ui_compiled
   classification: editable_model
   capability: BCM-ATT-008
 
@@ -38,5 +38,9 @@ implementation_trace:
   security_quality_evidence_be_002: 08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.yaml
   fiscal_adapter_port: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/cashsales/billingrequestmanagement/domain/FiscalAdapterPort.java
   local_deterministic_adapter: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/cashsales/billingrequestmanagement/adapter/out/fiscal/LocalDeterministicFiscalAdapter.java
+  employee_portal_screens:
+    - 07-implementation/employee-portal/src/components/screens/BillingRequestsScreen.tsx
+  qa_evidence_fe_001: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-FE-001-validation.yaml
+  security_quality_evidence_fe_001: 08-qa/security-quality/MVP-MOD-005-FE-001/security-quality-evidence.yaml
   current_backlog_item_status: closed
-  next_backlog_item: MVP-MOD-005-FE-001
+  next_backlog_item: MVP-MOD-005-QA-001
