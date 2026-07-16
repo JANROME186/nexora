@@ -16,11 +16,10 @@ product:
   commercial_name: Nexora Healthcare Operations Platform
   company: Nexora
   current_baseline:
-    completed_module: MVP-MOD-004-BE-002 Front Desk and Care Delivery custom rules
-    completed_status: closed_before_enterprise_quality_alignment
-    active_blocking_module: HOP-QUALITY-ALIGNMENT Enterprise Quality Alignment
-    paused_next_module: MVP-MOD-004 Front Desk and Care Delivery
-    paused_next_backlog_item: MVP-MOD-004-FE-001
+    completed_module: HOP-QUALITY-ALIGNMENT Enterprise Quality Alignment (HOP-QA-ALIGN-001 through HOP-QA-ALIGN-CLOSEOUT, all closed)
+    completed_status: closed
+    active_module: MVP-MOD-004 Front Desk and Care Delivery
+    active_backlog_item: MVP-MOD-004-FE-001
 
 source_inputs:
   framework:
@@ -246,14 +245,15 @@ modules:
     name: Enterprise Quality Alignment
     release: REL-001
     priority: 29
-    status: active_blocking
+    status: closed
     source: framework_quality_alignment
     objective: Bring HOP up to the updated Nexora enterprise quality framework before continuing functional development.
     depends_on:
       - MVP-MOD-004-BE-002
-    resumes_after_closeout:
+    resumed_after_closeout:
       module: MVP-MOD-004
       backlog_item: MVP-MOD-004-FE-001
+      closeout_evidence: ../../08-qa/qa/quality-alignment/HOP-QA-ALIGN-CLOSEOUT.yaml
     capabilities: []
     product_surfaces:
       backend: quality_gate_required
@@ -284,9 +284,9 @@ modules:
         status: closed
       - id: HOP-QA-ALIGN-CLOSEOUT
         name: Close HOP enterprise quality alignment and resume MVP-MOD-004-FE-001
-        status: pending
+        status: closed
     acceptance_summary:
-      - Functional development remains paused until quality alignment closeout passes.
+      - Functional development resumed after quality alignment closeout passed.
       - Backend, frontend, mobile and runtime quality baselines are executable or have immediate accepted remediation.
       - All-severity vulnerability, DAST and message externalization evidence exists.
 
@@ -374,7 +374,7 @@ modules:
     name: Front Desk and Care Delivery
     release: REL-001
     priority: 30
-    status: planned
+    status: in_progress
     source: mvp_framework
     objective: Support appointments, reception, admission, quotations and diagnostic order intake.
     depends_on:

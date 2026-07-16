@@ -2,9 +2,10 @@ artifact:
   id: TD-QA-001
   type: technical-debt-item
   name: Automate DAST baseline scans for runnable web and API surfaces
-  version: 1.0.0
-  status: open
+  version: 2.0.0
+  status: closed
   created_date: 2026-07-09
+  updated_date: 2026-07-16
 
 source:
   discovered_during_backlog_item: MVP-MOD-002-QA-001
@@ -15,11 +16,7 @@ classification:
   category: quality_tooling
   affected_area: integrated_web_and_api_runtime
   risk_level: medium
-  blocking: true
-  reason_blocking: >
-    HOP-QA-ALIGN-004 requires DAST against runnable backend and employee portal
-    surfaces before functional development can resume. Manual source review or
-    smoke testing cannot replace this executable gate.
+  blocking: false
 
 current_state:
   issue: OWASP ZAP DAST has not yet been executed against the current local API/UI runtime.
@@ -50,4 +47,12 @@ remediation:
   latest_evidence:
     backlog_item: HOP-QA-ALIGN-004
     evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-004-validation.yaml
-    status: open_pending_dast
+    status: closed
+
+closure:
+  closed_by_backlog_item: HOP-QA-ALIGN-004
+  closure_note: >-
+    OWASP ZAP baseline scan (employee portal) and API scan (backend) both executed successfully
+    with 0 FAIL-NEW against the running local stack. DAST is now repeatable via the commands
+    documented in 09-operations/runbooks/local-solution-runbook.yaml. See
+    08-qa/qa/quality-alignment/HOP-QA-ALIGN-004-validation.yaml for full evidence.

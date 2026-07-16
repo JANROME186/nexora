@@ -20,8 +20,14 @@ decision:
     - P0 minimum enterprise baseline is satisfied for the current changed scope.
     - P1 gaps are registered or updated as technical debt with target backlog and acceptance criteria.
     - P2 items are documented as contextual/desirable and do not block MVP-MOD-004-FE-001.
-  current_blocking_backlog: HOP-QA-ALIGN-001
-  paused_functional_backlog: MVP-MOD-004-FE-001
+  current_blocking_backlog_at_time_of_writing: HOP-QA-ALIGN-001
+  current_blocking_backlog: none
+  resolution: >-
+    HOP-QA-ALIGN-001 through HOP-QA-ALIGN-006 are closed and HOP-QA-ALIGN-CLOSEOUT verified all
+    six must_be_brought_to_p0_now practices below are satisfied. See
+    08-qa/qa/quality-alignment/HOP-QA-ALIGN-CLOSEOUT.yaml for full closeout evidence.
+  paused_functional_backlog_at_time_of_writing: MVP-MOD-004-FE-001
+  paused_functional_backlog: null
 
 hop_p0_minimum_to_satisfy_before_resuming_mvp_mod_004_fe_001:
   architecture:

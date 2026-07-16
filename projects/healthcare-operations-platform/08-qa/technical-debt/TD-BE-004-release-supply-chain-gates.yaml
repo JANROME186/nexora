@@ -45,6 +45,9 @@ target_state:
 
 remediation:
   strategy: gradual_release_policy_hardening_before_ga
+  owner: backend_platform_team
+  target_backlog: first_release_candidate_preparation_backlog_item_not_yet_scheduled
+  priority: P1
   recommended_trigger:
     - first release-candidate preparation
     - release readiness gate

@@ -43,6 +43,9 @@ target_state:
 
 remediation:
   strategy: gradual_when_backend_test_infrastructure_is_touched
+  owner: backend_platform_team
+  target_backlog: next_backend_touching_backlog_item_or_module_closeout
+  priority: P1
   recommended_trigger:
     - next backend backlog item that adds or changes backend tests
     - module closeout requiring aggregate backend coverage

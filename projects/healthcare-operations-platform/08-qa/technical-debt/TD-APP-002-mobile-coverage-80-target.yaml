@@ -34,6 +34,9 @@ target_state:
 
 remediation:
   strategy: establish_baseline_then_improve_to_80_before_final_closure
+  owner: mobile_platform_team
+  target_backlog: first_mobile_renderer_implementation_backlog_item_not_yet_scheduled
+  priority: P1
   recommended_trigger:
     - first mobile renderer implementation backlog item
     - mobile foundation expansion

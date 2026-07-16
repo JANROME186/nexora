@@ -35,6 +35,9 @@ target_state:
 
 remediation:
   strategy: gradual_coverage_increase_without_dropping_below_72_89
+  owner: frontend_platform_team
+  target_backlog: next_employee_portal_code_changing_backlog_item_including_mvp_mod_004_fe_001
+  priority: P1
   recommended_trigger:
     - next employee portal code-changing backlog item
     - MVP-MOD-004-FE-001

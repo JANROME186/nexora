@@ -49,6 +49,9 @@ target_state:
 
 remediation:
   strategy: gradual_when_backend_code_or_quality_toolchain_is_touched
+  owner: backend_platform_team
+  target_backlog: next_backend_code_changing_backlog_item_or_release_readiness_gate
+  priority: P1
   recommended_trigger:
     - next backend code-changing backlog item that touches shared backend infrastructure
     - backend quality hardening iteration

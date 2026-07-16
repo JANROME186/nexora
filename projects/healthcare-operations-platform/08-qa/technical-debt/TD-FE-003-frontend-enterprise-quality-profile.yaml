@@ -47,6 +47,9 @@ target_state:
 
 remediation:
   strategy: immediate_quality_alignment_before_mvp_mod_004_fe_001
+  owner: frontend_platform_team
+  target_backlog: next_frontend_touching_backlog_item_including_mvp_mod_004_fe_001
+  priority: P1
   recommended_trigger:
     - HOP-QA-ALIGN-003
   acceptance_criteria:
