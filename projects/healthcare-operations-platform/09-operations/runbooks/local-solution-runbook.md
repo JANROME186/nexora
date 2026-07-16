@@ -4,11 +4,11 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `MVP-MOD-005-QA-001`.
+Current active backlog item: `MVP-MOD-005-CLOSEOUT`.
 
 HOP Enterprise Quality Alignment (`HOP-QA-ALIGN-001` through `HOP-QA-ALIGN-CLOSEOUT`) is closed.
 
-Paused functional backlog item: none — `MVP-MOD-005-FE-001` is closed; `MVP-MOD-005-QA-001` is active.
+Paused functional backlog item: none — `MVP-MOD-005-QA-001` is closed; `MVP-MOD-005-CLOSEOUT` is active.
 
 ## Cashier And Billing Request Smoke
 
@@ -183,6 +183,27 @@ Expected result:
    action shows a loading, success or error banner and destructive actions (abandon, cancel)
    require an explicit confirmation dialog. Appointment Scheduling, Admission Management and
    Quotation Management screens remain tracked as `TD-FE-006`.
+8. Cashier and Billing Request backend baseline (`MVP-MOD-005-BE-001`): create an accepted
+   diagnostic order or accepted quotation, then `POST /api/revenue/cashier/sales` to create a
+   payable sale. Open a cash session with `POST /api/revenue/cashier/sessions`, register a cash or
+   card payment with `POST /api/revenue/cashier/sales/{saleId}/payments`, verify
+   `GET /api/revenue/cashier/sales/{saleId}` shows `partially_paid` or `paid` totals, and close the
+   session with `POST /api/revenue/cashier/sessions/{sessionId}/close`. After a sale is paid,
+   `POST /api/revenue/billing-requests` creates an invoice request and
+   `GET /api/revenue/billing-requests/{invoiceRequestId}/tax-lines` returns tax lines; submit,
+   retry and cancel execute the provider-agnostic local deterministic fiscal adapter boundary
+   (`MVP-MOD-005-BE-002`).
+9. With a tenant, laboratory and branch selected, open the three new Cashier and Billing Request
+   tabs (`MVP-MOD-005-FE-001`): "Cash Sessions" (open a session, list sessions, close a session with
+   a counted amount — a counted amount differing from the expected amount with no variance reason
+   surfaces `CASH_VARIANCE_REASON_REQUIRED`), "Sales" (create a sale from an accepted diagnostic
+   order or accepted quotation, view lines/totals/outstanding balance/payment status, register a
+   payment — a payment above the outstanding balance surfaces `PAYMENT_EXCEEDS_OUTSTANDING_BALANCE`
+   — and cancel a non-paid sale; a paid sale shows a hint to create its billing request) and
+   "Billing Requests" (create a billing request from a paid sale's id — a billing request for a
+   sale that is not yet paid surfaces `BILLING_SALE_REQUIRED` — view tax lines, and execute
+   submit/retry/cancel against the fiscal adapter boundary). Every action shows a loading, success
+   or error banner and financial/destructive actions require an explicit confirmation dialog.
 
 ## Quality Validation
 

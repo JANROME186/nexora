@@ -33,9 +33,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 67.47
-        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-002-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 67.47
+        current_line_coverage_percent: 68.66
+        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 68.66
         final_closure_target_percent: 80
       frontend_typescript_web:
         current_line_coverage_percent: 80.57
@@ -79,13 +79,13 @@ entries:
     remediation_strategy: closed_by_HOP_QA_ALIGN_004_trivy_upgraded_to_0_72_0
   - id: TD-BE-001
     title: Configure Mockito Java agent for future JDK test compatibility
-    status: open
+    status: closed
     risk_level: low
     blocking: false
     source_backlog_item: MVP-MOD-002-QA-001
     affected_area: backend_test_infrastructure
     file: 08-qa/technical-debt/TD-BE-001-mockito-java-agent.yaml
-    remediation_strategy: gradual_when_backend_test_infrastructure_is_touched
+    remediation_strategy: closed_by_MVP_MOD_005_QA_001_mockito_javaagent_configuration
   - id: TD-BE-002
     title: Configure backend Java/Maven static analysis and SAST toolchain
     status: materially_reduced
@@ -103,7 +103,7 @@ entries:
     source_backlog_item: MVP-MOD-002-CLOSEOUT
     affected_area: backend_test_coverage
     file: 08-qa/technical-debt/TD-BE-003-backend-coverage-gate.yaml
-    remediation_strategy: gradual_coverage_increase_when_backend_tests_are_touched
+    remediation_strategy: gradual_coverage_increase_when_backend_tests_are_touched_now_at_68_66_percent
   - id: TD-BE-004
     title: Add backend release readiness supply-chain gates (SBOM, license, build rules)
     status: materially_reduced

@@ -223,7 +223,7 @@ validation_commands:
 
 next_backlog_item:
   module_id: MVP-MOD-005
-  backlog_item_id: MVP-MOD-005-QA-001
-  name: Financial audit and reconciliation evidence
+  backlog_item_id: MVP-MOD-005-CLOSEOUT
+  name: Module closeout and registry update
   expected_folder: ../../08-qa/
   paused_functional_backlog_item: null

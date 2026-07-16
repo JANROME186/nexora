@@ -1,8 +1,8 @@
 project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
-repository_version: 0.92.0
-current_phase: MVP-MOD-005 Cashier and Billing Request (MVP-MOD-005-FE-001 Closed, MVP-MOD-005-QA-001 Ready)
+repository_version: 0.93.0
+current_phase: MVP-MOD-005 Cashier and Billing Request (MVP-MOD-005-QA-001 Closed, MVP-MOD-005-CLOSEOUT Ready)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -124,8 +124,18 @@ completed_deliverables:
     boundary; a pre-existing uncommitted draft's Money-typed fields and status literals were
     corrected against the real backend contract before reuse; TD-FE-004 closed, frontend coverage
     76.51% -> 80.57%, reaching the 80% final-closure target)
+  - MVP-MOD-005-QA-001 financial audit and reconciliation evidence (integrated validation of cash
+    session open/close and variance handling, sale creation from an accepted order or quotation,
+    payment allocation and its outstanding-balance guard, sale cancellation, billing request
+    creation from a paid sale, tax lines, adapter submit/retry/cancel including simulated
+    failure/retry, audit-event traceability confirmed via a live /api/audit/events query, and
+    Spring Modulith-verified module-boundary purity; OWASP ZAP API scan against the backend
+    OpenAPI surface deferred by MVP-MOD-005-BE-002 executed with 0 FAIL/0 WARN/118 PASS; full local
+    stack started, validated and stopped using only runbook-documented commands; TD-BE-001 closed,
+    TD-BE-003 materially advanced, backend coverage 67.47% -> 68.66%, frontend coverage 80.57% ->
+    80.66%, no regression on either stack)
 next_deliverables:
-  - MVP-MOD-005 financial audit and reconciliation evidence (MVP-MOD-005-QA-001)
+  - MVP-MOD-005 module closeout and registry update (MVP-MOD-005-CLOSEOUT)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -140,7 +150,7 @@ development_readiness:
   status: ready
   ready_to_start_module: MVP-MOD-005
   in_progress_module: MVP-MOD-005
-  next_backlog_item: MVP-MOD-005-QA-001
+  next_backlog_item: MVP-MOD-005-CLOSEOUT
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -184,15 +194,15 @@ development_readiness:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 67.47
-        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-002-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 67.47
+        current_line_coverage_percent: 68.66
+        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 68.66
         final_closure_target_percent: 80
         tracked_by: TD-BE-003
       frontend_typescript_web:
-        current_line_coverage_percent: 80.57
-        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-FE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 80.57
+        current_line_coverage_percent: 80.66
+        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 80.66
         final_closure_target_percent: 80
         tracked_by: TD-FE-004 (closed; final-closure target reached)
       mobile_typescript_foundation:
@@ -210,7 +220,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-005
-  current_backlog_item: MVP-MOD-005-QA-001
+  current_backlog_item: MVP-MOD-005-CLOSEOUT
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -250,36 +260,48 @@ implementation_progress:
     - MVP-MOD-005-BE-001
     - MVP-MOD-005-BE-002
     - MVP-MOD-005-FE-001
+    - MVP-MOD-005-QA-001
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-005-QA-001
     - MVP-MOD-005-CLOSEOUT
   latest_validation:
-    backlog_item_id: MVP-MOD-005-FE-001
+    backlog_item_id: MVP-MOD-005-QA-001
     command: >
-      Employee portal cashier and billing request UI validation with npm typecheck, lint, vitest
-      coverage, build, jscpd duplication, prettier format check, license check, npm audit and an
-      OWASP ZAP baseline DAST scan against the running dev server.
-    working_directory: projects/healthcare-operations-platform/07-implementation/employee-portal
+      Integrated financial audit and reconciliation validation: focused and full backend test
+      suites, backend quality profile, local PostgreSQL tests, OWASP Dependency-Check, Trivy
+      (backend and integrated), frontend typecheck/test/coverage/build/lint/duplication/format/
+      license/audit, a full local runtime walkthrough (Docker Compose, backend, employee portal)
+      and OWASP ZAP API scan against the backend OpenAPI surface plus ZAP baseline against the
+      employee portal.
+    working_directory: projects/healthcare-operations-platform
     status: passed
-    tests_run: "33 frontend tests across 17 files (up from 24 tests / 13 files)"
+    tests_run: "105 backend tests (26 focused CashSalesApiTest/BillingRequestAdapterUnitTest, up from 25) and 33 frontend tests across 17 files"
     failures: 0
     errors: 0
-    skipped: 0
+    skipped: 8
     additional_checks:
       - >-
-        Frontend line coverage increased from 76.51% to 80.57%, reaching the 80% final-closure
-        target for this stack; TD-FE-004 closed.
+        Backend line coverage increased from 67.47% to 68.66%; frontend line coverage increased
+        from 80.57% to 80.66%; no regression on either stack.
       - >-
-        A pre-existing uncommitted draft's Money-typed fields and status literals in types.ts were
-        corrected against the real CashierOperationsController/BillingRequestController contract
-        before any screen was built or tested against them.
+        Closed TD-BE-001 (Mockito Java-agent configuration in backend pom.xml) as this backlog
+        item's debt-first action.
       - >-
-        OWASP ZAP baseline against the local employee portal reproduced MVP-MOD-004-FE-001's exact
-        result (0 FAIL, 4 WARN, 63 PASS), confirming no new DAST-detectable finding.
+        Strengthened 3 existing CashSalesApiTest conflict assertions to check the exact backend
+        error code (CASH_VARIANCE_REASON_REQUIRED, PAYMENT_EXCEEDS_OUTSTANDING_BALANCE,
+        BILLING_SALE_REQUIRED) and added a new test that queries the real /api/audit/events
+        endpoint to prove audit traceability for the full financial chain.
       - >-
-        Backend stack unchanged and unregressed (git status confirms no 07-implementation/backend
-        file touched); MVP-MOD-005-BE-002 evidence (67.47% line coverage) remains authoritative.
+        OWASP ZAP API scan against http://host.docker.internal:8080/v3/api-docs returned 0 FAIL, 0
+        WARN, 118 PASS, fulfilling the DAST gate MVP-MOD-005-BE-002 had explicitly deferred to this
+        backlog item.
+      - >-
+        Spring Modulith's PlatformFoundationModulithTest (module boundary verification) passed,
+        confirming CashSales cannot mutate clinical/patient/order/catalog aggregates directly.
+      - >-
+        Full local stack started, validated and stopped using only runbook-documented commands
+        (docker compose up/down, mvn spring-boot:run, npm run dev); added SMOKE-010 to the runbook
+        for the MVP-MOD-005-FE-001 UI walkthrough and synced the Markdown companion.
 module_closeout:
   MVP-MOD-001:
     status: implemented
@@ -345,7 +367,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_release: REL-001
   active_module: MVP-MOD-005
-  active_backlog_item: MVP-MOD-005-QA-001
+  active_backlog_item: MVP-MOD-005-CLOSEOUT
   quality_alignment_module_status: closed
   paused_functional_module: null
   paused_functional_backlog_item: null
@@ -354,10 +376,10 @@ commercial_product_progress:
   capability_package_progress:
     MVP-MOD-005:
       name: Cashier and Billing Request
-      package_status: ui_compiled
-      backlog_item: MVP-MOD-005-FE-001
+      package_status: validated
+      backlog_item: MVP-MOD-005-QA-001
       backlog_item_status: closed
-      execution_flow_stage: validate
+      execution_flow_stage: release
       packages_modeled:
         - BCM-ATT-005
         - BCM-ATT-008
@@ -385,6 +407,10 @@ commercial_product_progress:
       qa_evidence_fe_001_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-FE-001-validation.md
       security_quality_evidence_fe_001: 08-qa/security-quality/MVP-MOD-005-FE-001/security-quality-evidence.yaml
       security_quality_evidence_fe_001_md: 08-qa/security-quality/MVP-MOD-005-FE-001/security-quality-evidence.md
+      qa_evidence_qa_001: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.yaml
+      qa_evidence_qa_001_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.md
+      security_quality_evidence_qa_001: 08-qa/security-quality/MVP-MOD-005-QA-001/security-quality-evidence.yaml
+      security_quality_evidence_qa_001_md: 08-qa/security-quality/MVP-MOD-005-QA-001/security-quality-evidence.md
       ready_for_compilation: true
       backend_compilation_completed: true
       ready_for_custom_rule_implementation: true
@@ -392,8 +418,8 @@ commercial_product_progress:
       ready_for_ui_compilation: true
       employee_portal_ui_compiled: true
       ready_for_module_validation: true
-      module_validated: false
-      ready_for_closeout: false
+      module_validated: true
+      ready_for_closeout: true
       module_closed: false
     MVP-MOD-004:
       name: Front Desk and Care Delivery

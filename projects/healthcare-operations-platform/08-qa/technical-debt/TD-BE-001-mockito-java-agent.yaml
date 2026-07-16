@@ -2,9 +2,10 @@ artifact:
   id: TD-BE-001
   type: technical-debt-item
   name: Configure Mockito Java agent for future JDK test compatibility
-  version: 1.0.0
-  status: open
+  version: 2.0.0
+  status: closed
   created_date: 2026-07-09
+  closed_date: 2026-07-16
 
 source:
   discovered_during_backlog_item: MVP-MOD-002-QA-001
@@ -28,7 +29,7 @@ target_state:
     - Backend tests run without dynamic agent attachment warnings.
 
 remediation:
-  strategy: gradual_when_backend_test_infrastructure_is_touched
+  strategy: closed_by_MVP_MOD_005_QA_001_mockito_javaagent_configuration
   recommended_trigger:
     - next backend test infrastructure change
     - JDK upgrade
@@ -37,3 +38,12 @@ remediation:
     - Backend tests continue to pass.
     - Mockito dynamic agent warning no longer appears.
     - The configuration remains compatible with the open-source-first standard.
+  closure_evidence:
+    backlog_item: MVP-MOD-005-QA-001
+    evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.yaml
+    change: >
+      Added a maven-dependency-plugin properties execution to resolve
+      ${org.mockito:mockito-core:jar} and configured Surefire's argLine to load Mockito as a
+      supported -javaagent ahead of the existing -XX:+EnableDynamicAgentLoading fallback flag, in
+      07-implementation/backend/pom.xml. Verified with a full backend test run (105 tests, 0
+      failures) showing no Mockito self-attach warning.

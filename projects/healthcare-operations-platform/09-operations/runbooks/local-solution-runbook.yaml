@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-005-QA-001
+  current_active_backlog_item: MVP-MOD-005-CLOSEOUT
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -238,6 +238,21 @@ smoke_validation:
       /api/revenue/billing-requests/{invoiceRequestId}/tax-lines returns tax lines. submit, retry
       and cancel billing adapter actions execute the provider-agnostic local deterministic fiscal
       adapter boundary introduced by MVP-MOD-005-BE-002.
+  - id: SMOKE-010
+    name: Cashier and Billing Request employee portal screens (MVP-MOD-005-FE-001)
+    expected_result: >
+      With tenant, laboratory and branch scope selected, the "Cash Sessions" tab opens a session
+      (opening amount/currency), lists sessions, and closes a session with a counted amount; closing
+      with a counted amount that differs from the expected amount and no variance reason surfaces
+      the backend's CASH_VARIANCE_REASON_REQUIRED message. The "Sales" tab creates a sale from an
+      accepted diagnostic order or accepted quotation, shows sale lines/totals/outstanding
+      balance/payment status, registers a payment (a payment above the outstanding balance surfaces
+      PAYMENT_EXCEEDS_OUTSTANDING_BALANCE), and cancels a non-paid sale with confirmation; once a
+      sale reaches paid it shows a hint to create a billing request. The "Billing Requests" tab
+      creates a billing request from a paid sale's id (a billing request for a sale that is not yet
+      paid surfaces BILLING_SALE_REQUIRED), shows tax lines, and executes submit/retry/cancel
+      against the fiscal adapter boundary, each gated by a confirmation dialog. Every action shows a
+      loading, success or error banner.
 
 quality_validation:
   - id: QA-001

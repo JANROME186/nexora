@@ -26,7 +26,7 @@ These items are addressed by:
 HOP cannot be marked commercially complete, GA-ready or finally closed while any technical-debt item
 remains open. Coverage-related final closure debt includes:
 
-- `TD-BE-003` - backend coverage must improve from 67.47% to at least 80%.
+- `TD-BE-003` - backend coverage must improve from 68.66% to at least 80%.
 - `TD-FE-004` - closed; frontend coverage reached 80.57% in MVP-MOD-005-FE-001 (was 76.51%).
 - `TD-APP-002` - mobile coverage must become measurable and reach at least 80%.
 

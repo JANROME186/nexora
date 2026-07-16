@@ -1,6 +1,7 @@
 package com.nexora.hop.platformfoundation.cashsales;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -16,6 +17,8 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
+
+import com.nexora.hop.platformfoundation.cashsales.shared.CashSalesErrorCodes;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
@@ -89,7 +92,9 @@ class CashSalesApiTest {
         mockMvc.perform(post("/api/revenue/cashier/sales/{saleId}/payments", saleId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"amount\":26.00,\"currency\":\"USD\",\"method\":\"card\",\"registeredBy\":\"cashier-1\"}"))
-                .andExpect(status().isConflict());
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.detail")
+                        .value(containsString(CashSalesErrorCodes.PAYMENT_EXCEEDS_OUTSTANDING_BALANCE)));
 
         String sessionId = postJson("/api/revenue/cashier/sessions", """
                 {"tenantId":"%s","laboratoryId":"%s","branchId":"%s","openedBy":"cashier-1",
@@ -99,6 +104,8 @@ class CashSalesApiTest {
         mockMvc.perform(post("/api/revenue/cashier/sessions/{sessionId}/close", sessionId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"countedAmount\":6.00,\"currency\":\"USD\"}"))
+                .andExpect(jsonPath("$.detail")
+                        .value(containsString(CashSalesErrorCodes.CASH_VARIANCE_REASON_REQUIRED)))
                 .andExpect(status().isConflict());
     }
 
@@ -236,7 +243,8 @@ class CashSalesApiTest {
                                 {"saleId":"%s","legalName":"Ada Lovelace","taxIdentifier":"TAX-123",
                                  "fiscalAddress":"Main Street 1"}
                                 """.formatted(saleId)))
-                .andExpect(status().isConflict());
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.detail").value(containsString(CashSalesErrorCodes.BILLING_SALE_REQUIRED)));
     }
 
     @Test
@@ -319,6 +327,45 @@ class CashSalesApiTest {
         // second submit on non-requested status must be rejected with state transition error
         mockMvc.perform(post("/api/revenue/billing-requests/{invoiceRequestId}/submit", invoiceRequestId))
                 .andExpect(status().isConflict());
+    }
+
+    @Test
+    void financialActionsProduceQueryableAuditEvents() throws Exception {
+        String orderId = createAcceptedPricedOrder("33.00");
+        String saleId = postJson("/api/revenue/cashier/sales", """
+                {"tenantId":"%s","sourceType":"diagnostic_order","sourceReferenceId":"%s","actorId":"cashier-1"}
+                """.formatted(tenantId, orderId)).get("saleId").asText();
+        String sessionId = postJson("/api/revenue/cashier/sessions", """
+                {"tenantId":"%s","laboratoryId":"%s","branchId":"%s","openedBy":"cashier-1",
+                 "openingAmount":10.00,"currency":"USD"}
+                """.formatted(tenantId, laboratoryId, branchId)).get("sessionId").asText();
+        postJson("/api/revenue/cashier/sales/" + saleId + "/payments", """
+                {"amount":33.00,"currency":"USD","method":"cash","sessionId":"%s","registeredBy":"cashier-1"}
+                """.formatted(sessionId));
+        mockMvc.perform(post("/api/revenue/cashier/sessions/{sessionId}/close", sessionId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"countedAmount\":43.00,\"currency\":\"USD\"}"))
+                .andExpect(status().isOk());
+        String invoiceRequestId = postJson("/api/revenue/billing-requests", """
+                {"saleId":"%s","legalName":"Ada Lovelace","taxIdentifier":"TAX-123","fiscalAddress":"Main Street 1"}
+                """.formatted(saleId)).get("invoiceRequestId").asText();
+        mockMvc.perform(post("/api/revenue/billing-requests/{invoiceRequestId}/submit", invoiceRequestId))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/audit/events").param("tenantId", tenantId).param("subjectId", saleId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.action=='SaleCreated')]").isNotEmpty())
+                .andExpect(jsonPath("$[?(@.action=='SalePaymentRegistered')]").isNotEmpty());
+
+        mockMvc.perform(get("/api/audit/events").param("tenantId", tenantId).param("subjectId", sessionId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.action=='CashSessionOpened')]").isNotEmpty())
+                .andExpect(jsonPath("$[?(@.action=='CashSessionClosed')]").isNotEmpty());
+
+        mockMvc.perform(get("/api/audit/events").param("tenantId", tenantId).param("subjectId", invoiceRequestId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.action=='BillingRequestCreated')]").isNotEmpty())
+                .andExpect(jsonPath("$[?(@.action=='BillingRequestSubmitted')]").isNotEmpty());
     }
 
     @Test
