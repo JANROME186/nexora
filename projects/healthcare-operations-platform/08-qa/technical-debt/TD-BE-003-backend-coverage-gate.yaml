@@ -28,10 +28,10 @@ classification:
 current_state:
   issue: >
     The backend Maven quality profile now produces an instrumented JaCoCo report. Current measured
-    line coverage is 65.82%, below the Nexora final project closure target of 80%.
+    line coverage is 66.48%, below the Nexora final project closure target of 80%.
   compensating_control:
     - 77 backend tests pass under the quality profile with 0 failures and 0 errors.
-    - Employee portal reports 72.89% line coverage through Vitest V8 provider.
+    - Employee portal reports 73.04% line coverage through Vitest V8 provider.
 
 target_state:
   preferred_open_source_tooling:

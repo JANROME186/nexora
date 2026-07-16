@@ -24,17 +24,17 @@ classification:
     backlog item as long as coverage does not decrease and improvement is planned.
 
 current_state:
-  current_line_coverage_percent: 72.89
-  previous_iteration_minimum_line_coverage_percent: 72.89
+  current_line_coverage_percent: 73.04
+  previous_iteration_minimum_line_coverage_percent: 73.04
   final_project_closure_target_percent: 80
   issue: Employee portal line coverage must be raised to at least 80% before HOP can be marked commercially complete or GA-ready.
 
 target_state:
   line_coverage_percent: 80
-  rule: Coverage must never drop below 72.89% in the next frontend-touching iteration; once improved, the new value becomes the next lower bound.
+  rule: Coverage must never drop below 73.04% in the next frontend-touching iteration; once improved, the new value becomes the next lower bound.
 
 remediation:
-  strategy: gradual_coverage_increase_without_dropping_below_72_89
+  strategy: gradual_coverage_increase_without_dropping_below_73_04
   owner: frontend_platform_team
   target_backlog: next_employee_portal_code_changing_backlog_item_including_mvp_mod_004_fe_001
   priority: P1
