@@ -13,5 +13,6 @@
 @org.springframework.modulith.ApplicationModule(
         displayName = "Front Desk and Care Delivery",
         allowedDependencies = {
-                "organizationmanagement", "peopleclinicalmasterdata", "catalogtestconfiguration", "auditcompliance" })
+                "organizationmanagement", "peopleclinicalmasterdata", "catalogtestconfiguration", "auditcompliance" },
+        type = org.springframework.modulith.ApplicationModule.Type.OPEN)
 package com.nexora.hop.platformfoundation.frontdeskcaredelivery;

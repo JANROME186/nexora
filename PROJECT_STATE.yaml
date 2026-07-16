@@ -1,6 +1,6 @@
 repository: Nexora
-repository_version: 0.77.0
-current_phase: HOP MVP-MOD-003 People and Clinical Master Data Backend Compiled
+repository_version: 0.91.0
+current_phase: HOP MVP-MOD-005 Cashier and Billing Request Backend Compiled
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -29,8 +29,8 @@ projects:
     name: Healthcare Operations Platform
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
-    active_module: MVP-MOD-003
-    active_backlog_item: MVP-MOD-003-BE-002
+    active_module: MVP-MOD-005
+    active_backlog_item: MVP-MOD-005-BE-002
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -49,9 +49,28 @@ projects:
       - MVP-MOD-002-CLOSEOUT
       - MVP-MOD-003-DEF
       - MVP-MOD-003-BE-001
+      - MVP-MOD-003-BE-002
+      - MVP-MOD-003-FE-001
+      - MVP-MOD-003-QA-001
+      - MVP-MOD-003-CLOSEOUT
+      - MVP-MOD-004-DEF
+      - MVP-MOD-004-BE-001
+      - MVP-MOD-004-BE-002
+      - HOP-QA-ALIGN-001
+      - HOP-QA-ALIGN-002
+      - HOP-QA-ALIGN-003
+      - HOP-QA-ALIGN-006
+      - HOP-QA-ALIGN-004
+      - HOP-QA-ALIGN-005
+      - HOP-QA-ALIGN-CLOSEOUT
+      - MVP-MOD-004-FE-001
+      - MVP-MOD-004-QA-001
+      - MVP-MOD-004-CLOSEOUT
+      - MVP-MOD-005-DEF
+      - MVP-MOD-005-BE-001
     structure: ordered_numbered_folders
 next_deliverables:
-  - Continue MVP-MOD-003 with MVP-MOD-003-BE-002 duplicate detection and portal identity custom rules
+  - Continue MVP-MOD-005 with MVP-MOD-005-BE-002 billing request adapter custom boundary
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake

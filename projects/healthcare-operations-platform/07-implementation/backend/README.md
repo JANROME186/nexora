@@ -10,6 +10,10 @@ This backend skeleton establishes the Java 21, Spring Boot 3.x and Spring Moduli
 - `identityaccess`
 - `auditcompliance`
 - `observability`
+- `catalogtestconfiguration`
+- `peopleclinicalmasterdata`
+- `frontdeskcaredelivery`
+- `cashsales`
 
 The package layout follows hexagonal boundaries inside each context:
 
@@ -43,6 +47,14 @@ The application exposes:
 - `GET /api/identity/users/{userId}`
 - `POST /api/identity/users/{userId}/role-assignments`
 - `GET /api/audit/events`
+- `POST /api/revenue/cashier/sessions`
+- `GET /api/revenue/cashier/sessions/{sessionId}`
+- `POST /api/revenue/cashier/sessions/{sessionId}/close`
+- `POST /api/revenue/cashier/sales`
+- `GET /api/revenue/cashier/sales/{saleId}`
+- `POST /api/revenue/cashier/sales/{saleId}/payments`
+- `POST /api/revenue/billing-requests`
+- `GET /api/revenue/billing-requests/{invoiceRequestId}`
 
 ## Test
 
@@ -55,7 +67,7 @@ The project includes `.mvn/settings.xml` so local validation uses a repository i
 Run the optional local database integration test only after the local runtime is started:
 
 ```bash
-mvn --settings .mvn/settings.xml "-Dhop.local-db-tests=true" "-Dtest=PlatformFoundationLocalDatabaseTest,OrganizationManagementLocalDatabaseTest,IdentityAccessLocalDatabaseTest,AuditComplianceLocalDatabaseTest" test
+mvn --settings .mvn/settings.xml "-Dhop.local-db-tests=true" "-Dtest=PlatformFoundationLocalDatabaseTest,OrganizationManagementLocalDatabaseTest,IdentityAccessLocalDatabaseTest,AuditComplianceLocalDatabaseTest,CatalogTestConfigurationLocalDatabaseTest,PeopleClinicalMasterDataLocalDatabaseTest,FrontDeskCareDeliveryLocalDatabaseTest,CashSalesLocalDatabaseTest" test
 ```
 
 ## Local Database Profile

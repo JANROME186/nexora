@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-005-BE-001
+  current_active_backlog_item: MVP-MOD-005-BE-002
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -225,6 +225,18 @@ smoke_validation:
       or error banner; abandon and cancel require an explicit confirmation dialog. Appointment
       Scheduling, Admission Management and Quotation Management screens remain tracked as
       TD-FE-006.
+  - id: SMOKE-009
+    name: Cashier and Billing Request backend baseline (MVP-MOD-005-BE-001)
+    expected_result: >
+      Create an accepted diagnostic order or accepted quotation, then POST
+      /api/revenue/cashier/sales to create a payable Sale. Open a cash session with POST
+      /api/revenue/cashier/sessions, register a cash or card payment with POST
+      /api/revenue/cashier/sales/{saleId}/payments, verify GET
+      /api/revenue/cashier/sales/{saleId} shows partially_paid or paid totals, and close the
+      session with POST /api/revenue/cashier/sessions/{sessionId}/close. After a sale is paid,
+      POST /api/revenue/billing-requests creates an InvoiceRequest and GET
+      /api/revenue/billing-requests/{invoiceRequestId}/tax-lines returns tax lines. submit, retry
+      and cancel billing adapter actions intentionally return HTTP 409 until MVP-MOD-005-BE-002.
 
 quality_validation:
   - id: QA-001
@@ -237,6 +249,9 @@ quality_validation:
     command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
     depends_on:
       - INF-001
+    expected_result: >
+      Local PostgreSQL tests run with no skipped local tests when Docker Compose is active, including
+      CashSalesLocalDatabaseTest for the cash_sales schema.
   - id: QA-003
     name: Backend enterprise quality profile
     working_directory: 07-implementation/backend

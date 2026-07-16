@@ -3,7 +3,7 @@ artifact:
   type: traceability
   name: Billing Request Management Traceability
   version: 0.1.0
-  status: modeled
+  status: backend_compiled
   classification: editable_model
   capability: BCM-ATT-008
 
@@ -28,3 +28,11 @@ brm_alignment:
 
 upstream_capabilities: [BCM-ATT-005, BCM-PER-002]
 downstream_capabilities: [BCM-RES-004]
+
+implementation_trace:
+  backend_package: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/cashsales/billingrequestmanagement/
+  schema: 07-implementation/backend/src/main/resources/db/cash-sales/schema.sql
+  qa_evidence_be_001: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.yaml
+  security_quality_evidence_be_001: 08-qa/security-quality/MVP-MOD-005-BE-001/security-quality-evidence.yaml
+  current_backlog_item_status: closed
+  next_backlog_item: MVP-MOD-005-BE-002

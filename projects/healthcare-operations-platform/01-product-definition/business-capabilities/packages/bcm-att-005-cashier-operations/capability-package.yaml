@@ -51,8 +51,8 @@ scope:
 roadmap:
   module: MVP-MOD-005
   release: REL-001
-  package_status: modeled
-  next_backlog_item: MVP-MOD-005-BE-001
+  package_status: backend_compiled
+  next_backlog_item: MVP-MOD-005-BE-002
 
 dependencies:
   required_capabilities:

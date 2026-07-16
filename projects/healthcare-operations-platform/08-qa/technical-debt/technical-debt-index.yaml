@@ -33,9 +33,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 66.52
-        source_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-QA-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 66.52
+        current_line_coverage_percent: 66.58
+        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 66.58
         final_closure_target_percent: 80
       frontend_typescript_web:
         current_line_coverage_percent: 76.51
@@ -169,13 +169,13 @@ entries:
     remediation_strategy: gradual_when_a_future_ui_backlog_item_covers_patient_or_doctor_editing
   - id: TD-DEF-001
     title: Quotation-to-Sale conversion path deferred until MVP-MOD-005 models the Sale aggregate
-    status: open
+    status: closed
     risk_level: low
     blocking: false
     source_backlog_item: MVP-MOD-004-DEF
     affected_area: quotation_management_conversion_lifecycle
     file: 08-qa/technical-debt/TD-DEF-001-quotation-to-sale-conversion-deferred.yaml
-    remediation_strategy: gradual_when_mvp_mod_005_cashier_and_billing_request_is_modeled
+    remediation_strategy: closed_by_MVP_MOD_005_BE_001_sale_from_accepted_quotation
   - id: TD-DEF-002
     title: Appointment capacity planning against detailed branch schedules is deferred to BCM-ORG-007
     status: open
@@ -293,3 +293,12 @@ entries:
     affected_area: employee_portal_front_desk_care_delivery_screens
     file: 08-qa/technical-debt/TD-FE-006-appointment-admission-quotation-ui-missing.yaml
     remediation_strategy: gradual_when_a_future_ui_backlog_item_covers_scheduling_admission_or_quotation_workflows
+  - id: TD-BE-011
+    title: CashSales depends on open FrontDeskCareDelivery internals instead of stable public ports
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-005-BE-001
+    affected_area: cashsales_frontdesk_module_boundary
+    file: 08-qa/technical-debt/TD-BE-011-cashsales-frontdesk-public-port-boundary.yaml
+    remediation_strategy: gradual_when_cashsales_or_frontdesk_module_boundary_is_next_touched

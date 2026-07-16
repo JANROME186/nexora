@@ -3,8 +3,9 @@ artifact:
   type: technical-debt-item
   name: Quotation-to-Sale conversion path deferred until MVP-MOD-005 models the Sale aggregate
   version: 1.0.0
-  status: open
+  status: closed
   created_date: 2026-07-15
+  closed_date: 2026-07-16
 
 source:
   discovered_during_backlog_item: MVP-MOD-004-DEF
@@ -30,16 +31,12 @@ classification:
 
 current_state:
   issue: >
-    QuotationRequest.status supports converted (to a DiagnosticOrder) but has
-    no explicit conversion path to a future Sale record; the pricing and
-    discount snapshot captured at issuance would need to be re-validated or
-    re-referenced when MVP-MOD-005 exists.
+    Resolved by MVP-MOD-005-BE-001. CashierOperationsService can now create a
+    Sale from an accepted quotation and captures sale lines and totals into the
+    CashSales aggregate model.
   compensating_control:
-    - traceability.yaml future_aggregate_note documents the intended
-      follow-up without taking a forward dependency on unbuilt artifacts.
-    - QuotationPricingSnapshot and DiscountApplication are already modeled
-      as immutable value objects reusable by a future Sale-conversion
-      command.
+    - CashSalesApiTest covers creating a sale from an accepted quotation and cancelling it before payment.
+    - MVP-MOD-005-BE-001 QA evidence records the closure.
 
 target_state:
   preferred_open_source_tooling: []
@@ -49,9 +46,9 @@ target_state:
     - future MVP-MOD-005 Sale aggregate business-model.yaml
 
 remediation:
-  strategy: gradual_when_mvp_mod_005_cashier_and_billing_request_is_modeled
+  strategy: closed_by_MVP_MOD_005_BE_001_sale_from_accepted_quotation
   recommended_trigger:
-    - MVP-MOD-005-DEF capability package modeling for BCM-ATT-005 Cashier Operations
+    - completed
   acceptance_criteria:
     - bcm-att-006-quotation-management business-model.yaml adds an optional
       Sale-conversion command alongside the existing order-conversion
@@ -59,3 +56,6 @@ remediation:
       MVP-MOD-004-DEF.
     - No quotation lifecycle regression for the diagnostic-order conversion
       path already delivered.
+  closure_evidence:
+    - 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.yaml
+    - 07-implementation/backend/src/test/java/com/nexora/hop/platformfoundation/cashsales/CashSalesApiTest.java

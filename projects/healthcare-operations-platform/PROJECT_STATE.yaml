@@ -1,8 +1,8 @@
 project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
-repository_version: 0.90.0
-current_phase: MVP-MOD-005 Cashier and Billing Request (MVP-MOD-005-BE-001 Ready)
+repository_version: 0.91.0
+current_phase: MVP-MOD-005 Cashier and Billing Request (MVP-MOD-005-BE-002 Ready)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -109,8 +109,12 @@ completed_deliverables:
     vulnerabilities; not marked commercially complete or GA-ready)
   - MVP-MOD-005 Cashier and Billing Request Business Capability Packages (BCM-ATT-005/008)
   - MVP-MOD-005-DEF capability package model validation evidence
+  - MVP-MOD-005-BE-001 cashier and billing request backend compilation (cash sessions, sales,
+    sale lines, payment allocations, billing requests, tax lines, local PostgreSQL schema and
+    backend quality evidence; backend coverage 66.52% -> 66.58%; TD-DEF-001 closed; TD-BE-011
+    registered for public front-desk source ports)
 next_deliverables:
-  - MVP-MOD-005 backend compilation for cash sessions, payments, sales and billing request model outputs (MVP-MOD-005-BE-001)
+  - MVP-MOD-005 billing request adapter custom boundary implementation (MVP-MOD-005-BE-002)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -125,7 +129,7 @@ development_readiness:
   status: ready
   ready_to_start_module: MVP-MOD-005
   in_progress_module: MVP-MOD-005
-  next_backlog_item: MVP-MOD-005-BE-001
+  next_backlog_item: MVP-MOD-005-BE-002
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -169,9 +173,9 @@ development_readiness:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 66.52
-        source_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-QA-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 66.52
+        current_line_coverage_percent: 66.58
+        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 66.58
         final_closure_target_percent: 80
         tracked_by: TD-BE-003
       frontend_typescript_web:
@@ -195,7 +199,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-005
-  current_backlog_item: MVP-MOD-005-BE-001
+  current_backlog_item: MVP-MOD-005-BE-002
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -232,39 +236,34 @@ implementation_progress:
     - MVP-MOD-004-QA-001
     - MVP-MOD-004-CLOSEOUT
     - MVP-MOD-005-DEF
+    - MVP-MOD-005-BE-001
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-005-BE-001
     - MVP-MOD-005-BE-002
     - MVP-MOD-005-FE-001
     - MVP-MOD-005-QA-001
     - MVP-MOD-005-CLOSEOUT
   latest_validation:
-    backlog_item_id: MVP-MOD-005-DEF
+    backlog_item_id: MVP-MOD-005-BE-001
     command: >
-      YAML parse for all project YAML files; capability package artifact completeness validation for
-      BCM-ATT-005 and BCM-ATT-008; model validation against BCM-001, BCM-002, aggregate boundaries,
-      generation separation, provider-agnostic billing adapter boundary and agent-agnostic source rules.
-    working_directory: projects/healthcare-operations-platform
+      Backend cash-sales compilation and validation with CashSalesApiTest, full backend quality
+      test/report, local PostgreSQL schema validation, enterprise quality profile and OWASP
+      Dependency-Check.
+    working_directory: projects/healthcare-operations-platform/07-implementation/backend
     status: passed
-    tests_run: "not applicable; model-only backlog item"
+    tests_run: "88 backend tests; CashSalesApiTest 9 tests; CashSalesLocalDatabaseTest 1 test with local profile"
     failures: 0
     errors: 0
-    skipped: 0
+    skipped: 8
     additional_checks:
       - >-
-        Created two capability packages with the standard 14-artifact structure:
-        BCM-ATT-005 Cashier Operations and BCM-ATT-008 Billing Request Management.
+        Backend line coverage increased from 66.52% to 66.58%, preserving the framework coverage floor.
       - >-
-        Cashier Operations owns sale/payment/cash-register modeling and delegates billing requests
-        without mutating clinical aggregates.
+        CashSalesLocalDatabaseTest validated the cash_sales schema tables with Docker Compose PostgreSQL.
       - >-
-        Billing Request Management models invoice requests and provider-agnostic fiscal adapter
-        boundaries while keeping country-specific fiscal connectors outside the core model.
+        TD-DEF-001 was closed because Sales can now be created from accepted quotations.
       - >-
-        PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml,
-        HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml and the local runbook were reconciled so
-        MVP-MOD-005-DEF is closed and the next backlog item advances to MVP-MOD-005-BE-001.
+        TD-BE-011 was registered for the temporary open FrontDeskCareDelivery module boundary.
 module_closeout:
   MVP-MOD-001:
     status: implemented
@@ -330,7 +329,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_release: REL-001
   active_module: MVP-MOD-005
-  active_backlog_item: MVP-MOD-005-BE-001
+  active_backlog_item: MVP-MOD-005-BE-002
   quality_alignment_module_status: closed
   paused_functional_module: null
   paused_functional_backlog_item: null
@@ -339,10 +338,10 @@ commercial_product_progress:
   capability_package_progress:
     MVP-MOD-005:
       name: Cashier and Billing Request
-      package_status: modeled
-      backlog_item: MVP-MOD-005-DEF
+      package_status: backend_compiled
+      backlog_item: MVP-MOD-005-BE-001
       backlog_item_status: closed
-      execution_flow_stage: model
+      execution_flow_stage: compile
       packages_modeled:
         - BCM-ATT-005
         - BCM-ATT-008
@@ -351,11 +350,17 @@ commercial_product_progress:
         - cash-sales
         - billing-tax
       backend_bounded_context_root: cashsales
+      backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/cashsales/
+      backend_schema: 07-implementation/backend/src/main/resources/db/cash-sales/schema.sql
       qa_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-DEF-validation.yaml
       qa_evidence_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-DEF-validation.md
+      qa_evidence_be_001: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.yaml
+      qa_evidence_be_001_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.md
+      security_quality_evidence_be_001: 08-qa/security-quality/MVP-MOD-005-BE-001/security-quality-evidence.yaml
+      security_quality_evidence_be_001_md: 08-qa/security-quality/MVP-MOD-005-BE-001/security-quality-evidence.md
       ready_for_compilation: true
-      backend_compilation_completed: false
-      ready_for_custom_rule_implementation: false
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
       custom_rules_implemented: false
       ready_for_ui_compilation: false
       module_validated: false
