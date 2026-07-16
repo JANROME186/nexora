@@ -164,12 +164,12 @@ readiness:
   security_quality_status: passed
   ready_for_next_backlog_item: MVP-MOD-004-FE-001
   superseded_by_quality_alignment:
-    status: superseded_for_execution_order_only
-    active_backlog_item: HOP-QA-ALIGN-004
+    status: closed_by_HOP_QA_ALIGN_CLOSEOUT
+    current_active_backlog_item: MVP-MOD-004-CLOSEOUT
     reason: >
       The Nexora enterprise quality framework was strengthened after this
-      evidence was produced. Functional continuation to MVP-MOD-004-FE-001 is
-      paused until HOP-QA-ALIGN-CLOSEOUT passes.
+      evidence was produced. HOP-QA-ALIGN-CLOSEOUT has passed, MVP-MOD-004-FE-001
+      and MVP-MOD-004-QA-001 are closed, and the active item is MVP-MOD-004-CLOSEOUT.
   next_required_focus:
     - Compile the front desk worklist and order creation employee-portal UI outputs
       (MVP-MOD-004-FE-001) against the now-complete backend custom rules.

@@ -98,9 +98,9 @@ were all **executed and passed**. None is `not_executed`, `passed_with_execution
 - **VAL-003 Stale pointer scan** — passed. No live registry points to `HOP-QA-ALIGN-004`,
   `HOP-QA-ALIGN-005` or `HOP-QA-ALIGN-CLOSEOUT` as the active/current/next backlog item after this
   closeout. Also corrected a stale `current_blocking_backlog: HOP-QA-ALIGN-001` field in
-  `HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.yaml`. The two remaining
-  `active_backlog_item: HOP-QA-ALIGN-004` occurrences (in `MVP-MOD-004-BE-002`'s evidence, under a
-  `superseded_by_quality_alignment` historical block) are point-in-time snapshots left unaltered.
+  `HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.yaml`. The two historical
+  `superseded_by_quality_alignment` fields in `MVP-MOD-004-BE-002` evidence were later normalized
+  during `MVP-MOD-004-QA-001` so future stale-pointer sweeps do not report false positives.
 - **VAL-004 No prohibited execution-limitation statuses** — passed, 0 matches as an actual field
   value.
 - **VAL-005 `git diff --check`** — passed.

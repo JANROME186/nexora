@@ -163,9 +163,9 @@ exceptions: []
 
 readiness:
   security_quality_status: passed
-  ready_for_next_backlog_item: MVP-MOD-004-QA-001
+  ready_for_next_backlog_item: MVP-MOD-004-CLOSEOUT
   next_required_focus:
-    - Order lifecycle and snapshot evidence (MVP-MOD-004-QA-001).
+    - Module closeout and registry update (MVP-MOD-004-CLOSEOUT).
     - >-
       Continue debt-first execution: address at least one relevant open technical-debt item per
       code-changing iteration.

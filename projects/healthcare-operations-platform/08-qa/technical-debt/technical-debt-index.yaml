@@ -33,9 +33,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 66.48
-        source_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 66.48
+        current_line_coverage_percent: 66.52
+        source_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 66.52
         final_closure_target_percent: 80
       frontend_typescript_web:
         current_line_coverage_percent: 76.51

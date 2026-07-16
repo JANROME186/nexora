@@ -100,6 +100,43 @@ class FrontDeskCareDeliveryApiTest {
     }
 
     @Test
+    void diagnosticOrderPatientSnapshotRemainsImmutableAfterPatientProfileChanges() throws Exception {
+        String patientId = registerPatient("Ada", "Lovelace");
+        String panelId = publishPanel();
+        publishPriceListForPanel(panelId, "45.00");
+
+        JsonNode order = postJson("/api/clinical-operations/diagnostic-orders", """
+                {"tenantId":"%s","laboratoryId":"%s","branchId":"%s","intakeChannel":"walk_in",
+                 "patientId":"%s","actorId":"receptionist-1",
+                 "lines":[{"testDefinitionId":"%s","catalogItemKind":"panel","quantity":1}]}
+                """.formatted(tenantId, laboratoryId, branchId, patientId, panelId));
+        String orderId = order.get("orderId").asText();
+        String capturedDocumentNumberMasked = order.get("patientSnapshot").get("documentNumberMasked").asText();
+        assertThat(order.get("patientSnapshot").get("fullName").asText()).isEqualTo("Ada Lovelace");
+        assertThat(capturedDocumentNumberMasked).isNotBlank();
+        assertThat(order.get("patientSnapshot").get("sourceVersion").asInt()).isEqualTo(1);
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put(
+                        "/api/people/patients/{id}", patientId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"givenName":"Ada","familyName":"Byron","birthDate":"1980-01-01",
+                                 "sexAtBirth":"female","primaryDocumentType":"national_id",
+                                 "primaryDocumentNumber":"DOC-5678"}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.familyName").value("Byron"))
+                .andExpect(jsonPath("$.primaryDocumentNumberMasked").value(org.hamcrest.Matchers.endsWith("5678")))
+                .andExpect(jsonPath("$.version").value(2));
+
+        mockMvc.perform(get("/api/clinical-operations/diagnostic-orders/{id}", orderId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.patientSnapshot.fullName").value("Ada Lovelace"))
+                .andExpect(jsonPath("$.patientSnapshot.documentNumberMasked").value(capturedDocumentNumberMasked))
+                .andExpect(jsonPath("$.patientSnapshot.sourceVersion").value(1));
+    }
+
+    @Test
     void diagnosticOrderRejectsIneligibleReferringDoctor() throws Exception {
         String patientId = registerPatient("Chien-Shiung", "Wu");
         String doctorId = registerDoctor("Unverified", "Physician", false);

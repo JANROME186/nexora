@@ -320,8 +320,8 @@ blocking_gaps: []
 
 readiness:
   mvp_mod_004_fe_001_status: closed
-  ready_for_next_backlog_item: MVP-MOD-004-QA-001
-  next_backlog_item_name: Order lifecycle and snapshot evidence
+  ready_for_next_backlog_item: MVP-MOD-004-CLOSEOUT
+  next_backlog_item_name: Module closeout and registry update
   rationale: >
     Both screens the backlog objective names explicitly (front desk worklist, diagnostic order
     creation with immutable snapshots) are implemented, tested and wired into the employee portal,
