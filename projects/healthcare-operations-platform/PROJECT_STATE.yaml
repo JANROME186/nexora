@@ -1,8 +1,8 @@
 project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
-repository_version: 0.86.0
-current_phase: MVP-MOD-004 Front Desk and Care Delivery (MVP-MOD-004-FE-001 Ready)
+repository_version: 0.87.0
+current_phase: MVP-MOD-004 Front Desk and Care Delivery (MVP-MOD-004-QA-001 Ready)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -92,8 +92,15 @@ completed_deliverables:
     TD-QA-002 status fields corrected to closed; seven P1 residual-debt items given explicit
     owner/target_backlog/priority; coverage preserved with no regression. Does not mark HOP
     commercially complete or GA-ready.)
+  - MVP-MOD-004-FE-001 front desk worklist and diagnostic order employee-portal UI (Reception
+    Management worklist with walk-in/scheduled intake, identity confirmation, priority and
+    advance-to-admission; Diagnostic Order Management creation/pricing/accept/cancel/complete with
+    immutable patient/doctor/branch/pricing snapshots and the RN-005 tiered cancellation override;
+    debt-first TD-FE-004 materially reduced, coverage 73.04% -> 76.51%; TD-FE-006 registered for
+    the deferred Appointment Scheduling/Admission Management/Quotation Management screens; a
+    vanishing-success-banner UX defect found by testing and fixed before closure)
 next_deliverables:
-  - Compile front desk worklist and order creation employee-portal UI outputs (MVP-MOD-004-FE-001)
+  - Order lifecycle and snapshot evidence (MVP-MOD-004-QA-001)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -108,7 +115,7 @@ development_readiness:
   status: ready
   ready_to_start_module: MVP-MOD-004
   in_progress_module: MVP-MOD-004
-  next_backlog_item: MVP-MOD-004-FE-001
+  next_backlog_item: MVP-MOD-004-QA-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -157,8 +164,9 @@ development_readiness:
         final_closure_target_percent: 80
         tracked_by: TD-BE-003
       frontend_typescript_web:
-        current_line_coverage_percent: 73.04
-        next_iteration_minimum_line_coverage_percent: 73.04
+        current_line_coverage_percent: 76.51
+        source_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-FE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 76.51
         final_closure_target_percent: 80
         tracked_by: TD-FE-004
       mobile_typescript_foundation:
@@ -176,7 +184,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-004
-  current_backlog_item: MVP-MOD-004-FE-001
+  current_backlog_item: MVP-MOD-004-QA-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -209,50 +217,46 @@ implementation_progress:
     - HOP-QA-ALIGN-004
     - HOP-QA-ALIGN-005
     - HOP-QA-ALIGN-CLOSEOUT
+    - MVP-MOD-004-FE-001
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-004-FE-001
     - MVP-MOD-004-QA-001
     - MVP-MOD-004-CLOSEOUT
   latest_validation:
-    backlog_item_id: HOP-QA-ALIGN-CLOSEOUT
+    backlog_item_id: MVP-MOD-004-FE-001
     command: >
-      Registry and technical-debt evidence aggregation and validation; no application source code
-      changed. Re-cites the same-day passing evidence from HOP-QA-ALIGN-001 through
-      HOP-QA-ALIGN-006 (backend mvn compile/test/jacoco:report; employee portal npm run quality and
-      npm audit --audit-level=low; mobile npm run quality; Trivy all-severity scan; OWASP ZAP
-      baseline and API scans).
-    working_directory: projects/healthcare-operations-platform
+      employee portal npm run quality (typecheck, lint, test:coverage, build, duplication,
+      format:check, license:check) and npm audit --audit-level=low.
+    working_directory: projects/healthcare-operations-platform/07-implementation/employee-portal
     status: passed
-    tests_run: "backend 77 (7 skipped without local DB), employee portal 18, mobile 8 (unchanged from HOP-QA-ALIGN-005, no code touched by this closeout)"
+    tests_run: "employee portal 24 (13 files); backend and mobile unchanged, not touched by this backlog item"
     failures: 0
     errors: 0
     skipped: 0
     additional_checks:
       - >-
-        HOP-QA-ALIGN-001 through HOP-QA-ALIGN-006 validated as closed or closed_with_residual_p1_debt
-        with every residual item correctly dispositioned as technical debt. The P0 minimum
-        enterprise baseline (backend quality profile, frontend quality profile, all-severity
-        vulnerability evidence, DAST 0 FAIL-NEW, message externalization baseline, debt-first
-        execution) is fully satisfied per HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.yaml.
+        Debt-first action: TD-FE-004 (raise employee-portal coverage toward 80%) materially
+        reduced. New frontDeskApi.ts, ReceptionScreen.tsx and DiagnosticOrdersScreen.tsx shipped
+        with matching tests, raising line coverage from 73.04% to 76.51% (>= 73.04% floor, no
+        regression). TD-FE-006 registered for the deferred Appointment Scheduling/Admission
+        Management/Quotation Management employee-portal screens.
       - >-
-        Technical-debt index: 25 entries, 4 closed, 5 materially_reduced, 16 open, 0 blocking.
-        Corrected a stale status on TD-QA-001 and TD-QA-002 (both closed by HOP-QA-ALIGN-004, but
-        their own item files still read status: open) to status: closed. Added explicit
-        owner/target_backlog/priority: P1 metadata to the seven open P1 residual-debt items
-        (TD-BE-002, TD-BE-003, TD-BE-004, TD-FE-003, TD-FE-004, TD-APP-001, TD-APP-002), which
-        previously had only a remediation strategy without those explicit fields.
+        Delivered the two screens MVP-MOD-004's acceptance summary names explicitly: Front Desk
+        (Reception Management worklist, walk-in/scheduled intake, identity confirmation, priority,
+        advance-to-admission, abandon) and Diagnostic Orders (creation across walk-in/appointment/
+        admission/quotation_conversion channels, immutable patient/doctor/branch/pricing snapshots,
+        price/accept/complete/cancel lifecycle with the RN-005 tiered cancellation override).
       - >-
-        Coverage preserved with no regression: backend 66.48% (>= 65.82% floor), frontend 73.04%
-        (>= 72.89% floor); mobile remains not_measured (pre-existing TD-APP-002 toolchain gap,
-        nothing to regress against).
+        A real UX defect was found by testing and fixed before closure: several success
+        StatusBanners were rendered only inside the same status-gated block that the action's own
+        success response hides, so operators would see the control vanish with no visible
+        confirmation. Fixed by rendering each StatusBanner unconditionally against its own action
+        status.
       - >-
-        PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_QUALITY_ALIGNMENT_BACKLOG.yaml,
-        HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml, HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml, the
-        local runbook, security-quality-index.yaml and technical-debt-index.yaml were reconciled so
-        HOP-QA-ALIGN-CLOSEOUT is closed, HOP Enterprise Quality Alignment is closed, and the next
-        backlog item returns to MVP-MOD-004-FE-001. This closeout does not mark HOP commercially
-        complete or GA-ready.
+        PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml,
+        security-quality-index.yaml, technical-debt-index.yaml and the local runbook were
+        reconciled so MVP-MOD-004-FE-001 is closed and the next backlog item advances to
+        MVP-MOD-004-QA-001.
 module_closeout:
   MVP-MOD-001:
     status: implemented
@@ -302,7 +306,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_release: REL-001
   active_module: MVP-MOD-004
-  active_backlog_item: MVP-MOD-004-FE-001
+  active_backlog_item: MVP-MOD-004-QA-001
   quality_alignment_module_status: closed
   paused_functional_module: null
   paused_functional_backlog_item: null
@@ -338,13 +342,17 @@ commercial_product_progress:
       qa_evidence_be_002_md: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-002-validation.md
       security_quality_evidence_be_002: 08-qa/security-quality/MVP-MOD-004-BE-002/security-quality-evidence.yaml
       security_quality_evidence_be_002_md: 08-qa/security-quality/MVP-MOD-004-BE-002/security-quality-evidence.md
+      qa_evidence_fe_001: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-FE-001-validation.yaml
+      qa_evidence_fe_001_md: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-FE-001-validation.md
+      security_quality_evidence_fe_001: 08-qa/security-quality/MVP-MOD-004-FE-001/security-quality-evidence.yaml
+      security_quality_evidence_fe_001_md: 08-qa/security-quality/MVP-MOD-004-FE-001/security-quality-evidence.md
       ready_for_compilation: true
       backend_compilation_completed: true
       ready_for_custom_rule_implementation: true
       custom_rules_implemented: true
       ready_for_ui_compilation: true
-      employee_portal_ui_compiled: false
-      ready_for_module_validation: false
+      employee_portal_ui_compiled: true
+      ready_for_module_validation: true
       module_validated: false
       ready_for_closeout: false
       module_closed: false

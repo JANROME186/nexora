@@ -38,9 +38,9 @@ policy:
         next_iteration_minimum_line_coverage_percent: 66.48
         final_closure_target_percent: 80
       frontend_typescript_web:
-        current_line_coverage_percent: 73.04
-        source_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 73.04
+        current_line_coverage_percent: 76.51
+        source_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-FE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 76.51
         final_closure_target_percent: 80
       mobile_typescript_foundation:
         current_line_coverage_percent: not_measured
@@ -247,7 +247,7 @@ entries:
     source_backlog_item: HOP-QA-ALIGN-003
     affected_area: employee_portal_test_coverage
     file: 08-qa/technical-debt/TD-FE-004-frontend-coverage-80-target.yaml
-    remediation_strategy: gradual_coverage_increase_without_dropping_below_72_89
+    remediation_strategy: gradual_coverage_increase_without_dropping_below_76_51
   - id: TD-APP-002
     title: Establish mobile coverage measurement and raise it to the 80 percent final-closure target
     status: open
@@ -258,7 +258,7 @@ entries:
     file: 08-qa/technical-debt/TD-APP-002-mobile-coverage-80-target.yaml
     remediation_strategy: establish_baseline_then_improve_to_80_before_final_closure
   - id: TD-FE-005
-    title: Content-Security-Policy and Cross-Origin-Embedder-Policy deferred to the production hosting layer
+    title: Employee portal production security and cache headers deferred to the production hosting layer
     status: open
     risk_level: medium
     blocking: false
@@ -284,3 +284,12 @@ entries:
     affected_area: backend_frontend_mobile_messages_and_magic_values
     file: 08-qa/technical-debt/TD-I18N-002-full-localization-adoption.yaml
     remediation_strategy: gradual_when_a_second_locale_or_structured_error_consumer_is_actually_needed
+  - id: TD-FE-006
+    title: Employee portal is missing dedicated Appointment Scheduling, Admission Management and Quotation Management UI
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: MVP-MOD-004-FE-001
+    affected_area: employee_portal_front_desk_care_delivery_screens
+    file: 08-qa/technical-debt/TD-FE-006-appointment-admission-quotation-ui-missing.yaml
+    remediation_strategy: gradual_when_a_future_ui_backlog_item_covers_scheduling_admission_or_quotation_workflows

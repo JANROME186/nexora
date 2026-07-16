@@ -4,11 +4,11 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `MVP-MOD-004-FE-001`.
+Current active backlog item: `MVP-MOD-004-QA-001`.
 
 HOP Enterprise Quality Alignment (`HOP-QA-ALIGN-001` through `HOP-QA-ALIGN-CLOSEOUT`) is closed.
 
-Paused functional backlog item: none — `MVP-MOD-004-FE-001` resumed after `HOP-QA-ALIGN-CLOSEOUT`.
+Paused functional backlog item: none — `MVP-MOD-004-FE-001` resumed after `HOP-QA-ALIGN-CLOSEOUT` and is now closed; `MVP-MOD-004-QA-001` is active.
 
 Quality alignment backlog: `06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml`.
 
@@ -164,6 +164,18 @@ Expected result:
    and "Patient Registrations" (start, commit with a visual high-confidence duplicate candidate
    list on a 409 conflict, cancel). Every action shows a loading, success or error banner and
    destructive actions (revoke, merge, suspend, cancel) require an explicit confirmation dialog.
+7. With a tenant, laboratory and branch selected, open the two new Front Desk and Care Delivery
+   tabs (`MVP-MOD-004-FE-001`): "Front Desk" (start a walk-in or scheduled reception visit,
+   confirm identity, update priority, advance to admission, abandon — the queue lists in the
+   tenant-configurable priority order the backend returns) and "Diagnostic Orders" (create a
+   walk-in, appointment, admission or quotation-conversion order with one or more test/panel
+   lines, then price, accept, complete or cancel it; order detail shows the immutable patient,
+   doctor, branch and pricing snapshots captured at order time). Cancelling an accepted or
+   in-progress order requires an override justification of at least 15 characters
+   (`ORDER_CANCELLATION_OVERRIDE_REQUIRED`, HTTP 409) shown as a plain-text business error. Every
+   action shows a loading, success or error banner and destructive actions (abandon, cancel)
+   require an explicit confirmation dialog. Appointment Scheduling, Admission Management and
+   Quotation Management screens remain tracked as `TD-FE-006`.
 
 ## Quality Validation
 
@@ -287,6 +299,7 @@ Mobile tests cannot find TypeScript or Vitest:
 - A malformed empty-key query/form parameter causes an unhandled 500 on `POST /api/platform/tenants`; tracked as `TD-QA-004`.
 - Release supply-chain gates are configured, but release-policy hardening remains tracked as `TD-BE-004`.
 - Message externalization and magic-string remediation baseline established (`HOP-QA-ALIGN-005`, `TD-I18N-001` closed); remaining full-adoption work (backend API code field, full frontend/mobile i18n-library adoption) tracked as `TD-I18N-002`.
+- The employee portal has no Appointment Scheduling, Admission Management or Quotation Management screens yet (`MVP-MOD-004-FE-001` delivered Front Desk/Reception and Diagnostic Orders only); administrators with API access are not blocked. Tracked as `TD-FE-006`.
 
 ## Component Detail
 

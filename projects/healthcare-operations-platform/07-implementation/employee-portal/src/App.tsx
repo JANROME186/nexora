@@ -11,6 +11,8 @@ import { PersonSearchScreen } from "./components/screens/PersonSearchScreen";
 import { PatientsScreen } from "./components/screens/PatientsScreen";
 import { DoctorsScreen } from "./components/screens/DoctorsScreen";
 import { PatientRegistrationsScreen } from "./components/screens/PatientRegistrationsScreen";
+import { ReceptionScreen } from "./components/screens/ReceptionScreen";
+import { DiagnosticOrdersScreen } from "./components/screens/DiagnosticOrdersScreen";
 import { AdminScopeProvider } from "./state/AdminScopeContext";
 
 function renderScreen(screen: ScreenKey) {
@@ -37,6 +39,10 @@ function renderScreen(screen: ScreenKey) {
       return <DoctorsScreen />;
     case "patient-registrations":
       return <PatientRegistrationsScreen />;
+    case "reception":
+      return <ReceptionScreen />;
+    case "diagnostic-orders":
+      return <DiagnosticOrdersScreen />;
     default:
       return null;
   }

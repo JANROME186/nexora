@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-004-FE-001
+  current_active_backlog_item: MVP-MOD-004-QA-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -210,6 +210,21 @@ smoke_validation:
       acknowledgement by default). POST /api/care-delivery/quotations/{id}/issue resolves each
       quotation line's price independently and applies a tenant-configurable discount cap instead
       of a fixed constant.
+  - id: SMOKE-008
+    name: Front Desk and Care Delivery employee portal screens (MVP-MOD-004-FE-001)
+    expected_result: >
+      With tenant, laboratory and branch scope selected, the "Front Desk" tab starts a walk-in or
+      scheduled reception visit, confirms identity, updates priority, advances to admission
+      (blocking with a visible HTTP 409 message when identity is not yet confirmed) and abandons a
+      visit (with confirmation); the queue lists in the backend's priority order. The "Diagnostic
+      Orders" tab creates a walk-in, appointment, admission or quotation-conversion order with one
+      or more test/panel lines, showing the immutable patient/doctor/branch snapshots and pricing
+      snapshot once priced; price/accept/complete/cancel transitions succeed, and cancelling an
+      accepted or in-progress order without a 15+ character override justification surfaces the
+      backend's ORDER_CANCELLATION_OVERRIDE_REQUIRED message. Every action shows a loading, success
+      or error banner; abandon and cancel require an explicit confirmation dialog. Appointment
+      Scheduling, Admission Management and Quotation Management screens remain tracked as
+      TD-FE-006.
 
 quality_validation:
   - id: QA-001
@@ -350,6 +365,10 @@ known_limitations:
     Message externalization and magic-string remediation baseline established (HOP-QA-ALIGN-005,
     TD-I18N-001 closed); remaining full-adoption work (backend API code field, full frontend/mobile
     i18n-library adoption) tracked as TD-I18N-002.
+  - >-
+    The employee portal has no Appointment Scheduling, Admission Management or Quotation
+    Management screens yet (MVP-MOD-004-FE-001 delivered Front Desk/Reception and Diagnostic
+    Orders only); administrators with API access are not blocked; tracked as TD-FE-006.
 
 quality_gate_command_matrix:
   backend:

@@ -661,3 +661,158 @@ export interface CommitPatientRegistrationRequest {
 export interface CancelPatientRegistrationRequest {
   reasonCode?: string;
 }
+
+// -- Front Desk and Care Delivery (MVP-MOD-004: BCM-ATT-003, BCM-LAB-001) -------------------------
+
+export type ReceptionQueueStatus =
+  | "waiting"
+  | "called"
+  | "in_admission"
+  | "completed"
+  | "abandoned";
+export type ReceptionPriority = "normal" | "priority" | "urgent";
+
+export interface ReceptionVisit {
+  visitId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  patientId: string;
+  linkedAppointmentId?: string;
+  intakeChannel: string;
+  identityConfirmed: boolean;
+  identityConfirmationMethod?: string;
+  queueStatus: ReceptionQueueStatus | string;
+  priority: ReceptionPriority | string;
+  actorId?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface StartReceptionVisitRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  patientId: string;
+  linkedAppointmentId?: string;
+  intakeChannel: string;
+  actorId?: string;
+}
+
+export interface ConfirmReceptionIdentityRequest {
+  identityConfirmationMethod: string;
+}
+
+export interface UpdateReceptionPriorityRequest {
+  priority: string;
+}
+
+export type DiagnosticOrderStatus =
+  | "draft"
+  | "priced"
+  | "accepted"
+  | "in_progress"
+  | "cancelled"
+  | "completed";
+export type OrderLineStatus = "pending" | "accepted" | "cancelled" | "completed";
+
+export interface Money {
+  currency: string;
+  amount: number;
+}
+
+export interface OrderPatientSnapshot {
+  patientId: string;
+  sourceVersion: number;
+  fullName: string;
+  documentType: string;
+  documentNumberMasked: string;
+  birthDate?: string;
+  capturedAt: string;
+}
+
+export interface OrderDoctorSnapshot {
+  doctorId: string;
+  sourceVersion: number;
+  fullName: string;
+  licenseNumber: string;
+  capturedAt: string;
+}
+
+export interface OrderBranchSnapshot {
+  branchId: string;
+  sourceVersion: number;
+  name: string;
+  capturedAt: string;
+}
+
+export interface OrderPricingSnapshot {
+  priceListId: string;
+  priceListVersion: number;
+  totalAmount: Money;
+  capturedAt: string;
+}
+
+export interface DiagnosticOrder {
+  orderId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  intakeChannel: string;
+  sourceReferenceId?: string;
+  patientSnapshot: OrderPatientSnapshot;
+  doctorSnapshot?: OrderDoctorSnapshot;
+  branchSnapshot: OrderBranchSnapshot;
+  clinicalNotes?: string;
+  pricingSnapshot?: OrderPricingSnapshot;
+  status: DiagnosticOrderStatus | string;
+  cancellationReason?: string;
+  actorId?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface OrderLine {
+  orderLineId: string;
+  orderId: string;
+  testDefinitionId: string;
+  catalogItemKind: string;
+  catalogItemName: string;
+  catalogPublishedVersion: number;
+  quantity: number;
+  unitAmount?: Money;
+  lineStatus: OrderLineStatus | string;
+}
+
+export interface OrderLineRequest {
+  testDefinitionId: string;
+  catalogItemKind: string;
+  quantity?: number;
+}
+
+export interface CreateDiagnosticOrderRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  intakeChannel: string;
+  sourceReferenceId?: string;
+  patientId: string;
+  doctorId?: string;
+  actorId?: string;
+  lines: OrderLineRequest[];
+}
+
+export interface PriceOrderRequest {
+  currency?: string;
+}
+
+export interface AcceptOrderRequest {
+  clinicalNotes?: string;
+}
+
+export interface CancelOrderRequest {
+  reasonCode: string;
+  overrideJustification?: string;
+}

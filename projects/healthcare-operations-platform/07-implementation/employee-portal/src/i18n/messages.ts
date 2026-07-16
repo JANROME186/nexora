@@ -9,4 +9,6 @@ export const MESSAGES = {
   selectDoctorFirst: "Select a doctor first.",
   selectPatientFirst: "Select a patient first.",
   unexpectedError: "Unexpected error. Please try again.",
+  selectReceptionVisitFirst: "Select a reception visit first.",
+  selectOrderFirst: "Select a diagnostic order first.",
 } as const;

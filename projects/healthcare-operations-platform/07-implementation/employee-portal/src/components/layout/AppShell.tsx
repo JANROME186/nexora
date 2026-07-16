@@ -11,7 +11,9 @@ export type ScreenKey =
   | "person-search"
   | "patients"
   | "doctors"
-  | "patient-registrations";
+  | "patient-registrations"
+  | "reception"
+  | "diagnostic-orders";
 
 interface ScreenTab {
   key: ScreenKey;
@@ -30,6 +32,8 @@ const TABS: ScreenTab[] = [
   { key: "patients", label: "Patients" },
   { key: "doctors", label: "Doctors" },
   { key: "patient-registrations", label: "Patient Registrations" },
+  { key: "reception", label: "Front Desk" },
+  { key: "diagnostic-orders", label: "Diagnostic Orders" },
 ];
 
 interface AppShellProps {
@@ -47,8 +51,9 @@ export function AppShell({ activeScreen, onSelectScreen, children }: AppShellPro
       <header className="app-shell__header">
         <h1>Healthcare Operations Platform - Employee Portal Administration</h1>
         <p>
-          Platform Foundation and Diagnostic Catalog: administration, audit and catalog
-          configuration.
+          Platform Foundation, Diagnostic Catalog, People and Clinical Master Data, and Front Desk
+          and Care Delivery: administration, audit, catalog configuration, patient/doctor records
+          and diagnostic order intake.
         </p>
       </header>
       <nav className="app-shell__nav" aria-label="Administration screens">
