@@ -295,3 +295,17 @@ entries:
       coverage: passed_no_regression
       dast_for_runnable_web_or_api_surfaces: deferred_to_MVP_MOD_005_QA_001_integrated_runtime_validation
       container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  - backlog_item: MVP-MOD-005-BE-002
+    module: MVP-MOD-005 Cashier and Billing Request
+    status: passed
+    evidence_path: 08-qa/security-quality/MVP-MOD-005-BE-002/
+    human_readable: 08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: passed
+      dependency_vulnerability_scan: passed
+      secrets_scan: passed
+      coverage: passed_no_regression_and_improved
+      dast_for_runnable_web_or_api_surfaces: deferred_to_MVP_MOD_005_QA_001_integrated_runtime_validation
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed

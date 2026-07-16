@@ -24,42 +24,43 @@ import com.nexora.hop.platformfoundation.cashsales.shared.CashSalesEntityNotFoun
 import com.nexora.hop.platformfoundation.cashsales.shared.CashSalesErrorCodes;
 import com.nexora.hop.platformfoundation.cashsales.shared.InvalidCashSalesCommandException;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.Money;
-import com.nexora.hop.platformfoundation.frontdeskcaredelivery.diagnosticordermanagement.application.DiagnosticOrderManagementService;
+import com.nexora.hop.platformfoundation.frontdeskcaredelivery.application.FrontDeskSaleSourcePort;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.diagnosticordermanagement.domain.DiagnosticOrder;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.diagnosticordermanagement.domain.OrderLine;
-import com.nexora.hop.platformfoundation.frontdeskcaredelivery.quotationmanagement.application.QuotationManagementService;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.quotationmanagement.domain.QuotationLine;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.quotationmanagement.domain.QuotationRequest;
 
+/**
+ * Application service for cashier operations (BCM-ATT-005). Manages cash sessions, sales and
+ * payment allocations. Reads source data from FrontDeskCareDelivery via the stable
+ * {@link FrontDeskSaleSourcePort} named interface, keeping the module boundary clean (TD-BE-011).
+ * Does not mutate front-desk, patient, clinical or catalog aggregates.
+ */
 @Service
 public class CashierOperationsService {
 
     private static final String DEFAULT_CURRENCY = "USD";
 
     private final CashierOperationsRepository repository;
-    private final DiagnosticOrderManagementService diagnosticOrderService;
-    private final QuotationManagementService quotationService;
+    private final FrontDeskSaleSourcePort frontDeskSaleSourcePort;
     private final AuditRecorder auditRecorder;
     private final Clock clock;
 
     @Autowired
     public CashierOperationsService(
             CashierOperationsRepository repository,
-            DiagnosticOrderManagementService diagnosticOrderService,
-            QuotationManagementService quotationService,
+            FrontDeskSaleSourcePort frontDeskSaleSourcePort,
             AuditRecorder auditRecorder) {
-        this(repository, diagnosticOrderService, quotationService, auditRecorder, Clock.systemUTC());
+        this(repository, frontDeskSaleSourcePort, auditRecorder, Clock.systemUTC());
     }
 
     CashierOperationsService(
             CashierOperationsRepository repository,
-            DiagnosticOrderManagementService diagnosticOrderService,
-            QuotationManagementService quotationService,
+            FrontDeskSaleSourcePort frontDeskSaleSourcePort,
             AuditRecorder auditRecorder,
             Clock clock) {
         this.repository = repository;
-        this.diagnosticOrderService = diagnosticOrderService;
-        this.quotationService = quotationService;
+        this.frontDeskSaleSourcePort = frontDeskSaleSourcePort;
         this.auditRecorder = auditRecorder;
         this.clock = clock;
     }
@@ -192,7 +193,7 @@ public class CashierOperationsService {
     }
 
     private Sale createFromDiagnosticOrder(CreateSaleCommand command, String orderId) {
-        DiagnosticOrder order = diagnosticOrderService.get(orderId);
+        DiagnosticOrder order = frontDeskSaleSourcePort.findOrderById(orderId);
         if (!DiagnosticOrder.STATUS_ACCEPTED.equals(order.status())
                 && !DiagnosticOrder.STATUS_COMPLETED.equals(order.status())) {
             throw new CashSalesConflictException(
@@ -202,7 +203,7 @@ public class CashierOperationsService {
         if (order.pricingSnapshot() == null) {
             throw new CashSalesConflictException("Diagnostic order must have a pricing snapshot.");
         }
-        List<OrderLine> orderLines = diagnosticOrderService.getOrderLines(orderId);
+        List<OrderLine> orderLines = frontDeskSaleSourcePort.findOrderLines(orderId);
         String saleId = newId();
         for (OrderLine line : orderLines) {
             Money lineTotal = multiply(line.unitAmount(), line.quantity());
@@ -215,7 +216,7 @@ public class CashierOperationsService {
     }
 
     private Sale createFromQuotation(CreateSaleCommand command, String quotationId) {
-        QuotationRequest quotation = quotationService.get(quotationId);
+        QuotationRequest quotation = frontDeskSaleSourcePort.findQuotationById(quotationId);
         if (!QuotationRequest.STATUS_ACCEPTED.equals(quotation.status())
                 && !QuotationRequest.STATUS_CONVERTED.equals(quotation.status())) {
             throw new CashSalesConflictException(
@@ -226,7 +227,7 @@ public class CashierOperationsService {
             throw new CashSalesConflictException("Quotation requires patient and total snapshots before sale creation.");
         }
         String saleId = newId();
-        for (QuotationLine line : quotationService.getLines(quotationId)) {
+        for (QuotationLine line : frontDeskSaleSourcePort.findQuotationLines(quotationId)) {
             Money lineTotal = multiply(line.unitAmount(), line.quantity());
             repository.saveSaleLine(new SaleLine(newId(), saleId, line.testDefinitionId(),
                     line.catalogItemKind(), line.testDefinitionId(), line.quantity(), line.unitAmount(), lineTotal));

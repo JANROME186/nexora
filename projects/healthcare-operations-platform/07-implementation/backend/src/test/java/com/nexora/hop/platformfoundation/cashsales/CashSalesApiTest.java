@@ -120,7 +120,7 @@ class CashSalesApiTest {
     }
 
     @Test
-    void paidSaleCanCreateBillingRequestButAdapterActionsRemainExplicitBoundary() throws Exception {
+    void paidSaleCanCreateBillingRequestAndSubmitViaFiscalAdapter() throws Exception {
         String orderId = createAcceptedPricedOrder("40.00");
         String saleId = postJson("/api/revenue/cashier/sales", """
                 {"tenantId":"%s","sourceType":"diagnostic_order","sourceReferenceId":"%s","actorId":"cashier-1"}
@@ -140,8 +140,11 @@ class CashSalesApiTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].taxCode").value("VAT"));
 
+        // submit transitions to submitted (local deterministic adapter)
         mockMvc.perform(post("/api/revenue/billing-requests/{invoiceRequestId}/submit", invoiceRequestId))
-                .andExpect(status().isConflict());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("submitted"))
+                .andExpect(jsonPath("$.adapterCorrelationId").isNotEmpty());
     }
 
     @Test
@@ -237,7 +240,7 @@ class CashSalesApiTest {
     }
 
     @Test
-    void billingRequestListGetRetryAndCancelUseProviderAgnosticBoundary() throws Exception {
+    void billingRequestFullLifecycleSubmitRetryIssued() throws Exception {
         String orderId = createAcceptedPricedOrder("41.00");
         String saleId = postJson("/api/revenue/cashier/sales", """
                 {"tenantId":"%s","sourceType":"diagnostic_order","sourceReferenceId":"%s"}
@@ -249,15 +252,72 @@ class CashSalesApiTest {
                  "fiscalAddress":"Main Street 1"}
                 """.formatted(saleId)).get("invoiceRequestId").asText();
 
+        // list and get work from requested state
         mockMvc.perform(get("/api/revenue/billing-requests").param("tenantId", tenantId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].invoiceRequestId").value(invoiceRequestId));
         mockMvc.perform(get("/api/revenue/billing-requests/{invoiceRequestId}", invoiceRequestId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.saleId").value(saleId));
+
+        // submit transitions to submitted
+        mockMvc.perform(post("/api/revenue/billing-requests/{invoiceRequestId}/submit", invoiceRequestId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("submitted"));
+
+        // retry on submitted transitions to issued
         mockMvc.perform(post("/api/revenue/billing-requests/{invoiceRequestId}/retry", invoiceRequestId))
-                .andExpect(status().isConflict());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("issued"));
+
+        // cancel on issued (terminal) must be rejected
         mockMvc.perform(post("/api/revenue/billing-requests/{invoiceRequestId}/cancel", invoiceRequestId))
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    void billingRequestCancelOnRequestedSucceeds() throws Exception {
+        String orderId = createAcceptedPricedOrder("35.00");
+        String saleId = postJson("/api/revenue/cashier/sales", """
+                {"tenantId":"%s","sourceType":"diagnostic_order","sourceReferenceId":"%s"}
+                """.formatted(tenantId, orderId)).get("saleId").asText();
+        postJson("/api/revenue/cashier/sales/" + saleId + "/payments",
+                "{\"amount\":35.00,\"currency\":\"USD\",\"method\":\"card\",\"registeredBy\":\"cashier-1\"}");
+        String invoiceRequestId = postJson("/api/revenue/billing-requests", """
+                {"saleId":"%s","legalName":"Ada Lovelace","taxIdentifier":"TAX-123",
+                 "fiscalAddress":"Main Street 1"}
+                """.formatted(saleId)).get("invoiceRequestId").asText();
+
+        // cancel directly from requested (not yet submitted)
+        mockMvc.perform(post("/api/revenue/billing-requests/{invoiceRequestId}/cancel", invoiceRequestId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("cancelled"));
+
+        // second cancel must be rejected (terminal state)
+        mockMvc.perform(post("/api/revenue/billing-requests/{invoiceRequestId}/cancel", invoiceRequestId))
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    void billingRequestSubmitIdempotencySecondSubmitOnSubmittedIsRejected() throws Exception {
+        String orderId = createAcceptedPricedOrder("27.00");
+        String saleId = postJson("/api/revenue/cashier/sales", """
+                {"tenantId":"%s","sourceType":"diagnostic_order","sourceReferenceId":"%s"}
+                """.formatted(tenantId, orderId)).get("saleId").asText();
+        postJson("/api/revenue/cashier/sales/" + saleId + "/payments",
+                "{\"amount\":27.00,\"currency\":\"USD\",\"method\":\"card\",\"registeredBy\":\"cashier-1\"}");
+        String invoiceRequestId = postJson("/api/revenue/billing-requests", """
+                {"saleId":"%s","legalName":"Ada Lovelace","taxIdentifier":"TAX-123",
+                 "fiscalAddress":"Main Street 1"}
+                """.formatted(saleId)).get("invoiceRequestId").asText();
+
+        // first submit succeeds
+        mockMvc.perform(post("/api/revenue/billing-requests/{invoiceRequestId}/submit", invoiceRequestId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("submitted"));
+
+        // second submit on non-requested status must be rejected with state transition error
+        mockMvc.perform(post("/api/revenue/billing-requests/{invoiceRequestId}/submit", invoiceRequestId))
                 .andExpect(status().isConflict());
     }
 

@@ -35,12 +35,14 @@ do_not_write_manually:
 active_capability_package_group:
   roadmap_group: MVP-MOD-005
   name: Cashier and Billing Request
-  package_status: backend_compiled
-  backlog_item: MVP-MOD-005-BE-001
+  package_status: custom_rules_implemented
+  backlog_item: MVP-MOD-005-BE-002
   backlog_item_status: closed
   qa_evidence: ../../../08-qa/qa/cashier-and-billing-request/MVP-MOD-005-DEF-validation.yaml
   qa_evidence_be_001: ../../../08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.yaml
   security_quality_evidence_be_001: ../../../08-qa/security-quality/MVP-MOD-005-BE-001/security-quality-evidence.yaml
+  qa_evidence_be_002: ../../../08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-002-validation.yaml
+  security_quality_evidence_be_002: ../../../08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.yaml
   backend_bounded_context_root: cashsales
   backend_implementation: ../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/cashsales/
   backend_schema: ../../../07-implementation/backend/src/main/resources/db/cash-sales/schema.sql
@@ -59,18 +61,18 @@ active_capability_package_group:
     - generation-plan.yaml
     - traceability.yaml
     - README.md
-  next_backlog_item: MVP-MOD-005-BE-002
+  next_backlog_item: MVP-MOD-005-FE-001
   capabilities:
     - capability_id: BCM-ATT-005
       package_folder: bcm-att-005-cashier-operations/
-      package_status: backend_compiled
+      package_status: custom_rules_implemented
       bounded_context: cash-sales
       primary_aggregate: AGG-010 Sale; AGG-011 CashRegister
       mobile_scope: payment_receipt_later
       backend_package: cashsales.cashieroperations
     - capability_id: BCM-ATT-008
       package_folder: bcm-att-008-billing-request-management/
-      package_status: backend_compiled
+      package_status: custom_rules_implemented
       bounded_context: billing-tax
       secondary_bounded_context: cash-sales
       primary_aggregate: AGG-012 Invoice (modeled as provider-agnostic InvoiceRequest)

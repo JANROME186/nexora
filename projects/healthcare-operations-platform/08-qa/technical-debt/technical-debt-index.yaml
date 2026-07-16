@@ -33,9 +33,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 66.58
-        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 66.58
+        current_line_coverage_percent: 67.47
+        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-002-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 67.47
         final_closure_target_percent: 80
       frontend_typescript_web:
         current_line_coverage_percent: 76.51
@@ -295,10 +295,10 @@ entries:
     remediation_strategy: gradual_when_a_future_ui_backlog_item_covers_scheduling_admission_or_quotation_workflows
   - id: TD-BE-011
     title: CashSales depends on open FrontDeskCareDelivery internals instead of stable public ports
-    status: open
+    status: closed
     risk_level: medium
     blocking: false
-    source_backlog_item: MVP-MOD-005-BE-001
+    source_backlog_item: MVP-MOD-005-BE-002
     affected_area: cashsales_frontdesk_module_boundary
     file: 08-qa/technical-debt/TD-BE-011-cashsales-frontdesk-public-port-boundary.yaml
-    remediation_strategy: gradual_when_cashsales_or_frontdesk_module_boundary_is_next_touched
+    remediation_strategy: completed_by_MVP_MOD_005_BE_002_sale_source_named_interface

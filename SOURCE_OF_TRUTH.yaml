@@ -99,6 +99,13 @@ sources:
   hop_mvp_mod_005_be_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.yaml
   hop_mvp_mod_005_be_001_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-005-BE-001/security-quality-evidence.md
   hop_mvp_mod_005_be_001_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-005-BE-001/security-quality-evidence.yaml
+  hop_mvp_mod_005_be_002_backend_implementation: projects/healthcare-operations-platform/07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/cashsales/
+  hop_mvp_mod_005_be_002_frontdesk_sale_source_port: projects/healthcare-operations-platform/07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/frontdeskcaredelivery/application/FrontDeskSaleSourcePort.java
+  hop_mvp_mod_005_be_002_fiscal_adapter_port: projects/healthcare-operations-platform/07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/cashsales/billingrequestmanagement/domain/FiscalAdapterPort.java
+  hop_mvp_mod_005_be_002_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-002-validation.md
+  hop_mvp_mod_005_be_002_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-002-validation.yaml
+  hop_mvp_mod_005_be_002_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.md
+  hop_mvp_mod_005_be_002_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.yaml
   hop_open_data_ingestion_contract: projects/healthcare-operations-platform/05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md
   hop_open_data_ingestion_contract_yaml: projects/healthcare-operations-platform/05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml
   hop_open_data_ingestion_requirements: projects/healthcare-operations-platform/04-requirements/capabilities/bcm-plt-010-open-data-ingestion-and-migration/requirements.yaml

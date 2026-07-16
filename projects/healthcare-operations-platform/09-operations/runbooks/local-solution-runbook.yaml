@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-005-BE-002
+  current_active_backlog_item: MVP-MOD-005-FE-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -236,7 +236,8 @@ smoke_validation:
       session with POST /api/revenue/cashier/sessions/{sessionId}/close. After a sale is paid,
       POST /api/revenue/billing-requests creates an InvoiceRequest and GET
       /api/revenue/billing-requests/{invoiceRequestId}/tax-lines returns tax lines. submit, retry
-      and cancel billing adapter actions intentionally return HTTP 409 until MVP-MOD-005-BE-002.
+      and cancel billing adapter actions execute the provider-agnostic local deterministic fiscal
+      adapter boundary introduced by MVP-MOD-005-BE-002.
 
 quality_validation:
   - id: QA-001
