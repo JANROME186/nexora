@@ -1,3 +1,4 @@
+import { MESSAGES } from "../i18n/messages";
 import type { MobileSession, SessionStore } from "./sessionStore";
 
 export type LoginRequest = {
@@ -19,9 +20,9 @@ export function createLocalAuthService(
 ): LocalAuthService {
   return {
     login: (request) => {
-      const tenantId = requiredText(request.tenantId, "Tenant id is required.");
-      const userId = requiredText(request.userId, "User id is required.");
-      const displayName = requiredText(request.displayName, "Display name is required.");
+      const tenantId = requiredText(request.tenantId, MESSAGES.tenantIdRequired);
+      const userId = requiredText(request.userId, MESSAGES.userIdRequired);
+      const displayName = requiredText(request.displayName, MESSAGES.displayNameRequired);
       const email = requiredEmail(request.email);
       const session: MobileSession = {
         token: `local-session:${tenantId}:${userId}`,
@@ -49,9 +50,9 @@ function requiredText(value: string, message: string) {
 }
 
 function requiredEmail(value: string) {
-  const email = requiredText(value, "Email is required.").toLowerCase();
+  const email = requiredText(value, MESSAGES.emailRequired).toLowerCase();
   if (!email.includes("@")) {
-    throw new Error("Email must be valid.");
+    throw new Error(MESSAGES.emailInvalid);
   }
   return email;
 }

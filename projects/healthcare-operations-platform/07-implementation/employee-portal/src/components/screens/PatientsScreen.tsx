@@ -17,6 +17,7 @@ import type {
   PatientRepresentative,
   PatientSnapshot,
 } from "../../api/types";
+import { MESSAGES } from "../../i18n/messages";
 import { useAdminScope } from "../../state/AdminScopeContext";
 import { useAsyncAction } from "../../state/useAsyncAction";
 import { ConfirmDialog } from "../common/ConfirmDialog";
@@ -89,14 +90,14 @@ export function PatientsScreen() {
   });
 
   const snapshotAction = useAsyncAction(async () => {
-    if (!selectedPatientId) throw new Error("Select a patient first.");
+    if (!selectedPatientId) throw new Error(MESSAGES.selectPatientFirst);
     const found = await getPatientSnapshot(selectedPatientId);
     setSnapshot(found);
     return found;
   });
 
   const representativesAction = useAsyncAction(async () => {
-    if (!selectedPatientId) throw new Error("Select a patient first.");
+    if (!selectedPatientId) throw new Error(MESSAGES.selectPatientFirst);
     const loaded = await listPatientRepresentatives(selectedPatientId);
     setRepresentatives(loaded);
     return loaded;
@@ -108,7 +109,7 @@ export function PatientsScreen() {
   const [repDocumentType, setRepDocumentType] = useState("national_id");
   const [repDocumentNumber, setRepDocumentNumber] = useState("");
   const attachRepresentativeAction = useAsyncAction(async () => {
-    if (!selectedPatientId) throw new Error("Select a patient first.");
+    if (!selectedPatientId) throw new Error(MESSAGES.selectPatientFirst);
     const created = await attachPatientRepresentative(selectedPatientId, {
       relationship: repRelationship,
       givenName: repGivenName,
@@ -133,7 +134,7 @@ export function PatientsScreen() {
   );
 
   const consentsAction = useAsyncAction(async () => {
-    if (!selectedPatientId) throw new Error("Select a patient first.");
+    if (!selectedPatientId) throw new Error(MESSAGES.selectPatientFirst);
     const loaded = await listPatientConsents(selectedPatientId);
     setConsents(loaded);
     return loaded;
@@ -142,7 +143,7 @@ export function PatientsScreen() {
   const [consentType, setConsentType] = useState(CONSENT_TYPES[0]);
   const [consentGrantedBy, setConsentGrantedBy] = useState("patient");
   const recordConsentAction = useAsyncAction(async () => {
-    if (!selectedPatientId) throw new Error("Select a patient first.");
+    if (!selectedPatientId) throw new Error(MESSAGES.selectPatientFirst);
     const created = await recordPatientConsent(selectedPatientId, {
       consentType,
       granted: true,

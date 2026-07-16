@@ -11,16 +11,11 @@ import type {
   PersonMergeCoordination,
   PersonSearchEntry,
 } from "../../api/types";
+import { confidenceClass } from "../../i18n/matching";
 import { useAdminScope } from "../../state/AdminScopeContext";
 import { useAsyncAction } from "../../state/useAsyncAction";
 import { ScopeIndicator } from "../common/ScopeIndicator";
 import { StatusBanner } from "../common/StatusBanner";
-
-function confidenceClass(confidence: number) {
-  if (confidence >= 0.85) return "confidence-badge confidence-badge--high";
-  if (confidence >= 0.5) return "confidence-badge confidence-badge--medium";
-  return "confidence-badge confidence-badge--low";
-}
 
 /**
  * BCM-PER-001 employee portal surface: global person search (SCR-PER-001-01), duplicate

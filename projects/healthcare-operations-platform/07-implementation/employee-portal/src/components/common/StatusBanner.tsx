@@ -1,5 +1,7 @@
+import type { AsyncStatus } from "../../state/useAsyncAction";
+
 interface StatusBannerProps {
-  status: "idle" | "loading" | "success" | "error";
+  status: AsyncStatus;
   errorMessage?: string;
   successMessage?: string;
 }

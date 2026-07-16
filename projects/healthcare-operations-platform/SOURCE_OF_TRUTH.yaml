@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.81.0
+  version: 0.82.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -179,6 +179,12 @@ sources:
   quality_alignment_004_qa_evidence_yaml: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-004-validation.yaml
   quality_alignment_004_security_quality_evidence: 08-qa/security-quality/HOP-QA-ALIGN-004/security-quality-evidence.md
   quality_alignment_004_security_quality_evidence_yaml: 08-qa/security-quality/HOP-QA-ALIGN-004/security-quality-evidence.yaml
+  quality_alignment_005_qa_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-validation.md
+  quality_alignment_005_qa_evidence_yaml: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-validation.yaml
+  quality_alignment_005_security_quality_evidence: 08-qa/security-quality/HOP-QA-ALIGN-005/security-quality-evidence.md
+  quality_alignment_005_security_quality_evidence_yaml: 08-qa/security-quality/HOP-QA-ALIGN-005/security-quality-evidence.yaml
+  quality_alignment_005_message_externalization_inventory: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-message-externalization-inventory.md
+  quality_alignment_005_message_externalization_inventory_yaml: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-message-externalization-inventory.yaml
   quality_alignment_006_qa_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-006-validation.md
   quality_alignment_006_qa_evidence_yaml: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-006-validation.yaml
   commercial_backlog_execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md

@@ -232,13 +232,13 @@ entries:
     remediation_strategy: completed_by_HOP_QA_ALIGN_004_all_severity_scans
   - id: TD-I18N-001
     title: Establish message externalization and magic-string remediation baseline
-    status: open
+    status: closed
     risk_level: medium
-    blocking: true
+    blocking: false
     source_backlog_item: HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS
     affected_area: backend_frontend_mobile_messages_and_magic_values
     file: 08-qa/technical-debt/TD-I18N-001-message-externalization-baseline.yaml
-    remediation_strategy: immediate_quality_alignment_before_mvp_mod_004_fe_001
+    remediation_strategy: completed_by_HOP_QA_ALIGN_005_inventory_strategy_and_safe_remediation
   - id: TD-FE-004
     title: Raise employee portal line coverage to the 80 percent final-closure target
     status: open
@@ -275,3 +275,12 @@ entries:
     affected_area: backend_servlet_parameter_parsing
     file: 08-qa/technical-debt/TD-QA-004-malformed-query-parameter-unhandled-500.yaml
     remediation_strategy: gradual_when_backend_web_infrastructure_is_next_touched
+  - id: TD-I18N-002
+    title: Complete full message-catalog and localization-library adoption beyond the HOP-QA-ALIGN-005 baseline
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: HOP-QA-ALIGN-005
+    affected_area: backend_frontend_mobile_messages_and_magic_values
+    file: 08-qa/technical-debt/TD-I18N-002-full-localization-adoption.yaml
+    remediation_strategy: gradual_when_a_second_locale_or_structured_error_consumer_is_actually_needed

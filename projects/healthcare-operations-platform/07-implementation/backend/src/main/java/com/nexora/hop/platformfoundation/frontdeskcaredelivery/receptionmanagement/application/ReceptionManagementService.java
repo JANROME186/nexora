@@ -20,6 +20,7 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.receptionmanageme
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.receptionmanagement.domain.ReceptionVisitRepository;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskConflictException;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskEntityNotFoundException;
+import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskErrorCodes;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagement.PatientDirectory;
 
 /**
@@ -90,7 +91,8 @@ public class ReceptionManagementService {
             AppointmentSlot appointment = appointmentSchedulingService.get(linkedAppointmentId);
             if (!AppointmentSlot.STATUS_CHECKED_IN.equals(appointment.status())) {
                 throw new FrontDeskConflictException(
-                        "RECEPTION_APPOINTMENT_NOT_CHECKED_IN: the linked appointment must be checked in.");
+                        FrontDeskErrorCodes.RECEPTION_APPOINTMENT_NOT_CHECKED_IN
+                                + ": the linked appointment must be checked in.");
             }
         }
 
@@ -132,7 +134,8 @@ public class ReceptionManagementService {
         ReceptionVisit visit = require(visitId);
         if (!visit.identityConfirmed()) {
             throw new FrontDeskConflictException(
-                    "RECEPTION_IDENTITY_NOT_CONFIRMED: identity must be confirmed before advancing to admission.");
+                    FrontDeskErrorCodes.RECEPTION_IDENTITY_NOT_CONFIRMED
+                            + ": identity must be confirmed before advancing to admission.");
         }
         String fromQueueStatus = visit.queueStatus();
         ReceptionVisit advanced = withQueueStatus(visit, ReceptionVisit.QUEUE_IN_ADMISSION);

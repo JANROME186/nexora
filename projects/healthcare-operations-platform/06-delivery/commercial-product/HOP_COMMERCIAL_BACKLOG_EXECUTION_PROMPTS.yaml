@@ -223,7 +223,7 @@ validation_commands:
 
 next_backlog_item:
   module_id: HOP-QUALITY-ALIGNMENT
-  backlog_item_id: HOP-QA-ALIGN-005
-  name: Establish message externalization and magic-string remediation baseline
+  backlog_item_id: HOP-QA-ALIGN-CLOSEOUT
+  name: HOP Enterprise Quality Alignment Closeout
   expected_folder: ../../08-qa/qa/quality-alignment/
   paused_functional_backlog_item: MVP-MOD-004-FE-001

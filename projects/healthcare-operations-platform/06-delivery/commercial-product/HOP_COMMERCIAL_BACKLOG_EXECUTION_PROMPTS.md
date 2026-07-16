@@ -195,6 +195,6 @@ Expected result:
 Start with:
 
 - Module: `HOP-QUALITY-ALIGNMENT Enterprise Quality Alignment`
-- Backlog item: `HOP-QA-ALIGN-004`
+- Backlog item: `HOP-QA-ALIGN-CLOSEOUT`
 - Paused functional backlog item: `MVP-MOD-004-FE-001`
-- Folder: `08-qa/security-quality/HOP-QA-ALIGN-004/`
+- Folder: `08-qa/qa/quality-alignment/`

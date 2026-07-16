@@ -275,10 +275,10 @@ modules:
         status: closed_with_residual_p1_debt
       - id: HOP-QA-ALIGN-004
         name: Establish all-severity vulnerability, DAST and runtime security evidence
-        status: open_pending_dast
+        status: closed
       - id: HOP-QA-ALIGN-005
         name: Establish message externalization and magic-string remediation baseline
-        status: pending
+        status: closed
       - id: HOP-QA-ALIGN-006
         name: Update integrated local runbook with quality gate execution
         status: closed

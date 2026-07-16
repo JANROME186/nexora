@@ -33,6 +33,7 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.quotationmanageme
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.quotationmanagement.domain.QuotationRequestRepository;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskConflictException;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskEntityNotFoundException;
+import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskErrorCodes;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskPolicyStore;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.InvalidFrontDeskCommandException;
 
@@ -167,7 +168,8 @@ public class QuotationManagementService {
                             && candidate.itemRefId().equals(line.testDefinitionId()))
                     .findFirst()
                     .orElseThrow(() -> new FrontDeskConflictException(
-                            "QUOTATION_PRICING_SNAPSHOT_REQUIRED: no price entry resolves for catalog item "
+                            FrontDeskErrorCodes.QUOTATION_PRICING_SNAPSHOT_REQUIRED
+                                    + ": no price entry resolves for catalog item "
                                     + line.testDefinitionId() + " in its resolved price list."));
             QuotationLine priced = new QuotationLine(line.lineId(), line.quotationId(), line.testDefinitionId(),
                     line.catalogItemKind(), line.publishedVersion(), line.quantity(), entry.price());
@@ -188,7 +190,8 @@ public class QuotationManagementService {
             if (QuotationRequest.DISCOUNT_PERCENTAGE.equals(discountKind)) {
                 if (discountValue.compareTo(maxPercentage) > 0) {
                     throw new FrontDeskConflictException(
-                            "QUOTATION_DISCOUNT_POLICY_EXCEEDED: discount exceeds the " + maxPercentage
+                            FrontDeskErrorCodes.QUOTATION_DISCOUNT_POLICY_EXCEEDED
+                                    + ": discount exceeds the " + maxPercentage
                                     + "% policy limit.");
                 }
                 total = subtotal.subtract(subtotal.multiply(discountValue).divide(BigDecimal.valueOf(100)));
@@ -196,7 +199,8 @@ public class QuotationManagementService {
                 BigDecimal maxAmount = subtotal.multiply(maxPercentage).divide(BigDecimal.valueOf(100));
                 if (discountValue.compareTo(maxAmount) > 0) {
                     throw new FrontDeskConflictException(
-                            "QUOTATION_DISCOUNT_POLICY_EXCEEDED: discount exceeds the " + maxPercentage
+                            FrontDeskErrorCodes.QUOTATION_DISCOUNT_POLICY_EXCEEDED
+                                    + ": discount exceeds the " + maxPercentage
                                     + "% policy limit.");
                 }
                 total = subtotal.subtract(discountValue);
@@ -228,7 +232,8 @@ public class QuotationManagementService {
             throw new FrontDeskConflictException("Only an issued quotation can be accepted.");
         }
         if (quotation.validUntil() != null && quotation.validUntil().isBefore(LocalDate.now(clock))) {
-            throw new FrontDeskConflictException("QUOTATION_EXPIRED: the quotation validity window has elapsed.");
+            throw new FrontDeskConflictException(
+                    FrontDeskErrorCodes.QUOTATION_EXPIRED + ": the quotation validity window has elapsed.");
         }
         QuotationRequest accepted = withStatus(quotation, QuotationRequest.STATUS_ACCEPTED, quotation.cancellationReason());
         QuotationRequest saved = repository.save(accepted);
@@ -314,14 +319,16 @@ public class QuotationManagementService {
             TestDefinition testDefinition = testCatalogService.get(testDefinitionId);
             if (!TestDefinition.STATUS_PUBLISHED.equals(testDefinition.status())) {
                 throw new FrontDeskConflictException(
-                        "QUOTATION_CATALOG_ITEM_NOT_PUBLISHED: test " + testDefinitionId + " is not published.");
+                        FrontDeskErrorCodes.QUOTATION_CATALOG_ITEM_NOT_PUBLISHED
+                                + ": test " + testDefinitionId + " is not published.");
             }
             publishedVersion = testDefinition.version();
         } else {
             PanelDefinition panelDefinition = panelCatalogService.get(testDefinitionId);
             if (!PanelDefinition.STATUS_PUBLISHED.equals(panelDefinition.status())) {
                 throw new FrontDeskConflictException(
-                        "QUOTATION_CATALOG_ITEM_NOT_PUBLISHED: panel " + testDefinitionId + " is not published.");
+                        FrontDeskErrorCodes.QUOTATION_CATALOG_ITEM_NOT_PUBLISHED
+                                + ": panel " + testDefinitionId + " is not published.");
             }
             publishedVersion = panelDefinition.version();
         }
@@ -332,7 +339,8 @@ public class QuotationManagementService {
         if (QuotationRequest.STATUS_CONVERTED.equals(quotation.status())
                 || QuotationRequest.STATUS_CANCELLED.equals(quotation.status())) {
             throw new FrontDeskConflictException(
-                    "QUOTATION_TERMINAL_STATE_IMMUTABLE: a converted or cancelled quotation cannot be modified.");
+                    FrontDeskErrorCodes.QUOTATION_TERMINAL_STATE_IMMUTABLE
+                            + ": a converted or cancelled quotation cannot be modified.");
         }
     }
 

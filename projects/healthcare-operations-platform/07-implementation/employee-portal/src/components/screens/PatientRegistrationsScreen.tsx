@@ -8,19 +8,13 @@ import {
   startPatientRegistration,
 } from "../../api/peopleApi";
 import type { PatientRegistrationRequestRecord, PersonDuplicateCandidate } from "../../api/types";
+import { confidenceClass } from "../../i18n/matching";
+import { MESSAGES } from "../../i18n/messages";
 import { useAdminScope } from "../../state/AdminScopeContext";
-import { useAsyncAction } from "../../state/useAsyncAction";
+import { useAsyncAction, type AsyncStatus } from "../../state/useAsyncAction";
 import { ConfirmDialog } from "../common/ConfirmDialog";
 import { ScopeIndicator } from "../common/ScopeIndicator";
 import { StatusBanner } from "../common/StatusBanner";
-
-type CommitPhase = "idle" | "loading" | "success" | "error";
-
-function confidenceClass(confidence: number) {
-  if (confidence >= 0.85) return "confidence-badge confidence-badge--high";
-  if (confidence >= 0.5) return "confidence-badge confidence-badge--medium";
-  return "confidence-badge confidence-badge--low";
-}
 
 /**
  * BCM-ATT-002 employee portal surface: registration intake (SCR-REG-002-01), request list
@@ -79,7 +73,7 @@ export function PatientRegistrationsScreen() {
 
   // Commit is handled outside useAsyncAction so the 409 branch can inspect ApiError.status and
   // trigger a duplicate-candidate lookup instead of just showing a generic error message.
-  const [commitPhase, setCommitPhase] = useState<CommitPhase>("idle");
+  const [commitPhase, setCommitPhase] = useState<AsyncStatus>("idle");
   const [commitErrorMessage, setCommitErrorMessage] = useState<string | undefined>(undefined);
   const [duplicateCandidates, setDuplicateCandidates] = useState<PersonDuplicateCandidate[]>([]);
   const [resolvedExistingPatientId, setResolvedExistingPatientId] = useState("");
@@ -184,7 +178,7 @@ export function PatientRegistrationsScreen() {
           }
         }
       } else {
-        setCommitErrorMessage("Unexpected error. Please try again.");
+        setCommitErrorMessage(MESSAGES.unexpectedError);
       }
     }
   }

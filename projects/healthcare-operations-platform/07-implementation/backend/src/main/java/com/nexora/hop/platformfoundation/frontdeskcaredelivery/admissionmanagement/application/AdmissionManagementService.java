@@ -29,6 +29,7 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.receptionmanageme
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.receptionmanagement.domain.ReceptionVisit;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskConflictException;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskEntityNotFoundException;
+import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskErrorCodes;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskPolicyStore;
 
 /**
@@ -101,7 +102,8 @@ public class AdmissionManagementService {
         ReceptionVisit visit = receptionManagementService.get(visitId);
         if (!visit.identityConfirmed()) {
             throw new FrontDeskConflictException(
-                    "ADMISSION_IDENTITY_NOT_CONFIRMED: the reception visit must have confirmed identity.");
+                    FrontDeskErrorCodes.ADMISSION_IDENTITY_NOT_CONFIRMED
+                            + ": the reception visit must have confirmed identity.");
         }
 
         Instant now = Instant.now(clock);
@@ -122,7 +124,8 @@ public class AdmissionManagementService {
                 command.catalogSelection() == null ? List.of() : command.catalogSelection();
         if (selections.isEmpty()) {
             throw new FrontDeskConflictException(
-                    "ADMISSION_CATALOG_INCOMPLETE: at least one catalog item must be selected.");
+                    FrontDeskErrorCodes.ADMISSION_CATALOG_INCOMPLETE
+                            + ": at least one catalog item must be selected.");
         }
         List<AdmissionCatalogSelection> persisted = new ArrayList<>();
         for (MarkAdmissionReadyCommand.CatalogSelectionInput input : selections) {
@@ -169,7 +172,8 @@ public class AdmissionManagementService {
                 && !command.sampleRequirementsAcknowledged();
         if (consentMissing || sampleAckMissing) {
             throw new FrontDeskConflictException(
-                    "ADMISSION_CONSENT_OR_SAMPLE_ACK_MISSING: consent and sample-requirement acknowledgement are required.");
+                    FrontDeskErrorCodes.ADMISSION_CONSENT_OR_SAMPLE_ACK_MISSING
+                            + ": consent and sample-requirement acknowledgement are required.");
         }
 
         List<AdmissionCatalogSelection> selections = repository.findSelections(admissionId);
@@ -229,13 +233,15 @@ public class AdmissionManagementService {
             TestDefinition testDefinition = testCatalogService.get(testDefinitionId);
             if (!TestDefinition.STATUS_PUBLISHED.equals(testDefinition.status())) {
                 throw new FrontDeskConflictException(
-                        "ADMISSION_CATALOG_INCOMPLETE: test " + testDefinitionId + " is not published.");
+                        FrontDeskErrorCodes.ADMISSION_CATALOG_INCOMPLETE
+                                + ": test " + testDefinitionId + " is not published.");
             }
         } else {
             PanelDefinition panelDefinition = panelCatalogService.get(testDefinitionId);
             if (!PanelDefinition.STATUS_PUBLISHED.equals(panelDefinition.status())) {
                 throw new FrontDeskConflictException(
-                        "ADMISSION_CATALOG_INCOMPLETE: panel " + testDefinitionId + " is not published.");
+                        FrontDeskErrorCodes.ADMISSION_CATALOG_INCOMPLETE
+                                + ": panel " + testDefinitionId + " is not published.");
             }
         }
     }

@@ -4,7 +4,7 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `HOP-QA-ALIGN-005`.
+Current active backlog item: `HOP-QA-ALIGN-CLOSEOUT`.
 
 Paused functional backlog item: `MVP-MOD-004-FE-001`.
 
@@ -284,7 +284,7 @@ Mobile tests cannot find TypeScript or Vitest:
 - The employee portal dev server does not set `Content-Security-Policy` or `Cross-Origin-Embedder-Policy` (a production-strength policy would break Vite's HMR); tracked as `TD-FE-005`, must close before any production deployment.
 - A malformed empty-key query/form parameter causes an unhandled 500 on `POST /api/platform/tenants`; tracked as `TD-QA-004`.
 - Release supply-chain gates are configured, but release-policy hardening remains tracked as `TD-BE-004`.
-- Message externalization and magic-string inventory remains tracked as `TD-I18N-001` and `HOP-QA-ALIGN-005`.
+- Message externalization and magic-string remediation baseline established (`HOP-QA-ALIGN-005`, `TD-I18N-001` closed); remaining full-adoption work (backend API code field, full frontend/mobile i18n-library adoption) tracked as `TD-I18N-002`.
 
 ## Component Detail
 

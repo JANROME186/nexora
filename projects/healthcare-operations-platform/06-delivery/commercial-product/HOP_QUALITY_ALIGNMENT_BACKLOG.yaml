@@ -232,7 +232,7 @@ backlog_items:
     name: Establish message externalization and magic-string remediation baseline
     type: i18n_and_code_decoupling
     priority: 5
-    status: pending
+    status: closed
     blocks_functional_development: true
     objective: >
       Inventory backend/frontend/mobile user-visible text, validation messages,
@@ -253,6 +253,27 @@ backlog_items:
       - Backend error handling uses or plans stable error codes and message catalogs.
       - Frontend UI text uses or plans localization dictionaries before new UI expansion.
       - Magic strings for routes, statuses, permissions and query keys are inventoried.
+    evidence:
+      qa_evidence_yaml: ../../08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-validation.yaml
+      qa_evidence_md: ../../08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-validation.md
+      inventory_yaml: ../../08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-message-externalization-inventory.yaml
+      inventory_md: ../../08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-message-externalization-inventory.md
+      security_quality_evidence_yaml: ../../08-qa/security-quality/HOP-QA-ALIGN-005/security-quality-evidence.yaml
+      security_quality_evidence_md: ../../08-qa/security-quality/HOP-QA-ALIGN-005/security-quality-evidence.md
+    remaining_blocker: null
+    closure_note: >-
+      Full backend (33 modeled domain error codes, 30 with a runtime throw site), employee-portal
+      (25 non-test files, 5,020 lines) and mobile-app (8 non-test files, 398 lines) inventories are
+      complete, P0/P1/P2-classified, and documented in the inventory YAML/MD. Every P0 finding was
+      remediated directly in a behavior-preserving way (backend: 30 throw sites now reference a new
+      FrontDeskErrorCodes constants class; frontend: repeated validation strings and duplicated
+      confidence thresholds centralized in new src/i18n/ modules, triple-declared AsyncStatus union
+      converged to one; mobile: repeated validation strings centralized in a new src/i18n/messages.ts),
+      verified by unchanged test pass/fail/skip counts across all three stacks and no coverage
+      regression (backend 66.48% >= 65.82%; frontend 73.04% >= 72.89%). Remaining larger-scope work
+      (backend API code field, full frontend/mobile i18n-library adoption) is tracked by the new
+      TD-I18N-002. TD-I18N-001, the blocking debt item for this baseline, is closed. See
+      08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-validation.yaml for full evidence.
 
   - id: HOP-QA-ALIGN-006
     name: Update integrated local runbook with quality gate execution

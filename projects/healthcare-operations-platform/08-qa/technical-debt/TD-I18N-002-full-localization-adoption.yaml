@@ -1,0 +1,83 @@
+artifact:
+  id: TD-I18N-002
+  type: technical-debt-item
+  name: Complete full message-catalog and localization-library adoption beyond the HOP-QA-ALIGN-005 baseline
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-16
+
+source:
+  discovered_during_backlog_item: HOP-QA-ALIGN-005
+  module: HOP-QUALITY-ALIGNMENT
+  evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-message-externalization-inventory.yaml
+
+classification:
+  category: i18n_and_code_decoupling
+  affected_area: backend_frontend_mobile_messages_and_magic_values
+  affected_components:
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/*/shared
+    - 07-implementation/employee-portal/src
+    - 07-implementation/mobile-app/src
+  risk_level: medium
+  blocking: false
+  reason_non_blocking: >
+    HOP-QA-ALIGN-005 established the required baseline (full inventory, documented per-stack
+    strategy, and remediation of every repeated/duplicated literal found). What remains is a large,
+    non-blocking refactor: migrating single-occurrence UI copy to a real i18n library and adding a
+    stable `code` field to backend API error responses. Neither is required for correctness or for
+    MVP-MOD-004-FE-001 to resume once HOP-QA-ALIGN-CLOSEOUT passes; both are naturally scoped to
+    whenever the product actually needs a second locale or a structured-error-code API consumer.
+
+current_state:
+  issue: >
+    Backend: the five *ApiErrorResponse record shapes (CatalogApiErrorResponse,
+    FrontDeskApiErrorResponse, IdentityAccess/OrganizationManagement ApiErrorResponse,
+    PeopleApiErrorResponse) carry only status/message(/ruleId/backlogItem for two of the five); none
+    carries a dedicated `code` field, so the FrontDeskErrorCodes constants introduced by
+    HOP-QA-ALIGN-005 are structured in the exception message string but not yet a first-class,
+    independently parseable API field. Frontend: only the 5 repeated/duplicated employee-portal
+    strings identified by the HOP-QA-ALIGN-005 inventory were centralized; the remaining ~125
+    single-occurrence headings, button labels, field hints and confirmation copy are still inline
+    JSX text, and no i18n library (react-i18next, format.js, or equivalent) is installed, so there
+    is no locale-switching mechanism yet. The PatientRegistrationsScreen 409-conflict handler still
+    couples to the backend error message via `.includes("MATCH_RESOLUTION_REQUIRED")` rather than a
+    structured code, which the backend `code`-field gap above blocks fixing properly. Mobile: the 9
+    user-facing string literals in the screen "model" files are centralized in
+    mobile-app/src/i18n/messages.ts, but there is still no renderable UI layer and therefore no real
+    localization-resource mechanism (this is expected to follow whichever native/renderer stack
+    MVP-MOD-004 or a later mobile backlog item selects, per TD-APP-001).
+
+target_state:
+  preferred_open_source_tooling:
+    - >-
+      Backend: add a stable `code` field, typed String, to all five *ApiErrorResponse shapes
+      (coordinated with each capability's openapi-source.yaml error_model so the field is a
+      modeled contract change, not an ad hoc addition), backed by a Spring MessageSource /
+      ResourceBundle (messages_en.properties, messages_es.properties) for the prose portion.
+    - >-
+      Frontend: react-i18next or FormatJS (@formatjs/intl) with locale JSON resource files under
+      employee-portal/src/i18n/locales/, migrating the ~125 remaining inline strings incrementally
+      per screen; once the backend `code` field exists, replace the `.includes(...)` check in
+      PatientRegistrationsScreen with a direct `error.code === "..."` comparison.
+    - >-
+      Mobile: whichever localization mechanism (react-intl for React Native, or an equivalent)
+      pairs with the renderer stack selected for TD-APP-001.
+
+remediation:
+  strategy: gradual_when_a_second_locale_or_structured_error_consumer_is_actually_needed
+  owner: platform_and_frontend_teams
+  target_backlog: next_i18n_or_release_readiness_backlog_item_not_yet_scheduled
+  expiration: review_at_next_HOP_QA_ALIGN_or_release_readiness_backlog_item
+  recommended_trigger:
+    - A second locale is committed to for the product.
+    - A structured-error-code API consumer (external integration, native mobile client) needs
+      `code` as a first-class response field rather than a message-string prefix.
+    - TD-APP-001's renderer-stack selection lands, making mobile localization concrete.
+  acceptance_criteria:
+    - All five backend *ApiErrorResponse shapes expose a stable `code` field sourced from the
+      corresponding openapi-source.yaml error_model.domain_errors entry.
+    - employee-portal adopts a real i18n library and migrates at least the highest-traffic screens'
+      inline copy to locale resource files.
+    - PatientRegistrationsScreen's 409 handler branches on a structured error code instead of a
+      message substring.
+    - mobile-app's localization approach is selected and documented once a renderer stack exists.

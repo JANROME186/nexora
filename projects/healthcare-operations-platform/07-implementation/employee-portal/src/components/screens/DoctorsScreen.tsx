@@ -11,6 +11,7 @@ import {
   verifyDoctorCredential,
 } from "../../api/peopleApi";
 import type { Doctor, DoctorSnapshot, ProfessionalCredential } from "../../api/types";
+import { MESSAGES } from "../../i18n/messages";
 import { useAdminScope } from "../../state/AdminScopeContext";
 import { useAsyncAction } from "../../state/useAsyncAction";
 import { ConfirmDialog } from "../common/ConfirmDialog";
@@ -71,14 +72,14 @@ export function DoctorsScreen() {
   });
 
   const snapshotAction = useAsyncAction(async () => {
-    if (!selectedDoctorId) throw new Error("Select a doctor first.");
+    if (!selectedDoctorId) throw new Error(MESSAGES.selectDoctorFirst);
     const found = await getDoctorSnapshot(selectedDoctorId);
     setSnapshot(found);
     return found;
   });
 
   const credentialsAction = useAsyncAction(async () => {
-    if (!selectedDoctorId) throw new Error("Select a doctor first.");
+    if (!selectedDoctorId) throw new Error(MESSAGES.selectDoctorFirst);
     const loaded = await listDoctorCredentials(selectedDoctorId);
     setCredentials(loaded);
     return loaded;
@@ -88,7 +89,7 @@ export function DoctorsScreen() {
   const [credentialNumber, setCredentialNumber] = useState("");
   const [issuingAuthority, setIssuingAuthority] = useState("");
   const attachCredentialAction = useAsyncAction(async () => {
-    if (!selectedDoctorId) throw new Error("Select a doctor first.");
+    if (!selectedDoctorId) throw new Error(MESSAGES.selectDoctorFirst);
     const created = await attachDoctorCredential(selectedDoctorId, {
       credentialType,
       credentialNumber,
@@ -124,7 +125,7 @@ export function DoctorsScreen() {
 
   const [suspendReason, setSuspendReason] = useState("");
   const suspendAction = useAsyncAction(async () => {
-    if (!selectedDoctorId) throw new Error("Select a doctor first.");
+    if (!selectedDoctorId) throw new Error(MESSAGES.selectDoctorFirst);
     return suspendDoctor(
       selectedDoctorId,
       suspendReason ? { reasonCode: suspendReason } : undefined,
@@ -134,7 +135,7 @@ export function DoctorsScreen() {
 
   const [portalEmail, setPortalEmail] = useState("");
   const portalAccessAction = useAsyncAction(async () => {
-    if (!selectedDoctorId) throw new Error("Select a doctor first.");
+    if (!selectedDoctorId) throw new Error(MESSAGES.selectDoctorFirst);
     return preparePortalAccess(selectedDoctorId, portalEmail ? { portalEmail } : undefined);
   });
 

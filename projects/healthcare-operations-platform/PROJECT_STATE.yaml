@@ -1,8 +1,8 @@
 project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
-repository_version: 0.84.0
-current_phase: HOP Enterprise Quality Alignment (HOP-QA-ALIGN-005 Message Externalization Baseline Ready)
+repository_version: 0.85.0
+current_phase: HOP Enterprise Quality Alignment (HOP-QA-ALIGN-CLOSEOUT Ready)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -81,9 +81,12 @@ completed_deliverables:
     frontend dependency scans, Trivy filesystem/secret/misconfiguration scan, OWASP ZAP baseline
     and API scans against the running local stack; 2 dependency CVEs and 2 unhandled-500 defects
     fixed; TD-QA-001 and TD-QA-002 closed; residual findings dispositioned as TD-FE-005/TD-QA-004)
+  - HOP-QA-ALIGN-005 message externalization and magic-string remediation baseline (full backend,
+    employee-portal and mobile-app inventory, P0/P1/P2-classified; backend's 30 runtime-reachable
+    domain error codes now named Java constants; frontend's repeated validation strings and
+    duplicated confidence thresholds centralized; mobile's repeated validation strings centralized;
+    TD-I18N-001 closed, remaining scope tracked as TD-I18N-002)
 next_deliverables:
-  - Complete HOP-QA-ALIGN-005 message externalization and magic-string remediation baseline
-    before HOP-QA-ALIGN-CLOSEOUT
   - Complete HOP-QA-ALIGN-CLOSEOUT before resuming front desk worklist and order creation
     employee-portal UI outputs
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
@@ -100,7 +103,7 @@ development_readiness:
   status: blocked_pending_quality_alignment
   ready_to_start_module: MVP-MOD-004
   in_progress_module: MVP-MOD-004
-  next_backlog_item: HOP-QA-ALIGN-005
+  next_backlog_item: HOP-QA-ALIGN-CLOSEOUT
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -166,7 +169,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-004
-  current_backlog_item: HOP-QA-ALIGN-005
+  current_backlog_item: HOP-QA-ALIGN-CLOSEOUT
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -197,65 +200,61 @@ implementation_progress:
     - HOP-QA-ALIGN-003
     - HOP-QA-ALIGN-006
     - HOP-QA-ALIGN-004
+    - HOP-QA-ALIGN-005
   in_progress_backlog_items: []
   pending_backlog_items:
-    - HOP-QA-ALIGN-005
     - HOP-QA-ALIGN-CLOSEOUT
     - MVP-MOD-004-FE-001
     - MVP-MOD-004-QA-001
     - MVP-MOD-004-CLOSEOUT
   latest_validation:
-    backlog_item_id: HOP-QA-ALIGN-004
+    backlog_item_id: HOP-QA-ALIGN-005
     command: >
-      backend OWASP Dependency-Check all severities; employee portal npm audit --audit-level=low;
-      integrated Trivy all-severity vulnerability/secret/misconfiguration scan; OWASP ZAP baseline
-      scan (employee portal); OWASP ZAP API scan (backend); backend test suite with and without
-      Postgres; frontend and mobile test/coverage suites
+      backend mvn compile/test/jacoco:report; employee portal npm run quality and npm audit
+      --audit-level=low; mobile npm run quality
     working_directory: projects/healthcare-operations-platform
     status: passed
-    tests_run: "backend 77 (7 skipped without local DB, 0 skipped with -Dhop.local-db-tests=true), employee portal 18, mobile 8"
+    tests_run: "backend 77 (7 skipped without local DB), employee portal 18, mobile 8"
     failures: 0
     errors: 0
     skipped: 0
     additional_checks:
       - >-
-        Added springdoc-openapi-starter-webmvc-api so the backend exposes a live GET /v3/api-docs
-        document, required as the OWASP ZAP API scan target; deliberately not the -ui artifact to
-        avoid bundling swagger-ui's vulnerable DOMPurify.
+        Full message-externalization inventory across backend (33 modeled domain error codes in
+        the 5 frontdeskcaredelivery capability packages' openapi-source.yaml error_model, 30 with a
+        runtime throw site), employee-portal (all 25 non-test files, 5,020 lines) and mobile-app
+        (all 8 non-test files, 398 lines), classified P0/P1/P2 per
+        HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.yaml.
       - >-
-        OWASP Dependency-Check found and fixed 2 CVEs introduced by that addition (jackson-databind
-        CVE-2026-54515, DOMPurify CVE-2026-41238/41239/41240/49458/49459/49978) by pinning the
-        classic Jackson 2.x line swagger-core depends on and choosing the -api springdoc artifact.
-        Re-scan: 0 vulnerabilities.
+        New FrontDeskErrorCodes constants class introduced; all 30 backend runtime throw sites
+        across DiagnosticOrderManagementService, AppointmentSchedulingService,
+        ReceptionManagementService, AdmissionManagementService and QuotationManagementService now
+        reference it instead of inline string literals (behavior-preserving; verified by the
+        unchanged 77-test backend suite).
       - >-
-        Trivy upgraded from 0.69.2 to 0.72.0 (closes TD-QA-002); all-severity filesystem/secret/
-        misconfiguration re-scan: 0 findings.
+        New employee-portal src/i18n/messages.ts and src/i18n/matching.ts centralize the 10
+        repeated "Select a <entity> first." messages, the 2-occurrence "Unexpected error. Please
+        try again." fallback, and the duplicated 0.85/0.5 confidence-threshold function; the three
+        independently-declared idle/loading/success/error unions converged on one exported
+        AsyncStatus type.
       - >-
-        OWASP ZAP baseline scan against the employee portal and API scan against the backend both
-        ran to completion (0 FAIL-NEW) after working around two local-environment blockers
-        (Docker Desktop/WSL2 --network host does not reach the Windows host; Vite's dev-server
-        Host-header check rejected host.docker.internal) and fixing every header-hardening finding
-        via a new backend SecurityHeadersFilter and an employee-portal Vite dev-server middleware.
+        New mobile-app src/i18n/messages.ts centralizes its 6 validation messages.
       - >-
-        The API scan also found and fixed two genuine unhandled-500 defects: an unvalidated
-        tenantId reaching a length-constrained audit_events column
-        (PersonManagementService.rebuildIndex now checks TenantDirectory.tenantExists first) and
-        an unvalidated organization name reaching a length-constrained column
-        (OrganizationManagementService now enforces a 180-character bound).
+        Backend line coverage 66.48% (>= 65.82% baseline) and frontend line coverage 73.04%
+        (>= 72.89% baseline); neither regressed. Mobile coverage baseline remains blocked by its
+        pre-existing shared-node_modules toolchain reuse, tracked as TD-APP-002, unrelated to this
+        backlog item.
       - >-
-        Residual findings (CSP/COEP on the employee portal dev server; one malformed-query-parameter
-        500) are formally dispositioned as accepted-risk technical debt (TD-FE-005, TD-QA-004) with
-        owner, target backlog and expiration; TD-QA-001 and TD-QA-002 are closed.
-      - >-
-        Backend line coverage 66.43% (>= 65.82% baseline) and frontend line coverage 72.89%
-        (>= 72.89% baseline); neither regressed. Mobile coverage baseline establishment remains
-        blocked by its shared-node_modules toolchain reuse and stays tracked as pre-existing
-        TD-APP-002, outside this backlog item's required scope.
+        TD-I18N-001 (the blocking debt item requiring this baseline) is closed. New TD-I18N-002
+        registered (non-blocking) for the remaining larger-scope work: a backend API `code` field,
+        full frontend i18n-library adoption for ~125 single-occurrence UI strings, and full mobile
+        localization once a renderer stack exists. TD-BE-008 and TD-FE-002 reviewed and left
+        unchanged (not impacted by message-externalization changes).
       - >-
         PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_QUALITY_ALIGNMENT_BACKLOG.yaml,
         HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml, the local runbook, security-quality-index.yaml
-        and technical-debt-index.yaml were reconciled so HOP-QA-ALIGN-004 is closed and the active
-        backlog advances to HOP-QA-ALIGN-005. MVP-MOD-004-FE-001 remains paused until
+        and technical-debt-index.yaml were reconciled so HOP-QA-ALIGN-005 is closed and the active
+        backlog advances to HOP-QA-ALIGN-CLOSEOUT. MVP-MOD-004-FE-001 remains paused until
         HOP-QA-ALIGN-CLOSEOUT.
 module_closeout:
   MVP-MOD-001:
@@ -306,7 +305,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_release: REL-001
   active_module: HOP-QUALITY-ALIGNMENT
-  active_backlog_item: HOP-QA-ALIGN-005
+  active_backlog_item: HOP-QA-ALIGN-CLOSEOUT
   paused_functional_module: MVP-MOD-004
   paused_functional_backlog_item: MVP-MOD-004-FE-001
   primary_development_unit: business_capability_package

@@ -6,6 +6,7 @@ import { createMemorySessionStore } from "./auth/sessionStore";
 import type { SessionStore } from "./auth/sessionStore";
 import { createInitialNavigationState, navigate } from "./navigation/routes";
 import type { MobileRoute, NavigationState } from "./navigation/routes";
+import { MESSAGES } from "./i18n/messages";
 import { createHomeScreenModel } from "./screens/homeScreenModel";
 import { createLoginScreenModel } from "./screens/loginScreenModel";
 
@@ -48,7 +49,7 @@ export function createMobileApp(options: MobileAppOptions): MobileApp {
     homeScreen: () => {
       const session = auth.currentSession();
       if (!session) {
-        throw new Error("Authenticated session is required.");
+        throw new Error(MESSAGES.sessionRequired);
       }
       return createHomeScreenModel(session);
     },

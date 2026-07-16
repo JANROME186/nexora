@@ -25,6 +25,7 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.appointmentschedu
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.appointmentscheduling.domain.RequestedCatalogItem;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskConflictException;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskEntityNotFoundException;
+import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskErrorCodes;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskPolicyStore;
 import com.nexora.hop.platformfoundation.organizationmanagement.BranchDirectory;
 
@@ -141,7 +142,8 @@ public class AppointmentSchedulingService {
         }
         if (!branchDirectory.isBranchOperational(appointment.branchId())) {
             throw new FrontDeskConflictException(
-                    "APPOINTMENT_BRANCH_NOT_ACTIVE: the branch is not operationally active.");
+                    FrontDeskErrorCodes.APPOINTMENT_BRANCH_NOT_ACTIVE
+                            + ": the branch is not operationally active.");
         }
         boolean overlaps = repository.findByPatientAndBranch(appointment.patientId(), appointment.branchId()).stream()
                 .filter(other -> !other.appointmentId().equals(appointmentId))
@@ -150,7 +152,8 @@ public class AppointmentSchedulingService {
                 .anyMatch(other -> windowsOverlap(appointment, other));
         if (overlaps) {
             throw new FrontDeskConflictException(
-                    "APPOINTMENT_WINDOW_OVERLAP: an overlapping confirmed appointment already exists for this patient.");
+                    FrontDeskErrorCodes.APPOINTMENT_WINDOW_OVERLAP
+                            + ": an overlapping confirmed appointment already exists for this patient.");
         }
         int capacity = policyStore.branchDailyAppointmentCapacityFor(appointment.tenantId());
         long confirmedOnDate = repository.findByBranchId(appointment.branchId()).stream()
@@ -161,7 +164,8 @@ public class AppointmentSchedulingService {
                 .count();
         if (confirmedOnDate >= capacity) {
             throw new FrontDeskConflictException(
-                    "APPOINTMENT_BRANCH_CAPACITY_EXCEEDED: the branch has reached its daily appointment capacity.");
+                    FrontDeskErrorCodes.APPOINTMENT_BRANCH_CAPACITY_EXCEEDED
+                            + ": the branch has reached its daily appointment capacity.");
         }
         AppointmentSlot confirmed = withStatus(appointment, AppointmentSlot.STATUS_CONFIRMED, appointment.cancellationReason());
         AppointmentSlot saved = repository.save(confirmed);
@@ -220,7 +224,8 @@ public class AppointmentSchedulingService {
         java.time.LocalDate today = java.time.LocalDate.now(clock);
         if (today.isBefore(earliestNoShowDate)) {
             throw new FrontDeskConflictException(
-                    "APPOINTMENT_NO_SHOW_GRACE_PERIOD_ACTIVE: the no-show grace period has not elapsed yet.");
+                    FrontDeskErrorCodes.APPOINTMENT_NO_SHOW_GRACE_PERIOD_ACTIVE
+                            + ": the no-show grace period has not elapsed yet.");
         }
         AppointmentSlot noShow = withStatus(appointment, AppointmentSlot.STATUS_NO_SHOW, appointment.cancellationReason());
         AppointmentSlot saved = repository.save(noShow);
@@ -270,13 +275,15 @@ public class AppointmentSchedulingService {
             TestDefinition testDefinition = testCatalogService.get(id);
             if (!TestDefinition.STATUS_PUBLISHED.equals(testDefinition.status())) {
                 throw new FrontDeskConflictException(
-                        "APPOINTMENT_CATALOG_ITEM_NOT_PUBLISHED: test " + id + " is not published.");
+                        FrontDeskErrorCodes.APPOINTMENT_CATALOG_ITEM_NOT_PUBLISHED
+                                + ": test " + id + " is not published.");
             }
         } else {
             PanelDefinition panelDefinition = panelCatalogService.get(id);
             if (!PanelDefinition.STATUS_PUBLISHED.equals(panelDefinition.status())) {
                 throw new FrontDeskConflictException(
-                        "APPOINTMENT_CATALOG_ITEM_NOT_PUBLISHED: panel " + id + " is not published.");
+                        FrontDeskErrorCodes.APPOINTMENT_CATALOG_ITEM_NOT_PUBLISHED
+                                + ": panel " + id + " is not published.");
             }
         }
     }

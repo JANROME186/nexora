@@ -32,6 +32,7 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.diagnosticorderma
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.diagnosticordermanagement.domain.PatientSnapshot;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskConflictException;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskEntityNotFoundException;
+import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskErrorCodes;
 import com.nexora.hop.platformfoundation.organizationmanagement.BranchDirectory;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.doctormanagement.DoctorDirectory;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagement.PatientDirectory;
@@ -145,7 +146,8 @@ public class DiagnosticOrderManagementService {
             // verified credential, not suspended), not merely exist.
             if (!doctorDirectory.isEligibleAsReferringDoctor(doctorId)) {
                 throw new FrontDeskConflictException(
-                        "ORDER_DOCTOR_NOT_ELIGIBLE: the referring doctor is not eligible (inactive, unverified or suspended).");
+                        FrontDeskErrorCodes.ORDER_DOCTOR_NOT_ELIGIBLE
+                                + ": the referring doctor is not eligible (inactive, unverified or suspended).");
             }
             doctorSnapshot = new DoctorSnapshot(doctorSource.doctorId(), doctorSource.version(),
                     doctorSource.fullName(), doctorSource.primaryDocumentNumberMasked(), now);
@@ -193,7 +195,8 @@ public class DiagnosticOrderManagementService {
         DiagnosticOrder order = require(orderId);
         List<OrderLine> lines = repository.findOrderLines(orderId);
         if (lines.isEmpty()) {
-            throw new FrontDeskConflictException("ORDER_NO_LINES: an order must contain at least one order line before it can be priced.");
+            throw new FrontDeskConflictException(FrontDeskErrorCodes.ORDER_NO_LINES
+                    + ": an order must contain at least one order line before it can be priced.");
         }
         String resolvedCurrency = optionalText(currency) == null ? DEFAULT_CURRENCY : currency;
 
@@ -213,7 +216,8 @@ public class DiagnosticOrderManagementService {
                             && candidate.itemRefId().equals(line.testDefinitionId()))
                     .findFirst()
                     .orElseThrow(() -> new FrontDeskConflictException(
-                            "ORDER_PRICING_SNAPSHOT_REQUIRED: no price entry resolves for catalog item "
+                            FrontDeskErrorCodes.ORDER_PRICING_SNAPSHOT_REQUIRED
+                                    + ": no price entry resolves for catalog item "
                                     + line.testDefinitionId() + " in its resolved price list."));
             OrderLine priced = new OrderLine(line.orderLineId(), line.orderId(), line.testDefinitionId(),
                     line.catalogItemKind(), line.catalogItemName(), line.catalogPublishedVersion(),
@@ -240,7 +244,8 @@ public class DiagnosticOrderManagementService {
         DiagnosticOrder order = require(orderId);
         if (order.pricingSnapshot() == null) {
             throw new FrontDeskConflictException(
-                    "ORDER_PRICING_SNAPSHOT_REQUIRED: the order must be priced before it can be accepted.");
+                    FrontDeskErrorCodes.ORDER_PRICING_SNAPSHOT_REQUIRED
+                            + ": the order must be priced before it can be accepted.");
         }
         if (!DiagnosticOrder.STATUS_PRICED.equals(order.status())) {
             throw new FrontDeskConflictException("Only a priced order can be accepted.");
@@ -278,7 +283,8 @@ public class DiagnosticOrderManagementService {
         if (DiagnosticOrder.STATUS_CANCELLED.equals(order.status())
                 || DiagnosticOrder.STATUS_COMPLETED.equals(order.status())) {
             throw new FrontDeskConflictException(
-                    "ORDER_TERMINAL_STATE_IMMUTABLE: a cancelled or completed order cannot be modified.");
+                    FrontDeskErrorCodes.ORDER_TERMINAL_STATE_IMMUTABLE
+                            + ": a cancelled or completed order cannot be modified.");
         }
         String resolvedReason = requiredText(reasonCode, "Cancellation reason code is required.");
         boolean clinicallyEngaged = CLINICALLY_ENGAGED_STATUSES.contains(order.status());
@@ -286,7 +292,8 @@ public class DiagnosticOrderManagementService {
         if (clinicallyEngaged) {
             if (resolvedOverride == null || resolvedOverride.length() < MIN_CANCELLATION_OVERRIDE_JUSTIFICATION_LENGTH) {
                 throw new FrontDeskConflictException(
-                        "ORDER_CANCELLATION_OVERRIDE_REQUIRED: cancelling an accepted or in-progress order requires "
+                        FrontDeskErrorCodes.ORDER_CANCELLATION_OVERRIDE_REQUIRED
+                                + ": cancelling an accepted or in-progress order requires "
                                 + "an override justification of at least "
                                 + MIN_CANCELLATION_OVERRIDE_JUSTIFICATION_LENGTH + " characters.");
             }
@@ -343,7 +350,8 @@ public class DiagnosticOrderManagementService {
             TestDefinition testDefinition = testCatalogService.get(testDefinitionId);
             if (!TestDefinition.STATUS_PUBLISHED.equals(testDefinition.status())) {
                 throw new FrontDeskConflictException(
-                        "ORDER_CATALOG_ITEM_NOT_PUBLISHED: test " + testDefinitionId + " is not published.");
+                        FrontDeskErrorCodes.ORDER_CATALOG_ITEM_NOT_PUBLISHED
+                                + ": test " + testDefinitionId + " is not published.");
             }
             name = testDefinition.name() == null ? testDefinition.code() : testDefinition.name().es();
             publishedVersion = testDefinition.version();
@@ -351,7 +359,8 @@ public class DiagnosticOrderManagementService {
             PanelDefinition panelDefinition = panelCatalogService.get(testDefinitionId);
             if (!PanelDefinition.STATUS_PUBLISHED.equals(panelDefinition.status())) {
                 throw new FrontDeskConflictException(
-                        "ORDER_CATALOG_ITEM_NOT_PUBLISHED: panel " + testDefinitionId + " is not published.");
+                        FrontDeskErrorCodes.ORDER_CATALOG_ITEM_NOT_PUBLISHED
+                                + ": panel " + testDefinitionId + " is not published.");
             }
             name = panelDefinition.name() == null ? panelDefinition.code() : panelDefinition.name().es();
             publishedVersion = panelDefinition.version();

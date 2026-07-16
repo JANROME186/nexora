@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { ApiError } from "../api/httpClient";
+import { MESSAGES } from "../i18n/messages";
 
 export type AsyncStatus = "idle" | "loading" | "success" | "error";
 
@@ -42,8 +43,7 @@ export function useAsyncAction<TArgs extends unknown[], TResult>(
         setState({ status: "success", data });
         return { ok: true, data };
       } catch (error) {
-        const message =
-          error instanceof ApiError ? error.message : "Unexpected error. Please try again.";
+        const message = error instanceof ApiError ? error.message : MESSAGES.unexpectedError;
         setState({ status: "error", errorMessage: message });
         return { ok: false, errorMessage: message };
       }

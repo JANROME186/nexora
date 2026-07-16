@@ -192,7 +192,7 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-Continue with `HOP-QA-ALIGN-004` from:
+Continue with `HOP-QA-ALIGN-CLOSEOUT` from:
 
 `06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml`
 
