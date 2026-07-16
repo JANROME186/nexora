@@ -31,9 +31,9 @@ export function AdminScopeProvider({ children }: { children: ReactNode }) {
       setTenantId: (tenantId) => setScope((current) => ({ ...current, tenantId })),
       setLaboratoryId: (laboratoryId) => setScope((current) => ({ ...current, laboratoryId })),
       setBranchId: (branchId) => setScope((current) => ({ ...current, branchId })),
-      setUserId: (userId) => setScope((current) => ({ ...current, userId }))
+      setUserId: (userId) => setScope((current) => ({ ...current, userId })),
     }),
-    [scope]
+    [scope],
   );
 
   return <AdminScopeContext.Provider value={value}>{children}</AdminScopeContext.Provider>;

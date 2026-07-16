@@ -45,7 +45,7 @@ const registeredDoctor: Doctor = {
   primaryDocumentNumberMasked: "****9999",
   status: "active",
   portalStatus: "not_provisioned",
-  version: 1
+  version: 1,
 };
 
 describe("DoctorsScreen", () => {
@@ -53,14 +53,14 @@ describe("DoctorsScreen", () => {
     vi.spyOn(api, "registerDoctor").mockResolvedValue(registeredDoctor);
     vi.spyOn(api, "suspendDoctor").mockResolvedValue({
       ...registeredDoctor,
-      status: "suspended"
+      status: "suspended",
     });
 
     const user = userEvent.setup();
     render(
       <ScopedDoctorsHarness>
         <DoctorsScreen />
-      </ScopedDoctorsHarness>
+      </ScopedDoctorsHarness>,
     );
 
     await user.type(screen.getByLabelText("Doctor code"), "D-001");

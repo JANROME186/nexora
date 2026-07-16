@@ -46,7 +46,7 @@ describe("PatientsScreen", () => {
       primaryDocumentType: "national_id",
       primaryDocumentNumberMasked: "****1234",
       status: "active",
-      version: 1
+      version: 1,
     });
     vi.spyOn(api, "listPatients").mockResolvedValue([
       {
@@ -56,15 +56,15 @@ describe("PatientsScreen", () => {
         patientCode: "P-001",
         fullName: "Ada Lovelace",
         status: "active",
-        version: 1
-      }
+        version: 1,
+      },
     ]);
 
     const user = userEvent.setup();
     render(
       <ScopedPatientsHarness>
         <PatientsScreen />
-      </ScopedPatientsHarness>
+      </ScopedPatientsHarness>,
     );
 
     await user.type(screen.getByLabelText("Patient code"), "P-001");
@@ -80,8 +80,8 @@ describe("PatientsScreen", () => {
         patientCode: "P-001",
         givenName: "Ada",
         familyName: "Lovelace",
-        primaryDocumentNumber: "DOC-1234"
-      })
+        primaryDocumentNumber: "DOC-1234",
+      }),
     );
     expect(await screen.findByText("Patient registered.")).toBeInTheDocument();
 
@@ -97,10 +97,12 @@ describe("PatientsScreen", () => {
     render(
       <ScopedPatientsHarness>
         <PatientsScreen />
-      </ScopedPatientsHarness>
+      </ScopedPatientsHarness>,
     );
 
     await user.click(screen.getByRole("button", { name: "Load patients" }));
-    expect(await screen.findByText("No patients registered yet in this laboratory.")).toBeInTheDocument();
+    expect(
+      await screen.findByText("No patients registered yet in this laboratory."),
+    ).toBeInTheDocument();
   });
 });

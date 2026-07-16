@@ -13,7 +13,9 @@ export type SessionStore = {
   clearSession: () => void;
 };
 
-export function createMemorySessionStore(initialSession: MobileSession | null = null): SessionStore {
+export function createMemorySessionStore(
+  initialSession: MobileSession | null = null,
+): SessionStore {
   let currentSession = initialSession;
 
   return {
@@ -23,6 +25,6 @@ export function createMemorySessionStore(initialSession: MobileSession | null = 
     },
     clearSession: () => {
       currentSession = null;
-    }
+    },
   };
 }

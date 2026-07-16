@@ -3,7 +3,7 @@ artifact:
   type: technical-debt-item
   name: Configure backend Java/Maven static analysis and SAST toolchain
   version: 1.0.0
-  status: open
+  status: materially_reduced
   created_date: 2026-07-09
 
 source:
@@ -25,11 +25,12 @@ classification:
 
 current_state:
   issue: >
-    The backend Maven build does not yet run SpotBugs, Find Security Bugs, PMD, PMD CPD, Checkstyle or
-    Semgrep CE. Static bug, security-pattern, duplication and style analysis is currently absent for
-    Java code.
+    The backend Maven quality profile now runs SpotBugs, Find Security Bugs, PMD, PMD CPD,
+    Checkstyle and Spotless. SpotBugs, Checkstyle and CPD pass with 0 findings. PMD still reports
+    maintainability findings that must be remediated gradually as backend code is touched. Semgrep
+    CE remains a future CI defense-in-depth addition.
   compensating_control:
-    - Trivy filesystem scan (vuln, secret, misconfig) passing with 0 HIGH/CRITICAL.
+    - Trivy filesystem scan (vuln, secret, misconfig) passing across all severities.
     - Spring Modulith structure verification test enforcing module boundaries.
     - ArchUnit is available transitively through spring-modulith-starter-test.
 
@@ -57,4 +58,11 @@ remediation:
     - SpotBugs + Find Security Bugs run in the Maven build and export findings.
     - PMD and PMD CPD run at least during module or release closeout.
     - Checkstyle rules are defined and enforced before commercial GA.
-    - HIGH/CRITICAL SAST findings block the backlog item unless an accepted risk is documented.
+    - All SAST findings receive a disposition; vulnerabilities of any severity require remediation or an accepted-risk debt item.
+  latest_evidence:
+    backlog_item: HOP-QA-ALIGN-002
+    evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.yaml
+    status: materially_reduced
+    residual_findings:
+      - PMD reports 124 findings.
+      - Semgrep CE is not yet configured.

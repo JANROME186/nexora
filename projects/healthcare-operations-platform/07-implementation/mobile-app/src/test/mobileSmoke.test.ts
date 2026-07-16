@@ -12,7 +12,7 @@ describe("mobile foundation smoke", () => {
       tenantId: "tenant-1",
       userId: "user-1",
       displayName: "Mobile Operator",
-      email: "mobile.operator@example.test"
+      email: "mobile.operator@example.test",
     });
 
     expect(app.getNavigation().currentRoute).toBe("home");

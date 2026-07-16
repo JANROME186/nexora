@@ -109,14 +109,7 @@ public class PatientManagementService implements PatientDirectory {
         String tenantId = requiredText(command.tenantId(), "Tenant id is required.");
         String laboratoryId = requiredText(command.laboratoryId(), "Laboratory id is required.");
         String patientCode = requiredText(command.patientCode(), "Patient code is required.");
-        PersonName name = requiredName(command.givenName(), command.middleName(),
-                command.familyName(), command.secondFamilyName(), command.preferredName());
-        LocalDate birthDate = requiredDate(command.birthDate(), "Birth date is required.");
-        String sexAtBirth = requiredOneOf(command.sexAtBirth(), "Sex at birth is invalid.",
-                SEX_VALUES.toArray(String[]::new));
-        PersonDocument primaryDocument = requiredDocument(command.primaryDocumentType(),
-                command.primaryDocumentNumber(), command.primaryDocumentIssuingCountry(),
-                command.primaryDocumentIssuedAt(), command.primaryDocumentExpiresAt());
+        ValidatedPatientProfile profile = validateProfile(command);
 
         if (!tenantDirectory.tenantExists(tenantId)) {
             throw new PeopleEntityNotFoundException("Tenant was not found.");
@@ -127,22 +120,20 @@ public class PatientManagementService implements PatientDirectory {
         }
         // BCM-PER-001 RN-002: primary document number must be unique within tenant across Patient
         // and Doctor scopes.
-        documentUniquenessPolicy.ensureUnique(tenantId, primaryDocument.documentType(),
-                primaryDocument.documentNumber(), null, null);
+        documentUniquenessPolicy.ensureUnique(tenantId, profile.primaryDocument().documentType(),
+                profile.primaryDocument().documentNumber(), null, null);
 
         // BCM-PER-002 RN-002: duplicate detection must be invoked and its result recorded before a
         // Patient is registered. The aggregate command itself remains non-blocking; strict match
         // resolution is enforced by the higher-level BCM-ATT-002 registration orchestration
         // (commitPatientRegistration), which is the actor-facing intake flow.
         duplicateDetectionEngine.detect(tenantId, PersonKind.PATIENT, command.familyName(),
-                command.givenName(), birthDate, sexAtBirth, null, true);
+                command.givenName(), profile.birthDate(), profile.sexAtBirth(), null, true);
 
-        PersonAddress address = optionalAddress(command.addressCountry(), command.addressState(),
-                command.addressCity(), command.addressPostalCode(), command.addressStreet());
         Instant now = Instant.now(clock);
         Patient patient = new Patient(
-                newId(), tenantId, laboratoryId, patientCode, name, birthDate, sexAtBirth,
-                primaryDocument, address, optionalText(command.preferredLocale()),
+                newId(), tenantId, laboratoryId, patientCode, profile.name(), profile.birthDate(),
+                profile.sexAtBirth(), profile.primaryDocument(), profile.address(), profile.preferredLocale(),
                 Patient.STATUS_ACTIVE, null, 1, now, now);
         Patient saved = repository.save(patient);
         auditRecorder.recordSystemEvent(tenantId, "PatientRegistered", "Patient", saved.patientId(),
@@ -160,21 +151,12 @@ public class PatientManagementService implements PatientDirectory {
             throw new PeopleConflictException("A merged patient must be updated through its surviving record.");
         }
 
-        PersonName name = requiredName(command.givenName(), command.middleName(),
-                command.familyName(), command.secondFamilyName(), command.preferredName());
-        LocalDate birthDate = requiredDate(command.birthDate(), "Birth date is required.");
-        String sexAtBirth = requiredOneOf(command.sexAtBirth(), "Sex at birth is invalid.",
-                SEX_VALUES.toArray(String[]::new));
-        PersonDocument primaryDocument = requiredDocument(command.primaryDocumentType(),
-                command.primaryDocumentNumber(), command.primaryDocumentIssuingCountry(),
-                command.primaryDocumentIssuedAt(), command.primaryDocumentExpiresAt());
-        PersonAddress address = optionalAddress(command.addressCountry(), command.addressState(),
-                command.addressCity(), command.addressPostalCode(), command.addressStreet());
+        ValidatedPatientProfile profile = validateProfile(command);
 
         Patient updated = new Patient(
                 current.patientId(), current.tenantId(), current.laboratoryId(), current.patientCode(),
-                name, birthDate, sexAtBirth, primaryDocument, address,
-                optionalText(command.preferredLocale()), current.status(), current.mergedIntoPatientId(),
+                profile.name(), profile.birthDate(), profile.sexAtBirth(), profile.primaryDocument(),
+                profile.address(), profile.preferredLocale(), current.status(), current.mergedIntoPatientId(),
                 current.version() + 1, current.createdAt(), Instant.now(clock));
         Patient saved = repository.save(updated);
         // RN-004: publish delta as audit event; full-featured delta is deferred to BE-002.
@@ -434,6 +416,19 @@ public class PatientManagementService implements PatientDirectory {
                 .orElseThrow(() -> new PeopleEntityNotFoundException("Patient was not found."));
     }
 
+    private static ValidatedPatientProfile validateProfile(PatientProfileFields fields) {
+        PersonName name = requiredName(fields.givenName(), fields.middleName(), fields.familyName(),
+                fields.secondFamilyName(), fields.preferredName());
+        LocalDate dateOfBirth = requiredDate(fields.birthDate(), "Birth date is required.");
+        String biologicalSex = requiredOneOf(fields.sexAtBirth(), "Sex at birth is invalid.", SEX_VALUES.toArray(String[]::new));
+        PersonDocument primaryDocument = requiredDocument(fields.primaryDocumentType(), fields.primaryDocumentNumber(),
+                fields.primaryDocumentIssuingCountry(), fields.primaryDocumentIssuedAt(), fields.primaryDocumentExpiresAt());
+        PersonAddress address = optionalAddress(fields.addressCountry(), fields.addressState(), fields.addressCity(),
+                fields.addressPostalCode(), fields.addressStreet());
+        return new ValidatedPatientProfile(name, dateOfBirth, biologicalSex, primaryDocument, address,
+                optionalText(fields.preferredLocale()));
+    }
+
     private static PersonName requiredName(String given, String middle, String family, String secondFamily,
             String preferred) {
         String givenTrimmed = requiredText(given, "Given name is required.");
@@ -476,6 +471,15 @@ public class PatientManagementService implements PatientDirectory {
             return "";
         }
         return value.replace("\\", "\\\\").replace("\"", "\\\"");
+    }
+
+    private record ValidatedPatientProfile(
+            PersonName name,
+            LocalDate birthDate,
+            String sexAtBirth,
+            PersonDocument primaryDocument,
+            PersonAddress address,
+            String preferredLocale) {
     }
 
     // -- Cross-service helpers used by other capabilities (e.g., patient registration) --------

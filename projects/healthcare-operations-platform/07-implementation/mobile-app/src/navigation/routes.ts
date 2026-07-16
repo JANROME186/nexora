@@ -15,7 +15,7 @@ export type NavigationState = {
 export function createInitialNavigationState(isAuthenticated: boolean): NavigationState {
   return {
     currentRoute: isAuthenticated ? "home" : "login",
-    history: []
+    history: [],
   };
 }
 
@@ -25,7 +25,7 @@ export function navigate(state: NavigationState, route: MobileRoute): Navigation
   }
   return {
     currentRoute: route,
-    history: [...state.history, state.currentRoute]
+    history: [...state.history, state.currentRoute],
   };
 }
 
@@ -36,6 +36,6 @@ export function goBack(state: NavigationState): NavigationState {
   }
   return {
     currentRoute: previousRoute,
-    history: state.history.slice(0, -1)
+    history: state.history.slice(0, -1),
   };
 }

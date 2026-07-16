@@ -1,6 +1,7 @@
 package com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared;
 
 import java.text.Normalizer;
+import java.util.Locale;
 
 import org.springframework.util.StringUtils;
 
@@ -54,8 +55,11 @@ public final class PeopleValidation {
         if (value == null || value.isBlank()) {
             return null;
         }
-        String stripped = Normalizer.normalize(value.trim(), Normalizer.Form.NFD)
+        String normalized = Normalizer.normalize(value.trim(), Normalizer.Form.NFKC);
+        String uppercased = normalized.toUpperCase(Locale.ROOT);
+        String decomposed = Normalizer.normalize(uppercased, Normalizer.Form.NFD);
+        String stripped = decomposed
                 .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-        return stripped.toUpperCase(java.util.Locale.ROOT);
+        return Normalizer.normalize(stripped, Normalizer.Form.NFC);
     }
 }

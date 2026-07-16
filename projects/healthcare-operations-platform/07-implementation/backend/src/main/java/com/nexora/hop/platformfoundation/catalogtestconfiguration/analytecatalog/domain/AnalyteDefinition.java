@@ -1,6 +1,5 @@
 package com.nexora.hop.platformfoundation.catalogtestconfiguration.analytecatalog.domain;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.LocalizedText;

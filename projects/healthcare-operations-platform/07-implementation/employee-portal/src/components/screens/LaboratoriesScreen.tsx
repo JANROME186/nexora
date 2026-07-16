@@ -24,7 +24,9 @@ export function LaboratoriesScreen() {
 
   function upsertLaboratory(laboratory: Laboratory) {
     setLaboratories((current) => {
-      const withoutExisting = current.filter((item) => item.laboratoryId !== laboratory.laboratoryId);
+      const withoutExisting = current.filter(
+        (item) => item.laboratoryId !== laboratory.laboratoryId,
+      );
       return [laboratory, ...withoutExisting];
     });
     setLaboratoryId(laboratory.laboratoryId);

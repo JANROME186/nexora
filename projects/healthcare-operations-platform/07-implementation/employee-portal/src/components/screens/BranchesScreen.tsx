@@ -64,7 +64,12 @@ export function BranchesScreen() {
           required
         />
         <label htmlFor="branch-name">Branch name</label>
-        <input id="branch-name" value={name} onChange={(event) => setName(event.target.value)} required />
+        <input
+          id="branch-name"
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+          required
+        />
         <button type="submit" disabled={createAction.status === "loading"}>
           Create branch
         </button>

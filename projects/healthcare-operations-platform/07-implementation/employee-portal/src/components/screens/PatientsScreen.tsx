@@ -9,16 +9,27 @@ import {
   recordPatientConsent,
   registerPatient,
   revokePatientConsent,
-  revokePatientRepresentative
+  revokePatientRepresentative,
 } from "../../api/peopleApi";
-import type { Patient, PatientConsent, PatientRepresentative, PatientSnapshot } from "../../api/types";
+import type {
+  Patient,
+  PatientConsent,
+  PatientRepresentative,
+  PatientSnapshot,
+} from "../../api/types";
 import { useAdminScope } from "../../state/AdminScopeContext";
 import { useAsyncAction } from "../../state/useAsyncAction";
 import { ConfirmDialog } from "../common/ConfirmDialog";
 import { ScopeIndicator } from "../common/ScopeIndicator";
 import { StatusBanner } from "../common/StatusBanner";
 
-const CONSENT_TYPES = ["data_processing", "portal_access", "notification_channel", "marketing", "research"];
+const CONSENT_TYPES = [
+  "data_processing",
+  "portal_access",
+  "notification_channel",
+  "marketing",
+  "research",
+];
 
 /**
  * BCM-PER-002 employee portal surface: patient list, registration, snapshot, representative and
@@ -51,7 +62,8 @@ export function PatientsScreen() {
   const [documentNumber, setDocumentNumber] = useState("");
 
   const registerAction = useAsyncAction(async () => {
-    if (!tenantId || !laboratoryId) throw new Error("Select tenant and laboratory scope before registering a patient.");
+    if (!tenantId || !laboratoryId)
+      throw new Error("Select tenant and laboratory scope before registering a patient.");
     const created = await registerPatient({
       tenantId,
       laboratoryId,
@@ -61,9 +73,12 @@ export function PatientsScreen() {
       birthDate: birthDate || undefined,
       sexAtBirth,
       primaryDocumentType: documentType,
-      primaryDocumentNumber: documentNumber
+      primaryDocumentNumber: documentNumber,
     });
-    setPatients((current) => [created, ...current.filter((patient) => patient.patientId !== created.patientId)]);
+    setPatients((current) => [
+      created,
+      ...current.filter((patient) => patient.patientId !== created.patientId),
+    ]);
     setSelectedPatientId(created.patientId);
     setPatientCode("");
     setGivenName("");
@@ -99,18 +114,23 @@ export function PatientsScreen() {
       givenName: repGivenName,
       familyName: repFamilyName,
       documentType: repDocumentType,
-      documentNumber: repDocumentNumber
+      documentNumber: repDocumentNumber,
     });
-    setRepresentatives((current) => [created, ...current.filter((rep) => rep.representativeId !== created.representativeId)]);
+    setRepresentatives((current) => [
+      created,
+      ...current.filter((rep) => rep.representativeId !== created.representativeId),
+    ]);
     setRepGivenName("");
     setRepFamilyName("");
     setRepDocumentNumber("");
     return created;
   });
   const revokeRepresentativeAction = useAsyncAction((representativeId: string) =>
-    revokePatientRepresentative(selectedPatientId, representativeId)
+    revokePatientRepresentative(selectedPatientId, representativeId),
   );
-  const [representativeToRevoke, setRepresentativeToRevoke] = useState<string | undefined>(undefined);
+  const [representativeToRevoke, setRepresentativeToRevoke] = useState<string | undefined>(
+    undefined,
+  );
 
   const consentsAction = useAsyncAction(async () => {
     if (!selectedPatientId) throw new Error("Select a patient first.");
@@ -126,12 +146,17 @@ export function PatientsScreen() {
     const created = await recordPatientConsent(selectedPatientId, {
       consentType,
       granted: true,
-      grantedBy: consentGrantedBy
+      grantedBy: consentGrantedBy,
     });
-    setConsents((current) => [created, ...current.filter((consent) => consent.consentId !== created.consentId)]);
+    setConsents((current) => [
+      created,
+      ...current.filter((consent) => consent.consentId !== created.consentId),
+    ]);
     return created;
   });
-  const revokeConsentAction = useAsyncAction((consentId: string) => revokePatientConsent(selectedPatientId, consentId));
+  const revokeConsentAction = useAsyncAction((consentId: string) =>
+    revokePatientConsent(selectedPatientId, consentId),
+  );
   const [consentToRevoke, setConsentToRevoke] = useState<string | undefined>(undefined);
 
   const [survivingPatientId, setSurvivingPatientId] = useState("");
@@ -172,32 +197,62 @@ export function PatientsScreen() {
       <h2 id="patients-heading">Patients</h2>
       <ScopeIndicator />
       {!canUse ? (
-        <p className="status-banner status-banner--error">Select a tenant and laboratory before managing patients.</p>
+        <p className="status-banner status-banner--error">
+          Select a tenant and laboratory before managing patients.
+        </p>
       ) : null}
 
       <div className="panel">
         <h3>Register patient</h3>
         <form onSubmit={handleRegister}>
           <label htmlFor="patient-code">Patient code</label>
-          <input id="patient-code" value={patientCode} onChange={(event) => setPatientCode(event.target.value)} required />
+          <input
+            id="patient-code"
+            value={patientCode}
+            onChange={(event) => setPatientCode(event.target.value)}
+            required
+          />
           <label htmlFor="patient-given-name">Given name</label>
-          <input id="patient-given-name" value={givenName} onChange={(event) => setGivenName(event.target.value)} required />
+          <input
+            id="patient-given-name"
+            value={givenName}
+            onChange={(event) => setGivenName(event.target.value)}
+            required
+          />
           <label htmlFor="patient-family-name">Family name</label>
-          <input id="patient-family-name" value={familyName} onChange={(event) => setFamilyName(event.target.value)} required />
+          <input
+            id="patient-family-name"
+            value={familyName}
+            onChange={(event) => setFamilyName(event.target.value)}
+            required
+          />
           <label htmlFor="patient-birth-date">Birth date</label>
-          <input id="patient-birth-date" type="date" value={birthDate} onChange={(event) => setBirthDate(event.target.value)} />
+          <input
+            id="patient-birth-date"
+            type="date"
+            value={birthDate}
+            onChange={(event) => setBirthDate(event.target.value)}
+          />
           <label htmlFor="patient-sex">Sex at birth</label>
-          <select id="patient-sex" value={sexAtBirth} onChange={(event) => setSexAtBirth(event.target.value)}>
+          <select
+            id="patient-sex"
+            value={sexAtBirth}
+            onChange={(event) => setSexAtBirth(event.target.value)}
+          >
             <option value="female">Female</option>
             <option value="male">Male</option>
             <option value="intersex">Intersex</option>
             <option value="unknown">Unknown</option>
           </select>
           <label htmlFor="patient-document-type">Primary document type</label>
-          <select id="patient-document-type" value={documentType} onChange={(event) => setDocumentType(event.target.value)}>
+          <select
+            id="patient-document-type"
+            value={documentType}
+            onChange={(event) => setDocumentType(event.target.value)}
+          >
             <option value="national_id">National id</option>
             <option value="passport">Passport</option>
-            <option value="drivers_license">Driver's license</option>
+            <option value="drivers_license">Driver&apos;s license</option>
             <option value="tax_id">Tax id</option>
             <option value="other">Other</option>
           </select>
@@ -219,10 +274,18 @@ export function PatientsScreen() {
         </form>
       </div>
 
-      <button type="button" disabled={!canUse || listAction.status === "loading"} onClick={handleList}>
+      <button
+        type="button"
+        disabled={!canUse || listAction.status === "loading"}
+        onClick={handleList}
+      >
         Load patients
       </button>
-      <StatusBanner status={listAction.status} errorMessage={listAction.errorMessage} successMessage="Patients loaded." />
+      <StatusBanner
+        status={listAction.status}
+        errorMessage={listAction.errorMessage}
+        successMessage="Patients loaded."
+      />
 
       {listAction.status === "success" && patients.length === 0 ? (
         <p className="empty-state">No patients registered yet in this laboratory.</p>
@@ -243,7 +306,11 @@ export function PatientsScreen() {
             {patients.map((patient) => (
               <tr key={patient.patientId}>
                 <td>
-                  <button type="button" className="link-button" onClick={() => selectPatient(patient.patientId)}>
+                  <button
+                    type="button"
+                    className="link-button"
+                    onClick={() => selectPatient(patient.patientId)}
+                  >
                     {patient.patientId}
                   </button>
                 </td>
@@ -262,7 +329,11 @@ export function PatientsScreen() {
         <>
           <div className="panel">
             <h3>Selected patient: {selectedPatientId}</h3>
-            <button type="button" disabled={snapshotAction.status === "loading"} onClick={() => snapshotAction.run()}>
+            <button
+              type="button"
+              disabled={snapshotAction.status === "loading"}
+              onClick={() => snapshotAction.run()}
+            >
               Load snapshot
             </button>
             <StatusBanner
@@ -293,7 +364,8 @@ export function PatientsScreen() {
                   <tr>
                     <th scope="row">Document</th>
                     <td>
-                      {snapshot.primaryDocumentType ?? "-"} {snapshot.primaryDocumentNumberMasked ?? ""}
+                      {snapshot.primaryDocumentType ?? "-"}{" "}
+                      {snapshot.primaryDocumentNumberMasked ?? ""}
                     </td>
                   </tr>
                 </tbody>
@@ -318,7 +390,11 @@ export function PatientsScreen() {
 
             <form onSubmit={handleAttachRepresentative}>
               <label htmlFor="rep-relationship">Relationship</label>
-              <select id="rep-relationship" value={repRelationship} onChange={(event) => setRepRelationship(event.target.value)}>
+              <select
+                id="rep-relationship"
+                value={repRelationship}
+                onChange={(event) => setRepRelationship(event.target.value)}
+              >
                 <option value="parent">Parent</option>
                 <option value="legal_guardian">Legal guardian</option>
                 <option value="spouse">Spouse</option>
@@ -326,11 +402,25 @@ export function PatientsScreen() {
                 <option value="other">Other</option>
               </select>
               <label htmlFor="rep-given-name">Given name</label>
-              <input id="rep-given-name" value={repGivenName} onChange={(event) => setRepGivenName(event.target.value)} required />
+              <input
+                id="rep-given-name"
+                value={repGivenName}
+                onChange={(event) => setRepGivenName(event.target.value)}
+                required
+              />
               <label htmlFor="rep-family-name">Family name</label>
-              <input id="rep-family-name" value={repFamilyName} onChange={(event) => setRepFamilyName(event.target.value)} required />
+              <input
+                id="rep-family-name"
+                value={repFamilyName}
+                onChange={(event) => setRepFamilyName(event.target.value)}
+                required
+              />
               <label htmlFor="rep-document-type">Document type</label>
-              <select id="rep-document-type" value={repDocumentType} onChange={(event) => setRepDocumentType(event.target.value)}>
+              <select
+                id="rep-document-type"
+                value={repDocumentType}
+                onChange={(event) => setRepDocumentType(event.target.value)}
+              >
                 <option value="national_id">National id</option>
                 <option value="passport">Passport</option>
                 <option value="other">Other</option>
@@ -374,7 +464,8 @@ export function PatientsScreen() {
                       <td>{representative.representativeId}</td>
                       <td>{representative.relationship}</td>
                       <td>
-                        {representative.representativeName?.givenName} {representative.representativeName?.familyName}
+                        {representative.representativeName?.givenName}{" "}
+                        {representative.representativeName?.familyName}
                       </td>
                       <td>
                         <span className="catalog-status">{representative.status}</span>
@@ -402,7 +493,11 @@ export function PatientsScreen() {
 
           <div className="panel">
             <h3>Consents</h3>
-            <button type="button" disabled={consentsAction.status === "loading"} onClick={() => consentsAction.run()}>
+            <button
+              type="button"
+              disabled={consentsAction.status === "loading"}
+              onClick={() => consentsAction.run()}
+            >
               Load consents
             </button>
             <StatusBanner
@@ -413,7 +508,11 @@ export function PatientsScreen() {
 
             <form onSubmit={handleRecordConsent}>
               <label htmlFor="consent-type">Consent type</label>
-              <select id="consent-type" value={consentType} onChange={(event) => setConsentType(event.target.value)}>
+              <select
+                id="consent-type"
+                value={consentType}
+                onChange={(event) => setConsentType(event.target.value)}
+              >
                 {CONSENT_TYPES.map((type) => (
                   <option key={type} value={type}>
                     {type}
@@ -421,7 +520,11 @@ export function PatientsScreen() {
                 ))}
               </select>
               <label htmlFor="consent-granted-by">Granted by</label>
-              <select id="consent-granted-by" value={consentGrantedBy} onChange={(event) => setConsentGrantedBy(event.target.value)}>
+              <select
+                id="consent-granted-by"
+                value={consentGrantedBy}
+                onChange={(event) => setConsentGrantedBy(event.target.value)}
+              >
                 <option value="patient">Patient</option>
                 <option value="representative">Representative</option>
               </select>
@@ -482,8 +585,9 @@ export function PatientsScreen() {
           <div className="panel">
             <h3>Merge into a surviving patient</h3>
             <p className="field-hint">
-              This merges the selected patient ({selectedPatientId}) as a duplicate into the surviving patient below.
-              The merge never deletes data; it is archived and read requests are rewired automatically.
+              This merges the selected patient ({selectedPatientId}) as a duplicate into the
+              surviving patient below. The merge never deletes data; it is archived and read
+              requests are rewired automatically.
             </p>
             <form
               onSubmit={(event) => {
@@ -510,7 +614,9 @@ export function PatientsScreen() {
           </div>
         </>
       ) : (
-        <p className="empty-state">Select a patient row to view its snapshot, representatives, consents and merge options.</p>
+        <p className="empty-state">
+          Select a patient row to view its snapshot, representatives, consents and merge options.
+        </p>
       )}
 
       <ConfirmDialog
@@ -523,7 +629,9 @@ export function PatientsScreen() {
             const revoked = await revokeRepresentativeAction.run(representativeToRevoke);
             if (revoked.ok) {
               setRepresentatives((current) =>
-                current.map((rep) => (rep.representativeId === revoked.data.representativeId ? revoked.data : rep))
+                current.map((rep) =>
+                  rep.representativeId === revoked.data.representativeId ? revoked.data : rep,
+                ),
               );
             }
           }
@@ -556,7 +664,11 @@ export function PatientsScreen() {
           setConfirmingMerge(false);
           const merged = await mergeAction.run();
           if (merged.ok) {
-            setPatients((current) => current.map((patient) => (patient.patientId === merged.data.patientId ? merged.data : patient)));
+            setPatients((current) =>
+              current.map((patient) =>
+                patient.patientId === merged.data.patientId ? merged.data : patient,
+              ),
+            );
           }
         }}
       />

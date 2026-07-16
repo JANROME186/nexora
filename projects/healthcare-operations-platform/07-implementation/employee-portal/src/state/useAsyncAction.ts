@@ -13,7 +13,10 @@ export type AsyncActionResult<TResult> =
   | { ok: true; data: TResult }
   | { ok: false; errorMessage: string };
 
-export interface UseAsyncActionResult<TArgs extends unknown[], TResult> extends AsyncActionState<TResult> {
+export interface UseAsyncActionResult<
+  TArgs extends unknown[],
+  TResult,
+> extends AsyncActionState<TResult> {
   run: (...args: TArgs) => Promise<AsyncActionResult<TResult>>;
   reset: () => void;
 }
@@ -27,7 +30,7 @@ export interface UseAsyncActionResult<TArgs extends unknown[], TResult> extends 
  * matters for actions such as role assignment that resolve with no response body.
  */
 export function useAsyncAction<TArgs extends unknown[], TResult>(
-  action: (...args: TArgs) => Promise<TResult>
+  action: (...args: TArgs) => Promise<TResult>,
 ): UseAsyncActionResult<TArgs, TResult> {
   const [state, setState] = useState<AsyncActionState<TResult>>({ status: "idle" });
 
@@ -39,12 +42,13 @@ export function useAsyncAction<TArgs extends unknown[], TResult>(
         setState({ status: "success", data });
         return { ok: true, data };
       } catch (error) {
-        const message = error instanceof ApiError ? error.message : "Unexpected error. Please try again.";
+        const message =
+          error instanceof ApiError ? error.message : "Unexpected error. Please try again.";
         setState({ status: "error", errorMessage: message });
         return { ok: false, errorMessage: message };
       }
     },
-    [action]
+    [action],
   );
 
   const reset = useCallback(() => setState({ status: "idle" }), []);

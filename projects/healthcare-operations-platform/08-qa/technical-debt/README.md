@@ -14,11 +14,21 @@ quality alignment work.
 
 ## Active Blocking Quality Alignment Debt
 
-- `TD-FE-003` - frontend enterprise quality profile.
-- `TD-APP-001` - mobile quality baseline.
-- `TD-QA-003` - all-severity vulnerability evidence.
 - `TD-I18N-001` - message externalization and magic-string remediation baseline.
+- `TD-QA-001` - DAST automation for runnable web and API surfaces.
 
 These items are addressed by:
 
 `06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml`
+
+## Final Closure Debt
+
+HOP cannot be marked commercially complete, GA-ready or finally closed while any technical-debt item
+remains open. Coverage-related final closure debt includes:
+
+- `TD-BE-003` - backend coverage must improve from 65.82% to at least 80%.
+- `TD-FE-004` - frontend coverage must improve from 72.89% to at least 80%.
+- `TD-APP-002` - mobile coverage must become measurable and reach at least 80%.
+
+Until 80% is reached, the previous measured coverage is the hard lower bound for the next
+iteration. Coverage must not decrease.

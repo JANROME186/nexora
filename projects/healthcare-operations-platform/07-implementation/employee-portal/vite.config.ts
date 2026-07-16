@@ -8,9 +8,9 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "http://localhost:8080",
-        changeOrigin: true
-      }
-    }
+        changeOrigin: true,
+      },
+    },
   },
   test: {
     globals: true,
@@ -26,8 +26,8 @@ export default defineConfig({
         lines: 65,
         functions: 35,
         branches: 80,
-        statements: 65
-      }
-    }
-  }
+        statements: 65,
+      },
+    },
+  },
 });

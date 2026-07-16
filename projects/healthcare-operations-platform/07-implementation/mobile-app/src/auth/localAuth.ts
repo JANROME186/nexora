@@ -13,7 +13,10 @@ export type LocalAuthService = {
   currentSession: () => MobileSession | null;
 };
 
-export function createLocalAuthService(sessionStore: SessionStore, now: () => Date = () => new Date()): LocalAuthService {
+export function createLocalAuthService(
+  sessionStore: SessionStore,
+  now: () => Date = () => new Date(),
+): LocalAuthService {
   return {
     login: (request) => {
       const tenantId = requiredText(request.tenantId, "Tenant id is required.");
@@ -26,7 +29,7 @@ export function createLocalAuthService(sessionStore: SessionStore, now: () => Da
         userId,
         displayName,
         email,
-        createdAt: now().toISOString()
+        createdAt: now().toISOString(),
       };
       sessionStore.saveSession(session);
       return session;
@@ -34,7 +37,7 @@ export function createLocalAuthService(sessionStore: SessionStore, now: () => Da
     logout: () => {
       sessionStore.clearSession();
     },
-    currentSession: () => sessionStore.getSession()
+    currentSession: () => sessionStore.getSession(),
   };
 }
 

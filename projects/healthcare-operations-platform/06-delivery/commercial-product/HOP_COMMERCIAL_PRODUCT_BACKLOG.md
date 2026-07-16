@@ -173,6 +173,12 @@ checks, SAST/static analysis, OWASP or equivalent secure-code checks, dependency
 across all severities, secrets scan, coverage, message externalization/i18n and DAST when a
 runnable surface exists.
 
+Commercial completion and GA readiness additionally require:
+
+- No open technical debt in `08-qa/technical-debt/`.
+- At least 80% line coverage for every applicable delivered stack.
+- No coverage regression below the previous measured iteration baseline during intermediate work.
+
 ## Commercial GA Gates
 
 HOP reaches commercial general availability only after these gates pass:
@@ -186,7 +192,7 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-Start `HOP-QA-ALIGN-001` from:
+Continue with `HOP-QA-ALIGN-004` from:
 
 `06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml`
 

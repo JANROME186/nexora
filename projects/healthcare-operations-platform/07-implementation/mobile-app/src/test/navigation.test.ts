@@ -9,7 +9,10 @@ describe("mobile navigation", () => {
   });
 
   it("tracks route history for mobile back navigation", () => {
-    const state = navigate(navigate(createInitialNavigationState(true), "user-summary"), "audit-summary");
+    const state = navigate(
+      navigate(createInitialNavigationState(true), "user-summary"),
+      "audit-summary",
+    );
 
     expect(state.currentRoute).toBe("audit-summary");
     expect(goBack(state).currentRoute).toBe("user-summary");

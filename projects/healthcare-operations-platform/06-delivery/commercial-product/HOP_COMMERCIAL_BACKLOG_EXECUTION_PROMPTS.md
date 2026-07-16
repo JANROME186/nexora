@@ -32,11 +32,18 @@ Every code-changing backlog item must write security quality evidence under:
 
 Before feature work, the agent must review `08-qa/technical-debt/technical-debt-index.yaml` and
 resolve or materially reduce at least one open technical-debt item unless no open debt exists.
+As HOP advances, debt burn-down must become stricter: module closeout, release preparation and
+commercial-readiness work must reduce multiple relevant debt items when open debt remains.
 
 The evidence must cover applicable tests, best practices, coding standards, duplicate code,
 complexity, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerability
 checks across all severities, secrets scan, coverage, message externalization/i18n and DAST when a
 runnable web/API surface exists.
+
+Coverage target: 80% line coverage for every applicable delivered stack. If a stack is below 80% in
+an intermediate iteration, the previous measured coverage becomes the lower bound and must not drop.
+The full product cannot be marked complete while any stack is below 80% or any technical debt
+remains open.
 
 ## Required Rule
 
@@ -188,6 +195,6 @@ Expected result:
 Start with:
 
 - Module: `HOP-QUALITY-ALIGNMENT Enterprise Quality Alignment`
-- Backlog item: `HOP-QA-ALIGN-001`
+- Backlog item: `HOP-QA-ALIGN-004`
 - Paused functional backlog item: `MVP-MOD-004-FE-001`
-- Folder: `01-product-definition/business-capabilities/packages/`
+- Folder: `08-qa/security-quality/HOP-QA-ALIGN-004/`

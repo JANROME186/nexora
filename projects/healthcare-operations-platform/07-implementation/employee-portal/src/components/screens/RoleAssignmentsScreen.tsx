@@ -24,7 +24,7 @@ export function RoleAssignmentsScreen() {
   }, [scope.userId]);
 
   const assignAction = useAsyncAction((targetUserId: string) =>
-    assignRole(targetUserId, { roleCode, scope: { type: scopeType, id: scopeId } })
+    assignRole(targetUserId, { roleCode, scope: { type: scopeType, id: scopeId } }),
   );
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {

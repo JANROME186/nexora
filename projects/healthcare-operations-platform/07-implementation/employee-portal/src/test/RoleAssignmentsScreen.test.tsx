@@ -13,7 +13,7 @@ describe("RoleAssignmentsScreen", () => {
     render(
       <AdminScopeProvider>
         <RoleAssignmentsScreen />
-      </AdminScopeProvider>
+      </AdminScopeProvider>,
     );
 
     await user.type(screen.getByLabelText("User id"), "user-1");
@@ -32,7 +32,7 @@ describe("RoleAssignmentsScreen", () => {
     render(
       <AdminScopeProvider>
         <RoleAssignmentsScreen />
-      </AdminScopeProvider>
+      </AdminScopeProvider>,
     );
 
     await user.type(screen.getByLabelText("User id"), "user-1");
@@ -46,7 +46,7 @@ describe("RoleAssignmentsScreen", () => {
 
     expect(assignRoleMock).toHaveBeenCalledWith("user-1", {
       roleCode: "tenant-admin",
-      scope: { type: "tenant", id: "tenant-1" }
+      scope: { type: "tenant", id: "tenant-1" },
     });
     expect(await screen.findByText("Role assigned.")).toBeInTheDocument();
   });

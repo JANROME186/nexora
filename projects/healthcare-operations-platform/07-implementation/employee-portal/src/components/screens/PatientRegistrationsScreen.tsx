@@ -5,7 +5,7 @@ import {
   commitPatientRegistration,
   detectPersonDuplicates,
   listPatientRegistrations,
-  startPatientRegistration
+  startPatientRegistration,
 } from "../../api/peopleApi";
 import type { PatientRegistrationRequestRecord, PersonDuplicateCandidate } from "../../api/types";
 import { useAdminScope } from "../../state/AdminScopeContext";
@@ -66,7 +66,7 @@ export function PatientRegistrationsScreen() {
       familyName,
       birthDate: birthDate || undefined,
       documentType,
-      documentNumber
+      documentNumber,
     });
     setRegistrations((current) => [created, ...current]);
     setSelected(created);
@@ -97,7 +97,10 @@ export function PatientRegistrationsScreen() {
   const [confirmingCancel, setConfirmingCancel] = useState(false);
   const cancelAction = useAsyncAction(async () => {
     if (!selected) throw new Error("Select a registration first.");
-    return cancelPatientRegistration(selected.registrationRequestId, cancelReason ? { reasonCode: cancelReason } : undefined);
+    return cancelPatientRegistration(
+      selected.registrationRequestId,
+      cancelReason ? { reasonCode: cancelReason } : undefined,
+    );
   });
 
   async function handleList() {
@@ -128,22 +131,37 @@ export function PatientRegistrationsScreen() {
         resolvedExistingPatientId: resolvedExistingPatientId || undefined,
         patientCode: resolvedExistingPatientId ? undefined : commitPatientCode,
         sexAtBirth: resolvedExistingPatientId ? undefined : commitSexAtBirth,
-        representativeRelationship: registrationKindOf(selected) === "representative_registration" ? repRelationship : undefined,
-        representativeGivenName: registrationKindOf(selected) === "representative_registration" ? repGivenName : undefined,
-        representativeFamilyName: registrationKindOf(selected) === "representative_registration" ? repFamilyName : undefined,
-        representativeDocumentType: registrationKindOf(selected) === "representative_registration" ? repDocumentType : undefined,
-        representativeDocumentNumber: registrationKindOf(selected) === "representative_registration" ? repDocumentNumber : undefined,
+        representativeRelationship:
+          registrationKindOf(selected) === "representative_registration"
+            ? repRelationship
+            : undefined,
+        representativeGivenName:
+          registrationKindOf(selected) === "representative_registration" ? repGivenName : undefined,
+        representativeFamilyName:
+          registrationKindOf(selected) === "representative_registration"
+            ? repFamilyName
+            : undefined,
+        representativeDocumentType:
+          registrationKindOf(selected) === "representative_registration"
+            ? repDocumentType
+            : undefined,
+        representativeDocumentNumber:
+          registrationKindOf(selected) === "representative_registration"
+            ? repDocumentNumber
+            : undefined,
         consents: dataProcessingConsent
           ? [{ consentType: "data_processing", granted: true, grantedBy: consentGrantedBy }]
-          : []
+          : [],
       });
       setCommitPhase("success");
       setDuplicateCandidates([]);
       setSelected(committed);
       setRegistrations((current) =>
         current.map((registration) =>
-          registration.registrationRequestId === committed.registrationRequestId ? committed : registration
-        )
+          registration.registrationRequestId === committed.registrationRequestId
+            ? committed
+            : registration,
+        ),
       );
     } catch (error) {
       setCommitPhase("error");
@@ -158,7 +176,7 @@ export function PatientRegistrationsScreen() {
               personKind: "patient",
               familyName: selected.draftFamilyName,
               givenName: selected.draftGivenName,
-              birthDate: selected.birthDate
+              birthDate: selected.birthDate,
             });
             setDuplicateCandidates(candidates);
           } catch {
@@ -189,30 +207,57 @@ export function PatientRegistrationsScreen() {
         <h3>Start registration</h3>
         <form onSubmit={handleStart}>
           <label htmlFor="reg-intake-channel">Intake channel</label>
-          <select id="reg-intake-channel" value={intakeChannel} onChange={(event) => setIntakeChannel(event.target.value)}>
+          <select
+            id="reg-intake-channel"
+            value={intakeChannel}
+            onChange={(event) => setIntakeChannel(event.target.value)}
+          >
             <option value="walk_in">Walk in</option>
             <option value="appointment">Appointment</option>
             <option value="portal_handoff">Portal handoff</option>
             <option value="migration_import">Migration import</option>
           </select>
           <label htmlFor="reg-kind">Registration kind</label>
-          <select id="reg-kind" value={registrationKind} onChange={(event) => setRegistrationKind(event.target.value)}>
+          <select
+            id="reg-kind"
+            value={registrationKind}
+            onChange={(event) => setRegistrationKind(event.target.value)}
+          >
             <option value="new_patient">New patient</option>
             <option value="existing_patient_confirmation">Existing patient confirmation</option>
             <option value="representative_registration">Representative registration</option>
           </select>
           <label htmlFor="reg-given-name">Given name</label>
-          <input id="reg-given-name" value={givenName} onChange={(event) => setGivenName(event.target.value)} required />
+          <input
+            id="reg-given-name"
+            value={givenName}
+            onChange={(event) => setGivenName(event.target.value)}
+            required
+          />
           <label htmlFor="reg-family-name">Family name</label>
-          <input id="reg-family-name" value={familyName} onChange={(event) => setFamilyName(event.target.value)} required />
+          <input
+            id="reg-family-name"
+            value={familyName}
+            onChange={(event) => setFamilyName(event.target.value)}
+            required
+          />
           <label htmlFor="reg-birth-date">Birth date</label>
-          <input id="reg-birth-date" type="date" value={birthDate} onChange={(event) => setBirthDate(event.target.value)} />
+          <input
+            id="reg-birth-date"
+            type="date"
+            value={birthDate}
+            onChange={(event) => setBirthDate(event.target.value)}
+          />
           <p className="field-hint">
-            A birth date under the tenant's age-of-majority policy automatically switches a "New patient" intake to
-            "Representative registration" (RN-008).
+            A birth date under the tenant&apos;s age-of-majority policy automatically switches a
+            &quot;New patient&quot; intake to &quot;Representative registration&quot; (RN-008).
           </p>
           <label htmlFor="reg-document-type">Document type</label>
-          <select id="reg-document-type" value={documentType} onChange={(event) => setDocumentType(event.target.value)}>
+          <select
+            id="reg-document-type"
+            value={documentType}
+            onChange={(event) => setDocumentType(event.target.value)}
+          >
             <option value="national_id">National id</option>
             <option value="passport">Passport</option>
             <option value="other">Other</option>
@@ -235,10 +280,18 @@ export function PatientRegistrationsScreen() {
         </form>
       </div>
 
-      <button type="button" disabled={!tenantId || listAction.status === "loading"} onClick={handleList}>
+      <button
+        type="button"
+        disabled={!tenantId || listAction.status === "loading"}
+        onClick={handleList}
+      >
         Load registrations
       </button>
-      <StatusBanner status={listAction.status} errorMessage={listAction.errorMessage} successMessage="Registrations loaded." />
+      <StatusBanner
+        status={listAction.status}
+        errorMessage={listAction.errorMessage}
+        successMessage="Registrations loaded."
+      />
 
       {listAction.status === "success" && registrations.length === 0 ? (
         <p className="empty-state">No patient registrations started yet for this tenant.</p>
@@ -259,7 +312,11 @@ export function PatientRegistrationsScreen() {
             {registrations.map((registration) => (
               <tr key={registration.registrationRequestId}>
                 <td>
-                  <button type="button" className="link-button" onClick={() => selectRegistration(registration)}>
+                  <button
+                    type="button"
+                    className="link-button"
+                    onClick={() => selectRegistration(registration)}
+                  >
                     {registration.registrationRequestId}
                   </button>
                 </td>
@@ -310,7 +367,9 @@ export function PatientRegistrationsScreen() {
             <>
               <h4>Commit registration</h4>
               <form onSubmit={handleCommit}>
-                <label htmlFor="commit-resolved-id">Resolved existing patient id (leave blank for a new patient)</label>
+                <label htmlFor="commit-resolved-id">
+                  Resolved existing patient id (leave blank for a new patient)
+                </label>
                 <input
                   id="commit-resolved-id"
                   value={resolvedExistingPatientId}
@@ -325,7 +384,11 @@ export function PatientRegistrationsScreen() {
                       onChange={(event) => setCommitPatientCode(event.target.value)}
                     />
                     <label htmlFor="commit-sex">Sex at birth</label>
-                    <select id="commit-sex" value={commitSexAtBirth} onChange={(event) => setCommitSexAtBirth(event.target.value)}>
+                    <select
+                      id="commit-sex"
+                      value={commitSexAtBirth}
+                      onChange={(event) => setCommitSexAtBirth(event.target.value)}
+                    >
                       <option value="female">Female</option>
                       <option value="male">Male</option>
                       <option value="intersex">Intersex</option>
@@ -336,7 +399,9 @@ export function PatientRegistrationsScreen() {
 
                 {selected.registrationKind === "representative_registration" ? (
                   <>
-                    <p className="field-hint">Representative details are required to commit this registration kind (RN-003).</p>
+                    <p className="field-hint">
+                      Representative details are required to commit this registration kind (RN-003).
+                    </p>
                     <label htmlFor="commit-rep-relationship">Representative relationship</label>
                     <select
                       id="commit-rep-relationship"
@@ -350,7 +415,11 @@ export function PatientRegistrationsScreen() {
                       <option value="other">Other</option>
                     </select>
                     <label htmlFor="commit-rep-given-name">Representative given name</label>
-                    <input id="commit-rep-given-name" value={repGivenName} onChange={(event) => setRepGivenName(event.target.value)} />
+                    <input
+                      id="commit-rep-given-name"
+                      value={repGivenName}
+                      onChange={(event) => setRepGivenName(event.target.value)}
+                    />
                     <label htmlFor="commit-rep-family-name">Representative family name</label>
                     <input
                       id="commit-rep-family-name"
@@ -367,7 +436,9 @@ export function PatientRegistrationsScreen() {
                       <option value="passport">Passport</option>
                       <option value="other">Other</option>
                     </select>
-                    <label htmlFor="commit-rep-document-number">Representative document number</label>
+                    <label htmlFor="commit-rep-document-number">
+                      Representative document number
+                    </label>
                     <input
                       id="commit-rep-document-number"
                       value={repDocumentNumber}
@@ -409,8 +480,9 @@ export function PatientRegistrationsScreen() {
                 <div className="panel">
                   <h4>High-confidence duplicate candidates</h4>
                   <p className="field-hint">
-                    Pick the correct existing patient to resolve the match, or leave unresolved to confirm a genuinely
-                    new patient is intended and adjust the draft details before retrying.
+                    Pick the correct existing patient to resolve the match, or leave unresolved to
+                    confirm a genuinely new patient is intended and adjust the draft details before
+                    retrying.
                   </p>
                   <table>
                     <thead>
@@ -434,7 +506,12 @@ export function PatientRegistrationsScreen() {
                           </td>
                           <td>{candidate.matchReason}</td>
                           <td>
-                            <button type="button" onClick={() => setResolvedExistingPatientId(candidate.sourceAggregateId)}>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setResolvedExistingPatientId(candidate.sourceAggregateId)
+                              }
+                            >
                               Use this patient
                             </button>
                           </td>
@@ -453,7 +530,11 @@ export function PatientRegistrationsScreen() {
                 }}
               >
                 <label htmlFor="cancel-reason">Reason code (optional)</label>
-                <input id="cancel-reason" value={cancelReason} onChange={(event) => setCancelReason(event.target.value)} />
+                <input
+                  id="cancel-reason"
+                  value={cancelReason}
+                  onChange={(event) => setCancelReason(event.target.value)}
+                />
                 <button type="submit" disabled={cancelAction.status === "loading"}>
                   Cancel registration
                 </button>
@@ -467,7 +548,9 @@ export function PatientRegistrationsScreen() {
           ) : null}
         </div>
       ) : (
-        <p className="empty-state">Select a registration row to view its detail and commit or cancel it.</p>
+        <p className="empty-state">
+          Select a registration row to view its detail and commit or cancel it.
+        </p>
       )}
 
       <ConfirmDialog
@@ -482,8 +565,10 @@ export function PatientRegistrationsScreen() {
             setSelected(result.data);
             setRegistrations((current) =>
               current.map((registration) =>
-                registration.registrationRequestId === result.data.registrationRequestId ? result.data : registration
-              )
+                registration.registrationRequestId === result.data.registrationRequestId
+                  ? result.data
+                  : registration,
+              ),
             );
           }
         }}

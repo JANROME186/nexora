@@ -19,7 +19,7 @@ import type {
   ReferenceRange,
   SampleRequirement,
   SampleType,
-  TestDefinition
+  TestDefinition,
 } from "./types";
 
 const API_BASE = "/api/catalog";
@@ -33,14 +33,19 @@ export function listDiagnosticServices(laboratoryId: string): Promise<Diagnostic
   return get<DiagnosticService[]>(withLaboratory("/diagnostic-services", laboratoryId));
 }
 
-export function createDiagnosticService(request: CreateDiagnosticServiceRequest): Promise<DiagnosticService> {
-  return post<DiagnosticService, CreateDiagnosticServiceRequest>(`${API_BASE}/diagnostic-services`, request);
+export function createDiagnosticService(
+  request: CreateDiagnosticServiceRequest,
+): Promise<DiagnosticService> {
+  return post<DiagnosticService, CreateDiagnosticServiceRequest>(
+    `${API_BASE}/diagnostic-services`,
+    request,
+  );
 }
 
 export function publishDiagnosticService(serviceId: string): Promise<DiagnosticService> {
   return post<DiagnosticService, Record<string, never>>(
     `${API_BASE}/diagnostic-services/${encodeURIComponent(serviceId)}/publish`,
-    {}
+    {},
   );
 }
 
@@ -53,7 +58,10 @@ export function createTest(request: CreateTestDefinitionRequest): Promise<TestDe
 }
 
 export function publishTest(testId: string): Promise<TestDefinition> {
-  return post<TestDefinition, Record<string, never>>(`${API_BASE}/tests/${encodeURIComponent(testId)}/publish`, {});
+  return post<TestDefinition, Record<string, never>>(
+    `${API_BASE}/tests/${encodeURIComponent(testId)}/publish`,
+    {},
+  );
 }
 
 export function listPanels(laboratoryId: string): Promise<PanelDefinition[]> {
@@ -65,7 +73,10 @@ export function createPanel(request: CreatePanelDefinitionRequest): Promise<Pane
 }
 
 export function publishPanel(panelId: string): Promise<PanelDefinition> {
-  return post<PanelDefinition, Record<string, never>>(`${API_BASE}/panels/${encodeURIComponent(panelId)}/publish`, {});
+  return post<PanelDefinition, Record<string, never>>(
+    `${API_BASE}/panels/${encodeURIComponent(panelId)}/publish`,
+    {},
+  );
 }
 
 export function listAnalytes(laboratoryId: string): Promise<AnalyteDefinition[]> {
@@ -79,7 +90,7 @@ export function createAnalyte(request: CreateAnalyteDefinitionRequest): Promise<
 export function publishAnalyte(analyteId: string): Promise<AnalyteDefinition> {
   return post<AnalyteDefinition, Record<string, never>>(
     `${API_BASE}/analytes/${encodeURIComponent(analyteId)}/publish`,
-    {}
+    {},
   );
 }
 
@@ -87,14 +98,19 @@ export function listPreparations(laboratoryId: string): Promise<PreparationInstr
   return get<PreparationInstruction[]>(withLaboratory("/preparations", laboratoryId));
 }
 
-export function createPreparation(request: CreatePreparationInstructionRequest): Promise<PreparationInstruction> {
-  return post<PreparationInstruction, CreatePreparationInstructionRequest>(`${API_BASE}/preparations`, request);
+export function createPreparation(
+  request: CreatePreparationInstructionRequest,
+): Promise<PreparationInstruction> {
+  return post<PreparationInstruction, CreatePreparationInstructionRequest>(
+    `${API_BASE}/preparations`,
+    request,
+  );
 }
 
 export function publishPreparation(preparationId: string): Promise<PreparationInstruction> {
   return post<PreparationInstruction, Record<string, never>>(
     `${API_BASE}/preparations/${encodeURIComponent(preparationId)}/publish`,
-    {}
+    {},
   );
 }
 
@@ -102,14 +118,16 @@ export function listReferenceRanges(laboratoryId: string): Promise<ReferenceRang
   return get<ReferenceRange[]>(withLaboratory("/reference-ranges", laboratoryId));
 }
 
-export function createReferenceRange(request: CreateReferenceRangeRequest): Promise<ReferenceRange> {
+export function createReferenceRange(
+  request: CreateReferenceRangeRequest,
+): Promise<ReferenceRange> {
   return post<ReferenceRange, CreateReferenceRangeRequest>(`${API_BASE}/reference-ranges`, request);
 }
 
 export function publishReferenceRange(rangeId: string): Promise<ReferenceRange> {
   return post<ReferenceRange, Record<string, never>>(
     `${API_BASE}/reference-ranges/${encodeURIComponent(rangeId)}/publish`,
-    {}
+    {},
   );
 }
 
@@ -124,7 +142,7 @@ export function createSampleType(request: CreateSampleTypeRequest): Promise<Samp
 export function publishSampleType(sampleTypeId: string): Promise<SampleType> {
   return post<SampleType, Record<string, never>>(
     `${API_BASE}/samples/types/${encodeURIComponent(sampleTypeId)}/publish`,
-    {}
+    {},
   );
 }
 
@@ -132,14 +150,19 @@ export function listSampleRequirements(laboratoryId: string): Promise<SampleRequ
   return get<SampleRequirement[]>(withLaboratory("/samples/requirements", laboratoryId));
 }
 
-export function createSampleRequirement(request: CreateSampleRequirementRequest): Promise<SampleRequirement> {
-  return post<SampleRequirement, CreateSampleRequirementRequest>(`${API_BASE}/samples/requirements`, request);
+export function createSampleRequirement(
+  request: CreateSampleRequirementRequest,
+): Promise<SampleRequirement> {
+  return post<SampleRequirement, CreateSampleRequirementRequest>(
+    `${API_BASE}/samples/requirements`,
+    request,
+  );
 }
 
 export function publishSampleRequirement(requirementId: string): Promise<SampleRequirement> {
   return post<SampleRequirement, Record<string, never>>(
     `${API_BASE}/samples/requirements/${encodeURIComponent(requirementId)}/publish`,
-    {}
+    {},
   );
 }
 
@@ -151,16 +174,19 @@ export function createPriceList(request: CreatePriceListRequest): Promise<PriceL
   return post<PriceList, CreatePriceListRequest>(`${API_BASE}/price-lists`, request);
 }
 
-export function addPriceEntry(priceListId: string, request: AddPriceEntryRequest): Promise<PriceEntry> {
+export function addPriceEntry(
+  priceListId: string,
+  request: AddPriceEntryRequest,
+): Promise<PriceEntry> {
   return post<PriceEntry, AddPriceEntryRequest>(
     `${API_BASE}/price-lists/${encodeURIComponent(priceListId)}/entries`,
-    request
+    request,
   );
 }
 
 export function publishPriceList(priceListId: string): Promise<PriceList> {
   return post<PriceList, Record<string, never>>(
     `${API_BASE}/price-lists/${encodeURIComponent(priceListId)}/publish`,
-    {}
+    {},
   );
 }

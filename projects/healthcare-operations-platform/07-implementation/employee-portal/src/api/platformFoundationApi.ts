@@ -10,7 +10,7 @@ import type {
   CreateUserRequest,
   Laboratory,
   Tenant,
-  UserAccount
+  UserAccount,
 } from "./types";
 
 const API_BASE = "/api";
@@ -24,11 +24,16 @@ export function getTenant(tenantId: string): Promise<Tenant> {
 }
 
 export function createLaboratory(request: CreateLaboratoryRequest): Promise<Laboratory> {
-  return post<Laboratory, CreateLaboratoryRequest>(`${API_BASE}/organization/laboratories`, request);
+  return post<Laboratory, CreateLaboratoryRequest>(
+    `${API_BASE}/organization/laboratories`,
+    request,
+  );
 }
 
 export function getLaboratory(laboratoryId: string): Promise<Laboratory> {
-  return get<Laboratory>(`${API_BASE}/organization/laboratories/${encodeURIComponent(laboratoryId)}`);
+  return get<Laboratory>(
+    `${API_BASE}/organization/laboratories/${encodeURIComponent(laboratoryId)}`,
+  );
 }
 
 export function createBranch(request: CreateBranchRequest): Promise<Branch> {
@@ -50,7 +55,7 @@ export function getUser(userId: string): Promise<UserAccount> {
 export function assignRole(userId: string, request: AssignRoleRequest): Promise<void> {
   return post<void, AssignRoleRequest>(
     `${API_BASE}/identity/users/${encodeURIComponent(userId)}/role-assignments`,
-    request
+    request,
   );
 }
 
@@ -63,5 +68,6 @@ export function searchAuditEvents(params: AuditEventSearchParams): Promise<Audit
     query.set("subjectId", params.subjectId);
   }
   const queryString = query.toString();
-  return get<AuditEvent[]>(`${API_BASE}/audit/events${queryString ? `?${queryString}` : ""}`);
+  const querySuffix = queryString ? `?${queryString}` : "";
+  return get<AuditEvent[]>(`${API_BASE}/audit/events${querySuffix}`);
 }

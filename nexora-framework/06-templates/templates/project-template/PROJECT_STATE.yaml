@@ -21,7 +21,12 @@ development_readiness:
 technology_debt:
   index: 08-qa/technical-debt/technical-debt-index.yaml
   review_policy: Review during every code-changing backlog item, module closeout and release readiness gate.
-  remediation_policy: Address accepted debt gradually when affected components are touched.
+  remediation_policy: Address accepted debt gradually when affected components are touched, with increasing burn-down intensity as the project advances.
+  final_project_closure_requires_no_open_debt: true
+coverage_policy:
+  target_line_coverage_percent: 80
+  previous_iteration_coverage_is_hard_floor: true
+  final_project_closure_requires_target: true
 framework_feedback:
   index: 08-qa/framework-feedback/framework-feedback-index.yaml
   capture_policy: Capture feedback when execution reveals reusable framework ambiguity, gaps or automation opportunities.

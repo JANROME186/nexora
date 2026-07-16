@@ -28,6 +28,7 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanageme
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.domain.PersonKind;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientregistration.domain.PatientRegistrationRepository;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientregistration.domain.PatientRegistrationRequest;
+import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.InvalidPeopleCommandException;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PeopleConflictException;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PeopleEntityNotFoundException;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PeopleValidation;
@@ -172,6 +173,9 @@ public class PatientRegistrationService {
         if (!PatientRegistrationRequest.OUTCOME_PENDING.equals(registration.outcome())) {
             throw new PeopleConflictException("Only pending registration requests can be committed.");
         }
+        if (command == null) {
+            throw new InvalidPeopleCommandException("Commit command is required.");
+        }
 
         List<PersonDuplicateCandidate> candidates = duplicateDetectionEngine.detect(
                 registration.tenantId(), PersonKind.PATIENT, registration.draftFamilyName(),
@@ -180,7 +184,7 @@ public class PatientRegistrationService {
         boolean highConfidenceMatch = duplicateDetectionEngine.hasHighConfidenceMatch(
                 registration.tenantId(), candidates, PersonKind.PATIENT);
 
-        String resolvedExistingPatientId = optionalText(command == null ? null : command.resolvedExistingPatientId());
+        String resolvedExistingPatientId = optionalText(command.resolvedExistingPatientId());
         if (highConfidenceMatch && resolvedExistingPatientId == null) {
             // RN-006: cannot commit on a high-confidence match without an explicit actor decision.
             throw new PeopleConflictException(
@@ -191,7 +195,7 @@ public class PatientRegistrationService {
 
         boolean representativeRegistration = PatientRegistrationRequest.KIND_REPRESENTATIVE_REGISTRATION
                 .equals(registration.registrationKind());
-        if (representativeRegistration && (command == null || optionalText(command.representativeGivenName()) == null
+        if (representativeRegistration && (optionalText(command.representativeGivenName()) == null
                 || optionalText(command.representativeFamilyName()) == null
                 || optionalText(command.representativeRelationship()) == null)) {
             // RN-003: a representative registration must attach a representative during commit.
@@ -207,9 +211,9 @@ public class PatientRegistrationService {
             patientManagementService.get(resolvedExistingPatientId);
             outcomePatientId = resolvedExistingPatientId;
         } else {
-            String patientCode = requiredText(command == null ? null : command.patientCode(),
+            String patientCode = requiredText(command.patientCode(),
                     "Patient code is required to commit a new patient registration.");
-            String sexAtBirth = requiredText(command == null ? null : command.sexAtBirth(),
+            String sexAtBirth = requiredText(command.sexAtBirth(),
                     "Sex at birth is required to commit a new patient registration.");
             Patient created = patientManagementService.register(new RegisterPatientCommand(
                     registration.tenantId(), registration.laboratoryId(), patientCode,
@@ -234,7 +238,7 @@ public class PatientRegistrationService {
 
         // RN-005: tenant-configured mandatory consent types must be captured before commit.
         List<CommitPatientRegistrationCommand.ConsentSelection> providedConsents =
-                command == null || command.consents() == null ? List.of() : command.consents();
+                command.consents() == null ? List.of() : command.consents();
         Set<String> providedTypes = providedConsents.stream()
                 .map(CommitPatientRegistrationCommand.ConsentSelection::consentType)
                 .collect(Collectors.toSet());

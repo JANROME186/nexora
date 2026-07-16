@@ -325,7 +325,6 @@ export interface AddPriceEntryRequest {
   amount: number;
 }
 
-
 // -- People and Clinical Master Data (MVP-MOD-003: BCM-PER-001/002/003, BCM-ATT-002) -----------
 
 export type PersonKind = "patient" | "doctor";

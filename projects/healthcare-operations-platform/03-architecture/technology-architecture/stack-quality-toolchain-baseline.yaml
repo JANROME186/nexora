@@ -2,10 +2,10 @@ artifact:
   id: HOP-STACK-QUALITY-TOOLCHAIN-001
   type: stack-quality-toolchain-baseline
   name: HOP Stack Quality Toolchain Baseline
-  version: 1.1.0
+  version: 1.2.0
   status: active_with_mandatory_debt_first_remediation
   created_date: 2026-07-09
-  last_refreshed_date: 2026-07-09
+  last_refreshed_date: 2026-07-15
   standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
 
 selected_stack_reference: 03-architecture/technology-architecture/client-stack-market-validation.yaml
@@ -25,64 +25,81 @@ toolchain_by_stack:
         required_action: keep_test_reports_as_backlog_evidence
       - category: Quality and bugs
         tool: SpotBugs
-        status: not_yet_configured
-        required_action: evaluate_and_add_or_register_debt_during_backend_quality_hardening
+        status: configured_passing
+        evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.yaml
+        latest_result: 0_findings
+        required_action: keep_in_backend_quality_profile
       - category: Code security
         tool: Find Security Bugs
-        status: not_yet_configured
-        required_action: evaluate_and_add_or_register_debt_during_backend_quality_hardening
+        status: configured_passing
+        evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.yaml
+        latest_result: 0_findings
+        required_action: keep_in_backend_quality_profile
       - category: Style
         tool: Checkstyle
-        status: not_yet_configured
-        required_action: add_or_register_debt_before_next_backend_backlog_closure
+        status: configured_passing
+        evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.yaml
+        latest_result: 0_errors
+        required_action: keep_rules_current_with_team_standards
       - category: Formatting
         tool: Spotless
-        status: not_yet_configured
-        required_action: add_or_register_debt_before_next_backend_backlog_closure
+        status: configured
+        required_action: enforce_in_backend_quality_profile
       - category: Static analysis
         tool: PMD
-        status: not_yet_configured
-        required_action: evaluate_and_add_or_register_debt_during_backend_quality_hardening
+        status: configured_with_residual_debt
+        evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.yaml
+        latest_result: 124_findings
+        required_action: reduce_findings_gradually_under_TD-BE-002
       - category: Duplication
         tool: PMD CPD
-        status: not_yet_configured
-        required_action: add_or_register_debt_before_next_backend_backlog_closure
+        status: configured_passing
+        evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.yaml
+        latest_result: 0_duplications
+        required_action: keep_in_backend_quality_profile
       - category: Duplicate dependencies and classes
         tool: Duplicate Finder Maven Plugin
-        status: not_yet_configured
-        required_action: add_or_register_debt_when_backend_dependencies_are_touched
+        status: configured_passing
+        evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.yaml
+        required_action: keep_in_backend_quality_profile
       - category: Coverage
         tool: JaCoCo
-        status: not_yet_configured
-        required_action: add_backend_coverage_gate
+        status: configured_below_target
+        evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.yaml
+        latest_result: 65.82_line_coverage
+        required_action: raise_to_80_percent_under_TD-BE-003_without_dropping_below_65_82
       - category: Dependency vulnerabilities
         tool: OWASP Dependency-Check
-        status: not_yet_configured
-        required_action: add_or_document_alternative_dependency_scan_all_severities
+        status: configured_passing
+        evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-004-validation.yaml
+        latest_result: 0_vulnerabilities
+        required_action: keep_nvd_kev_scan_active_all_severities
       - category: Containers, filesystem and secrets
         tool: Trivy
-        status: configured_manually
-        evidence: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.yaml
+        status: configured_passing_all_severities
+        evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-004-validation.yaml
+        latest_result: 0_vulnerabilities_0_secrets_0_misconfigurations
         required_action: run_without_severity_filter_for_backlog_closure
       - category: SBOM
         tool: CycloneDX Maven Plugin
-        status: not_yet_configured
-        required_action: add_before_release_readiness
+        status: configured
+        evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.yaml
+        required_action: enforce_release_sbom_publication_before_ga
       - category: Build rules
         tool: Maven Enforcer
-        status: not_yet_configured
-        required_action: add_java_maven_version_and_dependency_rules
+        status: configured
+        required_action: keep_java_maven_and_dependency_rules_current
       - category: Dependency currency
         tool: Maven Versions Plugin
-        status: not_yet_configured
-        required_action: add_to_stack_evolution_review_or_register_debt
+        status: configured
+        required_action: use_during_stack_evolution_review_or_register_debt
       - category: Licenses
         tool: License Maven Plugin or License Checker
-        status: not_yet_configured
-        required_action: add_or_document_license_review_process
+        status: configured
+        required_action: harden_release_license_policy_before_ga
       - category: Advanced tests
         tool: PIT or Pitest
-        status: deferred
+        status: configured_not_strict
         required_action: apply_to_core_domain_or_high_risk_modules
       - category: Architecture
         tool: ArchUnit
@@ -94,7 +111,7 @@ toolchain_by_stack:
         required_action: use_for_future_modernization_debt_or_framework_migrations
       - category: API compatibility
         tool: Revapi
-        status: conditional_not_yet_configured
+        status: configured_skipped_until_public_java_api_exists
         required_action: evaluate_when_public_java_api_or_sdk_changes
       - category: Compiler static analysis
         tool: Google Error Prone
@@ -116,24 +133,42 @@ toolchain_by_stack:
       - V8 coverage provider
       - npm audit
       - Trivy filesystem scan
-    gaps_to_evaluate:
       - ESLint
       - typescript-eslint
       - eslint-plugin-security
       - eslint-plugin-sonarjs
-      - Semgrep CE
-      - duplicate-code detector such as jscpd
-      - complexity rules such as ESLint complexity or sonarjs cognitive-complexity
+      - jscpd duplicate-code scan
       - Prettier formatting gate
+      - license-checker-rseidelsohn
+      - production build gate
+    latest_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-003-validation.yaml
+    latest_results:
+      quality_script: passed
+      tests: 18
+      coverage_lines_percent: 72.89
+      lint_errors: 0
+      lint_warnings: 11
+      npm_audit_low_or_higher_vulnerabilities: 0
+    gaps_to_evaluate:
+      - Semgrep CE
       - frontend DAST with OWASP ZAP when runnable surface is available
       - SBOM generation
-      - license review automation
       - accessibility checks such as axe-core or Playwright accessibility assertions
       - localization/i18n literal scan for user-visible strings
   mobile_typescript:
     applicable: true
     component: 07-implementation/mobile-app
-    status: foundation_only
+    status: foundation_quality_profile_configured
+    configured_tools:
+      - TypeScript strict project check
+      - Vitest
+      - ESLint
+      - jscpd duplicate-code scan
+      - Prettier formatting gate
+    latest_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-003-validation.yaml
+    latest_results:
+      quality_script: passed
+      tests: 8
     gaps_to_evaluate:
       - final mobile renderer stack before native UI implementation
       - mobile test and coverage gate
@@ -148,6 +183,10 @@ enterprise_quality_gate_policy:
   debt_first_required: true
   all_severity_vulnerability_scans_required: true
   message_externalization_required: true
+  target_line_coverage_percent: 80
+  previous_iteration_coverage_is_hard_floor: true
+  final_project_closure_requires_no_open_technical_debt: true
+  final_project_closure_requires_coverage_target: true
   required_per_changed_stack:
     - best_practices
     - coding_standards
@@ -160,6 +199,7 @@ enterprise_quality_gate_policy:
     - message_externalization_and_i18n
   closure_blockers:
     - no_existing_technical_debt_item_resolved_or_materially_reduced_when_open_debt_exists
+    - coverage_decreases_below_previous_iteration_baseline
     - vulnerability_scan_filtered_only_to_high_or_critical
     - missing_duplicate_code_or_complexity_analysis
     - missing_owasp_or_secure_code_analysis
@@ -171,6 +211,22 @@ enterprise_quality_gate_policy:
     - TD-QA-001
     - TD-FE-002
     - new_or_updated_toolchain_debt_from_quality_toolchain_evolution_review
+  current_coverage_baselines:
+    backend_java_maven:
+      current_line_coverage_percent: 65.82
+      next_iteration_minimum_line_coverage_percent: 65.82
+      final_closure_target_percent: 80
+      tracked_by: TD-BE-003
+    frontend_typescript_web:
+      current_line_coverage_percent: 72.89
+      next_iteration_minimum_line_coverage_percent: 72.89
+      final_closure_target_percent: 80
+      tracked_by: TD-FE-004
+    mobile_typescript:
+      current_line_coverage_percent: not_measured
+      next_iteration_required_action: establish_measured_coverage_baseline
+      final_closure_target_percent: 80
+      tracked_by: TD-APP-002
 
 mvp_mod_002_closeout_disposition:
   performed_during: MVP-MOD-002-CLOSEOUT

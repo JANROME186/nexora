@@ -43,14 +43,14 @@ describe("DiagnosticCatalogScreen", () => {
       serviceType: "laboratory",
       components: [{ componentType: "test", componentRefId: "GLU-TEST", displayOrder: 1 }],
       status: "draft",
-      version: 1
+      version: 1,
     });
 
     const user = userEvent.setup();
     render(
       <ScopedCatalogHarness>
         <DiagnosticCatalogScreen />
-      </ScopedCatalogHarness>
+      </ScopedCatalogHarness>,
     );
 
     await user.type(screen.getByLabelText("Code"), "GLU");
@@ -65,7 +65,7 @@ describe("DiagnosticCatalogScreen", () => {
       nameEn: "Glucose",
       nameEs: "Glucosa",
       serviceType: "laboratory",
-      components: [{ componentType: "test", componentRefId: "GLU-TEST", displayOrder: 1 }]
+      components: [{ componentType: "test", componentRefId: "GLU-TEST", displayOrder: 1 }],
     });
     expect(await screen.findByText("Catalog item created.")).toBeInTheDocument();
     expect(screen.getByRole("cell", { name: "service-1" })).toBeInTheDocument();

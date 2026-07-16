@@ -21,7 +21,7 @@ export function createHomeScreenModel(session: MobileSession): HomeScreenModel {
       { label: "Laboratory", route: "laboratory-summary" },
       { label: "Branch", route: "branch-summary" },
       { label: "Users", route: "user-summary" },
-      { label: "Audit", route: "audit-summary" }
-    ]
+      { label: "Audit", route: "audit-summary" },
+    ],
   };
 }

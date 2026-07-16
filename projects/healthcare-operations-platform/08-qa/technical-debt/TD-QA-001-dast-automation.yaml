@@ -15,12 +15,17 @@ classification:
   category: quality_tooling
   affected_area: integrated_web_and_api_runtime
   risk_level: medium
-  blocking: false
-  reason_non_blocking: Manual integrated HTTP smoke passed and no HIGH/CRITICAL dependency findings remain.
+  blocking: true
+  reason_blocking: >
+    HOP-QA-ALIGN-004 requires DAST against runnable backend and employee portal
+    surfaces before functional development can resume. Manual source review or
+    smoke testing cannot replace this executable gate.
 
 current_state:
-  issue: OWASP ZAP CLI or container execution was not available in the local validation toolchain.
-  compensating_control: Manual health and Diagnostic Catalog create/list/publish HTTP smoke was executed successfully.
+  issue: OWASP ZAP DAST has not yet been executed against the current local API/UI runtime.
+  compensating_control: >
+    All-severity dependency, filesystem, secret and misconfiguration scans pass with 0 findings,
+    but this does not close DAST.
 
 target_state:
   preferred_open_source_tooling:
@@ -32,7 +37,7 @@ target_state:
     - module closeout evidence
 
 remediation:
-  strategy: gradual_when_affected_components_are_touched
+  strategy: immediate_quality_alignment_before_functional_development_resumes
   recommended_trigger:
     - next integrated runtime quality gate
     - release hardening
@@ -41,4 +46,8 @@ remediation:
   acceptance_criteria:
     - DAST can run repeatably against local backend and employee portal.
     - Findings are exported to YAML/Markdown evidence.
-    - HIGH or CRITICAL DAST findings block release unless explicitly accepted through governance.
+    - Findings of any severity are remediated or registered with accepted-risk disposition and owner.
+  latest_evidence:
+    backlog_item: HOP-QA-ALIGN-004
+    evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-004-validation.yaml
+    status: open_pending_dast

@@ -46,7 +46,7 @@ const pendingRegistration: PatientRegistrationRequestRecord = {
   birthDate: "1920-07-25",
   draftDocumentType: "national_id",
   draftDocumentNumber: "DOC-EXISTING",
-  outcome: "pending"
+  outcome: "pending",
 };
 
 describe("PatientRegistrationsScreen", () => {
@@ -56,8 +56,8 @@ describe("PatientRegistrationsScreen", () => {
       new ApiError(
         409,
         "REGISTRATION_MATCH_RESOLUTION_REQUIRED: a high-confidence duplicate candidate exists; " +
-          "resubmit with resolvedExistingPatientId to reuse the existing record or confirm a new patient is intended."
-      )
+          "resubmit with resolvedExistingPatientId to reuse the existing record or confirm a new patient is intended.",
+      ),
     );
     vi.spyOn(api, "detectPersonDuplicates").mockResolvedValue([
       {
@@ -65,15 +65,15 @@ describe("PatientRegistrationsScreen", () => {
         sourceAggregateId: "patient-existing-1",
         fullName: "Rosalind Franklin",
         confidence: 0.95,
-        matchReason: "family_name+given_name+birth_date+document_number"
-      }
+        matchReason: "family_name+given_name+birth_date+document_number",
+      },
     ]);
 
     const user = userEvent.setup();
     render(
       <ScopedRegistrationsHarness>
         <PatientRegistrationsScreen />
-      </ScopedRegistrationsHarness>
+      </ScopedRegistrationsHarness>,
     );
 
     await user.type(screen.getByLabelText("Given name"), "Rosalind");
@@ -82,25 +82,32 @@ describe("PatientRegistrationsScreen", () => {
     await user.click(screen.getByRole("button", { name: "Start registration" }));
 
     expect(await screen.findByText("Registration started (pending).")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Registration detail: registration-1" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Registration detail: registration-1" }),
+    ).toBeInTheDocument();
 
     await user.type(screen.getByLabelText("New patient code"), "P-SHOULD-NOT-BE-CREATED");
     await user.click(
-      screen.getByLabelText("Data processing consent granted (mandatory for this tenant)")
+      screen.getByLabelText("Data processing consent granted (mandatory for this tenant)"),
     );
     await user.click(screen.getByRole("button", { name: "Commit registration" }));
 
     expect(await screen.findByText(/REGISTRATION_MATCH_RESOLUTION_REQUIRED/)).toBeInTheDocument();
     expect(api.detectPersonDuplicates).toHaveBeenCalledWith(
-      expect.objectContaining({ tenantId: "tenant-1", personKind: "patient", familyName: "Franklin", givenName: "Rosalind" })
+      expect.objectContaining({
+        tenantId: "tenant-1",
+        personKind: "patient",
+        familyName: "Franklin",
+        givenName: "Rosalind",
+      }),
     );
 
     expect(await screen.findByText("High-confidence duplicate candidates")).toBeInTheDocument();
     expect(screen.getByText("95%")).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Use this patient" }));
-    expect(screen.getByLabelText("Resolved existing patient id (leave blank for a new patient)")).toHaveValue(
-      "patient-existing-1"
-    );
+    expect(
+      screen.getByLabelText("Resolved existing patient id (leave blank for a new patient)"),
+    ).toHaveValue("patient-existing-1");
   });
 });

@@ -28,7 +28,7 @@ export function createMobileApp(options: MobileAppOptions): MobileApp {
   const auth = createLocalAuthService(sessionStore);
   const api = createPlatformFoundationApi({
     baseUrl: options.apiBaseUrl,
-    getToken: () => auth.currentSession()?.token ?? null
+    getToken: () => auth.currentSession()?.token ?? null,
   });
   let navigation = createInitialNavigationState(auth.currentSession() !== null);
 
@@ -51,6 +51,6 @@ export function createMobileApp(options: MobileAppOptions): MobileApp {
         throw new Error("Authenticated session is required.");
       }
       return createHomeScreenModel(session);
-    }
+    },
   };
 }

@@ -27,5 +27,5 @@ public record RegisterPatientCommand(
         String addressCity,
         String addressPostalCode,
         String addressStreet,
-        String preferredLocale) {
+        String preferredLocale) implements PatientProfileFields {
 }

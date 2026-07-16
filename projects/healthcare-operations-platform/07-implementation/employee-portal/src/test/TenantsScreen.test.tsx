@@ -10,14 +10,14 @@ describe("TenantsScreen", () => {
     vi.spyOn(api, "createTenant").mockResolvedValue({
       tenantId: "tenant-123",
       name: "Nexora Diagnostics",
-      status: "active"
+      status: "active",
     });
 
     const user = userEvent.setup();
     render(
       <AdminScopeProvider>
         <TenantsScreen />
-      </AdminScopeProvider>
+      </AdminScopeProvider>,
     );
 
     await user.type(screen.getByLabelText("Tenant name"), "Nexora Diagnostics");
@@ -34,12 +34,14 @@ describe("TenantsScreen", () => {
     render(
       <AdminScopeProvider>
         <TenantsScreen />
-      </AdminScopeProvider>
+      </AdminScopeProvider>,
     );
 
     await user.type(screen.getByLabelText("Tenant name"), "X");
     await user.click(screen.getByRole("button", { name: "Create tenant" }));
 
-    expect(await screen.findByRole("alert")).toHaveTextContent("Unexpected error. Please try again.");
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Unexpected error. Please try again.",
+    );
   });
 });

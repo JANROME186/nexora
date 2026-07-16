@@ -8,15 +8,18 @@ describe("platform foundation mobile api client", () => {
     const calls: Array<{ input: string; init?: RequestInit }> = [];
     const fetcher: FetchLike = async (input, init) => {
       calls.push({ input, init });
-      return new Response(JSON.stringify({ tenantId: "tenant-1", name: "Mobile Tenant", status: "active" }), {
-        status: 201,
-        headers: { "Content-Type": "application/json" }
-      });
+      return new Response(
+        JSON.stringify({ tenantId: "tenant-1", name: "Mobile Tenant", status: "active" }),
+        {
+          status: 201,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     };
     const api = createPlatformFoundationApi({
       baseUrl: "http://localhost:8080",
       fetcher,
-      getToken: () => "local-token"
+      getToken: () => "local-token",
     });
 
     const tenant = await api.createTenant({ name: "Mobile Tenant" });
@@ -32,13 +35,15 @@ describe("platform foundation mobile api client", () => {
       requestedUrl = input;
       return new Response(JSON.stringify([]), {
         status: 200,
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json" },
       });
     };
     const api = createPlatformFoundationApi({ baseUrl: "http://localhost:8080/", fetcher });
 
     await api.searchAuditEvents({ tenantId: "tenant-1", subjectId: "subject-1" });
 
-    expect(requestedUrl).toBe("http://localhost:8080/api/audit/events?tenantId=tenant-1&subjectId=subject-1");
+    expect(requestedUrl).toBe(
+      "http://localhost:8080/api/audit/events?tenantId=tenant-1&subjectId=subject-1",
+    );
   });
 });

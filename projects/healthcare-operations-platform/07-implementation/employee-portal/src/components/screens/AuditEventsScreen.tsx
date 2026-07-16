@@ -18,7 +18,7 @@ export function AuditEventsScreen() {
     event.preventDefault();
     const result = await searchAction.run({
       tenantId: tenantId || undefined,
-      subjectId: subjectId || undefined
+      subjectId: subjectId || undefined,
     });
     if (result.ok) {
       setEvents(result.data);

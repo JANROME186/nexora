@@ -2,7 +2,7 @@ artifact:
   id: NXF-SQ-PROMPTS-001
   type: prompt-playbook
   name: Security and Quality Gate Prompts
-  version: 1.4.0
+  version: 1.5.0
   status: approved
   human_readable: security-quality-gate-prompts.md
   machine_readable: security-quality-gate-prompts.yaml
@@ -88,8 +88,10 @@ prompts:
     prompt: |
       For the selected backlog item, identify changed backend, web, mobile, API, dependency, container and deployment surfaces.
       Before implementing feature code, load 08-qa/technical-debt/technical-debt-index.yaml. If open debt exists, select at least one item by the standard's selection order and resolve or materially reduce it before feature work. If no open debt exists, record that explicitly in evidence.
+      Determine the project's current phase and debt-remediation intensity. Early MVP iterations must reduce at least one relevant debt item when debt exists; module closeout, release preparation and later commercial iterations must reduce multiple relevant debt items or justify why only one could be safely reduced.
       Probe the required toolchain first (runtime versions, build tools, package managers, native build binaries, Docker/database services and command paths) and compare it with the project runbook and stack baseline.
       Run applicable open source checks for tests, best practices, coding standards, duplicate code, complexity, SAST/static analysis, OWASP or equivalent secure-code rules, dependency vulnerabilities across all severities, secrets, coverage, contract quality and DAST when a runnable surface exists.
+      For each changed stack, record current line coverage, previous iteration coverage baseline and target coverage. The target is 80%. If current coverage is below 80%, it may remain below target only for an intermediate iteration when it does not decrease below the previous baseline and a technical-debt item tracks the path to 80%.
       If a mandatory executable gate cannot run because Maven, Java, Node, npm, a native package, Docker, database service, network endpoint or equivalent toolchain dependency is missing, unsupported or blocked, attempt documented remediation or request approval for the required install/network access. Do not replace the gate with manual source review.
       Confirm the stack-specific quality toolchain is complete for the changed surface. For Java/Maven changes, evaluate the Java baseline tools from the standard and run, add, document as not applicable or register technical debt for each relevant category.
       Review new or changed user-visible messages, validation copy, error prose, status labels, domain error codes and repeated magic strings or values. Externalize them through the stack's message catalog, constants, configuration or policy provider, or register immediate technical debt with owner and target backlog.
@@ -98,7 +100,7 @@ prompts:
       Do not block normal delivery for non-security modernization findings that are not required to safely complete the current slice. Instead, register them as gradual technical debt under 08-qa/technical-debt/ and link them to future backlog work that touches the affected components.
       Use the project's existing toolchain first. Add lightweight open source tools only when they fit the stack and can run reproducibly without vendor lock-in.
       Write evidence under 08-qa/security-quality/<backlog-item-id>/.
-      Do not close the backlog item when vulnerabilities of any severity, secure-code findings, secrets, failing tests, missing duplicate/complexity/OWASP analysis, undocumented coverage regressions, unresolved hard-coded messages/magic strings, missing debt-first action or unexecuted mandatory gates remain unresolved.
+      Do not close the backlog item when vulnerabilities of any severity, secure-code findings, secrets, failing tests, missing duplicate/complexity/OWASP analysis, coverage below the previous iteration baseline, unresolved hard-coded messages/magic strings, missing debt-first action or unexecuted mandatory gates remain unresolved.
       Do not use passed_with_execution_limitation or closed_with_execution_limitation as final states. Use blocked_by_environment or ready_for_external_validation, keep next_backlog_item unchanged, and write exact remediation commands when required gates cannot run in the current environment.
 
   - id: PROMPT-SQ-002
@@ -114,10 +116,27 @@ prompts:
       Before closing a module, aggregate all backlog security-quality evidence for the module.
       Confirm SAST/static analysis, best-practice and standards checks, duplicate-code checks, complexity checks, OWASP or secure-code checks, dependency scans across all severities, coverage, DAST where applicable, tests, contract checks, SBOM, license review, stack market validation, message externalization/i18n review and technology evolution reviews are present or explicitly not applicable with reasons.
       Confirm each code-changing iteration addressed at least one existing technical-debt item before feature work, unless no open debt existed at that iteration start.
+      Confirm debt burn-down intensity is appropriate for the project phase. The closer the product is to release or project completion, the more open debt must be resolved during the iteration or closeout. Do not close a module when debt is merely accumulating without a scheduled burn-down plan.
+      Confirm aggregate and per-stack coverage. The target is 80% line coverage. If a stack is below 80%, confirm the current value is not lower than the previous iteration baseline and that the technical-debt backlog contains a path to reach 80%.
       Re-run required executable gates or verify that each has already passed in non-limited evidence. Do not accept passed_with_execution_limitation, closed_with_execution_limitation, not_executed, blocked_by_missing_toolchain, blocked_by_network or blocked_by_unsupported_runtime as closure evidence.
       Review 08-qa/technical-debt/ and confirm all technology debt discovered during the module is accepted, prioritized, resolved or explicitly scheduled for immediate or gradual remediation according to risk.
       Update module closeout QA evidence and PROJECT_STATE.yaml.
-      Do not recommend the next module when unresolved vulnerabilities of any severity lack disposition, when secure-code findings remain open, when debt-first execution is missing, or when any required executable gate has not actually run.
+      Do not recommend the next module when unresolved vulnerabilities of any severity lack disposition, when secure-code findings remain open, when debt-first execution is missing, when coverage decreased below the previous baseline, or when any required executable gate has not actually run.
+
+  - id: PROMPT-SQ-004
+    name: Final project debt and coverage closure gate
+    intent: Validate that a project can be marked finished, commercialized or GA-ready.
+    expected_output:
+      - final_debt_register_status
+      - final_coverage_report_by_stack
+      - release_readiness_decision
+      - blockers
+    prompt: |
+      Load the Open Source First Security and Quality Standard, PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, the stack quality baseline, all security-quality evidence and 08-qa/technical-debt/technical-debt-index.yaml.
+      Confirm there are no open, accepted, in_progress, partially_resolved or materially_reduced technical-debt items. A project cannot be marked finished, commercially complete or GA-ready while technical debt remains open.
+      Confirm every applicable delivered stack has at least 80% line coverage. Include backend, frontend web, mobile app and other executable stacks when applicable.
+      If coverage is below 80% or technical debt remains open, stop and create or update a release-blocking remediation backlog. Do not mark the project closed.
+      If all debt is closed and coverage is at least 80% for every applicable stack, write final closure evidence and update PROJECT_STATE.yaml.
 
   - id: PROMPT-SQ-003
     name: Technology debt backlog update

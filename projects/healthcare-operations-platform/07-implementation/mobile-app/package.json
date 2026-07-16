@@ -6,6 +6,10 @@
   "type": "module",
   "scripts": {
     "build": "npm run typecheck",
+    "duplication": "node ../employee-portal/node_modules/jscpd/bin/jscpd --config jscpd.config.json",
+    "format:check": "node ../employee-portal/node_modules/prettier/bin/prettier.cjs --check \"src/**/*.ts\" \"*.{json,md}\"",
+    "lint": "node ../employee-portal/node_modules/eslint/bin/eslint.js \"src/**/*.ts\" --config eslint.config.js",
+    "quality": "npm run typecheck && npm run lint && npm test && npm run duplication && npm run format:check",
     "test": "..\\employee-portal\\node_modules\\.bin\\vitest.cmd run --environment node",
     "typecheck": "..\\employee-portal\\node_modules\\.bin\\tsc.cmd -p tsconfig.json"
   }

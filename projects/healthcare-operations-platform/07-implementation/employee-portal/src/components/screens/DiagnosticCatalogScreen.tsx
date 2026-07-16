@@ -25,7 +25,7 @@ import {
   publishReferenceRange,
   publishSampleRequirement,
   publishSampleType,
-  publishTest
+  publishTest,
 } from "../../api/catalogApi";
 import type {
   AnalyteDefinition,
@@ -37,7 +37,7 @@ import type {
   ReferenceRange,
   SampleRequirement,
   SampleType,
-  TestDefinition
+  TestDefinition,
 } from "../../api/types";
 import { useAdminScope } from "../../state/AdminScopeContext";
 import { useAsyncAction } from "../../state/useAsyncAction";
@@ -72,7 +72,7 @@ const AREAS: Array<{ key: CatalogArea; label: string }> = [
   { key: "preparations", label: "Preparations" },
   { key: "reference-ranges", label: "Reference Ranges" },
   { key: "samples", label: "Samples" },
-  { key: "price-lists", label: "Price Lists" }
+  { key: "price-lists", label: "Price Lists" },
 ];
 
 function upsertById<TRow extends { id: string }>(items: TRow[], next: TRow) {
@@ -156,7 +156,11 @@ export function DiagnosticCatalogScreen() {
           <button
             key={item.key}
             type="button"
-            className={item.key === area ? "catalog-toolbar__button catalog-toolbar__button--active" : "catalog-toolbar__button"}
+            className={
+              item.key === area
+                ? "catalog-toolbar__button catalog-toolbar__button--active"
+                : "catalog-toolbar__button"
+            }
             aria-pressed={item.key === area}
             onClick={() => {
               setArea(item.key);
@@ -178,11 +182,26 @@ export function DiagnosticCatalogScreen() {
       <form onSubmit={handleCreate}>
         <h3>Create {selectedArea?.label}</h3>
         <label htmlFor="catalog-code">Code</label>
-        <input id="catalog-code" value={code} onChange={(event) => setCode(event.target.value)} required />
+        <input
+          id="catalog-code"
+          value={code}
+          onChange={(event) => setCode(event.target.value)}
+          required
+        />
         <label htmlFor="catalog-name-en">Name EN</label>
-        <input id="catalog-name-en" value={nameEn} onChange={(event) => setNameEn(event.target.value)} required />
+        <input
+          id="catalog-name-en"
+          value={nameEn}
+          onChange={(event) => setNameEn(event.target.value)}
+          required
+        />
         <label htmlFor="catalog-name-es">Name ES</label>
-        <input id="catalog-name-es" value={nameEs} onChange={(event) => setNameEs(event.target.value)} required />
+        <input
+          id="catalog-name-es"
+          value={nameEs}
+          onChange={(event) => setNameEs(event.target.value)}
+          required
+        />
         <button type="submit" disabled={!canUseCatalog || createAction.status === "loading"}>
           Create catalog item
         </button>
@@ -212,10 +231,18 @@ export function DiagnosticCatalogScreen() {
         />
       </form>
 
-      <button type="button" disabled={!canUseCatalog || loadAction.status === "loading"} onClick={handleLoad}>
+      <button
+        type="button"
+        disabled={!canUseCatalog || loadAction.status === "loading"}
+        onClick={handleLoad}
+      >
         Load {selectedArea?.label}
       </button>
-      <StatusBanner status={loadAction.status} errorMessage={loadAction.errorMessage} successMessage="Catalog loaded." />
+      <StatusBanner
+        status={loadAction.status}
+        errorMessage={loadAction.errorMessage}
+        successMessage="Catalog loaded."
+      />
 
       <table>
         <caption>{selectedArea?.label} in this laboratory</caption>
@@ -269,7 +296,7 @@ async function fetchRows(area: CatalogArea, laboratoryId: string): Promise<Catal
     case "samples":
       return [
         ...(await listSampleTypes(laboratoryId)).map(fromSampleType),
-        ...(await listSampleRequirements(laboratoryId)).map(fromSampleRequirement)
+        ...(await listSampleRequirements(laboratoryId)).map(fromSampleRequirement),
       ];
     case "price-lists":
       return (await listPriceLists(laboratoryId)).map(fromPriceList);
@@ -282,93 +309,118 @@ async function createCatalogRow(
   laboratoryId: string,
   code: string,
   nameEn: string,
-  nameEs: string
+  nameEs: string,
 ): Promise<CatalogRow> {
   switch (area) {
     case "services":
-      return fromService(await createDiagnosticService({
-        tenantId,
-        laboratoryId,
-        code,
-        nameEn,
-        nameEs,
-        serviceType: "laboratory",
-        components: [{ componentType: "test", componentRefId: `${code}-TEST`, displayOrder: 1 }]
-      }));
+      return fromService(
+        await createDiagnosticService({
+          tenantId,
+          laboratoryId,
+          code,
+          nameEn,
+          nameEs,
+          serviceType: "laboratory",
+          components: [{ componentType: "test", componentRefId: `${code}-TEST`, displayOrder: 1 }],
+        }),
+      );
     case "tests":
-      return fromTest(await createTest({
-        tenantId,
-        laboratoryId,
-        code,
-        nameEn,
-        nameEs,
-        resultType: "numeric",
-        measurementUnit: "mg/dL",
-        analyteRefIds: [`${code}-ANALYTE`],
-        sampleRequirementRefIds: [`${code}-SAMPLE-REQ`]
-      }));
+      return fromTest(
+        await createTest({
+          tenantId,
+          laboratoryId,
+          code,
+          nameEn,
+          nameEs,
+          resultType: "numeric",
+          measurementUnit: "mg/dL",
+          analyteRefIds: [`${code}-ANALYTE`],
+          sampleRequirementRefIds: [`${code}-SAMPLE-REQ`],
+        }),
+      );
     case "panels":
-      return fromPanel(await createPanel({
-        tenantId,
-        laboratoryId,
-        code,
-        nameEn,
-        nameEs,
-        members: [
-          { testRefId: `${code}-TEST-1`, displayOrder: 1, mandatory: true },
-          { testRefId: `${code}-TEST-2`, displayOrder: 2, mandatory: false }
-        ]
-      }));
+      return fromPanel(
+        await createPanel({
+          tenantId,
+          laboratoryId,
+          code,
+          nameEn,
+          nameEs,
+          members: [
+            { testRefId: `${code}-TEST-1`, displayOrder: 1, mandatory: true },
+            { testRefId: `${code}-TEST-2`, displayOrder: 2, mandatory: false },
+          ],
+        }),
+      );
     case "analytes":
-      return fromAnalyte(await createAnalyte({
-        tenantId,
-        laboratoryId,
-        code,
-        nameEn,
-        nameEs,
-        resultDataType: "numeric",
-        measurementUnit: "mg/dL",
-        decimalPrecision: 2
-      }));
+      return fromAnalyte(
+        await createAnalyte({
+          tenantId,
+          laboratoryId,
+          code,
+          nameEn,
+          nameEs,
+          resultDataType: "numeric",
+          measurementUnit: "mg/dL",
+          decimalPrecision: 2,
+        }),
+      );
     case "preparations":
-      return fromPreparation(await createPreparation({
-        tenantId,
-        laboratoryId,
-        code,
-        titleEn: nameEn,
-        titleEs: nameEs,
-        instructionTextEn: "Follow laboratory preparation instructions.",
-        instructionTextEs: "Seguir instrucciones de preparacion del laboratorio.",
-        category: "general",
-        durationHours: 1
-      }));
+      return fromPreparation(
+        await createPreparation({
+          tenantId,
+          laboratoryId,
+          code,
+          titleEn: nameEn,
+          titleEs: nameEs,
+          instructionTextEn: "Follow laboratory preparation instructions.",
+          instructionTextEs: "Seguir instrucciones de preparacion del laboratorio.",
+          category: "general",
+          durationHours: 1,
+        }),
+      );
     case "reference-ranges":
-      return fromReferenceRange(await createReferenceRange({
-        tenantId,
-        laboratoryId,
-        analyteRefId: code,
-        effectiveFrom: new Date().toISOString().slice(0, 10),
-        segments: [{ sex: "any", normalLow: 0, normalHigh: 100, criticalLow: 0, criticalHigh: 150, unit: "mg/dL" }]
-      }));
+      return fromReferenceRange(
+        await createReferenceRange({
+          tenantId,
+          laboratoryId,
+          analyteRefId: code,
+          effectiveFrom: new Date().toISOString().slice(0, 10),
+          segments: [
+            {
+              sex: "any",
+              normalLow: 0,
+              normalHigh: 100,
+              criticalLow: 0,
+              criticalHigh: 150,
+              unit: "mg/dL",
+            },
+          ],
+        }),
+      );
     case "samples":
-      return fromSampleType(await createSampleType({ tenantId, laboratoryId, code, nameEn, nameEs, matrix: "blood" }));
+      return fromSampleType(
+        await createSampleType({ tenantId, laboratoryId, code, nameEn, nameEs, matrix: "blood" }),
+      );
     case "price-lists":
-      return fromPriceList(await createPriceList({
-        tenantId,
-        laboratoryId,
-        code,
-        nameEn,
-        nameEs,
-        currency: "MXN",
-        effectiveFrom: new Date().toISOString().slice(0, 10)
-      }));
+      return fromPriceList(
+        await createPriceList({
+          tenantId,
+          laboratoryId,
+          code,
+          nameEn,
+          nameEs,
+          currency: "MXN",
+          effectiveFrom: new Date().toISOString().slice(0, 10),
+        }),
+      );
   }
 }
 
 async function publishCatalogRow(
   area: CatalogArea,
   id: string,
-  publishTarget?: CatalogRow["publishTarget"]
+  publishTarget?: CatalogRow["publishTarget"],
 ): Promise<CatalogRow> {
   switch (area) {
     case "services":
@@ -393,33 +445,69 @@ async function publishCatalogRow(
 }
 
 function fromService(item: DiagnosticService): CatalogRow {
-  return { id: item.serviceId, code: item.code, name: item.nameEs, status: item.status, version: item.version, detail: item.serviceType };
+  return {
+    id: item.serviceId,
+    code: item.code,
+    name: item.nameEs,
+    status: item.status,
+    version: item.version,
+    detail: item.serviceType,
+  };
 }
 
 function fromTest(item: TestDefinition): CatalogRow {
-  return { id: item.testDefinitionId, code: item.code, name: item.nameEs, status: item.status, version: item.version, detail: item.resultType };
+  return {
+    id: item.testDefinitionId,
+    code: item.code,
+    name: item.nameEs,
+    status: item.status,
+    version: item.version,
+    detail: item.resultType,
+  };
 }
 
 function fromPanel(item: PanelDefinition): CatalogRow {
-  return { id: item.panelId, code: item.code, name: item.nameEs, status: item.status, version: item.version, detail: `${item.members?.length ?? 0} members` };
+  return {
+    id: item.panelId,
+    code: item.code,
+    name: item.nameEs,
+    status: item.status,
+    version: item.version,
+    detail: `${item.members?.length ?? 0} members`,
+  };
 }
 
 function fromAnalyte(item: AnalyteDefinition): CatalogRow {
-  return { id: item.analyteId, code: item.code, name: item.nameEs, status: item.status, version: item.version, detail: item.resultDataType };
+  return {
+    id: item.analyteId,
+    code: item.code,
+    name: item.nameEs,
+    status: item.status,
+    version: item.version,
+    detail: item.resultDataType,
+  };
 }
 
 function fromPreparation(item: PreparationInstruction): CatalogRow {
-  return { id: item.preparationId, code: item.code, name: item.titleEs, status: item.status, version: item.version, detail: item.category };
+  return {
+    id: item.preparationId,
+    code: item.code,
+    name: item.titleEs,
+    status: item.status,
+    version: item.version,
+    detail: item.category,
+  };
 }
 
 function fromReferenceRange(item: ReferenceRange): CatalogRow {
+  const effectiveTo = item.effectiveTo ? ` to ${item.effectiveTo}` : "";
   return {
     id: item.rangeId,
     code: item.analyteRefId,
     name: item.analyteRefId,
     status: item.status,
     version: item.version,
-    detail: `${item.effectiveFrom}${item.effectiveTo ? ` to ${item.effectiveTo}` : ""}`
+    detail: `${item.effectiveFrom}${effectiveTo}`,
   };
 }
 
@@ -431,7 +519,7 @@ function fromSampleType(item: SampleType): CatalogRow {
     status: item.status,
     version: item.version,
     detail: item.matrix,
-    publishTarget: "sample-type"
+    publishTarget: "sample-type",
   };
 }
 
@@ -443,7 +531,7 @@ function fromSampleRequirement(item: SampleRequirement): CatalogRow {
     status: item.status,
     version: item.version,
     detail: `${item.minVolumeMl ?? 0} mL`,
-    publishTarget: "sample-requirement"
+    publishTarget: "sample-requirement",
   };
 }
 
@@ -454,6 +542,6 @@ function fromPriceList(item: PriceList): CatalogRow {
     name: item.nameEs,
     status: item.status,
     version: item.version,
-    detail: `${item.currency} ${item.effectiveFrom}`
+    detail: `${item.currency} ${item.effectiveFrom}`,
   };
 }

@@ -12,7 +12,7 @@ describe("mobile app composition", () => {
       tenantId: "tenant-1",
       userId: "user-1",
       displayName: "Mobile Admin",
-      email: "mobile.admin@example.test"
+      email: "mobile.admin@example.test",
     });
 
     expect(app.getNavigation().currentRoute).toBe("home");

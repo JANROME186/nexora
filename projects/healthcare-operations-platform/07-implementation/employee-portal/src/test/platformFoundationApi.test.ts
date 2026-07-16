@@ -7,7 +7,7 @@ function mockFetchOnce(response: Partial<Response> & { jsonBody?: unknown }) {
     ok: response.ok ?? true,
     status: response.status ?? 200,
     statusText: response.statusText ?? "OK",
-    json: async () => response.jsonBody
+    json: async () => response.jsonBody,
   } as Response);
   vi.stubGlobal("fetch", fetchMock);
   return fetchMock;
@@ -21,7 +21,7 @@ describe("platformFoundationApi", () => {
   it("creates a tenant by posting to the platform tenants endpoint", async () => {
     const fetchMock = mockFetchOnce({
       status: 201,
-      jsonBody: { tenantId: "tenant-1", name: "Nexora Diagnostics", status: "active" }
+      jsonBody: { tenantId: "tenant-1", name: "Nexora Diagnostics", status: "active" },
     });
 
     const tenant = await createTenant({ name: "Nexora Diagnostics" });
@@ -29,7 +29,7 @@ describe("platformFoundationApi", () => {
     expect(tenant).toEqual({ tenantId: "tenant-1", name: "Nexora Diagnostics", status: "active" });
     expect(fetchMock).toHaveBeenCalledWith(
       "/api/platform/tenants",
-      expect.objectContaining({ method: "POST" })
+      expect.objectContaining({ method: "POST" }),
     );
   });
 
@@ -38,12 +38,12 @@ describe("platformFoundationApi", () => {
       ok: false,
       status: 404,
       statusText: "Not Found",
-      jsonBody: { status: 404, message: "Tenant was not found." }
+      jsonBody: { status: 404, message: "Tenant was not found." },
     });
 
     await expect(getTenant("missing-tenant")).rejects.toMatchObject({
       message: "Tenant was not found.",
-      status: 404
+      status: 404,
     } satisfies Partial<ApiError>);
   });
 });

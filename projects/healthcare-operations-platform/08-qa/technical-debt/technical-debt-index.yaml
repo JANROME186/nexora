@@ -21,11 +21,40 @@ policy:
     - module_closeout
     - release_readiness
   remediation_strategy: debt_first_and_gradual_when_affected_components_are_touched
+  final_project_closure_requires_no_open_debt: true
+  debt_burndown_intensity:
+    early_mvp: at_least_one_relevant_debt_item_per_code_changing_iteration
+    module_closeout: reduce_multiple_relevant_items_when_open_debt_exists
+    release_or_ga: all_debt_closed
+  coverage_policy:
+    target_line_coverage_percent: 80
+    previous_iteration_coverage_is_hard_floor: true
+    below_target_requires_improvement_each_iteration: true
+    final_project_closure_requires_target: true
+    current_stack_baselines:
+      backend_java_maven:
+        current_line_coverage_percent: 65.82
+        source_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 65.82
+        final_closure_target_percent: 80
+      frontend_typescript_web:
+        current_line_coverage_percent: 72.89
+        source_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-003-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 72.89
+        final_closure_target_percent: 80
+      mobile_typescript_foundation:
+        current_line_coverage_percent: not_measured
+        source_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-003-validation.yaml
+        next_iteration_required_action: establish_measured_coverage_baseline
+        final_closure_target_percent: 80
   promote_to_blocking_when:
     - vulnerability_or_secure_code_finding_without_disposition
     - unsupported_runtime_blocks_safe_development
     - quality_gate_cannot_run_without_upgrade
     - enterprise_quality_alignment_blocks_functional_development
+    - final_project_closure_requested_with_open_debt
+    - final_project_closure_requested_with_any_applicable_stack_below_80_percent_coverage
+    - iteration_coverage_decreases_below_previous_baseline
 
 item_path_pattern: 08-qa/technical-debt/<debt-id>-<short-name>.yaml
 
@@ -59,31 +88,31 @@ entries:
     remediation_strategy: gradual_when_backend_test_infrastructure_is_touched
   - id: TD-BE-002
     title: Configure backend Java/Maven static analysis and SAST toolchain
-    status: open
+    status: materially_reduced
     risk_level: medium
     blocking: false
     source_backlog_item: MVP-MOD-002-CLOSEOUT
     affected_area: backend_static_analysis_and_sast
     file: 08-qa/technical-debt/TD-BE-002-backend-static-analysis-toolchain.yaml
-    remediation_strategy: gradual_when_backend_code_or_quality_toolchain_is_touched
+    remediation_strategy: gradual_pmd_and_semgrep_hardening_when_backend_code_is_touched
   - id: TD-BE-003
     title: Add backend test coverage measurement and gate (JaCoCo)
-    status: open
+    status: materially_reduced
     risk_level: medium
     blocking: false
     source_backlog_item: MVP-MOD-002-CLOSEOUT
     affected_area: backend_test_coverage
     file: 08-qa/technical-debt/TD-BE-003-backend-coverage-gate.yaml
-    remediation_strategy: gradual_when_backend_test_infrastructure_is_touched
+    remediation_strategy: gradual_coverage_increase_when_backend_tests_are_touched
   - id: TD-BE-004
     title: Add backend release readiness supply-chain gates (SBOM, license, build rules)
-    status: open
+    status: materially_reduced
     risk_level: medium
     blocking: false
     source_backlog_item: MVP-MOD-002-CLOSEOUT
     affected_area: backend_build_and_release_evidence
     file: 08-qa/technical-debt/TD-BE-004-release-supply-chain-gates.yaml
-    remediation_strategy: gradual_before_release_readiness
+    remediation_strategy: gradual_release_policy_hardening_before_ga
   - id: TD-STACK-001
     title: Gradual stack modernization roadmap for major framework and runtime upgrades
     status: open
@@ -176,31 +205,31 @@ entries:
     remediation_strategy: gradual_when_mvp_mod_006_laboratory_workflow_is_modeled
   - id: TD-FE-003
     title: Implement frontend enterprise quality profile
-    status: open
+    status: materially_reduced
     risk_level: medium
-    blocking: true
+    blocking: false
     source_backlog_item: HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS
     affected_area: employee_portal_quality_profile
     file: 08-qa/technical-debt/TD-FE-003-frontend-enterprise-quality-profile.yaml
-    remediation_strategy: immediate_quality_alignment_before_mvp_mod_004_fe_001
+    remediation_strategy: gradual_eslint_warning_accessibility_and_i18n_hardening_when_frontend_is_touched
   - id: TD-APP-001
     title: Establish mobile application enterprise quality baseline
-    status: open
+    status: materially_reduced
     risk_level: medium
-    blocking: true
+    blocking: false
     source_backlog_item: HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS
     affected_area: mobile_app_quality_profile
     file: 08-qa/technical-debt/TD-APP-001-mobile-quality-baseline.yaml
-    remediation_strategy: immediate_quality_alignment_baseline_before_mobile_expansion
+    remediation_strategy: gradual_native_mobile_quality_hardening_when_renderer_stack_is_selected
   - id: TD-QA-003
     title: Refresh vulnerability evidence with all-severity scans
-    status: open
+    status: closed
     risk_level: medium
-    blocking: true
+    blocking: false
     source_backlog_item: HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS
     affected_area: vulnerability_evidence
     file: 08-qa/technical-debt/TD-QA-003-all-severity-vulnerability-evidence.yaml
-    remediation_strategy: immediate_quality_alignment_before_functional_development
+    remediation_strategy: completed_by_HOP_QA_ALIGN_004_all_severity_scans
   - id: TD-I18N-001
     title: Establish message externalization and magic-string remediation baseline
     status: open
@@ -210,3 +239,21 @@ entries:
     affected_area: backend_frontend_mobile_messages_and_magic_values
     file: 08-qa/technical-debt/TD-I18N-001-message-externalization-baseline.yaml
     remediation_strategy: immediate_quality_alignment_before_mvp_mod_004_fe_001
+  - id: TD-FE-004
+    title: Raise employee portal line coverage to the 80 percent final-closure target
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: HOP-QA-ALIGN-003
+    affected_area: employee_portal_test_coverage
+    file: 08-qa/technical-debt/TD-FE-004-frontend-coverage-80-target.yaml
+    remediation_strategy: gradual_coverage_increase_without_dropping_below_72_89
+  - id: TD-APP-002
+    title: Establish mobile coverage measurement and raise it to the 80 percent final-closure target
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: HOP-QA-ALIGN-003
+    affected_area: mobile_app_test_coverage
+    file: 08-qa/technical-debt/TD-APP-002-mobile-coverage-80-target.yaml
+    remediation_strategy: establish_baseline_then_improve_to_80_before_final_closure

@@ -16,6 +16,16 @@ policy:
     - module_closeout
     - release_readiness
   remediation_strategy: gradual_when_affected_components_are_touched
+  final_project_closure_requires_no_open_debt: true
+  debt_burndown_intensity:
+    early_mvp: at_least_one_relevant_debt_item_per_code_changing_iteration
+    module_closeout: reduce_multiple_relevant_items_when_open_debt_exists
+    release_or_ga: all_debt_closed
+  coverage_policy:
+    target_line_coverage_percent: 80
+    previous_iteration_coverage_is_hard_floor: true
+    below_target_requires_improvement_plan: true
+    final_project_closure_requires_target: true
 
 item_path_pattern: 08-qa/technical-debt/<debt-id>.yaml
 

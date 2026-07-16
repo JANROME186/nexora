@@ -80,6 +80,8 @@ completed_deliverables:
 next_deliverables:
   - Execute HOP-QA-ALIGN-001 from the intermediate enterprise quality alignment backlog before
     continuing MVP-MOD-004-FE-001
+  - Complete HOP-QA-ALIGN-004 DAST execution and HOP-QA-ALIGN-005 message externalization baseline
+    before HOP-QA-ALIGN-CLOSEOUT
   - Complete HOP-QA-ALIGN-CLOSEOUT before resuming front desk worklist and order creation
     employee-portal UI outputs
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
@@ -88,12 +90,15 @@ next_deliverables:
   - Resolve latest BUSINESS_REQUIREMENT version before HOP analysis or development
   - Generate impact assessment when HOP business requirement changes
   - Maintain integrated local solution runbook during every runtime, port, environment, startup or validation change
+  - Do not mark HOP commercially complete or GA-ready while any technical debt remains open
+  - Raise backend, frontend and mobile/app coverage to at least 80% before final project closure
+  - Preserve each stack's previous measured coverage as the minimum allowed baseline for subsequent iterations
   - Compile generated outputs and implement custom rules in dependency order
 development_readiness:
   status: blocked_pending_quality_alignment
   ready_to_start_module: MVP-MOD-004
   in_progress_module: MVP-MOD-004
-  next_backlog_item: HOP-QA-ALIGN-001
+  next_backlog_item: HOP-QA-ALIGN-004
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -128,6 +133,27 @@ development_readiness:
   business_requirement_impact_status: not_required
   technical_debt_index: 08-qa/technical-debt/technical-debt-index.yaml
   technology_debt_policy: initial_stack_is_baseline_not_permanent_constraint
+  final_project_closure_requires_no_open_technical_debt: true
+  coverage_policy:
+    target_line_coverage_percent: 80
+    previous_iteration_coverage_is_hard_floor: true
+    final_project_closure_requires_target: true
+    current_stack_baselines:
+      backend_java_maven:
+        current_line_coverage_percent: 65.82
+        next_iteration_minimum_line_coverage_percent: 65.82
+        final_closure_target_percent: 80
+        tracked_by: TD-BE-003
+      frontend_typescript_web:
+        current_line_coverage_percent: 72.89
+        next_iteration_minimum_line_coverage_percent: 72.89
+        final_closure_target_percent: 80
+        tracked_by: TD-FE-004
+      mobile_typescript_foundation:
+        current_line_coverage_percent: not_measured
+        next_iteration_required_action: establish_measured_coverage_baseline
+        final_closure_target_percent: 80
+        tracked_by: TD-APP-002
   client_stack_market_validation: 03-architecture/technology-architecture/client-stack-market-validation.yaml
   stack_quality_toolchain_baseline: 03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
   blocking_definition_gaps: []
@@ -138,7 +164,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-004
-  current_backlog_item: HOP-QA-ALIGN-001
+  current_backlog_item: HOP-QA-ALIGN-004
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -164,68 +190,52 @@ implementation_progress:
     - MVP-MOD-004-DEF
     - MVP-MOD-004-BE-001
     - MVP-MOD-004-BE-002
-  in_progress_backlog_items: []
-  pending_backlog_items:
     - HOP-QA-ALIGN-001
     - HOP-QA-ALIGN-002
     - HOP-QA-ALIGN-003
+    - HOP-QA-ALIGN-006
+  in_progress_backlog_items: []
+  pending_backlog_items:
     - HOP-QA-ALIGN-004
     - HOP-QA-ALIGN-005
-    - HOP-QA-ALIGN-006
     - HOP-QA-ALIGN-CLOSEOUT
     - MVP-MOD-004-FE-001
     - MVP-MOD-004-QA-001
     - MVP-MOD-004-CLOSEOUT
   latest_validation:
-    backlog_item_id: MVP-MOD-004-BE-002
-    command: mvn --settings .mvn/settings.xml test; docker compose --env-file .env.example -f
-      compose.local.yml up -d postgres; mvn --settings .mvn/settings.xml test
-      "-Dhop.local-db-tests=true"; full-project YAML parse; secrets scan; agent-agnostic scan;
-      stale pointer scan; trivy fs --scanners vuln,secret,misconfig --severity HIGH,CRITICAL;
-      git diff --check
+    backlog_item_id: HOP-QA-ALIGN-003
+    command: >
+      backend Maven quality profile; backend OWASP Dependency-Check all severities; employee portal
+      npm run quality; employee portal npm audit --audit-level=low; mobile npm run quality; integrated
+      Trivy all-severity vulnerability, secret and misconfiguration scan
     working_directory: projects/healthcare-operations-platform
-    status: passed
-    tests_run: "backend 77 (7 skipped without local DB; 0 skipped with -Dhop.local-db-tests=true)"
+    status: passed_with_residual_p1_debt
+    tests_run: "backend 77 (7 skipped), employee portal 18, mobile 8"
     failures: 0
     errors: 0
-    skipped: 0
+    skipped: 7
     additional_checks:
       - >-
-        Implemented every custom rule explicitly deferred by MVP-MOD-004-BE-001's
-        custom_rule_baseline_implemented_now.hooks_by_capability: referring-doctor eligibility
-        gating (DoctorDirectory.isEligibleAsReferringDoctor) and per-line multi-price-list
-        resolution for BCM-LAB-001 order pricing; tiered order-cancellation override requiring a
-        written justification for accepted/in-progress orders; tenant-configurable branch daily
-        appointment capacity and no-show grace period plus preparation-instruction surfacing for
-        BCM-ATT-001; priority- and wait-time-based reception queue ordering for BCM-ATT-003;
-        tenant-configurable admission acknowledgement policy for BCM-ATT-004; and per-line
-        multi-price-list resolution plus tenant-configurable discount policy for BCM-ATT-006.
-      - Added a new shared FrontDeskPolicyStore (tenant-scoped, in-memory, safe defaults)
-        consolidating every tenant-configurable knob this backlog item introduces, mirroring the
-        existing TenantPeoplePolicyStore precedent from MVP-MOD-003.
-      - Added an additive reverse preparation-instruction lookup
-        (PreparationInstructionRepository.findAssignmentsByTarget,
-        PatientPreparationManagementService.findPublishedForTarget) to the existing
-        catalogtestconfiguration.patientpreparationmanagement capability; no existing method
-        signature changed.
+        Backend quality profile is now executable with Maven Surefire, JaCoCo, PMD, CPD,
+        SpotBugs, Find Security Bugs, Checkstyle, Spotless, OWASP Dependency-Check,
+        CycloneDX, Maven Enforcer, Versions, License, Duplicate Finder, Revapi and PIT.
       - >-
-        No bounded context or aggregate ownership boundary changed; DiagnosticOrderManagementService
-        remains the sole mutator of DiagnosticOrder. No OpenAPI contract was broken (only additive
-        fields/operations - CancelOrderRequest.overrideJustification, the new
-        getAppointmentPreparationInstructions operation, and new domain error codes).
-      - Full-project YAML parse (557 files), agent-agnostic scan, secrets scan and a stale
-        file-path-pointer scan of the newly added/updated technical-debt YAML report 0 errors.
-        Trivy filesystem scan (vuln/secret/misconfig, HIGH/CRITICAL) reports 0 findings; no new
-        dependencies were introduced.
-      - Registered TD-BE-010 (order-cancellation override uses order status as a proxy for
-        downstream sample/processing state, pending MVP-MOD-006's Sample aggregate) and updated
-        TD-DEF-002 (partial remediation via the new flat daily branch capacity check; real
-        schedule-based capacity from BCM-ORG-007 remains the open target state) as non-blocking
-        technical debt. TD-DEF-001 and TD-BE-009 remain open and untouched.
-      - PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, the 5 affected capability traceability.yaml
-        files, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml, security-quality-index.yaml and
-        technical-debt-index.yaml were reconciled so MVP-MOD-004-BE-002 is closed and the active
-        backlog advances to MVP-MOD-004-FE-001.
+        Employee portal quality profile is now executable with TypeScript, Vitest coverage,
+        ESLint, typescript-eslint, eslint-plugin-security, eslint-plugin-sonarjs, jscpd,
+        Prettier, npm audit, production build and license review.
+      - >-
+        Mobile TypeScript foundation quality profile is now executable with typecheck, lint,
+        tests, duplicate-code scan and formatting check.
+      - >-
+        All-severity backend dependency, frontend dependency and integrated Trivy vulnerability,
+        secret and misconfiguration scans pass with 0 findings.
+      - >-
+        Residual P1 debt remains for backend PMD findings, backend coverage below the 80% target,
+        frontend coverage below the 80% target, frontend lint warnings, mobile coverage measurement,
+        future native mobile hardening and release-policy hardening.
+      - >-
+        Functional development remains blocked by HOP-QA-ALIGN-004 DAST, HOP-QA-ALIGN-005
+        message externalization baseline and HOP-QA-ALIGN-CLOSEOUT.
 module_closeout:
   MVP-MOD-001:
     status: implemented
@@ -275,7 +285,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_release: REL-001
   active_module: HOP-QUALITY-ALIGNMENT
-  active_backlog_item: HOP-QA-ALIGN-001
+  active_backlog_item: HOP-QA-ALIGN-004
   paused_functional_module: MVP-MOD-004
   paused_functional_backlog_item: MVP-MOD-004-FE-001
   primary_development_unit: business_capability_package

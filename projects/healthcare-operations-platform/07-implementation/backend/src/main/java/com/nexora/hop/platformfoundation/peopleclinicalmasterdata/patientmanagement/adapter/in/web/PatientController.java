@@ -67,15 +67,7 @@ class PatientController {
 
     @PostMapping
     ResponseEntity<PatientResponse> registerPatient(@Valid @RequestBody RegisterPatientRequest request) {
-        Patient created = service.register(new RegisterPatientCommand(
-                request.tenantId(), request.laboratoryId(), request.patientCode(),
-                request.givenName(), request.middleName(), request.familyName(),
-                request.secondFamilyName(), request.preferredName(), request.birthDate(),
-                request.sexAtBirth(), request.primaryDocumentType(), request.primaryDocumentNumber(),
-                request.primaryDocumentIssuingCountry(), request.primaryDocumentIssuedAt(),
-                request.primaryDocumentExpiresAt(), request.addressCountry(), request.addressState(),
-                request.addressCity(), request.addressPostalCode(), request.addressStreet(),
-                request.preferredLocale()));
+        Patient created = service.register(toRegisterPatientCommand(request));
         return ResponseEntity.created(URI.create("/api/people/patients/" + created.patientId()))
                 .body(PatientResponse.from(created));
     }
@@ -83,14 +75,7 @@ class PatientController {
     @PutMapping("/{patientId}")
     ResponseEntity<PatientResponse> updatePatient(@PathVariable String patientId,
             @Valid @RequestBody UpdatePatientRequest request) {
-        Patient updated = service.update(patientId, new UpdatePatientCommand(
-                request.givenName(), request.middleName(), request.familyName(),
-                request.secondFamilyName(), request.preferredName(), request.birthDate(),
-                request.sexAtBirth(), request.primaryDocumentType(), request.primaryDocumentNumber(),
-                request.primaryDocumentIssuingCountry(), request.primaryDocumentIssuedAt(),
-                request.primaryDocumentExpiresAt(), request.addressCountry(), request.addressState(),
-                request.addressCity(), request.addressPostalCode(), request.addressStreet(),
-                request.preferredLocale()));
+        Patient updated = service.update(patientId, toUpdatePatientCommand(request));
         return ResponseEntity.ok(PatientResponse.from(updated));
     }
 
@@ -192,9 +177,74 @@ class PatientController {
         return ResponseEntity.noContent().build();
     }
 
+    private static RegisterPatientCommand toRegisterPatientCommand(RegisterPatientRequest request) {
+        UpdatePatientCommand profile = toUpdatePatientCommand(request);
+        return new RegisterPatientCommand(
+                request.tenantId(), request.laboratoryId(), request.patientCode(), profile.givenName(),
+                profile.middleName(), profile.familyName(), profile.secondFamilyName(), profile.preferredName(),
+                profile.birthDate(), profile.sexAtBirth(), profile.primaryDocumentType(),
+                profile.primaryDocumentNumber(), profile.primaryDocumentIssuingCountry(),
+                profile.primaryDocumentIssuedAt(), profile.primaryDocumentExpiresAt(), profile.addressCountry(),
+                profile.addressState(), profile.addressCity(), profile.addressPostalCode(), profile.addressStreet(),
+                profile.preferredLocale());
+    }
+
+    private static UpdatePatientCommand toUpdatePatientCommand(UpdatePatientRequest request) {
+        return toUpdatePatientCommand((PatientProfileRequest) request);
+    }
+
+    private static UpdatePatientCommand toUpdatePatientCommand(PatientProfileRequest request) {
+        return new UpdatePatientCommand(
+                request.givenName(), request.middleName(), request.familyName(), request.secondFamilyName(),
+                request.preferredName(), request.birthDate(), request.sexAtBirth(), request.primaryDocumentType(),
+                request.primaryDocumentNumber(), request.primaryDocumentIssuingCountry(),
+                request.primaryDocumentIssuedAt(), request.primaryDocumentExpiresAt(), request.addressCountry(),
+                request.addressState(), request.addressCity(), request.addressPostalCode(), request.addressStreet(),
+                request.preferredLocale());
+    }
+
     // -- Request/response records --------------------------------------------------------------
 
     record MergePatientRequest(@NotBlank String survivingPatientId) {
+    }
+
+    private interface PatientProfileRequest {
+
+        String givenName();
+
+        String middleName();
+
+        String familyName();
+
+        String secondFamilyName();
+
+        String preferredName();
+
+        LocalDate birthDate();
+
+        String sexAtBirth();
+
+        String primaryDocumentType();
+
+        String primaryDocumentNumber();
+
+        String primaryDocumentIssuingCountry();
+
+        LocalDate primaryDocumentIssuedAt();
+
+        LocalDate primaryDocumentExpiresAt();
+
+        String addressCountry();
+
+        String addressState();
+
+        String addressCity();
+
+        String addressPostalCode();
+
+        String addressStreet();
+
+        String preferredLocale();
     }
 
     record RegisterPatientRequest(
@@ -218,7 +268,7 @@ class PatientController {
             String addressCity,
             String addressPostalCode,
             String addressStreet,
-            String preferredLocale) {
+            String preferredLocale) implements PatientProfileRequest {
     }
 
     record UpdatePatientRequest(
@@ -239,7 +289,7 @@ class PatientController {
             String addressCity,
             String addressPostalCode,
             String addressStreet,
-            String preferredLocale) {
+            String preferredLocale) implements PatientProfileRequest {
     }
 
     record AttachPatientRepresentativeRequest(

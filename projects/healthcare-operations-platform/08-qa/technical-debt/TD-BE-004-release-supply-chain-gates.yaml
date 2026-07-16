@@ -3,7 +3,7 @@ artifact:
   type: technical-debt-item
   name: Add backend release readiness supply-chain gates (SBOM, license, build rules)
   version: 1.0.0
-  status: open
+  status: materially_reduced
   created_date: 2026-07-09
 
 source:
@@ -19,17 +19,18 @@ classification:
   risk_level: medium
   blocking: false
   reason_non_blocking: >
-    These tools are required for release readiness, not for MVP module closeout. Dependency and
-    license posture is currently validated by Trivy (0 HIGH/CRITICAL) and the accepted open-source
-    license families in the reviewed stack (Apache-2.0, MIT, BSD-2-Clause).
+    The backend quality profile now includes SBOM, Maven Enforcer, dependency vulnerability,
+    license, duplicate dependency/class and API compatibility tooling. Release policy hardening
+    still remains before GA.
 
 current_state:
   issue: >
-    The backend build does not yet generate a CycloneDX SBOM, enforce dependency and Java/Maven
-    version rules with Maven Enforcer, or run automated license-policy validation with the License
-    Maven Plugin.
+    The backend quality profile now configures CycloneDX, Maven Enforcer, OWASP Dependency-Check,
+    License Maven Plugin, Maven Versions Plugin, Duplicate Finder, Revapi and PIT. The remaining
+    gap is to make release thresholds and CI policy strict enough for commercial GA.
   compensating_control:
-    - Trivy filesystem scan covers dependency CVEs, secrets and misconfiguration.
+    - Trivy filesystem scan covers dependency CVEs, secrets and misconfiguration across all severities.
+    - OWASP Dependency-Check reports 0 vulnerabilities.
     - Reviewed dependency licenses are all within the accepted open-source families.
 
 target_state:
@@ -43,7 +44,7 @@ target_state:
     - CI release workflow
 
 remediation:
-  strategy: gradual_before_release_readiness
+  strategy: gradual_release_policy_hardening_before_ga
   recommended_trigger:
     - first release-candidate preparation
     - release readiness gate
@@ -55,7 +56,14 @@ remediation:
 
 dependency_note:
   owasp_dependency_check:
-    status: covered_by_alternative_for_now
+    status: configured
     detail: >
-      OWASP Dependency-Check is not configured; dependency CVE detection is currently provided by
-      Trivy. Evaluate adding OWASP Dependency-Check for defense in depth during release hardening.
+      OWASP Dependency-Check is configured in the Maven quality profile. OSS Index analyzer is
+      disabled because unauthenticated access returned 401; NVD/KEV analysis remains active.
+latest_evidence:
+  backlog_item: HOP-QA-ALIGN-002
+  evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.yaml
+  status: materially_reduced
+  residual_findings:
+    - Release CI policy still needs to enforce SBOM/license/API compatibility thresholds.
+    - PIT mutation testing is configured but not yet used as a strict release gate.

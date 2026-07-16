@@ -3,7 +3,7 @@
 **Artifact ID:** `NXF-SQ-PROMPTS-001`  
 **Status:** Approved  
 **Machine-readable source:** `security-quality-gate-prompts.yaml`
-**Version:** `1.4.0`
+**Version:** `1.5.0`
 
 Use these prompts with the Open Source First Security and Quality Standard and the Engineering Excellence Prioritization Standard.
 
@@ -69,6 +69,9 @@ checks:
 
 - Technical-debt first action: resolve or materially reduce at least one open debt item before
   feature work, unless no debt exists.
+- Debt burn-down intensity: early MVP iterations must reduce at least one relevant debt item when
+  debt exists; module closeout, release preparation and late commercial iterations must reduce
+  multiple relevant items or justify why only one could be safely reduced.
 - Tests.
 - Best-practice and coding-standard checks.
 - SAST/static analysis.
@@ -96,7 +99,7 @@ Write evidence under:
 `08-qa/security-quality/<backlog-item-id>/`
 
 Do not close the backlog when vulnerabilities of any severity, secure-code findings, secrets,
-failing tests, missing duplicate/complexity/OWASP analysis, undocumented coverage regressions,
+failing tests, missing duplicate/complexity/OWASP analysis, coverage below the previous iteration baseline,
 missing debt-first execution, hard-coded messages/magic strings or unexecuted mandatory gates remain
 unresolved. Do not use
 `passed_with_execution_limitation` or `closed_with_execution_limitation` as final states. Use
@@ -115,6 +118,26 @@ urgency, effort, cost impact, migration strategy, incremental remediation trigge
 criteria. Remediation should be gradual and preferably attached to future backlog work that already
 touches the affected component.
 
+Open debt may be scheduled gradually during normal delivery, but it cannot remain open when a
+project is marked finished, commercially complete or GA-ready.
+
+## Coverage Gate
+
+The target line coverage is `80%` for every applicable delivered stack. Intermediate backlog items
+may remain below 80% only when coverage does not decrease below the previous iteration baseline and
+the path to 80% is tracked as technical debt.
+
+Each evidence package must record:
+
+- Current line coverage by stack.
+- Previous iteration baseline by stack.
+- Delta from the previous baseline.
+- 80% target gap.
+- Debt item or remediation backlog when the target is not reached.
+
+Final project closure cannot be approved unless every applicable delivered stack reaches at least
+80% line coverage.
+
 ## Module Closeout Gate
 
 Before closing a module, aggregate backlog evidence and confirm that the module meets the required
@@ -127,3 +150,14 @@ complexity, OWASP/secure-code and message externalization reviews. Do not recomm
 module while any required gate is `not_executed`, `passed_with_execution_limitation`,
 `closed_with_execution_limitation`, `blocked_by_missing_toolchain`, `blocked_by_network` or
 `blocked_by_unsupported_runtime`.
+
+## Final Project Closure Gate
+
+Before marking a project finished, commercialized or GA-ready, confirm that:
+
+- No technical debt remains open, accepted, in progress, materially reduced or partially resolved.
+- Every applicable delivered stack has at least 80% line coverage.
+- All security-quality evidence is non-limited and executable gates have actually run.
+
+If any of these checks fail, create or update a release-blocking remediation backlog and do not
+close the project.

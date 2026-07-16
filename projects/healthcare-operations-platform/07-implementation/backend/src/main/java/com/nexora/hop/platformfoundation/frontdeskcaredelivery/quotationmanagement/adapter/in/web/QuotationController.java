@@ -65,10 +65,10 @@ class QuotationController {
     @PostMapping("/{quotationId}/issue")
     ResponseEntity<QuotationRequest> issueQuotation(@PathVariable String quotationId,
             @RequestBody(required = false) IssueQuotationRequest request) {
-        IssueQuotationRequest resolved = request == null ? new IssueQuotationRequest(null, null, null, null, false) : request;
+        IssueQuotationRequest resolved = request == null ? new IssueQuotationRequest(null, null, null, null, null) : request;
         return ResponseEntity.ok(service.issue(quotationId, new IssueQuotationCommand(
                 resolved.currency(), resolved.discountKind(), resolved.discountValue(), resolved.validityDays(),
-                resolved.discountOverride())));
+                Boolean.TRUE.equals(resolved.discountOverride()))));
     }
 
     @PostMapping("/{quotationId}/accept")
@@ -116,7 +116,7 @@ class QuotationController {
             String discountKind,
             BigDecimal discountValue,
             Integer validityDays,
-            boolean discountOverride) {
+            Boolean discountOverride) {
     }
 
     record CancelQuotationRequest(String reasonCode) {

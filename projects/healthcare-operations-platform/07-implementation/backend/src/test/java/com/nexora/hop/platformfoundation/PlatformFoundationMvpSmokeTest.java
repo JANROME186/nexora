@@ -9,13 +9,13 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -64,7 +64,7 @@ class PlatformFoundationMvpSmokeTest {
                 .andExpect(status().isOk());
 
         JsonNode auditEvents = getJson("/api/audit/events?tenantId=" + tenantId);
-        List<String> actions = auditEvents.findValuesAsText("action");
+        List<String> actions = valuesAsText(auditEvents, "action");
 
         assertThat(actions).contains(
                 "TenantCreated",
@@ -92,5 +92,11 @@ class PlatformFoundationMvpSmokeTest {
                 .getResponse()
                 .getContentAsString();
         return objectMapper.readTree(body);
+    }
+
+    private List<String> valuesAsText(JsonNode arrayNode, String fieldName) {
+        return java.util.stream.IntStream.range(0, arrayNode.size())
+                .mapToObj(index -> arrayNode.get(index).get(fieldName).asText())
+                .toList();
     }
 }

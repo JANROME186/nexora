@@ -8,7 +8,11 @@ describe("Employee portal app smoke", () => {
     const user = userEvent.setup();
     render(<App />);
 
-    expect(screen.getByRole("heading", { name: "Healthcare Operations Platform - Employee Portal Administration" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: "Healthcare Operations Platform - Employee Portal Administration",
+      }),
+    ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Platform Tenant List" })).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Laboratories" }));
@@ -30,7 +34,9 @@ describe("Employee portal app smoke", () => {
     expect(screen.getByRole("heading", { name: "Diagnostic Catalog" })).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "People Search" }));
-    expect(screen.getByRole("heading", { name: "People Search and Duplicate Resolution" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "People Search and Duplicate Resolution" }),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Patients" }));
     expect(screen.getByRole("heading", { name: "Patients" })).toBeInTheDocument();

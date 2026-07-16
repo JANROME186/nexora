@@ -31,8 +31,8 @@ async function request<TResponse>(path: string, init?: RequestInit): Promise<TRe
     headers: {
       Accept: "application/json",
       ...(init?.body ? { "Content-Type": "application/json" } : {}),
-      ...init?.headers
-    }
+      ...init?.headers,
+    },
   });
 
   if (!response.ok) {

@@ -1,0 +1,73 @@
+artifact:
+  id: HOP-QA-ALIGN-004-VALIDATION
+  type: qa-validation-evidence
+  name: All-Severity Vulnerability and Runtime Security Evidence
+  version: 1.0.0
+  status: partially_passed_dast_open
+  created_date: 2026-07-15
+  human_readable: HOP-QA-ALIGN-004-validation.md
+  machine_readable: HOP-QA-ALIGN-004-validation.yaml
+
+backlog_item:
+  id: HOP-QA-ALIGN-004
+  name: Establish all-severity vulnerability, DAST and runtime security evidence
+  result: partially_completed
+  functional_development_blocker_removed_for_this_item: false
+
+scope:
+  components:
+    - 07-implementation/backend
+    - 07-implementation/employee-portal
+    - 07-implementation/mobile-app
+    - 07-implementation
+  debt_items_materially_reduced:
+    - TD-QA-003
+  residual_debt:
+    - TD-QA-001
+    - TD-QA-002
+
+passed_checks:
+  - backend_dependency_check_all_severities
+  - frontend_npm_audit_all_severities
+  - integrated_trivy_all_severity_filesystem_vulnerability_scan
+  - integrated_trivy_secret_scan
+  - integrated_trivy_misconfiguration_scan
+
+validation_commands:
+  - id: backend_dependency_check_all_severities
+    working_directory: 07-implementation/backend
+    command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -Pquality org.owasp:dependency-check-maven:check
+    result: passed
+    vulnerabilities: 0
+  - id: frontend_dependency_audit_all_severities
+    working_directory: 07-implementation/employee-portal
+    command: npm audit --audit-level=low
+    result: passed
+    vulnerabilities: 0
+  - id: trivy_all_severities
+    working_directory: 07-implementation
+    command: trivy fs --scanners vuln,secret,misconfig --exit-code 1 --no-progress --skip-dirs "backend/.m2,backend/target,employee-portal/node_modules,employee-portal/dist,mobile-app/node_modules" .
+    result: passed
+    vulnerabilities: 0
+    secrets: 0
+    misconfigurations: 0
+
+open_checks:
+  - id: dast_baseline_scan
+    status: open
+    tracked_by: TD-QA-001
+    reason: OWASP ZAP baseline/API scan still needs to run against local backend and employee portal surfaces with Docker.
+    required_next_action: >
+      Start local infrastructure, backend and employee portal, then run OWASP ZAP from Docker.
+      If Docker, network or permissions block execution, request support and keep the backlog item
+      blocked instead of closing with an execution limitation.
+  - id: trivy_tool_upgrade
+    status: open
+    tracked_by: TD-QA-002
+    reason: Scanner currency remains governed by technical debt even though current all-severity scan passes.
+
+decision:
+  item_status: open_pending_dast
+  can_advance_to_next_quality_alignment_item: true
+  can_resume_functional_development: false
+  blocker_reason: DAST execution remains open, and HOP-QA-ALIGN-005 plus closeout remain open.

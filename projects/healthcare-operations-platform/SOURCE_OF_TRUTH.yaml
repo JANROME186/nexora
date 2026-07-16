@@ -133,7 +133,9 @@ sources:
   technical_debt_td_be_009: 08-qa/technical-debt/TD-BE-009-branch-snapshot-version-placeholder.yaml
   technical_debt_td_be_010: 08-qa/technical-debt/TD-BE-010-order-cancellation-sample-state-check-deferred.yaml
   technical_debt_td_fe_003: 08-qa/technical-debt/TD-FE-003-frontend-enterprise-quality-profile.yaml
+  technical_debt_td_fe_004: 08-qa/technical-debt/TD-FE-004-frontend-coverage-80-target.yaml
   technical_debt_td_app_001: 08-qa/technical-debt/TD-APP-001-mobile-quality-baseline.yaml
+  technical_debt_td_app_002: 08-qa/technical-debt/TD-APP-002-mobile-coverage-80-target.yaml
   technical_debt_td_qa_003: 08-qa/technical-debt/TD-QA-003-all-severity-vulnerability-evidence.yaml
   technical_debt_td_i18n_001: 08-qa/technical-debt/TD-I18N-001-message-externalization-baseline.yaml
   framework_feedback_index: 08-qa/framework-feedback/framework-feedback-index.yaml
@@ -165,6 +167,20 @@ sources:
   quality_alignment_gap_analysis_yaml: 08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.yaml
   engineering_excellence_prioritization: 08-qa/qa/quality-alignment/HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.md
   engineering_excellence_prioritization_yaml: 08-qa/qa/quality-alignment/HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.yaml
+  quality_alignment_002_qa_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.md
+  quality_alignment_002_qa_evidence_yaml: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.yaml
+  quality_alignment_002_security_quality_evidence: 08-qa/security-quality/HOP-QA-ALIGN-002/security-quality-evidence.md
+  quality_alignment_002_security_quality_evidence_yaml: 08-qa/security-quality/HOP-QA-ALIGN-002/security-quality-evidence.yaml
+  quality_alignment_003_qa_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-003-validation.md
+  quality_alignment_003_qa_evidence_yaml: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-003-validation.yaml
+  quality_alignment_003_security_quality_evidence: 08-qa/security-quality/HOP-QA-ALIGN-003/security-quality-evidence.md
+  quality_alignment_003_security_quality_evidence_yaml: 08-qa/security-quality/HOP-QA-ALIGN-003/security-quality-evidence.yaml
+  quality_alignment_004_qa_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-004-validation.md
+  quality_alignment_004_qa_evidence_yaml: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-004-validation.yaml
+  quality_alignment_004_security_quality_evidence: 08-qa/security-quality/HOP-QA-ALIGN-004/security-quality-evidence.md
+  quality_alignment_004_security_quality_evidence_yaml: 08-qa/security-quality/HOP-QA-ALIGN-004/security-quality-evidence.yaml
+  quality_alignment_006_qa_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-006-validation.md
+  quality_alignment_006_qa_evidence_yaml: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-006-validation.yaml
   commercial_backlog_execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   commercial_backlog_execution_prompts_yaml: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   commercial_module_folder_index_yaml: 06-delivery/commercial-product/modules/module-folder-index.yaml
@@ -232,6 +248,10 @@ rules:
   - HOP code-changing backlog items must produce security quality evidence with applicable tests, best-practice and coding-standard checks, duplicate-code checks, complexity checks, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerability checks across all severities, secrets scan, coverage, message externalization/i18n review and DAST when runnable surfaces exist.
   - HOP functional development is blocked by 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml until HOP-QA-ALIGN-CLOSEOUT passes.
   - HOP agents must execute at least one technical-debt remediation or material reduction before feature implementation in each code-changing backlog item unless no open debt exists.
+  - HOP technical-debt burn-down must become stricter as the project advances; final project closure requires no open technical debt.
+  - HOP line coverage target is 80 percent for every applicable delivered stack.
+  - If a stack is below 80 percent during an intermediate iteration, the previous measured coverage is the hard lower bound and must not decrease.
+  - HOP cannot be marked commercially complete, GA-ready or finally closed while any applicable stack is below 80 percent line coverage.
   - HOP engineering excellence findings must be classified as P0 minimum, P1 technical-debt backlog or P2 contextual/desirable before deciding whether they block delivery.
   - HOP must maintain 09-operations/runbooks/local-solution-runbook.md and .yaml as the single integrated local startup, validation and shutdown guide for human reviewers.
   - HOP agents must update or explicitly confirm the integrated local runbook whenever runtime components, ports, variables, startup order, validation commands or review surfaces change.

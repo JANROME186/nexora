@@ -2,7 +2,7 @@ artifact:
   id: NXF-OSS-SEC-QUAL-001
   type: framework-standard
   name: Open Source First Security and Quality Standard
-  version: 1.4.0
+  version: 1.5.0
   status: approved
   human_readable: open-source-first-security-quality-standard.md
   machine_readable: open-source-first-security-quality-standard.yaml
@@ -859,7 +859,7 @@ quality_gates:
       - secret_detected
       - sast_or_secure_code_finding_without_disposition
       - tests_failing
-      - coverage_decreases_without_documented_reason
+      - coverage_decreases_below_previous_iteration_baseline
       - missing_duplicate_code_or_complexity_analysis_for_changed_stack
       - new_user_visible_text_error_message_or_magic_string_not_externalized_or_dispositioned
       - no_existing_technical_debt_item_resolved_or_materially_reduced_when_open_debt_exists
@@ -875,6 +875,8 @@ quality_gates:
       - openapi_contract_validation_when_api_changed
       - threat_model_or_security_notes_for_security_sensitive_module
       - accepted_risk_register_updated
+      - technical_debt_burndown_plan_updated
+      - coverage_not_below_previous_iteration_baseline
   release_gate:
     required:
       - client_or_project_stack_validated_against_current_stable_versions
@@ -883,11 +885,16 @@ quality_gates:
       - dependency_scan_passed
       - container_scan_passed_when_containers_exist
       - sbom_generated
-      - coverage_threshold_met_or_exception_approved
+      - coverage_threshold_met
       - known_vulnerabilities_reviewed
       - license_review_passed
       - technology_debt_register_reviewed
+      - no_open_technical_debt
       - security_quality_evidence_registered
+    fail_conditions:
+      - open_technical_debt_exists
+      - aggregate_line_coverage_below_80_percent
+      - any_stack_coverage_below_previous_iteration_baseline
 
 technical_debt_backlog_policy:
   root_folder: 08-qa/technical-debt/
@@ -900,6 +907,8 @@ technical_debt_backlog_policy:
     - dependency_or_framework_is_outdated_but_not_immediate_blocker
     - security_or_quality_tooling_gap_needs_gradual_remediation
     - stack_migration_is_recommended_but_must_be_coordinated_with_touched_components
+    - coverage_below_80_percent_or_below_stack_target
+    - coverage_does_not_improve_when_below_80_percent
   debt_item_must_include:
     - id
     - title
@@ -932,6 +941,10 @@ technical_debt_backlog_policy:
     - Break broad migrations into small backlog items with explicit test and rollback strategy.
     - Security-critical or unsupported runtime findings may be promoted to blocking backlog items.
     - Every resolved debt item must reference validation evidence and the backlog item that resolved it.
+    - A project must not be marked finished, commercially complete or generally available while any technical-debt item remains open, accepted, in_progress or partially_resolved.
+    - Every code-changing iteration must reduce at least one open technical-debt item before feature work when debt exists.
+    - Debt remediation intensity must increase as the project advances: early MVP iterations may reduce one item, module closeout should reduce multiple relevant items when debt exists, and release/GA preparation must burn down all remaining debt.
+    - Technical debt may be deferred only with an owner, target backlog, acceptance criteria and expiration; deferral does not permit final project closure.
 
 default_thresholds:
   vulnerability_policy:
@@ -947,10 +960,22 @@ default_thresholds:
     medium: fail_unless_dispositioned_by_module_risk
     low: review_and_disposition_required
   coverage_policy:
-    mvp_minimum_line_coverage_target: 70
+    minimum_line_coverage_target: 80
+    mvp_minimum_line_coverage_target: 80
     commercial_ga_line_coverage_target: 80
     branch_coverage_target: project_defined
     changed_code_must_not_reduce_existing_coverage: true
+    previous_iteration_coverage_is_hard_floor: true
+    below_80_requires_improvement_each_iteration: true
+    final_project_closure_requires_minimum_line_coverage: 80
+    coverage_exception_allowed_for_iteration: true
+    coverage_exception_allowed_for_final_project_closure: false
+    rule: >
+      Coverage below 80% does not automatically block an intermediate backlog item when debt is
+      recorded and the previous iteration baseline is preserved or improved. Coverage must never
+      decrease below the previous iteration baseline. Final project closure, release readiness and
+      commercial GA require at least 80% line coverage for each applicable delivered stack, unless
+      a stack is explicitly not applicable.
   license_policy:
     restricted_license_requires_review: true
     proprietary_dependency_requires_exception_adr: true
@@ -998,6 +1023,10 @@ agent_rules:
   - Agents must include best-practice, coding-standard, duplicate-code, complexity, OWASP or equivalent secure-code checks for every changed technology stack and product layer.
   - Agents must scan dependency and vulnerability findings across all severities supported by the selected tool. Filtering only HIGH or CRITICAL is insufficient for backlog closure.
   - Agents must address at least one existing technical-debt item before feature implementation in every code-changing iteration, unless the project has no open technical debt.
+  - Agents must increase technical-debt remediation as the project advances; late-stage iterations, module closeouts and release preparation must reduce more debt than early exploratory iterations when open debt remains.
+  - Agents must not mark a project finished, release-ready for GA or commercially complete while any project technical debt remains open.
+  - Agents must enforce 80% line coverage as the final project closure threshold for every applicable delivered stack.
+  - Agents must use the previous iteration's measured coverage as the minimum allowed baseline whenever current coverage is below 80%; coverage may improve gradually but must never decrease.
   - Agents must externalize user-visible messages, validation copy, error prose, stable error codes and repeated magic values through stack-appropriate message catalogs, constants, configuration or policy providers.
   - Agents must not treat the initial project stack as permanently fixed. Each code-changing iteration must evaluate whether newer open source frameworks, libraries, runtimes or tools are materially safer, better maintained, more portable or more cost-effective.
   - Agents must create or update technical-debt backlog items for beneficial technology upgrades or migrations that are not safe or necessary to execute immediately.

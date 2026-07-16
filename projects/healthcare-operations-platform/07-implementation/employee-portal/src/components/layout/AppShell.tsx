@@ -29,7 +29,7 @@ const TABS: ScreenTab[] = [
   { key: "person-search", label: "People Search" },
   { key: "patients", label: "Patients" },
   { key: "doctors", label: "Doctors" },
-  { key: "patient-registrations", label: "Patient Registrations" }
+  { key: "patient-registrations", label: "Patient Registrations" },
 ];
 
 interface AppShellProps {
@@ -46,14 +46,19 @@ export function AppShell({ activeScreen, onSelectScreen, children }: AppShellPro
     <div className="app-shell">
       <header className="app-shell__header">
         <h1>Healthcare Operations Platform - Employee Portal Administration</h1>
-        <p>Platform Foundation and Diagnostic Catalog: administration, audit and catalog configuration.</p>
+        <p>
+          Platform Foundation and Diagnostic Catalog: administration, audit and catalog
+          configuration.
+        </p>
       </header>
       <nav className="app-shell__nav" aria-label="Administration screens">
         {TABS.map((tab) => (
           <button
             key={tab.key}
             type="button"
-            className={tab.key === activeScreen ? "app-shell__tab app-shell__tab--active" : "app-shell__tab"}
+            className={
+              tab.key === activeScreen ? "app-shell__tab app-shell__tab--active" : "app-shell__tab"
+            }
             aria-current={tab.key === activeScreen ? "page" : undefined}
             onClick={() => onSelectScreen(tab.key)}
           >

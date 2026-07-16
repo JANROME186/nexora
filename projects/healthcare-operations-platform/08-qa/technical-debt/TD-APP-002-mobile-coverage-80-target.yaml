@@ -1,0 +1,46 @@
+artifact:
+  id: TD-APP-002
+  type: technical-debt-item
+  name: Establish mobile coverage measurement and raise it to the 80 percent final-closure target
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-15
+
+source:
+  discovered_during_backlog_item: HOP-QA-ALIGN-003
+  module: HOP-QUALITY-ALIGNMENT
+  evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-003-validation.yaml
+
+classification:
+  category: coverage_quality
+  affected_area: mobile_app_test_coverage
+  affected_components:
+    - 07-implementation/mobile-app
+  risk_level: medium
+  blocking: false
+  reason_non_blocking: >
+    Mobile is currently a renderer-agnostic TypeScript foundation with passing tests and quality
+    gates, but coverage measurement is not yet established. The first mobile-expansion iteration
+    must establish the baseline and then improve toward 80%.
+
+current_state:
+  current_line_coverage_percent: not_measured
+  final_project_closure_target_percent: 80
+  issue: Mobile coverage must become measurable and reach at least 80% before HOP can be marked commercially complete or GA-ready.
+
+target_state:
+  line_coverage_percent: 80
+  rule: Once mobile coverage is measured, every subsequent mobile-touching iteration must preserve or improve the previous baseline.
+
+remediation:
+  strategy: establish_baseline_then_improve_to_80_before_final_closure
+  recommended_trigger:
+    - first mobile renderer implementation backlog item
+    - mobile foundation expansion
+    - module closeout involving mobile surfaces
+    - release readiness
+  acceptance_criteria:
+    - Mobile coverage command is executable from the integrated runbook or package scripts.
+    - First measured mobile line coverage baseline is recorded.
+    - Coverage never drops below the previous measured baseline.
+    - Coverage reaches at least 80% before final project closure.

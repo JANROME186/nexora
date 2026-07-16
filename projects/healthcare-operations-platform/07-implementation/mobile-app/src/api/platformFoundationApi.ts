@@ -8,7 +8,7 @@ import type {
   CreateUserRequest,
   LaboratoryResponse,
   TenantResponse,
-  UserResponse
+  UserResponse,
 } from "./types";
 
 export type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
@@ -50,35 +50,37 @@ export function createPlatformFoundationApi(options: PlatformFoundationApiOption
     createTenant: (payload: CreateTenantRequest) =>
       request<TenantResponse>("/api/platform/tenants", {
         method: "POST",
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       }),
     getTenant: (tenantId: string) =>
       request<TenantResponse>(`/api/platform/tenants/${encodeURIComponent(tenantId)}`),
     createLaboratory: (payload: CreateLaboratoryRequest) =>
       request<LaboratoryResponse>("/api/organization/laboratories", {
         method: "POST",
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       }),
     getLaboratory: (laboratoryId: string) =>
-      request<LaboratoryResponse>(`/api/organization/laboratories/${encodeURIComponent(laboratoryId)}`),
+      request<LaboratoryResponse>(
+        `/api/organization/laboratories/${encodeURIComponent(laboratoryId)}`,
+      ),
     createBranch: (payload: CreateBranchRequest) =>
       request<BranchResponse>("/api/organization/branches", {
         method: "POST",
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       }),
     getBranch: (branchId: string) =>
       request<BranchResponse>(`/api/organization/branches/${encodeURIComponent(branchId)}`),
     createUser: (payload: CreateUserRequest) =>
       request<UserResponse>("/api/identity/users", {
         method: "POST",
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       }),
     getUser: (userId: string) =>
       request<UserResponse>(`/api/identity/users/${encodeURIComponent(userId)}`),
     assignRole: (userId: string, payload: AssignRoleRequest) =>
       request<void>(`/api/identity/users/${encodeURIComponent(userId)}/role-assignments`, {
         method: "POST",
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       }),
     searchAuditEvents: (filters: { tenantId?: string; subjectId?: string } = {}) => {
       const params = new URLSearchParams();
@@ -89,7 +91,8 @@ export function createPlatformFoundationApi(options: PlatformFoundationApiOption
         params.set("subjectId", filters.subjectId);
       }
       const query = params.toString();
-      return request<AuditEventResponse[]>(`/api/audit/events${query ? `?${query}` : ""}`);
-    }
+      const querySuffix = query ? `?${query}` : "";
+      return request<AuditEventResponse[]>(`/api/audit/events${querySuffix}`);
+    },
   };
 }

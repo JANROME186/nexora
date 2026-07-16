@@ -46,8 +46,8 @@ describe("PersonSearchScreen", () => {
         birthDate: "1990-01-01",
         primaryDocumentType: "national_id",
         primaryDocumentNumberMasked: "****1234",
-        status: "active"
-      }
+        status: "active",
+      },
     ]);
     vi.spyOn(api, "detectPersonDuplicates").mockResolvedValue([
       {
@@ -55,28 +55,28 @@ describe("PersonSearchScreen", () => {
         sourceAggregateId: "patient-1",
         fullName: "Ada Lovelace",
         confidence: 0.91,
-        matchReason: "Primary document and natural key match"
+        matchReason: "Primary document and natural key match",
       },
       {
         personKind: "doctor",
         sourceAggregateId: "doctor-1",
         fullName: "Ada Byron",
         confidence: 0.62,
-        matchReason: "Name similarity"
+        matchReason: "Name similarity",
       },
       {
         personKind: "patient",
         sourceAggregateId: "patient-2",
         fullName: "A. Lovelace",
         confidence: 0.34,
-        matchReason: "Family name only"
-      }
+        matchReason: "Family name only",
+      },
     ]);
     vi.spyOn(api, "rebuildPersonSearchIndex").mockResolvedValue({
       tenantId: "tenant-1",
       patientCount: 8,
       doctorCount: 5,
-      rebuiltAt: "2026-07-10T00:00:00Z"
+      rebuiltAt: "2026-07-10T00:00:00Z",
     });
     vi.spyOn(api, "initiatePersonMergeCoordination").mockResolvedValue({
       coordinationId: "merge-1",
@@ -86,7 +86,7 @@ describe("PersonSearchScreen", () => {
       targetKind: "patient",
       targetRecordId: "patient-1",
       status: "APPLIED",
-      patientMergeApplied: true
+      patientMergeApplied: true,
     });
     vi.spyOn(api, "getPersonMergeCoordination").mockResolvedValue({
       coordinationId: "merge-1",
@@ -96,14 +96,14 @@ describe("PersonSearchScreen", () => {
       targetKind: "patient",
       targetRecordId: "patient-1",
       status: "APPLIED",
-      patientMergeApplied: true
+      patientMergeApplied: true,
     });
 
     const user = userEvent.setup();
     render(
       <ScopedPersonSearchHarness>
         <PersonSearchScreen />
-      </ScopedPersonSearchHarness>
+      </ScopedPersonSearchHarness>,
     );
 
     await user.selectOptions(screen.getByLabelText("Person kind"), "patient");
@@ -114,7 +114,7 @@ describe("PersonSearchScreen", () => {
     expect(api.searchPersons).toHaveBeenCalledWith("tenant-1", {
       personKind: "patient",
       familyName: "Lovelace",
-      givenName: "Ada"
+      givenName: "Ada",
     });
     expect(await screen.findByText("Search completed.")).toBeInTheDocument();
     expect(screen.getByRole("cell", { name: "P-001" })).toBeInTheDocument();
@@ -131,7 +131,7 @@ describe("PersonSearchScreen", () => {
       tenantId: "tenant-1",
       familyName: "Lovelace",
       givenName: "Ada",
-      birthDate: "1990-01-01"
+      birthDate: "1990-01-01",
     });
     expect(await screen.findByText("Duplicate detection completed.")).toBeInTheDocument();
     const candidatesTable = screen.getByRole("table", { name: "Duplicate candidates" });
@@ -159,7 +159,7 @@ describe("PersonSearchScreen", () => {
     render(
       <AdminScopeProvider>
         <PersonSearchScreen />
-      </AdminScopeProvider>
+      </AdminScopeProvider>,
     );
 
     expect(screen.getByText("Select a tenant before searching people.")).toBeInTheDocument();
@@ -167,11 +167,13 @@ describe("PersonSearchScreen", () => {
     render(
       <ScopedPersonSearchHarness>
         <PersonSearchScreen />
-      </ScopedPersonSearchHarness>
+      </ScopedPersonSearchHarness>,
     );
 
     await user.click(screen.getAllByRole("button", { name: "Search" })[1]);
-    expect(await screen.findByText("No patients or doctors matched this search.")).toBeInTheDocument();
+    expect(
+      await screen.findByText("No patients or doctors matched this search."),
+    ).toBeInTheDocument();
 
     await user.click(screen.getAllByRole("button", { name: "Detect duplicates" })[1]);
     expect(await screen.findByText("No duplicate candidates were found.")).toBeInTheDocument();

@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: HOP-QA-ALIGN-001
+  current_active_backlog_item: HOP-QA-ALIGN-004
   paused_functional_backlog_item: MVP-MOD-004-FE-001
   active_quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
   intended_audience:
@@ -214,41 +214,69 @@ quality_validation:
   - id: QA-001
     name: Backend standard tests
     working_directory: 07-implementation/backend
-    command: mvn --settings .mvn/settings.xml test
+    command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml test
   - id: QA-002
     name: Backend PostgreSQL tests
     working_directory: 07-implementation/backend
-    command: mvn --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
+    command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
     depends_on:
       - INF-001
   - id: QA-003
-    name: Employee portal typecheck
-    working_directory: 07-implementation/employee-portal
-    command: npm run typecheck
+    name: Backend enterprise quality profile
+    working_directory: 07-implementation/backend
+    command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -Pquality verify checkstyle:checkstyle pmd:pmd pmd:cpd spotbugs:spotbugs cyclonedx:makeAggregateBom duplicate-finder:check
+    expected_result: >
+      Tests, Checkstyle, PMD/CPD, SpotBugs/Find Security Bugs, JaCoCo, CycloneDX, Enforcer,
+      license and duplicate dependency/class checks run. Any vulnerability or tool failure blocks
+      backlog closure; residual PMD and coverage findings must be linked to technical debt.
   - id: QA-004
-    name: Employee portal unit and UI tests
-    working_directory: 07-implementation/employee-portal
-    command: npm test
+    name: Backend dependency vulnerability scan - all severities
+    working_directory: 07-implementation/backend
+    command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -Pquality org.owasp:dependency-check-maven:check
+    expected_result: OWASP Dependency-Check reports 0 vulnerabilities.
   - id: QA-005
-    name: Employee portal coverage
+    name: Employee portal enterprise quality profile
     working_directory: 07-implementation/employee-portal
-    command: npm run test:coverage
+    command: npm run quality
+    expected_result: Typecheck, lint, coverage, build, duplication, format and license gates pass.
   - id: QA-006
-    name: Employee portal build
+    name: Employee portal dependency audit - all severities
     working_directory: 07-implementation/employee-portal
-    command: npm run build
+    command: npm audit --audit-level=low
+    expected_result: 0 vulnerabilities.
   - id: QA-007
-    name: Employee portal dependency audit
-    working_directory: 07-implementation/employee-portal
-    command: npm audit --audit-level=high
+    name: Mobile foundation enterprise quality profile
+    working_directory: 07-implementation/mobile-app
+    command: npm run quality
+    expected_result: Typecheck, lint, tests, duplication and format gates pass.
   - id: QA-008
-    name: Mobile foundation typecheck
-    working_directory: 07-implementation/mobile-app
-    command: npm run typecheck
+    name: Integrated all-severity filesystem, secret and misconfiguration scan
+    working_directory: 07-implementation
+    command: trivy fs --scanners vuln,secret,misconfig --exit-code 1 --no-progress --skip-dirs "backend/.m2,backend/target,employee-portal/node_modules,employee-portal/dist,mobile-app/node_modules" .
+    expected_result: 0 vulnerabilities, 0 secrets and 0 misconfigurations across all severities.
   - id: QA-009
-    name: Mobile foundation tests
-    working_directory: 07-implementation/mobile-app
-    command: npm test
+    name: OWASP ZAP DAST baseline for employee portal
+    working_directory: 07-implementation
+    command: docker run --rm --network host -v "${PWD}/../08-qa/security-quality/HOP-QA-ALIGN-004:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://localhost:5173 -r zap-employee-portal.html -J zap-employee-portal.json
+    depends_on:
+      - INF-001
+      - BE-001
+      - WEB-001
+    expected_result: >
+      ZAP completes and findings of any severity are remediated or registered with accepted-risk
+      disposition. If Docker image pull, network mode or permissions fail, request support and keep
+      HOP-QA-ALIGN-004 open instead of closing with an execution limitation.
+  - id: QA-010
+    name: OWASP ZAP DAST API scan for backend
+    working_directory: 07-implementation
+    command: docker run --rm --network host -v "${PWD}/../08-qa/security-quality/HOP-QA-ALIGN-004:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable zap-api-scan.py -t http://localhost:8080/v3/api-docs -f openapi -r zap-backend-api.html -J zap-backend-api.json
+    depends_on:
+      - INF-001
+      - BE-001
+    expected_result: >
+      ZAP completes and findings of any severity are remediated or registered with accepted-risk
+      disposition. If OpenAPI is unavailable, document the exact API-documentation blocker before
+      closing the DAST backlog item.
 
 stop_steps:
   - id: STOP-001
@@ -285,8 +313,29 @@ troubleshooting:
 
 known_limitations:
   - Mobile app is currently a renderer-agnostic TypeScript foundation, not a native runnable app.
-  - DAST automation remains tracked as technical debt TD-QA-001.
-  - Release supply-chain gates remain tracked as technical debt TD-BE-004.
+  - DAST execution remains tracked as technical debt TD-QA-001 and blocks HOP-QA-ALIGN-004 until executed or formally blocked with owner-approved remediation.
+  - Release supply-chain gates are configured but release-policy hardening remains tracked as TD-BE-004.
+  - Message externalization and magic-string inventory remains tracked as TD-I18N-001 and HOP-QA-ALIGN-005.
+
+quality_gate_command_matrix:
+  backend:
+    - QA-001
+    - QA-002
+    - QA-003
+    - QA-004
+  frontend:
+    - QA-005
+    - QA-006
+  mobile:
+    - QA-007
+  integrated_security:
+    - QA-008
+    - QA-009
+    - QA-010
+  closure_rule: >
+    A backlog item cannot close with missing permissions, missing Docker, missing Maven/Node,
+    blocked dependency endpoints or unsupported runtimes. The executor must request support,
+    document exact remediation commands and keep the current backlog pointer unchanged.
 
 component_readmes:
   - 07-implementation/README.md

@@ -67,15 +67,9 @@ public class PatientPreparationManagementService {
         String category = requiredOneOf(command.category(), "Preparation category is invalid.",
                 CATEGORIES.toArray(String[]::new));
 
-        if (PreparationInstruction.CATEGORY_FASTING.equals(category) && command.durationHours() == null) {
-            throw new InvalidCatalogCommandException("A fasting preparation must declare a duration in hours.");
-        }
-        if (!tenantDirectory.tenantExists(tenantId)) {
-            throw new CatalogEntityNotFoundException("Tenant was not found.");
-        }
-        if (repository.existsByCode(laboratoryId, code, null)) {
-            throw new InvalidCatalogCommandException("Preparation code already exists in this laboratory.");
-        }
+        requireFastingDuration(category, command.durationHours());
+        requireTenantExists(tenantId);
+        requireUniqueCode(laboratoryId, code, null);
 
         Instant now = Instant.now(clock);
         PreparationInstruction preparation = new PreparationInstruction(
@@ -105,12 +99,8 @@ public class PatientPreparationManagementService {
         String category = requiredOneOf(command.category(), "Preparation category is invalid.",
                 CATEGORIES.toArray(String[]::new));
 
-        if (PreparationInstruction.CATEGORY_FASTING.equals(category) && command.durationHours() == null) {
-            throw new InvalidCatalogCommandException("A fasting preparation must declare a duration in hours.");
-        }
-        if (repository.existsByCode(current.laboratoryId(), code, current.preparationId())) {
-            throw new InvalidCatalogCommandException("Preparation code already exists in this laboratory.");
-        }
+        requireFastingDuration(category, command.durationHours());
+        requireUniqueCode(current.laboratoryId(), code, current.preparationId());
 
         PreparationInstruction updated = new PreparationInstruction(
                 current.preparationId(), current.tenantId(), current.laboratoryId(), code,
@@ -217,6 +207,24 @@ public class PatientPreparationManagementService {
     private PreparationInstruction require(String preparationId) {
         return repository.findById(requiredText(preparationId, "Preparation id is required."))
                 .orElseThrow(() -> new CatalogEntityNotFoundException("Preparation was not found."));
+    }
+
+    private void requireTenantExists(String tenantId) {
+        if (!tenantDirectory.tenantExists(tenantId)) {
+            throw new CatalogEntityNotFoundException("Tenant was not found.");
+        }
+    }
+
+    private void requireUniqueCode(String laboratoryId, String code, String preparationIdToExclude) {
+        if (repository.existsByCode(laboratoryId, code, preparationIdToExclude)) {
+            throw new InvalidCatalogCommandException("Preparation code already exists in this laboratory.");
+        }
+    }
+
+    private static void requireFastingDuration(String category, Integer durationHours) {
+        if (PreparationInstruction.CATEGORY_FASTING.equals(category) && durationHours == null) {
+            throw new InvalidCatalogCommandException("A fasting preparation must declare a duration in hours.");
+        }
     }
 
     private static void requireLocalized(LocalizedText text, String field) {

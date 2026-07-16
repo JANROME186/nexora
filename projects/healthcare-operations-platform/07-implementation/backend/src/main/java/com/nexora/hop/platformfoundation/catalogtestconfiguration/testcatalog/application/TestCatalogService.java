@@ -68,15 +68,9 @@ public class TestCatalogService {
                 RESULT_TYPES.toArray(String[]::new));
         String measurementUnit = optionalText(command.measurementUnit());
 
-        if (TestDefinition.RESULT_NUMERIC.equals(resultType) && !StringUtils.hasText(measurementUnit)) {
-            throw new InvalidCatalogCommandException("A numeric result type test must declare a measurement unit.");
-        }
-        if (!tenantDirectory.tenantExists(tenantId)) {
-            throw new CatalogEntityNotFoundException("Tenant was not found.");
-        }
-        if (repository.existsByCode(laboratoryId, code, null)) {
-            throw new InvalidCatalogCommandException("Test code already exists in this laboratory.");
-        }
+        requireMeasurementUnit(resultType, measurementUnit);
+        requireTenantExists(tenantId);
+        requireUniqueCode(laboratoryId, code, null);
 
         Instant now = Instant.now(clock);
         TestDefinition test = new TestDefinition(
@@ -108,12 +102,8 @@ public class TestCatalogService {
                 RESULT_TYPES.toArray(String[]::new));
         String measurementUnit = optionalText(command.measurementUnit());
 
-        if (TestDefinition.RESULT_NUMERIC.equals(resultType) && !StringUtils.hasText(measurementUnit)) {
-            throw new InvalidCatalogCommandException("A numeric result type test must declare a measurement unit.");
-        }
-        if (repository.existsByCode(current.laboratoryId(), code, current.testDefinitionId())) {
-            throw new InvalidCatalogCommandException("Test code already exists in this laboratory.");
-        }
+        requireMeasurementUnit(resultType, measurementUnit);
+        requireUniqueCode(current.laboratoryId(), code, current.testDefinitionId());
 
         TestDefinition updated = new TestDefinition(
                 current.testDefinitionId(), current.tenantId(), current.laboratoryId(), code,
@@ -205,6 +195,24 @@ public class TestCatalogService {
     private TestDefinition require(String testDefinitionId) {
         return repository.findById(requiredText(testDefinitionId, "Test definition id is required."))
                 .orElseThrow(() -> new CatalogEntityNotFoundException("Test definition was not found."));
+    }
+
+    private void requireTenantExists(String tenantId) {
+        if (!tenantDirectory.tenantExists(tenantId)) {
+            throw new CatalogEntityNotFoundException("Tenant was not found.");
+        }
+    }
+
+    private void requireUniqueCode(String laboratoryId, String code, String testDefinitionIdToExclude) {
+        if (repository.existsByCode(laboratoryId, code, testDefinitionIdToExclude)) {
+            throw new InvalidCatalogCommandException("Test code already exists in this laboratory.");
+        }
+    }
+
+    private static void requireMeasurementUnit(String resultType, String measurementUnit) {
+        if (TestDefinition.RESULT_NUMERIC.equals(resultType) && !StringUtils.hasText(measurementUnit)) {
+            throw new InvalidCatalogCommandException("A numeric result type test must declare a measurement unit.");
+        }
     }
 
     private static List<TestAnalyteLink> toAnalyteLinks(String testDefinitionId, List<String> analyteRefIds) {

@@ -10,7 +10,7 @@ export function ScopeIndicator() {
     ["Tenant", scope.tenantId],
     ["Laboratory", scope.laboratoryId],
     ["Branch", scope.branchId],
-    ["User", scope.userId]
+    ["User", scope.userId],
   ] as const;
 
   return (

@@ -1,0 +1,8 @@
+{
+  "threshold": 5,
+  "reporters": ["console", "html", "json"],
+  "output": "reports/jscpd",
+  "path": ["src"],
+  "format": ["typescript"],
+  "ignore": ["node_modules/**", "coverage/**", "reports/**", "src/test/**"]
+}

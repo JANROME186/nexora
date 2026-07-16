@@ -16,6 +16,7 @@ import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.panelcatalog.application.PanelCatalogService;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.panelcatalog.domain.PanelDefinition;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.patientpreparationmanagement.application.PatientPreparationManagementService;
+import com.nexora.hop.platformfoundation.catalogtestconfiguration.patientpreparationmanagement.domain.PreparationAssignment;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.patientpreparationmanagement.domain.PreparationInstruction;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.testcatalog.application.TestCatalogService;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.testcatalog.domain.TestDefinition;
@@ -69,7 +70,7 @@ public class AppointmentSchedulingService {
             FrontDeskPolicyStore policyStore,
             AuditRecorder auditRecorder) {
         this(repository, branchDirectory, testCatalogService, panelCatalogService, preparationManagementService,
-                policyStore, auditRecorder, Clock.systemUTC());
+                policyStore, auditRecorder, Clock.systemDefaultZone());
     }
 
     AppointmentSchedulingService(
@@ -252,8 +253,8 @@ public class AppointmentSchedulingService {
         java.util.LinkedHashMap<String, PreparationInstruction> byId = new java.util.LinkedHashMap<>();
         for (RequestedCatalogItem item : items) {
             String targetType = RequestedCatalogItem.KIND_TEST.equals(item.catalogItemKind())
-                    ? com.nexora.hop.platformfoundation.catalogtestconfiguration.patientpreparationmanagement.domain.PreparationAssignment.TARGET_TEST
-                    : com.nexora.hop.platformfoundation.catalogtestconfiguration.patientpreparationmanagement.domain.PreparationAssignment.TARGET_PANEL;
+                    ? PreparationAssignment.TARGET_TEST
+                    : PreparationAssignment.TARGET_PANEL;
             for (PreparationInstruction preparation
                     : preparationManagementService.findPublishedForTarget(targetType, item.testDefinitionId())) {
                 byId.putIfAbsent(preparation.preparationId(), preparation);

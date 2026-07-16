@@ -12,7 +12,7 @@ describe("local auth service", () => {
       tenantId: "tenant-1",
       userId: "user-1",
       displayName: "Mobile Admin",
-      email: "MOBILE.ADMIN@example.test"
+      email: "MOBILE.ADMIN@example.test",
     });
 
     expect(session.token).toBe("local-session:tenant-1:user-1");
@@ -26,7 +26,7 @@ describe("local auth service", () => {
       tenantId: "tenant-1",
       userId: "user-1",
       displayName: "Mobile Admin",
-      email: "mobile.admin@example.test"
+      email: "mobile.admin@example.test",
     });
 
     auth.logout();

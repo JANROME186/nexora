@@ -53,6 +53,9 @@ commercialization_objective:
     - Customer data can be ingested from simple open formats that any incumbent system provider can deliver without proprietary dependencies.
     - Optional product capabilities can be offered, purchased, entitled, installed and consumed through a marketplace-ready extension model.
     - Compliance, quality, documentation and customer enablement are sufficient for a paid pilot and general availability.
+    - No technical debt remains open in 08-qa/technical-debt/.
+    - Every applicable delivered stack has at least 80 percent line coverage.
+    - No intermediate iteration decreases stack coverage below the previous measured baseline.
   explicit_boundaries:
     - Country-specific fiscal connectors are adapter implementations and must not block core billing request readiness.
     - AI features are commercial differentiators but cannot validate, release or amend clinical results.
@@ -192,6 +195,10 @@ global_definition_of_done:
   - Traceability links capabilities, requirements, APIs, UI, domain events and tests.
   - QA evidence is written under 08-qa.
   - Security quality evidence is written under 08-qa/security-quality/<backlog-item-id>/ for code-changing work.
+  - Every code-changing backlog item reduces or materially improves technical debt before feature work when debt exists; the amount of debt burn-down must increase as HOP approaches release readiness.
+  - Every applicable delivered stack targets at least 80 percent line coverage.
+  - If a stack is below 80 percent, its previous measured coverage is the minimum allowed baseline for the next iteration.
+  - HOP cannot be marked commercially complete or GA-ready while any technical debt remains open or any applicable stack is below 80 percent line coverage.
   - PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml are updated.
   - Marketplace-ready capabilities validate purchase, entitlement, installation, activation, upgrade and retirement flows where applicable.
   - No agent-specific dependency, prompt or configuration is required.
@@ -259,18 +266,25 @@ modules:
     backlog_items:
       - id: HOP-QA-ALIGN-001
         name: Reconcile technical debt under the updated enterprise quality framework
+        status: closed
       - id: HOP-QA-ALIGN-002
         name: Implement backend Java/Maven enterprise quality profile
+        status: closed_with_residual_p1_debt
       - id: HOP-QA-ALIGN-003
         name: Implement frontend web enterprise quality profile
+        status: closed_with_residual_p1_debt
       - id: HOP-QA-ALIGN-004
         name: Establish all-severity vulnerability, DAST and runtime security evidence
+        status: open_pending_dast
       - id: HOP-QA-ALIGN-005
         name: Establish message externalization and magic-string remediation baseline
+        status: pending
       - id: HOP-QA-ALIGN-006
         name: Update integrated local runbook with quality gate execution
+        status: closed
       - id: HOP-QA-ALIGN-CLOSEOUT
         name: Close HOP enterprise quality alignment and resume MVP-MOD-004-FE-001
+        status: pending
     acceptance_summary:
       - Functional development remains paused until quality alignment closeout passes.
       - Backend, frontend, mobile and runtime quality baselines are executable or have immediate accepted remediation.

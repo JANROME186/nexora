@@ -8,7 +8,7 @@ import {
   registerDoctor,
   revokeDoctorCredential,
   suspendDoctor,
-  verifyDoctorCredential
+  verifyDoctorCredential,
 } from "../../api/peopleApi";
 import type { Doctor, DoctorSnapshot, ProfessionalCredential } from "../../api/types";
 import { useAdminScope } from "../../state/AdminScopeContext";
@@ -46,7 +46,8 @@ export function DoctorsScreen() {
   const [documentNumber, setDocumentNumber] = useState("");
 
   const registerAction = useAsyncAction(async () => {
-    if (!tenantId || !laboratoryId) throw new Error("Select tenant and laboratory scope before registering a doctor.");
+    if (!tenantId || !laboratoryId)
+      throw new Error("Select tenant and laboratory scope before registering a doctor.");
     const created = await registerDoctor({
       tenantId,
       laboratoryId,
@@ -55,9 +56,12 @@ export function DoctorsScreen() {
       familyName,
       doctorType,
       primaryDocumentType: documentType,
-      primaryDocumentNumber: documentNumber
+      primaryDocumentNumber: documentNumber,
     });
-    setDoctors((current) => [created, ...current.filter((doctor) => doctor.doctorId !== created.doctorId)]);
+    setDoctors((current) => [
+      created,
+      ...current.filter((doctor) => doctor.doctorId !== created.doctorId),
+    ]);
     setSelectedDoctorId(created.doctorId);
     setDoctorCode("");
     setGivenName("");
@@ -88,26 +92,43 @@ export function DoctorsScreen() {
     const created = await attachDoctorCredential(selectedDoctorId, {
       credentialType,
       credentialNumber,
-      issuingAuthority
+      issuingAuthority,
     });
-    setCredentials((current) => [created, ...current.filter((credential) => credential.credentialId !== created.credentialId)]);
+    setCredentials((current) => [
+      created,
+      ...current.filter((credential) => credential.credentialId !== created.credentialId),
+    ]);
     setCredentialNumber("");
     setIssuingAuthority("");
     return created;
   });
 
   const verifyCredentialAction = useAsyncAction((credentialId: string) =>
-    verifyDoctorCredential(selectedDoctorId, credentialId)
+    verifyDoctorCredential(selectedDoctorId, credentialId),
   );
+  const updateCredential = (updated: ProfessionalCredential) => {
+    setCredentials((current) =>
+      current.map((item) => (item.credentialId === updated.credentialId ? updated : item)),
+    );
+  };
+  const handleVerifyCredential = async (credentialId: string) => {
+    const result = await verifyCredentialAction.run(credentialId);
+    if (result.ok) {
+      updateCredential(result.data);
+    }
+  };
   const revokeCredentialAction = useAsyncAction((credentialId: string) =>
-    revokeDoctorCredential(selectedDoctorId, credentialId)
+    revokeDoctorCredential(selectedDoctorId, credentialId),
   );
   const [credentialToRevoke, setCredentialToRevoke] = useState<string | undefined>(undefined);
 
   const [suspendReason, setSuspendReason] = useState("");
   const suspendAction = useAsyncAction(async () => {
     if (!selectedDoctorId) throw new Error("Select a doctor first.");
-    return suspendDoctor(selectedDoctorId, suspendReason ? { reasonCode: suspendReason } : undefined);
+    return suspendDoctor(
+      selectedDoctorId,
+      suspendReason ? { reasonCode: suspendReason } : undefined,
+    );
   });
   const [confirmingSuspend, setConfirmingSuspend] = useState(false);
 
@@ -135,7 +156,9 @@ export function DoctorsScreen() {
     event.preventDefault();
     const result = await portalAccessAction.run();
     if (result.ok) {
-      setDoctors((current) => current.map((doctor) => (doctor.doctorId === result.data.doctorId ? result.data : doctor)));
+      setDoctors((current) =>
+        current.map((doctor) => (doctor.doctorId === result.data.doctorId ? result.data : doctor)),
+      );
     }
   }
 
@@ -150,26 +173,51 @@ export function DoctorsScreen() {
       <h2 id="doctors-heading">Doctors</h2>
       <ScopeIndicator />
       {!canUse ? (
-        <p className="status-banner status-banner--error">Select a tenant and laboratory before managing doctors.</p>
+        <p className="status-banner status-banner--error">
+          Select a tenant and laboratory before managing doctors.
+        </p>
       ) : null}
 
       <div className="panel">
         <h3>Register doctor</h3>
         <form onSubmit={handleRegister}>
           <label htmlFor="doctor-code">Doctor code</label>
-          <input id="doctor-code" value={doctorCode} onChange={(event) => setDoctorCode(event.target.value)} required />
+          <input
+            id="doctor-code"
+            value={doctorCode}
+            onChange={(event) => setDoctorCode(event.target.value)}
+            required
+          />
           <label htmlFor="doctor-given-name">Given name</label>
-          <input id="doctor-given-name" value={givenName} onChange={(event) => setGivenName(event.target.value)} required />
+          <input
+            id="doctor-given-name"
+            value={givenName}
+            onChange={(event) => setGivenName(event.target.value)}
+            required
+          />
           <label htmlFor="doctor-family-name">Family name</label>
-          <input id="doctor-family-name" value={familyName} onChange={(event) => setFamilyName(event.target.value)} required />
+          <input
+            id="doctor-family-name"
+            value={familyName}
+            onChange={(event) => setFamilyName(event.target.value)}
+            required
+          />
           <label htmlFor="doctor-type">Doctor type</label>
-          <select id="doctor-type" value={doctorType} onChange={(event) => setDoctorType(event.target.value)}>
+          <select
+            id="doctor-type"
+            value={doctorType}
+            onChange={(event) => setDoctorType(event.target.value)}
+          >
             <option value="referring_external">Referring (external)</option>
             <option value="internal_medical_validator">Internal medical validator</option>
             <option value="both">Both</option>
           </select>
           <label htmlFor="doctor-document-type">Primary document type</label>
-          <select id="doctor-document-type" value={documentType} onChange={(event) => setDocumentType(event.target.value)}>
+          <select
+            id="doctor-document-type"
+            value={documentType}
+            onChange={(event) => setDocumentType(event.target.value)}
+          >
             <option value="professional_license">Professional license</option>
             <option value="national_id">National id</option>
             <option value="passport">Passport</option>
@@ -193,10 +241,18 @@ export function DoctorsScreen() {
         </form>
       </div>
 
-      <button type="button" disabled={!canUse || listAction.status === "loading"} onClick={handleList}>
+      <button
+        type="button"
+        disabled={!canUse || listAction.status === "loading"}
+        onClick={handleList}
+      >
         Load doctors
       </button>
-      <StatusBanner status={listAction.status} errorMessage={listAction.errorMessage} successMessage="Doctors loaded." />
+      <StatusBanner
+        status={listAction.status}
+        errorMessage={listAction.errorMessage}
+        successMessage="Doctors loaded."
+      />
 
       {listAction.status === "success" && doctors.length === 0 ? (
         <p className="empty-state">No doctors registered yet in this laboratory.</p>
@@ -218,7 +274,11 @@ export function DoctorsScreen() {
             {doctors.map((doctor) => (
               <tr key={doctor.doctorId}>
                 <td>
-                  <button type="button" className="link-button" onClick={() => selectDoctor(doctor.doctorId)}>
+                  <button
+                    type="button"
+                    className="link-button"
+                    onClick={() => selectDoctor(doctor.doctorId)}
+                  >
                     {doctor.doctorId}
                   </button>
                 </td>
@@ -240,7 +300,11 @@ export function DoctorsScreen() {
         <>
           <div className="panel">
             <h3>Selected doctor: {selectedDoctorId}</h3>
-            <button type="button" disabled={snapshotAction.status === "loading"} onClick={() => snapshotAction.run()}>
+            <button
+              type="button"
+              disabled={snapshotAction.status === "loading"}
+              onClick={() => snapshotAction.run()}
+            >
               Load snapshot
             </button>
             <StatusBanner
@@ -280,7 +344,11 @@ export function DoctorsScreen() {
               }}
             >
               <label htmlFor="suspend-reason">Reason code (optional)</label>
-              <input id="suspend-reason" value={suspendReason} onChange={(event) => setSuspendReason(event.target.value)} />
+              <input
+                id="suspend-reason"
+                value={suspendReason}
+                onChange={(event) => setSuspendReason(event.target.value)}
+              />
               <button type="submit" disabled={suspendAction.status === "loading"}>
                 Suspend doctor
               </button>
@@ -307,7 +375,9 @@ export function DoctorsScreen() {
                 status={portalAccessAction.status}
                 errorMessage={portalAccessAction.errorMessage}
                 successMessage={
-                  portalAccessAction.data ? `Portal status: ${portalAccessAction.data.portalStatus}.` : "Portal access prepared."
+                  portalAccessAction.data
+                    ? `Portal status: ${portalAccessAction.data.portalStatus}.`
+                    : "Portal access prepared."
                 }
               />
             </form>
@@ -315,7 +385,11 @@ export function DoctorsScreen() {
 
           <div className="panel">
             <h3>Credentials</h3>
-            <button type="button" disabled={credentialsAction.status === "loading"} onClick={() => credentialsAction.run()}>
+            <button
+              type="button"
+              disabled={credentialsAction.status === "loading"}
+              onClick={() => credentialsAction.run()}
+            >
               Load credentials
             </button>
             <StatusBanner
@@ -326,7 +400,11 @@ export function DoctorsScreen() {
 
             <form onSubmit={handleAttachCredential}>
               <label htmlFor="credential-type">Credential type</label>
-              <select id="credential-type" value={credentialType} onChange={(event) => setCredentialType(event.target.value)}>
+              <select
+                id="credential-type"
+                value={credentialType}
+                onChange={(event) => setCredentialType(event.target.value)}
+              >
                 <option value="medical_license">Medical license</option>
                 <option value="specialty_certification">Specialty certification</option>
                 <option value="board_certification">Board certification</option>
@@ -390,14 +468,7 @@ export function DoctorsScreen() {
                             credential.verificationStatus === "revoked" ||
                             verifyCredentialAction.status === "loading"
                           }
-                          onClick={async () => {
-                            const result = await verifyCredentialAction.run(credential.credentialId);
-                            if (result.ok) {
-                              setCredentials((current) =>
-                                current.map((item) => (item.credentialId === result.data.credentialId ? result.data : item))
-                              );
-                            }
-                          }}
+                          onClick={() => void handleVerifyCredential(credential.credentialId)}
                         >
                           Verify
                         </button>{" "}
@@ -427,7 +498,10 @@ export function DoctorsScreen() {
           </div>
         </>
       ) : (
-        <p className="empty-state">Select a doctor row to view its snapshot, credentials, suspension and portal-access actions.</p>
+        <p className="empty-state">
+          Select a doctor row to view its snapshot, credentials, suspension and portal-access
+          actions.
+        </p>
       )}
 
       <ConfirmDialog
@@ -439,7 +513,11 @@ export function DoctorsScreen() {
           setConfirmingSuspend(false);
           const result = await suspendAction.run();
           if (result.ok) {
-            setDoctors((current) => current.map((doctor) => (doctor.doctorId === result.data.doctorId ? result.data : doctor)));
+            setDoctors((current) =>
+              current.map((doctor) =>
+                doctor.doctorId === result.data.doctorId ? result.data : doctor,
+              ),
+            );
           }
         }}
       />
@@ -454,7 +532,9 @@ export function DoctorsScreen() {
             const result = await revokeCredentialAction.run(credentialToRevoke);
             if (result.ok) {
               setCredentials((current) =>
-                current.map((item) => (item.credentialId === result.data.credentialId ? result.data : item))
+                current.map((item) =>
+                  item.credentialId === result.data.credentialId ? result.data : item,
+                ),
               );
             }
           }

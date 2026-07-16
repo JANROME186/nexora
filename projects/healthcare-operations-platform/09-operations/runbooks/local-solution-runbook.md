@@ -4,7 +4,7 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `HOP-QA-ALIGN-001`.
+Current active backlog item: `HOP-QA-ALIGN-004`.
 
 Paused functional backlog item: `MVP-MOD-004-FE-001`.
 
@@ -165,41 +165,74 @@ Expected result:
 
 ## Quality Validation
 
-Backend:
+Backend standard tests:
 
 ```powershell
 cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation\backend
-mvn --settings .mvn/settings.xml test
+mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml test
 ```
 
 Backend with local PostgreSQL running:
 
 ```powershell
 cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation\backend
-mvn --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
+mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
 ```
 
-Employee portal:
+Backend enterprise quality profile:
+
+```powershell
+cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation\backend
+mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -Pquality verify checkstyle:checkstyle pmd:pmd pmd:cpd spotbugs:spotbugs cyclonedx:makeAggregateBom duplicate-finder:check
+```
+
+Backend dependency vulnerability scan, all severities:
+
+```powershell
+cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation\backend
+mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -Pquality org.owasp:dependency-check-maven:check
+```
+
+Employee portal enterprise quality profile:
 
 ```powershell
 cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation\employee-portal
-npm run typecheck
-npm test
-npm run test:coverage
-npm run build
-npm audit --audit-level=high
+npm run quality
+npm audit --audit-level=low
 ```
 
-Mobile foundation:
+Mobile foundation enterprise quality profile:
 
 ```powershell
 cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation\mobile-app
-npm run typecheck
-npm test
+npm run quality
 ```
 
 Note: the mobile foundation currently reuses the employee portal TypeScript and Vitest toolchain.
 Run `npm install` in `employee-portal` first when needed.
+
+Integrated all-severity vulnerability, secret and misconfiguration scan:
+
+```powershell
+cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation
+trivy fs --scanners vuln,secret,misconfig --exit-code 1 --no-progress --skip-dirs "backend/.m2,backend/target,employee-portal/node_modules,employee-portal/dist,mobile-app/node_modules" .
+```
+
+OWASP ZAP DAST baseline for the employee portal, with infrastructure, backend and employee portal already running:
+
+```powershell
+cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation
+docker run --rm --network host -v "${PWD}/../08-qa/security-quality/HOP-QA-ALIGN-004:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://localhost:5173 -r zap-employee-portal.html -J zap-employee-portal.json
+```
+
+OWASP ZAP API scan for the backend, with infrastructure and backend already running:
+
+```powershell
+cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation
+docker run --rm --network host -v "${PWD}/../08-qa/security-quality/HOP-QA-ALIGN-004:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable zap-api-scan.py -t http://localhost:8080/v3/api-docs -f openapi -r zap-backend-api.html -J zap-backend-api.json
+```
+
+If Maven, Java, Node, npm, Docker, network access or audit endpoints are missing or blocked, request support and keep the current backlog item open. Do not replace mandatory executable gates with manual source review.
 
 ## Stop
 
@@ -243,8 +276,9 @@ Mobile tests cannot find TypeScript or Vitest:
 ## Known Limitations
 
 - Mobile app is currently a renderer-agnostic TypeScript foundation, not a native runnable app.
-- DAST automation remains tracked as `TD-QA-001`.
-- Release supply-chain gates remain tracked as `TD-BE-004`.
+- DAST execution remains tracked as `TD-QA-001` and blocks `HOP-QA-ALIGN-004` until executed or formally blocked with owner-approved remediation.
+- Release supply-chain gates are configured, but release-policy hardening remains tracked as `TD-BE-004`.
+- Message externalization and magic-string inventory remains tracked as `TD-I18N-001` and `HOP-QA-ALIGN-005`.
 
 ## Component Detail
 

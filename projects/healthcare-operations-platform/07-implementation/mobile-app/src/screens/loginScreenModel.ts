@@ -5,12 +5,15 @@ export type LoginScreenModel = {
   submit: (request: LoginRequest) => void;
 };
 
-export function createLoginScreenModel(authService: LocalAuthService, onAuthenticated: () => void): LoginScreenModel {
+export function createLoginScreenModel(
+  authService: LocalAuthService,
+  onAuthenticated: () => void,
+): LoginScreenModel {
   return {
     title: "Healthcare Operations Platform",
     submit: (request) => {
       authService.login(request);
       onAuthenticated();
-    }
+    },
   };
 }

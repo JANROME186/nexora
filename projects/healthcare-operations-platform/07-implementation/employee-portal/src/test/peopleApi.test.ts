@@ -6,7 +6,7 @@ function mockFetch(responseBody: unknown = {}) {
     ok: true,
     status: 200,
     statusText: "OK",
-    json: async () => responseBody
+    json: async () => responseBody,
   } as Response);
   vi.stubGlobal("fetch", fetchMock);
   return fetchMock;
@@ -28,22 +28,30 @@ describe("peopleApi", () => {
       personKind: "patient",
       familyName: "Lovelace",
       givenName: "Ada",
-      birthDate: "1990-01-01"
+      birthDate: "1990-01-01",
     });
     expect(lastFetchCall(fetchMock)[0]).toBe(
-      "/api/people/persons/search?tenantId=tenant-1&personKind=patient&familyName=Lovelace&givenName=Ada&birthDate=1990-01-01"
+      "/api/people/persons/search?tenantId=tenant-1&personKind=patient&familyName=Lovelace&givenName=Ada&birthDate=1990-01-01",
     );
 
     await api.searchPersons("tenant-1");
     expect(lastFetchCall(fetchMock)[0]).toBe("/api/people/persons/search?tenantId=tenant-1");
 
-    await api.detectPersonDuplicates({ tenantId: "tenant-1", personKind: "patient", familyName: "Lovelace" });
+    await api.detectPersonDuplicates({
+      tenantId: "tenant-1",
+      personKind: "patient",
+      familyName: "Lovelace",
+    });
     expect(lastFetchCall(fetchMock)).toEqual([
       "/api/people/persons/duplicates/detect",
       expect.objectContaining({
         method: "POST",
-        body: JSON.stringify({ tenantId: "tenant-1", personKind: "patient", familyName: "Lovelace" })
-      })
+        body: JSON.stringify({
+          tenantId: "tenant-1",
+          personKind: "patient",
+          familyName: "Lovelace",
+        }),
+      }),
     ]);
 
     await api.rebuildPersonSearchIndex("tenant-1");
@@ -52,7 +60,7 @@ describe("peopleApi", () => {
     await api.initiatePersonMergeCoordination({
       tenantId: "tenant-1",
       sourceRecordId: "patient/source",
-      targetRecordId: "patient/target"
+      targetRecordId: "patient/target",
     });
     expect(lastFetchCall(fetchMock)[0]).toBe("/api/people/persons/merges");
 
@@ -80,7 +88,7 @@ describe("peopleApi", () => {
       familyName: "Lovelace",
       sexAtBirth: "female",
       primaryDocumentType: "national_id",
-      primaryDocumentNumber: "DOC-1"
+      primaryDocumentNumber: "DOC-1",
     });
     expect(lastFetchCall(fetchMock)[0]).toBe("/api/people/patients");
 
@@ -95,14 +103,14 @@ describe("peopleApi", () => {
       givenName: "Grace",
       familyName: "Hopper",
       documentType: "national_id",
-      documentNumber: "REP-1"
+      documentNumber: "REP-1",
     });
     expect(lastFetchCall(fetchMock)[0]).toBe("/api/people/patients/patient%2F1/representatives");
 
     await api.revokePatientRepresentative("patient/1", "rep/1");
     expect(lastFetchCall(fetchMock)).toEqual([
       "/api/people/patients/patient%2F1/representatives/rep%2F1/revoke",
-      expect.objectContaining({ method: "POST", body: "{}" })
+      expect.objectContaining({ method: "POST", body: "{}" }),
     ]);
 
     await api.listPatientConsents("patient/1");
@@ -112,14 +120,14 @@ describe("peopleApi", () => {
       consentType: "RESULTS_RELEASE",
       granted: true,
       grantedBy: "operator",
-      evidenceReference: "signed"
+      evidenceReference: "signed",
     });
     expect(lastFetchCall(fetchMock)[0]).toBe("/api/people/patients/patient%2F1/consents");
 
     await api.revokePatientConsent("patient/1", "consent/1");
     expect(lastFetchCall(fetchMock)).toEqual([
       "/api/people/patients/patient%2F1/consents/consent%2F1/revoke",
-      expect.objectContaining({ method: "POST", body: "{}" })
+      expect.objectContaining({ method: "POST", body: "{}" }),
     ]);
   });
 
@@ -143,20 +151,20 @@ describe("peopleApi", () => {
       familyName: "Curie",
       doctorType: "referring_external",
       primaryDocumentType: "professional_license",
-      primaryDocumentNumber: "MD-1"
+      primaryDocumentNumber: "MD-1",
     });
     expect(lastFetchCall(fetchMock)[0]).toBe("/api/people/doctors");
 
     await api.suspendDoctor("doctor/1");
     expect(lastFetchCall(fetchMock)).toEqual([
       "/api/people/doctors/doctor%2F1/suspend",
-      expect.objectContaining({ method: "POST", body: "{}" })
+      expect.objectContaining({ method: "POST", body: "{}" }),
     ]);
 
     await api.preparePortalAccess("doctor/1");
     expect(lastFetchCall(fetchMock)).toEqual([
       "/api/people/doctors/doctor%2F1/portal-access/prepare",
-      expect.objectContaining({ method: "POST", body: "{}" })
+      expect.objectContaining({ method: "POST", body: "{}" }),
     ]);
 
     await api.listDoctorCredentials("doctor/1");
@@ -166,20 +174,20 @@ describe("peopleApi", () => {
       credentialType: "license",
       credentialNumber: "MD-1",
       issuingAuthority: "board",
-      issuingCountry: "MX"
+      issuingCountry: "MX",
     });
     expect(lastFetchCall(fetchMock)[0]).toBe("/api/people/doctors/doctor%2F1/credentials");
 
     await api.verifyDoctorCredential("doctor/1", "credential/1");
     expect(lastFetchCall(fetchMock)).toEqual([
       "/api/people/doctors/doctor%2F1/credentials/credential%2F1/verify",
-      expect.objectContaining({ method: "POST", body: "{}" })
+      expect.objectContaining({ method: "POST", body: "{}" }),
     ]);
 
     await api.revokeDoctorCredential("doctor/1", "credential/1");
     expect(lastFetchCall(fetchMock)).toEqual([
       "/api/people/doctors/doctor%2F1/credentials/credential%2F1/revoke",
-      expect.objectContaining({ method: "POST", body: "{}" })
+      expect.objectContaining({ method: "POST", body: "{}" }),
     ]);
   });
 
@@ -187,10 +195,14 @@ describe("peopleApi", () => {
     const fetchMock = mockFetch({});
 
     await api.listPatientRegistrations("tenant-1");
-    expect(lastFetchCall(fetchMock)[0]).toBe("/api/care-delivery/patient-registrations?tenantId=tenant-1");
+    expect(lastFetchCall(fetchMock)[0]).toBe(
+      "/api/care-delivery/patient-registrations?tenantId=tenant-1",
+    );
 
     await api.getPatientRegistration("registration/1");
-    expect(lastFetchCall(fetchMock)[0]).toBe("/api/care-delivery/patient-registrations/registration%2F1");
+    expect(lastFetchCall(fetchMock)[0]).toBe(
+      "/api/care-delivery/patient-registrations/registration%2F1",
+    );
 
     await api.startPatientRegistration({
       tenantId: "tenant-1",
@@ -201,20 +213,20 @@ describe("peopleApi", () => {
       givenName: "Ada",
       familyName: "Lovelace",
       documentType: "national_id",
-      documentNumber: "DOC-1"
+      documentNumber: "DOC-1",
     });
     expect(lastFetchCall(fetchMock)[0]).toBe("/api/care-delivery/patient-registrations");
 
     await api.commitPatientRegistration("registration/1");
     expect(lastFetchCall(fetchMock)).toEqual([
       "/api/care-delivery/patient-registrations/registration%2F1/commit",
-      expect.objectContaining({ method: "POST", body: "{}" })
+      expect.objectContaining({ method: "POST", body: "{}" }),
     ]);
 
     await api.cancelPatientRegistration("registration/1");
     expect(lastFetchCall(fetchMock)).toEqual([
       "/api/care-delivery/patient-registrations/registration%2F1/cancel",
-      expect.objectContaining({ method: "POST", body: "{}" })
+      expect.objectContaining({ method: "POST", body: "{}" }),
     ]);
   });
 });

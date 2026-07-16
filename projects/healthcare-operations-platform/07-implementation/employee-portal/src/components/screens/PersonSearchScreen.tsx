@@ -4,9 +4,13 @@ import {
   getPersonMergeCoordination,
   initiatePersonMergeCoordination,
   rebuildPersonSearchIndex,
-  searchPersons
+  searchPersons,
 } from "../../api/peopleApi";
-import type { PersonDuplicateCandidate, PersonMergeCoordination, PersonSearchEntry } from "../../api/types";
+import type {
+  PersonDuplicateCandidate,
+  PersonMergeCoordination,
+  PersonSearchEntry,
+} from "../../api/types";
 import { useAdminScope } from "../../state/AdminScopeContext";
 import { useAsyncAction } from "../../state/useAsyncAction";
 import { ScopeIndicator } from "../common/ScopeIndicator";
@@ -36,7 +40,7 @@ export function PersonSearchScreen() {
     const found = await searchPersons(tenantId, {
       personKind: personKind || undefined,
       familyName: familyName || undefined,
-      givenName: givenName || undefined
+      givenName: givenName || undefined,
     });
     setResults(found);
     return found;
@@ -52,7 +56,7 @@ export function PersonSearchScreen() {
       tenantId,
       familyName: dupFamilyName || undefined,
       givenName: dupGivenName || undefined,
-      birthDate: dupBirthDate || undefined
+      birthDate: dupBirthDate || undefined,
     });
     setCandidates(found);
     return found;
@@ -69,7 +73,11 @@ export function PersonSearchScreen() {
   const [coordination, setCoordination] = useState<PersonMergeCoordination | undefined>(undefined);
   const mergeAction = useAsyncAction(async () => {
     if (!tenantId) throw new Error("Select a tenant before coordinating a merge.");
-    const created = await initiatePersonMergeCoordination({ tenantId, sourceRecordId, targetRecordId });
+    const created = await initiatePersonMergeCoordination({
+      tenantId,
+      sourceRecordId,
+      targetRecordId,
+    });
     setCoordination(created);
     setCoordinationLookupId(created.coordinationId);
     return created;
@@ -105,22 +113,36 @@ export function PersonSearchScreen() {
       <h2 id="person-search-heading">People Search and Duplicate Resolution</h2>
       <ScopeIndicator />
       {!canUse ? (
-        <p className="status-banner status-banner--error">Select a tenant before searching people.</p>
+        <p className="status-banner status-banner--error">
+          Select a tenant before searching people.
+        </p>
       ) : null}
 
       <div className="panel">
         <h3>Global search (patients and doctors)</h3>
         <form onSubmit={handleSearch}>
           <label htmlFor="search-person-kind">Person kind</label>
-          <select id="search-person-kind" value={personKind} onChange={(event) => setPersonKind(event.target.value)}>
+          <select
+            id="search-person-kind"
+            value={personKind}
+            onChange={(event) => setPersonKind(event.target.value)}
+          >
             <option value="">All</option>
             <option value="patient">Patient</option>
             <option value="doctor">Doctor</option>
           </select>
           <label htmlFor="search-family-name">Family name</label>
-          <input id="search-family-name" value={familyName} onChange={(event) => setFamilyName(event.target.value)} />
+          <input
+            id="search-family-name"
+            value={familyName}
+            onChange={(event) => setFamilyName(event.target.value)}
+          />
           <label htmlFor="search-given-name">Given name</label>
-          <input id="search-given-name" value={givenName} onChange={(event) => setGivenName(event.target.value)} />
+          <input
+            id="search-given-name"
+            value={givenName}
+            onChange={(event) => setGivenName(event.target.value)}
+          />
           <button type="submit" disabled={!canUse || searchAction.status === "loading"}>
             Search
           </button>
@@ -193,7 +215,11 @@ export function PersonSearchScreen() {
             onChange={(event) => setDupFamilyName(event.target.value)}
           />
           <label htmlFor="dup-given-name">Given name</label>
-          <input id="dup-given-name" value={dupGivenName} onChange={(event) => setDupGivenName(event.target.value)} />
+          <input
+            id="dup-given-name"
+            value={dupGivenName}
+            onChange={(event) => setDupGivenName(event.target.value)}
+          />
           <label htmlFor="dup-birth-date">Birth date</label>
           <input
             id="dup-birth-date"

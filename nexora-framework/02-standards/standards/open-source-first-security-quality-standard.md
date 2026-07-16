@@ -3,7 +3,7 @@
 **Artifact ID:** `NXF-OSS-SEC-QUAL-001`  
 **Status:** Approved  
 **Machine-readable source:** `open-source-first-security-quality-standard.yaml`
-**Version:** `1.4.0`
+**Version:** `1.5.0`
 
 ## Purpose
 
@@ -107,6 +107,23 @@ If open debt exists, at least one item must be resolved or materially reduced fi
 If no open debt exists, the evidence must explicitly say so. A backlog item cannot close when open
 debt existed at the start and no debt item was addressed before feature work.
 
+Debt remediation must become stricter as the product advances. Early MVP iterations may materially
+reduce one relevant item, but module closeout, release preparation and commercial readiness must
+reduce multiple relevant items when debt remains. A project must not be marked finished,
+commercially complete, GA-ready or fully closed while any technical debt remains open.
+
+## Coverage Policy
+
+The default minimum line coverage target is `80%` for every applicable delivered stack. This target
+does not have to block every intermediate backlog item, but it does determine final project closure:
+if the project is below 80% coverage, it cannot be closed as complete.
+
+When a stack is below 80%, the previous iteration's measured coverage becomes the hard lower bound
+for the next iteration. Coverage must improve whenever feasible and must never go down. If the
+target is not reached during an iteration, the evidence must record the current coverage, the prior
+baseline, the delta, the reason the 80% target was not reached and the technical-debt item that will
+continue the improvement.
+
 ## Messages And I18n
 
 Applications must be multilingual-ready by design. Agents must not leave new user-visible text,
@@ -205,6 +222,10 @@ item only after executing the missing gates and updating the evidence to `passed
 Module validation and closeout must not rely on implementation evidence that is itself limited. Any
 missing Maven, Java, Node, native package, audit endpoint, Docker or database dependency is a
 blocking environment issue until resolved in a compatible local or CI environment.
+
+Final project closure is stricter than iteration closure. It requires no open technical debt and at
+least 80% line coverage for each applicable delivered stack. Exceptions can be accepted during an
+iteration, but not for final project closure.
 
 ## Open Source Tooling Baseline
 

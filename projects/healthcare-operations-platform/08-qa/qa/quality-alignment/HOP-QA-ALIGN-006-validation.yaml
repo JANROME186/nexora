@@ -1,0 +1,45 @@
+artifact:
+  id: HOP-QA-ALIGN-006-VALIDATION
+  type: qa-validation-evidence
+  name: Integrated Local Runbook Quality Gate Alignment
+  version: 1.0.0
+  status: passed
+  created_date: 2026-07-15
+  human_readable: HOP-QA-ALIGN-006-validation.md
+  machine_readable: HOP-QA-ALIGN-006-validation.yaml
+
+backlog_item:
+  id: HOP-QA-ALIGN-006
+  name: Update integrated local runbook with quality gate execution
+  result: completed
+
+updated_artifacts:
+  - 09-operations/runbooks/local-solution-runbook.yaml
+  - 09-operations/runbooks/local-solution-runbook.md
+
+quality_gate_command_matrix:
+  backend:
+    - backend standard tests
+    - backend PostgreSQL tests
+    - backend enterprise quality profile
+    - backend dependency vulnerability scan across all severities
+  frontend:
+    - employee portal npm run quality
+    - employee portal npm audit across all severities
+  mobile:
+    - mobile npm run quality
+  integrated_security:
+    - Trivy all-severity vulnerability, secret and misconfiguration scan
+    - OWASP ZAP baseline scan for employee portal
+    - OWASP ZAP API scan for backend
+
+closure_policy_added:
+  missing_permissions_or_toolchains_do_not_close_backlog: true
+  must_request_support_when_blocked: true
+  manual_source_review_cannot_replace_mandatory_executable_gates: true
+
+decision:
+  item_status: closed
+  can_advance_to_next_quality_alignment_item: true
+  can_resume_functional_development: false
+  blocker_reason: HOP-QA-ALIGN-004, HOP-QA-ALIGN-005 and HOP-QA-ALIGN-CLOSEOUT remain open.

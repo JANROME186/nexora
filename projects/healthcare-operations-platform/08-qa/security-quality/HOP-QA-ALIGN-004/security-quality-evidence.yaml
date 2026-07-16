@@ -1,0 +1,29 @@
+artifact:
+  id: HOP-QA-ALIGN-004-SECURITY-QUALITY
+  type: security-quality-evidence
+  backlog_item: HOP-QA-ALIGN-004
+  status: partially_passed_dast_open
+  created_date: 2026-07-15
+
+checks:
+  backend_dependency_vulnerability_scan_all_severities: passed
+  frontend_dependency_vulnerability_scan_all_severities: passed
+  filesystem_vulnerability_scan_all_severities: passed
+  secret_scan: passed
+  misconfiguration_scan: passed
+  dast_for_runnable_web_or_api_surfaces: open
+
+results:
+  dependency_check_vulnerabilities: 0
+  npm_audit_low_or_higher_vulnerabilities: 0
+  trivy_vulnerabilities: 0
+  trivy_secrets: 0
+  trivy_misconfigurations: 0
+
+open_items:
+  - id: TD-QA-001
+    status: open
+    reason: OWASP ZAP DAST execution still required.
+  - id: TD-QA-002
+    status: open
+    reason: Scanner currency remains tracked even though current scan passes.
