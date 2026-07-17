@@ -16,11 +16,11 @@ product:
   commercial_name: Nexora Healthcare Operations Platform
   company: Nexora
   current_baseline:
-    completed_module: MVP-MOD-005 Cashier and Billing Request (MVP-MOD-005-DEF through MVP-MOD-005-CLOSEOUT, all closed)
+    completed_module: MVP-MOD-006 Laboratory Workflow (MVP-MOD-006-DEF through MVP-MOD-006-CLOSEOUT, all closed)
     completed_status: closed
-    active_module: MVP-MOD-006 Laboratory Workflow
-    active_backlog_item: MVP-MOD-006-BE-002
-    active_module_progress: MVP-MOD-006-BE-001 closed
+    active_module: MVP-MOD-007 Results and Digital Delivery
+    active_backlog_item: MVP-MOD-007-DEF
+    active_module_progress: Pending
 
 source_inputs:
   framework:
@@ -459,7 +459,7 @@ modules:
     name: Laboratory Workflow
     release: REL-001
     priority: 50
-    status: in_progress
+    status: closed
     source: mvp_framework
     objective: Manage sample collection, labeling, reception, processing, result capture and validation workflow.
     depends_on:
@@ -492,10 +492,13 @@ modules:
         status: closed
       - id: MVP-MOD-006-FE-001
         name: Compile sample, processing and validation UI outputs
+        status: closed
       - id: MVP-MOD-006-QA-001
         name: Lab workflow and clinical control evidence
+        status: closed
       - id: MVP-MOD-006-CLOSEOUT
         name: Module closeout and registry update
+        status: closed
     acceptance_summary:
       - Samples can be collected, labeled, received, rejected and processed.
       - Technical and medical validation are separate controlled actions.
