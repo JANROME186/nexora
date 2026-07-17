@@ -1,0 +1,46 @@
+artifact:
+  id: TD-BE-012
+  type: technical-debt-item
+  name: Burn down backend static-analysis findings discovered during MVP-MOD-007-BE-001 reconciliation
+  status: open
+  risk_level: medium
+  blocking: false
+  source_backlog_item: MVP-MOD-007-BE-001
+  discovered_date: 2026-07-17
+  owner: Nexora Engineering
+
+scope:
+  affected_area: backend_static_analysis_and_secure_code
+  affected_stack: java_maven_backend
+  evidence:
+    - 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-001-validation.yaml
+    - 08-qa/security-quality/MVP-MOD-007-BE-001/security-quality-evidence.yaml
+    - 07-implementation/backend/target/pmd.xml
+    - 07-implementation/backend/target/cpd.xml
+    - 07-implementation/backend/target/spotbugsXml.xml
+  findings_summary:
+    - Spotless repo-wide check requires formatting normalization across 422 existing Java files.
+    - PMD reports 263 existing violations across coupling, complexity, duplicate literals, serialVersionUID and raw exception rules.
+    - CPD reports 1 duplicated-code finding between diagnostic-order and quotation sale-source flows.
+    - SpotBugs reports 10 findings, including LocalFilesystemDocumentAdapter path traversal/finalizer-constructor concerns and locale-sensitive case conversion findings.
+
+priority:
+  classification: P1
+  rationale: >-
+    The findings do not block the pointer correction itself because the backend local quality lifecycle,
+    tests and coverage pass, but they must be reduced before or during the next backend rule implementation
+    backlog. Findings affecting document storage and path traversal are relevant to MVP-MOD-007-BE-002.
+
+required_next_action:
+  backlog_item: MVP-MOD-007-BE-002
+  action: >-
+    Before implementing new custom rules, address at least the document-management SpotBugs/PMD findings
+    touched by digital delivery, then rerun targeted and lifecycle quality gates. If the full repo-wide
+    formatting/PMD burn-down is too large for a single iteration, split the residual into smaller P1/P2
+    technical-debt items with component ownership and measurable acceptance criteria.
+
+closure_criteria:
+  - SpotBugs findings relevant to document-management and digital-delivery are fixed or explicitly dispositioned with safe code evidence.
+  - PMD/CPD findings in files touched by MVP-MOD-007-BE-002 are fixed.
+  - Repo-wide Spotless strategy is executed or decomposed into tracked debt with a migration plan.
+  - Backend coverage remains above the previous measured baseline and moves toward the 80 percent final target.

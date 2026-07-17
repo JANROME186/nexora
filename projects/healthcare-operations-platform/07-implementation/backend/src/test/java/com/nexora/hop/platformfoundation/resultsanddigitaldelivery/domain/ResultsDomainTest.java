@@ -18,22 +18,50 @@ import static org.junit.jupiter.api.Assertions.*;
 class ResultsDomainTest {
 
     @Test
-    void testGeneratedResultReport() {
+    void generatedResultReportCanBeSupersededOnce() {
         AuditMetadata audit = new AuditMetadata("user", LocalDateTime.now(), "user", LocalDateTime.now());
-        GeneratedResultReport r1 = new GeneratedResultReport(UUID.randomUUID(), new ResultId("r1"), new TenantId("t1"), UUID.randomUUID(), 1, audit);
-        assertNotNull(r1.toString());
-        assertEquals(r1, r1);
-        assertNotNull(r1.hashCode());
-        assertNotNull(r1.toString());
+        UUID reportId = UUID.randomUUID();
+        UUID documentId = UUID.randomUUID();
+        GeneratedResultReport report = new GeneratedResultReport(reportId, new ResultId("r1"), new TenantId("t1"), documentId, 1, audit);
+
+        assertEquals(reportId, report.getReportId());
+        assertEquals(new ResultId("r1"), report.getResultId());
+        assertEquals(new TenantId("t1"), report.getTenantId());
+        assertEquals(documentId, report.getStoredDocumentId());
+        assertEquals(1, report.getVersion());
+        assertEquals(GeneratedResultReport.Status.GENERATED, report.getStatus());
+        assertEquals(audit, report.getAudit());
+
+        AuditMetadata updateAudit = new AuditMetadata("reviewer", LocalDateTime.now(), "reviewer", LocalDateTime.now());
+        report.supersede(updateAudit);
+
+        assertEquals(GeneratedResultReport.Status.SUPERSEDED, report.getStatus());
+        assertEquals(updateAudit, report.getAudit());
+        assertThrows(IllegalStateException.class, () -> report.supersede(updateAudit));
     }
 
     @Test
-    void testResultDeliveryTicket() {
+    void resultDeliveryTicketCanBeWithheld() {
         AuditMetadata audit = new AuditMetadata("user", LocalDateTime.now(), "user", LocalDateTime.now());
-        ResultDeliveryTicket r1 = new ResultDeliveryTicket(UUID.randomUUID(), new ResultId("r1"), new TenantId("t1"), new PatientId("p1"), "status", LocalDateTime.now(), audit);
-        assertNotNull(r1.toString());
-        assertEquals(r1, r1);
-        assertNotNull(r1.hashCode());
+        UUID ticketId = UUID.randomUUID();
+        LocalDateTime expiresAt = LocalDateTime.now().plusDays(1);
+        ResultDeliveryTicket ticket = new ResultDeliveryTicket(ticketId, new ResultId("r1"), new TenantId("t1"),
+                new PatientId("p1"), "access-code", expiresAt, audit);
+
+        assertEquals(ticketId, ticket.getTicketId());
+        assertEquals(new ResultId("r1"), ticket.getResultId());
+        assertEquals(new TenantId("t1"), ticket.getTenantId());
+        assertEquals(new PatientId("p1"), ticket.getPatientId());
+        assertEquals("access-code", ticket.getAccessCode());
+        assertEquals(ResultDeliveryTicket.Status.AUTHORIZED, ticket.getStatus());
+        assertEquals(expiresAt, ticket.getExpiresAt());
+        assertEquals(audit, ticket.getAudit());
+
+        AuditMetadata updateAudit = new AuditMetadata("reviewer", LocalDateTime.now(), "reviewer", LocalDateTime.now());
+        ticket.withhold(updateAudit);
+
+        assertEquals(ResultDeliveryTicket.Status.WITHHELD, ticket.getStatus());
+        assertEquals(updateAudit, ticket.getAudit());
     }
 
     @Test
@@ -53,11 +81,18 @@ class ResultsDomainTest {
     }
 
     @Test
-    void testResultNotificationRequest() {
+    void resultNotificationRequestExposesTraceableIdentifiers() {
         AuditMetadata audit = new AuditMetadata("user", LocalDateTime.now(), "user", LocalDateTime.now());
-        ResultNotificationRequest r1 = new ResultNotificationRequest(UUID.randomUUID(), new ResultId("r1"), new TenantId("t1"), new PatientId("p1"), UUID.randomUUID(), audit);
-        assertNotNull(r1.toString());
-        assertEquals(r1, r1);
-        assertNotNull(r1.hashCode());
+        UUID resultNotificationId = UUID.randomUUID();
+        UUID underlyingNotificationId = UUID.randomUUID();
+        ResultNotificationRequest request = new ResultNotificationRequest(resultNotificationId, new ResultId("r1"),
+                new TenantId("t1"), new PatientId("p1"), underlyingNotificationId, audit);
+
+        assertEquals(resultNotificationId, request.getResultNotificationId());
+        assertEquals(new ResultId("r1"), request.getResultId());
+        assertEquals(new TenantId("t1"), request.getTenantId());
+        assertEquals(new PatientId("p1"), request.getPatientId());
+        assertEquals(underlyingNotificationId, request.getUnderlyingNotificationId());
+        assertEquals(audit, request.getAudit());
     }
 }

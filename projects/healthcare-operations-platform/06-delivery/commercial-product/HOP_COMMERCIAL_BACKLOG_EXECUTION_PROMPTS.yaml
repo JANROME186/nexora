@@ -223,8 +223,20 @@ validation_commands:
 
 next_backlog_item:
   module_id: MVP-MOD-007
-  backlog_item_id: MVP-MOD-007-BE-001
-  name: Compile result report and document generation outputs
+  backlog_item_id: MVP-MOD-007-BE-002
+  name: Implement digital delivery, notification and critical result custom rules
   expected_folder: ../../07-implementation/backend/
   paused_functional_backlog_item: null
-
+  required_debt_first_action:
+    debt_item: TD-BE-012
+    file: ../../08-qa/technical-debt/TD-BE-012-backend-static-analysis-findings-burn-down.yaml
+    minimum_scope: >-
+      Before implementing new BE-002 feature logic, address the document-management SpotBugs/PMD
+      findings relevant to digital delivery, then rerun the targeted and lifecycle backend gates.
+  coverage_floor:
+    backend_java_maven_line_coverage_percent: 76.77
+    final_target_percent: 80
+  mandatory_execution_notes:
+    - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
+    - Do not advance next_backlog_item if Maven, Docker, database, dependency, vulnerability or static-analysis gates cannot run.
+    - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.

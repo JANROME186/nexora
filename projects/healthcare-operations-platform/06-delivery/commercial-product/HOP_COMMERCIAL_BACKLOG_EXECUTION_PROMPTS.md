@@ -195,7 +195,14 @@ Expected result:
 Continue with:
 
 - Module: `MVP-MOD-007 Results and Digital Delivery`
-- Backlog item: `MVP-MOD-007-BE-001`
-- Paused functional backlog item: none — `MVP-MOD-007-DEF` closed (capability package models only, no code implemented)
+- Backlog item: `MVP-MOD-007-BE-002`
+- Paused functional backlog item: none — `MVP-MOD-007-BE-001` closed (backend compilation baseline complete; custom rules not yet implemented)
 - Folder: `07-implementation/backend/`
 
+Mandatory setup for this backlog:
+
+- Start with `TD-BE-012` before feature work. At minimum, fix or materially reduce the document-management SpotBugs/PMD findings relevant to digital delivery.
+- Preserve the backend Java/Maven coverage floor of 76.77% and continue moving toward the 80% final target.
+- Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
+- Do not advance the backlog pointer if Maven, Docker, database, dependency, vulnerability or static-analysis gates cannot run.
+- Before commit, reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, affected capability traceability files and the local runbook pointers.

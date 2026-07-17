@@ -33,14 +33,14 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 76.39
-        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
-        next_iteration_minimum_line_coverage_percent: 67.47
+        current_line_coverage_percent: 76.77
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 76.77
         final_closure_target_percent: 80
         correction_note: >-
-          MVP-MOD-005-QA-001 originally reported 68.66% from a non-clean multi-run jacoco.exec
-          accumulation; corrected to the reproducible clean-rebuild figure (67.47%, unchanged from
-          MVP-MOD-005-BE-002) during MVP-MOD-005-CLOSEOUT.
+          MVP-MOD-007-BE-001 reconciliation improved the reproducible local-database backend
+          coverage baseline from 76.39% to 76.77%; future backend iterations must not regress
+          below 76.77% and must keep moving toward the 80% final closure target.
       frontend_typescript_web:
         current_line_coverage_percent: 82.69
         source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
@@ -309,4 +309,13 @@ entries:
     affected_area: cashsales_frontdesk_module_boundary
     file: 08-qa/technical-debt/TD-BE-011-cashsales-frontdesk-public-port-boundary.yaml
     remediation_strategy: completed_by_MVP_MOD_005_BE_002_sale_source_named_interface
+  - id: TD-BE-012
+    title: Burn down backend static-analysis findings discovered during MVP-MOD-007-BE-001 reconciliation
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-007-BE-001
+    affected_area: backend_static_analysis_and_secure_code
+    file: 08-qa/technical-debt/TD-BE-012-backend-static-analysis-findings-burn-down.yaml
+    remediation_strategy: start_with_document_management_findings_during_MVP_MOD_007_BE_002_then_gradually_burn_down_repo_wide_findings
 

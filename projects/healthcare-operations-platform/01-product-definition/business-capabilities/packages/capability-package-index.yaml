@@ -35,8 +35,8 @@ do_not_write_manually:
 active_capability_package_group:
   roadmap_group: MVP-MOD-007
   name: Results and Digital Delivery
-  package_status: modeled
-  backlog_item: MVP-MOD-007-DEF
+  package_status: backend_compilation_complete
+  backlog_item: MVP-MOD-007-BE-001
   required_artifacts_per_package:
     - capability-package.yaml
     - business-model.yaml
@@ -52,7 +52,7 @@ active_capability_package_group:
     - generation-plan.yaml
     - traceability.yaml
     - README.md
-  next_backlog_item: MVP-MOD-007-BE-001
+  next_backlog_item: MVP-MOD-007-BE-002
   capabilities:
     - capability_id: BCM-RES-001
       package_folder: bcm-res-001-result-management/
@@ -319,5 +319,4 @@ planned_capability_package_groups:
         package_folder: bcm-plt-005-api-management/
       - capability_id: BCM-PLT-010
         package_folder: bcm-plt-010-open-data-ingestion-and-migration/
-
 
