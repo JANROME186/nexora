@@ -66,12 +66,13 @@ traces:
     definition: MVP-MOD-007-DEF
     definition_status: modeled
     compilation: MVP-MOD-007-BE-001
-    compilation_status: pending
+    compilation_status: closed
     custom_rules: MVP-MOD-007-BE-002
-    custom_rules_status: pending
+    custom_rules_status: closed
     ui: MVP-MOD-007-FE-001
     ui_status: pending
     validation: MVP-MOD-007-QA-001
     validation_status: pending
     closeout: MVP-MOD-007-CLOSEOUT
     closeout_status: pending
+

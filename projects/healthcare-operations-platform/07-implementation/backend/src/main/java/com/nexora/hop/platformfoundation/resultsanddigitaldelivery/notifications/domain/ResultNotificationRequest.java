@@ -13,11 +13,20 @@ public class ResultNotificationRequest {
     private ResultId resultId;
     private TenantId tenantId;
     private PatientId patientId;
-    private UUID underlyingNotificationId;
+    private UUID underlyingNotificationId; // legacy field for backward compatibility
     private AuditMetadata audit;
+
+    // New business model fields
+    private String recipientId;
+    private String recipientType; // patient, patient_representative, referring_doctor
+    private String triggerReason; // result_delivered, result_critical, result_amended
+    private String composedTemplateReference;
+    private UUID dispatchReference;
+    private String dispatchStatus; // pending_submission, submitted, dispatched, delivered, failed
 
     protected ResultNotificationRequest() {}
 
+    // Legacy constructor
     public ResultNotificationRequest(
             UUID resultNotificationId,
             ResultId resultId,
@@ -32,6 +41,49 @@ public class ResultNotificationRequest {
         this.patientId = patientId;
         this.underlyingNotificationId = underlyingNotificationId;
         this.audit = audit;
+        // Default new fields
+        this.recipientId = patientId.value();
+        this.recipientType = "patient";
+        this.triggerReason = "result_delivered";
+        this.composedTemplateReference = "tpl_result_default";
+        this.dispatchReference = underlyingNotificationId;
+        this.dispatchStatus = "dispatched";
+    }
+
+    // Full constructor
+    public ResultNotificationRequest(
+            UUID resultNotificationId,
+            ResultId resultId,
+            TenantId tenantId,
+            PatientId patientId,
+            String recipientId,
+            String recipientType,
+            String triggerReason,
+            String composedTemplateReference,
+            AuditMetadata audit) {
+        
+        this.resultNotificationId = resultNotificationId;
+        this.resultId = resultId;
+        this.tenantId = tenantId;
+        this.patientId = patientId;
+        this.recipientId = recipientId;
+        this.recipientType = recipientType;
+        this.triggerReason = triggerReason;
+        this.composedTemplateReference = composedTemplateReference;
+        this.dispatchStatus = "pending_submission";
+        this.audit = audit;
+    }
+
+    public void submit(UUID dispatchRef, AuditMetadata updateAudit) {
+        this.dispatchReference = dispatchRef;
+        this.underlyingNotificationId = dispatchRef;
+        this.dispatchStatus = "submitted";
+        this.audit = updateAudit;
+    }
+
+    public void updateDispatchStatus(String status, AuditMetadata updateAudit) {
+        this.dispatchStatus = status;
+        this.audit = updateAudit;
     }
 
     public UUID getResultNotificationId() { return resultNotificationId; }
@@ -40,4 +92,11 @@ public class ResultNotificationRequest {
     public PatientId getPatientId() { return patientId; }
     public UUID getUnderlyingNotificationId() { return underlyingNotificationId; }
     public AuditMetadata getAudit() { return audit; }
+
+    public String getRecipientId() { return recipientId; }
+    public String getRecipientType() { return recipientType; }
+    public String getTriggerReason() { return triggerReason; }
+    public String getComposedTemplateReference() { return composedTemplateReference; }
+    public UUID getDispatchReference() { return dispatchReference; }
+    public String getDispatchStatus() { return dispatchStatus; }
 }

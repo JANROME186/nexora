@@ -59,7 +59,7 @@ public class DocumentManagementService {
             byte[] hashBytes = digest.digest(content);
             return Base64.getEncoder().encodeToString(hashBytes);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Failed to compute SHA-256 hash", e);
+            throw new com.nexora.hop.platformfoundation.documentmanagement.domain.DocumentManagementException("Failed to compute SHA-256 hash", e);
         }
     }
 }

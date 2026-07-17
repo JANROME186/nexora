@@ -66,13 +66,11 @@ class TechnicalValidationController {
         return ResponseEntity.ok(service.technicalValidation(command));
     }
 
-    // Custom-rule stub: flagCriticalResult (deferred to BE-002)
     @PostMapping("/flag-critical")
     ResponseEntity<LaboratoryResult> flagCriticalResult(
             @PathVariable String resultId,
             @Valid @RequestBody FlagCriticalRequest request) {
-        // Critical-threshold comparison (CUS-LPR-008-02) is a BE-002 extension point.
-        return ResponseEntity.ok(service.getResult(resultId, request.tenantId()));
+        return ResponseEntity.ok(service.flagCriticalResult(resultId, request.tenantId(), request.actorId(), request.criticalReason()));
     }
 
     // -------------------------------------------------------------------------

@@ -2,7 +2,7 @@ artifact:
   id: TD-BE-012
   type: technical-debt-item
   name: Burn down backend static-analysis findings discovered during MVP-MOD-007-BE-001 reconciliation
-  status: open
+  status: closed
   risk_level: medium
   blocking: false
   source_backlog_item: MVP-MOD-007-BE-001

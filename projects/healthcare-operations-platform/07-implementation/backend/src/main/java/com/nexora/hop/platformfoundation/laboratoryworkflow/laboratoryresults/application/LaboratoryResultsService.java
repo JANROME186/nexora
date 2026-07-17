@@ -23,6 +23,9 @@ import com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.do
 import com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.domain.LaboratoryResultsRepository;
 import com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.domain.ProcessingIncident;
 import com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.domain.ReferenceRangeSnapshot;
+import com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.domain.ResultFlaggedCriticalEvent;
+import com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.domain.CriticalResultFlag;
+import org.springframework.context.ApplicationEventPublisher;
 import com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.domain.ResultStatus;
 import com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.domain.ResultValue;
 import com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.domain.MedicalValidationRecord;
@@ -49,19 +52,21 @@ public class LaboratoryResultsService {
     private final AuditRecorder auditRecorder;
     private final SampleReadPort sampleReadPort;
     private final Clock clock;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
     public LaboratoryResultsService(LaboratoryResultsRepository repository,
-            AuditRecorder auditRecorder, SampleReadPort sampleReadPort) {
-        this(repository, auditRecorder, sampleReadPort, Clock.systemUTC());
+            AuditRecorder auditRecorder, SampleReadPort sampleReadPort, ApplicationEventPublisher eventPublisher) {
+        this(repository, auditRecorder, sampleReadPort, Clock.systemUTC(), eventPublisher);
     }
 
     LaboratoryResultsService(LaboratoryResultsRepository repository, AuditRecorder auditRecorder,
-            SampleReadPort sampleReadPort, Clock clock) {
+            SampleReadPort sampleReadPort, Clock clock, ApplicationEventPublisher eventPublisher) {
         this.repository = repository;
         this.auditRecorder = auditRecorder;
         this.sampleReadPort = sampleReadPort;
         this.clock = clock;
+        this.eventPublisher = eventPublisher;
     }
 
     // -------------------------------------------------------------------------
@@ -373,5 +378,29 @@ public class LaboratoryResultsService {
 
     private static String newId() {
         return UUID.randomUUID().toString();
+    }
+
+    public LaboratoryResult flagCriticalResult(String resultId, String tenantId, String actorId, String criticalReason) {
+        LaboratoryResult existing = loadResult(resultId, tenantId);
+        
+        CriticalResultFlag flag = new CriticalResultFlag(actorId, Instant.now(clock), criticalReason);
+        LaboratoryResult updated = new LaboratoryResult(
+                existing.resultId(), existing.tenantId(), existing.laboratoryId(),
+                existing.branchId(), existing.orderId(), existing.sampleId(),
+                existing.analyteSnapshot(), existing.referenceRangeSnapshot(),
+                existing.resultValue(), existing.captureSource(),
+                existing.processingIncidents(), existing.technicalValidation(),
+                flag, existing.medicalValidation(),
+                existing.releaseRecord(), existing.amendments(),
+                existing.status(), existing.createdAt(), Instant.now(clock));
+        
+        LaboratoryResult saved = repository.save(updated);
+        auditRecorder.recordSystemEvent(tenantId, "ResultFlaggedCritical", "LaboratoryResult", resultId,
+                "{\"actor\":\"" + actorId + "\", \"reason\":\"" + criticalReason + "\"}");
+        
+        eventPublisher.publishEvent(new ResultFlaggedCriticalEvent(
+                resultId, tenantId, existing.laboratoryId(), criticalReason));
+        
+        return saved;
     }
 }
