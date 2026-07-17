@@ -182,6 +182,11 @@ Commercial completion and GA readiness additionally require:
 - No open technical debt in `08-qa/technical-debt/`.
 - At least 80% line coverage for every applicable delivered stack.
 - No coverage regression below the previous measured iteration baseline during intermediate work.
+- Every backlog closure has a verifiable closure audit: YAML parse, stale-pointer sweep,
+  evidence-state sweep, `git diff --check`, command-output metrics matching evidence,
+  synchronized registries, commit hash and clean `git status --short`.
+- Backlog items with dirty git status, missing commit hash, stale pointers or limited/unexecuted
+  mandatory gates are incomplete and must not be treated as closed.
 
 ## Commercial GA Gates
 

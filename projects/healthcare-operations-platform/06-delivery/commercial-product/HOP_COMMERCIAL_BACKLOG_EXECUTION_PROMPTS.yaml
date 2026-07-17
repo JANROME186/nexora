@@ -27,6 +27,11 @@ rules:
     unsupported runtimes or blocked dependency/audit endpoints. Manual source review is only a
     compensating control and cannot replace executable tests, build, coverage, audit or required
     backend validation gates.
+  - Agents must not claim done, finished, closed or ready for the next backlog until the
+    verifiable HOP backlog closure audit passes and is recorded in evidence or handoff.
+  - A valid HOP closure requires YAML parse, stale-pointer sweep, evidence-state sweep,
+    git diff --check, synchronized PROJECT_STATE.yaml/SOURCE_OF_TRUTH.yaml/prompt/runbook/
+    traceability pointers, matching command-output metrics, commit hash and clean git status.
   - Agents must execute capability packages in dependency order unless an explicit mock strategy is documented.
   - Agents must not manually create repetitive CRUD, DTO, controller, repository, SDK, Swagger, documentation or test artifacts when they can be generated from models.
   - Agents must update project registries and QA evidence before closing any backlog item.
@@ -170,8 +175,15 @@ prompt_sequence:
       HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml, affected capability traceability.yaml files,
       local-solution-runbook.yaml/.md and any QA/security indexes. The current backlog item must
       be consistently closed, and the next_backlog_item pointer must match PROJECT_STATE.yaml.
-      Run a repository search for stale current-backlog ids, previous next-backlog ids and
-      intermediate pending/limited validation statuses before handing off.
+      Run the verifiable HOP backlog closure audit before marking the item closed:
+      - parse all HOP YAML outside dependency/build folders;
+      - search stale active/current/next backlog ids, previous next-backlog ids and ready_for_next_backlog_item mismatches;
+      - search changed evidence and registries for not_executed, failed, passed_with_execution_limitation, closed_with_execution_limitation, blocked_by_missing_toolchain, blocked_by_network and blocked_by_unsupported_runtime;
+      - run git diff --check;
+      - confirm tests, coverage, vulnerability and static-analysis numbers recorded in evidence match actual command output;
+      - commit when all gates pass and commits are allowed;
+      - confirm git status --short is clean after commit.
+      If any audit item fails or is not run, do not claim completion, do not advance next_backlog_item, and report the item as incomplete or blocked with exact remediation steps.
       Stop before starting the next backlog item.
 
   - id: HOP-COM-PROMPT-005
@@ -217,6 +229,9 @@ validation_commands:
   security_quality_gate:
     intent: Confirm open-source-first and security quality checks were run or documented for code-changing work.
     command_template: "Run applicable open source tests, build, coverage, best-practice and standards checks, duplicate-code checks, complexity checks, SAST/static analysis, OWASP/secure-code checks, dependency vulnerability checks across all severities, secrets scan, message externalization/i18n review and DAST where applicable. Address at least one open technical-debt item before feature work unless no open debt exists; increase debt burn-down intensity as the project advances. Coverage target is 80 percent; if below target, do not allow coverage to drop below the previous measured baseline. If mandatory executable gates cannot run, stop as blocked_by_environment or ready_for_external_validation and do not advance next_backlog_item."
+  verifiable_closure_audit:
+    intent: Prevent false backlog closure and stale handoffs.
+    command_template: "Before claiming completion, parse HOP YAML, sweep stale backlog pointers, sweep evidence/registries for limited or blocked gate states, run git diff --check, confirm evidence metrics match command output, commit when allowed, and verify git status --short is clean. If any item fails or is not run, keep next_backlog_item unchanged and report incomplete or blocked."
   git_whitespace:
     intent: Confirm no whitespace errors before commit.
     command_template: "Run repository whitespace validation before closing the item."

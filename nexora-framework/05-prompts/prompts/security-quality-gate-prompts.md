@@ -106,6 +106,17 @@ unresolved. Do not use
 `blocked_by_environment` or `ready_for_external_validation`, keep `next_backlog_item` unchanged,
 and write exact remediation commands.
 
+Before saying the backlog is complete, run the verifiable backlog closure audit:
+
+- Parse project YAML outside dependency/build folders.
+- Sweep active/current/next backlog pointers for stale ids.
+- Sweep evidence and registry files for limited, failed or blocked gate states.
+- Run `git diff --check`.
+- Confirm evidence numbers match command output.
+- Commit when allowed and confirm `git status --short` is clean.
+
+If any audit item fails or is not run, report the backlog as incomplete or blocked, not complete.
+
 ## Technology Debt Backlog
 
 When a modernization, migration or quality-tooling finding is beneficial but not immediately required
@@ -150,6 +161,10 @@ complexity, OWASP/secure-code and message externalization reviews. Do not recomm
 module while any required gate is `not_executed`, `passed_with_execution_limitation`,
 `closed_with_execution_limitation`, `blocked_by_missing_toolchain`, `blocked_by_network` or
 `blocked_by_unsupported_runtime`.
+
+Run the verifiable backlog/module closure audit before updating next module pointers. The audit must
+include YAML parse, stale-pointer sweep, evidence-state sweep, `git diff --check`, commit hash and
+clean git status.
 
 ## Final Project Closure Gate
 

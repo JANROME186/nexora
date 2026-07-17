@@ -223,6 +223,37 @@ Module validation and closeout must not rely on implementation evidence that is 
 missing Maven, Java, Node, native package, audit endpoint, Docker or database dependency is a
 blocking environment issue until resolved in a compatible local or CI environment.
 
+## Verifiable Backlog Closure
+
+Agents must not say a backlog item is done, finished, completed, closed or ready for the next
+backlog unless the repository proves it. Before closure, the agent must run a pre-closure audit and
+record the result in QA/security evidence or the final handoff.
+
+The mandatory pre-closure audit is:
+
+- Confirm the selected backlog id matches `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, backlog
+  prompt files and capability traceability.
+- Confirm every mandatory executable gate for every changed stack ran, or that prior non-limited
+  evidence is explicitly referenced.
+- Confirm no required gate is `not_executed`, `failed`, `blocked_by_missing_toolchain`,
+  `blocked_by_network`, `blocked_by_unsupported_runtime`, `passed_with_execution_limitation` or
+  `closed_with_execution_limitation`.
+- Confirm measured coverage did not drop below the previous baseline.
+- Confirm vulnerabilities, secrets and secure-code findings across all supported severities are
+  fixed or have accepted-risk/debt disposition with owner, target backlog and acceptance criteria.
+- Confirm technical debt was resolved or materially reduced before feature work unless no debt
+  existed at iteration start.
+- Confirm QA and security-quality evidence exists in YAML and Markdown when applicable, and that
+  reported numbers match command output.
+- Confirm `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, indexes, runbooks, prompt pointers and
+  capability traceability are synchronized.
+- Parse YAML, run stale-pointer/evidence-state sweeps, run `git diff --check`, commit when allowed,
+  and confirm `git status --short` is clean after commit.
+
+A handoff summary that claims completion but lacks command results, evidence paths, pointer
+synchronization result, clean git status and commit hash is not valid closure evidence. The next
+reviewer must treat it as unverified.
+
 Final project closure is stricter than iteration closure. It requires no open technical debt and at
 least 80% line coverage for each applicable delivered stack. Exceptions can be accepted during an
 iteration, but not for final project closure.

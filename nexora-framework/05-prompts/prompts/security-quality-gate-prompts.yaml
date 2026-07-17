@@ -102,6 +102,7 @@ prompts:
       Write evidence under 08-qa/security-quality/<backlog-item-id>/.
       Do not close the backlog item when vulnerabilities of any severity, secure-code findings, secrets, failing tests, missing duplicate/complexity/OWASP analysis, coverage below the previous iteration baseline, unresolved hard-coded messages/magic strings, missing debt-first action or unexecuted mandatory gates remain unresolved.
       Do not use passed_with_execution_limitation or closed_with_execution_limitation as final states. Use blocked_by_environment or ready_for_external_validation, keep next_backlog_item unchanged, and write exact remediation commands when required gates cannot run in the current environment.
+      Before saying the backlog is complete, run the verifiable backlog closure audit: parse project YAML, sweep stale backlog pointers, sweep evidence/registry files for limited or blocked gate states, run git diff --check, confirm evidence numbers match command output, commit if allowed, and confirm git status --short is clean. If any audit item fails or is not run, report the backlog as incomplete or blocked, not complete.
 
   - id: PROMPT-SQ-002
     name: Module closeout security and quality gate
@@ -122,6 +123,7 @@ prompts:
       Review 08-qa/technical-debt/ and confirm all technology debt discovered during the module is accepted, prioritized, resolved or explicitly scheduled for immediate or gradual remediation according to risk.
       Update module closeout QA evidence and PROJECT_STATE.yaml.
       Do not recommend the next module when unresolved vulnerabilities of any severity lack disposition, when secure-code findings remain open, when debt-first execution is missing, when coverage decreased below the previous baseline, or when any required executable gate has not actually run.
+      Run the verifiable backlog/module closure audit before updating next module pointers. The audit must include YAML parse, stale-pointer sweep, evidence-state sweep, git diff --check, commit hash and clean git status.
 
   - id: PROMPT-SQ-004
     name: Final project debt and coverage closure gate

@@ -45,6 +45,24 @@ an intermediate iteration, the previous measured coverage becomes the lower boun
 The full product cannot be marked complete while any stack is below 80% or any technical debt
 remains open.
 
+## Verifiable Closure Rule
+
+An agent must not say a HOP backlog item is done, finished, closed or ready for the next backlog
+until the closure audit passes. The audit requires:
+
+- YAML parse for HOP source files outside dependency/build folders.
+- Stale-pointer sweep for active/current/next backlog ids and `ready_for_next_backlog_item`.
+- Evidence-state sweep for `not_executed`, `failed`, `passed_with_execution_limitation`,
+  `closed_with_execution_limitation` and blocked toolchain/runtime/network states.
+- `git diff --check`.
+- Evidence metrics matching actual command output.
+- Synchronized `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, runbooks, indexes and
+  capability traceability.
+- Commit hash and clean `git status --short` when commits are allowed.
+
+If any audit item fails or is not run, the item is incomplete or blocked. The agent must keep
+`next_backlog_item` unchanged and write exact remediation steps.
+
 ## Required Rule
 
 If `BUSINESS_REQUIREMENT.md` is missing, stop. That file is requester-supplied source material and is the raw input for all product analysis.
@@ -160,7 +178,7 @@ Do not close the backlog item with unresolved vulnerabilities of any severity, m
 Write security quality evidence under 08-qa/security-quality/<selected-backlog-item-id>/.
 Write QA evidence under 08-qa and update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
 Before closure, reconcile every backlog pointer and status registry that references the current or next backlog item, including PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml, affected capability traceability.yaml files, local-solution-runbook.yaml/.md and any QA/security indexes.
-Run a repository search for stale backlog ids and intermediate pending/limited validation statuses before handing off.
+Run the verifiable HOP backlog closure audit before marking the item closed: parse YAML, sweep stale active/current/next backlog ids, sweep evidence and registries for limited/blocked/failing gate states, run `git diff --check`, confirm evidence metrics match command output, commit when allowed and confirm `git status --short` is clean. If any audit item fails or is not run, do not claim completion, do not advance `next_backlog_item`, and report the item as incomplete or blocked.
 Stop before starting the next backlog item.
 ```
 

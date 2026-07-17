@@ -200,6 +200,8 @@ global_definition_of_done:
   - If a stack is below 80 percent, its previous measured coverage is the minimum allowed baseline for the next iteration.
   - HOP cannot be marked commercially complete or GA-ready while any technical debt remains open or any applicable stack is below 80 percent line coverage.
   - PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml are updated.
+  - Verifiable closure audit passed before any backlog item is marked closed: YAML parse, stale-pointer sweep, evidence-state sweep, git diff --check, evidence metrics matching command output, synchronized registries, commit hash and clean git status.
+  - Backlog items with missing closure-audit evidence, dirty git status, missing commit hash, stale next_backlog_item pointers or limited/unexecuted mandatory gates are incomplete and must not be treated as closed.
   - Marketplace-ready capabilities validate purchase, entitlement, installation, activation, upgrade and retirement flows where applicable.
   - No agent-specific dependency, prompt or configuration is required.
   - Mandatory proprietary technology choices have an approved exception ADR.

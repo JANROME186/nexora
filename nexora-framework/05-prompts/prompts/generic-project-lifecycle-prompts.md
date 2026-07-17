@@ -304,6 +304,7 @@ Rules:
 - Preserve bounded contexts, business rules, security rules, audit rules and contracts.
 - Prefer open source frameworks and tooling; do not introduce a mandatory proprietary dependency without an exception ADR.
 - For any code-changing slice, address at least one open technical-debt item before feature work, then run applicable executable security quality gates and write evidence under 08-qa/security-quality/<backlog-item-id>/. Include best practices, standards, duplicate code, complexity, OWASP/secure code, all-severity vulnerability scans and message externalization/i18n. Document not-applicable gates with a reason. Do not close work with mandatory gates marked not executed or limited.
+- Do not claim done, finished, closed or ready for the next backlog until the verifiable backlog closure checklist has passed.
 - Update or explicitly confirm `09-operations/runbooks/local-solution-runbook.yaml` and `.md` when runtime, startup or validation behavior changes.
 - Update tests and traceability when implementation changes behavior.
 - Update PROJECT_STATE.yaml after verified progress.
@@ -325,10 +326,12 @@ Required development flow:
 12. Run applicable security quality gates, including best practices, standards, duplicated code, complexity, OWASP/secure-code checks, dependency vulnerabilities across all severities, secrets, coverage, message externalization/i18n and DAST where applicable. If a mandatory gate cannot run because the environment lacks Maven, Java, Node, npm, native packages, Docker, database services or network access, attempt remediation or request approval. If still unavailable, mark the backlog `blocked_by_environment` or `ready_for_external_validation`, keep `next_backlog_item` unchanged and stop.
 13. Update PROJECT_STATE.yaml, traceability, security quality evidence, implementation README files and the integrated local solution runbook.
 14. Capture framework feedback if execution exposed reusable framework gaps, ambiguity, missing templates or automation opportunities.
-15. Commit the implementation milestone.
+15. Run the verifiable backlog closure audit: parse project YAML, sweep stale backlog pointers, sweep evidence for limited/unexecuted/blocked gate states, run `git diff --check`, confirm evidence numbers match command output, confirm coverage did not regress, and confirm project state, source of truth, prompts, indexes, runbooks and traceability agree.
+16. Commit the implementation milestone when the closure audit passes and commits are allowed.
+17. Confirm `git status --short` is clean after commit.
 
 Final response:
-Report implemented slice, files changed, validation commands executed, remaining backlog, known gaps and commit hash.
+Report implemented slice, files changed, validation commands executed, closure-audit result, remaining backlog, known gaps, commit hash and post-commit git status. If any mandatory closure-audit item failed or did not run, do not say the backlog is complete.
 ```
 
 ## Minimal User Prompts
@@ -348,7 +351,7 @@ Analyze the impact of the latest BUSINESS_REQUIREMENT change for projects/<proje
 Security quality gate:
 
 ```text
-Run the open-source-first security quality gate for the selected backlog item in projects/<project-slug>/ and write evidence under 08-qa/security-quality/. Do not close or advance the backlog when mandatory executable gates are not executed or limited by the environment.
+Run the open-source-first security quality gate for the selected backlog item in projects/<project-slug>/ and write evidence under 08-qa/security-quality/. Do not close or advance the backlog when mandatory executable gates are not executed or limited by the environment. Finish with the verifiable backlog closure audit: YAML parse, stale-pointer sweep, evidence-state sweep, `git diff --check`, commit hash and clean git status.
 ```
 
 Framework feedback:

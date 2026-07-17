@@ -196,6 +196,83 @@ quality_gate_execution_policy:
     - Use blocked_by_environment or ready_for_external_validation for incomplete
       mandatory gates.
 
+verifiable_backlog_closure_policy:
+  purpose: >
+    Prevent agents from declaring backlog work finished when the repository,
+    evidence, gates or backlog pointers still prove otherwise.
+  closure_language_rule: >
+    Agents must not use final language such as done, finished, completed,
+    closed, ready for next backlog or equivalent unless every item in the
+    closure checklist is satisfied and evidenced. If any item is missing,
+    the correct final state is blocked_by_environment, ready_for_external_validation,
+    failed_validation or incomplete, and the active backlog pointer must remain
+    on the current item.
+  mandatory_pre_closure_checklist:
+    - Confirm selected backlog item id matches PROJECT_STATE.yaml, source of truth,
+      backlog prompt file and capability traceability files.
+    - Confirm all mandatory executable gates for every changed stack ran in the
+      current execution or have prior non-limited evidence explicitly referenced.
+    - Confirm every gate has final state passed or not_applicable_with_reason.
+    - Confirm no required gate is not_executed, failed, blocked_by_missing_toolchain,
+      blocked_by_network, blocked_by_unsupported_runtime, passed_with_execution_limitation
+      or closed_with_execution_limitation.
+    - Confirm coverage for every changed stack is measured and is not below the
+      previous measured baseline.
+    - Confirm all vulnerability, secret and secure-code findings across every
+      supported severity are fixed or have accepted-risk or technical-debt
+      disposition with owner, target backlog and acceptance criteria.
+    - Confirm at least one relevant open technical-debt item was resolved or
+      materially reduced before feature work, unless no open debt existed at
+      iteration start.
+    - Confirm QA evidence and security-quality evidence exist in both YAML and
+      Markdown when applicable, and that their numbers match command output.
+    - Confirm PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, security-quality index,
+      technical-debt index, runbooks, prompt pointers and capability traceability
+      files are synchronized.
+    - Confirm generated YAML parses successfully outside dependency/build folders.
+    - Confirm stale pointer search found no active/current/next references to the
+      just-closed backlog item after advancing.
+    - Confirm repository whitespace validation passes.
+    - Confirm git status is clean after commit, unless the task explicitly forbids
+      committing; if committing is forbidden, report the dirty files and do not
+      claim repository-ready closure.
+  mandatory_validation_commands:
+    yaml_parse: >
+      Parse every project YAML file outside generated dependency/build folders.
+    stale_pointer_sweep: >
+      Search active_backlog_item, current_backlog_item, next_backlog_item,
+      current_active_backlog_item, ready_for_next_backlog_item and human prompt
+      sections for stale current or previous backlog ids.
+    evidence_state_sweep: >
+      Search changed evidence and registry files for not_executed, failed,
+      passed_with_execution_limitation, closed_with_execution_limitation,
+      blocked_by_missing_toolchain, blocked_by_network and
+      blocked_by_unsupported_runtime.
+    whitespace_check: git diff --check
+    repository_cleanliness: git status --short
+    commit_confirmation: git log -1 --oneline
+  evidence_required_fields:
+    - selected_backlog_item
+    - final_backlog_status
+    - next_backlog_item
+    - commands_executed
+    - command_results
+    - coverage_before
+    - coverage_after
+    - technical_debt_burn_down
+    - residual_findings
+    - accepted_risks_or_debt_items
+    - stale_pointer_sweep_result
+    - yaml_parse_result
+    - git_diff_check_result
+    - git_status_after_commit
+    - commit_hash
+  agent_handoff_rule: >
+    A handoff summary that says work is complete but lacks executable command
+    results, evidence paths, pointer synchronization result, clean git status and
+    commit hash is not valid closure evidence. The next reviewer must treat it as
+    unverified and run the closure checklist before accepting it.
+
 enterprise_stack_quality_policy:
   purpose: >
     Ensure every technology stack and product layer is analyzed with enterprise
