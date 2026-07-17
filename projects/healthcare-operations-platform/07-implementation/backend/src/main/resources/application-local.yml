@@ -15,6 +15,7 @@ spring:
         - classpath:db/people-and-clinical-master-data/schema.sql
         - classpath:db/front-desk-care-delivery/schema.sql
         - classpath:db/cash-sales/schema.sql
+        - classpath:db/laboratory-workflow/schema.sql
 
 management:
   endpoint:
