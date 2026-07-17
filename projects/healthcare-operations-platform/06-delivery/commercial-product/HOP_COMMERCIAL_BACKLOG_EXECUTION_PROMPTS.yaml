@@ -223,7 +223,8 @@ validation_commands:
 
 next_backlog_item:
   module_id: MVP-MOD-006
-  backlog_item_id: MVP-MOD-006-BE-001
+  backlog_item_id: MVP-MOD-007-DEF
   name: Compile sample lifecycle backend outputs
   expected_folder: ../../07-implementation/backend/
   paused_functional_backlog_item: null
+

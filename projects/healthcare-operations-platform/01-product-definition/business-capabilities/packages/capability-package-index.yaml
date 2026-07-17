@@ -52,7 +52,7 @@ active_capability_package_group:
     - generation-plan.yaml
     - traceability.yaml
     - README.md
-  next_backlog_item: MVP-MOD-006-BE-001
+  next_backlog_item: MVP-MOD-007-DEF
   capabilities:
     - capability_id: BCM-LAB-002
       package_folder: bcm-lab-002-sample-collection/
@@ -265,3 +265,5 @@ planned_capability_package_groups:
         package_folder: bcm-plt-005-api-management/
       - capability_id: BCM-PLT-010
         package_folder: bcm-plt-010-open-data-ingestion-and-migration/
+
+

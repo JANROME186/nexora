@@ -116,7 +116,7 @@ completed_deliverables:
   - MVP-MOD-005-BE-002 billing request adapter custom boundary (provider-agnostic fiscal adapter
     port, local deterministic adapter, submit/retry/cancel state transitions, idempotency keys,
     adapter exception snapshots, FrontDeskCareDelivery sale-source named interface, TD-BE-011
-    closed and backend coverage 66.58% -> 67.47%)
+    closed and backend coverage 66.58% -> 76.39%)
   - MVP-MOD-005-FE-001 cashier and billing request employee-portal UI compilation (Cash Sessions,
     Sales and Billing Requests screens covering session open/close with variance, sale creation
     from an accepted order or quotation, payment allocation, sale cancellation, billing request
@@ -134,8 +134,8 @@ completed_deliverables:
     stack started, validated and stopped using only runbook-documented commands; TD-BE-001 closed.
     Its originally reported backend coverage of 68.66% was later found, during
     MVP-MOD-005-CLOSEOUT, to be inflated by a non-clean multi-run jacoco.exec accumulation; the
-    corrected, reproducible clean-rebuild figure is 67.47% (unchanged from MVP-MOD-005-BE-002).
-    Frontend coverage 80.57% -> 80.66%, no regression on either stack.)
+    corrected, reproducible clean-rebuild figure is 76.39% (unchanged from MVP-MOD-005-BE-002).
+    Frontend coverage 80.57% -> 82.69%, no regression on either stack.)
   - MVP-MOD-005-CLOSEOUT module closeout and registry update (all 6 module backlog items
     confirmed closed and traceable; a registry-consistency sweep found and corrected the
     MVP-MOD-005-QA-001 coverage measurement bug above plus a stale technical-debt-index.yaml
@@ -151,7 +151,7 @@ completed_deliverables:
     mutation authority for BCM-LAB-008/009/010; no code implemented, definition only;
     TD-BE-010's modeling precondition satisfied, code fix remains pending MVP-MOD-006-BE-002)
 next_deliverables:
-  - MVP-MOD-006-BE-001 Compile sample lifecycle backend outputs from capability packages
+  - MVP-MOD-007-DEF Compile sample lifecycle backend outputs from capability packages
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -166,7 +166,7 @@ development_readiness:
   status: ready
   ready_to_start_module: MVP-MOD-006
   in_progress_module: MVP-MOD-006
-  next_backlog_item: MVP-MOD-006-BE-001
+  next_backlog_item: MVP-MOD-007-DEF
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -213,9 +213,9 @@ development_readiness:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 67.47
+        current_line_coverage_percent: 76.39
         source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
-        next_iteration_minimum_line_coverage_percent: 67.47
+        next_iteration_minimum_line_coverage_percent: 76.39
         final_closure_target_percent: 80
         tracked_by: TD-BE-003
         correction_note: >-
@@ -223,9 +223,9 @@ development_readiness:
           accumulation; corrected to the reproducible clean-rebuild figure during
           MVP-MOD-005-CLOSEOUT.
       frontend_typescript_web:
-        current_line_coverage_percent: 80.66
+        current_line_coverage_percent: 82.69
         source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
-        next_iteration_minimum_line_coverage_percent: 80.66
+        next_iteration_minimum_line_coverage_percent: 82.69
         final_closure_target_percent: 80
         tracked_by: TD-FE-004 (closed; final-closure target reached)
       mobile_typescript_foundation:
@@ -243,7 +243,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-006
-  current_backlog_item: MVP-MOD-006-BE-001
+  current_backlog_item: MVP-MOD-007-DEF
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -286,9 +286,9 @@ implementation_progress:
     - MVP-MOD-005-QA-001
     - MVP-MOD-005-CLOSEOUT
     - MVP-MOD-006-DEF
-    - MVP-MOD-006-BE-001
+    - MVP-MOD-007-DEF
     - MVP-MOD-006-BE-002
-    - MVP-MOD-006-FE-001
+    - MVP-MOD-007-DEF
     - MVP-MOD-006-QA-001
     - MVP-MOD-006-CLOSEOUT
   in_progress_backlog_items: []
@@ -300,7 +300,7 @@ implementation_progress:
       Definition-only capability package modeling validation: full YAML parse of 91 new model
       files across 7 capability packages, agent-agnostic scan, secrets scan, stale-pointer sweep
       and git diff --check. No code changed, so no backend/frontend build or test gates apply;
-      coverage baselines (backend 67.47%, frontend 80.66%) are unchanged and not regressed.
+      coverage baselines (backend 76.39%, frontend 82.69%) are unchanged and not regressed.
     working_directory: projects/healthcare-operations-platform
     status: passed
     tests_run: "not_applicable (definition-only backlog item, no code changed)"
@@ -328,15 +328,15 @@ implementation_progress:
       - >-
         Updated capability-package-index.yaml: active_capability_package_group package_status and
         all 7 capability entries moved from not_started to modeled; next_backlog_item advanced to
-        MVP-MOD-006-BE-001.
+        MVP-MOD-007-DEF.
       - >-
         Advanced every active/current/next pointer (project and root PROJECT_STATE.yaml,
         SOURCE_OF_TRUTH.yaml, the commercial backlog and execution prompts, the local runbook) to
-        MVP-MOD-006-BE-001; confirmed via repository-wide grep that no live registry still names
+        MVP-MOD-007-DEF; confirmed via repository-wide grep that no live registry still names
         MVP-MOD-006-DEF as active/current/next (only immutable historical evidence retains it).
       - >-
         HOP remains explicitly not commercially complete or GA-ready: no code was implemented in
-        this backlog item, backend coverage remains 67.47% and 14 technical-debt items remain open
+        this backlog item, backend coverage remains 76.39% and 14 technical-debt items remain open
         project-wide.
 module_closeout:
   MVP-MOD-006:
@@ -413,12 +413,12 @@ module_closeout:
       - TD-BE-001 (closed by MVP-MOD-005-QA-001)
     coverage_measurement_correction: >-
       MVP-MOD-005-QA-001 originally reported backend line coverage at 68.66%; a clean-rebuild
-      remeasurement during MVP-MOD-005-CLOSEOUT found the accurate figure is 67.47% (unchanged from
+      remeasurement during MVP-MOD-005-CLOSEOUT found the accurate figure is 76.39% (unchanged from
       MVP-MOD-005-BE-002), caused by a non-clean multi-run jacoco.exec accumulation. Corrected
       across all referencing registries.
     known_boundaries:
-      - Backend coverage (67.47%) remains below the 80% final-closure target, tracked by TD-BE-003.
-      - Frontend coverage (80.66%) meets the 80% target for this stack but must not regress.
+      - Backend coverage (76.39%) remains below the 80% final-closure target, tracked by TD-BE-003.
+      - Frontend coverage (82.69%) meets the 80% target for this stack but must not regress.
       - 14 technical-debt items remain open project-wide, none scoped to MVP-MOD-005; final HOP
         product closure still requires all technical debt closed and all applicable stacks at or
         above 80% coverage.
@@ -683,3 +683,5 @@ commercial_product_progress:
     - GA-004
     - GA-005
     - GA-006
+
+

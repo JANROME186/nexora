@@ -33,7 +33,7 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 67.47
+        current_line_coverage_percent: 76.39
         source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
         next_iteration_minimum_line_coverage_percent: 67.47
         final_closure_target_percent: 80
@@ -42,7 +42,7 @@ policy:
           accumulation; corrected to the reproducible clean-rebuild figure (67.47%, unchanged from
           MVP-MOD-005-BE-002) during MVP-MOD-005-CLOSEOUT.
       frontend_typescript_web:
-        current_line_coverage_percent: 80.66
+        current_line_coverage_percent: 82.69
         source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
         next_iteration_minimum_line_coverage_percent: 80.66
         final_closure_target_percent: 80
@@ -309,3 +309,4 @@ entries:
     affected_area: cashsales_frontdesk_module_boundary
     file: 08-qa/technical-debt/TD-BE-011-cashsales-frontdesk-public-port-boundary.yaml
     remediation_strategy: completed_by_MVP_MOD_005_BE_002_sale_source_named_interface
+

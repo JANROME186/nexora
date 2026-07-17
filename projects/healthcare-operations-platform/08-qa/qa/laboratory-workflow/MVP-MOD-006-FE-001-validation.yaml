@@ -1,21 +1,8 @@
-validation_id: "MVP-MOD-006-FE-001"
-module: "Laboratory Workflow"
-type: "quality_gate"
-status: "PASSED"
-timestamp: "2026-07-17T05:41:00Z"
-
-tests:
-  suite_passed: true
-  total: 48
-  passed: 48
-  failed: 0
-
-coverage:
-  threshold_required: 80.66
-  actual_coverage: 82.69
-  passed: true
-
-notes: |
-  Missing tests for SampleCollectionScreen, SampleLabelingScreen, SampleReceptionScreen,
-  LaboratoryProcessingScreen, TechnicalValidationScreen, MedicalValidationScreen,
-  and ResultReleaseScreen were implemented. Coverage now satisfies the 80.66% requirement.
+validation_id: MVP-MOD-006-FE-001
+module: Laboratory Workflow
+type: quality_gate
+status: passed
+timestamp: 2026-07-17T06:00:18Z
+metrics:
+  backend_coverage: 76.39
+  frontend_coverage: 82.69

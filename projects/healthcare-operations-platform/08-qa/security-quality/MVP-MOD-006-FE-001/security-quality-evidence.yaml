@@ -1,0 +1,13 @@
+artifact:
+  id: MVP-MOD-006-FE-001-SEC
+  type: security-quality-evidence
+status: passed
+timestamp: 2026-07-17T06:00:18Z
+gates:
+  checkstyle: passed
+  pmd_cpd: passed
+  spotbugs: passed
+  owasp_dependency_check: passed
+  cyclonedx: generated
+  trivy: passed
+  npm_audit: passed

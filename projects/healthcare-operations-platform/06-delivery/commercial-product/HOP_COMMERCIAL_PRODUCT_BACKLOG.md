@@ -203,3 +203,4 @@ HOP reaches commercial general availability only after these gates pass:
 See `08-qa/qa/laboratory-workflow/MVP-MOD-006-DEF-validation.yaml` for the definition evidence and
 `08-qa/qa/quality-alignment/HOP-QA-ALIGN-CLOSEOUT.yaml` for the prior quality-alignment closeout
 evidence.
+
