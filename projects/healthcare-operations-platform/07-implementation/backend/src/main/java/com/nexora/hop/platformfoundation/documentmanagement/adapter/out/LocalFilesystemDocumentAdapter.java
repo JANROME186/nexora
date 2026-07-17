@@ -1,15 +1,15 @@
 package com.nexora.hop.platformfoundation.documentmanagement.adapter.out;
 
 import com.nexora.hop.platformfoundation.documentmanagement.domain.DocumentStoragePort;
-import com.nexora.hop.platformfoundation.documentmanagement.domain.StorageReference;
 import com.nexora.hop.platformfoundation.documentmanagement.domain.DocumentManagementException;
+import com.nexora.hop.platformfoundation.documentmanagement.domain.StorageReference;
+import java.io.File;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -19,7 +19,7 @@ public final class LocalFilesystemDocumentAdapter implements DocumentStoragePort
     private final Path storageDirectory;
 
     public LocalFilesystemDocumentAdapter(@Value("${hop.document-storage.local.path:/tmp/hop-documents}") String storagePath) {
-        this.storageDirectory = Paths.get(storagePath).toAbsolutePath().normalize();
+        this.storageDirectory = new File(storagePath).toPath().toAbsolutePath().normalize();
         try {
             Files.createDirectories(this.storageDirectory);
         } catch (IOException e) {
@@ -41,7 +41,7 @@ public final class LocalFilesystemDocumentAdapter implements DocumentStoragePort
     @Override
     public StorageReference putDocument(byte[] bytes, String contentType) {
         String key = UUID.randomUUID().toString();
-        Path filePath = storageDirectory.resolve(key).normalize();
+        Path filePath = resolveSafe(key);
         try {
             Files.write(filePath, bytes);
             return new StorageReference(StorageReference.StorageProvider.LOCAL_FILESYSTEM, key, LocalDateTime.now());

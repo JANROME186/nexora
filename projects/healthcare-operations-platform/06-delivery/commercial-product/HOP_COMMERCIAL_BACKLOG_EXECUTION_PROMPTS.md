@@ -195,14 +195,14 @@ Expected result:
 Continue with:
 
 - Module: `MVP-MOD-007 Results and Digital Delivery`
-- Backlog item: `MVP-MOD-007-BE-002`
-- Paused functional backlog item: none — `MVP-MOD-007-BE-001` closed (backend compilation baseline complete; custom rules not yet implemented)
-- Folder: `07-implementation/backend/`
+- Backlog item: `MVP-MOD-007-FE-001`
+- Paused functional backlog item: none — `MVP-MOD-007-BE-002` closed after corrective backend validation
+- Folder: `07-implementation/employee-portal/`
 
 Mandatory setup for this backlog:
 
-- Start with `TD-BE-012` before feature work. At minimum, fix or materially reduce the document-management SpotBugs/PMD findings relevant to digital delivery.
-- Preserve the backend Java/Maven coverage floor of 76.77% and continue moving toward the 80% final target.
+- Review `08-qa/technical-debt/technical-debt-index.yaml` before feature work and resolve or materially reduce at least one relevant open debt item if one applies to the changed frontend scope.
+- Preserve the employee portal coverage floor of 82.69%; if backend code is touched, preserve the backend Java/Maven floor of 76.93%.
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
-- Do not advance the backlog pointer if Maven, Docker, database, dependency, vulnerability or static-analysis gates cannot run.
+- Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
 - Before commit, reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, affected capability traceability files and the local runbook pointers.

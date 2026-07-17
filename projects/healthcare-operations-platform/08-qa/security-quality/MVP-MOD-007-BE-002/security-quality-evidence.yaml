@@ -1,13 +1,86 @@
 artifact:
   id: MVP-MOD-007-BE-002-SEC
   type: security-quality-evidence
-status: passed
-timestamp: 2026-07-17T12:48:00Z
-gates:
-  checkstyle: passed
-  pmd_cpd: passed
-  spotbugs: passed
-  owasp_dependency_check: passed
-  cyclonedx: generated
-  trivy: passed
-  npm_audit: passed
+  name: MVP-MOD-007-BE-002 backend security and quality evidence
+  version: 1.1.0
+  status: passed
+  created_date: 2026-07-17
+  owner: Nexora Engineering
+
+scope:
+  backlog_item: MVP-MOD-007-BE-002
+  module: MVP-MOD-007 Results and Digital Delivery
+  changed_stack: backend_java_maven
+  implementation_path: 07-implementation/backend
+  result: closed_after_corrective_validation
+
+debt_first_action:
+  technical_debt_item: TD-BE-012
+  status: closed_for_selected_scope
+  summary: >
+    Addressed document-management and digital-delivery static-analysis findings before closure:
+    LocalFilesystemDocumentAdapter path traversal hardening, custom exception usage,
+    NotificationProviderPort functional-interface marker, sanitized/guarded notification logging,
+    ResultDeliveryService complexity reduction, unused code cleanup and targeted tests.
+
+coverage:
+  tool: JaCoCo
+  command: mvn --settings .mvn/settings.xml -Pquality "-Dhop.local-db-tests=true" verify
+  previous_iteration_minimum_line_coverage_percent: 76.77
+  current_line_coverage_percent: 76.93
+  line_missed: 1644
+  line_covered: 5482
+  line_total: 7126
+  target_line_coverage_percent: 80
+  decision: passed_no_regression_below_final_target
+  residual_debt: TD-BE-003 remains open until backend reaches at least 80 percent line coverage.
+
+executed_gates:
+  - id: backend_verify
+    command: mvn --settings .mvn/settings.xml -Pquality "-Dhop.local-db-tests=true" verify
+    status: passed
+    result: 151 tests, 0 failures, 0 errors, 0 skipped; jar packaging and JaCoCo report generated.
+  - id: spotless_targeted
+    command: mvn --settings .mvn/settings.xml -Pquality "-DspotlessFiles=<changed backend files>" spotless:check
+    status: passed
+    result: Formatting passed for changed backend files and SpotBugs filter.
+  - id: static_analysis
+    command: mvn --settings .mvn/settings.xml -Pquality pmd:check pmd:cpd-check spotbugs:check duplicate-finder:check
+    status: passed_with_tracked_repo_residuals
+    result: >
+      Build success. PMD findings reduced from 268 to 264 repo-wide; no PMD findings remain in
+      the directly changed MVP-MOD-007-BE-002 application/adapter/error-code files except
+      pre-existing domain constructor-size findings. CPD still reports 1 historical duplication in
+      frontdesk diagnostic-order/quotation flows. SpotBugs reduced to 3 historical laboratory
+      workflow findings outside this backlog. Duplicate Finder passed.
+  - id: dependency_vulnerability_scan
+    command: mvn --settings .mvn/settings.xml -Pquality org.owasp:dependency-check-maven:check
+    status: passed
+    result: OWASP Dependency-Check generated HTML and JSON reports with build success and no blocking all-severity dependency vulnerability finding.
+  - id: cyclonedx_sbom
+    command: mvn --settings .mvn/settings.xml -Pquality "-Dhop.local-db-tests=true" verify
+    status: passed
+    result: CycloneDX SBOM generated at backend target/classes/META-INF/sbom/application.cdx.json.
+  - id: trivy_filesystem
+    command: trivy fs --scanners vuln,secret,misconfig --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL --exit-code 0 --timeout 10m --skip-dirs .m2 --skip-dirs target --format table .
+    status: passed
+    result: 0 vulnerabilities detected in pom.xml; no secrets or misconfigurations detected in scanned source scope.
+
+residual_findings:
+  non_blocking_for_backlog:
+    - id: PMD-REPO-RESIDUAL
+      summary: 264 repo-wide PMD findings remain, mostly historical coupling, complexity, serialVersionUID, duplicate literals and enum naming issues.
+      disposition: tracked_existing_debt_not_introduced_by_MVP_MOD_007_BE_002
+    - id: CPD-REPO-RESIDUAL
+      summary: 1 historical duplication remains between diagnostic-order and quotation sale-source flows.
+      disposition: tracked_existing_debt_not_introduced_by_MVP_MOD_007_BE_002
+    - id: SPOTBUGS-REPO-RESIDUAL
+      summary: 3 historical laboratory workflow SpotBugs findings remain outside results-and-digital-delivery/document-management scope.
+      disposition: tracked_existing_debt_not_introduced_by_MVP_MOD_007_BE_002
+
+closure_decision:
+  status: passed
+  rationale: >
+    MVP-MOD-007-BE-002 backend custom rules pass executable backend gates, preserve and improve
+    backend coverage over the prior floor, close TD-BE-012 for the selected scope, and leave only
+    documented repo-wide historical findings outside this backlog scope.

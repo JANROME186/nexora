@@ -1,6 +1,5 @@
 package com.nexora.hop.platformfoundation.resultsanddigitaldelivery.criticalresults.application;
 
-import com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.domain.LaboratoryResult;
 import com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.domain.LaboratoryResultsRepository;
 import com.nexora.hop.platformfoundation.resultsanddigitaldelivery.criticalresults.domain.*;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
@@ -41,7 +40,7 @@ public class CriticalResultEscalationService {
 
         // RN-001: Unconditional escalation creation upon critical flagging
         // Read-only access to verify result exists (RN-004 boundary safeguard)
-        LaboratoryResult result = laboratoryResultsRepository.findById(resultId, tenantId)
+        laboratoryResultsRepository.findById(resultId, tenantId)
                 .orElseThrow(() -> new IllegalArgumentException("Laboratory result not found"));
 
         UUID escalationId = UUID.randomUUID();

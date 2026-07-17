@@ -33,14 +33,14 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 76.77
-        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 76.77
+        current_line_coverage_percent: 76.93
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-002-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 76.93
         final_closure_target_percent: 80
         correction_note: >-
-          MVP-MOD-007-BE-001 reconciliation improved the reproducible local-database backend
-          coverage baseline from 76.39% to 76.77%; future backend iterations must not regress
-          below 76.77% and must keep moving toward the 80% final closure target.
+          MVP-MOD-007-BE-002 corrective validation improved the reproducible local-database backend
+          coverage baseline from 76.77% to 76.93%; future backend iterations must not regress
+          below 76.93% and must keep moving toward the 80% final closure target.
       frontend_typescript_web:
         current_line_coverage_percent: 82.69
         source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml

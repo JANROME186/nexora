@@ -4,6 +4,7 @@ package com.nexora.hop.platformfoundation.documentmanagement.domain;
  * Custom exception representing document management failures to avoid throwing raw RuntimeExceptions.
  */
 public class DocumentManagementException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
 
     public DocumentManagementException(String message) {
         super(message);

@@ -6,11 +6,11 @@ import com.nexora.hop.platformfoundation.notificationmanagement.domain.Notificat
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.LaboratoryId;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.TenantId;
-import org.springframework.stereotype.Service;
-
-import java.util.UUID;
-import java.util.Map;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
+import org.springframework.stereotype.Service;
 
 @Service
 public class NotificationManagementService {
@@ -23,6 +23,7 @@ public class NotificationManagementService {
         this.providerPort = providerPort;
     }
 
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public NotificationRequest submitNotificationRequest(
             TenantId tenantId,
             LaboratoryId laboratoryId,
@@ -33,12 +34,7 @@ public class NotificationManagementService {
             Map<String, String> parameters,
             AuditMetadata audit) {
 
-        NotificationRequest.Channel targetChannel;
-        try {
-            targetChannel = NotificationRequest.Channel.valueOf(channel.toUpperCase());
-        } catch (IllegalArgumentException | NullPointerException e) {
-            targetChannel = NotificationRequest.Channel.EMAIL; // default fallback
-        }
+        NotificationRequest.Channel targetChannel = parseChannel(channel);
 
         UUID notificationId = UUID.randomUUID();
         NotificationRequest request = new NotificationRequest(
@@ -58,7 +54,7 @@ public class NotificationManagementService {
         try {
             providerPort.dispatch(request);
             request.dispatch(audit);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             request.fail(audit);
         }
 
@@ -68,5 +64,16 @@ public class NotificationManagementService {
 
     public List<NotificationRequest> listAllRequests() {
         return repository.findAll();
+    }
+
+    private NotificationRequest.Channel parseChannel(String channel) {
+        if (channel == null || channel.isBlank()) {
+            return NotificationRequest.Channel.EMAIL;
+        }
+        try {
+            return NotificationRequest.Channel.valueOf(channel.toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException e) {
+            return NotificationRequest.Channel.EMAIL;
+        }
     }
 }

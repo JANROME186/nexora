@@ -26,6 +26,15 @@ preflight:
     - file: LocalFilesystemDocumentAdapter.java
       finding: Path traversal vulnerability and constructor throwing warning (SpotBugs CT_CONSTRUCTOR_THROW).
       correction: Made class final, added resolveSafe path traversal verification, and thrown custom DocumentManagementException instead of RuntimeException.
+    - file: NotificationManagementService.java
+      finding: Locale-sensitive channel parsing and provider exception handling needed executable validation.
+      correction: Added Locale.ROOT parsing, preserved failed-dispatch behavior, and covered null/invalid channel defaults.
+    - file: LocalDeterministicNotificationProvider.java
+      finding: Console output and CRLF-sensitive log values were reported by static analysis.
+      correction: Replaced console output with guarded SLF4J logging and sanitized log values.
+    - file: ResultDeliveryService.java
+      finding: Method complexity and loop event creation were reported in touched custom-rule code.
+      correction: Extracted patient, representative, doctor and event-publishing helpers.
 
 validations:
   - id: VAL-DLV-001
@@ -109,4 +118,13 @@ validations:
 
 readiness:
   mvp_mod_007_be_002_status: closed
-  ready_for_next_backlog_item: MVP-MOD-007-PORTAL-001
+  ready_for_next_backlog_item: MVP-MOD-007-FE-001
+  validation_summary:
+    backend_verify_command: mvn --settings .mvn/settings.xml -Pquality "-Dhop.local-db-tests=true" verify
+    backend_verify_result: 151 tests, 0 failures, 0 errors, 0 skipped
+    backend_line_coverage_percent: 76.93
+    previous_backend_line_coverage_floor_percent: 76.77
+    static_analysis_result: >
+      PMD/CPD/SpotBugs/Duplicate Finder build succeeded; touched backlog files were cleaned.
+      Residual repo-wide PMD/CPD/SpotBugs findings are historical and outside this backlog scope.
+    dependency_scan_result: OWASP Dependency-Check passed; Trivy source-scope scan passed with 0 pom.xml vulnerabilities.

@@ -135,6 +135,10 @@ sources:
   mvp_mod_007_be_001_qa_evidence_yaml: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-001-validation.yaml
   mvp_mod_007_be_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-007-BE-001/security-quality-evidence.md
   mvp_mod_007_be_001_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-007-BE-001/security-quality-evidence.yaml
+  mvp_mod_007_be_002_qa_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-002-validation.md
+  mvp_mod_007_be_002_qa_evidence_yaml: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-002-validation.yaml
+  mvp_mod_007_be_002_security_quality_evidence: 08-qa/security-quality/MVP-MOD-007-BE-002/security-quality-evidence.md
+  mvp_mod_007_be_002_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-007-BE-002/security-quality-evidence.yaml
   mvp_mod_003_def_qa_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
   mvp_mod_003_def_qa_evidence_yaml: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
   mvp_mod_003_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/peopleclinicalmasterdata/

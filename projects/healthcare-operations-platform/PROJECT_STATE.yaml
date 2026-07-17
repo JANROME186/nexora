@@ -224,9 +224,9 @@ development_readiness:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 76.77
-        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 76.77
+        current_line_coverage_percent: 76.93
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-002-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 76.93
         final_closure_target_percent: 80
         tracked_by: TD-BE-003
         correction_note: >-
@@ -316,12 +316,12 @@ implementation_progress:
     backlog_item_id: MVP-MOD-007-BE-002
     command: >
       Backend quality lifecycle with local database tests passed via `mvn --settings .mvn/settings.xml
-      -Pquality "-Dhop.local-db-tests=true" verify`; 149 tests run, 0 failures, 0 errors,
-      0 skipped. JaCoCo backend line coverage preserved at 76.77%. Technical debt TD-BE-012
-      has been burned down in LocalFilesystemDocumentAdapter.
+      -Pquality "-Dhop.local-db-tests=true" verify`; 151 tests run, 0 failures, 0 errors,
+      0 skipped. JaCoCo backend line coverage improved from 76.77% to 76.93%. Technical debt
+      TD-BE-012 has been burned down for document-management and results-delivery scope.
     working_directory: projects/healthcare-operations-platform
     status: passed
-    tests_run: 149
+    tests_run: 151
     failures: 0
     errors: 0
     skipped: 0
@@ -335,6 +335,10 @@ implementation_progress:
         Management, and BCM-PLT-008 Document Management.
       - >-
         Verified Spring Modulith module boundary correctness by defining and referencing NamedInterfaces.
+      - >-
+        Corrective static-analysis validation passed: Spotless targeted check passed; PMD/CPD/SpotBugs/
+        Duplicate Finder build succeeded with remaining historical repo-wide findings outside this backlog scope;
+        OWASP Dependency-Check passed; Trivy source-scope scan passed with 0 pom.xml vulnerabilities.
   historical_latest_validation_superseded:
     backlog_item_id: MVP-MOD-007-BE-001
     command: >

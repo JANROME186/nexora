@@ -230,6 +230,7 @@ next_backlog_item:
   required_debt_first_action: null
   coverage_floor:
     frontend_typescript_web_line_coverage_percent: 82.69
+    backend_java_maven_line_coverage_percent_if_backend_is_touched: 76.93
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.

@@ -80,4 +80,36 @@ class NotificationManagementServiceTest {
         assertNotNull(request);
         assertEquals(NotificationRequest.Status.FAILED, request.getStatus());
     }
+
+    @Test
+    void shouldDefaultToEmailWhenChannelIsMissingOrInvalid() {
+        TenantId tenantId = new TenantId("tenant-123");
+        LaboratoryId labId = new LaboratoryId("lab-456");
+        AuditMetadata audit = new AuditMetadata("test-user", LocalDateTime.now(), "test-user", LocalDateTime.now());
+
+        NotificationRequest missingChannel = service.submitNotificationRequest(
+                tenantId,
+                labId,
+                "recipient-789",
+                "patient",
+                null,
+                "tpl_missing_channel",
+                null,
+                audit
+        );
+        NotificationRequest invalidChannel = service.submitNotificationRequest(
+                tenantId,
+                labId,
+                "recipient-790",
+                "patient",
+                "unsupported-channel",
+                "tpl_invalid_channel",
+                Map.of("locale", "es-MX"),
+                audit
+        );
+
+        assertEquals(NotificationRequest.Channel.EMAIL, missingChannel.getChannel());
+        assertEquals(NotificationRequest.Channel.EMAIL, invalidChannel.getChannel());
+        assertEquals(2, service.listAllRequests().size());
+    }
 }

@@ -20,11 +20,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class ResultDeliveryService {
+    private static final String RECIPIENT_PATIENT = "patient";
+    private static final String RECIPIENT_PATIENT_REPRESENTATIVE = "patient_representative";
+    private static final String RECIPIENT_REFERRING_DOCTOR = "referring_doctor";
+    private static final String PATIENT_PORTAL = "patient_portal";
+    private static final String DOCTOR_PORTAL = "doctor_portal";
+    private static final int DELIVERY_TICKET_VALIDITY_DAYS = 30;
 
     private final ResultDeliveryTicketRepository repository;
     private final LaboratoryResultsRepository laboratoryResultsRepository;
@@ -63,87 +68,13 @@ public class ResultDeliveryService {
 
         List<ResultDeliveryTicket> createdTickets = new ArrayList<>();
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime expiresAt = now.plusDays(30); // Default 30-day ticket validity
+        LocalDateTime expiresAt = now.plusDays(DELIVERY_TICKET_VALIDITY_DAYS);
 
-        // 1. Authorize Patient
-        // RN-002: A patient recipient may be authorized only for their own results
-        if (patientManagementService.patientExists(patientIdStr)) {
-            DeliveryAuthorizationCheck authCheck = new DeliveryAuthorizationCheck(true, true, false, now);
-            ResultDeliveryTicket patientTicket = new ResultDeliveryTicket(
-                    UUID.randomUUID(),
-                    resultIdObj,
-                    tenantIdObj,
-                    patientId,
-                    UUID.randomUUID().toString().substring(0, 8),
-                    expiresAt,
-                    "patient",
-                    patientIdStr,
-                    "patient_portal",
-                    authCheck,
-                    audit
-            );
-            repository.save(patientTicket);
-            createdTickets.add(patientTicket);
-            eventPublisher.publishEvent(new ResultDeliveryAuthorizedEvent(
-                    patientTicket.getTicketId(), resultIdObj, tenantIdObj, "patient", "patient_portal"));
-        } else {
-            throw new IllegalStateException(ResultsDeliveryErrorCodes.DELIVERY_PATIENT_OWNERSHIP_MISMATCH);
-        }
-
-        // 2. Authorize Representatives
-        // RN-003: Patient representative relationship check
-        List<PatientRepresentative> representatives = patientManagementService.listRepresentatives(patientIdStr);
-        LocalDate today = LocalDate.now();
-        for (PatientRepresentative rep : representatives) {
-            boolean active = PatientRepresentative.STATUS_ACTIVE.equals(rep.status());
-            boolean windowValid = !today.isBefore(rep.authorizationFrom()) && 
-                    (rep.authorizationTo() == null || !today.isAfter(rep.authorizationTo()));
-
-            if (active && windowValid) {
-                DeliveryAuthorizationCheck authCheck = new DeliveryAuthorizationCheck(true, true, true, now);
-                ResultDeliveryTicket repTicket = new ResultDeliveryTicket(
-                        UUID.randomUUID(),
-                        resultIdObj,
-                        tenantIdObj,
-                        patientId,
-                        UUID.randomUUID().toString().substring(0, 8),
-                        expiresAt,
-                        "patient_representative",
-                        rep.representativeId(),
-                        "patient_portal",
-                        authCheck,
-                        audit
-                );
-                repository.save(repTicket);
-                createdTickets.add(repTicket);
-                eventPublisher.publishEvent(new ResultDeliveryAuthorizedEvent(
-                        repTicket.getTicketId(), resultIdObj, tenantIdObj, "patient_representative", "patient_portal"));
-            }
-        }
-
-        // 3. Authorize Referring Doctor
-        // RN-004: Referring doctor check
-        if (order.doctorSnapshot() != null) {
-            String doctorId = order.doctorSnapshot().doctorId();
-            DeliveryAuthorizationCheck authCheck = new DeliveryAuthorizationCheck(true, true, false, now);
-            ResultDeliveryTicket docTicket = new ResultDeliveryTicket(
-                    UUID.randomUUID(),
-                    resultIdObj,
-                    tenantIdObj,
-                    patientId,
-                    UUID.randomUUID().toString().substring(0, 8),
-                    expiresAt,
-                    "referring_doctor",
-                    doctorId,
-                    "doctor_portal",
-                    authCheck,
-                    audit
-            );
-            repository.save(docTicket);
-            createdTickets.add(docTicket);
-            eventPublisher.publishEvent(new ResultDeliveryAuthorizedEvent(
-                    docTicket.getTicketId(), resultIdObj, tenantIdObj, "referring_doctor", "doctor_portal"));
-        }
+        authorizePatient(
+                createdTickets, patientIdStr, resultIdObj, tenantIdObj, patientId, expiresAt, now, audit);
+        authorizeRepresentatives(
+                createdTickets, patientIdStr, resultIdObj, tenantIdObj, patientId, expiresAt, now, audit);
+        authorizeReferringDoctor(createdTickets, order, resultIdObj, tenantIdObj, patientId, expiresAt, now, audit);
 
         return createdTickets;
     }
@@ -184,10 +115,136 @@ public class ResultDeliveryService {
             if (ticket.getStatus() != ResultDeliveryTicket.Status.WITHHELD) {
                 ticket.withhold(audit);
                 repository.save(ticket);
-                eventPublisher.publishEvent(new ResultDeliveryWithheldEvent(ticket.getTicketId(), resIdObj, ticket.getTenantId()));
+                publishWithheld(ticket, resIdObj);
             }
         }
         // Trigger re-authorization workflow
         authorizeResultDelivery(resultId, tenantId, audit);
+    }
+
+    private void authorizePatient(
+            List<ResultDeliveryTicket> createdTickets,
+            String patientIdStr,
+            ResultId resultId,
+            TenantId tenantId,
+            PatientId patientId,
+            LocalDateTime expiresAt,
+            LocalDateTime now,
+            AuditMetadata audit) {
+        if (!patientManagementService.patientExists(patientIdStr)) {
+            throw new IllegalStateException(ResultsDeliveryErrorCodes.DELIVERY_PATIENT_OWNERSHIP_MISMATCH);
+        }
+        ResultDeliveryTicket patientTicket = createTicket(
+                resultId, tenantId, patientId, expiresAt, RECIPIENT_PATIENT, patientIdStr, PATIENT_PORTAL, false, now, audit);
+        saveAndPublish(createdTickets, patientTicket, resultId, tenantId, RECIPIENT_PATIENT, PATIENT_PORTAL);
+    }
+
+    private void authorizeRepresentatives(
+            List<ResultDeliveryTicket> createdTickets,
+            String patientIdStr,
+            ResultId resultId,
+            TenantId tenantId,
+            PatientId patientId,
+            LocalDateTime expiresAt,
+            LocalDateTime now,
+            AuditMetadata audit) {
+        List<PatientRepresentative> representatives = patientManagementService.listRepresentatives(patientIdStr);
+        LocalDate today = LocalDate.now();
+        for (PatientRepresentative representative : representatives) {
+            if (isRepresentativeActive(representative, today)) {
+                ResultDeliveryTicket repTicket = createTicket(
+                        resultId,
+                        tenantId,
+                        patientId,
+                        expiresAt,
+                        RECIPIENT_PATIENT_REPRESENTATIVE,
+                        representative.representativeId(),
+                        PATIENT_PORTAL,
+                        true,
+                        now,
+                        audit);
+                saveAndPublish(
+                        createdTickets,
+                        repTicket,
+                        resultId,
+                        tenantId,
+                        RECIPIENT_PATIENT_REPRESENTATIVE,
+                        PATIENT_PORTAL);
+            }
+        }
+    }
+
+    private void authorizeReferringDoctor(
+            List<ResultDeliveryTicket> createdTickets,
+            DiagnosticOrder order,
+            ResultId resultId,
+            TenantId tenantId,
+            PatientId patientId,
+            LocalDateTime expiresAt,
+            LocalDateTime now,
+            AuditMetadata audit) {
+        if (order.doctorSnapshot() == null) {
+            return;
+        }
+        String doctorId = order.doctorSnapshot().doctorId();
+        ResultDeliveryTicket docTicket = createTicket(
+                resultId, tenantId, patientId, expiresAt, RECIPIENT_REFERRING_DOCTOR, doctorId, DOCTOR_PORTAL, false, now, audit);
+        saveAndPublish(createdTickets, docTicket, resultId, tenantId, RECIPIENT_REFERRING_DOCTOR, DOCTOR_PORTAL);
+    }
+
+    private boolean isRepresentativeActive(PatientRepresentative representative, LocalDate today) {
+        boolean active = PatientRepresentative.STATUS_ACTIVE.equals(representative.status());
+        boolean windowValid = !today.isBefore(representative.authorizationFrom())
+                && (representative.authorizationTo() == null || !today.isAfter(representative.authorizationTo()));
+        return active && windowValid;
+    }
+
+    private void saveAndPublish(
+            List<ResultDeliveryTicket> createdTickets,
+            ResultDeliveryTicket ticket,
+            ResultId resultId,
+            TenantId tenantId,
+            String recipientType,
+            String channel) {
+        repository.save(ticket);
+        createdTickets.add(ticket);
+        publishAuthorized(ticket, resultId, tenantId, recipientType, channel);
+    }
+
+    private ResultDeliveryTicket createTicket(
+            ResultId resultId,
+            TenantId tenantId,
+            PatientId patientId,
+            LocalDateTime expiresAt,
+            String recipientType,
+            String recipientId,
+            String channel,
+            boolean representativeVerified,
+            LocalDateTime authorizedAt,
+            AuditMetadata audit) {
+        DeliveryAuthorizationCheck authCheck =
+                new DeliveryAuthorizationCheck(true, true, representativeVerified, authorizedAt);
+        return new ResultDeliveryTicket(
+                UUID.randomUUID(),
+                resultId,
+                tenantId,
+                patientId,
+                UUID.randomUUID().toString().substring(0, 8),
+                expiresAt,
+                recipientType,
+                recipientId,
+                channel,
+                authCheck,
+                audit);
+    }
+
+    private void publishAuthorized(
+            ResultDeliveryTicket ticket, ResultId resultId, TenantId tenantId, String recipientType, String channel) {
+        eventPublisher.publishEvent(
+                new ResultDeliveryAuthorizedEvent(ticket.getTicketId(), resultId, tenantId, recipientType, channel));
+    }
+
+    private void publishWithheld(ResultDeliveryTicket ticket, ResultId resultId) {
+        eventPublisher.publishEvent(new ResultDeliveryWithheldEvent(ticket.getTicketId(), resultId, ticket.getTenantId()));
     }
 }
