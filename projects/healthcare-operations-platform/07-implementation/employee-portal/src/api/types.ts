@@ -969,3 +969,152 @@ export interface CreateBillingRequestRequest {
   taxRate?: number;
   actorId?: string;
 }
+
+// -- Laboratory Workflow (MVP-MOD-006: BCM-LAB-002 to BCM-LAB-010) -------------------------
+
+export type SampleStatus =
+  | "collected"
+  | "labeled"
+  | "in_transit"
+  | "received"
+  | "rejected"
+  | "in_process"
+  | "disposed";
+
+export interface Sample {
+  sampleId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  orderId: string;
+  patientId: string;
+  sampleTypeRefId: string;
+  status: SampleStatus | string;
+  collectionDate?: string;
+  collectedBy?: string;
+  receptionDate?: string;
+  receivedBy?: string;
+  rejectionReason?: string;
+  disposalReason?: string;
+  version: number;
+}
+
+export interface CollectSampleRequest {
+  collectedBy?: string;
+}
+
+export interface ReceiveSampleRequest {
+  conditionCriteriaMet?: boolean;
+}
+
+export interface RejectSampleRequest {
+  reasonCode: string;
+}
+
+export interface DisposeSampleRequest {
+  reasonCode: string;
+}
+
+export type ResultStatus =
+  | "captured"
+  | "pending_technical_validation"
+  | "technically_validated"
+  | "pending_medical_validation"
+  | "medically_validated"
+  | "released"
+  | "amended";
+
+export interface AnalyteSnapshot {
+  analyteRefId: string;
+  name: string;
+  unit?: string;
+}
+
+export interface ReferenceRangeSnapshot {
+  rangeRefId: string;
+  normalLow?: number;
+  normalHigh?: number;
+  criticalLow?: number;
+  criticalHigh?: number;
+}
+
+export interface ProcessingIncident {
+  incidentType: string;
+  description: string;
+  loggedAt: string;
+  loggedBy: string;
+}
+
+export interface ResultValue {
+  rawValue: string;
+  numericValue?: number;
+  unit?: string;
+  method?: string;
+  capturedAt: string;
+  capturedBy: string;
+  deviceReference?: string;
+}
+
+export interface TechnicalValidationRecord {
+  notes?: string;
+  validatedAt?: string;
+  validatedBy?: string;
+}
+
+export interface MedicalValidationRecord {
+  notes?: string;
+  validatedAt?: string;
+  validatedBy?: string;
+}
+
+export interface ReleaseRecord {
+  notes?: string;
+  releasedAt?: string;
+  releasedBy?: string;
+}
+
+export interface AmendmentRecord {
+  reason: string;
+  amendedAt: string;
+  amendedBy: string;
+}
+
+export interface LaboratoryResult {
+  resultId: string;
+  tenantId: string;
+  laboratoryId: string;
+  sampleId: string;
+  testDefinitionId: string;
+  status: ResultStatus | string;
+  analyteSnapshots: AnalyteSnapshot[];
+  referenceRangeSnapshots: ReferenceRangeSnapshot[];
+  resultValues: ResultValue[];
+  incidents: ProcessingIncident[];
+  technicalValidation?: TechnicalValidationRecord;
+  medicalValidation?: MedicalValidationRecord;
+  releaseRecord?: ReleaseRecord;
+  amendments: AmendmentRecord[];
+  version: number;
+}
+
+export interface CaptureResultRequest {
+  values: ResultValue[];
+}
+
+export interface RecordIncidentRequest {
+  incidentType: string;
+  description: string;
+}
+
+export interface ValidateResultRequest {
+  notes?: string;
+}
+
+export interface ReleaseResultRequest {
+  notes?: string;
+}
+
+export interface AmendResultRequest {
+  reason: string;
+  newValues: ResultValue[];
+}

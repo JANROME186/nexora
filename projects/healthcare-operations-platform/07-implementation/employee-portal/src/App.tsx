@@ -16,6 +16,13 @@ import { DiagnosticOrdersScreen } from "./components/screens/DiagnosticOrdersScr
 import { CashSessionsScreen } from "./components/screens/CashSessionsScreen";
 import { SalesScreen } from "./components/screens/SalesScreen";
 import { BillingRequestsScreen } from "./components/screens/BillingRequestsScreen";
+import { SampleCollectionScreen } from "./components/screens/SampleCollectionScreen";
+import { SampleLabelingScreen } from "./components/screens/SampleLabelingScreen";
+import { SampleReceptionScreen } from "./components/screens/SampleReceptionScreen";
+import { LaboratoryProcessingScreen } from "./components/screens/LaboratoryProcessingScreen";
+import { TechnicalValidationScreen } from "./components/screens/TechnicalValidationScreen";
+import { MedicalValidationScreen } from "./components/screens/MedicalValidationScreen";
+import { ResultReleaseScreen } from "./components/screens/ResultReleaseScreen";
 import { AdminScopeProvider } from "./state/AdminScopeContext";
 
 function renderScreen(screen: ScreenKey) {
@@ -52,6 +59,20 @@ function renderScreen(screen: ScreenKey) {
       return <SalesScreen />;
     case "billing-requests":
       return <BillingRequestsScreen />;
+    case "sample-collection":
+      return <SampleCollectionScreen />;
+    case "sample-labeling":
+      return <SampleLabelingScreen />;
+    case "sample-reception":
+      return <SampleReceptionScreen />;
+    case "laboratory-processing":
+      return <LaboratoryProcessingScreen />;
+    case "technical-validation":
+      return <TechnicalValidationScreen />;
+    case "medical-validation":
+      return <MedicalValidationScreen />;
+    case "result-release":
+      return <ResultReleaseScreen />;
     default:
       return null;
   }
