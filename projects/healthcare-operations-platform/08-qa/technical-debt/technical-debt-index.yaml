@@ -209,7 +209,7 @@ entries:
     source_backlog_item: MVP-MOD-004-BE-002
     affected_area: diagnostic_order_cancellation_downstream_state_check
     file: 08-qa/technical-debt/TD-BE-010-order-cancellation-sample-state-check-deferred.yaml
-    remediation_strategy: gradual_when_mvp_mod_006_laboratory_workflow_is_modeled
+    remediation_strategy: modeling_precondition_satisfied_by_MVP_MOD_006_DEF_code_fix_pending_MVP_MOD_006_BE_002
   - id: TD-FE-003
     title: Implement frontend enterprise quality profile
     status: materially_reduced

@@ -1,0 +1,52 @@
+artifact:
+  id: HOP-API-SRC-BCM-LAB-009
+  type: openapi-source
+  name: Medical Validation API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-009
+  note: >
+    Source contract model. The rendered OpenAPI document, controllers, DTOs
+    and SDKs are generated outputs declared in generation-plan.yaml.
+
+api:
+  base_path: /api/clinical-operations/laboratory-results/{resultId}/medical-validation
+  surface_classification: internal
+  security:
+    scheme: bearer_jwt
+    required_scopes_default: [result.manage]
+
+resources:
+  - name: MedicalValidation
+    operations:
+      - id: listMedicalValidationWorklist
+        method: GET
+        path: /medical-validation-worklist
+        scopes: [result.manage]
+        generatable: true
+      - id: performMedicalValidation
+        method: POST
+        path: /validate
+        scopes: [result.manage]
+        generatable: false
+        custom_reason: Technical-validation precondition, licensed-authority verification and AI-exclusion enforcement.
+
+schemas_source:
+  - MedicalValidationWorklistEntry
+  - ClinicalInterpretationNote
+  - LicensedAuthorityCheck
+
+error_model:
+  standard: rfc7807
+  domain_errors:
+    - code: RESULT_TECHNICAL_VALIDATION_REQUIRED
+      maps_to_rule: RN-001
+    - code: RESULT_UNVERIFIED_CREDENTIAL
+      maps_to_rule: RN-002
+    - code: RESULT_AI_VALIDATION_FORBIDDEN
+      maps_to_rule: RN-003
+    - code: RESULT_BOUNDARY_VIOLATION
+      maps_to_rule: RN-004
+    - code: RESULT_SCOPE_MISMATCH
+      maps_to_rule: RN-005

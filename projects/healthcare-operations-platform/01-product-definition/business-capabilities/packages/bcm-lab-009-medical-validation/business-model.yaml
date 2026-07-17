@@ -1,0 +1,82 @@
+artifact:
+  id: HOP-BM-BCM-LAB-009
+  type: business-model
+  name: Medical Validation Business Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-009
+  bounded_context: laboratory-results
+  primary_aggregate: LaboratoryResult (AGG-009, owned by BCM-LAB-006)
+  model_kind: operational_process_over_shared_aggregate
+
+entities:
+  - id: ENT-MVL-001
+    name: MedicalValidationWorklistEntry
+    is_aggregate_root: false
+    described_as: process_record
+    owned_by_aggregate: LaboratoryResult
+    description: Queue entry for a technically validated result pending clinical/medical review.
+    fields:
+      - name: worklistEntryId
+        type: uuid
+        required: true
+        identifier: true
+      - name: resultId
+        type: ResultId
+        required: true
+      - name: tenantId
+        type: TenantId
+        required: true
+      - name: laboratoryId
+        type: LaboratoryId
+        required: true
+      - name: queueStatus
+        type: enum
+        values: [pending_review, under_review, resolved]
+        required: true
+      - name: audit
+        type: AuditMetadata
+        required: true
+
+value_objects:
+  - id: VO-MVL-001
+    name: ClinicalInterpretationNote
+    description: Optional structured clinical note attached at medical validation time.
+    fields:
+      - name: interpretationText
+        type: string
+        required: false
+      - name: flaggedForFollowUp
+        type: boolean
+        required: false
+        default: false
+  - id: VO-MVL-002
+    name: LicensedAuthorityCheck
+    description: Confirmation that the validating actor holds an active, verified medical license/credential at validation time.
+    fields:
+      - name: credentialVerified
+        type: boolean
+        required: true
+      - name: checkedAt
+        type: datetime
+        required: true
+
+invariants:
+  - id: INV-MVL-001
+    statement: A result cannot be medically validated before it is technically validated; medical validation of a result still pending technical validation is refused.
+  - id: INV-MVL-002
+    statement: Medical validation may be performed only by an actor with an active, verified medical credential (LicensedAuthorityCheck.credentialVerified true); it can never be performed by an AI capability under any configuration.
+  - id: INV-MVL-003
+    statement: This capability writes only LaboratoryResult.medicalValidation; it must never write technicalValidation, criticalFlag, releaseRecord or amendments.
+
+external_references:
+  - shared_kernel:
+      - VO-ID-001 TenantId
+      - VO-ID-002 LaboratoryId
+      - VO-ID-006 DoctorId
+      - VO-ID-009 ResultId
+      - VO-007 AuditMetadata
+  - capabilities:
+      - BCM-LAB-006 LaboratoryResult aggregate (delegated mutation target for medicalValidation)
+      - BCM-PER-003 Doctor credential verification (licensed-authority source)

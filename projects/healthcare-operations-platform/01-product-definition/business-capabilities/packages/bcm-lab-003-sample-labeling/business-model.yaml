@@ -1,0 +1,86 @@
+artifact:
+  id: HOP-BM-BCM-LAB-003
+  type: business-model
+  name: Sample Labeling Business Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-003
+  bounded_context: orders-samples
+  primary_aggregate: Sample (AGG-008, owned by BCM-LAB-002)
+  model_kind: operational_process_over_shared_aggregate
+
+entities:
+  - id: ENT-LBL-001
+    name: LabelPrintJob
+    is_aggregate_root: false
+    described_as: process_record
+    owned_by_aggregate: Sample
+    description: Print-queue record tracking barcode generation and reprint attempts for a specimen label.
+    fields:
+      - name: printJobId
+        type: uuid
+        required: true
+        identifier: true
+      - name: sampleId
+        type: SampleId
+        required: true
+      - name: tenantId
+        type: TenantId
+        required: true
+      - name: branchId
+        type: BranchId
+        required: true
+      - name: labelTemplateRef
+        type: string
+        required: true
+      - name: barcodeValue
+        type: string
+        required: true
+      - name: printAttempts
+        type: integer
+        required: true
+        default: 0
+      - name: printStatus
+        type: enum
+        values: [queued, printed, reprint_requested, confirmed, error]
+        required: true
+      - name: errorReason
+        type: string
+        required: false
+      - name: audit
+        type: AuditMetadata
+        required: true
+
+value_objects:
+  - id: VO-LBL-001
+    name: LabelMismatchCheck
+    description: Result of comparing the printed barcode against the Sample's order and patient reference before confirmation.
+    fields:
+      - name: checkedAt
+        type: datetime
+        required: true
+      - name: matched
+        type: boolean
+        required: true
+      - name: mismatchDetail
+        type: string
+        required: false
+
+invariants:
+  - id: INV-LBL-001
+    statement: A LabelPrintJob cannot reach confirmed status without a matched LabelMismatchCheck.
+  - id: INV-LBL-002
+    statement: Confirming a label print job is the only trigger allowed to invoke AssignSpecimenLabel on the Sample aggregate; this capability never mutates any other Sample field.
+  - id: INV-LBL-003
+    statement: A sample already in received, rejected or in_process status cannot receive a new label assignment without an explicit relabeling override recorded on the print job.
+
+external_references:
+  - shared_kernel:
+      - VO-ID-001 TenantId
+      - VO-ID-003 BranchId
+      - VO-ID-008 SampleId
+      - VO-007 AuditMetadata
+  - capabilities:
+      - BCM-LAB-002 Sample aggregate (delegated mutation target for labelInfo)
+      - BCM-SVC-007 published SampleRequirement (label template source reference)

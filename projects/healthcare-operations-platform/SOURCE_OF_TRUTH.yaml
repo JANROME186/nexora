@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.92.0
+  version: 0.93.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -107,6 +107,17 @@ sources:
   mvp_mod_005_closeout_evidence_yaml: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
   mvp_mod_005_closeout_security_quality_evidence: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.md
   mvp_mod_005_closeout_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.yaml
+  mvp_mod_006_pkg_bcm_lab_002: 01-product-definition/business-capabilities/packages/bcm-lab-002-sample-collection/
+  mvp_mod_006_pkg_bcm_lab_003: 01-product-definition/business-capabilities/packages/bcm-lab-003-sample-labeling/
+  mvp_mod_006_pkg_bcm_lab_005: 01-product-definition/business-capabilities/packages/bcm-lab-005-sample-reception/
+  mvp_mod_006_pkg_bcm_lab_006: 01-product-definition/business-capabilities/packages/bcm-lab-006-laboratory-processing/
+  mvp_mod_006_pkg_bcm_lab_008: 01-product-definition/business-capabilities/packages/bcm-lab-008-technical-validation/
+  mvp_mod_006_pkg_bcm_lab_009: 01-product-definition/business-capabilities/packages/bcm-lab-009-medical-validation/
+  mvp_mod_006_pkg_bcm_lab_010: 01-product-definition/business-capabilities/packages/bcm-lab-010-result-release/
+  mvp_mod_006_def_qa_evidence: 08-qa/qa/laboratory-workflow/MVP-MOD-006-DEF-validation.md
+  mvp_mod_006_def_qa_evidence_yaml: 08-qa/qa/laboratory-workflow/MVP-MOD-006-DEF-validation.yaml
+  mvp_mod_006_def_security_quality_evidence: 08-qa/security-quality/MVP-MOD-006-DEF/security-quality-evidence.md
+  mvp_mod_006_def_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-006-DEF/security-quality-evidence.yaml
   mvp_mod_003_def_qa_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
   mvp_mod_003_def_qa_evidence_yaml: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
   mvp_mod_003_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/peopleclinicalmasterdata/
@@ -303,7 +314,7 @@ rules:
   - HOP must validate requester-proposed and current stack choices against current stable or LTS open source market practice before release-oriented decisions.
   - HOP must maintain stack-specific quality toolchain baselines and register non-blocking tooling gaps as technical debt.
   - HOP code-changing backlog items must produce security quality evidence with applicable tests, best-practice and coding-standard checks, duplicate-code checks, complexity checks, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerability checks across all severities, secrets scan, coverage, message externalization/i18n review and DAST when runnable surfaces exist.
-  - HOP functional development was unblocked by HOP-QA-ALIGN-CLOSEOUT; MVP-MOD-005 is closed and the current active backlog item is MVP-MOD-006-DEF.
+  - HOP functional development was unblocked by HOP-QA-ALIGN-CLOSEOUT; MVP-MOD-005 is closed, MVP-MOD-006-DEF capability package models are modeled, and the current active backlog item is MVP-MOD-006-BE-001.
   - HOP agents must execute at least one technical-debt remediation or material reduction before feature implementation in each code-changing backlog item unless no open debt exists.
   - HOP technical-debt burn-down must become stricter as the project advances; final project closure requires no open technical debt.
   - HOP line coverage target is 80 percent for every applicable delivered stack.

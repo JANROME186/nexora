@@ -1,0 +1,43 @@
+artifact:
+  id: HOP-PERM-BCM-LAB-003
+  type: permissions
+  name: Sample Labeling Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-003
+  depends_on_capability: BCM-PLT-001
+
+scopes:
+  - code: sample.label
+    description: Print, confirm and reprint a specimen label.
+  - code: sample.read
+    description: Read label print job history for audit or downstream workflows.
+
+roles:
+  - role: sample-collector
+    grants: [sample.label, sample.read]
+  - role: branch-administrator
+    grants: [sample.label, sample.read]
+  - role: laboratory-technician
+    grants: [sample.read]
+  - role: tenant-administrator
+    grants: [sample.read]
+
+access_policies:
+  - id: POL-LBL-003-01
+    statement: Labeling commands are scoped to the actor's tenant, laboratory and branch.
+    enforcement: row_level_tenant_laboratory_branch_filter
+  - id: POL-LBL-003-02
+    statement: This capability may invoke only AssignSpecimenLabel on the Sample aggregate; no other Sample field may be written from this capability.
+    enforcement: cross_capability_delegation_policy
+
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+    - event: SpecimenLabelPrinted
+      fields: [printJobId, sampleId, actorId, printAttempts]
+    - event: SpecimenLabelAssigned
+      fields: [sampleId, printJobId, actorId, barcodeValue]
+    - event: SpecimenLabelReprinted
+      fields: [printJobId, sampleId, reasonCode, actorId]

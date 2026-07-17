@@ -2,11 +2,11 @@ artifact:
   id: HOP-CAP-PKG-IDX-001
   type: capability-package-index
   name: HOP Business Capability Package Index
-  version: 1.5.0
+  version: 1.6.0
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.yaml
-  qa_evidence: ../../../08-qa/qa/cashier-and-billing-request/MVP-MOD-005-DEF-validation.yaml
+  qa_evidence: ../../../08-qa/qa/laboratory-workflow/MVP-MOD-006-DEF-validation.yaml
 
 policy:
   primary_development_unit: business_capability_package
@@ -35,7 +35,7 @@ do_not_write_manually:
 active_capability_package_group:
   roadmap_group: MVP-MOD-006
   name: Laboratory Workflow
-  package_status: not_started
+  package_status: modeled
   backlog_item: MVP-MOD-006-DEF
   required_artifacts_per_package:
     - capability-package.yaml
@@ -52,29 +52,50 @@ active_capability_package_group:
     - generation-plan.yaml
     - traceability.yaml
     - README.md
-  next_backlog_item: MVP-MOD-006-DEF
+  next_backlog_item: MVP-MOD-006-BE-001
   capabilities:
     - capability_id: BCM-LAB-002
       package_folder: bcm-lab-002-sample-collection/
-      package_status: not_started
+      package_status: modeled
+      bounded_context: orders-samples
+      primary_aggregate: AGG-008 Sample (owner)
+      mobile_scope: sample_collection_later
     - capability_id: BCM-LAB-003
       package_folder: bcm-lab-003-sample-labeling/
-      package_status: not_started
+      package_status: modeled
+      bounded_context: orders-samples
+      primary_aggregate: AGG-008 Sample (owned by BCM-LAB-002; labelInfo delegated)
+      mobile_scope: not_required
     - capability_id: BCM-LAB-005
       package_folder: bcm-lab-005-sample-reception/
-      package_status: not_started
+      package_status: modeled
+      bounded_context: orders-samples
+      primary_aggregate: AGG-008 Sample (owned by BCM-LAB-002; receptionRecord/rejection/disposal delegated)
+      mobile_scope: not_required
     - capability_id: BCM-LAB-006
       package_folder: bcm-lab-006-laboratory-processing/
-      package_status: not_started
+      package_status: modeled
+      bounded_context: laboratory-results
+      primary_aggregate: AGG-009 LaboratoryResult (owner)
+      mobile_scope: not_required
     - capability_id: BCM-LAB-008
       package_folder: bcm-lab-008-technical-validation/
-      package_status: not_started
+      package_status: modeled
+      bounded_context: laboratory-results
+      primary_aggregate: AGG-009 LaboratoryResult (owned by BCM-LAB-006; technicalValidation/criticalFlag delegated)
+      mobile_scope: not_required
     - capability_id: BCM-LAB-009
       package_folder: bcm-lab-009-medical-validation/
-      package_status: not_started
+      package_status: modeled
+      bounded_context: laboratory-results
+      primary_aggregate: AGG-009 LaboratoryResult (owned by BCM-LAB-006; medicalValidation delegated)
+      mobile_scope: not_required
     - capability_id: BCM-LAB-010
       package_folder: bcm-lab-010-result-release/
-      package_status: not_started
+      package_status: modeled
+      bounded_context: laboratory-results
+      primary_aggregate: AGG-009 LaboratoryResult (owned by BCM-LAB-006; releaseRecord/amendments delegated)
+      mobile_scope: not_required
 
 completed_capability_package_groups:
   - roadmap_group: MVP-MOD-005

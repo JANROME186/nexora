@@ -1,0 +1,102 @@
+artifact:
+  id: HOP-BM-BCM-LAB-005
+  type: business-model
+  name: Sample Reception Business Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-005
+  bounded_context: orders-samples
+  primary_aggregate: Sample (AGG-008, owned by BCM-LAB-002)
+  model_kind: operational_process_over_shared_aggregate
+
+entities:
+  - id: ENT-RCP-001
+    name: ReceptionWorklistEntry
+    is_aggregate_root: false
+    described_as: process_record
+    owned_by_aggregate: Sample
+    description: Reception queue entry for a labeled sample awaiting laboratory intake verification.
+    fields:
+      - name: worklistEntryId
+        type: uuid
+        required: true
+        identifier: true
+      - name: sampleId
+        type: SampleId
+        required: true
+      - name: tenantId
+        type: TenantId
+        required: true
+      - name: branchId
+        type: BranchId
+        required: true
+      - name: expectedArrivalWindowMinutes
+        type: integer
+        required: false
+      - name: queueStatus
+        type: enum
+        values: [awaiting_reception, under_review, resolved]
+        required: true
+      - name: audit
+        type: AuditMetadata
+        required: true
+
+value_objects:
+  - id: VO-RCP-001
+    name: ReceptionConditionCheck
+    description: Structured verification of specimen condition performed at intake.
+    fields:
+      - name: labelPresent
+        type: boolean
+        required: true
+      - name: containerIntact
+        type: boolean
+        required: true
+      - name: visibleHemolysis
+        type: boolean
+        required: true
+      - name: withinTransportWindow
+        type: boolean
+        required: true
+      - name: observedVolumeSufficient
+        type: boolean
+        required: true
+      - name: checkedAt
+        type: datetime
+        required: true
+  - id: VO-RCP-002
+    name: DisposalRecord
+    description: Terminal disposal record for a sample that has completed or failed the pipeline; evidence fields are preserved, only disposal metadata is appended.
+    fields:
+      - name: disposedBy
+        type: UserId
+        required: true
+      - name: disposedAt
+        type: datetime
+        required: true
+      - name: disposalReason
+        type: enum
+        values: [processing_complete_retention_expired, rejected_sample_disposal, other]
+        required: true
+
+invariants:
+  - id: INV-RCP-001
+    statement: A sample cannot be received without a confirmed labelInfo (Sample.labelInfo must be non-null); an unlabeled sample presented at reception is rejected, not received.
+  - id: INV-RCP-002
+    statement: A sample failing any ReceptionConditionCheck field (hemolysis present, container not intact, outside transport window, insufficient volume) cannot be received; it must be rejected with a matching reasonCode.
+  - id: INV-RCP-003
+    statement: A rejected sample can be disposed but never received or moved to in_process afterward.
+  - id: INV-RCP-004
+    statement: Disposal never deletes prior collection, labeling, reception or rejection evidence; it only appends a DisposalRecord and a final chain-of-custody event.
+
+external_references:
+  - shared_kernel:
+      - VO-ID-001 TenantId
+      - VO-ID-003 BranchId
+      - VO-ID-004 UserId
+      - VO-ID-008 SampleId
+      - VO-007 AuditMetadata
+  - capabilities:
+      - BCM-LAB-002 Sample aggregate (delegated mutation target for receptionRecord, rejection-at-reception and disposal)
+      - BCM-LAB-003 confirmed SpecimenLabelInfo (precondition source)

@@ -1,0 +1,20 @@
+artifact:
+  id: HOP-MOB-BCM-LAB-003
+  type: mobile-model
+  name: Sample Labeling Mobile Model
+  version: 0.1.0
+  status: deferred
+  classification: editable_model
+  capability: BCM-LAB-003
+
+mobile_scope:
+  status: not_required
+  rationale: >
+    MVP-MOD-006 declares mobile_app not_required for labeling. Mobile
+    involvement with specimen labels, when built, is expected to ride along
+    with the BCM-LAB-002 mobile collection flow rather than as a standalone
+    surface.
+  deferred_to:
+    - BCM-LAB-002 future mobile expansion
+  flows: []
+  offline_expectations: none

@@ -1,0 +1,65 @@
+artifact:
+  id: HOP-TEST-BCM-LAB-002
+  type: test-model
+  name: Sample Collection Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-002
+
+test_cases:
+  - id: TST-COL-002-01
+    type: acceptance
+    validates_rule: RN-001
+    statement: Collecting a sample against a non-accepted order line is rejected.
+    generatable: false
+  - id: TST-COL-002-02
+    type: acceptance
+    validates_rule: RN-002
+    statement: Collecting a sample without a resolvable patient or sample-requirement snapshot is rejected.
+    generatable: false
+  - id: TST-COL-002-03
+    type: acceptance
+    validates_rule: RN-003
+    statement: An unlabeled sample cannot be marked received or in_process.
+    generatable: false
+  - id: TST-COL-002-04
+    type: acceptance
+    validates_rule: RN-004
+    statement: A state transition that fails to append a chain-of-custody event is rolled back atomically.
+    generatable: false
+  - id: TST-COL-002-05
+    type: acceptance
+    validates_rule: RN-005
+    statement: Rejecting a sample without a structured reason code is rejected, and a rejected sample cannot transition to in_process.
+    generatable: false
+  - id: TST-COL-002-06
+    type: architecture
+    validates_rule: RN-006
+    statement: No capability other than BCM-LAB-002, BCM-LAB-003 or BCM-LAB-005 writes Sample persistence directly.
+    generatable: false
+  - id: TST-COL-002-07
+    type: contract
+    validates_rule: RN-007
+    statement: Unauthorized or out-of-scope actors cannot collect or reject a sample.
+    generatable: true
+  - id: TST-COL-002-08
+    type: unit
+    validates_rule: RN-008
+    statement: SampleCollected carries actor, branch, order reference and collection method.
+    generatable: true
+  - id: TST-COL-002-09
+    type: acceptance
+    validates_rule: RN-009
+    statement: Historical collection data and chain-of-custody entries cannot be edited or deleted after creation.
+    generatable: false
+
+test_layers:
+  - contract_tests
+  - unit_tests
+  - acceptance_tests
+  - architecture_tests
+
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests: [TST-COL-002-01, TST-COL-002-02, TST-COL-002-03, TST-COL-002-04, TST-COL-002-05, TST-COL-002-06, TST-COL-002-09]

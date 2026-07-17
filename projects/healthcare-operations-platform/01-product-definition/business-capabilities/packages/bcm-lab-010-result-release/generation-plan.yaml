@@ -1,0 +1,74 @@
+artifact:
+  id: HOP-GEN-BCM-LAB-010
+  type: generation-plan
+  name: Result Release Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-010
+  compiler_strategy: model_to_platform
+
+generated_outputs:
+  backend:
+    - CRUD scaffolding for ResultReleaseWorklistEntry read paths
+    - DTOs for ReleaseEligibilityCheck and AmendmentRequest
+    - Controllers for generatable operations (worklist)
+    - Repository interfaces and persistence adapters
+    - Event consumers for ResultMedicallyValidated
+    - API adapters
+  frontend:
+    - Employee portal release worklist (SCR-RLS-010-01)
+    - Routes and Client SDK usage
+  contracts:
+    - Rendered OpenAPI document from openapi-source.yaml
+    - Typed SDK
+    - Swagger documentation
+  tests:
+    - Repetitive unit tests for RN-006 and RN-007
+    - Contract tests for authorization
+  operations:
+    - Metric and log wiring from observability-model.yaml
+    - Dashboard skeleton
+    - Alert definitions
+
+custom_implementation_points:
+  - id: CUS-RLS-010-01
+    description: Medical-validation precondition check before release (RN-001).
+    maps_to_backlog: MVP-MOD-006-BE-002
+  - id: CUS-RLS-010-02
+    description: Cross-context linked-sample rejection check before release (RN-002).
+    maps_to_backlog: MVP-MOD-006-BE-002
+  - id: CUS-RLS-010-03
+    description: Immutable released-value enforcement and append-only amendment recording (RN-003).
+    maps_to_backlog: MVP-MOD-006-BE-002
+  - id: CUS-RLS-010-04
+    description: Licensed-authority verification and mandatory reason capture for amendments (RN-004).
+    maps_to_backlog: MVP-MOD-006-BE-002
+  - id: CUS-RLS-010-05
+    description: Delegated aggregate boundary enforcement so this capability writes only releaseRecord and amendments (RN-005).
+    maps_to_backlog: MVP-MOD-006-BE-002
+  - id: CUS-RLS-010-06
+    description: Release and amendment UI with eligibility summary and reason capture.
+    maps_to_backlog: MVP-MOD-006-FE-001
+
+do_not_write_manually:
+  - CRUD scaffolding
+  - DTOs
+  - Controllers
+  - Repositories
+  - Swagger documentation
+  - SDKs
+  - Repetitive documentation
+  - Repetitive test cases
+
+provenance:
+  source_models:
+    - business-model.yaml
+    - business-rules.yaml
+    - processes.yaml
+    - events.yaml
+    - openapi-source.yaml
+    - ui-model.yaml
+    - permissions.yaml
+    - observability-model.yaml
+  generation_metadata_required: true

@@ -1,0 +1,87 @@
+artifact:
+  id: HOP-BR-BCM-LAB-006
+  type: business-rules
+  name: Laboratory Processing Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-006
+  rule_id_pattern: "RN-###"
+
+rules:
+  - id: RN-001
+    statement: A result can be captured only for a Sample in received status; capturing against a rejected, disposed or not-yet-received sample is refused.
+    applies_to: LaboratoryResult
+    enforcement_point: command:CaptureResultValue
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Requires a read-only cross-capability status check against the Sample aggregate owned by BCM-LAB-002.
+    brm_alignment: BRM-001-R010
+    test_refs: [TST-LPR-006-01]
+  - id: RN-002
+    statement: A captured result must record an analyte, a unit and a reference range at capture time; these must never be resolved by live lookup after capture.
+    applies_to: LaboratoryResult
+    enforcement_point: command:CaptureResultValue
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Snapshot capture must copy versioned fields from BCM-SVC-004 and BCM-SVC-006 at a single consistent point in time.
+    test_refs: [TST-LPR-006-02]
+  - id: RN-003
+    statement: Result capture must respect the recorded test, unit, reference range and method; a numeric value outside a physiologically plausible range for the unit must be flagged as a processing incident rather than silently accepted.
+    applies_to: LaboratoryResult
+    enforcement_point: command:CaptureResultValue
+    severity: high
+    audit_required: true
+    generatable: false
+    custom_reason: Plausibility checking depends on unit- and analyte-specific thresholds sourced from the catalog, not a generic field validator.
+    test_refs: [TST-LPR-006-03]
+  - id: RN-004
+    statement: Device-sourced result values must reference a normalized message envelope; this capability must not parse raw ASTM, HL7 or file-based protocol payloads directly.
+    applies_to: LaboratoryResult
+    enforcement_point: command:CaptureResultValue
+    severity: high
+    audit_required: true
+    generatable: false
+    custom_reason: Enforces the anti-corruption-layer boundary already declared for BCM-PLT-004 in the context map (REL-CTX-011); direct parsing here would violate FORBID-CTX-004.
+    test_refs: [TST-LPR-006-04]
+  - id: RN-005
+    statement: A processing incident (equipment error, repeat required, dilution required, contamination suspected) must be recorded before a result can be submitted for technical validation when the incident affects reliability.
+    applies_to: LaboratoryResult
+    enforcement_point: command:SubmitResultForValidation
+    severity: high
+    audit_required: true
+    generatable: false
+    custom_reason: Requires domain judgment on whether the incident type affects result reliability, not a generic required-field check.
+    test_refs: [TST-LPR-006-05]
+  - id: RN-006
+    statement: Only BCM-LAB-006, BCM-LAB-008, BCM-LAB-009 and BCM-LAB-010 may mutate LaboratoryResult state; AI capabilities may read but must never validate, release or amend a clinical result.
+    applies_to: LaboratoryResult
+    enforcement_point: architecture_boundary
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Cross-capability boundary enforcement mirrors AGG-009's forbidden_mutators and BRM-001-R017 (AI cannot make clinical decisions).
+    brm_alignment: BRM-001-R017
+    test_refs: [TST-LPR-006-06]
+  - id: RN-007
+    statement: Result commands must execute within the actor's tenant, laboratory and branch scope.
+    applies_to: LaboratoryResult
+    enforcement_point: authorization:result.capture, authorization:result.manage
+    severity: critical
+    audit_required: true
+    generatable: true
+    test_refs: [TST-LPR-006-07]
+  - id: RN-008
+    statement: Result domain events must include actor identity, branch, sample reference and analyte reference.
+    applies_to: LaboratoryResult
+    enforcement_point: event:ResultCaptured
+    severity: high
+    audit_required: true
+    generatable: true
+    test_refs: [TST-LPR-006-08]
+
+enforcement_summary:
+  generatable_rules: [RN-007, RN-008]
+  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-004, RN-005, RN-006]

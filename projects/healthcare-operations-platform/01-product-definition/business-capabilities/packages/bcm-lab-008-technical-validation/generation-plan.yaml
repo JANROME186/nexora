@@ -1,0 +1,74 @@
+artifact:
+  id: HOP-GEN-BCM-LAB-008
+  type: generation-plan
+  name: Technical Validation Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-008
+  compiler_strategy: model_to_platform
+
+generated_outputs:
+  backend:
+    - CRUD scaffolding for TechnicalValidationWorklistEntry read paths
+    - DTOs for TechnicalAcceptanceCheck and CriticalThresholdCheck
+    - Controllers for generatable operations (worklist)
+    - Repository interfaces and persistence adapters
+    - Event consumers for ResultSubmittedForValidation
+    - API adapters
+  frontend:
+    - Employee portal technical validation worklist (SCR-TVL-008-01)
+    - Routes and Client SDK usage
+  contracts:
+    - Rendered OpenAPI document from openapi-source.yaml
+    - Typed SDK
+    - Swagger documentation
+  tests:
+    - Repetitive unit tests for RN-006 and RN-007
+    - Contract tests for authorization
+  operations:
+    - Metric and log wiring from observability-model.yaml
+    - Dashboard skeleton
+    - Alert definitions
+
+custom_implementation_points:
+  - id: CUS-TVL-008-01
+    description: Unresolved-incident precondition check before validation (RN-001).
+    maps_to_backlog: MVP-MOD-006-BE-002
+  - id: CUS-TVL-008-02
+    description: Segregation-of-duties enforcement against the capturing actor (RN-002).
+    maps_to_backlog: MVP-MOD-006-BE-002
+  - id: CUS-TVL-008-03
+    description: Critical-threshold comparison and mandatory flagging (RN-003).
+    maps_to_backlog: MVP-MOD-006-BE-002
+  - id: CUS-TVL-008-04
+    description: Critical-result notification hook to BCM-PLT-003 with verifiable trace (RN-004).
+    maps_to_backlog: MVP-MOD-006-BE-002
+  - id: CUS-TVL-008-05
+    description: Delegated aggregate boundary enforcement so this capability writes only technicalValidation and criticalFlag (RN-005).
+    maps_to_backlog: MVP-MOD-006-BE-002
+  - id: CUS-TVL-008-06
+    description: Technical validation review UI with acceptance checklist and critical-flag dialog.
+    maps_to_backlog: MVP-MOD-006-FE-001
+
+do_not_write_manually:
+  - CRUD scaffolding
+  - DTOs
+  - Controllers
+  - Repositories
+  - Swagger documentation
+  - SDKs
+  - Repetitive documentation
+  - Repetitive test cases
+
+provenance:
+  source_models:
+    - business-model.yaml
+    - business-rules.yaml
+    - processes.yaml
+    - events.yaml
+    - openapi-source.yaml
+    - ui-model.yaml
+    - permissions.yaml
+    - observability-model.yaml
+  generation_metadata_required: true

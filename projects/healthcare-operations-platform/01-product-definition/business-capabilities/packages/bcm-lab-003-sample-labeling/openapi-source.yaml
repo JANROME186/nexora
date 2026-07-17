@@ -1,0 +1,63 @@
+artifact:
+  id: HOP-API-SRC-BCM-LAB-003
+  type: openapi-source
+  name: Sample Labeling API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-003
+  note: >
+    Source contract model. The rendered OpenAPI document, controllers, DTOs
+    and SDKs are generated outputs declared in generation-plan.yaml.
+
+api:
+  base_path: /api/clinical-operations/samples/{sampleId}/label
+  surface_classification: internal
+  security:
+    scheme: bearer_jwt
+    required_scopes_default: [sample.label]
+
+resources:
+  - name: LabelPrintJob
+    operations:
+      - id: getLabelPrintJob
+        method: GET
+        path: /
+        scopes: [sample.read]
+        generatable: true
+      - id: printSpecimenLabel
+        method: POST
+        path: /print
+        scopes: [sample.label]
+        generatable: false
+        custom_reason: Sample-status precondition check and barcode generation.
+      - id: confirmSpecimenLabel
+        method: POST
+        path: /confirm
+        scopes: [sample.label]
+        generatable: false
+        custom_reason: Mismatch detection and delegated Sample.labelInfo mutation.
+      - id: requestLabelReprint
+        method: POST
+        path: /reprint
+        scopes: [sample.label]
+        generatable: false
+        custom_reason: Override reason capture for relabeling.
+
+schemas_source:
+  - LabelPrintJob
+  - LabelMismatchCheck
+
+error_model:
+  standard: rfc7807
+  domain_errors:
+    - code: LABEL_SAMPLE_STATUS_INVALID
+      maps_to_rule: RN-001
+    - code: LABEL_MISMATCH_DETECTED
+      maps_to_rule: RN-002
+    - code: LABEL_BOUNDARY_VIOLATION
+      maps_to_rule: RN-003
+    - code: LABEL_SCOPE_MISMATCH
+      maps_to_rule: RN-004
+    - code: LABEL_RELABEL_OVERRIDE_REQUIRED
+      maps_to_rule: RN-005

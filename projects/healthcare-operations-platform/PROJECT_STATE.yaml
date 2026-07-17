@@ -1,8 +1,8 @@
 project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
-repository_version: 0.94.0
-current_phase: MVP-MOD-005 Cashier and Billing Request closed (MVP-MOD-006 Laboratory Workflow ready to start)
+repository_version: 0.95.0
+current_phase: MVP-MOD-006 Laboratory Workflow capability packages modeled (MVP-MOD-006-BE-001 ready to start)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -143,8 +143,15 @@ completed_deliverables:
     full frontend quality suite re-executed clean with 0 regressions; capability package index and
     BCM-ATT-005/BCM-ATT-008 traceability moved to module_closed; HOP explicitly documented as not
     commercially complete or GA-ready)
+  - MVP-MOD-006-DEF Laboratory Workflow capability package models (BCM-LAB-002 Sample Collection,
+    BCM-LAB-003 Sample Labeling, BCM-LAB-005 Sample Reception, BCM-LAB-006 Laboratory Processing,
+    BCM-LAB-008 Technical Validation, BCM-LAB-009 Medical Validation, BCM-LAB-010 Result Release;
+    Sample (AGG-008) owned by BCM-LAB-002 with delegated field-level mutation authority for
+    BCM-LAB-003/005; LaboratoryResult (AGG-009) owned by BCM-LAB-006 with delegated field-level
+    mutation authority for BCM-LAB-008/009/010; no code implemented, definition only;
+    TD-BE-010's modeling precondition satisfied, code fix remains pending MVP-MOD-006-BE-002)
 next_deliverables:
-  - MVP-MOD-006 Laboratory Workflow capability package models (MVP-MOD-006-DEF)
+  - MVP-MOD-006-BE-001 Compile sample lifecycle backend outputs from capability packages
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -159,7 +166,7 @@ development_readiness:
   status: ready
   ready_to_start_module: MVP-MOD-006
   in_progress_module: MVP-MOD-006
-  next_backlog_item: MVP-MOD-006-DEF
+  next_backlog_item: MVP-MOD-006-BE-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -233,7 +240,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-006
-  current_backlog_item: MVP-MOD-006-DEF
+  current_backlog_item: MVP-MOD-006-BE-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -275,46 +282,54 @@ implementation_progress:
     - MVP-MOD-005-FE-001
     - MVP-MOD-005-QA-001
     - MVP-MOD-005-CLOSEOUT
+    - MVP-MOD-006-DEF
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-006-DEF
+    - MVP-MOD-006-BE-001
   latest_validation:
-    backlog_item_id: MVP-MOD-005-CLOSEOUT
+    backlog_item_id: MVP-MOD-006-DEF
     command: >
-      Module closeout registry-consistency validation: clean-rebuild backend quality profile
-      (mvn clean verify ...), OWASP Dependency-Check, integrated Trivy scan, full frontend quality
-      suite (typecheck/lint/test:coverage/build/duplication/format/license) and npm audit,
-      re-executed to produce accurate closeout evidence and cross-checked against every registry
-      that references MVP-MOD-005.
+      Definition-only capability package modeling validation: full YAML parse of 91 new model
+      files across 7 capability packages, agent-agnostic scan, secrets scan, stale-pointer sweep
+      and git diff --check. No code changed, so no backend/frontend build or test gates apply;
+      coverage baselines (backend 67.47%, frontend 80.66%) are unchanged and not regressed.
     working_directory: projects/healthcare-operations-platform
     status: passed
-    tests_run: "105 backend tests (clean rebuild, reproduced twice) and 33 frontend tests across 17 files"
+    tests_run: "not_applicable (definition-only backlog item, no code changed)"
     failures: 0
     errors: 0
-    skipped: 8
+    skipped: 0
     additional_checks:
       - >-
-        Found and corrected a coverage measurement bug in MVP-MOD-005-QA-001: its reported 68.66%
-        backend line coverage was inflated by a non-clean multi-run jacoco.exec accumulation; two
-        independent clean-rebuild runs both reproduced the accurate figure, 67.47% (unchanged from
-        MVP-MOD-005-BE-002). Corrected across MVP-MOD-005-QA-001's own evidence, this file,
-        SOURCE_OF_TRUTH.yaml, technical-debt-index.yaml and TD-BE-003-backend-coverage-gate.yaml.
+        Modeled 7 capability packages for MVP-MOD-006 Laboratory Workflow: BCM-LAB-002 Sample
+        Collection (owns Sample/AGG-008), BCM-LAB-003 Sample Labeling, BCM-LAB-005 Sample
+        Reception, BCM-LAB-006 Laboratory Processing (owns LaboratoryResult/AGG-009), BCM-LAB-008
+        Technical Validation, BCM-LAB-009 Medical Validation and BCM-LAB-010 Result Release, each
+        with the full 14-artifact set (13 YAML + README.md).
       - >-
-        Found and corrected a stale technical-debt-index.yaml frontend coverage baseline (still
-        80.57% from MVP-MOD-005-FE-001, never updated to the 80.66% MVP-MOD-005-QA-001 measured).
+        Confirmed canonical capability names against BCM-001 (business-capability-map.yaml) and
+        dependency profiles/aggregate references against BCM-002 (capability-dependency-map.yaml)
+        and the domain foundation (aggregate-catalog.yaml, context-map.yaml, shared-kernel.yaml);
+        no invented names, no inconsistencies found.
       - >-
-        Moved BCM-ATT-005 and BCM-ATT-008 to module_closed in capability-package-index.yaml and
-        their own traceability.yaml/capability-package.yaml files; advanced
-        active_capability_package_group to the MVP-MOD-006 not_started placeholder, matching the
-        pattern used at every prior module transition.
+        Reviewed technical-debt-index.yaml before modeling; identified TD-BE-010 (order
+        cancellation's sample-state check, explicitly deferred pending MVP-MOD-006 modeling) as
+        the debt-first target. Updated TD-BE-010 and technical-debt-index.yaml to record that its
+        modeling precondition is now satisfied by this backlog item; the code-level fix remains
+        open, pending MVP-MOD-006-BE-002.
       - >-
-        Confirmed all 6 MVP-MOD-005 backlog items closed and traceable; confirmed no exceptions or
-        blocking gaps; confirmed HOP is explicitly not commercially complete or GA-ready.
+        Updated capability-package-index.yaml: active_capability_package_group package_status and
+        all 7 capability entries moved from not_started to modeled; next_backlog_item advanced to
+        MVP-MOD-006-BE-001.
       - >-
         Advanced every active/current/next pointer (project and root PROJECT_STATE.yaml,
         SOURCE_OF_TRUTH.yaml, the commercial backlog and execution prompts, the local runbook) to
-        MVP-MOD-006-DEF; confirmed via repository-wide grep that no registry still names
-        MVP-MOD-005 or MVP-MOD-005-CLOSEOUT as active/current/next.
+        MVP-MOD-006-BE-001; confirmed via repository-wide grep that no live registry still names
+        MVP-MOD-006-DEF as active/current/next (only immutable historical evidence retains it).
+      - >-
+        HOP remains explicitly not commercially complete or GA-ready: no code was implemented in
+        this backlog item, backend coverage remains 67.47% and 14 technical-debt items remain open
+        project-wide.
 module_closeout:
   MVP-MOD-001:
     status: implemented
@@ -405,13 +420,52 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_release: REL-001
   active_module: MVP-MOD-006
-  active_backlog_item: MVP-MOD-006-DEF
+  active_backlog_item: MVP-MOD-006-BE-001
   quality_alignment_module_status: closed
   paused_functional_module: null
   paused_functional_backlog_item: null
   primary_development_unit: business_capability_package
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.yaml
   capability_package_progress:
+    MVP-MOD-006:
+      name: Laboratory Workflow
+      package_status: modeled
+      backlog_item: MVP-MOD-006-DEF
+      backlog_item_status: modeled
+      execution_flow_stage: model
+      packages_modeled:
+        - BCM-LAB-002
+        - BCM-LAB-003
+        - BCM-LAB-005
+        - BCM-LAB-006
+        - BCM-LAB-008
+        - BCM-LAB-009
+        - BCM-LAB-010
+      artifacts_per_package: 14
+      bounded_contexts:
+        - orders-samples
+        - laboratory-results
+      aggregate_ownership:
+        - aggregate: AGG-008 Sample
+          owner: BCM-LAB-002
+          delegated_mutators: [BCM-LAB-003, BCM-LAB-005]
+        - aggregate: AGG-009 LaboratoryResult
+          owner: BCM-LAB-006
+          delegated_mutators: [BCM-LAB-008, BCM-LAB-009, BCM-LAB-010]
+      qa_evidence: 08-qa/qa/laboratory-workflow/MVP-MOD-006-DEF-validation.yaml
+      qa_evidence_md: 08-qa/qa/laboratory-workflow/MVP-MOD-006-DEF-validation.md
+      security_quality_evidence: 08-qa/security-quality/MVP-MOD-006-DEF/security-quality-evidence.yaml
+      security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-006-DEF/security-quality-evidence.md
+      ready_for_compilation: true
+      backend_compilation_completed: false
+      ready_for_custom_rule_implementation: false
+      custom_rules_implemented: false
+      ready_for_ui_compilation: false
+      employee_portal_ui_compiled: false
+      ready_for_module_validation: false
+      module_validated: false
+      ready_for_closeout: false
+      module_closed: false
     MVP-MOD-005:
       name: Cashier and Billing Request
       package_status: module_closed

@@ -192,9 +192,9 @@ Expected result:
 
 ## Next Backlog Item
 
-Start with:
+Continue with:
 
 - Module: `MVP-MOD-006 Laboratory Workflow`
-- Backlog item: `MVP-MOD-006-DEF`
-- Paused functional backlog item: none — HOP Enterprise Quality Alignment closed
-- Folder: `01-product-definition/business-capabilities/packages/`
+- Backlog item: `MVP-MOD-006-BE-001`
+- Paused functional backlog item: none — `MVP-MOD-006-DEF` closed (capability package models only, no code implemented)
+- Folder: `07-implementation/backend/`
