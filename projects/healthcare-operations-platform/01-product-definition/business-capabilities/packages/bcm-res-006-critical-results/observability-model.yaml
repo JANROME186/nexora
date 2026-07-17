@@ -1,0 +1,60 @@
+artifact:
+  id: HOP-OBS-BCM-RES-006
+  type: observability-model
+  name: Critical Results Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-006
+  depends_on_capability: BCM-PLT-006
+
+logs:
+  - event: critical_result_escalation_created
+    level: warn
+    fields: [escalationId, resultId, assignedHandlerId]
+    correlation_id: resultId
+  - event: critical_result_acknowledged
+    level: info
+    fields: [escalationId, resultId, acknowledgedBy]
+    correlation_id: resultId
+  - event: critical_result_escalated
+    level: error
+    fields: [escalationId, resultId, escalationTier]
+    correlation_id: resultId
+
+metrics:
+  - name: critical_result_escalation_created_total
+    type: counter
+    labels: [tenantId, laboratoryId]
+  - name: critical_result_acknowledged_total
+    type: counter
+    labels: [tenantId, laboratoryId]
+  - name: critical_result_escalation_tier_advanced_total
+    type: counter
+    labels: [tenantId, laboratoryId, escalationTier]
+  - name: critical_result_acknowledgement_latency_ms
+    type: histogram
+    labels: [tenantId, laboratoryId]
+
+traces:
+  - span: CreateCriticalResultEscalation
+    child_spans:
+      - AssignHandler
+      - SetAcknowledgementDeadline
+  - span: EscalateCriticalResult
+    child_spans:
+      - ReassignHandler
+      - TriggerReNotification
+
+audit_events:
+  - CriticalResultEscalationCreated
+  - CriticalResultAcknowledged
+  - CriticalResultEscalated
+
+alerts:
+  - name: CriticalResultUnacknowledgedPastDeadline
+    condition: an open escalation exists past its acknowledgementDeadline without a tier advance recorded
+    severity: critical
+  - name: CriticalResultEscalationMissing
+    condition: a ResultFlaggedCritical event has no corresponding CriticalResultEscalationCreated within the expected interval
+    severity: critical

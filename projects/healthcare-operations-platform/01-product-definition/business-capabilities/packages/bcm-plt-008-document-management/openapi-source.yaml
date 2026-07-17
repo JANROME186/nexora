@@ -1,0 +1,60 @@
+artifact:
+  id: HOP-API-SRC-BCM-PLT-008
+  type: openapi-source
+  name: Document Management API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-008
+  note: >
+    Source contract model. The rendered OpenAPI document, controllers, DTOs and SDKs are generated
+    outputs declared in generation-plan.yaml. This is a system-to-system internal API; no
+    employee/patient/doctor portal calls it directly.
+
+api:
+  base_path: /api/platform/documents
+  surface_classification: internal
+  security:
+    scheme: bearer_jwt
+    required_scopes_default: [document.store, document.read]
+
+resources:
+  - name: StoredDocument
+    operations:
+      - id: storeDocument
+        method: POST
+        path: /
+        scopes: [document.store]
+        generatable: false
+        custom_reason: Hash computation and delegated storage-adapter invocation.
+      - id: getDocument
+        method: GET
+        path: /{documentId}
+        scopes: [document.read]
+        generatable: false
+        custom_reason: Runtime integrity re-verification before returning bytes.
+      - id: scheduleDocumentDisposal
+        method: POST
+        path: /{documentId}/schedule-disposal
+        scopes: [document.store]
+        generatable: false
+        custom_reason: Legal-hold precedence check.
+
+schemas_source:
+  - StoredDocument
+  - StorageReference
+  - RetentionPolicy
+
+error_model:
+  standard: rfc7807
+  domain_errors:
+    - code: DOCUMENT_METADATA_INCOMPLETE
+      maps_to_rule: RN-001
+    - code: DOCUMENT_INTEGRITY_HASH_MISMATCH
+      maps_to_rule: RN-002
+    - code: DOCUMENT_STORAGE_PORT_BYPASS_ATTEMPTED
+      maps_to_rule: RN-003
+    - code: DOCUMENT_LEGAL_HOLD_ACTIVE
+      maps_to_rule: RN-004
+    - code: DOCUMENT_SCOPE_MISMATCH
+      maps_to_rule: RN-006

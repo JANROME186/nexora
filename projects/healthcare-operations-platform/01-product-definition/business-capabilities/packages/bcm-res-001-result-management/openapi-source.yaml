@@ -1,0 +1,56 @@
+artifact:
+  id: HOP-API-SRC-BCM-RES-001
+  type: openapi-source
+  name: Result Management API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-001
+  note: >
+    Source contract model. The rendered OpenAPI document, controllers, DTOs and SDKs are generated
+    outputs declared in generation-plan.yaml.
+
+api:
+  base_path: /api/results/internal
+  surface_classification: internal
+  security:
+    scheme: bearer_jwt
+    required_scopes_default: [result.search, result.read]
+
+resources:
+  - name: ResultSearch
+    operations:
+      - id: searchResults
+        method: GET
+        path: /
+        scopes: [result.search]
+        generatable: false
+        custom_reason: Row-level role- and laboratory-scoped filtering plus mandatory access-audit append.
+      - id: getResultWorklist
+        method: GET
+        path: /worklist
+        scopes: [result.search]
+        generatable: false
+        custom_reason: Role-scoped worklist view (per-stage queues) with mandatory access-audit append.
+      - id: getResult
+        method: GET
+        path: /{resultId}
+        scopes: [result.read]
+        generatable: false
+        custom_reason: Mandatory access-audit append on every individual result read.
+
+schemas_source:
+  - ResultSearchIndexEntry
+  - ResultAccessAuditEntry
+
+error_model:
+  standard: rfc7807
+  domain_errors:
+    - code: RESULT_MANAGEMENT_BOUNDARY_VIOLATION
+      maps_to_rule: RN-001
+    - code: RESULT_PROJECTION_WRITE_REJECTED
+      maps_to_rule: RN-002
+    - code: RESULT_SCOPE_MISMATCH
+      maps_to_rule: RN-003
+    - code: RESULT_ACCESS_AUDIT_REQUIRED
+      maps_to_rule: RN-004

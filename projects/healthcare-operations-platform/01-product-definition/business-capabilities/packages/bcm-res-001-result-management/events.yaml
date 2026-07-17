@@ -1,0 +1,49 @@
+artifact:
+  id: HOP-EVT-BCM-RES-001
+  type: events
+  name: Result Management Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-001
+
+domain_events:
+  - name: ResultSearchIndexEntryUpdated
+    description: The internal read projection for a result was rebuilt from a source domain event.
+    payload:
+      - resultId
+      - status
+      - projectionVersion
+    audit: false
+  - name: ResultAccessed
+    description: A result was read through this capability's query surface.
+    payload:
+      - resultId
+      - actorId
+      - actorType
+      - accessChannel
+      - accessedAt
+    audit: true
+
+integration_events:
+  published:
+    - name: ResultAccessed
+      description: Signals audit-compliance of every result read for compliance reporting.
+      consumers:
+        - audit-compliance
+  consumed:
+    - name: ResultCaptured
+      source: BCM-LAB-006
+    - name: ResultTechnicallyValidated
+      source: BCM-LAB-008
+    - name: ResultFlaggedCritical
+      source: BCM-LAB-008
+    - name: ResultMedicallyValidated
+      source: BCM-LAB-009
+    - name: ResultReleased
+      source: BCM-LAB-010
+    - name: ResultAmended
+      source: BCM-LAB-010
+
+published_language:
+  - ResultAccessed

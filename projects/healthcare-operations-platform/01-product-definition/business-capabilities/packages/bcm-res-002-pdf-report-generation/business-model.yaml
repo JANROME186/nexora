@@ -1,0 +1,104 @@
+artifact:
+  id: HOP-BM-BCM-RES-002
+  type: business-model
+  name: PDF Report Generation Business Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-002
+  bounded_context: laboratory-results
+  primary_aggregate: GeneratedResultReport
+  model_kind: aggregate_owner
+
+entities:
+  - id: ENT-RPT-001
+    name: GeneratedResultReport
+    is_aggregate_root: true
+    description: >
+      The report-generation record for one rendering of a released (or amended) result. This
+      capability owns this entity exclusively; it never mutates LaboratoryResult and reads it only
+      through BCM-RES-001's read projection or the ResultReleased/ResultAmended events themselves.
+    fields:
+      - name: reportId
+        type: uuid
+        required: true
+        identifier: true
+      - name: tenantId
+        type: TenantId
+        required: true
+      - name: laboratoryId
+        type: LaboratoryId
+        required: true
+      - name: resultId
+        type: ResultId
+        required: true
+      - name: orderId
+        type: OrderId
+        required: true
+      - name: sourceReleaseVersion
+        type: integer
+        required: true
+        description: Version of the LaboratoryResult release or amendment this report was rendered from.
+      - name: reportVersion
+        type: integer
+        required: true
+        description: Monotonically increasing per resultId; a new amendment always produces reportVersion + 1, never a revision of an existing report.
+      - name: contentHash
+        type: string
+        required: true
+        description: Cryptographic hash (e.g. SHA-256) of the rendered PDF bytes, used for integrity verification.
+      - name: documentReference
+        type: DocumentReference
+        required: true
+        description: Reference to the physical stored artifact, owned and versioned by BCM-PLT-008.
+      - name: generationStatus
+        type: enum
+        values: [pending, generated, generation_failed, superseded]
+        required: true
+      - name: generatedAt
+        type: datetime
+        required: false
+      - name: generationTrigger
+        type: enum
+        values: [result_released, result_amended, manual_regeneration]
+        required: true
+      - name: audit
+        type: AuditMetadata
+        required: true
+
+value_objects:
+  - id: VO-RPT-001
+    name: DocumentReference
+    description: Immutable pointer to a document stored by BCM-PLT-008; this capability never stores raw bytes itself.
+    fields:
+      - name: documentId
+        type: uuid
+        required: true
+      - name: documentVersion
+        type: integer
+        required: true
+      - name: storedAt
+        type: datetime
+        required: true
+
+invariants:
+  - id: INV-RPT-001
+    statement: A GeneratedResultReport can be created only from a released or amended LaboratoryResult; generation against a non-released result is refused.
+  - id: INV-RPT-002
+    statement: An amendment never mutates a prior GeneratedResultReport; it always produces a new entity with reportVersion incremented and the prior report's generationStatus transitioned to superseded.
+  - id: INV-RPT-003
+    statement: A GeneratedResultReport's contentHash must match the actual stored document bytes at every serve; a mismatch is a critical integrity failure, never silently served.
+  - id: INV-RPT-004
+    statement: This capability never mutates LaboratoryResult, Sample, Patient or Doctor state.
+
+external_references:
+  - shared_kernel:
+      - VO-ID-001 TenantId
+      - VO-ID-002 LaboratoryId
+      - VO-ID-007 OrderId
+      - VO-ID-009 ResultId
+      - VO-007 AuditMetadata
+  - capabilities:
+      - BCM-LAB-010 Result Release (read-only event source: ResultReleased, ResultAmended)
+      - BCM-RES-001 Result Management (read-only projection source)
+      - BCM-PLT-008 Document Management (delegated physical storage and versioning)

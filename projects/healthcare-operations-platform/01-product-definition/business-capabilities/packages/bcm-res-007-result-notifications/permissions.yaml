@@ -1,0 +1,39 @@
+artifact:
+  id: HOP-PERM-BCM-RES-007
+  type: permissions
+  name: Result Notifications Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-007
+  depends_on_capability: BCM-PLT-001
+
+scopes:
+  - code: notification.compose
+    description: Compose and submit a result notification decision (system scope).
+  - code: notification.read
+    description: Read result notification history for audit or support.
+
+roles:
+  - role: system
+    grants: [notification.compose, notification.read]
+  - role: tenant-administrator
+    grants: [notification.read]
+  - role: medical-validator
+    grants: [notification.read]
+
+access_policies:
+  - id: POL-RNT-007-01
+    statement: Notification composition is scoped to the actor's or system trigger's tenant.
+    enforcement: row_level_tenant_filter
+  - id: POL-RNT-007-02
+    statement: This capability never dispatches directly; all dispatch is delegated to BCM-PLT-003.
+    enforcement: cross_capability_delegation_policy
+
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+    - event: ResultNotificationComposed
+      fields: [resultNotificationRequestId, resultId, recipientType, triggerReason]
+    - event: ResultNotificationStatusUpdated
+      fields: [resultNotificationRequestId, dispatchStatus]

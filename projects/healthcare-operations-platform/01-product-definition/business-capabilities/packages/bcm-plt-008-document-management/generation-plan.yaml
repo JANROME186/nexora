@@ -1,0 +1,66 @@
+artifact:
+  id: HOP-GEN-BCM-PLT-008
+  type: generation-plan
+  name: Document Management Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-008
+  compiler_strategy: model_to_platform
+
+generated_outputs:
+  backend:
+    - DTOs for StoredDocument, StorageReference and RetentionPolicy
+    - Repository interfaces and persistence adapters for StoredDocument metadata
+    - API adapters
+  frontend: []
+  contracts:
+    - Rendered OpenAPI document from openapi-source.yaml
+    - Typed SDK
+    - Swagger documentation
+  tests:
+    - Repetitive unit tests for RN-006
+    - Contract tests for authorization
+  operations:
+    - Metric and log wiring from observability-model.yaml
+    - Dashboard skeleton
+    - Alert definitions
+
+custom_implementation_points:
+  - id: CUS-DOC-008-01
+    description: Content-hash computation and mandatory-metadata enforcement at store time (RN-001).
+    maps_to_backlog: MVP-MOD-007-BE-001
+  - id: CUS-DOC-008-02
+    description: Runtime integrity re-verification on retrieval (RN-002).
+    maps_to_backlog: MVP-MOD-007-BE-001
+  - id: CUS-DOC-008-03
+    description: DocumentStoragePort interface and local filesystem/deterministic adapter (RN-003), mirroring the FiscalAdapterPort pattern.
+    maps_to_backlog: MVP-MOD-007-BE-001
+  - id: CUS-DOC-008-04
+    description: Legal-hold precedence check before disposal scheduling (RN-004).
+    maps_to_backlog: MVP-MOD-007-BE-002
+  - id: CUS-DOC-008-05
+    description: Domain-agnostic boundary enforcement so this capability never mutates a business aggregate (RN-005).
+    maps_to_backlog: MVP-MOD-007-BE-002
+
+do_not_write_manually:
+  - CRUD scaffolding
+  - DTOs
+  - Controllers
+  - Repositories
+  - Swagger documentation
+  - SDKs
+  - Repetitive documentation
+  - Repetitive test cases
+
+provenance:
+  source_models:
+    - business-model.yaml
+    - business-rules.yaml
+    - processes.yaml
+    - events.yaml
+    - openapi-source.yaml
+    - ui-model.yaml
+    - permissions.yaml
+    - observability-model.yaml
+  generation_metadata_required: true

@@ -2,11 +2,11 @@ artifact:
   id: HOP-CAP-PKG-IDX-001
   type: capability-package-index
   name: HOP Business Capability Package Index
-  version: 1.6.0
+  version: 1.8.0
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.yaml
-  qa_evidence: ../../../08-qa/qa/laboratory-workflow/MVP-MOD-006-DEF-validation.yaml
+  qa_evidence: ../../../08-qa/qa/results-and-digital-delivery/MVP-MOD-007-DEF-validation.yaml
 
 policy:
   primary_development_unit: business_capability_package
@@ -33,10 +33,10 @@ do_not_write_manually:
   - Repetitive test cases
 
 active_capability_package_group:
-  roadmap_group: MVP-MOD-006
-  name: Laboratory Workflow
+  roadmap_group: MVP-MOD-007
+  name: Results and Digital Delivery
   package_status: modeled
-  backlog_item: MVP-MOD-006-DEF
+  backlog_item: MVP-MOD-007-DEF
   required_artifacts_per_package:
     - capability-package.yaml
     - business-model.yaml
@@ -52,52 +52,106 @@ active_capability_package_group:
     - generation-plan.yaml
     - traceability.yaml
     - README.md
-  next_backlog_item: MVP-MOD-007-DEF
+  next_backlog_item: MVP-MOD-007-BE-001
   capabilities:
-    - capability_id: BCM-LAB-002
-      package_folder: bcm-lab-002-sample-collection/
-      package_status: modeled
-      bounded_context: orders-samples
-      primary_aggregate: AGG-008 Sample (owner)
-      mobile_scope: sample_collection_later
-    - capability_id: BCM-LAB-003
-      package_folder: bcm-lab-003-sample-labeling/
-      package_status: modeled
-      bounded_context: orders-samples
-      primary_aggregate: AGG-008 Sample (owned by BCM-LAB-002; labelInfo delegated)
-      mobile_scope: not_required
-    - capability_id: BCM-LAB-005
-      package_folder: bcm-lab-005-sample-reception/
-      package_status: modeled
-      bounded_context: orders-samples
-      primary_aggregate: AGG-008 Sample (owned by BCM-LAB-002; receptionRecord/rejection/disposal delegated)
-      mobile_scope: not_required
-    - capability_id: BCM-LAB-006
-      package_folder: bcm-lab-006-laboratory-processing/
+    - capability_id: BCM-RES-001
+      package_folder: bcm-res-001-result-management/
       package_status: modeled
       bounded_context: laboratory-results
-      primary_aggregate: AGG-009 LaboratoryResult (owner)
+      primary_aggregate: AGG-009 LaboratoryResult (read-only; owns ResultSearchIndexEntry read projection)
       mobile_scope: not_required
-    - capability_id: BCM-LAB-008
-      package_folder: bcm-lab-008-technical-validation/
+    - capability_id: BCM-RES-002
+      package_folder: bcm-res-002-pdf-report-generation/
       package_status: modeled
       bounded_context: laboratory-results
-      primary_aggregate: AGG-009 LaboratoryResult (owned by BCM-LAB-006; technicalValidation/criticalFlag delegated)
+      primary_aggregate: GeneratedResultReport (new entity owned by this capability)
       mobile_scope: not_required
-    - capability_id: BCM-LAB-009
-      package_folder: bcm-lab-009-medical-validation/
+    - capability_id: BCM-RES-004
+      package_folder: bcm-res-004-digital-delivery/
       package_status: modeled
       bounded_context: laboratory-results
-      primary_aggregate: AGG-009 LaboratoryResult (owned by BCM-LAB-006; medicalValidation delegated)
-      mobile_scope: not_required
-    - capability_id: BCM-LAB-010
-      package_folder: bcm-lab-010-result-release/
+      primary_aggregate: ResultDeliveryTicket (new entity owned by this capability)
+      mobile_scope: result_view_required
+    - capability_id: BCM-RES-005
+      package_folder: bcm-res-005-result-history/
       package_status: modeled
       bounded_context: laboratory-results
-      primary_aggregate: AGG-009 LaboratoryResult (owned by BCM-LAB-006; releaseRecord/amendments delegated)
+      primary_aggregate: PatientResultHistoryView (new read projection owned by this capability)
+      mobile_scope: result_view_required
+    - capability_id: BCM-RES-006
+      package_folder: bcm-res-006-critical-results/
+      package_status: modeled
+      bounded_context: laboratory-results
+      primary_aggregate: CriticalResultEscalation (new entity owned by this capability)
+      mobile_scope: not_required
+    - capability_id: BCM-RES-007
+      package_folder: bcm-res-007-result-notifications/
+      package_status: modeled
+      bounded_context: notifications
+      primary_aggregate: ResultNotificationRequest (new entity owned by this capability)
+      mobile_scope: not_required
+    - capability_id: BCM-PLT-003
+      package_folder: bcm-plt-003-notification-management/
+      package_status: modeled
+      bounded_context: notifications
+      primary_aggregate: NotificationRequest (new platform aggregate owned by this capability)
+      mobile_scope: not_required
+    - capability_id: BCM-PLT-008
+      package_folder: bcm-plt-008-document-management/
+      package_status: modeled
+      bounded_context: document-management
+      primary_aggregate: StoredDocument (new platform aggregate owned by this capability)
       mobile_scope: not_required
 
 completed_capability_package_groups:
+  - roadmap_group: MVP-MOD-006
+    name: Laboratory Workflow
+    package_status: module_closed
+    backlog_item: MVP-MOD-006-CLOSEOUT
+    qa_evidence: ../../../08-qa/qa/laboratory-workflow/MVP-MOD-006-CLOSEOUT.yaml
+    capabilities:
+      - capability_id: BCM-LAB-002
+        package_folder: bcm-lab-002-sample-collection/
+        package_status: validated
+        bounded_context: orders-samples
+        primary_aggregate: AGG-008 Sample (owner)
+        mobile_scope: sample_collection_later
+      - capability_id: BCM-LAB-003
+        package_folder: bcm-lab-003-sample-labeling/
+        package_status: validated
+        bounded_context: orders-samples
+        primary_aggregate: AGG-008 Sample (owned by BCM-LAB-002; labelInfo delegated)
+        mobile_scope: not_required
+      - capability_id: BCM-LAB-005
+        package_folder: bcm-lab-005-sample-reception/
+        package_status: validated
+        bounded_context: orders-samples
+        primary_aggregate: AGG-008 Sample (owned by BCM-LAB-002; receptionRecord/rejection/disposal delegated)
+        mobile_scope: not_required
+      - capability_id: BCM-LAB-006
+        package_folder: bcm-lab-006-laboratory-processing/
+        package_status: validated
+        bounded_context: laboratory-results
+        primary_aggregate: AGG-009 LaboratoryResult (owner)
+        mobile_scope: not_required
+      - capability_id: BCM-LAB-008
+        package_folder: bcm-lab-008-technical-validation/
+        package_status: validated
+        bounded_context: laboratory-results
+        primary_aggregate: AGG-009 LaboratoryResult (owned by BCM-LAB-006; technicalValidation/criticalFlag delegated)
+        mobile_scope: not_required
+      - capability_id: BCM-LAB-009
+        package_folder: bcm-lab-009-medical-validation/
+        package_status: validated
+        bounded_context: laboratory-results
+        primary_aggregate: AGG-009 LaboratoryResult (owned by BCM-LAB-006; medicalValidation delegated)
+        mobile_scope: not_required
+      - capability_id: BCM-LAB-010
+        package_folder: bcm-lab-010-result-release/
+        package_status: validated
+        bounded_context: laboratory-results
+        primary_aggregate: AGG-009 LaboratoryResult (owned by BCM-LAB-006; releaseRecord/amendments delegated)
+        mobile_scope: not_required
   - roadmap_group: MVP-MOD-005
     name: Cashier and Billing Request
     package_status: module_closed

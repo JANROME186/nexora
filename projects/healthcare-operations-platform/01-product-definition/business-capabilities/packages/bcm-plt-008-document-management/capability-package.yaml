@@ -1,0 +1,89 @@
+artifact:
+  id: HOP-CAP-PKG-BCM-PLT-008
+  type: capability-package
+  name: Document Management Capability Package
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.yaml
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-17
+  roadmap_group: MVP-MOD-007
+  execution_flow_stage: model
+
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+
+capability:
+  id: BCM-PLT-008
+  name:
+    en: Document Management
+    es: Gestión Documental
+  domain: DOM-10 Platform
+  priority: High
+  roadmap: MVP1
+  dependency_profile: platform_extension
+  bounded_context: document-management
+  primary_aggregate: StoredDocument (new platform aggregate owned by this capability)
+  process_ref: HRP-001-P07
+
+scope:
+  summary: >
+    Generic, domain-agnostic document storage and versioning service used by multiple bounded
+    contexts (results, billing, imaging, patient records) without owning any of their business
+    aggregates. Provides a stable StoredDocument aggregate with identifier, version, content hash,
+    storage backend reference and retention metadata behind a storage-provider-agnostic port, so
+    that callers such as BCM-RES-002 never depend on a specific object-storage vendor.
+  in_scope:
+    - StoredDocument aggregate: identifier, version, content hash, storage reference, retention policy.
+    - Storage-provider-agnostic port (DocumentStoragePort) with a local filesystem/deterministic adapter for on-premises deployments.
+    - Document integrity verification (hash check) on read.
+    - Document retention and disposal scheduling metadata (policy fields only; execution is operational, out of scope here).
+  out_of_scope:
+    - Any business aggregate that references a document (LaboratoryResult, Patient, Invoice, ImagingStudy) — this capability never mutates them.
+    - PDF rendering itself (BCM-RES-002); this capability only stores and versions the resulting bytes.
+    - Notification of document availability (BCM-RES-007, BCM-PLT-003).
+
+roadmap:
+  module: MVP-MOD-007
+  release: REL-001
+  package_status: modeled
+  next_backlog_item: MVP-MOD-007-BE-001
+
+dependencies:
+  required_capabilities:
+    - BCM-PLT-001
+    - BCM-PLT-007
+  optional_capabilities: []
+  downstream_capabilities:
+    - BCM-RES-002
+  upstream_contexts:
+    - document-management
+    - identity-access
+    - audit-compliance
+
+product_surfaces:
+  backend: required
+  employee_portal: not_required
+  patient_portal: not_required
+  doctor_portal: not_required
+  mobile_app: not_required
+
+required_artifacts:
+  - capability-package.yaml
+  - business-model.yaml
+  - business-rules.yaml
+  - processes.yaml
+  - events.yaml
+  - openapi-source.yaml
+  - permissions.yaml
+  - ui-model.yaml
+  - mobile-model.yaml
+  - test-model.yaml
+  - observability-model.yaml
+  - generation-plan.yaml
+  - traceability.yaml
+  - README.md

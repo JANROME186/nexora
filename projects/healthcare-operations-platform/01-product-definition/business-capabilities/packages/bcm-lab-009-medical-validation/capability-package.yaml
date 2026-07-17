@@ -3,7 +3,7 @@ artifact:
   type: capability-package
   name: Medical Validation Capability Package
   version: 0.1.0
-  status: modeled
+  status: validated
   classification: editable_model
   human_readable: README.md
   machine_readable: capability-package.yaml
@@ -52,8 +52,8 @@ scope:
 roadmap:
   module: MVP-MOD-006
   release: REL-001
-  package_status: modeled
-  next_backlog_item: MVP-MOD-006-BE-001
+  package_status: module_closed
+  next_backlog_item: none (module closed; see MVP-MOD-007-DEF for the next roadmap module)
 
 dependencies:
   required_capabilities:

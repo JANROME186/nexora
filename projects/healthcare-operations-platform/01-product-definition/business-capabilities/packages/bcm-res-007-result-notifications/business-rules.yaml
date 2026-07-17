@@ -1,0 +1,68 @@
+artifact:
+  id: HOP-BR-BCM-RES-007
+  type: business-rules
+  name: Result Notifications Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-007
+  rule_id_pattern: "RN-###"
+
+rules:
+  - id: RN-001
+    statement: A result_delivered notification may be composed only after ResultDeliveryAuthorized is published for the recipient; it must never precede delivery authorization.
+    applies_to: ResultNotificationRequest
+    enforcement_point: event:ResultDeliveryAuthorized
+    severity: high
+    audit_required: true
+    generatable: false
+    custom_reason: Requires cross-capability event ordering, not a generic field validator.
+    test_refs: [TST-RNT-007-01]
+  - id: RN-002
+    statement: A result_critical notification must be composed for every ResultFlaggedCritical event without exception, creating a traceable notification record even if dispatch later fails.
+    applies_to: ResultNotificationRequest
+    enforcement_point: event:ResultFlaggedCritical
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Mandatory, unconditional creation on every critical flag is a compliance rule, not a configurable business option.
+    brm_alignment: BRM-001-R013
+    test_refs: [TST-RNT-007-02]
+  - id: RN-003
+    statement: This capability must never call a channel provider directly; all dispatch is submitted through BCM-PLT-003's SubmitNotificationRequest.
+    applies_to: ResultNotificationRequest
+    enforcement_point: architecture_boundary
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Boundary enforcement keeping content decisions and dispatch mechanics separated per REL-CTX-012.
+    test_refs: [TST-RNT-007-03]
+  - id: RN-004
+    statement: This capability never mutates LaboratoryResult, Patient or Doctor state; it only reads released/delivered/critical event data and writes its own ResultNotificationRequest entity.
+    applies_to: ResultNotificationRequest
+    enforcement_point: architecture_boundary
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Cross-capability boundary enforcement consistent with AGG-009's ownership rules.
+    test_refs: [TST-RNT-007-04]
+  - id: RN-005
+    statement: Result notification composition must execute within the actor's or system trigger's tenant scope.
+    applies_to: ResultNotificationRequest
+    enforcement_point: authorization:notification.compose
+    severity: critical
+    audit_required: true
+    generatable: true
+    test_refs: [TST-RNT-007-05]
+  - id: RN-006
+    statement: Every composed notification request must record its trigger reason, result reference and eventual dispatch status.
+    applies_to: ResultNotificationRequest
+    enforcement_point: event:ResultNotificationComposed
+    severity: high
+    audit_required: true
+    generatable: true
+    test_refs: [TST-RNT-007-06]
+
+enforcement_summary:
+  generatable_rules: [RN-005, RN-006]
+  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-004]

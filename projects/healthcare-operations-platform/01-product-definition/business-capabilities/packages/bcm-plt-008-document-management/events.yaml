@@ -1,0 +1,43 @@
+artifact:
+  id: HOP-EVT-BCM-PLT-008
+  type: events
+  name: Document Management Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-008
+
+domain_events:
+  - name: DocumentStored
+    description: A document was persisted through the storage port.
+    payload:
+      - documentId
+      - ownerCapability
+      - ownerReferenceId
+      - contentHash
+      - sizeBytes
+    audit: true
+  - name: DocumentIntegrityMismatchDetected
+    description: A retrieved document's bytes did not match its recorded content hash.
+    payload:
+      - documentId
+      - ownerCapability
+    audit: true
+  - name: DocumentDisposalScheduled
+    description: A document was scheduled for disposal after its retention period elapsed.
+    payload:
+      - documentId
+      - ownerCapability
+    audit: true
+
+integration_events:
+  published:
+    - name: DocumentStored
+      description: Signals the owning capability that its document is durably persisted.
+      consumers:
+        - laboratory-results
+  consumed: []
+
+published_language:
+  - DocumentStored
+  - DocumentIntegrityMismatchDetected

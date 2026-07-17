@@ -194,8 +194,8 @@ Expected result:
 
 Continue with:
 
-- Module: `MVP-MOD-006 Laboratory Workflow`
-- Backlog item: `MVP-MOD-007-DEF`
-- Paused functional backlog item: none — `MVP-MOD-006-DEF` closed (capability package models only, no code implemented)
+- Module: `MVP-MOD-007 Results and Digital Delivery`
+- Backlog item: `MVP-MOD-007-BE-001`
+- Paused functional backlog item: none — `MVP-MOD-007-DEF` closed (capability package models only, no code implemented)
 - Folder: `07-implementation/backend/`
 

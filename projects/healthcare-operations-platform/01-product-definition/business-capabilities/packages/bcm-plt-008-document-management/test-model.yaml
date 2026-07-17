@@ -1,0 +1,50 @@
+artifact:
+  id: HOP-TEST-BCM-PLT-008
+  type: test-model
+  name: Document Management Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-008
+
+test_cases:
+  - id: TST-DOC-008-01
+    type: acceptance
+    validates_rule: RN-001
+    statement: Storing a document without complete integrity metadata (hash, content type, size) is rejected.
+    generatable: false
+  - id: TST-DOC-008-02
+    type: acceptance
+    validates_rule: RN-002
+    statement: Retrieving a document whose bytes no longer match the recorded content hash is blocked and raises a critical alert.
+    generatable: false
+  - id: TST-DOC-008-03
+    type: architecture
+    validates_rule: RN-003
+    statement: No code path addresses a storage provider directly, bypassing DocumentStoragePort.
+    generatable: false
+  - id: TST-DOC-008-04
+    type: acceptance
+    validates_rule: RN-004
+    statement: A document under legal hold cannot be scheduled for disposal even past its retention date.
+    generatable: false
+  - id: TST-DOC-008-05
+    type: architecture
+    validates_rule: RN-005
+    statement: This capability never issues a command against LaboratoryResult, Patient, Invoice or ImagingStudy.
+    generatable: false
+  - id: TST-DOC-008-06
+    type: contract
+    validates_rule: RN-006
+    statement: Unauthorized or out-of-scope callers cannot store or read a document.
+    generatable: true
+
+test_layers:
+  - contract_tests
+  - unit_tests
+  - acceptance_tests
+  - architecture_tests
+
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests: [TST-DOC-008-01, TST-DOC-008-02, TST-DOC-008-03, TST-DOC-008-04, TST-DOC-008-05]

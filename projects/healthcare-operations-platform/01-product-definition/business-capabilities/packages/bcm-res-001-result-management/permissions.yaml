@@ -1,0 +1,39 @@
+artifact:
+  id: HOP-PERM-BCM-RES-001
+  type: permissions
+  name: Result Management Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-001
+  depends_on_capability: BCM-PLT-001
+
+scopes:
+  - code: result.search
+    description: Search and browse internal result worklists.
+  - code: result.read
+    description: Read an individual result's detail through the internal facade.
+
+roles:
+  - role: laboratory-technician
+    grants: [result.search, result.read]
+  - role: technical-validator
+    grants: [result.search, result.read]
+  - role: medical-validator
+    grants: [result.search, result.read]
+  - role: tenant-administrator
+    grants: [result.search, result.read]
+
+access_policies:
+  - id: POL-RMG-001-01
+    statement: Result queries are scoped to the actor's tenant and laboratory; cross-laboratory search requires an explicit administrative scope grant.
+    enforcement: row_level_tenant_laboratory_filter
+  - id: POL-RMG-001-02
+    statement: This capability issues no command against LaboratoryResult, Sample, Patient or Doctor.
+    enforcement: read_only_boundary_policy
+
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+    - event: ResultAccessed
+      fields: [resultId, actorId, actorType, accessChannel]

@@ -1,0 +1,17 @@
+artifact:
+  id: HOP-MOB-BCM-PLT-008
+  type: mobile-model
+  name: Document Management Mobile Model
+  version: 0.1.0
+  status: deferred
+  classification: editable_model
+  capability: BCM-PLT-008
+
+mobile_scope:
+  status: not_required
+  rationale: >
+    Document Management is a backend-only, system-to-system storage service with no mobile
+    surface of its own.
+  deferred_to: []
+  flows: []
+  offline_expectations: none

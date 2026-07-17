@@ -1,0 +1,45 @@
+artifact:
+  id: HOP-OBS-BCM-RES-007
+  type: observability-model
+  name: Result Notifications Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-007
+  depends_on_capability: BCM-PLT-006
+
+logs:
+  - event: result_notification_composed
+    level: info
+    fields: [resultNotificationRequestId, resultId, recipientType, triggerReason]
+    correlation_id: resultId
+  - event: result_notification_status_updated
+    level: info
+    fields: [resultNotificationRequestId, dispatchStatus]
+    correlation_id: resultId
+
+metrics:
+  - name: result_notification_composed_total
+    type: counter
+    labels: [tenantId, triggerReason, recipientType]
+  - name: result_notification_dispatch_failed_total
+    type: counter
+    labels: [tenantId, triggerReason]
+
+traces:
+  - span: ComposeResultNotification
+    child_spans:
+      - SelectTemplate
+      - SubmitToNotificationManagement
+
+audit_events:
+  - ResultNotificationComposed
+  - ResultNotificationStatusUpdated
+
+alerts:
+  - name: CriticalResultNotificationMissing
+    condition: a ResultFlaggedCritical event has no corresponding ResultNotificationComposed within the expected interval
+    severity: critical
+  - name: ResultNotificationDispatchFailureRateHigh
+    condition: result_notification_dispatch_failed_total rate exceeds threshold
+    severity: warning

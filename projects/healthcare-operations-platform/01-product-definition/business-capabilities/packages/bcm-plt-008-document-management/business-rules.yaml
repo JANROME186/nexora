@@ -1,0 +1,68 @@
+artifact:
+  id: HOP-BR-BCM-PLT-008
+  type: business-rules
+  name: Document Management Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-008
+  rule_id_pattern: "RN-###"
+
+rules:
+  - id: RN-001
+    statement: Every StoredDocument must carry a unique identifier, a version, a content type, a content hash and a storage reference; documents without complete integrity metadata are refused at creation.
+    applies_to: StoredDocument
+    enforcement_point: command:StoreDocument
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Hash computation and mandatory-field enforcement at creation time.
+    test_refs: [TST-DOC-008-01]
+  - id: RN-002
+    statement: Retrieving a document must re-verify its content hash against the bytes returned by the storage adapter; a mismatch blocks the read and raises a critical integrity alert.
+    applies_to: StoredDocument
+    enforcement_point: query:GetDocument
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Requires a runtime integrity check against externally stored bytes.
+    test_refs: [TST-DOC-008-02]
+  - id: RN-003
+    statement: All physical storage access must go through the DocumentStoragePort; no caller or internal code path may address a storage provider directly.
+    applies_to: StoredDocument
+    enforcement_point: architecture_boundary
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Enforces the provider-agnostic adapter boundary mirroring FiscalAdapterPort (MVP-MOD-005).
+    test_refs: [TST-DOC-008-03]
+  - id: RN-004
+    statement: A document under legal hold cannot be transitioned to pending_disposal or disposed, regardless of its retention date.
+    applies_to: StoredDocument
+    enforcement_point: command:ScheduleDocumentDisposal
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Legal-hold precedence over retention scheduling is a compliance rule, not a generic date comparison.
+    test_refs: [TST-DOC-008-04]
+  - id: RN-005
+    statement: This capability never inspects or interprets stored bytes as business content and never mutates any owning capability's business aggregate.
+    applies_to: StoredDocument
+    enforcement_point: architecture_boundary
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Cross-capability boundary enforcement keeping this a generic, domain-agnostic service.
+    test_refs: [TST-DOC-008-05]
+  - id: RN-006
+    statement: Document commands must execute within the actor's or calling capability's tenant and laboratory scope.
+    applies_to: StoredDocument
+    enforcement_point: authorization:document.store, authorization:document.read
+    severity: critical
+    audit_required: true
+    generatable: true
+    test_refs: [TST-DOC-008-06]
+
+enforcement_summary:
+  generatable_rules: [RN-006]
+  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-004, RN-005]

@@ -1,0 +1,59 @@
+artifact:
+  id: HOP-BR-BCM-RES-001
+  type: business-rules
+  name: Result Management Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-001
+  rule_id_pattern: "RN-###"
+
+rules:
+  - id: RN-001
+    statement: This capability must never issue a command against LaboratoryResult, Sample, Patient or Doctor; it exposes queries only.
+    applies_to: ResultSearchIndexEntry
+    enforcement_point: architecture_boundary
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Cross-capability boundary enforcement mirroring AGG-009's ownership rules declared by BCM-LAB-006.
+    test_refs: [TST-RMG-001-01]
+  - id: RN-002
+    statement: ResultSearchIndexEntry must be rebuilt only from consumed LaboratoryResult domain events; direct writes from any other source are rejected.
+    applies_to: ResultSearchIndexEntry
+    enforcement_point: event:ResultCaptured, event:ResultTechnicallyValidated, event:ResultFlaggedCritical, event:ResultMedicallyValidated, event:ResultReleased, event:ResultAmended
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Requires an event-sourced projection rebuild strategy rather than a generic CRUD write path.
+    test_refs: [TST-RMG-001-02]
+  - id: RN-003
+    statement: Internal staff visibility of a result is scoped to the actor's role and laboratory; a laboratory technician, technical validator or medical validator can query only results within their laboratory scope.
+    applies_to: ResultSearchIndexEntry
+    enforcement_point: query:SearchResults, query:GetResultWorklist
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Row-level authorization depends on actor role and laboratory scope, not a static permission check.
+    test_refs: [TST-RMG-001-03]
+  - id: RN-004
+    statement: Every query that returns result data must append a ResultAccessAuditEntry recording actor, channel and timestamp; a query without a corresponding audit entry is a defect.
+    applies_to: ResultAccessAuditEntry
+    enforcement_point: query:SearchResults, query:GetResult
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Requires transactional guarantee that the audit append and the query response succeed together.
+    test_refs: [TST-RMG-001-04]
+  - id: RN-005
+    statement: Result management queries must execute within the actor's tenant, laboratory and role scope.
+    applies_to: ResultSearchIndexEntry
+    enforcement_point: authorization:result.search, authorization:result.read
+    severity: critical
+    audit_required: true
+    generatable: true
+    test_refs: [TST-RMG-001-05]
+
+enforcement_summary:
+  generatable_rules: [RN-005]
+  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-004]

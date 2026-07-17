@@ -1,0 +1,52 @@
+artifact:
+  id: HOP-OBS-BCM-RES-001
+  type: observability-model
+  name: Result Management Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-001
+  depends_on_capability: BCM-PLT-006
+
+logs:
+  - event: result_search_index_entry_updated
+    level: debug
+    fields: [resultId, status, projectionVersion]
+    correlation_id: resultId
+  - event: result_accessed
+    level: info
+    fields: [resultId, actorId, actorType, accessChannel]
+    correlation_id: resultId
+
+metrics:
+  - name: result_search_total
+    type: counter
+    labels: [tenantId, laboratoryId]
+  - name: result_access_total
+    type: counter
+    labels: [tenantId, actorType, accessChannel]
+  - name: result_search_index_lag_ms
+    type: histogram
+    labels: [tenantId]
+    description: Time between a source LaboratoryResult event and its projection update.
+
+traces:
+  - span: SearchResults
+    child_spans:
+      - ApplyRoleScopeFilter
+      - QueryResultSearchIndex
+      - AppendResultAccessAuditEntry
+  - span: RebuildResultSearchIndexEntry
+    child_spans:
+      - ApplySourceEvent
+
+audit_events:
+  - ResultAccessed
+
+alerts:
+  - name: ResultSearchIndexLagHigh
+    condition: result_search_index_lag_ms exceeds threshold
+    severity: warning
+  - name: ResultAccessWithoutAudit
+    condition: a result query response is served without a corresponding ResultAccessAuditEntry
+    severity: critical

@@ -1,0 +1,39 @@
+artifact:
+  id: HOP-PERM-BCM-PLT-008
+  type: permissions
+  name: Document Management Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-008
+  depends_on_capability: BCM-PLT-001
+
+scopes:
+  - code: document.store
+    description: Store a document and schedule its disposal (system/service-to-service scope).
+  - code: document.read
+    description: Retrieve a stored document (system/service-to-service scope).
+
+roles:
+  - role: system
+    grants: [document.store, document.read]
+  - role: tenant-administrator
+    grants: [document.read]
+
+access_policies:
+  - id: POL-DOC-008-01
+    statement: Document commands are scoped to the calling capability's tenant and laboratory.
+    enforcement: row_level_tenant_laboratory_filter
+  - id: POL-DOC-008-02
+    statement: All physical storage access is delegated to DocumentStoragePort; direct storage-provider access is forbidden.
+    enforcement: adapter_boundary_policy
+
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+    - event: DocumentStored
+      fields: [documentId, ownerCapability, ownerReferenceId, contentHash]
+    - event: DocumentIntegrityMismatchDetected
+      fields: [documentId, ownerCapability]
+    - event: DocumentDisposalScheduled
+      fields: [documentId, ownerCapability]

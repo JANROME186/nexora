@@ -1,0 +1,60 @@
+artifact:
+  id: HOP-OBS-BCM-PLT-008
+  type: observability-model
+  name: Document Management Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-008
+  depends_on_capability: BCM-PLT-006
+
+logs:
+  - event: document_stored
+    level: info
+    fields: [documentId, ownerCapability, sizeBytes]
+    correlation_id: documentId
+  - event: document_integrity_mismatch_detected
+    level: critical
+    fields: [documentId, ownerCapability]
+    correlation_id: documentId
+  - event: document_disposal_scheduled
+    level: info
+    fields: [documentId, ownerCapability]
+    correlation_id: documentId
+
+metrics:
+  - name: document_stored_total
+    type: counter
+    labels: [tenantId, ownerCapability]
+  - name: document_storage_bytes_total
+    type: counter
+    labels: [tenantId]
+  - name: document_integrity_mismatch_total
+    type: counter
+    labels: [tenantId, ownerCapability]
+  - name: document_store_duration_ms
+    type: histogram
+    labels: [tenantId]
+
+traces:
+  - span: StoreDocument
+    child_spans:
+      - ComputeContentHash
+      - InvokeDocumentStoragePort
+  - span: GetDocument
+    child_spans:
+      - InvokeDocumentStoragePort
+      - VerifyContentHash
+
+audit_events:
+  - DocumentStored
+  - DocumentIntegrityMismatchDetected
+  - DocumentDisposalScheduled
+
+alerts:
+  - name: DocumentIntegrityMismatchDetected
+    condition: document_integrity_mismatch_total rate exceeds zero
+    severity: critical
+  - name: DocumentStorageAdapterUnavailable
+    condition: DocumentStoragePort operations fail rate exceeds threshold
+    severity: critical

@@ -1,0 +1,99 @@
+artifact:
+  id: HOP-CAP-PKG-BCM-RES-001
+  type: capability-package
+  name: Result Management Capability Package
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.yaml
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-17
+  roadmap_group: MVP-MOD-007
+  execution_flow_stage: model
+
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+
+capability:
+  id: BCM-RES-001
+  name:
+    en: Result Management
+    es: Gestión de Resultados
+  domain: DOM-07 Results
+  priority: Critical
+  roadmap: MVP1
+  dependency_profile: results_delivery
+  bounded_context: laboratory-results
+  primary_aggregate: LaboratoryResult (AGG-009, owned by BCM-LAB-006; read-only in this capability)
+  process_ref: HRP-001-P06
+
+scope:
+  summary: >
+    Provides the internal, role-scoped read/search facade over LaboratoryResult for laboratory
+    and clinical staff: worklist and search views across capture, validation, release and
+    amendment states, with row-level authorization and full access auditing. This capability owns
+    no part of the LaboratoryResult aggregate; it maintains its own read-only ResultSearchIndexEntry
+    projection built from BCM-LAB-006/008/009/010's domain events, and never issues a command
+    against LaboratoryResult. It is the upstream read source that BCM-RES-002 (PDF generation),
+    BCM-RES-004 (digital delivery) and BCM-RES-006 (critical result handling) build upon.
+  in_scope:
+    - Internal result search and worklist views spanning all lifecycle states (captured through amended).
+    - ResultSearchIndexEntry read-model projection, kept current via consumed domain events.
+    - Row-level, role-scoped authorization (laboratory technician, technical validator, medical validator, tenant administrator).
+    - Access audit logging for every read of a result, internal or external.
+  out_of_scope:
+    - LaboratoryResult aggregate ownership and any state mutation (BCM-LAB-006, BCM-LAB-008, BCM-LAB-009, BCM-LAB-010).
+    - PDF report generation (BCM-RES-002).
+    - Patient/doctor-facing digital delivery and history (BCM-RES-004, BCM-RES-005).
+    - Critical-result escalation tracking (BCM-RES-006).
+    - Notification dispatch (BCM-RES-007, BCM-PLT-003).
+
+roadmap:
+  module: MVP-MOD-007
+  release: REL-001
+  package_status: modeled
+  next_backlog_item: MVP-MOD-007-BE-001
+
+dependencies:
+  required_capabilities:
+    - BCM-LAB-006
+    - BCM-LAB-008
+    - BCM-LAB-009
+    - BCM-LAB-010
+    - BCM-PLT-001
+    - BCM-PLT-007
+  optional_capabilities: []
+  downstream_capabilities:
+    - BCM-RES-002
+    - BCM-RES-004
+    - BCM-RES-006
+  upstream_contexts:
+    - laboratory-results
+    - identity-access
+    - audit-compliance
+
+product_surfaces:
+  backend: required
+  employee_portal: required
+  patient_portal: not_required
+  doctor_portal: not_required
+  mobile_app: not_required
+
+required_artifacts:
+  - capability-package.yaml
+  - business-model.yaml
+  - business-rules.yaml
+  - processes.yaml
+  - events.yaml
+  - openapi-source.yaml
+  - permissions.yaml
+  - ui-model.yaml
+  - mobile-model.yaml
+  - test-model.yaml
+  - observability-model.yaml
+  - generation-plan.yaml
+  - traceability.yaml
+  - README.md

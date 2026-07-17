@@ -1,0 +1,85 @@
+artifact:
+  id: HOP-TRACE-BCM-RES-002
+  type: traceability
+  name: PDF Report Generation Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-002
+
+traces:
+  capability_map:
+    bcm_001: BCM-RES-002
+    domain: DOM-07 Results
+  dependency_map:
+    bcm_002_profile: results_delivery
+    required_capabilities: [BCM-LAB-010, BCM-RES-001, BCM-PLT-008, BCM-PLT-001, BCM-PLT-007]
+    downstream_capabilities: [BCM-RES-004]
+  domain_foundation:
+    bounded_context: laboratory-results
+    aggregate_reference: GeneratedResultReport (new entity owned by this capability); AGG-009 LaboratoryResult read-only
+    context_relationships: [REL-CTX-004]
+    shared_kernel_refs: [VO-ID-001, VO-ID-002, VO-ID-007, VO-ID-009, VO-007]
+  brm_alignment:
+    - rule: BRM-001-R012
+      alignment: A report can only be generated from a medically-validated, released result (RN-001).
+    - rule: BRM-001-R018
+      alignment: Report generation and supersession events are audited (RN-006, RN-007).
+  hrp_alignment:
+    - process: HRP-001-P07 Result Report and Digital Delivery
+      capability_role: Generate PDF report and store report document segment of the process.
+  rules_to_tests:
+    - rule: RN-001
+      tests: [TST-RPT-002-01]
+    - rule: RN-002
+      tests: [TST-RPT-002-02]
+    - rule: RN-003
+      tests: [TST-RPT-002-03]
+    - rule: RN-004
+      tests: [TST-RPT-002-04]
+    - rule: RN-005
+      tests: [TST-RPT-002-05]
+    - rule: RN-006
+      tests: [TST-RPT-002-06]
+    - rule: RN-007
+      tests: [TST-RPT-002-07]
+  processes_to_commands:
+    - process: PRC-RPT-002-01
+      commands: [GenerateResultReport]
+    - process: PRC-RPT-002-02
+      commands: [RegenerateResultReport]
+  api_to_permissions:
+    - operation: generateResultReport
+      scope: report.generate
+    - operation: getResultReport
+      scope: report.read
+    - operation: listResultReports
+      scope: report.read
+  events_to_audit:
+    - event: ReportGenerated
+      audit_sink: BCM-PLT-007
+    - event: ReportSuperseded
+      audit_sink: BCM-PLT-007
+  ui_to_api:
+    - screen: SCR-RPT-002-01
+      operations: [listResultReports]
+    - screen: SCR-RPT-002-02
+      operations: [generateResultReport]
+  consumed_by_capabilities:
+    - capability: BCM-RES-004
+      relationship: Digital delivery reads GeneratedResultReport to attach the report artifact to a delivery.
+  generated_outputs_ref: generation-plan.yaml
+  qa_evidence: ../../../../08-qa/qa/results-and-digital-delivery/MVP-MOD-007-DEF-validation.yaml
+  backlog_items:
+    definition: MVP-MOD-007-DEF
+    definition_status: modeled
+    compilation: MVP-MOD-007-BE-001
+    compilation_status: pending
+    custom_rules: MVP-MOD-007-BE-002
+    custom_rules_status: pending
+    ui: MVP-MOD-007-FE-001
+    ui_status: pending
+    validation: MVP-MOD-007-QA-001
+    validation_status: pending
+    closeout: MVP-MOD-007-CLOSEOUT
+    closeout_status: pending
