@@ -12,6 +12,7 @@ import type {
   ReleaseResultRequest,
   AmendResultRequest,
 } from "./types";
+import { toLaboratoryResult, type BackendLaboratoryResult } from "./laboratoryResultMapper";
 
 const BASE_URL = "/api/clinical-operations";
 
@@ -52,69 +53,81 @@ export async function getLabelPrintJob(sampleId: string): Promise<unknown> {
 // --- Laboratory Results ---
 
 export async function listProcessingWorklist(tenantId: string): Promise<LaboratoryResult[]> {
-  return get(`${BASE_URL}/laboratory-results?tenantId=${tenantId}&worklist=processing`);
+  const raw = await get<BackendLaboratoryResult[]>(`${BASE_URL}/laboratory-results?tenantId=${tenantId}&worklist=processing`);
+  return raw.map(toLaboratoryResult);
 }
 
 export async function listTechnicalValidationWorklist(
   tenantId: string,
 ): Promise<LaboratoryResult[]> {
-  return get(`${BASE_URL}/laboratory-results/technical-validation-worklist?tenantId=${tenantId}`);
+  const raw = await get<BackendLaboratoryResult[]>(`${BASE_URL}/laboratory-results/technical-validation-worklist?tenantId=${tenantId}`);
+  return raw.map(toLaboratoryResult);
 }
 
 export async function listMedicalValidationWorklist(tenantId: string): Promise<LaboratoryResult[]> {
-  return get(`${BASE_URL}/laboratory-results/medical-validation-worklist?tenantId=${tenantId}`);
+  const raw = await get<BackendLaboratoryResult[]>(`${BASE_URL}/laboratory-results/medical-validation-worklist?tenantId=${tenantId}`);
+  return raw.map(toLaboratoryResult);
 }
 
 export async function listReleaseWorklist(tenantId: string): Promise<LaboratoryResult[]> {
-  return get(`${BASE_URL}/laboratory-results/release-worklist?tenantId=${tenantId}`);
+  const raw = await get<BackendLaboratoryResult[]>(`${BASE_URL}/laboratory-results/release-worklist?tenantId=${tenantId}`);
+  return raw.map(toLaboratoryResult);
 }
 
 export async function getLaboratoryResult(resultId: string): Promise<LaboratoryResult> {
-  return get(`${BASE_URL}/laboratory-results/${resultId}`);
+  const raw = await get<BackendLaboratoryResult>(`${BASE_URL}/laboratory-results/${resultId}`);
+  return toLaboratoryResult(raw);
 }
 
 export async function captureResult(
   resultId: string,
   req: CaptureResultRequest,
 ): Promise<LaboratoryResult> {
-  return post(`${BASE_URL}/laboratory-results/${resultId}/capture`, req);
+  const raw = await post<BackendLaboratoryResult>(`${BASE_URL}/laboratory-results/${resultId}/capture`, req);
+  return toLaboratoryResult(raw);
 }
 
 export async function recordIncident(
   resultId: string,
   req: RecordIncidentRequest,
 ): Promise<LaboratoryResult> {
-  return post(`${BASE_URL}/laboratory-results/${resultId}/incident`, req);
+  const raw = await post<BackendLaboratoryResult>(`${BASE_URL}/laboratory-results/${resultId}/incident`, req);
+  return toLaboratoryResult(raw);
 }
 
 export async function submitForValidation(resultId: string): Promise<LaboratoryResult> {
-  return post(`${BASE_URL}/laboratory-results/${resultId}/submit`, {});
+  const raw = await post<BackendLaboratoryResult>(`${BASE_URL}/laboratory-results/${resultId}/submit`, {});
+  return toLaboratoryResult(raw);
 }
 
 export async function validateTechnically(
   resultId: string,
   req: ValidateResultRequest,
 ): Promise<LaboratoryResult> {
-  return post(`${BASE_URL}/laboratory-results/${resultId}/technical-validation`, req);
+  const raw = await post<BackendLaboratoryResult>(`${BASE_URL}/laboratory-results/${resultId}/technical-validation`, req);
+  return toLaboratoryResult(raw);
 }
 
 export async function validateMedically(
   resultId: string,
   req: ValidateResultRequest,
 ): Promise<LaboratoryResult> {
-  return post(`${BASE_URL}/laboratory-results/${resultId}/medical-validation`, req);
+  const raw = await post<BackendLaboratoryResult>(`${BASE_URL}/laboratory-results/${resultId}/medical-validation`, req);
+  return toLaboratoryResult(raw);
 }
 
 export async function releaseResult(
   resultId: string,
   req: ReleaseResultRequest,
 ): Promise<LaboratoryResult> {
-  return post(`${BASE_URL}/laboratory-results/${resultId}/release`, req);
+  const raw = await post<BackendLaboratoryResult>(`${BASE_URL}/laboratory-results/${resultId}/release`, req);
+  return toLaboratoryResult(raw);
 }
 
 export async function amendResult(
   resultId: string,
   req: AmendResultRequest,
 ): Promise<LaboratoryResult> {
-  return post(`${BASE_URL}/laboratory-results/${resultId}/amend`, req);
+  const raw = await post<BackendLaboratoryResult>(`${BASE_URL}/laboratory-results/${resultId}/amend`, req);
+  return toLaboratoryResult(raw);
 }

@@ -1,0 +1,1177 @@
+export type AccessScopeType = "platform" | "tenant" | "laboratory" | "branch";
+
+export interface AccessScope {
+  type: AccessScopeType;
+  id: string;
+}
+
+export interface Tenant {
+  tenantId: string;
+  name: string;
+  status: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateTenantRequest {
+  name: string;
+}
+
+export interface Laboratory {
+  laboratoryId: string;
+  tenantId: string;
+  name: string;
+  status: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateLaboratoryRequest {
+  tenantId: string;
+  name: string;
+}
+
+export interface Branch {
+  branchId: string;
+  tenantId: string;
+  laboratoryId: string;
+  name: string;
+  status: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateBranchRequest {
+  laboratoryId: string;
+  name: string;
+}
+
+export type UserStatus = "created" | "active" | "locked" | "suspended";
+
+export interface UserAccount {
+  userId: string;
+  tenantId: string;
+  displayName: string;
+  email: string;
+  status: UserStatus;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateUserRequest {
+  tenantId: string;
+  displayName: string;
+  email: string;
+}
+
+export interface AssignRoleRequest {
+  roleCode: string;
+  scope: AccessScope;
+}
+
+export interface AuditEvent {
+  auditEventId: string;
+  occurredAt: string;
+  tenantId?: string;
+  actorId: string;
+  actorType: string;
+  action: string;
+  subjectType: string;
+  subjectId: string;
+  metadataJson?: string;
+}
+
+export interface AuditEventSearchParams {
+  tenantId?: string;
+  subjectId?: string;
+}
+
+export type CatalogStatus = "draft" | "published" | "deprecated" | "retired";
+
+export interface CatalogEntityBase {
+  tenantId: string;
+  laboratoryId: string;
+  code: string;
+  status: CatalogStatus;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface DiagnosticService extends CatalogEntityBase {
+  serviceId: string;
+  nameEn: string;
+  nameEs: string;
+  categoryId?: string;
+  serviceType: string;
+  components?: ServiceComponentLink[];
+}
+
+export interface ServiceComponentLink {
+  linkId?: string;
+  componentType: string;
+  componentRefId: string;
+  displayOrder?: number;
+}
+
+export interface CreateDiagnosticServiceRequest {
+  tenantId: string;
+  laboratoryId: string;
+  code: string;
+  nameEn: string;
+  nameEs: string;
+  categoryId?: string;
+  serviceType: string;
+  components?: ServiceComponentLink[];
+}
+
+export interface TestDefinition extends CatalogEntityBase {
+  testDefinitionId: string;
+  nameEn: string;
+  nameEs: string;
+  methodology?: string;
+  measurementUnit?: string;
+  resultType: string;
+  turnaroundTimeHours?: number;
+}
+
+export interface CreateTestDefinitionRequest {
+  tenantId: string;
+  laboratoryId: string;
+  code: string;
+  nameEn: string;
+  nameEs: string;
+  methodology?: string;
+  measurementUnit?: string;
+  resultType: string;
+  turnaroundTimeHours?: number;
+  analyteRefIds?: string[];
+  sampleRequirementRefIds?: string[];
+}
+
+export interface PanelDefinition extends CatalogEntityBase {
+  panelId: string;
+  nameEn: string;
+  nameEs: string;
+  members?: PanelMember[];
+}
+
+export interface PanelMember {
+  memberId?: string;
+  testRefId: string;
+  displayOrder?: number;
+  mandatory: boolean;
+}
+
+export interface CreatePanelDefinitionRequest {
+  tenantId: string;
+  laboratoryId: string;
+  code: string;
+  nameEn: string;
+  nameEs: string;
+  members?: PanelMember[];
+}
+
+export interface AnalyteDefinition extends CatalogEntityBase {
+  analyteId: string;
+  nameEn: string;
+  nameEs: string;
+  loincCode?: string;
+  resultDataType: string;
+  measurementUnit?: string;
+  decimalPrecision?: number;
+  minValue?: number;
+  maxValue?: number;
+}
+
+export interface CreateAnalyteDefinitionRequest {
+  tenantId: string;
+  laboratoryId: string;
+  code: string;
+  nameEn: string;
+  nameEs: string;
+  loincCode?: string;
+  resultDataType: string;
+  measurementUnit?: string;
+  decimalPrecision?: number;
+  minValue?: number;
+  maxValue?: number;
+  codedValues?: Array<{ code: string; displayEn: string; displayEs: string }>;
+}
+
+export interface PreparationInstruction extends CatalogEntityBase {
+  preparationId: string;
+  titleEn: string;
+  titleEs: string;
+  instructionTextEn: string;
+  instructionTextEs: string;
+  category: string;
+  durationHours?: number;
+}
+
+export interface CreatePreparationInstructionRequest {
+  tenantId: string;
+  laboratoryId: string;
+  code: string;
+  titleEn: string;
+  titleEs: string;
+  instructionTextEn: string;
+  instructionTextEs: string;
+  category: string;
+  durationHours?: number;
+}
+
+export interface ReferenceRange extends Omit<CatalogEntityBase, "code"> {
+  rangeId: string;
+  analyteRefId: string;
+  effectiveFrom: string;
+  effectiveTo?: string;
+  segments?: ReferenceRangeSegment[];
+}
+
+export interface ReferenceRangeSegment {
+  segmentId?: string;
+  sex: string;
+  ageMinDays?: number;
+  ageMaxDays?: number;
+  condition?: string;
+  normalLow?: number;
+  normalHigh?: number;
+  criticalLow?: number;
+  criticalHigh?: number;
+  unit?: string;
+}
+
+export interface CreateReferenceRangeRequest {
+  tenantId: string;
+  laboratoryId: string;
+  analyteRefId: string;
+  effectiveFrom: string;
+  effectiveTo?: string;
+  segments?: ReferenceRangeSegment[];
+}
+
+export interface SampleType extends CatalogEntityBase {
+  sampleTypeId: string;
+  nameEn: string;
+  nameEs: string;
+  matrix: string;
+}
+
+export interface CreateSampleTypeRequest {
+  tenantId: string;
+  laboratoryId: string;
+  code: string;
+  nameEn: string;
+  nameEs: string;
+  matrix: string;
+}
+
+export interface SampleRequirement extends Omit<CatalogEntityBase, "code"> {
+  requirementId: string;
+  sampleTypeRefId: string;
+  minVolumeMl?: number;
+  containerRefId?: string;
+  handlingInstructionsEn?: string;
+  handlingInstructionsEs?: string;
+  storageTemperature?: string;
+}
+
+export interface CreateSampleRequirementRequest {
+  tenantId: string;
+  laboratoryId: string;
+  sampleTypeRefId: string;
+  minVolumeMl?: number;
+  containerRefId?: string;
+  handlingInstructionsEn?: string;
+  handlingInstructionsEs?: string;
+  storageTemperature?: string;
+}
+
+export interface PriceList extends CatalogEntityBase {
+  priceListId: string;
+  nameEn: string;
+  nameEs: string;
+  currency: string;
+  agreementRefId?: string;
+  effectiveFrom: string;
+  effectiveTo?: string;
+  entries?: PriceEntry[];
+}
+
+export interface PriceEntry {
+  entryId?: string;
+  itemType: string;
+  itemRefId: string;
+  currency?: string;
+  amount: number;
+}
+
+export interface CreatePriceListRequest {
+  tenantId: string;
+  laboratoryId: string;
+  code: string;
+  nameEn: string;
+  nameEs: string;
+  currency: string;
+  agreementRefId?: string;
+  effectiveFrom: string;
+  effectiveTo?: string;
+}
+
+export interface AddPriceEntryRequest {
+  itemType: string;
+  itemRefId: string;
+  amount: number;
+}
+
+// -- People and Clinical Master Data (MVP-MOD-003: BCM-PER-001/002/003, BCM-ATT-002) -----------
+
+export type PersonKind = "patient" | "doctor";
+
+export interface PersonSearchEntry {
+  tenantId: string;
+  laboratoryId: string;
+  personKind: string;
+  sourceAggregateId: string;
+  personCode: string;
+  fullName: string;
+  normalizedFamilyName: string;
+  normalizedGivenName: string;
+  birthDate?: string;
+  primaryDocumentType?: string;
+  primaryDocumentNumberMasked?: string;
+  status: string;
+}
+
+export interface PersonDuplicateCandidate {
+  personKind: string;
+  sourceAggregateId: string;
+  fullName: string;
+  confidence: number;
+  matchReason: string;
+}
+
+export interface DetectPersonDuplicatesRequest {
+  tenantId: string;
+  personKind?: string;
+  familyName?: string;
+  givenName?: string;
+  birthDate?: string;
+  sexAtBirth?: string;
+  nationalIdentifier?: string;
+}
+
+export interface PersonSearchIndexRebuildResult {
+  tenantId: string;
+  patientCount: number;
+  doctorCount: number;
+  rebuiltAt: string;
+}
+
+export interface PersonMergeCoordination {
+  coordinationId: string;
+  tenantId: string;
+  sourceKind: string;
+  sourceRecordId: string;
+  targetKind: string;
+  targetRecordId: string;
+  status: string;
+  patientMergeApplied: boolean;
+}
+
+export interface InitiateMergeCoordinationRequest {
+  tenantId: string;
+  sourceRecordId: string;
+  targetRecordId: string;
+}
+
+export interface PersonName {
+  givenName?: string;
+  middleName?: string;
+  familyName?: string;
+  secondFamilyName?: string;
+  preferredName?: string;
+}
+
+export interface PersonDocumentValue {
+  documentType: string;
+  documentNumber?: string;
+  issuingCountry?: string;
+  issuedAt?: string;
+  expiresAt?: string;
+}
+
+export interface Patient {
+  patientId: string;
+  tenantId: string;
+  laboratoryId: string;
+  patientCode: string;
+  givenName?: string;
+  middleName?: string;
+  familyName?: string;
+  secondFamilyName?: string;
+  preferredName?: string;
+  fullName?: string;
+  birthDate?: string;
+  sexAtBirth?: string;
+  primaryDocumentType?: string;
+  primaryDocumentNumberMasked?: string;
+  status: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface PatientSnapshot {
+  patientId: string;
+  tenantId: string;
+  laboratoryId: string;
+  patientCode: string;
+  fullName?: string;
+  birthDate?: string;
+  sexAtBirth?: string;
+  primaryDocumentType?: string;
+  primaryDocumentNumberMasked?: string;
+  status: string;
+  version: number;
+}
+
+export interface RegisterPatientRequest {
+  tenantId: string;
+  laboratoryId: string;
+  patientCode: string;
+  givenName: string;
+  middleName?: string;
+  familyName: string;
+  secondFamilyName?: string;
+  preferredName?: string;
+  birthDate?: string;
+  sexAtBirth: string;
+  primaryDocumentType: string;
+  primaryDocumentNumber: string;
+  primaryDocumentIssuingCountry?: string;
+  primaryDocumentIssuedAt?: string;
+  primaryDocumentExpiresAt?: string;
+  addressCountry?: string;
+  addressState?: string;
+  addressCity?: string;
+  addressPostalCode?: string;
+  addressStreet?: string;
+  preferredLocale?: string;
+}
+
+export interface MergePatientRequest {
+  survivingPatientId: string;
+}
+
+export interface PatientRepresentative {
+  representativeId: string;
+  patientId: string;
+  relationship: string;
+  representativeName?: PersonName;
+  representativeDocument?: PersonDocumentValue;
+  authorizationFrom?: string;
+  authorizationTo?: string;
+  status: string;
+}
+
+export interface AttachPatientRepresentativeRequest {
+  relationship: string;
+  givenName: string;
+  middleName?: string;
+  familyName: string;
+  secondFamilyName?: string;
+  documentType: string;
+  documentNumber: string;
+  authorizationFrom?: string;
+  authorizationTo?: string;
+}
+
+export interface PatientConsent {
+  consentId: string;
+  patientId: string;
+  consentType: string;
+  granted: boolean;
+  grantedBy: string;
+  grantedAt?: string;
+  revokedAt?: string;
+  evidenceReference?: string;
+}
+
+export interface RecordPatientConsentRequest {
+  consentType: string;
+  granted: boolean;
+  grantedBy: string;
+  evidenceReference?: string;
+}
+
+export interface Doctor {
+  doctorId: string;
+  tenantId: string;
+  laboratoryId: string;
+  doctorCode: string;
+  givenName?: string;
+  middleName?: string;
+  familyName?: string;
+  secondFamilyName?: string;
+  fullName?: string;
+  doctorType: string;
+  primaryDocumentType?: string;
+  primaryDocumentNumberMasked?: string;
+  status: string;
+  portalStatus: string;
+  portalEmail?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface DoctorSnapshot {
+  doctorId: string;
+  tenantId: string;
+  laboratoryId: string;
+  doctorCode: string;
+  fullName?: string;
+  primaryDocumentType?: string;
+  primaryDocumentNumberMasked?: string;
+  doctorType: string;
+  status: string;
+  version: number;
+}
+
+export interface RegisterDoctorRequest {
+  tenantId: string;
+  laboratoryId: string;
+  doctorCode: string;
+  givenName: string;
+  middleName?: string;
+  familyName: string;
+  secondFamilyName?: string;
+  doctorType: string;
+  primaryDocumentType: string;
+  primaryDocumentNumber: string;
+  primaryDocumentIssuingCountry?: string;
+  primaryDocumentIssuedAt?: string;
+  primaryDocumentExpiresAt?: string;
+  addressCountry?: string;
+  addressCity?: string;
+  addressStreet?: string;
+}
+
+export interface SuspendDoctorRequest {
+  reasonCode?: string;
+}
+
+export interface PreparePortalAccessRequest {
+  portalEmail?: string;
+}
+
+export interface ProfessionalCredential {
+  credentialId: string;
+  doctorId: string;
+  credentialType: string;
+  credentialNumber: string;
+  issuingAuthority: string;
+  issuingCountry?: string;
+  issuedAt?: string;
+  expiresAt?: string;
+  verificationStatus: string;
+  verifiedAt?: string;
+}
+
+export interface AttachCredentialRequest {
+  credentialType: string;
+  credentialNumber: string;
+  issuingAuthority: string;
+  issuingCountry?: string;
+  issuedAt?: string;
+  expiresAt?: string;
+}
+
+export type PatientRegistrationOutcome = "pending" | "committed" | "cancelled" | "rejected";
+
+export interface PatientRegistrationRequestRecord {
+  registrationRequestId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  intakeChannel: string;
+  candidatePatientId?: string;
+  registrationKind: string;
+  normalizedFamilyName?: string;
+  normalizedGivenName?: string;
+  birthDate?: string;
+  draftGivenName?: string;
+  draftFamilyName?: string;
+  draftDocumentType?: string;
+  draftDocumentNumber?: string;
+  draftPatientCode?: string;
+  outcome: PatientRegistrationOutcome | string;
+  outcomePatientId?: string;
+  actorId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface StartPatientRegistrationRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  intakeChannel: string;
+  registrationKind: string;
+  givenName: string;
+  familyName: string;
+  birthDate?: string;
+  documentType: string;
+  documentNumber: string;
+  draftPatientCode?: string;
+  actorId?: string;
+}
+
+export interface ConsentSelectionRequest {
+  consentType: string;
+  granted: boolean;
+  grantedBy: string;
+  evidenceReference?: string;
+}
+
+export interface CommitPatientRegistrationRequest {
+  resolvedExistingPatientId?: string;
+  patientCode?: string;
+  sexAtBirth?: string;
+  addressCountry?: string;
+  addressState?: string;
+  addressCity?: string;
+  addressPostalCode?: string;
+  addressStreet?: string;
+  preferredLocale?: string;
+  representativeRelationship?: string;
+  representativeGivenName?: string;
+  representativeMiddleName?: string;
+  representativeFamilyName?: string;
+  representativeSecondFamilyName?: string;
+  representativeDocumentType?: string;
+  representativeDocumentNumber?: string;
+  representativeAuthorizationFrom?: string;
+  representativeAuthorizationTo?: string;
+  consents?: ConsentSelectionRequest[];
+}
+
+export interface CancelPatientRegistrationRequest {
+  reasonCode?: string;
+}
+
+// -- Front Desk and Care Delivery (MVP-MOD-004: BCM-ATT-003, BCM-LAB-001) -------------------------
+
+export type ReceptionQueueStatus =
+  "waiting" | "called" | "in_admission" | "completed" | "abandoned";
+export type ReceptionPriority = "normal" | "priority" | "urgent";
+
+export interface ReceptionVisit {
+  visitId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  patientId: string;
+  linkedAppointmentId?: string;
+  intakeChannel: string;
+  identityConfirmed: boolean;
+  identityConfirmationMethod?: string;
+  queueStatus: ReceptionQueueStatus | string;
+  priority: ReceptionPriority | string;
+  actorId?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface StartReceptionVisitRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  patientId: string;
+  linkedAppointmentId?: string;
+  intakeChannel: string;
+  actorId?: string;
+}
+
+export interface ConfirmReceptionIdentityRequest {
+  identityConfirmationMethod: string;
+}
+
+export interface UpdateReceptionPriorityRequest {
+  priority: string;
+}
+
+export type DiagnosticOrderStatus =
+  "draft" | "priced" | "accepted" | "in_progress" | "cancelled" | "completed";
+export type OrderLineStatus = "pending" | "accepted" | "cancelled" | "completed";
+
+export interface Money {
+  currency: string;
+  amount: number;
+}
+
+export interface OrderPatientSnapshot {
+  patientId: string;
+  sourceVersion: number;
+  fullName: string;
+  documentType: string;
+  documentNumberMasked: string;
+  birthDate?: string;
+  capturedAt: string;
+}
+
+export interface OrderDoctorSnapshot {
+  doctorId: string;
+  sourceVersion: number;
+  fullName: string;
+  licenseNumber: string;
+  capturedAt: string;
+}
+
+export interface OrderBranchSnapshot {
+  branchId: string;
+  sourceVersion: number;
+  name: string;
+  capturedAt: string;
+}
+
+export interface OrderPricingSnapshot {
+  priceListId: string;
+  priceListVersion: number;
+  totalAmount: Money;
+  capturedAt: string;
+}
+
+export interface DiagnosticOrder {
+  orderId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  intakeChannel: string;
+  sourceReferenceId?: string;
+  patientSnapshot: OrderPatientSnapshot;
+  doctorSnapshot?: OrderDoctorSnapshot;
+  branchSnapshot: OrderBranchSnapshot;
+  clinicalNotes?: string;
+  pricingSnapshot?: OrderPricingSnapshot;
+  status: DiagnosticOrderStatus | string;
+  cancellationReason?: string;
+  actorId?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface OrderLine {
+  orderLineId: string;
+  orderId: string;
+  testDefinitionId: string;
+  catalogItemKind: string;
+  catalogItemName: string;
+  catalogPublishedVersion: number;
+  quantity: number;
+  unitAmount?: Money;
+  lineStatus: OrderLineStatus | string;
+}
+
+export interface OrderLineRequest {
+  testDefinitionId: string;
+  catalogItemKind: string;
+  quantity?: number;
+}
+
+export interface CreateDiagnosticOrderRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  intakeChannel: string;
+  sourceReferenceId?: string;
+  patientId: string;
+  doctorId?: string;
+  actorId?: string;
+  lines: OrderLineRequest[];
+}
+
+export interface PriceOrderRequest {
+  currency?: string;
+}
+
+export interface AcceptOrderRequest {
+  clinicalNotes?: string;
+}
+
+export interface CancelOrderRequest {
+  reasonCode: string;
+  overrideJustification?: string;
+}
+
+// -- Cashier Operations and Billing Request (MVP-MOD-005: BCM-ATT-005, BCM-ATT-008) ---------------
+
+export type CashSessionStatus = "open" | "closed";
+
+export interface CashSession {
+  sessionId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  openedBy: string;
+  openingAmount: Money;
+  expectedAmount: Money;
+  countedAmount?: Money;
+  varianceAmount?: Money;
+  varianceReason?: string;
+  status: CashSessionStatus | string;
+  openedAt?: string;
+  closedAt?: string;
+}
+
+export interface OpenCashSessionRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  openedBy: string;
+  openingAmount: number;
+  currency?: string;
+}
+
+export interface CloseCashSessionRequest {
+  countedAmount: number;
+  currency?: string;
+  varianceReason?: string;
+}
+
+export interface SaleTotals {
+  subtotalAmount: Money;
+  discountAmount: Money;
+  totalAmount: Money;
+  paidAmount: Money;
+  outstandingAmount: Money;
+}
+
+export interface SaleLine {
+  saleLineId: string;
+  saleId: string;
+  catalogItemId: string;
+  catalogItemKind: string;
+  descriptionSnapshot: string;
+  quantity: number;
+  unitAmount: Money;
+  lineTotal: Money;
+}
+
+export interface PaymentAllocation {
+  paymentId: string;
+  saleId: string;
+  sessionId?: string;
+  amount: Money;
+  method: string;
+  reference?: string;
+  registeredBy: string;
+  registeredAt?: string;
+}
+
+export type SaleStatus = "payable" | "partially_paid" | "paid" | "cancelled" | "refunded";
+export type SaleSourceType = "diagnostic_order" | "quotation";
+export type PaymentMethod = "cash" | "card" | "transfer" | "wallet" | "mixed";
+
+export interface Sale {
+  saleId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  patientId: string;
+  sourceType: SaleSourceType | string;
+  sourceReferenceId: string;
+  totals: SaleTotals;
+  status: SaleStatus | string;
+  cancellationReason?: string;
+  actorId?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateSaleRequest {
+  tenantId: string;
+  sourceType: SaleSourceType | string;
+  sourceReferenceId: string;
+  actorId?: string;
+}
+
+export interface RegisterPaymentRequest {
+  amount: number;
+  currency?: string;
+  method: PaymentMethod | string;
+  sessionId?: string;
+  reference?: string;
+  registeredBy: string;
+}
+
+export interface CancelSaleRequest {
+  reasonCode: string;
+}
+
+export type BillingRequestStatus = "requested" | "submitted" | "issued" | "failed" | "cancelled";
+
+export interface FiscalProfileSnapshot {
+  legalName: string;
+  taxIdentifier: string;
+  fiscalAddress: string;
+  fiscalRegime?: string;
+  capturedAt: string;
+}
+
+export interface TaxLine {
+  taxLineId: string;
+  invoiceRequestId: string;
+  baseAmount: Money;
+  taxCode: string;
+  taxRate: number;
+  taxAmount: Money;
+}
+
+export interface InvoiceRequest {
+  invoiceRequestId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  saleId: string;
+  patientId: string;
+  fiscalProfileSnapshot: FiscalProfileSnapshot;
+  status: BillingRequestStatus | string;
+  adapterCorrelationId?: string;
+  adapterResponseSnapshot?: string;
+  actorId?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateBillingRequestRequest {
+  saleId: string;
+  legalName: string;
+  taxIdentifier: string;
+  fiscalAddress: string;
+  fiscalRegime?: string;
+  taxCode?: string;
+  taxRate?: number;
+  actorId?: string;
+}
+
+// -- Laboratory Workflow (MVP-MOD-006: BCM-LAB-002 to BCM-LAB-010) -------------------------
+
+export type SampleStatus =
+  "collected" | "labeled" | "in_transit" | "received" | "rejected" | "in_process" | "disposed";
+
+export interface Sample {
+  sampleId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  orderId: string;
+  patientId: string;
+  sampleTypeRefId: string;
+  status: SampleStatus | string;
+  collectionDate?: string;
+  collectedBy?: string;
+  receptionDate?: string;
+  receivedBy?: string;
+  rejectionReason?: string;
+  disposalReason?: string;
+  version: number;
+}
+
+export interface CollectSampleRequest {
+  collectedBy?: string;
+}
+
+export interface ReceiveSampleRequest {
+  conditionCriteriaMet?: boolean;
+}
+
+export interface RejectSampleRequest {
+  reasonCode: string;
+}
+
+export interface DisposeSampleRequest {
+  reasonCode: string;
+}
+
+export type ResultStatus =
+  | "captured"
+  | "pending_technical_validation"
+  | "technically_validated"
+  | "pending_medical_validation"
+  | "medically_validated"
+  | "released"
+  | "amended";
+
+export interface AnalyteSnapshot {
+  analyteRefId: string;
+  name: string;
+  unit?: string;
+}
+
+export interface ReferenceRangeSnapshot {
+  rangeRefId: string;
+  normalLow?: number;
+  normalHigh?: number;
+  criticalLow?: number;
+  criticalHigh?: number;
+}
+
+export interface ProcessingIncident {
+  incidentType: string;
+  description: string;
+  loggedAt: string;
+  loggedBy: string;
+}
+
+export interface ResultValue {
+  rawValue: string;
+  numericValue?: number;
+  unit?: string;
+  method?: string;
+  capturedAt: string;
+  capturedBy: string;
+  deviceReference?: string;
+}
+
+export interface TechnicalValidationRecord {
+  notes?: string;
+  validatedAt?: string;
+  validatedBy?: string;
+}
+
+export interface MedicalValidationRecord {
+  notes?: string;
+  validatedAt?: string;
+  validatedBy?: string;
+}
+
+export interface ReleaseRecord {
+  notes?: string;
+  releasedAt?: string;
+  releasedBy?: string;
+}
+
+export interface AmendmentRecord {
+  reason: string;
+  amendedAt: string;
+  amendedBy: string;
+}
+
+export interface LaboratoryResult {
+  resultId: string;
+  tenantId: string;
+  laboratoryId: string;
+  sampleId: string;
+  testDefinitionId: string;
+  status: ResultStatus | string;
+  analyteSnapshots: AnalyteSnapshot[];
+  referenceRangeSnapshots: ReferenceRangeSnapshot[];
+  resultValues: ResultValue[];
+  incidents: ProcessingIncident[];
+  technicalValidation?: TechnicalValidationRecord;
+  medicalValidation?: MedicalValidationRecord;
+  releaseRecord?: ReleaseRecord;
+  amendments: AmendmentRecord[];
+  version: number;
+}
+
+export interface CaptureResultRequest {
+  values: ResultValue[];
+}
+
+export interface RecordIncidentRequest {
+  incidentType: string;
+  description: string;
+}
+
+export interface ValidateResultRequest {
+  notes?: string;
+}
+
+export interface ReleaseResultRequest {
+  notes?: string;
+}
+
+export interface AmendResultRequest {
+  reason: string;
+  newValues: ResultValue[];
+}
+
+// -- Results and Digital Delivery (MVP-MOD-007: BCM-RES-001 to BCM-RES-007, BCM-PLT-003, BCM-PLT-008) ----
+
+export type DeliveryTicketStatus =
+  "PENDING_AUTHORIZATION" | "AUTHORIZED" | "DELIVERED" | "VIEWED" | "WITHHELD" | "EXPIRED";
+
+export interface ResultDeliveryTicket {
+  ticketId: string;
+  resultId: string;
+  tenantId: string;
+  patientId: string;
+  accessCode: string;
+  status: DeliveryTicketStatus | string;
+  expiresAt: string;
+  recipientType?: string;
+  recipientId?: string;
+  deliveryChannel?: string;
+  deliveredAt?: string;
+  viewedAt?: string;
+}
+
+export type CriticalEscalationStatus = "OPEN" | "ACKNOWLEDGED" | "ESCALATED" | "CLOSED";
+
+export interface CriticalResultEscalation {
+  escalationId: string;
+  tenantId: string;
+  laboratoryId: string;
+  resultId: string;
+  criticalReason: string;
+  escalationTier: number;
+  acknowledgementDeadline: string;
+  acknowledgedBy?: string;
+  acknowledgedAt?: string;
+  assignedHandlerId?: string;
+  status: CriticalEscalationStatus | string;
+}
+
+export type ReportStatus = "pending" | "generated" | "generation_failed" | "superseded";
+
+export interface GeneratedResultReport {
+  reportId: string;
+  resultId: string;
+  tenantId: string;
+  status: ReportStatus | string;
+  documentId?: string;
+  integrityChecksum?: string;
+  generatedAt?: string;
+  generatedBy?: string;
+}
+
+export type NotificationStatus =
+  "pending_submission" | "submitted" | "dispatched" | "delivered" | "failed";
+
+export interface ResultNotificationRequest {
+  notificationRequestId: string;
+  resultId: string;
+  tenantId: string;
+  recipientType: string;
+  recipientId: string;
+  channel: string;
+  status: NotificationStatus | string;
+  dispatchedAt?: string;
+  deliveredAt?: string;
+  failureReason?: string;
+  createdAt?: string;
+}
+
+export interface AuthorizeDeliveryRequest {
+  resultId: string;
+  tenantId: string;
+  actorId: string;
+}

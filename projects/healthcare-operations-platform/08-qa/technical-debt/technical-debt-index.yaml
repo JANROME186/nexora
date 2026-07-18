@@ -325,13 +325,13 @@ entries:
     remediation_strategy: start_with_document_management_findings_during_MVP_MOD_007_BE_002_then_gradually_burn_down_repo_wide_findings
   - id: TD-FE-007
     title: LaboratoryResult wire-shape mismatch between the employee-portal FE type and the real BCM-LAB-006 backend record
-    status: open
+    status: closed
     risk_level: medium
     blocking: false
     source_backlog_item: MVP-MOD-007-FE-001
     affected_area: employee_portal_laboratory_result_type
     file: 08-qa/technical-debt/TD-FE-007-laboratoryresult-wire-shape-mismatch.yaml
-    remediation_strategy: gradual_when_a_future_backlog_item_touches_laboratoryOperationsApi_or_its_screens
+    remediation_strategy: closed_by_MVP_MOD_007_PORTAL_001_laboratory_result_mapper
   - id: TD-IAM-001
     title: Backend has no authenticated request context or server-side authorization enforcement
     status: closed

@@ -242,8 +242,8 @@ validation_commands:
 
 next_backlog_item:
   module_id: MVP-MOD-007
-  backlog_item_id: MVP-MOD-007-PORTAL-001
-  name: Compile patient and doctor released result views
+  backlog_item_id: MVP-MOD-007-APP-001
+  name: Mobile patient results integration
   expected_folder: ../../
   paused_functional_backlog_item: null
   required_debt_first_action: null
@@ -266,17 +266,7 @@ next_backlog_item:
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
-    backlog_item_id: HOP-ENT-FOUND-001
+    backlog_item_id: MVP-MOD-007-PORTAL-001
     status: closed
     summary: >-
-      Aligned HOP with the enterprise product foundation standard: es-MX/en-US localization
-      baseline (backend MessageSource, frontend/mobile locale-keyed catalogs with a working
-      employee-portal language switch); a 27-permission IAM catalog with permission-filtered
-      dynamic navigation and an explicitly disclosed backend-authentication gap (TD-IAM-001);
-      session-management baseline with a real hardcoded-actor bug fixed; database architecture/
-      dictionary/normalization/seed deliverables plus new country/locale/currency reference
-      tables; a UX/UI design-token baseline; a persistence/contract-first generation review.
-      TD-BE-009 closed and TD-I18N-002 materially reduced as debt-first action; 12 new
-      technical-debt items registered. Backend coverage 76.99% -> 77.32%; frontend coverage
-      83.98% -> 84.42%; both with no regression. Found and fixed a real stale-duplicate
-      Docker-init schema.sql bug during validation (TD-STACK-004 registered).
+      Compiled patient and doctor released result views. Fixed build failures in patient-portal and doctor-portal, ensuring quality gates passed successfully. Closed TD-FE-007 (LaboratoryResult wire-shape mismatch).

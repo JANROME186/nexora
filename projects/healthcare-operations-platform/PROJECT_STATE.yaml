@@ -181,7 +181,7 @@ completed_deliverables:
     84.44%, mobile coverage measured at 97.15%, all with no regression; found and fixed a real
     stale-duplicate Docker-init schema.sql bug during validation (TD-STACK-004 registered))
 next_deliverables:
-  - Resume MVP-MOD-007-PORTAL-001 Compile patient and doctor released result views
+  - Resume MVP-MOD-007-APP-001 Mobile patient results integration
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -196,7 +196,7 @@ development_readiness:
   status: ready
   ready_to_start_module: MVP-MOD-007
   in_progress_module: MVP-MOD-007
-  next_backlog_item: MVP-MOD-007-PORTAL-001
+  next_backlog_item: MVP-MOD-007-APP-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -285,7 +285,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-007
-  current_backlog_item: MVP-MOD-007-PORTAL-001
+  current_backlog_item: MVP-MOD-007-APP-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -338,9 +338,9 @@ implementation_progress:
     - MVP-MOD-007-BE-002
     - MVP-MOD-007-FE-001
     - HOP-ENT-FOUND-001
+    - MVP-MOD-007-PORTAL-001
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-007-PORTAL-001
     - MVP-MOD-007-APP-001
     - MVP-MOD-007-QA-001
     - MVP-MOD-007-CLOSEOUT
@@ -592,7 +592,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_iteration: MVP-MOD-007
   active_module: MVP-MOD-007 Results and Digital Delivery
-  active_backlog_item: MVP-MOD-007-PORTAL-001
+  active_backlog_item: MVP-MOD-007-APP-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
