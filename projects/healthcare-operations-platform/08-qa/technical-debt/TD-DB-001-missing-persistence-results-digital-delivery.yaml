@@ -4,7 +4,7 @@ artifact:
   name: resultsanddigitaldelivery, documentmanagement and notificationmanagement have no
     persistent (Jdbc) schema/repository - in-memory adapters only
   version: 1.0.0
-  status: open
+  status: closed
   created_date: 2026-07-17
 
 source:
@@ -45,7 +45,10 @@ target_state:
     - New JdbcXxxRepository adapters mirroring the established @Profile("local") pattern
 
 remediation:
-  strategy: gradual_when_a_future_MVP-MOD-007_related_backlog_item_requires_data_to_survive_restart
+  strategy: gradual
+  trigger: when_a_future_MVP-MOD-007_related_backlog_item_requires_data_to_survive_restart
+  action_taken: closed_by_MVP_MOD_007_QA_001_implementing_jdbc_repositories
+  closed_by: MVP-MOD-007-QA-001
   owner: backend_platform_team
   estimated_effort: medium
   estimated_cost_impact: low

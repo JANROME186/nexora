@@ -16,6 +16,7 @@ spring:
         - classpath:db/front-desk-care-delivery/schema.sql
         - classpath:db/cash-sales/schema.sql
         - classpath:db/laboratory-workflow/schema.sql
+        - classpath:db/results-and-digital-delivery/schema.sql
 
 management:
   endpoint:

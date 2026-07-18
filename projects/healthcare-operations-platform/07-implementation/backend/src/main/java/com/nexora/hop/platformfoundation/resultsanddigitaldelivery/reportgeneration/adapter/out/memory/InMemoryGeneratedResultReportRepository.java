@@ -14,6 +14,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@org.springframework.context.annotation.Profile({"local", "test"})
 public class InMemoryGeneratedResultReportRepository implements GeneratedResultReportRepository {
 
     private final Map<UUID, GeneratedResultReport> store = new ConcurrentHashMap<>();

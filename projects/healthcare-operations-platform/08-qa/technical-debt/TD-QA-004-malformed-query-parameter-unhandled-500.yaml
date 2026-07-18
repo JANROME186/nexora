@@ -3,7 +3,7 @@ artifact:
   type: technical-debt-item
   name: Malformed empty-key query parameter causes an unhandled 500 on POST /api/platform/tenants
   version: 1.0.0
-  status: open
+  status: closed
   created_date: 2026-07-16
 
 source:
@@ -58,7 +58,10 @@ target_state:
       cross-module servlet-container behavior, not owned by any single business module).
 
 remediation:
-  strategy: gradual_when_backend_web_infrastructure_is_next_touched
+  strategy: gradual
+  trigger: when_backend_web_infrastructure_is_next_touched
+  action_taken: closed_by_MVP_MOD_007_QA_001_GlobalExceptionHandler
+  closed_by: MVP-MOD-007-QA-001
   owner: backend_platform_team
   target_backlog: next_backend_infrastructure_hardening_backlog_item_not_yet_scheduled
   expiration: review_at_next_HOP_QA_ALIGN_or_release_readiness_backlog_item

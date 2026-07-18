@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@org.springframework.context.annotation.Profile({"local", "test"})
 public class InMemoryResultDeliveryTicketRepository implements ResultDeliveryTicketRepository {
 
     private final Map<UUID, ResultDeliveryTicket> store = new ConcurrentHashMap<>();

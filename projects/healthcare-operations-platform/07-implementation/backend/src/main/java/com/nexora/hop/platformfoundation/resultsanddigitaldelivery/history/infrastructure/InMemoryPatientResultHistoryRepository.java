@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@org.springframework.context.annotation.Profile({"local", "test"})
 public class InMemoryPatientResultHistoryRepository implements PatientResultHistoryRepository {
     private final Map<PatientId, PatientResultHistoryView> store = new ConcurrentHashMap<>();
 

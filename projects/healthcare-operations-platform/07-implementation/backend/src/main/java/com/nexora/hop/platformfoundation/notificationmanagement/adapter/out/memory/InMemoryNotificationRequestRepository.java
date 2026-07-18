@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@org.springframework.context.annotation.Profile({"local", "test"})
 public class InMemoryNotificationRequestRepository implements NotificationRequestRepository {
 
     private final Map<UUID, NotificationRequest> store = new ConcurrentHashMap<>();

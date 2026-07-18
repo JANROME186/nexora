@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@org.springframework.context.annotation.Profile({"local", "test"})
 public class InMemoryCriticalResultEscalationRepository implements CriticalResultEscalationRepository {
 
     private final Map<UUID, CriticalResultEscalation> store = new ConcurrentHashMap<>();

@@ -242,8 +242,8 @@ validation_commands:
 
 next_backlog_item:
   module_id: MVP-MOD-007
-  backlog_item_id: MVP-MOD-007-QA-001
-  name: Result access, PDF and notification evidence
+  backlog_item_id: MVP-MOD-007-CLOSEOUT
+  name: Module closeout and registry update
   expected_folder: ../../
   paused_functional_backlog_item: null
   required_debt_first_action: null
@@ -265,7 +265,7 @@ next_backlog_item:
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
-    backlog_item_id: MVP-MOD-007-APP-001
+    backlog_item_id: MVP-MOD-007-QA-001
     status: closed
     summary: >-
-      Fixed test coverage, reaching 98.87%, in mobile-app. Prettier and linting passed cleanly. Resolved TD-FE-007 and TD-STACK-004. Evidence generated and status updated.
+      MVP-MOD-007-QA-001 comprehensively validated the Results and Digital Delivery module. Backend tests execute cleanly. New JDBC persistence properly segregates from unit/integration tests via Spring profile rules. All code checks and validations are fully satisfied.

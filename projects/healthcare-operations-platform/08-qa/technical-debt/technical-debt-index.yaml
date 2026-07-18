@@ -280,13 +280,13 @@ entries:
     remediation_strategy: gradual_before_first_production_deployment_of_employee_portal
   - id: TD-QA-004
     title: Malformed empty-key query parameter causes an unhandled 500 on POST /api/platform/tenants
-    status: open
+    status: closed
     risk_level: low
     blocking: false
     source_backlog_item: HOP-QA-ALIGN-004
     affected_area: backend_servlet_parameter_parsing
     file: 08-qa/technical-debt/TD-QA-004-malformed-query-parameter-unhandled-500.yaml
-    remediation_strategy: gradual_when_backend_web_infrastructure_is_next_touched
+    remediation_strategy: closed_by_MVP_MOD_007_QA_001_GlobalExceptionHandler
   - id: TD-I18N-002
     title: Complete full message-catalog and localization-library adoption beyond the HOP-QA-ALIGN-005 baseline
     status: materially_reduced
@@ -354,13 +354,13 @@ entries:
   - id: TD-DB-001
     title: resultsanddigitaldelivery, documentmanagement and notificationmanagement have no
       persistent (Jdbc) schema/repository - in-memory adapters only
-    status: open
+    status: closed
     risk_level: medium
     blocking: false
     source_backlog_item: HOP-ENT-FOUND-001
     affected_area: results_and_digital_delivery_persistence
     file: 08-qa/technical-debt/TD-DB-001-missing-persistence-results-digital-delivery.yaml
-    remediation_strategy: gradual_when_a_future_MVP-MOD-007_related_backlog_item_requires_data_to_survive_restart
+    remediation_strategy: closed_by_MVP_MOD_007_QA_001_implementing_jdbc_repositories
   - id: TD-DB-002
     title: Diagnostic catalog business tables are not yet translatable (single name column, no
       es-MX/en-US variants)
