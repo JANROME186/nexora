@@ -19,8 +19,8 @@ product:
     completed_module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT (HOP-ENT-FOUND-001 closed)
     completed_status: closed
     active_module: MVP-MOD-007
-    active_backlog_item: MVP-MOD-007-PORTAL-001
-    active_module_progress: MVP-MOD-007-FE-001 closed; HOP-ENT-FOUND-001 closed; MVP-MOD-007-PORTAL-001 resumed
+    active_backlog_item: MVP-MOD-007-APP-001
+    active_module_progress: MVP-MOD-007-PORTAL-001 closed; ready for MVP-MOD-007-APP-001
     paused_backlog_item: null
 
 source_inputs:
@@ -595,7 +595,7 @@ modules:
         status: closed
       - id: MVP-MOD-007-PORTAL-001
         name: Compile patient and doctor released result views
-        status: next
+        status: closed
       - id: MVP-MOD-007-APP-001
         name: Compile mobile result view and notification baseline
       - id: MVP-MOD-007-QA-001

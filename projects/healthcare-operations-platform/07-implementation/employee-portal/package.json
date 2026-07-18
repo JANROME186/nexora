@@ -17,7 +17,8 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "format:write": "prettier --write \"src/**/*.{ts,tsx,css}\" \"*.{ts,json,html}\""
   },
   "dependencies": {
     "react": "^18.3.1",

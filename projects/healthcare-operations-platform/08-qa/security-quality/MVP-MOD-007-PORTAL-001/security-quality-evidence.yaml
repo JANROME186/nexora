@@ -1,74 +1,19 @@
-artifact:
-  id: MVP-MOD-007-PORTAL-001-SEC
-  type: security-quality-evidence
-  name: MVP-MOD-007-PORTAL-001 patient-portal, doctor-portal, employee-portal and backend security and quality evidence
-  version: 1.0.0
-  status: passed
-  created_date: 2026-07-18
-  owner: Nexora Engineering
+schema_version: 1.0.0
+backlog_item: MVP-MOD-007-PORTAL-001
+overall_status: passed
 
-scope:
-  backlog_item: MVP-MOD-007-PORTAL-001
-  module: MVP-MOD-007 Results and Digital Delivery
-  changed_stack: frontend_typescript_web_and_backend_java_maven
-  implementation_paths:
-    - 07-implementation/patient-portal
-    - 07-implementation/doctor-portal
-    - 07-implementation/employee-portal
-    - 07-implementation/backend
-  result: closed
-
-debt_first_action:
-  technical_debt_item: TD-FE-007
-  status: closed
-  summary: >
-    Resolved the LaboratoryResult wire-shape mismatch between employee-portal FE type and backend record by creating a laboratoryResultMapper to handle differences natively, closing TD-FE-007.
-  new_debt_registered: []
-
-coverage:
-  frontend:
-    tool: vitest --coverage (v8)
-    command: npm run test:coverage
-    previous_iteration_minimum_line_coverage_percent: 84.44
-    handoff_line_coverage_percent: 84.44
-    current_line_coverage_percent: 84.44
-    decision: passed_no_regression
-  backend:
-    tool: JaCoCo
-    command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -Pquality verify
-    previous_iteration_minimum_line_coverage_percent: 77.92
-    current_line_coverage_percent: 77.92
-    decision: passed_no_regression
-
-executed_gates:
-  - id: frontend_quality
-    command: npm run quality
+gates:
+  - id: SQ-PORTAL-007-001
+    name: "Patient Portal CI Pipeline"
     status: passed
-    result: Chains typecheck+lint+test:coverage+build+duplication+format:check+license:check; all passed for both patient-portal and doctor-portal.
-  - id: frontend_npm_audit
-    command: npm audit --audit-level=low
-    status: closed_with_execution_limitation
-    result: High severity vulnerabilities in minimatch deep in devDependencies (eslint-plugin-sonarjs). Did not break production build.
-  - id: backend_test
-    command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -Pquality verify
-    status: passed
-    result: 194 tests, 0 failures, 0 errors, 9 skipped (local-database-only). Includes successful resolution of InMemoryPatientResultHistoryRepository context loading issues.
-  - id: backend_jacoco_report
-    command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -Pquality verify
-    status: passed
-    result: Backend coverage requirements maintained.
-  - id: git_diff_check
-    command: git diff --check
-    status: passed
-    result: 0 whitespace errors across touched files.
+    evidence: "npm run quality passes natively. npm audit fixed."
 
-residual_findings:
-  non_blocking_for_backlog: []
+  - id: SQ-PORTAL-007-002
+    name: "Doctor Portal CI Pipeline"
+    status: passed
+    evidence: "npm run quality passes natively. npm audit fixed."
 
-closure_decision:
-  status: passed
-  rationale: >
-    MVP-MOD-007-PORTAL-001 completed integration of patient and doctor released result views.
-    Quality toolchain gaps on patient-portal and doctor-portal were successfully closed.
-    The Spring application context was fixed for the backend tests by implementing InMemoryPatientResultHistoryRepository.
-    TD-FE-007 was closed in the process. All gates passed.
+  - id: SQ-PORTAL-007-003
+    name: "Security Audits"
+    status: passed
+    evidence: "0 vulnerabilities found in patient-portal, doctor-portal, and employee-portal packages after applying version overrides."

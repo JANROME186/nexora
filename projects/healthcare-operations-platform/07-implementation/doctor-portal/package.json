@@ -14,7 +14,8 @@
     "duplication": "jscpd --config jscpd.config.json",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"*.{ts,json,html}\"",
     "license:check": "license-checker-rseidelsohn --summary --production",
-    "quality": "npm run typecheck && npm run lint && npm run test:coverage && npm run build && npm run duplication && npm run format:check && npm run license:check"
+    "quality": "npm run typecheck && npm run lint && npm run test:coverage && npm run build && npm run duplication && npm run format:check && npm run license:check",
+    "format:write": "prettier --write \"src/**/*.{ts,tsx,css}\" \"*.{ts,json,html}\""
   },
   "dependencies": {
     "react": "^19.2.7",
@@ -45,5 +46,8 @@
     "jscpd": "^4.0.5",
     "license-checker-rseidelsohn": "^4.4.2",
     "typescript-eslint": "^8.48.0"
+  },
+  "overrides": {
+    "minimatch": "10.2.5"
   }
 }

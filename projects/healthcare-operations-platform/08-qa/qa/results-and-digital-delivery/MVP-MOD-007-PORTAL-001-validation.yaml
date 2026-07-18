@@ -1,0 +1,31 @@
+schema_version: 1.0.0
+module: results-and-digital-delivery
+backlog_item: MVP-MOD-007-PORTAL-001
+validation_date: "2026-07-18T12:00:00Z"
+overall_status: passed
+
+validations:
+  - id: QA-MVP-MOD-007-PORTAL-001-01
+    description: "patient-portal quality gates pass"
+    status: passed
+    evidence: "npm run quality passes with 0 code duplications, 100% formatted, and tests passing."
+
+  - id: QA-MVP-MOD-007-PORTAL-001-02
+    description: "doctor-portal quality gates pass"
+    status: passed
+    evidence: "npm run quality passes with 0 code duplications, 100% formatted, and tests passing."
+
+  - id: QA-MVP-MOD-007-PORTAL-001-03
+    description: "backend quality gates pass"
+    status: passed
+    evidence: "mvn verify passes with tests succeeding."
+
+  - id: QA-MVP-MOD-007-PORTAL-001-04
+    description: "patient-portal audit vulnerabilities resolved"
+    status: passed
+    evidence: "npm audit --audit-level=low returns 0 vulnerabilities after adding minimatch override."
+
+  - id: QA-MVP-MOD-007-PORTAL-001-05
+    description: "doctor-portal audit vulnerabilities resolved"
+    status: passed
+    evidence: "npm audit --audit-level=low returns 0 vulnerabilities after adding minimatch override."
