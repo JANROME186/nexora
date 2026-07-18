@@ -33,6 +33,7 @@ validations:
 # Final Closure Validations:
 # - functional commit: a00423f
 # - documental closure commit: 579883f
+# - final metadata closure commit: 4afcc0f
 # - git status --short clean
 # - YAML parse repo-wide executed
 # - stale-pointer sweep executed
