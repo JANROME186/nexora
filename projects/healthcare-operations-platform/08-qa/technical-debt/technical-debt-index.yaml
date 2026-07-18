@@ -442,10 +442,10 @@ entries:
   - id: TD-STACK-004
     title: Duplicate, manually-synced Docker-init copy of platform-foundation schema.sql can
       silently drift from the authoritative Spring Boot schema source
-    status: open
+    status: closed
     risk_level: medium
     blocking: false
     source_backlog_item: HOP-ENT-FOUND-001
     affected_area: local_postgres_schema_initialization
     file: 08-qa/technical-debt/TD-STACK-004-duplicate-docker-init-schema-file.yaml
-    remediation_strategy: gradual_when_local_runtime_infrastructure_is_next_touched
+    remediation_strategy: closed_by_MVP_MOD_007_APP_001_removing_duplicate_init_script

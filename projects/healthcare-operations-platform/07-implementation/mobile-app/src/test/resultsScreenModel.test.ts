@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createResultsScreenModel } from "../screens/resultsScreenModel";
 import { createResultsApi } from "../api/resultsApi";
+import type { ResultsApi } from "../api/resultsApi";
 import type { FetchLike } from "../api/platformFoundationApi";
 
 describe("resultsScreenModel", () => {
@@ -51,5 +52,23 @@ describe("resultsScreenModel", () => {
 
     await model.loadTickets();
     expect(model.getState().error).toContain("Results API request failed");
+  });
+
+  it("handles non-Error exceptions", async () => {
+    const api = {
+      listResults: () => Promise.reject("String Error"),
+    } as unknown as ResultsApi;
+
+    const model = createResultsScreenModel(api, {
+      userId: "patient-1",
+      tenantId: "tenant-1",
+      displayName: "Test",
+      email: "test@example.com",
+      createdAt: "2026",
+      token: "",
+    });
+
+    await model.loadTickets();
+    expect(model.getState().error).toBe("String Error");
   });
 });

@@ -41,4 +41,23 @@ describe("results mobile api client", () => {
       "Results API request failed with status 500.",
     );
   });
+
+  it("passes token and session headers correctly", async () => {
+    const calls: Array<{ input: string; init?: RequestInit }> = [];
+    const fetcher: FetchLike = async (input, init) => {
+      calls.push({ input, init });
+      return new Response(JSON.stringify([]), { status: 200 });
+    };
+    const api = createResultsApi({
+      baseUrl: "http://localhost",
+      fetcher,
+      getToken: () => "my-token",
+      getSessionHeaders: () => ({ "X-Custom-Session": "session-1" }),
+    });
+
+    await api.listResults("patient-1");
+    const headers = calls[0].init?.headers as Headers;
+    expect(headers.get("Authorization")).toBe("Bearer my-token");
+    expect(headers.get("X-Custom-Session")).toBe("session-1");
+  });
 });

@@ -3,7 +3,7 @@ artifact:
   type: technical-debt-item
   name: LaboratoryResult wire-shape mismatch between the employee-portal FE type and the real BCM-LAB-006 backend record
   version: 1.0.0
-  status: open
+  status: closed
   created_date: 2026-07-17
 
 source:

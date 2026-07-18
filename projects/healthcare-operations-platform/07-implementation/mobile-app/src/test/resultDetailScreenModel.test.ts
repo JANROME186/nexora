@@ -44,4 +44,16 @@ describe("resultDetailScreenModel", () => {
 
     expect(model.getState().error).toContain("failed with status 500");
   });
+
+  it("downloadReport returns null if reportUrl is missing", async () => {
+    const fetcher: FetchLike = async () =>
+      new Response(JSON.stringify({ deliveryTicketId: "ticket-1", reportUrl: null }), {
+        status: 200,
+      });
+    const api = createResultsApi({ baseUrl: "https://test", fetcher });
+    const model = createResultDetailScreenModel(api, "ticket-1");
+    await model.loadDetail();
+    const url = await model.downloadReport();
+    expect(url).toBeNull();
+  });
 });

@@ -4,7 +4,7 @@ artifact:
   name: Duplicate, manually-synced Docker-init copy of platform-foundation schema.sql can silently
     drift from the authoritative Spring Boot schema source
   version: 1.0.0
-  status: open
+  status: closed
   created_date: 2026-07-17
 
 source:

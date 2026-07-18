@@ -236,7 +236,7 @@ Expected result:
 `HOP-ENT-FOUND-001` is closed. Continue with:
 
 - Module: `MVP-MOD-007`
-- Backlog item: `MVP-MOD-007-APP-001`
+- Backlog item: `MVP-MOD-007-QA-001`
 - Paused functional backlog item: none
 - Folder: project root under `projects/healthcare-operations-platform/`
 
@@ -255,4 +255,4 @@ Mandatory setup for this backlog:
 
 ### Previous Backlog Item (Closed)
 
-`MVP-MOD-007-PORTAL-001` — Compiled patient and doctor released result views. Fixed build failures in patient-portal and doctor-portal, ensuring quality gates passed successfully. Closed TD-FE-007 (LaboratoryResult wire-shape mismatch). Commit hash: `a00423f` (functional), `579883f` (documental closure).
+`MVP-MOD-007-APP-001` — Fixed test coverage, reaching 98.87%, in mobile-app. Prettier and linting passed cleanly. Resolved TD-FE-007 and TD-STACK-004. Evidence generated and status updated.
