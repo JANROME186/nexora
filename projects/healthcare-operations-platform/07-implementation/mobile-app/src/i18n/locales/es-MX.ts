@@ -14,6 +14,9 @@ export const esMX = {
   emailRequired: "El correo electrónico es obligatorio.",
   emailInvalid: "El correo electrónico debe ser válido.",
   sessionRequired: "Se requiere una sesión autenticada.",
+  resultsTitle: "Resultados",
+  resultDetailTitle: "Detalle del Resultado",
+  resultHistoryTitle: "Historial de Resultados",
 } as const;
 
 /** Recursively widens the `esMX` literal string types to `string` so other locales (en-US) can

@@ -15,4 +15,7 @@ export const enUS: MessageCatalog = {
   emailRequired: "Email is required.",
   emailInvalid: "Email must be valid.",
   sessionRequired: "Authenticated session is required.",
+  resultsTitle: "Results",
+  resultDetailTitle: "Result Detail",
+  resultHistoryTitle: "Result History",
 };

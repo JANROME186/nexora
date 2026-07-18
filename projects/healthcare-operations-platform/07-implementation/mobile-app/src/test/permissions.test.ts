@@ -46,6 +46,9 @@ describe("visibleRoutesForPermissions", () => {
       "branch-summary",
       "user-summary",
       "audit-summary",
+      "results",
+      "resultDetail",
+      "resultHistory",
     ]);
   });
 });

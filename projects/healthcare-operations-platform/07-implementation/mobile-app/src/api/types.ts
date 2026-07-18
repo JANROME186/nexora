@@ -68,3 +68,35 @@ export type AssignRoleRequest = {
   roleCode: string;
   scope: AccessScope;
 };
+
+export type DeliveryTicketResponse = {
+  deliveryTicketId: string;
+  patientId: string;
+  orderId: string;
+  status: "pending" | "delivered" | "viewed";
+  releasedAt: string;
+  viewedAt?: string;
+  reportUrl?: string;
+};
+
+export type ResultSummaryResponse = {
+  resultId: string;
+  testName: string;
+  status: string;
+  value: string;
+  referenceRange?: string;
+  isAbnormal: boolean;
+  releasedAt: string;
+};
+
+export type ResultHistoryResponse = {
+  patientId: string;
+  testId: string;
+  testName: string;
+  entries: {
+    resultId: string;
+    value: string;
+    isAbnormal: boolean;
+    releasedAt: string;
+  }[];
+};

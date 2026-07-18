@@ -10,7 +10,6 @@ services:
       - "${HOP_POSTGRES_PORT:-5432}:5432"
     volumes:
       - hop_postgres_data:/var/lib/postgresql/data
-      - ./runtime/local/postgres/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${HOP_POSTGRES_USER:-hop} -d ${HOP_POSTGRES_DB:-hop}"]
       interval: 10s

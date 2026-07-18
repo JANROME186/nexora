@@ -7,7 +7,10 @@ export type MobileRoute =
   | "laboratory-summary"
   | "branch-summary"
   | "user-summary"
-  | "audit-summary";
+  | "audit-summary"
+  | "results"
+  | "resultDetail"
+  | "resultHistory";
 
 /**
  * Maps each permission-gated route to the employee-portal-equivalent `PermissionCode`. The
@@ -32,6 +35,9 @@ const ALL_ROUTES: readonly MobileRoute[] = [
   "branch-summary",
   "user-summary",
   "audit-summary",
+  "results",
+  "resultDetail",
+  "resultHistory",
 ];
 
 /**
