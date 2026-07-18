@@ -72,7 +72,18 @@ validation_commands:
     working_directory: 07-implementation/backend
     command: mvn -Pquality -Dhop.local-db-tests=true clean verify
     result: passed
-    detail: 194 tests run, 0 failures, 0 errors, 0 skipped. Build SUCCESS. 
+    detail: 210 tests run, 0 failures, 0 errors, 0 skipped. Build SUCCESS.
+  - id: backend_coverage
+    working_directory: 07-implementation/backend
+    command: mvn -Pquality -Dhop.local-db-tests=true clean verify (JaCoCo report parsed from target/site/jacoco/jacoco.csv)
+    result: passed
+    detail: >
+      Line coverage 78.42% (5916/7544 lines), at or above the 77.92% floor carried over from
+      HOP-ENT-FOUND-001. An initial post-implementation measurement was 77.66%, below the floor;
+      16 real unit tests were added covering GlobalExceptionHandler, JdbcStoredDocumentRepository,
+      JdbcNotificationRequestRepository, JdbcResultDeliveryTicketRepository,
+      JdbcPatientResultHistoryRepository, CriticalResultEscalationController and
+      ResultDeliveryController (all seven now at 100% line coverage) to close the gap.
 
 model_gaps_identified: []
 
@@ -110,8 +121,12 @@ readiness:
   paused_functional_backlog_item: null
   next_backlog_item_name: Module closeout and registry update
   rationale: >
-    The entire MVP-MOD-007 Results and Digital Delivery module has been successfully integrated and 
-    validated across all surfaces (backend, portals, mobile app). Technical debts (TD-DB-001 and 
-    TD-QA-004) were implemented and verified. The ApplicationContext errors preventing backend build 
-    were fully resolved. The project is strictly agent-agnostic and fully passes all mandatory QA 
-    gates.
+    This backlog item executed and passed the backend gates in scope: 210 backend tests (0
+    failures, 0 errors) and backend line coverage of 78.42%, at or above the 77.92% floor.
+    Technical debts (TD-DB-001 and TD-QA-004) were implemented and verified. The ApplicationContext
+    errors preventing backend build were fully resolved. The employee portal, patient portal,
+    doctor portal and mobile app surfaces of the MVP-MOD-007 module were validated in their own
+    prior backlog items (MVP-MOD-007-FE-001, MVP-MOD-007-PORTAL-001, MVP-MOD-007-APP-001 —
+    see predecessor_evidence above); this backlog item did not re-execute those portal/mobile
+    gates. The project is strictly agent-agnostic and fully passes all mandatory QA gates that
+    were executed within this backlog item's scope.
