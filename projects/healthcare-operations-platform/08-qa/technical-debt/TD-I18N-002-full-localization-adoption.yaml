@@ -2,14 +2,27 @@ artifact:
   id: TD-I18N-002
   type: technical-debt-item
   name: Complete full message-catalog and localization-library adoption beyond the HOP-QA-ALIGN-005 baseline
-  version: 2.1.0
+  version: 2.2.0
   status: materially_reduced
   created_date: 2026-07-16
   updated_date: 2026-07-18
   materially_reduced_by_backlog_item: HOP-ENT-FOUND-001
-  further_materially_reduced_by_backlog_item: MVP-MOD-008-DEF
+  further_materially_reduced_by_backlog_item: MVP-MOD-008-BE-001
 
 further_material_reduction_evidence: >
+  MVP-MOD-008-BE-001 implemented what MVP-MOD-008-DEF modeled: IntegrationExceptionHandler and
+  MigrationExceptionHandler (integrationinteroperability/apimanagement's shared handler and
+  datamigrationportability's shared handler) each render a `code` field as a first-class,
+  independently parseable ApiErrorResponse member, populated from IntegrationErrorCodes/
+  MigrationErrorCodes constants matching each capability's openapi-source.yaml error_model.domain_errors
+  exactly. This is HOP's first working `code`-bearing error response, concretely satisfying this
+  item's recommended_trigger for the new integration/API-management/migration capabilities. Not
+  closed: the five pre-existing backend *ApiErrorResponse shapes named in current_state (Catalog,
+  FrontDesk, IdentityAccess/OrganizationManagement, People) still lack a `code` field and remain an
+  explicit, separately-scoped retrofit; the ~125 single-occurrence employee-portal strings also
+  remain unmigrated.
+
+modeling_stage_evidence_superseded_by_implementation: >
   This item's own recommended_trigger ("a structured-error-code API consumer, external integration
   or native mobile client, needs `code` as a first-class response field") is concretely hit for the
   first time by MVP-MOD-008-DEF: BCM-PLT-004, BCM-PLT-005 and BCM-PLT-010 are HOP's first
@@ -18,10 +31,7 @@ further_material_reduction_evidence: >
   error_model from inception (not retrofitted), and BCM-PLT-004/BCM-PLT-005/BCM-PLT-010's ui-model.yaml
   each reserve a dedicated message-key namespace (integration.*, apimanagement.*, migration.*) for
   their future employee-portal screens, extending this item's acceptance criteria to new capability
-  scope. This is a modeling-stage requirement, not an implementation: the five pre-existing backend
-  *ApiErrorResponse shapes named in current_state still lack the `code` field and the ~125
-  single-occurrence employee-portal strings remain unmigrated; those remain open until a
-  code-changing backlog item (MVP-MOD-008-BE-001 onward) implements them.
+  scope. MVP-MOD-008-BE-001 (above) turned this modeling-stage decision into working code.
 
 material_reduction_evidence: >
   A second locale being committed to (the trigger this item's original remediation_strategy named)

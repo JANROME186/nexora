@@ -78,7 +78,19 @@ public class EndpointPermissionRegistry {
               readWrite(
                   "/api/results/critical-escalations",
                   PermissionCode.SCREEN_CRITICAL_ESCALATIONS,
-                  "BCM-RES-006"))
+                  "BCM-RES-006"),
+              readWrite(
+                  "/api/platform/integration",
+                  PermissionCode.SCREEN_INTEGRATION_ENDPOINTS,
+                  "BCM-PLT-004"),
+              readWrite(
+                  "/api/platform/api-management",
+                  PermissionCode.SCREEN_API_MANAGEMENT,
+                  "BCM-PLT-005"),
+              readWrite(
+                  "/api/platform/migration",
+                  PermissionCode.SCREEN_MIGRATION_JOBS,
+                  "BCM-PLT-010"))
           .stream()
           .sorted(Comparator.comparingInt((PathRule rule) -> rule.pathPrefix().length()).reversed())
           .toList();

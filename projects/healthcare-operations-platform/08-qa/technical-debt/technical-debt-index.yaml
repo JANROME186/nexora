@@ -35,16 +35,17 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 78.51
-        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 78.51
+        current_line_coverage_percent: 80.08
+        source_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 80.08
         final_closure_target_percent: 80
         correction_note: >-
           MVP-MOD-007-QA-001 raised backend line coverage to 78.42%. MVP-MOD-007-CLOSEOUT's
           TD-BE-010 fix added one real unit test for the new SampleReadPort-backed cancellation
-          branch, raising it to 78.51% (211 tests, 0 failures/errors) with no regression. Still
-          below the final 80% target; future backend iterations must not regress below 78.51% and
-          must keep moving toward it.
+          branch, raising it to 78.51% (211 tests, 0 failures/errors) with no regression.
+          MVP-MOD-008-BE-001 raised it further to 80.08% (239 tests, 0 failures/errors), reaching
+          the final 80% target for this stack; future backend iterations must not regress below
+          80.08%.
       frontend_typescript_web:
         current_line_coverage_percent: 85.50
         source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
@@ -495,3 +496,12 @@ entries:
     affected_area: doctor_portal_test_coverage
     file: 08-qa/technical-debt/TD-FE-009-doctor-portal-coverage-baseline.yaml
     remediation_strategy: gradual_when_com_mod_009_doctor_portal_commercial_workflow_is_implemented
+  - id: TD-BE-013
+    title: XLSX row-level parsing not implemented for open data ingestion and migration
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: MVP-MOD-008-BE-001
+    affected_area: open_data_ingestion_and_migration_file_parsing
+    file: 08-qa/technical-debt/TD-BE-013-xlsx-migration-row-parsing-missing.yaml
+    remediation_strategy: implement_when_a_real_provider_export_requires_xlsx

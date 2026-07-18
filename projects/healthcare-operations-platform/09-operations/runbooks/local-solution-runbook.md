@@ -4,7 +4,7 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `MVP-MOD-008-BE-001`.
+Current active backlog item: `MVP-MOD-008-BE-002`.
 
 HOP Enterprise Quality Alignment (`HOP-QA-ALIGN-001` through `HOP-QA-ALIGN-CLOSEOUT`) is closed.
 HOP Enterprise Product Foundation Alignment (`HOP-ENT-FOUND-001`) is closed — see
@@ -27,7 +27,13 @@ persistence/contract-generation review, debt burn-down and coverage improvement)
 development has moved to `MVP-MOD-008 Integration and Migration Readiness`. `MVP-MOD-008-DEF`
 (capability package models for BCM-PLT-004, BCM-PLT-005, BCM-PLT-010) is closed as a
 definition-only backlog item that added no runtime component, port, environment variable, startup
-order or validation command; this runbook required no edit. Continuing with `MVP-MOD-008-BE-001`.
+order or validation command; this runbook required no edit. `MVP-MOD-008-BE-001` (backend
+compilation) is closed: it added two new local-Postgres schemas —
+`backend/src/main/resources/db/integration-interoperability/schema.sql` and
+`backend/src/main/resources/db/data-migration-portability/schema.sql` — both wired into
+`application-local.yml`'s schema-locations list alongside the pre-existing per-module schema files;
+no new port, environment variable, startup order or validation command was introduced (the same
+documented commands below validate them). Continuing with `MVP-MOD-008-BE-002`.
 
 **Local Postgres schema note (added by HOP-ENT-FOUND-001)**: the local-database-backed backend
 tests require the running Postgres container's schema to match

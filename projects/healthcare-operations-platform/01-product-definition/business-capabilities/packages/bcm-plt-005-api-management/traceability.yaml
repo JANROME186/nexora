@@ -88,11 +88,23 @@ traces:
       alignment: openapi-source.yaml error_model models a first-class `code` field from inception, matching the acceptance criterion for structured-error-code API consumers.
   generated_outputs_ref: generation-plan.yaml
   qa_evidence: ../../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
+  compilation_evidence:
+    backend_implementation: ../../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/integrationinteroperability/apimanagement/
+    schema: ../../../../../07-implementation/backend/src/main/resources/db/integration-interoperability/schema.sql
+    qa_evidence: ../../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-001-validation.yaml
+    security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-008-BE-001/security-quality-evidence.yaml
+    notes: >-
+      listApiOperations, revokePartnerApiKey, listPartnerApiKeys, setRateLimitPolicy compiled as
+      generatable outputs. ClassifyApiOperation (CUS-APIM-005-01, classification/publish-gating) and
+      IssuePartnerApiKey (CUS-APIM-005-02, scope/tenant validation against partner-classified
+      operations) implemented. Deprecation governance beyond window-completeness checks and rate-limit
+      enforcement middleware remain MVP-MOD-008-BE-002 scope; the OpenAPI-Generator TypeScript client
+      pilot remains scheduled for MVP-MOD-008-FE-001 per TD-STACK-003.
   backlog_items:
     definition: MVP-MOD-008-DEF
     definition_status: closed
     compilation: MVP-MOD-008-BE-001
-    compilation_status: pending
+    compilation_status: closed
     custom_rules: MVP-MOD-008-BE-002
     custom_rules_status: pending
     ui: MVP-MOD-008-FE-001

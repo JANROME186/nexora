@@ -52,13 +52,15 @@ scope:
     - API surface classification and partner API contract governance (BCM-PLT-005).
     - Bulk file-based migration ingestion (BCM-PLT-010).
     - Protocol-specific parsing library selection, which is a custom implementation and stack
-      decision deferred to MVP-MOD-008-BE-001/generation-plan.yaml.
+      decision evaluated by MVP-MOD-008-BE-001 (local deterministic adapter remains the default;
+      real HL7v2/FHIR/ASTM/DICOM parser adoption remains open, see TD-BE-013's analogous migration
+      scope note) and generation-plan.yaml.
 
 roadmap:
   module: MVP-MOD-008
   release: REL-001
-  package_status: modeled
-  next_backlog_item: MVP-MOD-008-BE-001
+  package_status: compiled
+  next_backlog_item: MVP-MOD-008-BE-002
   paused_functional_backlog_item: null
 
 dependencies:

@@ -35,25 +35,26 @@ do_not_write_manually:
 completed_capability_package_groups:
   - roadmap_group: MVP-MOD-008
     name: Integration and Migration Readiness
-    package_status: modeled
-    backlog_item: MVP-MOD-008-DEF
+    package_status: compiled
+    backlog_item: MVP-MOD-008-BE-001
     qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
+    be_001_qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-001-validation.yaml
     capabilities:
       - capability_id: BCM-PLT-004
         package_folder: bcm-plt-004-integration-management/
-        package_status: validated
+        package_status: compiled
         bounded_context: integration-interoperability
         primary_aggregate: IntegrationEndpoint (new platform aggregate owned by this capability)
         mobile_scope: not_required
       - capability_id: BCM-PLT-005
         package_folder: bcm-plt-005-api-management/
-        package_status: validated
+        package_status: compiled
         bounded_context: integration-interoperability
         primary_aggregate: ApiSurfaceRegistration (new platform aggregate owned by this capability)
         mobile_scope: not_required
       - capability_id: BCM-PLT-010
         package_folder: bcm-plt-010-open-data-ingestion-and-migration/
-        package_status: validated
+        package_status: compiled
         bounded_context: data-migration-portability
         primary_aggregate: AGG-016 MigrationJob (owner)
         mobile_scope: not_required

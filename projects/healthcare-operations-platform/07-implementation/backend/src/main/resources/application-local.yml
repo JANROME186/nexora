@@ -17,6 +17,8 @@ spring:
         - classpath:db/cash-sales/schema.sql
         - classpath:db/laboratory-workflow/schema.sql
         - classpath:db/results-and-digital-delivery/schema.sql
+        - classpath:db/integration-interoperability/schema.sql
+        - classpath:db/data-migration-portability/schema.sql
 
 management:
   endpoint:

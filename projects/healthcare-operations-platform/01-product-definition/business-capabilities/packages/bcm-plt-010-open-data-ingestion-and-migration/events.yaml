@@ -55,6 +55,24 @@ domain_events:
       - migrationJobId
       - passed
     audit: true
+  - name: MigrationImportApproved
+    description: >-
+      An authorized actor approved a dry-run-validated import batch for commit (POL-MIG-010-03
+      two-step approval). Named during MVP-MOD-008-BE-001 compilation to give the ApproveImport
+      command's audit action an explicit domain-event identity alongside the pre-existing set.
+    payload:
+      - migrationJobId
+      - importBatchId
+    audit: true
+  - name: MigrationImportRetried
+    description: >-
+      A new ImportExecution attempt was started for a migration job still executing. Named during
+      MVP-MOD-008-BE-001 compilation; full checkpoint-based resume semantics (CUS-MIG-010-05) remain
+      MVP-MOD-008-BE-002 scope.
+    payload:
+      - migrationJobId
+      - attemptNumber
+    audit: true
 
 integration_events:
   published:

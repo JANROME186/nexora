@@ -49,13 +49,13 @@ scope:
     - Message-level protocol normalization for inbound integration traffic (BCM-PLT-004).
     - Bulk file-based migration ingestion (BCM-PLT-010).
     - Concrete rate-limiting middleware/library selection, a custom implementation and stack
-      decision deferred to MVP-MOD-008-BE-001/generation-plan.yaml.
+      decision deferred to MVP-MOD-008-BE-002/generation-plan.yaml.
 
 roadmap:
   module: MVP-MOD-008
   release: REL-001
-  package_status: modeled
-  next_backlog_item: MVP-MOD-008-BE-001
+  package_status: compiled
+  next_backlog_item: MVP-MOD-008-BE-002
   paused_functional_backlog_item: null
 
 dependencies:

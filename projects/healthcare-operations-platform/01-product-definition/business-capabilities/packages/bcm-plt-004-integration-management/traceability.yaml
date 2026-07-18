@@ -82,11 +82,24 @@ traces:
       relationship: Receives normalized laboratory device result messages as a read-only future consumer.
   generated_outputs_ref: generation-plan.yaml
   qa_evidence: ../../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
+  compilation_evidence:
+    backend_implementation: ../../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/integrationinteroperability/integrationmanagement/
+    schema: ../../../../../07-implementation/backend/src/main/resources/db/integration-interoperability/schema.sql
+    qa_evidence: ../../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-001-validation.yaml
+    security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-008-BE-001/security-quality-evidence.yaml
+    notes: >-
+      RegisterIntegrationEndpoint, listIntegrationEndpoints, retireIntegrationEndpoint compiled as
+      generatable outputs. ReceiveMessage/NormalizeMessage/AcknowledgeMessage (CUS-INT-004-01/02/03)
+      implemented via IntegrationAdapterPort + LocalDeterministicPassthroughIntegrationAdapter, with
+      idempotent reprocessing keyed by (endpointId, externalMessageId). RetryMessage implements a
+      basic retry-count ceiling; full bounded backoff/dead-letter policy (CUS-INT-004-04) and
+      correlation-id propagation (CUS-INT-004-05) remain MVP-MOD-008-BE-002 scope. Real open-source
+      protocol parser adoption (CUS-INT-004-06) remains open, tracked by TD-BE-013.
   backlog_items:
     definition: MVP-MOD-008-DEF
     definition_status: closed
     compilation: MVP-MOD-008-BE-001
-    compilation_status: pending
+    compilation_status: closed
     custom_rules: MVP-MOD-008-BE-002
     custom_rules_status: pending
     ui: MVP-MOD-008-FE-001

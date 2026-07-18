@@ -29,10 +29,16 @@ classification:
 
 current_state:
   issue: >
-    PermissionCode has 27 capability/screen values and EndpointPermissionRegistry maps protected
-    backend API paths to a PermissionCode, HTTP action and business capability id. In-screen
-    high-risk buttons still inherit their screen/capability permission and do not yet expose a
-    distinct domain.resource.action.scope permission value.
+    PermissionCode has 30 capability/screen values (27 plus SCREEN_INTEGRATION_ENDPOINTS,
+    SCREEN_API_MANAGEMENT and SCREEN_MIGRATION_JOBS added by MVP-MOD-008-BE-001) and
+    EndpointPermissionRegistry maps protected backend API paths to a PermissionCode, HTTP action
+    and business capability id. In-screen high-risk buttons still inherit their screen/capability
+    permission and do not yet expose a distinct domain.resource.action.scope permission value.
+    MVP-MOD-008-BE-001 also confirmed this gap concretely against the finer scope-string model
+    (integration.endpoint.manage, api.classification.manage, migration.job.approve, etc.) that
+    BCM-PLT-004/BCM-PLT-005/BCM-PLT-010's own permissions.yaml files model: the new capabilities were
+    deliberately mapped onto the existing coarse PermissionCode pattern rather than introducing a
+    second, parallel authorization mechanism, consistent with reusing established patterns.
   compensating_control:
     - Screen-level filtering already prevents unauthorized navigation to entire feature areas.
     - Backend request-time enforcement now protects mapped API paths with 401/403 decisions.

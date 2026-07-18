@@ -60,8 +60,8 @@ scope:
 roadmap:
   module: MVP-MOD-008
   release: REL-001
-  package_status: modeled
-  next_backlog_item: MVP-MOD-008-BE-001
+  package_status: compiled
+  next_backlog_item: MVP-MOD-008-BE-002
   paused_functional_backlog_item: null
 
 dependencies:

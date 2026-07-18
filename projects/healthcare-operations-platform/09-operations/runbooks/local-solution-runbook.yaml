@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-008-BE-001
+  current_active_backlog_item: MVP-MOD-008-BE-002
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -22,16 +22,19 @@ project:
   runbook_confirmation_note: >-
     MVP-MOD-008-DEF (Integration and Migration Readiness capability package models) is a
     definition-only backlog item: it added no runtime component, port, environment variable,
-    startup order or validation command. This runbook is confirmed unchanged and current as of
-    MVP-MOD-008-DEF's closure; no edit was required. HOP-ENT-FOUND-001 was validated using the
-    existing documented commands below (backend `-Pquality "-Dhop.local-db-tests=true" verify`,
-    employee-portal and mobile-app `npm run quality`, repository-root Trivy scan); no new runtime
-    component, port, environment variable, startup order or validation command was introduced. The
-    local-database-backed backend command was confirmed to require the local Postgres container's
-    schema to be in sync with backend/src/main/resources/db/platform-foundation/schema.sql; if
-    runtime/local/postgres/init/001-create-platform-foundation-schemas.sql (the Docker init mount)
-    ever drifts from that file, run `docker compose --env-file .env -f compose.local.yml down -v`
-    followed by `up -d` (see reset_steps below) after resyncing the two files (see TD-STACK-004).
+    startup order or validation command. HOP-ENT-FOUND-001 was validated using the existing
+    documented commands below; no new runtime component, port, environment variable, startup order
+    or validation command was introduced. MVP-MOD-008-BE-001 (backend compilation of BCM-PLT-004/
+    BCM-PLT-005/BCM-PLT-010) added two new schema files —
+    backend/src/main/resources/db/integration-interoperability/schema.sql and
+    backend/src/main/resources/db/data-migration-portability/schema.sql — both added to
+    application-local.yml's `spring.sql.init.schema-locations` list alongside the pre-existing
+    per-module schema files; no new port, environment variable, startup order or validation command was introduced
+    (the same `-Pquality "-Dhop.local-db-tests=true" clean verify` command validates them). No
+    Docker-init mount script exists for these two new schemas — unlike platform-foundation, the
+    local Postgres container has no separate init-mount copy to keep in sync, so TD-STACK-004's
+    drift risk does not apply to them. The local-database-backed backend command remains dependent
+    on the pre-existing platform-foundation schema/Docker-init-mount sync described below (TD-STACK-004).
   intended_audience:
     - human_reviewer
     - qa_reviewer
@@ -283,7 +286,9 @@ quality_validation:
       - INF-001
     expected_result: >
       Local PostgreSQL tests run with no skipped local tests when Docker Compose is active, including
-      CashSalesLocalDatabaseTest for the cash_sales schema.
+      CashSalesLocalDatabaseTest for the cash_sales schema, and (since MVP-MOD-008-BE-001)
+      IntegrationInteroperabilityLocalDatabaseTest for the integration_interoperability schema and
+      DataMigrationPortabilityLocalDatabaseTest for the data_migration_portability schema.
   - id: QA-003
     name: Backend enterprise quality profile
     working_directory: 07-implementation/backend

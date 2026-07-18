@@ -41,6 +41,7 @@
         <pitest-maven.version>1.17.4</pitest-maven.version>
         <jackson-classic.version>2.22.1</jackson-classic.version>
         <jackson-classic-annotations.version>2.22</jackson-classic-annotations.version>
+        <commons-csv.version>1.14.1</commons-csv.version>
         <argLine></argLine>
         <quality.failOnViolation>false</quality.failOnViolation>
     </properties>
@@ -109,6 +110,13 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <!-- Open-source-first, explicitly named by bcm-plt-010-open-data-ingestion-and-migration's
+             generation-plan.yaml (CUS-MIG-010-01) for CSV row parsing of open data ingestion bundles. -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>${commons-csv.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -3,11 +3,26 @@ artifact:
   type: technical-debt-item
   name: No OpenAPI-Generator-based client/server generation; contracts and hand-written
     controllers/clients are kept in sync by convention and manual review
-  version: 1.1.0
+  version: 1.2.0
   status: materially_reduced
   created_date: 2026-07-17
   updated_date: 2026-07-18
   materially_reduced_by_backlog_item: MVP-MOD-008-DEF
+  compensating_control_extended_by_backlog_item: MVP-MOD-008-BE-001
+
+compensating_control_extension_evidence: >
+  MVP-MOD-008-BE-001 evaluated introducing openapi-generator-maven-plugin for the three new
+  integration/API-management/migration modules and deliberately deferred it: the repository's other
+  15 modules are all hand-written by convention with no generator tooling, and introducing generator
+  output for only 3 of 18 modules would fragment the codebase's persistence/contract style rather than
+  reduce this debt item's actual scope (repo-wide generator adoption). Instead, BE-001 tightened the
+  existing compensating control: every new controller (IntegrationEndpointController,
+  IntegrationMessageController, ApiSurfaceController, PartnerApiKeyController, RateLimitPolicyController,
+  MigrationJobController, ImportBatchController) is a direct, checked 1:1 rendering of its capability's
+  openapi-source.yaml operations list (verified operation-by-operation during implementation), with
+  Javadoc stating the source contract per the existing convention. The concrete pilot commitment below
+  (BCM-PLT-005 TypeScript client, MVP-MOD-008-FE-001) is unchanged and remains the actual generator
+  adoption decision point.
 
 material_reduction_evidence: >
   MVP-MOD-008-DEF modeled BCM-PLT-005 (API Management), the capability that governs HOP's
