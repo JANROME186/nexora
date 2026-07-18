@@ -2,9 +2,25 @@ artifact:
   id: TD-I18N-002
   type: technical-debt-item
   name: Complete full message-catalog and localization-library adoption beyond the HOP-QA-ALIGN-005 baseline
-  version: 1.0.0
-  status: open
+  version: 2.0.0
+  status: materially_reduced
   created_date: 2026-07-16
+  updated_date: 2026-07-17
+  materially_reduced_by_backlog_item: HOP-ENT-FOUND-001
+
+material_reduction_evidence: >
+  A second locale being committed to (the trigger this item's original remediation_strategy named)
+  is exactly what HOP-ENT-FOUND-001 delivered: backend Spring MessageSource/ResourceBundle
+  (messages.properties/_es_MX/_en_US) applied end to end to the identityaccess module via the new
+  HopMessages helper; employee-portal locale-keyed catalogs (src/i18n/locales/es-MX.ts, en-US.ts)
+  with a real, working AppShell language switch driving 27 navigation tabs plus the header; mobile
+  locale-keyed catalog split. Not closed: the backend's other 11 modules still throw hardcoded
+  English prose, ~125 employee-portal single-occurrence strings remain inline, the five
+  *ApiErrorResponse shapes still lack a first-class `code` field, and no third-party i18n library
+  (react-i18next/FormatJS) was adopted (evaluated and deliberately deferred — see
+  03-architecture/i18n-localization/localization-strategy.yaml). See
+  03-architecture/i18n-localization/localization-strategy.yaml for the full remaining-scope
+  inventory.
 
 source:
   discovered_during_backlog_item: HOP-QA-ALIGN-005

@@ -33,4 +33,20 @@ describe("local auth service", () => {
 
     expect(auth.currentSession()).toBeNull();
   });
+
+  it("sources validation errors from the default es-MX locale", () => {
+    const auth = createLocalAuthService(createMemorySessionStore());
+
+    expect(() =>
+      auth.login({ tenantId: "", userId: "user-1", displayName: "Mobile Admin", email: "a@b.c" }),
+    ).toThrow("El id del tenant es obligatorio.");
+  });
+
+  it("sources validation errors from en-US when that locale is requested", () => {
+    const auth = createLocalAuthService(createMemorySessionStore(), () => new Date(), "en-US");
+
+    expect(() =>
+      auth.login({ tenantId: "", userId: "user-1", displayName: "Mobile Admin", email: "a@b.c" }),
+    ).toThrow("Tenant id is required.");
+  });
 });

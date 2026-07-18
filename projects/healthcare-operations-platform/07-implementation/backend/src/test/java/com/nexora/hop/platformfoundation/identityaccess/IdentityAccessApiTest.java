@@ -46,7 +46,7 @@ class IdentityAccessApiTest {
         mockMvc.perform(post("/api/identity/users/{userId}/role-assignments", userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                        {"roleCode":"tenant-admin","scope":{"type":"tenant","id":"%s"}}
+                        {"roleCode":"tenant-admin","scope":{"type":"tenant","id":"%s"},"actorUserId":"tester-1"}
                         """.formatted(tenantId)))
                 .andExpect(status().isNoContent());
     }
@@ -63,7 +63,9 @@ class IdentityAccessApiTest {
     void roleAssignmentRejectsMissingUser() throws Exception {
         mockMvc.perform(post("/api/identity/users/{userId}/role-assignments", "missing-user")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"roleCode\":\"tenant-admin\",\"scope\":{\"type\":\"tenant\",\"id\":\"some-tenant\"}}"))
+                .content("""
+                        {"roleCode":"tenant-admin","scope":{"type":"tenant","id":"some-tenant"},"actorUserId":"tester-1"}
+                        """))
                 .andExpect(status().isNotFound());
     }
 
@@ -78,8 +80,57 @@ class IdentityAccessApiTest {
 
         mockMvc.perform(post("/api/identity/users/{userId}/role-assignments", userId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"roleCode\":\"tenant-admin\"}"))
+                .content("{\"roleCode\":\"tenant-admin\",\"actorUserId\":\"tester-1\"}"))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void roleAssignmentRejectsMissingActorUserId() throws Exception {
+        JsonNode tenant = postJson("/api/platform/tenants", "{\"name\":\"Nexora Diagnostics\"}");
+        String tenantId = tenant.get("tenantId").asText();
+        JsonNode user = postJson("/api/identity/users", """
+                {"tenantId":"%s","displayName":"Ada Lovelace","email":"ada@nexora.example"}
+                """.formatted(tenantId));
+        String userId = user.get("userId").asText();
+
+        mockMvc.perform(post("/api/identity/users/{userId}/role-assignments", userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {"roleCode":"tenant-admin","scope":{"type":"tenant","id":"%s"}}
+                        """.formatted(tenantId)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void roleAssignmentWithSuppliedActorSucceedsAndIsAudited() throws Exception {
+        JsonNode tenant = postJson("/api/platform/tenants", "{\"name\":\"Nexora Diagnostics\"}");
+        String tenantId = tenant.get("tenantId").asText();
+        JsonNode user = postJson("/api/identity/users", """
+                {"tenantId":"%s","displayName":"Ada Lovelace","email":"ada@nexora.example"}
+                """.formatted(tenantId));
+        String userId = user.get("userId").asText();
+
+        mockMvc.perform(post("/api/identity/users/{userId}/role-assignments", userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {"roleCode":"tenant-admin","scope":{"type":"tenant","id":"%s"},"actorUserId":"tester-1"}
+                        """.formatted(tenantId)))
+                .andExpect(status().isNoContent());
+
+        JsonNode auditEvents = getJson("/api/audit/events?tenantId=" + tenantId);
+        boolean roleAssignedEventPresent = java.util.stream.IntStream.range(0, auditEvents.size())
+                .mapToObj(auditEvents::get)
+                .anyMatch(event -> "RoleAssigned".equals(event.get("action").asText()));
+        assertThat(roleAssignedEventPresent).isTrue();
+    }
+
+    private JsonNode getJson(String path) throws Exception {
+        String body = mockMvc.perform(get(path))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        return objectMapper.readTree(body);
     }
 
     private JsonNode postJson(String path, String json) throws Exception {

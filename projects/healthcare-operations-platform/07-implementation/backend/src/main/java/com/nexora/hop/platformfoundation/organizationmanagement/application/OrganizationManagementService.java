@@ -23,6 +23,7 @@ public class OrganizationManagementService implements TenantDirectory, BranchDir
 
     private static final String ACTIVE_STATUS = "active";
     private static final int NAME_MAX_LENGTH = 180;
+    private static final int INITIAL_VERSION = 1;
 
     private final OrganizationRepository repository;
     private final AuditRecorder auditRecorder;
@@ -72,7 +73,8 @@ public class OrganizationManagementService implements TenantDirectory, BranchDir
         Laboratory laboratory = requireLaboratory(laboratoryId);
 
         Instant now = Instant.now(clock);
-        Branch branch = new Branch(newId(), laboratory.tenantId(), laboratory.laboratoryId(), name, ACTIVE_STATUS, now, now);
+        Branch branch = new Branch(
+                newId(), laboratory.tenantId(), laboratory.laboratoryId(), name, ACTIVE_STATUS, INITIAL_VERSION, now, now);
         Branch saved = repository.saveBranch(branch);
         recordAudit(saved.tenantId(), "BranchCreated", "Branch", saved.branchId(),
                 "{\"name\":\"%s\",\"laboratoryId\":\"%s\"}".formatted(jsonText(saved.name()), jsonText(saved.laboratoryId())));

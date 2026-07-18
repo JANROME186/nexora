@@ -2,8 +2,8 @@ artifact:
   id: HOP-ENT-FOUND-BACKLOG-001
   type: enterprise-foundation-alignment-backlog
   name: HOP Enterprise Product Foundation Alignment Backlog
-  version: 1.0.0
-  status: active
+  version: 1.1.0
+  status: closed
   human_readable: HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.md
   machine_readable: HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   owner: Nexora Product Architecture Team
@@ -31,11 +31,17 @@ pause:
     - HOP-ENT-FOUND-001 status is closed.
     - PROJECT_STATE.yaml and HOP commercial backlog pointers return to MVP-MOD-007-PORTAL-001.
     - No blocking foundation gap remains.
+  resumed:
+    status: true
+    evidence: ../../08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
+    resumed_backlog_item: MVP-MOD-007-PORTAL-001
 
 backlog_items:
   - id: HOP-ENT-FOUND-001
     name: Align HOP enterprise product foundations before continuing portals
-    status: next
+    status: closed
+    closeout_evidence: ../../08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
+    closeout_security_quality_evidence: ../../08-qa/security-quality/HOP-ENT-FOUND-001/security-quality-evidence.yaml
     type: cross-cutting-foundation-alignment
     priority: P0
     blocks:

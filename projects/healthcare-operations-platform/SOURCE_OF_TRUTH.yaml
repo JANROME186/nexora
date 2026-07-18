@@ -1,7 +1,7 @@
 artifact:
   id: HOP-SOT-001
   type: source-of-truth-registry
-  version: 0.94.0
+  version: 0.95.0
   status: approved
 sources:
   business_requirement: BUSINESS_REQUIREMENT.md
@@ -249,6 +249,30 @@ sources:
   quality_alignment_backlog_yaml: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.md
   enterprise_foundation_alignment_backlog_yaml: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
+  enterprise_foundation_alignment_master: 03-architecture/enterprise-foundation/enterprise-foundation-alignment.md
+  enterprise_foundation_alignment_master_yaml: 03-architecture/enterprise-foundation/enterprise-foundation-alignment.yaml
+  localization_strategy: 03-architecture/i18n-localization/localization-strategy.md
+  localization_strategy_yaml: 03-architecture/i18n-localization/localization-strategy.yaml
+  iam_permission_model: 03-architecture/security-compliance/iam-permission-model.md
+  iam_permission_model_yaml: 03-architecture/security-compliance/iam-permission-model.yaml
+  session_management_baseline: 03-architecture/security-compliance/session-management-baseline.md
+  session_management_baseline_yaml: 03-architecture/security-compliance/session-management-baseline.yaml
+  database_architecture: 03-architecture/data-architecture/database-architecture.md
+  database_architecture_yaml: 03-architecture/data-architecture/database-architecture.yaml
+  data_dictionary: 03-architecture/data-architecture/data-dictionary.md
+  data_dictionary_yaml: 03-architecture/data-architecture/data-dictionary.yaml
+  normalization_report: 03-architecture/data-architecture/normalization-report.md
+  normalization_report_yaml: 03-architecture/data-architecture/normalization-report.yaml
+  seed_data_catalog: 03-architecture/data-architecture/seed-data-catalog.md
+  seed_data_catalog_yaml: 03-architecture/data-architecture/seed-data-catalog.yaml
+  ux_ui_foundation: 03-architecture/ux-ui/ux-ui-foundation.md
+  ux_ui_foundation_yaml: 03-architecture/ux-ui/ux-ui-foundation.yaml
+  persistence_and_contract_generation_review: 03-architecture/technology-architecture/persistence-and-contract-generation-review.md
+  persistence_and_contract_generation_review_yaml: 03-architecture/technology-architecture/persistence-and-contract-generation-review.yaml
+  hop_ent_found_001_qa_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
+  hop_ent_found_001_qa_evidence_yaml: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
+  hop_ent_found_001_security_quality_evidence: 08-qa/security-quality/HOP-ENT-FOUND-001/security-quality-evidence.md
+  hop_ent_found_001_security_quality_evidence_yaml: 08-qa/security-quality/HOP-ENT-FOUND-001/security-quality-evidence.yaml
   quality_alignment_gap_analysis: 08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.md
   quality_alignment_gap_analysis_yaml: 08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.yaml
   engineering_excellence_prioritization: 08-qa/qa/quality-alignment/HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.md
@@ -342,7 +366,7 @@ rules:
   - HOP must validate requester-proposed and current stack choices against current stable or LTS open source market practice before release-oriented decisions.
   - HOP must maintain stack-specific quality toolchain baselines and register non-blocking tooling gaps as technical debt.
   - HOP code-changing backlog items must produce security quality evidence with applicable tests, best-practice and coding-standard checks, duplicate-code checks, complexity checks, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerability checks across all severities, secrets scan, coverage, message externalization/i18n review and DAST when runnable surfaces exist.
-  - HOP functional development was unblocked by HOP-QA-ALIGN-CLOSEOUT; MVP-MOD-005 and MVP-MOD-006 (through MVP-MOD-006-CLOSEOUT) are closed, MVP-MOD-007-DEF capability package models are modeled, MVP-MOD-007-BE-001 backend compilation is closed, MVP-MOD-007-BE-002 backend custom rules are implemented with backend coverage preserved and TD-BE-012 static-analysis debt burned down, MVP-MOD-007-FE-001 employee-portal UI is closed (a real frontend/backend contract gap left by BE-001/BE-002 was closed end to end; frontend coverage 82.69% -> 83.98%, backend coverage 76.93% -> 76.99%; TD-FE-007 registered), and the current active backlog item is HOP-ENT-FOUND-001. MVP-MOD-007-PORTAL-001 is paused until enterprise product foundations are aligned.
+  - HOP functional development was unblocked by HOP-QA-ALIGN-CLOSEOUT; MVP-MOD-005 and MVP-MOD-006 (through MVP-MOD-006-CLOSEOUT) are closed, MVP-MOD-007-DEF capability package models are modeled, MVP-MOD-007-BE-001 backend compilation is closed, MVP-MOD-007-BE-002 backend custom rules are implemented with backend coverage preserved and TD-BE-012 static-analysis debt burned down, MVP-MOD-007-FE-001 employee-portal UI is closed (a real frontend/backend contract gap left by BE-001/BE-002 was closed end to end; frontend coverage 82.69% -> 83.98%, backend coverage 76.93% -> 76.99%; TD-FE-007 registered), HOP-ENT-FOUND-001 Enterprise Product Foundation Alignment is closed (es-MX/en-US localization baseline, 27-permission IAM catalog with permission-filtered dynamic navigation, session-management baseline, database architecture/dictionary/normalization/seed deliverables plus new country/locale/currency reference tables, UX/UI design-token baseline, persistence/contract-first generation review; TD-BE-009 closed, TD-I18N-002 materially reduced, 12 new technical-debt items registered; backend coverage 76.99% -> 77.32%, frontend coverage 83.98% -> 84.42%, both with no regression), and the current active backlog item is MVP-MOD-007-PORTAL-001.
   - HOP agents must execute at least one technical-debt remediation or material reduction before feature implementation in each code-changing backlog item unless no open debt exists.
   - HOP technical-debt burn-down must become stricter as the project advances; final project closure requires no open technical debt.
   - HOP line coverage target is 80 percent for every applicable delivered stack.

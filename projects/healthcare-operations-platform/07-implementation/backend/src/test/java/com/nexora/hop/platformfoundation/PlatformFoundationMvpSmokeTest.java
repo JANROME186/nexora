@@ -50,7 +50,7 @@ class PlatformFoundationMvpSmokeTest {
         mockMvc.perform(post("/api/identity/users/{userId}/role-assignments", userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                        {"roleCode":"branch-operator","scope":{"type":"branch","id":"%s"}}
+                        {"roleCode":"branch-operator","scope":{"type":"branch","id":"%s"},"actorUserId":"smoke-tester-1"}
                         """.formatted(branchId)))
                 .andExpect(status().isNoContent());
 

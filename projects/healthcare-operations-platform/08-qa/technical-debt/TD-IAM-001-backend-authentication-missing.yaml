@@ -1,0 +1,77 @@
+artifact:
+  id: TD-IAM-001
+  type: technical-debt-item
+  name: Backend has no authenticated request context or server-side authorization enforcement
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-17
+
+source:
+  discovered_during_backlog_item: HOP-ENT-FOUND-001
+  module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  evidence: 03-architecture/security-compliance/iam-permission-model.yaml
+
+classification:
+  category: security_foundation_gap
+  affected_area: backend_wide_request_authentication_and_authorization
+  affected_components:
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/**
+  risk_level: high
+  urgency: high
+  blocking: false
+  reason_non_blocking: >
+    The backend is local-development-only today (no externally reachable production deployment
+    exists; see 09-operations/runbooks/local-solution-runbook.yaml). Every existing screen already
+    reaches the backend without authentication prior to this iteration; this item inventories and
+    plans the fix rather than being a new regression. It is an explicit, non-waivable P0
+    precondition for COM-MOD-009 (Patient and Doctor Portals) and any customer-facing or networked
+    deployment, both of which HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml already gates behind this
+    alignment work.
+
+current_state:
+  issue: >
+    Zero matches repository-wide for SecurityConfig, SecurityFilterChain, @PreAuthorize or
+    UserDetails. No spring-boot-starter-security dependency. Every REST controller accepts
+    tenantId/laboratoryId/userId as plain, unverified request parameters. A domain-level
+    AuthorizationService (identityaccess/application/AuthorizationService.java, added by
+    HOP-ENT-FOUND-001) exists and is fully unit tested but is not invoked from any request path.
+  compensating_control:
+    - Backend is not deployed outside local development environments today.
+    - AuthorizationService and RolePermissionCatalog already model the authorization decision
+      logic, ready to be invoked once a real authenticated principal exists.
+
+target_state:
+  preferred_open_source_tooling:
+    - >-
+      Spring Security with an OIDC/OAuth2 resource-server configuration (per
+      03-architecture/security-compliance/identity-access/identity-access-architecture.md's MVP
+      scope - username/password plus JWT/OIDC-compatible architecture, not precluding a later
+      external IdP such as Keycloak/Authentik/Entra ID/Okta/Auth0/Cognito).
+  expected_integration_points:
+    - New SecurityConfig / SecurityFilterChain bean resolving an authenticated principal from a
+      bearer token on every request.
+    - identityaccess/application/AuthorizationService invoked from a request-scoped interceptor or
+      method-security (@PreAuthorize) layer on every protected controller method.
+    - Unauthorized/forbidden responses (401/403) audited via the existing AuditRecorder.
+
+remediation:
+  strategy: dedicated_backend_authentication_backlog_item_before_COM-MOD-009
+  owner: backend_platform_team
+  estimated_effort: large (multi-backlog-item; spans authentication, session, and per-controller
+    enforcement wiring across ~15 bounded-context modules)
+  estimated_cost_impact: medium (engineering time only; no new paid dependency required — Spring
+    Security and Keycloak/Authentik are both open source)
+  target_backlog: next_backend_authentication_backlog_item_not_yet_scheduled
+  dependencies_or_prerequisites:
+    - 03-architecture/security-compliance/session-management-baseline.yaml (BE-AUTH-001/BE-AUTH-002
+      implementation backlog)
+  incremental_remediation_triggers:
+    - Scheduling of the next backend infrastructure/security backlog item.
+    - COM-MOD-009 (Patient and Doctor Portals) entering active development.
+  acceptance_criteria:
+    - A Spring Security filter chain resolves an authenticated principal from a real credential on
+      every protected request.
+    - AuthorizationService.hasPermission is invoked from a request-scoped interceptor or method
+      security on every protected controller method.
+    - Denied requests return 401/403 consistently and are audit-logged.
+  owner_or_responsible_role: backend_platform_team

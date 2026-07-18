@@ -1,0 +1,56 @@
+artifact:
+  id: TD-STACK-003
+  type: technical-debt-item
+  name: No OpenAPI-Generator-based client/server generation; contracts and hand-written
+    controllers/clients are kept in sync by convention and manual review
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-17
+
+source:
+  discovered_during_backlog_item: HOP-ENT-FOUND-001
+  module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  evidence: 03-architecture/technology-architecture/persistence-and-contract-generation-review.yaml
+
+classification:
+  category: technology_evolution_modernization_option
+  affected_area: contract_first_generation
+  affected_components:
+    - 01-product-definition/business-capabilities/packages/*/openapi-source.yaml
+    - 07-implementation/employee-portal/src/api/*Api.ts
+  risk_level: medium
+  urgency: low
+  blocking: false
+  reason_non_blocking: No drift was found between openapi-source.yaml contracts and hand-written
+    controllers/clients during this iteration's spot check; risk is about future drift as the
+    number of capability packages grows, not a current defect.
+
+current_state:
+  issue: 34 capability packages each have a hand-authored openapi-source.yaml; controllers and
+    employee-portal API clients are hand-written to match by convention, not generated.
+  compensating_control:
+    - Each controller's Javadoc states which contract it renders, aiding manual review.
+    - SpringDoc exposes a live, runtime-accurate OpenAPI document usable for drift detection.
+
+target_state:
+  preferred_open_source_tooling:
+    - OpenAPI Generator (TypeScript client generation first; server-side generation considered
+      later given its larger blast radius across already-closed modules).
+  expected_integration_points:
+    - 07-implementation/employee-portal/src/api/*Api.ts (candidate for generated-client
+      replacement).
+
+remediation:
+  strategy: evaluate_typescript_client_generation_for_employee_portal_first
+  owner: platform_and_frontend_teams
+  estimated_effort: medium
+  estimated_cost_impact: low
+  target_backlog: evaluate_client_generation_first_before_server_generation
+  dependencies_or_prerequisites: []
+  incremental_remediation_triggers:
+    - A new capability package's frontend client is next authored.
+    - Detected contract drift between openapi-source.yaml and an actual controller/client.
+  acceptance_criteria:
+    - A pilot TypeScript client generated from one capability's openapi-source.yaml is evaluated
+      against the equivalent hand-written client for correctness and developer experience.
+  owner_or_responsible_role: platform_and_frontend_teams

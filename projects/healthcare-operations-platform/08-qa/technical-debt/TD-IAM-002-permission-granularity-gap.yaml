@@ -1,0 +1,60 @@
+artifact:
+  id: TD-IAM-002
+  type: technical-debt-item
+  name: Permission model is screen-level only; per-action and per-API-operation granularity,
+    and the full domain.resource.action.scope grammar from AUTHZ-ARCH-001, remain unmodeled
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-17
+
+source:
+  discovered_during_backlog_item: HOP-ENT-FOUND-001
+  module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  evidence: 03-architecture/security-compliance/iam-permission-model.yaml
+
+classification:
+  category: security_foundation_gap
+  affected_area: iam_permission_granularity
+  affected_components:
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/identityaccess/domain/PermissionCode.java
+    - 07-implementation/employee-portal/src/state/permissions.ts
+  risk_level: medium
+  urgency: medium
+  blocking: false
+  reason_non_blocking: >
+    The 26-permission screen-level catalog satisfies the immediate closure gate (every screen
+    mapped or an explicit gap); finer per-action/per-operation permissions are additive and do not
+    block the current navigation-level dynamic-menu mechanism.
+
+current_state:
+  issue: >
+    PermissionCode has exactly 26 values, one per employee-portal screen. No individual backend API
+    command/query has its own permission distinct from its owning screen, and no in-screen action
+    (e.g. cancel order, void sale, release critical result) has button-level permission filtering.
+    This is coarser than the domain.resource.action.scope convention already described as the
+    target in 03-architecture/security-compliance/authorization/authorization-model.md.
+  compensating_control:
+    - Screen-level filtering already prevents unauthorized navigation to entire feature areas.
+
+target_state:
+  preferred_open_source_tooling: []
+  expected_integration_points:
+    - identityaccess/domain/PermissionCode.java (extend with per-action values as needed)
+    - Per-screen action buttons in 07-implementation/employee-portal/src/components/screens/
+
+remediation:
+  strategy: gradual_when_a_future_backlog_item_adds_or_touches_a_protected_action
+  owner: security_architecture_team
+  estimated_effort: medium (incremental, per-action, spread across many future backlog items)
+  estimated_cost_impact: low
+  target_backlog: gradual_when_AUTHZ-ARCH-001_is_promoted_from_Draft_or_a_new_protected_action_ships
+  dependencies_or_prerequisites:
+    - TD-IAM-001 (server-side enforcement must exist before per-action enforcement is meaningful)
+  incremental_remediation_triggers:
+    - A future backlog item adds a new protected action.
+    - AUTHZ-ARCH-001 is promoted out of Draft status.
+  acceptance_criteria:
+    - Every protected backend command/query has its own permission code.
+    - Button/action-level UI filtering exists for at least the highest-risk actions (cancel order,
+      void sale, release critical result).
+  owner_or_responsible_role: security_architecture_team

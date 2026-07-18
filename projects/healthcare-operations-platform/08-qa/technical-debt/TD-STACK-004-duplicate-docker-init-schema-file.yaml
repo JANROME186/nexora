@@ -1,0 +1,74 @@
+artifact:
+  id: TD-STACK-004
+  type: technical-debt-item
+  name: Duplicate, manually-synced Docker-init copy of platform-foundation schema.sql can silently
+    drift from the authoritative Spring Boot schema source
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-17
+
+source:
+  discovered_during_backlog_item: HOP-ENT-FOUND-001
+  module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  evidence: 03-architecture/enterprise-foundation/enterprise-foundation-alignment.yaml
+
+classification:
+  category: local_development_infrastructure_risk
+  affected_area: local_postgres_schema_initialization
+  affected_components:
+    - 07-implementation/runtime/local/postgres/init/001-create-platform-foundation-schemas.sql
+    - 07-implementation/backend/src/main/resources/db/platform-foundation/schema.sql
+  risk_level: medium
+  urgency: medium
+  blocking: false
+  reason_non_blocking: >
+    The immediate instance of this risk (missing organization.branches.version column) was found
+    and fixed during this backlog item's own validation; both files are in sync as of this
+    iteration. The underlying architectural risk (two files, one manually kept in sync) remains.
+
+current_state:
+  issue: >
+    07-implementation/runtime/local/postgres/init/001-create-platform-foundation-schemas.sql is a
+    hand-maintained duplicate of backend/src/main/resources/db/platform-foundation/schema.sql,
+    mounted into the Postgres container as a docker-entrypoint-initdb.d script. Because Docker's
+    init script runs once, at first container/volume creation, before Spring Boot's own
+    spring.sql.init.schema-locations initializer runs, and both use idempotent
+    CREATE TABLE IF NOT EXISTS statements, Docker's copy silently wins for any table it already
+    created. If the two files diverge (as they did during this backlog item, when the backend
+    agent's schema.sql got the branches.version column added but the Docker-init duplicate did
+    not), a developer's already-running local Postgres container will never pick up the change
+    without an explicit `docker compose down -v` volume reset, and worse, would silently mask the
+    drift until a local-database-backed integration test happens to be run (this backlog item's
+    own local-database tests failed with BadSqlGrammarException until this was caught and fixed).
+    Only platform-foundation has this duplicate; the other 5 bounded-context schema.sql files
+    (catalog, care_delivery, orders_samples/laboratory_results, people, cash_sales) are loaded only
+    via Spring Boot's own schema-locations list, with no Docker-init duplicate to drift.
+  compensating_control:
+    - This iteration's drift was caught by actually running local-database-backed tests
+      (`-Dhop.local-db-tests=true`) rather than relying on the default `mvn test` (which never
+      touches real Postgres and would not have caught this).
+
+target_state:
+  preferred_open_source_tooling: []
+  expected_integration_points:
+    - Either remove the Docker-init duplicate entirely and let Spring Boot's own
+      spring.sql.init.schema-locations be the single source of schema application for local
+      Postgres, or replace the docker-entrypoint-initdb.d mount with a generated/symlinked copy
+      produced from backend/src/main/resources/db/platform-foundation/schema.sql at compose-up
+      time so there is exactly one authored file.
+
+remediation:
+  strategy: gradual_when_local_runtime_infrastructure_is_next_touched
+  owner: backend_platform_team
+  estimated_effort: small
+  estimated_cost_impact: low
+  target_backlog: next_local_runtime_infrastructure_backlog_item
+  dependencies_or_prerequisites: []
+  incremental_remediation_triggers:
+    - A future schema change to platform-foundation/schema.sql (developers must remember to
+      manually sync the Docker-init copy until this is fixed).
+    - Local-database test failures that turn out to be caused by container/schema drift.
+  acceptance_criteria:
+    - A single authored schema.sql source exists for platform-foundation, with no manually
+      duplicated Docker-init copy that can silently drift.
+  owner_or_responsible_role: backend_platform_team

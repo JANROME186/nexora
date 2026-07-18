@@ -392,13 +392,19 @@ blocking_gaps: []
 
 readiness:
   mvp_mod_007_fe_001_status: closed
-  ready_for_next_backlog_item: HOP-ENT-FOUND-001
-  paused_functional_backlog_item: MVP-MOD-007-PORTAL-001
-  next_backlog_item_name: Align HOP enterprise product foundations before continuing portals
+  ready_for_next_backlog_item: MVP-MOD-007-PORTAL-001
+  paused_functional_backlog_item: null
+  next_backlog_item_name: Compile patient and doctor released result views
   supersedes_original_next_backlog_item: >
     This FE-001 evidence originally pointed to MVP-MOD-007-PORTAL-001. The project was later
-    paused by the Enterprise Product Foundation Alignment decision, so HOP-ENT-FOUND-001 is now
-    the active next backlog item and MVP-MOD-007-PORTAL-001 resumes after that alignment closes.
+    paused by the Enterprise Product Foundation Alignment decision, so HOP-ENT-FOUND-001 became
+    the active next backlog item and MVP-MOD-007-PORTAL-001 was to resume after that alignment
+    closed.
+  superseded_again_by_hop_ent_found_001_closure: >
+    HOP-ENT-FOUND-001 subsequently closed (see
+    08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml); this readiness block is
+    updated to reflect that MVP-MOD-007-PORTAL-001 is now, again, the active next backlog item,
+    per the stale-pointer sweep run during HOP-ENT-FOUND-001's closure.
   rationale: >
     All four screens named by this backlog item's acceptance scope (result search/worklist and
     detail, report history and regenerate, critical escalation worklist and acknowledge/escalate/

@@ -1,0 +1,139 @@
+/**
+ * Permission model mirroring the employee-portal's `src/state/permissions.ts` (which in turn
+ * mirrors the backend's `identityaccess.domain.PermissionCode` enum identifiers), so mobile and
+ * employee-portal navigation are gated by the same permission vocabulary
+ * (enterprise-product-foundation-standard `iam_permission_model`: menus/routes must be generated
+ * dynamically from the logged-in user's roles/permissions and unauthorized navigation hidden).
+ */
+export type PermissionCode =
+  | "SCREEN_TENANTS"
+  | "SCREEN_LABORATORIES"
+  | "SCREEN_BRANCHES"
+  | "SCREEN_USERS"
+  | "SCREEN_ROLE_ASSIGNMENTS"
+  | "SCREEN_AUDIT_EVENTS"
+  | "SCREEN_DIAGNOSTIC_CATALOG"
+  | "SCREEN_PERSON_SEARCH"
+  | "SCREEN_PATIENTS"
+  | "SCREEN_DOCTORS"
+  | "SCREEN_PATIENT_REGISTRATIONS"
+  | "SCREEN_RECEPTION"
+  | "SCREEN_DIAGNOSTIC_ORDERS"
+  | "SCREEN_CASH_SESSIONS"
+  | "SCREEN_SALES"
+  | "SCREEN_BILLING_REQUESTS"
+  | "SCREEN_SAMPLE_COLLECTION"
+  | "SCREEN_SAMPLE_LABELING"
+  | "SCREEN_SAMPLE_RECEPTION"
+  | "SCREEN_LABORATORY_PROCESSING"
+  | "SCREEN_TECHNICAL_VALIDATION"
+  | "SCREEN_MEDICAL_VALIDATION"
+  | "SCREEN_RESULT_RELEASE"
+  | "SCREEN_RESULT_SEARCH"
+  | "SCREEN_RESULT_REPORTS"
+  | "SCREEN_CRITICAL_ESCALATIONS"
+  | "SCREEN_RESULT_NOTIFICATIONS";
+
+export type RoleCode =
+  | "ADMIN"
+  | "FRONT_DESK"
+  | "CASHIER"
+  | "LAB_TECHNICIAN"
+  | "MEDICAL_REVIEWER"
+  | "RESULTS_COORDINATOR";
+
+const FRONT_DESK_PERMISSIONS: readonly PermissionCode[] = [
+  "SCREEN_PERSON_SEARCH",
+  "SCREEN_PATIENTS",
+  "SCREEN_DOCTORS",
+  "SCREEN_PATIENT_REGISTRATIONS",
+  "SCREEN_RECEPTION",
+  "SCREEN_DIAGNOSTIC_ORDERS",
+  "SCREEN_DIAGNOSTIC_CATALOG",
+];
+
+const CASHIER_PERMISSIONS: readonly PermissionCode[] = [
+  "SCREEN_CASH_SESSIONS",
+  "SCREEN_SALES",
+  "SCREEN_BILLING_REQUESTS",
+];
+
+const LAB_TECHNICIAN_PERMISSIONS: readonly PermissionCode[] = [
+  "SCREEN_SAMPLE_COLLECTION",
+  "SCREEN_SAMPLE_LABELING",
+  "SCREEN_SAMPLE_RECEPTION",
+  "SCREEN_LABORATORY_PROCESSING",
+  "SCREEN_TECHNICAL_VALIDATION",
+];
+
+const MEDICAL_REVIEWER_PERMISSIONS: readonly PermissionCode[] = [
+  "SCREEN_MEDICAL_VALIDATION",
+  "SCREEN_RESULT_RELEASE",
+  "SCREEN_RESULT_SEARCH",
+];
+
+const RESULTS_COORDINATOR_PERMISSIONS: readonly PermissionCode[] = [
+  "SCREEN_RESULT_SEARCH",
+  "SCREEN_RESULT_REPORTS",
+  "SCREEN_CRITICAL_ESCALATIONS",
+  "SCREEN_RESULT_NOTIFICATIONS",
+];
+
+/** Every permission code that exists (ADMIN is granted all of them). */
+export const PERMISSION_CODES: readonly PermissionCode[] = [
+  "SCREEN_TENANTS",
+  "SCREEN_LABORATORIES",
+  "SCREEN_BRANCHES",
+  "SCREEN_USERS",
+  "SCREEN_ROLE_ASSIGNMENTS",
+  "SCREEN_AUDIT_EVENTS",
+  "SCREEN_DIAGNOSTIC_CATALOG",
+  "SCREEN_PERSON_SEARCH",
+  "SCREEN_PATIENTS",
+  "SCREEN_DOCTORS",
+  "SCREEN_PATIENT_REGISTRATIONS",
+  "SCREEN_RECEPTION",
+  "SCREEN_DIAGNOSTIC_ORDERS",
+  "SCREEN_CASH_SESSIONS",
+  "SCREEN_SALES",
+  "SCREEN_BILLING_REQUESTS",
+  "SCREEN_SAMPLE_COLLECTION",
+  "SCREEN_SAMPLE_LABELING",
+  "SCREEN_SAMPLE_RECEPTION",
+  "SCREEN_LABORATORY_PROCESSING",
+  "SCREEN_TECHNICAL_VALIDATION",
+  "SCREEN_MEDICAL_VALIDATION",
+  "SCREEN_RESULT_RELEASE",
+  "SCREEN_RESULT_SEARCH",
+  "SCREEN_RESULT_REPORTS",
+  "SCREEN_CRITICAL_ESCALATIONS",
+  "SCREEN_RESULT_NOTIFICATIONS",
+];
+
+/**
+ * Mirrors the backend's `identityaccess/domain/RolePermissionCatalog.java` role -> permission
+ * assignments (same 6 roles as the employee-portal's `ROLE_PERMISSION_CATALOG`).
+ */
+export const ROLE_PERMISSION_CATALOG: Record<RoleCode, readonly PermissionCode[]> = {
+  ADMIN: PERMISSION_CODES,
+  FRONT_DESK: FRONT_DESK_PERMISSIONS,
+  CASHIER: CASHIER_PERMISSIONS,
+  LAB_TECHNICIAN: LAB_TECHNICIAN_PERMISSIONS,
+  MEDICAL_REVIEWER: MEDICAL_REVIEWER_PERMISSIONS,
+  RESULTS_COORDINATOR: RESULTS_COORDINATOR_PERMISSIONS,
+};
+
+/** Union of every permission granted by the given roles. */
+export function permissionsForRoles(roleCodes: readonly string[]): Set<PermissionCode> {
+  const permissions = new Set<PermissionCode>();
+  for (const roleCode of roleCodes) {
+    const rolePermissions = ROLE_PERMISSION_CATALOG[roleCode as RoleCode];
+    if (!rolePermissions) {
+      continue;
+    }
+    for (const permission of rolePermissions) {
+      permissions.add(permission);
+    }
+  }
+  return permissions;
+}

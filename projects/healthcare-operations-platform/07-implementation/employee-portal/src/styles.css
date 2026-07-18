@@ -5,12 +5,33 @@
     -apple-system,
     "Segoe UI",
     sans-serif;
+
+  /* Design tokens: names for the hex/rgba values already used below. Pure refactor — every
+     resolved color stays identical, this only formalizes what was already in use. */
+  --hop-color-background: #f5f6f8;
+  --hop-color-surface: #ffffff;
+  --hop-color-text: #1a1f2b;
+  --hop-color-text-muted: #4a4f5a;
+  --hop-color-border: #c7cad1;
+  --hop-color-border-subtle: #e6e8ec;
+  --hop-color-accent: #1a4fd6;
+  --hop-color-accent-soft-bg: #eef2ff;
+  --hop-color-accent-soft-border: #ccd5ff;
+  --hop-color-neutral-soft-bg: #eef2f5;
+  --hop-color-success-bg: #e6f4ea;
+  --hop-color-success-text: #1e7a34;
+  --hop-color-warning-bg: #fff4ce;
+  --hop-color-warning-text: #735c00;
+  --hop-color-danger-bg: #fce8e6;
+  --hop-color-danger-text: #b3261e;
+  --hop-color-overlay: rgba(0, 0, 0, 0.4);
+  --hop-color-shadow: rgba(0, 0, 0, 0.08);
 }
 
 body {
   margin: 0;
-  background-color: #f5f6f8;
-  color: #1a1f2b;
+  background-color: var(--hop-color-background);
+  color: var(--hop-color-text);
 }
 
 .app-shell {
@@ -24,6 +45,36 @@ body {
   margin-bottom: 0.25rem;
 }
 
+.app-shell__header-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.app-shell__locale-switch {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.app-shell__locale-button {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--hop-color-border);
+  border-radius: 999px;
+  background: var(--hop-color-surface);
+  color: var(--hop-color-text);
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.app-shell__locale-button--active {
+  background: var(--hop-color-accent);
+  color: var(--hop-color-surface);
+  border-color: var(--hop-color-accent);
+}
+
 .app-shell__nav {
   display: flex;
   flex-wrap: wrap;
@@ -33,23 +84,23 @@ body {
 
 .app-shell__tab {
   padding: 0.5rem 0.9rem;
-  border: 1px solid #c7cad1;
+  border: 1px solid var(--hop-color-border);
   border-radius: 999px;
-  background: white;
+  background: var(--hop-color-surface);
   cursor: pointer;
 }
 
 .app-shell__tab--active {
-  background: #1a4fd6;
-  color: white;
-  border-color: #1a4fd6;
+  background: var(--hop-color-accent);
+  color: var(--hop-color-surface);
+  border-color: var(--hop-color-accent);
 }
 
 .app-shell__content {
-  background: white;
+  background: var(--hop-color-surface);
   border-radius: 8px;
   padding: 1.5rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 2px var(--hop-color-shadow);
 }
 
 form {
@@ -59,7 +110,7 @@ form {
   max-width: 420px;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e6e8ec;
+  border-bottom: 1px solid var(--hop-color-border-subtle);
 }
 
 label {
@@ -70,7 +121,7 @@ label {
 input,
 select {
   padding: 0.4rem 0.5rem;
-  border: 1px solid #c7cad1;
+  border: 1px solid var(--hop-color-border);
   border-radius: 4px;
   font-size: 0.95rem;
 }
@@ -80,8 +131,8 @@ button {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
-  background: #1a4fd6;
-  color: white;
+  background: var(--hop-color-accent);
+  color: var(--hop-color-surface);
   cursor: pointer;
 }
 
@@ -100,7 +151,7 @@ th,
 td {
   text-align: left;
   padding: 0.4rem 0.6rem;
-  border-bottom: 1px solid #e6e8ec;
+  border-bottom: 1px solid var(--hop-color-border-subtle);
   font-size: 0.9rem;
 }
 
@@ -109,7 +160,7 @@ td {
   flex-wrap: wrap;
   gap: 1rem;
   font-size: 0.85rem;
-  color: #4a4f5a;
+  color: var(--hop-color-text-muted);
   margin-bottom: 1rem;
 }
 
@@ -119,24 +170,24 @@ td {
 }
 
 .status-banner--error {
-  color: #b3261e;
+  color: var(--hop-color-danger-text);
 }
 
 .status-banner--success {
-  color: #1e7a34;
+  color: var(--hop-color-success-text);
 }
 
 .confirm-dialog-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--hop-color-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .confirm-dialog {
-  background: white;
+  background: var(--hop-color-surface);
   padding: 1.5rem;
   border-radius: 8px;
   max-width: 420px;
@@ -156,47 +207,47 @@ td {
 }
 
 .catalog-toolbar__button {
-  background: #eef2ff;
-  color: #1a1f2b;
-  border: 1px solid #ccd5ff;
+  background: var(--hop-color-accent-soft-bg);
+  color: var(--hop-color-text);
+  border: 1px solid var(--hop-color-accent-soft-border);
 }
 
 .catalog-toolbar__button--active {
-  background: #1a4fd6;
-  color: white;
-  border-color: #1a4fd6;
+  background: var(--hop-color-accent);
+  color: var(--hop-color-surface);
+  border-color: var(--hop-color-accent);
 }
 
 .catalog-status {
   display: inline-block;
   padding: 0.15rem 0.45rem;
   border-radius: 4px;
-  background: #eef2f5;
+  background: var(--hop-color-neutral-soft-bg);
   font-size: 0.8rem;
   font-weight: 600;
 }
 
 .catalog-status--published {
-  background: #e6f4ea;
-  color: #1e7a34;
+  background: var(--hop-color-success-bg);
+  color: var(--hop-color-success-text);
 }
 
 .catalog-status--draft {
-  background: #fff4ce;
-  color: #735c00;
+  background: var(--hop-color-warning-bg);
+  color: var(--hop-color-warning-text);
 }
 
 .catalog-status--deprecated,
 .catalog-status--retired {
-  background: #fce8e6;
-  color: #b3261e;
+  background: var(--hop-color-danger-bg);
+  color: var(--hop-color-danger-text);
 }
 
 .link-button {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #1a4fd6;
+  color: var(--hop-color-accent);
   text-align: left;
   text-decoration: underline;
 }
@@ -205,28 +256,28 @@ td {
   display: inline-block;
   padding: 0.15rem 0.45rem;
   border-radius: 4px;
-  background: #eef2f5;
+  background: var(--hop-color-neutral-soft-bg);
   font-size: 0.8rem;
   font-weight: 600;
 }
 
 .confidence-badge--high {
-  background: #fce8e6;
-  color: #b3261e;
+  background: var(--hop-color-danger-bg);
+  color: var(--hop-color-danger-text);
 }
 
 .confidence-badge--medium {
-  background: #fff4ce;
-  color: #735c00;
+  background: var(--hop-color-warning-bg);
+  color: var(--hop-color-warning-text);
 }
 
 .confidence-badge--low {
-  background: #eef2f5;
-  color: #4a4f5a;
+  background: var(--hop-color-neutral-soft-bg);
+  color: var(--hop-color-text-muted);
 }
 
 .panel {
-  border: 1px solid #e6e8ec;
+  border: 1px solid var(--hop-color-border-subtle);
   border-radius: 6px;
   padding: 1rem;
   margin-bottom: 1.5rem;
@@ -238,13 +289,13 @@ td {
 
 .field-hint {
   font-size: 0.8rem;
-  color: #4a4f5a;
+  color: var(--hop-color-text-muted);
   margin: 0;
 }
 
 .empty-state {
   font-size: 0.9rem;
-  color: #4a4f5a;
+  color: var(--hop-color-text-muted);
   font-style: italic;
 }
 
@@ -254,5 +305,5 @@ td {
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0;
-  border-bottom: 1px solid #e6e8ec;
+  border-bottom: 1px solid var(--hop-color-border-subtle);
 }

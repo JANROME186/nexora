@@ -1,0 +1,246 @@
+artifact:
+  id: HOP-IAM-PERM-001
+  type: iam-permission-model
+  name: HOP IAM Permission Catalog and Dynamic Menu Model
+  version: 1.0.0
+  status: approved
+  human_readable: iam-permission-model.md
+  machine_readable: iam-permission-model.yaml
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-17
+  source_backlog_item: HOP-ENT-FOUND-001
+
+purpose: >
+  Establish a concrete, coarse-grained permission catalog covering every current employee-portal
+  screen/action/API surface, the role-to-permission mapping used to drive dynamic
+  menus/navigation, and the explicit implementation gap (no backend authentication exists yet)
+  registered as follow-up backlog, per
+  ../../../../nexora-framework/02-standards/standards/enterprise-product-foundation-standard.yaml
+  (mandatory_foundations.iam_permission_model).
+
+relationship_to_strategic_architecture: >
+  This document is the first concrete implementation increment toward the longer-term strategic
+  architecture already defined in authorization/authorization-model.md (AUTHZ-ARCH-001, v0.19.0,
+  Draft — RBAC+ABAC with a domain.resource.action.scope permission naming convention) and
+  identity-access/identity-access-architecture.md (IAM-ARCH-001, v0.19.0, Draft — OIDC/OAuth2
+  multi-provider identity). This iteration deliberately does not replace or contradict those
+  strategic documents; it defines the current, coarse-grained, screen-level permission baseline
+  that exists in code today and is a strict subset of the fine-grained domain.resource.action.scope
+  model those documents describe as the eventual target. Migrating from screen-level permissions to
+  the full `domain.resource.action.scope` grammar is registered as follow-up scope below.
+
+permission_catalog:
+  granularity: screen_access (one permission per employee-portal navigation tab; coarser than the
+    long-term domain.resource.action.scope convention in AUTHZ-ARCH-001)
+  naming_convention: "SCREEN_<SCREEN_KEY_UPPER_SNAKE>"
+  backend_source_of_truth: >
+    07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/identityaccess/domain/PermissionCode.java
+  frontend_mirror: >
+    07-implementation/employee-portal/src/state/permissions.ts (PermissionCode union,
+    SCREEN_TO_PERMISSION map) — kept in lockstep with the backend enum by identical string values;
+    no code generation exists yet for this mirror, which is registered as follow-up scope (see
+    persistence-and-contract-generation-review.md for the broader contract-generation posture).
+  mobile_mirror: 07-implementation/mobile-app/src/auth/permissions.ts (same 27 values, reused for
+    the equivalent subset of mobile routes).
+  permissions:
+    - code: SCREEN_TENANTS
+      screen: Tenants
+      module: organizationmanagement
+    - code: SCREEN_LABORATORIES
+      screen: Laboratories
+      module: organizationmanagement
+    - code: SCREEN_BRANCHES
+      screen: Branches
+      module: organizationmanagement
+    - code: SCREEN_USERS
+      screen: Users
+      module: identityaccess
+    - code: SCREEN_ROLE_ASSIGNMENTS
+      screen: Role Assignments
+      module: identityaccess
+    - code: SCREEN_AUDIT_EVENTS
+      screen: Audit Events
+      module: auditcompliance
+    - code: SCREEN_DIAGNOSTIC_CATALOG
+      screen: Diagnostic Catalog
+      module: catalogtestconfiguration
+    - code: SCREEN_PERSON_SEARCH
+      screen: People Search
+      module: peopleclinicalmasterdata (personmanagement)
+    - code: SCREEN_PATIENTS
+      screen: Patients
+      module: peopleclinicalmasterdata (patientmanagement)
+    - code: SCREEN_DOCTORS
+      screen: Doctors
+      module: peopleclinicalmasterdata (doctormanagement)
+    - code: SCREEN_PATIENT_REGISTRATIONS
+      screen: Patient Registrations
+      module: peopleclinicalmasterdata (patientregistration)
+    - code: SCREEN_RECEPTION
+      screen: Front Desk
+      module: frontdeskcaredelivery (receptionmanagement)
+    - code: SCREEN_DIAGNOSTIC_ORDERS
+      screen: Diagnostic Orders
+      module: frontdeskcaredelivery (diagnosticordermanagement)
+    - code: SCREEN_CASH_SESSIONS
+      screen: Cash Sessions
+      module: cashsales (cashieroperations)
+    - code: SCREEN_SALES
+      screen: Sales
+      module: cashsales (cashieroperations)
+    - code: SCREEN_BILLING_REQUESTS
+      screen: Billing Requests
+      module: cashsales (billingrequestmanagement)
+    - code: SCREEN_SAMPLE_COLLECTION
+      screen: Sample Collection
+      module: laboratoryworkflow (orderssamples)
+    - code: SCREEN_SAMPLE_LABELING
+      screen: Sample Labeling
+      module: laboratoryworkflow (orderssamples)
+    - code: SCREEN_SAMPLE_RECEPTION
+      screen: Sample Reception
+      module: laboratoryworkflow (orderssamples)
+    - code: SCREEN_LABORATORY_PROCESSING
+      screen: Lab Processing
+      module: laboratoryworkflow (laboratoryresults)
+    - code: SCREEN_TECHNICAL_VALIDATION
+      screen: Tech Validation
+      module: laboratoryworkflow (laboratoryresults)
+    - code: SCREEN_MEDICAL_VALIDATION
+      screen: Med Validation
+      module: laboratoryworkflow (laboratoryresults)
+    - code: SCREEN_RESULT_RELEASE
+      screen: Result Release
+      module: laboratoryworkflow (laboratoryresults)
+    - code: SCREEN_RESULT_SEARCH
+      screen: Result Search
+      module: resultsanddigitaldelivery
+    - code: SCREEN_RESULT_REPORTS
+      screen: Result Reports
+      module: resultsanddigitaldelivery (reportgeneration)
+    - code: SCREEN_CRITICAL_ESCALATIONS
+      screen: Critical Escalations
+      module: resultsanddigitaldelivery (criticalresults)
+    - code: SCREEN_RESULT_NOTIFICATIONS
+      screen: Result Notifications
+      module: resultsanddigitaldelivery (notifications)
+  api_operation_mapping_gap: >
+    This catalog maps every employee-portal screen (27/27) to a permission. It does not yet map
+    every individual protected backend API command/query to a distinct permission (that would
+    require the finer domain.resource.action.scope grammar from AUTHZ-ARCH-001). Explicit gap,
+    registered as TD-IAM-002 below.
+
+role_permission_catalog:
+  backend_source_of_truth: >
+    07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/identityaccess/domain/RolePermissionCatalog.java
+  default_behavior: deny_by_default (any role code not explicitly mapped resolves to an empty
+    permission set)
+  roles:
+    - role_code: ADMIN
+      permissions: all_27
+    - role_code: FRONT_DESK
+      permissions: [SCREEN_PERSON_SEARCH, SCREEN_PATIENTS, SCREEN_DOCTORS,
+        SCREEN_PATIENT_REGISTRATIONS, SCREEN_RECEPTION, SCREEN_DIAGNOSTIC_ORDERS,
+        SCREEN_DIAGNOSTIC_CATALOG]
+    - role_code: CASHIER
+      permissions: [SCREEN_CASH_SESSIONS, SCREEN_SALES, SCREEN_BILLING_REQUESTS]
+    - role_code: LAB_TECHNICIAN
+      permissions: [SCREEN_SAMPLE_COLLECTION, SCREEN_SAMPLE_LABELING, SCREEN_SAMPLE_RECEPTION,
+        SCREEN_LABORATORY_PROCESSING, SCREEN_TECHNICAL_VALIDATION]
+    - role_code: MEDICAL_REVIEWER
+      permissions: [SCREEN_MEDICAL_VALIDATION, SCREEN_RESULT_RELEASE, SCREEN_RESULT_SEARCH]
+    - role_code: RESULTS_COORDINATOR
+      permissions: [SCREEN_RESULT_SEARCH, SCREEN_RESULT_REPORTS, SCREEN_CRITICAL_ESCALATIONS,
+        SCREEN_RESULT_NOTIFICATIONS]
+  note: >
+    These 6 roles are a baseline reference set for demonstrating deny-by-default, role-driven
+    dynamic menus. They are not yet the tenant-configurable role catalog described in
+    AUTHZ-ARCH-001 (organizational hierarchy: laboratory/branch/department/position/role/user/
+    delegations/temporary access); tenant-specific role customization remains later scope.
+
+dynamic_menu_and_action_filtering:
+  employee_portal:
+    implementation: >
+      07-implementation/employee-portal/src/state/SessionContext.tsx exposes the active session's
+      permission set; 07-implementation/employee-portal/src/components/layout/AppShell.tsx filters
+      its 27-tab navigation array down to only the tabs whose mapped PermissionCode is present in
+      the session's permission set, so unauthorized navigation is not rendered at all (not merely
+      disabled), satisfying the standard's frontend_and_mobile_hide_or_disable_unauthorized_
+      navigation_and_actions requirement for navigation. Per-action (button-level) filtering within
+      a screen (e.g. hiding a "cancel order" button from a role without a specific action
+      permission) is not yet implemented for the existing 27 screens and remains TD-IAM-002 scope.
+    session_used: LOCAL DEVELOPMENT FIXTURE (see session-management-baseline.yaml) — defaults to
+      the ADMIN role (all permissions visible), matching pre-existing behavior, with the
+      SessionContext API supporting role overrides for testing/demo.
+  mobile_app:
+    implementation: >
+      07-implementation/mobile-app/src/auth/permissions.ts + src/navigation/routes.ts's
+      visibleRoutesForPermissions() helper apply the same filtering pattern to mobile's route list.
+      No renderable UI exists yet (TD-APP-001), so this is a route-model-level filter, not yet a
+      rendered navigation experience.
+
+backend_server_side_authorization:
+  status: domain_model_defined_not_yet_enforced_at_request_time
+  what_exists: >
+    identityaccess/application/AuthorizationService.java provides hasPermission(roleCode,
+    permission) and permissionsForRoles(roleCodes) as a pure domain-level authorization decision
+    service, backed by RolePermissionCatalog, fully unit tested.
+  what_is_missing: >
+    There is no Spring Security filter chain, no authenticated-principal resolution, and no
+    @PreAuthorize/interceptor wiring anywhere in the backend today (confirmed by repository-wide
+    search: 0 matches for SecurityConfig, SecurityFilterChain, @PreAuthorize, UserDetails). Every
+    REST controller in the backend is currently reachable without any authorization check. This is
+    an explicit, honestly-disclosed gap, not a silent omission.
+  explicit_gap_acknowledgement: >
+    Per the enterprise-product-foundation-standard's IAM closure_gate ("permission mapping or an
+    explicit gap"), this document records the gap explicitly rather than fabricating enforcement
+    that does not exist. AuthorizationService is ready to be invoked from a real request-scoped
+    interceptor once authentication exists (see session-management-baseline.yaml's implementation
+    backlog for the login/session baseline that is the prerequisite for this).
+
+technical_debt_registered:
+  - id: TD-IAM-001
+    title: Backend has no authenticated request context or server-side authorization enforcement
+    status: open
+    risk_level: high
+    blocking: false
+    reason_non_blocking: >
+      No production credential material, tenant boundary bypass, or externally reachable
+      deployment exists yet for this backend (local-development-only per the local solution
+      runbook); every existing screen already reaches the backend without authentication today, so
+      this iteration does not newly introduce the gap — it inventories and plans it. It is,
+      however, an explicit P0 blocker for COM-MOD-009 (Patient and Doctor Portals) and any
+      production/customer-facing deployment, which the HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml already
+      encodes as depending on this alignment item.
+    target_backlog: next_backend_authentication_backlog_item_before_COM_MOD_009
+    owner: backend_platform_team
+    acceptance_criteria:
+      - A Spring Security filter chain (or equivalent) resolves an authenticated principal from a
+        real credential (JWT/OIDC per IAM-ARCH-001's MVP scope) on every protected request.
+      - AuthorizationService.hasPermission is invoked from a request-scoped interceptor or
+        method-security annotation on every protected controller method.
+      - Denied requests return 401/403 consistently and are audit-logged.
+  - id: TD-IAM-002
+    title: Permission model is screen-level only; per-API-operation and per-action granularity,
+      and the full domain.resource.action.scope grammar from AUTHZ-ARCH-001, remain unmodeled
+    status: open
+    risk_level: medium
+    blocking: false
+    target_backlog: gradual_when_a_future_backlog_item_adds_a_new_protected_action_or_when_
+      AUTHZ-ARCH-001_is_promoted_from_Draft
+    owner: security_architecture_team
+    acceptance_criteria:
+      - Every protected backend command/query has its own permission code (not just its owning
+        screen).
+      - Button/action-level UI filtering exists for at least the highest-risk actions (cancel
+        order, void sale, release critical result).
+
+closure_gate_compliance: >
+  "Every existing and planned screen/action/API operation has a permission mapping or an explicit
+  gap": satisfied — all 27 existing employee-portal screens are mapped (permission_catalog above);
+  per-action and per-API-operation granularity is an explicit, registered gap (TD-IAM-002), not a
+  silent omission. "Dynamic menu and action filtering rules are defined from authenticated user
+  permissions and tenant/branch context": satisfied for navigation-level filtering (dynamic_menu_
+  and_action_filtering above); tenant/branch-scoped permission evaluation (per RoleAssignment's
+  existing scopeType/scopeId fields) is defined as a data model today but not yet enforced at
+  request time (folded into TD-IAM-001).

@@ -233,19 +233,23 @@ Expected result:
 
 ## Next Backlog Item
 
-Continue with:
+`HOP-ENT-FOUND-001` is closed. Continue with:
 
-- Module: `HOP-ENTERPRISE-FOUNDATION-ALIGNMENT`
-- Backlog item: `HOP-ENT-FOUND-001`
-- Paused functional backlog item: `MVP-MOD-007-PORTAL-001`
+- Module: `MVP-MOD-007`
+- Backlog item: `MVP-MOD-007-PORTAL-001`
+- Paused functional backlog item: none
 - Folder: project root under `projects/healthcare-operations-platform/`
 
 Mandatory setup for this backlog:
 
-- Load `HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml` and `enterprise-product-foundation-standard.yaml`.
-- Do not resume `MVP-MOD-007-PORTAL-001` until `HOP-ENT-FOUND-001` closes with evidence and a clean commit.
+- Load `08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml` and the enterprise
+  foundation deliverables under `03-architecture/` (localization, IAM permission model,
+  session-management baseline, data architecture, UX/UI, persistence/contract-generation review)
+  and follow their established patterns.
+- Review `TD-IAM-001` (no backend authentication exists yet) before exposing any patient/doctor
+  portal outside local development.
 - Review `08-qa/technical-debt/technical-debt-index.yaml` before feature work and resolve or materially reduce at least two relevant open debt items because HOP is now late in the operational core.
-- Preserve the employee portal coverage floor of 83.98%; if backend code is touched, preserve the backend Java/Maven floor of 76.99% and target a 3 to 5 point improvement while backend remains below 80%.
+- Preserve the employee portal coverage floor of 84.42%; if backend code is touched, preserve the backend Java/Maven floor of 77.32% and target a 3 to 5 point improvement while backend remains below 80%.
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
 - Before commit, reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, affected capability traceability files and the local runbook pointers.

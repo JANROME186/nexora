@@ -1,67 +1,54 @@
 import type { ReactNode } from "react";
+import { useLocale, type Locale } from "../../i18n/LocaleContext";
+import { useSession } from "../../state/SessionContext";
+import { SCREEN_TO_PERMISSION, type ScreenKey } from "../../state/permissions";
 
-export type ScreenKey =
-  | "tenants"
-  | "laboratories"
-  | "branches"
-  | "users"
-  | "role-assignments"
-  | "audit-events"
-  | "diagnostic-catalog"
-  | "person-search"
-  | "patients"
-  | "doctors"
-  | "patient-registrations"
-  | "reception"
-  | "diagnostic-orders"
-  | "cash-sessions"
-  | "sales"
-  | "billing-requests"
-  | "sample-collection"
-  | "sample-labeling"
-  | "sample-reception"
-  | "laboratory-processing"
-  | "technical-validation"
-  | "medical-validation"
-  | "result-release"
-  | "result-search"
-  | "result-reports"
-  | "critical-escalations"
-  | "result-notifications";
+export type { ScreenKey };
+
+/** Maps each ScreenKey to its key in the locale catalog's `appShell.tabs` object. */
+const SCREEN_TAB_LABEL_KEYS = {
+  tenants: "tenants",
+  laboratories: "laboratories",
+  branches: "branches",
+  users: "users",
+  "role-assignments": "roleAssignments",
+  "audit-events": "auditEvents",
+  "diagnostic-catalog": "diagnosticCatalog",
+  "person-search": "personSearch",
+  patients: "patients",
+  doctors: "doctors",
+  "patient-registrations": "patientRegistrations",
+  reception: "reception",
+  "diagnostic-orders": "diagnosticOrders",
+  "cash-sessions": "cashSessions",
+  sales: "sales",
+  "billing-requests": "billingRequests",
+  "sample-collection": "sampleCollection",
+  "sample-labeling": "sampleLabeling",
+  "sample-reception": "sampleReception",
+  "laboratory-processing": "laboratoryProcessing",
+  "technical-validation": "technicalValidation",
+  "medical-validation": "medicalValidation",
+  "result-release": "resultRelease",
+  "result-search": "resultSearch",
+  "result-reports": "resultReports",
+  "critical-escalations": "criticalEscalations",
+  "result-notifications": "resultNotifications",
+} as const satisfies Record<ScreenKey, string>;
 
 interface ScreenTab {
   key: ScreenKey;
-  label: string;
+  labelKey: (typeof SCREEN_TAB_LABEL_KEYS)[ScreenKey];
 }
 
-const TABS: ScreenTab[] = [
-  { key: "tenants", label: "Tenants" },
-  { key: "laboratories", label: "Laboratories" },
-  { key: "branches", label: "Branches" },
-  { key: "users", label: "Users" },
-  { key: "role-assignments", label: "Role Assignments" },
-  { key: "audit-events", label: "Audit Events" },
-  { key: "diagnostic-catalog", label: "Diagnostic Catalog" },
-  { key: "person-search", label: "People Search" },
-  { key: "patients", label: "Patients" },
-  { key: "doctors", label: "Doctors" },
-  { key: "patient-registrations", label: "Patient Registrations" },
-  { key: "reception", label: "Front Desk" },
-  { key: "diagnostic-orders", label: "Diagnostic Orders" },
-  { key: "cash-sessions", label: "Cash Sessions" },
-  { key: "sales", label: "Sales" },
-  { key: "billing-requests", label: "Billing Requests" },
-  { key: "sample-collection", label: "Sample Collection" },
-  { key: "sample-labeling", label: "Sample Labeling" },
-  { key: "sample-reception", label: "Sample Reception" },
-  { key: "laboratory-processing", label: "Lab Processing" },
-  { key: "technical-validation", label: "Tech Validation" },
-  { key: "medical-validation", label: "Med Validation" },
-  { key: "result-release", label: "Result Release" },
-  { key: "result-search", label: "Result Search" },
-  { key: "result-reports", label: "Result Reports" },
-  { key: "critical-escalations", label: "Critical Escalations" },
-  { key: "result-notifications", label: "Result Notifications" },
+const TABS: ScreenTab[] = (Object.keys(SCREEN_TAB_LABEL_KEYS) as ScreenKey[]).map((key) => ({
+  key,
+  labelKey: SCREEN_TAB_LABEL_KEYS[key],
+}));
+
+const LOCALE_OPTIONS: { locale: Locale; label: string }[] = [
+  { locale: "es-MX", label: "ES" },
+  { locale: "en-US", label: "EN" },
 ];
 
 interface AppShellProps {
@@ -71,22 +58,50 @@ interface AppShellProps {
 }
 
 /**
- * Base navigation shell for the employee portal administration screens.
+ * Base navigation shell for the employee portal administration screens. Navigation tabs are
+ * filtered to the current session's permissions (enterprise-product-foundation-standard
+ * `iam_permission_model`: unauthorized navigation must be hidden, not just disabled) and header
+ * text plus tab labels are sourced from the active locale (`localization_and_i18n` foundation).
  */
 export function AppShell({ activeScreen, onSelectScreen, children }: AppShellProps) {
+  const { locale, setLocale, t } = useLocale();
+  const { permissions } = useSession();
+
+  const visibleTabs = TABS.filter((tab) => permissions.has(SCREEN_TO_PERMISSION[tab.key]));
+
   return (
     <div className="app-shell">
       <header className="app-shell__header">
-        <h1>Healthcare Operations Platform - Employee Portal Administration</h1>
-        <p>
-          Platform Foundation, Diagnostic Catalog, People and Clinical Master Data, Front Desk and
-          Care Delivery, Cashier and Billing, Laboratory Workflow, and Results and Digital Delivery:
-          administration, audit, catalog, patient/doctor records, diagnostic orders, cash sessions,
-          laboratory workflow, and result delivery management.
-        </p>
+        <div className="app-shell__header-row">
+          <div>
+            <h1>{t.appShell.title}</h1>
+            <p>{t.appShell.subtitle}</p>
+          </div>
+          <div
+            className="app-shell__locale-switch"
+            role="group"
+            aria-label={t.appShell.languageSwitcherLabel}
+          >
+            {LOCALE_OPTIONS.map((option) => (
+              <button
+                key={option.locale}
+                type="button"
+                className={
+                  option.locale === locale
+                    ? "app-shell__locale-button app-shell__locale-button--active"
+                    : "app-shell__locale-button"
+                }
+                aria-pressed={option.locale === locale}
+                onClick={() => setLocale(option.locale)}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </header>
-      <nav className="app-shell__nav" aria-label="Administration screens">
-        {TABS.map((tab) => (
+      <nav className="app-shell__nav" aria-label={t.appShell.navAriaLabel}>
+        {visibleTabs.map((tab) => (
           <button
             key={tab.key}
             type="button"
@@ -96,7 +111,7 @@ export function AppShell({ activeScreen, onSelectScreen, children }: AppShellPro
             aria-current={tab.key === activeScreen ? "page" : undefined}
             onClick={() => onSelectScreen(tab.key)}
           >
-            {tab.label}
+            {t.appShell.tabs[tab.labelKey]}
           </button>
         ))}
       </nav>

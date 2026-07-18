@@ -45,7 +45,7 @@ class AuditComplianceLocalDatabaseTest {
         mockMvc.perform(post("/api/identity/users/{userId}/role-assignments", userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                        {"roleCode":"tenant_admin","scope":{"type":"tenant","id":"%s"}}
+                        {"roleCode":"tenant_admin","scope":{"type":"tenant","id":"%s"},"actorUserId":"audit-tester-1"}
                         """.formatted(tenantId)))
                 .andExpect(status().isNoContent());
 

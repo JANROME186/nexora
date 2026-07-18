@@ -41,7 +41,7 @@ describe("TenantsScreen", () => {
     await user.click(screen.getByRole("button", { name: "Create tenant" }));
 
     expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Unexpected error. Please try again.",
+      "Error inesperado. Inténtalo de nuevo.",
     );
   });
 });

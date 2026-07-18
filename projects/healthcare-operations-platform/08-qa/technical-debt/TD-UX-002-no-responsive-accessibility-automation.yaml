@@ -1,0 +1,54 @@
+artifact:
+  id: TD-UX-002
+  type: technical-debt-item
+  name: No formalized responsive breakpoints/layout system; no automated accessibility
+    (axe-core/Playwright) check wired into npm run quality
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-17
+
+source:
+  discovered_during_backlog_item: HOP-ENT-FOUND-001
+  module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  evidence: 03-architecture/ux-ui/ux-ui-foundation.yaml
+
+classification:
+  category: ux_ui_design_system_gap
+  affected_area: employee_portal_responsive_and_accessibility_tooling
+  affected_components:
+    - 07-implementation/employee-portal/src/styles.css
+    - 07-implementation/employee-portal/package.json
+  risk_level: medium
+  urgency: medium
+  blocking: false
+  reason_non_blocking: >
+    The standard requires accessibility checks "when_ui_changes"; this iteration's own UI changes
+    (language switch) reuse existing accessible patterns (aria-current/aria-label), so no new
+    accessibility regression is known to exist. The gap is the absence of automated tooling to
+    catch future regressions, not a confirmed current defect.
+
+current_state:
+  issue: No breakpoints/media queries exist in styles.css; no axe-core or Playwright accessibility
+    check is part of the npm run quality chain.
+  compensating_control:
+    - Manual review found existing aria-current/aria-label usage on the navigation landmark.
+
+target_state:
+  preferred_open_source_tooling:
+    - axe-core or @axe-core/playwright for automated accessibility checks.
+  expected_integration_points:
+    - New npm script (e.g. a11y:check) added to the npm run quality chain.
+
+remediation:
+  strategy: next_frontend_quality_profile_hardening_backlog_item
+  owner: frontend_platform_team
+  estimated_effort: medium
+  estimated_cost_impact: low
+  target_backlog: next_frontend_quality_profile_hardening_backlog_item
+  dependencies_or_prerequisites: []
+  incremental_remediation_triggers:
+    - Next frontend quality-profile hardening backlog item.
+  acceptance_criteria:
+    - An automated accessibility check runs as part of npm run quality with 0 blocking violations.
+    - A documented responsive breakpoint set exists and is applied to at least one screen.
+  owner_or_responsible_role: frontend_platform_team

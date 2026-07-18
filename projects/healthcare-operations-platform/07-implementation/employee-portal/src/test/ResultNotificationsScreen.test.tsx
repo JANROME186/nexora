@@ -79,7 +79,9 @@ describe("ResultNotificationsScreen", () => {
     );
     await user.type(screen.getByLabelText("Result ID"), "res-1");
     await user.click(screen.getByRole("button", { name: "Load Notifications" }));
-    expect(await screen.findByText(/No notification records/)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/No se encontraron registros de notificación/),
+    ).toBeInTheDocument();
   });
 
   it("shows dispatch status badge", async () => {

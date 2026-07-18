@@ -1,4 +1,14 @@
-import { MESSAGES } from "../i18n/messages";
+/**
+ * Local/dev authentication stand-in.
+ *
+ * This module (together with `./sessionStore.ts`) implements a `local-session:<tenant>:<user>`
+ * token scheme that is a placeholder, not a production authentication mechanism. There is no
+ * backend authentication endpoint for the mobile app yet either — that is a known, tracked gap
+ * (see the enterprise-product-foundation-standard's `login_and_session_management` foundation),
+ * not a bug to fix here. Do not treat this as a production login flow; it exists so mobile-app
+ * screens/models have something to build against until real backend-backed authentication lands.
+ */
+import { DEFAULT_LOCALE, getMessages, type Locale } from "../i18n/locale";
 import type { MobileSession, SessionStore } from "./sessionStore";
 
 export type LoginRequest = {
@@ -17,13 +27,15 @@ export type LocalAuthService = {
 export function createLocalAuthService(
   sessionStore: SessionStore,
   now: () => Date = () => new Date(),
+  locale: Locale = DEFAULT_LOCALE,
 ): LocalAuthService {
+  const messages = getMessages(locale);
   return {
     login: (request) => {
-      const tenantId = requiredText(request.tenantId, MESSAGES.tenantIdRequired);
-      const userId = requiredText(request.userId, MESSAGES.userIdRequired);
-      const displayName = requiredText(request.displayName, MESSAGES.displayNameRequired);
-      const email = requiredEmail(request.email);
+      const tenantId = requiredText(request.tenantId, messages.tenantIdRequired);
+      const userId = requiredText(request.userId, messages.userIdRequired);
+      const displayName = requiredText(request.displayName, messages.displayNameRequired);
+      const email = requiredEmail(request.email, messages);
       const session: MobileSession = {
         token: `local-session:${tenantId}:${userId}`,
         tenantId,
@@ -49,10 +61,10 @@ function requiredText(value: string, message: string) {
   return value.trim();
 }
 
-function requiredEmail(value: string) {
-  const email = requiredText(value, MESSAGES.emailRequired).toLowerCase();
+function requiredEmail(value: string, messages: ReturnType<typeof getMessages>) {
+  const email = requiredText(value, messages.emailRequired).toLowerCase();
   if (!email.includes("@")) {
-    throw new Error(MESSAGES.emailInvalid);
+    throw new Error(messages.emailInvalid);
   }
   return email;
 }

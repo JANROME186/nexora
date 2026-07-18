@@ -1,0 +1,146 @@
+artifact:
+  id: HOP-SESSION-BASE-001
+  type: session-management-baseline
+  name: HOP Login and Session Management Baseline
+  version: 1.0.0
+  status: approved
+  human_readable: session-management-baseline.md
+  machine_readable: session-management-baseline.yaml
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-17
+  source_backlog_item: HOP-ENT-FOUND-001
+
+purpose: >
+  Define the login/logout/session-expiration/authenticated-user-context baseline required before
+  IAM permission enforcement and customer-facing portals can proceed, and account for every
+  currently hardcoded or fixture actor in the codebase, per
+  ../../../../nexora-framework/02-standards/standards/enterprise-product-foundation-standard.yaml
+  (mandatory_foundations.login_and_session_management).
+
+current_state_confirmed_by_repository_audit:
+  backend: >
+    No authentication mechanism exists (0 matches for SecurityConfig, SecurityFilterChain,
+    @PreAuthorize, UserDetails across the entire backend). Every controller accepts plain
+    tenantId/laboratoryId/userId parameters supplied by the caller with no verification.
+  employee_portal: >
+    No AuthContext/login/session mechanism existed prior to this backlog item. A
+    SessionContext was added by this backlog item strictly as a documented local-development
+    fixture (see hardcoded_and_fixture_actor_inventory below) to demonstrate permission-driven
+    dynamic menus; it is not a production authentication mechanism.
+  mobile_app: >
+    A local session scaffold already existed prior to this backlog item
+    (07-implementation/mobile-app/src/auth/localAuth.ts, sessionStore.ts) producing tokens shaped
+    `local-session:<tenantId>:<userId>` with no password/JWT/verification logic. This backlog item
+    added an explicit JSDoc disclosure that it is a local/dev stand-in, not production auth.
+
+hardcoded_and_fixture_actor_inventory:
+  - location: >
+      07-implementation/backend/.../identityaccess/application/IdentityAccessService.java
+      (assignRole method)
+    prior_state: The RoleAssignment.createdBy field was hardcoded to the literal "system" for
+      every role assignment, even though assigning a role is a real, user-initiated
+      administrative action, not a system-initiated event.
+    remediation_this_iteration: >
+      AssignRoleCommand now requires an explicit actorUserId, validated the same way as other
+      required command fields; IdentityAccessController's AssignRoleRequest requires actorUserId
+      in the request body. The literal "system" is no longer used for this path.
+    residual_gap: >
+      actorUserId is still supplied explicitly by the caller (there is no session to derive it
+      from yet); once real backend authentication exists (TD-IAM-001), this should be sourced from
+      the authenticated principal instead of a request field, removing the possibility of a caller
+      claiming a false identity.
+  - location: >
+      07-implementation/backend/.../auditcompliance/application/AuditComplianceService.java
+      (SYSTEM_ACTOR_ID constant)
+    classification: legitimate_system_actor_not_a_gap
+    reason: >
+      Used only for genuinely system-initiated audit events (not user actions). Named, documented,
+      isolated to a single constant. No change required.
+  - location: >
+      07-implementation/backend/.../resultsanddigitaldelivery/criticalresults/application/CriticalResultEscalationService.java
+      and .../notifications/application/ResultNotificationService.java ("system" AuditMetadata)
+    classification: legitimate_system_actor_not_a_gap
+    reason: System-generated notification/escalation audit trails, not attributed user actions.
+      Out of scope for this iteration; flagged here for completeness of the inventory.
+  - location: 07-implementation/employee-portal/src/state/SessionContext.tsx (new)
+    classification: documented_local_development_fixture
+    fixture_name: LOCAL_DEV_FIXTURE_SESSION
+    reason: >
+      The employee portal has no production login flow yet. Rather than leave every screen
+      unconditionally visible with no session concept at all (the pre-existing state), this
+      backlog item introduced an explicit, clearly-named, clearly-commented fixture session
+      (roleCodes: ["ADMIN"]) so the new permission-driven dynamic-menu mechanism (see
+      iam-permission-model.yaml) has something real to filter against today. The fixture is named
+      and JSDoc-commented as non-production and must be replaced by a real session sourced from
+      login once implemented (see implementation_backlog below).
+  - location: 07-implementation/mobile-app/src/auth/localAuth.ts (pre-existing)
+    classification: documented_local_development_fixture
+    reason: Pre-existing local/dev session stand-in; this iteration added explicit JSDoc disclosure
+      that it is not production authentication.
+
+required_capabilities_baseline_definition:
+  login:
+    target: Username/password plus JWT/OIDC-compatible architecture for MVP, per
+      identity-access-architecture.md's MVP scope, without precluding migration to an external IdP
+      (Keycloak, Authentik, Entra ID, Okta, Auth0, Cognito).
+    status: not_yet_implemented
+  logout:
+    target: Explicit session/token invalidation, client-side session state clearing.
+    status: not_yet_implemented
+  session_expiration:
+    target: Short-lived access tokens with refresh rotation where supported (per
+      identity-access-architecture.md).
+    status: not_yet_implemented
+  authenticated_user_context:
+    target: A request-scoped principal (backend) and a real session object (frontend/mobile)
+      replacing today's caller-supplied ids and local-dev fixtures.
+    status: partially_modeled (SessionContext/localAuth exist as fixtures; not backed by real
+      credentials)
+  tenant_and_branch_context:
+    target: Active tenant/branch resolved from the authenticated session, not a UI-selected value.
+    status: >-
+      not_yet_implemented (today, AdminScopeContext in the employee-portal is a UI-selected
+      filter, not session-derived; this is an acceptable interim state for an internal admin tool
+      but must change before external portals per COM-MOD-009)
+  role_permission_loading:
+    target: Permissions loaded from the authenticated user's real role assignments at login.
+    status: modeled (RolePermissionCatalog/AuthorizationService exist server-side; not yet loaded
+      into a real session because no login exists)
+  unauthorized_and_forbidden_error_handling:
+    target: Consistent 401 (not authenticated) / 403 (authenticated, not authorized) responses,
+      audit-logged.
+    status: not_yet_implemented (no enforcement point exists yet, see TD-IAM-001)
+  secure_storage_for_client_tokens_or_session_references:
+    target: httpOnly secure cookies or equivalent secure storage for real session tokens once
+      login exists; localStorage is acceptable only for the non-sensitive locale preference added
+      by this iteration (see localization-strategy.md), never for credentials.
+    status: not_applicable_yet (no real tokens exist to store)
+
+implementation_backlog:
+  - id: BE-AUTH-001
+    name: Implement backend authentication (JWT/OIDC-compatible) and request-scoped principal
+      resolution
+    depends_on: none (foundational)
+    blocks: [TD-IAM-001 closure, COM-MOD-009]
+  - id: BE-AUTH-002
+    name: Wire AuthorizationService into a request-scoped interceptor/method-security layer for
+      every protected controller
+    depends_on: [BE-AUTH-001]
+  - id: FE-AUTH-001
+    name: Replace employee-portal LOCAL_DEV_FIXTURE_SESSION with a real login flow calling
+      BE-AUTH-001
+    depends_on: [BE-AUTH-001]
+  - id: APP-AUTH-001
+    name: Replace mobile-app localAuth.ts local/dev stand-in with a real login flow, once a
+      renderer stack is selected (TD-APP-001)
+    depends_on: [BE-AUTH-001, TD-APP-001]
+
+closure_gate_compliance: >
+  "Login, logout, session expiration, authenticated user context and permission loading baseline
+  are defined with implementation backlog": satisfied via required_capabilities_baseline_definition
+  and implementation_backlog above. "Eliminate or isolate any hardcoded user/actor of productive
+  use; if it remains as a local/test fixture, it must be clearly separated and documented":
+  satisfied — the one genuine hardcoded-productive-actor gap found (IdentityAccessService's
+  "system" role-assignment actor) was fixed in code this iteration; the two new/pre-existing
+  fixtures (employee-portal SessionContext, mobile-app localAuth) are explicitly named, documented
+  and isolated as non-production, per hardcoded_and_fixture_actor_inventory above.

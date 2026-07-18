@@ -76,7 +76,7 @@ describe("ResultSearchScreen", () => {
       </ScopedHarness>,
     );
     await user.click(screen.getByRole("button", { name: "Load Released Results" }));
-    expect(await screen.findByText(/No released results/)).toBeInTheDocument();
+    expect(await screen.findByText(/No se encontraron resultados liberados/)).toBeInTheDocument();
   });
 
   it("shows result detail when a result is selected", async () => {

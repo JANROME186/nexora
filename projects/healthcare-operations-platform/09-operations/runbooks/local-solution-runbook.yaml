@@ -12,12 +12,23 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: HOP-ENT-FOUND-001
-  paused_functional_backlog_item: MVP-MOD-007-PORTAL-001
+  current_active_backlog_item: MVP-MOD-007-PORTAL-001
+  paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
-  enterprise_foundation_alignment_backlog_status: active
+  enterprise_foundation_alignment_backlog_status: closed
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
+  enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
+  runbook_confirmation_note: >-
+    HOP-ENT-FOUND-001 was validated using the existing documented commands below (backend
+    `-Pquality "-Dhop.local-db-tests=true" verify`, employee-portal and mobile-app `npm run
+    quality`, repository-root Trivy scan); no new runtime component, port, environment variable,
+    startup order or validation command was introduced. The local-database-backed backend command
+    was confirmed to require the local Postgres container's schema to be in sync with
+    backend/src/main/resources/db/platform-foundation/schema.sql; if
+    runtime/local/postgres/init/001-create-platform-foundation-schemas.sql (the Docker init mount)
+    ever drifts from that file, run `docker compose --env-file .env -f compose.local.yml down -v`
+    followed by `up -d` (see reset_steps below) after resyncing the two files (see TD-STACK-004).
   intended_audience:
     - human_reviewer
     - qa_reviewer

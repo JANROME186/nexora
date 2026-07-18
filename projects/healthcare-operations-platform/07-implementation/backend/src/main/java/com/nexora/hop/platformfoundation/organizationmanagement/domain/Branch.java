@@ -8,6 +8,7 @@ public record Branch(
         String laboratoryId,
         String name,
         String status,
+        int version,
         Instant createdAt,
         Instant updatedAt) {
 }

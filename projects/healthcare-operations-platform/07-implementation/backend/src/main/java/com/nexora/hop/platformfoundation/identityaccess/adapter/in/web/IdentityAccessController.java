@@ -50,7 +50,8 @@ class IdentityAccessController {
         service.assignRole(userId, new AssignRoleCommand(
                 request.roleCode(),
                 request.scope() == null ? null : request.scope().type(),
-                request.scope() == null ? null : request.scope().id()));
+                request.scope() == null ? null : request.scope().id(),
+                request.actorUserId()));
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -60,7 +61,10 @@ class IdentityAccessController {
             @NotBlank @Email String email) {
     }
 
-    record AssignRoleRequest(@NotBlank String roleCode, @NotNull @Valid ScopeRequest scope) {
+    record AssignRoleRequest(
+            @NotBlank String roleCode,
+            @NotNull @Valid ScopeRequest scope,
+            @NotBlank String actorUserId) {
     }
 
     record ScopeRequest(@NotBlank String type, @NotBlank String id) {

@@ -1,8 +1,10 @@
 # HOP Enterprise Product Foundation Alignment Backlog
 
-Functional development is paused before `MVP-MOD-007-PORTAL-001`.
-
-The active backlog item is `HOP-ENT-FOUND-001`, which aligns HOP with the updated Nexora Enterprise Product Foundation Standard.
+**Closed.** `HOP-ENT-FOUND-001` aligned HOP with the updated Nexora Enterprise Product Foundation
+Standard; functional development has resumed with `MVP-MOD-007-PORTAL-001`. See
+`08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md` and
+`03-architecture/enterprise-foundation/enterprise-foundation-alignment.md` for the full closure
+record.
 
 This backlog covers:
 
@@ -19,4 +21,6 @@ This backlog covers:
 - OpenAPI/contract-first generation review for backend, frontend and app.
 - Stronger technical-debt burn-down and meaningful coverage improvement while backend/mobile remain below 80 percent.
 
-When `HOP-ENT-FOUND-001` closes, the project resumes with `MVP-MOD-007-PORTAL-001`.
+`HOP-ENT-FOUND-001` closed with backend coverage 76.99% -> 77.32%, frontend coverage 83.98% ->
+84.42% (both with no regression), `TD-BE-009` closed, `TD-I18N-002` materially reduced, and 12 new
+technical-debt items registered. The project has resumed with `MVP-MOD-007-PORTAL-001`.

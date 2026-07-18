@@ -74,7 +74,7 @@ describe("ResultReportsScreen", () => {
     );
     await user.type(screen.getByLabelText("Result ID"), "res-1");
     await user.click(screen.getByRole("button", { name: "Load Reports" }));
-    expect(await screen.findByText(/No reports generated/)).toBeInTheDocument();
+    expect(await screen.findByText(/No se generaron reportes/)).toBeInTheDocument();
   });
 
   it("triggers report regeneration", async () => {
@@ -88,7 +88,7 @@ describe("ResultReportsScreen", () => {
     );
     await user.type(screen.getByLabelText("Result ID"), "res-1");
     await user.click(screen.getByRole("button", { name: "Regenerate Report" }));
-    expect(await screen.findByText("Report regeneration triggered.")).toBeInTheDocument();
+    expect(await screen.findByText("Regeneración de reporte iniciada.")).toBeInTheDocument();
     expect(api.regenerateReport).toHaveBeenCalledWith("res-1", "tenant-1", "current_user");
   });
 });

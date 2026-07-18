@@ -57,14 +57,15 @@ class JdbcOrganizationRepository implements OrganizationRepository {
     @Override
     public Branch saveBranch(Branch branch) {
         jdbcTemplate.update("""
-                insert into organization.branches (branch_id, tenant_id, laboratory_id, name, status, created_at, updated_at)
-                values (?, ?, ?, ?, ?, ?, ?)
+                insert into organization.branches (branch_id, tenant_id, laboratory_id, name, status, version, created_at, updated_at)
+                values (?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 branch.branchId(),
                 branch.tenantId(),
                 branch.laboratoryId(),
                 branch.name(),
                 branch.status(),
+                branch.version(),
                 Timestamp.from(branch.createdAt()),
                 Timestamp.from(branch.updatedAt()));
         return branch;
@@ -91,7 +92,7 @@ class JdbcOrganizationRepository implements OrganizationRepository {
     @Override
     public Optional<Branch> findBranchById(String branchId) {
         return jdbcTemplate.query("""
-                select branch_id, tenant_id, laboratory_id, name, status, created_at, updated_at
+                select branch_id, tenant_id, laboratory_id, name, status, version, created_at, updated_at
                 from organization.branches
                 where branch_id = ?
                 """, JdbcOrganizationRepository::mapBranch, branchId).stream().findFirst();
@@ -123,6 +124,7 @@ class JdbcOrganizationRepository implements OrganizationRepository {
                 resultSet.getString("laboratory_id"),
                 resultSet.getString("name"),
                 resultSet.getString("status"),
+                resultSet.getInt("version"),
                 instant(resultSet, "created_at"),
                 instant(resultSet, "updated_at"));
     }

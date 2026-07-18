@@ -1,0 +1,59 @@
+artifact:
+  id: TD-DB-001
+  type: technical-debt-item
+  name: resultsanddigitaldelivery, documentmanagement and notificationmanagement have no
+    persistent (Jdbc) schema/repository - in-memory adapters only
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-17
+
+source:
+  discovered_during_backlog_item: HOP-ENT-FOUND-001
+  module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  evidence: 03-architecture/data-architecture/database-architecture.yaml
+
+classification:
+  category: database_product_baseline_gap
+  affected_area: results_and_digital_delivery_persistence
+  affected_components:
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/resultsanddigitaldelivery/**
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/documentmanagement/**
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/notificationmanagement/**
+  risk_level: medium
+  urgency: medium
+  blocking: false
+  reason_non_blocking: >
+    MVP-MOD-007's DEF/BE-001/BE-002/FE-001 evidence already discloses this scope as definition/
+    compilation work; data does not yet need to survive an application restart for current
+    validation/demo purposes. This item formalizes and tracks the gap for database-baseline
+    completeness rather than newly discovering a defect.
+
+current_state:
+  issue: >
+    GeneratedResultReport, ResultDeliveryTicket, CriticalResultEscalation,
+    ResultNotificationRequest, NotificationRequest and StoredDocument are all served exclusively by
+    in-memory repository adapters; no schema.sql or JdbcXxxRepository exists for these bounded
+    contexts, unlike every other closed module.
+  compensating_control:
+    - In-memory repositories are unconditional (not @Profile-gated), so functional behavior is
+      correct for current validation; only durability across restarts is missing.
+
+target_state:
+  preferred_open_source_tooling: []
+  expected_integration_points:
+    - New db/results-and-digital-delivery/schema.sql (or similarly named) file
+    - New JdbcXxxRepository adapters mirroring the established @Profile("local") pattern
+
+remediation:
+  strategy: gradual_when_a_future_MVP-MOD-007_related_backlog_item_requires_data_to_survive_restart
+  owner: backend_platform_team
+  estimated_effort: medium
+  estimated_cost_impact: low
+  target_backlog: next_MVP-MOD-007_related_backlog_item
+  dependencies_or_prerequisites: []
+  incremental_remediation_triggers:
+    - MVP-MOD-007-PORTAL-001 or MVP-MOD-007-QA-001 requiring durable data across restarts.
+  acceptance_criteria:
+    - A schema.sql exists for results-and-digital-delivery/document-management/notification-
+      management with matching JdbcXxxRepository adapters, following the established pattern.
+  owner_or_responsible_role: backend_platform_team

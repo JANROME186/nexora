@@ -5,10 +5,11 @@ package com.nexora.hop.platformfoundation.organizationmanagement.domain;
  * cash-sales). Modeled as RM-BRN-001, mirrors the {@code PatientSnapshot}/{@code DoctorSnapshot}
  * cross-module read pattern from peopleclinicalmasterdata.
  * <p>
- * {@code version} is fixed at {@value #UNVERSIONED} because {@link Branch} does not yet track an
- * incrementing optimistic-concurrency counter (unlike Patient/Doctor/TestDefinition); see
- * TD-BE-009. Downstream snapshot consumers should treat this field as a placeholder until branch
- * versioning is added.
+ * {@code version} is now sourced directly from {@link Branch#version()} (TD-BE-009 closed).
+ * {@link Branch} currently only supports a create command — there is no update/deactivate
+ * mutation path yet — so every branch has {@code version} 1 by construction, not because the
+ * field is a placeholder; once a branch mutation command is added, its version will increment
+ * there and flow through this snapshot automatically.
  */
 public record BranchSnapshot(
         String branchId,
@@ -18,8 +19,6 @@ public record BranchSnapshot(
         String status,
         int version) {
 
-    private static final int UNVERSIONED = 1;
-
     public static BranchSnapshot from(Branch branch) {
         return new BranchSnapshot(
                 branch.branchId(),
@@ -27,6 +26,6 @@ public record BranchSnapshot(
                 branch.laboratoryId(),
                 branch.name(),
                 branch.status(),
-                UNVERSIONED);
+                branch.version());
     }
 }

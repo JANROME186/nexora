@@ -1,0 +1,82 @@
+artifact:
+  id: HOP-SEED-CATALOG-001
+  type: seed-data-catalog
+  name: HOP Seed Data Catalog
+  version: 1.0.0
+  status: approved
+  human_readable: seed-data-catalog.md
+  machine_readable: seed-data-catalog.yaml
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-17
+  source_backlog_item: HOP-ENT-FOUND-001
+
+purpose: >
+  Catalog HOP's seed/reference data as a real product deliverable (not test-only fixtures), per
+  ../../../../nexora-framework/02-standards/standards/enterprise-product-foundation-standard.yaml
+  (database_product_baseline minimum requirements: country/locale/currency catalogs and seed data
+  for initial diagnostic services/tests/studies "when business allows").
+
+country_locale_currency_seed:
+  status: implemented_this_iteration
+  location: db/platform-foundation/schema.sql (idempotent INSERT ... ON CONFLICT DO NOTHING,
+    applied alongside the CREATE TABLE statements for organization.countries/locales/currencies)
+  data:
+    countries:
+      - { country_code: MX, name_es_mx: México, name_en_us: Mexico, status: active }
+      - { country_code: US, name_es_mx: Estados Unidos, name_en_us: United States, status: active }
+    locales:
+      - { locale_code: es-MX, name_es_mx: "Español (México)", name_en_us: "Spanish (Mexico)",
+          is_default: true }
+      - { locale_code: en-US, name_es_mx: "Inglés (Estados Unidos)",
+          name_en_us: "English (United States)", is_default: false }
+    currencies:
+      - { currency_code: MXN, name_es_mx: Peso mexicano, name_en_us: Mexican Peso,
+          minor_unit_digits: 2 }
+      - { currency_code: USD, name_es_mx: "Dólar estadounidense", name_en_us: US Dollar,
+          minor_unit_digits: 2 }
+  application_scope: This is real product/reference data (loaded on every local-profile startup
+    via schema.sql), not a test-only fixture. It is not yet consumed by any backend read API or UI
+    screen (see database-architecture.yaml's TD-DB-003).
+
+initial_diagnostic_services_tests_and_studies_seed:
+  status: not_seeded_this_iteration
+  reason: >
+    The standard's requirement is conditional ("when business allows"). MVP-MOD-002's catalog
+    module is already closed (module_closed, ready_for_functional_validation) with its own
+    capability-package-driven test/panel/analyte model and closeout evidence
+    (08-qa/qa/catalog-test-configuration/MVP-MOD-002-CLOSEOUT.yaml). Introducing a specific,
+    business-real seed list of diagnostic services/tests/studies now, without product/business
+    sign-off on which actual services HOP's first commercial customer will offer, would be
+    fabricated business data presented as authoritative catalog content — assessed as
+    higher-risk than valuable for a platform-level foundation-alignment iteration that must not
+    alter the already-closed catalog module's contract. This is an explicit, disclosed decision,
+    not a silent gap.
+  what_exists_instead: >
+    MVP-MOD-002-QA-001 and prior QA evidence already exercise the catalog lifecycle
+    (define/publish/version test and panel definitions) against representative test data created
+    through the application's own commands during test execution — i.e. the catalog module's
+    correctness is already validated end to end; what is deliberately not done here is publishing a
+    specific business-real seed catalog as permanent reference data.
+  recommended_next_step: >
+    When a real pilot customer's initial test menu is confirmed (commercial/business input
+    required, not an engineering decision), add an idempotent seed script under
+    db/catalog-test-configuration/ following the same INSERT ... ON CONFLICT DO NOTHING pattern
+    established by this iteration's country/locale/currency seed.
+
+seed_execution_mechanism:
+  current: >
+    Idempotent SQL INSERT statements co-located in the same schema.sql file as their table's
+    CREATE TABLE statement, applied automatically whenever the "local" Spring profile initializes
+    its DataSource (see ../technology-architecture/persistence-and-contract-generation-review.md
+    and the 09-operations/runbooks/local-solution-runbook.md startup sequence).
+  not_test_only: >
+    This mechanism runs for any local-profile startup (developer machine, CI, or a future
+    on-premise/team-profile deployment reusing the same schema.sql), not only for the automated
+    test suite — satisfying the standard's "does not basta con scripts de prueba" (not just test
+    scripts) requirement.
+
+closure_gate_compliance: >
+  Country/locale/currency seed data required by the standard's baseline is implemented as real,
+  idempotent product data (not test-only). Initial diagnostic-service/test/study seed data is
+  explicitly and honestly deferred pending real business/commercial input, per the standard's own
+  "when business allows" qualifier, with a concrete recommended next step rather than a silent gap.

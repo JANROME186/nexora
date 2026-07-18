@@ -28,6 +28,8 @@ import { ResultReportsScreen } from "./components/screens/ResultReportsScreen";
 import { CriticalEscalationsScreen } from "./components/screens/CriticalEscalationsScreen";
 import { ResultNotificationsScreen } from "./components/screens/ResultNotificationsScreen";
 import { AdminScopeProvider } from "./state/AdminScopeContext";
+import { SessionProvider } from "./state/SessionContext";
+import { LocaleProvider } from "./i18n/LocaleContext";
 
 function renderScreen(screen: ScreenKey) {
   switch (screen) {
@@ -94,10 +96,14 @@ export function App() {
   const [activeScreen, setActiveScreen] = useState<ScreenKey>("tenants");
 
   return (
-    <AdminScopeProvider>
-      <AppShell activeScreen={activeScreen} onSelectScreen={setActiveScreen}>
-        {renderScreen(activeScreen)}
-      </AppShell>
-    </AdminScopeProvider>
+    <LocaleProvider>
+      <SessionProvider>
+        <AdminScopeProvider>
+          <AppShell activeScreen={activeScreen} onSelectScreen={setActiveScreen}>
+            {renderScreen(activeScreen)}
+          </AppShell>
+        </AdminScopeProvider>
+      </SessionProvider>
+    </LocaleProvider>
   );
 }

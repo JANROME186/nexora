@@ -1,0 +1,40 @@
+package com.nexora.hop.platformfoundation.identityaccess.domain;
+
+/**
+ * Coarse-grained "screen access" permission baseline for the IAM permission model
+ * (enterprise-product-foundation-standard.yaml {@code mandatory_foundations.iam_permission_model}).
+ * <p>
+ * Each value maps 1:1 to an employee-portal AppShell screen: holding the permission means the
+ * user's role(s) may access that screen. This is intentionally coarse — finer per-action
+ * permissions (e.g. distinguishing "view" from "edit" within a screen) are follow-up scope, not
+ * covered here.
+ */
+public enum PermissionCode {
+    SCREEN_TENANTS,
+    SCREEN_LABORATORIES,
+    SCREEN_BRANCHES,
+    SCREEN_USERS,
+    SCREEN_ROLE_ASSIGNMENTS,
+    SCREEN_AUDIT_EVENTS,
+    SCREEN_DIAGNOSTIC_CATALOG,
+    SCREEN_PERSON_SEARCH,
+    SCREEN_PATIENTS,
+    SCREEN_DOCTORS,
+    SCREEN_PATIENT_REGISTRATIONS,
+    SCREEN_RECEPTION,
+    SCREEN_DIAGNOSTIC_ORDERS,
+    SCREEN_CASH_SESSIONS,
+    SCREEN_SALES,
+    SCREEN_BILLING_REQUESTS,
+    SCREEN_SAMPLE_COLLECTION,
+    SCREEN_SAMPLE_LABELING,
+    SCREEN_SAMPLE_RECEPTION,
+    SCREEN_LABORATORY_PROCESSING,
+    SCREEN_TECHNICAL_VALIDATION,
+    SCREEN_MEDICAL_VALIDATION,
+    SCREEN_RESULT_RELEASE,
+    SCREEN_RESULT_SEARCH,
+    SCREEN_RESULT_REPORTS,
+    SCREEN_CRITICAL_ESCALATIONS,
+    SCREEN_RESULT_NOTIFICATIONS
+}

@@ -75,7 +75,7 @@ describe("CriticalEscalationsScreen", () => {
       </ScopedHarness>,
     );
     await user.click(screen.getByRole("button", { name: "Load Open Escalations" }));
-    expect(await screen.findByText(/No open critical escalations/)).toBeInTheDocument();
+    expect(await screen.findByText(/No hay escalaciones críticas abiertas/)).toBeInTheDocument();
   });
 
   it("acknowledges an escalation", async () => {
@@ -100,7 +100,7 @@ describe("CriticalEscalationsScreen", () => {
     await user.type(screen.getByLabelText("Acknowledging User ID"), "user-1");
     await user.click(screen.getByRole("button", { name: "Acknowledge" }));
 
-    expect(await screen.findByText("Escalation acknowledged.")).toBeInTheDocument();
+    expect(await screen.findByText("Escalación confirmada.")).toBeInTheDocument();
     expect(api.acknowledgeCriticalEscalation).toHaveBeenCalledWith(
       "esc-1",
       "user-1",
@@ -127,7 +127,7 @@ describe("CriticalEscalationsScreen", () => {
     await user.click(screen.getByRole("button", { name: "esc-1" }));
     await user.click(screen.getByRole("button", { name: "Escalate" }));
 
-    expect(await screen.findByText("Escalation escalated to next tier.")).toBeInTheDocument();
+    expect(await screen.findByText("Escalación remitida al siguiente nivel.")).toBeInTheDocument();
     expect(api.escalateCriticalEscalation).toHaveBeenCalledWith("esc-1", "current_user");
   });
 
@@ -155,7 +155,7 @@ describe("CriticalEscalationsScreen", () => {
     await user.click(screen.getByRole("button", { name: "esc-1" }));
     await user.click(screen.getByRole("button", { name: "Close Escalation" }));
 
-    expect(await screen.findByText("Escalation closed.")).toBeInTheDocument();
+    expect(await screen.findByText("Escalación cerrada.")).toBeInTheDocument();
     expect(api.closeCriticalEscalation).toHaveBeenCalledWith("esc-1", "current_user");
   });
 });

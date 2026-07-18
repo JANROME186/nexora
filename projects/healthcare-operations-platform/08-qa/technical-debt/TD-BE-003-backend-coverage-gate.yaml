@@ -63,9 +63,14 @@ remediation:
     - Backend line coverage reaches at least 80% before final project closure or commercial GA.
     - Changed backend code does not reduce existing coverage.
   latest_evidence:
-    backlog_item: MVP-MOD-005-CLOSEOUT
-    evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
+    backlog_item: HOP-ENT-FOUND-001
+    evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
     status: materially_reduced
-    current_line_coverage_percent: 67.47
-    next_iteration_minimum_line_coverage_percent: 67.47
+    current_line_coverage_percent: 77.32
+    next_iteration_minimum_line_coverage_percent: 77.32
     target_line_coverage_percent: 80
+    note: >-
+      This item file historically lagged the authoritative technical-debt-index.yaml
+      current_stack_baselines figure across several intervening backlog items; updated here to the
+      current 77.32% measured during HOP-ENT-FOUND-001. See technical-debt-index.yaml for the
+      rolling authoritative figure going forward.

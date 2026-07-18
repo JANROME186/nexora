@@ -35,25 +35,28 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 76.99
-        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-FE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 76.99
+        current_line_coverage_percent: 77.32
+        source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 77.32
         final_closure_target_percent: 80
         correction_note: >-
-          MVP-MOD-007-FE-001 added backend adapters (result search, report generation, notification
-          history) to close a contract gap left by MVP-MOD-007-BE-001/BE-002; JaCoCo line coverage
-          moved from 76.93% to 76.99%. Future backend iterations must not regress below 76.99% and
-          must keep moving toward the 80% final closure target.
+          HOP-ENT-FOUND-001 raised backend line coverage from 76.99% to 77.32% (+0.33pp) while
+          adding the IAM permission catalog, i18n MessageSource baseline, TD-BE-009 branch
+          versioning and the actor-attributed role-assignment fix; every touched/added class is at
+          or near 100% coverage. This is below the standard's preferred 3-5pp target; the shortfall
+          is justified in enterprise-foundation-alignment.yaml (remaining gap is concentrated in
+          pre-existing, unrelated JDBC repositories outside this iteration's scope). Future backend
+          iterations must not regress below 77.32% and must keep moving toward the 80% final
+          closure target.
       frontend_typescript_web:
-        current_line_coverage_percent: 83.98
-        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-FE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 83.98
+        current_line_coverage_percent: 84.42
+        source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 84.42
         final_closure_target_percent: 80
         correction_note: >-
-          MVP-MOD-007-FE-001 raised employee-portal line coverage from the 82.69% floor (set by
-          MVP-MOD-005-CLOSEOUT) to 83.98% via the four new Results and Digital Delivery screens and
-          their tests; already above the 80% final-closure target and must not regress below
-          83.98%.
+          HOP-ENT-FOUND-001 raised employee-portal line coverage from 83.98% to 84.42% (+0.44pp)
+          via the new LocaleContext/SessionContext/permissions modules and their tests; already
+          above the 80% final-closure target and must not regress below 84.42%.
       mobile_typescript_foundation:
         current_line_coverage_percent: not_measured
         source_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-003-validation.yaml
@@ -199,13 +202,13 @@ entries:
     remediation_strategy: gradual_when_bcm_org_007_schedule_management_is_modeled
   - id: TD-BE-009
     title: Branch snapshot version is a fixed placeholder, not a real optimistic-concurrency counter
-    status: open
+    status: closed
     risk_level: low
     blocking: false
     source_backlog_item: MVP-MOD-004-BE-001
     affected_area: organization_management_branch_versioning
     file: 08-qa/technical-debt/TD-BE-009-branch-snapshot-version-placeholder.yaml
-    remediation_strategy: gradual_when_organization_management_branch_lifecycle_is_next_touched
+    remediation_strategy: closed_by_HOP_ENT_FOUND_001_branch_gained_a_real_version_field_and_column
   - id: TD-BE-010
     title: Diagnostic order cancellation override uses order-status as a proxy for downstream sample/processing state
     status: open
@@ -289,13 +292,13 @@ entries:
     remediation_strategy: gradual_when_backend_web_infrastructure_is_next_touched
   - id: TD-I18N-002
     title: Complete full message-catalog and localization-library adoption beyond the HOP-QA-ALIGN-005 baseline
-    status: open
+    status: materially_reduced
     risk_level: medium
     blocking: false
     source_backlog_item: HOP-QA-ALIGN-005
     affected_area: backend_frontend_mobile_messages_and_magic_values
     file: 08-qa/technical-debt/TD-I18N-002-full-localization-adoption.yaml
-    remediation_strategy: gradual_when_a_second_locale_or_structured_error_consumer_is_actually_needed
+    remediation_strategy: materially_reduced_by_HOP_ENT_FOUND_001_real_locale_keyed_catalogs_and_backend_MessageSource_baseline_established_remaining_modules_and_screens_tracked
   - id: TD-FE-006
     title: Employee portal is missing dedicated Appointment Scheduling, Admission Management and Quotation Management UI
     status: open
@@ -332,3 +335,120 @@ entries:
     affected_area: employee_portal_laboratory_result_type
     file: 08-qa/technical-debt/TD-FE-007-laboratoryresult-wire-shape-mismatch.yaml
     remediation_strategy: gradual_when_a_future_backlog_item_touches_laboratoryOperationsApi_or_its_screens
+  - id: TD-IAM-001
+    title: Backend has no authenticated request context or server-side authorization enforcement
+    status: open
+    risk_level: high
+    blocking: false
+    source_backlog_item: HOP-ENT-FOUND-001
+    affected_area: backend_wide_request_authentication_and_authorization
+    file: 08-qa/technical-debt/TD-IAM-001-backend-authentication-missing.yaml
+    remediation_strategy: dedicated_backend_authentication_backlog_item_before_COM-MOD-009
+  - id: TD-IAM-002
+    title: Permission model is screen-level only; per-action/per-API-operation granularity and the
+      domain.resource.action.scope grammar remain unmodeled
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: HOP-ENT-FOUND-001
+    affected_area: iam_permission_granularity
+    file: 08-qa/technical-debt/TD-IAM-002-permission-granularity-gap.yaml
+    remediation_strategy: gradual_when_a_future_backlog_item_adds_or_touches_a_protected_action
+  - id: TD-DB-001
+    title: resultsanddigitaldelivery, documentmanagement and notificationmanagement have no
+      persistent (Jdbc) schema/repository - in-memory adapters only
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: HOP-ENT-FOUND-001
+    affected_area: results_and_digital_delivery_persistence
+    file: 08-qa/technical-debt/TD-DB-001-missing-persistence-results-digital-delivery.yaml
+    remediation_strategy: gradual_when_a_future_MVP-MOD-007_related_backlog_item_requires_data_to_survive_restart
+  - id: TD-DB-002
+    title: Diagnostic catalog business tables are not yet translatable (single name column, no
+      es-MX/en-US variants)
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: HOP-ENT-FOUND-001
+    affected_area: catalog_test_configuration_localization
+    file: 08-qa/technical-debt/TD-DB-002-catalog-not-translatable.yaml
+    remediation_strategy: gradual_when_catalog_test_configuration_is_next_touched_by_a_code_changing_backlog_item
+  - id: TD-DB-003
+    title: No backend read API exists yet for the new country/locale/currency reference tables
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: HOP-ENT-FOUND-001
+    affected_area: reference_data_api
+    file: 08-qa/technical-debt/TD-DB-003-reference-data-api-missing.yaml
+    remediation_strategy: implement_when_a_screen_or_client_first_needs_country_locale_currency_options
+  - id: TD-DB-004
+    title: Tenant scoping is enforced by application-level WHERE clauses, not PostgreSQL native
+      row-level security policies
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: HOP-ENT-FOUND-001
+    affected_area: tenant_isolation
+    file: 08-qa/technical-debt/TD-DB-004-no-native-row-level-security.yaml
+    remediation_strategy: release_readiness_hardening_backlog_item
+  - id: TD-UX-001
+    title: No shared Button/FormField/DataTable component library; each of the 26 employee-portal
+      screens implements its own markup
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: HOP-ENT-FOUND-001
+    affected_area: employee_portal_component_reuse
+    file: 08-qa/technical-debt/TD-UX-001-no-shared-component-library.yaml
+    remediation_strategy: gradual_when_a_future_screen_backlog_item_next_touches_multiple_screens
+  - id: TD-UX-002
+    title: No formalized responsive breakpoints/layout system; no automated accessibility check
+      wired into npm run quality
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: HOP-ENT-FOUND-001
+    affected_area: employee_portal_responsive_and_accessibility_tooling
+    file: 08-qa/technical-debt/TD-UX-002-no-responsive-accessibility-automation.yaml
+    remediation_strategy: next_frontend_quality_profile_hardening_backlog_item
+  - id: TD-UX-003
+    title: No mobile layout system defined yet (no renderer stack selected)
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: HOP-ENT-FOUND-001
+    affected_area: mobile_app_layout
+    file: 08-qa/technical-debt/TD-UX-003-no-mobile-layout-system.yaml
+    remediation_strategy: after_TD-APP-001_renderer_selection
+  - id: TD-STACK-002
+    title: JPA/Hibernate adoption evaluated and deferred; JdbcTemplate-behind-ports remains the
+      accepted persistence baseline
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: HOP-ENT-FOUND-001
+    affected_area: backend_persistence_strategy
+    file: 08-qa/technical-debt/TD-STACK-002-jpa-hibernate-evaluated-deferred.yaml
+    remediation_strategy: revisit_if_a_future_module_needs_complex_object_graph_persistence
+  - id: TD-STACK-003
+    title: No OpenAPI-Generator-based client/server generation; contracts and hand-written
+      controllers/clients kept in sync by convention and manual review
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: HOP-ENT-FOUND-001
+    affected_area: contract_first_generation
+    file: 08-qa/technical-debt/TD-STACK-003-no-contract-generation-tooling.yaml
+    remediation_strategy: evaluate_client_generation_first_before_server_generation
+  - id: TD-STACK-004
+    title: Duplicate, manually-synced Docker-init copy of platform-foundation schema.sql can
+      silently drift from the authoritative Spring Boot schema source
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: HOP-ENT-FOUND-001
+    affected_area: local_postgres_schema_initialization
+    file: 08-qa/technical-debt/TD-STACK-004-duplicate-docker-init-schema-file.yaml
+    remediation_strategy: gradual_when_local_runtime_infrastructure_is_next_touched

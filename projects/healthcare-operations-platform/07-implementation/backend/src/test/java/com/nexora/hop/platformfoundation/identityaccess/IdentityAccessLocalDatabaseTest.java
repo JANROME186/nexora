@@ -46,7 +46,7 @@ class IdentityAccessLocalDatabaseTest {
         mockMvc.perform(post("/api/identity/users/{userId}/role-assignments", userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                        {"roleCode":"tenant-admin","scope":{"type":"tenant","id":"%s"}}
+                        {"roleCode":"tenant-admin","scope":{"type":"tenant","id":"%s"},"actorUserId":"tester-1"}
                         """.formatted(tenantId)))
                 .andExpect(status().isNoContent());
 
@@ -60,9 +60,15 @@ class IdentityAccessLocalDatabaseTest {
                 Integer.class,
                 userId,
                 "tenant-admin");
+        String createdBy = jdbcTemplate.queryForObject(
+                "select created_by from identity.role_assignments where user_id = ? and role_code = ?",
+                String.class,
+                userId,
+                "tenant-admin");
 
         assertThat(users).isOne();
         assertThat(roleAssignments).isOne();
+        assertThat(createdBy).isEqualTo("tester-1");
     }
 
     private JsonNode postJson(String path, String json) throws Exception {
