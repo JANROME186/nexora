@@ -30,6 +30,8 @@ policy:
     target_line_coverage_percent: 80
     previous_iteration_coverage_is_hard_floor: true
     below_target_requires_improvement_each_iteration: true
+    below_target_minimum_relevant_iteration_improvement_percentage_points: 3
+    below_target_preferred_relevant_iteration_improvement_percentage_points: 5
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
@@ -330,4 +332,3 @@ entries:
     affected_area: employee_portal_laboratory_result_type
     file: 08-qa/technical-debt/TD-FE-007-laboratoryresult-wire-shape-mismatch.yaml
     remediation_strategy: gradual_when_a_future_backlog_item_touches_laboratoryOperationsApi_or_its_screens
-

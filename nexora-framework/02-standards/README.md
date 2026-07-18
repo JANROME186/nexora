@@ -13,8 +13,9 @@ Start with:
 - `standards/product-marketplace-standard.yaml`
 - `standards/business-requirement-versioning-standard.yaml`
 - `standards/open-source-first-security-quality-standard.yaml`
+- `standards/enterprise-product-foundation-standard.yaml`
 - `standards/engineering-excellence-prioritization-standard.yaml`
 - `standards/integrated-local-solution-runbook-standard.yaml`
 - `standards/framework-feedback-continuous-improvement-standard.yaml`
 
-These files control project structure, documentation format, agent-agnostic execution, model-driven engineering, capability packages, open data ingestion, product marketplace extensibility, business requirement change impact analysis, open-source-first technology selection, engineering excellence prioritization, integrated local solution runbooks, continuous security quality gates and framework feedback for continuous improvement.
+These files control project structure, documentation format, agent-agnostic execution, model-driven engineering, capability packages, open data ingestion, product marketplace extensibility, business requirement change impact analysis, open-source-first technology selection, enterprise product foundations, engineering excellence prioritization, integrated local solution runbooks, continuous security quality gates and framework feedback for continuous improvement.

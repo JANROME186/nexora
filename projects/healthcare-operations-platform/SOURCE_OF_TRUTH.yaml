@@ -22,6 +22,7 @@ sources:
   product_marketplace_standard: ../../nexora-framework/02-standards/standards/product-marketplace-standard.yaml
   business_requirement_versioning_standard: ../../nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
   open_source_first_security_quality_standard: ../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  enterprise_product_foundation_standard: ../../nexora-framework/02-standards/standards/enterprise-product-foundation-standard.yaml
   integrated_local_solution_runbook_standard: ../../nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml
   framework_feedback_continuous_improvement_standard: ../../nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
   business_requirement_impact_prompts_yaml: ../../nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
@@ -246,6 +247,8 @@ sources:
   commercial_product_backlog_yaml: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.md
   quality_alignment_backlog_yaml: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
+  enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.md
+  enterprise_foundation_alignment_backlog_yaml: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   quality_alignment_gap_analysis: 08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.md
   quality_alignment_gap_analysis_yaml: 08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.yaml
   engineering_excellence_prioritization: 08-qa/qa/quality-alignment/HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.md
@@ -339,11 +342,13 @@ rules:
   - HOP must validate requester-proposed and current stack choices against current stable or LTS open source market practice before release-oriented decisions.
   - HOP must maintain stack-specific quality toolchain baselines and register non-blocking tooling gaps as technical debt.
   - HOP code-changing backlog items must produce security quality evidence with applicable tests, best-practice and coding-standard checks, duplicate-code checks, complexity checks, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerability checks across all severities, secrets scan, coverage, message externalization/i18n review and DAST when runnable surfaces exist.
-  - HOP functional development was unblocked by HOP-QA-ALIGN-CLOSEOUT; MVP-MOD-005 and MVP-MOD-006 (through MVP-MOD-006-CLOSEOUT) are closed, MVP-MOD-007-DEF capability package models are modeled, MVP-MOD-007-BE-001 backend compilation is closed, MVP-MOD-007-BE-002 backend custom rules are implemented with backend coverage preserved and TD-BE-012 static-analysis debt burned down, MVP-MOD-007-FE-001 employee-portal UI is closed (a real frontend/backend contract gap left by BE-001/BE-002 was closed end to end; frontend coverage 82.69% -> 83.98%, backend coverage 76.93% -> 76.99%; TD-FE-007 registered), and the current active backlog item is MVP-MOD-007-PORTAL-001.
+  - HOP functional development was unblocked by HOP-QA-ALIGN-CLOSEOUT; MVP-MOD-005 and MVP-MOD-006 (through MVP-MOD-006-CLOSEOUT) are closed, MVP-MOD-007-DEF capability package models are modeled, MVP-MOD-007-BE-001 backend compilation is closed, MVP-MOD-007-BE-002 backend custom rules are implemented with backend coverage preserved and TD-BE-012 static-analysis debt burned down, MVP-MOD-007-FE-001 employee-portal UI is closed (a real frontend/backend contract gap left by BE-001/BE-002 was closed end to end; frontend coverage 82.69% -> 83.98%, backend coverage 76.93% -> 76.99%; TD-FE-007 registered), and the current active backlog item is HOP-ENT-FOUND-001. MVP-MOD-007-PORTAL-001 is paused until enterprise product foundations are aligned.
   - HOP agents must execute at least one technical-debt remediation or material reduction before feature implementation in each code-changing backlog item unless no open debt exists.
   - HOP technical-debt burn-down must become stricter as the project advances; final project closure requires no open technical debt.
   - HOP line coverage target is 80 percent for every applicable delivered stack.
   - If a stack is below 80 percent during an intermediate iteration, the previous measured coverage is the hard lower bound and must not decrease.
+  - If a changed stack remains below 80 percent, each relevant iteration must target a 3 to 5 percentage point improvement or document why that is not achievable with immediate coverage debt.
+  - HOP must satisfy enterprise product foundations before customer-facing portal/app expansion continues: es-MX/en-US localization, language switching, IAM permission mapping, dynamic menus/actions, login/session context, product database deliverables, UX/UI design baseline, code documentation, persistence architecture and OpenAPI/contract-first generation review.
   - HOP cannot be marked commercially complete, GA-ready or finally closed while any applicable stack is below 80 percent line coverage.
   - HOP engineering excellence findings must be classified as P0 minimum, P1 technical-debt backlog or P2 contextual/desirable before deciding whether they block delivery.
   - HOP must maintain 09-operations/runbooks/local-solution-runbook.md and .yaml as the single integrated local startup, validation and shutdown guide for human reviewers.

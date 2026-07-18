@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 0.96.0
-current_phase: MVP-MOD-007 Results and Digital Delivery (MVP-MOD-007-FE-001 closed; MVP-MOD-007-PORTAL-001 ready to start)
+current_phase: Enterprise Product Foundation Alignment (MVP-MOD-007-FE-001 closed; MVP-MOD-007-PORTAL-001 paused until HOP-ENT-FOUND-001 closes)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -170,7 +170,8 @@ completed_deliverables:
     adapters end to end; frontend coverage 82.69% -> 83.98%, backend coverage 76.93% -> 76.99%;
     TD-FE-007 registered for a pre-existing, out-of-scope LaboratoryResult wire-shape mismatch)
 next_deliverables:
-  - MVP-MOD-007-PORTAL-001 Compile patient and doctor released result views
+  - HOP-ENT-FOUND-001 Align HOP enterprise product foundations before continuing portals
+  - Resume MVP-MOD-007-PORTAL-001 Compile patient and doctor released result views after HOP-ENT-FOUND-001 closes
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -183,9 +184,9 @@ next_deliverables:
   - Compile generated outputs and implement custom rules in dependency order
 development_readiness:
   status: ready
-  ready_to_start_module: MVP-MOD-007
-  in_progress_module: MVP-MOD-007
-  next_backlog_item: MVP-MOD-007-PORTAL-001
+  ready_to_start_module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  in_progress_module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  next_backlog_item: HOP-ENT-FOUND-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -203,6 +204,11 @@ development_readiness:
   business_requirement_to_yaml_prompt_ready: true
   business_requirement_versioning_ready: true
   open_source_first_security_quality_ready: true
+  enterprise_product_foundation_standard_ready: true
+  enterprise_product_foundation_alignment_required: true
+  enterprise_product_foundation_alignment_status: active
+  enterprise_product_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
+  paused_functional_backlog_item: MVP-MOD-007-PORTAL-001
   security_quality_gate_prompts_ready: true
   technology_debt_backlog_ready: true
   client_stack_market_validation_ready: true
@@ -229,6 +235,8 @@ development_readiness:
   coverage_policy:
     target_line_coverage_percent: 80
     previous_iteration_coverage_is_hard_floor: true
+    below_80_minimum_relevant_iteration_improvement_percentage_points: 3
+    below_80_preferred_relevant_iteration_improvement_percentage_points: 5
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
@@ -263,8 +271,8 @@ project_structure:
   implementation_folder: 07-implementation
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
-  current_module: MVP-MOD-007
-  current_backlog_item: MVP-MOD-007-PORTAL-001
+  current_module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  current_backlog_item: HOP-ENT-FOUND-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -527,13 +535,15 @@ commercial_product_progress:
   status: active
   backlog: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
+  enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
-  current_iteration: MVP-MOD-007
-  active_module: MVP-MOD-007 Results and Digital Delivery
-  active_backlog_item: MVP-MOD-007-PORTAL-001
+  current_iteration: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  active_module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT Enterprise Product Foundation Alignment
+  active_backlog_item: HOP-ENT-FOUND-001
   quality_alignment_module_status: closed
-  paused_functional_module: null
-  paused_functional_backlog_item: null
+  enterprise_foundation_alignment_status: active
+  paused_functional_module: MVP-MOD-007 Results and Digital Delivery
+  paused_functional_backlog_item: MVP-MOD-007-PORTAL-001
   primary_development_unit: business_capability_package
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.yaml
   capability_package_progress:

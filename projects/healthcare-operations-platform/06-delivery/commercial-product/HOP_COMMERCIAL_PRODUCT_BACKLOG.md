@@ -38,9 +38,10 @@ Do not manually write repetitive artifacts that must come from the model:
 HOP has closed `MVP-MOD-005 Cashier and Billing Request` in full (`MVP-MOD-005-DEF` through
 `MVP-MOD-005-CLOSEOUT`), `MVP-MOD-006 Laboratory Workflow` in full (`MVP-MOD-006-DEF` through
 `MVP-MOD-006-CLOSEOUT`) and `HOP-QUALITY-ALIGNMENT` (`HOP-QA-ALIGN-001` through
-`HOP-QA-ALIGN-CLOSEOUT`) is closed. `MVP-MOD-007-DEF` closed the Results and Digital Delivery
-capability package models (definition only, no code implemented). `MVP-MOD-007-BE-001` closed
-the backend compilation baseline. Functional development continues with `MVP-MOD-007-BE-002`.
+`HOP-QA-ALIGN-CLOSEOUT`) is closed. `MVP-MOD-007-DEF`, `MVP-MOD-007-BE-001`,
+`MVP-MOD-007-BE-002` and `MVP-MOD-007-FE-001` are closed. Functional development is paused before
+`MVP-MOD-007-PORTAL-001` so HOP can complete `HOP-ENT-FOUND-001 Enterprise Product Foundation
+Alignment`.
 
 The product must now move from MVP foundation to commercial readiness through an ordered backlog. Each module must be implemented, validated and closed before dependent modules begin, unless the dependency is explicitly mocked in that module definition.
 
@@ -134,16 +135,17 @@ Outcome: imaging operations and AI-assisted overlays can be commercialized as op
 | 5 | `MVP-MOD-005 Cashier and Billing Request` | REL-001 | Manage cash sessions, payments, sales and billing request boundaries. |
 | 6 | `MVP-MOD-006 Laboratory Workflow` | REL-001 | Manage sample collection, labeling, reception, processing and validation. |
 | 7 | `MVP-MOD-007 Results and Digital Delivery` | REL-001 | Generate reports and deliver released results. |
-| 8 | `MVP-MOD-008 Integration and Migration Readiness` | REL-001 | Provide adapter contracts, import validation, migration dry runs and API governance. |
-| 9 | `COM-MOD-009 Patient and Doctor Portals` | REL-002 | Provide commercial patient and doctor digital channels. |
-| 10 | `COM-MOD-010 Inventory and Internal Quality` | REL-002 | Add inventory, reagent, equipment, maintenance and internal quality controls. |
-| 11 | `COM-MOD-011 Public Website and Digital Growth` | REL-002 | Provide public service discovery and conversion flows. |
-| 12 | `COM-MOD-012 Platform Hardening and SaaS Operations` | REL-002 | Harden deployment, observability, support, backup, restore and tenant operations. |
-| 13 | `COM-MOD-013 Advanced Quality and Compliance` | REL-003 | Add external quality, CAPA, audit management and compliance workflows. |
-| 14 | `COM-MOD-014 Imaging Operations` | REL-004 | Add imaging workflows and DICOM/PACS adapter boundaries. |
-| 15 | `COM-MOD-015 AI Overlay` | REL-004 | Add assistant, OCR, summary, semantic search and retrieval capabilities with clinical guardrails. |
-| 16 | `COM-MOD-016 Commercial Launch and Customer Enablement` | REL-003 | Prepare onboarding, support, training, release governance and launch assets. |
-| 17 | `COM-MOD-017 Product Marketplace and Extension Packaging` | REL-003 | Publish, sell, entitle, install, activate, upgrade and retire optional product packages. |
+| 8 | `HOP-ENTERPRISE-FOUNDATION-ALIGNMENT Enterprise Product Foundation Alignment` | REL-001 | Align localization, IAM, session, database, UX/UI, documentation, persistence, contract generation, debt and coverage before customer-facing portals. |
+| 9 | `MVP-MOD-008 Integration and Migration Readiness` | REL-001 | Provide adapter contracts, import validation, migration dry runs and API governance. |
+| 10 | `COM-MOD-009 Patient and Doctor Portals` | REL-002 | Provide commercial patient and doctor digital channels. |
+| 11 | `COM-MOD-010 Inventory and Internal Quality` | REL-002 | Add inventory, reagent, equipment, maintenance and internal quality controls. |
+| 12 | `COM-MOD-011 Public Website and Digital Growth` | REL-002 | Provide public service discovery and conversion flows. |
+| 13 | `COM-MOD-012 Platform Hardening and SaaS Operations` | REL-002 | Harden deployment, observability, support, backup, restore and tenant operations. |
+| 14 | `COM-MOD-013 Advanced Quality and Compliance` | REL-003 | Add external quality, CAPA, audit management and compliance workflows. |
+| 15 | `COM-MOD-014 Imaging Operations` | REL-004 | Add imaging workflows and DICOM/PACS adapter boundaries. |
+| 16 | `COM-MOD-015 AI Overlay` | REL-004 | Add assistant, OCR, summary, semantic search and retrieval capabilities with clinical guardrails. |
+| 17 | `COM-MOD-016 Commercial Launch and Customer Enablement` | REL-003 | Prepare onboarding, support, training, release governance and launch assets. |
+| 18 | `COM-MOD-017 Product Marketplace and Extension Packaging` | REL-003 | Publish, sell, entitle, install, activate, upgrade and retire optional product packages. |
 
 ## Execution Contract
 
@@ -182,6 +184,8 @@ Commercial completion and GA readiness additionally require:
 - No open technical debt in `08-qa/technical-debt/`.
 - At least 80% line coverage for every applicable delivered stack.
 - No coverage regression below the previous measured iteration baseline during intermediate work.
+- A 3 to 5 percentage point line-coverage improvement target for relevant iterations when a changed stack remains below 80%, or explicit justification plus immediate coverage debt.
+- Enterprise product foundations satisfied before customer-facing portal/app expansion: base locales `es-MX` and `en-US`, language switching, IAM permissions, dynamic menus/actions, login/session context, database deliverables, UX/UI design baseline, code documentation, persistence architecture and OpenAPI/contract-first generation review.
 - Every backlog closure has a verifiable closure audit: YAML parse, stale-pointer sweep,
   evidence-state sweep, `git diff --check`, command-output metrics matching evidence,
   synchronized registries, commit hash and clean `git status --short`.
@@ -201,8 +205,8 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-`MVP-MOD-007-BE-001` (result report and document generation backend compilation) is closed.
-Continue with `MVP-MOD-007-BE-002` from:
+`MVP-MOD-007-FE-001` is closed. Pause `MVP-MOD-007-PORTAL-001` and continue with
+`HOP-ENT-FOUND-001` from:
 
 `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
 

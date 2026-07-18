@@ -51,7 +51,8 @@ roadmap:
   module: MVP-MOD-007
   release: REL-001
   package_status: modeled
-  next_backlog_item: MVP-MOD-007-PORTAL-001
+  next_backlog_item: HOP-ENT-FOUND-001
+  paused_functional_backlog_item: MVP-MOD-007-PORTAL-001
 
 dependencies:
   required_capabilities:
@@ -91,4 +92,3 @@ required_artifacts:
   - generation-plan.yaml
   - traceability.yaml
   - README.md
-

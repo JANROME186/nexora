@@ -4,19 +4,19 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `MVP-MOD-007-PORTAL-001`.
+Current active backlog item: `HOP-ENT-FOUND-001`.
 
 HOP Enterprise Quality Alignment (`HOP-QA-ALIGN-001` through `HOP-QA-ALIGN-CLOSEOUT`) is closed.
 
-Paused functional backlog item: none — `MVP-MOD-005 Cashier and Billing Request` is closed in full
+Paused functional backlog item: `MVP-MOD-007-PORTAL-001` — `MVP-MOD-005 Cashier and Billing Request` is closed in full
 (`MVP-MOD-005-DEF` through `MVP-MOD-005-CLOSEOUT`); `MVP-MOD-006 Laboratory Workflow` is closed in
 full (`MVP-MOD-006-DEF` through `MVP-MOD-006-CLOSEOUT`); `MVP-MOD-007-DEF` closed the Results and
 Digital Delivery capability package models (definition only, no code implemented);
 `MVP-MOD-007-BE-001` closed the backend compilation baseline, `MVP-MOD-007-BE-002` closed the
 backend custom rules implementation, `MVP-MOD-007-FE-001` closed the employee-portal UI (also
 closing a real frontend/backend contract gap left by BE-001/BE-002 by adding the missing search/
-report-generation/notification-history REST adapters end to end), and `MVP-MOD-007-PORTAL-001` is
-active.
+report-generation/notification-history REST adapters end to end), and `HOP-ENT-FOUND-001` is
+active to align enterprise product foundations before portal work resumes.
 
 ## Cashier And Billing Request Smoke
 
@@ -26,6 +26,9 @@ For `MVP-MOD-005-FE-001`, use the employee portal's Cash Sessions, Sales and Bil
 to drive the same flow end to end from the UI instead of raw HTTP calls.
 
 Quality alignment backlog: `06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml`.
+
+Enterprise foundation alignment backlog:
+`06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml`.
 
 ## Prerequisites
 

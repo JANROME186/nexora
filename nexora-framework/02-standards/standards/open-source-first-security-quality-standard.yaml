@@ -1044,6 +1044,8 @@ default_thresholds:
     changed_code_must_not_reduce_existing_coverage: true
     previous_iteration_coverage_is_hard_floor: true
     below_80_requires_improvement_each_iteration: true
+    below_80_minimum_improvement_per_relevant_iteration_percentage_points: 3
+    below_80_preferred_improvement_per_relevant_iteration_percentage_points: 5
     final_project_closure_requires_minimum_line_coverage: 80
     coverage_exception_allowed_for_iteration: true
     coverage_exception_allowed_for_final_project_closure: false
@@ -1052,7 +1054,11 @@ default_thresholds:
       recorded and the previous iteration baseline is preserved or improved. Coverage must never
       decrease below the previous iteration baseline. Final project closure, release readiness and
       commercial GA require at least 80% line coverage for each applicable delivered stack, unless
-      a stack is explicitly not applicable.
+      a stack is explicitly not applicable. When a relevant changed stack remains below 80%, the
+      iteration must target a 3 to 5 percentage point line-coverage improvement. A smaller
+      improvement requires explicit justification, maximum meaningful in-scope tests and an
+      immediate coverage debt item assigned to the next relevant backlog; a symbolic 0.01 point
+      increase is not sufficient quality progress by itself.
   license_policy:
     restricted_license_requires_review: true
     proprietary_dependency_requires_exception_adr: true

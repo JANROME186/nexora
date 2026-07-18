@@ -5,7 +5,7 @@
 **Machine-readable source:** `security-quality-gate-prompts.yaml`
 **Version:** `1.5.0`
 
-Use these prompts with the Open Source First Security and Quality Standard and the Engineering Excellence Prioritization Standard.
+Use these prompts with the Open Source First Security and Quality Standard, the Enterprise Product Foundation Standard and the Engineering Excellence Prioritization Standard.
 
 ## Client Proposed Stack Market Validation
 
@@ -82,6 +82,7 @@ checks:
 - Secrets scan.
 - Coverage.
 - Message externalization, i18n and magic-string review.
+- Enterprise product foundation review: localization, IAM permissions, dynamic menus/actions, login/session context, database deliverables, UX/UI, code documentation, persistence architecture and OpenAPI/contract-first generation.
 - Contract quality.
 - DAST when a runnable web/API surface exists.
 - Container/IaC scan when deployment assets change.
@@ -100,7 +101,7 @@ Write evidence under:
 
 Do not close the backlog when vulnerabilities of any severity, secure-code findings, secrets,
 failing tests, missing duplicate/complexity/OWASP analysis, coverage below the previous iteration baseline,
-missing debt-first execution, hard-coded messages/magic strings or unexecuted mandatory gates remain
+missing enterprise foundation evidence, missing debt-first execution, hard-coded messages/magic strings or unexecuted mandatory gates remain
 unresolved. Do not use
 `passed_with_execution_limitation` or `closed_with_execution_limitation` as final states. Use
 `blocked_by_environment` or `ready_for_external_validation`, keep `next_backlog_item` unchanged,
@@ -137,6 +138,10 @@ project is marked finished, commercially complete or GA-ready.
 The target line coverage is `80%` for every applicable delivered stack. Intermediate backlog items
 may remain below 80% only when coverage does not decrease below the previous iteration baseline and
 the path to 80% is tracked as technical debt.
+
+When a changed stack remains below 80%, the iteration must target a 3 to 5 percentage point line
+coverage improvement. Smaller improvements require explicit justification, maximum meaningful
+in-scope tests and immediate coverage debt assigned to the next relevant backlog.
 
 Each evidence package must record:
 

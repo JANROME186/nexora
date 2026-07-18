@@ -45,6 +45,26 @@ an intermediate iteration, the previous measured coverage becomes the lower boun
 The full product cannot be marked complete while any stack is below 80% or any technical debt
 remains open.
 
+When a changed stack remains below 80%, the agent must target a 3 to 5 percentage point line
+coverage improvement. Smaller improvements require explicit justification, maximum meaningful
+in-scope tests and immediate coverage debt assigned to the next relevant backlog.
+
+## Enterprise Product Foundation Rule
+
+Before customer-facing portal/app work continues, HOP must satisfy the enterprise foundation
+baseline:
+
+- `es-MX` and `en-US` localization resources and language-switch mechanism.
+- No new hard-coded user-visible text in web or app code.
+- IAM permission mapping for every feature, menu item, API operation and sensitive action.
+- Dynamic menus and actions based on the authenticated user's roles, permissions, tenant, branch and entitlements.
+- Login, logout, session expiration and authenticated session context.
+- Product database architecture, initialization, seed data, dictionary and normalization review.
+- UX/UI look and feel baseline for web and app.
+- Code documentation standard, including Javadoc for Java public/shared contracts.
+- Persistence review for JPA/Hibernate, repository ports, raw SQL boundaries and migrations.
+- OpenAPI/contract-first generation review for backend, frontend and app.
+
 ## Verifiable Closure Rule
 
 An agent must not say a HOP backlog item is done, finished, closed or ready for the next backlog
@@ -79,6 +99,7 @@ Load these first:
 - `../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml`
 - `../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml`
 - `../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
+- `../../../../nexora-framework/02-standards/standards/enterprise-product-foundation-standard.yaml`
 - `../../../../nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
 - `../../BUSINESS_REQUIREMENT.md`
 - `../../PROJECT_BRIEF.yaml`
@@ -89,6 +110,7 @@ Load these first:
 - `../mvp/healthcare-operations-platform-mvp-framework.yaml`
 - `HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
 - `HOP_QUALITY_ALIGNMENT_BACKLOG.yaml`
+- `HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml`
 
 ## Prompt 1: Select Next Executable Backlog Item
 
@@ -171,6 +193,7 @@ Before feature work, load ../../08-qa/technical-debt/technical-debt-index.yaml a
 Generate repetitive platform artifacts from the models before writing custom code.
 Keep changes scoped to the selected backlog item.
 Externalize new or changed user-visible text, validation copy, error prose, status labels, error codes and repeated magic values through backend message bundles, frontend/mobile localization resources, constants, configuration or policy providers as appropriate.
+Enforce enterprise foundations for the selected backlog item: map features/actions/menu items/API operations to IAM permissions, use authenticated session context instead of static users, define or update dynamic menus/actions, keep database deliverables current, follow UX/UI design-system artifacts, document public/shared contracts, keep persistence decoupled and use OpenAPI/contract-first generation where applicable.
 Add or update only generated tests or custom rule tests appropriate to the backend, web, mobile, portal, integration or operations scope.
 Run applicable open source security quality gates for the changed stack, including tests, build, coverage, best practices, coding standards, duplicate code, complexity, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerability checks across all severities, secrets scan, message externalization/i18n review and DAST when a runnable surface exists.
 If Maven, Java, Node, npm, native packages, Docker, database services, network access or audit endpoints are missing or blocked, first attempt documented remediation or request approval. If still unavailable, mark the backlog `blocked_by_environment` or `ready_for_external_validation`, keep `next_backlog_item` on the current backlog item, write exact remediation commands, and stop. Manual source review is only a compensating control and cannot replace executable gates.
@@ -212,17 +235,17 @@ Expected result:
 
 Continue with:
 
-- Module: `MVP-MOD-007 Results and Digital Delivery`
-- Backlog item: `MVP-MOD-007-PORTAL-001`
-- Paused functional backlog item: none — `MVP-MOD-007-FE-001` closed after closing a real
-  frontend/backend contract gap (missing search/report-generation/notification-history REST
-  adapters) end to end
-- Folder: `07-implementation/`
+- Module: `HOP-ENTERPRISE-FOUNDATION-ALIGNMENT`
+- Backlog item: `HOP-ENT-FOUND-001`
+- Paused functional backlog item: `MVP-MOD-007-PORTAL-001`
+- Folder: project root under `projects/healthcare-operations-platform/`
 
 Mandatory setup for this backlog:
 
-- Review `08-qa/technical-debt/technical-debt-index.yaml` before feature work and resolve or materially reduce at least one relevant open debt item if one applies to the changed scope.
-- Preserve the employee portal coverage floor of 83.98%; if backend code is touched, preserve the backend Java/Maven floor of 76.99%.
+- Load `HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml` and `enterprise-product-foundation-standard.yaml`.
+- Do not resume `MVP-MOD-007-PORTAL-001` until `HOP-ENT-FOUND-001` closes with evidence and a clean commit.
+- Review `08-qa/technical-debt/technical-debt-index.yaml` before feature work and resolve or materially reduce at least two relevant open debt items because HOP is now late in the operational core.
+- Preserve the employee portal coverage floor of 83.98%; if backend code is touched, preserve the backend Java/Maven floor of 76.99% and target a 3 to 5 point improvement while backend remains below 80%.
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
 - Before commit, reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, affected capability traceability files and the local runbook pointers.

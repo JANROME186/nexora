@@ -21,6 +21,8 @@ rules:
   - HOP cannot be marked commercially complete, GA-ready or finally closed while any technical debt item remains open.
   - Agents must run stack-appropriate checks for best practices, coding standards, duplicate code, complexity, OWASP or equivalent secure coding, dependency vulnerabilities across all severities, secrets, coverage and message externalization/i18n.
   - Agents must target at least 80 percent line coverage for every applicable delivered stack. If a stack is below 80 percent during an intermediate iteration, the previous measured coverage is the hard lower bound and coverage must never decrease.
+  - If a changed stack remains below 80 percent line coverage, agents must target a 3 to 5 percentage point improvement in that iteration; smaller improvements require explicit justification, maximum meaningful in-scope tests and immediate coverage debt.
+  - Agents must enforce enterprise product foundations before continuing customer-facing portal/app work: es-MX/en-US localization, language switching, IAM permission mapping, dynamic menus/actions, login/session context, product database deliverables, UX/UI design baseline, code documentation, persistence architecture and OpenAPI/contract-first generation review.
   - Agents must externalize new or changed user-facing text, validation copy, error prose, status labels, error codes and repeated magic values through message catalogs, constants, configuration or policy providers.
   - Agents must not close or advance a backlog item with passed_with_execution_limitation,
     closed_with_execution_limitation, not_executed mandatory gates, blocked toolchains,
@@ -46,6 +48,7 @@ required_context:
     - ../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
     - ../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
     - ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+    - ../../../../nexora-framework/02-standards/standards/enterprise-product-foundation-standard.yaml
     - ../../../../nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
     - ../../../../nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   project_level:
@@ -61,6 +64,7 @@ required_context:
     - ../mvp/healthcare-operations-platform-mvp-framework.yaml
     - HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
     - HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
+    - HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
 
 prompt_sequence:
   - id: HOP-COM-PROMPT-001
@@ -237,11 +241,11 @@ validation_commands:
     command_template: "Run repository whitespace validation before closing the item."
 
 next_backlog_item:
-  module_id: MVP-MOD-007
-  backlog_item_id: MVP-MOD-007-PORTAL-001
-  name: Compile patient and doctor released result views
-  expected_folder: ../../07-implementation/
-  paused_functional_backlog_item: null
+  module_id: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  backlog_item_id: HOP-ENT-FOUND-001
+  name: Align HOP enterprise product foundations before continuing portals
+  expected_folder: ../../
+  paused_functional_backlog_item: MVP-MOD-007-PORTAL-001
   required_debt_first_action: null
   coverage_floor:
     frontend_typescript_web_line_coverage_percent: 83.98
@@ -249,6 +253,9 @@ next_backlog_item:
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
+    - Load HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml and enterprise-product-foundation-standard.yaml before changing code or project state.
+    - Do not resume MVP-MOD-007-PORTAL-001 until HOP-ENT-FOUND-001 is closed with evidence and a clean commit.
+    - Inventory and align localization, IAM permissions, dynamic menus, login/session, database deliverables, UX/UI, code documentation, persistence architecture, OpenAPI generation, stack review, technical debt and coverage policy.
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:

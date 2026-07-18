@@ -18,9 +18,10 @@ product:
   current_baseline:
     completed_module: MVP-MOD-006 Laboratory Workflow (MVP-MOD-006-DEF through MVP-MOD-006-CLOSEOUT, all closed)
     completed_status: closed
-    active_module: MVP-MOD-007 Results and Digital Delivery
-    active_backlog_item: MVP-MOD-007-PORTAL-001
-    active_module_progress: MVP-MOD-007-FE-001 closed; MVP-MOD-007-PORTAL-001 ready to start
+    active_module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+    active_backlog_item: HOP-ENT-FOUND-001
+    active_module_progress: MVP-MOD-007-FE-001 closed; MVP-MOD-007-PORTAL-001 paused until HOP-ENT-FOUND-001 closes
+    paused_backlog_item: MVP-MOD-007-PORTAL-001
 
 source_inputs:
   framework:
@@ -30,6 +31,7 @@ source_inputs:
     - ../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
     - ../../../../nexora-framework/02-standards/standards/product-marketplace-standard.yaml
     - ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+    - ../../../../nexora-framework/02-standards/standards/enterprise-product-foundation-standard.yaml
     - ../../../../nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   project:
     - ../../BUSINESS_REQUIREMENT.md
@@ -198,6 +200,8 @@ global_definition_of_done:
   - Every code-changing backlog item reduces or materially improves technical debt before feature work when debt exists; the amount of debt burn-down must increase as HOP approaches release readiness.
   - Every applicable delivered stack targets at least 80 percent line coverage.
   - If a stack is below 80 percent, its previous measured coverage is the minimum allowed baseline for the next iteration.
+  - If a changed stack remains below 80 percent, each relevant iteration must target a 3 to 5 percentage point line-coverage improvement; smaller improvements require explicit justification, maximum meaningful in-scope tests and immediate coverage debt.
+  - Enterprise foundations must be satisfied before customer-facing portal/app expansion continues: es-MX/en-US localization, IAM permission mapping, dynamic menus/actions, login/session context, product database deliverables, UX/UI design baseline, code documentation, persistence architecture and OpenAPI/contract-first generation review.
   - HOP cannot be marked commercially complete or GA-ready while any technical debt remains open or any applicable stack is below 80 percent line coverage.
   - PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml are updated.
   - Verifiable closure audit passed before any backlog item is marked closed: YAML parse, stale-pointer sweep, evidence-state sweep, git diff --check, evidence metrics matching command output, synchronized registries, commit hash and clean git status.
@@ -292,6 +296,51 @@ modules:
       - Functional development resumed after quality alignment closeout passed.
       - Backend, frontend, mobile and runtime quality baselines are executable or have immediate accepted remediation.
       - All-severity vulnerability, DAST and message externalization evidence exists.
+
+  - id: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+    name: Enterprise Product Foundation Alignment
+    release: REL-001
+    priority: 61
+    status: in_progress
+    source: enterprise_product_foundation_standard
+    backlog_source: HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
+    objective: >
+      Pause functional delivery and align HOP enterprise foundations for localization,
+      IAM dynamic permission-based navigation, login/session context, product database
+      deliverables, UX/UI, code documentation, persistence architecture, contract-first
+      generation, stack review, technical debt control and meaningful coverage
+      improvement before continuing patient and doctor result portal work.
+    depends_on:
+      - MVP-MOD-007-FE-001
+    blocks:
+      - MVP-MOD-007-PORTAL-001
+      - MVP-MOD-007-APP-001
+      - COM-MOD-009
+    capabilities:
+      - BCM-PLT-001
+      - BCM-PLT-002
+      - BCM-PLT-003
+      - BCM-PLT-005
+      - BCM-PLT-008
+    product_surfaces:
+      backend: required
+      employee_portal: required
+      patient_portal: required_before_continuation
+      doctor_portal: required_before_continuation
+      mobile_app: required_before_expansion
+      database: required
+      design_system: required
+    backlog_items:
+      - id: HOP-ENT-FOUND-001
+        name: Align HOP enterprise product foundations before continuing portals
+        status: next
+    acceptance_summary:
+      - Base locales es-MX and en-US are mandatory and hard-coded visible text is inventoried with remediation.
+      - IAM permissions, dynamic menus, login/session and authorization rules are defined for all product surfaces.
+      - Database architecture, dictionary, normalization, seed and initialization deliverables exist independently from runtime infrastructure.
+      - UX/UI look and feel, design tokens and component guidance exist for web and app.
+      - Javadoc/code documentation, persistence architecture and OpenAPI/contract-first generation decisions are documented.
+      - Technical-debt burn-down and coverage improvement rules are tightened before functional development resumes.
 
   - id: MVP-MOD-002
     name: Diagnostic Catalog
