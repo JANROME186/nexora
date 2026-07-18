@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 0.97.0
-current_phase: Results and Digital Delivery (MVP-MOD-007-PORTAL-001 closed; MVP-MOD-007-APP-001 resumed)
+current_phase: Results and Digital Delivery (MVP-MOD-007-APP-001 closed; MVP-MOD-007-QA-001 active)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement

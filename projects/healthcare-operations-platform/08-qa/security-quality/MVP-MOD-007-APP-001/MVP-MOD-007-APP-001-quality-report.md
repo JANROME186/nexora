@@ -1,3 +1,7 @@
+---
+machine_readable: MVP-MOD-007-APP-001-quality-report.yaml
+---
+
 # MVP-MOD-007-APP-001 Quality Report
 
 ## Execution Summary

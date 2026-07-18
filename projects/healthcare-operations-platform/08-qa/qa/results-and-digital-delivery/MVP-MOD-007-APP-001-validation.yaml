@@ -4,7 +4,7 @@ artifact:
   name: Mobile Result View and Notification Baseline Validation
   version: 1.0.0
   status: approved
-  human_readable: ../../security-quality/MVP-MOD-007-APP-001/MVP-MOD-007-APP-001-quality-report.md
+  human_readable: MVP-MOD-007-APP-001-validation.md
 
 context:
   module: MVP-MOD-007 Results and Digital Delivery
@@ -28,4 +28,4 @@ evidence:
       - TD-FE-007
 
 validation_date: "2026-07-18"
-validated_by: codex
+validated_by: autonomous_implementation_agent

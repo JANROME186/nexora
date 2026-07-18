@@ -24,7 +24,8 @@ classification:
   reason_non_blocking: >
     The immediate instance of this risk (missing organization.branches.version column) was found
     and fixed during this backlog item's own validation; both files are in sync as of this
-    iteration. The underlying architectural risk (two files, one manually kept in sync) remains.
+    iteration. The underlying architectural risk (two files, one manually kept in sync) was
+    subsequently remediated in MVP-MOD-007-APP-001.
 
 current_state:
   issue: >
@@ -72,3 +73,14 @@ remediation:
     - A single authored schema.sql source exists for platform-foundation, with no manually
       duplicated Docker-init copy that can silently drift.
   owner_or_responsible_role: backend_platform_team
+
+closure:
+  closed_by_backlog_item: MVP-MOD-007-APP-001
+  closure_commit: 7fa455d
+  completed_remediation:
+    - removed docker-entrypoint duplicate schema mount
+    - removed duplicate init SQL file
+    - backend platform-foundation schema.sql remains authoritative
+  validation:
+    - duplicate init file absent
+    - compose.local.yml has no postgres init mount
