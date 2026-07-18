@@ -8,24 +8,24 @@ validations:
   - id: QA-MVP-MOD-007-PORTAL-001-01
     description: "patient-portal quality gates pass"
     status: passed
-    evidence: "npm run quality passes with 0 code duplications, 100% formatted, and tests passing."
+    evidence: "npm run quality passes. Commands executed: `npm run format:write`, `npm run quality`. 0 code duplications, 100% formatted. `npm run test` executed successfully (1 test)."
 
   - id: QA-MVP-MOD-007-PORTAL-001-02
     description: "doctor-portal quality gates pass"
     status: passed
-    evidence: "npm run quality passes with 0 code duplications, 100% formatted, and tests passing."
+    evidence: "npm run quality passes. Commands executed: `npm run format:write`, `npm run quality`. 0 code duplications, 100% formatted. `npm run test` executed successfully (1 test)."
 
   - id: QA-MVP-MOD-007-PORTAL-001-03
     description: "backend quality gates pass"
     status: passed
-    evidence: "mvn verify passes with tests succeeding."
+    evidence: "Commands executed: `mvn -Pquality -Dhop.local-db-tests=true verify`. Passed with 0 failures, 0 errors. Backend coverage: 77.92%."
 
   - id: QA-MVP-MOD-007-PORTAL-001-04
     description: "patient-portal audit vulnerabilities resolved"
     status: passed
-    evidence: "npm audit --audit-level=low returns 0 vulnerabilities after adding minimatch override."
+    evidence: "Command executed: `npm audit --audit-level=low`. Returns 0 vulnerabilities after adding minimatch override."
 
   - id: QA-MVP-MOD-007-PORTAL-001-05
     description: "doctor-portal audit vulnerabilities resolved"
     status: passed
-    evidence: "npm audit --audit-level=low returns 0 vulnerabilities after adding minimatch override."
+    evidence: "Command executed: `npm audit --audit-level=low`. Returns 0 vulnerabilities after adding minimatch override."

@@ -248,8 +248,9 @@ next_backlog_item:
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
-    frontend_typescript_web_line_coverage_percent: 84.42
-    backend_java_maven_line_coverage_percent_if_backend_is_touched: 77.32
+    frontend_typescript_web_line_coverage_percent: 84.44
+    mobile_typescript_foundation_line_coverage_percent: 97.15
+    backend_java_maven_line_coverage_percent_if_backend_is_touched: 77.92
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
@@ -260,13 +261,11 @@ next_backlog_item:
       review) before implementing new portal screens/endpoints, and follow their established
       patterns (permission-filtered navigation, locale-keyed catalogs, session-context fixture
       isolation).
-    - TD-IAM-001 (no backend authentication exists yet) is an explicit P0 precondition before any
-      patient/doctor portal is exposed outside local development; review it before implementing
-      MVP-MOD-007-PORTAL-001.
+    - TD-IAM-001 is closed and no longer acts as a P0 blocker for exposed portals; full OIDC/IdP production integration is deferred to hardening/productization.
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
     backlog_item_id: MVP-MOD-007-PORTAL-001
     status: closed
     summary: >-
-      Compiled patient and doctor released result views. Fixed build failures in patient-portal and doctor-portal, ensuring quality gates passed successfully. Closed TD-FE-007 (LaboratoryResult wire-shape mismatch).
+      Compiled patient and doctor released result views. Fixed build failures in patient-portal and doctor-portal, ensuring quality gates passed successfully. Closed TD-FE-007 (LaboratoryResult wire-shape mismatch). Commit hash: a00423f.

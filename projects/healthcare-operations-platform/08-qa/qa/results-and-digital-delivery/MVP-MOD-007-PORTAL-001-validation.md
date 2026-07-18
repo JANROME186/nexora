@@ -1,14 +1,18 @@
 # Validation Evidence for MVP-MOD-007-PORTAL-001
 
-## Quality Gates
-- **`patient-portal`**: Quality gates passed cleanly without limitations. 0 code duplications, 100% test passing, no linting or formatting issues.
-- **`doctor-portal`**: Quality gates passed cleanly without limitations. 0 code duplications, 100% test passing, no linting or formatting issues.
-- **`employee-portal`**: Quality gates passed cleanly without limitations. Code formatted and typechecked successfully.
-- **`backend`**: Verified with `-Dhop.local-db-tests=true` using local PostgreSQL. All test contexts loaded successfully.
+## Test Results & Coverage
+- **patient-portal**: 1 test executed successfully (`npm run test`). Quality gates passed with 0 duplication (`npm run quality`).
+- **doctor-portal**: 1 test executed successfully (`npm run test`). Quality gates passed with 0 duplication (`npm run quality`).
+- **backend**: Maven build (`mvn -Pquality -Dhop.local-db-tests=true verify`) executed successfully. All tests passed. Backend coverage is 77.92%.
 
-## Security Audit
-- Resolved `minimatch` vulnerabilities from `eslint-plugin-sonarjs` in both `patient-portal` and `doctor-portal` using overrides. 
-- Execution of `npm audit --audit-level=low` confirmed 0 vulnerabilities across both portals.
+## Audit
+- `npm audit --audit-level=low` in `patient-portal` returned 0 vulnerabilities.
+- `npm audit --audit-level=low` in `doctor-portal` returned 0 vulnerabilities.
 
-## Status
-All quality and security gates passed cleanly without any execution limitations. The issue of versioning coverage directories and the unresolved audit vulnerabilities have been permanently corrected.
+## Validations
+- **YAML parse repo-wide**: Executed and passed.
+- **stale-pointer sweep**: Executed and passed.
+- **prohibited-state sweep**: Executed and passed. No prohibited states found.
+- **`git diff --check`**: Executed and clean.
+- **commit hash**: `a00423f`
+- **`git status --short`**: Clean.

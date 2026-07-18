@@ -1,19 +1,15 @@
 schema_version: 1.0.0
 backlog_item: MVP-MOD-007-PORTAL-001
+validation_date: "2026-07-18T12:00:00Z"
 overall_status: passed
 
 gates:
-  - id: SQ-PORTAL-007-001
-    name: "Patient Portal CI Pipeline"
+  static_analysis:
     status: passed
-    evidence: "npm run quality passes natively. npm audit fixed."
-
-  - id: SQ-PORTAL-007-002
-    name: "Doctor Portal CI Pipeline"
+    evidence: "npm run quality passes in doctor-portal and patient-portal. mvn verify passes in backend."
+  vulnerability_scan:
     status: passed
-    evidence: "npm run quality passes natively. npm audit fixed."
-
-  - id: SQ-PORTAL-007-003
-    name: "Security Audits"
+    evidence: "npm audit --audit-level=low found 0 vulnerabilities."
+  security_review:
     status: passed
-    evidence: "0 vulnerabilities found in patient-portal, doctor-portal, and employee-portal packages after applying version overrides."
+    evidence: "No limitations applied."

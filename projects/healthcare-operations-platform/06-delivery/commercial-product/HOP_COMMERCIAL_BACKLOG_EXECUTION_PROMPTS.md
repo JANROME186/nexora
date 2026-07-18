@@ -236,7 +236,7 @@ Expected result:
 `HOP-ENT-FOUND-001` is closed. Continue with:
 
 - Module: `MVP-MOD-007`
-- Backlog item: `MVP-MOD-007-PORTAL-001`
+- Backlog item: `MVP-MOD-007-APP-001`
 - Paused functional backlog item: none
 - Folder: project root under `projects/healthcare-operations-platform/`
 
@@ -249,7 +249,7 @@ Mandatory setup for this backlog:
 - Review `TD-IAM-001` (no backend authentication exists yet) before exposing any patient/doctor
   portal outside local development.
 - Review `08-qa/technical-debt/technical-debt-index.yaml` before feature work and resolve or materially reduce at least two relevant open debt items because HOP is now late in the operational core.
-- Preserve the employee portal coverage floor of 84.42%; if backend code is touched, preserve the backend Java/Maven floor of 77.32% and target a 3 to 5 point improvement while backend remains below 80%.
+- Preserve the employee portal coverage floor of 84.44% and the mobile TypeScript foundation floor of 97.15%; if backend code is touched, preserve the backend Java/Maven floor of 77.92% and target a 3 to 5 point improvement while backend remains below 80%.
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
 - Before commit, reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, affected capability traceability files and the local runbook pointers.
