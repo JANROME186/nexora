@@ -141,4 +141,40 @@ class ResultNotificationServiceTest {
                 any()
         );
     }
+
+    @Test
+    void shouldListNotificationsForResult() {
+        // BCM-RES-007 dispatch history
+        UUID ticketId = UUID.randomUUID();
+        ResultId resultId = new ResultId("r1");
+        TenantId tenantId = new TenantId("t1");
+
+        ResultDeliveryTicket ticket = mock(ResultDeliveryTicket.class);
+        when(ticket.getTicketId()).thenReturn(ticketId);
+        when(ticket.getResultId()).thenReturn(resultId);
+        when(ticket.getTenantId()).thenReturn(tenantId);
+        when(ticket.getPatientId()).thenReturn(new PatientId("p1"));
+        when(ticket.getRecipientId()).thenReturn("p1");
+        when(ticket.getRecipientType()).thenReturn("patient");
+        when(ticket.getAccessCode()).thenReturn("code123");
+        when(resultDeliveryTicketRepository.findById(ticketId)).thenReturn(Optional.of(ticket));
+
+        LaboratoryResult result = mock(LaboratoryResult.class);
+        when(result.laboratoryId()).thenReturn("lab-1");
+        when(laboratoryResultsRepository.findById("r1", "t1")).thenReturn(Optional.of(result));
+
+        NotificationRequest dummyDispatch = mock(NotificationRequest.class);
+        when(dummyDispatch.getNotificationId()).thenReturn(UUID.randomUUID());
+        when(notificationManagementService.submitNotificationRequest(
+                any(), any(), any(), any(), any(), any(), any(), any())).thenReturn(dummyDispatch);
+
+        service.onResultDeliveryAuthorized(new ResultDeliveryAuthorizedEvent(ticketId, resultId, tenantId, "patient", "patient_portal"));
+
+        List<ResultNotificationRequest> forResult = service.listNotificationsForResult("r1", "t1");
+        assertEquals(1, forResult.size());
+        assertEquals("sms", forResult.get(0).getChannel());
+        assertNotNull(forResult.get(0).getDispatchedAt());
+
+        assertTrue(service.listNotificationsForResult("other-result", "t1").isEmpty());
+    }
 }

@@ -213,14 +213,25 @@ Expected result:
 Continue with:
 
 - Module: `MVP-MOD-007 Results and Digital Delivery`
-- Backlog item: `MVP-MOD-007-FE-001`
-- Paused functional backlog item: none — `MVP-MOD-007-BE-002` closed after corrective backend validation
-- Folder: `07-implementation/employee-portal/`
+- Backlog item: `MVP-MOD-007-PORTAL-001`
+- Paused functional backlog item: none — `MVP-MOD-007-FE-001` closed after closing a real
+  frontend/backend contract gap (missing search/report-generation/notification-history REST
+  adapters) end to end
+- Folder: `07-implementation/`
 
 Mandatory setup for this backlog:
 
-- Review `08-qa/technical-debt/technical-debt-index.yaml` before feature work and resolve or materially reduce at least one relevant open debt item if one applies to the changed frontend scope.
-- Preserve the employee portal coverage floor of 82.69%; if backend code is touched, preserve the backend Java/Maven floor of 76.93%.
+- Review `08-qa/technical-debt/technical-debt-index.yaml` before feature work and resolve or materially reduce at least one relevant open debt item if one applies to the changed scope.
+- Preserve the employee portal coverage floor of 83.98%; if backend code is touched, preserve the backend Java/Maven floor of 76.99%.
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
 - Before commit, reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, affected capability traceability files and the local runbook pointers.
+
+### Previous Backlog Item (Closed)
+
+`MVP-MOD-007-FE-001` — Compiled the employee result delivery UI (Result Search/Detail, Result
+Reports, Critical Escalations, Result Notifications). Closed a real frontend/backend contract gap
+left by BE-001/BE-002 (missing search/report-generation/notification-history REST adapters) end to
+end rather than shipping a mismatched frontend. Frontend coverage 82.69% -> 83.98%; backend
+coverage 76.93% -> 76.99%. `TD-FE-007` registered for a pre-existing, out-of-scope LaboratoryResult
+wire-shape mismatch.

@@ -4,7 +4,7 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `MVP-MOD-007-FE-001`.
+Current active backlog item: `MVP-MOD-007-PORTAL-001`.
 
 HOP Enterprise Quality Alignment (`HOP-QA-ALIGN-001` through `HOP-QA-ALIGN-CLOSEOUT`) is closed.
 
@@ -12,7 +12,11 @@ Paused functional backlog item: none — `MVP-MOD-005 Cashier and Billing Reques
 (`MVP-MOD-005-DEF` through `MVP-MOD-005-CLOSEOUT`); `MVP-MOD-006 Laboratory Workflow` is closed in
 full (`MVP-MOD-006-DEF` through `MVP-MOD-006-CLOSEOUT`); `MVP-MOD-007-DEF` closed the Results and
 Digital Delivery capability package models (definition only, no code implemented);
-`MVP-MOD-007-BE-001` closed the backend compilation baseline, `MVP-MOD-007-BE-002` closed the backend custom rules implementation, and `MVP-MOD-007-FE-001` is active.
+`MVP-MOD-007-BE-001` closed the backend compilation baseline, `MVP-MOD-007-BE-002` closed the
+backend custom rules implementation, `MVP-MOD-007-FE-001` closed the employee-portal UI (also
+closing a real frontend/backend contract gap left by BE-001/BE-002 by adding the missing search/
+report-generation/notification-history REST adapters end to end), and `MVP-MOD-007-PORTAL-001` is
+active.
 
 ## Cashier And Billing Request Smoke
 
@@ -332,6 +336,8 @@ Mobile tests cannot find TypeScript or Vitest:
 - Release supply-chain gates are configured, but release-policy hardening remains tracked as `TD-BE-004`.
 - Message externalization and magic-string remediation baseline established (`HOP-QA-ALIGN-005`, `TD-I18N-001` closed); remaining full-adoption work (backend API code field, full frontend/mobile i18n-library adoption) tracked as `TD-I18N-002`.
 - The employee portal has no Appointment Scheduling, Admission Management or Quotation Management screens yet (`MVP-MOD-004-FE-001` delivered Front Desk/Reception and Diagnostic Orders only); administrators with API access are not blocked. Tracked as `TD-FE-006`.
+- The employee portal's `LaboratoryResult` type (used by `ResultReleaseScreen`, `TechnicalValidationScreen`, `MedicalValidationScreen` and the `MVP-MOD-007-FE-001` Result Search screen) does not match the real `BCM-LAB-006` backend record field-for-field; `MVP-MOD-007-FE-001` worked around this locally for its own screen via response normalization. Tracked as `TD-FE-007`.
+- In this sandboxed development environment, Maven runs `--offline` and the backend `-Pquality` profile's Spotless/Checkstyle/PMD/SpotBugs/Dependency-Check plugins are not cached locally, so `QA-003` cannot execute here (plugin resolution failure, not a code finding); `QA-001`/`QA-002` (`mvn test`, including JaCoCo) run successfully offline and remain authoritative in this environment. Run `QA-003` in an environment with network access before a release-readiness or GA gate.
 
 ## Component Detail
 

@@ -33,22 +33,25 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 76.93
-        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-002-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 76.93
+        current_line_coverage_percent: 76.99
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-FE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 76.99
         final_closure_target_percent: 80
         correction_note: >-
-          MVP-MOD-007-BE-002 corrective validation improved the reproducible local-database backend
-          coverage baseline from 76.77% to 76.93%; future backend iterations must not regress
-          below 76.93% and must keep moving toward the 80% final closure target.
+          MVP-MOD-007-FE-001 added backend adapters (result search, report generation, notification
+          history) to close a contract gap left by MVP-MOD-007-BE-001/BE-002; JaCoCo line coverage
+          moved from 76.93% to 76.99%. Future backend iterations must not regress below 76.99% and
+          must keep moving toward the 80% final closure target.
       frontend_typescript_web:
-        current_line_coverage_percent: 82.69
-        source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.yaml
-        next_iteration_minimum_line_coverage_percent: 80.66
+        current_line_coverage_percent: 83.98
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-FE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 83.98
         final_closure_target_percent: 80
         correction_note: >-
-          Baseline was stale at 80.57% (from MVP-MOD-005-FE-001); corrected to the value actually
-          measured by MVP-MOD-005-QA-001 and reconfirmed during MVP-MOD-005-CLOSEOUT.
+          MVP-MOD-007-FE-001 raised employee-portal line coverage from the 82.69% floor (set by
+          MVP-MOD-005-CLOSEOUT) to 83.98% via the four new Results and Digital Delivery screens and
+          their tests; already above the 80% final-closure target and must not regress below
+          83.98%.
       mobile_typescript_foundation:
         current_line_coverage_percent: not_measured
         source_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-003-validation.yaml
@@ -318,4 +321,13 @@ entries:
     affected_area: backend_static_analysis_and_secure_code
     file: 08-qa/technical-debt/TD-BE-012-backend-static-analysis-findings-burn-down.yaml
     remediation_strategy: start_with_document_management_findings_during_MVP_MOD_007_BE_002_then_gradually_burn_down_repo_wide_findings
+  - id: TD-FE-007
+    title: LaboratoryResult wire-shape mismatch between the employee-portal FE type and the real BCM-LAB-006 backend record
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-007-FE-001
+    affected_area: employee_portal_laboratory_result_type
+    file: 08-qa/technical-debt/TD-FE-007-laboratoryresult-wire-shape-mismatch.yaml
+    remediation_strategy: gradual_when_a_future_backlog_item_touches_laboratoryOperationsApi_or_its_screens
 

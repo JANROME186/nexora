@@ -23,6 +23,10 @@ import { LaboratoryProcessingScreen } from "./components/screens/LaboratoryProce
 import { TechnicalValidationScreen } from "./components/screens/TechnicalValidationScreen";
 import { MedicalValidationScreen } from "./components/screens/MedicalValidationScreen";
 import { ResultReleaseScreen } from "./components/screens/ResultReleaseScreen";
+import { ResultSearchScreen } from "./components/screens/ResultSearchScreen";
+import { ResultReportsScreen } from "./components/screens/ResultReportsScreen";
+import { CriticalEscalationsScreen } from "./components/screens/CriticalEscalationsScreen";
+import { ResultNotificationsScreen } from "./components/screens/ResultNotificationsScreen";
 import { AdminScopeProvider } from "./state/AdminScopeContext";
 
 function renderScreen(screen: ScreenKey) {
@@ -73,6 +77,14 @@ function renderScreen(screen: ScreenKey) {
       return <MedicalValidationScreen />;
     case "result-release":
       return <ResultReleaseScreen />;
+    case "result-search":
+      return <ResultSearchScreen />;
+    case "result-reports":
+      return <ResultReportsScreen />;
+    case "critical-escalations":
+      return <CriticalEscalationsScreen />;
+    case "result-notifications":
+      return <ResultNotificationsScreen />;
     default:
       return null;
   }

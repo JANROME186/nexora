@@ -8,6 +8,7 @@ public final class ResultsDeliveryErrorCodes {
     public static final String DELIVERY_WITHHELD_PENDING_REAUTHORIZATION = "DELIVERY_WITHHELD_PENDING_REAUTHORIZATION";
     public static final String DELIVERY_BOUNDARY_VIOLATION = "DELIVERY_BOUNDARY_VIOLATION";
     public static final String DELIVERY_SCOPE_MISMATCH = "DELIVERY_SCOPE_MISMATCH";
+    public static final String REPORT_RESULT_NOT_RELEASED = "REPORT_RESULT_NOT_RELEASED";
 
     private ResultsDeliveryErrorCodes() {}
 }

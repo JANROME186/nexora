@@ -23,7 +23,11 @@ export type ScreenKey =
   | "laboratory-processing"
   | "technical-validation"
   | "medical-validation"
-  | "result-release";
+  | "result-release"
+  | "result-search"
+  | "result-reports"
+  | "critical-escalations"
+  | "result-notifications";
 
 interface ScreenTab {
   key: ScreenKey;
@@ -54,6 +58,10 @@ const TABS: ScreenTab[] = [
   { key: "technical-validation", label: "Tech Validation" },
   { key: "medical-validation", label: "Med Validation" },
   { key: "result-release", label: "Result Release" },
+  { key: "result-search", label: "Result Search" },
+  { key: "result-reports", label: "Result Reports" },
+  { key: "critical-escalations", label: "Critical Escalations" },
+  { key: "result-notifications", label: "Result Notifications" },
 ];
 
 interface AppShellProps {
@@ -71,9 +79,10 @@ export function AppShell({ activeScreen, onSelectScreen, children }: AppShellPro
       <header className="app-shell__header">
         <h1>Healthcare Operations Platform - Employee Portal Administration</h1>
         <p>
-          Platform Foundation, Diagnostic Catalog, People and Clinical Master Data, and Front Desk
-          and Care Delivery: administration, audit, catalog configuration, patient/doctor records
-          and diagnostic order intake.
+          Platform Foundation, Diagnostic Catalog, People and Clinical Master Data, Front Desk and
+          Care Delivery, Cashier and Billing, Laboratory Workflow, and Results and Digital Delivery:
+          administration, audit, catalog, patient/doctor records, diagnostic orders, cash sessions,
+          laboratory workflow, and result delivery management.
         </p>
       </header>
       <nav className="app-shell__nav" aria-label="Administration screens">

@@ -2,7 +2,8 @@
     allowedDependencies = {
         "sharedkernel",
         "laboratoryworkflow::laboratory-results-domain",
-        "documentmanagement",
+        "documentmanagement::document-service",
+        "documentmanagement::document-domain",
         "notificationmanagement::notification-service",
         "notificationmanagement::notification-domain",
         "peopleclinicalmasterdata",

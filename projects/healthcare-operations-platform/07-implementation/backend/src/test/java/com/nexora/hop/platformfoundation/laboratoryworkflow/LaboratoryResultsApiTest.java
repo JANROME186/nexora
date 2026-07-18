@@ -144,6 +144,27 @@ class LaboratoryResultsApiTest {
                 
         mockMvc.perform(get("/api/clinical-operations/laboratory-results/{resultId}/release/release-worklist?tenantId={t}&laboratoryId={l}", resultId, tenantId, laboratoryId))
                 .andExpect(status().isOk());
+
+        // 6. BCM-RES-001: search released results by status (MVP-MOD-007-FE-001)
+        mockMvc.perform(get("/api/clinical-operations/laboratory-results?tenantId={t}&status=released", tenantId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].resultId").value(resultId))
+                .andExpect(jsonPath("$[0].status").value("released"));
+
+        // 7. BCM-RES-002: regenerate and list PDF reports for the released result
+        String reportsBase = "/api/clinical-operations/laboratory-results/{resultId}/reports";
+        mockMvc.perform(post(reportsBase + "/regenerate?tenantId={t}&actorId=doc-1", resultId, tenantId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("generated"))
+                .andExpect(jsonPath("$.documentId").exists());
+
+        mockMvc.perform(get(reportsBase + "?tenantId={t}", resultId, tenantId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].resultId").value(resultId));
+
+        // 8. BCM-RES-007: notification history for the released/delivered result
+        mockMvc.perform(get("/api/clinical-operations/laboratory-results/{resultId}/notifications?tenantId={t}", resultId, tenantId))
+                .andExpect(status().isOk());
     }
     
     @Test

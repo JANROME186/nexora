@@ -5,10 +5,11 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.PatientId;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.ResultId;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.TenantId;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ResultNotificationRequest {
-    
+
     private UUID resultNotificationId;
     private ResultId resultId;
     private TenantId tenantId;
@@ -23,6 +24,10 @@ public class ResultNotificationRequest {
     private String composedTemplateReference;
     private UUID dispatchReference;
     private String dispatchStatus; // pending_submission, submitted, dispatched, delivered, failed
+    private String channel; // sms, email (BCM-RES-007 dispatch channel used for this request)
+    private LocalDateTime dispatchedAt;
+    private LocalDateTime deliveredAt;
+    private String failureReason;
 
     protected ResultNotificationRequest() {}
 
@@ -48,6 +53,7 @@ public class ResultNotificationRequest {
         this.composedTemplateReference = "tpl_result_default";
         this.dispatchReference = underlyingNotificationId;
         this.dispatchStatus = "dispatched";
+        this.channel = "sms";
     }
 
     // Full constructor
@@ -60,8 +66,9 @@ public class ResultNotificationRequest {
             String recipientType,
             String triggerReason,
             String composedTemplateReference,
+            String channel,
             AuditMetadata audit) {
-        
+
         this.resultNotificationId = resultNotificationId;
         this.resultId = resultId;
         this.tenantId = tenantId;
@@ -70,6 +77,7 @@ public class ResultNotificationRequest {
         this.recipientType = recipientType;
         this.triggerReason = triggerReason;
         this.composedTemplateReference = composedTemplateReference;
+        this.channel = channel;
         this.dispatchStatus = "pending_submission";
         this.audit = audit;
     }
@@ -78,6 +86,7 @@ public class ResultNotificationRequest {
         this.dispatchReference = dispatchRef;
         this.underlyingNotificationId = dispatchRef;
         this.dispatchStatus = "submitted";
+        this.dispatchedAt = LocalDateTime.now();
         this.audit = updateAudit;
     }
 
@@ -99,4 +108,8 @@ public class ResultNotificationRequest {
     public String getComposedTemplateReference() { return composedTemplateReference; }
     public UUID getDispatchReference() { return dispatchReference; }
     public String getDispatchStatus() { return dispatchStatus; }
+    public String getChannel() { return channel; }
+    public LocalDateTime getDispatchedAt() { return dispatchedAt; }
+    public LocalDateTime getDeliveredAt() { return deliveredAt; }
+    public String getFailureReason() { return failureReason; }
 }

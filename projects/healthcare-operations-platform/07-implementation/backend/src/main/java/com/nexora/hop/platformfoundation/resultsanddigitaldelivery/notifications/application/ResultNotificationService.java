@@ -60,6 +60,11 @@ public class ResultNotificationService {
 
         AuditMetadata systemAudit = new AuditMetadata("system", LocalDateTime.now(), "system", LocalDateTime.now());
 
+        String targetChannel = "sms";
+        if ("referring_doctor".equals(ticket.getRecipientType())) {
+            targetChannel = "email";
+        }
+
         ResultNotificationRequest notificationReq = new ResultNotificationRequest(
                 UUID.randomUUID(),
                 event.resultId(),
@@ -69,6 +74,7 @@ public class ResultNotificationService {
                 ticket.getRecipientType(),
                 "result_delivered",
                 "tpl_result_delivered",
+                targetChannel,
                 systemAudit
         );
         repository.save(notificationReq);
@@ -79,11 +85,6 @@ public class ResultNotificationService {
         params.put("recipientId", ticket.getRecipientId());
         params.put("recipientType", ticket.getRecipientType());
         params.put("accessCode", ticket.getAccessCode());
-
-        String targetChannel = "sms";
-        if ("referring_doctor".equals(ticket.getRecipientType())) {
-            targetChannel = "email";
-        }
 
         NotificationRequest dispatchReq = notificationManagementService.submitNotificationRequest(
                 event.tenantId(),
@@ -120,6 +121,7 @@ public class ResultNotificationService {
                 "patient",
                 "result_critical",
                 "tpl_result_critical",
+                "sms",
                 systemAudit
         );
         repository.save(patientNotify);
@@ -155,6 +157,7 @@ public class ResultNotificationService {
                     "referring_doctor",
                     "result_critical",
                     "tpl_result_critical",
+                    "email",
                     systemAudit
             );
             repository.save(docNotify);
@@ -182,5 +185,10 @@ public class ResultNotificationService {
 
     public List<ResultNotificationRequest> listAllResultNotifications() {
         return repository.findAll();
+    }
+
+    /** List notification requests for a result (BCM-RES-007 dispatch history). */
+    public List<ResultNotificationRequest> listNotificationsForResult(String resultId, String tenantId) {
+        return repository.findByResultId(new ResultId(resultId), new TenantId(tenantId));
     }
 }

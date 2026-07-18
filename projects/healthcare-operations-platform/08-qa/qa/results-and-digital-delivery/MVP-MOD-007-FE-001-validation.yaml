@@ -1,0 +1,410 @@
+artifact:
+  id: HOP-QA-MVP-MOD-007-FE-001-001
+  type: qa-validation-evidence
+  name: MVP-MOD-007-FE-001 Results and Digital Delivery Employee Portal UI Validation
+  version: 1.0.0
+  status: passed
+  human_readable: MVP-MOD-007-FE-001-validation.md
+  machine_readable: MVP-MOD-007-FE-001-validation.yaml
+  created_date: 2026-07-17
+  owner: Nexora Product Architecture Team
+
+scope:
+  backlog_item: MVP-MOD-007-FE-001
+  module: MVP-MOD-007 Results and Digital Delivery
+  release: REL-001
+  execution_flow_stage: compile_ui
+  business_requirement_version: v0.68.0
+  impact_assessment_required: false
+  implementation_root: 07-implementation/employee-portal/
+  predecessor_evidence:
+    - 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-001-validation.yaml
+    - 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-002-validation.yaml
+    - 08-qa/security-quality/MVP-MOD-007-BE-002/security-quality-evidence.yaml
+  objective: >
+    Compile the employee-portal UI outputs for Results and Digital Delivery: Result Search and
+    Worklist / Result Detail (BCM-RES-001), Result Report History and Regenerate (BCM-RES-002),
+    Critical Result Escalation Worklist / Acknowledge / Escalate / Close (BCM-RES-006), and Result
+    Notification History (BCM-RES-007).
+
+pre_existing_work_in_progress_found: >
+  This backlog item started with an uncommitted, partially built set of four screens
+  (ResultSearchScreen.tsx, ResultReportsScreen.tsx, CriticalEscalationsScreen.tsx,
+  ResultNotificationsScreen.tsx), a resultsDeliveryApi.ts client, matching types.ts additions, and
+  test files, plus AppShell/App/messages.ts wiring, all already present in the working tree from a
+  prior session. npm run format:check was the only failing gate reported at handoff. That work was
+  kept and built upon, but validating resultsDeliveryApi.ts against the real backend controllers
+  (not just the tests, which mocked the HTTP layer) found the previous session's client targeted
+  endpoints that did not actually exist as REST adapters: BCM-RES-001 result search/detail had no
+  list-by-status endpoint and getResultById omitted the backend's required tenantId parameter;
+  BCM-RES-002 report history/regenerate and BCM-RES-007 notification history had no web adapter at
+  all — only bare domain classes or an application service existed for them, despite
+  MVP-MOD-007-BE-001 ("Compile result report and document generation outputs") having been marked
+  closed. This was escalated to the requester, who selected building the missing backend end to end
+  rather than descoping or stubbing the corresponding screens.
+
+debt_first_action:
+  reviewed: 08-qa/technical-debt/technical-debt-index.yaml
+  candidates_considered:
+    - TD-FE-003
+    - TD-I18N-002
+  disposition: >
+    TD-FE-003 (ESLint complexity/max-lines-per-function warnings on screen components) was
+    reviewed. This backlog item's own new code triggered fresh instances of that same warning class
+    on ResultSearchScreen.tsx (206-line component, complexity 27) and CriticalEscalationsScreen.tsx
+    (243-line component) plus a complexity warning on resultsDeliveryApi.ts's response mapper; all
+    three were refactored down to 0 lint warnings by extracting ResultDetailPanel/
+    ResultLifecycleTimeline (ResultSearchScreen.tsx) and EscalationDetailPanel/EscalationsTable
+    (CriticalEscalationsScreen.tsx) sub-components, and by splitting the LaboratoryResult mapper
+    into toAnalyteSnapshots/toReferenceRangeSnapshots/toResultValues/toIncidents/toAmendments
+    helpers, rather than adding to the historical TD-FE-003 total. TD-FE-003 itself (pre-existing
+    screens) remains open and out of scope. TD-I18N-002 (full i18n-library adoption) is unrelated to
+    this backlog item's scope; single-occurrence screen copy for the four new screens follows the
+    same inline-copy convention as every other employee-portal screen.
+  new_debt_registered: TD-FE-007 (new) — see technical_debt section below.
+
+backend_gap_closure: >
+  Rather than leaving MVP-MOD-007-FE-001 blocked on incomplete backend work from BE-001/BE-002, the
+  following backend additions were made in 07-implementation/backend to give the four FE screens a
+  real, contract-verified surface to call (all covered by JUnit unit tests plus one MockMvc
+  integration assertion per new endpoint in LaboratoryResultsApiTest; full 07-implementation/backend
+  suite: 156 tests, 0 failures, 0 errors, 9 skipped local-database tests, JaCoCo line coverage 76.99%
+  vs. the 76.93% floor from MVP-MOD-007-BE-002):
+  - BCM-RES-001: added LaboratoryResultsService.listByStatus + LaboratoryProcessingController
+    GET /api/clinical-operations/laboratory-results?tenantId=&status= (repository.findByStatus
+    already existed in both InMemory and Jdbc implementations; only the service method and the
+    controller endpoint were missing).
+  - BCM-RES-002: built the previously-missing GeneratedResultReportRepository (port + in-memory
+    adapter), ResultReportService (list + regenerate, enforcing the RN-001 release-state
+    precondition, versioning and superseding prior active reports), and ResultReportController
+    (GET .../reports, POST .../reports/regenerate), wiring DocumentManagementService for the first
+    time to an actual production caller (previously exercised only by its own unit test). Added a
+    GENERATION_FAILED status and an integrityChecksum field to GeneratedResultReport additively,
+    without changing the existing GENERATED/SUPERSEDED enum values or constructor already covered by
+    ResultsDomainTest.
+  - BCM-RES-007: added ResultNotificationRequestRepository.findByResultId,
+    ResultNotificationService.listNotificationsForResult, and ResultNotificationController
+    (GET .../notifications). Added channel/dispatchedAt/deliveredAt/failureReason fields to
+    ResultNotificationRequest (additive; existing legacy/full constructors and getters used by
+    ResultsDomainTest and ResultNotificationServiceTest were preserved).
+  - Fixed a Spring Modulith module-boundary violation surfaced by this change: documentmanagement's
+    application/domain packages had no NamedInterface, so resultsanddigitaldelivery could not
+    legitimately depend on DocumentManagementService/StoredDocument/RetentionPolicy even though the
+    module-level allowedDependencies already listed "documentmanagement". Added
+    document-service/document-domain NamedInterfaces and referenced them explicitly;
+    PlatformFoundationModulithTest passes.
+  - All four additions follow the exact existing sibling pattern (ResultDeliveryController /
+    CriticalResultEscalationController and their in-memory repositories), including the
+    module's established convention of unconditional (no @Profile) in-memory repositories.
+
+frontend_contract_correction: >
+  resultsDeliveryApi.ts was updated to match the corrected/completed backend contract:
+  getResultById, listResultReports, regenerateReport and listResultNotifications now require and
+  send tenantId (and regenerateReport an actorId), matching every other controller in this codebase.
+  Because BCM-LAB-006's LaboratoryResult wire shape (singular analyteSnapshot/
+  referenceRangeSnapshot/resultValue, no version field) predates this backlog and is shared with
+  already-closed MVP-MOD-006 screens (ResultReleaseScreen, TechnicalValidationScreen,
+  MedicalValidationScreen) that already carry the same shape mismatch against their own FE
+  LaboratoryResult type, reshaping that shared type was out of scope (historical debt, not
+  introduced by this backlog item, per the framework's debt-first policy). Instead,
+  resultsDeliveryApi.ts normalizes the real backend response into the existing LaboratoryResult FE
+  shape at the API-client boundary (toLaboratoryResult and its five field-mapper helpers), so
+  ResultSearchScreen.tsx renders correctly against the real backend without changing the shared type
+  or the other, already-closed screens that consume it.
+
+implemented_outputs:
+  - id: FE-001
+    path: 07-implementation/employee-portal/src/api/resultsDeliveryApi.ts
+    description: Results and Digital Delivery API client for BCM-RES-001/002/004/006/007, corrected
+      to the real backend contract (tenantId/actorId parameters added; BackendLaboratoryResult
+      normalization added).
+  - id: FE-002
+    path: 07-implementation/employee-portal/src/components/screens/ResultSearchScreen.tsx
+    description: SCR-RMG-001-01/02 - result search/worklist and detail, with a critical-indicator
+      badge and lifecycle timeline; refactored into ResultDetailPanel/ResultLifecycleTimeline
+      sub-components to resolve max-lines-per-function/cognitive-complexity lint warnings.
+  - id: FE-003
+    path: 07-implementation/employee-portal/src/components/screens/ResultReportsScreen.tsx
+    description: SCR-RPT-002-01/02 - report history and regenerate action, now passing tenantId/
+      actorId to the corrected API client.
+  - id: FE-004
+    path: 07-implementation/employee-portal/src/components/screens/CriticalEscalationsScreen.tsx
+    description: SCR-CRR-006-01/02 - open-escalation worklist, acknowledge/escalate/close actions;
+      refactored into EscalationDetailPanel/EscalationsTable sub-components to resolve the
+      max-lines-per-function lint warning.
+  - id: FE-005
+    path: 07-implementation/employee-portal/src/components/screens/ResultNotificationsScreen.tsx
+    description: SCR-RNT-007-01 - notification dispatch history per result, now passing tenantId to
+      the corrected API client.
+  - id: FE-006
+    path: 07-implementation/employee-portal/src/components/layout/AppShell.tsx
+    description: Four new navigation tabs added (Result Search, Result Reports, Critical
+      Escalations, Result Notifications).
+  - id: FE-007
+    path: 07-implementation/employee-portal/src/App.tsx
+    description: New screens wired into the screen router.
+  - id: FE-008
+    path: 07-implementation/employee-portal/src/i18n/messages.ts
+    description: Cross-screen selection guards and status messages (selectResultFirst,
+      selectEscalationFirst, empty-state and action-outcome messages) added; two unused entries
+      (resultReleased, deliveryAuthorized) that were not wired to any screen were removed.
+  - id: FE-009
+    path: 07-implementation/employee-portal/src/test/resultsDeliveryApi.test.ts
+    description: API-client contract coverage, including the BackendLaboratoryResult ->
+      LaboratoryResult normalization and the corrected tenantId/actorId call signatures.
+  - id: FE-010
+    path: 07-implementation/employee-portal/src/test/ResultSearchScreen.test.tsx
+    description: UI tests for loading the worklist, empty state, result detail and the critical
+      indicator badge.
+  - id: FE-011
+    path: 07-implementation/employee-portal/src/test/ResultReportsScreen.test.tsx
+    description: UI tests for loading report history, empty state and triggering regeneration
+      (assertion updated to the corrected 3-argument regenerateReport call).
+  - id: FE-012
+    path: 07-implementation/employee-portal/src/test/CriticalEscalationsScreen.test.tsx
+    description: UI tests for the open-escalation worklist and acknowledge/escalate/close actions.
+  - id: FE-013
+    path: 07-implementation/employee-portal/src/test/ResultNotificationsScreen.test.tsx
+    description: UI tests for notification history and dispatch-status badges.
+  - id: FE-014
+    path: 07-implementation/employee-portal/src/test/AppSmoke.test.tsx
+    description: Extended to navigate to and assert the four new tabs render.
+  - id: BE-001
+    path: 07-implementation/backend/.../laboratoryworkflow/laboratoryresults/{application,adapter/in/web}
+    description: listByStatus service method and GET list-by-status controller endpoint (BCM-RES-001).
+  - id: BE-002
+    path: 07-implementation/backend/.../resultsanddigitaldelivery/reportgeneration/**
+    description: New GeneratedResultReportRepository, InMemoryGeneratedResultReportRepository,
+      ResultReportService and ResultReportController (BCM-RES-002).
+  - id: BE-003
+    path: 07-implementation/backend/.../resultsanddigitaldelivery/notifications/**
+    description: findByResultId repository method, listNotificationsForResult service method and new
+      ResultNotificationController (BCM-RES-007); channel/dispatchedAt/deliveredAt/failureReason
+      fields added to ResultNotificationRequest.
+  - id: BE-004
+    path: 07-implementation/backend/.../documentmanagement/{application,domain}/package-info.java
+    description: document-service/document-domain NamedInterfaces added to fix the Spring Modulith
+      boundary violation exposed by wiring DocumentManagementService into ResultReportService.
+  - id: BE-005
+    path: 07-implementation/backend/src/test/java/.../reportgeneration/application/ResultReportServiceTest.java
+    description: New unit tests for list/regenerate, supersede-on-regenerate and the RN-001
+      release-state guard.
+  - id: BE-006
+    path: 07-implementation/backend/src/test/java/.../notifications/application/ResultNotificationServiceTest.java
+    description: Added a listNotificationsForResult test asserting channel/dispatchedAt are recorded
+      and per-result filtering excludes unrelated results.
+  - id: BE-007
+    path: 07-implementation/backend/src/test/java/com/nexora/hop/platformfoundation/laboratoryworkflow/LaboratoryResultsApiTest.java
+    description: Extended the existing full-lifecycle MockMvc test with assertions for the new
+      search-by-status, report regenerate/list and notification-history endpoints against a real
+      Spring context.
+
+capability_coverage:
+  - capability: BCM-RES-001
+    name: Result Management
+    screens_delivered:
+      - SCR-RMG-001-01 Result Search and Worklist
+      - SCR-RMG-001-02 Result Detail (internal)
+    endpoints_used:
+      - GET /api/clinical-operations/laboratory-results?tenantId=&status=
+      - GET /api/clinical-operations/laboratory-results/{resultId}?tenantId=
+  - capability: BCM-RES-002
+    name: PDF Report Generation
+    screens_delivered:
+      - SCR-RPT-002-01 Result Report History
+      - SCR-RPT-002-02 Regenerate Report
+    endpoints_used:
+      - GET /api/clinical-operations/laboratory-results/{resultId}/reports?tenantId=
+      - POST /api/clinical-operations/laboratory-results/{resultId}/reports/regenerate?tenantId=&actorId=
+  - capability: BCM-RES-006
+    name: Critical Results
+    screens_delivered:
+      - SCR-CRR-006-01 Critical Result Escalation Worklist
+      - SCR-CRR-006-02 Acknowledge Critical Result (plus Escalate/Close)
+    endpoints_used:
+      - GET /api/results/critical-escalations/open?tenantId=
+      - POST /api/results/critical-escalations/{escalationId}/acknowledge?userId=&actorId=
+      - POST /api/results/critical-escalations/{escalationId}/escalate?actorId=
+      - POST /api/results/critical-escalations/{escalationId}/close?actorId=
+  - capability: BCM-RES-007
+    name: Result Notifications
+    screens_delivered:
+      - SCR-RNT-007-01 Result Notification History
+    endpoints_used:
+      - GET /api/clinical-operations/laboratory-results/{resultId}/notifications?tenantId=
+  - capability: BCM-RES-004 / BCM-RES-005
+    name: Digital Delivery / Result History
+    screens_delivered: []
+    note: >-
+      ui-model.yaml scopes both to patient_portal/doctor_portal (surfaces.employee_portal =
+      not_required); no employee-portal screen is required in this backlog item.
+      authorizeDelivery/getDeliveryTicket remain available in resultsDeliveryApi.ts for internal
+      operational oversight only, per the pre-existing API-layer comment.
+
+agent_agnostic_validation: >
+  Grepped every file touched by this backlog item (frontend and backend) for
+  claude|anthropic|copilot|cursor|chatgpt|openai|gemini|codex|windsurf|aider (case-insensitive). 0
+  forbidden matches; the only hits were "cursor: pointer" CSS declarations in the pre-existing
+  styles.css, confirmed as false positives.
+
+i18n_and_magic_string_validation: >
+  Non-ASCII symbols introduced in ResultSearchScreen.tsx ("⚠") were removed in favor of the existing
+  catalog-status--critical CSS class plus text and aria-label, matching the convention already used
+  by the sibling CriticalEscalationsScreen.tsx/ResultNotificationsScreen.tsx in this same backlog
+  item. The em-dash ("—") used as a missing-value placeholder was kept: it is an already-established
+  repo convention (present in SalesScreen.tsx, CashSessionsScreen.tsx, BillingRequestsScreen.tsx and
+  DiagnosticOrdersScreen.tsx before this backlog item). Cross-screen selection guards and
+  action-outcome messages were centralized in messages.ts; single-occurrence screen copy (headings,
+  button labels, empty-state prose specific to one screen) remains inline, consistent with the
+  repo's documented policy (messages.ts header comment, TD-I18N-002) that only literal duplicates
+  across screens are externalized.
+
+validation_commands:
+  - id: typecheck
+    working_directory: 07-implementation/employee-portal
+    command: npm run typecheck
+    result: passed
+  - id: lint
+    working_directory: 07-implementation/employee-portal
+    command: npm run lint
+    result: passed
+    detail: 0 errors, 24 warnings, all on pre-existing screens/files untouched by this backlog item
+      (max-lines-per-function/complexity/cognitive-complexity/sonarjs-no-duplicate-string, tracked
+      collectively by TD-FE-003). None of the four new screens or resultsDeliveryApi.ts appear in
+      the warning list after refactoring.
+  - id: test_coverage
+    working_directory: 07-implementation/employee-portal
+    command: npm run test:coverage
+    result: passed
+    detail: 29 test files, 79 tests, 0 failures.
+    line_coverage_percent: 83.98
+    previous_iteration_minimum_line_coverage_percent: 82.69
+    handoff_line_coverage_percent: 83.85
+    regression: false
+  - id: build
+    working_directory: 07-implementation/employee-portal
+    command: npm run build
+    result: passed
+  - id: duplication
+    working_directory: 07-implementation/employee-portal
+    command: npm run duplication
+    result: passed
+    detail: jscpd reports 0 findings.
+  - id: format_check
+    working_directory: 07-implementation/employee-portal
+    command: npm run format:check
+    result: passed
+    detail: Failing at handoff; fixed by running `prettier --write` on the touched files; re-run
+      confirmed 0 remaining issues.
+  - id: license_check
+    working_directory: 07-implementation/employee-portal
+    command: npm run license:check
+    result: passed
+    detail: 5 MIT, 1 UNLICENSED (unchanged from the pre-existing baseline; no new dependency added).
+  - id: npm_audit
+    working_directory: 07-implementation/employee-portal
+    command: npm audit --audit-level=low
+    result: passed
+    vulnerabilities: 0
+  - id: quality
+    working_directory: 07-implementation/employee-portal
+    command: npm run quality
+    result: passed
+    detail: Chains typecheck+lint+test:coverage+build+duplication+format:check+license:check; all
+      passed as reported individually above.
+  - id: backend_test
+    working_directory: 07-implementation/backend
+    command: mvn -o test
+    result: passed
+    detail: 156 tests, 0 failures, 0 errors, 9 skipped (local-database-only tests, unrelated to this
+      backlog item). Includes the Spring Modulith module-boundary test and a full-lifecycle MockMvc
+      integration test covering every endpoint added by this backlog item.
+    line_coverage_percent: 76.99
+    previous_iteration_minimum_line_coverage_percent: 76.93
+    regression: false
+  - id: trivy_filesystem
+    working_directory: .
+    command: trivy fs --scanners vuln,secret,misconfig --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+      --exit-code 0 --timeout 10m --skip-dirs node_modules --skip-dirs dist --skip-dirs coverage
+      --format table .
+    result: passed
+    detail: 0 vulnerabilities (backend pom.xml, employee-portal package-lock.json), 0 secrets, 0
+      misconfigurations detected.
+  - id: git_diff_check
+    command: git diff --check
+    result: passed
+    detail: 0 whitespace errors across every file touched by this backlog item.
+
+model_gaps_identified: []
+
+technical_debt:
+  registered:
+    - id: TD-FE-007
+      summary: >-
+        LaboratoryResult (AGG-009, owned by BCM-LAB-006/MVP-MOD-006) has a wire-shape mismatch
+        between its FE type (analyteSnapshots/referenceRangeSnapshots/resultValues arrays,
+        testDefinitionId, version) and the real backend record (singular analyteSnapshot/
+        referenceRangeSnapshot/resultValue, no version). This predates MVP-MOD-007-FE-001 and
+        already affected the already-closed ResultReleaseScreen.tsx, TechnicalValidationScreen.tsx
+        and MedicalValidationScreen.tsx (their tests only ever mocked the API-client boundary, never
+        exercising a real backend response). This backlog item worked around it locally by
+        normalizing the response inside resultsDeliveryApi.ts rather than reshaping the shared type.
+      disposition: open_tracked_not_introduced_by_this_backlog_recommend_dedicated_cleanup_item
+  out_of_scope_confirmed:
+    - TD-FE-003 (ESLint complexity/max-lines-per-function warnings on pre-existing, untouched
+      screens) — pre-existing, unrelated to this backlog item.
+    - TD-I18N-002 (full i18n-library adoption) — pre-existing, unrelated to this backlog item's
+      scope.
+
+validations:
+  - id: VAL-001
+    name: YAML repository files remain parseable
+    method: Full-project YAML parse (framework and project trees) including this evidence file, its
+      security-quality companion and every registry file touched by this backlog item.
+    result: passed
+  - id: VAL-002
+    name: Agent-agnostic scan
+    method: Content grep of every file touched by this backlog item for
+      claude|anthropic|copilot|cursor|chatgpt|openai|gemini|codex|windsurf|aider (case-insensitive).
+    result: passed
+    detail: >-
+      0 forbidden matches (one incidental "cursor: pointer" CSS property match confirmed a false
+      positive).
+  - id: VAL-003
+    name: Stale pointer scan
+    method: Repository-wide grep for MVP-MOD-007-FE-001 as next_backlog_item/active_backlog_item/
+      current_backlog_item before and after this backlog item's closure.
+    result: passed
+  - id: VAL-004
+    name: No prohibited execution-limitation statuses
+    method: Grepped this evidence file, its security-quality companion and every registry file
+      touched by this backlog item for passed_with_execution_limitation,
+      closed_with_execution_limitation and not_executed on any mandatory gate.
+    result: passed
+    detail: 0 matches as an actual field value.
+  - id: VAL-005
+    name: git diff --check
+    method: git diff --check across every file touched by this backlog item.
+    result: passed
+    detail: 0 whitespace errors.
+
+blocking_gaps: []
+
+readiness:
+  mvp_mod_007_fe_001_status: closed
+  ready_for_next_backlog_item: MVP-MOD-007-PORTAL-001
+  next_backlog_item_name: Compile patient and doctor released result views
+  rationale: >
+    All four screens named by this backlog item's acceptance scope (result search/worklist and
+    detail, report history and regenerate, critical escalation worklist and acknowledge/escalate/
+    close, notification history) are implemented, tested and wired into the employee portal against
+    a real, contract-verified backend. The previous session's frontend-only work was reviewed and
+    kept; the real backend gap it depended on (missing search/reports/notifications adapters, a
+    Spring Modulith boundary violation, and a missing tenantId parameter) was closed rather than
+    stubbed or descoped, with matching backend unit and integration tests. Debt-first action
+    resolved this backlog item's own new lint warnings; a genuinely pre-existing, out-of-scope
+    LaboratoryResult wire-shape mismatch was registered as TD-FE-007 rather than silently worked
+    around. Every mandatory frontend gate and the backend test suite executed and passed with 0
+    regressions against their respective coverage floors; Trivy found 0 vulnerabilities, secrets or
+    misconfigurations. No mandatory gate was left not_executed, passed_with_execution_limitation or
+    closed_with_execution_limitation.

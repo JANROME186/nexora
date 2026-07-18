@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-007-FE-001
+  current_active_backlog_item: MVP-MOD-007-PORTAL-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -400,6 +400,20 @@ known_limitations:
     The employee portal has no Appointment Scheduling, Admission Management or Quotation
     Management screens yet (MVP-MOD-004-FE-001 delivered Front Desk/Reception and Diagnostic
     Orders only); administrators with API access are not blocked; tracked as TD-FE-006.
+  - >-
+    The employee portal's LaboratoryResult type (used by ResultReleaseScreen,
+    TechnicalValidationScreen, MedicalValidationScreen and the MVP-MOD-007-FE-001 Result Search
+    screen) does not match the real BCM-LAB-006 backend record field-for-field (singular
+    analyteSnapshot/referenceRangeSnapshot/resultValue vs. the FE's plural fields, no version
+    field). MVP-MOD-007-FE-001 worked around this locally for its own screen via response
+    normalization in resultsDeliveryApi.ts; tracked as TD-FE-007.
+  - >-
+    In this sandboxed development environment, Maven runs in --offline mode and the backend
+    `-Pquality` profile's spotless/checkstyle/pmd/spotbugs/dependency-check plugins are not cached
+    locally, so QA-003 cannot execute here (PluginResolutionException, not a code finding). QA-001/
+    QA-002 (mvn test, including JaCoCo) run successfully offline and remain the authoritative
+    backend gates in this environment; QA-003 should be run in an environment with network access
+    before a release-readiness or GA gate.
 
 quality_gate_command_matrix:
   backend:

@@ -19,8 +19,8 @@ product:
     completed_module: MVP-MOD-006 Laboratory Workflow (MVP-MOD-006-DEF through MVP-MOD-006-CLOSEOUT, all closed)
     completed_status: closed
     active_module: MVP-MOD-007 Results and Digital Delivery
-    active_backlog_item: MVP-MOD-007-FE-001
-    active_module_progress: MVP-MOD-007-BE-002 closed; MVP-MOD-007-FE-001 ready to start
+    active_backlog_item: MVP-MOD-007-PORTAL-001
+    active_module_progress: MVP-MOD-007-FE-001 closed; MVP-MOD-007-PORTAL-001 ready to start
 
 source_inputs:
   framework:
@@ -543,9 +543,10 @@ modules:
         status: closed
       - id: MVP-MOD-007-FE-001
         name: Compile employee result delivery UI outputs
-        status: next
+        status: closed
       - id: MVP-MOD-007-PORTAL-001
         name: Compile patient and doctor released result views
+        status: next
       - id: MVP-MOD-007-APP-001
         name: Compile mobile result view and notification baseline
       - id: MVP-MOD-007-QA-001

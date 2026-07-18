@@ -2,6 +2,8 @@ package com.nexora.hop.platformfoundation.resultsanddigitaldelivery.notification
 
 import com.nexora.hop.platformfoundation.resultsanddigitaldelivery.notifications.domain.ResultNotificationRequest;
 import com.nexora.hop.platformfoundation.resultsanddigitaldelivery.notifications.domain.ResultNotificationRequestRepository;
+import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.ResultId;
+import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.TenantId;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -32,6 +34,17 @@ public class InMemoryResultNotificationRequestRepository implements ResultNotifi
         List<ResultNotificationRequest> results = new ArrayList<>();
         for (ResultNotificationRequest req : store.values()) {
             if (recipientId.equals(req.getRecipientId())) {
+                results.add(req);
+            }
+        }
+        return results;
+    }
+
+    @Override
+    public List<ResultNotificationRequest> findByResultId(ResultId resultId, TenantId tenantId) {
+        List<ResultNotificationRequest> results = new ArrayList<>();
+        for (ResultNotificationRequest req : store.values()) {
+            if (req.getResultId().equals(resultId) && req.getTenantId().equals(tenantId)) {
                 results.add(req);
             }
         }

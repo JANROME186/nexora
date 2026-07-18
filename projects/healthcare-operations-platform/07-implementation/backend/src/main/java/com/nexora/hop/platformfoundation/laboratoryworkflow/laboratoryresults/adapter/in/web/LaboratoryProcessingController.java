@@ -47,6 +47,14 @@ class LaboratoryProcessingController {
         return ResponseEntity.ok(service.listProcessingWorklist(tenantId, laboratoryId));
     }
 
+    // Generatable: listByStatus (BCM-RES-001 result search/worklist facade)
+    @GetMapping
+    ResponseEntity<List<LaboratoryResult>> listByStatus(
+            @RequestParam @NotBlank String tenantId,
+            @RequestParam @NotBlank String status) {
+        return ResponseEntity.ok(service.listByStatus(tenantId, status));
+    }
+
     // Generatable: getResult
     @GetMapping("/{resultId}")
     ResponseEntity<LaboratoryResult> getResult(

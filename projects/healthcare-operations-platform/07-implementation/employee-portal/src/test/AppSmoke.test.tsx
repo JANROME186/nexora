@@ -62,4 +62,25 @@ describe("Employee portal app smoke", () => {
     await user.click(screen.getByRole("button", { name: "Billing Requests" }));
     expect(screen.getByRole("heading", { name: "Billing Requests" })).toBeInTheDocument();
   });
+
+  it("navigates to Results and Digital Delivery screens (MVP-MOD-007)", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole("button", { name: "Result Search" }));
+    expect(screen.getByRole("heading", { name: "Result Search and Worklist" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Result Reports" }));
+    expect(screen.getByRole("heading", { name: "Result Report History" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Critical Escalations" }));
+    expect(
+      screen.getByRole("heading", { name: "Critical Result Escalation Worklist" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Result Notifications" }));
+    expect(
+      screen.getByRole("heading", { name: "Result Notification History" }),
+    ).toBeInTheDocument();
+  });
 });

@@ -1118,3 +1118,84 @@ export interface AmendResultRequest {
   reason: string;
   newValues: ResultValue[];
 }
+
+// -- Results and Digital Delivery (MVP-MOD-007: BCM-RES-001 to BCM-RES-007, BCM-PLT-003, BCM-PLT-008) ----
+
+export type DeliveryTicketStatus =
+  | "PENDING_AUTHORIZATION"
+  | "AUTHORIZED"
+  | "DELIVERED"
+  | "VIEWED"
+  | "WITHHELD"
+  | "EXPIRED";
+
+export interface ResultDeliveryTicket {
+  ticketId: string;
+  resultId: string;
+  tenantId: string;
+  patientId: string;
+  accessCode: string;
+  status: DeliveryTicketStatus | string;
+  expiresAt: string;
+  recipientType?: string;
+  recipientId?: string;
+  deliveryChannel?: string;
+  deliveredAt?: string;
+  viewedAt?: string;
+}
+
+export type CriticalEscalationStatus = "OPEN" | "ACKNOWLEDGED" | "ESCALATED" | "CLOSED";
+
+export interface CriticalResultEscalation {
+  escalationId: string;
+  tenantId: string;
+  laboratoryId: string;
+  resultId: string;
+  criticalReason: string;
+  escalationTier: number;
+  acknowledgementDeadline: string;
+  acknowledgedBy?: string;
+  acknowledgedAt?: string;
+  assignedHandlerId?: string;
+  status: CriticalEscalationStatus | string;
+}
+
+export type ReportStatus = "pending" | "generated" | "generation_failed" | "superseded";
+
+export interface GeneratedResultReport {
+  reportId: string;
+  resultId: string;
+  tenantId: string;
+  status: ReportStatus | string;
+  documentId?: string;
+  integrityChecksum?: string;
+  generatedAt?: string;
+  generatedBy?: string;
+}
+
+export type NotificationStatus =
+  | "pending_submission"
+  | "submitted"
+  | "dispatched"
+  | "delivered"
+  | "failed";
+
+export interface ResultNotificationRequest {
+  notificationRequestId: string;
+  resultId: string;
+  tenantId: string;
+  recipientType: string;
+  recipientId: string;
+  channel: string;
+  status: NotificationStatus | string;
+  dispatchedAt?: string;
+  deliveredAt?: string;
+  failureReason?: string;
+  createdAt?: string;
+}
+
+export interface AuthorizeDeliveryRequest {
+  resultId: string;
+  tenantId: string;
+  actorId: string;
+}

@@ -355,6 +355,16 @@ public class LaboratoryResultsService {
         return repository.findReleaseWorklist(tenantId, laboratoryId);
     }
 
+    /**
+     * List results in a given lifecycle status for a tenant (BCM-RES-001 result search/worklist).
+     */
+    public List<LaboratoryResult> listByStatus(String tenantId, String status) {
+        requiredText(tenantId, "Tenant id is required.");
+        ResultStatus parsed = requiredObject(
+                parseEnum(ResultStatus.class, status), "Status is required and must be a valid result status.");
+        return repository.findByStatus(parsed, tenantId);
+    }
+
     // -------------------------------------------------------------------------
     // Private helpers
     // -------------------------------------------------------------------------
