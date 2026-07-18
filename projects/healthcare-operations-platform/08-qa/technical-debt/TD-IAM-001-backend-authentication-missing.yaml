@@ -3,7 +3,7 @@ artifact:
   type: technical-debt-item
   name: Backend has no authenticated request context or server-side authorization enforcement
   version: 1.0.0
-  status: open
+  status: closed
   created_date: 2026-07-17
 
 source:
@@ -19,26 +19,30 @@ classification:
   risk_level: high
   urgency: high
   blocking: false
-  reason_non_blocking: >
-    The backend is local-development-only today (no externally reachable production deployment
-    exists; see 09-operations/runbooks/local-solution-runbook.yaml). Every existing screen already
-    reaches the backend without authentication prior to this iteration; this item inventories and
-    plans the fix rather than being a new regression. It is an explicit, non-waivable P0
-    precondition for COM-MOD-009 (Patient and Doctor Portals) and any customer-facing or networked
-    deployment, both of which HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml already gates behind this
-    alignment work.
+  closure_date: 2026-07-17
+  closure_backlog_item: HOP-ENT-FOUND-001-corrective-closure
+  closure_commit_pending: true
+  closure_summary: >
+    Closed by adding spring-boot-starter-security, HopWebSecurityConfiguration, a request-scoped
+    HopAuthorizationInterceptor, HopAuthenticationResolver, AuthenticatedUserContextHolder and
+    EndpointPermissionRegistry. Protected /api/** endpoints now resolve an authenticated local
+    session or token fixture, bind request context, and enforce role permissions server-side before
+    controller execution. Production OIDC/IdP hardening remains a separate future productization
+    concern, not this original "no authenticated request context / no server-side authorization"
+    gap.
 
 current_state:
   issue: >
-    Zero matches repository-wide for SecurityConfig, SecurityFilterChain, @PreAuthorize or
-    UserDetails. No spring-boot-starter-security dependency. Every REST controller accepts
-    tenantId/laboratoryId/userId as plain, unverified request parameters. A domain-level
-    AuthorizationService (identityaccess/application/AuthorizationService.java, added by
-    HOP-ENT-FOUND-001) exists and is fully unit tested but is not invoked from any request path.
+    Spring Security is present and configured through HopWebSecurityConfiguration. The request-time
+    authorization layer invokes AuthorizationService through HopAuthorizationInterceptor for mapped
+    /api/** paths. Tests prove 401 for missing authentication when the local fixture is disabled,
+    403 for roles without the required permission, and success with request context binding for
+    permitted roles.
   compensating_control:
-    - Backend is not deployed outside local development environments today.
-    - AuthorizationService and RolePermissionCatalog already model the authorization decision
-      logic, ready to be invoked once a real authenticated principal exists.
+    - Local fixture authentication remains enabled by default for developer ergonomics and existing
+      MockMvc compatibility.
+    - External/customer deployment must disable the local fixture and wire an OIDC-compatible
+      credential provider before exposure.
 
 target_state:
   preferred_open_source_tooling:
@@ -55,16 +59,16 @@ target_state:
     - Unauthorized/forbidden responses (401/403) audited via the existing AuditRecorder.
 
 remediation:
-  strategy: dedicated_backend_authentication_backlog_item_before_COM-MOD-009
+  strategy: closed_request_time_authorization_baseline
   owner: backend_platform_team
   estimated_effort: large (multi-backlog-item; spans authentication, session, and per-controller
     enforcement wiring across ~15 bounded-context modules)
   estimated_cost_impact: medium (engineering time only; no new paid dependency required — Spring
     Security and Keycloak/Authentik are both open source)
-  target_backlog: next_backend_authentication_backlog_item_not_yet_scheduled
+  target_backlog: closed_by_HOP_ENT_FOUND_001_corrective_closure
   dependencies_or_prerequisites:
-    - 03-architecture/security-compliance/session-management-baseline.yaml (BE-AUTH-001/BE-AUTH-002
-      implementation backlog)
+    - 03-architecture/security-compliance/session-management-baseline.yaml (BE-AUTH-001
+      production OIDC/IdP hardening backlog)
   incremental_remediation_triggers:
     - Scheduling of the next backend infrastructure/security backlog item.
     - COM-MOD-009 (Patient and Doctor Portals) entering active development.
@@ -74,4 +78,9 @@ remediation:
     - AuthorizationService.hasPermission is invoked from a request-scoped interceptor or method
       security on every protected controller method.
     - Denied requests return 401/403 consistently and are audit-logged.
+  closure_evidence:
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/identityaccess/security/HopWebSecurityConfiguration.java
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/identityaccess/security/HopAuthorizationInterceptor.java
+    - 07-implementation/backend/src/test/java/com/nexora/hop/platformfoundation/identityaccess/security/HopAuthorizationInterceptorTest.java
+    - 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   owner_or_responsible_role: backend_platform_team

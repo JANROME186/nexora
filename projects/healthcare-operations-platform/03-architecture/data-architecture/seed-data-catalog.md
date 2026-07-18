@@ -14,16 +14,19 @@ tables:
 This is real product/reference data loaded on every local-profile startup, not a test-only
 fixture. No backend read API consumes it yet (TD-DB-003).
 
-## Initial diagnostic services/tests/studies seed (deliberately not seeded)
+## Initial diagnostic services/tests/studies seed (implemented baseline)
 
-The standard's requirement here is conditional ("seed data for initial diagnostic tests and
-studies... when business allows"). Publishing a specific, business-real test/panel list without
-commercial sign-off on an actual customer's test menu would be fabricated catalog content
-presented as authoritative — assessed as a real risk, not a shortcut worth taking. MVP-MOD-002's
-catalog module is already closed and its lifecycle already validated end to end with
-application-generated test data during QA. **Recommended next step**: seed a real menu, using the
-same idempotent SQL pattern established here, once a pilot customer's test menu is confirmed by
-the business.
+Corrective closure added a minimal bilingual diagnostic catalog seed to
+`db/catalog-test-configuration/schema.sql` using the same idempotent SQL pattern:
+
+- **Analytes**: GLU/Glucosa/Glucose, HGB/Hemoglobina/Hemoglobin, WBC/Leucocitos/Leukocytes
+- **Sample types**: SERUM/Suero/Serum, WHOLE_BLOOD/Sangre total/Whole blood
+- **Tests**: GLU_FASTING/Glucosa en ayuno/Fasting glucose, CBC/Biometría hematica/Complete blood count
+- **Diagnostic services**: SVC_GLU_FASTING and SVC_CBC
+
+This seed is suitable for local MVP/commercial review and is not a final customer-specific test
+menu. Before customer production rollout, the business must provide the signed-off commercial
+catalog to extend or replace this baseline.
 
 ## Seed execution mechanism
 

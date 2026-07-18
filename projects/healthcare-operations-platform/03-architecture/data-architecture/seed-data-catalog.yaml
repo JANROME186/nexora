@@ -39,29 +39,29 @@ country_locale_currency_seed:
     screen (see database-architecture.yaml's TD-DB-003).
 
 initial_diagnostic_services_tests_and_studies_seed:
-  status: not_seeded_this_iteration
-  reason: >
-    The standard's requirement is conditional ("when business allows"). MVP-MOD-002's catalog
-    module is already closed (module_closed, ready_for_functional_validation) with its own
-    capability-package-driven test/panel/analyte model and closeout evidence
-    (08-qa/qa/catalog-test-configuration/MVP-MOD-002-CLOSEOUT.yaml). Introducing a specific,
-    business-real seed list of diagnostic services/tests/studies now, without product/business
-    sign-off on which actual services HOP's first commercial customer will offer, would be
-    fabricated business data presented as authoritative catalog content — assessed as
-    higher-risk than valuable for a platform-level foundation-alignment iteration that must not
-    alter the already-closed catalog module's contract. This is an explicit, disclosed decision,
-    not a silent gap.
-  what_exists_instead: >
-    MVP-MOD-002-QA-001 and prior QA evidence already exercise the catalog lifecycle
-    (define/publish/version test and panel definitions) against representative test data created
-    through the application's own commands during test execution — i.e. the catalog module's
-    correctness is already validated end to end; what is deliberately not done here is publishing a
-    specific business-real seed catalog as permanent reference data.
-  recommended_next_step: >
-    When a real pilot customer's initial test menu is confirmed (commercial/business input
-    required, not an engineering decision), add an idempotent seed script under
-    db/catalog-test-configuration/ following the same INSERT ... ON CONFLICT DO NOTHING pattern
-    established by this iteration's country/locale/currency seed.
+  status: implemented_by_corrective_closure
+  location: db/catalog-test-configuration/schema.sql (idempotent INSERT ... ON CONFLICT DO NOTHING)
+  scope: >
+    Minimal commercial-review seed for the local MVP environment, not a final customer-specific
+    catalog. The seed gives reviewers an initial bilingual diagnostic offer without fabricating a
+    full enterprise test menu.
+  data:
+    analytes:
+      - { code: GLU, name_es: Glucosa, name_en: Glucose, loinc_code: 2345-7 }
+      - { code: HGB, name_es: Hemoglobina, name_en: Hemoglobin, loinc_code: 718-7 }
+      - { code: WBC, name_es: Leucocitos, name_en: Leukocytes, loinc_code: 6690-2 }
+    sample_types:
+      - { code: SERUM, name_es: Suero, name_en: Serum }
+      - { code: WHOLE_BLOOD, name_es: Sangre total, name_en: Whole blood }
+    tests:
+      - { code: GLU_FASTING, name_es: Glucosa en ayuno, name_en: Fasting glucose }
+      - { code: CBC, name_es: Biometria hematica, name_en: Complete blood count }
+    diagnostic_services:
+      - { code: SVC_GLU_FASTING, name_es: Glucosa en ayuno, name_en: Fasting glucose }
+      - { code: SVC_CBC, name_es: Biometria hematica, name_en: Complete blood count }
+  remaining_business_action: >
+    Replace or extend this minimal seed with the first pilot customer's signed-off commercial test
+    menu before any customer production rollout.
 
 seed_execution_mechanism:
   current: >
@@ -76,7 +76,7 @@ seed_execution_mechanism:
     scripts) requirement.
 
 closure_gate_compliance: >
-  Country/locale/currency seed data required by the standard's baseline is implemented as real,
-  idempotent product data (not test-only). Initial diagnostic-service/test/study seed data is
-  explicitly and honestly deferred pending real business/commercial input, per the standard's own
-  "when business allows" qualifier, with a concrete recommended next step rather than a silent gap.
+  Country/locale/currency and a minimal diagnostic-service/test/analyte/sample seed are implemented
+  as real, idempotent product data (not test-only). The diagnostic seed is intentionally minimal
+  and suitable for local MVP review; customer-specific commercial catalog expansion remains a
+  business-owned input for deployment readiness.

@@ -19,14 +19,14 @@ purpose: >
 
 current_state_confirmed_by_repository_audit:
   backend: >
-    No authentication mechanism exists (0 matches for SecurityConfig, SecurityFilterChain,
-    @PreAuthorize, UserDetails across the entire backend). Every controller accepts plain
-    tenantId/laboratoryId/userId parameters supplied by the caller with no verification.
+    Request-time authorization now exists for mapped API paths through Spring Security,
+    HopAuthenticationResolver, HopAuthorizationInterceptor, AuthenticatedUserContextHolder and
+    EndpointPermissionRegistry. The current credential source is a documented local-development
+    bearer/header fixture, not production OIDC/IdP authentication.
   employee_portal: >
-    No AuthContext/login/session mechanism existed prior to this backlog item. A
-    SessionContext was added by this backlog item strictly as a documented local-development
-    fixture (see hardcoded_and_fixture_actor_inventory below) to demonstrate permission-driven
-    dynamic menus; it is not a production authentication mechanism.
+    SessionContext persists local session metadata, drives permission-based navigation and sends
+    X-HOP-User-Id, X-HOP-Tenant-Id, X-HOP-Branch-Id and Authorization headers to the backend. It
+    remains a documented local-development fixture, not a production login mechanism.
   mobile_app: >
     A local session scaffold already existed prior to this backlog item
     (07-implementation/mobile-app/src/auth/localAuth.ts, sessionStore.ts) producing tokens shaped
@@ -45,10 +45,16 @@ hardcoded_and_fixture_actor_inventory:
       required command fields; IdentityAccessController's AssignRoleRequest requires actorUserId
       in the request body. The literal "system" is no longer used for this path.
     residual_gap: >
-      actorUserId is still supplied explicitly by the caller (there is no session to derive it
-      from yet); once real backend authentication exists (TD-IAM-001), this should be sourced from
-      the authenticated principal instead of a request field, removing the possibility of a caller
-      claiming a false identity.
+      actorUserId is still supplied explicitly by the role-assignment request; future
+      productization should derive it from AuthenticatedUserContextHolder for every user-initiated
+      action.
+  - location: 07-implementation/backend/src/main/resources/application.yml
+    classification: documented_local_development_fixture
+    fixture_name: hop.security.local-fixture-enabled
+    reason: >
+      Keeps local development and existing tests runnable with a known ADMIN fixture when no
+      Authorization header is supplied. When disabled, mapped API paths require bearer/session
+      headers and return 401/403 as tested by HopAuthorizationInterceptorTest.
   - location: >
       07-implementation/backend/.../auditcompliance/application/AuditComplianceService.java
       (SYSTEM_ACTOR_ID constant)
@@ -66,13 +72,10 @@ hardcoded_and_fixture_actor_inventory:
     classification: documented_local_development_fixture
     fixture_name: LOCAL_DEV_FIXTURE_SESSION
     reason: >
-      The employee portal has no production login flow yet. Rather than leave every screen
-      unconditionally visible with no session concept at all (the pre-existing state), this
-      backlog item introduced an explicit, clearly-named, clearly-commented fixture session
-      (roleCodes: ["ADMIN"]) so the new permission-driven dynamic-menu mechanism (see
-      iam-permission-model.yaml) has something real to filter against today. The fixture is named
-      and JSDoc-commented as non-production and must be replaced by a real session sourced from
-      login once implemented (see implementation_backlog below).
+      The employee portal has no production login flow yet, but it now persists a local session
+      object and sends the standard X-HOP-* session headers consumed by backend request-time
+      authorization. The fixture remains named/commented as non-production and must be replaced by
+      a real session sourced from login before external deployment.
   - location: 07-implementation/mobile-app/src/auth/localAuth.ts (pre-existing)
     classification: documented_local_development_fixture
     reason: Pre-existing local/dev session stand-in; this iteration added explicit JSDoc disclosure
@@ -83,7 +86,7 @@ required_capabilities_baseline_definition:
     target: Username/password plus JWT/OIDC-compatible architecture for MVP, per
       identity-access-architecture.md's MVP scope, without precluding migration to an external IdP
       (Keycloak, Authentik, Entra ID, Okta, Auth0, Cognito).
-    status: not_yet_implemented
+    status: local_fixture_header_context_implemented
   logout:
     target: Explicit session/token invalidation, client-side session state clearing.
     status: not_yet_implemented
@@ -94,38 +97,33 @@ required_capabilities_baseline_definition:
   authenticated_user_context:
     target: A request-scoped principal (backend) and a real session object (frontend/mobile)
       replacing today's caller-supplied ids and local-dev fixtures.
-    status: partially_modeled (SessionContext/localAuth exist as fixtures; not backed by real
+    status: implemented_for_local_fixture_and_local_session_tokens (not backed by production
       credentials)
   tenant_and_branch_context:
     target: Active tenant/branch resolved from the authenticated session, not a UI-selected value.
     status: >-
-      not_yet_implemented (today, AdminScopeContext in the employee-portal is a UI-selected
-      filter, not session-derived; this is an acceptable interim state for an internal admin tool
-      but must change before external portals per COM-MOD-009)
+      partially_implemented_for_local_fixtures (employee-portal SessionContext and mobile API
+      clients propagate X-HOP-Tenant-Id and X-HOP-Branch-Id; production login must derive these
+      from the authenticated principal before external portals per COM-MOD-009)
   role_permission_loading:
     target: Permissions loaded from the authenticated user's real role assignments at login.
-    status: modeled (RolePermissionCatalog/AuthorizationService exist server-side; not yet loaded
-      into a real session because no login exists)
+    status: enforced_for_local_fixture_and_local_session_roles by HopAuthorizationInterceptor
   unauthorized_and_forbidden_error_handling:
     target: Consistent 401 (not authenticated) / 403 (authenticated, not authorized) responses,
       audit-logged.
-    status: not_yet_implemented (no enforcement point exists yet, see TD-IAM-001)
+    status: implemented_for_mapped_api_paths (401/403 tested in HopAuthorizationInterceptorTest)
   secure_storage_for_client_tokens_or_session_references:
     target: httpOnly secure cookies or equivalent secure storage for real session tokens once
       login exists; localStorage is acceptable only for the non-sensitive locale preference added
       by this iteration (see localization-strategy.md), never for credentials.
     status: not_applicable_yet (no real tokens exist to store)
 
-implementation_backlog:
+  implementation_backlog:
   - id: BE-AUTH-001
-    name: Implement backend authentication (JWT/OIDC-compatible) and request-scoped principal
-      resolution
+    name: Replace local bearer/header fixtures with JWT/OIDC-compatible authentication and derive
+      user/tenant/branch from the authenticated principal
     depends_on: none (foundational)
-    blocks: [TD-IAM-001 closure, COM-MOD-009]
-  - id: BE-AUTH-002
-    name: Wire AuthorizationService into a request-scoped interceptor/method-security layer for
-      every protected controller
-    depends_on: [BE-AUTH-001]
+    blocks: [COM-MOD-009]
   - id: FE-AUTH-001
     name: Replace employee-portal LOCAL_DEV_FIXTURE_SESSION with a real login flow calling
       BE-AUTH-001
@@ -138,9 +136,9 @@ implementation_backlog:
 closure_gate_compliance: >
   "Login, logout, session expiration, authenticated user context and permission loading baseline
   are defined with implementation backlog": satisfied via required_capabilities_baseline_definition
-  and implementation_backlog above. "Eliminate or isolate any hardcoded user/actor of productive
-  use; if it remains as a local/test fixture, it must be clearly separated and documented":
-  satisfied — the one genuine hardcoded-productive-actor gap found (IdentityAccessService's
-  "system" role-assignment actor) was fixed in code this iteration; the two new/pre-existing
-  fixtures (employee-portal SessionContext, mobile-app localAuth) are explicitly named, documented
+  and implementation_backlog above. Request-time backend permission enforcement is implemented for
+  mapped API paths. "Eliminate or isolate any hardcoded user/actor of productive use; if it remains
+  as a local/test fixture, it must be clearly separated and documented": satisfied — the one
+  genuine hardcoded-productive-actor gap found (IdentityAccessService's "system" role-assignment
+  actor) was fixed in code; remaining backend/web/mobile fixtures are explicitly named, documented
   and isolated as non-production, per hardcoded_and_fixture_actor_inventory above.

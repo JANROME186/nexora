@@ -1,3 +1,5 @@
+import { readSessionHeaders } from "../state/SessionContext";
+
 export class ApiError extends Error {
   readonly status: number;
 
@@ -31,6 +33,7 @@ async function request<TResponse>(path: string, init?: RequestInit): Promise<TRe
     headers: {
       Accept: "application/json",
       ...(init?.body ? { "Content-Type": "application/json" } : {}),
+      ...readSessionHeaders(),
       ...init?.headers,
     },
   });

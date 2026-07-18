@@ -234,3 +234,89 @@ CREATE TABLE IF NOT EXISTS catalog.price_entries (
     currency varchar(3) NOT NULL,
     amount numeric(18,2) NOT NULL
 );
+
+-- Enterprise foundation seed: minimal commercial diagnostic catalog for local MVP review.
+-- The tenant/laboratory ids align with the local security fixture and may be remapped by
+-- migration/import jobs for real customers.
+INSERT INTO catalog.analyte_definitions (
+    analyte_id, tenant_id, laboratory_id, code, name_en, name_es, loinc_code,
+    result_data_type, measurement_unit, decimal_precision, status, version, created_at, updated_at
+) VALUES
+    ('seed-analyte-glucose', 'tenant-local', 'lab-local', 'GLU', 'Glucose', 'Glucosa',
+     '2345-7', 'NUMERIC', 'mg/dL', 1, 'PUBLISHED', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('seed-analyte-hemoglobin', 'tenant-local', 'lab-local', 'HGB', 'Hemoglobin', 'Hemoglobina',
+     '718-7', 'NUMERIC', 'g/dL', 1, 'PUBLISHED', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('seed-analyte-leukocytes', 'tenant-local', 'lab-local', 'WBC', 'Leukocytes', 'Leucocitos',
+     '6690-2', 'NUMERIC', '10^3/uL', 2, 'PUBLISHED', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+ON CONFLICT (laboratory_id, code) DO NOTHING;
+
+INSERT INTO catalog.sample_types (
+    sample_type_id, tenant_id, laboratory_id, code, name_en, name_es, matrix, status,
+    version, created_at, updated_at
+) VALUES
+    ('seed-sample-serum', 'tenant-local', 'lab-local', 'SERUM', 'Serum', 'Suero',
+     'BLOOD', 'PUBLISHED', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('seed-sample-whole-blood', 'tenant-local', 'lab-local', 'WHOLE_BLOOD', 'Whole blood',
+     'Sangre total', 'BLOOD', 'PUBLISHED', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+ON CONFLICT (laboratory_id, code) DO NOTHING;
+
+INSERT INTO catalog.sample_requirements (
+    requirement_id, tenant_id, laboratory_id, sample_type_ref_id, min_volume_ml, container_ref_id,
+    handling_instructions_en, handling_instructions_es, storage_temperature, status, version,
+    created_at, updated_at
+) VALUES
+    ('seed-req-serum-chemistry', 'tenant-local', 'lab-local', 'seed-sample-serum', 1.00,
+     'SST', 'Centrifuge and separate serum within two hours.',
+     'Centrifugar y separar suero dentro de dos horas.', 'ROOM', 'PUBLISHED', 1,
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('seed-req-edta-hematology', 'tenant-local', 'lab-local', 'seed-sample-whole-blood', 2.00,
+     'EDTA', 'Mix gently after collection and avoid clotting.',
+     'Mezclar suavemente despues de la toma y evitar coagulos.', 'ROOM', 'PUBLISHED', 1,
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+ON CONFLICT (requirement_id) DO NOTHING;
+
+INSERT INTO catalog.test_definitions (
+    test_definition_id, tenant_id, laboratory_id, code, name_en, name_es, methodology,
+    measurement_unit, result_type, turnaround_time_hours, status, version, created_at, updated_at
+) VALUES
+    ('seed-test-glucose', 'tenant-local', 'lab-local', 'GLU_FASTING', 'Fasting glucose',
+     'Glucosa en ayuno', 'Enzymatic colorimetric', 'mg/dL', 'NUMERIC', 4, 'PUBLISHED', 1,
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('seed-test-cbc', 'tenant-local', 'lab-local', 'CBC', 'Complete blood count',
+     'Biometria hematica', 'Automated hematology', null, 'PANEL', 8, 'PUBLISHED', 1,
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+ON CONFLICT (laboratory_id, code) DO NOTHING;
+
+INSERT INTO catalog.test_analyte_links (
+    link_id, test_definition_id, analyte_ref_id, display_order
+) VALUES
+    ('seed-link-glucose', 'seed-test-glucose', 'seed-analyte-glucose', 1),
+    ('seed-link-cbc-hgb', 'seed-test-cbc', 'seed-analyte-hemoglobin', 1),
+    ('seed-link-cbc-wbc', 'seed-test-cbc', 'seed-analyte-leukocytes', 2)
+ON CONFLICT (link_id) DO NOTHING;
+
+INSERT INTO catalog.test_sample_requirement_links (
+    link_id, test_definition_id, sample_requirement_ref_id
+) VALUES
+    ('seed-link-glucose-sample', 'seed-test-glucose', 'seed-req-serum-chemistry'),
+    ('seed-link-cbc-sample', 'seed-test-cbc', 'seed-req-edta-hematology')
+ON CONFLICT (link_id) DO NOTHING;
+
+INSERT INTO catalog.diagnostic_services (
+    service_id, tenant_id, laboratory_id, code, name_en, name_es, category_id, service_type,
+    status, version, created_at, updated_at
+) VALUES
+    ('seed-service-glucose', 'tenant-local', 'lab-local', 'SVC_GLU_FASTING', 'Fasting glucose',
+     'Glucosa en ayuno', 'chemistry', 'LAB_TEST', 'PUBLISHED', 1,
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('seed-service-cbc', 'tenant-local', 'lab-local', 'SVC_CBC', 'Complete blood count',
+     'Biometria hematica', 'hematology', 'LAB_TEST', 'PUBLISHED', 1,
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+ON CONFLICT (laboratory_id, code) DO NOTHING;
+
+INSERT INTO catalog.diagnostic_service_component_links (
+    link_id, service_id, component_type, component_ref_id, display_order
+) VALUES
+    ('seed-svc-link-glucose', 'seed-service-glucose', 'TEST', 'seed-test-glucose', 1),
+    ('seed-svc-link-cbc', 'seed-service-cbc', 'TEST', 'seed-test-cbc', 1)
+ON CONFLICT (link_id) DO NOTHING;

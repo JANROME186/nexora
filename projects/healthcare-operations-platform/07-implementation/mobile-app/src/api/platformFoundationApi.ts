@@ -17,6 +17,7 @@ export type PlatformFoundationApiOptions = {
   baseUrl: string;
   fetcher?: FetchLike;
   getToken?: () => string | null;
+  getSessionHeaders?: () => Record<string, string>;
 };
 
 export type PlatformFoundationApi = ReturnType<typeof createPlatformFoundationApi>;
@@ -34,6 +35,10 @@ export function createPlatformFoundationApi(options: PlatformFoundationApiOption
     }
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
+    }
+    const sessionHeaders = options.getSessionHeaders?.() ?? {};
+    for (const [name, value] of Object.entries(sessionHeaders)) {
+      headers.set(name, value);
     }
 
     const response = await fetcher(`${baseUrl}${path}`, { ...init, headers });

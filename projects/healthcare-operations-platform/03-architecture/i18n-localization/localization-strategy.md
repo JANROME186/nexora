@@ -15,7 +15,7 @@ fallback to en-US.
 | Stack | Estimated hardcoded strings (pre-iteration) | Remediated this iteration | Remaining |
 |---|---|---|---|
 | Backend | ~30 domain error/validation messages | `identityaccess` module fully migrated to `MessageSource` + resource bundles | 11 other bounded-context modules — tracked by TD-I18N-002 |
-| Employee portal | ~130 (5 centralized, ~125 single-occurrence inline) | AppShell header + 26 nav tab labels via locale-keyed catalogs + language switch | ~125 per-screen inline strings — tracked by TD-I18N-002 |
+| Employee portal | ~130 (5 centralized, ~125 single-occurrence inline) | AppShell header + 27 nav tab labels via locale-keyed catalogs + language switch | ~125 per-screen inline strings — tracked by TD-I18N-002 |
 | Mobile app | 9 validation strings | Locale-keyed catalog split (no UI layer yet) | Full localization-resource validation once a renderer stack is selected (TD-APP-001) |
 
 Full detail: see `hardcoded_text_inventory` in the YAML companion.
@@ -28,9 +28,10 @@ helper. Applied end-to-end to the `identityaccess` module (validation and not-fo
 the new IAM "permission denied" message) as the reference implementation for the remaining modules
 to follow when they are next touched.
 
-**Current limitation**: locale is supplied explicitly by the caller (default es-MX) because the
-backend has no authenticated request context yet. Real `Accept-Language`/user-preference resolution
-is deferred to when backend authentication exists (see `session-management-baseline.md`).
+**Current limitation**: locale is supplied explicitly by callers or defaults to es-MX. The backend
+now has a local-development authenticated request context for mapped API paths; the next hardening
+step is `Accept-Language` resolution and, later, authenticated user-preference resolution once
+production OIDC/IdP login replaces local fixtures.
 
 ## Frontend mechanism (employee portal)
 

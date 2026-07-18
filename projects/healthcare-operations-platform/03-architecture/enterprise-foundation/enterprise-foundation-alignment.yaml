@@ -47,12 +47,13 @@ area_by_area_summary:
       - Frontend/mobile mirrored PermissionCode/RolePermissionCatalog with identical values.
       - Employee-portal AppShell dynamically filters its 27 navigation tabs by the active
         session's permissions (hides, does not merely disable, unauthorized navigation).
-    explicit_gap_disclosed: >
-      Backend has no authenticated request context at all (0 SecurityConfig/@PreAuthorize/
-      UserDetails matches repository-wide); AuthorizationService is not yet wired into any request
-      path. Registered as TD-IAM-001 (high risk, non-blocking today because the backend is
-      local-development-only, explicit P0 precondition for COM-MOD-009).
-    remediation_registered: [TD-IAM-001, TD-IAM-002]
+      - Backend request-time authorization through Spring Security + HopAuthorizationInterceptor,
+        HopAuthenticationResolver and EndpointPermissionRegistry, with 401/403/allow tests.
+    remaining_gap_disclosed: >
+      Production OIDC/IdP integration and full domain.resource.action.scope grammar remain future
+      productization scope. Local fixture authentication must be disabled before external
+      deployment.
+    remediation_registered: [TD-IAM-001 closed, TD-IAM-002 materially_reduced]
 
   3_login_and_session:
     deliverable: ../security-compliance/session-management-baseline.yaml
@@ -63,8 +64,9 @@ area_by_area_summary:
         user-initiated action, now requires and records an explicit actorUserId.
       - Employee-portal SessionContext and mobile-app localAuth.ts are both explicitly documented
         as local-development fixtures, not production defaults.
-    baseline_defined_with_implementation_backlog: [BE-AUTH-001, BE-AUTH-002, FE-AUTH-001,
-      APP-AUTH-001]
+      - Employee portal and mobile API clients now send standard X-HOP-* session headers consumed
+        by backend request-time authorization.
+    baseline_defined_with_implementation_backlog: [BE-AUTH-001, FE-AUTH-001, APP-AUTH-001]
 
   4_database_as_product_deliverable:
     deliverables:
@@ -76,6 +78,8 @@ area_by_area_summary:
       - organization.branches gained a real version column (TD-BE-009 remediation).
       - New organization.countries/locales/currencies reference tables with idempotent seed data
         (MX/US, es-MX/en-US, MXN/USD), added to db/platform-foundation/schema.sql.
+      - Minimal diagnostic catalog seed data (glucose, CBC, analytes/sample requirements and
+        services) added to db/catalog-test-configuration/schema.sql for local MVP review.
       - >-
         Fixed a real, previously-latent bug discovered during validation - a stale duplicate copy
         of platform-foundation's schema.sql existed at
@@ -103,19 +107,24 @@ area_by_area_summary:
           organizationmanagement.domain.Branch now carries a real version field; BranchSnapshot.
           from(Branch) reads it directly (the hardcoded UNVERSIONED=1 constant was removed); the
           organization.branches table carries a persisted version column. Verified by
-          BranchSnapshotTest and the full local-database-backed test suite (182/182 passing).
+          BranchSnapshotTest and the full local-database-backed test suite.
       - id: TD-I18N-002
         result: materially_reduced
         evidence: See area 1 above; backend MessageSource baseline and frontend/mobile
           locale-keyed catalogs are real, working, end-to-end mechanisms, not documentation-only.
+      - id: TD-IAM-001
+        result: closed
+        evidence: Backend request-time authentication/authorization baseline exists and is tested.
+      - id: TD-APP-002
+        result: closed
+        evidence: Mobile Vitest V8 coverage gate established at 97.15% line coverage.
     reprioritized_under_new_standard: >
       All 29 pre-existing technical-debt entries in technical-debt-index.yaml were reviewed against
       this standard's classification categories during this backlog item; none required
       reclassification beyond the two closures/reductions above. 11 new items were registered
       (below) rather than left as undocumented gaps discovered during this alignment work.
     new_debt_registered:
-      - TD-IAM-001 (high) - backend authentication missing
-      - TD-IAM-002 (medium) - permission granularity gap
+      - TD-IAM-002 (medium) - permission granularity gap (materially reduced by endpoint registry)
       - TD-DB-001 (medium) - no persistence for 3 MVP-MOD-007 modules
       - TD-DB-002 (medium) - catalog not translatable
       - TD-DB-003 (low) - no reference-data read API
@@ -131,8 +140,8 @@ area_by_area_summary:
   6_coverage_and_quality:
     backend:
       previous_baseline_percent: 76.99
-      current_percent: 77.32
-      delta_percentage_points: 0.33
+      current_percent: 77.92
+      delta_percentage_points: 0.92
       target_range_percentage_points: "3-5"
       target_met: false
       justification: >
@@ -149,27 +158,21 @@ area_by_area_summary:
         repositories 43-52 each) that this foundation-alignment iteration did not touch and whose
         modules are not in this backlog item's scope. Adding tests there would be scope creep into
         unrelated modules rather than "maximum meaningful tests in scope."
-      coverage_debt_updated: TD-BE-003 (next-iteration minimum raised to 77.32%; still tracks the
+      coverage_debt_updated: TD-BE-003 (next-iteration minimum raised to 77.92%; still tracks the
         path to 80%).
       no_regression: true
     frontend:
       previous_baseline_percent: 83.98
-      current_percent: 84.42
-      delta_percentage_points: 0.44
+      current_percent: 84.44
+      delta_percentage_points: 0.46
       no_regression: true
       note: Frontend was already above the 80% final-closure target before this iteration and
         remains above it.
     mobile:
       previous_state: not_measured
-      current_state: still_not_measured
-      reason: >
-        No coverage tool/threshold is configured in mobile-app's package.json today (its test/
-        quality scripts run `vitest run` without `--coverage`). Establishing a measured baseline
-        was not attempted in this iteration to avoid an unverified, potentially misleading number;
-        this remains explicit, tracked scope under TD-APP-002 (pre-existing), not silently
-        resolved.
-      p0_block_before_mobile_expansion: TD-APP-002 remains the P0 blocker for further mobile
-        expansion, unchanged by this iteration.
+      current_percent: 97.15
+      current_state: measured_above_80_percent_target
+      p0_block_before_mobile_expansion: resolved; TD-APP-002 closed by corrective closure.
     symbolic_improvement_rejected: >
       No stack's coverage number was accepted as a symbolic 0.01-point token increase; both
       changed stacks show a real, JaCoCo/Vitest-measured, reproducible improvement with 0
@@ -215,7 +218,8 @@ area_by_area_summary:
       No blocking finding required immediate stack change. Spring Boot 4.1.0/Java 21/springdoc
       3.0.3/PostgreSQL driver 42.7.13 remain current. Trivy filesystem scan (backend pom.xml +
       employee-portal package-lock.json) found 0 vulnerabilities; npm audit found 0
-      vulnerabilities. All evaluated-but-deferred tooling (JPA, OpenAPI Generator, MapStruct,
+      vulnerabilities, and mobile npm audit found 0 vulnerabilities after adding its dedicated
+      lockfile/toolchain. All evaluated-but-deferred tooling (JPA, OpenAPI Generator, MapStruct,
       Lombok, react-i18next/FormatJS) is registered as non-blocking technical debt with stated
       revisit triggers, not silently dropped.
       applied_immediately: [country/locale/currency schema addition, Docker-init schema resync]
@@ -226,27 +230,27 @@ verification_summary:
       mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -Pquality
       "-Dhop.local-db-tests=true" verify
     result: BUILD SUCCESS
-    tests: "182 run, 0 failures, 0 errors, 0 skipped"
-    coverage_percent: 77.32
+    tests: "190 run, 0 failures, 0 errors, 0 skipped"
+    coverage_percent: 77.92
   employee_portal:
     command: npm run quality
     result: passed (typecheck, lint, test:coverage, build, duplication, format:check, license:check)
-    tests: "31 files, 86 tests, 0 failures"
-    coverage_percent: 84.42
+    tests: "31 files, 87 tests, 0 failures"
+    coverage_percent: 84.44
     npm_audit: 0 vulnerabilities
   mobile_app:
     command: npm run quality
-    result: passed (typecheck, lint, test, duplication, format:check)
-    tests: "6 files, 15 tests, 0 failures"
-    coverage: not_configured (pre-existing gap, tracked by TD-APP-002)
+    result: passed (typecheck, lint, test:coverage, duplication, format:check)
+    tests: "6 files, 17 tests, 0 failures"
+    coverage_percent: 97.15
   trivy_filesystem:
     command: >-
       trivy fs --scanners vuln,secret,misconfig --severity
       UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL --exit-code 0 --timeout 10m --skip-dirs node_modules
       --skip-dirs dist --skip-dirs coverage --skip-dirs target --format table .
-    result: 0 vulnerabilities, 0 secrets, 0 misconfigurations
+    result: 0 vulnerabilities; no secret findings reported; no misconfiguration targets detected
   yaml_parse:
-    command: Parsed all 874 .yaml/.yml files repository-wide (excluding node_modules/target/dist/
+    command: Parsed all 878 .yaml/.yml files repository-wide (excluding node_modules/target/dist/
       coverage/.git/build/.m2) with pyyaml safe_load_all.
     result: 0 errors (2 real syntax errors found in newly-authored files during this pass were
       fixed before this final run)
@@ -271,9 +275,8 @@ closure_gate_compliance: >
   exist independently of Docker infrastructure with real schema/dictionary/normalization/seed
   artifacts; Java persistence strategy is explicitly decided; contract-first/OpenAPI generation is
   reviewed across all three stacks; Javadoc/documentation standards are applied to new code;
-  UX/UI baseline exists with real design tokens; at least two technical-debt items were closed or
-  materially reduced before feature work (TD-BE-009 closed, TD-I18N-002 materially reduced);
-  backend coverage improved with no regression (a smaller-than-target 0.33pp gain is explicitly
-  justified with maximum meaningful in-scope tests and an updated coverage debt item); mobile
-  coverage baseline remains explicit P0 debt, not silently resolved; all YAML parses; HOP remains
-  agent agnostic.
+  UX/UI baseline exists with real design tokens; multiple technical-debt items were closed or
+  materially reduced before feature work (TD-BE-009, TD-IAM-001 and TD-APP-002 closed;
+  TD-I18N-002 and TD-IAM-002 materially reduced); backend coverage improved with no regression to
+  77.92% and remains tracked to 80% under TD-BE-003; frontend remains above 80% at 84.44%; mobile
+  coverage is measured above 80% at 97.15%; all YAML parses; HOP remains agent agnostic.

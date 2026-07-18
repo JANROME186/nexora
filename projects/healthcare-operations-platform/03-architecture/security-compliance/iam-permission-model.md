@@ -12,13 +12,15 @@ exists in code today as a strict subset of that eventual model.
 
 ## Permission catalog
 
-26 permissions, one per employee-portal screen, named `SCREEN_<KEY>` (e.g. `SCREEN_PATIENTS`,
+27 permissions, one per employee-portal screen, named `SCREEN_<KEY>` (e.g. `SCREEN_PATIENTS`,
 `SCREEN_ROLE_ASSIGNMENTS`). Source of truth: backend `identityaccess/domain/PermissionCode.java`,
 mirrored by matching string constants in the employee-portal and mobile-app. Full list and
 module ownership: see the YAML companion's `permission_catalog.permissions`.
 
-**Gap, explicitly registered**: individual backend API operations and in-screen actions are not
-yet mapped 1:1 to their own permission — only their owning screen is. Tracked as **TD-IAM-002**.
+Backend API paths are now mapped to their owning screen/capability permission at request time
+through `EndpointPermissionRegistry` and `HopAuthorizationInterceptor`. Individual in-screen actions
+and fully granular `domain.resource.action.scope` permissions are not yet modeled 1:1. That residual
+granularity gap remains tracked as **TD-IAM-002** and is now materially reduced rather than open.
 
 ## Role → permission catalog
 
@@ -36,20 +38,22 @@ role code resolves to an empty permission set.
 - **Mobile app**: same filtering pattern applied to the route model via
   `visibleRoutesForPermissions()`; no rendered UI exists yet.
 
-## Backend server-side authorization — explicit gap
+## Backend server-side authorization
 
 `identityaccess/application/AuthorizationService.java` provides a fully unit-tested
-`hasPermission`/`permissionsForRoles` domain decision service. **It is not wired into any request
-path.** The backend has zero authentication mechanism today (confirmed: no `SecurityConfig`, no
-`@PreAuthorize`, no `UserDetails` anywhere) — every controller is currently reachable without any
-check. This is disclosed here explicitly, not silently omitted, per the standard's "permission
-mapping or an explicit gap" allowance. Registered as **TD-IAM-001** (high risk, non-blocking today
-because the backend is local-development-only, but an explicit P0 precondition for `COM-MOD-009`
-Patient and Doctor Portals and any customer-facing deployment).
+`hasPermission`/`permissionsForRoles` domain decision service. It is now wired into request handling:
+mapped `/api/**` paths resolve to an `EndpointAccessRule`, the request is authenticated through
+`HopAuthenticationResolver`, the authenticated context is exposed through
+`AuthenticatedUserContextHolder`, and unauthorized calls receive explicit 401/403 responses.
+
+`TD-IAM-001` is closed for the current local-development baseline. Production deployment still must
+disable fixture authentication and bind the same authorization surface to the planned OIDC/IdP flow.
 
 ## Closure gate compliance
 
 - All 27 existing screens have a permission mapping. ✅
-- Per-action/per-API-operation granularity is an explicit gap (TD-IAM-002), not silent. ✅
+- Mapped backend API paths enforce permission checks at request time. ✅
+- Per-action/per-API-operation granularity remains an explicit reduced gap (TD-IAM-002), not silent. ✅
 - Dynamic menu filtering from authenticated permissions is implemented for navigation. ✅
-  Tenant/branch-scoped enforcement at request time is folded into TD-IAM-001.
+  Tenant/branch context is propagated through the session headers and available to the request
+  context; row-level tenant enforcement remains tracked separately in data/security debt.

@@ -3,7 +3,7 @@ artifact:
   type: technical-debt-item
   name: Establish mobile coverage measurement and raise it to the 80 percent final-closure target
   version: 1.0.0
-  status: open
+  status: closed
   created_date: 2026-07-15
 
 source:
@@ -18,22 +18,28 @@ classification:
     - 07-implementation/mobile-app
   risk_level: medium
   blocking: false
+  closure_date: 2026-07-17
+  closure_backlog_item: HOP-ENT-FOUND-001-corrective-closure
+  closure_summary: >
+    Mobile now has its own Vitest V8 coverage configuration, local devDependencies/lockfile,
+    executable npm run test:coverage / npm run quality gates, and a measured line coverage baseline
+    above the 80 percent final-closure target.
   reason_non_blocking: >
     Mobile is currently a renderer-agnostic TypeScript foundation with passing tests and quality
     gates, but coverage measurement is not yet established. The first mobile-expansion iteration
     must establish the baseline and then improve toward 80%.
 
 current_state:
-  current_line_coverage_percent: not_measured
+  current_line_coverage_percent: 97.15
   final_project_closure_target_percent: 80
-  issue: Mobile coverage must become measurable and reach at least 80% before HOP can be marked commercially complete or GA-ready.
+  issue: closed; future mobile-touching iterations must preserve or improve the 97.15% measured baseline.
 
 target_state:
-  line_coverage_percent: 80
+  line_coverage_percent: 97.15
   rule: Once mobile coverage is measured, every subsequent mobile-touching iteration must preserve or improve the previous baseline.
 
 remediation:
-  strategy: establish_baseline_then_improve_to_80_before_final_closure
+  strategy: closed_by_mobile_vitest_v8_coverage_gate
   owner: mobile_platform_team
   target_backlog: first_mobile_renderer_implementation_backlog_item_not_yet_scheduled
   priority: P1
@@ -47,3 +53,7 @@ remediation:
     - First measured mobile line coverage baseline is recorded.
     - Coverage never drops below the previous measured baseline.
     - Coverage reaches at least 80% before final project closure.
+  closure_evidence:
+    - 07-implementation/mobile-app/vitest.config.mjs
+    - 07-implementation/mobile-app/package.json
+    - 08-qa/security-quality/HOP-ENT-FOUND-001/security-quality-evidence.yaml

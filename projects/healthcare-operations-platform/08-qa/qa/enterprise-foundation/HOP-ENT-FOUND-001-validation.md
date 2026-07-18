@@ -37,20 +37,22 @@ risk without that reproduction.
    column. Root cause: `runtime/local/postgres/init/001-create-platform-foundation-schemas.sql` is
    a hand-maintained duplicate of the authoritative `schema.sql`, mounted as a Docker init script
    that runs (and silently wins) before Spring Boot's own schema initializer. Resynced the
-   duplicate, reset the local Postgres volume, reran — all 182 tests passed. Registered as
-   **TD-STACK-004** so this class of risk stays tracked.
+   duplicate, reset the local Postgres volume, reran — all local-database tests passed. Registered
+   as **TD-STACK-004** so this class of risk stays tracked.
 
 ## Real code delivered
 
 - **Backend**: `Branch`/`BranchSnapshot` versioning (TD-BE-009), actor-attributed role assignment
   (removed a hardcoded `"system"`), Spring `MessageSource` i18n baseline on `identityaccess`, a
-  27-code `PermissionCode`/`RolePermissionCatalog`/`AuthorizationService` IAM domain model, and new
-  `organization.countries/locales/currencies` reference tables with seed data.
+  27-code `PermissionCode`/`RolePermissionCatalog`/`AuthorizationService` IAM domain model,
+  request-time backend authorization for mapped API paths, and new
+  `organization.countries/locales/currencies` reference tables plus minimal diagnostic catalog seed
+  data.
 - **Employee portal**: locale-keyed `es-MX`/`en-US` catalogs with a working `AppShell` language
-  switch, permission-filtered navigation backed by a documented local-dev session fixture, and CSS
-  design tokens.
-- **Mobile app**: the same locale-keyed catalog pattern and a mirrored permission model applied to
-  the route list.
+  switch, permission-filtered navigation backed by a documented local-dev session fixture, session
+  headers sent to backend API calls, and CSS design tokens.
+- **Mobile app**: the same locale-keyed catalog pattern, a mirrored permission model applied to
+  the route list, API session-header injection and a measured Vitest coverage gate.
 
 A screen-count discrepancy in the original task briefs ("26 screens") was caught during
 validation — `AppShell.TABS` actually has **27** entries, and both implementations independently
@@ -60,17 +62,19 @@ used the correct 27. All architecture docs were corrected from 26 to 27.
 
 | Gate | Result |
 |---|---|
-| Backend `mvn -Pquality -Dhop.local-db-tests=true verify` | **182 tests, 0 failures/errors, 0 skipped**, coverage 76.99% → **77.32%** |
-| Employee portal `npm run quality` | **31 files / 86 tests**, coverage 83.98% → **84.42%**, all 7 sub-gates passed |
+| Backend `mvn -Pquality -Dhop.local-db-tests=true verify` | **191 tests, 0 failures/errors, 0 skipped**, coverage 76.99% → **77.92%** |
+| Employee portal `npm run quality` | **31 files / 87 tests**, coverage 83.98% → **84.44%**, all 7 sub-gates passed |
 | Employee portal `npm audit` | 0 vulnerabilities |
-| Mobile app `npm run quality` | **6 files / 15 tests**, all passed (no coverage threshold configured — TD-APP-002) |
-| Trivy filesystem scan | 0 vulnerabilities, 0 secrets, 0 misconfigurations |
-| YAML parse (874 files) | 0 errors (2 fixed during this pass) |
+| Mobile app `npm run quality` | **6 files / 17 tests**, coverage **97.15%**, all configured gates passed |
+| Mobile app `npm audit` | 0 vulnerabilities |
+| Trivy filesystem scan | 0 vulnerabilities; no secret findings reported; no misconfiguration targets detected |
+| YAML parse (878 files) | 0 errors (2 fixed during this pass) |
 | Agent-agnostic scan | 1 match, confirmed false positive (`cursor: pointer`) |
 
 ## Readiness
 
-**Closed.** All 11 required foundation areas are addressed with real code and honest, explicitly
-registered gaps (12 new technical-debt items, none silent). Both changed stacks improved coverage
-with zero regression; the backend's shortfall against the 3-5 point target is explicitly justified.
-Next backlog item: `MVP-MOD-007-PORTAL-001`.
+**Closed after corrective closure.** All 11 required foundation areas are addressed with real code
+and honest, explicitly registered residual gaps. `TD-BE-009`, `TD-IAM-001` and `TD-APP-002` are
+closed; `TD-I18N-002` and `TD-IAM-002` are materially reduced. Backend, frontend and mobile all
+improved or established coverage with zero regression. Next backlog item:
+`MVP-MOD-007-PORTAL-001`.

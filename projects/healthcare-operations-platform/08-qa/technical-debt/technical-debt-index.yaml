@@ -35,32 +35,29 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 77.32
+        current_line_coverage_percent: 77.92
         source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 77.32
+        next_iteration_minimum_line_coverage_percent: 77.92
         final_closure_target_percent: 80
         correction_note: >-
-          HOP-ENT-FOUND-001 raised backend line coverage from 76.99% to 77.32% (+0.33pp) while
-          adding the IAM permission catalog, i18n MessageSource baseline, TD-BE-009 branch
-          versioning and the actor-attributed role-assignment fix; every touched/added class is at
-          or near 100% coverage. This is below the standard's preferred 3-5pp target; the shortfall
-          is justified in enterprise-foundation-alignment.yaml (remaining gap is concentrated in
-          pre-existing, unrelated JDBC repositories outside this iteration's scope). Future backend
-          iterations must not regress below 77.32% and must keep moving toward the 80% final
+          Corrective closure raised backend line coverage from the 77.32% floor to 77.92% while
+          adding request-time IAM enforcement and extra JdbcBillingRequestRepository coverage.
+          This is still below the standard's preferred 3-5pp target and below the final 80% target,
+          but it is a real no-regression improvement. Future backend iterations must not regress
+          below 77.92% and must keep moving toward the 80% final
           closure target.
       frontend_typescript_web:
-        current_line_coverage_percent: 84.42
+        current_line_coverage_percent: 84.44
         source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 84.42
+        next_iteration_minimum_line_coverage_percent: 84.44
         final_closure_target_percent: 80
         correction_note: >-
-          HOP-ENT-FOUND-001 raised employee-portal line coverage from 83.98% to 84.42% (+0.44pp)
-          via the new LocaleContext/SessionContext/permissions modules and their tests; already
-          above the 80% final-closure target and must not regress below 84.42%.
+          Corrective closure preserved and slightly improved employee-portal coverage to 84.44%;
+          already above the 80% final-closure target and must not regress below 84.44%.
       mobile_typescript_foundation:
-        current_line_coverage_percent: not_measured
-        source_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-003-validation.yaml
-        next_iteration_required_action: establish_measured_coverage_baseline
+        current_line_coverage_percent: 97.15
+        source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 97.15
         final_closure_target_percent: 80
   promote_to_blocking_when:
     - vulnerability_or_secure_code_finding_without_disposition
@@ -118,7 +115,7 @@ entries:
     source_backlog_item: MVP-MOD-002-CLOSEOUT
     affected_area: backend_test_coverage
     file: 08-qa/technical-debt/TD-BE-003-backend-coverage-gate.yaml
-    remediation_strategy: gradual_coverage_increase_when_backend_tests_are_touched_now_at_67_47_percent
+    remediation_strategy: gradual_coverage_increase_when_backend_tests_are_touched_now_at_77_92_percent
   - id: TD-BE-004
     title: Add backend release readiness supply-chain gates (SBOM, license, build rules)
     status: materially_reduced
@@ -265,13 +262,13 @@ entries:
     remediation_strategy: closed_by_MVP_MOD_005_FE_001_new_screen_and_api_test_coverage_80_57_percent
   - id: TD-APP-002
     title: Establish mobile coverage measurement and raise it to the 80 percent final-closure target
-    status: open
+    status: closed
     risk_level: medium
     blocking: false
     source_backlog_item: HOP-QA-ALIGN-003
     affected_area: mobile_app_test_coverage
     file: 08-qa/technical-debt/TD-APP-002-mobile-coverage-80-target.yaml
-    remediation_strategy: establish_baseline_then_improve_to_80_before_final_closure
+    remediation_strategy: closed_by_HOP_ENT_FOUND_001_corrective_mobile_vitest_coverage_97_15_percent
   - id: TD-FE-005
     title: Employee portal production security and cache headers deferred to the production hosting layer
     status: open
@@ -337,23 +334,23 @@ entries:
     remediation_strategy: gradual_when_a_future_backlog_item_touches_laboratoryOperationsApi_or_its_screens
   - id: TD-IAM-001
     title: Backend has no authenticated request context or server-side authorization enforcement
-    status: open
+    status: closed
     risk_level: high
     blocking: false
     source_backlog_item: HOP-ENT-FOUND-001
     affected_area: backend_wide_request_authentication_and_authorization
     file: 08-qa/technical-debt/TD-IAM-001-backend-authentication-missing.yaml
-    remediation_strategy: dedicated_backend_authentication_backlog_item_before_COM-MOD-009
+    remediation_strategy: closed_by_HOP_ENT_FOUND_001_corrective_request_time_authorization_baseline
   - id: TD-IAM-002
     title: Permission model is screen-level only; per-action/per-API-operation granularity and the
       domain.resource.action.scope grammar remain unmodeled
-    status: open
+    status: materially_reduced
     risk_level: medium
     blocking: false
     source_backlog_item: HOP-ENT-FOUND-001
     affected_area: iam_permission_granularity
     file: 08-qa/technical-debt/TD-IAM-002-permission-granularity-gap.yaml
-    remediation_strategy: gradual_when_a_future_backlog_item_adds_or_touches_a_protected_action
+    remediation_strategy: materially_reduced_by_endpoint_permission_registry_api_path_action_mapping
   - id: TD-DB-001
     title: resultsanddigitaldelivery, documentmanagement and notificationmanagement have no
       persistent (Jdbc) schema/repository - in-memory adapters only

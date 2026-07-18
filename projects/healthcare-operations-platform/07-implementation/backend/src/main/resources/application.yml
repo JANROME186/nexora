@@ -8,6 +8,14 @@ spring:
 hop:
   platform-foundation:
     version: 0.1.0-SNAPSHOT
+  security:
+    enforce-request-authorization: true
+    local-fixture-enabled: true
+    local-fixture-token: ${HOP_LOCAL_FIXTURE_TOKEN:local-dev-token}
+    local-fixture-tenant-id: ${HOP_LOCAL_FIXTURE_TENANT_ID:tenant-local}
+    local-fixture-branch-id: ${HOP_LOCAL_FIXTURE_BRANCH_ID:branch-local}
+    local-fixture-user-id: ${HOP_LOCAL_FIXTURE_USER_ID:local-dev-fixture-user}
+    local-fixture-role-code: ${HOP_LOCAL_FIXTURE_ROLE_CODE:ADMIN}
 
 management:
   endpoints:

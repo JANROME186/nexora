@@ -66,8 +66,8 @@ toolchain_by_stack:
         tool: JaCoCo
         status: configured_below_target
         evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.yaml
-        latest_result: 65.82_line_coverage
-        required_action: raise_to_80_percent_under_TD-BE-003_without_dropping_below_65_82
+        latest_result: 77.92_line_coverage
+        required_action: raise_to_80_percent_under_TD-BE-003_without_dropping_below_77_92
       - category: Dependency vulnerabilities
         tool: OWASP Dependency-Check
         status: configured_passing
@@ -141,13 +141,13 @@ toolchain_by_stack:
       - Prettier formatting gate
       - license-checker-rseidelsohn
       - production build gate
-    latest_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-003-validation.yaml
+    latest_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
     latest_results:
       quality_script: passed
-      tests: 18
-      coverage_lines_percent: 72.89
+      tests: 87
+      coverage_lines_percent: 84.44
       lint_errors: 0
-      lint_warnings: 11
+      lint_warnings: 24
       npm_audit_low_or_higher_vulnerabilities: 0
     gaps_to_evaluate:
       - Semgrep CE
@@ -162,17 +162,20 @@ toolchain_by_stack:
     configured_tools:
       - TypeScript strict project check
       - Vitest
+      - V8 coverage provider
       - ESLint
+      - npm audit
       - jscpd duplicate-code scan
       - Prettier formatting gate
-    latest_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-003-validation.yaml
+    latest_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
     latest_results:
       quality_script: passed
-      tests: 8
+      tests: 17
+      coverage_lines_percent: 97.15
+      npm_audit_low_or_higher_vulnerabilities: 0
     gaps_to_evaluate:
       - final mobile renderer stack before native UI implementation
-      - mobile test and coverage gate
-      - dependency and license scans
+      - native/mobile renderer-specific security analysis once native artifacts exist
       - duplicate-code and complexity analysis
       - secure-code analysis
       - localization resource validation
@@ -213,18 +216,18 @@ enterprise_quality_gate_policy:
     - new_or_updated_toolchain_debt_from_quality_toolchain_evolution_review
   current_coverage_baselines:
     backend_java_maven:
-      current_line_coverage_percent: 65.82
-      next_iteration_minimum_line_coverage_percent: 65.82
+      current_line_coverage_percent: 77.92
+      next_iteration_minimum_line_coverage_percent: 77.92
       final_closure_target_percent: 80
       tracked_by: TD-BE-003
     frontend_typescript_web:
-      current_line_coverage_percent: 72.89
-      next_iteration_minimum_line_coverage_percent: 72.89
+      current_line_coverage_percent: 84.44
+      next_iteration_minimum_line_coverage_percent: 84.44
       final_closure_target_percent: 80
       tracked_by: TD-FE-004
     mobile_typescript:
-      current_line_coverage_percent: not_measured
-      next_iteration_required_action: establish_measured_coverage_baseline
+      current_line_coverage_percent: 97.15
+      next_iteration_minimum_line_coverage_percent: 97.15
       final_closure_target_percent: 80
       tracked_by: TD-APP-002
 

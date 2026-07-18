@@ -96,11 +96,10 @@ backend_mechanism:
   configuration_class: com.nexora.hop.platformfoundation.sharedkernel.LocalizationConfig
   helper_class: com.nexora.hop.platformfoundation.sharedkernel.HopMessages
   current_limitation: >
-    Locale is currently supplied explicitly by the caller (defaulting to es-MX) because the
-    backend has no authenticated request context yet (no login/session mechanism exists — see
-    session-management-baseline.yaml). Request-scoped Accept-Language / user-preferred-locale
-    resolution is deferred until real backend authentication exists (tracked in
-    session-management-baseline.yaml's implementation backlog).
+    Locale is currently supplied explicitly by callers or defaults to es-MX. The backend now has a
+    local-development authenticated request context for mapped API paths, so the next i18n
+    hardening step is to resolve locale from Accept-Language and, later, from the authenticated
+    user's stored preference once production OIDC/IdP login replaces local fixtures.
   api_error_code_field: >
     The five *ApiErrorResponse shapes (CatalogApiErrorResponse, FrontDeskApiErrorResponse,
     IdentityAccess/OrganizationManagement ApiErrorResponse, PeopleApiErrorResponse) do not yet

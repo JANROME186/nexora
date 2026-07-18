@@ -18,7 +18,9 @@ scope:
   result: closed
 
 open_source_first_assessment:
-  new_dependencies_introduced: none
+  new_dependencies_introduced:
+    - backend: spring-boot-starter-security (open source, Apache-2.0)
+    - mobile-app: local devDependencies for Vitest/coverage, ESLint, TypeScript, Prettier and jscpd
   frontend_i18n_library_evaluation: >
     react-i18next and FormatJS (both MIT-licensed, actively maintained open source) were evaluated
     for the locale-catalog mechanism and deliberately not adopted this iteration in favor of a
@@ -39,9 +41,10 @@ stack_toolchain_baseline: 03-architecture/technology-architecture/stack-quality-
 
 technical_debt_first_action:
   reviewed: 08-qa/technical-debt/technical-debt-index.yaml
-  selected: [TD-BE-009 (closed), TD-I18N-002 (materially reduced)]
-  new_debt_registered: 12 items (TD-IAM-001, TD-IAM-002, TD-DB-001..004, TD-UX-001..003,
-    TD-STACK-002..004)
+  selected: [TD-BE-009 (closed), TD-I18N-002 (materially reduced), TD-IAM-001 (closed),
+    TD-IAM-002 (materially reduced), TD-APP-002 (closed)]
+  residual_debt_registered_or_left_open: TD-DB-001..004, TD-UX-001..003, TD-STACK-002..004 and
+    other pre-existing non-blocking debt tracked in 08-qa/technical-debt/technical-debt-index.yaml
 
 tools_run:
   backend:
@@ -59,12 +62,13 @@ tools_run:
   mobile_app:
     - TypeScript strict-mode typecheck
     - ESLint
-    - Vitest
+    - Vitest + V8 coverage provider
     - jscpd
     - Prettier
+    - npm audit
   repository_wide:
     - Trivy filesystem scan (vuln, secret, misconfig; all severities)
-    - Full-repository YAML parse (pyyaml, 874 files)
+    - Full-repository YAML parse (pyyaml, 878 files)
     - Agent-agnostic text scan
 
 commands_or_equivalent_steps:
@@ -74,6 +78,7 @@ commands_or_equivalent_steps:
   - npm run quality (working directory 07-implementation/employee-portal)
   - npm audit --audit-level=low (working directory 07-implementation/employee-portal)
   - npm run quality (working directory 07-implementation/mobile-app)
+  - npm audit --audit-level=low (working directory 07-implementation/mobile-app)
   - >-
     trivy fs --scanners vuln,secret,misconfig --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
     --exit-code 0 --timeout 10m --skip-dirs node_modules --skip-dirs dist --skip-dirs coverage
@@ -81,18 +86,18 @@ commands_or_equivalent_steps:
   - git diff --check (working directory repository root, run after final staging)
 
 results:
-  backend: "182 tests, 0 failures, 0 errors, 0 skipped. BUILD SUCCESS."
-  employee_portal: "31 test files, 86 tests, 0 failures. All 7 quality sub-gates passed."
-  mobile_app: "6 test files, 15 tests, 0 failures. All configured quality sub-gates passed."
+  backend: "191 tests, 0 failures, 0 errors, 0 skipped. BUILD SUCCESS."
+  employee_portal: "31 test files, 87 tests, 0 failures. All 7 quality sub-gates passed."
+  mobile_app: "6 test files, 17 tests, 0 failures. All configured quality sub-gates passed with V8 coverage."
 
 coverage_summary:
   backend:
     tool: JaCoCo
-    previous_iteration_minimum_line_coverage_percent: 76.99
-    current_line_coverage_percent: 77.32
-    line_missed: 1664
-    line_covered: 5674
-    line_total: 7338
+    previous_iteration_minimum_line_coverage_percent: 77.32
+    current_line_coverage_percent: 77.92
+    line_missed: 1769
+    line_covered: 6243
+    line_total: 8012
     decision: passed_no_regression_below_target_improvement_with_justification
     justification: >
       All classes touched or added by this backlog item are at or near 100% line coverage. Largest
@@ -102,18 +107,19 @@ coverage_summary:
       TD-BE-003 updated with the new baseline.
   employee_portal:
     tool: vitest --coverage (v8)
-    previous_iteration_minimum_line_coverage_percent: 83.98
-    current_line_coverage_percent: 84.42
+    previous_iteration_minimum_line_coverage_percent: 84.42
+    current_line_coverage_percent: 84.44
     decision: passed_no_regression_and_improved
   mobile_app:
-    tool: none_configured
-    decision: not_applicable_pre_existing_gap_tracked_by_TD-APP-002
+    tool: vitest --coverage (v8)
+    previous_iteration_minimum_line_coverage_percent: not_measured
+    current_line_coverage_percent: 97.15
+    decision: passed_above_80_percent_target_and_TD_APP_002_closed
 
 dependency_vulnerability_summary:
   backend_pom: 0 vulnerabilities (Trivy)
   employee_portal_package_lock: 0 vulnerabilities (Trivy and npm audit)
-  mobile_app: reuses employee-portal's node_modules/package-lock.json; no separate lockfile;
-    covered by the same Trivy/npm audit scope
+  mobile_app: 0 vulnerabilities (npm audit; dedicated package-lock.json now exists)
 
 sast_summary: >
   No new dedicated SAST run in this pass beyond the backend Maven `quality` profile's
@@ -144,10 +150,11 @@ complexity_summary: >
 
 owasp_or_secure_code_summary: >
   The one genuine hardcoded-actor finding in scope (IdentityAccessService's "system" literal for a
-  real user-initiated action) was fixed, not merely documented. The backend's complete absence of
-  authentication/authorization enforcement was found, honestly disclosed (not hidden), and
-  registered as TD-IAM-001 with explicit high risk-level and P0-before-COM-MOD-009 framing, rather
-  than silently deferred.
+  real user-initiated action) was fixed, not merely documented. Corrective closure also added a
+  Spring Security integration point plus request-time authentication/authorization enforcement
+  through HopAuthorizationInterceptor, with tests covering 401, 403 and allowed request-context
+  binding. TD-IAM-001 is closed; production OIDC/IdP hardening remains a later productization
+  concern.
 
 message_externalization_summary: >
   See 03-architecture/i18n-localization/localization-strategy.yaml. New/changed user-visible text
@@ -158,7 +165,8 @@ message_externalization_summary: >
 
 license_summary:
   employee_portal: 5 MIT, 1 UNLICENSED (unchanged; no new dependency added)
-  backend: no new dependency added; existing pom.xml dependency set unchanged
+  backend: spring-boot-starter-security added under the existing Spring open source stack
+  mobile_app: dedicated devDependency lockfile added; npm audit reports 0 vulnerabilities
 
 technology_evolution_review: >
   Spring Boot 4.1.0/Java 21/springdoc 3.0.3/PostgreSQL driver 42.7.13 remain current; no unsupported
@@ -170,10 +178,10 @@ technology_evolution_review: >
   tracked as TD-STACK-004.
 
 technical_debt_items_created_or_updated:
-  closed: [TD-BE-009]
-  materially_reduced: [TD-I18N-002]
+  closed: [TD-BE-009, TD-IAM-001, TD-APP-002]
+  materially_reduced: [TD-I18N-002, TD-IAM-002]
   status_and_baseline_updated: [TD-BE-003]
-  new: [TD-IAM-001, TD-IAM-002, TD-DB-001, TD-DB-002, TD-DB-003, TD-DB-004, TD-UX-001, TD-UX-002,
+  new: [TD-DB-001, TD-DB-002, TD-DB-003, TD-DB-004, TD-UX-001, TD-UX-002,
     TD-UX-003, TD-STACK-002, TD-STACK-003, TD-STACK-004]
 
 accepted_risks: []

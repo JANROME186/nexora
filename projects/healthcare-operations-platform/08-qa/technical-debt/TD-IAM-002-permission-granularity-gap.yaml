@@ -4,7 +4,7 @@ artifact:
   name: Permission model is screen-level only; per-action and per-API-operation granularity,
     and the full domain.resource.action.scope grammar from AUTHZ-ARCH-001, remain unmodeled
   version: 1.0.0
-  status: open
+  status: materially_reduced
   created_date: 2026-07-17
 
 source:
@@ -22,19 +22,20 @@ classification:
   urgency: medium
   blocking: false
   reason_non_blocking: >
-    The 26-permission screen-level catalog satisfies the immediate closure gate (every screen
-    mapped or an explicit gap); finer per-action/per-operation permissions are additive and do not
-    block the current navigation-level dynamic-menu mechanism.
+    Corrective closure added EndpointPermissionRegistry, binding backend API paths to capability,
+    PermissionCode and HTTP action before controller execution. Remaining scope is finer in-screen
+    button-level and domain.resource.action.scope grammar expansion, not the absence of API/action
+    mapping.
 
 current_state:
   issue: >
-    PermissionCode has exactly 26 values, one per employee-portal screen. No individual backend API
-    command/query has its own permission distinct from its owning screen, and no in-screen action
-    (e.g. cancel order, void sale, release critical result) has button-level permission filtering.
-    This is coarser than the domain.resource.action.scope convention already described as the
-    target in 03-architecture/security-compliance/authorization/authorization-model.md.
+    PermissionCode has 27 capability/screen values and EndpointPermissionRegistry maps protected
+    backend API paths to a PermissionCode, HTTP action and business capability id. In-screen
+    high-risk buttons still inherit their screen/capability permission and do not yet expose a
+    distinct domain.resource.action.scope permission value.
   compensating_control:
     - Screen-level filtering already prevents unauthorized navigation to entire feature areas.
+    - Backend request-time enforcement now protects mapped API paths with 401/403 decisions.
 
 target_state:
   preferred_open_source_tooling: []
@@ -49,7 +50,7 @@ remediation:
   estimated_cost_impact: low
   target_backlog: gradual_when_AUTHZ-ARCH-001_is_promoted_from_Draft_or_a_new_protected_action_ships
   dependencies_or_prerequisites:
-    - TD-IAM-001 (server-side enforcement must exist before per-action enforcement is meaningful)
+    - Future authorization-model promotion if domain.resource.action.scope becomes mandatory.
   incremental_remediation_triggers:
     - A future backlog item adds a new protected action.
     - AUTHZ-ARCH-001 is promoted out of Draft status.
@@ -57,4 +58,7 @@ remediation:
     - Every protected backend command/query has its own permission code.
     - Button/action-level UI filtering exists for at least the highest-risk actions (cancel order,
       void sale, release critical result).
+  progress_evidence:
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/identityaccess/security/EndpointPermissionRegistry.java
+    - 07-implementation/backend/src/test/java/com/nexora/hop/platformfoundation/identityaccess/security/EndpointPermissionRegistryTest.java
   owner_or_responsible_role: security_architecture_team

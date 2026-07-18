@@ -180,39 +180,32 @@ dynamic_menu_and_action_filtering:
       rendered navigation experience.
 
 backend_server_side_authorization:
-  status: domain_model_defined_not_yet_enforced_at_request_time
+  status: request_time_authorization_enforced_for_mapped_api_paths
   what_exists: >
     identityaccess/application/AuthorizationService.java provides hasPermission(roleCode,
     permission) and permissionsForRoles(roleCodes) as a pure domain-level authorization decision
     service, backed by RolePermissionCatalog, fully unit tested.
-  what_is_missing: >
-    There is no Spring Security filter chain, no authenticated-principal resolution, and no
-    @PreAuthorize/interceptor wiring anywhere in the backend today (confirmed by repository-wide
-    search: 0 matches for SecurityConfig, SecurityFilterChain, @PreAuthorize, UserDetails). Every
-    REST controller in the backend is currently reachable without any authorization check. This is
-    an explicit, honestly-disclosed gap, not a silent omission.
-  explicit_gap_acknowledgement: >
-    Per the enterprise-product-foundation-standard's IAM closure_gate ("permission mapping or an
-    explicit gap"), this document records the gap explicitly rather than fabricating enforcement
-    that does not exist. AuthorizationService is ready to be invoked from a real request-scoped
-    interceptor once authentication exists (see session-management-baseline.yaml's implementation
-    backlog for the login/session baseline that is the prerequisite for this).
+  what_is_enforced: >
+    HopWebSecurityConfiguration registers Spring Security and HopAuthorizationInterceptor for
+    /api/**. EndpointPermissionRegistry maps API path prefixes to PermissionCode, HTTP action and
+    capability id. HopAuthenticationResolver resolves local fixture or local-session tokens,
+    AuthenticatedUserContextHolder binds the request principal, and AuthorizationService decides
+    allow/deny before controllers execute.
+  remaining_gap: >
+    Production-grade OIDC/IdP integration and full domain.resource.action.scope permission grammar
+    remain future productization scope. Local fixture authentication is acceptable only for local
+    development and must be disabled before external deployment.
 
 technical_debt_registered:
   - id: TD-IAM-001
     title: Backend has no authenticated request context or server-side authorization enforcement
-    status: open
+    status: closed
     risk_level: high
     blocking: false
     reason_non_blocking: >
-      No production credential material, tenant boundary bypass, or externally reachable
-      deployment exists yet for this backend (local-development-only per the local solution
-      runbook); every existing screen already reaches the backend without authentication today, so
-      this iteration does not newly introduce the gap — it inventories and plans it. It is,
-      however, an explicit P0 blocker for COM-MOD-009 (Patient and Doctor Portals) and any
-      production/customer-facing deployment, which the HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml already
-      encodes as depending on this alignment item.
-    target_backlog: next_backend_authentication_backlog_item_before_COM_MOD_009
+      Request-time backend authorization baseline now exists and is verified by tests. Production
+      OIDC/IdP hardening remains a later productization concern.
+    target_backlog: closed_by_HOP_ENT_FOUND_001_corrective_closure
     owner: backend_platform_team
     acceptance_criteria:
       - A Spring Security filter chain (or equivalent) resolves an authenticated principal from a
@@ -223,7 +216,7 @@ technical_debt_registered:
   - id: TD-IAM-002
     title: Permission model is screen-level only; per-API-operation and per-action granularity,
       and the full domain.resource.action.scope grammar from AUTHZ-ARCH-001, remain unmodeled
-    status: open
+    status: materially_reduced
     risk_level: medium
     blocking: false
     target_backlog: gradual_when_a_future_backlog_item_adds_a_new_protected_action_or_when_

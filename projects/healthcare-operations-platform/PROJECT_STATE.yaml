@@ -169,19 +169,17 @@ completed_deliverables:
     left by BE-001/BE-002 by adding the missing search/report-generation/notification-history
     adapters end to end; frontend coverage 82.69% -> 83.98%, backend coverage 76.93% -> 76.99%;
     TD-FE-007 registered for a pre-existing, out-of-scope LaboratoryResult wire-shape mismatch)
-  - HOP-ENT-FOUND-001 Enterprise Product Foundation Alignment closed (localization es-MX/en-US
-    baseline for backend/frontend/mobile with a working employee-portal language switch; a
-    27-permission IAM catalog (PermissionCode/RolePermissionCatalog/AuthorizationService) with
-    permission-filtered dynamic navigation in the employee portal and an explicitly disclosed
-    backend-authentication gap (TD-IAM-001); session-management baseline with a real hardcoded-actor
-    bug fixed (IdentityAccessService role-assignment actor) and remaining fixtures explicitly
-    documented; database architecture/data-dictionary/normalization-report/seed-data-catalog
-    deliverables plus new organization.countries/locales/currencies reference tables and seed data;
-    UX/UI foundation with real CSS design tokens; persistence/contract-first generation review
-    (JPA and OpenAPI-Generator evaluated and deferred); TD-BE-009 closed and TD-I18N-002 materially
-    reduced as debt-first action; 12 new technical-debt items registered; backend coverage
-    76.99% -> 77.32%, frontend coverage 83.98% -> 84.42%, both with no regression; found and fixed a
-    real stale-duplicate Docker-init schema.sql bug during validation (TD-STACK-004 registered))
+  - HOP-ENT-FOUND-001 Enterprise Product Foundation Alignment closed and corrected (localization
+    es-MX/en-US baseline for backend/frontend/mobile with a working employee-portal language
+    switch; a 27-permission IAM catalog with request-time backend authorization enforcement,
+    API/action permission mapping and permission-filtered dynamic navigation in the employee
+    portal; session-management headers for web/mobile; database architecture/data-dictionary/
+    normalization-report/seed-data-catalog deliverables plus country/locale/currency and minimal
+    diagnostic catalog seed data; UX/UI foundation with real CSS design tokens; persistence/
+    contract-first generation review; TD-BE-009, TD-IAM-001 and TD-APP-002 closed, TD-I18N-002 and
+    TD-IAM-002 materially reduced; backend coverage 76.99% -> 77.92%, frontend coverage 83.98% ->
+    84.44%, mobile coverage measured at 97.15%, all with no regression; found and fixed a real
+    stale-duplicate Docker-init schema.sql bug during validation (TD-STACK-004 registered))
 next_deliverables:
   - Resume MVP-MOD-007-PORTAL-001 Compile patient and doctor released result views
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
@@ -253,28 +251,28 @@ development_readiness:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 77.32
+        current_line_coverage_percent: 77.92
         source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 77.32
+        next_iteration_minimum_line_coverage_percent: 77.92
         final_closure_target_percent: 80
         tracked_by: TD-BE-003
         correction_note: >-
           MVP-MOD-005-QA-001 originally reported 68.66% from a non-clean multi-run jacoco.exec
           accumulation; corrected to the reproducible clean-rebuild figure during
           MVP-MOD-005-CLOSEOUT. MVP-MOD-007-FE-001 subsequently raised the floor from 76.93% to
-          76.99%. HOP-ENT-FOUND-001 raised it again to 77.32% (+0.33pp, below the preferred 3-5pp
-          target but justified: all touched/added classes are at or near 100% covered; remaining
-          gap is pre-existing, unrelated JDBC repositories outside this backlog item's scope).
+          76.99%. HOP-ENT-FOUND-001 corrective closure raised it again to 77.92%; still below 80%
+          but above the previous floor and now protected as the next backend minimum.
       frontend_typescript_web:
-        current_line_coverage_percent: 84.42
+        current_line_coverage_percent: 84.44
         source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 84.42
+        next_iteration_minimum_line_coverage_percent: 84.44
         final_closure_target_percent: 80
         tracked_by: TD-FE-004 (closed; final-closure target reached; raised to 83.98% by
-          MVP-MOD-007-FE-001, then to 84.42% by HOP-ENT-FOUND-001)
+          MVP-MOD-007-FE-001, then to 84.44% by HOP-ENT-FOUND-001 corrective closure)
       mobile_typescript_foundation:
-        current_line_coverage_percent: not_measured
-        next_iteration_required_action: establish_measured_coverage_baseline
+        current_line_coverage_percent: 97.15
+        source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 97.15
         final_closure_target_percent: 80
         tracked_by: TD-APP-002
   client_stack_market_validation: 03-architecture/technology-architecture/client-stack-market-validation.yaml
@@ -358,8 +356,8 @@ implementation_progress:
     working_directory: projects/healthcare-operations-platform
     status: passed
     tests_run_frontend: 86
-    tests_run_mobile: 15
-    tests_run_backend: 182
+    tests_run_mobile: 17
+    tests_run_backend: 190
     failures: 0
     errors: 0
     skipped_backend: 0
@@ -367,20 +365,18 @@ implementation_progress:
       - >-
         Established the es-MX/en-US enterprise localization baseline (backend Spring MessageSource,
         frontend/mobile locale-keyed catalogs with a working employee-portal language switch), a
-        27-permission IAM catalog with permission-filtered dynamic navigation, a session-management
-        baseline (fixed a real hardcoded "system" actor bug in role assignment), database
-        architecture/dictionary/normalization/seed deliverables plus new country/locale/currency
-        reference tables, a UX/UI design-token baseline, and a persistence/contract-first generation
-        review (JPA and OpenAPI Generator evaluated and deferred).
+        27-permission IAM catalog with request-time backend authorization enforcement, API/action
+        permission mapping, permission-filtered dynamic navigation, session headers, database
+        architecture/dictionary/normalization/seed deliverables plus country/locale/currency and
+        diagnostic catalog reference seed data, a UX/UI design-token baseline, and a persistence/
+        contract-first generation review (JPA and OpenAPI Generator evaluated and deferred).
       - >-
-        Closed TD-BE-009 (branch version placeholder) and materially reduced TD-I18N-002 (full i18n
-        adoption) as debt-first action; registered 12 new technical-debt items rather than leaving
-        discovered gaps undocumented.
+        Closed TD-BE-009, TD-IAM-001 and TD-APP-002; materially reduced TD-I18N-002 and TD-IAM-002;
+        remaining productization gaps stay registered instead of being left undocumented.
       - >-
-        Backend line coverage improved from the 76.99% floor to 77.32% (+0.33pp, below the
-        preferred 3-5pp target but explicitly justified: all touched/added classes are at or near
-        100% covered); frontend line coverage improved from the 83.98% floor to 84.42%; both stacks
-        improved with no regression.
+        Backend line coverage improved to 77.92%, frontend to 84.44%, and mobile coverage was
+        established at 97.15%; all applicable stacks improved or established a baseline with no
+        regression.
       - >-
         Found and fixed two real defects during validation: a coverage-measurement methodology gap
         (local-database tests must be enabled to exercise Jdbc repositories) and a genuinely stale,
