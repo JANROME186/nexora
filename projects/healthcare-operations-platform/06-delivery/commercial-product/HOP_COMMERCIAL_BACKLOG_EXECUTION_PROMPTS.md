@@ -246,8 +246,7 @@ Mandatory setup for this backlog:
   foundation deliverables under `03-architecture/` (localization, IAM permission model,
   session-management baseline, data architecture, UX/UI, persistence/contract-generation review)
   and follow their established patterns.
-- Review `TD-IAM-001` (no backend authentication exists yet) before exposing any patient/doctor
-  portal outside local development.
+- TD-IAM-001 is closed; production OIDC/IdP hardening remains productization scope when applicable.
 - Review `08-qa/technical-debt/technical-debt-index.yaml` before feature work and resolve or materially reduce at least two relevant open debt items because HOP is now late in the operational core.
 - Preserve the employee portal coverage floor of 84.44% and the mobile TypeScript foundation floor of 97.15%; if backend code is touched, preserve the backend Java/Maven floor of 77.92% and target a 3 to 5 point improvement while backend remains below 80%.
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
@@ -256,9 +255,4 @@ Mandatory setup for this backlog:
 
 ### Previous Backlog Item (Closed)
 
-`MVP-MOD-007-FE-001` — Compiled the employee result delivery UI (Result Search/Detail, Result
-Reports, Critical Escalations, Result Notifications). Closed a real frontend/backend contract gap
-left by BE-001/BE-002 (missing search/report-generation/notification-history REST adapters) end to
-end rather than shipping a mismatched frontend. Frontend coverage 82.69% -> 83.98%; backend
-coverage 76.93% -> 76.99%. `TD-FE-007` registered for a pre-existing, out-of-scope LaboratoryResult
-wire-shape mismatch.
+`MVP-MOD-007-PORTAL-001` — Compiled patient and doctor released result views. Fixed build failures in patient-portal and doctor-portal, ensuring quality gates passed successfully. Closed TD-FE-007 (LaboratoryResult wire-shape mismatch). Commit hash: `a00423f` (functional), `579883f` (documental closure).

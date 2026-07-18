@@ -261,7 +261,7 @@ next_backlog_item:
       review) before implementing new portal screens/endpoints, and follow their established
       patterns (permission-filtered navigation, locale-keyed catalogs, session-context fixture
       isolation).
-    - TD-IAM-001 is closed and no longer acts as a P0 blocker for exposed portals; full OIDC/IdP production integration is deferred to hardening/productization.
+    - TD-IAM-001 is closed; production OIDC/IdP hardening remains productization scope when applicable.
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
