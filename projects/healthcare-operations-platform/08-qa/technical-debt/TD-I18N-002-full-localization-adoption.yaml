@@ -2,11 +2,26 @@ artifact:
   id: TD-I18N-002
   type: technical-debt-item
   name: Complete full message-catalog and localization-library adoption beyond the HOP-QA-ALIGN-005 baseline
-  version: 2.0.0
+  version: 2.1.0
   status: materially_reduced
   created_date: 2026-07-16
-  updated_date: 2026-07-17
+  updated_date: 2026-07-18
   materially_reduced_by_backlog_item: HOP-ENT-FOUND-001
+  further_materially_reduced_by_backlog_item: MVP-MOD-008-DEF
+
+further_material_reduction_evidence: >
+  This item's own recommended_trigger ("a structured-error-code API consumer, external integration
+  or native mobile client, needs `code` as a first-class response field") is concretely hit for the
+  first time by MVP-MOD-008-DEF: BCM-PLT-004, BCM-PLT-005 and BCM-PLT-010 are HOP's first
+  externally/system-facing API capabilities (integration partners, laboratory devices, migration
+  tooling). All three model a first-class `code` string field in their openapi-source.yaml
+  error_model from inception (not retrofitted), and BCM-PLT-004/BCM-PLT-005/BCM-PLT-010's ui-model.yaml
+  each reserve a dedicated message-key namespace (integration.*, apimanagement.*, migration.*) for
+  their future employee-portal screens, extending this item's acceptance criteria to new capability
+  scope. This is a modeling-stage requirement, not an implementation: the five pre-existing backend
+  *ApiErrorResponse shapes named in current_state still lack the `code` field and the ~125
+  single-occurrence employee-portal strings remain unmigrated; those remain open until a
+  code-changing backlog item (MVP-MOD-008-BE-001 onward) implements them.
 
 material_reduction_evidence: >
   A second locale being committed to (the trigger this item's original remediation_strategy named)

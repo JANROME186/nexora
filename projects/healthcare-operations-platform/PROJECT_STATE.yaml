@@ -1,8 +1,8 @@
 project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
-repository_version: 0.97.0
-current_phase: MVP-MOD-007 Results and Digital Delivery closed; MVP-MOD-008 Integration and Migration Readiness active
+repository_version: 0.98.0
+current_phase: MVP-MOD-008-DEF Integration and Migration Readiness capability package models closed; MVP-MOD-008 in progress at MVP-MOD-008-BE-001
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -195,8 +195,15 @@ completed_deliverables:
     at 98.87%, no regressions; MVP-MOD-007 acceptance summary re-validated -- PDF report
     generation, authorized-only released-result access and traceable critical-result
     notifications)
+  - MVP-MOD-008-DEF Integration and Migration Readiness capability package models (BCM-PLT-004
+    Integration Management, BCM-PLT-005 API Management, BCM-PLT-010 Open Data Ingestion and
+    Migration; BCM-PLT-010 correctly reuses AGG-016 MigrationJob and the pre-existing HOP Open Data
+    Ingestion Standard/Contract; BCM-PLT-004's IntegrationEndpoint and BCM-PLT-005's
+    ApiSurfaceRegistration are new, non-duplicating aggregates in the integration-interoperability
+    bounded context; no code implemented, definition only; TD-STACK-003 and TD-I18N-002 materially
+    reduced via modeling-stage decisions)
 next_deliverables:
-  - Begin MVP-MOD-008 Integration and Migration Readiness with MVP-MOD-008-DEF capability package models
+  - Continue MVP-MOD-008 Integration and Migration Readiness with MVP-MOD-008-BE-001 (compile integration adapter contracts and API governance outputs)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -211,7 +218,7 @@ development_readiness:
   status: ready
   ready_to_start_module: MVP-MOD-008
   in_progress_module: MVP-MOD-008
-  next_backlog_item: MVP-MOD-008-DEF
+  next_backlog_item: MVP-MOD-008-BE-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -317,7 +324,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-008
-  current_backlog_item: MVP-MOD-008-DEF
+  current_backlog_item: MVP-MOD-008-BE-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -374,10 +381,58 @@ implementation_progress:
     - MVP-MOD-007-APP-001
     - MVP-MOD-007-QA-001
     - MVP-MOD-007-CLOSEOUT
+    - MVP-MOD-008-DEF
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-008-DEF
+    - MVP-MOD-008-BE-001
   latest_validation:
+    backlog_item_id: MVP-MOD-008-DEF
+    command: >
+      Definition-only backlog item: no build/test/coverage command applies. Modeled the full
+      14-artifact capability package set for BCM-PLT-004 Integration Management, BCM-PLT-005 API
+      Management and BCM-PLT-010 Open Data Ingestion and Migration (42 artifacts). YAML parse
+      passed on all 51 new/touched files; `git diff --check` passed with 0 whitespace errors;
+      agent-agnostic scan passed with 0 matches; stale-pointer sweep passed. Materially reduced
+      TD-STACK-003 and TD-I18N-002 via modeling-stage decisions (no code changed).
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: 211
+    tests_run_employee_portal: 89
+    tests_run_patient_portal: 1
+    tests_run_doctor_portal: 1
+    tests_run_mobile: 31
+    failures: 0
+    errors: 0
+    skipped_backend: 0
+    additional_checks:
+      - >-
+        Modeled 3 capability packages for MVP-MOD-008 Integration and Migration Readiness:
+        BCM-PLT-004 Integration Management (owns new IntegrationEndpoint aggregate; models
+        IntegrationAdapterPort mirroring the FiscalAdapterPort/NotificationProviderPort/
+        DocumentStoragePort pattern), BCM-PLT-005 API Management (owns new ApiSurfaceRegistration
+        aggregate; governs public/internal/partner classification, partner API keys and rate
+        limits), and BCM-PLT-010 Open Data Ingestion and Migration (owns AGG-016 MigrationJob per
+        aggregate-catalog.yaml; implements the pre-existing HOP Open Data Ingestion Standard and
+        Contract without redefinition).
+      - >-
+        Confirmed no duplicate or competing aggregate: integration-interoperability had no prior
+        aggregate; BCM-PLT-004/BCM-PLT-005 each own a distinct new aggregate within that bounded
+        context. BCM-PLT-010's ImportBatch/ImportValidationReport are documented as the same
+        conceptual entities aggregate-catalog.yaml's AGG-016 calls SourceDataset/ValidationReport,
+        using the exact names capability-dependency-map.yaml's related_aggregates list uses for
+        BCM-PLT-010.
+      - >-
+        Materially reduced TD-STACK-003 (no OpenAPI-Generator client/server generation) by
+        designating BCM-PLT-005 as the concrete pilot target for a generated TypeScript client,
+        scheduled for MVP-MOD-008-FE-001, and TD-I18N-002 (structured error codes / full i18n
+        adoption) by modeling a first-class `code` error field and reserved message-key namespaces
+        for the first three externally/system-facing HOP capabilities, hitting that item's own
+        recommended trigger for the first time. Neither reduction implements code.
+      - >-
+        No code was implemented in this backlog item; backend coverage remains 78.51%, employee
+        portal 85.50%, mobile 98.87%, patient portal 41.93% and doctor portal 40.62%, all unchanged
+        and not regressed.
+  previous_validation_mvp_mod_007_closeout:
     backlog_item_id: MVP-MOD-007-CLOSEOUT
     command: >
       Backend `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` passed in
@@ -695,7 +750,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_iteration: MVP-MOD-008
   active_module: MVP-MOD-008 Integration and Migration Readiness
-  active_backlog_item: MVP-MOD-008-DEF
+  active_backlog_item: MVP-MOD-008-BE-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
@@ -704,6 +759,41 @@ commercial_product_progress:
   primary_development_unit: business_capability_package
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.yaml
   capability_package_progress:
+    MVP-MOD-008:
+      name: Integration and Migration Readiness
+      package_status: modeled
+      backlog_item: MVP-MOD-008-DEF
+      backlog_item_status: closed
+      execution_flow_stage: model
+      packages_modeled:
+        - BCM-PLT-004
+        - BCM-PLT-005
+        - BCM-PLT-010
+      artifacts_per_package: 14
+      bounded_contexts:
+        - integration-interoperability
+        - data-migration-portability
+      aggregate_ownership:
+        - aggregate: IntegrationEndpoint (new)
+          owner: BCM-PLT-004
+        - aggregate: ApiSurfaceRegistration (new)
+          owner: BCM-PLT-005
+        - aggregate: AGG-016 MigrationJob
+          owner: BCM-PLT-010
+      qa_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
+      qa_evidence_md: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.md
+      security_quality_evidence: 08-qa/security-quality/MVP-MOD-008-DEF/security-quality-evidence.yaml
+      security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-008-DEF/security-quality-evidence.md
+      ready_for_compilation: true
+      backend_compilation_completed: false
+      ready_for_custom_rule_implementation: false
+      custom_rules_implemented: false
+      ready_for_ui_compilation: false
+      employee_portal_ui_compiled: false
+      ready_for_module_validation: false
+      module_validated: false
+      ready_for_closeout: false
+      module_closed: false
     MVP-MOD-007:
       name: Results and Digital Delivery
       package_status: module_closed

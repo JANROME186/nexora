@@ -2,11 +2,11 @@ artifact:
   id: HOP-CAP-PKG-IDX-001
   type: capability-package-index
   name: HOP Business Capability Package Index
-  version: 1.8.0
+  version: 1.9.0
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.yaml
-  qa_evidence: ../../../08-qa/qa/results-and-digital-delivery/MVP-MOD-007-DEF-validation.yaml
+  qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
 
 policy:
   primary_development_unit: business_capability_package
@@ -33,6 +33,30 @@ do_not_write_manually:
   - Repetitive test cases
 
 completed_capability_package_groups:
+  - roadmap_group: MVP-MOD-008
+    name: Integration and Migration Readiness
+    package_status: modeled
+    backlog_item: MVP-MOD-008-DEF
+    qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
+    capabilities:
+      - capability_id: BCM-PLT-004
+        package_folder: bcm-plt-004-integration-management/
+        package_status: validated
+        bounded_context: integration-interoperability
+        primary_aggregate: IntegrationEndpoint (new platform aggregate owned by this capability)
+        mobile_scope: not_required
+      - capability_id: BCM-PLT-005
+        package_folder: bcm-plt-005-api-management/
+        package_status: validated
+        bounded_context: integration-interoperability
+        primary_aggregate: ApiSurfaceRegistration (new platform aggregate owned by this capability)
+        mobile_scope: not_required
+      - capability_id: BCM-PLT-010
+        package_folder: bcm-plt-010-open-data-ingestion-and-migration/
+        package_status: validated
+        bounded_context: data-migration-portability
+        primary_aggregate: AGG-016 MigrationJob (owner)
+        mobile_scope: not_required
   - roadmap_group: MVP-MOD-007
     name: Results and Digital Delivery
     package_status: module_closed
@@ -292,13 +316,3 @@ planned_capability_package_groups:
     capabilities:
       - capability_id: BCM-PLT-011
         package_folder: bcm-plt-011-product-marketplace-and-entitlements/
-  - roadmap_group: MVP-MOD-008
-    name: Integration and Migration Readiness
-    package_status: not_started
-    capabilities:
-      - capability_id: BCM-PLT-004
-        package_folder: bcm-plt-004-integration-management/
-      - capability_id: BCM-PLT-005
-        package_folder: bcm-plt-005-api-management/
-      - capability_id: BCM-PLT-010
-        package_folder: bcm-plt-010-open-data-ingestion-and-migration/

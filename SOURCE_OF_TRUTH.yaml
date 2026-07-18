@@ -1,7 +1,7 @@
 artifact:
   id: NEXORA-SOT-001
   type: repository-source-of-truth-registry
-  version: 0.91.0
+  version: 0.92.0
   status: approved
 sources:
   repository_readme: README.md

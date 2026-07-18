@@ -242,9 +242,9 @@ validation_commands:
 
 next_backlog_item:
   module_id: MVP-MOD-008
-  backlog_item_id: MVP-MOD-008-DEF
-  name: Capability package models
-  expected_folder: ../../
+  backlog_item_id: MVP-MOD-008-BE-001
+  name: Compile integration adapter contracts and API governance outputs
+  expected_folder: ../../07-implementation/backend/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
@@ -256,28 +256,36 @@ next_backlog_item:
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - MVP-MOD-007 Results and Digital Delivery is closed (MVP-MOD-007-CLOSEOUT); load its closeout
-      evidence (08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml) before
-      modeling BCM-PLT-004, BCM-PLT-005 and BCM-PLT-010 for MVP-MOD-008.
+    - MVP-MOD-008-DEF is closed; load the three modeled capability packages
+      (bcm-plt-004-integration-management/, bcm-plt-005-api-management/,
+      bcm-plt-010-open-data-ingestion-and-migration/) and their QA/security evidence
+      (08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml) before compiling.
     - TD-BE-010 is closed; the laboratoryworkflow sample-read-port cross-module pattern
       (frontdeskcaredelivery allowedDependencies -> laboratoryworkflow::sample-read-port) is a
       reusable reference for future read-only cross-module integration boundaries.
     - TD-FE-008 and TD-FE-009 are open (patient-portal/doctor-portal coverage baselines); do not
       regress below 41.93%/40.62% if MVP-MOD-008 touches those stacks.
+    - TD-STACK-003 and TD-I18N-002 were materially reduced by MVP-MOD-008-DEF; BCM-PLT-005's
+      generation-plan.yaml schedules the OpenAPI-Generator TypeScript client pilot for
+      MVP-MOD-008-FE-001, and all three packages model a first-class `code` error field from
+      inception — honor both when compiling.
     - TD-IAM-001 is closed; production OIDC/IdP hardening remains productization scope when applicable.
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
-    backlog_item_id: MVP-MOD-007-CLOSEOUT
+    backlog_item_id: MVP-MOD-008-DEF
     status: closed
     summary: >-
-      MVP-MOD-007-CLOSEOUT closed the Results and Digital Delivery module. Closed TD-BE-010 by
-      wiring the laboratoryworkflow SampleReadPort into DiagnosticOrderManagementService.cancel()
-      so it checks real Sample state instead of order status alone. Found and fixed a real
-      employee-portal coverage regression (84.44% floor -> 84.03%, left uncaught by
-      MVP-MOD-007-PORTAL-001) by adding a dedicated laboratoryOperationsApi.test.ts, reaching
-      85.50%. Measured patient-portal and doctor-portal coverage for the first time (41.93% and
-      40.62%) and registered TD-FE-008/TD-FE-009. Backend coverage 78.42% -> 78.51% (211 tests, 0
-      failures/errors); mobile re-confirmed at 98.87%. Re-validated the MVP-MOD-007 acceptance
-      summary: PDF report generation, authorized-only released-result access for patients/doctors,
-      and traceable critical-result notification workflows.
+      MVP-MOD-008-DEF modeled the full 14-artifact capability package set for BCM-PLT-004
+      Integration Management (new IntegrationEndpoint aggregate; IntegrationAdapterPort mirroring
+      the FiscalAdapterPort/NotificationProviderPort/DocumentStoragePort pattern), BCM-PLT-005 API
+      Management (new ApiSurfaceRegistration aggregate; public/internal/partner classification,
+      partner API keys, rate limits) and BCM-PLT-010 Open Data Ingestion and Migration (AGG-016
+      MigrationJob per aggregate-catalog.yaml, implementing the pre-existing HOP Open Data
+      Ingestion Standard/Contract without redefinition). No duplicate or competing aggregate was
+      introduced. Materially reduced TD-STACK-003 (BCM-PLT-005 scheduled as the OpenAPI-Generator
+      TypeScript client pilot for MVP-MOD-008-FE-001) and TD-I18N-002 (first-class `code` error
+      field and reserved message-key namespaces modeled from inception for HOP's first
+      externally/system-facing capabilities). No code was implemented; backend, employee-portal,
+      mobile, patient-portal and doctor-portal coverage remain unchanged at 78.51%/85.50%/98.87%/
+      41.93%/40.62%, all not regressed.

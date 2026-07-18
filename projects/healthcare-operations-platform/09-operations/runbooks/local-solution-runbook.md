@@ -4,7 +4,7 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `MVP-MOD-008-DEF`.
+Current active backlog item: `MVP-MOD-008-BE-001`.
 
 HOP Enterprise Quality Alignment (`HOP-QA-ALIGN-001` through `HOP-QA-ALIGN-CLOSEOUT`) is closed.
 HOP Enterprise Product Foundation Alignment (`HOP-ENT-FOUND-001`) is closed — see
@@ -24,8 +24,10 @@ TD-FE-008/TD-FE-009), and re-confirmed backend coverage at 78.51% and mobile cov
 with no regressions. `HOP-ENT-FOUND-001` closed the enterprise product foundation alignment
 (localization, IAM permission catalog, session baseline, database deliverables, UX/UI,
 persistence/contract-generation review, debt burn-down and coverage improvement). Functional
-development has moved to `MVP-MOD-008 Integration and Migration Readiness`, starting with
-`MVP-MOD-008-DEF`.
+development has moved to `MVP-MOD-008 Integration and Migration Readiness`. `MVP-MOD-008-DEF`
+(capability package models for BCM-PLT-004, BCM-PLT-005, BCM-PLT-010) is closed as a
+definition-only backlog item that added no runtime component, port, environment variable, startup
+order or validation command; this runbook required no edit. Continuing with `MVP-MOD-008-BE-001`.
 
 **Local Postgres schema note (added by HOP-ENT-FOUND-001)**: the local-database-backed backend
 tests require the running Postgres container's schema to match

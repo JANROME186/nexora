@@ -1,0 +1,129 @@
+artifact:
+  id: HOP-BM-BCM-PLT-005
+  type: business-model
+  name: API Management Business Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-005
+  bounded_context: integration-interoperability
+  primary_aggregate: ApiSurfaceRegistration
+  model_kind: aggregate_owner
+
+entities:
+  - id: ENT-APIM-001
+    name: ApiSurfaceRegistration
+    is_aggregate_root: true
+    description: >
+      Governance record for one API operation exposed by any HOP capability (identified by its
+      openapi-source.yaml operation id). Owns only classification, versioning and deprecation
+      metadata; the operation's business behavior belongs entirely to its owning capability.
+    fields:
+      - name: registrationId
+        type: uuid
+        required: true
+        identifier: true
+      - name: tenantId
+        type: TenantId
+        required: false
+        description: Null for platform-wide operations; set when a classification is tenant-specific.
+      - name: ownerCapability
+        type: string
+        required: true
+        description: The capability whose openapi-source.yaml declares this operation, e.g. BCM-RES-004.
+      - name: operationId
+        type: string
+        required: true
+      - name: classification
+        type: enum
+        values: [public, internal, partner]
+        required: true
+      - name: apiVersion
+        type: string
+        required: true
+      - name: deprecationStatus
+        type: enum
+        values: [active, deprecation_scheduled, retired]
+        required: true
+      - name: deprecationWindow
+        type: DateRange
+        required: false
+      - name: audit
+        type: AuditMetadata
+        required: true
+  - id: ENT-APIM-002
+    name: PartnerApiKey
+    is_aggregate_root: false
+    parent: ApiSurfaceRegistration
+    description: A scoped, revocable credential issued to a partner consumer for classified partner operations.
+    fields:
+      - name: keyId
+        type: uuid
+        required: true
+        identifier: true
+      - name: tenantId
+        type: TenantId
+        required: true
+      - name: consumerName
+        type: string
+        required: true
+      - name: grantedScopes
+        type: list_of_string
+        required: true
+      - name: rateLimitPolicyRef
+        type: uuid
+        required: true
+      - name: status
+        type: enum
+        values: [active, revoked, expired]
+        required: true
+      - name: audit
+        type: AuditMetadata
+        required: true
+  - id: ENT-APIM-003
+    name: RateLimitPolicy
+    is_aggregate_root: false
+    parent: ApiSurfaceRegistration
+    description: Rate-limit configuration applied per consumer or classification tier.
+    fields:
+      - name: policyId
+        type: uuid
+        required: true
+        identifier: true
+      - name: classification
+        type: enum
+        values: [public, internal, partner]
+        required: true
+      - name: requestsPerMinute
+        type: integer
+        required: true
+      - name: audit
+        type: AuditMetadata
+        required: true
+
+value_objects: []
+
+ports: []
+
+invariants:
+  - id: INV-APIM-001
+    statement: An API operation cannot be published as public or partner until its ApiSurfaceRegistration entry declares a classification; unclassified operations remain internal by default and cannot be exposed externally.
+  - id: INV-APIM-002
+    statement: A partner operation cannot be invoked without a valid, non-revoked, non-expired PartnerApiKey whose grantedScopes cover the requested operation and whose tenantId matches the request.
+  - id: INV-APIM-003
+    statement: Deprecating or introducing a breaking change to a published public or partner operation requires a deprecationWindow and a documented migration note before deprecationStatus can move to deprecation_scheduled.
+  - id: INV-APIM-004
+    statement: This capability never implements the business behavior of a classified operation; it only governs classification, partner keys, rate limits and deprecation for operations owned by other capabilities.
+
+external_references:
+  - shared_kernel:
+      - VO-ID-001 TenantId
+      - VO-006 DateRange
+      - VO-007 AuditMetadata
+  - capabilities:
+      - BCM-PLT-004 Integration Management (shares the integration-interoperability bounded context; IntegrationAcknowledgement informs partner API delivery observability)
+      - BCM-RES-004 Digital Delivery (partner-classified doctor/patient result operations, MVP-MOD-007)
+  - future_consumers:
+      - COM-MOD-009 Patient and Doctor Portals (doctor_portal partner_api_later per MVP-MOD-008 product_surfaces)
+      - COM-MOD-011 Public Website and Digital Growth (public-classified discovery operations)
+      - COM-MOD-017 Product Marketplace and Extension Packaging (marketplace public listing operations)

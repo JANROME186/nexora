@@ -1,0 +1,71 @@
+artifact:
+  id: HOP-GEN-BCM-PLT-004
+  type: generation-plan
+  name: Integration Management Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-004
+  compiler_strategy: model_to_platform
+
+generated_outputs:
+  backend:
+    - DTOs for IntegrationEndpoint, IntegrationMessageRecord and the canonical envelope value objects
+    - Repository interfaces and persistence adapters for endpoint/message metadata
+    - API adapters for registerIntegrationEndpoint, listIntegrationEndpoints, retireIntegrationEndpoint, getMessage
+  frontend:
+    - Integration Endpoints screen (list, register, retire)
+    - Integration Message Log screen shell (custom retry action wired separately)
+  contracts:
+    - Rendered OpenAPI document from openapi-source.yaml
+    - Typed SDK
+    - Swagger documentation
+  tests:
+    - Repetitive unit tests for RN-006
+    - Contract tests for authorization
+  operations:
+    - Metric and log wiring from observability-model.yaml
+    - Dashboard skeleton
+    - Alert definitions
+
+custom_implementation_points:
+  - id: CUS-INT-004-01
+    description: IntegrationAdapterPort interface and local deterministic default adapter (RN-001), mirroring the FiscalAdapterPort/DocumentStoragePort/NotificationProviderPort pattern.
+    maps_to_backlog: MVP-MOD-008-BE-001
+  - id: CUS-INT-004-02
+    description: Canonical error-code mapping during normalization (RN-002).
+    maps_to_backlog: MVP-MOD-008-BE-001
+  - id: CUS-INT-004-03
+    description: Idempotency-key deduplication keyed by externalMessageId (RN-003).
+    maps_to_backlog: MVP-MOD-008-BE-001
+  - id: CUS-INT-004-04
+    description: Bounded, auditable retry/dead-letter policy (RN-004).
+    maps_to_backlog: MVP-MOD-008-BE-002
+  - id: CUS-INT-004-05
+    description: Correlation-id propagation across inbound/outbound audit events (RN-005).
+    maps_to_backlog: MVP-MOD-008-BE-002
+  - id: CUS-INT-004-06
+    description: Protocol-specific parsing library evaluation and selection (open-source-first, e.g. HAPI FHIR for FHIR, an open-source HL7v2 parser); tracked as a stack decision, not a modeling gap.
+    maps_to_backlog: MVP-MOD-008-BE-001
+
+do_not_write_manually:
+  - CRUD scaffolding
+  - DTOs
+  - Controllers
+  - Repositories
+  - Swagger documentation
+  - SDKs
+  - Repetitive documentation
+  - Repetitive test cases
+
+provenance:
+  source_models:
+    - business-model.yaml
+    - business-rules.yaml
+    - processes.yaml
+    - events.yaml
+    - openapi-source.yaml
+    - ui-model.yaml
+    - permissions.yaml
+    - observability-model.yaml
+  generation_metadata_required: true

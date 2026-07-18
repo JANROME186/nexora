@@ -1,0 +1,88 @@
+artifact:
+  id: HOP-API-SRC-BCM-PLT-005
+  type: openapi-source
+  name: API Management API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-005
+  note: >
+    Source contract model. The rendered OpenAPI document, controllers, DTOs and SDKs are generated
+    outputs declared in generation-plan.yaml. Governance operations are internal/admin-only; the
+    operations being classified belong to their owning capabilities' own openapi-source.yaml files.
+
+api:
+  base_path: /api/platform/api-management
+  surface_classification: internal
+  security:
+    scheme: bearer_jwt
+    required_scopes_default: [api.classification.manage, api.partnerkey.manage]
+
+resources:
+  - name: ApiSurfaceRegistration
+    operations:
+      - id: classifyApiOperation
+        method: POST
+        path: /operations/{operationId}/classification
+        scopes: [api.classification.manage]
+        generatable: false
+        custom_reason: Classification defaulting and publish-gating logic.
+      - id: listApiOperations
+        method: GET
+        path: /operations
+        scopes: [api.classification.manage]
+        generatable: true
+      - id: scheduleApiDeprecation
+        method: POST
+        path: /operations/{operationId}/deprecation
+        scopes: [api.classification.manage]
+        generatable: false
+        custom_reason: Deprecation-window and migration-note completeness checks.
+  - name: PartnerApiKey
+    operations:
+      - id: issuePartnerApiKey
+        method: POST
+        path: /partner-keys
+        scopes: [api.partnerkey.manage]
+        generatable: false
+        custom_reason: Scope-coverage validation against classified partner operations.
+      - id: revokePartnerApiKey
+        method: POST
+        path: /partner-keys/{keyId}/revoke
+        scopes: [api.partnerkey.manage]
+        generatable: true
+      - id: listPartnerApiKeys
+        method: GET
+        path: /partner-keys
+        scopes: [api.partnerkey.manage]
+        generatable: true
+  - name: RateLimitPolicy
+    operations:
+      - id: setRateLimitPolicy
+        method: PUT
+        path: /rate-limit-policies/{classification}
+        scopes: [api.ratelimit.manage]
+        generatable: true
+
+schemas_source:
+  - ApiSurfaceRegistration
+  - PartnerApiKey
+  - RateLimitPolicy
+
+error_model:
+  standard: rfc7807
+  code_field: >
+    Every error response carries a first-class, independently parseable `code` string field
+    (not only a human-readable message), matching BCM-PLT-004's precedent for external/partner-
+    facing APIs and materially advancing TD-I18N-002's acceptance criteria toward new capabilities.
+  domain_errors:
+    - code: API_OPERATION_NOT_CLASSIFIED
+      maps_to_rule: RN-001
+    - code: API_PARTNER_KEY_INVALID_OR_SCOPE_MISMATCH
+      maps_to_rule: RN-002
+    - code: API_DEPRECATION_WINDOW_MISSING
+      maps_to_rule: RN-003
+    - code: API_RATE_LIMIT_EXCEEDED
+      maps_to_rule: RN-004
+    - code: API_MANAGEMENT_SCOPE_MISMATCH
+      maps_to_rule: RN-006

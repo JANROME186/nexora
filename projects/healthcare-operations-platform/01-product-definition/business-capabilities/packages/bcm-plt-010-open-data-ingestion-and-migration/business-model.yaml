@@ -1,0 +1,289 @@
+artifact:
+  id: HOP-BM-BCM-PLT-010
+  type: business-model
+  name: Open Data Ingestion and Migration Business Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-010
+  bounded_context: data-migration-portability
+  primary_aggregate: MigrationJob
+  model_kind: aggregate_owner
+  aggregate_catalog_reference: AGG-016
+
+entities:
+  - id: ENT-MIG-001
+    name: MigrationJob
+    is_aggregate_root: true
+    description: >
+      AGG-016 in aggregate-catalog.yaml. One customer migration or onboarding effort, owning every
+      package, mapping, validation, reconciliation and execution record produced during that
+      effort. Never mutates a business aggregate directly; execution happens exclusively through
+      the owning domain's own commands.
+    fields:
+      - name: migrationJobId
+        type: uuid
+        required: true
+        identifier: true
+      - name: tenantId
+        type: TenantId
+        required: true
+      - name: laboratoryId
+        type: LaboratoryId
+        required: true
+      - name: sourceSystemName
+        type: string
+        required: true
+      - name: status
+        type: enum
+        values: [created, package_received, mapped, dry_run_validated, approved, executing, reconciled, failed]
+        required: true
+      - name: audit
+        type: AuditMetadata
+        required: true
+  - id: ENT-MIG-002
+    name: ImportBatch
+    is_aggregate_root: false
+    parent: MigrationJob
+    description: >
+      One received migration package (a manifest-declared bundle in an accepted format). Referred
+      to as "SourceDataset" in aggregate-catalog.yaml's owns-list; ImportBatch is the exact name
+      used by capability-dependency-map.yaml's related_aggregates for BCM-PLT-010, kept here for
+      cross-registry consistency.
+    fields:
+      - name: importBatchId
+        type: uuid
+        required: true
+        identifier: true
+      - name: migrationJobId
+        type: uuid
+        required: true
+      - name: manifest
+        type: MigrationManifest
+        required: true
+      - name: storedPackageReference
+        type: uuid
+        required: false
+        description: >
+          Reference to a StoredDocument (BCM-PLT-008) holding the raw uploaded bundle, when
+          document-management is available; optional so this capability does not hard-depend on it.
+      - name: entityCounts
+        type: map
+        required: true
+      - name: audit
+        type: AuditMetadata
+        required: true
+  - id: ENT-MIG-003
+    name: MappingTemplate
+    is_aggregate_root: false
+    parent: MigrationJob
+    description: Anti-corruption field-mapping definition from source fields to HOP canonical entities for one ImportBatch.
+    fields:
+      - name: mappingTemplateId
+        type: uuid
+        required: true
+        identifier: true
+      - name: importBatchId
+        type: uuid
+        required: true
+      - name: fieldMappings
+        type: map
+        required: true
+      - name: codeDictionaries
+        type: map
+        required: false
+      - name: audit
+        type: AuditMetadata
+        required: true
+  - id: ENT-MIG-004
+    name: ImportValidationReport
+    is_aggregate_root: false
+    parent: MigrationJob
+    description: >
+      Dry-run validation output. Referred to as "ValidationReport" in aggregate-catalog.yaml's
+      owns-list; ImportValidationReport is the exact name used by capability-dependency-map.yaml's
+      related_aggregates for BCM-PLT-010.
+    fields:
+      - name: reportId
+        type: uuid
+        required: true
+        identifier: true
+      - name: importBatchId
+        type: uuid
+        required: true
+      - name: structuralErrors
+        type: list_of_string
+        required: true
+      - name: rowLevelErrors
+        type: list_of_string
+        required: true
+      - name: rowLevelWarnings
+        type: list_of_string
+        required: true
+      - name: validationCategoriesEvaluated
+        type: list_of_string
+        required: true
+      - name: passed
+        type: boolean
+        required: true
+      - name: audit
+        type: AuditMetadata
+        required: true
+  - id: ENT-MIG-005
+    name: ReconciliationReport
+    is_aggregate_root: false
+    parent: MigrationJob
+    description: Post-import (and pre-import) reconciliation totals by entity and file.
+    fields:
+      - name: reconciliationReportId
+        type: uuid
+        required: true
+        identifier: true
+      - name: migrationJobId
+        type: uuid
+        required: true
+      - name: phase
+        type: enum
+        values: [pre_import, post_import]
+        required: true
+      - name: importedCounts
+        type: map
+        required: true
+      - name: rejectedCounts
+        type: map
+        required: true
+      - name: skippedCounts
+        type: map
+        required: true
+      - name: warningCounts
+        type: map
+        required: true
+      - name: audit
+        type: AuditMetadata
+        required: true
+  - id: ENT-MIG-006
+    name: ImportExecution
+    is_aggregate_root: false
+    parent: MigrationJob
+    description: One retryable execution attempt of an approved import, recording which domain commands were invoked.
+    fields:
+      - name: executionId
+        type: uuid
+        required: true
+        identifier: true
+      - name: migrationJobId
+        type: uuid
+        required: true
+      - name: attemptNumber
+        type: integer
+        required: true
+      - name: domainCommandsInvoked
+        type: list_of_string
+        required: true
+      - name: checkpoint
+        type: string
+        required: false
+        description: Last successfully committed domain-command reference, used for idempotent retry.
+      - name: status
+        type: enum
+        values: [in_progress, completed, failed, retried]
+        required: true
+      - name: audit
+        type: AuditMetadata
+        required: true
+
+value_objects:
+  - id: VO-MIG-001
+    name: MigrationManifest
+    description: Structured manifest.yaml content declared by the Open Data Ingestion Standard (NXF-ODI-STD-001).
+    fields:
+      - name: sourceSystemName
+        type: string
+        required: true
+      - name: sourceSystemVersion
+        type: string
+        required: false
+      - name: exportingOrganization
+        type: string
+        required: true
+      - name: exportDatetime
+        type: datetime
+        required: true
+      - name: exportTimezone
+        type: string
+        required: true
+      - name: exportedBy
+        type: string
+        required: true
+      - name: contactEmail
+        type: EmailAddress
+        required: true
+      - name: files
+        type: list_of_string
+        required: true
+      - name: entityCounts
+        type: map
+        required: true
+      - name: checksumAlgorithm
+        type: string
+        required: true
+      - name: checksums
+        type: map
+        required: true
+      - name: declaredFormats
+        type: list_of_string
+        required: true
+      - name: declaredEncoding
+        type: string
+        required: true
+
+ports:
+  - id: PORT-MIG-001
+    name: ImportPackageStoragePort
+    description: >
+      Reuses BCM-PLT-008's DocumentStoragePort to persist the raw uploaded bundle (ZIP/CSV/XLSX/
+      JSON/NDJSON) for audit and re-processing, rather than modeling a second storage boundary.
+      This capability depends on DocumentStoragePort's existing contract; it does not define a new
+      port implementation.
+    operations:
+      - reuses: BCM-PLT-008 DocumentStoragePort.putDocument / getDocument
+    default_adapter: inherited_from_BCM-PLT-008
+    adapter_reference: See bcm-plt-008-document-management/business-model.yaml PORT-DOC-001.
+
+invariants:
+  - id: INV-MIG-001
+    statement: A migration package may only be ingested from a manifest-declared bundle in an accepted format (csv, xlsx, json, ndjson, zip_bundle); a bundle missing a valid manifest is rejected before any file is parsed.
+  - id: INV-MIG-002
+    statement: An ImportExecution cannot start until its ImportBatch has an ImportValidationReport with passed = true.
+  - id: INV-MIG-003
+    statement: This capability never writes directly to a business aggregate's storage; ImportExecution.domainCommandsInvoked must reference only existing domain commands owned by other capabilities.
+  - id: INV-MIG-004
+    statement: A retried ImportExecution must resume from its last recorded checkpoint and must not re-invoke already-committed domain commands.
+  - id: INV-MIG-005
+    statement: Every MigrationJob status transition must produce or update a ReconciliationReport with imported, rejected, skipped and warning counts.
+
+external_references:
+  - shared_kernel:
+      - VO-ID-001 TenantId
+      - VO-ID-002 LaboratoryId
+      - VO-003 EmailAddress
+      - VO-007 AuditMetadata
+  - capabilities:
+      - BCM-PLT-008 Document Management (optional; stores raw uploaded bundles via DocumentStoragePort)
+      - BCM-PLT-005 API Management (optional; migration status may be exposed as an internal-classified operation)
+  - domain_command_consumers:
+      - BCM-PER-001 Person Management
+      - BCM-PER-002 Patient Management
+      - BCM-PER-003 Doctor Management
+      - BCM-SVC-001 Diagnostic Service Catalog
+      - BCM-SVC-002 Test Catalog
+      - BCM-SVC-009 Price List Management
+      - BCM-LAB-001 Diagnostic Order Management
+      - BCM-RES-001 Result Management (historical result index only, read-facing)
+  - contract_reference: ../../../../05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml
+  - aggregate_catalog_note: >-
+      aggregate-catalog.yaml AGG-016 names MigrationJob's owned sub-entities SourceDataset and
+      ValidationReport; this package uses the exact names ImportBatch and ImportValidationReport
+      from capability-dependency-map.yaml's related_aggregates list for BCM-PLT-010. Both names
+      refer to the same conceptual entities; no duplicate aggregate or naming conflict is
+      introduced. See traceability.yaml for the explicit correspondence.

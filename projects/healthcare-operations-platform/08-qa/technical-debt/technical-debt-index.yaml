@@ -322,7 +322,8 @@ entries:
     source_backlog_item: HOP-QA-ALIGN-005
     affected_area: backend_frontend_mobile_messages_and_magic_values
     file: 08-qa/technical-debt/TD-I18N-002-full-localization-adoption.yaml
-    remediation_strategy: materially_reduced_by_HOP_ENT_FOUND_001_real_locale_keyed_catalogs_and_backend_MessageSource_baseline_established_remaining_modules_and_screens_tracked
+    remediation_strategy: materially_reduced_by_HOP_ENT_FOUND_001_real_locale_keyed_catalogs_and_backend_MessageSource_baseline_established_remaining_modules_and_screens_tracked;
+      further_reduced_by_MVP_MOD_008_DEF_first_class_code_field_and_reserved_message_key_namespaces_modeled_for_new_integration_capabilities
   - id: TD-FE-006
     title: Employee portal is missing dedicated Appointment Scheduling, Admission Management and Quotation Management UI
     status: open
@@ -459,13 +460,13 @@ entries:
   - id: TD-STACK-003
     title: No OpenAPI-Generator-based client/server generation; contracts and hand-written
       controllers/clients kept in sync by convention and manual review
-    status: open
+    status: materially_reduced
     risk_level: medium
     blocking: false
     source_backlog_item: HOP-ENT-FOUND-001
     affected_area: contract_first_generation
     file: 08-qa/technical-debt/TD-STACK-003-no-contract-generation-tooling.yaml
-    remediation_strategy: evaluate_client_generation_first_before_server_generation
+    remediation_strategy: materially_reduced_by_MVP_MOD_008_DEF_scheduling_BCM_PLT_005_as_the_concrete_openapi_generator_typescript_client_pilot_target_for_MVP_MOD_008_FE_001
   - id: TD-STACK-004
     title: Duplicate, manually-synced Docker-init copy of platform-foundation schema.sql can
       silently drift from the authoritative Spring Boot schema source
