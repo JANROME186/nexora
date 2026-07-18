@@ -233,26 +233,37 @@ Expected result:
 
 ## Next Backlog Item
 
-`HOP-ENT-FOUND-001` is closed. Continue with:
+`MVP-MOD-007 Results and Digital Delivery` is closed (`MVP-MOD-007-CLOSEOUT`). Continue with:
 
-- Module: `MVP-MOD-007`
-- Backlog item: `MVP-MOD-007-QA-001`
+- Module: `MVP-MOD-008`
+- Backlog item: `MVP-MOD-008-DEF`
+- Previous backlog item: `MVP-MOD-007-CLOSEOUT` (closed)
 - Paused functional backlog item: none
 - Folder: project root under `projects/healthcare-operations-platform/`
 
 Mandatory setup for this backlog:
 
-- Load `08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml` and the enterprise
-  foundation deliverables under `03-architecture/` (localization, IAM permission model,
-  session-management baseline, data architecture, UX/UI, persistence/contract-generation review)
-  and follow their established patterns.
+- Load `08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml` before modeling
+  BCM-PLT-004, BCM-PLT-005 and BCM-PLT-010 for MVP-MOD-008.
+- TD-BE-010 is closed; the laboratoryworkflow `sample-read-port` cross-module pattern
+  (`frontdeskcaredelivery` allowedDependencies -> `laboratoryworkflow::sample-read-port`) is a
+  reusable reference for future read-only cross-module integration boundaries.
+- TD-FE-008 and TD-FE-009 are open (patient-portal/doctor-portal coverage baselines, 41.93% and
+  40.62%); do not regress below those floors if MVP-MOD-008 touches those stacks.
 - TD-IAM-001 is closed; production OIDC/IdP hardening remains productization scope when applicable.
 - Review `08-qa/technical-debt/technical-debt-index.yaml` before feature work and resolve or materially reduce at least two relevant open debt items because HOP is now late in the operational core.
-- Preserve the employee portal coverage floor of 84.44% and the mobile TypeScript foundation floor of 97.15%; if backend code is touched, preserve the backend Java/Maven floor of 77.92% and target a 3 to 5 point improvement while backend remains below 80%.
+- Preserve the employee portal coverage floor of 85.50%, the mobile TypeScript foundation floor of 98.87%, the patient-portal floor of 41.93% and the doctor-portal floor of 40.62%; if backend code is touched, preserve the backend Java/Maven floor of 78.51% and target a 3 to 5 point improvement while backend remains below 80%.
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
 - Before commit, reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, affected capability traceability files and the local runbook pointers.
 
 ### Previous Backlog Item (Closed)
 
-`MVP-MOD-007-APP-001` — Fixed test coverage, reaching 98.87%, in mobile-app. Prettier and linting passed cleanly. Resolved TD-FE-007 and TD-STACK-004. Evidence generated and status updated.
+`MVP-MOD-007-CLOSEOUT` — Closed TD-BE-010 by wiring the laboratoryworkflow SampleReadPort into
+DiagnosticOrderManagementService.cancel(). Found and fixed a real employee-portal coverage
+regression (84.44% floor -> 84.03%, left uncaught by MVP-MOD-007-PORTAL-001), reaching 85.50%.
+Measured patient-portal and doctor-portal coverage for the first time (41.93% and 40.62%,
+TD-FE-008/TD-FE-009 registered). Backend coverage 78.42% -> 78.51% (211 tests, 0 failures/errors);
+mobile re-confirmed at 98.87%. Re-validated the MVP-MOD-007 acceptance summary: PDF report
+generation, authorized-only released-result access and traceable critical-result notifications.
+Evidence generated and status updated.

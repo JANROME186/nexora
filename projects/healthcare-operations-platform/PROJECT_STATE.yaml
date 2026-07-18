@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 0.97.0
-current_phase: Results and Digital Delivery (MVP-MOD-007-QA-001 closed; MVP-MOD-007-CLOSEOUT active)
+current_phase: MVP-MOD-007 Results and Digital Delivery closed; MVP-MOD-008 Integration and Migration Readiness active
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -180,8 +180,23 @@ completed_deliverables:
     TD-IAM-002 materially reduced; backend coverage 76.99% -> 77.92%, frontend coverage 83.98% ->
     84.44%, mobile coverage measured at 97.15%, all with no regression; found and fixed a real
     stale-duplicate Docker-init schema.sql bug during validation (TD-STACK-004 registered))
+  - MVP-MOD-007-PORTAL-001 Compile patient and doctor released result views (permission-filtered,
+    authorized-only released-result access; TD-STACK-004 closed)
+  - MVP-MOD-007-APP-001 Compile mobile result view and notification baseline (mobile coverage
+    97.15% -> 98.87%)
+  - MVP-MOD-007-QA-001 Result access, PDF and notification evidence (TD-DB-001 and TD-QA-004
+    closed; backend coverage 77.92% -> 78.42%; 210 backend tests, 0 failures/errors)
+  - MVP-MOD-007-CLOSEOUT Module closeout and registry update (closed TD-BE-010 -- diagnostic order
+    cancellation now checks real Sample state via the SampleReadPort cross-module read port
+    instead of order status alone; a real employee-portal coverage regression from 84.44% to
+    84.03% left uncaught by MVP-MOD-007-PORTAL-001 was found and fixed, reaching 85.50%;
+    patient-portal and doctor-portal line coverage measured for the first time at 41.93% and
+    40.62%, TD-FE-008/TD-FE-009 registered; backend coverage 78.42% -> 78.51%, mobile re-confirmed
+    at 98.87%, no regressions; MVP-MOD-007 acceptance summary re-validated -- PDF report
+    generation, authorized-only released-result access and traceable critical-result
+    notifications)
 next_deliverables:
-  - Execute MVP-MOD-007-QA-001 Integrated validation
+  - Begin MVP-MOD-008 Integration and Migration Readiness with MVP-MOD-008-DEF capability package models
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -194,9 +209,9 @@ next_deliverables:
   - Compile generated outputs and implement custom rules in dependency order
 development_readiness:
   status: ready
-  ready_to_start_module: MVP-MOD-007
-  in_progress_module: MVP-MOD-007
-  next_backlog_item: MVP-MOD-007-CLOSEOUT
+  ready_to_start_module: MVP-MOD-008
+  in_progress_module: MVP-MOD-008
+  next_backlog_item: MVP-MOD-008-DEF
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -251,30 +266,47 @@ development_readiness:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 77.92
-        source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 77.92
+        current_line_coverage_percent: 78.51
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 78.51
         final_closure_target_percent: 80
         tracked_by: TD-BE-003
         correction_note: >-
           MVP-MOD-005-QA-001 originally reported 68.66% from a non-clean multi-run jacoco.exec
           accumulation; corrected to the reproducible clean-rebuild figure during
           MVP-MOD-005-CLOSEOUT. MVP-MOD-007-FE-001 subsequently raised the floor from 76.93% to
-          76.99%. HOP-ENT-FOUND-001 corrective closure raised it again to 77.92%; still below 80%
-          but above the previous floor and now protected as the next backend minimum.
+          76.99%. HOP-ENT-FOUND-001 corrective closure raised it again to 77.92%. MVP-MOD-007-QA-001
+          raised it to 78.42%. MVP-MOD-007-CLOSEOUT's TD-BE-010 fix added a real unit test for the
+          new SampleReadPort-backed cancellation branch, raising it to 78.51%; still below 80% but
+          above the previous floor and now protected as the next backend minimum.
       frontend_typescript_web:
-        current_line_coverage_percent: 84.44
-        source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 84.44
+        current_line_coverage_percent: 85.50
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 85.50
         final_closure_target_percent: 80
         tracked_by: TD-FE-004 (closed; final-closure target reached; raised to 83.98% by
-          MVP-MOD-007-FE-001, then to 84.44% by HOP-ENT-FOUND-001 corrective closure)
+          MVP-MOD-007-FE-001, then to 84.44% by HOP-ENT-FOUND-001 corrective closure. MVP-MOD-007-
+          CLOSEOUT found and fixed a real regression to 84.03% left uncaught by MVP-MOD-007-
+          PORTAL-001, raising it to 85.50%)
       mobile_typescript_foundation:
-        current_line_coverage_percent: 97.15
-        source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 97.15
+        current_line_coverage_percent: 98.87
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 98.87
         final_closure_target_percent: 80
-        tracked_by: TD-APP-002
+        tracked_by: TD-APP-002 (closed; MVP-MOD-007-APP-001 raised coverage from 97.15% to 98.87%;
+          MVP-MOD-007-CLOSEOUT re-confirmed 98.87% with no regression)
+      patient_portal_typescript_web:
+        current_line_coverage_percent: 41.93
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 41.93
+        final_closure_target_percent: 80
+        tracked_by: TD-FE-008
+      doctor_portal_typescript_web:
+        current_line_coverage_percent: 40.62
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 40.62
+        final_closure_target_percent: 80
+        tracked_by: TD-FE-009
   client_stack_market_validation: 03-architecture/technology-architecture/client-stack-market-validation.yaml
   stack_quality_toolchain_baseline: 03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
   blocking_definition_gaps: []
@@ -284,8 +316,8 @@ project_structure:
   implementation_folder: 07-implementation
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
-  current_module: MVP-MOD-007
-  current_backlog_item: MVP-MOD-007-CLOSEOUT
+  current_module: MVP-MOD-008
+  current_backlog_item: MVP-MOD-008-DEF
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -341,10 +373,65 @@ implementation_progress:
     - MVP-MOD-007-PORTAL-001
     - MVP-MOD-007-APP-001
     - MVP-MOD-007-QA-001
+    - MVP-MOD-007-CLOSEOUT
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-007-CLOSEOUT
+    - MVP-MOD-008-DEF
   latest_validation:
+    backlog_item_id: MVP-MOD-007-CLOSEOUT
+    command: >
+      Backend `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` passed in
+      07-implementation/backend: 211 tests, 0 failures, 0 errors, 0 skipped; JaCoCo line coverage
+      78.51%, at or above the 78.42% floor. Employee portal `npm run quality` and `npm audit
+      --audit-level=low` passed in 07-implementation/employee-portal: 89 tests, coverage 85.50%,
+      0 vulnerabilities. Patient portal and doctor portal `npm run quality` and `npm audit
+      --audit-level=low` passed with 0 vulnerabilities each (coverage 41.93% and 40.62%, first
+      measurement). Mobile app `npm run quality` and `npm audit --audit-level=low` passed in
+      07-implementation/mobile-app: 31 tests, coverage 98.87%, 0 vulnerabilities. `git diff --check`
+      passed with 0 whitespace errors.
+    working_directory: projects/healthcare-operations-platform/07-implementation
+    status: passed
+    tests_run_backend: 211
+    tests_run_employee_portal: 89
+    tests_run_patient_portal: 1
+    tests_run_doctor_portal: 1
+    tests_run_mobile: 31
+    failures: 0
+    errors: 0
+    skipped_backend: 0
+    additional_checks:
+      - >-
+        Closed TD-BE-010: DiagnosticOrderManagementService.cancel() now consults the
+        laboratoryworkflow SampleReadPort (implemented by OrderSamplesService since
+        MVP-MOD-006-BE-002) to check real collected-sample state instead of relying solely on
+        order status as a proxy. frontdeskcaredelivery's Spring Modulith allowedDependencies was
+        extended to laboratoryworkflow::sample-read-port; the Modulith boundary test and all 19
+        FrontDeskCareDeliveryApiTest cases (including a new test proving the real-sample trigger)
+        pass.
+      - >-
+        Found and fixed a real employee-portal coverage regression: MVP-MOD-007-PORTAL-001 had
+        expanded laboratoryOperationsApi.ts and laboratoryResultMapper.ts without a dedicated unit
+        test, silently dropping coverage from the 84.44% floor to 84.03%. Added
+        src/test/laboratoryOperationsApi.test.ts mirroring the existing cashSalesApi.test.ts/
+        frontDeskApi.test.ts pattern, restoring coverage to 85.50%.
+      - >-
+        Measured patient-portal and doctor-portal line coverage for the first time (41.93% and
+        40.62%); MVP-MOD-007-PORTAL-001 had closed these stacks with only an application smoke
+        test and never recorded a coverage percentage. Registered TD-FE-008 and TD-FE-009 to track
+        and raise these toward the 80% target without blocking this closeout, consistent with how
+        TD-FE-004/TD-APP-002 were opened for employee-portal/mobile at their own inception.
+      - >-
+        Re-confirmed mobile app coverage at 98.87% (31 tests) with no code changes, correcting the
+        stale 97.15% figure that technical-debt-index.yaml and this file had not yet synced from
+        MVP-MOD-007-APP-001's own evidence.
+      - >-
+        Re-validated the MVP-MOD-007 acceptance summary: ResultReportServiceTest (4 tests) confirms
+        PDF report generation for released results; CriticalResultEscalationServiceTest (5 tests)
+        and ResultNotificationServiceTest/NotificationManagementServiceTest (3 tests each) confirm
+        traceable critical-result notification workflows; MVP-MOD-007-PORTAL-001's permission-
+        filtered, authorized-only released-result access for patients and doctors was re-confirmed
+        by re-running its recorded evidence rather than re-derived from scratch.
+  previous_validation_mvp_mod_007_qa_001:
     backlog_item_id: MVP-MOD-007-QA-001
     command: >
       Backend `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` passed in
@@ -496,6 +583,25 @@ implementation_progress:
         HOP remains explicitly not commercially complete or GA-ready: no code was implemented in
         this backlog item, backend coverage remains 76.39% and frontend 82.69%, both unchanged.
 module_closeout:
+  MVP-MOD-007:
+    status: completed
+    readiness: ready_for_next_module
+    closeout_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+    closeout_evidence_md: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.md
+    security_quality_evidence: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/security-quality-evidence.yaml
+    security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/security-quality-evidence.md
+    technical_debt_registered:
+      - TD-BE-010 (closed by MVP-MOD-007-CLOSEOUT)
+      - TD-FE-008 (opened by MVP-MOD-007-CLOSEOUT)
+      - TD-FE-009 (opened by MVP-MOD-007-CLOSEOUT)
+    known_boundaries:
+      - Backend coverage (78.51%) remains below the 80% final-closure target, tracked by TD-BE-003.
+      - Employee portal coverage (85.50%) and mobile coverage (98.87%) meet the 80% target for
+        those stacks but must not regress.
+      - Patient-portal (41.93%) and doctor-portal (40.62%) coverage were measured for the first
+        time and remain below the 80% target, tracked by TD-FE-008/TD-FE-009; their functional
+        surface expansion is planned under COM-MOD-009.
+      - HOP is not commercially complete or GA-ready; MVP-MOD-008 and later releases remain planned.
   MVP-MOD-006:
     status: completed
     readiness: ready_for_next_module
@@ -587,9 +693,9 @@ commercial_product_progress:
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
-  current_iteration: MVP-MOD-007
-  active_module: MVP-MOD-007 Results and Digital Delivery
-  active_backlog_item: MVP-MOD-007-CLOSEOUT
+  current_iteration: MVP-MOD-008
+  active_module: MVP-MOD-008 Integration and Migration Readiness
+  active_backlog_item: MVP-MOD-008-DEF
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
@@ -600,10 +706,10 @@ commercial_product_progress:
   capability_package_progress:
     MVP-MOD-007:
       name: Results and Digital Delivery
-      package_status: employee_portal_ui_compiled
-      backlog_item: MVP-MOD-007-FE-001
+      package_status: module_closed
+      backlog_item: MVP-MOD-007-CLOSEOUT
       backlog_item_status: closed
-      execution_flow_stage: compile_ui
+      execution_flow_stage: released
       packages_modeled:
         - BCM-RES-001
         - BCM-RES-002
@@ -646,6 +752,14 @@ commercial_product_progress:
       qa_evidence_qa_001_md: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-QA-001-validation.md
       security_quality_evidence_qa_001: 08-qa/security-quality/MVP-MOD-007-QA-001/security-quality-evidence.yaml
       security_quality_evidence_qa_001_md: 08-qa/security-quality/MVP-MOD-007-QA-001/security-quality-evidence.md
+      qa_evidence_portal_001: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-PORTAL-001-validation.yaml
+      qa_evidence_portal_001_md: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-PORTAL-001-validation.md
+      qa_evidence_app_001: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-APP-001-validation.yaml
+      qa_evidence_app_001_md: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-APP-001-validation.md
+      closeout_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+      closeout_evidence_md: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.md
+      security_quality_evidence_closeout: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/security-quality-evidence.yaml
+      security_quality_evidence_closeout_md: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/security-quality-evidence.md
       employee_portal_implementation: 07-implementation/employee-portal/src/components/screens/ResultSearchScreen.tsx,
         07-implementation/employee-portal/src/components/screens/ResultReportsScreen.tsx,
         07-implementation/employee-portal/src/components/screens/CriticalEscalationsScreen.tsx,
@@ -656,10 +770,12 @@ commercial_product_progress:
       custom_rules_implemented: true
       ready_for_ui_compilation: true
       employee_portal_ui_compiled: true
+      patient_doctor_portal_ui_compiled: true
+      mobile_ui_compiled: true
       ready_for_module_validation: true
       module_validated: true
       ready_for_closeout: true
-      module_closed: false
+      module_closed: true
     MVP-MOD-006:
       name: Laboratory Workflow
       package_status: module_closed

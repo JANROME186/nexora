@@ -38,10 +38,12 @@ Do not manually write repetitive artifacts that must come from the model:
 HOP has closed `MVP-MOD-005 Cashier and Billing Request` in full (`MVP-MOD-005-DEF` through
 `MVP-MOD-005-CLOSEOUT`), `MVP-MOD-006 Laboratory Workflow` in full (`MVP-MOD-006-DEF` through
 `MVP-MOD-006-CLOSEOUT`) and `HOP-QUALITY-ALIGNMENT` (`HOP-QA-ALIGN-001` through
-`HOP-QA-ALIGN-CLOSEOUT`) is closed. `MVP-MOD-007-DEF`, `MVP-MOD-007-BE-001`,
-`MVP-MOD-007-BE-002` and `MVP-MOD-007-FE-001` are closed. `HOP-ENTERPRISE-FOUNDATION-ALIGNMENT`
-(`HOP-ENT-FOUND-001`) is closed. Functional development has resumed with
-`MVP-MOD-007-PORTAL-001`.
+`HOP-QA-ALIGN-CLOSEOUT`) is closed. `HOP-ENTERPRISE-FOUNDATION-ALIGNMENT` (`HOP-ENT-FOUND-001`) is
+closed. `MVP-MOD-007 Results and Digital Delivery` is closed in full (`MVP-MOD-007-DEF` through
+`MVP-MOD-007-CLOSEOUT`): released results can generate a PDF report, patients and doctors see only
+authorized released results, and critical results trigger traceable notification workflows.
+Functional development has moved to `MVP-MOD-008 Integration and Migration Readiness`, starting
+with `MVP-MOD-008-DEF`.
 
 The product must now move from MVP foundation to commercial readiness through an ordered backlog. Each module must be implemented, validated and closed before dependent modules begin, unless the dependency is explicitly mocked in that module definition.
 
@@ -205,11 +207,11 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-`HOP-ENT-FOUND-001` is closed. Continue with `MVP-MOD-007-PORTAL-001` from:
+`MVP-MOD-007 Results and Digital Delivery` is closed (`MVP-MOD-007-CLOSEOUT`). Continue with
+`MVP-MOD-008-DEF` from:
 
 `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
 
-See `08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml` for the enterprise
-foundation alignment closeout evidence and
-`03-architecture/enterprise-foundation/enterprise-foundation-alignment.yaml` for the full
-area-by-area alignment record.
+See `08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml` for the module
+closeout evidence and `08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml` for the
+enterprise foundation alignment closeout evidence that preceded it.

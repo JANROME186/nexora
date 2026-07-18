@@ -35,30 +35,57 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 77.92
-        source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 77.92
+        current_line_coverage_percent: 78.51
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 78.51
         final_closure_target_percent: 80
         correction_note: >-
-          Corrective closure raised backend line coverage from the 77.32% floor to 77.92% while
-          adding request-time IAM enforcement and extra JdbcBillingRequestRepository coverage.
-          This is still below the standard's preferred 3-5pp target and below the final 80% target,
-          but it is a real no-regression improvement. Future backend iterations must not regress
-          below 77.92% and must keep moving toward the 80% final
-          closure target.
+          MVP-MOD-007-QA-001 raised backend line coverage to 78.42%. MVP-MOD-007-CLOSEOUT's
+          TD-BE-010 fix added one real unit test for the new SampleReadPort-backed cancellation
+          branch, raising it to 78.51% (211 tests, 0 failures/errors) with no regression. Still
+          below the final 80% target; future backend iterations must not regress below 78.51% and
+          must keep moving toward it.
       frontend_typescript_web:
-        current_line_coverage_percent: 84.44
-        source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 84.44
+        current_line_coverage_percent: 85.50
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 85.50
         final_closure_target_percent: 80
         correction_note: >-
-          Corrective closure preserved and slightly improved employee-portal coverage to 84.44%;
-          already above the 80% final-closure target and must not regress below 84.44%.
+          MVP-MOD-007-CLOSEOUT found employee-portal coverage had regressed from the 84.44% floor
+          to 84.03%: MVP-MOD-007-PORTAL-001 expanded laboratoryOperationsApi.ts and
+          laboratoryResultMapper.ts (shared with the employee portal) without adding a dedicated
+          unit test for the API module. Added src/test/laboratoryOperationsApi.test.ts (mirroring
+          the existing cashSalesApi.test.ts/frontDeskApi.test.ts pattern), restoring coverage to
+          85.50%, above the previous 84.44% floor. Must not regress below 85.50%.
       mobile_typescript_foundation:
-        current_line_coverage_percent: 97.15
-        source_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 97.15
+        current_line_coverage_percent: 98.87
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 98.87
         final_closure_target_percent: 80
+        correction_note: >-
+          Re-measured during MVP-MOD-007-CLOSEOUT with no code changes to the mobile app: 98.87%
+          (31 tests), consistent with the 97.15% -> 98.87% growth already reflected upstream. No
+          regression.
+      patient_portal_typescript_web:
+        current_line_coverage_percent: 41.93
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 41.93
+        final_closure_target_percent: 80
+        correction_note: >-
+          First-ever coverage measurement for patient-portal, taken during MVP-MOD-007-CLOSEOUT.
+          MVP-MOD-007-PORTAL-001 closed this stack with only an application smoke test and never
+          recorded a percentage. Tracked by new item TD-FE-008; not a regression since no prior
+          floor existed.
+      doctor_portal_typescript_web:
+        current_line_coverage_percent: 40.62
+        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 40.62
+        final_closure_target_percent: 80
+        correction_note: >-
+          First-ever coverage measurement for doctor-portal, taken during MVP-MOD-007-CLOSEOUT.
+          MVP-MOD-007-PORTAL-001 closed this stack with only an application smoke test and never
+          recorded a percentage. Tracked by new item TD-FE-009; not a regression since no prior
+          floor existed.
   promote_to_blocking_when:
     - vulnerability_or_secure_code_finding_without_disposition
     - unsupported_runtime_blocks_safe_development
@@ -208,13 +235,13 @@ entries:
     remediation_strategy: closed_by_HOP_ENT_FOUND_001_branch_gained_a_real_version_field_and_column
   - id: TD-BE-010
     title: Diagnostic order cancellation override uses order-status as a proxy for downstream sample/processing state
-    status: open
+    status: closed
     risk_level: medium
     blocking: false
     source_backlog_item: MVP-MOD-004-BE-002
     affected_area: diagnostic_order_cancellation_downstream_state_check
     file: 08-qa/technical-debt/TD-BE-010-order-cancellation-sample-state-check-deferred.yaml
-    remediation_strategy: modeling_precondition_satisfied_by_MVP_MOD_006_DEF_code_fix_pending_MVP_MOD_006_BE_002
+    remediation_strategy: closed_by_MVP_MOD_007_CLOSEOUT_sample_read_port_wired_into_diagnosticordermanagement
   - id: TD-FE-003
     title: Implement frontend enterprise quality profile
     status: materially_reduced
@@ -449,3 +476,21 @@ entries:
     affected_area: local_postgres_schema_initialization
     file: 08-qa/technical-debt/TD-STACK-004-duplicate-docker-init-schema-file.yaml
     remediation_strategy: closed_by_MVP_MOD_007_APP_001_removing_duplicate_init_script
+  - id: TD-FE-008
+    title: Establish patient portal test coverage baseline and raise it to the 80 percent target
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-007-CLOSEOUT
+    affected_area: patient_portal_test_coverage
+    file: 08-qa/technical-debt/TD-FE-008-patient-portal-coverage-baseline.yaml
+    remediation_strategy: gradual_when_com_mod_009_patient_portal_commercial_workflow_is_implemented
+  - id: TD-FE-009
+    title: Establish doctor portal test coverage baseline and raise it to the 80 percent target
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-007-CLOSEOUT
+    affected_area: doctor_portal_test_coverage
+    file: 08-qa/technical-debt/TD-FE-009-doctor-portal-coverage-baseline.yaml
+    remediation_strategy: gradual_when_com_mod_009_doctor_portal_commercial_workflow_is_implemented

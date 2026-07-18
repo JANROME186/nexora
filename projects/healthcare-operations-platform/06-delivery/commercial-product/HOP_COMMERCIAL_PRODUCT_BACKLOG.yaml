@@ -16,11 +16,11 @@ product:
   commercial_name: Nexora Healthcare Operations Platform
   company: Nexora
   current_baseline:
-    completed_module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT (HOP-ENT-FOUND-001 closed)
+    completed_module: MVP-MOD-007 (MVP-MOD-007-CLOSEOUT closed)
     completed_status: closed
-    active_module: MVP-MOD-007
-    active_backlog_item: MVP-MOD-007-CLOSEOUT
-    active_module_progress: MVP-MOD-007-QA-001 closed; ready for MVP-MOD-007-CLOSEOUT
+    active_module: MVP-MOD-008
+    active_backlog_item: MVP-MOD-008-DEF
+    active_module_progress: MVP-MOD-007-CLOSEOUT closed; ready for MVP-MOD-008-DEF
     paused_backlog_item: null
 
 source_inputs:
@@ -559,7 +559,7 @@ modules:
     name: Results and Digital Delivery
     release: REL-001
     priority: 60
-    status: in_progress
+    status: closed
     source: mvp_framework
     objective: Generate reports and deliver released results to authorized patients, doctors and internal users.
     depends_on:
@@ -604,6 +604,7 @@ modules:
         status: closed
       - id: MVP-MOD-007-CLOSEOUT
         name: Module closeout and registry update
+        status: closed
     acceptance_summary:
       - Released results can generate a PDF report.
       - Patients and doctors see only authorized released results.
@@ -613,7 +614,7 @@ modules:
     name: Integration and Migration Readiness
     release: REL-001
     priority: 70
-    status: planned
+    status: in_progress
     source: mvp_framework
     objective: Provide adapter interfaces, import validation, migration dry runs and public API governance.
     depends_on:

@@ -212,6 +212,46 @@ class FrontDeskCareDeliveryApiTest {
     }
 
     @Test
+    void diagnosticOrderCancellationRequiresOverrideOnceARealSampleIsCollectedRegardlessOfOrderStatus() throws Exception {
+        String patientId = registerPatient("Rita", "Levi-Montalcini");
+        String panelId = publishPanel();
+        publishPriceListForPanel(panelId, "40.00");
+
+        JsonNode order = postJson("/api/clinical-operations/diagnostic-orders", """
+                {"tenantId":"%s","laboratoryId":"%s","branchId":"%s","intakeChannel":"walk_in",
+                 "patientId":"%s","actorId":"receptionist-1",
+                 "lines":[{"testDefinitionId":"%s","catalogItemKind":"panel","quantity":1}]}
+                """.formatted(tenantId, laboratoryId, branchId, patientId, panelId));
+        String orderId = order.get("orderId").asText();
+        postJson("/api/clinical-operations/diagnostic-orders/" + orderId + "/price", "{}");
+
+        MvcResult linesResult = mockMvc.perform(get("/api/clinical-operations/diagnostic-orders/{id}/lines", orderId))
+                .andExpect(status().isOk()).andReturn();
+        String orderLineId = objectMapper.readTree(linesResult.getResponse().getContentAsString()).get(0)
+                .get("orderLineId").asText();
+
+        // TD-BE-010: a real Sample already exists for this order, even though the order itself
+        // has not left "priced" status yet — the order-status tier alone would have allowed a
+        // plain cancel here, but the SampleReadPort-backed check now requires an override.
+        postJson("/api/clinical-operations/samples", """
+                {"tenantId":"%s","laboratoryId":"%s","branchId":"%s","orderId":"%s","orderLineId":"%s",
+                 "collectorId":"phlebotomist-1","collectionMethod":"venipuncture","containerUsed":"EDTA tube",
+                 "patientId":"%s","patientFullName":"Rita Levi-Montalcini","patientBirthDate":"1980-01-01"}
+                """.formatted(tenantId, laboratoryId, branchId, orderId, orderLineId, patientId));
+
+        mockMvc.perform(post("/api/clinical-operations/diagnostic-orders/{id}/cancel", orderId)
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"reasonCode\":\"patient_request\"}"))
+                .andExpect(status().isConflict());
+
+        mockMvc.perform(post("/api/clinical-operations/diagnostic-orders/{id}/cancel", orderId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"reasonCode\":\"patient_request\","
+                                + "\"overrideJustification\":\"Sample already collected, lab notified\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("cancelled"));
+    }
+
+    @Test
     void diagnosticOrderRejectsUnpublishedCatalogItem() throws Exception {
         String patientId = registerPatient("John", "Doe");
         JsonNode draftPanel = postJson("/api/catalog/panels", """

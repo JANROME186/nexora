@@ -124,8 +124,18 @@ traces:
     custom_rules: MVP-MOD-004-BE-002
     custom_rules_status: closed
     ui: MVP-MOD-004-FE-001
-    ui_status: pending
+    ui_status: closed
     validation: MVP-MOD-004-QA-001
-    validation_status: pending
+    validation_status: closed
     closeout: MVP-MOD-004-CLOSEOUT
-    closeout_status: pending
+    closeout_status: closed
+  post_closeout_debt_remediation:
+    - backlog_item: MVP-MOD-007-CLOSEOUT
+      debt_item: TD-BE-010 (closed)
+      change: >-
+        DiagnosticOrderManagementService.cancel() (RN-007 tiered override) now consults the
+        laboratoryworkflow SampleReadPort (real Sample aggregate state from MVP-MOD-006) instead of
+        relying solely on DiagnosticOrder.status() as a proxy for downstream sample/processing
+        activity. The order-status tier is retained only as a fallback for orders without a linked
+        sample record.
+      evidence: ../../../../08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml

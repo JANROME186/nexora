@@ -33,6 +33,7 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.diagnosticorderma
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskConflictException;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskEntityNotFoundException;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskErrorCodes;
+import com.nexora.hop.platformfoundation.laboratoryworkflow.shared.SampleReadPort;
 import com.nexora.hop.platformfoundation.organizationmanagement.BranchDirectory;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.doctormanagement.DoctorDirectory;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagement.PatientDirectory;
@@ -54,10 +55,11 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagem
  * priced order cancels with a reason code, while an accepted or in-progress order additionally
  * requires an explicit override justification, since it has already left simple front-desk intake.
  * <p>
- * <b>Remaining hook (tracked as TD-BE-010):</b> RN-007's full downstream sample/processing-state
- * override check cannot be evaluated until MVP-MOD-006 (Laboratory Workflow) models the Sample
- * aggregate; the override-justification tier above is the closest enforceable proxy available
- * with only order-lifecycle state.
+ * <b>TD-BE-010 closed:</b> {@link #cancel(String, String, String)} now consults
+ * {@link SampleReadPort#hasActiveSampleForOrder(String, String)} to check the real Sample
+ * aggregate state modeled by MVP-MOD-006 instead of relying purely on order status as a proxy.
+ * The order-status tier introduced by MVP-MOD-004-BE-002 is kept only as a fallback for orders
+ * that have reached an accepted/in-progress status without yet having a linked sample record.
  */
 @Service
 public class DiagnosticOrderManagementService {
@@ -79,6 +81,7 @@ public class DiagnosticOrderManagementService {
     private final PanelCatalogService panelCatalogService;
     private final PriceListManagementService priceListManagementService;
     private final AuditRecorder auditRecorder;
+    private final SampleReadPort sampleReadPort;
     private final Clock clock;
 
     @Autowired
@@ -90,9 +93,10 @@ public class DiagnosticOrderManagementService {
             TestCatalogService testCatalogService,
             PanelCatalogService panelCatalogService,
             PriceListManagementService priceListManagementService,
-            AuditRecorder auditRecorder) {
+            AuditRecorder auditRecorder,
+            SampleReadPort sampleReadPort) {
         this(repository, patientDirectory, doctorDirectory, branchDirectory, testCatalogService,
-                panelCatalogService, priceListManagementService, auditRecorder, Clock.systemUTC());
+                panelCatalogService, priceListManagementService, auditRecorder, sampleReadPort, Clock.systemUTC());
     }
 
     DiagnosticOrderManagementService(
@@ -104,6 +108,7 @@ public class DiagnosticOrderManagementService {
             PanelCatalogService panelCatalogService,
             PriceListManagementService priceListManagementService,
             AuditRecorder auditRecorder,
+            SampleReadPort sampleReadPort,
             Clock clock) {
         this.repository = repository;
         this.patientDirectory = patientDirectory;
@@ -113,6 +118,7 @@ public class DiagnosticOrderManagementService {
         this.panelCatalogService = panelCatalogService;
         this.priceListManagementService = priceListManagementService;
         this.auditRecorder = auditRecorder;
+        this.sampleReadPort = sampleReadPort;
         this.clock = clock;
     }
 
@@ -271,12 +277,17 @@ public class DiagnosticOrderManagementService {
     /**
      * RN-006: a cancelled or completed order is immutable. RN-007 tiered override: a draft or
      * priced order (never accepted for clinical processing) cancels with a plain reason code; an
-     * accepted or in-progress order additionally requires an explicit
-     * {@code overrideJustification} of at least {@value #MIN_CANCELLATION_OVERRIDE_JUSTIFICATION_LENGTH}
-     * characters, since downstream clinical work may already depend on it. The full downstream
-     * sample/processing-state check described by RN-007 cannot be evaluated until MVP-MOD-006
-     * models the Sample aggregate (tracked as TD-BE-010); this order-status tier is the closest
-     * enforceable proxy available today.
+     * order with real downstream sample activity, or an accepted/in-progress order without a
+     * linked sample record yet, additionally requires an explicit {@code overrideJustification}
+     * of at least {@value #MIN_CANCELLATION_OVERRIDE_JUSTIFICATION_LENGTH} characters, since
+     * downstream clinical work may already depend on it.
+     *
+     * <p><b>TD-BE-010 closed:</b> the override trigger is now primarily
+     * {@link SampleReadPort#hasActiveSampleForOrder(String, String)}, a real read of the Sample
+     * aggregate (AGG-008) modeled and compiled by MVP-MOD-006. The order-status tier introduced
+     * by MVP-MOD-004-BE-002 is retained only as a fallback for orders that have reached an
+     * accepted/in-progress status without yet having a linked sample record, so no clinically
+     * engaged cancellation loses its compensating control.
      */
     public DiagnosticOrder cancel(String orderId, String reasonCode, String overrideJustification) {
         DiagnosticOrder order = require(orderId);
@@ -287,15 +298,17 @@ public class DiagnosticOrderManagementService {
                             + ": a cancelled or completed order cannot be modified.");
         }
         String resolvedReason = requiredText(reasonCode, "Cancellation reason code is required.");
-        boolean clinicallyEngaged = CLINICALLY_ENGAGED_STATUSES.contains(order.status());
+        boolean hasActiveSample = sampleReadPort.hasActiveSampleForOrder(order.orderId(), order.tenantId());
+        boolean statusFallback = CLINICALLY_ENGAGED_STATUSES.contains(order.status());
+        boolean clinicallyEngaged = hasActiveSample || statusFallback;
         String resolvedOverride = optionalText(overrideJustification);
         if (clinicallyEngaged) {
             if (resolvedOverride == null || resolvedOverride.length() < MIN_CANCELLATION_OVERRIDE_JUSTIFICATION_LENGTH) {
                 throw new FrontDeskConflictException(
                         FrontDeskErrorCodes.ORDER_CANCELLATION_OVERRIDE_REQUIRED
-                                + ": cancelling an accepted or in-progress order requires "
-                                + "an override justification of at least "
-                                + MIN_CANCELLATION_OVERRIDE_JUSTIFICATION_LENGTH + " characters.");
+                                + ": cancelling an order with active downstream sample activity, or an "
+                                + "accepted/in-progress order, requires an override justification of at "
+                                + "least " + MIN_CANCELLATION_OVERRIDE_JUSTIFICATION_LENGTH + " characters.");
             }
         }
         String combinedReason = resolvedOverride == null ? resolvedReason : resolvedReason + " | " + resolvedOverride;
@@ -303,8 +316,8 @@ public class DiagnosticOrderManagementService {
                 order.pricingSnapshot(), order.clinicalNotes());
         DiagnosticOrder saved = repository.save(cancelled);
         auditRecorder.recordSystemEvent(saved.tenantId(), "OrderCancelled", "DiagnosticOrder", orderId,
-                "{\"reasonCode\":\"%s\",\"clinicallyEngaged\":%b,\"overrideProvided\":%b}"
-                        .formatted(jsonText(resolvedReason), clinicallyEngaged, resolvedOverride != null));
+                "{\"reasonCode\":\"%s\",\"clinicallyEngaged\":%b,\"hasActiveSample\":%b,\"overrideProvided\":%b}"
+                        .formatted(jsonText(resolvedReason), clinicallyEngaged, hasActiveSample, resolvedOverride != null));
         return saved;
     }
 

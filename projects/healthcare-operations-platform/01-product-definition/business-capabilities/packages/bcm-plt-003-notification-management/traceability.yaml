@@ -70,7 +70,7 @@ traces:
   qa_evidence: ../../../../08-qa/qa/results-and-digital-delivery/MVP-MOD-007-DEF-validation.yaml
   backlog_items:
     definition: MVP-MOD-007-DEF
-    definition_status: modeled
+    definition_status: closed
     compilation: MVP-MOD-007-BE-001
     compilation_status: closed
     custom_rules: MVP-MOD-007-BE-002
@@ -78,7 +78,7 @@ traces:
     ui: MVP-MOD-007-FE-001
     ui_status: not_applicable
     validation: MVP-MOD-007-QA-001
-    validation_status: pending
+    validation_status: closed
     closeout: MVP-MOD-007-CLOSEOUT
-    closeout_status: pending
+    closeout_status: closed
 

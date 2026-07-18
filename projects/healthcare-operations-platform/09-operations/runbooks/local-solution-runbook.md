@@ -4,7 +4,7 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `MVP-MOD-007-PORTAL-001`.
+Current active backlog item: `MVP-MOD-008-DEF`.
 
 HOP Enterprise Quality Alignment (`HOP-QA-ALIGN-001` through `HOP-QA-ALIGN-CLOSEOUT`) is closed.
 HOP Enterprise Product Foundation Alignment (`HOP-ENT-FOUND-001`) is closed — see
@@ -12,16 +12,20 @@ HOP Enterprise Product Foundation Alignment (`HOP-ENT-FOUND-001`) is closed — 
 
 No functional backlog item is currently paused. `MVP-MOD-005 Cashier and Billing Request` is
 closed in full (`MVP-MOD-005-DEF` through `MVP-MOD-005-CLOSEOUT`); `MVP-MOD-006 Laboratory
-Workflow` is closed in full (`MVP-MOD-006-DEF` through `MVP-MOD-006-CLOSEOUT`); `MVP-MOD-007-DEF`
-closed the Results and Digital Delivery capability package models (definition only, no code
-implemented); `MVP-MOD-007-BE-001` closed the backend compilation baseline, `MVP-MOD-007-BE-002`
-closed the backend custom rules implementation, `MVP-MOD-007-FE-001` closed the employee-portal UI
-(also closing a real frontend/backend contract gap left by BE-001/BE-002 by adding the missing
-search/report-generation/notification-history REST adapters end to end); `HOP-ENT-FOUND-001`
-closed the enterprise product foundation alignment (localization, IAM permission catalog, session
-baseline, database deliverables, UX/UI, persistence/contract-generation review, debt burn-down and
-coverage improvement); and `MVP-MOD-007-PORTAL-001` (patient/doctor released result views) is now
-active.
+Workflow` is closed in full (`MVP-MOD-006-DEF` through `MVP-MOD-006-CLOSEOUT`); `MVP-MOD-007
+Results and Digital Delivery` is closed in full (`MVP-MOD-007-DEF` through `MVP-MOD-007-CLOSEOUT`):
+capability package models, backend compilation and custom rules, employee/patient/doctor portal UI,
+mobile result view, and the result access/PDF/notification validation are all closed. Its closeout
+(`MVP-MOD-007-CLOSEOUT`) closed TD-BE-010 (diagnostic order cancellation now checks real Sample
+state via the laboratoryworkflow SampleReadPort instead of order status alone), found and fixed a
+real employee-portal coverage regression (84.44% floor -> 84.03%, restored to 85.50%), measured
+patient-portal and doctor-portal coverage for the first time (41.93% and 40.62%, tracked as
+TD-FE-008/TD-FE-009), and re-confirmed backend coverage at 78.51% and mobile coverage at 98.87%
+with no regressions. `HOP-ENT-FOUND-001` closed the enterprise product foundation alignment
+(localization, IAM permission catalog, session baseline, database deliverables, UX/UI,
+persistence/contract-generation review, debt burn-down and coverage improvement). Functional
+development has moved to `MVP-MOD-008 Integration and Migration Readiness`, starting with
+`MVP-MOD-008-DEF`.
 
 **Local Postgres schema note (added by HOP-ENT-FOUND-001)**: the local-database-backed backend
 tests require the running Postgres container's schema to match

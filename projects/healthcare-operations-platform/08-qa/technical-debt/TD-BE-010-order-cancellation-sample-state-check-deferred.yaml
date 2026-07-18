@@ -2,9 +2,10 @@ artifact:
   id: TD-BE-010
   type: technical-debt-item
   name: Diagnostic order cancellation override uses order-status as a proxy for downstream sample/processing state
-  version: 1.0.0
-  status: open
+  version: 2.0.0
+  status: closed
   created_date: 2026-07-15
+  closed_date: 2026-07-18
 
 source:
   discovered_during_backlog_item: MVP-MOD-004-BE-002
@@ -67,7 +68,7 @@ modeling_precondition_status:
     MVP-MOD-006-BE-002. The debt item remains open until that code change lands.
 
 remediation:
-  strategy: gradual_when_mvp_mod_006_laboratory_workflow_is_modeled
+  strategy: closed_by_MVP_MOD_007_CLOSEOUT_sample_read_port_wired_into_diagnosticordermanagement
   recommended_trigger:
     - MVP-MOD-006 Laboratory Workflow capability package modeling (satisfied by MVP-MOD-006-DEF) and
       its Sample aggregate compilation (MVP-MOD-006-BE-001) plus a cross-module read port
@@ -79,3 +80,21 @@ remediation:
       fallback for orders with no linked sample record.
     - No regression in existing cancellation tests (draft/priced simple cancel,
       accepted/in_progress override-required cancel).
+  closure_evidence:
+    backlog_item: MVP-MOD-007-CLOSEOUT
+    evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+    change_summary: >-
+      frontdeskcaredelivery's Spring Modulith allowedDependencies was extended to consume
+      laboratoryworkflow::sample-read-port (already implemented by OrderSamplesService since
+      MVP-MOD-006-BE-002). DiagnosticOrderManagementService.cancel() now calls
+      SampleReadPort#hasActiveSampleForOrder(orderId, tenantId) as the primary clinically-engaged
+      trigger; the original order-status tier (accepted/in_progress) is retained only as a
+      fallback for orders that have not yet linked a sample record, so no existing compensating
+      control is lost.
+    test_evidence: >-
+      Added FrontDeskCareDeliveryApiTest.diagnosticOrderCancellationRequiresOverrideOnceARealSampleIsCollectedRegardlessOfOrderStatus,
+      which collects a real Sample against a "priced" (not yet accepted) order and confirms cancel
+      is rejected without an override justification and accepted with one -- proving the
+      order-status tier alone no longer gates this decision. All 19 FrontDeskCareDeliveryApiTest
+      cases and the PlatformFoundationModulithTest module-boundary check pass with the new
+      allowedDependencies entry.

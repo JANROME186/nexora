@@ -32,79 +32,61 @@ do_not_write_manually:
   - Duplicate models
   - Repetitive test cases
 
-active_capability_package_group:
-  roadmap_group: MVP-MOD-007
-  name: Results and Digital Delivery
-  package_status: employee_portal_ui_compiled
-  backlog_item: MVP-MOD-007-FE-001
-  required_artifacts_per_package:
-    - capability-package.yaml
-    - business-model.yaml
-    - business-rules.yaml
-    - processes.yaml
-    - events.yaml
-    - openapi-source.yaml
-    - permissions.yaml
-    - ui-model.yaml
-    - mobile-model.yaml
-    - test-model.yaml
-    - observability-model.yaml
-    - generation-plan.yaml
-    - traceability.yaml
-    - README.md
-  next_backlog_item: MVP-MOD-007-PORTAL-001
-  paused_functional_backlog_item: MVP-MOD-007-PORTAL-001
-  capabilities:
-    - capability_id: BCM-RES-001
-      package_folder: bcm-res-001-result-management/
-      package_status: modeled
-      bounded_context: laboratory-results
-      primary_aggregate: AGG-009 LaboratoryResult (read-only; owns ResultSearchIndexEntry read projection)
-      mobile_scope: not_required
-    - capability_id: BCM-RES-002
-      package_folder: bcm-res-002-pdf-report-generation/
-      package_status: modeled
-      bounded_context: laboratory-results
-      primary_aggregate: GeneratedResultReport (new entity owned by this capability)
-      mobile_scope: not_required
-    - capability_id: BCM-RES-004
-      package_folder: bcm-res-004-digital-delivery/
-      package_status: modeled
-      bounded_context: laboratory-results
-      primary_aggregate: ResultDeliveryTicket (new entity owned by this capability)
-      mobile_scope: result_view_required
-    - capability_id: BCM-RES-005
-      package_folder: bcm-res-005-result-history/
-      package_status: modeled
-      bounded_context: laboratory-results
-      primary_aggregate: PatientResultHistoryView (new read projection owned by this capability)
-      mobile_scope: result_view_required
-    - capability_id: BCM-RES-006
-      package_folder: bcm-res-006-critical-results/
-      package_status: modeled
-      bounded_context: laboratory-results
-      primary_aggregate: CriticalResultEscalation (new entity owned by this capability)
-      mobile_scope: not_required
-    - capability_id: BCM-RES-007
-      package_folder: bcm-res-007-result-notifications/
-      package_status: modeled
-      bounded_context: notifications
-      primary_aggregate: ResultNotificationRequest (new entity owned by this capability)
-      mobile_scope: not_required
-    - capability_id: BCM-PLT-003
-      package_folder: bcm-plt-003-notification-management/
-      package_status: modeled
-      bounded_context: notifications
-      primary_aggregate: NotificationRequest (new platform aggregate owned by this capability)
-      mobile_scope: not_required
-    - capability_id: BCM-PLT-008
-      package_folder: bcm-plt-008-document-management/
-      package_status: modeled
-      bounded_context: document-management
-      primary_aggregate: StoredDocument (new platform aggregate owned by this capability)
-      mobile_scope: not_required
-
 completed_capability_package_groups:
+  - roadmap_group: MVP-MOD-007
+    name: Results and Digital Delivery
+    package_status: module_closed
+    backlog_item: MVP-MOD-007-CLOSEOUT
+    qa_evidence: ../../../08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+    capabilities:
+      - capability_id: BCM-RES-001
+        package_folder: bcm-res-001-result-management/
+        package_status: validated
+        bounded_context: laboratory-results
+        primary_aggregate: AGG-009 LaboratoryResult (read-only; owns ResultSearchIndexEntry read projection)
+        mobile_scope: not_required
+      - capability_id: BCM-RES-002
+        package_folder: bcm-res-002-pdf-report-generation/
+        package_status: validated
+        bounded_context: laboratory-results
+        primary_aggregate: GeneratedResultReport (new entity owned by this capability)
+        mobile_scope: not_required
+      - capability_id: BCM-RES-004
+        package_folder: bcm-res-004-digital-delivery/
+        package_status: validated
+        bounded_context: laboratory-results
+        primary_aggregate: ResultDeliveryTicket (new entity owned by this capability)
+        mobile_scope: result_view_required
+      - capability_id: BCM-RES-005
+        package_folder: bcm-res-005-result-history/
+        package_status: validated
+        bounded_context: laboratory-results
+        primary_aggregate: PatientResultHistoryView (new read projection owned by this capability)
+        mobile_scope: result_view_required
+      - capability_id: BCM-RES-006
+        package_folder: bcm-res-006-critical-results/
+        package_status: validated
+        bounded_context: laboratory-results
+        primary_aggregate: CriticalResultEscalation (new entity owned by this capability)
+        mobile_scope: not_required
+      - capability_id: BCM-RES-007
+        package_folder: bcm-res-007-result-notifications/
+        package_status: validated
+        bounded_context: notifications
+        primary_aggregate: ResultNotificationRequest (new entity owned by this capability)
+        mobile_scope: not_required
+      - capability_id: BCM-PLT-003
+        package_folder: bcm-plt-003-notification-management/
+        package_status: validated
+        bounded_context: notifications
+        primary_aggregate: NotificationRequest (new platform aggregate owned by this capability)
+        mobile_scope: not_required
+      - capability_id: BCM-PLT-008
+        package_folder: bcm-plt-008-document-management/
+        package_status: validated
+        bounded_context: document-management
+        primary_aggregate: StoredDocument (new platform aggregate owned by this capability)
+        mobile_scope: not_required
   - roadmap_group: MVP-MOD-006
     name: Laboratory Workflow
     package_status: module_closed

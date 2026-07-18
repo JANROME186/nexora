@@ -447,3 +447,87 @@ entries:
       with no regression. Trivy found 0 vulnerabilities/secrets/misconfigurations. New debt
       registered as TD-FE-007 (pre-existing LaboratoryResult wire-shape mismatch, out of this
       backlog's scope).
+  - backlog_item: MVP-MOD-007-PORTAL-001
+    module: MVP-MOD-007 Results and Digital Delivery
+    status: passed
+    evidence_path: 08-qa/security-quality/MVP-MOD-007-PORTAL-001/
+    human_readable: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-PORTAL-001-validation.md
+    machine_readable: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-PORTAL-001-validation.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: not_applicable_ui_compilation_only
+      dependency_vulnerability_scan: passed
+      secrets_scan: not_executed_in_this_reconciliation
+      coverage: passed_no_backend_regression
+      dast_for_runnable_web_or_api_surfaces: not_executed_not_requested_this_backlog
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Backfilled into this index during MVP-MOD-007-CLOSEOUT (evidence files existed but the entry
+      was missing). Patient-portal and doctor-portal `npm run quality` passed (1 test each) and
+      `npm audit --audit-level=low` returned 0 vulnerabilities after adding a minimatch override.
+      Backend `mvn -Pquality -Dhop.local-db-tests=true verify` passed with backend coverage 77.92%.
+      No patient-portal/doctor-portal line-coverage percentage was recorded at the time; this gap
+      was found and closed by MVP-MOD-007-CLOSEOUT (TD-FE-008/TD-FE-009).
+  - backlog_item: MVP-MOD-007-APP-001
+    module: MVP-MOD-007 Results and Digital Delivery
+    status: passed
+    evidence_path: 08-qa/security-quality/MVP-MOD-007-APP-001/
+    human_readable: 08-qa/security-quality/MVP-MOD-007-APP-001/MVP-MOD-007-APP-001-quality-report.md
+    machine_readable: 08-qa/security-quality/MVP-MOD-007-APP-001/MVP-MOD-007-APP-001-quality-report.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: passed_eslint
+      dependency_vulnerability_scan: passed
+      secrets_scan: not_executed_in_this_reconciliation
+      coverage: passed_improved_97_15_to_98_87
+      dast_for_runnable_web_or_api_surfaces: not_applicable_mobile_foundation_no_runtime_api
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Backfilled into this index during MVP-MOD-007-CLOSEOUT (evidence files existed but the entry
+      was missing). Mobile app coverage raised from the 97.15% floor to 98.87%. Closed TD-STACK-004
+      (duplicate Docker-init schema file) and TD-FE-007 (LaboratoryResult wire-shape mismatch). 0
+      vulnerabilities via `npm audit --audit-level=low`.
+  - backlog_item: MVP-MOD-007-QA-001
+    module: MVP-MOD-007 Results and Digital Delivery
+    status: passed
+    evidence_path: 08-qa/security-quality/MVP-MOD-007-QA-001/
+    human_readable: 08-qa/security-quality/MVP-MOD-007-QA-001/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/MVP-MOD-007-QA-001/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: not_executed_backend_test_and_coverage_scope_only
+      dependency_vulnerability_scan: not_executed_in_this_reconciliation
+      secrets_scan: not_executed_in_this_reconciliation
+      coverage: passed_no_regression_and_improved
+      dast_for_runnable_web_or_api_surfaces: not_executed_not_requested_this_backlog
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Closed TD-DB-001 (JDBC repositories for resultsanddigitaldelivery/documentmanagement/
+      notificationmanagement) and TD-QA-004 (GlobalExceptionHandler for malformed query
+      parameters). 210 backend tests, 0 failures, 0 errors. Backend coverage 77.92% -> 78.42% after
+      adding real unit tests for the previously-uncovered GlobalExceptionHandler, four
+      Jdbc*Repository classes, CriticalResultEscalationController and ResultDeliveryController.
+      Employee/patient/doctor portal and mobile surfaces were validated in their own prior backlog
+      items and not re-executed by this one.
+  - backlog_item: MVP-MOD-007-CLOSEOUT
+    module: MVP-MOD-007 Results and Digital Delivery
+    status: passed
+    evidence_path: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/
+    human_readable: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: passed_spotbugs_pmd_pmd_cpd_no_new_findings
+      dependency_vulnerability_scan: passed_owasp_dependency_check_and_npm_audit
+      secrets_scan: passed_trivy_integrated_scan
+      coverage: passed_backend_and_employee_portal_regression_found_and_fixed
+      dast_for_runnable_web_or_api_surfaces: covered_by_MVP_MOD_007_QA_001_and_HOP_QA_ALIGN_004
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Closed TD-BE-010 with a real code change (laboratoryworkflow SampleReadPort wired into
+      DiagnosticOrderManagementService.cancel()). Found and fixed a real employee-portal coverage
+      regression (84.44% -> 84.03%, restored to 85.50%) left uncaught by MVP-MOD-007-PORTAL-001.
+      Measured patient-portal/doctor-portal coverage for the first time (41.93%/40.62%, TD-FE-008/
+      TD-FE-009 registered). Backend coverage 78.42% -> 78.51% (211 tests, 0 failures/errors);
+      mobile re-confirmed at 98.87%. OWASP Dependency-Check and integrated Trivy scan both passed
+      with 0 vulnerabilities/secrets/misconfigurations.
