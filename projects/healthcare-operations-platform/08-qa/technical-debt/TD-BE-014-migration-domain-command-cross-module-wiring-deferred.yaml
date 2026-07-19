@@ -1,0 +1,69 @@
+artifact:
+  id: TD-BE-014
+  type: technical-debt-item
+  name: Migration domain-command execution has no real cross-module wiring
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-18
+
+source:
+  discovered_during_backlog_item: MVP-MOD-008-BE-002
+  module: MVP-MOD-008-Integration-and-Migration-Readiness
+  evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.yaml
+
+classification:
+  category: incomplete_feature_scope
+  affected_area: open_data_ingestion_and_migration_domain_command_execution
+  affected_components:
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/datamigrationportability/migrationmanagement/domain/MigrationDomainCommandPort.java
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/datamigrationportability/migrationmanagement/adapter/out/adapter/LocalDeterministicMigrationDomainCommandAdapter.java
+  risk_level: medium
+  urgency: low
+  blocking: false
+  reason_non_blocking: >
+    MVP-MOD-008-BE-002 implements a real, checkpointed, idempotent-resume execution/reconciliation
+    lifecycle (RN-003/RN-004/RN-005) through a genuine outbound port
+    (MigrationDomainCommandPort), mirroring IntegrationAdapterPort/FiscalAdapterPort/
+    NotificationProviderPort/DocumentStoragePort. INV-MIG-003 (never write directly to a business
+    aggregate) is satisfied by construction because this port is commitImport/retryImportExecution's
+    only interaction point. The port's only implementation
+    (LocalDeterministicMigrationDomainCommandAdapter) is deliberately a local deterministic stand-in
+    that computes a stable per-category command identifier without touching any other module's
+    aggregate; this honestly reflects that no HOP business module (people, front-desk, catalog,
+    laboratory, results) yet exposes a "migration import" application-service entry point for a
+    real adapter to delegate to. Inventing such an entry point prematurely, just to appear complete,
+    would risk introducing an unreviewed write path into another module's aggregate boundary.
+
+current_state:
+  issue: >
+    checkpoint, domainCommandsInvoked and post_import reconciliation are all real and exercised by
+    unit and API-level tests (MigrationManagementServiceTest,
+    LocalDeterministicMigrationDomainCommandAdapterTest, DataMigrationPortabilityApiTest), but the
+    values recorded in domainCommandsInvoked are local-adapter identifiers, not references to any
+    actual patient/doctor/catalog/order record created in another module.
+
+target_state:
+  preferred_open_source_tooling: []
+  expected_integration_points:
+    - Each owning module (peopleclinicalmasterdata, catalogtestconfiguration, frontdeskcaredelivery,
+      laboratoryworkflow, resultsanddigitaldelivery) exposes its own migration-import application
+      command (e.g. RegisterPatientFromMigration) once that module's own backlog schedules it.
+    - A real MigrationDomainCommandPort implementation is added per entity category, replacing (not
+      removing) LocalDeterministicMigrationDomainCommandAdapter as the local/test default.
+
+remediation:
+  strategy: gradual_when_an_owning_module_next_exposes_a_migration_import_command
+  owner: platform_team
+  estimated_effort: medium
+  estimated_cost_impact: medium
+  target_backlog: MVP-MOD-008-QA-001_or_later_when_a_real_migration_pilot_requires_it
+  dependencies_or_prerequisites:
+    - Owning module (e.g. BCM-PER-001/002/003, BCM-SVC-001/002/009) must first model and implement
+      its own migration-import command.
+  incremental_remediation_triggers:
+    - A real customer migration pilot requires ingesting a specific entity category end to end.
+  acceptance_criteria:
+    - At least one entity category's MigrationDomainCommandPort implementation invokes a real
+      owning-module application command instead of the local deterministic stand-in.
+    - INV-MIG-003 remains verifiably satisfied (the port stays the only interaction point).
+  owner_or_responsible_role: platform_team

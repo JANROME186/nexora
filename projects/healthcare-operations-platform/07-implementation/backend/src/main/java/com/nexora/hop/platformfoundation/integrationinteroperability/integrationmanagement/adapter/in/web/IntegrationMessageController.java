@@ -1,5 +1,6 @@
 package com.nexora.hop.platformfoundation.integrationinteroperability.integrationmanagement.adapter.in.web;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -41,15 +42,17 @@ class IntegrationMessageController {
     }
 
     record MessageDetailResponse(
-            String messageId, String endpointId, String externalMessageId, String sourceProtocol,
-            String rawPayloadReference, String normalizedMessageType, Map<String, String> canonicalFields,
-            String targetBoundedContext, String normalizationStatus, String canonicalErrorCode, int retryCount) {
+            String messageId, String endpointId, String externalMessageId, String correlationId,
+            String sourceProtocol, String rawPayloadReference, String normalizedMessageType,
+            Map<String, String> canonicalFields, String targetBoundedContext, String normalizationStatus,
+            String canonicalErrorCode, int retryCount, LocalDateTime nextRetryAt, String deadLetterReason) {
         static MessageDetailResponse from(IntegrationMessageRecord entity) {
             return new MessageDetailResponse(
-                    entity.messageId(), entity.endpointId(), entity.externalMessageId(),
+                    entity.messageId(), entity.endpointId(), entity.externalMessageId(), entity.correlationId(),
                     entity.envelope().sourceProtocol(), entity.envelope().rawPayloadReference(),
                     entity.normalizedMessageType(), entity.canonicalFields(), entity.targetBoundedContext(),
-                    entity.normalizationStatus(), entity.canonicalErrorCode(), entity.retryCount());
+                    entity.normalizationStatus(), entity.canonicalErrorCode(), entity.retryCount(),
+                    entity.nextRetryAt(), entity.deadLetterReason());
         }
     }
 }

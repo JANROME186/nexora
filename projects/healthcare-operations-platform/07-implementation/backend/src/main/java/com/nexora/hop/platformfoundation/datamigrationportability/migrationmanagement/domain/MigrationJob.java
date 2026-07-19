@@ -5,9 +5,11 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 /**
  * Root aggregate of BCM-PLT-010 Open Data Ingestion and Migration (ENT-MIG-001, AGG-016
  * MigrationJob per aggregate-catalog.yaml). Never writes directly to a business aggregate's
- * storage (INV-MIG-003); {@code executing}/{@code reconciled} only reachable through the
- * checkpointed {@code ImportExecution} lifecycle, real domain-command invocation deferred to
- * MVP-MOD-008-BE-002.
+ * storage (INV-MIG-003); {@code executing} is only reachable through the checkpointed
+ * {@code ImportExecution} lifecycle delegating to {@code MigrationDomainCommandPort}, and
+ * {@code reconciled} only once every declared entity category has been committed.
+ * {@code failed} is reached when {@code ImportExecution} retry attempts are exhausted
+ * (MVP-MOD-008-BE-002, RN-004).
  */
 public record MigrationJob(
         String migrationJobId,

@@ -28,6 +28,8 @@ import com.nexora.hop.platformfoundation.integrationinteroperability.integration
  *       {@code "INVALID"} (case-insensitive) to model a normalization failure deterministically;
  *       otherwise extracts {@code key=value;key2=value2} pairs into canonical fields, falling
  *       back to a single {@code payloadLength} field.</li>
+ *   <li>{@link #acknowledgeMessage} echoes the supplied correlation id back unchanged, falling
+ *       back to a freshly generated one only if none was supplied (RN-005, CUS-INT-004-05).</li>
  * </ul>
  */
 @Component
@@ -55,11 +57,15 @@ public class LocalDeterministicPassthroughIntegrationAdapter implements Integrat
     }
 
     @Override
-    public IntegrationAcknowledgement acknowledgeMessage(String externalMessageId, String status) {
+    public IntegrationAcknowledgement acknowledgeMessage(
+            String externalMessageId, String correlationId, String status) {
         String canonicalErrorCode = IntegrationAcknowledgement.STATUS_REJECTED.equals(status)
                 ? "INTEGRATION_NORMALIZATION_FAILED"
                 : null;
-        return new IntegrationAcknowledgement(externalMessageId, status, canonicalErrorCode);
+        String resolvedCorrelationId = correlationId != null && !correlationId.isBlank()
+                ? correlationId
+                : PROVIDER_ID + "-" + java.util.UUID.randomUUID();
+        return new IntegrationAcknowledgement(externalMessageId, resolvedCorrelationId, status, canonicalErrorCode);
     }
 
     private static Map<String, String> extractFields(String rawPayload) {

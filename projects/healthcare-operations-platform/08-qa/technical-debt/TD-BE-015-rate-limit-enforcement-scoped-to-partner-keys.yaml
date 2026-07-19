@@ -1,0 +1,60 @@
+artifact:
+  id: TD-BE-015
+  type: technical-debt-item
+  name: Rate-limit enforcement is scoped to partner-API-key-bearing requests only
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-18
+
+source:
+  discovered_during_backlog_item: MVP-MOD-008-BE-002
+  module: MVP-MOD-008-Integration-and-Migration-Readiness
+  evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.yaml
+
+classification:
+  category: incomplete_feature_scope
+  affected_area: api_management_rate_limit_enforcement
+  affected_components:
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/integrationinteroperability/apimanagement/adapter/in/web/PartnerApiKeyRateLimitInterceptor.java
+  risk_level: low
+  urgency: low
+  blocking: false
+  reason_non_blocking: >
+    RN-004 requires public and partner API requests exceeding their classification tier's
+    rate-limit policy to be rejected. MVP-MOD-008-BE-002 implements a real, working enforcement
+    interceptor (PartnerApiKeyRateLimitInterceptor + PartnerApiRateLimiter, a fixed-window counter)
+    for requests that present the X-Partner-Api-Key header, which is the only authenticated
+    per-consumer identity this backend currently has for any classification tier. Public and
+    internal classification requests have no per-consumer credential and no request-path-to-
+    ApiSurfaceRegistration.operationId mapping exists yet anywhere in the codebase, so a
+    classification-tier-wide limiter cannot be wired without inventing that mapping.
+
+current_state:
+  issue: >
+    setRateLimitPolicy accepts and persists a policy for "public" and "internal" classifications
+    (not only "partner"), but only the "partner" policy is ever consulted, and only when the
+    caller supplies a partner key. A flood of public/internal requests is not currently throttled.
+
+target_state:
+  preferred_open_source_tooling:
+    - Reuse PartnerApiRateLimiter's fixed-window approach once a request-classification identity
+      exists for public/internal traffic.
+  expected_integration_points:
+    - A request-path-to-operationId resolver (mirroring EndpointPermissionRegistry's prefix-match
+      convention) so PartnerApiKeyRateLimitInterceptor (or a sibling) can resolve classification for
+      unauthenticated/internal callers.
+
+remediation:
+  strategy: gradual_before_first_public_api_consumer_onboarding
+  owner: platform_team
+  estimated_effort: small
+  estimated_cost_impact: low
+  target_backlog: COM-MOD-011_or_earlier_if_a_public_consumer_is_onboarded_sooner
+  dependencies_or_prerequisites: []
+  incremental_remediation_triggers:
+    - A real public or internal-classification API consumer requires throttling before partner-key
+      issuance is relevant to them.
+  acceptance_criteria:
+    - Public and internal classification requests are throttled against their configured
+      RateLimitPolicy without requiring a partner API key.
+  owner_or_responsible_role: platform_team

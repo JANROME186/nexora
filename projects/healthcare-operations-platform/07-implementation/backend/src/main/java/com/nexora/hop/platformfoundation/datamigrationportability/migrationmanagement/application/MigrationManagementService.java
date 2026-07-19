@@ -20,6 +20,8 @@ import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanag
 import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanagement.domain.ImportValidationReportRepository;
 import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanagement.domain.MappingTemplate;
 import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanagement.domain.MappingTemplateRepository;
+import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanagement.domain.MigrationAdapterException;
+import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanagement.domain.MigrationDomainCommandPort;
 import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanagement.domain.MigrationJob;
 import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanagement.domain.MigrationJobRepository;
 import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanagement.domain.MigrationManifest;
@@ -32,26 +34,32 @@ import com.nexora.hop.platformfoundation.datamigrationportability.shared.Migrati
 import com.nexora.hop.platformfoundation.documentmanagement.domain.DocumentStoragePort;
 import com.nexora.hop.platformfoundation.documentmanagement.domain.StorageReference;
 import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
+import com.nexora.hop.platformfoundation.sharedkernel.DelimitedTextCodec;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 
 /**
  * Compiles the generatable outputs of bcm-plt-010-open-data-ingestion-and-migration/
  * generation-plan.yaml (job creation/listing, approve, reconciliation report reading,
- * PRC-MIG-010-01) and implements the CUS-MIG-010-01/02/03 custom rules delivered by
- * MVP-MOD-008-BE-001: real manifest/checksum verification and CSV/JSON/NDJSON/ZIP parsing via
+ * PRC-MIG-010-01) and implements the CUS-MIG-010-01 through CUS-MIG-010-06 custom rules: real
+ * manifest/checksum verification and CSV/JSON/NDJSON/XLSX/ZIP parsing via
  * {@link ManifestParser}/{@link ImportFileParser} (RN-001), a naive identity field-mapping
- * baseline (RN-... mapping step of PRC-MIG-010-02) and multi-category dry-run validation without
- * mutation (RN-002, INV-MIG-002).
- *
- * <p>{@link #commitImport} and {@link #retryImportExecution} implement CUS-MIG-010-04/05's
- * boundary honestly rather than completely: they never write to a business aggregate
- * (INV-MIG-003) and {@link ImportExecution#domainCommandsInvoked()} stays empty because real
- * cross-module domain-command invocation and checkpoint-based resume are explicit
- * MVP-MOD-008-BE-002 scope — this only tracks the execution/reconciliation lifecycle shell so no
- * endpoint responds unimplemented.</p>
+ * baseline (mapping step of PRC-MIG-010-02), multi-category dry-run validation without mutation
+ * (RN-002, INV-MIG-002), import execution delegated exclusively to
+ * {@link MigrationDomainCommandPort} with per-category checkpoint recording (RN-003, INV-MIG-003,
+ * delivered by MVP-MOD-008-BE-002), checkpoint-based idempotent retry that resumes only the
+ * categories not yet completed (RN-004, INV-MIG-004, delivered by MVP-MOD-008-BE-002), and
+ * incremental reconciliation-report aggregation after every commit/retry attempt (RN-005,
+ * delivered by MVP-MOD-008-BE-002).
  */
 @Service
 public class MigrationManagementService {
+
+    /**
+     * Bounded retry ceiling for {@link ImportExecution} attempts (RN-004): the migration job is
+     * marked {@link MigrationJob#STATUS_FAILED} rather than retried again once this many attempts
+     * have been made.
+     */
+    static final int MAX_EXECUTION_ATTEMPTS = 5;
 
     private final MigrationJobRepository jobRepository;
     private final ImportBatchRepository importBatchRepository;
@@ -62,6 +70,7 @@ public class MigrationManagementService {
     private final ManifestParser manifestParser;
     private final ImportFileParser importFileParser;
     private final DocumentStoragePort documentStoragePort;
+    private final MigrationDomainCommandPort domainCommandPort;
     private final TenantDirectory tenantDirectory;
     private final AuditRecorder auditRecorder;
     private final Clock clock;
@@ -77,11 +86,12 @@ public class MigrationManagementService {
             ManifestParser manifestParser,
             ImportFileParser importFileParser,
             DocumentStoragePort documentStoragePort,
+            MigrationDomainCommandPort domainCommandPort,
             TenantDirectory tenantDirectory,
             AuditRecorder auditRecorder) {
         this(jobRepository, importBatchRepository, mappingTemplateRepository, validationReportRepository,
                 reconciliationReportRepository, importExecutionRepository, manifestParser, importFileParser,
-                documentStoragePort, tenantDirectory, auditRecorder, Clock.systemUTC());
+                documentStoragePort, domainCommandPort, tenantDirectory, auditRecorder, Clock.systemUTC());
     }
 
     MigrationManagementService(
@@ -94,6 +104,7 @@ public class MigrationManagementService {
             ManifestParser manifestParser,
             ImportFileParser importFileParser,
             DocumentStoragePort documentStoragePort,
+            MigrationDomainCommandPort domainCommandPort,
             TenantDirectory tenantDirectory,
             AuditRecorder auditRecorder,
             Clock clock) {
@@ -106,6 +117,7 @@ public class MigrationManagementService {
         this.manifestParser = manifestParser;
         this.importFileParser = importFileParser;
         this.documentStoragePort = documentStoragePort;
+        this.domainCommandPort = domainCommandPort;
         this.tenantDirectory = tenantDirectory;
         this.auditRecorder = auditRecorder;
         this.clock = clock;
@@ -216,7 +228,7 @@ public class MigrationManagementService {
             Integer declared = batch.manifest().entityCounts().get(entry.getKey());
             if (entry.getValue() == ImportFileParser.ROWS_NOT_COUNTED) {
                 rowLevelWarnings.add("Row-level count not evaluated for '" + entry.getKey()
-                        + "' (unsupported declared format; see TD-BE-013).");
+                        + "' (unsupported declared format).");
             } else if (declared != null && !declared.equals(entry.getValue())) {
                 rowLevelWarnings.add("File '" + entry.getKey() + "' declared " + declared + " rows in the "
                         + "manifest but " + entry.getValue() + " were parsed.");
@@ -276,12 +288,13 @@ public class MigrationManagementService {
     }
 
     /**
-     * CUS-MIG-010-04 (boundary honestly deferred): starts the checkpointed execution lifecycle
-     * without invoking any domain command yet (INV-MIG-003 is trivially satisfied — an empty
-     * {@code domainCommandsInvoked} list references no aggregate). Also records a
-     * {@link ReconciliationReport#PHASE_PRE_IMPORT} baseline from the batch's parsed entity counts
-     * (INV-MIG-005). Real per-command execution, checkpointing and the {@code post_import}
-     * reconciliation phase are MVP-MOD-008-BE-002 scope.
+     * CUS-MIG-010-04: records a {@link ReconciliationReport#PHASE_PRE_IMPORT} baseline from the
+     * batch's parsed entity counts (INV-MIG-005), then delegates every declared entity category to
+     * {@link MigrationDomainCommandPort#invokeImportCommand} in turn (RN-003), recording each
+     * invocation's stable command identifier and the completed-category checkpoint as it goes
+     * (RN-004). If a category's invocation fails, execution stops there — already-completed
+     * categories remain checkpointed for {@link #retryImportExecution} to resume from rather than
+     * being re-invoked (INV-MIG-004).
      */
     public ImportExecution commitImport(String importBatchId, String actorId) {
         ImportBatch batch = requireBatch(importBatchId);
@@ -295,11 +308,6 @@ public class MigrationManagementService {
         LocalDateTime now = LocalDateTime.now(clock);
         AuditMetadata audit = new AuditMetadata(actor, now, actor, now);
 
-        ImportExecution execution = new ImportExecution(
-                newId(), job.migrationJobId(), importBatchId, 1, List.of(), null,
-                ImportExecution.STATUS_IN_PROGRESS, audit);
-        ImportExecution savedExecution = importExecutionRepository.save(execution);
-
         jobRepository.save(new MigrationJob(
                 job.migrationJobId(), job.tenantId(), job.laboratoryId(), job.sourceSystemName(),
                 MigrationJob.STATUS_EXECUTING, touched(job.audit(), actor)));
@@ -309,18 +317,26 @@ public class MigrationManagementService {
                 Map.of(), Map.of(), Map.of(), audit);
         reconciliationReportRepository.save(preImportReport);
 
+        ImportExecution execution = executeFromCheckpoint(
+                job, newId(), batch, List.of(), List.of(), 1, actor, now);
         auditRecorder.recordSystemEvent(job.tenantId(), "MigrationExecuted", "MigrationJob", job.migrationJobId(),
-                "{}");
-        return savedExecution;
+                "{\"status\":\"%s\"}".formatted(execution.status()));
+        return execution;
     }
 
     /**
-     * CUS-MIG-010-05 (boundary honestly deferred): starts a new attempt while the execution is
-     * still {@code in_progress}. Full checkpoint-based idempotent resume (INV-MIG-004) is
-     * MVP-MOD-008-BE-002 scope.
+     * CUS-MIG-010-05: bounded, auditable retry (RN-004) that resumes from the last execution's
+     * {@link ImportExecution#checkpoint()} instead of re-invoking already-completed categories
+     * (INV-MIG-004, idempotent resume). Once {@link #MAX_EXECUTION_ATTEMPTS} attempts have been
+     * made, the job is marked {@link MigrationJob#STATUS_FAILED} and further retries are rejected.
      */
     public ImportExecution retryImportExecution(String migrationJobId, String actorId) {
         MigrationJob job = requireJob(migrationJobId);
+        if (MigrationJob.STATUS_FAILED.equals(job.status())) {
+            throw new MigrationConflictException(
+                    "Migration job " + migrationJobId + " exhausted its retry attempts and cannot be retried again.",
+                    MigrationErrorCodes.MIGRATION_EXECUTION_ATTEMPTS_EXHAUSTED);
+        }
         if (!MigrationJob.STATUS_EXECUTING.equals(job.status())) {
             throw new MigrationConflictException(
                     "Migration job " + migrationJobId + " is not executing (status " + job.status() + ").",
@@ -330,6 +346,17 @@ public class MigrationManagementService {
                 .orElseThrow(() -> new MigrationConflictException(
                         "Migration job " + migrationJobId + " has no execution to retry.",
                         MigrationErrorCodes.MIGRATION_RETRY_CHECKPOINT_MISMATCH));
+        if (latest.attemptNumber() >= MAX_EXECUTION_ATTEMPTS) {
+            String actor = requiredText(actorId, "Actor id is required.");
+            jobRepository.save(new MigrationJob(
+                    job.migrationJobId(), job.tenantId(), job.laboratoryId(), job.sourceSystemName(),
+                    MigrationJob.STATUS_FAILED, touched(job.audit(), actor)));
+            throw new MigrationConflictException(
+                    "Migration job " + migrationJobId + " exhausted the maximum of " + MAX_EXECUTION_ATTEMPTS
+                            + " execution attempts.",
+                    MigrationErrorCodes.MIGRATION_EXECUTION_ATTEMPTS_EXHAUSTED);
+        }
+        ImportBatch batch = requireBatch(latest.importBatchId());
         String actor = requiredText(actorId, "Actor id is required.");
         LocalDateTime now = LocalDateTime.now(clock);
 
@@ -338,13 +365,78 @@ public class MigrationManagementService {
                 latest.domainCommandsInvoked(), latest.checkpoint(), ImportExecution.STATUS_RETRIED,
                 touched(latest.audit(), actor)));
 
-        ImportExecution retryAttempt = new ImportExecution(
-                newId(), job.migrationJobId(), latest.importBatchId(), latest.attemptNumber() + 1, List.of(),
-                latest.checkpoint(), ImportExecution.STATUS_IN_PROGRESS,
-                new AuditMetadata(actor, now, actor, now));
-        ImportExecution saved = importExecutionRepository.save(retryAttempt);
+        List<String> alreadyCompletedCategories = DelimitedTextCodec.splitList(latest.checkpoint());
+        ImportExecution retryAttempt = executeFromCheckpoint(
+                job, newId(), batch, alreadyCompletedCategories, latest.domainCommandsInvoked(),
+                latest.attemptNumber() + 1, actor, now);
         auditRecorder.recordSystemEvent(job.tenantId(), "MigrationImportRetried", "MigrationJob", migrationJobId,
-                "{\"attemptNumber\":%d}".formatted(saved.attemptNumber()));
+                "{\"attemptNumber\":%d,\"status\":\"%s\"}"
+                        .formatted(retryAttempt.attemptNumber(), retryAttempt.status()));
+        return retryAttempt;
+    }
+
+    /**
+     * Invokes {@link MigrationDomainCommandPort#invokeImportCommand} for every declared entity
+     * category not already present in {@code alreadyCompletedCategories}, stopping at the first
+     * failure so the checkpoint always reflects real, contiguous progress. Writes an incremental
+     * {@link ReconciliationReport#PHASE_POST_IMPORT} report reflecting exactly what this attempt
+     * completed and, on failure, which category was rejected (RN-005). On full completion the
+     * migration job transitions to {@link MigrationJob#STATUS_RECONCILED}.
+     */
+    private ImportExecution executeFromCheckpoint(
+            MigrationJob job, String executionId, ImportBatch batch, List<String> alreadyCompletedCategories,
+            List<String> alreadyInvokedCommandIds, int attemptNumber, String actor, LocalDateTime now) {
+        List<String> completedCategories = new ArrayList<>(alreadyCompletedCategories);
+        List<String> commandsInvoked = new ArrayList<>(alreadyInvokedCommandIds);
+        String failedCategory = null;
+        String failureCanonicalErrorCode = null;
+        for (Map.Entry<String, Integer> category : batch.entityCounts().entrySet()) {
+            if (completedCategories.contains(category.getKey())) {
+                continue;
+            }
+            try {
+                commandsInvoked.add(domainCommandPort.invokeImportCommand(
+                        job.migrationJobId(), category.getKey(), category.getValue()));
+                completedCategories.add(category.getKey());
+            } catch (MigrationAdapterException exception) {
+                failedCategory = category.getKey();
+                failureCanonicalErrorCode = exception.canonicalErrorCode();
+                break;
+            }
+        }
+        boolean fullyCompleted = failedCategory == null;
+        String checkpoint = DelimitedTextCodec.joinList(completedCategories);
+        String status = fullyCompleted ? ImportExecution.STATUS_COMPLETED : ImportExecution.STATUS_FAILED;
+        AuditMetadata audit = new AuditMetadata(actor, now, actor, now);
+        ImportExecution execution = new ImportExecution(
+                executionId, job.migrationJobId(), batch.importBatchId(), attemptNumber, List.copyOf(commandsInvoked),
+                checkpoint, status, audit);
+        ImportExecution saved = importExecutionRepository.save(execution);
+
+        Map<String, Integer> importedCounts = new LinkedHashMap<>();
+        completedCategories.forEach(c -> importedCounts.put(c, batch.entityCounts().get(c)));
+        Map<String, Integer> rejectedCounts = failedCategory == null
+                ? Map.of()
+                : Map.of(failedCategory, batch.entityCounts().get(failedCategory));
+        Map<String, Integer> warningCounts = failedCategory == null
+                ? Map.of()
+                : Map.of(failedCategory, 1);
+        ReconciliationReport postImportReport = new ReconciliationReport(
+                newId(), job.migrationJobId(), ReconciliationReport.PHASE_POST_IMPORT, importedCounts, rejectedCounts,
+                Map.of(), warningCounts, audit);
+        reconciliationReportRepository.save(postImportReport);
+
+        if (fullyCompleted) {
+            jobRepository.save(new MigrationJob(
+                    job.migrationJobId(), job.tenantId(), job.laboratoryId(), job.sourceSystemName(),
+                    MigrationJob.STATUS_RECONCILED, touched(job.audit(), actor)));
+        }
+        auditRecorder.recordSystemEvent(job.tenantId(), "ReconciliationReportRecorded", "MigrationJob",
+                job.migrationJobId(),
+                "{\"phase\":\"post_import\",\"fullyCompleted\":%s%s}".formatted(fullyCompleted,
+                        failedCategory == null ? ""
+                                : ",\"failedCategory\":\"%s\",\"canonicalErrorCode\":\"%s\""
+                                        .formatted(failedCategory, failureCanonicalErrorCode)));
         return saved;
     }
 

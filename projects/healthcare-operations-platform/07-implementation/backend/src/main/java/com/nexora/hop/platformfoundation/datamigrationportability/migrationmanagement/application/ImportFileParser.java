@@ -12,6 +12,10 @@ import java.util.zip.ZipInputStream;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 
 import tools.jackson.databind.JsonNode;
@@ -20,15 +24,13 @@ import tools.jackson.databind.ObjectMapper;
 /**
  * Row-level parsing for open data ingestion bundles (CUS-MIG-010-01), using the open-source
  * libraries the capability package names explicitly: Apache Commons CSV for {@code csv},
- * Jackson (already the platform's JSON library) for {@code json}/{@code ndjson}, and
- * {@code java.util.zip} for {@code zip_bundle} extraction. XLSX row-level parsing (Apache POI)
- * is a real, explicit gap tracked by TD-BE-013 rather than silently unsupported: format
- * <i>declaration</i> for xlsx is accepted, but {@link #countRows} returns {@link #ROWS_NOT_COUNTED}
- * for it.
+ * Jackson (already the platform's JSON library) for {@code json}/{@code ndjson}, Apache POI for
+ * {@code xlsx} (closes TD-BE-013) and {@code java.util.zip} for {@code zip_bundle} extraction.
  */
 @Component
 public class ImportFileParser {
 
+    /** Returned only for a declared format this parser has no row-level counter for at all. */
     public static final int ROWS_NOT_COUNTED = -1;
 
     private final ObjectMapper objectMapper;
@@ -58,7 +60,7 @@ public class ImportFileParser {
 
     /**
      * Counts data rows/records in a single entity file, or returns {@link #ROWS_NOT_COUNTED} for a
-     * declared format this parser does not yet support row-level counting for (xlsx).
+     * declared format this parser has no row-level counter for.
      */
     public int countRows(String declaredFormat, byte[] content) {
         String format = declaredFormat == null ? "" : declaredFormat.toLowerCase(java.util.Locale.ROOT);
@@ -66,7 +68,7 @@ public class ImportFileParser {
             case "csv" -> countCsvRows(content);
             case "json" -> countJsonRows(content);
             case "ndjson" -> countNdjsonRows(content);
-            case "xlsx" -> ROWS_NOT_COUNTED;
+            case "xlsx" -> countXlsxRows(content);
             default -> ROWS_NOT_COUNTED;
         };
     }
@@ -96,5 +98,37 @@ public class ImportFileParser {
     private int countNdjsonRows(byte[] content) {
         String text = new String(content, StandardCharsets.UTF_8);
         return (int) text.lines().filter(line -> !line.isBlank()).count();
+    }
+
+    /**
+     * Counts data rows on the first worksheet, excluding the header row, mirroring
+     * {@link #countCsvRows}'s header-skipping semantics (CUS-MIG-010-01, closes TD-BE-013).
+     */
+    private int countXlsxRows(byte[] content) {
+        try (Workbook workbook = new XSSFWorkbook(new ByteArrayInputStream(content))) {
+            if (workbook.getNumberOfSheets() == 0) {
+                return 0;
+            }
+            Sheet sheet = workbook.getSheetAt(0);
+            int count = 0;
+            for (Row row : sheet) {
+                if (row.getRowNum() == 0 || isBlankRow(row)) {
+                    continue;
+                }
+                count++;
+            }
+            return count;
+        } catch (IOException | RuntimeException exception) {
+            throw new IllegalArgumentException("File could not be parsed as XLSX.", exception);
+        }
+    }
+
+    private static boolean isBlankRow(Row row) {
+        for (org.apache.poi.ss.usermodel.Cell cell : row) {
+            if (cell.getCellType() != org.apache.poi.ss.usermodel.CellType.BLANK) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -13,6 +13,8 @@ public final class MigrationErrorCodes {
     public static final String MIGRATION_RETRY_CHECKPOINT_MISMATCH = "MIGRATION_RETRY_CHECKPOINT_MISMATCH";
     public static final String MIGRATION_SCOPE_MISMATCH = "MIGRATION_SCOPE_MISMATCH";
     public static final String MIGRATION_COMMAND_INVALID = "MIGRATION_COMMAND_INVALID";
+    public static final String MIGRATION_EXECUTION_ATTEMPTS_EXHAUSTED = "MIGRATION_EXECUTION_ATTEMPTS_EXHAUSTED";
+    public static final String MIGRATION_DOMAIN_COMMAND_FAILED = "MIGRATION_DOMAIN_COMMAND_FAILED";
 
     private MigrationErrorCodes() {
     }

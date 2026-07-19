@@ -35,10 +35,11 @@ do_not_write_manually:
 completed_capability_package_groups:
   - roadmap_group: MVP-MOD-008
     name: Integration and Migration Readiness
-    package_status: compiled
-    backlog_item: MVP-MOD-008-BE-001
+    package_status: custom_rules_implemented
+    backlog_item: MVP-MOD-008-BE-002
     qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
     be_001_qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-001-validation.yaml
+    be_002_qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.yaml
     capabilities:
       - capability_id: BCM-PLT-004
         package_folder: bcm-plt-004-integration-management/

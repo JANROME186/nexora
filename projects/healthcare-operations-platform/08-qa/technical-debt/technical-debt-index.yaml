@@ -35,17 +35,17 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 80.08
-        source_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 80.08
+        current_line_coverage_percent: 80.49
+        source_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 80.49
         final_closure_target_percent: 80
         correction_note: >-
           MVP-MOD-007-QA-001 raised backend line coverage to 78.42%. MVP-MOD-007-CLOSEOUT's
           TD-BE-010 fix added one real unit test for the new SampleReadPort-backed cancellation
           branch, raising it to 78.51% (211 tests, 0 failures/errors) with no regression.
           MVP-MOD-008-BE-001 raised it further to 80.08% (239 tests, 0 failures/errors), reaching
-          the final 80% target for this stack; future backend iterations must not regress below
-          80.08%.
+          the final 80% target for this stack. MVP-MOD-008-BE-002 raised it further to 80.49%
+          (265 tests, 0 failures/errors); future backend iterations must not regress below 80.49%.
       frontend_typescript_web:
         current_line_coverage_percent: 85.50
         source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
@@ -324,7 +324,8 @@ entries:
     affected_area: backend_frontend_mobile_messages_and_magic_values
     file: 08-qa/technical-debt/TD-I18N-002-full-localization-adoption.yaml
     remediation_strategy: materially_reduced_by_HOP_ENT_FOUND_001_real_locale_keyed_catalogs_and_backend_MessageSource_baseline_established_remaining_modules_and_screens_tracked;
-      further_reduced_by_MVP_MOD_008_DEF_first_class_code_field_and_reserved_message_key_namespaces_modeled_for_new_integration_capabilities
+      further_reduced_by_MVP_MOD_008_DEF_first_class_code_field_and_reserved_message_key_namespaces_modeled_for_new_integration_capabilities;
+      further_reduced_by_MVP_MOD_008_BE_002_adding_a_first_class_messageKey_field_alongside_code_on_every_BCM_PLT_004_005_010_error_response_with_es_MX_en_US_catalog_entries_for_every_code
   - id: TD-FE-006
     title: Employee portal is missing dedicated Appointment Scheduling, Admission Management and Quotation Management UI
     status: open
@@ -498,10 +499,28 @@ entries:
     remediation_strategy: gradual_when_com_mod_009_doctor_portal_commercial_workflow_is_implemented
   - id: TD-BE-013
     title: XLSX row-level parsing not implemented for open data ingestion and migration
-    status: open
+    status: closed
     risk_level: low
     blocking: false
     source_backlog_item: MVP-MOD-008-BE-001
     affected_area: open_data_ingestion_and_migration_file_parsing
     file: 08-qa/technical-debt/TD-BE-013-xlsx-migration-row-parsing-missing.yaml
-    remediation_strategy: implement_when_a_real_provider_export_requires_xlsx
+    remediation_strategy: closed_by_MVP_MOD_008_BE_002_apache_poi_xlsx_row_counting
+  - id: TD-BE-014
+    title: Migration domain-command execution has no real cross-module wiring
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-008-BE-002
+    affected_area: open_data_ingestion_and_migration_domain_command_execution
+    file: 08-qa/technical-debt/TD-BE-014-migration-domain-command-cross-module-wiring-deferred.yaml
+    remediation_strategy: gradual_when_an_owning_module_next_exposes_a_migration_import_command
+  - id: TD-BE-015
+    title: Rate-limit enforcement is scoped to partner-API-key-bearing requests only
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: MVP-MOD-008-BE-002
+    affected_area: api_management_rate_limit_enforcement
+    file: 08-qa/technical-debt/TD-BE-015-rate-limit-enforcement-scoped-to-partner-keys.yaml
+    remediation_strategy: gradual_before_first_public_api_consumer_onboarding

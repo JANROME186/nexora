@@ -51,6 +51,16 @@ class ApiSurfaceController {
         return ResponseEntity.ok(RegistrationResponse.from(saved));
     }
 
+    @PostMapping("/{operationId}/retirement")
+    ResponseEntity<RegistrationResponse> retireApiOperation(
+            @PathVariable String operationId, @RequestBody(required = false) ActorRequest request) {
+        String actorId = request == null ? "system" : request.actorId();
+        return ResponseEntity.ok(RegistrationResponse.from(service.retireDeprecatedOperation(operationId, actorId)));
+    }
+
+    record ActorRequest(String actorId) {
+    }
+
     record ClassifyRequest(
             @NotBlank String ownerCapability, @NotBlank String classification, @NotBlank String apiVersion,
             String tenantId, @NotBlank String actorId) {

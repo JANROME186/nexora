@@ -175,6 +175,109 @@ class IntegrationInteroperabilityApiTest {
                 .andExpect(jsonPath("$.code").value("API_DEPRECATION_WINDOW_MISSING"));
     }
 
+    @Test
+    void retryingAMessageTooSoonAfterARetryFailureIsRejectedWithABoundedBackoffError() throws Exception {
+        String endpointId = registerEndpoint("fhir", "inbound");
+        JsonNode failed = postJson("/api/platform/integration/endpoints/" + endpointId + "/messages", """
+                {"externalMessageId":"EXT-BACKOFF","rawPayload":"this payload is INVALID","actorId":"integrator-1"}
+                """);
+        String messageId = failed.get("messageId").asText();
+
+        // The first retry after the initial receipt failure is immediately allowed but still fails.
+        mockMvc.perform(post("/api/platform/integration/messages/{messageId}/retry", messageId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"rawPayload\":\"still INVALID\",\"actorId\":\"integrator-1\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.normalizationStatus").value("retrying"))
+                .andExpect(jsonPath("$.retryCount").value(1));
+
+        // A second retry attempted immediately after a retry failure is bounded by backoff.
+        mockMvc.perform(post("/api/platform/integration/messages/{messageId}/retry", messageId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"rawPayload\":\"still INVALID\",\"actorId\":\"integrator-1\"}"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("INTEGRATION_RETRY_NOT_YET_DUE"))
+                .andExpect(jsonPath("$.messageKey").value("integration.error.integration_retry_not_yet_due"));
+    }
+
+    @Test
+    void apiOperationRetirementIsGatedByTheElapsedDeprecationWindow() throws Exception {
+        String operationId = "getResultReports-" + UUID.randomUUID().toString().substring(0, 8);
+        postJson("/api/platform/api-management/operations/" + operationId + "/classification", """
+                {"ownerCapability":"BCM-RES-002","classification":"public","apiVersion":"v1","actorId":"admin-1"}
+                """);
+        mockMvc.perform(post("/api/platform/api-management/operations/{id}/deprecation", operationId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"deprecationWindowFrom":"2020-01-01T00:00:00","deprecationWindowTo":"2020-02-01T00:00:00",
+                                 "migrationNote":"Use v2 instead.","actorId":"admin-1"}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.deprecationStatus").value("deprecation_scheduled"));
+
+        // Elapsed window (2020, well in the past): retirement succeeds.
+        mockMvc.perform(post("/api/platform/api-management/operations/{id}/retirement", operationId)
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"actorId\":\"admin-1\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.deprecationStatus").value("retired"));
+
+        // Retiring an already-retired operation is rejected.
+        mockMvc.perform(post("/api/platform/api-management/operations/{id}/retirement", operationId)
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"actorId\":\"admin-1\"}"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("API_DEPRECATION_WINDOW_NOT_ELAPSED"));
+    }
+
+    @Test
+    void retiringAnOperationBeforeItsDeprecationWindowElapsesIsRejected() throws Exception {
+        String operationId = "futureDeprecation-" + UUID.randomUUID().toString().substring(0, 8);
+        postJson("/api/platform/api-management/operations/" + operationId + "/classification", """
+                {"ownerCapability":"BCM-RES-002","classification":"public","apiVersion":"v1","actorId":"admin-1"}
+                """);
+        String farFuture = java.time.LocalDateTime.now().plusYears(1).toString();
+        String farFutureEnd = java.time.LocalDateTime.now().plusYears(2).toString();
+        postJson("/api/platform/api-management/operations/" + operationId + "/deprecation", """
+                {"deprecationWindowFrom":"%s","deprecationWindowTo":"%s","migrationNote":"Use v2.","actorId":"admin-1"}
+                """.formatted(farFuture, farFutureEnd));
+
+        mockMvc.perform(post("/api/platform/api-management/operations/{id}/retirement", operationId)
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"actorId\":\"admin-1\"}"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("API_DEPRECATION_WINDOW_NOT_ELAPSED"));
+    }
+
+    @Test
+    void partnerApiKeyRateLimitIsEnforcedOncePolicyAndKeyAreConfigured() throws Exception {
+        String operationId = "partnerOp-" + UUID.randomUUID().toString().substring(0, 8);
+        postJson("/api/platform/api-management/operations/" + operationId + "/classification", """
+                {"ownerCapability":"BCM-RES-002","classification":"partner","apiVersion":"v1","actorId":"admin-1"}
+                """);
+        mockMvc.perform(put("/api/platform/api-management/rate-limit-policies/{classification}", "partner")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"requestsPerMinute\":1,\"actorId\":\"admin-1\"}"))
+                .andExpect(status().isOk());
+        JsonNode key = postJson("/api/platform/api-management/partner-keys", """
+                {"tenantId":"%s","consumerName":"Partner Lab","grantedScopes":["%s"],"actorId":"admin-1"}
+                """.formatted(tenantId, operationId));
+        String keyId = key.get("keyId").asText();
+
+        mockMvc.perform(get("/api/platform/api-management/operations")
+                        .header("X-Partner-Api-Key", keyId))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/api/platform/api-management/operations")
+                        .header("X-Partner-Api-Key", keyId))
+                .andExpect(status().is(429))
+                .andExpect(jsonPath("$.code").value("API_RATE_LIMIT_EXCEEDED"));
+    }
+
+    @Test
+    void unknownPartnerApiKeyHeaderIsRejected() throws Exception {
+        mockMvc.perform(get("/api/platform/api-management/operations")
+                        .header("X-Partner-Api-Key", "not-a-real-key"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("API_PARTNER_KEY_INVALID_OR_SCOPE_MISMATCH"));
+    }
+
     private String registerEndpoint(String protocol, String direction) throws Exception {
         JsonNode endpoint = postJson("/api/platform/integration/endpoints", """
                 {"tenantId":"%s","laboratoryId":"lab-1","endpointName":"LIS Feed","protocol":"%s",

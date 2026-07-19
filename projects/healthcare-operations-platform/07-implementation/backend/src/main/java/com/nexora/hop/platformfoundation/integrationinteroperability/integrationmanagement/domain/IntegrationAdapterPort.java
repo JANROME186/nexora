@@ -30,6 +30,11 @@ public interface IntegrationAdapterPort {
      */
     NormalizedClinicalMessage normalizeMessage(ExternalMessageEnvelope envelope, String rawPayload);
 
-    /** Builds the acknowledgement to report back for a processed external message. */
-    IntegrationAcknowledgement acknowledgeMessage(String externalMessageId, String status);
+    /**
+     * Builds the acknowledgement to report back for a processed external message.
+     *
+     * @param correlationId the caller-derived correlation id (RN-005, CUS-INT-004-05) to echo back
+     *                      unchanged so it can be linked across every retry/outbound event
+     */
+    IntegrationAcknowledgement acknowledgeMessage(String externalMessageId, String correlationId, String status);
 }

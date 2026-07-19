@@ -4,7 +4,7 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `MVP-MOD-008-BE-002`.
+Current active backlog item: `MVP-MOD-008-FE-001`.
 
 HOP Enterprise Quality Alignment (`HOP-QA-ALIGN-001` through `HOP-QA-ALIGN-CLOSEOUT`) is closed.
 HOP Enterprise Product Foundation Alignment (`HOP-ENT-FOUND-001`) is closed — see
@@ -33,7 +33,18 @@ compilation) is closed: it added two new local-Postgres schemas —
 `backend/src/main/resources/db/data-migration-portability/schema.sql` — both wired into
 `application-local.yml`'s schema-locations list alongside the pre-existing per-module schema files;
 no new port, environment variable, startup order or validation command was introduced (the same
-documented commands below validate them). Continuing with `MVP-MOD-008-BE-002`.
+documented commands below validate them). `MVP-MOD-008-BE-002` (integration retry/dead-letter, API
+deprecation/rate-limit and migration checkpoint custom rules) is closed: it added 3 columns
+(`correlation_id`, `next_retry_at`, `dead_letter_reason`) to
+`integration_interoperability.integration_message_records` and widened
+`data_migration_portability.import_executions.checkpoint` from `varchar(160)` to `text`, both in the
+same two schema files above — no new file, port, environment variable, startup order or validation
+command. A pre-existing local Postgres container created before this change needs those columns
+added manually (`ALTER TABLE ... ADD COLUMN IF NOT EXISTS ...`), since `schema.sql`'s
+`CREATE TABLE IF NOT EXISTS` does not retroactively alter an already-created table; a fresh
+`docker compose up` picks them up automatically. It also added an `X-Partner-Api-Key` request header
+consumed only by the new rate-limit interceptor — requests without it are unaffected, so no existing
+validation step changes. Continuing with `MVP-MOD-008-FE-001`.
 
 **Local Postgres schema note (added by HOP-ENT-FOUND-001)**: the local-database-backed backend
 tests require the running Postgres container's schema to match

@@ -574,3 +574,27 @@ entries:
       and SpotBugs (21) findings registered under TD-BE-002, non-blocking. TD-STACK-003 and
       TD-I18N-002 further reduced with real implementation; TD-BE-013 registered (xlsx row parsing
       deferred).
+  - backlog_item: MVP-MOD-008-BE-002
+    module: MVP-MOD-008 Integration and Migration Readiness
+    status: passed
+    evidence_path: 08-qa/security-quality/MVP-MOD-008-BE-002/
+    human_readable: 08-qa/security-quality/MVP-MOD-008-BE-002/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/MVP-MOD-008-BE-002/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: findings_registered_td_be_002
+      dependency_vulnerability_scan: passed
+      secrets_scan: passed
+      coverage: passed
+      dast_for_runnable_web_or_api_surfaces: not_applicable_internal_admin_only_surface
+      container_or_iac_scan_when_assets_change: not_applicable_no_container_assets_changed
+    note: >-
+      Integration retry/dead-letter (CUS-INT-004-04/05), API deprecation-retirement/rate-limit
+      enforcement (CUS-APIM) and migration checkpointed idempotent-resume/incremental-reconciliation
+      (CUS-MIG-010-04/05/06) custom rules. 265 tests, 0 failures/errors/skipped. Backend coverage
+      80.08% -> 80.49%. OWASP Dependency-Check (0 vulnerabilities, including the new
+      org.apache.poi:poi-ooxml:5.4.1 dependency) and a repository-root Trivy scan (0
+      vulnerabilities/secrets/misconfigurations) both passed. PMD (354) and SpotBugs (23) findings
+      registered under TD-BE-002, non-blocking. TD-BE-013 closed (debt-first action, real XLSX row
+      parsing); TD-BE-014 and TD-BE-015 registered; TD-I18N-002 further reduced (messageKey field
+      added to every BCM-PLT-004/005/010 error response).

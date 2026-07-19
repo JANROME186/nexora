@@ -92,11 +92,11 @@ class IntegrationEndpointController {
     }
 
     record MessageResponse(
-            String messageId, String endpointId, String externalMessageId, String normalizationStatus,
-            String canonicalErrorCode, int retryCount) {
+            String messageId, String endpointId, String externalMessageId, String correlationId,
+            String normalizationStatus, String canonicalErrorCode, int retryCount) {
         static MessageResponse from(IntegrationMessageRecord entity) {
             return new MessageResponse(
-                    entity.messageId(), entity.endpointId(), entity.externalMessageId(),
+                    entity.messageId(), entity.endpointId(), entity.externalMessageId(), entity.correlationId(),
                     entity.normalizationStatus(), entity.canonicalErrorCode(), entity.retryCount());
         }
     }

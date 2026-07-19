@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS data_migration_portability.import_executions (
     import_batch_id varchar(36) NOT NULL,
     attempt_number integer NOT NULL,
     domain_commands_invoked_text text,
-    checkpoint varchar(160),
+    checkpoint text,
     status varchar(20) NOT NULL,
     created_by varchar(80) NOT NULL,
     created_at timestamp with time zone NOT NULL,

@@ -7,6 +7,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Test;
 
 import tools.jackson.databind.json.JsonMapper;
@@ -40,13 +43,40 @@ class ImportFileParserTest {
     }
 
     @Test
-    void xlsxRowCountingIsNotYetSupported() {
-        assertThat(parser.countRows("xlsx", new byte[0])).isEqualTo(ImportFileParser.ROWS_NOT_COUNTED);
+    void countsXlsxDataRowsExcludingTheHeader() throws Exception {
+        byte[] workbookBytes = xlsxWorkbook("id", "name", new String[] {"1", "Alice"}, new String[] {"2", "Bob"});
+        assertThat(parser.countRows("xlsx", workbookBytes)).isEqualTo(2);
+    }
+
+    @Test
+    void countsXlsxDataRowsSkippingTrailingBlankRows() throws Exception {
+        byte[] workbookBytes = xlsxWorkbook("id", "name", new String[] {"1", "Alice"});
+        assertThat(parser.countRows("XLSX", workbookBytes)).isEqualTo(1);
     }
 
     @Test
     void unknownFormatIsNotCounted() {
         assertThat(parser.countRows("unknown", new byte[0])).isEqualTo(ImportFileParser.ROWS_NOT_COUNTED);
+    }
+
+    private static byte[] xlsxWorkbook(String headerA, String headerB, String[]... dataRows) throws Exception {
+        try (XSSFWorkbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("data");
+            Row header = sheet.createRow(0);
+            header.createCell(0).setCellValue(headerA);
+            header.createCell(1).setCellValue(headerB);
+            int rowIndex = 1;
+            for (String[] dataRow : dataRows) {
+                Row row = sheet.createRow(rowIndex++);
+                row.createCell(0).setCellValue(dataRow[0]);
+                row.createCell(1).setCellValue(dataRow[1]);
+            }
+            // An extra fully-blank row (e.g. left by spreadsheet software) must not count as data.
+            sheet.createRow(rowIndex);
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            workbook.write(buffer);
+            return buffer.toByteArray();
+        }
     }
 
     @Test

@@ -15,6 +15,8 @@ public final class IntegrationErrorCodes {
     public static final String INTEGRATION_DUPLICATE_MESSAGE_ID = "INTEGRATION_DUPLICATE_MESSAGE_ID";
     public static final String INTEGRATION_RETRY_LIMIT_EXCEEDED = "INTEGRATION_RETRY_LIMIT_EXCEEDED";
     public static final String INTEGRATION_SCOPE_MISMATCH = "INTEGRATION_SCOPE_MISMATCH";
+    public static final String INTEGRATION_MESSAGE_DEAD_LETTERED = "INTEGRATION_MESSAGE_DEAD_LETTERED";
+    public static final String INTEGRATION_RETRY_NOT_YET_DUE = "INTEGRATION_RETRY_NOT_YET_DUE";
 
     // BCM-PLT-005 API Management (RN-001..RN-006)
     public static final String API_OPERATION_NOT_CLASSIFIED = "API_OPERATION_NOT_CLASSIFIED";
@@ -23,6 +25,7 @@ public final class IntegrationErrorCodes {
     public static final String API_DEPRECATION_WINDOW_MISSING = "API_DEPRECATION_WINDOW_MISSING";
     public static final String API_RATE_LIMIT_EXCEEDED = "API_RATE_LIMIT_EXCEEDED";
     public static final String API_MANAGEMENT_SCOPE_MISMATCH = "API_MANAGEMENT_SCOPE_MISMATCH";
+    public static final String API_DEPRECATION_WINDOW_NOT_ELAPSED = "API_DEPRECATION_WINDOW_NOT_ELAPSED";
 
     private IntegrationErrorCodes() {
     }

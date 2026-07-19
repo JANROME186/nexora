@@ -48,7 +48,7 @@ class DataMigrationPortabilityApiTest {
     }
 
     @Test
-    void fullMigrationLifecycleFromPackageReceiptThroughCommitAndRetry() throws Exception {
+    void fullMigrationLifecycleFromPackageReceiptThroughCommitInvokesRealCheckpointedDomainCommands() throws Exception {
         String migrationJobId = createJob();
         JsonNode batch = receivePackage(migrationJobId);
         String importBatchId = batch.get("importBatchId").asText();
@@ -69,18 +69,106 @@ class DataMigrationPortabilityApiTest {
 
         JsonNode execution = postJson("/api/platform/migration/import-batches/" + importBatchId + "/commit",
                 "{\"actorId\":\"migration-lead\"}");
-        assertThat(execution.get("status").asText()).isEqualTo("in_progress");
-        assertThat(execution.get("domainCommandsInvoked")).isEmpty();
+        // CUS-MIG-010-04: the sole "patients.csv" category is delegated to a real (local
+        // deterministic) domain command, checkpointed, and the execution completes in one pass.
+        assertThat(execution.get("status").asText()).isEqualTo("completed");
+        assertThat(execution.get("domainCommandsInvoked")).hasSize(1);
+        assertThat(execution.get("checkpoint").asText()).isEqualTo("patients.csv");
 
+        mockMvc.perform(get("/api/platform/migration/jobs/{id}", migrationJobId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("reconciled"));
+
+        // RN-005: an incremental post_import reconciliation report is produced alongside the
+        // original pre_import baseline.
         mockMvc.perform(get("/api/platform/migration/jobs/{id}/reconciliation", migrationJobId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].phase").value("pre_import"))
-                .andExpect(jsonPath("$[0].importedCounts['patients.csv']").value(2));
+                .andExpect(jsonPath("$[0].importedCounts['patients.csv']").value(2))
+                .andExpect(jsonPath("$[1].phase").value("post_import"))
+                .andExpect(jsonPath("$[1].importedCounts['patients.csv']").value(2))
+                .andExpect(jsonPath("$[1].rejectedCounts").isEmpty());
+
+        // A fully reconciled job can no longer be retried.
+        mockMvc.perform(post("/api/platform/migration/jobs/{id}/retry", migrationJobId)
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"actorId\":\"migration-lead\"}"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("MIGRATION_RETRY_CHECKPOINT_MISMATCH"));
+    }
+
+    @Test
+    void commitStopsAtAFailingCategoryAndRetryResumesFromTheCheckpointWithoutReinvokingCompletedCategories()
+            throws Exception {
+        String migrationJobId = createJob();
+        String importBatchId = receiveTwoCategoryPackageWithOneFailingCategory(migrationJobId)
+                .get("importBatchId").asText();
+        postJson("/api/platform/migration/import-batches/" + importBatchId + "/dry-run",
+                "{\"actorId\":\"migration-lead\"}");
+        postJson("/api/platform/migration/import-batches/" + importBatchId + "/approve",
+                "{\"actorId\":\"migration-lead\"}");
+
+        JsonNode firstAttempt = postJson(
+                "/api/platform/migration/import-batches/" + importBatchId + "/commit",
+                "{\"actorId\":\"migration-lead\"}");
+        assertThat(firstAttempt.get("status").asText()).isEqualTo("failed");
+        assertThat(firstAttempt.get("attemptNumber").asInt()).isEqualTo(1);
+        // "patients.csv" (declared first in the manifest) succeeded and is checkpointed;
+        // "records_FAIL.csv" is not.
+        assertThat(firstAttempt.get("checkpoint").asText()).isEqualTo("patients.csv");
+        assertThat(firstAttempt.get("domainCommandsInvoked")).hasSize(1);
+
+        mockMvc.perform(get("/api/platform/migration/jobs/{id}", migrationJobId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("executing"));
 
         JsonNode retried = postJson("/api/platform/migration/jobs/" + migrationJobId + "/retry",
                 "{\"actorId\":\"migration-lead\"}");
         assertThat(retried.get("attemptNumber").asInt()).isEqualTo(2);
-        assertThat(retried.get("status").asText()).isEqualTo("in_progress");
+        assertThat(retried.get("status").asText()).isEqualTo("failed");
+        // The already-completed "patients.csv" category is not re-invoked (still exactly 1 command).
+        assertThat(retried.get("domainCommandsInvoked")).hasSize(1);
+        assertThat(retried.get("checkpoint").asText()).isEqualTo("patients.csv");
+    }
+
+    private JsonNode receiveTwoCategoryPackageWithOneFailingCategory(String migrationJobId) throws Exception {
+        String patientsChecksum = sha256Hex(CSV_CONTENT);
+        String failingChecksum = sha256Hex(CSV_CONTENT);
+        String manifest = """
+                source_system_name: LegacyLIS
+                exporting_organization: Legacy Labs
+                export_datetime: "2026-01-01T00:00:00Z"
+                export_timezone: UTC
+                exported_by: exporter@legacy.com
+                contact_email: exporter@legacy.com
+                files: [patients.csv, records_FAIL.csv]
+                entity_counts: {patients.csv: 2, records_FAIL.csv: 2}
+                checksum_algorithm: sha256
+                checksums: {patients.csv: "%s", records_FAIL.csv: "%s"}
+                declared_formats: [csv, csv]
+                declared_encoding: UTF-8
+                """.formatted(patientsChecksum, failingChecksum);
+
+        java.io.ByteArrayOutputStream zipBuffer = new java.io.ByteArrayOutputStream();
+        try (var zip = new java.util.zip.ZipOutputStream(zipBuffer)) {
+            zip.putNextEntry(new java.util.zip.ZipEntry("patients.csv"));
+            zip.write(CSV_CONTENT.getBytes(StandardCharsets.UTF_8));
+            zip.closeEntry();
+            zip.putNextEntry(new java.util.zip.ZipEntry("records_FAIL.csv"));
+            zip.write(CSV_CONTENT.getBytes(StandardCharsets.UTF_8));
+            zip.closeEntry();
+        }
+
+        MockMultipartFile manifestPart = new MockMultipartFile(
+                "manifest", "manifest.yaml", MediaType.TEXT_PLAIN_VALUE, manifest.getBytes(StandardCharsets.UTF_8));
+        MockMultipartFile packagePart = new MockMultipartFile(
+                "package", "bundle.zip", "application/zip", zipBuffer.toByteArray());
+
+        MvcResult result = mockMvc.perform(multipart("/api/platform/migration/jobs/{id}/import-batches", migrationJobId)
+                        .file(manifestPart).file(packagePart).param("zipBundle", "true")
+                        .param("actorId", "migration-lead"))
+                .andExpect(status().isCreated())
+                .andReturn();
+        return objectMapper.readTree(result.getResponse().getContentAsString());
     }
 
     @Test

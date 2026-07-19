@@ -42,6 +42,8 @@
         <jackson-classic.version>2.22.1</jackson-classic.version>
         <jackson-classic-annotations.version>2.22</jackson-classic-annotations.version>
         <commons-csv.version>1.14.1</commons-csv.version>
+        <poi.version>5.4.1</poi.version>
+        <commons-io.version>2.20.0</commons-io.version>
         <argLine></argLine>
         <quality.failOnViolation>false</quality.failOnViolation>
     </properties>
@@ -72,6 +74,14 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson-classic-annotations.version}</version>
+            </dependency>
+            <!-- commons-csv (2.20.0), poi (2.18.0) and poi's own commons-compress transitive
+                 (2.16.1) each pull a different commons-io; pin the newest to satisfy
+                 maven-enforcer's dependencyConvergence rule. -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -117,6 +127,15 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
             <version>${commons-csv.version}</version>
+        </dependency>
+        <!-- Open-source-first, explicitly named by bcm-plt-010-open-data-ingestion-and-migration's
+             generation-plan.yaml (CUS-MIG-010-01) for XLSX row parsing of open data ingestion
+             bundles; closes TD-BE-013. poi-ooxml alone (without poi-ooxml-full/poi-scratchpad) is
+             sufficient for reading .xlsx worksheet rows. -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

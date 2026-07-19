@@ -85,23 +85,26 @@ traces:
   compilation_evidence:
     backend_implementation: ../../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/integrationinteroperability/integrationmanagement/
     schema: ../../../../../07-implementation/backend/src/main/resources/db/integration-interoperability/schema.sql
-    qa_evidence: ../../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-001-validation.yaml
-    security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-008-BE-001/security-quality-evidence.yaml
+    qa_evidence: ../../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.yaml
+    security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-008-BE-002/security-quality-evidence.yaml
     notes: >-
       RegisterIntegrationEndpoint, listIntegrationEndpoints, retireIntegrationEndpoint compiled as
       generatable outputs. ReceiveMessage/NormalizeMessage/AcknowledgeMessage (CUS-INT-004-01/02/03)
       implemented via IntegrationAdapterPort + LocalDeterministicPassthroughIntegrationAdapter, with
-      idempotent reprocessing keyed by (endpointId, externalMessageId). RetryMessage implements a
-      basic retry-count ceiling; full bounded backoff/dead-letter policy (CUS-INT-004-04) and
-      correlation-id propagation (CUS-INT-004-05) remain MVP-MOD-008-BE-002 scope. Real open-source
-      protocol parser adoption (CUS-INT-004-06) remains open, tracked by TD-BE-013.
+      idempotent reprocessing keyed by (endpointId, externalMessageId). MVP-MOD-008-BE-002 implemented
+      CUS-INT-004-04 (bounded exponential-backoff retry that transitions an exhausted message to
+      dead_lettered, RN-004) and CUS-INT-004-05 (a deterministic correlationId derived once at first
+      receipt and propagated unchanged through IntegrationAdapterPort.acknowledgeMessage across every
+      retry, RN-005). Real open-source protocol parser adoption (CUS-INT-004-06) remains an open,
+      undebted gap per BE-001's original evaluation (the local deterministic adapter fully satisfies
+      this capability's own scope without a real HL7v2/FHIR/ASTM/DICOM parser dependency).
   backlog_items:
     definition: MVP-MOD-008-DEF
     definition_status: closed
     compilation: MVP-MOD-008-BE-001
     compilation_status: closed
     custom_rules: MVP-MOD-008-BE-002
-    custom_rules_status: pending
+    custom_rules_status: closed
     ui: MVP-MOD-008-FE-001
     ui_status: pending
     validation: MVP-MOD-008-QA-001

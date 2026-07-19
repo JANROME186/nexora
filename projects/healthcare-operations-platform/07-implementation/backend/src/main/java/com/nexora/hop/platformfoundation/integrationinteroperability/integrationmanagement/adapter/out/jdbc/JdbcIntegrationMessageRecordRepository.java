@@ -32,24 +32,27 @@ class JdbcIntegrationMessageRecordRepository implements IntegrationMessageRecord
     public IntegrationMessageRecord save(IntegrationMessageRecord record) {
         jdbcTemplate.update("""
                 insert into integration_interoperability.integration_message_records
-                    (message_id, endpoint_id, external_message_id, source_protocol, raw_payload_reference,
-                     received_at, message_type, canonical_fields_text, target_bounded_context,
-                     normalization_status, canonical_error_code, retry_count, created_by, created_at,
-                     updated_by, updated_at)
-                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    (message_id, endpoint_id, external_message_id, correlation_id, source_protocol,
+                     raw_payload_reference, received_at, message_type, canonical_fields_text,
+                     target_bounded_context, normalization_status, canonical_error_code, retry_count,
+                     next_retry_at, dead_letter_reason, created_by, created_at, updated_by, updated_at)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 on conflict (message_id) do update set
-                    message_type = excluded.message_type, canonical_fields_text = excluded.canonical_fields_text,
+                    correlation_id = excluded.correlation_id, message_type = excluded.message_type,
+                    canonical_fields_text = excluded.canonical_fields_text,
                     target_bounded_context = excluded.target_bounded_context,
                     normalization_status = excluded.normalization_status,
                     canonical_error_code = excluded.canonical_error_code, retry_count = excluded.retry_count,
+                    next_retry_at = excluded.next_retry_at, dead_letter_reason = excluded.dead_letter_reason,
                     updated_by = excluded.updated_by, updated_at = excluded.updated_at
                 """,
-                record.messageId(), record.endpointId(), record.externalMessageId(),
+                record.messageId(), record.endpointId(), record.externalMessageId(), record.correlationId(),
                 record.envelope().sourceProtocol(), record.envelope().rawPayloadReference(),
                 Timestamp.from(record.envelope().receivedAt()), record.normalizedMessageType(),
                 DelimitedTextCodec.joinStringMap(record.canonicalFields()), record.targetBoundedContext(),
                 record.normalizationStatus(), record.canonicalErrorCode(), record.retryCount(),
-                record.audit().createdBy(), Timestamp.valueOf(record.audit().createdAt()),
+                record.nextRetryAt() == null ? null : Timestamp.valueOf(record.nextRetryAt()),
+                record.deadLetterReason(), record.audit().createdBy(), Timestamp.valueOf(record.audit().createdAt()),
                 record.audit().updatedBy(), Timestamp.valueOf(record.audit().updatedAt()));
         return record;
     }
@@ -74,10 +77,10 @@ class JdbcIntegrationMessageRecordRepository implements IntegrationMessageRecord
     }
 
     private static final String SELECT_SQL = """
-            select message_id, endpoint_id, external_message_id, source_protocol, raw_payload_reference,
-                   received_at, message_type, canonical_fields_text, target_bounded_context,
-                   normalization_status, canonical_error_code, retry_count, created_by, created_at,
-                   updated_by, updated_at
+            select message_id, endpoint_id, external_message_id, correlation_id, source_protocol,
+                   raw_payload_reference, received_at, message_type, canonical_fields_text,
+                   target_bounded_context, normalization_status, canonical_error_code, retry_count,
+                   next_retry_at, dead_letter_reason, created_by, created_at, updated_by, updated_at
             from integration_interoperability.integration_message_records
             """;
 
@@ -90,12 +93,15 @@ class JdbcIntegrationMessageRecordRepository implements IntegrationMessageRecord
                 resultSet.getString("endpoint_id"),
                 resultSet.getString("external_message_id"),
                 envelope,
+                resultSet.getString("correlation_id"),
                 resultSet.getString("message_type"),
                 DelimitedTextCodec.splitStringMap(resultSet.getString("canonical_fields_text")),
                 resultSet.getString("target_bounded_context"),
                 resultSet.getString("normalization_status"),
                 resultSet.getString("canonical_error_code"),
                 resultSet.getInt("retry_count"),
+                nullableLocalDateTime(resultSet, "next_retry_at"),
+                resultSet.getString("dead_letter_reason"),
                 new AuditMetadata(
                         resultSet.getString("created_by"), localDateTime(resultSet, "created_at"),
                         resultSet.getString("updated_by"), localDateTime(resultSet, "updated_at")));
@@ -103,5 +109,10 @@ class JdbcIntegrationMessageRecordRepository implements IntegrationMessageRecord
 
     private static LocalDateTime localDateTime(ResultSet resultSet, String columnName) throws SQLException {
         return resultSet.getTimestamp(columnName).toLocalDateTime();
+    }
+
+    private static LocalDateTime nullableLocalDateTime(ResultSet resultSet, String columnName) throws SQLException {
+        Timestamp timestamp = resultSet.getTimestamp(columnName);
+        return timestamp == null ? null : timestamp.toLocalDateTime();
     }
 }

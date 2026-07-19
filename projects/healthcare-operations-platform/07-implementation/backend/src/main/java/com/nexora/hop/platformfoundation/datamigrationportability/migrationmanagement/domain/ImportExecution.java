@@ -5,12 +5,13 @@ import java.util.List;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 
 /**
- * Entity of BCM-PLT-010 (ENT-MIG-006). {@link #domainCommandsInvoked} may only reference commands
- * that already exist on an owning domain module (INV-MIG-003); it is intentionally empty in
- * MVP-MOD-008-BE-001 because real cross-module command wiring is MVP-MOD-008-BE-002 scope — no
- * command is invented or invoked prematurely just to appear complete. {@link #checkpoint} is the
- * resume marker for a retried attempt (INV-MIG-004, RN-004); full checkpoint-based resume logic
- * is also MVP-MOD-008-BE-002 scope.
+ * Entity of BCM-PLT-010 (ENT-MIG-006). {@link #domainCommandsInvoked} holds the stable command
+ * identifier {@code MigrationDomainCommandPort} returned for each entity category successfully
+ * delegated this execution chain (INV-MIG-003: the port is the only interaction point, so no
+ * command ever writes directly to a business aggregate). {@link #checkpoint} is the
+ * delimiter-joined list of entity categories already completed, letting
+ * {@code MigrationManagementService#retryImportExecution} resume only the categories that have
+ * not yet succeeded instead of re-invoking them (INV-MIG-004, RN-004).
  */
 public record ImportExecution(
         String executionId,

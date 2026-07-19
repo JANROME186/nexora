@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-008-BE-002
+  current_active_backlog_item: MVP-MOD-008-FE-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -35,6 +35,19 @@ project:
     local Postgres container has no separate init-mount copy to keep in sync, so TD-STACK-004's
     drift risk does not apply to them. The local-database-backed backend command remains dependent
     on the pre-existing platform-foundation schema/Docker-init-mount sync described below (TD-STACK-004).
+    MVP-MOD-008-BE-002 (integration retry/dead-letter, API deprecation/rate-limit and migration
+    checkpoint custom rules) added 3 columns (correlation_id, next_retry_at, dead_letter_reason) to
+    integration_interoperability.integration_message_records and widened
+    data_migration_portability.import_executions.checkpoint from varchar(160) to text, both in the
+    same two schema.sql files above (no new file, no new port, environment variable, startup order
+    or validation command); a pre-existing local Postgres container from before this change needs
+    those columns added manually (`ALTER TABLE ... ADD COLUMN IF NOT EXISTS ...`) since schema.sql's
+    `CREATE TABLE IF NOT EXISTS` does not retroactively alter an already-created table — a fresh
+    `docker compose up` (or an equivalent freshly-created local Postgres volume) picks up the new
+    columns automatically with no manual step. This backlog item also added an
+    `X-Partner-Api-Key` request header (consumed only by
+    `PartnerApiKeyRateLimitInterceptor`); requests without it are entirely unaffected, so no
+    existing runbook validation step changes.
   intended_audience:
     - human_reviewer
     - qa_reviewer

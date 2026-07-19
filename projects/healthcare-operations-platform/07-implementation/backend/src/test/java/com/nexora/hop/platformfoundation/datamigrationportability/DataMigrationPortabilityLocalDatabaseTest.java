@@ -108,19 +108,29 @@ class DataMigrationPortabilityLocalDatabaseTest {
                         .contentType(MediaType.APPLICATION_JSON).content("{\"actorId\":\"lead\"}"))
                 .andExpect(status().isOk());
 
+        // CUS-MIG-010-04: the sole "patients.csv" category completes in one checkpointed pass
+        // against the real Postgres-backed ImportExecutionRepository/ReconciliationReportRepository.
         mockMvc.perform(post("/api/platform/migration/import-batches/{id}/commit", importBatchId)
                         .contentType(MediaType.APPLICATION_JSON).content("{\"actorId\":\"lead\"}"))
                 .andExpect(status().isAccepted())
-                .andExpect(jsonPath("$.status").value("in_progress"));
+                .andExpect(jsonPath("$.status").value("completed"))
+                .andExpect(jsonPath("$.domainCommandsInvoked", org.hamcrest.Matchers.hasSize(1)))
+                .andExpect(jsonPath("$.checkpoint").value("patients.csv"));
 
         mockMvc.perform(get("/api/platform/migration/jobs/{id}/reconciliation", migrationJobId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].phase").value("pre_import"));
+                .andExpect(jsonPath("$[0].phase").value("pre_import"))
+                .andExpect(jsonPath("$[1].phase").value("post_import"));
 
+        mockMvc.perform(get("/api/platform/migration/jobs/{id}", migrationJobId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("reconciled"));
+
+        // A fully reconciled job can no longer be retried, confirmed against real Postgres state too.
         mockMvc.perform(post("/api/platform/migration/jobs/{id}/retry", migrationJobId)
                         .contentType(MediaType.APPLICATION_JSON).content("{\"actorId\":\"lead\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.attemptNumber").value(2));
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("MIGRATION_RETRY_CHECKPOINT_MISMATCH"));
     }
 
     private JsonNode postJson(String path, String json) throws Exception {

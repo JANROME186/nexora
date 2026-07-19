@@ -7,4 +7,6 @@ public interface RateLimitPolicyRepository {
     RateLimitPolicy save(RateLimitPolicy policy);
 
     Optional<RateLimitPolicy> findByClassification(String classification);
+
+    Optional<RateLimitPolicy> findById(String policyId);
 }

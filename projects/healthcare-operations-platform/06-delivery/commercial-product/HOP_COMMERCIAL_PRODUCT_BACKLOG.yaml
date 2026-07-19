@@ -19,8 +19,8 @@ product:
     completed_module: MVP-MOD-007 (MVP-MOD-007-CLOSEOUT closed)
     completed_status: closed
     active_module: MVP-MOD-008
-    active_backlog_item: MVP-MOD-008-BE-002
-    active_module_progress: MVP-MOD-008-BE-001 closed; ready for MVP-MOD-008-BE-002
+    active_backlog_item: MVP-MOD-008-FE-001
+    active_module_progress: MVP-MOD-008-BE-002 closed; ready for MVP-MOD-008-FE-001
     paused_backlog_item: null
 
 source_inputs:
@@ -643,6 +643,7 @@ modules:
         status: closed
       - id: MVP-MOD-008-BE-002
         name: Implement integration retry/dead-letter, API deprecation/rate-limit and migration checkpoint custom rules
+        status: closed
       - id: MVP-MOD-008-FE-001
         name: Compile integration and migration administration UI outputs
       - id: MVP-MOD-008-QA-001

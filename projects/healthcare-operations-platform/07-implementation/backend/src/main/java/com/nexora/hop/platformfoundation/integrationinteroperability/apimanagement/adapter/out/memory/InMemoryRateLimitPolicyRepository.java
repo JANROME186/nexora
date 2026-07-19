@@ -26,4 +26,9 @@ class InMemoryRateLimitPolicyRepository implements RateLimitPolicyRepository {
     public Optional<RateLimitPolicy> findByClassification(String classification) {
         return Optional.ofNullable(policies.get(classification));
     }
+
+    @Override
+    public Optional<RateLimitPolicy> findById(String policyId) {
+        return policies.values().stream().filter(policy -> policy.policyId().equals(policyId)).findFirst();
+    }
 }

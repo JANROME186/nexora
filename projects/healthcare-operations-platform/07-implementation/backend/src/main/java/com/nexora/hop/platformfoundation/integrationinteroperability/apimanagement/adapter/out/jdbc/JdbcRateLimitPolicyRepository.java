@@ -49,6 +49,15 @@ class JdbcRateLimitPolicyRepository implements RateLimitPolicyRepository {
                 """, JdbcRateLimitPolicyRepository::map, classification).stream().findFirst();
     }
 
+    @Override
+    public Optional<RateLimitPolicy> findById(String policyId) {
+        return jdbcTemplate.query("""
+                select policy_id, classification, requests_per_minute, created_by, created_at, updated_by, updated_at
+                from integration_interoperability.rate_limit_policies
+                where policy_id = ?
+                """, JdbcRateLimitPolicyRepository::map, policyId).stream().findFirst();
+    }
+
     private static RateLimitPolicy map(ResultSet resultSet, int rowNumber) throws SQLException {
         return new RateLimitPolicy(
                 resultSet.getString("policy_id"),

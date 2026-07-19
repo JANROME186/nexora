@@ -110,25 +110,39 @@ traces:
       relationship: Optionally stores raw uploaded migration bundles via DocumentStoragePort (ImportPackageStoragePort reuse).
     - capability: BCM-PER-001, BCM-PER-002, BCM-PER-003, BCM-SVC-001, BCM-SVC-002, BCM-SVC-009, BCM-LAB-001
       relationship: ImportExecution invokes only these capabilities' own existing domain commands; never a direct write.
+  technical_debt_alignment:
+    - debt: TD-BE-013
+      alignment: Closed by MVP-MOD-008-BE-002; ImportFileParser now counts XLSX rows via Apache POI.
+    - debt: TD-BE-014
+      alignment: >-
+        Opened by MVP-MOD-008-BE-002 to track that MigrationDomainCommandPort's only implementation
+        is a local deterministic stand-in, not a real cross-module command delegation.
   generated_outputs_ref: generation-plan.yaml
   qa_evidence: ../../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
   compilation_evidence:
     backend_implementation: ../../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/datamigrationportability/migrationmanagement/
     schema: ../../../../../07-implementation/backend/src/main/resources/db/data-migration-portability/schema.sql
-    qa_evidence: ../../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-001-validation.yaml
-    security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-008-BE-001/security-quality-evidence.yaml
+    qa_evidence: ../../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.yaml
+    security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-008-BE-002/security-quality-evidence.yaml
     notes: >-
       CreateMigrationJob, ApproveImport, getReconciliationReport compiled as generatable outputs.
       ReceiveImportPackage (CUS-MIG-010-01, real manifest/checksum verification via SnakeYAML and
-      CSV/JSON/NDJSON/ZIP parsing via Apache Commons CSV, Jackson and java.util.zip; XLSX row-level
-      parsing remains TD-BE-013) and RunDryRunValidation (CUS-MIG-010-03, structural/required-field/
-      referential-integrity/duplicate-detection categories; business-rule, privacy-and-consent,
-      catalog-consistency, financial-reconciliation and clinical-result-integrity categories from the
-      Open Data Ingestion Contract's 10-category list remain MVP-MOD-008-BE-002 scope) implemented.
-      CommitImport/RetryImportExecution (CUS-MIG-010-04/05) run a real, honestly-scoped
-      execution/reconciliation lifecycle shell with an intentionally empty domainCommandsInvoked list
-      (INV-MIG-003 preserved) rather than inventing premature command wiring; real domain-command
-      invocation and checkpoint-based resume are explicit MVP-MOD-008-BE-002 scope.
+      CSV/JSON/NDJSON/XLSX/ZIP parsing via Apache Commons CSV, Apache POI, Jackson and java.util.zip;
+      XLSX row-level parsing closed TD-BE-013) and RunDryRunValidation (CUS-MIG-010-03,
+      structural/required-field/referential-integrity/duplicate-detection categories; business-rule,
+      privacy-and-consent, catalog-consistency, financial-reconciliation and clinical-result-integrity
+      categories from the Open Data Ingestion Contract's 10-category list remain a later scope,
+      unchanged from BE-001) implemented. MVP-MOD-008-BE-002 implemented CUS-MIG-010-04/05/06: a new
+      MigrationDomainCommandPort (mirroring IntegrationAdapterPort/FiscalAdapterPort) is the sole
+      interaction point commitImport/retryImportExecution use to advance an import, keeping INV-MIG-003
+      satisfied by construction; ImportExecution.checkpoint is a real delimited list of completed
+      entity categories that retryImportExecution uses to skip already-completed work on resume
+      (INV-MIG-004); a ReconciliationReport#PHASE_POST_IMPORT report is written after every
+      commit/retry attempt reflecting exactly what that attempt completed or rejected (RN-005).
+      MigrationJob reaches STATUS_RECONCILED once every category succeeds, or STATUS_FAILED once
+      MAX_EXECUTION_ATTEMPTS is exhausted. The port's only implementation
+      (LocalDeterministicMigrationDomainCommandAdapter) is honestly a local deterministic stand-in,
+      not real cross-module command wiring — see TD-BE-014.
       events.yaml gained MigrationImportApproved/MigrationImportRetried to name these new audit
       actions consistently with the existing domain_events set.
   backlog_items:
@@ -137,7 +151,7 @@ traces:
     compilation: MVP-MOD-008-BE-001
     compilation_status: closed
     custom_rules: MVP-MOD-008-BE-002
-    custom_rules_status: pending
+    custom_rules_status: closed
     ui: MVP-MOD-008-FE-001
     ui_status: pending
     validation: MVP-MOD-008-QA-001

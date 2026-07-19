@@ -26,11 +26,14 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 /**
  * Compiles the generatable outputs of bcm-plt-005-api-management/generation-plan.yaml (operation
  * listing, partner-key revocation/listing, rate-limit policy configuration, PRC-APIM-005-01/-02)
- * and implements the CUS-APIM-005-01/02 custom rules delivered by MVP-MOD-008-BE-001:
- * classification/publish-gating (RN-001, INV-APIM-001) and partner-key scope/tenant validation at
- * issuance (RN-002, INV-APIM-002). Deprecation-window governance (RN-003) is enforced here at
- * scheduling time; rate-limit *enforcement* middleware and full audit wiring for every governed
- * capability (RN-004/RN-005) remain explicit MVP-MOD-008-BE-002 scope.
+ * and implements the CUS-APIM-005 custom rules: classification/publish-gating (RN-001,
+ * INV-APIM-001), partner-key scope/tenant validation at issuance (RN-002, INV-APIM-002),
+ * deprecation-window governance at scheduling time plus the window-elapsed retirement transition
+ * (RN-003, {@link #retireDeprecatedOperation}, delivered by MVP-MOD-008-BE-002), and rate-limit
+ * *enforcement* via {@code adapter.in.web.PartnerApiKeyRateLimitInterceptor} (RN-004, delivered
+ * by MVP-MOD-008-BE-002). Every administrative action here (classification,
+ * partner-key issuance/revocation, rate-limit policy change, deprecation scheduling/retirement)
+ * is audited (RN-005).
  */
 @Service
 public class ApiManagementService {
@@ -134,6 +137,42 @@ public class ApiManagementService {
     }
 
     /**
+     * RN-003: completes the deprecation lifecycle once the scheduled window has elapsed. Only
+     * reachable from {@link ApiSurfaceRegistration#DEPRECATION_SCHEDULED}; attempting retirement
+     * before {@code deprecationWindowTo} is rejected rather than silently accepted, since nothing
+     * in this synchronous backend runs the transition automatically on a timer.
+     */
+    public ApiSurfaceRegistration retireDeprecatedOperation(String operationId, String actorId) {
+        ApiSurfaceRegistration current = registrationRepository.findByOperationId(
+                requiredText(operationId, "Operation id is required."))
+                .orElseThrow(() -> new IntegrationEntityNotFoundException(
+                        "API operation is not classified yet.", IntegrationErrorCodes.API_OPERATION_NOT_CLASSIFIED));
+        if (!ApiSurfaceRegistration.DEPRECATION_SCHEDULED.equals(current.deprecationStatus())) {
+            throw new IntegrationConflictException(
+                    "Operation " + operationId + " is not in a scheduled deprecation (status "
+                            + current.deprecationStatus() + ").",
+                    IntegrationErrorCodes.API_DEPRECATION_WINDOW_NOT_ELAPSED);
+        }
+        LocalDateTime now = LocalDateTime.now(clock);
+        if (current.deprecationWindowTo() == null || now.isBefore(current.deprecationWindowTo())) {
+            throw new IntegrationConflictException(
+                    "Operation " + operationId + "'s deprecation window has not elapsed yet (ends "
+                            + current.deprecationWindowTo() + ").",
+                    IntegrationErrorCodes.API_DEPRECATION_WINDOW_NOT_ELAPSED);
+        }
+        String actor = requiredText(actorId, "Actor id is required.");
+        ApiSurfaceRegistration retired = new ApiSurfaceRegistration(
+                current.registrationId(), current.tenantId(), current.ownerCapability(), current.operationId(),
+                current.classification(), current.apiVersion(), ApiSurfaceRegistration.DEPRECATION_RETIRED,
+                current.deprecationWindowFrom(), current.deprecationWindowTo(), current.migrationNote(),
+                new AuditMetadata(current.audit().createdBy(), current.audit().createdAt(), actor, now));
+        ApiSurfaceRegistration saved = registrationRepository.save(retired);
+        auditRecorder.recordSystemEvent(saved.tenantId() == null ? "platform" : saved.tenantId(),
+                "ApiOperationRetired", "ApiSurfaceRegistration", saved.registrationId(), "{}");
+        return saved;
+    }
+
+    /**
      * RN-002/INV-APIM-002: every granted scope must reference an operation already classified
      * {@code partner}; the key is tenant-scoped from issuance.
      */
@@ -195,6 +234,7 @@ public class ApiManagementService {
         return partnerApiKeyRepository.findByTenantId(requiredText(tenantId, "Tenant id is required."));
     }
 
+    /** RN-004/RN-005: configures the enforced rate-limit policy for a classification tier; audited. */
     public RateLimitPolicy setRateLimitPolicy(String classification, int requestsPerMinute, String actorId) {
         if (classification == null || !VALID_CLASSIFICATIONS.contains(classification)) {
             throw new InvalidIntegrationCommandException(
@@ -211,7 +251,10 @@ public class ApiManagementService {
                 existing == null ? newId() : existing.policyId(), classification, requestsPerMinute,
                 existing == null ? new AuditMetadata(actor, now, actor, now)
                         : new AuditMetadata(existing.audit().createdBy(), existing.audit().createdAt(), actor, now));
-        return rateLimitPolicyRepository.save(policy);
+        RateLimitPolicy saved = rateLimitPolicyRepository.save(policy);
+        auditRecorder.recordSystemEvent("platform", "RateLimitPolicySet", "RateLimitPolicy", saved.policyId(),
+                "{\"classification\":\"%s\",\"requestsPerMinute\":%d}".formatted(classification, requestsPerMinute));
+        return saved;
     }
 
     private static String requiredText(String value, String message) {
