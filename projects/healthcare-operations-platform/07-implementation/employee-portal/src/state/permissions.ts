@@ -35,7 +35,10 @@ export type ScreenKey =
   | "result-search"
   | "result-reports"
   | "critical-escalations"
-  | "result-notifications";
+  | "result-notifications"
+  | "integration-endpoints"
+  | "api-management"
+  | "migration-jobs";
 
 export type PermissionCode =
   | "SCREEN_TENANTS"
@@ -64,7 +67,10 @@ export type PermissionCode =
   | "SCREEN_RESULT_SEARCH"
   | "SCREEN_RESULT_REPORTS"
   | "SCREEN_CRITICAL_ESCALATIONS"
-  | "SCREEN_RESULT_NOTIFICATIONS";
+  | "SCREEN_RESULT_NOTIFICATIONS"
+  | "SCREEN_INTEGRATION_ENDPOINTS"
+  | "SCREEN_API_MANAGEMENT"
+  | "SCREEN_MIGRATION_JOBS";
 
 export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   tenants: "SCREEN_TENANTS",
@@ -94,6 +100,9 @@ export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   "result-reports": "SCREEN_RESULT_REPORTS",
   "critical-escalations": "SCREEN_CRITICAL_ESCALATIONS",
   "result-notifications": "SCREEN_RESULT_NOTIFICATIONS",
+  "integration-endpoints": "SCREEN_INTEGRATION_ENDPOINTS",
+  "api-management": "SCREEN_API_MANAGEMENT",
+  "migration-jobs": "SCREEN_MIGRATION_JOBS",
 };
 
 /** Every permission code, derived from `SCREEN_TO_PERMISSION` so the two never drift apart. */

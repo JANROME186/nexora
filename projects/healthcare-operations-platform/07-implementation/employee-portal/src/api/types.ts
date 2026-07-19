@@ -1199,3 +1199,168 @@ export interface AuthorizeDeliveryRequest {
   tenantId: string;
   actorId: string;
 }
+
+// -- Integration and Migration Readiness (MVP-MOD-008: BCM-PLT-004/005/010) ----
+
+export interface IntegrationEndpoint {
+  endpointId: string;
+  tenantId: string;
+  laboratoryId: string;
+  endpointName: string;
+  protocol: string;
+  direction: string;
+  status: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface RegisterIntegrationEndpointRequest {
+  tenantId: string;
+  laboratoryId: string;
+  endpointName: string;
+  protocol: string;
+  direction: string;
+  actorId: string;
+}
+
+export interface IntegrationMessage {
+  messageId: string;
+  endpointId: string;
+  externalMessageId: string;
+  correlationId?: string;
+  normalizationStatus: string;
+  canonicalErrorCode?: string;
+  retryCount: number;
+}
+
+export interface IntegrationMessageDetail extends IntegrationMessage {
+  sourceProtocol?: string;
+  rawPayloadReference?: string;
+  normalizedMessageType?: string;
+  canonicalFields?: Record<string, string>;
+  targetBoundedContext?: string;
+  nextRetryAt?: string;
+  deadLetterReason?: string;
+}
+
+export interface ReceiveIntegrationMessageRequest {
+  externalMessageId: string;
+  rawPayload?: string;
+  actorId: string;
+}
+
+export interface RetryIntegrationMessageRequest {
+  rawPayload?: string;
+  actorId: string;
+}
+
+export interface ApiSurfaceRegistration {
+  registrationId: string;
+  tenantId?: string;
+  ownerCapability: string;
+  operationId: string;
+  classification: string;
+  apiVersion: string;
+  deprecationStatus: string;
+  deprecationWindowFrom?: string;
+  deprecationWindowTo?: string;
+  migrationNote?: string;
+}
+
+export interface ClassifyApiOperationRequest {
+  ownerCapability: string;
+  classification: string;
+  apiVersion: string;
+  tenantId?: string;
+  actorId: string;
+}
+
+export interface ScheduleApiDeprecationRequest {
+  deprecationWindowFrom?: string;
+  deprecationWindowTo?: string;
+  migrationNote?: string;
+  actorId: string;
+}
+
+export interface PartnerApiKey {
+  keyId: string;
+  tenantId: string;
+  consumerName: string;
+  grantedScopes: string[];
+  rateLimitPolicyRef?: string;
+  status: string;
+}
+
+export interface IssuePartnerApiKeyRequest {
+  tenantId: string;
+  consumerName: string;
+  grantedScopes: string[];
+  actorId: string;
+}
+
+export interface RateLimitPolicy {
+  policyId: string;
+  classification: string;
+  requestsPerMinute: number;
+}
+
+export interface SetRateLimitPolicyRequest {
+  requestsPerMinute: number;
+  actorId: string;
+}
+
+export interface MigrationJob {
+  migrationJobId: string;
+  tenantId: string;
+  laboratoryId: string;
+  sourceSystemName: string;
+  status: string;
+}
+
+export interface CreateMigrationJobRequest {
+  tenantId: string;
+  laboratoryId: string;
+  sourceSystemName: string;
+  actorId: string;
+}
+
+export interface ImportBatch {
+  importBatchId: string;
+  migrationJobId: string;
+  storedPackageReference: string;
+  entityCounts: Record<string, number>;
+}
+
+export interface ImportExecution {
+  executionId: string;
+  migrationJobId: string;
+  attemptNumber: number;
+  domainCommandsInvoked: string[];
+  checkpoint: string;
+  status: string;
+}
+
+export interface DryRunReport {
+  reportId: string;
+  importBatchId: string;
+  structuralErrors: string[];
+  rowLevelErrors: string[];
+  rowLevelWarnings: string[];
+  validationCategoriesEvaluated: string[];
+  passed: boolean;
+}
+
+export interface MigrationJobStatus {
+  migrationJobId: string;
+  status: string;
+}
+
+export interface ReconciliationReport {
+  reconciliationReportId: string;
+  migrationJobId: string;
+  phase: string;
+  importedCounts: Record<string, number>;
+  rejectedCounts: Record<string, number>;
+  skippedCounts: Record<string, number>;
+  warningCounts: Record<string, number>;
+}

@@ -233,56 +233,41 @@ Expected result:
 
 ## Next Backlog Item
 
-`MVP-MOD-008-BE-002 Implement integration retry/dead-letter, API deprecation/rate-limit and
-migration checkpoint custom rules` is closed. Continue with:
+`MVP-MOD-008-FE-001 Compile integration and migration administration UI outputs` is closed.
+Continue with:
 
 - Module: `MVP-MOD-008`
-- Backlog item: `MVP-MOD-008-FE-001`
-- Previous backlog item: `MVP-MOD-008-BE-002` (closed)
+- Backlog item: `MVP-MOD-008-QA-001`
+- Previous backlog item: `MVP-MOD-008-FE-001` (closed)
 - Paused functional backlog item: none
-- Folder: `07-implementation/employee-portal/`
+- Folder: `08-qa/qa/integration-and-migration-readiness/`
 
 Mandatory setup for this backlog:
 
-- Load the two Spring Modulith modules
-  (`integrationinteroperability/{integrationmanagement,apimanagement}`,
-  `datamigrationportability/migrationmanagement`) and their QA/security evidence
-  (`08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.yaml`) before
-  compiling UI outputs.
-- The BCM-PLT-005 OpenAPI-Generator TypeScript client pilot remains scheduled for this backlog item
-  per TD-STACK-003.
+- Load BE-002 and FE-001 QA/security evidence before validating adapter, import and observability
+  evidence.
+- Validate backend integration adapters, API governance, migration import/reconciliation and
+  employee-portal administration workflows together; do not silently skip runnable gates.
+- TD-FE-010 is open and should be considered as the debt-first candidate if QA-001 touches the
+  employee portal.
 - TD-BE-014 (migration domain-command port has no real cross-module wiring) and TD-BE-015
-  (rate-limit enforcement scoped to partner-API-key-bearing requests only) are open; they do not
-  block frontend work but should not be silently worked around in the UI.
+  (rate-limit enforcement scoped to partner-API-key-bearing requests only) remain open backend
+  capability gaps.
 - TD-FE-008 and TD-FE-009 are open (patient-portal/doctor-portal coverage baselines, 41.93% and
   40.62%); do not regress below those floors if this item touches those stacks.
 - TD-IAM-001 is closed; production OIDC/IdP hardening remains productization scope when applicable.
 - Review `08-qa/technical-debt/technical-debt-index.yaml` before feature work and resolve or materially reduce at least two relevant open debt items because HOP is now late in the operational core.
-- Preserve the employee portal coverage floor of 85.50%, the mobile TypeScript foundation floor of 98.87%, the patient-portal floor of 41.93% and the doctor-portal floor of 40.62%; the backend Java/Maven floor is now 80.49% — do not regress below it if backend code is touched.
+- Preserve the employee portal coverage floor of 86.47%, the mobile TypeScript foundation floor of 98.87%, the patient-portal floor of 41.93% and the doctor-portal floor of 40.62%; the backend Java/Maven floor is 80.49% — do not regress below it if backend code is touched.
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
 - Before commit, reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, affected capability traceability files and the local runbook pointers.
 
 ### Previous Backlog Item (Closed)
 
-`MVP-MOD-008-BE-002` — Implemented the three custom-rule hooks MVP-MOD-008-BE-001 left open.
-BCM-PLT-004: bounded exponential-backoff retry (30s/120s/300s/900s/1800s) transitioning an exhausted
-message to `dead_lettered` with a recorded reason (CUS-INT-004-04), and a deterministic
-`correlationId` propagated across every retry via `IntegrationAdapterPort.acknowledgeMessage`
-(CUS-INT-004-05). BCM-PLT-005: a deprecation-window-elapsed retirement transition
-(`retireDeprecatedOperation`) and a working `PartnerApiKeyRateLimitInterceptor`/
-`PartnerApiRateLimiter` fixed-window rate-limit enforcement for `X-Partner-Api-Key`-bearing
-requests, plus a real RN-005 audit-gap fix in `setRateLimitPolicy`. BCM-PLT-010: a new
-`MigrationDomainCommandPort` used as the sole interaction point for
-`commitImport`/`retryImportExecution` (INV-MIG-003 preserved by construction), a real checkpointed
-idempotent-resume mechanism that skips already-completed entity categories on retry, and an
-incremental `post_import` `ReconciliationReport` written after every commit/retry attempt. Closed
-TD-BE-013 as the debt-first action (real Apache POI XLSX row-level parsing, resolving a commons-io
-dependency-convergence conflict by pinning 2.20.0). Registered TD-BE-014 (migration domain-command
-port has no real cross-module wiring) and TD-BE-015 (rate-limit enforcement scoped to partner keys
-only). Added a first-class `messageKey` field alongside `code` on every BCM-PLT-004/005/010 error
-response with full es-MX/en-US catalog coverage, further reducing TD-I18N-002. 265 tests, 0
-failures/errors/skipped; backend coverage 80.08% -> 80.49%. OWASP Dependency-Check and a
-repository-root Trivy scan both passed with 0 vulnerabilities/secrets/misconfigurations.
-Employee-portal, mobile, patient-portal and doctor-portal coverage unchanged and not regressed.
+`MVP-MOD-008-FE-001` — Added typed employee-portal API/UI outputs for BCM-PLT-004/005/010:
+integration endpoints/messages, API governance/partner keys/rate limits and migration jobs/import
+package/dry-run/approval/commit/reconciliation. `npm run quality` passed with 101 tests and
+employee-portal coverage improved from 85.50% to 86.47%; `npm run audit:all` and Trivy found 0
+vulnerabilities. TD-STACK-003 and TD-I18N-002 were further reduced; TD-FE-010 was registered for
+non-blocking generated admin-screen size/complexity warnings.
 Evidence generated and status updated.

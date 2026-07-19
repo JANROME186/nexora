@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: MVP-MOD-008-FE-001
+  current_active_backlog_item: MVP-MOD-008-QA-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -47,7 +47,10 @@ project:
     columns automatically with no manual step. This backlog item also added an
     `X-Partner-Api-Key` request header (consumed only by
     `PartnerApiKeyRateLimitInterceptor`); requests without it are entirely unaffected, so no
-    existing runbook validation step changes.
+    existing runbook validation step changes. MVP-MOD-008-FE-001 added employee-portal integration,
+    API-governance and migration administration screens; it did not add a runtime port,
+    environment variable, startup order or infrastructure dependency, and remains validated through
+    the existing employee-portal `npm run quality` and `npm run audit:all` commands.
   intended_audience:
     - human_reviewer
     - qa_reviewer

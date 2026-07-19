@@ -27,15 +27,20 @@ async function parseErrorMessage(response: Response): Promise<string> {
   return response.statusText || "Request failed.";
 }
 
+function requestHeaders(init?: RequestInit): HeadersInit {
+  const isFormDataBody = typeof FormData !== "undefined" && init?.body instanceof FormData;
+  return {
+    Accept: "application/json",
+    ...(init?.body && !isFormDataBody ? { "Content-Type": "application/json" } : {}),
+    ...readSessionHeaders(),
+    ...init?.headers,
+  };
+}
+
 async function request<TResponse>(path: string, init?: RequestInit): Promise<TResponse> {
   const response = await fetch(path, {
     ...init,
-    headers: {
-      Accept: "application/json",
-      ...(init?.body ? { "Content-Type": "application/json" } : {}),
-      ...readSessionHeaders(),
-      ...init?.headers,
-    },
+    headers: requestHeaders(init),
   });
 
   if (!response.ok) {
@@ -59,4 +64,8 @@ export function post<TResponse, TBody = unknown>(path: string, body: TBody): Pro
 
 export function put<TResponse, TBody = unknown>(path: string, body: TBody): Promise<TResponse> {
   return request<TResponse>(path, { method: "PUT", body: JSON.stringify(body) });
+}
+
+export function postForm<TResponse>(path: string, body: FormData): Promise<TResponse> {
+  return request<TResponse>(path, { method: "POST", body });
 }

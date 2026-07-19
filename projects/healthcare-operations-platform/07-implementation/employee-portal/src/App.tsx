@@ -27,69 +27,49 @@ import { ResultSearchScreen } from "./components/screens/ResultSearchScreen";
 import { ResultReportsScreen } from "./components/screens/ResultReportsScreen";
 import { CriticalEscalationsScreen } from "./components/screens/CriticalEscalationsScreen";
 import { ResultNotificationsScreen } from "./components/screens/ResultNotificationsScreen";
+import { IntegrationEndpointsScreen } from "./components/screens/IntegrationEndpointsScreen";
+import { ApiManagementScreen } from "./components/screens/ApiManagementScreen";
+import { MigrationJobsScreen } from "./components/screens/MigrationJobsScreen";
 import { AdminScopeProvider } from "./state/AdminScopeContext";
 import { SessionProvider } from "./state/SessionContext";
 import { LocaleProvider } from "./i18n/LocaleContext";
 
+const SCREEN_COMPONENTS = {
+  tenants: TenantsScreen,
+  laboratories: LaboratoriesScreen,
+  branches: BranchesScreen,
+  users: UsersScreen,
+  "role-assignments": RoleAssignmentsScreen,
+  "audit-events": AuditEventsScreen,
+  "diagnostic-catalog": DiagnosticCatalogScreen,
+  "person-search": PersonSearchScreen,
+  patients: PatientsScreen,
+  doctors: DoctorsScreen,
+  "patient-registrations": PatientRegistrationsScreen,
+  reception: ReceptionScreen,
+  "diagnostic-orders": DiagnosticOrdersScreen,
+  "cash-sessions": CashSessionsScreen,
+  sales: SalesScreen,
+  "billing-requests": BillingRequestsScreen,
+  "sample-collection": SampleCollectionScreen,
+  "sample-labeling": SampleLabelingScreen,
+  "sample-reception": SampleReceptionScreen,
+  "laboratory-processing": LaboratoryProcessingScreen,
+  "technical-validation": TechnicalValidationScreen,
+  "medical-validation": MedicalValidationScreen,
+  "result-release": ResultReleaseScreen,
+  "result-search": ResultSearchScreen,
+  "result-reports": ResultReportsScreen,
+  "critical-escalations": CriticalEscalationsScreen,
+  "result-notifications": ResultNotificationsScreen,
+  "integration-endpoints": IntegrationEndpointsScreen,
+  "api-management": ApiManagementScreen,
+  "migration-jobs": MigrationJobsScreen,
+} as const satisfies Record<ScreenKey, () => JSX.Element>;
+
 function renderScreen(screen: ScreenKey) {
-  switch (screen) {
-    case "tenants":
-      return <TenantsScreen />;
-    case "laboratories":
-      return <LaboratoriesScreen />;
-    case "branches":
-      return <BranchesScreen />;
-    case "users":
-      return <UsersScreen />;
-    case "role-assignments":
-      return <RoleAssignmentsScreen />;
-    case "audit-events":
-      return <AuditEventsScreen />;
-    case "diagnostic-catalog":
-      return <DiagnosticCatalogScreen />;
-    case "person-search":
-      return <PersonSearchScreen />;
-    case "patients":
-      return <PatientsScreen />;
-    case "doctors":
-      return <DoctorsScreen />;
-    case "patient-registrations":
-      return <PatientRegistrationsScreen />;
-    case "reception":
-      return <ReceptionScreen />;
-    case "diagnostic-orders":
-      return <DiagnosticOrdersScreen />;
-    case "cash-sessions":
-      return <CashSessionsScreen />;
-    case "sales":
-      return <SalesScreen />;
-    case "billing-requests":
-      return <BillingRequestsScreen />;
-    case "sample-collection":
-      return <SampleCollectionScreen />;
-    case "sample-labeling":
-      return <SampleLabelingScreen />;
-    case "sample-reception":
-      return <SampleReceptionScreen />;
-    case "laboratory-processing":
-      return <LaboratoryProcessingScreen />;
-    case "technical-validation":
-      return <TechnicalValidationScreen />;
-    case "medical-validation":
-      return <MedicalValidationScreen />;
-    case "result-release":
-      return <ResultReleaseScreen />;
-    case "result-search":
-      return <ResultSearchScreen />;
-    case "result-reports":
-      return <ResultReportsScreen />;
-    case "critical-escalations":
-      return <CriticalEscalationsScreen />;
-    case "result-notifications":
-      return <ResultNotificationsScreen />;
-    default:
-      return null;
-  }
+  const ScreenComponent = SCREEN_COMPONENTS[screen];
+  return <ScreenComponent />;
 }
 
 export function App() {

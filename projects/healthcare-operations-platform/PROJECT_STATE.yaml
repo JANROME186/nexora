@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 0.99.0
-current_phase: MVP-MOD-008-BE-002 integration retry/dead-letter, API deprecation/rate-limit and migration checkpoint custom rules closed; MVP-MOD-008 in progress at MVP-MOD-008-FE-001
+current_phase: MVP-MOD-008-FE-001 integration/API-governance/migration employee-portal administration UI closed; MVP-MOD-008 in progress at MVP-MOD-008-QA-001
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -225,8 +225,15 @@ completed_deliverables:
     (migration domain-command port has no real cross-module wiring yet) and TD-BE-015 (rate-limit
     enforcement scoped to partner-API-key-bearing requests only); backend coverage 80.08% ->
     80.49%; 265 tests, 0 failures/errors/skipped)
+  - MVP-MOD-008-FE-001 integration and migration employee-portal administration UI (typed
+    integrationMigrationApi facade for BCM-PLT-004/005/010, dynamic permission-filtered screens for
+    integration endpoints/messages, API governance/partner keys/rate limits and migration jobs/import
+    packages/dry-run/approval/commit/reconciliation; multipart FormData handling fixed; visible
+    labels externalized in es-MX/en-US; npm run quality passed with 101 tests and employee-portal
+    coverage 85.50% -> 86.47%; npm audit and Trivy reported 0 vulnerabilities; TD-STACK-003 and
+    TD-I18N-002 further reduced; TD-FE-010 registered)
 next_deliverables:
-  - Continue MVP-MOD-008 Integration and Migration Readiness with MVP-MOD-008-FE-001 (compile integration and migration administration UI outputs)
+  - Continue MVP-MOD-008 Integration and Migration Readiness with MVP-MOD-008-QA-001 (adapter, import and observability evidence)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -241,7 +248,7 @@ development_readiness:
   status: ready
   ready_to_start_module: MVP-MOD-008
   in_progress_module: MVP-MOD-008
-  next_backlog_item: MVP-MOD-008-FE-001
+  next_backlog_item: MVP-MOD-008-QA-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -312,14 +319,14 @@ development_readiness:
           for this stack. MVP-MOD-008-BE-002 raised it further to 80.49% (265 tests, 0
           failures/errors/skipped); future backend iterations must not regress below 80.49%.
       frontend_typescript_web:
-        current_line_coverage_percent: 85.50
-        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 85.50
+        current_line_coverage_percent: 86.47
+        source_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-FE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 86.47
         final_closure_target_percent: 80
         tracked_by: TD-FE-004 (closed; final-closure target reached; raised to 83.98% by
           MVP-MOD-007-FE-001, then to 84.44% by HOP-ENT-FOUND-001 corrective closure. MVP-MOD-007-
           CLOSEOUT found and fixed a real regression to 84.03% left uncaught by MVP-MOD-007-
-          PORTAL-001, raising it to 85.50%)
+          PORTAL-001, raising it to 85.50%. MVP-MOD-008-FE-001 raised it to 86.47%.)
       mobile_typescript_foundation:
         current_line_coverage_percent: 98.87
         source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
@@ -349,7 +356,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: MVP-MOD-008
-  current_backlog_item: MVP-MOD-008-FE-001
+  current_backlog_item: MVP-MOD-008-QA-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -409,10 +416,45 @@ implementation_progress:
     - MVP-MOD-008-DEF
     - MVP-MOD-008-BE-001
     - MVP-MOD-008-BE-002
+    - MVP-MOD-008-FE-001
   in_progress_backlog_items: []
   pending_backlog_items:
-    - MVP-MOD-008-FE-001
+    - MVP-MOD-008-QA-001
   latest_validation:
+    backlog_item_id: MVP-MOD-008-FE-001
+    command: >
+      Employee portal `npm run quality` passed in 07-implementation/employee-portal: 101 tests,
+      0 failures, line coverage 86.47%, up from the 85.50% floor. `npm run audit:all` passed with
+      0 vulnerabilities. Trivy filesystem scan over employee portal passed with 0 vulnerabilities
+      and no secrets. YAML parse passed for 893 files. Agent-agnostic scan over touched source/test
+      files passed. `git diff --check` passed with CRLF normalization warnings only and no
+      whitespace errors.
+    working_directory: projects/healthcare-operations-platform/07-implementation/employee-portal
+    status: passed
+    tests_run_frontend: 101
+    failures: 0
+    errors: 0
+    skipped_frontend: 0
+    additional_checks:
+      - >-
+        Added typed integrationMigrationApi facade for BCM-PLT-004/005/010 endpoints, including
+        JSON commands and multipart migration package upload.
+      - >-
+        Added IntegrationEndpointsScreen, ApiManagementScreen and MigrationJobsScreen with
+        permission-filtered navigation and es-MX/en-US labels.
+      - >-
+        Added API/client/screen/navigation tests and updated ADMIN navigation tests from 27 to 30
+        permission-filtered tabs.
+      - >-
+        TD-STACK-003 further reduced with a generated-client-shaped facade but remains open until a
+        rendered OpenAPI document can be used for an actual OpenAPI Generator client replacement.
+      - >-
+        TD-I18N-002 reduced through full externalization of new visible labels/messages; TD-FE-010
+        registered for non-blocking generated admin-screen size/complexity warnings.
+      - >-
+        Backend (80.49%), mobile (98.87%), patient portal (41.93%) and doctor portal (40.62%) were
+        unchanged and not touched by this backlog item.
+  previous_validation_mvp_mod_008_be_002:
     backlog_item_id: MVP-MOD-008-BE-002
     command: >
       Backend `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` passed in
@@ -427,38 +469,6 @@ implementation_progress:
     failures: 0
     errors: 0
     skipped_backend: 0
-    additional_checks:
-      - >-
-        Closed TD-BE-013 as the debt-first action: ImportFileParser.countXlsxRows now parses real
-        XLSX row counts via Apache POI, resolving a commons-io dependency-convergence conflict by
-        pinning 2.20.0 in dependencyManagement.
-      - >-
-        Implemented CUS-INT-004-04/05 for BCM-PLT-004: IntegrationManagementService.retryMessage now
-        enforces a bounded exponential-backoff retry policy (30s/120s/300s/900s/1800s) that
-        transitions an exhausted message to dead_lettered with a recorded reason, and a deterministic
-        correlationId is derived once and propagated through IntegrationAdapterPort.acknowledgeMessage
-        on every retry.
-      - >-
-        Implemented BCM-PLT-005's RN-003 deprecation-window-elapsed retirement transition
-        (ApiManagementService.retireDeprecatedOperation) and RN-004 rate-limit enforcement via a new
-        PartnerApiKeyRateLimitInterceptor/PartnerApiRateLimiter fixed-window counter for
-        X-Partner-Api-Key-bearing requests; closed a real RN-005 audit gap where setRateLimitPolicy
-        never recorded an audit event.
-      - >-
-        Implemented CUS-MIG-010-04/05/06 for BCM-PLT-010: a new MigrationDomainCommandPort is now
-        the sole interaction point commitImport/retryImportExecution use to advance an import
-        (INV-MIG-003 preserved by construction); ImportExecution.checkpoint is a real delimited list
-        of completed entity categories used to skip already-completed work on retry; a post_import
-        ReconciliationReport is written incrementally after every commit/retry attempt.
-      - >-
-        Registered TD-BE-014 (migration domain-command port has no real cross-module wiring) and
-        TD-BE-015 (rate-limit enforcement scoped to partner-API-key-bearing requests only). Added a
-        first-class messageKey field alongside code on every BCM-PLT-004/005/010 error response with
-        full es-MX/en-US catalog coverage, further reducing TD-I18N-002.
-      - >-
-        Backend coverage improved from 80.08% to 80.49%; employee portal (85.50%), mobile (98.87%),
-        patient portal (41.93%) and doctor portal (40.62%) unchanged and not regressed (this backlog
-        item did not touch those stacks).
   previous_validation_mvp_mod_008_be_001:
     backlog_item_id: MVP-MOD-008-BE-001
     command: >
@@ -867,7 +877,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_iteration: MVP-MOD-008
   active_module: MVP-MOD-008 Integration and Migration Readiness
-  active_backlog_item: MVP-MOD-008-FE-001
+  active_backlog_item: MVP-MOD-008-QA-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
@@ -878,10 +888,10 @@ commercial_product_progress:
   capability_package_progress:
     MVP-MOD-008:
       name: Integration and Migration Readiness
-      package_status: custom_rules_implemented
-      backlog_item: MVP-MOD-008-BE-002
+      package_status: employee_portal_ui_compiled
+      backlog_item: MVP-MOD-008-FE-001
       backlog_item_status: closed
-      execution_flow_stage: implement_rules
+      execution_flow_stage: compile_employee_portal_ui
       packages_modeled:
         - BCM-PLT-004
         - BCM-PLT-005
@@ -909,6 +919,10 @@ commercial_product_progress:
       be_002_qa_evidence_md: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.md
       be_002_security_quality_evidence: 08-qa/security-quality/MVP-MOD-008-BE-002/security-quality-evidence.yaml
       be_002_security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-008-BE-002/security-quality-evidence.md
+      fe_001_qa_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-FE-001-validation.yaml
+      fe_001_qa_evidence_md: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-FE-001-validation.md
+      fe_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-008-FE-001/security-quality-evidence.yaml
+      fe_001_security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-008-FE-001/security-quality-evidence.md
       backend_implementation:
         integration_management: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/integrationinteroperability/integrationmanagement/
         api_management: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/integrationinteroperability/apimanagement/
@@ -918,8 +932,8 @@ commercial_product_progress:
       ready_for_custom_rule_implementation: true
       custom_rules_implemented: true
       ready_for_ui_compilation: true
-      employee_portal_ui_compiled: false
-      ready_for_module_validation: false
+      employee_portal_ui_compiled: true
+      ready_for_module_validation: true
       module_validated: false
       ready_for_closeout: false
       module_closed: false

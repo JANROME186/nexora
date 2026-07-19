@@ -524,3 +524,13 @@ entries:
     affected_area: api_management_rate_limit_enforcement
     file: 08-qa/technical-debt/TD-BE-015-rate-limit-enforcement-scoped-to-partner-keys.yaml
     remediation_strategy: gradual_before_first_public_api_consumer_onboarding
+  - id: TD-FE-010
+    title: Employee-portal generated administration screens exceed function-size and complexity
+      warning thresholds
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: MVP-MOD-008-FE-001
+    affected_area: employee_portal_admin_screen_composition
+    file: 08-qa/technical-debt/TD-FE-010-employee-portal-admin-screen-composition.yaml
+    remediation_strategy: gradual_refactor_when_employee_portal_admin_screens_are_next_touched

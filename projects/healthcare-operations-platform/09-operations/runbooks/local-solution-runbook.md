@@ -4,7 +4,7 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `MVP-MOD-008-FE-001`.
+Current active backlog item: `MVP-MOD-008-QA-001`.
 
 HOP Enterprise Quality Alignment (`HOP-QA-ALIGN-001` through `HOP-QA-ALIGN-CLOSEOUT`) is closed.
 HOP Enterprise Product Foundation Alignment (`HOP-ENT-FOUND-001`) is closed — see
@@ -44,7 +44,9 @@ added manually (`ALTER TABLE ... ADD COLUMN IF NOT EXISTS ...`), since `schema.s
 `CREATE TABLE IF NOT EXISTS` does not retroactively alter an already-created table; a fresh
 `docker compose up` picks them up automatically. It also added an `X-Partner-Api-Key` request header
 consumed only by the new rate-limit interceptor — requests without it are unaffected, so no existing
-validation step changes. Continuing with `MVP-MOD-008-FE-001`.
+validation step changes. `MVP-MOD-008-FE-001` is closed: it added employee-portal integration,
+API-governance and migration administration screens with no new runtime port, environment variable,
+startup order or infrastructure dependency. Continuing with `MVP-MOD-008-QA-001`.
 
 **Local Postgres schema note (added by HOP-ENT-FOUND-001)**: the local-database-backed backend
 tests require the running Postgres container's schema to match

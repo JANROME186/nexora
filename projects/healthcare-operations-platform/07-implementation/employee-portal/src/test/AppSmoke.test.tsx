@@ -94,6 +94,24 @@ describe("Employee portal app smoke", () => {
     ).toBeInTheDocument();
   });
 
+  it("navigates to Integration and Migration Readiness screens (MVP-MOD-008)", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole("button", { name: "Integraciones" }));
+    expect(
+      screen.getByRole("heading", { name: "Administración de Integraciones" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Gobierno de APIs" }));
+    expect(screen.getByRole("heading", { name: "Gobierno de APIs" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Migraciones" }));
+    expect(
+      screen.getByRole("heading", { name: "Administración de Migraciones" }),
+    ).toBeInTheDocument();
+  });
+
   it("switches the interface language via the AppShell language control", async () => {
     const user = userEvent.setup();
     render(<App />);
@@ -114,8 +132,8 @@ describe("Employee portal app smoke", () => {
     render(<App />);
 
     // The local dev fixture session defaults to ADMIN, which is granted every screen
-    // permission, so all 27 navigation tabs remain visible.
+    // permission, so all 30 navigation tabs remain visible.
     const nav = screen.getByRole("navigation", { name: "Pantallas de administración" });
-    expect(within(nav).getAllByRole("button")).toHaveLength(27);
+    expect(within(nav).getAllByRole("button")).toHaveLength(30);
   });
 });
