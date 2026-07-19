@@ -3,7 +3,7 @@ artifact:
   type: technical-debt-item
   name: Establish patient portal test coverage baseline and raise it to the 80 percent target
   version: 1.0.0
-  status: open
+  status: closed
   created_date: 2026-07-18
 
 source:

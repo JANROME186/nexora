@@ -69,15 +69,13 @@ policy:
           (31 tests), consistent with the 97.15% -> 98.87% growth already reflected upstream. No
           regression.
       patient_portal_typescript_web:
-        current_line_coverage_percent: 41.93
-        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 41.93
+        current_line_coverage_percent: 89.58
+        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 89.58
         final_closure_target_percent: 80
         correction_note: >-
-          First-ever coverage measurement for patient-portal, taken during MVP-MOD-007-CLOSEOUT.
-          MVP-MOD-007-PORTAL-001 closed this stack with only an application smoke test and never
-          recorded a percentage. Tracked by new item TD-FE-008; not a regression since no prior
-          floor existed.
+          First-ever coverage measurement for patient-portal, taken during MVP-MOD-007-CLOSEOUT,
+          was 41.93%. COM-MOD-009-PORTAL-001 closed TD-FE-008 and raised coverage to 89.58%.
       doctor_portal_typescript_web:
         current_line_coverage_percent: 40.62
         source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
@@ -482,13 +480,13 @@ entries:
     remediation_strategy: closed_by_MVP_MOD_007_APP_001_removing_duplicate_init_script
   - id: TD-FE-008
     title: Establish patient portal test coverage baseline and raise it to the 80 percent target
-    status: open
+    status: closed
     risk_level: medium
     blocking: false
     source_backlog_item: MVP-MOD-007-CLOSEOUT
     affected_area: patient_portal_test_coverage
     file: 08-qa/technical-debt/TD-FE-008-patient-portal-coverage-baseline.yaml
-    remediation_strategy: gradual_when_com_mod_009_patient_portal_commercial_workflow_is_implemented
+    remediation_strategy: closed_by_COM_MOD_009_PORTAL_001_patient_portal_test_coverage_89_58_percent
   - id: TD-FE-009
     title: Establish doctor portal test coverage baseline and raise it to the 80 percent target
     status: open

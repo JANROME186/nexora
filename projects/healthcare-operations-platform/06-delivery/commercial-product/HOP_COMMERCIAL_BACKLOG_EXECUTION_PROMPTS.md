@@ -233,23 +233,23 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-009-DEF Patient and Doctor Portals capability package models` is closed.
+`COM-MOD-009-PORTAL-001 Patient portal commercial workflow` is closed.
 Continue with:
 
 - Module: `COM-MOD-009`
-- Backlog item: `COM-MOD-009-BE-001`
-- Previous backlog item: `COM-MOD-009-DEF` (closed)
+- Backlog item: `COM-MOD-009-PORTAL-002`
+- Previous backlog item: `COM-MOD-009-PORTAL-001` (closed)
 - Paused functional backlog item: none
-- Folder: `07-implementation/backend/`
+- Folder: `07-implementation/doctor-portal/`
 
 Mandatory setup for this backlog:
 
-- Compile portals authentication and access schemas.
-- Preserve the employee portal coverage floor of 86.47%, the mobile TypeScript foundation floor of 98.87%, the patient-portal floor of 41.93% and the doctor-portal floor of 40.62%; the backend Java/Maven floor is 80.49% — do not regress below it if backend code is touched.
+- Compile doctor portal commercial workflow.
+- Preserve the employee portal coverage floor of 86.47%, the mobile TypeScript foundation floor of 98.87%, the patient-portal floor of 89.58% and the doctor-portal floor of 40.62%; the backend Java/Maven floor is 80.49% — do not regress below it if backend code is touched.
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
 - Before commit, reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, affected capability traceability files and the local runbook pointers.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-009-DEF` — Patient and Doctor Portals capability package models. Created BCM-PLT-001 and updated 8 capability packages. Evidence generated and status updated.
+`COM-MOD-009-PORTAL-001` — Patient portal commercial workflow. Compiled login, profile, appointments, orders, results, notifications, localization switcher, and secure interceptors; raised patient portal Vitest coverage to 89.58%, closing TD-FE-008.

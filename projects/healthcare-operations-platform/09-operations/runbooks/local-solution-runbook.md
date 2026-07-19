@@ -4,7 +4,7 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-009-PORTAL-001`.
+Current active backlog item: `COM-MOD-009-PORTAL-002`.
 
 `MVP-MOD-008 Integration and Migration Readiness` is closed through `MVP-MOD-008-CLOSEOUT`.
 Closeout evidence confirms backend quality at 265 tests and 80.49% coverage, employee-portal
@@ -52,7 +52,7 @@ consumed only by the new rate-limit interceptor — requests without it are unaf
 validation step changes. `MVP-MOD-008-FE-001` is closed: it added employee-portal integration,
 API-governance and migration administration screens with no new runtime port, environment variable,
 startup order or infrastructure dependency. `MVP-MOD-008-QA-001` and `MVP-MOD-008-CLOSEOUT` are closed.
-`COM-MOD-009-DEF` is closed (modeled BCM-PLT-001). `COM-MOD-009-BE-001` is closed: it compiled portal access structures, authorization endpoints, password hashing, and granular permissions, adding five columns (username, password_hash, failed_login_attempts, locked_until, last_login_at) to identity.user_accounts with backward-compatible migrations. All Maven tests pass. Continuing with `COM-MOD-009-PORTAL-001`.
+`COM-MOD-009-DEF` is closed (modeled BCM-PLT-001). `COM-MOD-009-BE-001` is closed: it compiled portal access structures, authorization endpoints, password hashing, and granular permissions, adding five columns (username, password_hash, failed_login_attempts, locked_until, last_login_at) to identity.user_accounts with backward-compatible migrations. All Maven tests pass. COM-MOD-009-PORTAL-001 (patient portal commercial workflow) is closed: it compiled LoginForm, Dashboard layouts, and secure self-access interceptor backend rules, raising patient portal Vitest coverage to 89.58% (TD-FE-008 closed). Continuing with `COM-MOD-009-PORTAL-002`.
 
 **Local Postgres schema note (added by HOP-ENT-FOUND-001)**: the local-database-backed backend
 tests require the running Postgres container's schema to match

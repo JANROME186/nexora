@@ -242,28 +242,26 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-009
-  backlog_item_id: COM-MOD-009-PORTAL-001
-  name: Patient portal commercial workflow
-  expected_folder: 07-implementation/patient-portal/
+  backlog_item_id: COM-MOD-009-PORTAL-002
+  name: Compile doctor portal commercial workflow
+  expected_folder: 07-implementation/doctor-portal/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
     backend_java_maven_line_coverage_percent_if_backend_is_touched: 80.49
     frontend_typescript_web_line_coverage_percent: 86.47
     mobile_typescript_foundation_line_coverage_percent: 98.87
-    patient_portal_typescript_web_line_coverage_percent: 41.93
+    patient_portal_typescript_web_line_coverage_percent: 89.58
     doctor_portal_typescript_web_line_coverage_percent: 40.62
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - Patient portal coverage (41.93%) is below the 80% final-closure target; COM-MOD-009-PORTAL-001 must raise coverage by 3 to 5 percentage points (target 44.93% - 46.93%) or explicitly justify with immediate coverage debt.
-    - Preserve coverage floors: backend (80.49%), employee portal (86.47%), mobile (98.87%), patient portal (41.93%), and doctor portal (40.62%).
+    - Doctor portal coverage (40.62%) is below the 80% final-closure target; COM-MOD-009-PORTAL-002 must raise coverage by 3 to 5 percentage points (target 43.62% - 45.62%) or explicitly justify with immediate coverage debt.
+    - Preserve coverage floors: backend (80.49%), employee portal (86.47%), mobile (98.87%), patient portal (89.58%), and doctor portal (40.62%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-009-BE-001
+    backlog_item_id: COM-MOD-009-PORTAL-001
     status: closed
     summary: >-
-      COM-MOD-009-BE-001 closed Patient and Doctor Portals backend structures and schemas compilation.
-      Backend access structures, authorization endpoints, password hashing, and granular permissions
-      compiled successfully. Validations passed with 0 findings.
+      COM-MOD-009-PORTAL-001 compiled patient portal commercial workflow (login, profile, appointments, orders, results, notifications, i18n switcher, error states, and secure patient self-access interceptor) with unit test coverage raised from 41.93% to 89.58% (TD-FE-008 closed).

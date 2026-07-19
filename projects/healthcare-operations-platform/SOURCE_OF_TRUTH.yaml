@@ -203,6 +203,8 @@ sources:
   com_mod_009_be_001_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-009-BE-001/security-quality-evidence.yaml
   com_mod_009_portal_001_qa_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-001-validation.md
   com_mod_009_portal_001_qa_evidence_yaml: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-001-validation.yaml
+  com_mod_009_portal_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-009-PORTAL-001/security-quality-evidence.md
+  com_mod_009_portal_001_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-009-PORTAL-001/security-quality-evidence.yaml
   mvp_mod_003_def_qa_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
   mvp_mod_003_def_qa_evidence_yaml: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.yaml
   mvp_mod_003_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/peopleclinicalmasterdata/

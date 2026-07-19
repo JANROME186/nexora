@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-009-PORTAL-001
+  current_active_backlog_item: COM-MOD-009-PORTAL-002
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -50,8 +50,7 @@ project:
     existing runbook validation step changes. MVP-MOD-008-FE-001 added employee-portal integration,
     API-governance and migration administration screens; it did not add a runtime port,
     environment variable, startup order or infrastructure dependency, and remains validated through
-    the existing employee-portal `npm run quality` and `npm run audit:all` commands. MVP-MOD-008-QA-001
-    and MVP-MOD-008-CLOSEOUT are closed. COM-MOD-009-DEF is closed (modeled BCM-PLT-001). COM-MOD-009-BE-001 (backend compilation of portals authorization structures) added authentication, lockout, impersonation sandbox, and granular permissions. It also added five columns to identity.user_accounts (username, password_hash, failed_login_attempts, locked_until, last_login_at), which are automatically added via ALTER TABLE statements to existing local Postgres instances. No new port, environment variable, or startup order was introduced; validated using existing Maven test suite. The next active backlog item is COM-MOD-009-PORTAL-001.
+    and MVP-MOD-008-CLOSEOUT are closed. COM-MOD-009-DEF is closed (modeled BCM-PLT-001). COM-MOD-009-BE-001 (backend compilation of portals authorization structures) added authentication, lockout, impersonation sandbox, and granular permissions. It also added five columns to identity.user_accounts (username, password_hash, failed_login_attempts, locked_until, last_login_at), which are automatically added via ALTER TABLE statements to existing local Postgres instances. No new port, environment variable, or startup order was introduced; validated using existing Maven test suite. COM-MOD-009-PORTAL-001 (patient portal commercial workflow) is closed: it compiled LoginForm, Dashboard layouts, and secure self-access interceptor backend rules, raising patient portal Vitest coverage to 89.58% (TD-FE-008 closed). It did not add a new port, environment variable, or startup order; validated using the existing patient-portal and backend test suites. The next active backlog item is COM-MOD-009-PORTAL-002.
   intended_audience:
     - human_reviewer
     - qa_reviewer
