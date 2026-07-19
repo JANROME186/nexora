@@ -181,6 +181,10 @@ sources:
   mvp_mod_008_fe_001_qa_evidence_yaml: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-FE-001-validation.yaml
   mvp_mod_008_fe_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-008-FE-001/security-quality-evidence.md
   mvp_mod_008_fe_001_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-008-FE-001/security-quality-evidence.yaml
+  mvp_mod_008_qa_001_qa_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.md
+  mvp_mod_008_qa_001_qa_evidence_yaml: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.yaml
+  mvp_mod_008_qa_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-008-QA-001/security-quality-evidence.md
+  mvp_mod_008_qa_001_security_quality_evidence_yaml: 08-qa/security-quality/MVP-MOD-008-QA-001/security-quality-evidence.yaml
   technical_debt_td_be_013: 08-qa/technical-debt/TD-BE-013-xlsx-migration-row-parsing-missing.yaml
   technical_debt_td_be_014: 08-qa/technical-debt/TD-BE-014-migration-domain-command-cross-module-wiring-deferred.yaml
   technical_debt_td_be_015: 08-qa/technical-debt/TD-BE-015-rate-limit-enforcement-scoped-to-partner-keys.yaml
