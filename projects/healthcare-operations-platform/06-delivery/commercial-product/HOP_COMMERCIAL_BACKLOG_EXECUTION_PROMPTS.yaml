@@ -242,27 +242,28 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-009
-  backlog_item_id: COM-MOD-009-BE-001
-  name: Patient and Doctor Portals backend structures and schemas compilation
-  expected_folder: 07-implementation/backend/
+  backlog_item_id: COM-MOD-009-PORTAL-001
+  name: Patient portal commercial workflow
+  expected_folder: 07-implementation/patient-portal/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
+    backend_java_maven_line_coverage_percent_if_backend_is_touched: 80.49
     frontend_typescript_web_line_coverage_percent: 86.47
     mobile_typescript_foundation_line_coverage_percent: 98.87
-    backend_java_maven_line_coverage_percent_if_backend_is_touched: 80.49
     patient_portal_typescript_web_line_coverage_percent: 41.93
     doctor_portal_typescript_web_line_coverage_percent: 40.62
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - Compile portals authentication and access schemas.
-    - Preserve backend coverage floor (80.49%) and employee portal floor (86.47%).
+    - Patient portal coverage (41.93%) is below the 80% final-closure target; COM-MOD-009-PORTAL-001 must raise coverage by 3 to 5 percentage points (target 44.93% - 46.93%) or explicitly justify with immediate coverage debt.
+    - Preserve coverage floors: backend (80.49%), employee portal (86.47%), mobile (98.87%), patient portal (41.93%), and doctor portal (40.62%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-009-DEF
+    backlog_item_id: COM-MOD-009-BE-001
     status: closed
     summary: >-
-      COM-MOD-009-DEF closed Patient and Doctor Portals capability package models after BCM-PLT-001
-      was created and 8 affected capability packages were updated to model portal requirements. Validations passed with 0 findings.
+      COM-MOD-009-BE-001 closed Patient and Doctor Portals backend structures and schemas compilation.
+      Backend access structures, authorization endpoints, password hashing, and granular permissions
+      compiled successfully. Validations passed with 0 findings.

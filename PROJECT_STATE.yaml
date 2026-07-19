@@ -30,7 +30,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
     active_module: COM-MOD-009
-    active_backlog_item: COM-MOD-009-BE-001
+    active_backlog_item: COM-MOD-009-PORTAL-001
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -94,9 +94,10 @@ projects:
       - MVP-MOD-008-QA-001
       - MVP-MOD-008-CLOSEOUT
       - COM-MOD-009-DEF
+      - COM-MOD-009-BE-001
     structure: ordered_numbered_folders
 next_deliverables:
-  - Start COM-MOD-009 Patient and Doctor Portals with COM-MOD-009-BE-001 compilation
+  - Start COM-MOD-009 Patient and Doctor Portals with COM-MOD-009-PORTAL-001 patient portal commercial workflow
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake
