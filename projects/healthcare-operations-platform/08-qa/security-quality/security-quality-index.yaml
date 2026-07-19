@@ -656,3 +656,19 @@ entries:
       quality remains at 265 tests and 80.49% coverage; employee-portal quality remains at 101
       tests and 86.47% coverage; vulnerability scans remain at 0 findings. The employee-portal
       coverage floor in technical-debt-index.yaml was corrected to the latest 86.47% evidence.
+  - backlog_item: COM-MOD-009-DEF
+    module: COM-MOD-009 Patient and Doctor Portals
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-009-DEF/
+    human_readable: 08-qa/security-quality/COM-MOD-009-DEF/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-009-DEF/security-quality-evidence.yaml
+    checks:
+      tests: not_applicable_definition_only
+      sast_or_static_analysis: not_applicable_definition_only
+      dependency_vulnerability_scan: not_applicable_definition_only
+      secrets_scan: not_applicable_definition_only
+      coverage: passed_no_regression
+      dast_for_runnable_web_or_api_surfaces: not_applicable_definition_only
+      container_or_iac_scan_when_assets_change: not_applicable_definition_only
+    note: >-
+      Definition-only backlog item to model capability packages for patient and doctor portal access, authentication, authorization, and support. No implementation/runtime code was changed.

@@ -106,6 +106,7 @@ traces:
   custom_rules_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-003-BE-002/security-quality-evidence.yaml
   backlog_items:
     definition: MVP-MOD-003-DEF
+    com_mod_009_def: COM-MOD-009-DEF
     compilation: MVP-MOD-003-BE-001
     compilation_status: closed
     custom_rules: MVP-MOD-003-BE-002

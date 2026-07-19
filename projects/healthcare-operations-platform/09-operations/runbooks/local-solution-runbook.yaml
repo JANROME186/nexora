@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-009-DEF
+  current_active_backlog_item: COM-MOD-009-BE-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -51,10 +51,7 @@ project:
     API-governance and migration administration screens; it did not add a runtime port,
     environment variable, startup order or infrastructure dependency, and remains validated through
     the existing employee-portal `npm run quality` and `npm run audit:all` commands. MVP-MOD-008-QA-001
-    and MVP-MOD-008-CLOSEOUT are closed: backend quality remains at 265 tests and 80.49% coverage,
-    employee-portal quality remains at 101 tests and 86.47% coverage, vulnerability scans reported
-    0 findings, and no new runtime component, port, environment variable, startup order or
-    validation command was introduced. The next active backlog item is COM-MOD-009-DEF.
+    and MVP-MOD-008-CLOSEOUT are closed. COM-MOD-009-DEF is closed (modeled BCM-PLT-001 and updated 8 capability packages). No new runtime component, port, environment variable, startup order or validation command was introduced. The next active backlog item is COM-MOD-009-BE-001.
   intended_audience:
     - human_reviewer
     - qa_reviewer

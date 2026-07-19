@@ -40,10 +40,9 @@ HOP has closed `MVP-MOD-005 Cashier and Billing Request` in full (`MVP-MOD-005-D
 `MVP-MOD-006-CLOSEOUT`) and `HOP-QUALITY-ALIGNMENT` (`HOP-QA-ALIGN-001` through
 `HOP-QA-ALIGN-CLOSEOUT`) is closed. `HOP-ENTERPRISE-FOUNDATION-ALIGNMENT` (`HOP-ENT-FOUND-001`) is
 closed. `MVP-MOD-007 Results and Digital Delivery` is closed in full (`MVP-MOD-007-DEF` through
-`MVP-MOD-007-CLOSEOUT`): released results can generate a PDF report, patients and doctors see only
-authorized released results, and critical results trigger traceable notification workflows.
-Functional development has moved to `MVP-MOD-008 Integration and Migration Readiness`, starting
-with `MVP-MOD-008-DEF`.
+`MVP-MOD-007-CLOSEOUT`). `MVP-MOD-008 Integration and Migration Readiness` is closed in full (`MVP-MOD-008-DEF` through
+`MVP-MOD-008-CLOSEOUT`). Functional development has moved to `COM-MOD-009 Patient and Doctor Portals`, starting
+with `COM-MOD-009-DEF`.
 
 The product must now move from MVP foundation to commercial readiness through an ordered backlog. Each module must be implemented, validated and closed before dependent modules begin, unless the dependency is explicitly mocked in that module definition.
 
@@ -207,11 +206,8 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-`MVP-MOD-007 Results and Digital Delivery` is closed (`MVP-MOD-007-CLOSEOUT`). Continue with
-`MVP-MOD-008-DEF` from:
+`COM-MOD-009-DEF` is closed. Continue with `COM-MOD-009-BE-001` from:
 
 `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
 
-See `08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml` for the module
-closeout evidence and `08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml` for the
-enterprise foundation alignment closeout evidence that preceded it.
+See `08-qa/qa/patient-and-doctor-portals/COM-MOD-009-DEF-validation.yaml` for the definition validation evidence and `08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-CLOSEOUT-validation.yaml` for the preceding module closeout evidence.

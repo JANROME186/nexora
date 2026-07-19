@@ -9,7 +9,7 @@ artifact:
   machine_readable: capability-package.yaml
   owner: Nexora Product Architecture Team
   created_date: 2026-07-09
-  roadmap_group: MVP-MOD-003
+  roadmap_group: COM-MOD-009
   execution_flow_stage: model
 
 standard:
@@ -40,19 +40,19 @@ scope:
     - Doctor registration, update and suspension.
     - Professional credential registration and verification.
     - Specialty assignment.
-    - Doctor portal access baseline (activation deferred to COM-MOD-009).
+    - Doctor portal access baseline.
     - Publication of DoctorSnapshot.
   out_of_scope:
     - Patient master data (BCM-PER-002).
     - Person shared duplicate detection (BCM-PER-001).
     - Order intake and referral consumption (BCM-LAB-001).
-    - Result delivery to doctor portal (BCM-RES-004, later).
+    - Result delivery to doctor portal (BCM-RES-004).
 
 roadmap:
-  module: MVP-MOD-003
-  release: REL-001
+  module: COM-MOD-009
+  release: REL-002
   package_status: modeled
-  next_backlog_item: MVP-MOD-003-BE-001
+  next_backlog_item: COM-MOD-009-BE-001
 
 dependencies:
   required_capabilities:
@@ -78,7 +78,7 @@ product_surfaces:
   backend: required
   employee_portal: required
   patient_portal: not_required
-  doctor_portal: account_linking_later
+  doctor_portal: required
   mobile_app: not_required
 
 required_artifacts:

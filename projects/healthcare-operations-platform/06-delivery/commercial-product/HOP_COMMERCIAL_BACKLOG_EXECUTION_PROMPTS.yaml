@@ -242,9 +242,9 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-009
-  backlog_item_id: COM-MOD-009-DEF
-  name: Patient and Doctor Portals capability package models
-  expected_folder: ../../01-product-definition/business-capabilities/packages/
+  backlog_item_id: COM-MOD-009-BE-001
+  name: Patient and Doctor Portals backend structures and schemas compilation
+  expected_folder: 07-implementation/backend/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
@@ -256,31 +256,13 @@ next_backlog_item:
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - MVP-MOD-008-CLOSEOUT is closed; load its closeout evidence before starting COM-MOD-009.
-    - Model COM-MOD-009 capability packages for patient portal, doctor portal, portal access,
-      authorization, support assistance, appointments/orders/results access and privacy evidence.
-    - Preserve the framework rule that BUSINESS_REQUIREMENT.md is requester-provided source input;
-      do not regenerate or replace it.
-    - Patient-facing and doctor-facing functionality must be modeled with es-MX/en-US localization,
-      dynamic IAM permissions, role/permission-based menus and auditable session/context controls.
-    - TD-FE-008 and TD-FE-009 are open and become highly relevant for COM-MOD-009; definition work
-      must plan measurable portal coverage improvements toward 80% and prevent regression below
-      41.93%/40.62%.
-    - TD-IAM-002 and TD-I18N-002 remain materially reduced, not fully closed; ensure the capability
-      package definitions include explicit permission, menu/action, message catalog and language
-      switching requirements for patient and doctor channels.
-    - TD-BE-014 and TD-BE-015 remain open backend capability gaps from MVP-MOD-008; do not remove or
-      hide them, and only change their status if the backlog actually remediates them with evidence.
-    - Backend coverage floor is now 80.49%; do not regress below it if backend code is touched.
-    - Employee portal coverage floor is 86.47%; do not regress below it.
+    - Compile portals authentication and access schemas.
+    - Preserve backend coverage floor (80.49%) and employee portal floor (86.47%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
-    backlog_item_id: MVP-MOD-008-CLOSEOUT
+    backlog_item_id: COM-MOD-009-DEF
     status: closed
     summary: >-
-      MVP-MOD-008-CLOSEOUT closed Integration and Migration Readiness after DEF, BE-001, BE-002,
-      FE-001 and QA-001 all passed. Backend quality remains at 265 tests and 80.49% coverage;
-      employee-portal quality remains at 101 tests and 86.47% coverage; vulnerability scans remain
-      at 0 findings. The closeout corrected a stale employee-portal coverage floor in the technical
-      debt index and advanced the active backlog to COM-MOD-009-DEF.
+      COM-MOD-009-DEF closed Patient and Doctor Portals capability package models after BCM-PLT-001
+      was created and 8 affected capability packages were updated to model portal requirements. Validations passed with 0 findings.

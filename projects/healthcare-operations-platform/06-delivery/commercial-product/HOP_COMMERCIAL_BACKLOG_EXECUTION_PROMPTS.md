@@ -233,30 +233,18 @@ Expected result:
 
 ## Next Backlog Item
 
-`MVP-MOD-008-FE-001 Compile integration and migration administration UI outputs` is closed.
+`COM-MOD-009-DEF Patient and Doctor Portals capability package models` is closed.
 Continue with:
 
-- Module: `MVP-MOD-008`
-- Backlog item: `MVP-MOD-008-QA-001`
-- Previous backlog item: `MVP-MOD-008-FE-001` (closed)
+- Module: `COM-MOD-009`
+- Backlog item: `COM-MOD-009-BE-001`
+- Previous backlog item: `COM-MOD-009-DEF` (closed)
 - Paused functional backlog item: none
-- Folder: `08-qa/qa/integration-and-migration-readiness/`
+- Folder: `07-implementation/backend/`
 
 Mandatory setup for this backlog:
 
-- Load BE-002 and FE-001 QA/security evidence before validating adapter, import and observability
-  evidence.
-- Validate backend integration adapters, API governance, migration import/reconciliation and
-  employee-portal administration workflows together; do not silently skip runnable gates.
-- TD-FE-010 is open and should be considered as the debt-first candidate if QA-001 touches the
-  employee portal.
-- TD-BE-014 (migration domain-command port has no real cross-module wiring) and TD-BE-015
-  (rate-limit enforcement scoped to partner-API-key-bearing requests only) remain open backend
-  capability gaps.
-- TD-FE-008 and TD-FE-009 are open (patient-portal/doctor-portal coverage baselines, 41.93% and
-  40.62%); do not regress below those floors if this item touches those stacks.
-- TD-IAM-001 is closed; production OIDC/IdP hardening remains productization scope when applicable.
-- Review `08-qa/technical-debt/technical-debt-index.yaml` before feature work and resolve or materially reduce at least two relevant open debt items because HOP is now late in the operational core.
+- Compile portals authentication and access schemas.
 - Preserve the employee portal coverage floor of 86.47%, the mobile TypeScript foundation floor of 98.87%, the patient-portal floor of 41.93% and the doctor-portal floor of 40.62%; the backend Java/Maven floor is 80.49% — do not regress below it if backend code is touched.
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
@@ -264,10 +252,4 @@ Mandatory setup for this backlog:
 
 ### Previous Backlog Item (Closed)
 
-`MVP-MOD-008-FE-001` — Added typed employee-portal API/UI outputs for BCM-PLT-004/005/010:
-integration endpoints/messages, API governance/partner keys/rate limits and migration jobs/import
-package/dry-run/approval/commit/reconciliation. `npm run quality` passed with 101 tests and
-employee-portal coverage improved from 85.50% to 86.47%; `npm run audit:all` and Trivy found 0
-vulnerabilities. TD-STACK-003 and TD-I18N-002 were further reduced; TD-FE-010 was registered for
-non-blocking generated admin-screen size/complexity warnings.
-Evidence generated and status updated.
+`COM-MOD-009-DEF` — Patient and Doctor Portals capability package models. Created BCM-PLT-001 and updated 8 capability packages. Evidence generated and status updated.

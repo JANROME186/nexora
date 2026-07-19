@@ -70,6 +70,7 @@ traces:
   qa_evidence: ../../../../08-qa/qa/results-and-digital-delivery/MVP-MOD-007-DEF-validation.yaml
   backlog_items:
     definition: MVP-MOD-007-DEF
+    com_mod_009_def: COM-MOD-009-DEF
     definition_status: closed
     compilation: MVP-MOD-007-BE-001
     compilation_status: closed

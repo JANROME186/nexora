@@ -13,13 +13,43 @@ surfaces:
     status: required
     generatable: true
   patient_portal:
-    status: account_linking_later
-    generatable: deferred
+    status: required
+    generatable: true
   doctor_portal:
     status: not_required
     generatable: not_applicable
 
 screens:
+  - id: SCR-PAT-002-07
+    name: Patient Self Profile Editor
+    route: /patient/profile
+    type: form
+    scopes: [PORTAL_PATIENT_ACCESS]
+    components:
+      - PatientIdentityForm
+      - ContactsSection
+      - AddressSection
+      - EmergencyContactSection
+      - PreferredLocaleSelector
+    generatable: true
+  - id: SCR-PAT-002-08
+    name: Patient Consent Control Panel
+    route: /patient/consents
+    type: panel
+    scopes: [PORTAL_PATIENT_ACCESS]
+    components:
+      - ConsentList
+      - ConsentToggle
+    generatable: true
+  - id: SCR-PAT-002-09
+    name: Patient Representative Management
+    route: /patient/representatives
+    type: panel
+    scopes: [PORTAL_PATIENT_ACCESS]
+    components:
+      - RepresentativeList
+      - AddRepresentativeForm
+    generatable: true
   - id: SCR-PAT-002-01
     name: Patient List
     route: /patients

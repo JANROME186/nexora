@@ -1,0 +1,34 @@
+artifact:
+  id: HOP-TST-BCM-PLT-001
+  type: test-model
+  name: Identity and Access Management Test Scenarios
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-001
+
+scenarios:
+  - id: TS-IAM-001
+    name: Verify Password Hashing
+    description: Confirm that user password input is hashed using BCrypt before persistence.
+    execution_type: automated
+  - id: TS-IAM-002
+    name: Account Lockout after 5 Failed Attempts
+    description: Validate lockout state and lockedUntil timestamps after 5 failed inputs.
+    execution_type: automated
+  - id: TS-IAM-003
+    name: Session Invalidation on Account Suspension
+    description: Verify request interceptors deny requests with tokens from suspended accounts.
+    execution_type: automated
+  - id: TS-IAM-004
+    name: Support-Assisted Sandbox Restrictions
+    description: Ensure assisted tokens reject attempts to invoke clinical or billing mutations.
+    execution_type: automated
+  - id: TS-IAM-005
+    name: Deny-by-Default API Gate
+    description: Verify requests without explicitly mapped permission codes are blocked.
+    execution_type: automated
+  - id: TS-IAM-006
+    name: Session Locale Switching
+    description: Confirm change in session locale propagates immediately to backend message catalogs.
+    execution_type: automated

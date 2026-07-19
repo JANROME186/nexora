@@ -60,7 +60,7 @@ roadmap:
   module: MVP-MOD-008
   release: REL-001
   package_status: module_closed
-  next_backlog_item: COM-MOD-009-DEF
+  next_backlog_item: COM-MOD-009-BE-001
   paused_functional_backlog_item: null
 
 dependencies:

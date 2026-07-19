@@ -1,0 +1,59 @@
+artifact:
+  id: HOP-TR-BCM-PLT-001
+  type: traceability
+  name: Identity and Access Management Traceability Matrix
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-001
+
+bcm_alignment:
+  capability_id: BCM-PLT-001
+  domain_id: DOM-10
+  priority: Critical
+  roadmap: MVP1
+
+brm_alignment:
+  rules:
+    - id: BRM-001-R018
+      ref: RN-002, RN-003, RN-004
+      description: Audit logging of all access and session modifications.
+
+hrp_alignment:
+  processes:
+    - id: HRP-001-P01
+      description: Platform Foundation Setup & Access Management.
+
+api_alignment:
+  endpoints:
+    - path: /api/auth/login
+      operation: loginUser
+      rules: [RN-001, RN-002]
+    - path: /api/auth/logout
+      operation: logoutUser
+      rules: [RN-003]
+    - path: /api/auth/assistance
+      operation: initiateAssistance
+      rules: [RN-004]
+
+test_alignment:
+  tests:
+    - id: TS-IAM-001
+      rule_ref: RN-001
+    - id: TS-IAM-002
+      rule_ref: RN-002
+    - id: TS-IAM-003
+      rule_ref: RN-003
+    - id: TS-IAM-004
+      rule_ref: RN-004
+    - id: TS-IAM-005
+      rule_ref: RN-005
+    - id: TS-IAM-006
+      rule_ref: RN-006
+
+security_privacy:
+  controls:
+    - BCrypt password hashing.
+    - Rate limiting / lockouts after 5 consecutive failures.
+    - Support assistance login constraints (cannot signature, audited).
+    - Session context-based tenant isolation.

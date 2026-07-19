@@ -19,8 +19,8 @@ product:
     completed_module: MVP-MOD-008 (MVP-MOD-008-CLOSEOUT closed)
     completed_status: closed
     active_module: COM-MOD-009
-    active_backlog_item: COM-MOD-009-DEF
-    active_module_progress: MVP-MOD-008-CLOSEOUT closed; ready for COM-MOD-009-DEF
+    active_backlog_item: COM-MOD-009-BE-001
+    active_module_progress: COM-MOD-009-DEF closed; ready for COM-MOD-009-BE-001
     paused_backlog_item: null
 
 source_inputs:
@@ -691,9 +691,10 @@ modules:
     backlog_items:
       - id: COM-MOD-009-DEF
         name: Capability package models
-        status: active
+        status: closed
       - id: COM-MOD-009-BE-001
         name: Compile portal access and authorization outputs
+        status: active
       - id: COM-MOD-009-PORTAL-001
         name: Compile patient portal commercial workflow
       - id: COM-MOD-009-PORTAL-002

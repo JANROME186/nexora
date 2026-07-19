@@ -1,0 +1,47 @@
+artifact:
+  id: HOP-PERM-BCM-PLT-001
+  type: permissions
+  name: Identity and Access Management Permission Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-001
+
+roles:
+  - code: ADMIN
+    description: Full platform administrative access.
+    permissions: [all_27_screens, PORTAL_PATIENT_ACCESS, PORTAL_DOCTOR_ACCESS]
+  - code: FRONT_DESK
+    description: Employee front desk agent.
+    permissions: [SCREEN_PATIENTS, SCREEN_RECEPTION, SCREEN_DIAGNOSTIC_ORDERS]
+  - code: PATIENT
+    description: Patient access role.
+    permissions: [PORTAL_PATIENT_ACCESS]
+  - code: REFERRING_DOCTOR
+    description: Referring physician access role.
+    permissions: [PORTAL_DOCTOR_ACCESS]
+
+permissions:
+  - code: SCREEN_USERS
+    description: Access user account administration.
+    scope: internal
+  - code: SCREEN_ROLE_ASSIGNMENTS
+    description: Manage user-role mappings.
+    scope: internal
+  - code: PORTAL_PATIENT_ACCESS
+    description: Access the patient self-service portal.
+    scope: portal
+  - code: PORTAL_DOCTOR_ACCESS
+    description: Access the doctor referring physician portal.
+    scope: portal
+
+policies:
+  - id: POL-IAM-001
+    name: Deny by Default
+    description: Access is rejected unless a user account holds the specific required permission.
+  - id: POL-IAM-002
+    name: Tenant Isolation
+    description: Session context restricts request execution to the user's logged-in tenant ID.
+  - id: POL-IAM-003
+    name: Support Sandbox
+    description: Assisted sessions are locked out of clinical and financial actions by default.

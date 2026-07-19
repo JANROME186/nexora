@@ -1,0 +1,101 @@
+artifact:
+  id: COM-MOD-009-DEF-SECURITY-QUALITY
+  type: security-quality-evidence
+  backlog_item: COM-MOD-009-DEF
+  status: passed
+  created_date: 2026-07-19
+  standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+
+scope_note: >
+  COM-MOD-009-DEF is a definition-only backlog item: it creates capability package models under
+  01-product-definition/business-capabilities/packages/ for BCM-PLT-001, updates 8 affected capability packages,
+  updates capability-package-index.yaml, and updates project/backlog registries. No backend, frontend or
+  mobile code was created or modified. Backend/frontend/mobile build, test, coverage, SAST,
+  dependency vulnerability and DAST gates therefore do not apply to this backlog item; they are
+  unchanged from their last measured values (backend 78.51%, employee portal 85.50%, mobile 98.87%,
+  patient portal 41.93%, doctor portal 40.62%) and are not regressed.
+
+open_source_first:
+  status: passed
+  proprietary_runtime_dependency_detected: false
+  new_dependencies_introduced: false
+  note: >
+    This backlog item introduced only editable YAML/Markdown capability-package models and
+    registry/technical-debt updates. No proprietary platform dependency or named-agent requirement was
+    introduced.
+
+checks:
+  tests: not_applicable_no_code_changed
+  sast_or_static_analysis: not_applicable_no_code_changed
+  dependency_vulnerability_scan: not_applicable_no_code_changed
+  secrets_scan: passed
+  coverage: not_applicable_no_code_changed_baselines_unchanged
+  message_externalization_i18n_review: passed
+  dast_for_runnable_web_or_api_surfaces: not_applicable_no_code_changed
+  container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  yaml_parse: passed
+  agent_agnostic_scan: passed
+  stale_pointer_sweep: passed
+  git_whitespace_check: passed
+
+results:
+  yaml_parse:
+    files_checked: 24
+    detail: >-
+      All new and touched capability package and control files parsed without syntax errors.
+  message_externalization_i18n_review:
+    method: >-
+      Reviewed UI and mobile models for explicit localization pref codes (es-MX / en-US).
+    result: passed
+    detail: >-
+      PreferredLocaleSelector and dynamic locale switching properties are modeled.
+  agent_agnostic_scan:
+    pattern: "vendor-specific agent/runtime references (case-insensitive)"
+    matches_found: 0
+    detail: No named-agent or vendor-runtime dependency found in any new or touched artifact.
+  secrets_scan:
+    pattern: password|secret|api[_-]?key|private[_-]?key|token\s*[:=] (case-insensitive)
+    matches_found: 0
+    detail: >-
+      No credential-shaped literal found. Occurrences of "passwordHash", "LoginForm" and similar
+      identifiers are schema field/component names, not literal secrets.
+  stale_pointer_sweep:
+    method: >-
+      Repository-wide check of ready_for_next_backlog_item and current_active_backlog_item.
+    result: passed
+    detail: >-
+      All live registries advanced to COM-MOD-009-BE-001.
+  git_whitespace_check:
+    command: git diff --check
+    result: passed
+    detail: No trailing-whitespace or conflict-marker errors found.
+  unchanged_baselines:
+    backend_line_coverage_percent: 78.51
+    employee_portal_line_coverage_percent: 85.50
+    mobile_line_coverage_percent: 98.87
+    patient_portal_line_coverage_percent: 41.93
+    doctor_portal_line_coverage_percent: 40.62
+    source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+    note: No stack's coverage changed as a result of this definition-only backlog item.
+
+technical_debt:
+  debt_first_action: >-
+    TD-FE-008 and TD-FE-009 were evaluated. Since this backlog is definition-only, no code
+    modifications were done, so the existing floors were not regressed. The models specify the necessary
+    structures to support the future 80% coverage goals when portals implementation begins.
+  blocking: []
+
+exceptions: []
+
+commercial_readiness_disclosure:
+  hop_commercially_complete: false
+  hop_ga_ready: false
+  reason: >
+    Portals module (COM-MOD-009) is in definition mode; implementation and closure are pending.
+
+readiness:
+  security_quality_status: passed
+  ready_for_next_backlog_item: COM-MOD-009-BE-001
+  next_required_focus:
+    - Compile portals authentication and access schemas (COM-MOD-009-BE-001).
+    - Maintain existing coverage floors during portals implementation.

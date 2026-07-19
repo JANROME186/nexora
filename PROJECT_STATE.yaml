@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 0.93.0
-current_phase: HOP MVP-MOD-008 Integration and Migration Readiness closed; COM-MOD-009 Patient and Doctor Portals ready to start at COM-MOD-009-DEF
+current_phase: HOP COM-MOD-009 Patient and Doctor Portals definition closed; compiling backend portal access structures at COM-MOD-009-BE-001
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -30,7 +30,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
     active_module: COM-MOD-009
-    active_backlog_item: COM-MOD-009-DEF
+    active_backlog_item: COM-MOD-009-BE-001
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -93,9 +93,10 @@ projects:
       - MVP-MOD-008-FE-001
       - MVP-MOD-008-QA-001
       - MVP-MOD-008-CLOSEOUT
+      - COM-MOD-009-DEF
     structure: ordered_numbered_folders
 next_deliverables:
-  - Start COM-MOD-009 Patient and Doctor Portals with COM-MOD-009-DEF capability package models
+  - Start COM-MOD-009 Patient and Doctor Portals with COM-MOD-009-BE-001 compilation
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake

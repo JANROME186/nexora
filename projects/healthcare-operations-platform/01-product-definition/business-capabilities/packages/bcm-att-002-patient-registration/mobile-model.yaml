@@ -8,13 +8,12 @@ artifact:
   capability: BCM-ATT-002
 
 mobile_scope:
-  status: check_in_later
-  rationale: >
-    MVP-MOD-003 declares mobile_app check_in_later for Patient Registration.
-    Patient self check-in through mobile app is planned in COM-MOD-009 Patient
-    and Doctor Portals, and it will invoke this capability through the same
-    orchestration commands documented in openapi-source.yaml.
-  deferred_to:
-    - COM-MOD-009 Patient and Doctor Portals
-  flows: []
+  status: required
+  flows:
+    - id: MOB-FLOW-REG-001
+      name: Mobile Self-Registration
+      description: Register and sign initial consent.
+      screens:
+        - MobileIntakeForm
+        - ConsentTermsView
   offline_expectations: none

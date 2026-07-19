@@ -2,11 +2,11 @@ artifact:
   id: HOP-CAP-PKG-IDX-001
   type: capability-package-index
   name: HOP Business Capability Package Index
-  version: 1.9.0
+  version: 2.0.0
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.yaml
-  qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-CLOSEOUT-validation.yaml
+  qa_evidence: ../../../08-qa/qa/patient-and-doctor-portals/COM-MOD-009-DEF-validation.yaml
 
 policy:
   primary_development_unit: business_capability_package
@@ -33,6 +33,18 @@ do_not_write_manually:
   - Repetitive test cases
 
 completed_capability_package_groups:
+  - roadmap_group: COM-MOD-009
+    name: Patient and Doctor Portals
+    package_status: in_progress
+    backlog_item: COM-MOD-009-BE-001
+    qa_evidence: ../../../08-qa/qa/patient-and-doctor-portals/COM-MOD-009-DEF-validation.yaml
+    capabilities:
+      - capability_id: BCM-PLT-001
+        package_folder: bcm-plt-001-identity-and-access-management/
+        package_status: modeled
+        bounded_context: identity-access
+        primary_aggregate: AGG-004 UserAccount
+        mobile_scope: required
   - roadmap_group: MVP-MOD-008
     name: Integration and Migration Readiness
     package_status: module_closed
@@ -85,13 +97,13 @@ completed_capability_package_groups:
         package_status: validated
         bounded_context: laboratory-results
         primary_aggregate: ResultDeliveryTicket (new entity owned by this capability)
-        mobile_scope: result_view_required
+        mobile_scope: required
       - capability_id: BCM-RES-005
         package_folder: bcm-res-005-result-history/
         package_status: validated
         bounded_context: laboratory-results
         primary_aggregate: PatientResultHistoryView (new read projection owned by this capability)
-        mobile_scope: result_view_required
+        mobile_scope: required
       - capability_id: BCM-RES-006
         package_folder: bcm-res-006-critical-results/
         package_status: validated
@@ -109,7 +121,7 @@ completed_capability_package_groups:
         package_status: validated
         bounded_context: notifications
         primary_aggregate: NotificationRequest (new platform aggregate owned by this capability)
-        mobile_scope: not_required
+        mobile_scope: required
       - capability_id: BCM-PLT-008
         package_folder: bcm-plt-008-document-management/
         package_status: validated
@@ -197,7 +209,7 @@ completed_capability_package_groups:
         bounded_context: orders-samples
         secondary_bounded_context: organization-management
         primary_aggregate: AGG-007 DiagnosticOrder (owned by BCM-LAB-001)
-        mobile_scope: check_in_later
+        mobile_scope: required
       - capability_id: BCM-ATT-003
         package_folder: bcm-att-003-reception-management/
         package_status: compiled
@@ -242,7 +254,7 @@ completed_capability_package_groups:
         package_status: modeled
         bounded_context: patient-management
         primary_aggregate: AGG-001
-        mobile_scope: deferred
+        mobile_scope: required
       - capability_id: BCM-PER-003
         package_folder: bcm-per-003-doctor-management/
         package_status: modeled
@@ -254,7 +266,7 @@ completed_capability_package_groups:
         package_status: modeled
         bounded_context: patient-management
         primary_aggregate: AGG-001
-        mobile_scope: deferred
+        mobile_scope: required
   - roadmap_group: MVP-MOD-002
     name: Diagnostic Catalog
     package_status: module_closed

@@ -9,7 +9,7 @@ artifact:
   machine_readable: capability-package.yaml
   owner: Nexora Product Architecture Team
   created_date: 2026-07-17
-  roadmap_group: MVP-MOD-007
+  roadmap_group: COM-MOD-009
   execution_flow_stage: model
 
 standard:
@@ -52,11 +52,10 @@ scope:
     - Chronological multi-result history views (BCM-RES-005).
 
 roadmap:
-  module: MVP-MOD-007
-  release: REL-001
+  module: COM-MOD-009
+  release: REL-002
   package_status: modeled
-  next_backlog_item: MVP-MOD-007-PORTAL-001
-  paused_functional_backlog_item: MVP-MOD-007-PORTAL-001
+  next_backlog_item: COM-MOD-009-BE-001
 
 dependencies:
   required_capabilities:
@@ -85,7 +84,7 @@ product_surfaces:
   employee_portal: not_required
   patient_portal: required
   doctor_portal: required
-  mobile_app: result_view_required
+  mobile_app: required
 
 required_artifacts:
   - capability-package.yaml

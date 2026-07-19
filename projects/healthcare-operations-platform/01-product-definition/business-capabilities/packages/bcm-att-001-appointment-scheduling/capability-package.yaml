@@ -9,7 +9,7 @@ artifact:
   machine_readable: capability-package.yaml
   owner: Nexora Product Architecture Team
   created_date: 2026-07-15
-  roadmap_group: MVP-MOD-004
+  roadmap_group: COM-MOD-009
   execution_flow_stage: model
 
 standard:
@@ -43,13 +43,15 @@ scope:
     published catalog and preparation-instruction availability before
     confirming a slot. Confirmed or checked-in appointments become the
     intake reference that Reception Management and Admission Management use
-    to start a diagnostic order through BCM-LAB-001.
+    to start a diagnostic order through BCM-LAB-001. Governs patient self-scheduling
+    via patient portal.
   in_scope:
     - Appointment slot creation, confirmation, rescheduling and cancellation.
     - Branch operational-status and basic capacity validation at scheduling time.
     - Preparation-instruction and catalog-availability surfacing for the selected service.
     - Handoff of a confirmed appointment as an order intake reference.
     - No-show tracking.
+    - Patient self-scheduling, rescheduling, and cancellation via portal.
   out_of_scope:
     - Patient and doctor master data ownership (BCM-PER-002, BCM-PER-003).
     - Diagnostic order creation and pricing (BCM-LAB-001).
@@ -57,10 +59,10 @@ scope:
     - Detailed staff/branch schedule capacity planning (BCM-ORG-007, MVP2).
 
 roadmap:
-  module: MVP-MOD-004
-  release: REL-001
+  module: COM-MOD-009
+  release: REL-002
   package_status: modeled
-  next_backlog_item: MVP-MOD-004-BE-001
+  next_backlog_item: COM-MOD-009-BE-001
 
 dependencies:
   required_capabilities:
@@ -87,9 +89,9 @@ dependencies:
 product_surfaces:
   backend: required
   employee_portal: required
-  patient_portal: appointment_request_later
+  patient_portal: required
   doctor_portal: not_required
-  mobile_app: check_in_later
+  mobile_app: required
 
 required_artifacts:
   - capability-package.yaml

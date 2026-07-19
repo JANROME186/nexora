@@ -4,7 +4,7 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-009-DEF`.
+Current active backlog item: `COM-MOD-009-BE-001`.
 
 `MVP-MOD-008 Integration and Migration Readiness` is closed through `MVP-MOD-008-CLOSEOUT`.
 Closeout evidence confirms backend quality at 265 tests and 80.49% coverage, employee-portal
@@ -51,7 +51,8 @@ added manually (`ALTER TABLE ... ADD COLUMN IF NOT EXISTS ...`), since `schema.s
 consumed only by the new rate-limit interceptor — requests without it are unaffected, so no existing
 validation step changes. `MVP-MOD-008-FE-001` is closed: it added employee-portal integration,
 API-governance and migration administration screens with no new runtime port, environment variable,
-startup order or infrastructure dependency. Continuing with `MVP-MOD-008-QA-001`.
+startup order or infrastructure dependency. `MVP-MOD-008-QA-001` and `MVP-MOD-008-CLOSEOUT` are closed.
+`COM-MOD-009-DEF` is closed (modeled BCM-PLT-001 and updated 8 capability packages). Continuing with `COM-MOD-009-BE-001`.
 
 **Local Postgres schema note (added by HOP-ENT-FOUND-001)**: the local-database-backed backend
 tests require the running Postgres container's schema to match

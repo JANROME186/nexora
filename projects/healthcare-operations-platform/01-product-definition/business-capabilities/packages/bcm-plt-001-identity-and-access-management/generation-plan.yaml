@@ -1,0 +1,31 @@
+artifact:
+  id: HOP-GP-BCM-PLT-001
+  type: generation-plan
+  name: Identity and Access Management Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-001
+
+generated_outputs:
+  backend:
+    - UserAccountBaseEntity
+    - UserAccountBaseRepository
+    - AuthenticationControllerBase
+    - RolePermissionMapperBase
+  employee_portal:
+    - UserAdministrationForm
+    - RoleAssignmentGrid
+  patient_portal:
+    - PatientLoginFormBase
+  doctor_portal:
+    - DoctorLoginFormBase
+
+custom_implementation_points:
+  - PasswordHashingService (using secure BCrypt wrapper)
+  - AssistedLoginContextFilter (enforces assistance consent and restricts scopes)
+  - BiometricTokenExchangeHandler (mobile biometric auth endpoint)
+
+do_not_write_manually:
+  - CRUD operations for UserAccount (except custom query filters)
+  - DTO structures for standard login request/response payloads
