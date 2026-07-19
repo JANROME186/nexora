@@ -73,6 +73,7 @@ public class EndpointPermissionRegistry {
                   PermissionCode.SCREEN_LABORATORY_PROCESSING,
                   "BCM-CLI-005"),
               readWrite("/api/results/search", PermissionCode.SCREEN_RESULT_SEARCH, "BCM-RES-001"),
+              readWrite("/api/results/history/patient", PermissionCode.PORTAL_PATIENT_RESULTS_VIEW, "BCM-RES-005"),
               readWrite(
                   "/api/results/delivery", PermissionCode.SCREEN_RESULT_RELEASE, "BCM-RES-004"),
               readWrite(

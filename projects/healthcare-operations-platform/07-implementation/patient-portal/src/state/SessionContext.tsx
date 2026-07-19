@@ -1,39 +1,47 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, type ReactNode, useCallback } from "react";
 
 export interface SessionUser {
   userId: string;
+  tenantId: string;
   roleCode: string;
   name: string;
-  patientId?: string;
-  doctorId?: string;
+  patientId: string;
+  token: string;
 }
 
-const mockSessions: SessionUser[] = [
+export const mockSessions: Omit<SessionUser, "token">[] = [
   {
-    userId: "p-001",
+    userId: "Patient-01",
+    tenantId: "tenant-local",
     roleCode: "PATIENT",
     name: "John Doe (Patient)",
     patientId: "Patient-01",
   },
   {
-    userId: "d-001",
-    roleCode: "DOCTOR",
+    userId: "Doctor-01",
+    tenantId: "tenant-local",
+    roleCode: "REFERRING_DOCTOR",
     name: "Dr. Smith (Doctor)",
-    doctorId: "Doctor-01",
+    patientId: "Doctor-01",
   },
 ];
 
 interface SessionContextType {
   session: SessionUser | null;
-  setSession: (session: SessionUser | null) => void;
-  mockSessions: SessionUser[];
+  isLoading: boolean;
+  login: (tenantId: string, username: string, password: string) => Promise<{ ok: boolean; error?: string }>;
+  loginMock: (userId: string) => void;
+  logout: () => void;
+  mockSessions: Omit<SessionUser, "token">[];
 }
 
 const SessionContext = createContext<SessionContextType | undefined>(undefined);
 
+const STORAGE_KEY = "hop.patient.session";
+
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<SessionUser | null>(() => {
-    const saved = localStorage.getItem("dev_session");
+    const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -42,35 +50,96 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         return null;
       }
     }
-    return mockSessions[0];
+    return null;
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (session) {
-      localStorage.setItem("dev_session", JSON.stringify(session));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
     } else {
-      localStorage.removeItem("dev_session");
+      localStorage.removeItem(STORAGE_KEY);
     }
   }, [session]);
 
+  const login = useCallback(async (tenantId: string, username: string, password: string) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ tenantId, username, password }),
+      });
+
+      if (!response.ok) {
+        let msg = "Invalid credentials";
+        if (response.status === 403) {
+          msg = "Account locked or suspended";
+        }
+        return { ok: false, error: msg };
+      }
+
+      const data = await response.json();
+      const token = data.token || "";
+      
+      // Parse token: local-session:tenantId:userId
+      const parts = token.split(":");
+      const parsedTenantId = parts[1] || tenantId;
+      const parsedUserId = parts[2] || username;
+
+      // Try fetching patient name if available, fallback to username
+      let displayName = username;
+      try {
+        const patientRes = await fetch(`/api/people/patients/${parsedUserId}`, {
+          headers: {
+            "X-HOP-AUTH-TOKEN": token,
+            "X-HOP-USER-ID": parsedUserId,
+            "X-HOP-TENANT-ID": parsedTenantId,
+            "X-HOP-ROLES": "PATIENT",
+          }
+        });
+        if (patientRes.ok) {
+          const patient = await patientRes.json();
+          displayName = `${patient.givenName} ${patient.familyName}`;
+        }
+      } catch (e) {
+        console.warn("Failed to fetch patient profile for name", e);
+      }
+
+      const user: SessionUser = {
+        userId: parsedUserId,
+        tenantId: parsedTenantId,
+        roleCode: "PATIENT", // Default role code for patient portal
+        name: displayName,
+        patientId: parsedUserId,
+        token,
+      };
+
+      setSession(user);
+      return { ok: true };
+    } catch (e: any) {
+      return { ok: false, error: e?.message || "Unexpected error occurred" };
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const loginMock = useCallback((userId: string) => {
+    const mock = mockSessions.find((s) => s.userId === userId);
+    if (mock) {
+      setSession({
+        ...mock,
+        token: `local-session:${mock.tenantId}:${mock.userId}`,
+      });
+    }
+  }, []);
+
+  const logout = useCallback(() => {
+    setSession(null);
+  }, []);
+
   return (
-    <SessionContext.Provider value={{ session, setSession, mockSessions }}>
-      <div style={{ background: "#eee", padding: "0.5rem", marginBottom: "1rem" }}>
-        <strong>Dev Session: </strong>
-        <select
-          value={session?.userId || ""}
-          onChange={(e) => {
-            const user = mockSessions.find((s) => s.userId === e.target.value);
-            setSession(user || null);
-          }}
-        >
-          {mockSessions.map((s) => (
-            <option key={s.userId} value={s.userId}>
-              {s.name}
-            </option>
-          ))}
-        </select>
-      </div>
+    <SessionContext.Provider value={{ session, isLoading, login, loginMock, logout, mockSessions }}>
       {children}
     </SessionContext.Provider>
   );
@@ -83,17 +152,19 @@ export function useSession() {
 }
 
 export function readSessionHeaders(): Record<string, string> {
-  let session = mockSessions[0];
   try {
-    const saved = localStorage.getItem("dev_session");
+    const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
-      session = JSON.parse(saved);
+      const session = JSON.parse(saved) as SessionUser;
+      return {
+        "X-HOP-AUTH-TOKEN": session.token,
+        "X-HOP-USER-ID": session.userId,
+        "X-HOP-TENANT-ID": session.tenantId,
+        "X-HOP-ROLES": session.roleCode,
+      };
     }
   } catch (e) {
-    console.warn("Failed to read dev session", e);
+    console.warn("Failed to read session headers", e);
   }
-  return {
-    "X-HOP-USER-ID": session.userId,
-    "X-HOP-ROLES": session.roleCode,
-  };
+  return {};
 }

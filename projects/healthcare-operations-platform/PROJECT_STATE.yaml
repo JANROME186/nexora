@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 0.99.0
-current_phase: COM-MOD-009 Patient and Doctor Portals backend structures compiled; preparing patient portal commercial workflow at COM-MOD-009-PORTAL-001
+current_phase: COM-MOD-009 Patient and Doctor Portals patient portal commercial workflow compiled and verified at COM-MOD-009-PORTAL-001
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -233,6 +233,7 @@ completed_deliverables:
     coverage 85.50% -> 86.47%; npm audit and Trivy reported 0 vulnerabilities; TD-STACK-003 and
     TD-I18N-002 further reduced; TD-FE-010 registered)
   - MVP-MOD-008-QA-001 integration and migration QA/security evidence (backend verify passed with 265 tests and 80.49% coverage; employee-portal quality passed with 101 tests and 86.47% coverage; Trivy and npm audit reported 0 vulnerabilities; YAML parse and git diff checks passed; evidence files created under 08-qa)
+  - COM-MOD-009-PORTAL-001 patient portal commercial workflow fully implemented (login, profile, appointments, orders, results, notifications, i18n switcher, error states, and secure patient self-access interceptor) with unit test coverage raised from 41.93% to 89.58% (TD-FE-008 closed)
 next_deliverables:
   - Start COM-MOD-009 Patient and Doctor Portals with COM-MOD-009-PORTAL-001 patient portal commercial workflow
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
@@ -249,7 +250,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-009
   in_progress_module: COM-MOD-009
-  next_backlog_item: COM-MOD-009-PORTAL-001
+  next_backlog_item: COM-MOD-009-PORTAL-002
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -336,11 +337,11 @@ development_readiness:
         tracked_by: TD-APP-002 (closed; MVP-MOD-007-APP-001 raised coverage from 97.15% to 98.87%;
           MVP-MOD-007-CLOSEOUT re-confirmed 98.87% with no regression)
       patient_portal_typescript_web:
-        current_line_coverage_percent: 41.93
-        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 41.93
+        current_line_coverage_percent: 89.58
+        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 89.58
         final_closure_target_percent: 80
-        tracked_by: TD-FE-008
+        tracked_by: TD-FE-008 (closed)
       doctor_portal_typescript_web:
         current_line_coverage_percent: 40.62
         source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
@@ -422,21 +423,16 @@ implementation_progress:
     - MVP-MOD-008-CLOSEOUT
     - COM-MOD-009-DEF
     - COM-MOD-009-BE-001
-  in_progress_backlog_items: []
-  pending_backlog_items:
     - COM-MOD-009-PORTAL-001
+  in_progress_backlog_items: []
+  pending_backlog_items: []
   latest_validation:
-    backlog_item_id: MVP-MOD-008-CLOSEOUT
-    command: >
-      MVP-MOD-008-CLOSEOUT consolidated MVP-MOD-008-QA-001 evidence: backend verify and
-      Dependency-Check passed with 265 tests, 0 failures and 80.49% coverage; employee portal
-      quality and audit passed with 101 tests and 86.47% coverage; Trivy/npm/Dependency-Check
-      reported 0 vulnerabilities. Closeout corrected stale SOURCE_OF_TRUTH/root PROJECT_STATE
-      pointers and the employee-portal technical-debt coverage floor.
-    working_directory: projects/healthcare-operations-platform
+    backlog_item_id: COM-MOD-009-PORTAL-001
+    command: npm.cmd run test:coverage
+    working_directory: projects/healthcare-operations-platform/07-implementation/patient-portal
     status: passed
-    tests_run_backend: 265
-    tests_run_frontend: 101
+    tests_run_backend: 269
+    tests_run_frontend: 18
     failures: 0
     errors: 0
     skipped_backend: 0

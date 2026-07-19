@@ -48,6 +48,37 @@ public class HopAuthorizationInterceptor implements HandlerInterceptor {
         authorizationService
             .permissionsForRoles(context.get().roleCodes())
             .contains(requiredAccess.get().permission());
+
+    // Secure self-access boundary for PATIENT role
+    if (!allowed && context.get().roleCodes().contains("PATIENT")) {
+      String uri = request.getRequestURI();
+      if (uri.startsWith("/api/people/patients/")) {
+        String sub = uri.substring("/api/people/patients/".length());
+        int slashIdx = sub.indexOf('/');
+        String pathPatientId = slashIdx == -1 ? sub : sub.substring(0, slashIdx);
+        if (pathPatientId.equals(context.get().userId())) {
+          allowed = authorizationService
+              .permissionsForRoles(context.get().roleCodes())
+              .contains(com.nexora.hop.platformfoundation.identityaccess.domain.PermissionCode.PORTAL_PATIENT_PROFILE_VIEW);
+        }
+      } else if (uri.startsWith("/api/clinical-operations/laboratory-results/") && uri.endsWith("/notifications")) {
+        allowed = authorizationService
+            .permissionsForRoles(context.get().roleCodes())
+            .contains(com.nexora.hop.platformfoundation.identityaccess.domain.PermissionCode.PORTAL_PATIENT_NOTIFICATIONS_VIEW);
+      }
+    }
+
+    // Additional cross-patient data access prevention for results history
+    if (allowed && context.get().roleCodes().contains("PATIENT")) {
+      String uri = request.getRequestURI();
+      if (uri.startsWith("/api/results/history/patient/")) {
+        String pathPatientId = uri.substring("/api/results/history/patient/".length());
+        if (!pathPatientId.equals(context.get().userId())) {
+          allowed = false;
+        }
+      }
+    }
+
     if (!allowed) {
       writeError(response, HttpServletResponse.SC_FORBIDDEN, "PERMISSION_DENIED");
       return false;
