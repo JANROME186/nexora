@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 0.93.0
-current_phase: HOP COM-MOD-009 Patient and Doctor Portals definition closed; compiling backend portal access structures at COM-MOD-009-BE-001
+current_phase: HOP COM-MOD-009 Patient and Doctor Portals backend structures compiled; preparing patient portal commercial workflow at COM-MOD-009-PORTAL-001
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company

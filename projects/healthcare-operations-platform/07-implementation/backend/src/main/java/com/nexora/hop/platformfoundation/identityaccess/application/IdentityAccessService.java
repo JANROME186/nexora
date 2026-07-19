@@ -33,6 +33,7 @@ public class IdentityAccessService {
     private final TenantDirectory tenantDirectory;
     private final AuditRecorder auditRecorder;
     private final HopMessages messages;
+    private final PasswordHashingService passwordHashingService;
     private final Clock clock;
 
     @Autowired
@@ -40,8 +41,17 @@ public class IdentityAccessService {
             IdentityRepository repository,
             TenantDirectory tenantDirectory,
             AuditRecorder auditRecorder,
+            HopMessages messages,
+            PasswordHashingService passwordHashingService) {
+        this(repository, tenantDirectory, auditRecorder, messages, passwordHashingService, Clock.systemUTC());
+    }
+
+    public IdentityAccessService(
+            IdentityRepository repository,
+            TenantDirectory tenantDirectory,
+            AuditRecorder auditRecorder,
             HopMessages messages) {
-        this(repository, tenantDirectory, auditRecorder, messages, Clock.systemUTC());
+        this(repository, tenantDirectory, auditRecorder, messages, new PasswordHashingService(), Clock.systemUTC());
     }
 
     private IdentityAccessService(
@@ -49,15 +59,21 @@ public class IdentityAccessService {
             TenantDirectory tenantDirectory,
             AuditRecorder auditRecorder,
             HopMessages messages,
+            PasswordHashingService passwordHashingService,
             Clock clock) {
         this.repository = repository;
         this.tenantDirectory = tenantDirectory;
         this.auditRecorder = auditRecorder;
         this.messages = messages;
+        this.passwordHashingService = passwordHashingService;
         this.clock = clock;
     }
 
     public UserAccount createUser(CreateUserCommand command) {
+        return createUser(command, command.email(), "");
+    }
+
+    public UserAccount createUser(CreateUserCommand command, String username, String password) {
         String tenantId = requiredText(command.tenantId(), "identityaccess.field.tenantId.required");
         String displayName = requiredText(command.displayName(), "identityaccess.field.displayName.required");
         String email = requiredText(command.email(), "identityaccess.field.email.required");
@@ -67,7 +83,12 @@ public class IdentityAccessService {
         }
 
         Instant now = Instant.now(clock);
-        UserAccount user = new UserAccount(newId(), tenantId, displayName, email, CREATED_STATUS, now, now);
+        String finalUsername = StringUtils.hasText(username) ? username.trim() : email;
+        String passwordHash = StringUtils.hasText(password) ? passwordHashingService.hash(password) : "";
+
+        UserAccount user = new UserAccount(
+                newId(), tenantId, displayName, email, CREATED_STATUS, now, now,
+                finalUsername, passwordHash, 0, null, null);
         UserAccount saved = repository.saveUser(user);
         recordAudit(saved.tenantId(), "UserCreated", "UserAccount", saved.userId(),
                 "{\"email\":\"%s\"}".formatted(jsonText(saved.email())));
@@ -99,16 +120,80 @@ public class IdentityAccessService {
         return saved;
     }
 
+    public String login(String tenantId, String username, String password, Locale locale) {
+        Locale activeLocale = locale != null ? locale : DEFAULT_MESSAGE_LOCALE;
+
+        String cleanTenantId = requiredText(tenantId, "identityaccess.field.tenantId.required");
+        String cleanUsername = requiredText(username, "identityaccess.field.username.required");
+        String cleanPassword = requiredText(password, "identityaccess.field.password.required");
+
+        if (!tenantDirectory.tenantExists(cleanTenantId)) {
+            throw new AuthenticationFailedException(messages.get("identityaccess.tenant.notfound", activeLocale));
+        }
+
+        UserAccount user = repository.findByTenantIdAndUsername(cleanTenantId, cleanUsername)
+                .orElseThrow(() -> new AuthenticationFailedException(messages.get("identityaccess.login.invalid", activeLocale)));
+
+        Instant now = Instant.now(clock);
+
+        if ("suspended".equalsIgnoreCase(user.status())) {
+            throw new AccountSuspendedException(messages.get("identityaccess.login.suspended", activeLocale));
+        }
+
+        if ("locked".equalsIgnoreCase(user.status())) {
+            if (user.lockedUntil() != null && user.lockedUntil().isAfter(now)) {
+                throw new AccountLockedException(messages.get("identityaccess.login.locked", activeLocale));
+            } else {
+                user = user.withStatus("active").withFailedLoginAttempts(0).withLockedUntil(null);
+            }
+        }
+
+        if (passwordHashingService.matches(cleanPassword, user.passwordHash())) {
+            user = user.withFailedLoginAttempts(0).withLockedUntil(null).withLastLoginAt(now);
+            repository.updateUser(user);
+            recordAudit(user.tenantId(), "UserLoggedIn", "UserAccount", user.userId(), "{}");
+            return "local-session:" + user.tenantId() + ":" + user.userId();
+        } else {
+            int attempts = user.failedLoginAttempts() + 1;
+            if (attempts >= 5) {
+                user = user.withStatus("locked")
+                        .withFailedLoginAttempts(attempts)
+                        .withLockedUntil(now.plus(java.time.Duration.ofMinutes(15)));
+            } else {
+                user = user.withFailedLoginAttempts(attempts);
+            }
+            repository.updateUser(user);
+            recordAudit(user.tenantId(), "UserAuthenticationFailed", "UserAccount", user.userId(), "{}");
+            throw new AuthenticationFailedException(messages.get("identityaccess.login.invalid", activeLocale));
+        }
+    }
+
+    public void logout(String userId, String tenantId) {
+        recordAudit(tenantId, "UserLoggedOut", "UserAccount", userId, "{}");
+    }
+
+    public String initiateAssistance(String assistedUserId, String ticketReference, String actorUserId) {
+        String cleanAssistedUserId = requiredText(assistedUserId, "identityaccess.field.userId.required");
+        String cleanTicketReference = requiredText(ticketReference, "identityaccess.field.ticketReference.required");
+        String cleanActorUserId = requiredText(actorUserId, "identityaccess.field.actorUserId.required");
+
+        UserAccount assistedUser = repository.findUserById(cleanAssistedUserId)
+                .orElseThrow(() -> new IdentityEntityNotFoundException(
+                        messages.get("identityaccess.user.notfound", DEFAULT_MESSAGE_LOCALE)));
+
+        recordAudit(assistedUser.tenantId(), "SupportSessionAssisted", "UserAccount", assistedUser.userId(),
+                "{\"actorUserId\":\"%s\",\"ticketReference\":\"%s\"}"
+                        .formatted(jsonText(cleanActorUserId), jsonText(cleanTicketReference)));
+
+        return "assistance-session:" + assistedUser.tenantId() + ":" + assistedUser.userId() + ":" + cleanActorUserId;
+    }
+
     private UserAccount requireUser(String userId) {
         return repository.findUserById(userId)
                 .orElseThrow(() -> new IdentityEntityNotFoundException(
                         messages.get("identityaccess.user.notfound", DEFAULT_MESSAGE_LOCALE)));
     }
 
-    /**
-     * @param messageKey a key in the {@code i18n/messages} catalog (see {@link HopMessages}),
-     *                    resolved for {@link #DEFAULT_MESSAGE_LOCALE}
-     */
     private String requiredText(String value, String messageKey) {
         if (!StringUtils.hasText(value)) {
             throw new InvalidIdentityCommandException(messages.get(messageKey, DEFAULT_MESSAGE_LOCALE));

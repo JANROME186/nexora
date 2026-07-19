@@ -9,4 +9,10 @@ public interface IdentityRepository {
     RoleAssignment saveRoleAssignment(RoleAssignment roleAssignment);
 
     Optional<UserAccount> findUserById(String userId);
+
+    Optional<UserAccount> findByTenantIdAndUsername(String tenantId, String username);
+
+    java.util.List<RoleAssignment> findRoleAssignmentsByUserId(String userId);
+
+    void updateUser(UserAccount user);
 }

@@ -21,6 +21,9 @@ public final class RolePermissionCatalog {
     public static final String LAB_TECHNICIAN = "LAB_TECHNICIAN";
     public static final String MEDICAL_REVIEWER = "MEDICAL_REVIEWER";
     public static final String RESULTS_COORDINATOR = "RESULTS_COORDINATOR";
+    public static final String PATIENT = "PATIENT";
+    public static final String REFERRING_DOCTOR = "REFERRING_DOCTOR";
+    public static final String SUPPORT = "SUPPORT";
 
     private static final Map<String, Set<PermissionCode>> ROLE_PERMISSIONS = Map.of(
             ADMIN, EnumSet.allOf(PermissionCode.class),
@@ -50,7 +53,18 @@ public final class RolePermissionCatalog {
                     PermissionCode.SCREEN_RESULT_SEARCH,
                     PermissionCode.SCREEN_RESULT_REPORTS,
                     PermissionCode.SCREEN_CRITICAL_ESCALATIONS,
-                    PermissionCode.SCREEN_RESULT_NOTIFICATIONS));
+                    PermissionCode.SCREEN_RESULT_NOTIFICATIONS),
+            PATIENT, EnumSet.of(
+                    PermissionCode.PORTAL_PATIENT_PROFILE_VIEW,
+                    PermissionCode.PORTAL_PATIENT_APPOINTMENTS_VIEW,
+                    PermissionCode.PORTAL_PATIENT_ORDERS_VIEW,
+                    PermissionCode.PORTAL_PATIENT_RESULTS_VIEW,
+                    PermissionCode.PORTAL_PATIENT_NOTIFICATIONS_VIEW),
+            REFERRING_DOCTOR, EnumSet.of(
+                    PermissionCode.PORTAL_DOCTOR_PATIENTS_VIEW,
+                    PermissionCode.PORTAL_DOCTOR_RESULTS_VIEW),
+            SUPPORT, EnumSet.of(
+                    PermissionCode.PORTAL_SUPPORT_IMPERSONATE));
 
     private RolePermissionCatalog() {
     }

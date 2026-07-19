@@ -34,4 +34,23 @@ class InMemoryIdentityRepository implements IdentityRepository {
     public Optional<UserAccount> findUserById(String userId) {
         return Optional.ofNullable(users.get(userId));
     }
+
+    @Override
+    public Optional<UserAccount> findByTenantIdAndUsername(String tenantId, String username) {
+        return users.values().stream()
+                .filter(u -> tenantId.equals(u.tenantId()) && username.equals(u.username()))
+                .findFirst();
+    }
+
+    @Override
+    public java.util.List<RoleAssignment> findRoleAssignmentsByUserId(String userId) {
+        return roleAssignments.values().stream()
+                .filter(ra -> userId.equals(ra.userId()))
+                .toList();
+    }
+
+    @Override
+    public void updateUser(UserAccount user) {
+        users.put(user.userId(), user);
+    }
 }

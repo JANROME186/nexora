@@ -90,7 +90,11 @@ public class EndpointPermissionRegistry {
               readWrite(
                   "/api/platform/migration",
                   PermissionCode.SCREEN_MIGRATION_JOBS,
-                  "BCM-PLT-010"))
+                  "BCM-PLT-010"),
+              readWrite(
+                  "/api/auth/assistance",
+                  PermissionCode.PORTAL_SUPPORT_IMPERSONATE,
+                  "BCM-PLT-001"))
           .stream()
           .sorted(Comparator.comparingInt((PathRule rule) -> rule.pathPrefix().length()).reversed())
           .toList();

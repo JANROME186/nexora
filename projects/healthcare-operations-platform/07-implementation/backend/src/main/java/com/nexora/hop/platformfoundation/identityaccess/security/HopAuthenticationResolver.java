@@ -1,9 +1,12 @@
 package com.nexora.hop.platformfoundation.identityaccess.security;
 
+import com.nexora.hop.platformfoundation.identityaccess.domain.IdentityRepository;
+import com.nexora.hop.platformfoundation.identityaccess.domain.RoleAssignment;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,9 +20,16 @@ public class HopAuthenticationResolver {
   static final String ROLES = "X-HOP-ROLES";
 
   private final HopSecurityProperties properties;
+  private final IdentityRepository identityRepository;
 
   public HopAuthenticationResolver(HopSecurityProperties properties) {
+    this(properties, null);
+  }
+
+  @Autowired
+  public HopAuthenticationResolver(HopSecurityProperties properties, IdentityRepository identityRepository) {
     this.properties = properties;
+    this.identityRepository = identityRepository;
   }
 
   public Optional<AuthenticatedUserContext> resolve(HttpServletRequest request) {
@@ -34,7 +44,25 @@ public class HopAuthenticationResolver {
     if (token.startsWith("local-session:")) {
       return localSessionContext(token, request);
     }
+    if (token.startsWith("assistance-session:")) {
+      return assistanceSessionContext(token, request);
+    }
     return Optional.empty();
+  }
+
+  private Optional<AuthenticatedUserContext> assistanceSessionContext(
+      String token, HttpServletRequest request) {
+    String[] parts = token.split(":", 4);
+    if (parts.length != 4 || parts[1].isBlank() || parts[2].isBlank() || parts[3].isBlank()) {
+      return Optional.empty();
+    }
+    return Optional.of(
+        new AuthenticatedUserContext(
+            parts[2],
+            parts[1],
+            headerOrDefault(request, BRANCH_ID, properties.localFixtureBranchId()),
+            List.of("SUPPORT"),
+            true));
   }
 
   private Optional<AuthenticatedUserContext> localSessionContext(
@@ -43,12 +71,21 @@ public class HopAuthenticationResolver {
     if (parts.length != 3 || parts[1].isBlank() || parts[2].isBlank()) {
       return Optional.empty();
     }
+    List<String> roles = List.of();
+    if (identityRepository != null) {
+      roles = identityRepository.findRoleAssignmentsByUserId(parts[2]).stream()
+          .map(RoleAssignment::roleCode)
+          .toList();
+    }
+    if (roles.isEmpty()) {
+      roles = roleCodes(request);
+    }
     return Optional.of(
         new AuthenticatedUserContext(
             headerOrDefault(request, USER_ID, parts[2]),
             headerOrDefault(request, TENANT_ID, parts[1]),
             headerOrDefault(request, BRANCH_ID, properties.localFixtureBranchId()),
-            roleCodes(request),
+            roles,
             true));
   }
 

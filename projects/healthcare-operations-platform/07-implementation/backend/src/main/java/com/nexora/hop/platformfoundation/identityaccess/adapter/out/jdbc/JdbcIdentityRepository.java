@@ -27,14 +27,23 @@ class JdbcIdentityRepository implements IdentityRepository {
     @Override
     public UserAccount saveUser(UserAccount user) {
         jdbcTemplate.update("""
-                insert into identity.user_accounts (user_id, tenant_id, display_name, email, status, created_at, updated_at)
-                values (?, ?, ?, ?, ?, ?, ?)
+                insert into identity.user_accounts (
+                    user_id, tenant_id, display_name, email, status,
+                    username, password_hash, failed_login_attempts, locked_until, last_login_at,
+                    created_at, updated_at
+                )
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 user.userId(),
                 user.tenantId(),
                 user.displayName(),
                 user.email(),
                 user.status(),
+                user.username(),
+                user.passwordHash(),
+                user.failedLoginAttempts(),
+                user.lockedUntil() != null ? Timestamp.from(user.lockedUntil()) : null,
+                user.lastLoginAt() != null ? Timestamp.from(user.lastLoginAt()) : null,
                 Timestamp.from(user.createdAt()),
                 Timestamp.from(user.updatedAt()));
         return user;
@@ -60,13 +69,58 @@ class JdbcIdentityRepository implements IdentityRepository {
     @Override
     public Optional<UserAccount> findUserById(String userId) {
         return jdbcTemplate.query("""
-                select user_id, tenant_id, display_name, email, status, created_at, updated_at
+                select user_id, tenant_id, display_name, email, status,
+                       username, password_hash, failed_login_attempts, locked_until, last_login_at,
+                       created_at, updated_at
                 from identity.user_accounts
                 where user_id = ?
                 """, JdbcIdentityRepository::mapUser, userId).stream().findFirst();
     }
 
+    @Override
+    public Optional<UserAccount> findByTenantIdAndUsername(String tenantId, String username) {
+        return jdbcTemplate.query("""
+                select user_id, tenant_id, display_name, email, status,
+                       username, password_hash, failed_login_attempts, locked_until, last_login_at,
+                       created_at, updated_at
+                from identity.user_accounts
+                where tenant_id = ? and username = ?
+                """, JdbcIdentityRepository::mapUser, tenantId, username).stream().findFirst();
+    }
+
+    @Override
+    public java.util.List<RoleAssignment> findRoleAssignmentsByUserId(String userId) {
+        return jdbcTemplate.query("""
+                select role_assignment_id, user_id, role_code, scope_type, scope_id, created_at, created_by
+                from identity.role_assignments
+                where user_id = ?
+                """, JdbcIdentityRepository::mapRoleAssignment, userId);
+    }
+
+    @Override
+    public void updateUser(UserAccount user) {
+        jdbcTemplate.update("""
+                update identity.user_accounts
+                set display_name = ?, email = ?, status = ?,
+                    username = ?, password_hash = ?, failed_login_attempts = ?,
+                    locked_until = ?, last_login_at = ?, updated_at = ?
+                where user_id = ?
+                """,
+                user.displayName(),
+                user.email(),
+                user.status(),
+                user.username(),
+                user.passwordHash(),
+                user.failedLoginAttempts(),
+                user.lockedUntil() != null ? Timestamp.from(user.lockedUntil()) : null,
+                user.lastLoginAt() != null ? Timestamp.from(user.lastLoginAt()) : null,
+                Timestamp.from(user.updatedAt()),
+                user.userId());
+    }
+
     private static UserAccount mapUser(ResultSet resultSet, int rowNumber) throws SQLException {
+        Timestamp lockedUntilTs = resultSet.getTimestamp("locked_until");
+        Timestamp lastLoginAtTs = resultSet.getTimestamp("last_login_at");
         return new UserAccount(
                 resultSet.getString("user_id"),
                 resultSet.getString("tenant_id"),
@@ -74,7 +128,23 @@ class JdbcIdentityRepository implements IdentityRepository {
                 resultSet.getString("email"),
                 resultSet.getString("status"),
                 instant(resultSet, "created_at"),
-                instant(resultSet, "updated_at"));
+                instant(resultSet, "updated_at"),
+                resultSet.getString("username"),
+                resultSet.getString("password_hash"),
+                resultSet.getInt("failed_login_attempts"),
+                lockedUntilTs != null ? lockedUntilTs.toInstant() : null,
+                lastLoginAtTs != null ? lastLoginAtTs.toInstant() : null);
+    }
+
+    private static RoleAssignment mapRoleAssignment(ResultSet resultSet, int rowNumber) throws SQLException {
+        return new RoleAssignment(
+                resultSet.getString("role_assignment_id"),
+                resultSet.getString("user_id"),
+                resultSet.getString("role_code"),
+                resultSet.getString("scope_type"),
+                resultSet.getString("scope_id"),
+                instant(resultSet, "created_at"),
+                resultSet.getString("created_by"));
     }
 
     private static Instant instant(ResultSet resultSet, String columnName) throws SQLException {

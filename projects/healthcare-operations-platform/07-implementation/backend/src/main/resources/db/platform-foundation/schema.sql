@@ -36,9 +36,20 @@ CREATE TABLE IF NOT EXISTS identity.user_accounts (
     display_name varchar(180) NOT NULL,
     email varchar(254) NOT NULL,
     status varchar(40) NOT NULL,
+    username varchar(180) NOT NULL DEFAULT '',
+    password_hash varchar(255) NOT NULL DEFAULT '',
+    failed_login_attempts integer NOT NULL DEFAULT 0,
+    locked_until timestamp with time zone,
+    last_login_at timestamp with time zone,
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone NOT NULL
 );
+
+ALTER TABLE identity.user_accounts ADD COLUMN IF NOT EXISTS username varchar(180) NOT NULL DEFAULT '';
+ALTER TABLE identity.user_accounts ADD COLUMN IF NOT EXISTS password_hash varchar(255) NOT NULL DEFAULT '';
+ALTER TABLE identity.user_accounts ADD COLUMN IF NOT EXISTS failed_login_attempts integer NOT NULL DEFAULT 0;
+ALTER TABLE identity.user_accounts ADD COLUMN IF NOT EXISTS locked_until timestamp with time zone;
+ALTER TABLE identity.user_accounts ADD COLUMN IF NOT EXISTS last_login_at timestamp with time zone;
 
 CREATE TABLE IF NOT EXISTS identity.role_assignments (
     role_assignment_id varchar(36) PRIMARY KEY,

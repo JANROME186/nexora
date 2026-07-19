@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 0.99.0
-current_phase: COM-MOD-009 Patient and Doctor Portals definition closed; compiling backend portal access structures at COM-MOD-009-BE-001
+current_phase: COM-MOD-009 Patient and Doctor Portals backend structures compiled; preparing patient portal commercial workflow at COM-MOD-009-PORTAL-001
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -922,9 +922,9 @@ commercial_product_progress:
     COM-MOD-009:
       name: Patient and Doctor Portals
       package_status: in_progress
-      backlog_item: COM-MOD-009-DEF
+      backlog_item: COM-MOD-009-BE-001
       backlog_item_status: closed
-      execution_flow_stage: model
+      execution_flow_stage: compile
       packages_modeled:
         - BCM-PLT-001
       artifacts_per_package: 14
@@ -934,7 +934,13 @@ commercial_product_progress:
       qa_evidence_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-DEF-validation.md
       security_quality_evidence: 08-qa/security-quality/COM-MOD-009-DEF/security-quality-evidence.yaml
       security_quality_evidence_md: 08-qa/security-quality/COM-MOD-009-DEF/security-quality-evidence.md
+      qa_evidence_be_001: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-BE-001-validation.yaml
+      qa_evidence_be_001_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-BE-001-validation.md
+      security_quality_evidence_be_001: 08-qa/security-quality/COM-MOD-009-BE-001/security-quality-evidence.yaml
+      security_quality_evidence_be_001_md: 08-qa/security-quality/COM-MOD-009-BE-001/security-quality-evidence.md
       ready_for_compilation: true
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
     MVP-MOD-008:
       name: Integration and Migration Readiness
       package_status: module_closed

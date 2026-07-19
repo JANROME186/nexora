@@ -206,8 +206,8 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-`COM-MOD-009-DEF` is closed. Continue with `COM-MOD-009-BE-001` from:
+`COM-MOD-009-BE-001` is closed. Continue with `COM-MOD-009-PORTAL-001` from:
 
 `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
 
-See `08-qa/qa/patient-and-doctor-portals/COM-MOD-009-DEF-validation.yaml` for the definition validation evidence and `08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-CLOSEOUT-validation.yaml` for the preceding module closeout evidence.
+See `08-qa/qa/patient-and-doctor-portals/COM-MOD-009-BE-001-validation.yaml` for the compilation validation evidence and `08-qa/qa/patient-and-doctor-portals/COM-MOD-009-DEF-validation.yaml` for the preceding definition validation evidence.
