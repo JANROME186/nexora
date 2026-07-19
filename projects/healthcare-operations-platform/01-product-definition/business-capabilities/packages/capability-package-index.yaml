@@ -6,7 +6,7 @@ artifact:
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.yaml
-  qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
+  qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-CLOSEOUT-validation.yaml
 
 policy:
   primary_development_unit: business_capability_package
@@ -35,27 +35,30 @@ do_not_write_manually:
 completed_capability_package_groups:
   - roadmap_group: MVP-MOD-008
     name: Integration and Migration Readiness
-    package_status: custom_rules_implemented
-    backlog_item: MVP-MOD-008-BE-002
-    qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
+    package_status: module_closed
+    backlog_item: MVP-MOD-008-CLOSEOUT
+    qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-CLOSEOUT-validation.yaml
     be_001_qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-001-validation.yaml
     be_002_qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.yaml
+    fe_001_qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-FE-001-validation.yaml
+    qa_001_qa_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.yaml
+    closeout_evidence: ../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-CLOSEOUT-validation.yaml
     capabilities:
       - capability_id: BCM-PLT-004
         package_folder: bcm-plt-004-integration-management/
-        package_status: compiled
+        package_status: validated
         bounded_context: integration-interoperability
         primary_aggregate: IntegrationEndpoint (new platform aggregate owned by this capability)
         mobile_scope: not_required
       - capability_id: BCM-PLT-005
         package_folder: bcm-plt-005-api-management/
-        package_status: compiled
+        package_status: validated
         bounded_context: integration-interoperability
         primary_aggregate: ApiSurfaceRegistration (new platform aggregate owned by this capability)
         mobile_scope: not_required
       - capability_id: BCM-PLT-010
         package_folder: bcm-plt-010-open-data-ingestion-and-migration/
-        package_status: compiled
+        package_status: validated
         bounded_context: data-migration-portability
         primary_aggregate: AGG-016 MigrationJob (owner)
         mobile_scope: not_required

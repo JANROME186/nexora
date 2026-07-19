@@ -59,8 +59,8 @@ scope:
 roadmap:
   module: MVP-MOD-008
   release: REL-001
-  package_status: module_validated
-  next_backlog_item: MVP-MOD-008-CLOSEOUT
+  package_status: module_closed
+  next_backlog_item: COM-MOD-009-DEF
   paused_functional_backlog_item: null
 
 dependencies:

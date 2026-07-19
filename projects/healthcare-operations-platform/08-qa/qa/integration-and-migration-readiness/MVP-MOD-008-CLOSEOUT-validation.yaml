@@ -1,0 +1,160 @@
+artifact:
+  id: HOP-QA-MVP-MOD-008-CLOSEOUT-001
+  type: module-closeout-evidence
+  name: MVP-MOD-008 Integration and Migration Readiness Closeout
+  version: 1.0.0
+  status: passed
+  human_readable: MVP-MOD-008-CLOSEOUT-validation.md
+  machine_readable: MVP-MOD-008-CLOSEOUT-validation.yaml
+  created_date: 2026-07-19
+  owner: Nexora Product Architecture Team
+
+scope:
+  module: MVP-MOD-008 Integration and Migration Readiness
+  backlog_item: MVP-MOD-008-CLOSEOUT
+  release: REL-001
+  capabilities:
+    - BCM-PLT-004 Integration Management
+    - BCM-PLT-005 API Management
+    - BCM-PLT-010 Open Data Ingestion and Migration
+  objective: >-
+    Close the Integration and Migration Readiness module after capability package modeling,
+    backend adapter/API-governance/migration compilation, custom retry/dead-letter/rate-limit/
+    checkpoint rules, employee-portal administration UI, and integrated QA/security evidence.
+
+module_evidence:
+  definition:
+    - 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
+  backend:
+    - 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-001-validation.yaml
+    - 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.yaml
+  frontend:
+    - 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-FE-001-validation.yaml
+  qa:
+    - 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.yaml
+  security_quality:
+    - 08-qa/security-quality/MVP-MOD-008-DEF/security-quality-evidence.yaml
+    - 08-qa/security-quality/MVP-MOD-008-BE-001/security-quality-evidence.yaml
+    - 08-qa/security-quality/MVP-MOD-008-BE-002/security-quality-evidence.yaml
+    - 08-qa/security-quality/MVP-MOD-008-FE-001/security-quality-evidence.yaml
+    - 08-qa/security-quality/MVP-MOD-008-QA-001/security-quality-evidence.yaml
+    - 08-qa/security-quality/MVP-MOD-008-CLOSEOUT/security-quality-evidence.yaml
+
+backlog_items_closed:
+  - id: MVP-MOD-008-DEF
+    name: Capability package models
+    status: closed
+  - id: MVP-MOD-008-BE-001
+    name: Compile integration adapter contracts and API governance outputs
+    status: closed
+  - id: MVP-MOD-008-BE-002
+    name: Implement integration retry/dead-letter, API deprecation/rate-limit and migration checkpoint custom rules
+    status: closed
+  - id: MVP-MOD-008-FE-001
+    name: Compile integration and migration administration UI outputs
+    status: closed
+  - id: MVP-MOD-008-QA-001
+    name: Adapter, import and observability evidence
+    status: closed
+  - id: MVP-MOD-008-CLOSEOUT
+    name: Operational Core closeout
+    status: closed
+
+acceptance_summary_validation:
+  - requirement: External messages are normalized before reaching domain modules.
+    status: passed
+    evidence: MVP-MOD-008-BE-001 and MVP-MOD-008-QA-001 backend adapter evidence
+  - requirement: Imports use simple provider-deliverable formats such as CSV, XLSX, JSON, NDJSON and ZIP bundles.
+    status: passed
+    evidence: BCM-PLT-010 capability package plus backend migration import evidence
+  - requirement: Imports validate data before mutation and produce actionable reconciliation reports.
+    status: passed
+    evidence: migration dry-run, approval, commit and reconciliation validation evidence
+  - requirement: Migration jobs are auditable, retryable and never bypass domain commands.
+    status: passed_with_tracked_debt
+    evidence: retry/dead-letter/checkpoint QA evidence
+    tracked_debt: TD-BE-014
+  - requirement: Public, internal and partner APIs are classified and governed.
+    status: passed_with_tracked_debt
+    evidence: API governance and rate-limit evidence
+    tracked_debt: TD-BE-015
+
+quality_summary:
+  backend_java_maven:
+    source_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.yaml
+    command: mvn -Pquality "-Dhop.local-db-tests=true" clean verify
+    status: passed
+    tests_run: 265
+    failures: 0
+    errors: 0
+    skipped: 0
+    line_coverage_percent: 80.49
+    next_iteration_minimum_line_coverage_percent: 80.49
+  employee_portal_typescript_web:
+    source_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.yaml
+    command: npm run quality
+    status: passed
+    tests_run: 101
+    failures: 0
+    line_coverage_percent: 86.47
+    next_iteration_minimum_line_coverage_percent: 86.47
+  mobile_typescript_foundation:
+    source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+    status: unchanged_not_touched
+    line_coverage_percent: 98.87
+    next_iteration_minimum_line_coverage_percent: 98.87
+  patient_portal_typescript_web:
+    source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+    status: unchanged_not_touched
+    line_coverage_percent: 41.93
+    next_iteration_minimum_line_coverage_percent: 41.93
+    tracked_by: TD-FE-008
+  doctor_portal_typescript_web:
+    source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+    status: unchanged_not_touched
+    line_coverage_percent: 40.62
+    next_iteration_minimum_line_coverage_percent: 40.62
+    tracked_by: TD-FE-009
+
+debt_first_review:
+  code_change_required_for_this_backlog_item: false
+  technical_debt_index_reviewed: true
+  debt_closed_by_this_backlog_item: []
+  debt_materially_reduced_by_this_backlog_item: []
+  debt_registry_correction:
+    - id: TD-FE-003
+      correction: >-
+        Employee-portal coverage floor in technical-debt-index.yaml was corrected from the stale
+        85.50% value to 86.47%, matching MVP-MOD-008-QA-001 evidence. This is a registry
+        correction, not a code remediation.
+  open_debt_that_blocks_final_product_closure:
+    - TD-BE-014
+    - TD-BE-015
+    - TD-FE-008
+    - TD-FE-009
+    - TD-FE-010
+  note: >-
+    This closeout did not touch production code. Open debt remains tracked and must be burned down
+    in future code-changing iterations according to the Nexora technical-debt policy. HOP is not
+    commercially complete or GA-ready while open debt remains.
+
+registry_consistency_sweep:
+  source_of_truth_pointer_corrected: true
+  root_project_state_corrected: true
+  project_state_updated: true
+  commercial_backlog_updated: true
+  execution_prompts_updated: true
+  capability_package_index_updated: true
+  local_runbook_updated: true
+  security_quality_index_updated: true
+  next_backlog_item: COM-MOD-009-DEF
+
+decision:
+  backlog_item_status: closed
+  module_status: closed
+  ready_for_next_backlog_item: COM-MOD-009-DEF
+  next_backlog_item_name: Patient and Doctor Portals capability package models
+  boundaries:
+    - HOP remains in commercial product development, not final commercial completion.
+    - Final project closure still requires no open technical debt.
+    - Patient portal and doctor portal coverage remain below 80% and must improve during COM-MOD-009.

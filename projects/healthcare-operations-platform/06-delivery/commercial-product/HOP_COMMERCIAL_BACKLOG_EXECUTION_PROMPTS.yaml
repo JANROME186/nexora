@@ -241,10 +241,10 @@ validation_commands:
     command_template: "Run repository whitespace validation before closing the item."
 
 next_backlog_item:
-  module_id: MVP-MOD-008
-  backlog_item_id: MVP-MOD-008-CLOSEOUT
-  name: Operational Core closeout
-  expected_folder: ../../08-qa/qa/integration-and-migration-readiness/
+  module_id: COM-MOD-009
+  backlog_item_id: COM-MOD-009-DEF
+  name: Patient and Doctor Portals capability package models
+  expected_folder: ../../01-product-definition/business-capabilities/packages/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
@@ -256,28 +256,31 @@ next_backlog_item:
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - MVP-MOD-008-FE-001 is closed; load BE-002 and FE-001 QA/security evidence before validating
-      adapter, import and observability evidence.
-    - Validate backend integration adapters, API governance, migration import/reconciliation and
-      employee-portal administration workflows together; do not silently skip runnable gates.
-    - TD-FE-010 is open and should be considered as the debt-first candidate if QA-001 touches the
-      employee portal. TD-BE-014 and TD-BE-015 remain open backend capability gaps.
-    - TD-BE-014 (migration domain-command port has no real cross-module wiring) and TD-BE-015
-      (rate-limit enforcement scoped to partner-API-key-bearing requests only) are open; they do not
-      block frontend work but should not be silently worked around in the UI.
-    - TD-FE-008 and TD-FE-009 are open (patient-portal/doctor-portal coverage baselines); do not
-      regress below 41.93%/40.62% if this item touches those stacks.
+    - MVP-MOD-008-CLOSEOUT is closed; load its closeout evidence before starting COM-MOD-009.
+    - Model COM-MOD-009 capability packages for patient portal, doctor portal, portal access,
+      authorization, support assistance, appointments/orders/results access and privacy evidence.
+    - Preserve the framework rule that BUSINESS_REQUIREMENT.md is requester-provided source input;
+      do not regenerate or replace it.
+    - Patient-facing and doctor-facing functionality must be modeled with es-MX/en-US localization,
+      dynamic IAM permissions, role/permission-based menus and auditable session/context controls.
+    - TD-FE-008 and TD-FE-009 are open and become highly relevant for COM-MOD-009; definition work
+      must plan measurable portal coverage improvements toward 80% and prevent regression below
+      41.93%/40.62%.
+    - TD-IAM-002 and TD-I18N-002 remain materially reduced, not fully closed; ensure the capability
+      package definitions include explicit permission, menu/action, message catalog and language
+      switching requirements for patient and doctor channels.
+    - TD-BE-014 and TD-BE-015 remain open backend capability gaps from MVP-MOD-008; do not remove or
+      hide them, and only change their status if the backlog actually remediates them with evidence.
     - Backend coverage floor is now 80.49%; do not regress below it if backend code is touched.
     - Employee portal coverage floor is 86.47%; do not regress below it.
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
-    backlog_item_id: MVP-MOD-008-FE-001
+    backlog_item_id: MVP-MOD-008-CLOSEOUT
     status: closed
     summary: >-
-      MVP-MOD-008-FE-001 added typed employee-portal API/UI outputs for BCM-PLT-004/005/010:
-      integration endpoints/messages, API governance/partner keys/rate limits and migration
-      jobs/import package/dry-run/approval/commit/reconciliation. npm run quality passed with 101
-      tests and employee-portal coverage improved from 85.50% to 86.47%; npm audit and Trivy found
-      0 vulnerabilities. TD-STACK-003 and TD-I18N-002 were further reduced; TD-FE-010 was registered
-      for non-blocking generated admin-screen size/complexity warnings.
+      MVP-MOD-008-CLOSEOUT closed Integration and Migration Readiness after DEF, BE-001, BE-002,
+      FE-001 and QA-001 all passed. Backend quality remains at 265 tests and 80.49% coverage;
+      employee-portal quality remains at 101 tests and 86.47% coverage; vulnerability scans remain
+      at 0 findings. The closeout corrected a stale employee-portal coverage floor in the technical
+      debt index and advanced the active backlog to COM-MOD-009-DEF.

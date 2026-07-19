@@ -4,7 +4,12 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `MVP-MOD-008-CLOSEOUT`.
+Current active backlog item: `COM-MOD-009-DEF`.
+
+`MVP-MOD-008 Integration and Migration Readiness` is closed through `MVP-MOD-008-CLOSEOUT`.
+Closeout evidence confirms backend quality at 265 tests and 80.49% coverage, employee-portal
+quality at 101 tests and 86.47% coverage, and 0 reported vulnerabilities in the recorded
+Dependency-Check, npm audit and Trivy evidence.
 
 HOP Enterprise Quality Alignment (`HOP-QA-ALIGN-001` through `HOP-QA-ALIGN-CLOSEOUT`) is closed.
 HOP Enterprise Product Foundation Alignment (`HOP-ENT-FOUND-001`) is closed — see

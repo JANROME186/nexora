@@ -16,11 +16,11 @@ product:
   commercial_name: Nexora Healthcare Operations Platform
   company: Nexora
   current_baseline:
-    completed_module: MVP-MOD-007 (MVP-MOD-007-CLOSEOUT closed)
+    completed_module: MVP-MOD-008 (MVP-MOD-008-CLOSEOUT closed)
     completed_status: closed
-    active_module: MVP-MOD-008
-    active_backlog_item: MVP-MOD-008-CLOSEOUT
-    active_module_progress: MVP-MOD-008-QA-001 closed; ready for MVP-MOD-008-CLOSEOUT
+    active_module: COM-MOD-009
+    active_backlog_item: COM-MOD-009-DEF
+    active_module_progress: MVP-MOD-008-CLOSEOUT closed; ready for COM-MOD-009-DEF
     paused_backlog_item: null
 
 source_inputs:
@@ -652,6 +652,7 @@ modules:
         status: closed
       - id: MVP-MOD-008-CLOSEOUT
         name: Operational Core closeout
+        status: closed
     acceptance_summary:
       - External messages are normalized before reaching domain modules.
       - Imports use simple provider-deliverable formats such as CSV, XLSX, JSON, NDJSON and ZIP bundles.
@@ -663,7 +664,7 @@ modules:
     name: Patient and Doctor Portals
     release: REL-002
     priority: 80
-    status: planned
+    status: active
     source: derived_from_capability_dependency_map
     objective: Turn patient and doctor digital channels into coherent commercial-facing experiences.
     depends_on:
@@ -690,6 +691,7 @@ modules:
     backlog_items:
       - id: COM-MOD-009-DEF
         name: Capability package models
+        status: active
       - id: COM-MOD-009-BE-001
         name: Compile portal access and authorization outputs
       - id: COM-MOD-009-PORTAL-001

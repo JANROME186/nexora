@@ -47,9 +47,9 @@ policy:
           the final 80% target for this stack. MVP-MOD-008-BE-002 raised it further to 80.49%
           (265 tests, 0 failures/errors); future backend iterations must not regress below 80.49%.
       frontend_typescript_web:
-        current_line_coverage_percent: 85.50
-        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 85.50
+        current_line_coverage_percent: 86.47
+        source_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 86.47
         final_closure_target_percent: 80
         correction_note: >-
           MVP-MOD-007-CLOSEOUT found employee-portal coverage had regressed from the 84.44% floor
@@ -57,7 +57,8 @@ policy:
           laboratoryResultMapper.ts (shared with the employee portal) without adding a dedicated
           unit test for the API module. Added src/test/laboratoryOperationsApi.test.ts (mirroring
           the existing cashSalesApi.test.ts/frontDeskApi.test.ts pattern), restoring coverage to
-          85.50%, above the previous 84.44% floor. Must not regress below 85.50%.
+          85.50%, above the previous 84.44% floor. MVP-MOD-008-QA-001 later raised the
+          employee-portal floor to 86.47% (101 tests, 0 failures). Must not regress below 86.47%.
       mobile_typescript_foundation:
         current_line_coverage_percent: 98.87
         source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml

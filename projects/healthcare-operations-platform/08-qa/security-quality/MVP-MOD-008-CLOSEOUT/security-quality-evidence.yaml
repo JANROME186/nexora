@@ -1,0 +1,64 @@
+artifact:
+  id: MVP-MOD-008-CLOSEOUT-SECURITY-QUALITY
+  type: security-quality-evidence
+  backlog_item: MVP-MOD-008-CLOSEOUT
+  status: passed
+  created_date: 2026-07-19
+  standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+
+open_source_first:
+  status: passed
+  proprietary_runtime_dependency_detected: false
+  new_dependencies_introduced: false
+  note: >-
+    This closeout is a documentation and registry synchronization backlog item. It introduces no
+    runtime dependency, proprietary platform dependency or vendor-specific agent/runtime
+    dependency.
+
+checks:
+  tests: passed_via_MVP_MOD_008_QA_001
+  sast_or_static_analysis: passed_via_MVP_MOD_008_QA_001
+  dependency_vulnerability_scan: passed_via_MVP_MOD_008_QA_001
+  secrets_scan: passed_via_MVP_MOD_008_QA_001
+  coverage: passed_no_regression
+  message_externalization_i18n_review: not_applicable_no_runtime_text_changed
+  dast_for_runnable_web_or_api_surfaces: passed_in_prior_zap_scans
+  container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+
+results:
+  backend_quality_profile:
+    source_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.yaml
+    command: mvn -Pquality "-Dhop.local-db-tests=true" clean verify
+    tests_run: 265
+    failures: 0
+    errors: 0
+    skipped: 0
+    line_coverage_percent: 80.49
+  employee_portal_quality_profile:
+    source_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.yaml
+    command: npm run quality
+    tests_run: 101
+    failures: 0
+    line_coverage_percent: 86.47
+  vulnerability_evidence:
+    source_evidence: 08-qa/security-quality/MVP-MOD-008-QA-001/security-quality-evidence.yaml
+    npm_audit_vulnerabilities: 0
+    owasp_dependency_check_vulnerabilities: 0
+    trivy_vulnerabilities: 0
+    trivy_secrets: 0
+
+technical_debt:
+  closed_by_this_backlog_item: []
+  materially_reduced_by_this_backlog_item: []
+  registry_corrections:
+    - TD-FE-003 employee-portal coverage floor corrected to 86.47%
+  open_debt_remaining_for_future_iterations:
+    - TD-BE-014
+    - TD-BE-015
+    - TD-FE-008
+    - TD-FE-009
+    - TD-FE-010
+
+decision:
+  security_quality_status: passed
+  ready_for_next_backlog_item: COM-MOD-009-DEF
