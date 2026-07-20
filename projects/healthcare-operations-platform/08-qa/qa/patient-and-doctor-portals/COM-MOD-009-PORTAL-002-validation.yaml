@@ -122,4 +122,4 @@ results:
 
 readiness:
   status: passed
-  ready_for_next_backlog_item: COM-MOD-010-DEF
+  ready_for_next_backlog_item: COM-MOD-010-BE-001

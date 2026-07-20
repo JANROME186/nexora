@@ -1,0 +1,42 @@
+artifact:
+  id: HOP-UI-BCM-INV-006
+  type: ui-model
+  name: Stock Exits UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-006
+  target_surface: employee_portal
+
+surfaces:
+  employee_portal:
+    status: required
+    generatable: partial
+  patient_portal:
+    status: not_required
+    generatable: not_applicable
+  doctor_portal:
+    status: not_required
+    generatable: not_applicable
+
+screens:
+  - id: SCR-SXT-006-01
+    name: Stock Exits
+    route: /admin/inventory/stock-exits
+    purpose: Record a branch transfer, internal transfer or return-to-supplier exit and review exit history.
+    components: [DataTable, StockExitForm, BranchPicker]
+    generatable: partial
+    custom_reason: Exit confirmation invokes the custom ApplyStockExit command (RN-001, RN-003, RN-004).
+
+states:
+  - recorded
+
+localization:
+  languages: [en, es]
+  default: es
+  message_key_namespace: inventory.exits.*
+  note: New user-facing strings must be registered under the inventory.exits.* message-key namespace, not hardcoded.
+
+rationale: >
+  Stock exit recording is a warehouse task performed from the employee portal, with a mobile
+  capture option deferred per mobile-model.yaml.

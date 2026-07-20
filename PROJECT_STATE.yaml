@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 0.93.0
-current_phase: HOP COM-MOD-009 Patient and Doctor Portals module closed; ready for COM-MOD-010-DEF
+current_phase: HOP COM-MOD-010 Inventory and Internal Quality capability packages modeled; ready for COM-MOD-010-BE-001
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -30,7 +30,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
     active_module: COM-MOD-010
-    active_backlog_item: COM-MOD-010-DEF
+    active_backlog_item: COM-MOD-010-BE-001
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -100,9 +100,10 @@ projects:
       - COM-MOD-009-APP-001
       - COM-MOD-009-QA-001
       - COM-MOD-009-CLOSEOUT
+      - COM-MOD-010-DEF
     structure: ordered_numbered_folders
 next_deliverables:
-  - Model capability packages for Inventory and Internal Quality (COM-MOD-010-DEF)
+  - Compile product, reagent, lot and stock outputs (COM-MOD-010-BE-001)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake

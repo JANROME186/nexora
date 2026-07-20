@@ -1,0 +1,58 @@
+artifact:
+  id: HOP-BR-BCM-QLT-004
+  type: business-rules
+  name: Equipment Management Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-004
+  rule_id_pattern: "RN-###"
+
+rules:
+  - id: RN-001
+    statement: equipmentProfile may only be set on an InventoryItem whose itemType is equipment.
+    applies_to: InventoryItem
+    enforcement_point: command:SetEquipmentProfile
+    severity: high
+    audit_required: true
+    generatable: false
+    custom_reason: Requires reading InventoryItem.itemType owned by a sibling capability.
+    test_refs: [TST-EQP-004-01]
+  - id: RN-002
+    statement: A retired availabilityStatus is terminal and can never transition back to available, in_use or out_of_service.
+    applies_to: EquipmentAvailabilityChange
+    enforcement_point: command:ChangeEquipmentAvailability
+    severity: high
+    audit_required: true
+    generatable: true
+    test_refs: [TST-EQP-004-02]
+  - id: RN-003
+    statement: Only this capability may write InventoryItem.equipmentProfile; this capability never mutates any other InventoryItem field.
+    applies_to: InventoryItem
+    enforcement_point: architecture_boundary
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Enforces the delegated field-mutation boundary shared across COM-MOD-010.
+    test_refs: [TST-EQP-004-03]
+  - id: RN-004
+    statement: A CalibrationFailed event must transition availabilityStatus to out_of_service without requiring a manual command.
+    applies_to: EquipmentAvailabilityChange
+    enforcement_point: event_consumer:CalibrationFailed
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Cross-capability event-driven state transition.
+    test_refs: [TST-EQP-004-04]
+  - id: RN-005
+    statement: Equipment management commands must execute within the actor's tenant, laboratory and branch scope.
+    applies_to: InventoryItem
+    enforcement_point: "authorization:quality.equipment.manage, authorization:quality.equipment.read"
+    severity: critical
+    audit_required: true
+    generatable: true
+    test_refs: [TST-EQP-004-05]
+
+enforcement_summary:
+  generatable_rules: [RN-002, RN-005]
+  custom_implementation_rules: [RN-001, RN-003, RN-004]

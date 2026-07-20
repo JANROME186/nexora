@@ -242,9 +242,9 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-010
-  backlog_item_id: COM-MOD-010-DEF
-  name: Capability package models
-  expected_folder: 06-delivery/commercial-product/modules/
+  backlog_item_id: COM-MOD-010-BE-001
+  name: Compile product, reagent, lot and stock outputs
+  expected_folder: 07-implementation/backend/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
@@ -260,9 +260,11 @@ next_backlog_item:
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-009-CLOSEOUT
+    backlog_item_id: COM-MOD-010-DEF
     status: closed
     summary: >-
-      COM-MOD-009-CLOSEOUT formally closed the Patient and Doctor Portals module (COM-MOD-009).
-      Verified that all module backlog items are closed with complete evidence, coverage floors are maintained,
-      and all traceability registries and runbooks are synchronized.
+      COM-MOD-010-DEF modeled 13 Inventory and Internal Quality capability packages
+      (BCM-INV-001 through BCM-INV-009 and BCM-QLT-001/003/004/005), each with the 14
+      required editable model artifacts. It is definition-only and introduced no runtime
+      component, port, environment variable, startup-order change or implementation-code change.
+      Registry, traceability and runbook pointers are synchronized to COM-MOD-010-BE-001.

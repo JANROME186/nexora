@@ -1,0 +1,32 @@
+artifact:
+  id: HOP-OBS-BCM-INV-005
+  type: observability-model
+  name: Stock Entries Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-005
+  depends_on_capability: BCM-PLT-006
+
+logs:
+  - event: stock_received
+    level: info
+    fields: [stockEntryId, inventoryItemId, stockLotId, quantity, sourceType]
+    correlation_id: stockEntryId
+
+metrics:
+  - name: stock_entries_recorded_total
+    type: counter
+    labels: [tenantId, branchId, sourceType]
+  - name: stock_receipt_quantity_total
+    type: counter
+    labels: [tenantId, branchId]
+
+traces:
+  - span: ApplyStockReceipt
+    child_spans: [ResolveOrCreateStockLot, ValidatePurchaseOrderLine]
+
+audit_events:
+  - StockReceived
+
+alerts: []

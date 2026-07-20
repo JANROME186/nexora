@@ -1,0 +1,37 @@
+artifact:
+  id: HOP-PERM-BCM-INV-009
+  type: permissions
+  name: Waste Management Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-009
+  depends_on_capability: BCM-PLT-001
+
+scopes:
+  - code: inventory.waste.manage
+    description: Record a waste disposal (ApplyWasteDisposal).
+  - code: inventory.waste.read
+    description: Read waste disposal history.
+
+roles:
+  - role: tenant-administrator
+    grants: [inventory.waste.manage, inventory.waste.read]
+  - role: branch-administrator
+    grants: [inventory.waste.manage, inventory.waste.read]
+  - role: laboratory-technician
+    grants: [inventory.waste.manage, inventory.waste.read]
+
+access_policies:
+  - id: POL-WST-009-01
+    statement: Waste management commands are scoped to the calling actor's tenant, laboratory and branch.
+    enforcement: row_level_tenant_laboratory_branch_filter
+  - id: POL-WST-009-02
+    statement: stockSummary.onHandQuantity may only be decreased for disposal purposes through ApplyWasteDisposal.
+    enforcement: field_level_delegation_boundary
+
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+    - event: WasteRecorded
+      fields: [wasteRecordId, inventoryItemId, stockLotId, quantity, wasteReasonCode]

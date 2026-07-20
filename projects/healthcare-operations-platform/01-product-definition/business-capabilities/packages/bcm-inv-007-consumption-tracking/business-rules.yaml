@@ -1,0 +1,59 @@
+artifact:
+  id: HOP-BR-BCM-INV-007
+  type: business-rules
+  name: Consumption Tracking Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-007
+  rule_id_pattern: "RN-###"
+
+rules:
+  - id: RN-001
+    statement: Consumption quantity is derived from BCM-INV-002's reagentProfile.consumptionUnitRatio and must be strictly greater than zero.
+    applies_to: ConsumptionRecord
+    enforcement_point: command:ApplyConsumption
+    severity: high
+    audit_required: true
+    generatable: false
+    custom_reason: Requires reading InventoryItem.reagentProfile.consumptionUnitRatio owned by a sibling capability.
+    test_refs: [TST-CNS-007-01]
+  - id: RN-002
+    statement: This capability never mutates AGG-009 LaboratoryResult; it only holds a read-only reference for traceability.
+    applies_to: ConsumptionRecord
+    enforcement_point: architecture_boundary
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Enforces the read-only cross-bounded-context reference boundary.
+    test_refs: [TST-CNS-007-02]
+  - id: RN-003
+    statement: Only this capability may invoke ApplyConsumption, the sole test-performance-driven path that decreases InventoryItem.stockSummary and the referenced StockLot.remainingQuantity.
+    applies_to: InventoryItem
+    enforcement_point: architecture_boundary
+    severity: critical
+    audit_required: true
+    generatable: false
+    custom_reason: Enforces the delegated field-mutation boundary shared across COM-MOD-010.
+    test_refs: [TST-CNS-007-03]
+  - id: RN-004
+    statement: A consumption against an expired or disposed StockLot is rejected.
+    applies_to: ConsumptionRecord
+    enforcement_point: command:ApplyConsumption
+    severity: high
+    audit_required: true
+    generatable: false
+    custom_reason: Requires reading StockLot.status owned by BCM-INV-003.
+    test_refs: [TST-CNS-007-04]
+  - id: RN-005
+    statement: Consumption tracking commands must execute within the actor's tenant, laboratory and branch scope.
+    applies_to: ConsumptionRecord
+    enforcement_point: "authorization:inventory.consumption.manage, authorization:inventory.consumption.read"
+    severity: critical
+    audit_required: true
+    generatable: true
+    test_refs: [TST-CNS-007-05]
+
+enforcement_summary:
+  generatable_rules: [RN-005]
+  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-004]

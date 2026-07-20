@@ -1,0 +1,71 @@
+artifact:
+  id: HOP-TRACE-BCM-INV-005
+  type: traceability
+  name: Stock Entries Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-005
+
+traces:
+  capability_map:
+    bcm_001: BCM-INV-005
+    domain: DOM-08 Inventory
+  dependency_map:
+    bcm_002_profile: inventory_quality
+    required_capabilities: [BCM-INV-001, BCM-INV-003, BCM-SVC-002, BCM-SVC-007, BCM-ORG-003, BCM-PLT-001, BCM-PLT-007]
+    downstream_capabilities: [BCM-INV-003, BCM-INV-007]
+  domain_foundation:
+    bounded_context: inventory-procurement
+    aggregate_reference: AGG-013 InventoryItem (owned by BCM-INV-001; stockSummary increase delegated to this capability via ApplyStockReceipt)
+    context_relationships: [REL-CTX-007]
+    shared_kernel_refs: [VO-ID-001, VO-ID-003, VO-ID-004, VO-007]
+  brm_alignment: []
+  hrp_alignment:
+    - process: not_yet_defined_in_HRP-001
+      capability_role: Self-contained processes.yaml; tracked as a non-blocking documentation gap.
+  rules_to_tests:
+    - rule: RN-001
+      tests: [TST-SEN-005-01]
+    - rule: RN-002
+      tests: [TST-SEN-005-02]
+    - rule: RN-003
+      tests: [TST-SEN-005-03]
+    - rule: RN-004
+      tests: [TST-SEN-005-04]
+    - rule: RN-005
+      tests: [TST-SEN-005-05]
+  processes_to_commands:
+    - process: PRC-SEN-005-01
+      commands: [ApplyStockReceipt]
+  api_to_permissions:
+    - operation: applyStockReceipt
+      scope: inventory.entries.manage
+    - operation: listStockEntries
+      scope: inventory.entries.read
+  events_to_audit:
+    - event: StockReceived
+      audit_sink: BCM-PLT-007
+  ui_to_api:
+    - screen: SCR-SEN-005-01
+      operations: [applyStockReceipt, listStockEntries]
+  consumed_by_capabilities:
+    - capability: BCM-INV-004
+      relationship: Receives StockReceived to update purchase order line receivedQuantity rollup.
+    - capability: BCM-INV-003
+      relationship: Coordinates StockLot creation on first receipt of a new batch.
+  generated_outputs_ref: generation-plan.yaml
+  qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-DEF-validation.yaml
+  backlog_items:
+    definition: COM-MOD-010-DEF
+    definition_status: closed
+    compilation: COM-MOD-010-BE-001
+    compilation_status: pending
+    custom_rules: COM-MOD-010-BE-002
+    custom_rules_status: pending
+    ui: COM-MOD-010-FE-001
+    ui_status: pending
+    validation: COM-MOD-010-QA-001
+    validation_status: pending
+    closeout: COM-MOD-010-CLOSEOUT
+    closeout_status: pending

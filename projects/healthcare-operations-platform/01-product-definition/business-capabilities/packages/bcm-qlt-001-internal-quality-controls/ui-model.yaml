@@ -1,0 +1,44 @@
+artifact:
+  id: HOP-UI-BCM-QLT-001
+  type: ui-model
+  name: Internal Quality Controls UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-001
+  target_surface: employee_portal
+
+surfaces:
+  employee_portal:
+    status: required
+    generatable: partial
+  patient_portal:
+    status: not_required
+    generatable: not_applicable
+  doctor_portal:
+    status: not_required
+    generatable: not_applicable
+
+screens:
+  - id: SCR-IQC-001-01
+    name: Internal Quality Control Runs
+    route: /admin/quality/internal-controls
+    purpose: Record a QC run, review Westgard-style rule outcomes and, when authorized, override an acceptance decision.
+    components: [DataTable, QualityControlRunForm, RuleEvaluationBadge, OverridePanel]
+    generatable: partial
+    custom_reason: Rule evaluation and override invoke custom commands (RN-002, RN-003).
+
+states:
+  - in_control
+  - warning
+  - out_of_control
+
+localization:
+  languages: [en, es]
+  default: es
+  message_key_namespace: quality.internalcontrol.*
+  note: New user-facing strings must be registered under the quality.internalcontrol.* message-key namespace, not hardcoded.
+
+rationale: >
+  Internal quality control is a laboratory back-office task performed from the employee portal
+  only; no patient or doctor visibility applies.

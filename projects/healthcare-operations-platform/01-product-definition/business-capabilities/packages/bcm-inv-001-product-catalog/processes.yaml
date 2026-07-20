@@ -1,0 +1,74 @@
+artifact:
+  id: HOP-PROC-BCM-INV-001
+  type: processes
+  name: Product Catalog Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-001
+
+actors:
+  - id: catalog-manager
+    actor_ref: ACT-010
+    name: Catalog Manager
+    source: ACM-001
+    note: >
+      ACM-001 does not yet define a dedicated "Inventory Clerk" actor; this capability reuses
+      Catalog Manager for item-master governance, the closest existing role, and documents the
+      substitution explicitly (non-blocking, consistent with the MVP-MOD-008-DEF precedent).
+  - id: branch-administrator
+    actor_ref: ACT-003
+    name: Branch Administrator
+    source: ACM-001
+
+processes:
+  - id: PRC-CAT-001-01
+    name: Register inventory item
+    actor: catalog-manager
+    trigger: A new product, reagent, supply or equipment asset needs to be tracked.
+    commands:
+      - CreateInventoryItem
+    preconditions:
+      - Actor holds inventory.catalog.manage scope.
+      - itemCode is unique in the tenant/laboratory/branch scope.
+    steps:
+      - Validate itemType/classification consistency.
+      - Create InventoryItem with a zeroed StockSummary.
+      - Publish InventoryItemRegistered.
+    outcome: InventoryItemRegistered
+    rules: [RN-001, RN-002, RN-005]
+  - id: PRC-CAT-001-02
+    name: Update inventory item master data
+    actor: catalog-manager
+    trigger: Item master data (name, unit of measure, classification) needs correction.
+    commands:
+      - UpdateInventoryItem
+    preconditions:
+      - InventoryItem exists and is not discontinued.
+    steps:
+      - Apply changes to core identity fields only.
+      - Publish InventoryItemUpdated.
+    outcome: InventoryItemUpdated
+    rules: [RN-003, RN-005]
+  - id: PRC-CAT-001-03
+    name: Discontinue inventory item
+    actor: branch-administrator
+    trigger: An item is retired from active use.
+    commands:
+      - DiscontinueInventoryItem
+    preconditions:
+      - InventoryItem exists.
+    steps:
+      - Transition status to discontinued.
+      - Publish InventoryItemDiscontinued.
+    outcome: InventoryItemDiscontinued
+    rules: [RN-004, RN-005]
+
+commands:
+  - name: CreateInventoryItem
+    generatable: true
+  - name: UpdateInventoryItem
+    generatable: true
+  - name: DiscontinueInventoryItem
+    generatable: false
+    custom_reason: Must consult open stock/lot/purchase-order state across delegated capabilities before allowing discontinuation to take full effect.

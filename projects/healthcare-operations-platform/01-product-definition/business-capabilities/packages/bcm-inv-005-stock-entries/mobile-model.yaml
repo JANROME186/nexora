@@ -1,0 +1,21 @@
+artifact:
+  id: HOP-MOB-BCM-INV-005
+  type: mobile-model
+  name: Stock Entries Mobile Model
+  version: 0.1.0
+  status: deferred
+  classification: editable_model
+  capability: BCM-INV-005
+
+mobile_scope:
+  status: optional_for_stock_actions
+  rationale: >
+    COM-MOD-010's module-level product_surfaces classifies mobile_app as
+    optional_for_stock_actions, and capability-dependency-map.yaml's inventory_quality profile
+    declares affected_mobile_apps: [staff_app] for barcode-driven receipt capture. No staff_app
+    mobile module is yet scheduled in the HOP roadmap; deferred to a future staff/operations
+    mobile backlog item.
+  deferred_to: []
+  flows:
+    - Scan-to-receive against an open purchase order line (future).
+  offline_expectations: not_yet_defined

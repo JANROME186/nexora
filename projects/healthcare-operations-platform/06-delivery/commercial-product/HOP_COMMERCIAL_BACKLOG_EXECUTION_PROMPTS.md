@@ -233,14 +233,14 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-009-CLOSEOUT Module closeout and registry update` is closed.
+`COM-MOD-010-DEF Capability package models` is closed.
 Continue with:
 
 - Module: `COM-MOD-010`
-- Backlog item: `COM-MOD-010-DEF`
-- Previous backlog item: `COM-MOD-009-CLOSEOUT` (closed)
+- Backlog item: `COM-MOD-010-BE-001`
+- Previous backlog item: `COM-MOD-010-DEF` (closed)
 - Paused functional backlog item: none
-- Folder: `06-delivery/commercial-product/modules/`
+- Folder: `07-implementation/backend/`
 
 Mandatory setup for this backlog:
 
@@ -251,4 +251,4 @@ Mandatory setup for this backlog:
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-009-CLOSEOUT` - Module closeout and registry update. Formally closed the Patient and Doctor Portals module (COM-MOD-009). Verified that all module backlog items are closed with complete evidence, coverage floors are maintained, and all registries and runbooks are synchronized.
+`COM-MOD-010-DEF` - Capability package models. Modeled 13 Inventory and Internal Quality capability packages (BCM-INV-001 through BCM-INV-009 and BCM-QLT-001/003/004/005), each with the 14 required editable model artifacts. It introduced no runtime component, port, environment variable, startup-order change or implementation-code change, and synchronized registries/runbooks to `COM-MOD-010-BE-001`.

@@ -1,0 +1,45 @@
+artifact:
+  id: HOP-TEST-BCM-INV-003
+  type: test-model
+  name: Lot Management Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-003
+
+test_cases:
+  - id: TST-LOT-003-01
+    type: contract
+    validates_rule: RN-001
+    statement: A StockLot's remainingQuantity can never be set above receivedQuantity or below zero.
+    generatable: true
+  - id: TST-LOT-003-02
+    type: acceptance
+    validates_rule: RN-002
+    statement: A StockLot whose expirationDate has passed transitions to expired without manual intervention.
+    generatable: false
+  - id: TST-LOT-003-03
+    type: architecture
+    validates_rule: RN-003
+    statement: No code path outside this capability writes lotNumber, expirationDate, storageCondition or status.
+    generatable: false
+  - id: TST-LOT-003-04
+    type: acceptance
+    validates_rule: RN-004
+    statement: A disposed StockLot rejects a transition back to active or quarantined.
+    generatable: true
+  - id: TST-LOT-003-05
+    type: contract
+    validates_rule: RN-005
+    statement: A caller outside the lot's tenant/laboratory/branch scope cannot manage or read it.
+    generatable: true
+
+test_layers:
+  - contract_tests
+  - unit_tests
+  - acceptance_tests
+  - architecture_tests
+
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests: [TST-LOT-003-02, TST-LOT-003-03]

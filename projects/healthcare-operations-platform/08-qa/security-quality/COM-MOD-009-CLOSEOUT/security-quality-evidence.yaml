@@ -116,6 +116,6 @@ commercial_readiness_disclosure:
 
 readiness:
   security_quality_status: passed
-  ready_for_next_backlog_item: COM-MOD-010-DEF
+  ready_for_next_backlog_item: COM-MOD-010-BE-001
   next_required_focus:
-    - Model capability packages for Inventory and Internal Quality (COM-MOD-010-DEF).
+    - Compile product, reagent, lot and stock outputs (COM-MOD-010-DEF).

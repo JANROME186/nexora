@@ -1,0 +1,71 @@
+artifact:
+  id: HOP-API-SRC-BCM-INV-004
+  type: openapi-source
+  name: Procurement Management API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-004
+
+api:
+  base_path: /api/inventory/purchase-orders
+  surface_classification: internal
+  security:
+    scheme: bearer_jwt
+    required_scopes_default: [inventory.procurement.manage, inventory.procurement.read]
+
+resources:
+  - name: PurchaseOrder
+    operations:
+      - id: createPurchaseOrder
+        method: POST
+        path: /
+        scopes: [inventory.procurement.manage]
+        generatable: true
+      - id: submitPurchaseOrder
+        method: POST
+        path: /{purchaseOrderId}/submit
+        scopes: [inventory.procurement.manage]
+        generatable: false
+        custom_reason: Cross-capability InventoryItem status validation.
+      - id: approvePurchaseOrder
+        method: POST
+        path: /{purchaseOrderId}/approve
+        scopes: [inventory.procurement.manage]
+        generatable: true
+      - id: cancelPurchaseOrder
+        method: POST
+        path: /{purchaseOrderId}/cancel
+        scopes: [inventory.procurement.manage]
+        generatable: true
+      - id: receivePurchaseOrderLine
+        method: POST
+        path: /{purchaseOrderId}/lines/{lineId}/receive
+        scopes: [inventory.procurement.manage]
+        generatable: false
+        custom_reason: Delegates to BCM-INV-005's own receipt command.
+      - id: listPurchaseOrders
+        method: GET
+        path: /
+        scopes: [inventory.procurement.read]
+        generatable: true
+
+schemas_source:
+  - PurchaseOrder
+  - PurchaseOrderLine
+  - SupplierSnapshot
+
+error_model:
+  standard: rfc7807
+  code_field: >
+    Every error response carries a first-class `code` string field, consistent with the
+    COM-MOD-010 module convention.
+  domain_errors:
+    - code: PURCHASE_ORDER_LINE_ITEM_INVALID
+      maps_to_rule: RN-001
+    - code: PURCHASE_ORDER_TERMINAL_STATE
+      maps_to_rule: RN-003
+    - code: PURCHASE_ORDER_LINE_QUANTITY_OR_COST_INVALID
+      maps_to_rule: RN-004
+    - code: PROCUREMENT_SCOPE_MISMATCH
+      maps_to_rule: RN-005

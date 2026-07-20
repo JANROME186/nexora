@@ -6,7 +6,7 @@ artifact:
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.yaml
-  qa_evidence: ../../../08-qa/qa/patient-and-doctor-portals/COM-MOD-009-DEF-validation.yaml
+  qa_evidence: ../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-DEF-validation.yaml
 
 policy:
   primary_development_unit: business_capability_package
@@ -325,6 +325,93 @@ completed_capability_package_groups:
         secondary_bounded_context: cash-sales
         primary_aggregate: AGG-006
         mobile_scope: not_required
+
+active_capability_package_groups:
+  - roadmap_group: COM-MOD-010
+    name: Inventory and Internal Quality
+    package_status: modeled
+    backlog_item: COM-MOD-010-BE-001
+    qa_evidence: ../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-DEF-validation.yaml
+    security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-010-DEF/security-quality-evidence.yaml
+    capabilities:
+      - capability_id: BCM-INV-001
+        package_folder: bcm-inv-001-product-catalog/
+        package_status: modeled
+        bounded_context: inventory-procurement
+        primary_aggregate: AGG-013 InventoryItem
+        mobile_scope: not_required
+      - capability_id: BCM-INV-002
+        package_folder: bcm-inv-002-reagent-management/
+        package_status: modeled
+        bounded_context: inventory-procurement
+        primary_aggregate: AGG-013 InventoryItem (delegated reagentProfile)
+        mobile_scope: not_required
+      - capability_id: BCM-INV-003
+        package_folder: bcm-inv-003-lot-management/
+        package_status: modeled
+        bounded_context: inventory-procurement
+        primary_aggregate: AGG-013 InventoryItem (delegated lotProfile)
+        mobile_scope: optional_for_stock_actions
+      - capability_id: BCM-INV-004
+        package_folder: bcm-inv-004-procurement-management/
+        package_status: modeled
+        bounded_context: inventory-procurement
+        primary_aggregate: ProcurementRequest
+        mobile_scope: not_required
+      - capability_id: BCM-INV-005
+        package_folder: bcm-inv-005-stock-entries/
+        package_status: modeled
+        bounded_context: inventory-procurement
+        primary_aggregate: AGG-013 InventoryItem (delegated stockEntrySummary)
+        mobile_scope: optional_for_stock_actions
+      - capability_id: BCM-INV-006
+        package_folder: bcm-inv-006-stock-exits/
+        package_status: modeled
+        bounded_context: inventory-procurement
+        primary_aggregate: AGG-013 InventoryItem (delegated stockExitSummary)
+        mobile_scope: optional_for_stock_actions
+      - capability_id: BCM-INV-007
+        package_folder: bcm-inv-007-consumption-tracking/
+        package_status: modeled
+        bounded_context: inventory-procurement
+        primary_aggregate: AGG-013 InventoryItem (delegated consumptionSummary)
+        mobile_scope: optional_for_stock_actions
+      - capability_id: BCM-INV-008
+        package_folder: bcm-inv-008-inventory-adjustments/
+        package_status: modeled
+        bounded_context: inventory-procurement
+        primary_aggregate: AGG-013 InventoryItem (delegated adjustmentSummary)
+        mobile_scope: optional_for_stock_actions
+      - capability_id: BCM-INV-009
+        package_folder: bcm-inv-009-waste-management/
+        package_status: modeled
+        bounded_context: inventory-procurement
+        primary_aggregate: AGG-013 InventoryItem (delegated wasteSummary)
+        mobile_scope: optional_for_stock_actions
+      - capability_id: BCM-QLT-001
+        package_folder: bcm-qlt-001-internal-quality-controls/
+        package_status: modeled
+        bounded_context: internal-quality
+        primary_aggregate: AGG-015 InternalQualityControl
+        mobile_scope: not_required
+      - capability_id: BCM-QLT-003
+        package_folder: bcm-qlt-003-calibration-management/
+        package_status: modeled
+        bounded_context: inventory-procurement
+        primary_aggregate: AGG-013 InventoryItem (delegated calibrationRecord)
+        mobile_scope: optional_for_stock_actions
+      - capability_id: BCM-QLT-004
+        package_folder: bcm-qlt-004-equipment-management/
+        package_status: modeled
+        bounded_context: inventory-procurement
+        primary_aggregate: AGG-013 InventoryItem (delegated equipmentProfile)
+        mobile_scope: not_required
+      - capability_id: BCM-QLT-005
+        package_folder: bcm-qlt-005-maintenance-management/
+        package_status: modeled
+        bounded_context: inventory-procurement
+        primary_aggregate: AGG-013 InventoryItem (delegated maintenanceRecord)
+        mobile_scope: optional_for_stock_actions
 
 planned_capability_package_groups:
   - roadmap_group: COM-MOD-017

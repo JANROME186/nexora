@@ -87,5 +87,5 @@ technical_debt:
 
 decision:
   backlog_item_status: closed
-  ready_for_next_backlog_item: COM-MOD-010-DEF
-  next_backlog_item_name: Model capability packages for Inventory and Internal Quality
+  ready_for_next_backlog_item: COM-MOD-010-BE-001
+  next_backlog_item_name: Compile product, reagent, lot and stock outputs

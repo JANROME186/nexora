@@ -1,0 +1,45 @@
+artifact:
+  id: HOP-TEST-BCM-INV-004
+  type: test-model
+  name: Procurement Management Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-004
+
+test_cases:
+  - id: TST-PUR-004-01
+    type: acceptance
+    validates_rule: RN-001
+    statement: Submitting a purchase order with a line referencing a discontinued InventoryItem is rejected.
+    generatable: false
+  - id: TST-PUR-004-02
+    type: architecture
+    validates_rule: RN-002
+    statement: No code path in this capability writes InventoryItem or Supplier persistence directly; receipt always delegates to BCM-INV-005.
+    generatable: false
+  - id: TST-PUR-004-03
+    type: acceptance
+    validates_rule: RN-003
+    statement: A cancelled or fully received purchase order rejects a new line or status transition.
+    generatable: true
+  - id: TST-PUR-004-04
+    type: contract
+    validates_rule: RN-004
+    statement: Creating a purchase order line with zero or negative requestedQuantity or unitCost is rejected.
+    generatable: true
+  - id: TST-PUR-004-05
+    type: contract
+    validates_rule: RN-005
+    statement: A caller outside the order's tenant/laboratory/branch scope cannot manage or read it.
+    generatable: true
+
+test_layers:
+  - contract_tests
+  - unit_tests
+  - acceptance_tests
+  - architecture_tests
+
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests: [TST-PUR-004-01, TST-PUR-004-02]

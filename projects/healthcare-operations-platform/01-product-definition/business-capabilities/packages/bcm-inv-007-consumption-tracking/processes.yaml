@@ -1,0 +1,37 @@
+artifact:
+  id: HOP-PROC-BCM-INV-007
+  type: processes
+  name: Consumption Tracking Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-007
+
+actors:
+  - id: laboratory-technician
+    actor_ref: ACT-007
+    name: Laboratory Technician
+    source: ACM-001
+
+processes:
+  - id: PRC-CNS-007-01
+    name: Record automatic consumption on test performance
+    actor: laboratory-technician
+    trigger: A linked diagnostic test is performed and BCM-LAB-006 publishes a test-performed signal (read-only).
+    commands:
+      - ApplyConsumption
+    preconditions:
+      - InventoryItem has an active reagentProfile with a positive consumptionUnitRatio.
+      - The selected StockLot is active with sufficient remainingQuantity.
+    steps:
+      - Resolve consumptionUnitRatio from InventoryItem.reagentProfile.
+      - Decrease StockLot.remainingQuantity and InventoryItem.stockSummary.onHandQuantity.
+      - Capture linkedLaboratoryResultId as a read-only reference.
+      - Publish ConsumptionRecorded.
+    outcome: ConsumptionRecorded
+    rules: [RN-001, RN-002, RN-004, RN-005]
+
+commands:
+  - name: ApplyConsumption
+    generatable: false
+    custom_reason: Delegated multi-field mutation driven by a cross-capability ratio and a real-time lot-eligibility guard.

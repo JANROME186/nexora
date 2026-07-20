@@ -1,0 +1,37 @@
+artifact:
+  id: HOP-PROC-BCM-QLT-003
+  type: processes
+  name: Calibration Management Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-003
+
+actors:
+  - id: laboratory-technician
+    actor_ref: ACT-007
+    name: Laboratory Technician
+    source: ACM-001
+    note: Reused as the closest existing role for calibration execution; non-blocking substitution.
+
+processes:
+  - id: PRC-CAL-003-01
+    name: Record calibration event
+    actor: laboratory-technician
+    trigger: Scheduled or ad hoc calibration is performed on an equipment-type InventoryItem.
+    commands:
+      - RecordCalibration
+    preconditions:
+      - InventoryItem exists and itemType is equipment.
+      - calibrationStandardRef and result are supplied.
+    steps:
+      - Append the CalibrationEvent to InventoryItem.calibrationRecord.
+      - If result is fail, publish CalibrationFailed for BCM-QLT-004 to consume.
+      - Publish CalibrationRecorded.
+    outcome: CalibrationRecorded
+    rules: [RN-001, RN-002, RN-004, RN-005]
+
+commands:
+  - name: RecordCalibration
+    generatable: false
+    custom_reason: Delegated single-field append mutation with cross-capability itemType validation and conditional event publication.

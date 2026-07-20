@@ -1,0 +1,36 @@
+artifact:
+  id: HOP-EVT-BCM-QLT-004
+  type: events
+  name: Equipment Management Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-004
+
+domain_events:
+  - name: EquipmentProfileSet
+    description: An equipment-type InventoryItem received its asset profile.
+    payload: [inventoryItemId, assetTag]
+    audit: true
+  - name: EquipmentAvailabilityChanged
+    description: An equipment item's availability status transitioned.
+    payload: [inventoryItemId, previousStatus, newStatus, reasonCode]
+    audit: true
+
+integration_events:
+  published:
+    - name: EquipmentAvailabilityChanged
+      description: Signals BCM-LAB-006 Laboratory Processing of equipment readiness for processing assignment.
+      consumers: [laboratory-results]
+  consumed:
+    - name: CalibrationFailed
+      description: Drives an automatic transition to out_of_service.
+      source: inventory-procurement
+    - name: MaintenanceScheduled
+      description: Drives an automatic transition to out_of_service for the maintenance window.
+      source: inventory-procurement
+    - name: MaintenanceCompleted
+      description: Drives an automatic transition back to available.
+      source: inventory-procurement
+
+published_language: []

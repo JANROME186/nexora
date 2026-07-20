@@ -1,0 +1,42 @@
+artifact:
+  id: HOP-OBS-BCM-INV-001
+  type: observability-model
+  name: Product Catalog Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-001
+  depends_on_capability: BCM-PLT-006
+
+logs:
+  - event: inventory_item_registered
+    level: info
+    fields: [inventoryItemId, itemType, classification]
+    correlation_id: inventoryItemId
+  - event: inventory_item_discontinued
+    level: warn
+    fields: [inventoryItemId]
+    correlation_id: inventoryItemId
+
+metrics:
+  - name: inventory_items_registered_total
+    type: counter
+    labels: [tenantId, branchId, itemType]
+  - name: inventory_items_active_gauge
+    type: gauge
+    labels: [tenantId, branchId, itemType]
+
+traces:
+  - span: CreateInventoryItem
+    child_spans: [ValidateItemCodeUniqueness]
+  - span: DiscontinueInventoryItem
+    child_spans: [ConsultOpenStockState]
+
+audit_events:
+  - InventoryItemRegistered
+  - InventoryItemDiscontinued
+
+alerts:
+  - name: InventoryItemDuplicateCodeAttemptSpike
+    condition: INVENTORY_ITEM_CODE_NOT_UNIQUE error rate exceeds threshold
+    severity: medium

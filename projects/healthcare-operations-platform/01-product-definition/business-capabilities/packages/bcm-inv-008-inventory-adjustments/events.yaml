@@ -1,0 +1,20 @@
+artifact:
+  id: HOP-EVT-BCM-INV-008
+  type: events
+  name: Inventory Adjustments Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-008
+
+domain_events:
+  - name: StockAdjusted
+    description: A manual correction changed on-hand quantity for an InventoryItem/StockLot.
+    payload: [adjustmentId, inventoryItemId, stockLotId, quantityDelta, reasonCode]
+    audit: true
+
+integration_events:
+  published: []
+  consumed: []
+
+published_language: []

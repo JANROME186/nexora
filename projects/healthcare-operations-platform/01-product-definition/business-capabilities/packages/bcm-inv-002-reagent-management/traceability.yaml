@@ -1,0 +1,67 @@
+artifact:
+  id: HOP-TRACE-BCM-INV-002
+  type: traceability
+  name: Reagent Management Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-002
+
+traces:
+  capability_map:
+    bcm_001: BCM-INV-002
+    domain: DOM-08 Inventory
+  dependency_map:
+    bcm_002_profile: inventory_quality
+    required_capabilities: [BCM-INV-001, BCM-SVC-002, BCM-SVC-007, BCM-ORG-003, BCM-PLT-001, BCM-PLT-007]
+    downstream_capabilities: [BCM-INV-007]
+  domain_foundation:
+    bounded_context: inventory-procurement
+    aggregate_reference: AGG-013 InventoryItem (owned by BCM-INV-001; reagentProfile delegated to this capability)
+    context_relationships: [REL-CTX-007]
+    shared_kernel_refs: [VO-ID-001, VO-ID-003, VO-007]
+  brm_alignment: []
+  hrp_alignment:
+    - process: not_yet_defined_in_HRP-001
+      capability_role: Self-contained processes.yaml; tracked as a non-blocking documentation gap.
+  rules_to_tests:
+    - rule: RN-001
+      tests: [TST-RGT-002-01]
+    - rule: RN-002
+      tests: [TST-RGT-002-02]
+    - rule: RN-003
+      tests: [TST-RGT-002-03]
+    - rule: RN-004
+      tests: [TST-RGT-002-04]
+  processes_to_commands:
+    - process: PRC-RGT-002-01
+      commands: [AssignReagentProfile]
+  api_to_permissions:
+    - operation: assignReagentProfile
+      scope: inventory.reagent.manage
+    - operation: getReagentProfile
+      scope: inventory.reagent.read
+  events_to_audit:
+    - event: ReagentProfileAssigned
+      audit_sink: BCM-PLT-007
+  ui_to_api:
+    - screen: SCR-RGT-002-01
+      operations: [assignReagentProfile, getReagentProfile]
+  consumed_by_capabilities:
+    - capability: BCM-INV-007
+      relationship: Reads consumptionUnitRatio to automatically decrement stock on test performance.
+  generated_outputs_ref: generation-plan.yaml
+  qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-DEF-validation.yaml
+  backlog_items:
+    definition: COM-MOD-010-DEF
+    definition_status: closed
+    compilation: COM-MOD-010-BE-001
+    compilation_status: pending
+    custom_rules: COM-MOD-010-BE-002
+    custom_rules_status: pending
+    ui: COM-MOD-010-FE-001
+    ui_status: pending
+    validation: COM-MOD-010-QA-001
+    validation_status: pending
+    closeout: COM-MOD-010-CLOSEOUT
+    closeout_status: pending

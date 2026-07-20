@@ -1,0 +1,42 @@
+artifact:
+  id: HOP-PERM-BCM-QLT-001
+  type: permissions
+  name: Internal Quality Controls Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-001
+  depends_on_capability: BCM-PLT-001
+
+scopes:
+  - code: quality.internalcontrol.manage
+    description: Record a QC run and, when supervisor-scoped, override its acceptance decision.
+  - code: quality.internalcontrol.read
+    description: Read QC run history.
+
+roles:
+  - role: tenant-administrator
+    grants: [quality.internalcontrol.manage, quality.internalcontrol.read]
+  - role: technical-validator
+    grants: [quality.internalcontrol.manage, quality.internalcontrol.read]
+  - role: laboratory-technician
+    grants: [quality.internalcontrol.manage, quality.internalcontrol.read]
+
+access_policies:
+  - id: POL-IQC-001-01
+    statement: Internal quality control commands are scoped to the calling actor's tenant, laboratory and branch.
+    enforcement: row_level_tenant_laboratory_branch_filter
+  - id: POL-IQC-001-02
+    statement: Overriding an out_of_control or warning decision requires a supervisor-scoped grant distinct from ordinary run recording.
+    enforcement: elevated_authorization_policy
+  - id: POL-IQC-001-03
+    statement: This capability never writes InventoryItem, StockLot or LaboratoryResult.
+    enforcement: adapter_boundary_policy
+
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+    - event: QualityControlRunRecorded
+      fields: [qcRunId, testDefinitionId, ruleEvaluation, acceptanceDecision]
+    - event: QualityControlOverrideRecorded
+      fields: [qcRunId, overriddenBy]
