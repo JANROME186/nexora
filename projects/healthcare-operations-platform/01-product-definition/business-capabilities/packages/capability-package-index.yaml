@@ -35,13 +35,13 @@ do_not_write_manually:
 completed_capability_package_groups:
   - roadmap_group: COM-MOD-009
     name: Patient and Doctor Portals
-    package_status: in_progress
-    backlog_item: COM-MOD-009-QA-001
-    qa_evidence: ../../../08-qa/qa/patient-and-doctor-portals/COM-MOD-009-QA-001-validation.yaml
+    package_status: module_closed
+    backlog_item: COM-MOD-009-CLOSEOUT
+    qa_evidence: ../../../08-qa/qa/patient-and-doctor-portals/COM-MOD-009-CLOSEOUT.yaml
     capabilities:
       - capability_id: BCM-PLT-001
         package_folder: bcm-plt-001-identity-and-access-management/
-        package_status: modeled
+        package_status: validated
         bounded_context: identity-access
         primary_aggregate: AGG-004 UserAccount
         mobile_scope: required

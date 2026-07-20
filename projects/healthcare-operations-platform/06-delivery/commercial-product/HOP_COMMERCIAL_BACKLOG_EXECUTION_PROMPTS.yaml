@@ -241,9 +241,9 @@ validation_commands:
     command_template: "Run repository whitespace validation before closing the item."
 
 next_backlog_item:
-  module_id: COM-MOD-009
-  backlog_item_id: COM-MOD-009-CLOSEOUT
-  name: Module closeout and registry update
+  module_id: COM-MOD-010
+  backlog_item_id: COM-MOD-010-DEF
+  name: Capability package models
   expected_folder: 06-delivery/commercial-product/modules/
   paused_functional_backlog_item: null
   required_debt_first_action: null
@@ -260,9 +260,9 @@ next_backlog_item:
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-009-QA-001
+    backlog_item_id: COM-MOD-009-CLOSEOUT
     status: closed
     summary: >-
-      COM-MOD-009-QA-001 validated channel access, privacy and quality evidence across all
-      components. Enforced the no-explicit-any check, refactored patient-portal typescript types, and resolved patient-portal lint regression TD-FE-011.
-      All unit/integration tests passed. npm quality, npm audit, and Trivy filesystem scans completed with 0 errors.
+      COM-MOD-009-CLOSEOUT formally closed the Patient and Doctor Portals module (COM-MOD-009).
+      Verified that all module backlog items are closed with complete evidence, coverage floors are maintained,
+      and all traceability registries and runbooks are synchronized.

@@ -1,0 +1,127 @@
+artifact:
+  id: COM-MOD-009-CLOSEOUT-EVIDENCE
+  type: module-closeout-evidence
+  module: COM-MOD-009
+  status: module_closed
+  created_date: 2026-07-20
+  standard: ../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+
+scope_note: >
+  COM-MOD-009-CLOSEOUT formally closes the Patient and Doctor Portals module (COM-MOD-009).
+  It verifies that all module backlog items are closed with complete evidence, coverage floors are maintained,
+  there are no security vulnerabilities or unhandled limitations, and traceability registries are synchronized.
+
+backlog_items_status:
+  COM-MOD-009-DEF: closed
+  COM-MOD-009-BE-001: closed
+  COM-MOD-009-PORTAL-001: closed
+  COM-MOD-009-PORTAL-002: closed
+  COM-MOD-009-APP-001: closed
+  COM-MOD-009-QA-001: closed
+  COM-MOD-009-CLOSEOUT: completed
+
+coverage_verification:
+  backend_java_maven:
+    floor: 80.60
+    measured: 80.60
+    status: passed
+  employee_portal_typescript:
+    floor: 86.47
+    measured: 86.47
+    status: passed
+  mobile_app_typescript:
+    floor: 99.21
+    measured: 99.21
+    status: passed
+  patient_portal_typescript:
+    floor: 94.11
+    measured: 94.11
+    status: passed
+  doctor_portal_typescript:
+    floor: 96.28
+    measured: 96.28
+    status: passed
+
+validation_gates:
+  - name: Backend Verify
+    command: mvn -Pquality "-Dhop.local-db-tests=true" clean verify
+    tests_run: 280
+    failures: 0
+    errors: 0
+    skipped: 0
+    status: passed
+  - name: Backend Dependency Check
+    command: mvn org.owasp:dependency-check-maven:check
+    vulnerabilities_detected: 0
+    status: passed
+  - name: Patient Portal Quality
+    command: npm run quality
+    tests_run: 18
+    failures: 0
+    errors: 0
+    status: passed
+  - name: Patient Portal Dependency Audit
+    command: npm audit --audit-level=low
+    vulnerabilities_detected: 0
+    status: passed
+  - name: Doctor Portal Quality
+    command: npm run quality
+    tests_run: 31
+    failures: 0
+    errors: 0
+    status: passed
+  - name: Doctor Portal Dependency Audit
+    command: npm audit --audit-level=low
+    vulnerabilities_detected: 0
+    status: passed
+  - name: Mobile App Quality
+    command: npm run quality
+    tests_run: 40
+    failures: 0
+    errors: 0
+    status: passed
+  - name: Mobile App Dependency Audit
+    command: npm audit --audit-level=low
+    vulnerabilities_detected: 0
+    status: passed
+  - name: Trivy Filesystem Scan
+    command: trivy fs --scanners vuln,secret,misconfig .
+    findings: 0
+    status: passed
+  - name: Git Diff Check
+    command: git diff --check
+    findings: 0
+    status: passed
+  - name: YAML Parse Sweep
+    command: Parse all HOP YAML
+    findings: 0
+    status: passed
+  - name: Stale Pointer Sweep
+    command: Scan for active COM-MOD-009 references in next backlog pointers
+    findings: 0
+    status: passed
+
+traceability_synchronization:
+  capability_packages:
+    - BCM-PLT-001: validated
+    - BCM-PER-002: modeled
+    - BCM-PER-003: modeled
+    - BCM-ATT-001: compiled
+    - BCM-ATT-002: modeled
+    - BCM-RES-004: validated
+    - BCM-RES-005: validated
+    - BCM-RES-007: validated
+    - BCM-PLT-003: validated
+  registries_updated:
+    - PROJECT_STATE.yaml (root)
+    - PROJECT_STATE.yaml (local)
+    - SOURCE_OF_TRUTH.yaml
+    - HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml
+    - HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
+    - local-solution-runbook.yaml
+    - security-quality-index.yaml
+    - capability-package-index.yaml
+
+readiness:
+  status: passed
+  ready_for_next_backlog_item: COM-MOD-010-DEF

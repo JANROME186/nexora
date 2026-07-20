@@ -3,7 +3,7 @@ artifact:
   type: traceability
   name: Identity and Access Management Traceability Matrix
   version: 0.1.0
-  status: modeled
+  status: validated
   classification: editable_model
   capability: BCM-PLT-001
 
@@ -57,3 +57,19 @@ security_privacy:
     - Rate limiting / lockouts after 5 consecutive failures.
     - Support assistance login constraints (cannot signature, audited).
     - Session context-based tenant isolation.
+
+backlog_items:
+  definition: COM-MOD-009-DEF
+  definition_status: closed
+  compilation: COM-MOD-009-BE-001
+  compilation_status: closed
+  patient_portal: COM-MOD-009-PORTAL-001
+  patient_portal_status: closed
+  doctor_portal: COM-MOD-009-PORTAL-002
+  doctor_portal_status: closed
+  mobile_app: COM-MOD-009-APP-001
+  mobile_app_status: closed
+  validation: COM-MOD-009-QA-001
+  validation_status: closed
+  closeout: COM-MOD-009-CLOSEOUT
+  closeout_status: closed

@@ -233,12 +233,12 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-009-QA-001 Channel access and privacy evidence` is closed.
+`COM-MOD-009-CLOSEOUT Module closeout and registry update` is closed.
 Continue with:
 
-- Module: `COM-MOD-009`
-- Backlog item: `COM-MOD-009-CLOSEOUT`
-- Previous backlog item: `COM-MOD-009-QA-001` (closed)
+- Module: `COM-MOD-010`
+- Backlog item: `COM-MOD-010-DEF`
+- Previous backlog item: `COM-MOD-009-CLOSEOUT` (closed)
 - Paused functional backlog item: none
 - Folder: `06-delivery/commercial-product/modules/`
 
@@ -251,4 +251,4 @@ Mandatory setup for this backlog:
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-009-QA-001` - Channel access and privacy evidence. Validated channel access, privacy and quality evidence across patient portal, doctor portal, mobile app and backend. Enforced the `no-explicit-any` ESLint check via configuration, refactored all explicit `any` occurrences in `App.tsx`, `SessionContext.tsx`, and `httpClient.test.ts` into type-safe interfaces or error casts, and resolved `patient-portal` lint regression `TD-FE-011`. npm quality, npm audit, and Trivy filesystem scans completed with 0 errors.
+`COM-MOD-009-CLOSEOUT` - Module closeout and registry update. Formally closed the Patient and Doctor Portals module (COM-MOD-009). Verified that all module backlog items are closed with complete evidence, coverage floors are maintained, and all registries and runbooks are synchronized.

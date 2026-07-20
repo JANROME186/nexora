@@ -206,8 +206,8 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-`COM-MOD-009-QA-001` is closed. Continue with `COM-MOD-009-CLOSEOUT` from:
+`COM-MOD-009-CLOSEOUT` is closed. Continue with `COM-MOD-010-DEF` from:
 
 `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
 
-See `08-qa/qa/patient-and-doctor-portals/COM-MOD-009-QA-001-validation.yaml` for the channel access and privacy validation evidence and preceding validation evidence.
+See `08-qa/qa/patient-and-doctor-portals/COM-MOD-009-CLOSEOUT.yaml` for the closeout validation evidence and preceding validation evidence.
