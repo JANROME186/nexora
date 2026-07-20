@@ -956,7 +956,7 @@ commercial_product_progress:
     COM-MOD-009:
       name: Patient and Doctor Portals
       package_status: in_progress
-      backlog_item: COM-MOD-009-PORTAL-002
+      backlog_item: COM-MOD-009-APP-001
       backlog_item_status: pending
       execution_flow_stage: compile
       packages_modeled:
@@ -972,9 +972,20 @@ commercial_product_progress:
       qa_evidence_be_001_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-BE-001-validation.md
       security_quality_evidence_be_001: 08-qa/security-quality/COM-MOD-009-BE-001/security-quality-evidence.yaml
       security_quality_evidence_be_001_md: 08-qa/security-quality/COM-MOD-009-BE-001/security-quality-evidence.md
+      qa_evidence_portal_001: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-001-validation.yaml
+      qa_evidence_portal_001_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-001-validation.md
+      security_quality_evidence_portal_001: 08-qa/security-quality/COM-MOD-009-PORTAL-001/security-quality-evidence.yaml
+      security_quality_evidence_portal_001_md: 08-qa/security-quality/COM-MOD-009-PORTAL-001/security-quality-evidence.md
+      qa_evidence_portal_002: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.yaml
+      qa_evidence_portal_002_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.md
+      security_quality_evidence_portal_002: 08-qa/security-quality/COM-MOD-009-PORTAL-002/security-quality-evidence.yaml
+      security_quality_evidence_portal_002_md: 08-qa/security-quality/COM-MOD-009-PORTAL-002/security-quality-evidence.md
       ready_for_compilation: true
       backend_compilation_completed: true
       ready_for_custom_rule_implementation: true
+      patient_portal_workflow_completed: true
+      doctor_portal_workflow_completed: true
+      ready_for_mobile_workflow: true
     MVP-MOD-008:
       name: Integration and Migration Readiness
       package_status: module_closed
