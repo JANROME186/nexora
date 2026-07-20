@@ -245,10 +245,32 @@ function LoginFormView() {
   );
 }
 
+interface EmergencyContact {
+  givenName: string;
+  familyName: string;
+  relationship: string;
+  phoneNationalNumber: string;
+}
+
+interface PatientProfile {
+  patientCode: string;
+  givenName: string;
+  familyName: string;
+  birthDate: string;
+  sexAtBirth: string;
+  primaryDocumentType: string;
+  primaryDocumentNumber: string;
+  addressStreet: string;
+  addressCity: string;
+  addressPostalCode: string;
+  preferredLocale: string;
+  emergencyContacts: EmergencyContact[];
+}
+
 function ProfileTab() {
   const { session } = useSession();
   const { t } = useLocale();
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<PatientProfile | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -365,7 +387,7 @@ function ProfileTab() {
         <h4>{t.appShell.profile.contacts}</h4>
         {profile.emergencyContacts && profile.emergencyContacts.length > 0 ? (
           <ul>
-            {profile.emergencyContacts.map((contact: any, i: number) => (
+            {profile.emergencyContacts.map((contact, i: number) => (
               <li key={i}>
                 <strong>
                   {contact.givenName} {contact.familyName}
@@ -397,8 +419,8 @@ function ResultsTab() {
       try {
         const data = await getPatientHistory(session.patientId);
         setHistory(data);
-      } catch (e: any) {
-        setError(e?.message || t.appShell.states.error);
+      } catch (e) {
+        setError((e as Error)?.message || t.appShell.states.error);
       } finally {
         setLoading(false);
       }

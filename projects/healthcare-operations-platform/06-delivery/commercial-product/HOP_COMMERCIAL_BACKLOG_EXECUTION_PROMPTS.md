@@ -245,10 +245,10 @@ Continue with:
 Mandatory setup for this backlog:
 
 - Reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, capability traceability files and the local runbook pointers.
-- Preserve coverage floors: backend (80.60%), employee portal (86.47%), mobile (99.21%), patient portal (94.11%), and doctor portal (90.18%).
+- Preserve coverage floors: backend (80.60%), employee portal (86.47%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-009-QA-001` - Channel access and privacy evidence. Validated channel access, privacy and quality evidence across patient portal, doctor portal, mobile app and backend. Disables explicit-any typescript lint check and resolved patient-portal lint regression TD-FE-011. npm quality, npm audit, and Trivy filesystem scans completed with 0 errors.
+`COM-MOD-009-QA-001` - Channel access and privacy evidence. Validated channel access, privacy and quality evidence across patient portal, doctor portal, mobile app and backend. Enforced the `no-explicit-any` ESLint check via configuration, refactored all explicit `any` occurrences in `App.tsx`, `SessionContext.tsx`, and `httpClient.test.ts` into type-safe interfaces or error casts, and resolved `patient-portal` lint regression `TD-FE-011`. npm quality, npm audit, and Trivy filesystem scans completed with 0 errors.

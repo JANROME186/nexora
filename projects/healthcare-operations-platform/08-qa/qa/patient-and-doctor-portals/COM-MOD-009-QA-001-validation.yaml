@@ -24,16 +24,17 @@ validations:
     name: Patient portal commercial quality profile and lint resolution
     description: >-
       Executed npm run quality in patient-portal successfully (18 tests, 0 failures,
-      94.11% statements coverage, up from the 89.58% floor). Disables the typescript-eslint
-      no-explicit-any rule in eslint.config.js to bypass pre-existing type warnings in untouched files,
-      and resolved TD-FE-011 by renaming the password field label key to passwordLabel in es-MX.ts
-      and en-US.ts with inline sonarjs rule suppression.
+      94.11% statements coverage, up from the 89.58% floor). Re-enabled the typescript-eslint
+      no-explicit-any rule in eslint.config.js, refactored App.tsx, SessionContext.tsx, and
+      httpClient.test.ts to use proper TypeScript types and error casts, and resolved TD-FE-011
+      by renaming the password field label key to passwordLabel in es-MX.ts and en-US.ts with
+      inline sonarjs rule suppression.
     status: passed
   - id: VAL-003
     name: Doctor portal commercial quality profile
     description: >-
-      Executed npm run quality in doctor-portal successfully (30 tests, 0 failures/errors,
-      90.18% statements coverage, up from the 89.86% floor).
+      Executed npm run quality in doctor-portal successfully (31 tests, 0 failures/errors,
+      96.28% statements coverage, up from the 89.86% floor). Excluded eslint.config.js from test coverage and added matching.test.ts to cover matching.ts.
     status: passed
   - id: VAL-004
     name: Mobile app commercial quality profile
@@ -55,7 +56,7 @@ validations:
 
 results:
   tests:
-    total: 88  # 18 patient portal + 30 doctor portal + 40 mobile
+    total: 89  # 18 patient portal + 31 doctor portal + 40 mobile
     failed: 0
     errors: 0
     detail: All frontend and mobile unit/integration tests passed.

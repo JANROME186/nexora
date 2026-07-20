@@ -13,11 +13,11 @@ Additionally, this backlog item closed the pre-existing technical debt item [TD-
 
 | Checklist Item | Tool/Command | Status | Findings / Notes |
 | --- | --- | --- | --- |
-| **Unit & Integration Tests** | Vitest (Portals/Mobile), Maven/JUnit (Backend) | **PASSED** | 88 frontend/mobile tests passed. 280 backend tests passed. |
-| **Static Analysis / SAST** | ESLint / SonarJS / Security Plugins | **PASSED** | Zero errors. Pre-existing `sonarjs/no-hardcoded-passwords` false positive resolved. |
+| **Unit & Integration Tests** | Vitest (Portals/Mobile), Maven/JUnit (Backend) | **PASSED** | 89 frontend/mobile tests passed. 280 backend tests passed. |
+| **Static Analysis / SAST** | ESLint / SonarJS / Security Plugins | **PASSED** | Zero errors. Pre-existing `sonarjs/no-hardcoded-passwords` false positive resolved. Enforced typescript-eslint no-explicit-any rule across all portals, refactoring patient-portal code to use proper types instead of disabling the rule. |
 | **Dependency Scanning** | OWASP Dependency-Check, npm audit | **PASSED** | 0 vulnerabilities across all scanned backend and node dependencies. |
 | **Secrets & Vulnerabilities** | Trivy fs scanner | **PASSED** | 0 findings (vulnerabilities, secrets, or misconfigurations) across scanned targets. |
-| **Code Coverage Floors** | JaCoCo / Vitest Coverage | **PASSED** | Backend: 80.60% (Floor: 80.60%). Patient: 94.11% (Floor: 89.58%). Doctor: 90.18% (Floor: 89.86%). Mobile: 99.21% (Floor: 99.21%). |
+| **Code Coverage Floors** | JaCoCo / Vitest Coverage | **PASSED** | Backend: 80.60% (Floor: 80.60%). Patient: 94.11% (Floor: 89.58%). Doctor: 96.28% (Floor: 89.86%). Mobile: 99.21% (Floor: 99.21%). |
 | **Message i18n Review** | Manual catalog inspection | **PASSED** | Key-parity verified. No magic/hardcoded labels remain in modified files. |
 | **Agent-Agnostic Check** | Pattern scan | **PASSED** | No vendor-specific runtimes or agent configurations required. |
 | **Git Whitespace check** | `git diff --check` | **PASSED** | Trailing whitespace and formatting verified clean. |
@@ -28,8 +28,8 @@ Additionally, this backlog item closed the pre-existing technical debt item [TD-
 
 ### 1. Test Coverage Analysis
 No stack regressed below its baseline floor. Patient-portal and doctor-portal coverages both improved:
-* **Patient Portal**: **94.11%** (Floor: 89.58%). Excluded `eslint.config.js` from coverage calculations.
-* **Doctor Portal**: **90.18%** (Floor: 89.86%).
+* **Patient Portal**: **94.11%** (Floor: 89.58%).
+* **Doctor Portal**: **96.28%** (Floor: 89.86%). Excluded `eslint.config.js` from coverage calculations and added `matching.test.ts`.
 * **Backend**: **80.60%** (Floor: 80.60%).
 * **Mobile App**: **99.21%** (Floor: 99.21%).
 
@@ -38,4 +38,4 @@ No stack regressed below its baseline floor. Patient-portal and doctor-portal co
 * **Trivy fs**: Scanned package locks and POM. Clean report returned with **0 findings**.
 
 ### 3. Technical Debt Closed
-* **TD-FE-011 (patient-portal lint regression)**: **Closed**. Renamed the `login.password` locale key to `passwordLabel` in both Spanish and English catalogs, updated its usage in `App.tsx`, and suppressed the false positive. Disabling the `no-explicit-any` ESLint check via config resolved pre-existing typescript warnings.
+* **TD-FE-011 (patient-portal lint regression)**: **Closed**. Renamed the `login.password` locale key to `passwordLabel` in both Spanish and English catalogs, updated its usage in `App.tsx`, and suppressed the false positive. Enforced the `no-explicit-any` ESLint check via configuration and resolved all explicit `any` occurrences in `App.tsx`, `SessionContext.tsx`, and `httpClient.test.ts` using descriptive TypeScript interfaces or standard catch blocks.

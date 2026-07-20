@@ -36,7 +36,6 @@ export default tseslint.config(
       },
     },
     rules: {
-      "@typescript-eslint/no-explicit-any": "off",
       "complexity": ["warn", 18],
       "max-depth": ["warn", 4],
       "max-lines-per-function": ["warn", { max: 120, skipBlankLines: true, skipComments: true }],

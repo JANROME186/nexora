@@ -252,11 +252,11 @@ next_backlog_item:
     frontend_typescript_web_line_coverage_percent: 86.47
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.11
-    doctor_portal_typescript_web_line_coverage_percent: 90.18
+    doctor_portal_typescript_web_line_coverage_percent: 96.28
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - Preserve coverage floors: backend (80.60%), employee portal (86.47%), mobile (99.21%), patient portal (94.11%), and doctor portal (90.18%).
+    - Preserve coverage floors: backend (80.60%), employee portal (86.47%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
@@ -264,5 +264,5 @@ next_backlog_item:
     status: closed
     summary: >-
       COM-MOD-009-QA-001 validated channel access, privacy and quality evidence across all
-      components. Disables explicit-any typescript lint check and resolved patient-portal lint regression TD-FE-011.
+      components. Enforced the no-explicit-any check, refactored patient-portal typescript types, and resolved patient-portal lint regression TD-FE-011.
       All unit/integration tests passed. npm quality, npm audit, and Trivy filesystem scans completed with 0 errors.

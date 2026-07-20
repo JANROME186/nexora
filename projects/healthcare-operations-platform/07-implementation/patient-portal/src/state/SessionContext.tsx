@@ -121,8 +121,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
       setSession(user);
       return { ok: true };
-    } catch (e: any) {
-      return { ok: false, error: e?.message || "Unexpected error occurred" };
+    } catch (e) {
+      return { ok: false, error: (e as Error)?.message || "Unexpected error occurred" };
     } finally {
       setIsLoading(false);
     }

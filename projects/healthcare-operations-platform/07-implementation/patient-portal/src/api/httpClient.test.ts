@@ -86,10 +86,11 @@ describe("HTTP Client & API layer", () => {
     try {
       await get("/api/fail");
       expect.fail("Should have thrown an error");
-    } catch (e: any) {
-      expect(e).toBeInstanceOf(ApiError);
-      expect(e.status).toBe(400);
-      expect(e.message).toBe("Specific API Error Message");
+    } catch (e) {
+      const err = e as ApiError;
+      expect(err).toBeInstanceOf(ApiError);
+      expect(err.status).toBe(400);
+      expect(err.message).toBe("Specific API Error Message");
     }
   });
 
@@ -106,10 +107,11 @@ describe("HTTP Client & API layer", () => {
     try {
       await get("/api/fail");
       expect.fail("Should have thrown an error");
-    } catch (e: any) {
-      expect(e).toBeInstanceOf(ApiError);
-      expect(e.status).toBe(500);
-      expect(e.message).toBe("Internal Server Error");
+    } catch (e) {
+      const err = e as ApiError;
+      expect(err).toBeInstanceOf(ApiError);
+      expect(err.status).toBe(500);
+      expect(err.message).toBe("Internal Server Error");
     }
   });
 

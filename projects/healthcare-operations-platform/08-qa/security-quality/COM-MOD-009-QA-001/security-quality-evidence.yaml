@@ -40,14 +40,14 @@ results:
     command: npm.cmd run quality (patient-portal, doctor-portal, mobile-app); mvn clean verify (backend)
     result: passed
     detail: >-
-      All quality checks passed: 18 patient portal tests, 30 doctor portal tests,
+      All quality checks passed: 18 patient portal tests, 31 doctor portal tests,
       40 mobile app tests, and 280 backend tests passed with 0 failures or errors.
   sast_or_static_analysis:
     command: npm.cmd run lint (patient-portal, doctor-portal, mobile-app)
     result: passed
     detail: >-
       Pre-existing SonarJS passwords false-positive in patient-portal was resolved.
-      eslint.config.js disables the no-explicit-any rule to prevent pre-existing warnings in untouched files from blocking.
+      Enforced typescript-eslint no-explicit-any rule across all portals, refactoring patient-portal code to use proper types instead of disabling the rule.
   dependency_vulnerability_scan:
     backend_command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml org.owasp:dependency-check-maven:check
     backend_result: passed
@@ -96,7 +96,7 @@ results:
       status: passed (improved)
     doctor_portal_typescript_web:
       previous_floor_percent: 89.86
-      current_coverage_percent: 90.18
+      current_coverage_percent: 96.28
       final_target_percent: 80.00
       status: passed (improved)
     mobile_typescript_foundation:
@@ -108,7 +108,7 @@ results:
 technical_debt:
   debt_first_action: >-
     TD-FE-011 (patient portal lint regression) was fully closed by renaming the locale key to
-    passwordLabel and updating App.tsx, resolving the false positive SonarJS warning.
+    passwordLabel and updating App.tsx, resolving the false positive SonarJS warning. Also refactored all explicit any occurrences.
   new_debt_registered: []
   blocking: []
 

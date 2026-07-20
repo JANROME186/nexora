@@ -33,7 +33,7 @@ We resolved this by:
 1. Renaming the key to `login.passwordLabel` in both `src/i18n/locales/es-MX.ts` and `src/i18n/locales/en-US.ts`.
 2. Adding a scoped `eslint-disable-next-line sonarjs/no-hardcoded-passwords -- UI label text, not a credential` comment above the key definitions.
 3. Updating the lookup to `t.appShell.login.passwordLabel` in `src/App.tsx`.
-4. Updating `eslint.config.js` to override `@typescript-eslint/no-explicit-any` rules to prevent warnings from blocking linting gates.
+4. Re-enabling the `@typescript-eslint/no-explicit-any` ESLint check via configuration and resolving all explicit `any` occurrences in `App.tsx`, `SessionContext.tsx`, and `httpClient.test.ts` using descriptive TypeScript interfaces or standard catch blocks.
 5. Re-running the formatter (`npm run format:write`) and verification (`npm run quality`). The linting process now exits cleanly with `0` errors.
 
 ---
@@ -46,7 +46,7 @@ All quality checks were run using standard local commands. Coverage floors are s
 | --- | --- | --- | --- |
 | **Backend Java/Maven** | 80.60% | **80.60%** (280 tests) | Passed |
 | **Patient Portal TS** | 89.58% | **94.11%** (18 tests) | Passed (Improved) |
-| **Doctor Portal TS** | 89.86% | **90.18%** (30 tests) | Passed (Improved) |
+| **Doctor Portal TS** | 89.86% | **96.28%** (31 tests) | Passed (Improved) |
 | **Mobile TS Foundation** | 99.21% | **99.21%** (40 tests) | Passed |
 
 ### Vulnerability and Secret Scans:
