@@ -67,6 +67,89 @@ class HopAuthorizationInterceptorTest {
     assertThat(AuthenticatedUserContextHolder.current().get().userId()).isEqualTo("user-a");
   }
 
+  @Test
+  void referringDoctorWithMatchingDoctorIdQueryParamMayListTheirOwnOrders() throws Exception {
+    var properties = properties(false);
+    var interceptor = interceptor(properties);
+    var request = request("GET", "/api/clinical-operations/diagnostic-orders");
+    request.setParameter("doctorId", "Doctor-01");
+    request.addHeader(
+        HopAuthenticationResolver.AUTHORIZATION, "Bearer local-session:tenant-a:Doctor-01");
+    request.addHeader(HopAuthenticationResolver.ROLES, "REFERRING_DOCTOR");
+    var response = new MockHttpServletResponse();
+
+    boolean allowed = interceptor.preHandle(request, response, new Object());
+
+    assertThat(allowed).isTrue();
+    assertThat(response.getStatus()).isEqualTo(200);
+  }
+
+  @Test
+  void referringDoctorCannotListOrdersUnderAnotherDoctorId() throws Exception {
+    var properties = properties(false);
+    var interceptor = interceptor(properties);
+    var request = request("GET", "/api/clinical-operations/diagnostic-orders");
+    request.setParameter("doctorId", "Doctor-02");
+    request.addHeader(
+        HopAuthenticationResolver.AUTHORIZATION, "Bearer local-session:tenant-a:Doctor-01");
+    request.addHeader(HopAuthenticationResolver.ROLES, "REFERRING_DOCTOR");
+    var response = new MockHttpServletResponse();
+
+    boolean allowed = interceptor.preHandle(request, response, new Object());
+
+    assertThat(allowed).isFalse();
+    assertThat(response.getStatus()).isEqualTo(403);
+  }
+
+  @Test
+  void referringDoctorMayReachResultsHistoryPermissionCheck() throws Exception {
+    var properties = properties(false);
+    var interceptor = interceptor(properties);
+    var request = request("GET", "/api/results/history/patient/Patient-01");
+    request.addHeader(
+        HopAuthenticationResolver.AUTHORIZATION, "Bearer local-session:tenant-a:Doctor-01");
+    request.addHeader(HopAuthenticationResolver.ROLES, "REFERRING_DOCTOR");
+    var response = new MockHttpServletResponse();
+
+    boolean allowed = interceptor.preHandle(request, response, new Object());
+
+    assertThat(allowed).isTrue();
+    assertThat(response.getStatus()).isEqualTo(200);
+  }
+
+  @Test
+  void referringDoctorMayReachResultNotificationsPermissionCheck() throws Exception {
+    var properties = properties(false);
+    var interceptor = interceptor(properties);
+    var request =
+        request("GET", "/api/clinical-operations/laboratory-results/res-1/notifications");
+    request.addHeader(
+        HopAuthenticationResolver.AUTHORIZATION, "Bearer local-session:tenant-a:Doctor-01");
+    request.addHeader(HopAuthenticationResolver.ROLES, "REFERRING_DOCTOR");
+    var response = new MockHttpServletResponse();
+
+    boolean allowed = interceptor.preHandle(request, response, new Object());
+
+    assertThat(allowed).isTrue();
+    assertThat(response.getStatus()).isEqualTo(200);
+  }
+
+  @Test
+  void otherRolesRemainDeniedForDoctorPortalEndpoints() throws Exception {
+    var properties = properties(false);
+    var interceptor = interceptor(properties);
+    var request = request("GET", "/api/results/history/patient/Patient-01");
+    request.addHeader(
+        HopAuthenticationResolver.AUTHORIZATION, "Bearer local-session:tenant-a:user-a");
+    request.addHeader(HopAuthenticationResolver.ROLES, "FRONT_DESK");
+    var response = new MockHttpServletResponse();
+
+    boolean allowed = interceptor.preHandle(request, response, new Object());
+
+    assertThat(allowed).isFalse();
+    assertThat(response.getStatus()).isEqualTo(403);
+  }
+
   private HopAuthorizationInterceptor interceptor(HopSecurityProperties properties) {
     return new HopAuthorizationInterceptor(
         endpointPermissionRegistry,

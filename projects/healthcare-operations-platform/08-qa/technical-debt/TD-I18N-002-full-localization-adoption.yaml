@@ -2,12 +2,22 @@ artifact:
   id: TD-I18N-002
   type: technical-debt-item
   name: Complete full message-catalog and localization-library adoption beyond the HOP-QA-ALIGN-005 baseline
-  version: 2.2.0
+  version: 2.3.0
   status: materially_reduced
   created_date: 2026-07-16
-  updated_date: 2026-07-18
+  updated_date: 2026-07-19
   materially_reduced_by_backlog_item: HOP-ENT-FOUND-001
-  further_materially_reduced_by_backlog_item: MVP-MOD-008-BE-001
+  further_materially_reduced_by_backlog_item: COM-MOD-009-PORTAL-002
+
+com_mod_009_portal_002_reduction_evidence: >
+  COM-MOD-009-PORTAL-002 replaced the doctor-portal's stale, wrong-domain locale catalog
+  (previously a verbatim copy of the employee-portal's SCREEN_*/tabs catalog, unrelated to any
+  doctor-portal screen) with a complete, correct doctor-domain es-MX/en-US catalog covering
+  login, all UI states (loading/empty/error/no-permission/session-expired), and the
+  patients/results/orders/notifications screens. No hardcoded visible strings remain in
+  App.tsx. Not closed: this item's backend/employee-portal/mobile remaining scope (the five
+  *ApiErrorResponse shapes without a `code` field, ~125 employee-portal single-occurrence
+  strings, no third-party i18n library) is unchanged by this backlog item.
 
 further_material_reduction_evidence: >
   MVP-MOD-008-BE-001 implemented what MVP-MOD-008-DEF modeled: IntegrationExceptionHandler and

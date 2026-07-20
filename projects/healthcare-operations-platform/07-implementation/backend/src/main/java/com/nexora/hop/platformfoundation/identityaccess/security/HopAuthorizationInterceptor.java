@@ -79,6 +79,30 @@ public class HopAuthorizationInterceptor implements HandlerInterceptor {
       }
     }
 
+    // Secure self-access boundary for REFERRING_DOCTOR role (COM-MOD-009-PORTAL-002 doctor
+    // portal): the coarse permission check above only grants employee SCREEN_* permissions, so a
+    // doctor is re-checked here against the PORTAL_DOCTOR_* permissions. Fine-grained ownership
+    // (which patients this doctor actually referred) is enforced downstream by
+    // DiagnosticOrderController's doctorId filter and ResultHistoryService's referral check,
+    // since it requires real order data the interceptor does not have access to.
+    if (!allowed && context.get().roleCodes().contains("REFERRING_DOCTOR")) {
+      String uri = request.getRequestURI();
+      String method = request.getMethod();
+      var permissions = authorizationService.permissionsForRoles(context.get().roleCodes());
+      if ("/api/clinical-operations/diagnostic-orders".equals(uri)
+          && "GET".equalsIgnoreCase(method)
+          && context.get().userId().equals(request.getParameter("doctorId"))) {
+        allowed = permissions.contains(
+            com.nexora.hop.platformfoundation.identityaccess.domain.PermissionCode.PORTAL_DOCTOR_ORDERS_VIEW);
+      } else if (uri.startsWith("/api/results/history/patient/")) {
+        allowed = permissions.contains(
+            com.nexora.hop.platformfoundation.identityaccess.domain.PermissionCode.PORTAL_DOCTOR_RESULTS_VIEW);
+      } else if (uri.startsWith("/api/clinical-operations/laboratory-results/") && uri.endsWith("/notifications")) {
+        allowed = permissions.contains(
+            com.nexora.hop.platformfoundation.identityaccess.domain.PermissionCode.PORTAL_DOCTOR_NOTIFICATIONS_VIEW);
+      }
+    }
+
     if (!allowed) {
       writeError(response, HttpServletResponse.SC_FORBIDDEN, "PERMISSION_DENIED");
       return false;

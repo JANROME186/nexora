@@ -1,0 +1,54 @@
+artifact:
+  id: TD-FE-011
+  type: technical-debt-item
+  name: patient-portal npm run lint fails with 2 pre-existing sonarjs/no-hardcoded-passwords errors
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-19
+
+source:
+  discovered_during_backlog_item: COM-MOD-009-PORTAL-002
+  module: COM-MOD-009
+  evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.yaml
+
+classification:
+  category: quality_gate_regression
+  affected_area: patient_portal_lint_gate
+  affected_components:
+    - 07-implementation/patient-portal/src/i18n/locales/es-MX.ts
+    - 07-implementation/patient-portal/src/i18n/locales/en-US.ts
+  risk_level: low
+  blocking: false
+  reason_non_blocking: >
+    The finding is a false-positive lint rule match (a UI label object key literally named
+    `password`, not a hardcoded credential) on a closed, already-verified deliverable
+    (COM-MOD-009-PORTAL-001). It does not affect runtime behavior, security posture or test
+    coverage; it only blocks re-running `npm run lint` to a clean exit code on patient-portal
+    until fixed.
+
+current_state:
+  issue: >
+    Running `npm run lint` in 07-implementation/patient-portal currently reports 2 errors:
+    `sonarjs/no-hardcoded-passwords` on `src/i18n/locales/es-MX.ts:49` and
+    `src/i18n/locales/en-US.ts:48`, both on the `login.password: "..."` object key (a login
+    form field label, not a secret). This was discovered while building the doctor-portal's
+    equivalent locale keys for COM-MOD-009-PORTAL-002, where the same false positive was hit
+    and resolved by renaming the key to `passwordLabel` with a justified, scoped
+    eslint-disable-next-line comment. Patient-portal was not touched by COM-MOD-009-PORTAL-002
+    (out of scope: it is already closed and its own coverage/quality floor must not be
+    disturbed by an unrelated backlog item).
+
+target_state:
+  fix: >
+    Apply the same fix already validated in doctor-portal: rename the `login.password` locale
+    key to `login.passwordLabel` in both es-MX.ts and en-US.ts, update the one App.tsx
+    reference, and re-run `npm run quality` to confirm no regression.
+
+remediation:
+  strategy: gradual_when_patient_portal_is_next_touched_rename_login_password_locale_key
+  owner: frontend_platform_team
+  target_backlog: next_patient_portal_touching_backlog_item
+  priority: P2
+  acceptance_criteria:
+    - patient-portal `npm run lint` exits with 0 errors.
+    - No behavior change to the login form (label text/wiring unchanged).

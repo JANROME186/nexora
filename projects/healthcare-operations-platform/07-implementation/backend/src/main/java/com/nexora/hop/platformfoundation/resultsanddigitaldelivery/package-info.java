@@ -7,7 +7,8 @@
         "notificationmanagement::notification-service",
         "notificationmanagement::notification-domain",
         "peopleclinicalmasterdata",
-        "frontdeskcaredelivery::sale-source-port"
+        "frontdeskcaredelivery::sale-source-port",
+        "frontdeskcaredelivery::referring-doctor-authorization-port"
     }
 )
 package com.nexora.hop.platformfoundation.resultsanddigitaldelivery;

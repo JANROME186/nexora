@@ -37,8 +37,14 @@ class DiagnosticOrderController {
     }
 
     @GetMapping
-    ResponseEntity<List<DiagnosticOrder>> listDiagnosticOrders(@RequestParam String tenantId) {
-        return ResponseEntity.ok(service.list(tenantId));
+    ResponseEntity<List<DiagnosticOrder>> listDiagnosticOrders(
+            @RequestParam String tenantId, @RequestParam(required = false) String doctorId) {
+        if (doctorId == null || doctorId.isBlank()) {
+            return ResponseEntity.ok(service.list(tenantId));
+        }
+        // Real server-side filtering for the doctor-portal "my referred orders" view
+        // (COM-MOD-009-PORTAL-002): the caller never receives another doctor's orders.
+        return ResponseEntity.ok(service.listReferredByDoctor(tenantId, doctorId));
     }
 
     @GetMapping("/{orderId}")

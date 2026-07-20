@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskPolicyStore;
+import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.ReferringDoctorAuthorizationPort;
 
 /**
  * Functional coverage for the compiled MVP-MOD-004-BE-001 outputs and the MVP-MOD-004-BE-002
@@ -42,6 +43,9 @@ class FrontDeskCareDeliveryApiTest {
 
     @Autowired
     private FrontDeskPolicyStore policyStore;
+
+    @Autowired
+    private ReferringDoctorAuthorizationPort referringDoctorAuthorizationPort;
 
     private String tenantId;
     private String laboratoryId;
@@ -97,6 +101,39 @@ class FrontDeskCareDeliveryApiTest {
         mockMvc.perform(get("/api/clinical-operations/diagnostic-orders").param("tenantId", tenantId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].orderId").exists());
+    }
+
+    @Test
+    void doctorIdFilterReturnsOnlyOrdersReferredByThatDoctorAndAuthorizationPortAgrees() throws Exception {
+        String patientA = registerPatient("Ada", "Lovelace");
+        String patientB = registerPatient("Marie", "Curie");
+        String doctorOne = registerDoctor("Grace", "Hopper");
+        String doctorTwo = registerDoctor("Alan", "Turing");
+        String panelId = publishPanel();
+        publishPriceListForPanel(panelId, "45.00");
+
+        postJson("/api/clinical-operations/diagnostic-orders", """
+                {"tenantId":"%s","laboratoryId":"%s","branchId":"%s","intakeChannel":"walk_in",
+                 "patientId":"%s","doctorId":"%s","actorId":"receptionist-1",
+                 "lines":[{"testDefinitionId":"%s","catalogItemKind":"panel","quantity":1}]}
+                """.formatted(tenantId, laboratoryId, branchId, patientA, doctorOne, panelId));
+        postJson("/api/clinical-operations/diagnostic-orders", """
+                {"tenantId":"%s","laboratoryId":"%s","branchId":"%s","intakeChannel":"walk_in",
+                 "patientId":"%s","doctorId":"%s","actorId":"receptionist-1",
+                 "lines":[{"testDefinitionId":"%s","catalogItemKind":"panel","quantity":1}]}
+                """.formatted(tenantId, laboratoryId, branchId, patientB, doctorTwo, panelId));
+
+        // COM-MOD-009-PORTAL-002: real server-side filtering, the caller never receives
+        // another doctor's orders even though both orders exist in the same tenant.
+        mockMvc.perform(get("/api/clinical-operations/diagnostic-orders")
+                        .param("tenantId", tenantId).param("doctorId", doctorOne))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].patientSnapshot.fullName").value("Ada Lovelace"))
+                .andExpect(jsonPath("$[0].doctorSnapshot.fullName").value("Grace Hopper"));
+
+        assertThat(referringDoctorAuthorizationPort.isPatientReferredByDoctor(tenantId, doctorOne, patientA)).isTrue();
+        assertThat(referringDoctorAuthorizationPort.isPatientReferredByDoctor(tenantId, doctorOne, patientB)).isFalse();
     }
 
     @Test

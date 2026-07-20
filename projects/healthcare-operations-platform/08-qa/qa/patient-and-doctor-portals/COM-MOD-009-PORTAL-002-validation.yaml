@@ -1,0 +1,125 @@
+artifact:
+  id: COM-MOD-009-PORTAL-002-VALIDATION
+  type: qa-validation-evidence
+  backlog_item: COM-MOD-009-PORTAL-002
+  status: passed
+  created_date: 2026-07-19
+  standard: ../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+
+scope_note: >
+  COM-MOD-009-PORTAL-002 is the doctor portal commercial workflow compilation backlog item:
+  it rebuilds the doctor-portal frontend (previously a stale employee-portal-domain scaffold
+  with a single unauthenticated screen) into a real referring-doctor login flow, a
+  permission-filtered dynamic dashboard shell, and Patients/Results/Orders/Notifications views
+  backed by new, real backend server-side enforcement (doctorId-filtered diagnostic orders,
+  a referral-relationship authorization port, and a new results-history 403 boundary), full
+  es-MX/en-US localization for the doctor domain, and explicit loading/empty/error/
+  no-permission/session-expired UI states. Doctor portal unit tests passed successfully
+  (30 tests) raising line coverage from the 40.62% floor to 89.86% (TD-FE-009 closed).
+  Backend line coverage rose from 80.49% to 80.60% with no regression (280 tests, 0
+  failures/errors/skipped).
+
+validations:
+  - id: VAL-001
+    name: Doctor Portal Real Login Flow and Session Context
+    description: >-
+      Rebuilt SessionContext.tsx for the REFERRING_DOCTOR domain (previously mismatched mock
+      role code "DOCTOR" that did not exist in the backend's RolePermissionCatalog, which
+      would have denied every protected call). Implemented real credential verification
+      against /api/auth/login, doctor-profile name resolution against
+      /api/people/doctors/{id}, and mock quick-access login, mirroring the patient-portal
+      COM-MOD-009-PORTAL-001 pattern.
+    status: passed
+  - id: VAL-002
+    name: Dynamic Permission-Filtered Dashboard Navigation
+    description: >-
+      Replaced permissions.ts (previously a stale copy of the employee-portal's SCREEN_*
+      catalog, unrelated to any doctor-portal screen) with the real PORTAL_DOCTOR_* permission
+      model. App.tsx now derives visible navigation tabs from
+      permissionsForRoles([session.roleCode]) at render time instead of a hardcoded tab list,
+      so the menu is genuinely dynamic by role/permission, not just permission-gated at the
+      API layer.
+    status: passed
+  - id: VAL-003
+    name: Referred Patients, Results, Orders and Notifications Views
+    description: >-
+      Patients tab derives the doctor's referred-patient list from their own server-filtered
+      diagnostic orders (no broad patient listing call, preserving least privilege). Orders
+      tab shows order/status for the same server-filtered order set. Results tab lets the
+      doctor select one of their referred patients and requests that patient's released
+      result history via the new backend referral-authorization boundary. Notifications tab
+      reuses the same patient selection to list notification records for that patient's
+      results, transitively authorized the same way COM-MOD-009-PORTAL-001 established for
+      the patient portal.
+    status: passed
+  - id: VAL-004
+    name: Explicit Loading, Empty, Error, No-Permission and Session-Expired States
+    description: >-
+      Added state/errorMessages.ts (resolveApiErrorMessage), a shared helper that maps a 401
+      ApiError to the session-expired message and forces logout, maps a 403 ApiError to the
+      no-permission message without logging out, and falls back to a generic error message
+      otherwise. Every tab renders explicit loading/empty/error states in addition to its data
+      table; the Patients tab renders a dedicated empty-state hint when a doctor has no
+      referred patients yet.
+    status: passed
+  - id: VAL-005
+    name: Backend Real Least-Privilege Enforcement for the Doctor Portal
+    description: >-
+      Added PermissionCode.PORTAL_DOCTOR_ORDERS_VIEW/PORTAL_DOCTOR_NOTIFICATIONS_VIEW and
+      granted all four PORTAL_DOCTOR_* permissions to REFERRING_DOCTOR. Added
+      DiagnosticOrderController's doctorId query filter (server-side, not client-side) and
+      three new HopAuthorizationInterceptor self-access blocks for REFERRING_DOCTOR (orders
+      list scoped to the caller's own doctorId, results history, result notifications). Added
+      a new ReferringDoctorAuthorizationPort (Spring Modulith named interface, mirroring the
+      TD-BE-010 SampleReadPort precedent) that ResultHistoryService uses to verify a doctor
+      has actually referred a patient (via a real diagnostic-order relationship query) before
+      returning that patient's result history; an unreferred patient now receives a 403 with
+      the pre-existing DELIVERY_DOCTOR_REFERRAL_MISMATCH error code instead of silently
+      succeeding.
+    status: passed
+  - id: VAL-006
+    name: Test Coverage Target Reached
+    description: >-
+      Doctor-portal unit test suite expanded from 1 smoke test to 30 tests across App.tsx,
+      session/permission/error-state helpers and the new API modules, raising line coverage
+      from the 40.62% floor to 89.86% (a +49.24 percentage point improvement, exceeding the
+      3-5 point minimum and reaching the 80% final-closure target), closing TD-FE-009. Backend
+      added 12 new/updated tests (interceptor, RolePermissionCatalog, DiagnosticOrder
+      referral filtering, ResultHistoryService/Controller), raising backend line coverage from
+      80.49% to 80.60% with no regression (280 tests total, 0 failures/errors/skipped;
+      Spring Modulith module-boundary test re-verified the new
+      referring-doctor-authorization-port wiring).
+    status: passed
+
+results:
+  tests:
+    total: 30
+    failed: 0
+    errors: 0
+    detail: All doctor-portal unit and integration tests passed (8 test files).
+  backend_tests:
+    total: 280
+    failed: 0
+    errors: 0
+    skipped: 0
+    detail: >-
+      Full backend suite passed via `mvn -Pquality "-Dhop.local-db-tests=true" clean verify`,
+      including the new HopAuthorizationInterceptorTest doctor-portal cases,
+      RolePermissionCatalogTest REFERRING_DOCTOR case, FrontDeskCareDeliveryApiTest doctorId
+      filter/referral-port case, and ResultHistoryServiceTest/ResultHistoryControllerTest
+      referral-authorization cases.
+  agent_agnostic_scan:
+    pattern: "vendor-specific agent/runtime references"
+    matches_found: 0
+    detail: No named-agent or vendor-runtime dependency found in any new or touched artifact.
+  secrets_scan:
+    pattern: password|secret|api[_-]?key|private[_-]?key|token\s*[:=]
+    matches_found: 0
+    detail: >-
+      No credential literals found. The only "password" substring matches are the
+      es-MX/en-US login form label keys (UI copy, not a credential), suppressed with a
+      justified inline eslint-disable-next-line comment for sonarjs/no-hardcoded-passwords.
+
+readiness:
+  status: passed
+  ready_for_next_backlog_item: COM-MOD-009-APP-001

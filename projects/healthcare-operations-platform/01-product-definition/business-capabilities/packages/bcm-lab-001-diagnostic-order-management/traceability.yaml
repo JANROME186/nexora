@@ -139,3 +139,13 @@ traces:
         activity. The order-status tier is retained only as a fallback for orders without a linked
         sample record.
       evidence: ../../../../08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
+    - backlog_item: COM-MOD-009-PORTAL-002
+      change: >-
+        listDiagnosticOrders gained an optional doctorId query filter, served by a new
+        DiagnosticOrderManagementService.listReferredByDoctor method, for the doctor-portal
+        "my referred orders" view. HopAuthorizationInterceptor enforces that a REFERRING_DOCTOR
+        caller may only pass their own doctorId. DiagnosticOrderManagementService also now
+        implements a new frontdeskcaredelivery.shared.ReferringDoctorAuthorizationPort
+        (isPatientReferredByDoctor), a Spring Modulith named interface consumed by
+        resultsanddigitaldelivery to authorize doctor access to patient result history.
+      evidence: ../../../../08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.yaml

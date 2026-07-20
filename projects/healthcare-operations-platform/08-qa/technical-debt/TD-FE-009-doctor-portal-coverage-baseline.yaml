@@ -2,9 +2,11 @@ artifact:
   id: TD-FE-009
   type: technical-debt-item
   name: Establish doctor portal test coverage baseline and raise it to the 80 percent target
-  version: 1.0.0
-  status: open
+  version: 2.0.0
+  status: closed
   created_date: 2026-07-18
+  closed_date: 2026-07-19
+  closed_by_backlog_item: COM-MOD-009-PORTAL-002
 
 source:
   discovered_during_backlog_item: MVP-MOD-007-CLOSEOUT
@@ -54,3 +56,14 @@ remediation:
     - Doctor-portal coverage is measured in every doctor-portal-touching iteration.
     - Coverage does not drop below the 40.62% floor established here.
     - Coverage reaches at least 80% before HOP final project closure.
+
+closure:
+  closed_by_backlog_item: COM-MOD-009-PORTAL-002
+  closed_date: 2026-07-19
+  evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.yaml
+  final_line_coverage_percent: 89.86
+  detail: >-
+    COM-MOD-009-PORTAL-002 rebuilt the doctor-portal frontend (session context, permission
+    model, i18n catalogs, API layer and App shell) and expanded the test suite from 1 smoke
+    test to 30 tests across 8 test files, raising line coverage from the 40.62% floor to
+    89.86%, exceeding the 80% final-closure target. All acceptance criteria satisfied.

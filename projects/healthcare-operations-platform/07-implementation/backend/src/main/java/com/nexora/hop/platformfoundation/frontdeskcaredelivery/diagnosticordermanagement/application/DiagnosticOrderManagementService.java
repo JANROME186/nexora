@@ -33,6 +33,7 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.diagnosticorderma
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskConflictException;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskEntityNotFoundException;
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.FrontDeskErrorCodes;
+import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.ReferringDoctorAuthorizationPort;
 import com.nexora.hop.platformfoundation.laboratoryworkflow.shared.SampleReadPort;
 import com.nexora.hop.platformfoundation.organizationmanagement.BranchDirectory;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.doctormanagement.DoctorDirectory;
@@ -60,9 +61,16 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagem
  * aggregate state modeled by MVP-MOD-006 instead of relying purely on order status as a proxy.
  * The order-status tier introduced by MVP-MOD-004-BE-002 is kept only as a fallback for orders
  * that have reached an accepted/in-progress status without yet having a linked sample record.
+ * <p>
+ * <b>COM-MOD-009-PORTAL-002:</b> implements {@link ReferringDoctorAuthorizationPort} so the
+ * doctor-portal commercial workflow can enforce a real, server-side least-privilege boundary: a
+ * referring doctor may only list their own orders ({@link #listReferredByDoctor(String, String)})
+ * and only reach a patient's results/notifications if {@link
+ * #isPatientReferredByDoctor(String, String, String)} confirms the referral relationship captured
+ * on this aggregate's own {@link DoctorSnapshot}/{@link PatientSnapshot} order data.
  */
 @Service
-public class DiagnosticOrderManagementService {
+public class DiagnosticOrderManagementService implements ReferringDoctorAuthorizationPort {
 
     private static final List<String> INTAKE_CHANNELS = List.of(
             DiagnosticOrder.CHANNEL_WALK_IN, DiagnosticOrder.CHANNEL_APPOINTMENT,
@@ -341,6 +349,32 @@ public class DiagnosticOrderManagementService {
 
     public List<DiagnosticOrder> list(String tenantId) {
         return repository.findByTenantId(requiredText(tenantId, "Tenant id is required."));
+    }
+
+    /**
+     * Returns only the orders on which {@code doctorId} is captured as the referring doctor,
+     * for the doctor-portal "my orders" view (COM-MOD-009-PORTAL-002). Real server-side
+     * filtering, not a client-side workaround: the caller never receives another doctor's orders.
+     */
+    public List<DiagnosticOrder> listReferredByDoctor(String tenantId, String doctorId) {
+        String resolvedDoctorId = requiredText(doctorId, "Doctor id is required.");
+        return list(tenantId).stream()
+                .filter(order -> order.doctorSnapshot() != null
+                        && resolvedDoctorId.equals(order.doctorSnapshot().doctorId()))
+                .toList();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isPatientReferredByDoctor(String tenantId, String doctorId, String patientId) {
+        if (tenantId == null || tenantId.isBlank() || doctorId == null || doctorId.isBlank()
+                || patientId == null || patientId.isBlank()) {
+            return false;
+        }
+        return list(tenantId).stream().anyMatch(order ->
+                order.doctorSnapshot() != null && doctorId.equals(order.doctorSnapshot().doctorId())
+                        && order.patientSnapshot() != null
+                        && patientId.equals(order.patientSnapshot().patientId()));
     }
 
     public List<OrderLine> getOrderLines(String orderId) {

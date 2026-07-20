@@ -67,6 +67,16 @@ class RolePermissionCatalogTest {
     }
 
     @Test
+    void referringDoctorHoldsItsExpectedDoctorPortalScreens() {
+        assertThat(RolePermissionCatalog.permissionsFor(RolePermissionCatalog.REFERRING_DOCTOR))
+                .containsExactlyInAnyOrder(
+                        PermissionCode.PORTAL_DOCTOR_PATIENTS_VIEW,
+                        PermissionCode.PORTAL_DOCTOR_RESULTS_VIEW,
+                        PermissionCode.PORTAL_DOCTOR_ORDERS_VIEW,
+                        PermissionCode.PORTAL_DOCTOR_NOTIFICATIONS_VIEW);
+    }
+
+    @Test
     void unknownRoleCodeIsDeniedByDefault() {
         assertThat(RolePermissionCatalog.permissionsFor("NOT_A_REAL_ROLE")).isEqualTo(Set.of());
     }

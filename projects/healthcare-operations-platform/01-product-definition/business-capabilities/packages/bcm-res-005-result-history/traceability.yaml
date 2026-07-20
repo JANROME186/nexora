@@ -74,4 +74,16 @@ traces:
     validation_status: closed
     closeout: MVP-MOD-007-CLOSEOUT
     closeout_status: closed
+  post_closeout_debt_remediation:
+    - backlog_item: COM-MOD-009-PORTAL-002
+      change: >-
+        ResultHistoryController/ResultHistoryService gained optional tenantId/callerRoleCode/
+        callerId query parameters. When callerRoleCode is REFERRING_DOCTOR, ResultHistoryService
+        now verifies via frontdeskcaredelivery's new ReferringDoctorAuthorizationPort that the
+        calling doctor has actually referred the requested patient before returning history;
+        an unreferred patient now receives a 403 (ResultHistoryAccessDeniedException, error code
+        DELIVERY_DOCTOR_REFERRAL_MISMATCH) instead of silently succeeding. Patient self-access
+        (path patientId == authenticated userId, enforced by HopAuthorizationInterceptor) is
+        unchanged.
+      evidence: ../../../../08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.yaml
 

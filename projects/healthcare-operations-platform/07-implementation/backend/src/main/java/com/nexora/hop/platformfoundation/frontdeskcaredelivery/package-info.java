@@ -19,6 +19,12 @@
  * .application.DiagnosticOrderManagementService#cancel} consumes
  * {@code laboratoryworkflow.shared.SampleReadPort} to check real collected-sample state instead
  * of relying solely on order status as a proxy (closes TD-BE-010).</p>
+ *
+ * <p>{@link com.nexora.hop.platformfoundation.frontdeskcaredelivery.diagnosticordermanagement
+ * .application.DiagnosticOrderManagementService} also implements the
+ * {@code referring-doctor-authorization-port} named interface (COM-MOD-009-PORTAL-002), exposing
+ * the doctor/patient referral relationship captured on DiagnosticOrder snapshots so
+ * resultsanddigitaldelivery can enforce a real least-privilege boundary for the doctor portal.</p>
  */
 @org.springframework.modulith.ApplicationModule(
         displayName = "Front Desk and Care Delivery",

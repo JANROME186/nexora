@@ -62,7 +62,9 @@ public final class RolePermissionCatalog {
                     PermissionCode.PORTAL_PATIENT_NOTIFICATIONS_VIEW),
             REFERRING_DOCTOR, EnumSet.of(
                     PermissionCode.PORTAL_DOCTOR_PATIENTS_VIEW,
-                    PermissionCode.PORTAL_DOCTOR_RESULTS_VIEW),
+                    PermissionCode.PORTAL_DOCTOR_RESULTS_VIEW,
+                    PermissionCode.PORTAL_DOCTOR_ORDERS_VIEW,
+                    PermissionCode.PORTAL_DOCTOR_NOTIFICATIONS_VIEW),
             SUPPORT, EnumSet.of(
                     PermissionCode.PORTAL_SUPPORT_IMPERSONATE));
 

@@ -242,26 +242,34 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-009
-  backlog_item_id: COM-MOD-009-PORTAL-002
-  name: Compile doctor portal commercial workflow
-  expected_folder: 07-implementation/doctor-portal/
+  backlog_item_id: COM-MOD-009-APP-001
+  name: Patient mobile workflow
+  expected_folder: 07-implementation/mobile-app/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
-    backend_java_maven_line_coverage_percent_if_backend_is_touched: 80.49
+    backend_java_maven_line_coverage_percent_if_backend_is_touched: 80.60
     frontend_typescript_web_line_coverage_percent: 86.47
     mobile_typescript_foundation_line_coverage_percent: 98.87
     patient_portal_typescript_web_line_coverage_percent: 89.58
-    doctor_portal_typescript_web_line_coverage_percent: 40.62
+    doctor_portal_typescript_web_line_coverage_percent: 89.86
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - Doctor portal coverage (40.62%) is below the 80% final-closure target; COM-MOD-009-PORTAL-002 must raise coverage by 3 to 5 percentage points (target 43.62% - 45.62%) or explicitly justify with immediate coverage debt.
-    - Preserve coverage floors: backend (80.49%), employee portal (86.47%), mobile (98.87%), patient portal (89.58%), and doctor portal (40.62%).
+    - Preserve coverage floors: backend (80.60%), employee portal (86.47%), mobile (98.87%), patient portal (89.58%), and doctor portal (89.86%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-009-PORTAL-001
+    backlog_item_id: COM-MOD-009-PORTAL-002
     status: closed
     summary: >-
-      COM-MOD-009-PORTAL-001 compiled patient portal commercial workflow (login, profile, appointments, orders, results, notifications, i18n switcher, error states, and secure patient self-access interceptor) with unit test coverage raised from 41.93% to 89.58% (TD-FE-008 closed).
+      COM-MOD-009-PORTAL-002 rebuilt the doctor portal commercial workflow (login,
+      permission-filtered dynamic navigation, referred-patients/results/orders/notifications
+      views, i18n switcher, loading/empty/error/no-permission/session-expired states),
+      replacing a stale employee-portal-domain scaffold, and added backend least-privilege
+      enforcement (doctorId-filtered diagnostic orders, a new ReferringDoctorAuthorizationPort
+      Spring Modulith named interface, 3 new interceptor self-access blocks) with unit test
+      coverage raised from 40.62% to 89.86% (TD-FE-009 closed); backend coverage 80.49% ->
+      80.60% (280 tests, 0 failures/errors/skipped); TD-IAM-002 and TD-I18N-002 materially
+      reduced further; TD-FE-011 registered (pre-existing, unrelated patient-portal lint
+      regression).

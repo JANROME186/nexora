@@ -2,72 +2,81 @@
  * es-MX message catalog (default locale per the enterprise-product-foundation-standard
  * `localization_and_i18n` foundation: `default_locale: es-MX`, `fallback_locale: en-US`).
  *
- * The flat, top-level keys are the original HOP-QA-ALIGN-005 / MVP-MOD-007-FE-001 baseline
- * (previously the sole content of `src/i18n/messages.ts`, English-only) translated to Spanish.
- * The `appShell` keys are new: they demonstrate the locale-switching mechanism end-to-end by
- * driving the AppShell header and navigation tab labels.
+ * Doctor-portal domain catalog (COM-MOD-009-PORTAL-002). Replaces a stale copy of the
+ * employee-portal admin-screen catalog that had been left in this scaffold.
  *
  * This file is the source of truth for `MessageCatalog` — `en-US.ts` is type-checked against it
  * so the two locales can never drift out of key parity.
  */
 export const esMX = {
-  selectDoctorFirst: "Selecciona un doctor primero.",
-  selectPatientFirst: "Selecciona un paciente primero.",
   unexpectedError: "Error inesperado. Inténtalo de nuevo.",
-  selectReceptionVisitFirst: "Selecciona una visita de recepción primero.",
-  selectOrderFirst: "Selecciona una orden diagnóstica primero.",
-  selectCashSessionFirst: "Selecciona una sesión de caja primero.",
-  selectSaleFirst: "Selecciona una venta primero.",
-  selectBillingRequestFirst: "Selecciona una solicitud de facturación primero.",
-  // -- Results and Digital Delivery (MVP-MOD-007) --
-  selectResultFirst: "Selecciona un resultado primero.",
-  selectEscalationFirst: "Selecciona una escalación crítica primero.",
-  noResultsPendingRelease: "No se encontraron resultados liberados para este tenant.",
-  noEscalationsOpen: "No hay escalaciones críticas abiertas para este tenant.",
-  noReportsGenerated: "No se generaron reportes para este resultado.",
-  noNotificationsFound: "No se encontraron registros de notificación para este resultado.",
-  reportRegenerated: "Regeneración de reporte iniciada.",
-  escalationAcknowledged: "Escalación confirmada.",
-  escalationEscalated: "Escalación remitida al siguiente nivel.",
-  escalationClosed: "Escalación cerrada.",
+  selectPatientFirst: "Selecciona un paciente primero.",
+  sessionExpiredRetry: "Tu sesión ha expirado. Inicia sesión de nuevo para continuar.",
   appShell: {
-    title: "Plataforma de Operaciones de Salud - Administración del Portal de Empleados",
+    title: "HOP Portal Médico",
     subtitle:
-      "Fundamento de Plataforma, Catálogo Diagnóstico, Datos Maestros de Personas y Clínicos, " +
-      "Recepción y Atención al Paciente, Caja y Facturación, Flujo de Trabajo de Laboratorio, y " +
-      "Resultados y Entrega Digital: administración, auditoría, catálogo, registros de " +
-      "pacientes/doctores, órdenes diagnósticas, sesiones de caja, flujo de trabajo de " +
-      "laboratorio y gestión de entrega de resultados.",
-    navAriaLabel: "Pantallas de administración",
+      "Acceso para médicos referentes: consulta a tus pacientes referidos, resultados liberados autorizados, órdenes diagnósticas y notificaciones.",
+    navAriaLabel: "Pantallas del portal médico",
     languageSwitcherLabel: "Idioma",
     tabs: {
-      tenants: "Organizaciones",
-      laboratories: "Laboratorios",
-      branches: "Sucursales",
-      users: "Usuarios",
-      roleAssignments: "Asignación de Roles",
-      auditEvents: "Eventos de Auditoría",
-      diagnosticCatalog: "Catálogo Diagnóstico",
-      personSearch: "Búsqueda de Personas",
-      patients: "Pacientes",
-      doctors: "Doctores",
-      patientRegistrations: "Registros de Pacientes",
-      reception: "Recepción",
-      diagnosticOrders: "Órdenes Diagnósticas",
-      cashSessions: "Sesiones de Caja",
-      sales: "Ventas",
-      billingRequests: "Solicitudes de Facturación",
-      sampleCollection: "Recolección de Muestras",
-      sampleLabeling: "Etiquetado de Muestras",
-      sampleReception: "Recepción de Muestras",
-      laboratoryProcessing: "Procesamiento de Laboratorio",
-      technicalValidation: "Validación Técnica",
-      medicalValidation: "Validación Médica",
-      resultRelease: "Liberación de Resultados",
-      resultSearch: "Búsqueda de Resultados",
-      resultReports: "Reportes de Resultados",
-      criticalEscalations: "Escalaciones Críticas",
-      resultNotifications: "Notificaciones de Resultados",
+      patients: "Mis Pacientes",
+      results: "Resultados",
+      orders: "Mis Órdenes",
+      notifications: "Notificaciones",
+    },
+    login: {
+      title: "Iniciar Sesión",
+      tenantId: "ID de Organización",
+      username: "Nombre de Usuario",
+      // eslint-disable-next-line sonarjs/no-hardcoded-passwords -- UI label text, not a credential
+      passwordLabel: "Contraseña",
+      submit: "Ingresar",
+      loggingIn: "Ingresando...",
+      errorInvalid: "Credenciales incorrectas.",
+      errorLocked: "Cuenta bloqueada temporalmente por intentos fallidos.",
+      errorSuspended: "Cuenta suspendida. Contacta a soporte.",
+    },
+    states: {
+      loading: "Cargando información...",
+      empty: "No se encontraron registros.",
+      error: "Ocurrió un error al cargar la información.",
+      noPermission: "No tienes permiso para acceder a esta sección.",
+      sessionExpired: "Tu sesión ha expirado. Por favor inicia sesión de nuevo.",
+      logout: "Cerrar Sesión",
+      welcome: "Bienvenido/a",
+    },
+    patients: {
+      name: "Nombre",
+      document: "Documento",
+      birthDate: "Fecha de Nacimiento",
+      referredOrders: "Órdenes Referidas",
+      viewResults: "Ver Resultados",
+      emptyHint: "Aún no tienes pacientes referidos en esta organización.",
+    },
+    results: {
+      selectPatient: "Selecciona un paciente",
+      selectPatientPlaceholder: "-- Selecciona un paciente referido --",
+      abnormal: "Anormal",
+      normal: "Normal",
+      analyte: "Analito",
+      value: "Resultado",
+      range: "Rango de Referencia",
+      releasedAt: "Liberado el",
+    },
+    orders: {
+      orderId: "ID de Orden",
+      patient: "Paciente",
+      branch: "Sucursal",
+      status: "Estado",
+      createdAt: "Fecha de Creación",
+    },
+    notifications: {
+      resultId: "ID de Resultado",
+      channel: "Canal",
+      recipient: "Destinatario",
+      status: "Estado",
+      dispatchedAt: "Enviado el",
+      failureReason: "Motivo de Falla",
     },
   },
 } as const;

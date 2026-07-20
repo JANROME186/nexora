@@ -35,9 +35,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 80.49
-        source_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 80.49
+        current_line_coverage_percent: 80.60
+        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 80.60
         final_closure_target_percent: 80
         correction_note: >-
           MVP-MOD-007-QA-001 raised backend line coverage to 78.42%. MVP-MOD-007-CLOSEOUT's
@@ -45,7 +45,9 @@ policy:
           branch, raising it to 78.51% (211 tests, 0 failures/errors) with no regression.
           MVP-MOD-008-BE-001 raised it further to 80.08% (239 tests, 0 failures/errors), reaching
           the final 80% target for this stack. MVP-MOD-008-BE-002 raised it further to 80.49%
-          (265 tests, 0 failures/errors); future backend iterations must not regress below 80.49%.
+          (265 tests, 0 failures/errors). COM-MOD-009-PORTAL-002 raised it further to 80.60%
+          (280 tests, 0 failures/errors/skipped); future backend iterations must not regress
+          below 80.60%.
       frontend_typescript_web:
         current_line_coverage_percent: 86.47
         source_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.yaml
@@ -77,15 +79,14 @@ policy:
           First-ever coverage measurement for patient-portal, taken during MVP-MOD-007-CLOSEOUT,
           was 41.93%. COM-MOD-009-PORTAL-001 closed TD-FE-008 and raised coverage to 89.58%.
       doctor_portal_typescript_web:
-        current_line_coverage_percent: 40.62
-        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 40.62
+        current_line_coverage_percent: 89.86
+        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 89.86
         final_closure_target_percent: 80
         correction_note: >-
-          First-ever coverage measurement for doctor-portal, taken during MVP-MOD-007-CLOSEOUT.
-          MVP-MOD-007-PORTAL-001 closed this stack with only an application smoke test and never
-          recorded a percentage. Tracked by new item TD-FE-009; not a regression since no prior
-          floor existed.
+          First-ever coverage measurement for doctor-portal, taken during MVP-MOD-007-CLOSEOUT,
+          was 40.62% (TD-FE-009 registered). COM-MOD-009-PORTAL-002 closed TD-FE-009 and raised
+          coverage to 89.86%, exceeding the 80% final-closure target.
   promote_to_blocking_when:
     - vulnerability_or_secure_code_finding_without_disposition
     - unsupported_runtime_blocks_safe_development
@@ -324,7 +325,8 @@ entries:
     file: 08-qa/technical-debt/TD-I18N-002-full-localization-adoption.yaml
     remediation_strategy: materially_reduced_by_HOP_ENT_FOUND_001_real_locale_keyed_catalogs_and_backend_MessageSource_baseline_established_remaining_modules_and_screens_tracked;
       further_reduced_by_MVP_MOD_008_DEF_first_class_code_field_and_reserved_message_key_namespaces_modeled_for_new_integration_capabilities;
-      further_reduced_by_MVP_MOD_008_BE_002_adding_a_first_class_messageKey_field_alongside_code_on_every_BCM_PLT_004_005_010_error_response_with_es_MX_en_US_catalog_entries_for_every_code
+      further_reduced_by_MVP_MOD_008_BE_002_adding_a_first_class_messageKey_field_alongside_code_on_every_BCM_PLT_004_005_010_error_response_with_es_MX_en_US_catalog_entries_for_every_code;
+      further_reduced_by_COM_MOD_009_PORTAL_002_replacing_the_doctor_portal_wrong_domain_locale_catalog_with_a_complete_correct_doctor_domain_catalog
   - id: TD-FE-006
     title: Employee portal is missing dedicated Appointment Scheduling, Admission Management and Quotation Management UI
     status: open
@@ -379,7 +381,8 @@ entries:
     source_backlog_item: HOP-ENT-FOUND-001
     affected_area: iam_permission_granularity
     file: 08-qa/technical-debt/TD-IAM-002-permission-granularity-gap.yaml
-    remediation_strategy: materially_reduced_by_endpoint_permission_registry_api_path_action_mapping
+    remediation_strategy: materially_reduced_by_endpoint_permission_registry_api_path_action_mapping;
+      further_reduced_by_COM_MOD_009_PORTAL_002_doctor_portal_ownership_enforcement_doctorid_match_and_referral_relationship_verification
   - id: TD-DB-001
     title: resultsanddigitaldelivery, documentmanagement and notificationmanagement have no
       persistent (Jdbc) schema/repository - in-memory adapters only
@@ -489,13 +492,22 @@ entries:
     remediation_strategy: closed_by_COM_MOD_009_PORTAL_001_patient_portal_test_coverage_89_58_percent
   - id: TD-FE-009
     title: Establish doctor portal test coverage baseline and raise it to the 80 percent target
-    status: open
+    status: closed
     risk_level: medium
     blocking: false
     source_backlog_item: MVP-MOD-007-CLOSEOUT
     affected_area: doctor_portal_test_coverage
     file: 08-qa/technical-debt/TD-FE-009-doctor-portal-coverage-baseline.yaml
-    remediation_strategy: gradual_when_com_mod_009_doctor_portal_commercial_workflow_is_implemented
+    remediation_strategy: closed_by_COM_MOD_009_PORTAL_002_doctor_portal_rebuilt_coverage_40_62_to_89_86_percent
+  - id: TD-FE-011
+    title: patient-portal npm run lint fails with 2 pre-existing sonarjs/no-hardcoded-passwords errors
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: COM-MOD-009-PORTAL-002
+    affected_area: patient_portal_lint_gate
+    file: 08-qa/technical-debt/TD-FE-011-patient-portal-lint-regression.yaml
+    remediation_strategy: gradual_when_patient_portal_is_next_touched_rename_login_password_locale_key
   - id: TD-BE-013
     title: XLSX row-level parsing not implemented for open data ingestion and migration
     status: closed
