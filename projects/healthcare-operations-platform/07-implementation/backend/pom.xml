@@ -276,8 +276,15 @@
                         <artifactId>dependency-check-maven</artifactId>
                         <version>12.1.3</version>
                         <configuration>
+                            <!-- NVD data is refreshed manually once per day outside agent execution. -->
+                            <autoUpdate>false</autoUpdate>
+                            <!-- Shared local Dependency-Check data directory. -->
+                            <dataDirectory>C:/Documents/Proyectos/Laboratorio/dependency-check-data</dataDirectory>
+                            <!-- Report all severities; backlog policy decides closure from the evidence. -->
                             <failBuildOnCVSS>0</failBuildOnCVSS>
+                            <!-- OSS Index is disabled; NVD/KEV and local cached data remain authoritative. -->
                             <ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
+                            <!-- Reports -->
                             <formats>
                                 <format>HTML</format>
                                 <format>JSON</format>

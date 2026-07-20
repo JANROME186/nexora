@@ -3,7 +3,7 @@
 **Artifact ID:** `NXF-OSS-SEC-QUAL-001`  
 **Status:** Approved  
 **Machine-readable source:** `open-source-first-security-quality-standard.yaml`
-**Version:** `1.5.0`
+**Version:** `1.5.1`
 
 ## Purpose
 
@@ -70,6 +70,23 @@ Required checks, when applicable:
 - License review when dependencies change.
 - Technology evolution review against current open source options.
 - Technical-debt backlog update when non-blocking upgrade or migration findings exist.
+
+## Vulnerability Database Refresh
+
+Tools such as OWASP Dependency-Check may use a large local advisory database. Nexora separates two
+responsibilities:
+
+- The project operator or security reviewer refreshes the advisory database manually once per day,
+  or before release-readiness validation.
+- Agents execute the configured analysis against the advisory database available at execution time
+  and document the database location plus freshness timestamp/date in QA and security-quality
+  evidence.
+
+Agents must not spend ordinary backlog execution time downloading or refreshing large vulnerability
+databases unless a backlog explicitly assigns that operational task. A scan can close when the tool
+runs successfully against the available local database and reports zero unresolved findings, with
+database freshness recorded. Missing or stale advisory data is an operational prerequisite for the
+human operator, not framework implementation work.
 
 ## Enterprise Stack Quality
 

@@ -289,6 +289,17 @@ cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-oper
 mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -Pquality org.owasp:dependency-check-maven:check
 ```
 
+OWASP Dependency-Check uses the local advisory database at:
+
+```text
+C:\Documents\Proyectos\Laboratorio\dependency-check-data
+```
+
+This database is refreshed manually once per day by the project operator or security reviewer. It is
+not the responsibility of the Nexora framework or backlog agents to update/download the NVD database
+during ordinary backlog execution. Agents must run the scan against the database available at that
+moment and document the database path plus freshness timestamp/date in QA/security evidence.
+
 Employee portal enterprise quality profile:
 
 ```powershell

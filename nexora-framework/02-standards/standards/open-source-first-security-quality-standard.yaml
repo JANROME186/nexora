@@ -2,7 +2,7 @@ artifact:
   id: NXF-OSS-SEC-QUAL-001
   type: framework-standard
   name: Open Source First Security and Quality Standard
-  version: 1.5.0
+  version: 1.5.1
   status: approved
   human_readable: open-source-first-security-quality-standard.md
   machine_readable: open-source-first-security-quality-standard.yaml
@@ -190,11 +190,46 @@ quality_gate_execution_policy:
     - Record detected runtime/tool versions and command paths for executed gates.
     - Record exact commands executed, working directory, result and numeric
       summaries (tests, failures, errors, skipped, coverage and vulnerabilities).
+    - For vulnerability tools that use a local advisory database, record the
+      database freshness timestamp or the manually supplied update date.
     - Record not_applicable gates with a reason tied to changed surface.
     - Do not use passed_with_execution_limitation or closed_with_execution_limitation
       as final closure states.
     - Use blocked_by_environment or ready_for_external_validation for incomplete
       mandatory gates.
+  local_vulnerability_database_policy:
+    purpose: >
+      Keep vulnerability scans reproducible and fast without making agents
+      responsible for refreshing large advisory databases during each backlog
+      execution.
+    applies_to:
+      - OWASP Dependency-Check
+      - tools_using_local_nvd_osv_or_equivalent_vulnerability_databases
+    daily_manual_refresh_required: true
+    refresh_frequency: once_per_day_or_before_release_readiness
+    responsible_party: project_operator_or_security_reviewer
+    agent_responsibility:
+      - Execute the configured vulnerability analysis against the local advisory
+        database available at execution time.
+      - Record the database location and freshness timestamp/date in QA and
+        security-quality evidence.
+      - Report stale or missing vulnerability data as an operational prerequisite
+        for the human operator, not as a framework implementation task.
+      - Do not spend backlog execution time downloading or refreshing large
+        vulnerability databases unless the backlog explicitly assigns that
+        operational task.
+    agent_must_not:
+      - Treat advisory database refresh as feature work.
+      - Modify framework rules to bypass dependency vulnerability analysis.
+      - Claim a scan passed without actually running the scanner against the
+        currently available local database.
+    closure_rule: >
+      A dependency vulnerability gate may close when the scanner executes
+      successfully against the locally available advisory database, reports
+      zero unresolved findings or accepted-risk dispositions, and records the
+      advisory database freshness. The freshness update itself is a manual
+      operational responsibility and is not performed by the framework or by
+      ordinary backlog agents.
 
 verifiable_backlog_closure_policy:
   purpose: >

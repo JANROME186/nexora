@@ -3,7 +3,7 @@
 **Artifact ID:** `NXF-SQ-PROMPTS-001`  
 **Status:** Approved  
 **Machine-readable source:** `security-quality-gate-prompts.yaml`
-**Version:** `1.5.0`
+**Version:** `1.5.1`
 
 Use these prompts with the Open Source First Security and Quality Standard, the Enterprise Product Foundation Standard and the Engineering Excellence Prioritization Standard.
 
@@ -89,6 +89,13 @@ checks:
 - Technology evolution review.
 - Stack-specific quality toolchain completeness review.
 - Technical-debt backlog update when non-blocking modernization findings exist.
+
+For tools that use a local vulnerability/advisory database, such as OWASP Dependency-Check with a
+local NVD cache, the agent must execute the scanner against the database available at that moment
+and record the database path plus freshness timestamp/date in evidence. The daily database refresh
+is a manual responsibility of the project operator or security reviewer, not the framework or the
+backlog agent. Agents should not download or refresh large advisory databases during ordinary
+backlog execution unless that operational task is explicitly assigned.
 
 If a mandatory executable gate cannot run because Maven, Java, Node, npm, a native package, Docker,
 a database service, network access or an audit endpoint is missing, unsupported or blocked, the

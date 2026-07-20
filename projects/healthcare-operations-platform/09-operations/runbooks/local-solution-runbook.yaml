@@ -340,7 +340,17 @@ quality_validation:
     name: Backend dependency vulnerability scan - all severities
     working_directory: 07-implementation/backend
     command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -Pquality org.owasp:dependency-check-maven:check
-    expected_result: OWASP Dependency-Check reports 0 vulnerabilities.
+    expected_result: OWASP Dependency-Check reports 0 vulnerabilities using the locally available advisory database.
+    local_advisory_database_policy:
+      tool: OWASP Dependency-Check
+      data_directory: C:/Documents/Proyectos/Laboratorio/dependency-check-data
+      auto_update_during_agent_execution: false
+      manual_refresh_frequency: once_per_day
+      responsible_party: human_operator_or_security_reviewer
+      agent_instruction: >-
+        Agents execute the scan against the local database available at execution time and document
+        the database path plus freshness timestamp/date in evidence. Updating the database is a
+        manual operational task outside framework and backlog-agent responsibility.
   - id: QA-005
     name: Employee portal enterprise quality profile
     working_directory: 07-implementation/employee-portal

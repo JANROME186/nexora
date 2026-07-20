@@ -2,7 +2,7 @@ artifact:
   id: HOP-STACK-QUALITY-TOOLCHAIN-001
   type: stack-quality-toolchain-baseline
   name: HOP Stack Quality Toolchain Baseline
-  version: 1.2.0
+  version: 1.2.1
   status: active_with_mandatory_debt_first_remediation
   created_date: 2026-07-09
   last_refreshed_date: 2026-07-15
@@ -73,7 +73,17 @@ toolchain_by_stack:
         status: configured_passing
         evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-004-validation.yaml
         latest_result: 0_vulnerabilities
-        required_action: keep_nvd_kev_scan_active_all_severities
+        required_action: keep_nvd_kev_scan_active_all_severities_using_manual_daily_database_refresh
+        local_database_policy:
+          data_directory: C:/Documents/Proyectos/Laboratorio/dependency-check-data
+          auto_update_during_backlog_execution: false
+          manual_refresh_frequency: once_per_day
+          responsible_party: project_operator_or_security_reviewer
+          agent_responsibility: >-
+            Execute OWASP Dependency-Check against the locally available database and record the
+            database path plus freshness timestamp/date in security-quality evidence. Do not
+            download or refresh the NVD database during ordinary backlog execution unless a backlog
+            explicitly assigns that operational task.
       - category: Containers, filesystem and secrets
         tool: Trivy
         status: configured_passing_all_severities
