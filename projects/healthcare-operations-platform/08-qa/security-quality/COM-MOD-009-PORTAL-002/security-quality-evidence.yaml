@@ -164,6 +164,6 @@ commercial_readiness_disclosure:
 
 readiness:
   security_quality_status: passed
-  ready_for_next_backlog_item: COM-MOD-009-QA-001
+  ready_for_next_backlog_item: COM-MOD-009-CLOSEOUT
   next_required_focus:
-    - Validate channel access and privacy evidence (COM-MOD-009-QA-001).
+    - Close Patient and Doctor Portals module (COM-MOD-009-CLOSEOUT).

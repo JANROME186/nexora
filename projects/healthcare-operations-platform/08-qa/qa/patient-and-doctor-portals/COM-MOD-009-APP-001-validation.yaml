@@ -106,5 +106,5 @@ closure_audit:
 
 decision:
   backlog_item_status: closed
-  ready_for_next_backlog_item: COM-MOD-009-QA-001
-  next_backlog_item_name: Channel access and privacy evidence
+  ready_for_next_backlog_item: COM-MOD-009-CLOSEOUT
+  next_backlog_item_name: Close Patient and Doctor Portals module

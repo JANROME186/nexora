@@ -59,7 +59,7 @@ results:
     trivy_result: passed
     trivy_detail: 0 vulnerabilities/secrets/misconfigurations reported for scanned folders.
   yaml_parse:
-    files_checked: 911
+    files_checked: 926
     detail: All YAML files outside of dependency directories parse successfully.
   message_externalization_i18n_review:
     method: Verified es-MX and en-US catalog definitions and keys.
