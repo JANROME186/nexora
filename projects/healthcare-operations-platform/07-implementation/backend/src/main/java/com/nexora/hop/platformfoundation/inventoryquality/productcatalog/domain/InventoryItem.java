@@ -82,6 +82,24 @@ public record InventoryItem(
         newAudit);
   }
 
+  public InventoryItem withEquipmentProfile(EquipmentProfile profile, AuditMetadata newAudit) {
+    return new InventoryItem(
+        inventoryItemId,
+        tenantId,
+        laboratoryId,
+        branchId,
+        itemCode,
+        itemName,
+        itemType,
+        classification,
+        unitOfMeasure,
+        status,
+        stockSummary,
+        reagentProfile,
+        profile,
+        newAudit);
+  }
+
   public InventoryItem withStatus(String newStatus, AuditMetadata newAudit) {
     return new InventoryItem(
         inventoryItemId,

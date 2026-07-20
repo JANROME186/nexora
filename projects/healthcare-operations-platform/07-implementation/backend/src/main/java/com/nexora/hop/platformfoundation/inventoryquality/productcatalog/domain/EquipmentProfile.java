@@ -14,4 +14,15 @@ public record EquipmentProfile(
     String model,
     LocalDateTime installedAt,
     String location,
-    String availabilityStatus) {}
+    String availabilityStatus) {
+
+  public static final String STATUS_AVAILABLE = "available";
+  public static final String STATUS_IN_USE = "in_use";
+  public static final String STATUS_OUT_OF_SERVICE = "out_of_service";
+  public static final String STATUS_RETIRED = "retired";
+
+  public EquipmentProfile withAvailabilityStatus(String status) {
+    return new EquipmentProfile(
+        assetTag, serialNumber, manufacturer, model, installedAt, location, status);
+  }
+}

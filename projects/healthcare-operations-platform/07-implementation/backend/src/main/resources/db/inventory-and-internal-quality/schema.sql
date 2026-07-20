@@ -1,9 +1,9 @@
--- Generated/model-derived schema for COM-MOD-010 Inventory and Internal Quality (BE-001 scope).
+-- Generated/model-derived schema for COM-MOD-010 Inventory and Internal Quality.
 -- Source models: BCM-INV-001 Product Catalog, BCM-INV-002 Reagent Management, BCM-INV-003 Lot
 -- Management, BCM-INV-004 Procurement Management, BCM-INV-005 Stock Entries, BCM-INV-006 Stock
 -- Exits, BCM-INV-007 Consumption Tracking, BCM-INV-008 Inventory Adjustments and BCM-INV-009
--- Waste Management.
--- BCM-QLT-001/003/004/005 will extend this schema in COM-MOD-010-BE-002.
+-- Waste Management, BCM-QLT-001 Internal Quality Controls, BCM-QLT-003 Calibration Management,
+-- BCM-QLT-004 Equipment Management and BCM-QLT-005 Maintenance Management.
 
 CREATE SCHEMA IF NOT EXISTS inventory_quality;
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS inventory_quality.inventory_items (
     reagent_linked_test_definition_id varchar(36),
     reagent_category varchar(30),
     reagent_consumption_ratio numeric(18,6),
-    -- EquipmentProfile fields (VO-CAT-003); reserved for BCM-QLT-004 in COM-MOD-010-BE-002.
+    -- EquipmentProfile fields (VO-CAT-003); mutated only through BCM-QLT-004 commands.
     equipment_asset_tag varchar(80),
     equipment_serial_number varchar(80),
     equipment_manufacturer varchar(120),
@@ -224,3 +224,117 @@ CREATE TABLE IF NOT EXISTS inventory_quality.waste_records (
 
 CREATE INDEX IF NOT EXISTS idx_waste_records_item
     ON inventory_quality.waste_records (inventory_item_id);
+
+-- ============================================================
+-- QualityControlRun (BCM-QLT-001). Control-material lots are read from StockLot and InventoryItem;
+-- this table stores the append-only run evidence plus supervisor overrides.
+-- ============================================================
+CREATE TABLE IF NOT EXISTS inventory_quality.quality_control_runs (
+    qc_run_id varchar(36) PRIMARY KEY,
+    tenant_id varchar(36) NOT NULL,
+    laboratory_id varchar(36) NOT NULL,
+    branch_id varchar(36) NOT NULL,
+    test_definition_id varchar(36) NOT NULL,
+    control_material_stock_lot_id varchar(36) NOT NULL
+        REFERENCES inventory_quality.stock_lots (stock_lot_id),
+    measured_value numeric(18,6) NOT NULL,
+    expected_min numeric(18,6) NOT NULL,
+    expected_max numeric(18,6) NOT NULL,
+    expected_captured_at timestamp with time zone NOT NULL,
+    rule_evaluation varchar(30) NOT NULL,
+    acceptance_decision varchar(30) NOT NULL,
+    linked_laboratory_result_ids text,
+    performed_by varchar(80) NOT NULL,
+    performed_at timestamp with time zone NOT NULL,
+    evidence_reference varchar(500),
+    override_reason varchar(500),
+    override_by varchar(80),
+    created_by varchar(80) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_by varchar(80) NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    CONSTRAINT ck_quality_control_expected_range CHECK (expected_min <= expected_max)
+);
+
+CREATE INDEX IF NOT EXISTS idx_quality_control_runs_scope
+    ON inventory_quality.quality_control_runs (tenant_id, laboratory_id, branch_id);
+CREATE INDEX IF NOT EXISTS idx_quality_control_runs_lot
+    ON inventory_quality.quality_control_runs (control_material_stock_lot_id);
+
+-- ============================================================
+-- CalibrationEvent (BCM-QLT-003). A failed result is consumed by BCM-QLT-004 to set the equipment
+-- availability status to out_of_service.
+-- ============================================================
+CREATE TABLE IF NOT EXISTS inventory_quality.calibration_events (
+    calibration_event_id varchar(36) PRIMARY KEY,
+    inventory_item_id varchar(36) NOT NULL
+        REFERENCES inventory_quality.inventory_items (inventory_item_id),
+    tenant_id varchar(36) NOT NULL,
+    branch_id varchar(36) NOT NULL,
+    calibration_standard_ref varchar(160) NOT NULL,
+    performed_by varchar(80) NOT NULL,
+    performed_at timestamp with time zone NOT NULL,
+    result varchar(30) NOT NULL,
+    next_due_date date,
+    certificate_reference varchar(500),
+    created_by varchar(80) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_by varchar(80) NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_calibration_events_item
+    ON inventory_quality.calibration_events (inventory_item_id);
+
+-- ============================================================
+-- EquipmentAvailabilityChange (BCM-QLT-004). Append-only history for delegated mutations to
+-- InventoryItem.equipmentProfile.availabilityStatus.
+-- ============================================================
+CREATE TABLE IF NOT EXISTS inventory_quality.equipment_availability_changes (
+    change_id varchar(36) PRIMARY KEY,
+    inventory_item_id varchar(36) NOT NULL
+        REFERENCES inventory_quality.inventory_items (inventory_item_id),
+    tenant_id varchar(36) NOT NULL,
+    branch_id varchar(36) NOT NULL,
+    previous_status varchar(30),
+    new_status varchar(30) NOT NULL,
+    reason_code varchar(60) NOT NULL,
+    changed_by varchar(80) NOT NULL,
+    changed_at timestamp with time zone NOT NULL,
+    created_by varchar(80) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_by varchar(80) NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_equipment_availability_item
+    ON inventory_quality.equipment_availability_changes (inventory_item_id);
+
+-- ============================================================
+-- MaintenanceEvent (BCM-QLT-005). Scheduling and completion events coordinate equipment
+-- availability through BCM-QLT-004.
+-- ============================================================
+CREATE TABLE IF NOT EXISTS inventory_quality.maintenance_events (
+    maintenance_event_id varchar(36) PRIMARY KEY,
+    inventory_item_id varchar(36) NOT NULL
+        REFERENCES inventory_quality.inventory_items (inventory_item_id),
+    tenant_id varchar(36) NOT NULL,
+    branch_id varchar(36) NOT NULL,
+    maintenance_type varchar(30) NOT NULL,
+    performed_by varchar(80),
+    external_technician_ref varchar(160),
+    description varchar(1000) NOT NULL,
+    started_at timestamp with time zone NOT NULL,
+    completed_at timestamp with time zone,
+    downtime_minutes integer,
+    next_scheduled_at timestamp with time zone,
+    created_by varchar(80) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_by varchar(80) NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    CONSTRAINT ck_maintenance_completion_after_start
+        CHECK (completed_at IS NULL OR completed_at > started_at)
+);
+
+CREATE INDEX IF NOT EXISTS idx_maintenance_events_item
+    ON inventory_quality.maintenance_events (inventory_item_id);

@@ -76,4 +76,35 @@ public final class InventoryErrorCodes {
   public static final String WASTE_QUANTITY_EXCEEDS_LOT = "WASTE_QUANTITY_EXCEEDS_LOT";
   public static final String WASTE_REASON_CODE_REQUIRED = "WASTE_REASON_CODE_REQUIRED";
   public static final String WASTE_SCOPE_MISMATCH = "WASTE_SCOPE_MISMATCH";
+
+  // BCM-QLT-001 Internal Quality Controls.
+  public static final String QUALITY_CONTROL_NOT_FOUND = "QUALITY_CONTROL_NOT_FOUND";
+  public static final String QC_CONTROL_MATERIAL_LOT_INELIGIBLE =
+      "QC_CONTROL_MATERIAL_LOT_INELIGIBLE";
+  public static final String QC_OVERRIDE_NOT_AUTHORIZED = "QC_OVERRIDE_NOT_AUTHORIZED";
+  public static final String QC_SCOPE_MISMATCH = "QC_SCOPE_MISMATCH";
+  public static final String QC_EXPECTED_RANGE_INVALID = "QC_EXPECTED_RANGE_INVALID";
+
+  // BCM-QLT-003 Calibration Management.
+  public static final String CALIBRATION_ITEM_TYPE_NOT_ELIGIBLE =
+      "CALIBRATION_ITEM_TYPE_NOT_ELIGIBLE";
+  public static final String CALIBRATION_NEXT_DUE_DATE_INVALID =
+      "CALIBRATION_NEXT_DUE_DATE_INVALID";
+  public static final String CALIBRATION_SCOPE_MISMATCH = "CALIBRATION_SCOPE_MISMATCH";
+
+  // BCM-QLT-004 Equipment Management.
+  public static final String EQUIPMENT_ITEM_TYPE_NOT_ELIGIBLE =
+      "EQUIPMENT_ITEM_TYPE_NOT_ELIGIBLE";
+  public static final String EQUIPMENT_RETIRED_TRANSITION_FORBIDDEN =
+      "EQUIPMENT_RETIRED_TRANSITION_FORBIDDEN";
+  public static final String EQUIPMENT_SCOPE_MISMATCH = "EQUIPMENT_SCOPE_MISMATCH";
+  public static final String EQUIPMENT_PROFILE_MISSING = "EQUIPMENT_PROFILE_MISSING";
+
+  // BCM-QLT-005 Maintenance Management.
+  public static final String MAINTENANCE_NOT_FOUND = "MAINTENANCE_NOT_FOUND";
+  public static final String MAINTENANCE_ITEM_TYPE_NOT_ELIGIBLE =
+      "MAINTENANCE_ITEM_TYPE_NOT_ELIGIBLE";
+  public static final String MAINTENANCE_COMPLETED_BEFORE_STARTED =
+      "MAINTENANCE_COMPLETED_BEFORE_STARTED";
+  public static final String MAINTENANCE_SCOPE_MISMATCH = "MAINTENANCE_SCOPE_MISMATCH";
 }

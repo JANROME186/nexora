@@ -129,6 +129,22 @@ public class EndpointPermissionRegistry {
                   PermissionCode.SCREEN_INVENTORY_WASTE,
                   "BCM-INV-009"),
               readWrite(
+                  "/api/quality/internal-controls",
+                  PermissionCode.SCREEN_INTERNAL_QUALITY_CONTROLS,
+                  "BCM-QLT-001"),
+              readWrite(
+                  "/api/quality/calibrations",
+                  PermissionCode.SCREEN_CALIBRATIONS,
+                  "BCM-QLT-003"),
+              readWrite(
+                  "/api/quality/equipment",
+                  PermissionCode.SCREEN_EQUIPMENT,
+                  "BCM-QLT-004"),
+              readWrite(
+                  "/api/quality/maintenance",
+                  PermissionCode.SCREEN_MAINTENANCE,
+                  "BCM-QLT-005"),
+              readWrite(
                   "/api/auth/assistance",
                   PermissionCode.PORTAL_SUPPORT_IMPERSONATE,
                   "BCM-PLT-001"))

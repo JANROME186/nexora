@@ -234,14 +234,14 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-010-BE-001 Compile product, reagent, lot and stock outputs` is closed.
+`COM-MOD-010-BE-002 Compile equipment, maintenance and internal QC outputs` is closed.
 Continue with:
 
 - Module: `COM-MOD-010`
-- Backlog item: `COM-MOD-010-BE-002`
-- Previous backlog item: `COM-MOD-010-BE-001` (closed)
+- Backlog item: `COM-MOD-010-FE-001`
+- Previous backlog item: `COM-MOD-010-BE-002` (closed)
 - Paused functional backlog item: none
-- Folder: `07-implementation/backend/`
+- Folder: `07-implementation/frontend/employee-portal/`
 
 Mandatory setup for this backlog:
 
@@ -249,8 +249,10 @@ Mandatory setup for this backlog:
 - Preserve coverage floors: backend (82.94%), employee portal (86.47%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
-- Extend the existing `inventoryquality` Spring Modulith module with `BCM-QLT-001/003/004/005` sub-packages (internal quality controls, calibration management, equipment management, maintenance management); do not create a new module. `equipmentProfile` fields on `inventory_items` are already reserved for BCM-QLT-004.
+- Consume the closed backend APIs from `COM-MOD-010-BE-001` and `COM-MOD-010-BE-002`; do not reimplement backend logic in the frontend.
+- Add localized es-MX/en-US employee-portal UI for inventory catalog, stock movements, equipment, calibration, maintenance and internal quality controls with permission-filtered navigation/actions.
+- Keep labels/messages externalized in existing i18n resources; do not introduce hardcoded visible language strings.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-010-BE-001` - Compile product, reagent, lot and stock outputs. Compiled the backend outputs for the nine BCM-INV capability packages (BCM-INV-001..009) as a single `inventoryquality` Spring Modulith module with 27 REST operations across nine hexagonal sub-packages, JDBC + in-memory dual adapters, first-class `code`+`messageKey` error envelope and Spring Modulith module-boundary verification. Registered seven new `SCREEN_INVENTORY_*` `PermissionCode` values and 38 new `inventory.error.<code>` catalog keys, further materially reducing TD-I18N-002. 308 tests passed with 0 failures/errors/skipped; backend line coverage 80.60% → 82.94% (no regression); Trivy fs reported 0 findings across all severities. No runtime port, environment variable, startup-order or Docker asset changed.
+`COM-MOD-010-BE-002` - Compile equipment, maintenance and internal QC outputs. Compiled backend outputs for BCM-QLT-001/003/004/005 inside the existing `inventoryquality` Spring Modulith module. Added equipment, calibration, maintenance and internal quality-control REST endpoints, services, domain records, in-memory/JDBC adapters, four `inventory_quality` schema tables, four quality screen `PermissionCode` values and 16 localized `inventory.error.<code>` keys. Validation passed: `mvn compile/test/verify`, 312 backend tests, backend line coverage 82.94%, OWASP Dependency-Check 65 dependencies / 0 vulnerabilities using the local manual DB, Trivy vuln+misconfig 0 findings, YAML parse 1,583 files and agent-agnostic scan 0 findings.

@@ -71,13 +71,15 @@ traces:
       relationship: Reads QualityControlRunRecorded/out_of_control status as a technical-validation signal (BCM-LAB-008's own enforcement, not implemented here).
   generated_outputs_ref: generation-plan.yaml
   qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-DEF-validation.yaml
+  backend_qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-002-validation.yaml
+  backend_security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-010-BE-002/security-quality-evidence.yaml
   backlog_items:
     definition: COM-MOD-010-DEF
     definition_status: closed
     compilation: COM-MOD-010-BE-002
-    compilation_status: pending
+    compilation_status: closed
     custom_rules: COM-MOD-010-BE-002
-    custom_rules_status: pending
+    custom_rules_status: closed
     ui: COM-MOD-010-FE-001
     ui_status: pending
     validation: COM-MOD-010-QA-001

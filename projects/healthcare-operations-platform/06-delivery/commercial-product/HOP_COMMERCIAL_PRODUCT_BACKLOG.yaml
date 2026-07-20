@@ -19,8 +19,8 @@ product:
     completed_module: COM-MOD-009 (COM-MOD-009-CLOSEOUT closed)
     completed_status: closed
     active_module: COM-MOD-010
-    active_backlog_item: COM-MOD-010-BE-002
-    active_module_progress: COM-MOD-010-DEF and COM-MOD-010-BE-001 closed; ready for COM-MOD-010-BE-002
+    active_backlog_item: COM-MOD-010-FE-001
+    active_module_progress: COM-MOD-010-DEF, COM-MOD-010-BE-001 and COM-MOD-010-BE-002 closed; ready for COM-MOD-010-FE-001
     paused_backlog_item: null
 
 source_inputs:
@@ -755,10 +755,10 @@ modules:
         status: closed
       - id: COM-MOD-010-BE-002
         name: Compile equipment, maintenance and internal QC outputs
-        status: active
+        status: closed
       - id: COM-MOD-010-FE-001
         name: Compile inventory and internal quality UI outputs
-        status: pending
+        status: active
       - id: COM-MOD-010-QA-001
         name: Traceability, stock and quality evidence
         status: pending

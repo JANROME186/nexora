@@ -352,4 +352,4 @@ artifact_paths:
 closeout_state:
   backlog_item: COM-MOD-010-BE-001
   status: closed
-  next_backlog_item: COM-MOD-010-BE-002
+  next_backlog_item: COM-MOD-010-FE-001
