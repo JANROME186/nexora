@@ -122,6 +122,6 @@ commercial_readiness_disclosure:
 
 readiness:
   security_quality_status: passed
-  ready_for_next_backlog_item: COM-MOD-009-CLOSEOUT
+  ready_for_next_backlog_item: COM-MOD-010-DEF
   next_required_focus:
-    - Close the Patient and Doctor Portals module (COM-MOD-009-CLOSEOUT).
+    - Model capability packages for Inventory and Internal Quality (COM-MOD-010-DEF).

@@ -70,9 +70,11 @@ results:
     matches_found: 0
     detail: No credential literals or secrets found in newly modified files.
   stale_pointer_sweep:
-    method: Checked backlog pointer references across registries.
+    command: >-
+      rg -n "active_backlog_item: COM-MOD-009-[C]LOSEOUT|current_backlog_item: COM-MOD-009-[C]LOSEOUT|next_backlog_item: COM-MOD-009-[C]LOSEOUT|current_active_backlog_item: COM-MOD-009-[C]LOSEOUT|ready_for_next_backlog_item: COM-MOD-009-[C]LOSEOUT" projects/healthcare-operations-platform PROJECT_STATE.yaml
+    findings: 0
     result: passed
-    detail: All pointers clean and advanced past COM-MOD-009-CLOSEOUT to COM-MOD-010-DEF.
+    detail: Sweep returned 0 findings. All pointers clean and advanced past COM-MOD-009-CLOSEOUT to COM-MOD-010-DEF.
   git_whitespace_check:
     command: git diff --check
     result: passed

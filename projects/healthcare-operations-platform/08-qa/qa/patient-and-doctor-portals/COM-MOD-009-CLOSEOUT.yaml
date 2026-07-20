@@ -97,7 +97,8 @@ validation_gates:
     findings: 0
     status: passed
   - name: Stale Pointer Sweep
-    command: Scan for active COM-MOD-009 references in next backlog pointers
+    command: >-
+      rg -n "active_backlog_item: COM-MOD-009-[C]LOSEOUT|current_backlog_item: COM-MOD-009-[C]LOSEOUT|next_backlog_item: COM-MOD-009-[C]LOSEOUT|current_active_backlog_item: COM-MOD-009-[C]LOSEOUT|ready_for_next_backlog_item: COM-MOD-009-[C]LOSEOUT" projects/healthcare-operations-platform PROJECT_STATE.yaml
     findings: 0
     status: passed
 
