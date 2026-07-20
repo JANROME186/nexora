@@ -21,9 +21,12 @@ describe("HTTP Client & API layer", () => {
 
     const res = await get("/api/test");
     expect(res).toEqual({ data: "ok" });
-    expect(mockFetch).toHaveBeenCalledWith("/api/test", expect.objectContaining({
-      method: "GET",
-    }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      "/api/test",
+      expect.objectContaining({
+        method: "GET",
+      }),
+    );
   });
 
   it("handles successful POST request", async () => {
@@ -35,10 +38,13 @@ describe("HTTP Client & API layer", () => {
 
     const res = await post("/api/test", { name: "test-item" });
     expect(res).toEqual({ created: true });
-    expect(mockFetch).toHaveBeenCalledWith("/api/test", expect.objectContaining({
-      method: "POST",
-      body: JSON.stringify({ name: "test-item" }),
-    }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      "/api/test",
+      expect.objectContaining({
+        method: "POST",
+        body: JSON.stringify({ name: "test-item" }),
+      }),
+    );
   });
 
   it("handles successful PUT request", async () => {
@@ -50,10 +56,13 @@ describe("HTTP Client & API layer", () => {
 
     const res = await put("/api/test", { id: 1 });
     expect(res).toEqual({ updated: true });
-    expect(mockFetch).toHaveBeenCalledWith("/api/test", expect.objectContaining({
-      method: "PUT",
-      body: JSON.stringify({ id: 1 }),
-    }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      "/api/test",
+      expect.objectContaining({
+        method: "PUT",
+        body: JSON.stringify({ id: 1 }),
+      }),
+    );
   });
 
   it("handles 204 No Content response", async () => {
@@ -89,7 +98,9 @@ describe("HTTP Client & API layer", () => {
       ok: false,
       status: 500,
       statusText: "Internal Server Error",
-      json: async () => { throw new Error("not json"); },
+      json: async () => {
+        throw new Error("not json");
+      },
     });
 
     try {
@@ -111,6 +122,9 @@ describe("HTTP Client & API layer", () => {
 
     const res = await getPatientHistory("Patient-01");
     expect(res).toEqual({ patientId: "Patient-01", entries: [] });
-    expect(mockFetch).toHaveBeenCalledWith("/api/results/history/patient/Patient-01", expect.any(Object));
+    expect(mockFetch).toHaveBeenCalledWith(
+      "/api/results/history/patient/Patient-01",
+      expect.any(Object),
+    );
   });
 });

@@ -3,12 +3,7 @@
  * `mandatory_foundations.iam_permission_model`: menus must be generated dynamically from the
  * logged-in user's roles/permissions, and the frontend must hide unauthorized navigation).
  */
-export type ScreenKey =
-  | "profile"
-  | "results"
-  | "appointments"
-  | "orders"
-  | "notifications";
+export type ScreenKey = "profile" | "results" | "appointments" | "orders" | "notifications";
 
 export type PermissionCode =
   | "PORTAL_PATIENT_PROFILE_VIEW"
@@ -39,10 +34,7 @@ export const ROLE_PERMISSION_CATALOG: Record<RoleCode, readonly PermissionCode[]
     "PORTAL_PATIENT_ORDERS_VIEW",
     "PORTAL_PATIENT_NOTIFICATIONS_VIEW",
   ],
-  REFERRING_DOCTOR: [
-    "PORTAL_DOCTOR_PATIENTS_VIEW",
-    "PORTAL_DOCTOR_RESULTS_VIEW",
-  ],
+  REFERRING_DOCTOR: ["PORTAL_DOCTOR_PATIENTS_VIEW", "PORTAL_DOCTOR_RESULTS_VIEW"],
 };
 
 export function permissionsForRoles(roleCodes: readonly string[]): Set<PermissionCode> {

@@ -29,7 +29,11 @@ export const mockSessions: Omit<SessionUser, "token">[] = [
 interface SessionContextType {
   session: SessionUser | null;
   isLoading: boolean;
-  login: (tenantId: string, username: string, password: string) => Promise<{ ok: boolean; error?: string }>;
+  login: (
+    tenantId: string,
+    username: string,
+    password: string,
+  ) => Promise<{ ok: boolean; error?: string }>;
   loginMock: (userId: string) => void;
   logout: () => void;
   mockSessions: Omit<SessionUser, "token">[];
@@ -81,7 +85,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
       const data = await response.json();
       const token = data.token || "";
-      
+
       // Parse token: local-session:tenantId:userId
       const parts = token.split(":");
       const parsedTenantId = parts[1] || tenantId;
@@ -96,7 +100,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
             "X-HOP-USER-ID": parsedUserId,
             "X-HOP-TENANT-ID": parsedTenantId,
             "X-HOP-ROLES": "PATIENT",
-          }
+          },
         });
         if (patientRes.ok) {
           const patient = await patientRes.json();

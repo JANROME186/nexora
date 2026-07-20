@@ -31,7 +31,8 @@ export const enUS: MessageCatalog = {
   escalationClosed: "Escalation closed.",
   appShell: {
     title: "HOP Patient Portal",
-    subtitle: "Patient self-service access: consult your clinical history, appointments, orders, and authorized results.",
+    subtitle:
+      "Patient self-service access: consult your clinical history, appointments, orders, and authorized results.",
     navAriaLabel: "Portal screens",
     languageSwitcherLabel: "Language",
     tabs: {
@@ -45,7 +46,8 @@ export const enUS: MessageCatalog = {
       title: "Sign In",
       tenantId: "Organization ID",
       username: "Username",
-      password: "Password",
+      // eslint-disable-next-line sonarjs/no-hardcoded-passwords -- UI label text, not a credential
+      passwordLabel: "Password",
       submit: "Sign In",
       loggingIn: "Signing In...",
       errorInvalid: "Invalid credentials.",

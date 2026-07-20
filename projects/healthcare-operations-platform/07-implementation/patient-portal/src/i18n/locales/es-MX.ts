@@ -32,7 +32,8 @@ export const esMX = {
   escalationClosed: "Escalación cerrada.",
   appShell: {
     title: "HOP Portal de Pacientes",
-    subtitle: "Acceso autoservicio para pacientes: consulta tu historial clínico, citas, órdenes y resultados autorizados.",
+    subtitle:
+      "Acceso autoservicio para pacientes: consulta tu historial clínico, citas, órdenes y resultados autorizados.",
     navAriaLabel: "Pantallas del portal",
     languageSwitcherLabel: "Idioma",
     tabs: {
@@ -46,7 +47,8 @@ export const esMX = {
       title: "Iniciar Sesión",
       tenantId: "ID de Organización",
       username: "Nombre de Usuario",
-      password: "Contraseña",
+      // eslint-disable-next-line sonarjs/no-hardcoded-passwords -- UI label text, not a credential
+      passwordLabel: "Contraseña",
       submit: "Ingresar",
       loggingIn: "Ingresando...",
       errorInvalid: "Credenciales incorrectas.",

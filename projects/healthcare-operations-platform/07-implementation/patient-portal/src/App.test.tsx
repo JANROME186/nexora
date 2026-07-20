@@ -21,7 +21,7 @@ vi.mock("./api/patientResultHistoryApi", () => ({
         referenceRange: "<200 mg/dL",
         isAbnormal: false,
         releasedAt: "2026-07-19T10:00:00Z",
-      }
+      },
     ],
   }),
 }));
@@ -164,7 +164,7 @@ describe("Patient Portal App", () => {
           scheduledEnd: "2026-07-20T10:30:00Z",
           channel: "PORTAL",
           status: "confirmed",
-        }
+        },
       ],
     });
 
@@ -187,8 +187,8 @@ describe("Patient Portal App", () => {
           patientId: "Patient-01",
           doctorId: "Doctor-01",
           status: "accepted",
-          lines: [{ testDefinitionId: "Hemoglobin", catalogItemKind: "test", quantity: 1 }]
-        }
+          lines: [{ testDefinitionId: "Hemoglobin", catalogItemKind: "test", quantity: 1 }],
+        },
       ],
     });
 
@@ -212,7 +212,7 @@ describe("Patient Portal App", () => {
           status: "delivered",
           dispatchedAt: "2026-07-19T10:05:00Z",
           createdAt: "2026-07-19T10:05:00Z",
-        }
+        },
       ],
     });
 

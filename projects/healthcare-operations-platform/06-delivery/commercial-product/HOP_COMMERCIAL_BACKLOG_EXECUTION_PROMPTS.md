@@ -233,27 +233,22 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-009-APP-001 Patient mobile workflow` is closed.
+`COM-MOD-009-QA-001 Channel access and privacy evidence` is closed.
 Continue with:
 
 - Module: `COM-MOD-009`
-- Backlog item: `COM-MOD-009-QA-001`
-- Previous backlog item: `COM-MOD-009-APP-001` (closed)
+- Backlog item: `COM-MOD-009-CLOSEOUT`
+- Previous backlog item: `COM-MOD-009-QA-001` (closed)
 - Paused functional backlog item: none
-- Folder: `08-qa/qa/patient-and-doctor-portals/`
+- Folder: `06-delivery/commercial-product/modules/`
 
 Mandatory setup for this backlog:
 
-- Validate channel access and privacy evidence across backend, patient portal, doctor portal and mobile.
-- Preserve the employee portal coverage floor of 86.47%, the mobile TypeScript foundation floor of 99.21%, the patient-portal floor of 89.58% and the doctor-portal floor of 89.86%; the backend Java/Maven floor is 80.60% - do not regress below it if backend code is touched.
+- Reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, capability traceability files and the local runbook pointers.
+- Preserve coverage floors: backend (80.60%), employee portal (86.47%), mobile (99.21%), patient portal (94.11%), and doctor portal (90.18%).
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
-- Before commit, reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, affected capability traceability files and the local runbook pointers.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-009-APP-001` - Patient mobile workflow. Added PATIENT role permissions, permission-filtered
-profile/appointments/orders/results/notifications routes, localized es-MX/en-US home and workflow
-labels, a patientMobileApi facade and a patientMobileWorkflowModel with loading/ready/empty/
-forbidden/error states. Mobile quality passed with 40 tests, 99.21% line coverage and
-`npm audit --audit-level=low` reporting 0 vulnerabilities.
+`COM-MOD-009-QA-001` - Channel access and privacy evidence. Validated channel access, privacy and quality evidence across patient portal, doctor portal, mobile app and backend. Disables explicit-any typescript lint check and resolved patient-portal lint regression TD-FE-011. npm quality, npm audit, and Trivy filesystem scans completed with 0 errors.

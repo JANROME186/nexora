@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import { SessionProvider, useSession, mockSessions } from "./state/SessionContext";
 import { LocaleProvider, useLocale } from "./i18n/LocaleContext";
-import { getPatientHistory, type PatientResultHistoryView, type ResultHistoryEntry } from "./api/patientResultHistoryApi";
+import {
+  getPatientHistory,
+  type PatientResultHistoryView,
+  type ResultHistoryEntry,
+} from "./api/patientResultHistoryApi";
 import "./App.css";
 
 // --- API Client Helpers for Appointments, Orders, and Notifications ---
@@ -73,7 +77,7 @@ const STUB_APPOINTMENTS: AppointmentSlot[] = [
     scheduledEnd: "2026-07-25T16:00:00Z",
     channel: "PATIENT_PORTAL",
     status: "requested",
-  }
+  },
 ];
 
 const STUB_ORDERS: DiagnosticOrder[] = [
@@ -88,8 +92,8 @@ const STUB_ORDERS: DiagnosticOrder[] = [
     status: "completed",
     lines: [
       { testDefinitionId: "Glucose", catalogItemKind: "test", quantity: 1 },
-      { testDefinitionId: "Cholesterol", catalogItemKind: "test", quantity: 1 }
-    ]
+      { testDefinitionId: "Cholesterol", catalogItemKind: "test", quantity: 1 },
+    ],
   },
   {
     orderId: "ord-202",
@@ -100,10 +104,8 @@ const STUB_ORDERS: DiagnosticOrder[] = [
     patientId: "Patient-01",
     doctorId: "Doctor-01",
     status: "accepted",
-    lines: [
-      { testDefinitionId: "Hemoglobin", catalogItemKind: "test", quantity: 1 }
-    ]
-  }
+    lines: [{ testDefinitionId: "Hemoglobin", catalogItemKind: "test", quantity: 1 }],
+  },
 ];
 
 const STUB_NOTIFICATIONS: ResultNotificationView[] = [
@@ -130,7 +132,7 @@ const STUB_NOTIFICATIONS: ResultNotificationView[] = [
     dispatchedAt: "2026-07-19T10:05:00Z",
     deliveredAt: "2026-07-19T10:05:30Z",
     createdAt: "2026-07-19T10:05:00Z",
-  }
+  },
 ];
 
 // --- Sub-components ---
@@ -209,7 +211,7 @@ function LoginFormView() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">{t.appShell.login.password}</label>
+          <label htmlFor="password">{t.appShell.login.passwordLabel}</label>
           <input
             id="password"
             type="password"
@@ -260,7 +262,7 @@ function ProfileTab() {
             "X-HOP-USER-ID": session.userId,
             "X-HOP-TENANT-ID": session.tenantId,
             "X-HOP-ROLES": session.roleCode,
-          }
+          },
         });
         if (response.ok) {
           const data = await response.json();
@@ -280,8 +282,13 @@ function ProfileTab() {
             addressPostalCode: "06500",
             preferredLocale: "es-MX",
             emergencyContacts: [
-              { givenName: "Maria", familyName: "Pérez", relationship: "Spouse", phoneNationalNumber: "555-0192-384" }
-            ]
+              {
+                givenName: "Maria",
+                familyName: "Pérez",
+                relationship: "Spouse",
+                phoneNationalNumber: "555-0192-384",
+              },
+            ],
           });
         }
       } catch {
@@ -298,8 +305,13 @@ function ProfileTab() {
           addressPostalCode: "06500",
           preferredLocale: "es-MX",
           emergencyContacts: [
-            { givenName: "Maria", familyName: "Pérez", relationship: "Spouse", phoneNationalNumber: "555-0192-384" }
-          ]
+            {
+              givenName: "Maria",
+              familyName: "Pérez",
+              relationship: "Spouse",
+              phoneNationalNumber: "555-0192-384",
+            },
+          ],
         });
       } finally {
         setLoading(false);
@@ -324,7 +336,9 @@ function ProfileTab() {
         </div>
         <div>
           <p className="detail-label">{t.appShell.profile.name}</p>
-          <p className="detail-value">{profile.givenName} {profile.familyName}</p>
+          <p className="detail-value">
+            {profile.givenName} {profile.familyName}
+          </p>
         </div>
         <div>
           <p className="detail-label">{t.appShell.profile.birthDate}</p>
@@ -336,11 +350,15 @@ function ProfileTab() {
         </div>
         <div>
           <p className="detail-label">{t.appShell.profile.document}</p>
-          <p className="detail-value">[{profile.primaryDocumentType}] {profile.primaryDocumentNumber}</p>
+          <p className="detail-value">
+            [{profile.primaryDocumentType}] {profile.primaryDocumentNumber}
+          </p>
         </div>
         <div>
           <p className="detail-label">{t.appShell.profile.address}</p>
-          <p className="detail-value">{profile.addressStreet}, {profile.addressCity} {profile.addressPostalCode}</p>
+          <p className="detail-value">
+            {profile.addressStreet}, {profile.addressCity} {profile.addressPostalCode}
+          </p>
         </div>
       </div>
       <div className="emergency-contacts">
@@ -349,7 +367,10 @@ function ProfileTab() {
           <ul>
             {profile.emergencyContacts.map((contact: any, i: number) => (
               <li key={i}>
-                <strong>{contact.givenName} {contact.familyName}</strong> ({contact.relationship}) - {contact.phoneNationalNumber}
+                <strong>
+                  {contact.givenName} {contact.familyName}
+                </strong>{" "}
+                ({contact.relationship}) - {contact.phoneNationalNumber}
               </li>
             ))}
           </ul>
@@ -405,7 +426,9 @@ function ResultsTab() {
         <tbody>
           {history.entries.map((entry: ResultHistoryEntry) => (
             <tr key={entry.resultId}>
-              <td><strong>{entry.analyteName}</strong></td>
+              <td>
+                <strong>{entry.analyteName}</strong>
+              </td>
               <td>
                 <span className={`value-badge ${entry.isAbnormal ? "abnormal" : "normal"}`}>
                   {entry.stringValue} {entry.isAbnormal ? `(${t.appShell.results.abnormal})` : ""}
@@ -438,7 +461,7 @@ function AppointmentsTab() {
             "X-HOP-USER-ID": session.userId,
             "X-HOP-TENANT-ID": session.tenantId,
             "X-HOP-ROLES": session.roleCode,
-          }
+          },
         });
         if (res.ok) {
           const data = (await res.json()) as AppointmentSlot[];
@@ -458,7 +481,8 @@ function AppointmentsTab() {
   }, [session]);
 
   if (loading) return <div className="skeleton">{t.appShell.states.loading}</div>;
-  if (appointments.length === 0) return <div className="empty-alert">{t.appShell.states.empty}</div>;
+  if (appointments.length === 0)
+    return <div className="empty-alert">{t.appShell.states.empty}</div>;
 
   return (
     <div className="card">
@@ -478,9 +502,7 @@ function AppointmentsTab() {
               <td>{apt.branchId}</td>
               <td>{apt.doctorId}</td>
               <td>
-                <span className={`badge badge--${apt.status}`}>
-                  {apt.status.toUpperCase()}
-                </span>
+                <span className={`badge badge--${apt.status}`}>{apt.status.toUpperCase()}</span>
               </td>
             </tr>
           ))}
@@ -501,14 +523,17 @@ function OrdersTab() {
       if (!session) return;
       setLoading(true);
       try {
-        const res = await fetch(`/api/clinical-operations/diagnostic-orders?tenantId=${session.tenantId}`, {
-          headers: {
-            "X-HOP-AUTH-TOKEN": session.token,
-            "X-HOP-USER-ID": session.userId,
-            "X-HOP-TENANT-ID": session.tenantId,
-            "X-HOP-ROLES": session.roleCode,
-          }
-        });
+        const res = await fetch(
+          `/api/clinical-operations/diagnostic-orders?tenantId=${session.tenantId}`,
+          {
+            headers: {
+              "X-HOP-AUTH-TOKEN": session.token,
+              "X-HOP-USER-ID": session.userId,
+              "X-HOP-TENANT-ID": session.tenantId,
+              "X-HOP-ROLES": session.roleCode,
+            },
+          },
+        );
         if (res.ok) {
           const data = (await res.json()) as DiagnosticOrder[];
           const filtered = data.filter((o) => o.patientId === session.patientId);
@@ -541,16 +566,18 @@ function OrdersTab() {
         <tbody>
           {orders.map((ord) => (
             <tr key={ord.orderId}>
-              <td><code>{ord.orderId}</code></td>
               <td>
-                <span className={`badge badge--${ord.status}`}>
-                  {ord.status.toUpperCase()}
-                </span>
+                <code>{ord.orderId}</code>
+              </td>
+              <td>
+                <span className={`badge badge--${ord.status}`}>{ord.status.toUpperCase()}</span>
               </td>
               <td>
                 <ul className="inline-test-list">
                   {ord.lines.map((l, i) => (
-                    <li key={i}>{l.testDefinitionId} (x{l.quantity})</li>
+                    <li key={i}>
+                      {l.testDefinitionId} (x{l.quantity})
+                    </li>
                   ))}
                 </ul>
               </td>
@@ -578,14 +605,17 @@ function NotificationsTab() {
         if (historyData && historyData.entries.length > 0) {
           const allNotifs: ResultNotificationView[] = [];
           for (const entry of historyData.entries) {
-            const res = await fetch(`/api/clinical-operations/laboratory-results/${entry.resultId}/notifications?tenantId=${session.tenantId}`, {
-              headers: {
-                "X-HOP-AUTH-TOKEN": session.token,
-                "X-HOP-USER-ID": session.userId,
-                "X-HOP-TENANT-ID": session.tenantId,
-                "X-HOP-ROLES": session.roleCode,
-              }
-            });
+            const res = await fetch(
+              `/api/clinical-operations/laboratory-results/${entry.resultId}/notifications?tenantId=${session.tenantId}`,
+              {
+                headers: {
+                  "X-HOP-AUTH-TOKEN": session.token,
+                  "X-HOP-USER-ID": session.userId,
+                  "X-HOP-TENANT-ID": session.tenantId,
+                  "X-HOP-ROLES": session.roleCode,
+                },
+              },
+            );
             if (res.ok) {
               const data = (await res.json()) as ResultNotificationView[];
               allNotifs.push(...data);
@@ -605,7 +635,8 @@ function NotificationsTab() {
   }, [session]);
 
   if (loading) return <div className="skeleton">{t.appShell.states.loading}</div>;
-  if (notifications.length === 0) return <div className="empty-alert">{t.appShell.states.empty}</div>;
+  if (notifications.length === 0)
+    return <div className="empty-alert">{t.appShell.states.empty}</div>;
 
   return (
     <div className="card">
@@ -622,12 +653,12 @@ function NotificationsTab() {
         <tbody>
           {notifications.map((notif) => (
             <tr key={notif.notificationRequestId}>
-              <td><strong>{notif.channel.toUpperCase()}</strong></td>
+              <td>
+                <strong>{notif.channel.toUpperCase()}</strong>
+              </td>
               <td>{notif.recipientId}</td>
               <td>
-                <span className={`badge badge--${notif.status}`}>
-                  {notif.status.toUpperCase()}
-                </span>
+                <span className={`badge badge--${notif.status}`}>{notif.status.toUpperCase()}</span>
               </td>
               <td>{notif.dispatchedAt ? new Date(notif.dispatchedAt).toLocaleString() : "-"}</td>
               <td style={{ color: "red" }}>{notif.failureReason || "-"}</td>
@@ -681,7 +712,9 @@ function AppContent() {
       <header className="dashboard-header">
         <div className="header-brand">
           <h1>{t.appShell.title}</h1>
-          <p className="welcome-tag">{t.appShell.states.welcome}, <strong>{session.name}</strong></p>
+          <p className="welcome-tag">
+            {t.appShell.states.welcome}, <strong>{session.name}</strong>
+          </p>
         </div>
         <div className="header-actions">
           <LanguageSwitcher />
@@ -727,9 +760,7 @@ function AppContent() {
           </nav>
         </aside>
 
-        <main className="dashboard-content">
-          {renderTabContent()}
-        </main>
+        <main className="dashboard-content">{renderTabContent()}</main>
       </div>
     </div>
   );

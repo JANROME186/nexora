@@ -502,7 +502,7 @@ entries:
     remediation_strategy: closed_by_COM_MOD_009_PORTAL_002_doctor_portal_rebuilt_coverage_40_62_to_89_86_percent
   - id: TD-FE-011
     title: patient-portal npm run lint fails with 2 pre-existing sonarjs/no-hardcoded-passwords errors
-    status: open
+    status: closed
     risk_level: low
     blocking: false
     source_backlog_item: COM-MOD-009-PORTAL-002

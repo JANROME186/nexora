@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 0.99.0
-current_phase: COM-MOD-009 Patient and Doctor Portals patient mobile workflow compiled and verified; channel access and privacy evidence COM-MOD-009-QA-001 active
+current_phase: COM-MOD-009 Patient and Doctor Portals channel access and privacy evidence verified; module closeout COM-MOD-009-CLOSEOUT active
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -249,7 +249,7 @@ completed_deliverables:
     raised from 98.87% to 99.21%; npm quality and npm audit passed with 0 vulnerabilities; TD-I18N-002
     and TD-IAM-002 materially reduced further
 next_deliverables:
-  - Continue COM-MOD-009 Patient and Doctor Portals with COM-MOD-009-QA-001 channel access and privacy evidence
+  - Close Patient and Doctor Portals module (COM-MOD-009-CLOSEOUT)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -264,7 +264,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-009
   in_progress_module: COM-MOD-009
-  next_backlog_item: COM-MOD-009-QA-001
+  next_backlog_item: COM-MOD-009-CLOSEOUT
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -374,7 +374,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: COM-MOD-009
-  current_backlog_item: COM-MOD-009-QA-001
+  current_backlog_item: COM-MOD-009-CLOSEOUT
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -442,6 +442,7 @@ implementation_progress:
     - COM-MOD-009-PORTAL-001
     - COM-MOD-009-PORTAL-002
     - COM-MOD-009-APP-001
+    - COM-MOD-009-QA-001
   in_progress_backlog_items: []
   pending_backlog_items: []
   latest_validation:
@@ -978,7 +979,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_iteration: COM-MOD-009
   active_module: COM-MOD-009 Patient and Doctor Portals
-  active_backlog_item: COM-MOD-009-QA-001
+  active_backlog_item: COM-MOD-009-CLOSEOUT
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
@@ -990,7 +991,7 @@ commercial_product_progress:
     COM-MOD-009:
       name: Patient and Doctor Portals
       package_status: in_progress
-      backlog_item: COM-MOD-009-QA-001
+      backlog_item: COM-MOD-009-CLOSEOUT
       backlog_item_status: pending
       execution_flow_stage: validate
       packages_modeled:
@@ -1018,6 +1019,10 @@ commercial_product_progress:
       qa_evidence_app_001_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.md
       security_quality_evidence_app_001: 08-qa/security-quality/COM-MOD-009-APP-001/security-quality-evidence.yaml
       security_quality_evidence_app_001_md: 08-qa/security-quality/COM-MOD-009-APP-001/security-quality-evidence.md
+      qa_evidence_qa_001: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-QA-001-validation.yaml
+      qa_evidence_qa_001_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-QA-001-validation.md
+      security_quality_evidence_qa_001: 08-qa/security-quality/COM-MOD-009-QA-001/security-quality-evidence.yaml
+      security_quality_evidence_qa_001_md: 08-qa/security-quality/COM-MOD-009-QA-001/security-quality-evidence.md
       ready_for_compilation: true
       backend_compilation_completed: true
       ready_for_custom_rule_implementation: true
@@ -1026,6 +1031,7 @@ commercial_product_progress:
       ready_for_mobile_workflow: true
       mobile_workflow_completed: true
       ready_for_channel_access_privacy_validation: true
+      channel_access_privacy_validated: true
     MVP-MOD-008:
       name: Integration and Migration Readiness
       package_status: module_closed

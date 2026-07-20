@@ -23,7 +23,7 @@ describe("AdminScopeContext", () => {
     render(
       <AdminScopeProvider>
         <TestComponent />
-      </AdminScopeProvider>
+      </AdminScopeProvider>,
     );
 
     expect(screen.getByTestId("tenant").textContent).toBe("none");

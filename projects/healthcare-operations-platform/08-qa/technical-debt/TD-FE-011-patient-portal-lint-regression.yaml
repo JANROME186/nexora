@@ -3,7 +3,7 @@ artifact:
   type: technical-debt-item
   name: patient-portal npm run lint fails with 2 pre-existing sonarjs/no-hardcoded-passwords errors
   version: 1.0.0
-  status: open
+  status: closed
   created_date: 2026-07-19
 
 source:
