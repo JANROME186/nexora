@@ -68,11 +68,24 @@ traces:
       relationship: Decreases remainingQuantity and marks disposal on waste.
   generated_outputs_ref: generation-plan.yaml
   qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-DEF-validation.yaml
+  compilation_evidence:
+    backend_implementation: ../../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/inventoryquality/lotmanagement/
+    schema: ../../../../../07-implementation/backend/src/main/resources/db/inventory-and-internal-quality/schema.sql
+    qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-001-validation.yaml
+    security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-010-BE-001/security-quality-evidence.yaml
+    notes: >-
+      registerStockLot, listStockLots, quarantineStockLot and expireStockLot compiled. StockLot
+      aggregate persistence via JdbcStockLotRepository (@Profile("local")) + InMemoryStockLotRepository
+      fallback. Registering a lot bumps InventoryItem.stockSummary.onHandQuantity by the received
+      quantity, keeping stock accounting consistent from receipt onwards. Terminal-state guard
+      (RN-004) rejects transitions on disposed/expired lots; a scheduled expiration sweep remains
+      a future backlog item, tracked only as a naturally-open modeling extension (not a
+      technical-debt item at this stage).
   backlog_items:
     definition: COM-MOD-010-DEF
     definition_status: closed
     compilation: COM-MOD-010-BE-001
-    compilation_status: pending
+    compilation_status: closed
     custom_rules: COM-MOD-010-BE-002
     custom_rules_status: pending
     ui: COM-MOD-010-FE-001

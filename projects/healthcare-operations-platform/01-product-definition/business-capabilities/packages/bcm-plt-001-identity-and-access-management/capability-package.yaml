@@ -53,7 +53,7 @@ roadmap:
   module: COM-MOD-009
   release: REL-002
   package_status: module_closed
-  next_backlog_item: COM-MOD-010-BE-001
+  next_backlog_item: COM-MOD-010-BE-002
 
 dependencies:
   required_capabilities:

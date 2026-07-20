@@ -71,11 +71,24 @@ traces:
       relationship: Receives PurchaseOrderLineReceived to record the actual stock receipt against InventoryItem/StockLot.
   generated_outputs_ref: generation-plan.yaml
   qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-DEF-validation.yaml
+  compilation_evidence:
+    backend_implementation: ../../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/inventoryquality/procurementmanagement/
+    schema: ../../../../../07-implementation/backend/src/main/resources/db/inventory-and-internal-quality/schema.sql
+    qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-001-validation.yaml
+    security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-010-BE-001/security-quality-evidence.yaml
+    notes: >-
+      Full purchase-order lifecycle compiled: createPurchaseOrder, listPurchaseOrders,
+      submitPurchaseOrder, approvePurchaseOrder, cancelPurchaseOrder, receivePurchaseOrderLine.
+      submitPurchaseOrder revalidates every line's InventoryItem status against BCM-INV-001
+      (RN-001). Line receipt delegates to BCM-INV-005 StockEntryService which calls back into
+      recordLineReceipt to advance the PO's line/header state (single source of truth in this
+      capability for line quantity validation). PurchaseOrderLine.STATUS_RECEIVED transitions the
+      header to STATUS_RECEIVING/STATUS_RECEIVED automatically.
   backlog_items:
     definition: COM-MOD-010-DEF
     definition_status: closed
     compilation: COM-MOD-010-BE-001
-    compilation_status: pending
+    compilation_status: closed
     custom_rules: COM-MOD-010-BE-002
     custom_rules_status: pending
     ui: COM-MOD-010-FE-001

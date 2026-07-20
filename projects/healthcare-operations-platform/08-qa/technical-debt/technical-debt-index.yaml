@@ -35,9 +35,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 80.60
-        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 80.60
+        current_line_coverage_percent: 82.94
+        source_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 82.94
         final_closure_target_percent: 80
         correction_note: >-
           MVP-MOD-007-QA-001 raised backend line coverage to 78.42%. MVP-MOD-007-CLOSEOUT's
@@ -46,8 +46,9 @@ policy:
           MVP-MOD-008-BE-001 raised it further to 80.08% (239 tests, 0 failures/errors), reaching
           the final 80% target for this stack. MVP-MOD-008-BE-002 raised it further to 80.49%
           (265 tests, 0 failures/errors). COM-MOD-009-PORTAL-002 raised it further to 80.60%
-          (280 tests, 0 failures/errors/skipped); future backend iterations must not regress
-          below 80.60%.
+          (280 tests, 0 failures/errors/skipped). COM-MOD-010-BE-001 raised it further to 82.94%
+          (308 tests, 0 failures/errors/skipped); future backend iterations must not regress
+          below 82.94%.
       frontend_typescript_web:
         current_line_coverage_percent: 86.47
         source_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.yaml

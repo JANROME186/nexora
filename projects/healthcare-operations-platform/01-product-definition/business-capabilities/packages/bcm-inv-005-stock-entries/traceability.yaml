@@ -56,11 +56,21 @@ traces:
       relationship: Coordinates StockLot creation on first receipt of a new batch.
   generated_outputs_ref: generation-plan.yaml
   qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-DEF-validation.yaml
+  compilation_evidence:
+    backend_implementation: ../../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/inventoryquality/stockentries/
+    schema: ../../../../../07-implementation/backend/src/main/resources/db/inventory-and-internal-quality/schema.sql
+    qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-001-validation.yaml
+    security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-010-BE-001/security-quality-evidence.yaml
+    notes: >-
+      applyStockReceipt and listStockEntries compiled. Delegated Apply* increment of both
+      InventoryItem.stockSummary.onHandQuantity and StockLot.remainingQuantity. Purchase-order-
+      line receipts call back into ProcurementManagementService.recordLineReceipt so BCM-INV-004
+      remains authoritative for line/header state, then apply the stock delta locally.
   backlog_items:
     definition: COM-MOD-010-DEF
     definition_status: closed
     compilation: COM-MOD-010-BE-001
-    compilation_status: pending
+    compilation_status: closed
     custom_rules: COM-MOD-010-BE-002
     custom_rules_status: pending
     ui: COM-MOD-010-FE-001

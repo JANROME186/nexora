@@ -93,6 +93,42 @@ public class EndpointPermissionRegistry {
                   PermissionCode.SCREEN_MIGRATION_JOBS,
                   "BCM-PLT-010"),
               readWrite(
+                  "/api/inventory/catalog",
+                  PermissionCode.SCREEN_INVENTORY_CATALOG,
+                  "BCM-INV-001"),
+              readWrite(
+                  "/api/inventory/reagents",
+                  PermissionCode.SCREEN_INVENTORY_REAGENTS,
+                  "BCM-INV-002"),
+              readWrite(
+                  "/api/inventory/lots",
+                  PermissionCode.SCREEN_INVENTORY_LOTS,
+                  "BCM-INV-003"),
+              readWrite(
+                  "/api/inventory/purchase-orders",
+                  PermissionCode.SCREEN_INVENTORY_PROCUREMENT,
+                  "BCM-INV-004"),
+              readWrite(
+                  "/api/inventory/stock-entries",
+                  PermissionCode.SCREEN_INVENTORY_STOCK_MOVEMENTS,
+                  "BCM-INV-005"),
+              readWrite(
+                  "/api/inventory/stock-exits",
+                  PermissionCode.SCREEN_INVENTORY_STOCK_MOVEMENTS,
+                  "BCM-INV-006"),
+              readWrite(
+                  "/api/inventory/consumption",
+                  PermissionCode.SCREEN_INVENTORY_STOCK_MOVEMENTS,
+                  "BCM-INV-007"),
+              readWrite(
+                  "/api/inventory/adjustments",
+                  PermissionCode.SCREEN_INVENTORY_ADJUSTMENTS,
+                  "BCM-INV-008"),
+              readWrite(
+                  "/api/inventory/waste",
+                  PermissionCode.SCREEN_INVENTORY_WASTE,
+                  "BCM-INV-009"),
+              readWrite(
                   "/api/auth/assistance",
                   PermissionCode.PORTAL_SUPPORT_IMPERSONATE,
                   "BCM-PLT-001"))

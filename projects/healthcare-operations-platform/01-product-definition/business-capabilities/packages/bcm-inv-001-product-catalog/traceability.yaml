@@ -95,11 +95,22 @@ traces:
       relationship: References inventoryItemId (read-only) as purchase order lines.
   generated_outputs_ref: generation-plan.yaml
   qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-DEF-validation.yaml
+  compilation_evidence:
+    backend_implementation: ../../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/inventoryquality/productcatalog/
+    schema: ../../../../../07-implementation/backend/src/main/resources/db/inventory-and-internal-quality/schema.sql
+    qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-001-validation.yaml
+    security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-010-BE-001/security-quality-evidence.yaml
+    notes: >-
+      createInventoryItem, listInventoryItems, getInventoryItem, updateInventoryItem compiled as
+      generatable outputs. discontinueInventoryItem (RN-004, CUS-CAT-001-03) is exposed and
+      consulted by BCM-INV-002/003/004/005 before accepting new commands. CUS-CAT-001-01 (RN-002
+      itemType/classification consistency) and CUS-CAT-001-02 (RN-003 delegated-ownership
+      boundary) implemented in InventoryItemService.
   backlog_items:
     definition: COM-MOD-010-DEF
     definition_status: closed
     compilation: COM-MOD-010-BE-001
-    compilation_status: pending
+    compilation_status: closed
     custom_rules: COM-MOD-010-BE-002
     custom_rules_status: pending
     ui: COM-MOD-010-FE-001

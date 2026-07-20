@@ -242,13 +242,13 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-010
-  backlog_item_id: COM-MOD-010-BE-001
-  name: Compile product, reagent, lot and stock outputs
+  backlog_item_id: COM-MOD-010-BE-002
+  name: Compile equipment, maintenance and internal QC outputs
   expected_folder: 07-implementation/backend/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
-    backend_java_maven_line_coverage_percent_if_backend_is_touched: 80.60
+    backend_java_maven_line_coverage_percent_if_backend_is_touched: 82.94
     frontend_typescript_web_line_coverage_percent: 86.47
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.11
@@ -256,15 +256,24 @@ next_backlog_item:
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - Preserve coverage floors: backend (80.60%), employee portal (86.47%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
+    - Preserve coverage floors: backend (82.94%), employee portal (86.47%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
+    - Extend the existing inventoryquality Spring Modulith module with BCM-QLT-001/003/004/005 sub-packages (internal quality controls, calibration management, equipment management, maintenance management); do not create a new module.
+    - Add BCM-QLT tables to db/inventory-and-internal-quality/schema.sql; keep AGG-013 InventoryItem the shared aggregate (equipmentProfile fields are already reserved on inventory_items).
   previous_backlog_item:
-    backlog_item_id: COM-MOD-010-DEF
+    backlog_item_id: COM-MOD-010-BE-001
     status: closed
     summary: >-
-      COM-MOD-010-DEF modeled 13 Inventory and Internal Quality capability packages
-      (BCM-INV-001 through BCM-INV-009 and BCM-QLT-001/003/004/005), each with the 14
-      required editable model artifacts. It is definition-only and introduced no runtime
-      component, port, environment variable, startup-order change or implementation-code change.
-      Registry, traceability and runbook pointers are synchronized to COM-MOD-010-BE-001.
+      COM-MOD-010-BE-001 compiled the backend outputs for BCM-INV-001..009 across nine
+      capability packages as a single inventoryquality Spring Modulith module (27 REST
+      operations across nine hexagonal sub-packages with JDBC + in-memory dual adapters).
+      Added one new schema file db/inventory-and-internal-quality/schema.sql (nine tables)
+      and one classpath entry to application-local.yml. Registered seven new
+      SCREEN_INVENTORY_* PermissionCode values and mapped them to base URL prefixes in
+      EndpointPermissionRegistry. Added 38 new inventory.error.<code> keys to
+      messages.properties / messages_en_US.properties / messages_es_MX.properties,
+      further materially reducing TD-I18N-002. 308 tests passed with 0 failures/errors/
+      skipped; backend line coverage 80.60% -> 82.94% (no regression); Trivy fs reported
+      0 findings across all severities. No new runtime port, environment variable,
+      startup-order change or Docker asset introduced.

@@ -802,3 +802,25 @@ entries:
       with the 14 required artifacts each. No implementation code, dependency manifest, runtime
       component, port, environment variable, startup order, database schema or infrastructure asset
       changed; executable implementation gates become mandatory in COM-MOD-010-BE-001.
+  - backlog_item: COM-MOD-010-BE-001
+    module: COM-MOD-010 Inventory and Internal Quality
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-010-BE-001/
+    human_readable: 08-qa/security-quality/COM-MOD-010-BE-001/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-010-BE-001/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: passed
+      dependency_vulnerability_scan: passed_via_trivy_and_no_new_dependencies_introduced
+      secrets_scan: passed
+      coverage: passed
+      dast_for_runnable_web_or_api_surfaces: not_re_executed_no_new_web_surface_reused_HOP_QA_ALIGN_004
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Compiled BCM-INV-001..009 backend outputs across nine capability packages. 308 tests
+      passed with 0 failures/errors/skipped; backend line coverage 80.60% -> 82.94% (no
+      regression); Checkstyle/PMD/SpotBugs+FindSecBugs/Enforcer/duplicate-finder/CycloneDX all
+      passed under -Pquality; Trivy fs (vuln+secret+misconfig) reported 0 findings across all
+      severities; no new dependency was introduced (transitive tree identical to
+      MVP-MOD-008-BE-002's clean scan); OWASP Dependency-Check full run pending an NVD API key
+      (TD-BE-004).

@@ -233,22 +233,23 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-010-DEF Capability package models` is closed.
+`COM-MOD-010-BE-001 Compile product, reagent, lot and stock outputs` is closed.
 Continue with:
 
 - Module: `COM-MOD-010`
-- Backlog item: `COM-MOD-010-BE-001`
-- Previous backlog item: `COM-MOD-010-DEF` (closed)
+- Backlog item: `COM-MOD-010-BE-002`
+- Previous backlog item: `COM-MOD-010-BE-001` (closed)
 - Paused functional backlog item: none
 - Folder: `07-implementation/backend/`
 
 Mandatory setup for this backlog:
 
 - Reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, capability traceability files and the local runbook pointers.
-- Preserve coverage floors: backend (80.60%), employee portal (86.47%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
+- Preserve coverage floors: backend (82.94%), employee portal (86.47%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
+- Extend the existing `inventoryquality` Spring Modulith module with `BCM-QLT-001/003/004/005` sub-packages (internal quality controls, calibration management, equipment management, maintenance management); do not create a new module. `equipmentProfile` fields on `inventory_items` are already reserved for BCM-QLT-004.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-010-DEF` - Capability package models. Modeled 13 Inventory and Internal Quality capability packages (BCM-INV-001 through BCM-INV-009 and BCM-QLT-001/003/004/005), each with the 14 required editable model artifacts. It introduced no runtime component, port, environment variable, startup-order change or implementation-code change, and synchronized registries/runbooks to `COM-MOD-010-BE-001`.
+`COM-MOD-010-BE-001` - Compile product, reagent, lot and stock outputs. Compiled the backend outputs for the nine BCM-INV capability packages (BCM-INV-001..009) as a single `inventoryquality` Spring Modulith module with 27 REST operations across nine hexagonal sub-packages, JDBC + in-memory dual adapters, first-class `code`+`messageKey` error envelope and Spring Modulith module-boundary verification. Registered seven new `SCREEN_INVENTORY_*` `PermissionCode` values and 38 new `inventory.error.<code>` catalog keys, further materially reducing TD-I18N-002. 308 tests passed with 0 failures/errors/skipped; backend line coverage 80.60% → 82.94% (no regression); Trivy fs reported 0 findings across all severities. No runtime port, environment variable, startup-order or Docker asset changed.
