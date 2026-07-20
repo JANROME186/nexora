@@ -128,12 +128,52 @@ describe("Employee portal app smoke", () => {
     expect(screen.getByRole("button", { name: "Branches" })).toBeInTheDocument();
   });
 
+  it("navigates to Inventory and Internal Quality screens (COM-MOD-010)", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole("button", { name: "Catálogo de Inventario" }));
+    expect(screen.getByRole("heading", { name: "Catálogo de Inventario" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Reactivos" }));
+    expect(screen.getByRole("heading", { name: "Perfiles de Reactivos" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Lotes" }));
+    expect(screen.getByRole("heading", { name: "Lotes de Inventario" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Compras" }));
+    expect(screen.getByRole("heading", { name: "Órdenes de Compra" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Movimientos de Stock" }));
+    expect(screen.getByRole("heading", { name: "Movimientos de Inventario" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Ajustes de Inventario" }));
+    expect(screen.getByRole("heading", { name: "Ajustes de Inventario" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Mermas" }));
+    expect(screen.getByRole("heading", { name: "Mermas y Disposición" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Control de Calidad Interno" }));
+    expect(
+      screen.getByRole("heading", { name: "Controles Internos de Calidad" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Equipos" }));
+    expect(screen.getByRole("heading", { name: "Equipos" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Calibraciones" }));
+    expect(screen.getByRole("heading", { name: "Calibraciones" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Mantenimiento" }));
+    expect(screen.getByRole("heading", { name: "Mantenimiento" })).toBeInTheDocument();
+  });
+
   it("only renders tabs the current session has permission for", () => {
     render(<App />);
 
     // The local dev fixture session defaults to ADMIN, which is granted every screen
-    // permission, so all 30 navigation tabs remain visible.
+    // permission, so all 41 navigation tabs remain visible.
     const nav = screen.getByRole("navigation", { name: "Pantallas de administración" });
-    expect(within(nav).getAllByRole("button")).toHaveLength(30);
+    expect(within(nav).getAllByRole("button")).toHaveLength(41);
   });
 });

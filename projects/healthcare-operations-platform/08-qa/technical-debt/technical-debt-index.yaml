@@ -50,9 +50,9 @@ policy:
           (308 tests, 0 failures/errors/skipped); future backend iterations must not regress
           below 82.94%.
       frontend_typescript_web:
-        current_line_coverage_percent: 86.47
-        source_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 86.47
+        current_line_coverage_percent: 87.87
+        source_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-FE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 87.87
         final_closure_target_percent: 80
         correction_note: >-
           MVP-MOD-007-CLOSEOUT found employee-portal coverage had regressed from the 84.44% floor
@@ -61,7 +61,9 @@ policy:
           unit test for the API module. Added src/test/laboratoryOperationsApi.test.ts (mirroring
           the existing cashSalesApi.test.ts/frontDeskApi.test.ts pattern), restoring coverage to
           85.50%, above the previous 84.44% floor. MVP-MOD-008-QA-001 later raised the
-          employee-portal floor to 86.47% (101 tests, 0 failures). Must not regress below 86.47%.
+          employee-portal floor to 86.47% (101 tests, 0 failures). COM-MOD-010-FE-001 raised it
+          further to 87.87% (124 tests, 48 test files, 0 failures) by adding the Inventory and
+          Internal Quality administration screens plus their tests. Must not regress below 87.87%.
       mobile_typescript_foundation:
         current_line_coverage_percent: 99.21
         source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.yaml
@@ -540,10 +542,12 @@ entries:
   - id: TD-FE-010
     title: Employee-portal generated administration screens exceed function-size and complexity
       warning thresholds
-    status: open
+    status: materially_reduced
     risk_level: medium
     blocking: false
     source_backlog_item: MVP-MOD-008-FE-001
     affected_area: employee_portal_admin_screen_composition
     file: 08-qa/technical-debt/TD-FE-010-employee-portal-admin-screen-composition.yaml
-    remediation_strategy: gradual_refactor_when_employee_portal_admin_screens_are_next_touched
+    remediation_strategy: >-
+      preferred_remediation_pattern_implemented_and_proven_on_11_com_mod_010_screens_in
+      COM-MOD-010-FE-001;_apply_to_the_three_legacy_files_next_time_bcm_plt_004_005_010_screens_are_touched

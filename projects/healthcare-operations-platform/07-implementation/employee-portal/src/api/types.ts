@@ -1364,3 +1364,416 @@ export interface ReconciliationReport {
   skippedCounts: Record<string, number>;
   warningCounts: Record<string, number>;
 }
+
+// -- Inventory and Internal Quality (COM-MOD-010: BCM-INV-001..009, BCM-QLT-001/003/004/005) ----
+
+export interface StockSummary {
+  onHandQuantity?: string;
+  reservedQuantity?: string;
+  reorderPoint?: string;
+  reorderQuantity?: string;
+  lastMovementAt?: string;
+}
+
+export interface ReagentProfile {
+  linkedTestDefinitionId?: string;
+  reagentCategory: string;
+  consumptionUnitRatio: string;
+}
+
+export interface EquipmentProfile {
+  assetTag: string;
+  serialNumber?: string;
+  manufacturer?: string;
+  model?: string;
+  location?: string;
+  availabilityStatus: string;
+  installedAt?: string;
+}
+
+export interface InventoryItem {
+  inventoryItemId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  itemCode: string;
+  itemName: string;
+  itemType: string;
+  classification: string;
+  unitOfMeasure: string;
+  status: string;
+  stockSummary?: StockSummary;
+  reagentProfile?: ReagentProfile;
+  equipmentProfile?: EquipmentProfile;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface RegisterInventoryItemRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  itemCode: string;
+  itemName: string;
+  itemType: string;
+  classification: string;
+  unitOfMeasure: string;
+  actorId: string;
+}
+
+export interface UpdateInventoryItemRequest {
+  itemName: string;
+  itemType: string;
+  classification: string;
+  unitOfMeasure: string;
+  status: string;
+  actorId: string;
+}
+
+export interface ReagentProfileRecord {
+  inventoryItemId: string;
+  linkedTestDefinitionId?: string;
+  reagentCategory: string;
+  consumptionUnitRatio: string;
+}
+
+export interface AssignReagentProfileRequest {
+  linkedTestDefinitionId?: string;
+  reagentCategory: string;
+  consumptionUnitRatio: string;
+  actorId: string;
+}
+
+export interface StockLot {
+  stockLotId: string;
+  inventoryItemId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  lotNumber: string;
+  supplierId?: string;
+  supplierName?: string;
+  status: string;
+  expirationDate?: string;
+  receivedQuantity: string;
+  remainingQuantity: string;
+}
+
+export interface RegisterStockLotRequest {
+  lotNumber: string;
+  supplierId?: string;
+  supplierName?: string;
+  expirationDate?: string;
+  receivedQuantity?: string;
+  actorId: string;
+}
+
+export interface PurchaseOrderLineRequest {
+  inventoryItemId: string;
+  orderedQuantity: string;
+  unitCost: string;
+}
+
+export interface CreatePurchaseOrderRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  supplierId: string;
+  supplierName: string;
+  currencyCode: string;
+  lines: PurchaseOrderLineRequest[];
+  actorId: string;
+}
+
+export interface PurchaseOrderLine {
+  purchaseOrderLineId: string;
+  inventoryItemId: string;
+  lineStatus: string;
+  orderedQuantity: string;
+  unitCost: string;
+  receivedQuantity: string;
+}
+
+export interface PurchaseOrder {
+  purchaseOrderId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  supplierId: string;
+  supplierName: string;
+  status: string;
+  currencyCode: string;
+  totalAmount: string;
+  approverId?: string;
+  cancellationReason?: string;
+  lines: PurchaseOrderLine[];
+}
+
+export interface ApprovalRequest {
+  actorId: string;
+}
+
+export interface CancelRequest {
+  reason: string;
+  actorId: string;
+}
+
+export interface ReceiveLineRequest {
+  receivedQuantity: string;
+  stockLotId?: string;
+  actorId: string;
+}
+
+export interface StockEntry {
+  stockEntryId: string;
+  inventoryItemId: string;
+  stockLotId?: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  purchaseOrderLineId?: string;
+  entryType: string;
+  reasonCode?: string;
+  quantity: string;
+  receivedAt?: string;
+}
+
+export interface ApplyStockReceiptRequest {
+  inventoryItemId: string;
+  stockLotId?: string;
+  purchaseOrderId?: string;
+  purchaseOrderLineId?: string;
+  reasonCode?: string;
+  quantity: string;
+  entryType: string;
+  actorId: string;
+}
+
+export interface StockExit {
+  stockExitId: string;
+  inventoryItemId: string;
+  stockLotId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  destinationBranchId?: string;
+  exitType: string;
+  reasonCode?: string;
+  quantity: string;
+  occurredAt?: string;
+}
+
+export interface ApplyStockExitRequest {
+  inventoryItemId: string;
+  stockLotId: string;
+  destinationBranchId?: string;
+  reasonCode?: string;
+  quantity: string;
+  exitType: string;
+  actorId: string;
+}
+
+export interface ConsumptionRecord {
+  consumptionRecordId: string;
+  inventoryItemId: string;
+  stockLotId?: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  diagnosticOrderId?: string;
+  testDefinitionId?: string;
+  consumptionContext: string;
+  consumedQuantity: string;
+  occurredAt?: string;
+}
+
+export interface ApplyConsumptionRequest {
+  inventoryItemId: string;
+  stockLotId?: string;
+  diagnosticOrderId?: string;
+  testDefinitionId?: string;
+  consumedQuantity: string;
+  consumptionContext: string;
+  actorId: string;
+}
+
+export interface AdjustmentRecord {
+  adjustmentId: string;
+  inventoryItemId: string;
+  stockLotId?: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  reasonCode: string;
+  reasonNote?: string;
+  approverId: string;
+  requestedBy: string;
+  deltaQuantity: string;
+  occurredAt?: string;
+}
+
+export interface ApplyAdjustmentRequest {
+  inventoryItemId: string;
+  stockLotId?: string;
+  reasonNote?: string;
+  deltaQuantity: string;
+  reasonCode: string;
+  requestedBy: string;
+  approverId: string;
+  actorId: string;
+}
+
+export interface WasteRecord {
+  wasteRecordId: string;
+  inventoryItemId: string;
+  stockLotId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  reasonCode: string;
+  reasonNote?: string;
+  disposedQuantity: string;
+  disposedAt?: string;
+}
+
+export interface ApplyWasteRequest {
+  inventoryItemId: string;
+  stockLotId: string;
+  disposedQuantity: string;
+  reasonCode: string;
+  reasonNote?: string;
+  actorId: string;
+}
+
+export interface QualityControlRun {
+  qcRunId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  testDefinitionId: string;
+  controlMaterialStockLotId: string;
+  ruleEvaluation: string;
+  acceptanceDecision: string;
+  performedBy: string;
+  evidenceReference?: string;
+  overrideReason?: string;
+  overrideBy?: string;
+  measuredValue: string;
+  expectedMin: string;
+  expectedMax: string;
+  linkedLaboratoryResultIds: string[];
+  performedAt?: string;
+}
+
+export interface RecordQualityControlRunRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  testDefinitionId: string;
+  controlMaterialStockLotId: string;
+  measuredValue: string;
+  expectedMin: string;
+  expectedMax: string;
+  linkedLaboratoryResultIds?: string[];
+  performedBy: string;
+  performedAt?: string;
+  evidenceReference?: string;
+}
+
+export interface OverrideAcceptanceDecisionRequest {
+  acceptanceDecision: string;
+  overrideReason: string;
+  supervisorId: string;
+  supervisorScoped: boolean;
+}
+
+export interface CalibrationEvent {
+  calibrationEventId: string;
+  inventoryItemId: string;
+  tenantId: string;
+  branchId: string;
+  calibrationStandardRef: string;
+  performedBy: string;
+  result: string;
+  certificateReference?: string;
+  performedAt?: string;
+  nextDueDate?: string;
+}
+
+export interface RecordCalibrationRequest {
+  calibrationStandardRef: string;
+  performedBy: string;
+  result: string;
+  performedAt?: string;
+  nextDueDate?: string;
+  certificateReference?: string;
+}
+
+export interface EquipmentProfileRecord {
+  assetTag: string;
+  serialNumber?: string;
+  manufacturer?: string;
+  model?: string;
+  location?: string;
+  availabilityStatus: string;
+  installedAt?: string;
+}
+
+export interface SetEquipmentProfileRequest {
+  assetTag: string;
+  serialNumber?: string;
+  manufacturer?: string;
+  model?: string;
+  location?: string;
+  availabilityStatus: string;
+  actorId: string;
+}
+
+export interface ChangeAvailabilityRequest {
+  newStatus: string;
+  reasonCode: string;
+  actorId: string;
+}
+
+export interface AvailabilityChangeRecord {
+  changeId: string;
+  inventoryItemId: string;
+  previousStatus: string;
+  newStatus: string;
+  reasonCode: string;
+  changedBy: string;
+  changedAt?: string;
+}
+
+export interface MaintenanceEvent {
+  maintenanceEventId: string;
+  inventoryItemId: string;
+  tenantId: string;
+  branchId: string;
+  maintenanceType: string;
+  performedBy?: string;
+  externalTechnicianRef?: string;
+  description: string;
+  startedAt?: string;
+  completedAt?: string;
+  downtimeMinutes?: number;
+  nextScheduledAt?: string;
+}
+
+export interface RecordMaintenanceRequest {
+  maintenanceType: string;
+  description: string;
+  performedBy?: string;
+  externalTechnicianRef?: string;
+  startedAt?: string;
+  completedAt?: string;
+  nextScheduledAt?: string;
+  downtimeMinutes?: number;
+}
+
+export interface CompleteMaintenanceRequest {
+  actorId: string;
+  completedAt?: string;
+  nextScheduledAt?: string;
+  downtimeMinutes?: number;
+}

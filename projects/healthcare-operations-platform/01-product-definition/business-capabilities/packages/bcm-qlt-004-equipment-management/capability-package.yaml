@@ -51,7 +51,7 @@ roadmap:
   module: COM-MOD-010
   release: REL-002
   package_status: modeled
-  next_backlog_item: COM-MOD-010-FE-001
+  next_backlog_item: COM-MOD-010-QA-001
   paused_functional_backlog_item: null
 
 dependencies:

@@ -37,6 +37,17 @@ const SCREEN_TAB_LABEL_KEYS = {
   "integration-endpoints": "integrationEndpoints",
   "api-management": "apiManagement",
   "migration-jobs": "migrationJobs",
+  "inventory-catalog": "inventoryCatalog",
+  "inventory-reagents": "inventoryReagents",
+  "inventory-lots": "inventoryLots",
+  "inventory-procurement": "inventoryProcurement",
+  "inventory-stock-movements": "inventoryStockMovements",
+  "inventory-adjustments": "inventoryAdjustments",
+  "inventory-waste": "inventoryWaste",
+  "internal-quality-controls": "internalQualityControls",
+  equipment: "equipment",
+  calibrations: "calibrations",
+  maintenance: "maintenance",
 } as const satisfies Record<ScreenKey, string>;
 
 interface ScreenTab {

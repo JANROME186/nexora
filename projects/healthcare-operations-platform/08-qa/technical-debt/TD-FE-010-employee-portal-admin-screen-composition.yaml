@@ -2,10 +2,10 @@ artifact:
   id: TD-FE-010
   type: technical-debt-item
   name: Employee-portal generated administration screens exceed function-size and complexity warning thresholds
-  version: 1.0.0
-  status: open
+  version: 1.1.0
+  status: materially_reduced
   created_date: 2026-07-19
-  updated_date: 2026-07-19
+  updated_date: 2026-07-20
 
 source:
   discovered_during_backlog_item: MVP-MOD-008-FE-001
@@ -63,3 +63,27 @@ remediation:
       each function satisfies the configured ESLint function-size/complexity warning thresholds.
     - Existing tests remain green and coverage does not regress below the recorded 86.47% employee-portal baseline.
     - No visible text is moved back into component code; es-MX/en-US catalogs remain the source for labels.
+
+progress_log:
+  - backlog_item: COM-MOD-010-FE-001
+    date: 2026-07-20
+    action: >-
+      Implemented the preferred_remediation pattern for real: added two new shared components
+      (components/common/DataTable.tsx generic list-table, components/common/statusPresentation.ts
+      status-badge classifier) plus a per-screen decomposition convention (small local form/panel
+      sub-components receiving state and typed action handles as props, one useAsyncAction per
+      operation kept in the top-level screen component only). Applied this pattern to all 11 new
+      Inventory and Internal Quality screens (BCM-INV-001..009, BCM-QLT-001/003/004/005); `npm run
+      lint` reports 0 new max-lines-per-function/complexity/cognitive-complexity warnings for any of
+      them, meeting the quality_goal for new files without exception.
+    scope_decision: >-
+      Did not rewrite the three originally-named legacy files (IntegrationEndpointsScreen,
+      ApiManagementScreen, MigrationJobsScreen) in this backlog item; COM-MOD-010-FE-001 does not
+      touch BCM-PLT-004/005/010 and a behavior-preserving rewrite of unrelated, already-tested
+      screens carries regression risk disproportionate to this item's scope. status moved from
+      `open` to `materially_reduced` because the underlying pattern this debt asked for now exists,
+      is proven across 11 real screens, and is available to apply to the three legacy files the next
+      time BCM-PLT-004/005/010 screens are touched.
+    result: >-
+      0 lint errors (unchanged); warning count for the three originally-flagged files is unchanged
+      (still open on those specific files) but no longer grows with new employee-portal feature work.

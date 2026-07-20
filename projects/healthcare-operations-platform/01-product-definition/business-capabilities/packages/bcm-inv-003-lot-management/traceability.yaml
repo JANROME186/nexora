@@ -89,8 +89,8 @@ traces:
     custom_rules: COM-MOD-010-BE-002
     custom_rules_status: pending
     ui: COM-MOD-010-FE-001
-    ui_status: pending
+    ui_status: closed
     validation: COM-MOD-010-QA-001
-    validation_status: pending
+    validation_status: active
     closeout: COM-MOD-010-CLOSEOUT
     closeout_status: pending

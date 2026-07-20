@@ -4,16 +4,16 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-010-FE-001`.
+Current active backlog item: `COM-MOD-010-QA-001`.
 
-Latest update: `COM-MOD-010-BE-002` is closed. It appended `quality_control_runs`,
-`calibration_events`, `equipment_availability_changes` and `maintenance_events` to the existing
-`db/inventory-and-internal-quality/schema.sql` file and added backend APIs for internal quality
-controls, calibration, equipment and maintenance. No new port, environment variable, startup order
-or Docker asset was introduced. Fresh local databases pick up the tables automatically; reused
-local databases need a fresh volume or manual execution of the appended DDL before exercising QLT
-endpoints. Backend validation passed with 312 tests, 82.94% line coverage, Dependency-Check 0
-vulnerabilities and Trivy 0 findings.
+Latest update: `COM-MOD-010-FE-001` is closed. It added 11 permission-filtered employee-portal
+screens (inventory catalog, reagent profiles, stock lots, purchase orders, combined stock
+entries/exits/consumption movements, adjustments, waste disposal, internal quality control runs,
+calibrations, equipment profile/availability, maintenance events) and a typed
+`inventoryQualityApi` facade consuming the already-closed `COM-MOD-010-BE-001`/`BE-002` REST APIs.
+No new port, environment variable, startup order or database schema change was introduced.
+Employee-portal validation passed with 124 tests (48 test files), 87.87% line coverage, `npm
+audit` 0 vulnerabilities and Trivy fs (vuln/secret/misconfig, all severities) 0 findings.
 
 `MVP-MOD-008 Integration and Migration Readiness` is closed through `MVP-MOD-008-CLOSEOUT`.
 Closeout evidence confirms backend quality at 265 tests and 80.49% coverage, employee-portal
@@ -267,6 +267,17 @@ Expected result:
    sale that is not yet paid surfaces `BILLING_SALE_REQUIRED` — view tax lines, and execute
    submit/retry/cancel against the fiscal adapter boundary). Every action shows a loading, success
    or error banner and financial/destructive actions require an explicit confirmation dialog.
+10. With a tenant, laboratory and branch selected, open the 11 new Inventory and Internal Quality
+    tabs (`COM-MOD-010-FE-001`): "Catálogo de Inventario" (register/update/discontinue inventory
+    items), "Reactivos" (assign/load a reagent profile), "Lotes" (register/quarantine/expire stock
+    lots), "Compras" (build purchase-order lines, create, submit/approve/cancel, receive a line),
+    "Movimientos de Stock" (record stock entries, exits and consumption), "Ajustes de Inventario"
+    and "Mermas" (record adjustments and waste disposal — waste disposal requires an explicit
+    confirmation dialog since it is irreversible), "Control de Calidad Interno" (record a QC run
+    and override its acceptance decision), "Equipos" (set an equipment profile and change/load its
+    availability history), and "Calibraciones"/"Mantenimiento" (record and list calibration and
+    maintenance events). Every action shows a loading, success or error banner; empty result sets
+    show an explicit empty-state message.
 
 ## Quality Validation
 

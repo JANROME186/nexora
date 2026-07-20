@@ -243,35 +243,39 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-010
-  backlog_item_id: COM-MOD-010-FE-001
-  name: Compile inventory and internal quality UI outputs
-  expected_folder: 07-implementation/frontend/employee-portal/
+  backlog_item_id: COM-MOD-010-QA-001
+  name: Traceability, stock and quality evidence
+  expected_folder: 08-qa/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
     backend_java_maven_line_coverage_percent_if_backend_is_touched: 82.94
-    frontend_typescript_web_line_coverage_percent: 86.47
+    frontend_typescript_web_line_coverage_percent: 87.87
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.11
     doctor_portal_typescript_web_line_coverage_percent: 96.28
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - Preserve coverage floors: backend (82.94%), employee portal (86.47%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
+    - Preserve coverage floors: backend (82.94%), employee portal (87.87%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
-    - Consume the closed backend APIs from COM-MOD-010-BE-001 and COM-MOD-010-BE-002; do not reimplement backend logic in the frontend.
-    - Add localized es-MX/en-US employee-portal UI for inventory catalog, stock movements, equipment, calibration, maintenance and internal quality controls with permission-filtered navigation/actions.
-    - Keep labels/messages externalized in existing i18n resources; do not introduce hardcoded visible language strings.
+    - Validate end-to-end traceability across BCM-INV-001..009/BCM-QLT-001/003/004/005 openapi-source.yaml, ui-model.yaml and permissions.yaml against the closed backend and employee-portal implementations.
+    - Compile integrated stock/quality QA and security-quality closure evidence for the module before COM-MOD-010-CLOSEOUT.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-010-BE-002
+    backlog_item_id: COM-MOD-010-FE-001
     status: closed
     summary: >-
-      COM-MOD-010-BE-002 compiled backend outputs for BCM-QLT-001/003/004/005 inside the
-      existing inventoryquality Spring Modulith module. It added equipment, calibration,
-      maintenance and internal quality-control REST endpoints, services, domain records,
-      in-memory/JDBC adapters, four inventory_quality schema tables, four quality screen
-      PermissionCode values and 16 localized inventory.error.<code> keys. Validation passed:
-      mvn compile/test/verify, 312 backend tests, backend line coverage 82.94%, OWASP
-      Dependency-Check 65 dependencies / 0 vulnerabilities using the local manual DB,
-      Trivy vuln+misconfig 0 findings, YAML parse 1,583 files and agent-agnostic scan 0 findings.
+      COM-MOD-010-FE-001 compiled the employee-portal administration UI for all 13 COM-MOD-010
+      capability packages (BCM-INV-001..009, BCM-QLT-001/003/004/005): 11 permission-filtered
+      screens (inventory catalog, reagent profiles, stock lots, purchase orders, combined stock
+      entries/exits/consumption movements, inventory adjustments, waste disposal, internal quality
+      control runs, calibrations, equipment profile/availability, maintenance events), a typed
+      inventoryQualityApi facade over all 27 backend REST operations, and full es-MX/en-US
+      externalization. Addressed TD-FE-010 (materially reduced) by introducing a shared DataTable
+      component and small-sub-component decomposition convention applied to all 11 new screens
+      with 0 new lint size/complexity warnings. Validation passed: npm run quality (typecheck,
+      lint, test:coverage, build, duplication, format, license), 124 tests/48 test files/0
+      failures, employee-portal line coverage 86.47% -> 87.87%, npm audit and Trivy fs
+      (vuln/secret/misconfig, all severities) 0 findings, YAML parse and agent-agnostic scan
+      passed, git diff --check clean.

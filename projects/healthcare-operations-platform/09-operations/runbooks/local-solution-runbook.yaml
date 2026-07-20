@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-010-FE-001
+  current_active_backlog_item: COM-MOD-010-QA-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -20,24 +20,20 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
-    backlog_item: COM-MOD-010-BE-002
+    backlog_item: COM-MOD-010-FE-001
     status: closed
-    next_active_backlog_item: COM-MOD-010-FE-001
+    next_active_backlog_item: COM-MOD-010-QA-001
     runtime_change: none
     port_change: none
     environment_variable_change: none
     startup_order_change: none
     database_schema_note: >-
-      COM-MOD-010-BE-002 appended quality_control_runs, calibration_events,
-      equipment_availability_changes and maintenance_events to the existing
-      db/inventory-and-internal-quality/schema.sql file. Fresh local databases pick up the
-      tables automatically through existing Spring SQL initialization. Reused local databases
-      require either a fresh volume or manual execution of the appended DDL before exercising QLT
-      endpoints.
+      COM-MOD-010-FE-001 is a frontend-only backlog item; it consumed the already-closed
+      COM-MOD-010-BE-001/BE-002 REST APIs and did not change any schema file.
     validation_summary: >-
-      Backend compile/test/verify passed; 312 tests, 0 failures, 0 errors, 16 skipped; backend
-      line coverage 82.94%; OWASP Dependency-Check 65 dependencies / 0 vulnerabilities using the
-      local manual database; Trivy vuln+misconfig 0 findings.
+      Employee-portal quality gate passed; 124 tests, 48 test files, 0 failures; employee-portal
+      line coverage 86.47% -> 87.87%; npm audit 0 vulnerabilities; Trivy fs
+      (vuln/secret/misconfig, all severities) 0 findings.
   runbook_confirmation_note: >-
     MVP-MOD-008-DEF (Integration and Migration Readiness capability package models) is a
     definition-only backlog item: it added no runtime component, port, environment variable,
@@ -69,7 +65,13 @@ project:
     existing runbook validation step changes. MVP-MOD-008-FE-001 added employee-portal integration,
     API-governance and migration administration screens; it did not add a runtime port,
     environment variable, startup order or infrastructure dependency, and remains validated through
-    and MVP-MOD-008-CLOSEOUT are closed. COM-MOD-009-DEF is closed (modeled BCM-PLT-001). COM-MOD-009-BE-001 (backend compilation of portals authorization structures) added authentication, lockout, impersonation sandbox, and granular permissions. It also added five columns to identity.user_accounts (username, password_hash, failed_login_attempts, locked_until, last_login_at), which are automatically added via ALTER TABLE statements to existing local Postgres instances. No new port, environment variable, or startup order was introduced; validated using existing Maven test suite. COM-MOD-009-PORTAL-001 (patient portal commercial workflow) is closed: it compiled LoginForm, Dashboard layouts, and secure self-access interceptor backend rules, raising patient portal Vitest coverage to 89.58% (TD-FE-008 closed). It did not add a new port, environment variable, or startup order; validated using the existing patient-portal and backend test suites. COM-MOD-009-PORTAL-002 (doctor portal commercial workflow) is closed: it rebuilt the doctor-portal frontend (login, permission-filtered navigation, patients/results/orders/notifications screens) against the existing doctor-portal dev port (4002, unchanged from vite.config.ts) and added backend least-privilege enforcement (a doctorId query filter on the existing GET /api/clinical-operations/diagnostic-orders endpoint, three new HopAuthorizationInterceptor self-access blocks, and a new ReferringDoctorAuthorizationPort Spring Modulith named interface consumed by the existing resultsanddigitaldelivery module). It added no new runtime component, port, environment variable, startup order, database schema change or validation command; validated using the existing doctor-portal (`npm run quality`) and backend (`mvn -Pquality "-Dhop.local-db-tests=true" clean verify`) commands documented below. Doctor-portal Vitest coverage rose to 89.86% (TD-FE-009 closed). COM-MOD-009-APP-001 (patient mobile workflow) is closed: it added PATIENT role permissions, permission-filtered profile/appointments/orders/results/notifications routes, localized es-MX/en-US labels, a patientMobileApi facade and patientMobileWorkflowModel to the existing mobile-app component. It added no new runtime component, port, environment variable, startup order, database schema change or infrastructure dependency; validated using the existing mobile-app `npm run quality` and `npm audit --audit-level=low` commands. Mobile coverage rose to 99.21%. COM-MOD-009-QA-001 (channel access and privacy evidence) is closed. COM-MOD-009-CLOSEOUT (Module closeout and registry update) is closed. COM-MOD-010-DEF (Inventory and Internal Quality capability package models) is closed with 13 capability packages modeled and no runtime component, port, environment variable, startup-order change, database schema change or validation-command change. COM-MOD-010-BE-001 (Compile product, reagent, lot and stock outputs) is closed. It added one new schema file `07-implementation/backend/src/main/resources/db/inventory-and-internal-quality/schema.sql` (nine tables: `inventory_items`, `stock_lots`, `purchase_orders`, `purchase_order_lines`, `stock_entries`, `stock_exits`, `consumption_records`, `inventory_adjustments`, `waste_records`) and appended `classpath:db/inventory-and-internal-quality/schema.sql` to `application-local.yml` `spring.sql.init.schema-locations` alongside the pre-existing per-module schema files. No new port, environment variable, startup-order or Docker-init asset was introduced, and the same `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` command validates it. Because `schema.sql` uses `CREATE TABLE IF NOT EXISTS`, a fresh `docker compose up` (or an equivalent freshly-created local Postgres volume) picks up the nine new tables automatically; if an already-created local database is being reused, run `docker compose down -v; docker compose up -d` once so the `inventory_quality` schema and its tables are created. Backend line coverage rose from 80.60% to 82.94% (308 tests / 0 failures / 0 errors / 0 skipped). At that historical point, the next active backlog item was COM-MOD-010-BE-002.
+    and MVP-MOD-008-CLOSEOUT are closed. COM-MOD-009-DEF is closed (modeled BCM-PLT-001). COM-MOD-009-BE-001 (backend compilation of portals authorization structures) added authentication, lockout, impersonation sandbox, and granular permissions. It also added five columns to identity.user_accounts (username, password_hash, failed_login_attempts, locked_until, last_login_at), which are automatically added via ALTER TABLE statements to existing local Postgres instances. No new port, environment variable, or startup order was introduced; validated using existing Maven test suite. COM-MOD-009-PORTAL-001 (patient portal commercial workflow) is closed: it compiled LoginForm, Dashboard layouts, and secure self-access interceptor backend rules, raising patient portal Vitest coverage to 89.58% (TD-FE-008 closed). It did not add a new port, environment variable, or startup order; validated using the existing patient-portal and backend test suites. COM-MOD-009-PORTAL-002 (doctor portal commercial workflow) is closed: it rebuilt the doctor-portal frontend (login, permission-filtered navigation, patients/results/orders/notifications screens) against the existing doctor-portal dev port (4002, unchanged from vite.config.ts) and added backend least-privilege enforcement (a doctorId query filter on the existing GET /api/clinical-operations/diagnostic-orders endpoint, three new HopAuthorizationInterceptor self-access blocks, and a new ReferringDoctorAuthorizationPort Spring Modulith named interface consumed by the existing resultsanddigitaldelivery module). It added no new runtime component, port, environment variable, startup order, database schema change or validation command; validated using the existing doctor-portal (`npm run quality`) and backend (`mvn -Pquality "-Dhop.local-db-tests=true" clean verify`) commands documented below. Doctor-portal Vitest coverage rose to 89.86% (TD-FE-009 closed). COM-MOD-009-APP-001 (patient mobile workflow) is closed: it added PATIENT role permissions, permission-filtered profile/appointments/orders/results/notifications routes, localized es-MX/en-US labels, a patientMobileApi facade and patientMobileWorkflowModel to the existing mobile-app component. It added no new runtime component, port, environment variable, startup order, database schema change or infrastructure dependency; validated using the existing mobile-app `npm run quality` and `npm audit --audit-level=low` commands. Mobile coverage rose to 99.21%. COM-MOD-009-QA-001 (channel access and privacy evidence) is closed. COM-MOD-009-CLOSEOUT (Module closeout and registry update) is closed. COM-MOD-010-DEF (Inventory and Internal Quality capability package models) is closed with 13 capability packages modeled and no runtime component, port, environment variable, startup-order change, database schema change or validation-command change. COM-MOD-010-BE-001 (Compile product, reagent, lot and stock outputs) is closed. It added one new schema file `07-implementation/backend/src/main/resources/db/inventory-and-internal-quality/schema.sql` (nine tables: `inventory_items`, `stock_lots`, `purchase_orders`, `purchase_order_lines`, `stock_entries`, `stock_exits`, `consumption_records`, `inventory_adjustments`, `waste_records`) and appended `classpath:db/inventory-and-internal-quality/schema.sql` to `application-local.yml` `spring.sql.init.schema-locations` alongside the pre-existing per-module schema files. No new port, environment variable, startup-order or Docker-init asset was introduced, and the same `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` command validates it. Because `schema.sql` uses `CREATE TABLE IF NOT EXISTS`, a fresh `docker compose up` (or an equivalent freshly-created local Postgres volume) picks up the nine new tables automatically; if an already-created local database is being reused, run `docker compose down -v; docker compose up -d` once so the `inventory_quality` schema and its tables are created. Backend line coverage rose from 80.60% to 82.94% (308 tests / 0 failures / 0 errors / 0 skipped). At that historical point, the next active backlog item was COM-MOD-010-BE-002. COM-MOD-010-FE-001
+    (Compile inventory and internal quality UI outputs) is closed. It added 11 permission-filtered
+    employee-portal screens and a typed inventoryQualityApi facade consuming the existing
+    COM-MOD-010-BE-001/BE-002 REST APIs; it introduced no new runtime component, port, environment
+    variable, startup order or database schema change, and remains validated through the existing
+    employee-portal `npm run quality` command documented below. Employee-portal Vitest coverage rose
+    to 87.87%. The next active backlog item is COM-MOD-010-QA-001.
   intended_audience:
     - human_reviewer
     - qa_reviewer
@@ -315,6 +317,23 @@ smoke_validation:
       guards (STOCK_EXIT_LOT_NOT_ELIGIBLE, ADJUSTMENT_APPROVER_SAME_AS_REQUESTER,
       WASTE_QUANTITY_EXCEEDS_LOT etc.). When a waste disposal drives lot.remainingQuantity to
       zero, the lot transitions to disposed. Every write path emits a BCM-PLT-007 audit event.
+  - id: SMOKE-012
+    name: Inventory and Internal Quality employee portal screens (COM-MOD-010-FE-001)
+    expected_result: >
+      With tenant, laboratory and branch scope selected, the "Catálogo de Inventario" tab registers
+      an inventory item, lists it and can update/discontinue the selected item. "Reactivos" assigns
+      and loads a reagent profile for an item id. "Lotes" registers a stock lot for an item, lists
+      lots and can quarantine/mark the selected lot as expired. "Compras" builds purchase-order
+      lines, creates the order, lists orders and can submit/approve/cancel the selected order and
+      receive an individual line. "Movimientos de Stock" records stock entries, exits and
+      consumption in three sub-sections sharing the SCREEN_INVENTORY_STOCK_MOVEMENTS permission.
+      "Ajustes de Inventario" and "Mermas" record adjustments/waste disposal (waste disposal is
+      gated behind a confirmation dialog since it is irreversible) and list their history.
+      "Control de Calidad Interno" records a QC run, lists runs and lets a supervisor override the
+      selected run's acceptance decision. "Equipos" sets an equipment profile and changes/loads its
+      availability history. "Calibraciones" and "Mantenimiento" record and list calibration and
+      maintenance events for an equipment item id. Every action shows a loading, success or error
+      banner; empty result sets show an explicit empty-state message.
   - id: SMOKE-010
     name: Cashier and Billing Request employee portal screens (MVP-MOD-005-FE-001)
     expected_result: >

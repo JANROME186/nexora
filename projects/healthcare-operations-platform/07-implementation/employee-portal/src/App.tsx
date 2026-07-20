@@ -30,6 +30,17 @@ import { ResultNotificationsScreen } from "./components/screens/ResultNotificati
 import { IntegrationEndpointsScreen } from "./components/screens/IntegrationEndpointsScreen";
 import { ApiManagementScreen } from "./components/screens/ApiManagementScreen";
 import { MigrationJobsScreen } from "./components/screens/MigrationJobsScreen";
+import { InventoryCatalogScreen } from "./components/screens/InventoryCatalogScreen";
+import { InventoryReagentsScreen } from "./components/screens/InventoryReagentsScreen";
+import { InventoryLotsScreen } from "./components/screens/InventoryLotsScreen";
+import { InventoryProcurementScreen } from "./components/screens/InventoryProcurementScreen";
+import { InventoryStockMovementsScreen } from "./components/screens/InventoryStockMovementsScreen";
+import { InventoryAdjustmentsScreen } from "./components/screens/InventoryAdjustmentsScreen";
+import { InventoryWasteScreen } from "./components/screens/InventoryWasteScreen";
+import { InternalQualityControlsScreen } from "./components/screens/InternalQualityControlsScreen";
+import { EquipmentScreen } from "./components/screens/EquipmentScreen";
+import { CalibrationsScreen } from "./components/screens/CalibrationsScreen";
+import { MaintenanceScreen } from "./components/screens/MaintenanceScreen";
 import { AdminScopeProvider } from "./state/AdminScopeContext";
 import { SessionProvider } from "./state/SessionContext";
 import { LocaleProvider } from "./i18n/LocaleContext";
@@ -65,6 +76,17 @@ const SCREEN_COMPONENTS = {
   "integration-endpoints": IntegrationEndpointsScreen,
   "api-management": ApiManagementScreen,
   "migration-jobs": MigrationJobsScreen,
+  "inventory-catalog": InventoryCatalogScreen,
+  "inventory-reagents": InventoryReagentsScreen,
+  "inventory-lots": InventoryLotsScreen,
+  "inventory-procurement": InventoryProcurementScreen,
+  "inventory-stock-movements": InventoryStockMovementsScreen,
+  "inventory-adjustments": InventoryAdjustmentsScreen,
+  "inventory-waste": InventoryWasteScreen,
+  "internal-quality-controls": InternalQualityControlsScreen,
+  equipment: EquipmentScreen,
+  calibrations: CalibrationsScreen,
+  maintenance: MaintenanceScreen,
 } as const satisfies Record<ScreenKey, () => JSX.Element>;
 
 function renderScreen(screen: ScreenKey) {

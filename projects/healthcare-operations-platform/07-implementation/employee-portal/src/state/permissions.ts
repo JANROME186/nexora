@@ -38,7 +38,18 @@ export type ScreenKey =
   | "result-notifications"
   | "integration-endpoints"
   | "api-management"
-  | "migration-jobs";
+  | "migration-jobs"
+  | "inventory-catalog"
+  | "inventory-reagents"
+  | "inventory-lots"
+  | "inventory-procurement"
+  | "inventory-stock-movements"
+  | "inventory-adjustments"
+  | "inventory-waste"
+  | "internal-quality-controls"
+  | "equipment"
+  | "calibrations"
+  | "maintenance";
 
 export type PermissionCode =
   | "SCREEN_TENANTS"
@@ -70,7 +81,18 @@ export type PermissionCode =
   | "SCREEN_RESULT_NOTIFICATIONS"
   | "SCREEN_INTEGRATION_ENDPOINTS"
   | "SCREEN_API_MANAGEMENT"
-  | "SCREEN_MIGRATION_JOBS";
+  | "SCREEN_MIGRATION_JOBS"
+  | "SCREEN_INVENTORY_CATALOG"
+  | "SCREEN_INVENTORY_REAGENTS"
+  | "SCREEN_INVENTORY_LOTS"
+  | "SCREEN_INVENTORY_PROCUREMENT"
+  | "SCREEN_INVENTORY_STOCK_MOVEMENTS"
+  | "SCREEN_INVENTORY_ADJUSTMENTS"
+  | "SCREEN_INVENTORY_WASTE"
+  | "SCREEN_INTERNAL_QUALITY_CONTROLS"
+  | "SCREEN_EQUIPMENT"
+  | "SCREEN_CALIBRATIONS"
+  | "SCREEN_MAINTENANCE";
 
 export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   tenants: "SCREEN_TENANTS",
@@ -103,6 +125,17 @@ export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   "integration-endpoints": "SCREEN_INTEGRATION_ENDPOINTS",
   "api-management": "SCREEN_API_MANAGEMENT",
   "migration-jobs": "SCREEN_MIGRATION_JOBS",
+  "inventory-catalog": "SCREEN_INVENTORY_CATALOG",
+  "inventory-reagents": "SCREEN_INVENTORY_REAGENTS",
+  "inventory-lots": "SCREEN_INVENTORY_LOTS",
+  "inventory-procurement": "SCREEN_INVENTORY_PROCUREMENT",
+  "inventory-stock-movements": "SCREEN_INVENTORY_STOCK_MOVEMENTS",
+  "inventory-adjustments": "SCREEN_INVENTORY_ADJUSTMENTS",
+  "inventory-waste": "SCREEN_INVENTORY_WASTE",
+  "internal-quality-controls": "SCREEN_INTERNAL_QUALITY_CONTROLS",
+  equipment: "SCREEN_EQUIPMENT",
+  calibrations: "SCREEN_CALIBRATIONS",
+  maintenance: "SCREEN_MAINTENANCE",
 };
 
 /** Every permission code, derived from `SCREEN_TO_PERMISSION` so the two never drift apart. */
