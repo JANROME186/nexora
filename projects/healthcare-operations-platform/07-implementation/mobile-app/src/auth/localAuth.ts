@@ -16,6 +16,7 @@ export type LoginRequest = {
   userId: string;
   displayName: string;
   email: string;
+  roleCodes?: readonly string[];
 };
 
 export type LocalAuthService = {
@@ -42,6 +43,7 @@ export function createLocalAuthService(
         userId,
         displayName,
         email,
+        roleCodes: request.roleCodes ?? ["ADMIN"],
         createdAt: now().toISOString(),
       };
       sessionStore.saveSession(session);

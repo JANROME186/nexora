@@ -87,7 +87,7 @@ enforcement rather than client-side-only filtering.
 ## Readiness
 
 - COM-MOD-009-PORTAL-002: **closed**
-- Next backlog item: **COM-MOD-009-APP-001** (Patient mobile workflow)
+- Next backlog item: **COM-MOD-009-QA-001** (Channel access and privacy evidence)
 - HOP commercially complete / GA-ready: **No**
 - Coverage baselines: backend 80.60%, employee portal 86.47%, mobile 98.87%, patient portal
   89.58%, doctor portal 89.86%.

@@ -17,6 +17,7 @@ describe("resultHistoryScreenModel", () => {
       email: "test@example.com",
       createdAt: "2026",
       token: "",
+      roleCodes: ["PATIENT"],
     });
 
     await model.loadHistory();
@@ -35,6 +36,7 @@ describe("resultHistoryScreenModel", () => {
       email: "test@example.com",
       createdAt: "2026",
       token: "",
+      roleCodes: ["PATIENT"],
     });
 
     await model.loadHistory();
@@ -56,6 +58,7 @@ describe("resultHistoryScreenModel", () => {
         email: "test@example.com",
         createdAt: "2026",
         token: "",
+        roleCodes: ["PATIENT"],
       },
       () => {
         notifications++;

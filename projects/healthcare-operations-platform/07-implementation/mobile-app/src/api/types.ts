@@ -100,3 +100,37 @@ export type ResultHistoryResponse = {
     releasedAt: string;
   }[];
 };
+
+export type PatientProfileResponse = {
+  patientId: string;
+  displayName: string;
+  email: string;
+  phone?: string;
+  dateOfBirth?: string;
+  preferredLanguage: "es-MX" | "en-US";
+};
+
+export type PatientAppointmentResponse = {
+  appointmentId: string;
+  scheduledAt: string;
+  serviceName: string;
+  branchName: string;
+  status: "scheduled" | "checked_in" | "cancelled" | "completed";
+};
+
+export type PatientOrderResponse = {
+  orderId: string;
+  orderNumber: string;
+  requestedAt: string;
+  status: "draft" | "priced" | "accepted" | "in_progress" | "completed" | "cancelled";
+  serviceNames: string[];
+};
+
+export type PatientNotificationResponse = {
+  notificationId: string;
+  category: "appointment" | "result" | "order" | "account";
+  title: string;
+  body: string;
+  createdAt: string;
+  readAt?: string;
+};

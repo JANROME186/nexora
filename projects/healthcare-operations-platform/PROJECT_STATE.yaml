@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 0.99.0
-current_phase: COM-MOD-009 Patient and Doctor Portals doctor portal commercial workflow compiled and verified; patient mobile workflow COM-MOD-009-APP-001 active
+current_phase: COM-MOD-009 Patient and Doctor Portals patient mobile workflow compiled and verified; channel access and privacy evidence COM-MOD-009-QA-001 active
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -242,8 +242,14 @@ completed_deliverables:
     blocks) with unit test coverage raised from 40.62% to 89.86% (TD-FE-009 closed); backend coverage
     80.49% -> 80.60% (280 tests, 0 failures/errors/skipped); TD-IAM-002 and TD-I18N-002 materially
     reduced further; TD-FE-011 registered (pre-existing, unrelated patient-portal lint regression)
+  - COM-MOD-009-APP-001 patient mobile workflow compiled (PATIENT role and granular patient mobile
+    permissions, profile/appointments/orders/results/notifications routes, localized es-MX/en-US
+    home and workflow labels, permission-filtered mobile actions, patientMobileApi facade and
+    patientMobileWorkflowModel with loading/ready/empty/forbidden/error states); mobile coverage
+    raised from 98.87% to 99.21%; npm quality and npm audit passed with 0 vulnerabilities; TD-I18N-002
+    and TD-IAM-002 materially reduced further
 next_deliverables:
-  - Continue COM-MOD-009 Patient and Doctor Portals with COM-MOD-009-APP-001 patient mobile workflow
+  - Continue COM-MOD-009 Patient and Doctor Portals with COM-MOD-009-QA-001 channel access and privacy evidence
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -258,7 +264,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-009
   in_progress_module: COM-MOD-009
-  next_backlog_item: COM-MOD-009-APP-001
+  next_backlog_item: COM-MOD-009-QA-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -339,12 +345,13 @@ development_readiness:
           CLOSEOUT found and fixed a real regression to 84.03% left uncaught by MVP-MOD-007-
           PORTAL-001, raising it to 85.50%. MVP-MOD-008-FE-001 raised it to 86.47%.)
       mobile_typescript_foundation:
-        current_line_coverage_percent: 98.87
-        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 98.87
+        current_line_coverage_percent: 99.21
+        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 99.21
         final_closure_target_percent: 80
         tracked_by: TD-APP-002 (closed; MVP-MOD-007-APP-001 raised coverage from 97.15% to 98.87%;
-          MVP-MOD-007-CLOSEOUT re-confirmed 98.87% with no regression)
+          MVP-MOD-007-CLOSEOUT re-confirmed 98.87% with no regression; COM-MOD-009-APP-001 raised
+          the mobile floor to 99.21% with 40 tests and 0 failures)
       patient_portal_typescript_web:
         current_line_coverage_percent: 89.58
         source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-001-validation.yaml
@@ -367,7 +374,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: COM-MOD-009
-  current_backlog_item: COM-MOD-009-APP-001
+  current_backlog_item: COM-MOD-009-QA-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -434,9 +441,36 @@ implementation_progress:
     - COM-MOD-009-BE-001
     - COM-MOD-009-PORTAL-001
     - COM-MOD-009-PORTAL-002
+    - COM-MOD-009-APP-001
   in_progress_backlog_items: []
   pending_backlog_items: []
   latest_validation:
+    backlog_item_id: COM-MOD-009-APP-001
+    command: npm run quality; npm audit --audit-level=low
+    working_directory: projects/healthcare-operations-platform/07-implementation/mobile-app
+    status: passed
+    tests_run_mobile: 40
+    failures: 0
+    errors: 0
+    skipped: 0
+    line_coverage_percent: 99.21
+    previous_line_coverage_floor_percent: 98.87
+    vulnerabilities: 0
+    additional_checks:
+      - >-
+        Added PATIENT role, granular patient mobile permissions and permission-filtered patient
+        routes for profile, appointments, orders, results and notifications.
+      - >-
+        Added patientMobileApi and patientMobileWorkflowModel with loading, ready, empty,
+        forbidden and error states while preserving the agent-agnostic FetchLike boundary.
+      - >-
+        Externalized new and changed mobile labels/messages in es-MX/en-US, materially reducing
+        TD-I18N-002; dynamic role-permission navigation materially reduced TD-IAM-002.
+      - >-
+        Mobile quality gate passed with 12 test files, 40 tests, 0 failures/errors/skipped,
+        99.21% line coverage, duplicate-code/static-analysis/format checks passed and npm audit
+        reported 0 vulnerabilities.
+  previous_validation_com_mod_009_portal_002:
     backlog_item_id: COM-MOD-009-PORTAL-002
     command: npm.cmd run quality (doctor-portal); mvn -Pquality "-Dhop.local-db-tests=true" clean verify (backend)
     working_directory: projects/healthcare-operations-platform/07-implementation/doctor-portal
@@ -944,7 +978,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_iteration: COM-MOD-009
   active_module: COM-MOD-009 Patient and Doctor Portals
-  active_backlog_item: COM-MOD-009-APP-001
+  active_backlog_item: COM-MOD-009-QA-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
@@ -956,9 +990,9 @@ commercial_product_progress:
     COM-MOD-009:
       name: Patient and Doctor Portals
       package_status: in_progress
-      backlog_item: COM-MOD-009-APP-001
+      backlog_item: COM-MOD-009-QA-001
       backlog_item_status: pending
-      execution_flow_stage: compile
+      execution_flow_stage: validate
       packages_modeled:
         - BCM-PLT-001
       artifacts_per_package: 14
@@ -980,12 +1014,18 @@ commercial_product_progress:
       qa_evidence_portal_002_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.md
       security_quality_evidence_portal_002: 08-qa/security-quality/COM-MOD-009-PORTAL-002/security-quality-evidence.yaml
       security_quality_evidence_portal_002_md: 08-qa/security-quality/COM-MOD-009-PORTAL-002/security-quality-evidence.md
+      qa_evidence_app_001: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.yaml
+      qa_evidence_app_001_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.md
+      security_quality_evidence_app_001: 08-qa/security-quality/COM-MOD-009-APP-001/security-quality-evidence.yaml
+      security_quality_evidence_app_001_md: 08-qa/security-quality/COM-MOD-009-APP-001/security-quality-evidence.md
       ready_for_compilation: true
       backend_compilation_completed: true
       ready_for_custom_rule_implementation: true
       patient_portal_workflow_completed: true
       doctor_portal_workflow_completed: true
       ready_for_mobile_workflow: true
+      mobile_workflow_completed: true
+      ready_for_channel_access_privacy_validation: true
     MVP-MOD-008:
       name: Integration and Migration Readiness
       package_status: module_closed

@@ -17,6 +17,23 @@ export const esMX = {
   resultsTitle: "Resultados",
   resultDetailTitle: "Detalle del Resultado",
   resultHistoryTitle: "Historial de Resultados",
+  mobileGreeting: "Bienvenido, {displayName}",
+  mobileTenantScope: "Alcance de tenant: {tenantId}",
+  mobileRouteLabels: {
+    "tenant-summary": "Tenant",
+    "laboratory-summary": "Laboratorio",
+    "branch-summary": "Sucursal",
+    "user-summary": "Usuarios",
+    "audit-summary": "Auditoría",
+    "patient-profile": "Mi perfil",
+    "patient-appointments": "Mis citas",
+    "patient-orders": "Mis órdenes",
+    "patient-results": "Mis resultados",
+    "patient-notifications": "Mis notificaciones",
+  },
+  patientMobileTitle: "Portal móvil de paciente",
+  patientMobileEmpty: "No hay información disponible para tu perfil.",
+  patientMobileForbidden: "Tu sesión no tiene permisos para consultar el portal móvil de paciente.",
 } as const;
 
 /** Recursively widens the `esMX` literal string types to `string` so other locales (en-US) can

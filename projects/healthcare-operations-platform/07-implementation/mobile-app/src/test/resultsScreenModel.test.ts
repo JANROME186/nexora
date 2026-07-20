@@ -20,6 +20,7 @@ describe("resultsScreenModel", () => {
         email: "test@example.com",
         createdAt: "2026",
         token: "",
+        roleCodes: ["PATIENT"],
       },
       () => {
         notifications++;
@@ -48,6 +49,7 @@ describe("resultsScreenModel", () => {
       email: "test@example.com",
       createdAt: "2026",
       token: "",
+      roleCodes: ["PATIENT"],
     });
 
     await model.loadTickets();
@@ -66,6 +68,7 @@ describe("resultsScreenModel", () => {
       email: "test@example.com",
       createdAt: "2026",
       token: "",
+      roleCodes: ["PATIENT"],
     });
 
     await model.loadTickets();

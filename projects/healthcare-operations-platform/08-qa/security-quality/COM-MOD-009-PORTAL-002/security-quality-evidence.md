@@ -25,7 +25,7 @@ results history, three new interceptor self-access blocks).
 | Coverage baseline (doctor-portal) | **passed** | Line coverage rose from 40.62% to **89.86%**, exceeding the 80% target floor (TD-FE-009 closed). |
 | Coverage baseline (backend) | **passed** | Line coverage rose from 80.49% to **80.60%**, no regression. |
 | Agent-Agnostic Scan | **passed** | Checked for vendor-specific agent/runtime dependencies; 0 findings. |
-| Stale Pointers Sweep | **passed** | All active backlog trackers moved to `COM-MOD-009-APP-001`. |
+| Stale Pointers Sweep | **passed** | Active backlog trackers now point to `COM-MOD-009-QA-001`. |
 | Vulnerability Scan (npm audit) | **passed** | 0 vulnerabilities in doctor-portal dependencies. |
 | Vulnerability Scan (OWASP Dependency-Check) | **passed** | 0 vulnerabilities across 65 backend dependencies. |
 | Vulnerability Scan (Trivy) | **passed** | 0 vulnerabilities/secrets/misconfigurations, backend and doctor-portal. |
@@ -45,4 +45,4 @@ results history, three new interceptor self-access blocks).
 ## Commercial Readiness Disclosure
 
 - HOP is not commercially complete or GA-ready.
-- Next backlog focus: `COM-MOD-009-APP-001` (Patient mobile workflow).
+- Next backlog focus: `COM-MOD-009-QA-001` (Channel access and privacy evidence).

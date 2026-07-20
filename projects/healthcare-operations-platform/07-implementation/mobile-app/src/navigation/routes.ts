@@ -10,7 +10,12 @@ export type MobileRoute =
   | "audit-summary"
   | "results"
   | "resultDetail"
-  | "resultHistory";
+  | "resultHistory"
+  | "patient-profile"
+  | "patient-appointments"
+  | "patient-orders"
+  | "patient-results"
+  | "patient-notifications";
 
 /**
  * Maps each permission-gated route to the employee-portal-equivalent `PermissionCode`. The
@@ -25,6 +30,11 @@ const ROUTE_TO_PERMISSION: Partial<Record<MobileRoute, PermissionCode>> = {
   "branch-summary": "SCREEN_BRANCHES",
   "user-summary": "SCREEN_USERS",
   "audit-summary": "SCREEN_AUDIT_EVENTS",
+  "patient-profile": "PORTAL_PATIENT_PROFILE_VIEW",
+  "patient-appointments": "PORTAL_PATIENT_APPOINTMENTS_VIEW",
+  "patient-orders": "PORTAL_PATIENT_ORDERS_VIEW",
+  "patient-results": "PORTAL_PATIENT_RESULTS_VIEW",
+  "patient-notifications": "PORTAL_PATIENT_NOTIFICATIONS_VIEW",
 };
 
 const ALL_ROUTES: readonly MobileRoute[] = [
@@ -38,6 +48,11 @@ const ALL_ROUTES: readonly MobileRoute[] = [
   "results",
   "resultDetail",
   "resultHistory",
+  "patient-profile",
+  "patient-appointments",
+  "patient-orders",
+  "patient-results",
+  "patient-notifications",
 ];
 
 /**

@@ -9,7 +9,7 @@ describe("mobile permission model", () => {
 
     expect(permissions.has("SCREEN_TENANTS")).toBe(true);
     expect(permissions.has("SCREEN_AUDIT_EVENTS")).toBe(true);
-    expect(permissions.size).toBe(27);
+    expect(permissions.size).toBe(32);
   });
 
   it("grants only the FRONT_DESK role's permissions", () => {
@@ -49,6 +49,19 @@ describe("visibleRoutesForPermissions", () => {
       "results",
       "resultDetail",
       "resultHistory",
+      "patient-profile",
+      "patient-appointments",
+      "patient-orders",
+      "patient-results",
+      "patient-notifications",
     ]);
+  });
+
+  it("includes only patient portal mobile routes for PATIENT role", () => {
+    const routes = visibleRoutesForPermissions(permissionsForRoles(["PATIENT"]));
+
+    expect(routes).toContain("patient-profile");
+    expect(routes).toContain("patient-results");
+    expect(routes).not.toContain("audit-summary");
   });
 });

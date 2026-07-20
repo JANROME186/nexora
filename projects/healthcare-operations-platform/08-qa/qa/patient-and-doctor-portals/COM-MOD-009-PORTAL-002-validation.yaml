@@ -122,4 +122,4 @@ results:
 
 readiness:
   status: passed
-  ready_for_next_backlog_item: COM-MOD-009-APP-001
+  ready_for_next_backlog_item: COM-MOD-009-QA-001

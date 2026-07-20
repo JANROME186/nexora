@@ -106,7 +106,7 @@ results:
       Repository-wide check of active_backlog_item, current_backlog_item,
       current_active_backlog_item, next_backlog_item and ready_for_next_backlog_item.
     result: passed
-    detail: All live registries advanced to COM-MOD-009-APP-001.
+    detail: Live registries have since advanced past COM-MOD-009-APP-001 to COM-MOD-009-QA-001.
   git_whitespace_check:
     command: git diff --check
     result: passed
@@ -159,11 +159,11 @@ commercial_readiness_disclosure:
   hop_commercially_complete: false
   hop_ga_ready: false
   reason: >
-    Portals module (COM-MOD-009) is in compilation mode; patient mobile workflow
-    (COM-MOD-009-APP-001) and channel access/privacy evidence (COM-MOD-009-QA-001) are pending.
+    Portals module (COM-MOD-009) is in validation mode; patient mobile workflow
+    (COM-MOD-009-APP-001) is closed and channel access/privacy evidence (COM-MOD-009-QA-001) is pending.
 
 readiness:
   security_quality_status: passed
-  ready_for_next_backlog_item: COM-MOD-009-APP-001
+  ready_for_next_backlog_item: COM-MOD-009-QA-001
   next_required_focus:
-    - Compile patient mobile workflow (COM-MOD-009-APP-001).
+    - Validate channel access and privacy evidence (COM-MOD-009-QA-001).

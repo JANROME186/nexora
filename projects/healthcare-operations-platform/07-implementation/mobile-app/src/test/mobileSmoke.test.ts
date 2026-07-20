@@ -16,7 +16,7 @@ describe("mobile foundation smoke", () => {
     });
 
     expect(app.getNavigation().currentRoute).toBe("home");
-    expect(app.homeScreen().scopeLabel).toBe("Tenant scope: tenant-1");
+    expect(app.homeScreen().scopeLabel).toBe("Alcance de tenant: tenant-1");
 
     app.navigateTo("tenant-summary");
     app.navigateTo("laboratory-summary");

@@ -4,6 +4,7 @@ export type MobileSession = {
   userId: string;
   displayName: string;
   email: string;
+  roleCodes: readonly string[];
   createdAt: string;
 };
 

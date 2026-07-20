@@ -233,29 +233,27 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-009-PORTAL-002 Doctor portal commercial workflow` is closed.
+`COM-MOD-009-APP-001 Patient mobile workflow` is closed.
 Continue with:
 
 - Module: `COM-MOD-009`
-- Backlog item: `COM-MOD-009-APP-001`
-- Previous backlog item: `COM-MOD-009-PORTAL-002` (closed)
+- Backlog item: `COM-MOD-009-QA-001`
+- Previous backlog item: `COM-MOD-009-APP-001` (closed)
 - Paused functional backlog item: none
-- Folder: `07-implementation/mobile-app/`
+- Folder: `08-qa/qa/patient-and-doctor-portals/`
 
 Mandatory setup for this backlog:
 
-- Compile patient mobile workflow.
-- Preserve the employee portal coverage floor of 86.47%, the mobile TypeScript foundation floor of 98.87%, the patient-portal floor of 89.58% and the doctor-portal floor of 89.86%; the backend Java/Maven floor is 80.60% — do not regress below it if backend code is touched.
+- Validate channel access and privacy evidence across backend, patient portal, doctor portal and mobile.
+- Preserve the employee portal coverage floor of 86.47%, the mobile TypeScript foundation floor of 99.21%, the patient-portal floor of 89.58% and the doctor-portal floor of 89.86%; the backend Java/Maven floor is 80.60% - do not regress below it if backend code is touched.
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
 - Before commit, reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, affected capability traceability files and the local runbook pointers.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-009-PORTAL-002` — Doctor portal commercial workflow. Rebuilt login, permission-filtered
-dynamic navigation, referred-patients/results/orders/notifications views, localization switcher,
-and explicit loading/empty/error/no-permission/session-expired states, replacing a stale
-employee-portal-domain scaffold; added backend least-privilege enforcement (doctorId-filtered
-diagnostic orders, a new ReferringDoctorAuthorizationPort Spring Modulith named interface, 3 new
-interceptor self-access blocks); raised doctor portal Vitest coverage to 89.86%, closing
-TD-FE-009.
+`COM-MOD-009-APP-001` - Patient mobile workflow. Added PATIENT role permissions, permission-filtered
+profile/appointments/orders/results/notifications routes, localized es-MX/en-US home and workflow
+labels, a patientMobileApi facade and a patientMobileWorkflowModel with loading/ready/empty/
+forbidden/error states. Mobile quality passed with 40 tests, 99.21% line coverage and
+`npm audit --audit-level=low` reporting 0 vulnerabilities.

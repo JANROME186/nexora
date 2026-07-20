@@ -62,14 +62,15 @@ policy:
           85.50%, above the previous 84.44% floor. MVP-MOD-008-QA-001 later raised the
           employee-portal floor to 86.47% (101 tests, 0 failures). Must not regress below 86.47%.
       mobile_typescript_foundation:
-        current_line_coverage_percent: 98.87
-        source_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 98.87
+        current_line_coverage_percent: 99.21
+        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 99.21
         final_closure_target_percent: 80
         correction_note: >-
           Re-measured during MVP-MOD-007-CLOSEOUT with no code changes to the mobile app: 98.87%
           (31 tests), consistent with the 97.15% -> 98.87% growth already reflected upstream. No
-          regression.
+          regression. COM-MOD-009-APP-001 later raised the mobile floor to 99.21% with 40 tests
+          and 0 failures.
       patient_portal_typescript_web:
         current_line_coverage_percent: 89.58
         source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-001-validation.yaml

@@ -242,34 +242,31 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-009
-  backlog_item_id: COM-MOD-009-APP-001
-  name: Patient mobile workflow
-  expected_folder: 07-implementation/mobile-app/
+  backlog_item_id: COM-MOD-009-QA-001
+  name: Channel access and privacy evidence
+  expected_folder: 08-qa/qa/patient-and-doctor-portals/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
     backend_java_maven_line_coverage_percent_if_backend_is_touched: 80.60
     frontend_typescript_web_line_coverage_percent: 86.47
-    mobile_typescript_foundation_line_coverage_percent: 98.87
+    mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 89.58
     doctor_portal_typescript_web_line_coverage_percent: 89.86
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - Preserve coverage floors: backend (80.60%), employee portal (86.47%), mobile (98.87%), patient portal (89.58%), and doctor portal (89.86%).
+    - Preserve coverage floors: backend (80.60%), employee portal (86.47%), mobile (99.21%), patient portal (89.58%), and doctor portal (89.86%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-009-PORTAL-002
+    backlog_item_id: COM-MOD-009-APP-001
     status: closed
     summary: >-
-      COM-MOD-009-PORTAL-002 rebuilt the doctor portal commercial workflow (login,
-      permission-filtered dynamic navigation, referred-patients/results/orders/notifications
-      views, i18n switcher, loading/empty/error/no-permission/session-expired states),
-      replacing a stale employee-portal-domain scaffold, and added backend least-privilege
-      enforcement (doctorId-filtered diagnostic orders, a new ReferringDoctorAuthorizationPort
-      Spring Modulith named interface, 3 new interceptor self-access blocks) with unit test
-      coverage raised from 40.62% to 89.86% (TD-FE-009 closed); backend coverage 80.49% ->
-      80.60% (280 tests, 0 failures/errors/skipped); TD-IAM-002 and TD-I18N-002 materially
-      reduced further; TD-FE-011 registered (pre-existing, unrelated patient-portal lint
-      regression).
+      COM-MOD-009-APP-001 compiled the patient mobile workflow with PATIENT role permissions,
+      permission-filtered profile/appointments/orders/results/notifications routes, localized
+      es-MX/en-US home and workflow labels, a patientMobileApi facade and patientMobileWorkflowModel
+      loading/ready/empty/forbidden/error states. Mobile npm quality passed with 12 test files,
+      40 tests, 0 failures/errors/skipped, 99.21% line coverage (floor raised from 98.87%);
+      npm audit --audit-level=low reported 0 vulnerabilities; TD-I18N-002 and TD-IAM-002 were
+      materially reduced further.

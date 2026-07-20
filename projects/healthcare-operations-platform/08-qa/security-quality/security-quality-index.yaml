@@ -728,3 +728,23 @@ entries:
       Backend coverage raised from 80.49% to 80.60% (280 tests, 0 failures/errors/skipped).
       TD-IAM-002 and TD-I18N-002 materially reduced further; TD-FE-011 registered (pre-existing
       patient-portal lint regression, unrelated to this backlog item).
+  - backlog_item: COM-MOD-009-APP-001
+    module: COM-MOD-009 Patient and Doctor Portals
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-009-APP-001/
+    human_readable: 08-qa/security-quality/COM-MOD-009-APP-001/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-009-APP-001/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: passed
+      dependency_vulnerability_scan: passed
+      secrets_scan: passed
+      coverage: passed
+      dast_for_runnable_web_or_api_surfaces: not_applicable_no_runnable_mobile_surface
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Patient mobile workflow compilation with PATIENT role permissions, permission-filtered
+      profile/appointments/orders/results/notifications routes, localized es-MX/en-US labels,
+      a patientMobileApi facade and patientMobileWorkflowModel. Mobile quality passed with
+      12 test files, 40 tests, 0 failures/errors/skipped and 99.21% line coverage; npm audit
+      reported 0 vulnerabilities. TD-I18N-002 and TD-IAM-002 were materially reduced further.
