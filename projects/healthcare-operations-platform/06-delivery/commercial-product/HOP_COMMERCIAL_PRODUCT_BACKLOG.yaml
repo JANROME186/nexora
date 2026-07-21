@@ -806,6 +806,7 @@ modules:
         status: closed
       - id: COM-MOD-011-BE-001
         name: Compile public catalog, location and request outputs
+        status: active
       - id: COM-MOD-011-WEB-001
         name: Compile public website service discovery and conversion flows
       - id: COM-MOD-011-FE-001
