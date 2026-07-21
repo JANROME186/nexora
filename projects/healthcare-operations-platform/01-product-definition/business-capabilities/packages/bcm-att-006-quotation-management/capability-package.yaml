@@ -64,7 +64,7 @@ roadmap:
   module: COM-MOD-011
   release: REL-002
   package_status: compiled
-  next_backlog_item: COM-MOD-011-BE-001
+  next_backlog_item: COM-MOD-011-CLOSEOUT
   package_status_correction_note: >-
     Corrected by COM-MOD-011-DEF: package_status was stale at "modeled" though
     capability-package-index.yaml records BCM-ATT-006 as compiled under the now module_closed

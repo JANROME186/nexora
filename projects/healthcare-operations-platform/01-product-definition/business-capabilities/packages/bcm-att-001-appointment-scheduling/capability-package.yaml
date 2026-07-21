@@ -62,7 +62,7 @@ roadmap:
   module: COM-MOD-011
   release: REL-002
   package_status: compiled
-  next_backlog_item: COM-MOD-011-BE-001
+  next_backlog_item: COM-MOD-011-CLOSEOUT
   package_status_correction_note: >-
     Corrected by COM-MOD-011-DEF: package_status was stale at "modeled" and module/
     next_backlog_item were stale at COM-MOD-009/COM-MOD-009-BE-001 (both already closed per

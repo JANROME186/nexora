@@ -810,12 +810,16 @@ modules:
         status: closed
       - id: COM-MOD-011-WEB-001
         name: Compile public website service discovery and conversion flows
+        status: active
       - id: COM-MOD-011-FE-001
         name: Content and request administration screens
+        status: planned
       - id: COM-MOD-011-QA-001
         name: Public web, SEO and privacy evidence
+        status: planned
       - id: COM-MOD-011-CLOSEOUT
         name: Module closeout and registry update
+        status: planned
     acceptance_summary:
       - Prospective patients can discover services, preparation instructions, branches and contact paths.
       - Public requests can be routed into internal workflows without exposing private APIs.

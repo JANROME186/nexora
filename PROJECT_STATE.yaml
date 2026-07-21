@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: HOP COM-MOD-011-BE-001 Public Website backend outputs compiled (public catalog reads for BCM-SVC-001/002/003/005, public appointment/quotation intake for BCM-ATT-001/006, public rate-limit enforcement for BCM-PLT-005; TD-BE-015 closed); ready for COM-MOD-011-WEB-001
+current_phase: HOP COM-MOD-011-WEB-001 Public Website frontend implementation active (backend surface compiled in COM-MOD-011-BE-001 with TD-BE-015 closed; awaiting COM-MOD-011-WEB-001 service discovery and conversion flows)
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company

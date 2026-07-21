@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-011-BE-001 public website backend outputs compiled (published-only catalog reads for BCM-SVC-001/002/003/005, RN-008 anonymous appointment intake for BCM-ATT-001, RN-009 anonymous quotation intake for BCM-ATT-006, RN-007 anonymous rate-limit enforcement for BCM-PLT-005 via PublicApiRateLimitInterceptor; TD-BE-015 closed, TD-I18N-002 further reduced); COM-MOD-011-WEB-001 next
+current_phase: COM-MOD-011-WEB-001 Public Website service discovery and conversion flows active (COM-MOD-011-BE-001 closed with published-only catalog reads for BCM-SVC-001/002/003/005, RN-008 anonymous appointment intake for BCM-ATT-001, RN-009 anonymous quotation intake for BCM-ATT-006, RN-007 anonymous rate-limit enforcement for BCM-PLT-005 via PublicApiRateLimitInterceptor, TD-BE-015 closed and TD-I18N-002 further reduced)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -472,7 +472,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: COM-MOD-011
-  current_backlog_item: COM-MOD-011-BE-001
+  current_backlog_item: COM-MOD-011-WEB-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -549,9 +549,55 @@ implementation_progress:
     - COM-MOD-010-QA-001
     - COM-MOD-010-CLOSEOUT
     - COM-MOD-011-DEF
+    - COM-MOD-011-BE-001
   in_progress_backlog_items: []
   pending_backlog_items: []
   latest_validation:
+    backlog_item_id: COM-MOD-011-BE-001
+    command: >-
+      Compiled the backend public-website surface for BCM-SVC-001/002/003/005, BCM-ATT-001/006 and
+      BCM-PLT-005 into the new publicweb Spring Modulith module, exposed via the new
+      catalog-public-read-port and public-intake-port named interfaces, and enforced anonymous
+      public rate-limiting via a new PublicApiRateLimitInterceptor driven by
+      RateLimitPolicy.consumerIdentificationMethod. Executed mvn -Pquality -Dhop.local-db-tests=true
+      clean verify against a running compose.local.yml PostgreSQL 16 container, OWASP
+      Dependency-Check, Trivy filesystem scan (vuln/secret/misconfig, all severities), repository-wide
+      YAML parse, agent-agnostic scan and git diff --check.
+    working_directory: projects/healthcare-operations-platform/07-implementation/backend
+    status: passed
+    tests_run_backend: 324
+    tests_run_backend_status: passed
+    tests_run_frontend: 124
+    tests_run_frontend_status: unchanged_not_touched
+    test_files_frontend: 48
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 83.96
+    previous_line_coverage_baseline_backend_percent: 83.73
+    line_coverage_frontend_percent: 88.24
+    previous_line_coverage_baseline_frontend_percent: 88.24
+    coverage_regression: false
+    additional_checks:
+      - >-
+        Closed TD-BE-015 (rate-limit enforcement scoped to partner-API-key-bearing requests only)
+        with a real end-to-end enforcement test
+        (PublicWebApiTest.publicRateLimitBlocksAnonymousTrafficByIpAddress).
+      - >-
+        Further reduced TD-I18N-002 by introducing the public.error.* and public.rate_limit.*
+        i18n key namespaces in the shared es-MX, en-US and default backend catalogs.
+      - >-
+        Found and fixed a pre-existing openapi-source.yaml versus Spring MVC routing gap in
+        BCM-SVC-005 by registering the missing internal
+        /api/catalog/preparations/{preparationId}/published-snapshot route so the
+        CatalogTestConfigurationContractTest passes end-to-end.
+      - >-
+        OWASP Dependency-Check reported 108 dependencies scanned and 0 vulnerabilities. Trivy fs
+        (all severities) reported 0 vulnerabilities, 0 secrets and 0 misconfigurations.
+        YAML parse reported 1,156 files parsed with 0 errors. Agent-agnostic scan reported 0 real
+        source-code hits. git diff --check reported 0 whitespace errors.
+  previous_validation_com_mod_011_def:
     backlog_item_id: COM-MOD-011-DEF
     command: >-
       Definition-only capability-package modeling; no backend/frontend/mobile source changed.
@@ -1278,7 +1324,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_iteration: COM-MOD-011
   active_module: COM-MOD-011 Public Website and Digital Growth
-  active_backlog_item: COM-MOD-011-BE-001
+  active_backlog_item: COM-MOD-011-WEB-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
@@ -1290,9 +1336,9 @@ commercial_product_progress:
     COM-MOD-011:
       name: Public Website and Digital Growth
       package_status: reused_extended
-      backlog_item: COM-MOD-011-DEF
-      backlog_item_status: closed
-      execution_flow_stage: model
+      backlog_item: COM-MOD-011-WEB-001
+      backlog_item_status: active
+      execution_flow_stage: implement
       packages_reused:
         - capability: BCM-SVC-001
           owning_roadmap_group: MVP-MOD-002
