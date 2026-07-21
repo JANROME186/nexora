@@ -2,7 +2,7 @@ artifact:
   id: HOP-TRACE-BCM-ATT-001
   type: traceability
   name: Appointment Scheduling Traceability
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-ATT-001
@@ -43,6 +43,8 @@ traces:
       tests: [TST-APT-001-06]
     - rule: RN-007
       tests: [TST-APT-001-07]
+    - rule: RN-008
+      tests: [TST-APT-001-08]
   processes_to_commands:
     - process: PRC-APT-001-01
       commands: [RequestAppointment]
@@ -103,8 +105,29 @@ traces:
     custom_rules: MVP-MOD-004-BE-002
     custom_rules_status: closed
     ui: MVP-MOD-004-FE-001
-    ui_status: pending
+    ui_status: closed
     validation: MVP-MOD-004-QA-001
-    validation_status: pending
+    validation_status: closed
     closeout: MVP-MOD-004-CLOSEOUT
-    closeout_status: pending
+    closeout_status: closed
+    stale_status_correction_note: >-
+      Corrected by COM-MOD-011-DEF: ui/validation/closeout were stale at "pending" though
+      MVP-MOD-004-FE-001, MVP-MOD-004-QA-001 and MVP-MOD-004-CLOSEOUT are all closed per
+      PROJECT_STATE.yaml completed_backlog_items and capability-package-index.yaml
+      (roadmap_group MVP-MOD-004, package_status module_closed). COM-MOD-009-PORTAL-001 later
+      extended this package's ui-model.yaml with the patient-portal self-scheduler screen
+      (SCR-APT-001-04) without updating this block.
+  cross_module_reuse:
+    - roadmap_group: COM-MOD-009
+      backlog_item: COM-MOD-009-PORTAL-001
+      surface_added: patient_portal
+      note: Added SCR-APT-001-04 Patient Self-Scheduler; recorded here retroactively by COM-MOD-011-DEF.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-DEF
+      surface_added: public_website
+      note: >-
+        Public website appointment-request intake modeled by extending openapi-source.yaml
+        (RN-008, public_surface reusing requestAppointment), capability-package.yaml,
+        business-rules.yaml, test-model.yaml, ui-model.yaml and permissions.yaml. No new
+        capability package, aggregate or schema was created; reuses BCM-ATT-006's
+        ProspectiveContact schema.

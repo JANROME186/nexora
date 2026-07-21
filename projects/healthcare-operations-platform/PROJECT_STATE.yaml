@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-010 Inventory and Internal Quality module closed (COM-MOD-010-CLOSEOUT); COM-MOD-011 Public Website and Digital Growth next
+current_phase: COM-MOD-011-DEF Public Website and Digital Growth capability package models closed (all 7 capabilities reused from MVP-MOD-002/MVP-MOD-004/MVP-MOD-008, no duplicates); COM-MOD-011-BE-001 next
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -298,8 +298,22 @@ completed_deliverables:
     re-affirmed unchanged from COM-MOD-010-QA-001/COM-MOD-009 evidence; executed YAML parse,
     stale-pointer sweep and git diff --check for this closeout; advanced the active commercial
     backlog item to COM-MOD-011-DEF)
+  - COM-MOD-011-DEF Public Website and Digital Growth capability package models (all 7 module
+    capabilities -- BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005 -- confirmed reused from
+    already-modeled/compiled capability packages owned by MVP-MOD-002, MVP-MOD-004 and
+    MVP-MOD-008; zero new capability package, aggregate or schema created; each package's
+    product_surfaces, openapi-source.yaml, ui-model.yaml, permissions.yaml and traceability.yaml
+    extended with a public_website surface realizing pre-existing future_surfaces/deferred_to
+    placeholders; catalog capabilities gained an anonymous public_read scope and a published-only
+    list projection reusing existing Published*Snapshot schemas; BCM-ATT-001/006 gained RN-008/
+    RN-009 restricting anonymous public requests to a requested/draft-state record from a reused
+    ProspectiveContact, never a confirmed/issued one; BCM-PLT-005 gained RN-007 and a
+    RateLimitPolicy.consumerIdentificationMethod field materially reducing TD-BE-015; found and
+    corrected three pre-existing stale roadmap/status pointers unrelated to this item's own scope
+    in BCM-ATT-001, BCM-ATT-006 and BCM-PLT-005; definition-only, no code implemented, coverage
+    unchanged; advanced the active commercial backlog item to COM-MOD-011-BE-001)
 next_deliverables:
-  - Execute COM-MOD-011 Public Website and Digital Growth capability package models (COM-MOD-011-DEF)
+  - Execute COM-MOD-011-BE-001 Compile public catalog, location and request outputs
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -314,7 +328,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-011
   in_progress_module: COM-MOD-011
-  next_backlog_item: COM-MOD-011-DEF
+  next_backlog_item: COM-MOD-011-BE-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -436,7 +450,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: COM-MOD-011
-  current_backlog_item: COM-MOD-011-DEF
+  current_backlog_item: COM-MOD-011-BE-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -512,9 +526,59 @@ implementation_progress:
     - COM-MOD-010-FE-001
     - COM-MOD-010-QA-001
     - COM-MOD-010-CLOSEOUT
+    - COM-MOD-011-DEF
   in_progress_backlog_items: []
   pending_backlog_items: []
   latest_validation:
+    backlog_item_id: COM-MOD-011-DEF
+    command: >-
+      Definition-only capability-package modeling; no backend/frontend/mobile source changed.
+      Executed: YAML parse across all HOP project YAML files, a repository-wide stale-pointer
+      sweep for live references to COM-MOD-010-CLOSEOUT/COM-MOD-010-QA-001, and git diff --check.
+      Backend, employee-portal, mobile, patient-portal and doctor-portal quality metrics are
+      re-affirmed unchanged from COM-MOD-010-QA-001/COM-MOD-009 evidence, since no source file
+      changed.
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: 315
+    tests_run_backend_status: unchanged_not_touched
+    tests_run_frontend: 124
+    tests_run_frontend_status: unchanged_not_touched
+    test_files_frontend: 48
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 83.73
+    previous_line_coverage_baseline_backend_percent: 83.73
+    line_coverage_frontend_percent: 88.24
+    previous_line_coverage_baseline_frontend_percent: 88.24
+    coverage_regression: false
+    additional_checks:
+      - >-
+        Confirmed all 7 COM-MOD-011 capabilities (BCM-SVC-001/002/003/005, BCM-ATT-001/006,
+        BCM-PLT-005) reused from already-modeled/compiled capability packages owned by
+        MVP-MOD-002, MVP-MOD-004 and MVP-MOD-008; zero new capability package, aggregate or
+        schema created; capability-package-index.yaml gained one active_capability_package_groups
+        entry (COM-MOD-011) referencing the 7 existing package folders with
+        package_status reused_public_surface_added/reused_governance_extended.
+      - >-
+        Reviewed 08-qa/technical-debt/technical-debt-index.yaml and materially reduced TD-BE-015
+        (rate-limit enforcement scoped to partner-API-key-bearing requests only) via a new
+        BCM-PLT-005 RN-007 and RateLimitPolicy.consumerIdentificationMethod field; the runtime
+        enforcement mechanism remains a COM-MOD-011-BE-001 task.
+      - >-
+        Found and corrected three pre-existing stale roadmap/status pointers in BCM-ATT-001,
+        BCM-ATT-006 and BCM-PLT-005's capability-package.yaml/traceability.yaml, unrelated to this
+        item's own scope, discovered while modeling.
+      - >-
+        Reconciled root and project PROJECT_STATE.yaml, HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml,
+        HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml and the local runbook to point the active
+        commercial backlog item at COM-MOD-011-BE-001.
+      - >-
+        YAML parse and stale-pointer sweep passed for all files touched by this backlog item;
+        git diff --check passed with 0 whitespace errors.
+  previous_validation_com_mod_010_closeout:
     backlog_item_id: COM-MOD-010-CLOSEOUT
     command: >-
       Documentation and registry synchronization only; no backend/frontend/mobile source changed.
@@ -1192,7 +1256,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_iteration: COM-MOD-011
   active_module: COM-MOD-011 Public Website and Digital Growth
-  active_backlog_item: COM-MOD-011-DEF
+  active_backlog_item: COM-MOD-011-BE-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
@@ -1201,6 +1265,52 @@ commercial_product_progress:
   primary_development_unit: business_capability_package
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.yaml
   capability_package_progress:
+    COM-MOD-011:
+      name: Public Website and Digital Growth
+      package_status: reused_extended
+      backlog_item: COM-MOD-011-DEF
+      backlog_item_status: closed
+      execution_flow_stage: model
+      packages_reused:
+        - capability: BCM-SVC-001
+          owning_roadmap_group: MVP-MOD-002
+        - capability: BCM-SVC-002
+          owning_roadmap_group: MVP-MOD-002
+        - capability: BCM-SVC-003
+          owning_roadmap_group: MVP-MOD-002
+        - capability: BCM-SVC-005
+          owning_roadmap_group: MVP-MOD-002
+        - capability: BCM-ATT-001
+          owning_roadmap_group: MVP-MOD-004
+        - capability: BCM-ATT-006
+          owning_roadmap_group: MVP-MOD-004
+        - capability: BCM-PLT-005
+          owning_roadmap_group: MVP-MOD-008
+      new_capability_packages_created: 0
+      new_aggregates_or_schemas_created: 0
+      bounded_contexts:
+        - catalog-test-configuration
+        - orders-samples
+        - cash-sales
+        - integration-interoperability
+      qa_evidence: 08-qa/qa/public-website-and-digital-growth/COM-MOD-011-DEF-validation.yaml
+      qa_evidence_md: 08-qa/qa/public-website-and-digital-growth/COM-MOD-011-DEF-validation.md
+      technical_debt_materially_reduced:
+        - TD-BE-015
+      stale_pointers_corrected:
+        - BCM-ATT-001 capability-package.yaml/traceability.yaml
+        - BCM-ATT-006 capability-package.yaml/traceability.yaml
+        - BCM-PLT-005 capability-package.yaml/traceability.yaml
+        - SOURCE_OF_TRUTH.yaml (project) YAML-validity defect
+      ready_for_compilation: true
+      backend_compilation_completed: false
+      ready_for_custom_rule_implementation: false
+      ready_for_ui_compilation: false
+      employee_portal_ui_compiled: false
+      ready_for_module_validation: false
+      module_validated: false
+      ready_for_closeout: false
+      module_closed: false
     COM-MOD-010:
       name: Inventory and Internal Quality
       package_status: module_closed

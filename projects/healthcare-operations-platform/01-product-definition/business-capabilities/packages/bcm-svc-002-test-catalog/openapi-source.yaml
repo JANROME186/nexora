@@ -2,7 +2,7 @@ artifact:
   id: HOP-API-SRC-BCM-SVC-002
   type: openapi-source
   name: Test Catalog API Source Model
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-SVC-002
@@ -13,9 +13,26 @@ artifact:
 api:
   base_path: /api/catalog/tests
   surface_classification: internal
-  future_surfaces:
-    - classification: public
-      status: read_only_later
+  public_surface:
+    status: required
+    classification: public
+    security: anonymous_rate_limited
+    governed_by: BCM-PLT-005 ApiSurfaceRegistration/RateLimitPolicy (classification=public)
+    exposed_operations:
+      - operation_ref: getPublishedTestSnapshot
+        scopes: [catalog.test.public_read]
+        rate_limit_classification: public
+      - id: listPublishedTests
+        method: GET
+        path: /published
+        scopes: [catalog.test.public_read]
+        generatable: true
+        classification: public
+        custom_reason: Published-only projection filter over the existing TestDefinition list; no new resource or schema.
+    note: >-
+      Realizes the future_surfaces placeholder for COM-MOD-011 Public Website and Digital
+      Growth. Reuses the existing getPublishedTestSnapshot operation and PublishedTestSnapshot
+      schema; adds one new published-only list projection.
   security:
     scheme: bearer_jwt
     required_scopes_default: [catalog.test.read]

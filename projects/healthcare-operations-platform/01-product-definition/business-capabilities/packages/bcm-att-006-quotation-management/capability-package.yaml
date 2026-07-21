@@ -2,14 +2,14 @@ artifact:
   id: HOP-CAP-PKG-BCM-ATT-006
   type: capability-package
   name: Quotation Management Capability Package
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   human_readable: README.md
   machine_readable: capability-package.yaml
   owner: Nexora Product Architecture Team
   created_date: 2026-07-15
-  roadmap_group: MVP-MOD-004
+  roadmap_group: COM-MOD-011
   execution_flow_stage: model
 
 standard:
@@ -61,10 +61,15 @@ scope:
     - Promotion rule authoring (BCM-ATT-007, MVP2).
 
 roadmap:
-  module: MVP-MOD-004
-  release: REL-001
-  package_status: modeled
-  next_backlog_item: MVP-MOD-004-BE-001
+  module: COM-MOD-011
+  release: REL-002
+  package_status: compiled
+  next_backlog_item: COM-MOD-011-BE-001
+  package_status_correction_note: >-
+    Corrected by COM-MOD-011-DEF: package_status was stale at "modeled" though
+    capability-package-index.yaml records BCM-ATT-006 as compiled under the now module_closed
+    MVP-MOD-004 roadmap group; module/next_backlog_item now point at COM-MOD-011, the current
+    consuming module.
 
 dependencies:
   required_capabilities:
@@ -93,7 +98,11 @@ product_surfaces:
   patient_portal: not_required
   doctor_portal: not_required
   mobile_app: not_required
-  public_website: request_only_later
+  public_website: required
+  public_website_note: >-
+    Realized by COM-MOD-011-DEF from request_only_later to required. Reuses the existing
+    startQuotation operation and ProspectiveContact schema; no new aggregate, schema or
+    capability package created.
 
 required_artifacts:
   - capability-package.yaml

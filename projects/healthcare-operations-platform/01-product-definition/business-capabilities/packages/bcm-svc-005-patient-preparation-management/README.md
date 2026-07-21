@@ -25,6 +25,13 @@ Unlike the other MVP-MOD-002 packages, mobile scope is `deferred` rather than
 read-only in the patient mobile app once patient channels are delivered
 (COM-MOD-009 / MVP-MOD-004). See `mobile-model.yaml`.
 
+## COM-MOD-011 reuse
+
+A new `getPublishedPreparationSnapshot` operation (mirroring BCM-SVC-001/002/003) is exposed,
+unauthenticated and rate-limited, to the COM-MOD-011 Public Website and Digital Growth module.
+No new capability package, aggregate or schema was created for this reuse; see
+`traceability.yaml`'s `cross_module_reuse` entry.
+
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are generated

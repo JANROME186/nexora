@@ -2,7 +2,7 @@ artifact:
   id: HOP-TRACE-BCM-SVC-001
   type: traceability
   name: Diagnostic Service Catalog Traceability
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-SVC-001
@@ -58,3 +58,12 @@ traces:
     compilation: MVP-MOD-002-BE-001
     custom_rules: MVP-MOD-002-BE-002
     ui: MVP-MOD-002-FE-001
+  cross_module_reuse:
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-DEF
+      surface_added: public_website
+      note: >-
+        Public website discovery surface modeled by extending openapi-source.yaml,
+        capability-package.yaml, ui-model.yaml and permissions.yaml. No new capability package,
+        aggregate or schema was created; reuses TestDefinition/AGG-006, PublishedServiceSnapshot
+        and getPublishedServiceSnapshot.

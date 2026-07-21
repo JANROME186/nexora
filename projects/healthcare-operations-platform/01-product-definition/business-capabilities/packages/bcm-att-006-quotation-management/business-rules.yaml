@@ -2,7 +2,7 @@ artifact:
   id: HOP-BR-BCM-ATT-006
   type: business-rules
   name: Quotation Management Business Rules
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-ATT-006
@@ -79,7 +79,16 @@ rules:
     audit_required: true
     generatable: true
     test_refs: [TST-QUO-006-08]
+  - id: RN-009
+    statement: A public-website (anonymous, channel=public_website) quotation request must capture a ProspectiveContact rather than an existing Patient link, remains in draft state until staff issuance, and is subject to BCM-PLT-005's public rate-limit classification.
+    applies_to: QuotationRequest
+    enforcement_point: command:StartQuotation
+    severity: high
+    audit_required: true
+    generatable: false
+    custom_reason: Anonymous-channel intake validation and public rate-limit application are governance/security rules, not generic CRUD.
+    test_refs: [TST-QUO-006-09]
 
 enforcement_summary:
   generatable_rules: [RN-006, RN-008]
-  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-004, RN-005, RN-007]
+  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-004, RN-005, RN-007, RN-009]

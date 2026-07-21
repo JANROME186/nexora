@@ -36,6 +36,13 @@ consumed by orders, quotations and portals.
 | `generation-plan.yaml` | Generated outputs vs custom implementation |
 | `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA |
 
+## COM-MOD-011 reuse
+
+The published-catalog read surface (`getPublishedServiceSnapshot` plus a new
+`listPublishedServices` projection) is reused, unauthenticated and rate-limited, by the
+COM-MOD-011 Public Website and Digital Growth module. No new capability package, aggregate
+or schema was created for this reuse; see `traceability.yaml`'s `cross_module_reuse` entry.
+
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are declared

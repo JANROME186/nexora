@@ -549,13 +549,15 @@ entries:
     remediation_strategy: gradual_when_an_owning_module_next_exposes_a_migration_import_command
   - id: TD-BE-015
     title: Rate-limit enforcement is scoped to partner-API-key-bearing requests only
-    status: open
+    status: materially_reduced
     risk_level: low
     blocking: false
     source_backlog_item: MVP-MOD-008-BE-002
     affected_area: api_management_rate_limit_enforcement
     file: 08-qa/technical-debt/TD-BE-015-rate-limit-enforcement-scoped-to-partner-keys.yaml
-    remediation_strategy: gradual_before_first_public_api_consumer_onboarding
+    remediation_strategy: >-
+      materially_reduced_by_COM_MOD_011_DEF_adding_RN_007_and_RateLimitPolicy_consumerIdentificationMethod_
+      to_model_public_consumer_identification;_runtime_counter_window_mechanism_remains_a_COM_MOD_011_BE_001_task
   - id: TD-FE-010
     title: Employee-portal generated administration screens exceed function-size and complexity
       warning thresholds

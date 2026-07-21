@@ -2,7 +2,7 @@ artifact:
   id: HOP-UI-BCM-SVC-005
   type: ui-model
   name: Patient Preparation Management UI Model
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-SVC-005
@@ -16,8 +16,12 @@ surfaces:
     status: read_only_later
     generatable: deferred
   public_website:
-    status: read_only_later
-    generatable: deferred
+    status: required
+    generatable: not_applicable
+    note: >-
+      Public website pages are a COM-MOD-011-WEB-001 delivery concern, not an employee-portal
+      screen. This capability only exposes the published-preparation read API
+      (openapi-source.yaml public_surface) consumed by those public pages.
 
 screens:
   - id: SCR-SVC-005-01

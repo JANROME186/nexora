@@ -2,7 +2,7 @@ artifact:
   id: HOP-BR-BCM-PLT-005
   type: business-rules
   name: API Management Business Rules
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-PLT-005
@@ -62,7 +62,21 @@ rules:
     audit_required: true
     generatable: true
     test_refs: [TST-APIM-005-06]
+  - id: RN-007
+    statement: Public (non-partner-key) API requests must be identified for rate-limiting by RateLimitPolicy.consumerIdentificationMethod (IP address or session token) and rejected per RN-004 when the limit is exceeded; the absence of a PartnerApiKey never exempts a request from rate-limiting.
+    applies_to: RateLimitPolicy
+    enforcement_point: architecture_boundary
+    severity: high
+    audit_required: true
+    generatable: false
+    custom_reason: >-
+      Materially reduces TD-BE-015 (rate-limit enforcement was scoped to partner-API-key-bearing
+      requests only, with no consumer identifier defined for anonymous public traffic). Modeled by
+      COM-MOD-011-DEF as the modeling-stage decision unblocking the first public API consumers
+      (BCM-SVC-001/002/003/005, BCM-ATT-001/006); the runtime counter/window mechanism for
+      IP-address or session-token identification remains a COM-MOD-011-BE-001 implementation task.
+    test_refs: [TST-APIM-005-07]
 
 enforcement_summary:
   generatable_rules: [RN-006]
-  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-004, RN-005]
+  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-004, RN-005, RN-007]

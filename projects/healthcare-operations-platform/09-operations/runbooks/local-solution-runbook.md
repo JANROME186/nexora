@@ -4,9 +4,24 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-011-DEF`.
+Current active backlog item: `COM-MOD-011-BE-001`.
 
-Latest update: `COM-MOD-010-CLOSEOUT` is closed. It is a documentation and registry
+Latest update: `COM-MOD-011-DEF` is closed. It is a definition-only capability-package modeling
+backlog item: it added no backend, employee-portal, mobile, patient-portal or doctor-portal
+source file, and no runtime component, port, environment variable, startup order or database
+schema changed. All 7 COM-MOD-011 capabilities (`BCM-SVC-001/002/003/005`, `BCM-ATT-001/006`,
+`BCM-PLT-005`) were confirmed reused from already-modeled/compiled capability packages owned by
+MVP-MOD-002, MVP-MOD-004 and MVP-MOD-008, with zero new capability package, aggregate or schema
+created. `TD-BE-015` was materially reduced via a new `BCM-PLT-005` `RN-007` and
+`RateLimitPolicy.consumerIdentificationMethod` field. Three pre-existing stale roadmap/status
+pointers and one pre-existing YAML-validity defect (an unescaped colon in `SOURCE_OF_TRUTH.yaml`)
+were found and corrected during modeling. Backend (83.73%), employee-portal (88.24%), mobile
+(99.21%), patient-portal (94.11%) and doctor-portal (96.28%) coverage are re-affirmed unchanged.
+YAML parse (1,110+ files, 0 failures), a repository-wide stale-pointer sweep and `git diff --check`
+were executed for this backlog item. The next active backlog item is `COM-MOD-011-BE-001` (Compile
+public catalog, location and request outputs).
+
+Previous update: `COM-MOD-010-CLOSEOUT` is closed. It is a documentation and registry
 synchronization backlog item only: no backend, employee-portal, mobile, patient-portal or
 doctor-portal source file was changed, and no runtime component, port, environment variable,
 startup order or database schema changed. It confirmed all 13 COM-MOD-010 capability packages
@@ -16,9 +31,7 @@ startup order or database schema changed. It confirmed all 13 COM-MOD-010 capabi
 debt is attributable to COM-MOD-010 after reviewing `technical-debt-index.yaml`. Backend (83.73%),
 employee-portal (88.24%), mobile (99.21%), patient-portal (94.11%) and doctor-portal (96.28%)
 coverage are re-affirmed unchanged from `COM-MOD-010-QA-001`/`COM-MOD-009` evidence. YAML parse, a
-repository-wide stale-pointer sweep and `git diff --check` were executed for this closeout. The
-next active backlog item is `COM-MOD-011-DEF` (Public Website and Digital Growth capability
-package models).
+repository-wide stale-pointer sweep and `git diff --check` were executed for this closeout.
 
 Previous update: `COM-MOD-010-QA-001` is closed. It validated end-to-end traceability across all 13
 COM-MOD-010 capability packages and added one new backend integration test class

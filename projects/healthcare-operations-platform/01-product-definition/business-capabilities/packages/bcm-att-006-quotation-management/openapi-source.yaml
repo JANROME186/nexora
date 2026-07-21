@@ -2,7 +2,7 @@ artifact:
   id: HOP-API-SRC-BCM-ATT-006
   type: openapi-source
   name: Quotation Management API Source Model
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-ATT-006
@@ -13,10 +13,23 @@ artifact:
 api:
   base_path: /api/care-delivery/quotations
   surface_classification: internal
-  future_surfaces:
-    - classification: public
-      status: request_only_later
-      note: Public website quotation request discovery planned for COM-MOD-011.
+  public_surface:
+    status: required
+    classification: public
+    security: anonymous_rate_limited
+    governed_by: BCM-PLT-005 ApiSurfaceRegistration/RateLimitPolicy (classification=public)
+    exposed_operations:
+      - operation_ref: startQuotation
+        scopes: [quotation.request.public]
+        rate_limit_classification: public
+        custom_reason: >-
+          Anonymous public-website requests create a QuotationRequest in draft state from a
+          ProspectiveContact only; issuing, accepting or converting still requires
+          quotation.manage. See RN-009.
+    note: >-
+      Realizes the future_surfaces placeholder for COM-MOD-011 Public Website and Digital
+      Growth. Reuses the existing startQuotation operation and ProspectiveContact schema; no new
+      resource or duplicate schema.
   security:
     scheme: bearer_jwt
     required_scopes_default: [quotation.manage]

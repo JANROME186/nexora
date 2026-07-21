@@ -2,7 +2,7 @@ artifact:
   id: HOP-TEST-BCM-ATT-001
   type: test-model
   name: Appointment Scheduling Test Model
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-ATT-001
@@ -43,6 +43,11 @@ test_cases:
     validates_rule: RN-007
     statement: AppointmentConfirmed event carries actor, branch and channel.
     generatable: true
+  - id: TST-APT-001-08
+    type: acceptance
+    validates_rule: RN-008
+    statement: An anonymous public-website appointment request captures a ProspectiveContact, remains requested and is rejected once the public rate-limit is exceeded.
+    generatable: false
 
 test_layers:
   - contract_tests
@@ -52,4 +57,4 @@ test_layers:
 
 generation_policy:
   repetitive_tests: generated
-  custom_rule_tests: [TST-APT-001-01, TST-APT-001-02, TST-APT-001-03, TST-APT-001-05, TST-APT-001-06]
+  custom_rule_tests: [TST-APT-001-01, TST-APT-001-02, TST-APT-001-03, TST-APT-001-05, TST-APT-001-06, TST-APT-001-08]

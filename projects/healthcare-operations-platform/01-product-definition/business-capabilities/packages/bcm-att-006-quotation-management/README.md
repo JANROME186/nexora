@@ -31,7 +31,7 @@ added once MVP-MOD-005 models the Sale aggregate.
 | --- | --- |
 | `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
 | `business-model.yaml` | QuotationRequest, quotation lines and pricing/discount value objects |
-| `business-rules.yaml` | Numbered rules RN-001..RN-008 |
+| `business-rules.yaml` | Numbered rules RN-001..RN-009 |
 | `processes.yaml` | Draft, issue, accept, convert, cancel/expire |
 | `events.yaml` | Domain and integration events |
 | `openapi-source.yaml` | API source model for contract generation |
@@ -42,6 +42,15 @@ added once MVP-MOD-005 models the Sale aggregate.
 | `observability-model.yaml` | Logs, metrics, traces, alerts |
 | `generation-plan.yaml` | Generated outputs vs custom implementation |
 | `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA |
+
+## COM-MOD-011 reuse
+
+The existing `startQuotation` operation is reused, anonymously and rate-limited, by the
+COM-MOD-011 Public Website and Digital Growth module (RN-009): a public request creates a
+draft-state quotation from a ProspectiveContact only, never an issued or accepted one. No new
+capability package, aggregate or schema was created; see `traceability.yaml`'s
+`cross_module_reuse` entry, which also records COM-MOD-011-DEF's correction of stale
+MVP-MOD-004 status pointers found in this package during modeling.
 
 ## MDPE note
 

@@ -2,7 +2,7 @@ artifact:
   id: HOP-BR-BCM-ATT-001
   type: business-rules
   name: Appointment Scheduling Business Rules
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-ATT-001
@@ -70,7 +70,16 @@ rules:
     audit_required: true
     generatable: true
     test_refs: [TST-APT-001-07]
+  - id: RN-008
+    statement: A public-website (anonymous, channel=public_website) appointment request must capture a ProspectiveContact rather than an existing Patient link, remains in requested state until staff confirmation, and is subject to BCM-PLT-005's public rate-limit classification.
+    applies_to: AppointmentSlot
+    enforcement_point: command:RequestAppointment
+    severity: high
+    audit_required: true
+    generatable: false
+    custom_reason: Anonymous-channel intake validation and public rate-limit application are governance/security rules, not generic CRUD.
+    test_refs: [TST-APT-001-08]
 
 enforcement_summary:
   generatable_rules: [RN-004, RN-007]
-  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-005, RN-006]
+  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-005, RN-006, RN-008]

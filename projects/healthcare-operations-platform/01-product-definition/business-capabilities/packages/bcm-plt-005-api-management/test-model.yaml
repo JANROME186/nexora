@@ -2,7 +2,7 @@ artifact:
   id: HOP-TEST-BCM-PLT-005
   type: test-model
   name: API Management Test Model
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-PLT-005
@@ -38,6 +38,11 @@ test_cases:
     validates_rule: RN-006
     statement: A tenant administrator cannot classify operations or issue keys for another tenant.
     generatable: true
+  - id: TST-APIM-005-07
+    type: acceptance
+    validates_rule: RN-007
+    statement: An anonymous public-classification request without a PartnerApiKey is still rate-limited by IP address or session token, not exempted.
+    generatable: false
 
 test_layers:
   - contract_tests
@@ -47,4 +52,4 @@ test_layers:
 
 generation_policy:
   repetitive_tests: generated
-  custom_rule_tests: [TST-APIM-005-01, TST-APIM-005-02, TST-APIM-005-03, TST-APIM-005-04, TST-APIM-005-05]
+  custom_rule_tests: [TST-APIM-005-01, TST-APIM-005-02, TST-APIM-005-03, TST-APIM-005-04, TST-APIM-005-05, TST-APIM-005-07]

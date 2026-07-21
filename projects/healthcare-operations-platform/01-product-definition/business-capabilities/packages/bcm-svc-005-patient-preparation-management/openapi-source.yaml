@@ -2,7 +2,7 @@ artifact:
   id: HOP-API-SRC-BCM-SVC-005
   type: openapi-source
   name: Patient Preparation Management API Source Model
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-SVC-005
@@ -13,10 +13,20 @@ artifact:
 api:
   base_path: /api/catalog/preparations
   surface_classification: internal
-  future_surfaces:
-    - classification: public
-      status: read_only_later
-      note: Patient portal and public website consume published preparation guidance.
+  public_surface:
+    status: required
+    classification: public
+    security: anonymous_rate_limited
+    governed_by: BCM-PLT-005 ApiSurfaceRegistration/RateLimitPolicy (classification=public)
+    exposed_operations:
+      - operation_ref: getPublishedPreparationSnapshot
+        scopes: [catalog.preparation.public_read]
+        rate_limit_classification: public
+    note: >-
+      Realizes the future_surfaces placeholder for COM-MOD-011 Public Website and Digital
+      Growth. Patient portal continues to consume the same operation under its own
+      read_only_later surface. Reuses the existing PublishedPreparationSnapshot schema; no new
+      schema defined.
   security:
     scheme: bearer_jwt
     required_scopes_default: [catalog.preparation.read]
@@ -61,6 +71,12 @@ resources:
         path: /{preparationId}/deprecate
         scopes: [catalog.preparation.publish]
         generatable: true
+      - id: getPublishedPreparationSnapshot
+        method: GET
+        path: /{preparationId}/published-snapshot
+        scopes: [catalog.preparation.read]
+        generatable: false
+        custom_reason: Returns frozen version-aware snapshot for downstream consumers, mirroring BCM-SVC-001/002/003.
 
 schemas_source:
   - PreparationInstruction

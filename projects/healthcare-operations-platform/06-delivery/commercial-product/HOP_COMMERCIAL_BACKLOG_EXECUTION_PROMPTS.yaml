@@ -243,9 +243,9 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-011
-  backlog_item_id: COM-MOD-011-DEF
-  name: Capability package models
-  expected_folder: 01-product-definition/business-capabilities/packages/
+  backlog_item_id: COM-MOD-011-BE-001
+  name: Compile public catalog, location and request outputs
+  expected_folder: 07-implementation/backend/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
@@ -260,22 +260,37 @@ next_backlog_item:
     - Preserve coverage floors: backend (83.73%), employee portal (88.24%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
-    - COM-MOD-011 capabilities (BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005) are reused from already-modeled/compiled capability packages; confirm no duplicate model or aggregate is created before adding any new public-website-specific artifacts.
+    - >-
+      Compile the public_surface operations modeled by COM-MOD-011-DEF in BCM-SVC-001/002/003/005
+      and BCM-ATT-001/006 (listPublished*/getPublished*Snapshot, requestAppointment RN-008,
+      startQuotation RN-009), and BCM-PLT-005's RN-007/RateLimitPolicy.consumerIdentificationMethod
+      rate-limit enforcement for anonymous public traffic (TD-BE-015). Do not create a new
+      capability package, aggregate or schema; extend the existing implementations compiled under
+      MVP-MOD-002/MVP-MOD-004/MVP-MOD-008.
     - Review 08-qa/technical-debt/technical-debt-index.yaml before feature work and resolve or materially reduce at least one open item.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-010-CLOSEOUT
+    backlog_item_id: COM-MOD-011-DEF
     status: closed
     summary: >-
-      COM-MOD-010-CLOSEOUT closed the Inventory and Internal Quality module. Confirmed all 13
-      COM-MOD-010 capability packages (BCM-INV-001..009, BCM-QLT-001/003/004/005) are module_closed
-      in capability-package-index.yaml (moved from active_capability_package_groups to
-      completed_capability_package_groups) and in each of their traceability.yaml files
-      (backlog_items.closeout_status: closed). Reviewed technical-debt-index.yaml and found zero
-      open or materially-reduced technical debt attributable to COM-MOD-010. This was a
-      documentation/registry-only closeout: no backend, employee-portal, mobile, patient-portal or
+      COM-MOD-011-DEF modeled the Public Website and Digital Growth capability package surface.
+      Confirmed all 7 COM-MOD-011 capabilities (BCM-SVC-001/002/003/005, BCM-ATT-001/006,
+      BCM-PLT-005) are reused from already-modeled/compiled capability packages owned by
+      MVP-MOD-002, MVP-MOD-004 and MVP-MOD-008, with zero new capability package, aggregate or
+      schema created. Extended each package's product_surfaces, openapi-source.yaml, ui-model.yaml,
+      permissions.yaml and traceability.yaml with a public_website surface realizing pre-existing
+      future_surfaces/deferred_to placeholders. Catalog capabilities gained an anonymous
+      catalog.*.public_read scope and a published-only list projection reusing existing
+      Published*Snapshot schemas. BCM-ATT-001/006 gained RN-008/RN-009 restricting anonymous public
+      requests to a requested/draft-state record from a reused ProspectiveContact. BCM-PLT-005
+      gained RN-007 and a RateLimitPolicy.consumerIdentificationMethod field, materially reducing
+      TD-BE-015. Found and corrected three pre-existing stale roadmap/status pointers unrelated to
+      this item's own scope (BCM-ATT-001, BCM-ATT-006, BCM-PLT-005 capability-package.yaml/
+      traceability.yaml stuck at COM-MOD-009/"pending"/"modeled") and one pre-existing YAML-validity
+      defect in SOURCE_OF_TRUTH.yaml (an unescaped colon inside a plain scalar). This was a
+      definition-only backlog item: no backend, employee-portal, mobile, patient-portal or
       doctor-portal source file was changed, so backend (83.73%), employee-portal (88.24%), mobile
       (99.21%), patient-portal (94.11%) and doctor-portal (96.28%) coverage are re-affirmed
-      unchanged from COM-MOD-010-QA-001/COM-MOD-009 evidence rather than re-measured. Executed YAML
-      parse, a repository-wide stale-pointer sweep and git diff --check for the closeout itself.
-      Reconciled PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml,
-      this prompt file and the local runbook to advance the active backlog item to COM-MOD-011-DEF.
+      unchanged. Executed YAML parse (1,110+ files, 0 failures), a repository-wide stale-pointer
+      sweep and git diff --check. Reconciled PROJECT_STATE.yaml (root and project),
+      SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml, this prompt file and the local
+      runbook to advance the active backlog item to COM-MOD-011-BE-001.

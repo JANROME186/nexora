@@ -26,6 +26,13 @@ Standard 14-artifact capability package per the Business Capability Package Stan
 `ui-model.yaml`, `mobile-model.yaml`, `test-model.yaml`, `observability-model.yaml`,
 `generation-plan.yaml`, `traceability.yaml`, `README.md`.
 
+## COM-MOD-011 reuse
+
+The published-catalog read surface (`getPublishedTestSnapshot` plus a new `listPublishedTests`
+projection) is reused, unauthenticated and rate-limited, by the COM-MOD-011 Public Website and
+Digital Growth module. No new capability package, aggregate or schema was created for this
+reuse; see `traceability.yaml`'s `cross_module_reuse` entry.
+
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are declared

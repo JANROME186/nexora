@@ -2,7 +2,7 @@ artifact:
   id: HOP-TEST-BCM-ATT-006
   type: test-model
   name: Quotation Management Test Model
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-ATT-006
@@ -48,6 +48,11 @@ test_cases:
     validates_rule: RN-008
     statement: QuotationIssued and QuotationAccepted events carry actor, branch and total amount.
     generatable: true
+  - id: TST-QUO-006-09
+    type: acceptance
+    validates_rule: RN-009
+    statement: An anonymous public-website quotation request captures a ProspectiveContact, remains draft and is rejected once the public rate-limit is exceeded.
+    generatable: false
 
 test_layers:
   - contract_tests
@@ -57,4 +62,4 @@ test_layers:
 
 generation_policy:
   repetitive_tests: generated
-  custom_rule_tests: [TST-QUO-006-01, TST-QUO-006-02, TST-QUO-006-03, TST-QUO-006-04, TST-QUO-006-05, TST-QUO-006-07]
+  custom_rule_tests: [TST-QUO-006-01, TST-QUO-006-02, TST-QUO-006-03, TST-QUO-006-04, TST-QUO-006-05, TST-QUO-006-07, TST-QUO-006-09]

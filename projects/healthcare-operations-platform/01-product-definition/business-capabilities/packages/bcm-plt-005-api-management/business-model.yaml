@@ -2,7 +2,7 @@ artifact:
   id: HOP-BM-BCM-PLT-005
   type: business-model
   name: API Management Business Model
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-PLT-005
@@ -97,6 +97,16 @@ entities:
       - name: requestsPerMinute
         type: integer
         required: true
+      - name: consumerIdentificationMethod
+        type: enum
+        values: [partner_api_key, ip_address, session_token]
+        required: true
+        description: >-
+          How a request is attributed to a consumer for rate-limit counting. partner_api_key for
+          the partner classification; ip_address or session_token for the public classification,
+          since anonymous public-website callers carry no PartnerApiKey. Added by COM-MOD-011-DEF
+          (RN-007) to close the TD-BE-015 modeling gap: enforcement previously had no consumer
+          identifier defined for non-keyed public traffic.
       - name: audit
         type: AuditMetadata
         required: true
@@ -124,6 +134,9 @@ external_references:
       - BCM-PLT-004 Integration Management (shares the integration-interoperability bounded context; IntegrationAcknowledgement informs partner API delivery observability)
       - BCM-RES-004 Digital Delivery (partner-classified doctor/patient result operations, MVP-MOD-007)
   - future_consumers:
-      - COM-MOD-009 Patient and Doctor Portals (doctor_portal partner_api_later per MVP-MOD-008 product_surfaces)
-      - COM-MOD-011 Public Website and Digital Growth (public-classified discovery operations)
       - COM-MOD-017 Product Marketplace and Extension Packaging (marketplace public listing operations)
+  - realized_consumers:
+      - COM-MOD-009 Patient and Doctor Portals (doctor_portal partner_api_later per MVP-MOD-008 product_surfaces)
+      - COM-MOD-011 Public Website and Digital Growth (public-classified discovery and request-intake
+          operations registered by BCM-SVC-001/002/003/005 and BCM-ATT-001/006's new public_surface
+          blocks; realized by COM-MOD-011-DEF)

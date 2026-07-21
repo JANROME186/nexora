@@ -2,8 +2,8 @@ artifact:
   id: TD-BE-015
   type: technical-debt-item
   name: Rate-limit enforcement is scoped to partner-API-key-bearing requests only
-  version: 1.0.0
-  status: open
+  version: 1.1.0
+  status: materially_reduced
   created_date: 2026-07-18
 
 source:
@@ -58,3 +58,19 @@ remediation:
     - Public and internal classification requests are throttled against their configured
       RateLimitPolicy without requiring a partner API key.
   owner_or_responsible_role: platform_team
+
+materially_reduced_by_com_mod_011_def:
+  date: 2026-07-20
+  what_changed: >-
+    The incremental_remediation_trigger fired: BCM-SVC-001/002/003/005 and BCM-ATT-001/006 are
+    the first real public API consumers, registered by COM-MOD-011-DEF. Rather than leave the
+    consumer-identification gap unscheduled, BCM-PLT-005 business-model.yaml gained a new
+    RateLimitPolicy.consumerIdentificationMethod field (partner_api_key | ip_address |
+    session_token) and business-rules.yaml gained RN-007, explicitly requiring public-classification
+    requests to be rate-limited by IP address or session token rather than exempted for lacking a
+    PartnerApiKey.
+  what_remains: >-
+    No runtime code was implemented (COM-MOD-011-DEF is a definition-only backlog item). The
+    request-path-to-operationId resolver and the actual IP/session-token counter/window mechanism
+    for PartnerApiKeyRateLimitInterceptor (or a sibling) remain a COM-MOD-011-BE-001 implementation
+    task; acceptance_criteria above is not yet met.

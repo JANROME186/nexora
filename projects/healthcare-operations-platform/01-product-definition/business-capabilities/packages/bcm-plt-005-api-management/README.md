@@ -28,7 +28,7 @@ capability's own `openapi-source.yaml`.
 | --- | --- |
 | `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
 | `business-model.yaml` | ApiSurfaceRegistration aggregate, PartnerApiKey, RateLimitPolicy |
-| `business-rules.yaml` | Numbered rules RN-001..RN-006 |
+| `business-rules.yaml` | Numbered rules RN-001..RN-007 |
 | `processes.yaml` | Classify, issue/revoke partner key, schedule deprecation |
 | `events.yaml` | Domain and integration events |
 | `openapi-source.yaml` | API source model for contract generation |
@@ -65,6 +65,22 @@ entry was required.
 - **TD-I18N-002** (structured error codes): `openapi-source.yaml` models a
   first-class `code` field on every error from inception, matching the debt
   item's own acceptance criterion for a structured-error-code API consumer.
+- **TD-BE-015** (rate-limit enforcement scoped to partner-API-key-bearing
+  requests only): materially reduced by COM-MOD-011-DEF. RN-007 and the new
+  `RateLimitPolicy.consumerIdentificationMethod` field model how anonymous
+  public-website callers (BCM-SVC-001/002/003/005, BCM-ATT-001/006) are
+  identified for rate-limiting by IP address or session token. The runtime
+  counter/window mechanism for non-keyed traffic remains a
+  COM-MOD-011-BE-001 implementation task.
+
+## COM-MOD-011 reuse
+
+This capability has no public-facing screen or endpoint of its own. It governs the
+`classification=public` `ApiSurfaceRegistration` entries and public-tier `RateLimitPolicy` that
+BCM-SVC-001/002/003/005 and BCM-ATT-001/006 register for their new public_surface operations
+under COM-MOD-011. No new capability package or aggregate was created; see `traceability.yaml`'s
+`cross_module_reuse` entry, which also records COM-MOD-011-DEF's correction of stale
+MVP-MOD-008/COM-MOD-009 status pointers found in this package during modeling.
 
 ## MDPE note
 

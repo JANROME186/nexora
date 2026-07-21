@@ -2,7 +2,7 @@ artifact:
   id: HOP-API-SRC-BCM-ATT-001
   type: openapi-source
   name: Appointment Scheduling API Source Model
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-ATT-001
@@ -13,10 +13,24 @@ artifact:
 api:
   base_path: /api/care-delivery/appointments
   surface_classification: internal
-  future_surfaces:
-    - classification: public
-      status: appointment_request_later
-      note: Patient portal appointment request handoff planned for COM-MOD-009.
+  public_surface:
+    status: required
+    classification: public
+    security: anonymous_rate_limited
+    governed_by: BCM-PLT-005 ApiSurfaceRegistration/RateLimitPolicy (classification=public)
+    exposed_operations:
+      - operation_ref: requestAppointment
+        scopes: [appointment.request.public]
+        rate_limit_classification: public
+        custom_reason: >-
+          Anonymous public-website requests create an AppointmentSlot in status=requested only
+          (never confirmed); staff confirmation still requires appointment.manage. See RN-008.
+    note: >-
+      Realizes the future_surfaces placeholder, now serving COM-MOD-011 (the patient portal
+      appointment handoff planned here was delivered separately by COM-MOD-009 as an
+      authenticated patient_portal surface). Reuses the existing requestAppointment operation and
+      the ProspectiveContact schema already defined by BCM-ATT-006; no new resource or duplicate
+      schema.
   security:
     scheme: bearer_jwt
     required_scopes_default: [appointment.manage]

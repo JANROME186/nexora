@@ -2,7 +2,7 @@ artifact:
   id: HOP-TRACE-BCM-PLT-005
   type: traceability
   name: API Management Traceability
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-PLT-005
@@ -44,6 +44,8 @@ traces:
       tests: [TST-APIM-005-05]
     - rule: RN-006
       tests: [TST-APIM-005-06]
+    - rule: RN-007
+      tests: [TST-APIM-005-07]
   processes_to_commands:
     - process: PRC-APIM-005-01
       commands: [ClassifyApiOperation]
@@ -92,8 +94,11 @@ traces:
     - debt: TD-BE-015
       alignment: >-
         Opened by MVP-MOD-008-BE-002 to track that RN-004 rate-limit enforcement is scoped to
-        partner-API-key-bearing requests only; public/internal classification-tier enforcement
-        remains open.
+        partner-API-key-bearing requests only. Materially reduced by COM-MOD-011-DEF: RN-007 and
+        RateLimitPolicy.consumerIdentificationMethod now model IP-address/session-token
+        identification for the public classification tier, unblocking the first public API
+        consumers registered in this DEF item. The runtime counter/window mechanism for
+        non-keyed traffic remains a COM-MOD-011-BE-001 implementation task.
   generated_outputs_ref: generation-plan.yaml
   qa_evidence: ../../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
   compilation_evidence:
@@ -120,8 +125,26 @@ traces:
     custom_rules: MVP-MOD-008-BE-002
     custom_rules_status: closed
     ui: MVP-MOD-008-FE-001
-    ui_status: pending
+    ui_status: closed
     validation: MVP-MOD-008-QA-001
-    validation_status: pending
+    validation_status: closed
     closeout: MVP-MOD-008-CLOSEOUT
-    closeout_status: pending
+    closeout_status: closed
+    stale_status_correction_note: >-
+      Corrected by COM-MOD-011-DEF: ui/validation/closeout were stale at "pending" though
+      MVP-MOD-008-FE-001, MVP-MOD-008-QA-001 and MVP-MOD-008-CLOSEOUT are all closed per
+      PROJECT_STATE.yaml completed_backlog_items and capability-package-index.yaml (roadmap_group
+      MVP-MOD-008, package_status module_closed).
+  cross_module_reuse:
+    - roadmap_group: COM-MOD-009
+      backlog_item: COM-MOD-009-BE-001 (implied)
+      surface_added: doctor_portal (partner_api_later)
+      note: Recorded here retroactively by COM-MOD-011-DEF; not independently verified against COM-MOD-009 evidence.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-DEF
+      surface_added: public_website (governance only)
+      note: >-
+        Added RN-007 and RateLimitPolicy.consumerIdentificationMethod to govern the new
+        classification=public operations registered by BCM-SVC-001/002/003/005 and
+        BCM-ATT-001/006. No new capability package or aggregate was created; materially reduces
+        TD-BE-015.

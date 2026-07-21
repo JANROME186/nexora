@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-011-DEF
+  current_active_backlog_item: COM-MOD-011-BE-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -20,26 +20,26 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
-    backlog_item: COM-MOD-010-CLOSEOUT
+    backlog_item: COM-MOD-011-DEF
     status: closed
-    next_active_backlog_item: COM-MOD-011-DEF
+    next_active_backlog_item: COM-MOD-011-BE-001
     runtime_change: none
     port_change: none
     environment_variable_change: none
     startup_order_change: none
     database_schema_note: >-
-      COM-MOD-010-CLOSEOUT is a documentation and registry synchronization backlog item; it added
-      no backend, employee-portal, mobile, patient-portal or doctor-portal source file and no
-      schema or Docker-init asset changed.
+      COM-MOD-011-DEF is a definition-only capability-package modeling backlog item; it added no
+      backend, employee-portal, mobile, patient-portal or doctor-portal source file and no schema
+      or Docker-init asset changed.
     validation_summary: >-
-      Documentation/registry-only closeout: no source code touched. Confirmed all 13 COM-MOD-010
-      capability packages (BCM-INV-001..009, BCM-QLT-001/003/004/005) are module_closed in
-      capability-package-index.yaml and their traceability.yaml files. Reviewed
-      technical-debt-index.yaml and found zero open or materially-reduced debt attributable to
-      COM-MOD-010. Backend (83.73%, 315 tests), employee-portal (88.24%, 124 tests/48 files),
-      mobile (99.21%), patient-portal (94.11%) and doctor-portal (96.28%) coverage are re-affirmed
-      unchanged from COM-MOD-010-QA-001/COM-MOD-009 evidence. YAML parse, a repository-wide
-      stale-pointer sweep and `git diff --check` were executed for this closeout.
+      Definition-only: no source code touched. Confirmed all 7 COM-MOD-011 capabilities
+      (BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005) reused from already-modeled/compiled
+      capability packages with zero new capability package, aggregate or schema created.
+      Materially reduced TD-BE-015. Corrected three pre-existing stale roadmap/status pointers and
+      one pre-existing YAML-validity defect found during modeling. Backend (83.73%, 315 tests),
+      employee-portal (88.24%, 124 tests/48 files), mobile (99.21%), patient-portal (94.11%) and
+      doctor-portal (96.28%) coverage are re-affirmed unchanged. YAML parse (1,110+ files, 0
+      failures), a repository-wide stale-pointer sweep and `git diff --check` were executed.
   runbook_confirmation_note: >-
     MVP-MOD-008-DEF (Integration and Migration Readiness capability package models) is a
     definition-only backlog item: it added no runtime component, port, environment variable,
@@ -91,7 +91,11 @@ project:
     and their traceability.yaml files, and confirmed zero open or materially-reduced technical debt
     is attributable to COM-MOD-010 after reviewing technical-debt-index.yaml. Backend (83.73%),
     employee-portal (88.24%), mobile (99.21%), patient-portal (94.11%) and doctor-portal (96.28%)
-    coverage are unchanged. The next active backlog item is COM-MOD-011-DEF.
+    coverage are unchanged. COM-MOD-011-DEF (Public Website and Digital Growth capability package
+    models) is closed. It is a definition-only backlog item: it added no runtime component, port,
+    environment variable, startup order or validation command. All 7 COM-MOD-011 capabilities were
+    confirmed reused from already-modeled/compiled capability packages with no new capability
+    package, aggregate or schema created. The next active backlog item is COM-MOD-011-BE-001.
   intended_audience:
     - human_reviewer
     - qa_reviewer

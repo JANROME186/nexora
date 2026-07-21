@@ -2,7 +2,7 @@ artifact:
   id: HOP-UI-BCM-PLT-005
   type: ui-model
   name: API Management UI Model
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-PLT-005
@@ -21,6 +21,14 @@ surfaces:
     note: >
       Doctor portal itself consumes governed partner APIs later (COM-MOD-009); it does not surface
       API-management administration.
+  public_website:
+    status: governance_only
+    generatable: not_applicable
+    note: >
+      This capability has no public-facing screen; COM-MOD-011 public_website operations are
+      registered elsewhere (BCM-SVC-001/002/003/005, BCM-ATT-001/006) and governed here via
+      ApiSurfaceRegistration classification and RateLimitPolicy, visible only through the existing
+      employee-portal SCR-APIM-005-01 screen.
 
 screens:
   - id: SCR-APIM-005-01

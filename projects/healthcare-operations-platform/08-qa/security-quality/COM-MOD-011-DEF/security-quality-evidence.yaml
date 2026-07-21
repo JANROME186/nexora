@@ -1,0 +1,155 @@
+artifact:
+  id: COM-MOD-011-DEF-SECURITY-QUALITY
+  type: security-quality-evidence
+  backlog_item: COM-MOD-011-DEF
+  status: passed
+  created_date: 2026-07-20
+  standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+
+scope_note: >
+  COM-MOD-011-DEF is a definition-only backlog item: it does not create any new capability
+  package. It confirms all 7 COM-MOD-011 capabilities (BCM-SVC-001/002/003/005, BCM-ATT-001/006,
+  BCM-PLT-005) are reused from already-modeled/compiled capability packages owned by
+  MVP-MOD-002, MVP-MOD-004 and MVP-MOD-008, and extends each package's product_surfaces,
+  openapi-source.yaml, ui-model.yaml, permissions.yaml and traceability.yaml with a
+  public_website surface. It materially reduces TD-BE-015 and updates project registries. No
+  backend, frontend or mobile code was created or modified. Backend/frontend/mobile build, test,
+  coverage, SAST, dependency vulnerability and DAST gates therefore do not apply to this backlog
+  item; they are unchanged from their last measured values (backend 83.73%, employee portal
+  88.24%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%, per
+  08-qa/qa/inventory-and-internal-quality/COM-MOD-010-QA-001-validation.yaml) and are not
+  regressed.
+
+open_source_first:
+  status: passed
+  proprietary_runtime_dependency_detected: false
+  new_dependencies_introduced: false
+  note: >
+    This backlog item introduced only editable YAML/Markdown capability-package model
+    extensions and registry/technical-debt updates. No new library, framework or runtime
+    dependency was introduced; the new public_surface operations reuse existing schemas
+    (PublishedServiceSnapshot, PublishedTestSnapshot, PublishedPanelSnapshot,
+    PublishedPreparationSnapshot, ProspectiveContact) and the existing RateLimitPolicy entity.
+
+anonymous_public_surface_review:
+  status: passed
+  note: >
+    This is the first backlog item to model an anonymous (unauthenticated), rate-limited public
+    surface in HOP. Read operations (catalog.*.public_read) return only status=published
+    snapshots, never drafts. Write operations (appointment.request.public,
+    quotation.request.public) can only create a requested/draft-state record from a
+    ProspectiveContact and can never confirm, issue, accept, convert or read other actors'
+    records under the public scope (POL-APT-001-03, POL-QUO-006-04). All public operations are
+    governed by BCM-PLT-005 ApiSurfaceRegistration classification=public and RateLimitPolicy,
+    with a new RN-007/consumerIdentificationMethod modeling IP-address/session-token
+    identification for anonymous rate-limiting (materially reducing TD-BE-015). The runtime
+    enforcement of these rules is a COM-MOD-011-BE-001 implementation task, not yet code.
+
+checks:
+  tests: not_applicable_definition_only
+  sast_or_static_analysis: not_applicable_definition_only
+  dependency_vulnerability_scan: not_applicable_definition_only
+  secrets_scan: passed
+  coverage: passed_no_regression
+  message_externalization_i18n_review: passed
+  dast_for_runnable_web_or_api_surfaces: not_applicable_no_runnable_surface_defined
+  container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  yaml_parse: passed
+  agent_agnostic_scan: passed
+  stale_pointer_sweep: passed
+  git_whitespace_check: passed
+
+results:
+  yaml_parse:
+    files_checked: 1152
+    detail: >-
+      Full repository-wide PyYAML sweep (all .yaml/.yml files outside node_modules/.git/target/
+      dist/build) passed with 0 failures, including the 35 modified capability-package-model
+      files across the 7 reused packages, capability-package-index.yaml,
+      technical-debt-index.yaml, TD-BE-015's own file, root and project PROJECT_STATE.yaml/
+      SOURCE_OF_TRUTH.yaml, and both commercial backlog/execution-prompt files. A pre-existing
+      YAML-validity defect (unescaped colon inside a plain scalar in project
+      SOURCE_OF_TRUTH.yaml, predating this backlog item) was found and fixed as part of this
+      sweep.
+  message_externalization_i18n_review:
+    method: >-
+      Reviewed each capability's new permissions.yaml scope descriptions and ui-model.yaml
+      public_website notes for hardcoded user-facing strings.
+    result: passed
+    detail: >-
+      No new employee-portal, patient-portal, doctor-portal or mobile screen text was added by
+      this definition-only item (public website pages are explicitly deferred to
+      COM-MOD-011-WEB-001). New model-level scope/rule descriptions are internal documentation,
+      not rendered UI text, so no message-catalog entry is required yet.
+  agent_agnostic_scan:
+    pattern: claude|anthropic|copilot|cursor|chatgpt|openai|gemini|codex|windsurf|aider (case-insensitive)
+    matches_found: 0
+    detail: No named-agent or vendor-runtime dependency found in any modified artifact.
+  secrets_scan:
+    pattern: password|secret|api[_-]?key|private[_-]?key|token\s*[:=] (case-insensitive)
+    matches_found: 0
+    detail: >-
+      No credential-shaped literal found. Occurrences of "PartnerApiKey",
+      "api.partnerkey.manage" and similar identifiers are pre-existing entity/scope names, not
+      literal secret values.
+  stale_pointer_sweep:
+    method: >-
+      Repository-wide grep for COM-MOD-010 as active_module/in_progress_module/
+      ready_to_start_module/current_module and COM-MOD-010-* as next_backlog_item/
+      active_backlog_item/current_backlog_item, both before modeling (preflight) and after
+      closure, plus a targeted grep for any live COM-MOD-011-DEF pointer remaining after
+      advancing to COM-MOD-011-BE-001.
+    result: passed
+    detail: >-
+      All live registries advanced to COM-MOD-011-BE-001 as the next/active/current pointer.
+      COM-MOD-010/COM-MOD-010-* and COM-MOD-011-DEF are retained only inside immutable historical
+      evidence (this item's own evidence, and COM-MOD-010-CLOSEOUT's frozen
+      ready_for_next_backlog_item value). Also found and corrected three pre-existing stale
+      roadmap/status pointers unrelated to this item's own scope in BCM-ATT-001, BCM-ATT-006 and
+      BCM-PLT-005's capability-package.yaml/traceability.yaml.
+  git_whitespace_check:
+    command: git diff --check
+    result: passed
+    detail: No trailing-whitespace or conflict-marker errors found in any touched file.
+  unchanged_baselines:
+    backend_line_coverage_percent: 83.73
+    employee_portal_line_coverage_percent: 88.24
+    mobile_line_coverage_percent: 99.21
+    patient_portal_line_coverage_percent: 94.11
+    doctor_portal_line_coverage_percent: 96.28
+    source_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-QA-001-validation.yaml
+    note: No stack's coverage changed as a result of this definition-only backlog item.
+
+technical_debt:
+  debt_first_action: >-
+    TD-BE-015 (rate-limit enforcement scoped to partner-API-key-bearing requests only) was
+    materially reduced through a modeling-stage decision: BCM-PLT-005 gained RN-007 and a new
+    RateLimitPolicy.consumerIdentificationMethod field modeling IP-address/session-token
+    identification for the public classification tier. Its own remediation_strategy already
+    named this exact trigger (gradual_before_first_public_api_consumer_onboarding, target
+    COM-MOD-011_or_earlier). No code was written; the item's status is materially_reduced, not
+    closed.
+  no_other_applicable_debt: >-
+    No other open technical-debt item is modeling-, traceability-, YAML-, documentation-,
+    agent-agnostic- or pointer-consistency-related in a way addressable by a definition-only
+    backlog item.
+  blocking: []
+
+exceptions: []
+
+commercial_readiness_disclosure:
+  hop_commercially_complete: false
+  hop_ga_ready: false
+  reason: >
+    COM-MOD-011 remains only definition-modeled; COM-MOD-011-BE-001 through COM-MOD-011-CLOSEOUT
+    and all subsequent REL-002/003/004 commercial modules remain planned. Technical-debt items
+    remain open project-wide (final closure requires zero). All applicable stacks currently meet
+    or exceed the 80% final-closure coverage target but must not regress.
+
+readiness:
+  security_quality_status: passed
+  ready_for_next_backlog_item: COM-MOD-011-BE-001
+  next_required_focus:
+    - Compile the public_surface operations modeled by COM-MOD-011-DEF (COM-MOD-011-BE-001).
+    - Implement runtime rate-limit enforcement for the public classification tier per RN-007, closing TD-BE-015.
+    - Preserve backend (83.73%), employee-portal (88.24%), mobile (99.21%), patient-portal (94.11%) and doctor-portal (96.28%) coverage floors once code is implemented.

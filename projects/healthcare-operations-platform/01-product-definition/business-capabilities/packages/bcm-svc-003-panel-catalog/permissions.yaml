@@ -2,7 +2,7 @@ artifact:
   id: HOP-PERM-BCM-SVC-003
   type: permissions
   name: Panel Catalog Permissions
-  version: 0.1.0
+  version: 0.2.0
   status: modeled
   classification: editable_model
   capability: BCM-SVC-003
@@ -15,6 +15,10 @@ scopes:
     description: Create and update panel drafts.
   - code: catalog.panel.publish
     description: Publish and deprecate panels.
+  - code: catalog.panel.public_read
+    description: >-
+      Anonymous, rate-limited read of published panel snapshots only, consumed by the
+      COM-MOD-011 public website. Never grants visibility into drafts.
 
 roles:
   - role: catalog-administrator
@@ -23,6 +27,10 @@ roles:
     grants: [catalog.panel.read, catalog.panel.write, catalog.panel.publish]
   - role: reception-agent
     grants: [catalog.panel.read]
+  - role: public-website-visitor
+    grants: [catalog.panel.public_read]
+    authentication: anonymous
+    governed_by: BCM-PLT-005 RateLimitPolicy (classification=public)
 
 access_policies:
   - id: POL-SVC-003-01
@@ -31,6 +39,11 @@ access_policies:
   - id: POL-SVC-003-02
     statement: Unpublished drafts are visible only to authors and managers.
     enforcement: status_based_filter
+  - id: POL-SVC-003-03
+    statement: >-
+      Public, anonymous catalog reads return only status=published snapshots and are rate-limited
+      per BCM-PLT-005's public classification tier.
+    enforcement: status_based_filter_plus_public_rate_limit
 
 audit_obligations:
   audit_sink: BCM-PLT-007
