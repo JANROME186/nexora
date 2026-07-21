@@ -242,10 +242,10 @@ validation_commands:
     command_template: "Run repository whitespace validation before closing the item."
 
 next_backlog_item:
-  module_id: COM-MOD-010
-  backlog_item_id: COM-MOD-010-CLOSEOUT
-  name: Module closeout and registry update
-  expected_folder: 08-qa/
+  module_id: COM-MOD-011
+  backlog_item_id: COM-MOD-011-DEF
+  name: Capability package models
+  expected_folder: 01-product-definition/business-capabilities/packages/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
@@ -260,25 +260,22 @@ next_backlog_item:
     - Preserve coverage floors: backend (83.73%), employee portal (88.24%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
-    - Confirm all 13 capability packages (BCM-INV-001..009, BCM-QLT-001/003/004/005) are marked module_closed in capability-package-index.yaml and traceability.yaml before closing the module.
-    - Confirm no open technical debt was introduced by COM-MOD-010 before closing the module.
+    - COM-MOD-011 capabilities (BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005) are reused from already-modeled/compiled capability packages; confirm no duplicate model or aggregate is created before adding any new public-website-specific artifacts.
+    - Review 08-qa/technical-debt/technical-debt-index.yaml before feature work and resolve or materially reduce at least one open item.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-010-QA-001
+    backlog_item_id: COM-MOD-010-CLOSEOUT
     status: closed
     summary: >-
-      COM-MOD-010-QA-001 validated end-to-end traceability across all 13 COM-MOD-010 capability
-      packages (BCM-INV-001..009, BCM-QLT-001/003/004/005): openapi-source.yaml vs. controllers,
-      permissions.yaml vs. EndpointPermissionRegistry/RolePermissionCatalog, ui-model.yaml vs.
-      employee-portal screens, and es-MX/en-US i18n key parity. Found and corrected a stale
-      backlog_items.custom_rules traceability pointer in the 9 BCM-INV-001..009 traceability.yaml
-      files (was pointing at COM-MOD-010-BE-002/pending; corrected to COM-MOD-010-BE-001/closed,
-      matching where those custom rules were actually implemented) and a stale
-      capability-package-index.yaml COM-MOD-010 roadmap-group pointer. Found and fixed a real
-      backend coverage gap: a clean rebuild reproducibly measured 81.90% (below the 82.94% floor,
-      0 backend source changes since BE-002) because BE-002's 4 new JDBC adapters
-      (quality-control/calibration/equipment/maintenance) had no local-database integration test;
-      added InventoryQualityControlsLocalDatabaseTest.java, raising corrected coverage to 83.73%
-      (315 tests, 0 failures/errors/skipped). Employee-portal coverage 88.24% (floor 87.87%, 124
-      tests/48 files, 0 failures). OWASP Dependency-Check (65 dependencies), npm audit and Trivy fs
-      (vuln/secret/misconfig, all severities) reported 0 vulnerabilities/secrets/misconfigurations.
-      YAML parse (1105 files) and agent-agnostic scan passed; git diff --check clean.
+      COM-MOD-010-CLOSEOUT closed the Inventory and Internal Quality module. Confirmed all 13
+      COM-MOD-010 capability packages (BCM-INV-001..009, BCM-QLT-001/003/004/005) are module_closed
+      in capability-package-index.yaml (moved from active_capability_package_groups to
+      completed_capability_package_groups) and in each of their traceability.yaml files
+      (backlog_items.closeout_status: closed). Reviewed technical-debt-index.yaml and found zero
+      open or materially-reduced technical debt attributable to COM-MOD-010. This was a
+      documentation/registry-only closeout: no backend, employee-portal, mobile, patient-portal or
+      doctor-portal source file was changed, so backend (83.73%), employee-portal (88.24%), mobile
+      (99.21%), patient-portal (94.11%) and doctor-portal (96.28%) coverage are re-affirmed
+      unchanged from COM-MOD-010-QA-001/COM-MOD-009 evidence rather than re-measured. Executed YAML
+      parse, a repository-wide stale-pointer sweep and git diff --check for the closeout itself.
+      Reconciled PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml,
+      this prompt file and the local runbook to advance the active backlog item to COM-MOD-011-DEF.

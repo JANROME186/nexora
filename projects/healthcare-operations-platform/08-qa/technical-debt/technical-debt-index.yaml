@@ -35,9 +35,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 82.94
-        source_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 82.94
+        current_line_coverage_percent: 83.73
+        source_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 83.73
         final_closure_target_percent: 80
         correction_note: >-
           MVP-MOD-007-QA-001 raised backend line coverage to 78.42%. MVP-MOD-007-CLOSEOUT's
@@ -47,12 +47,18 @@ policy:
           the final 80% target for this stack. MVP-MOD-008-BE-002 raised it further to 80.49%
           (265 tests, 0 failures/errors). COM-MOD-009-PORTAL-002 raised it further to 80.60%
           (280 tests, 0 failures/errors/skipped). COM-MOD-010-BE-001 raised it further to 82.94%
-          (308 tests, 0 failures/errors/skipped); future backend iterations must not regress
-          below 82.94%.
+          (308 tests, 0 failures/errors/skipped). COM-MOD-010-QA-001 found the 82.94% figure was
+          not reproducible from a clean rebuild (measured 81.90% twice, 0 backend source changes
+          since BE-002) due to a jacoco.exec measurement-inflation artifact; fixed with a new
+          InventoryQualityControlsLocalDatabaseTest.java, raising the corrected, reproducible
+          figure to 83.73% (315 tests, 0 failures/errors/skipped). COM-MOD-010-CLOSEOUT corrected
+          this registry entry's stale 82.94% value to match, since it had not yet been synced from
+          COM-MOD-010-QA-001's own evidence; future backend iterations must not regress below
+          83.73%.
       frontend_typescript_web:
-        current_line_coverage_percent: 87.87
-        source_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-FE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 87.87
+        current_line_coverage_percent: 88.24
+        source_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 88.24
         final_closure_target_percent: 80
         correction_note: >-
           MVP-MOD-007-CLOSEOUT found employee-portal coverage had regressed from the 84.44% floor
@@ -63,7 +69,12 @@ policy:
           85.50%, above the previous 84.44% floor. MVP-MOD-008-QA-001 later raised the
           employee-portal floor to 86.47% (101 tests, 0 failures). COM-MOD-010-FE-001 raised it
           further to 87.87% (124 tests, 48 test files, 0 failures) by adding the Inventory and
-          Internal Quality administration screens plus their tests. Must not regress below 87.87%.
+          Internal Quality administration screens plus their tests. COM-MOD-010-QA-001 re-confirmed
+          88.24% with the same 124 tests/48 files (no source file touched by that validation-only
+          backlog item; the small delta reflects re-measurement, not a regression).
+          COM-MOD-010-CLOSEOUT corrected this registry entry's stale 87.87% value to match, since
+          it had not yet been synced from COM-MOD-010-QA-001's own evidence. Must not regress
+          below 88.24%.
       mobile_typescript_foundation:
         current_line_coverage_percent: 99.21
         source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.yaml
@@ -75,22 +86,28 @@ policy:
           regression. COM-MOD-009-APP-001 later raised the mobile floor to 99.21% with 40 tests
           and 0 failures.
       patient_portal_typescript_web:
-        current_line_coverage_percent: 89.58
-        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 89.58
+        current_line_coverage_percent: 94.11
+        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 94.11
         final_closure_target_percent: 80
         correction_note: >-
           First-ever coverage measurement for patient-portal, taken during MVP-MOD-007-CLOSEOUT,
           was 41.93%. COM-MOD-009-PORTAL-001 closed TD-FE-008 and raised coverage to 89.58%.
+          COM-MOD-009-QA-001 raised it further to 94.11% (18 tests, 0 failures) and resolved
+          TD-FE-011. COM-MOD-010-CLOSEOUT corrected this registry entry's stale 89.58% value to
+          match, since it had not yet been synced from COM-MOD-009-QA-001's own evidence.
       doctor_portal_typescript_web:
-        current_line_coverage_percent: 89.86
-        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 89.86
+        current_line_coverage_percent: 96.28
+        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 96.28
         final_closure_target_percent: 80
         correction_note: >-
           First-ever coverage measurement for doctor-portal, taken during MVP-MOD-007-CLOSEOUT,
           was 40.62% (TD-FE-009 registered). COM-MOD-009-PORTAL-002 closed TD-FE-009 and raised
-          coverage to 89.86%, exceeding the 80% final-closure target.
+          coverage to 89.86%, exceeding the 80% final-closure target. COM-MOD-009-QA-001 raised it
+          further to 96.28% (31 tests, 0 failures/errors). COM-MOD-010-CLOSEOUT corrected this
+          registry entry's stale 89.86% value to match, since it had not yet been synced from
+          COM-MOD-009-QA-001's own evidence.
   promote_to_blocking_when:
     - vulnerability_or_secure_code_finding_without_disposition
     - unsupported_runtime_blocks_safe_development

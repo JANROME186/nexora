@@ -72,4 +72,4 @@ traces:
     validation: COM-MOD-010-QA-001
     validation_status: closed
     closeout: COM-MOD-010-CLOSEOUT
-    closeout_status: pending
+    closeout_status: closed

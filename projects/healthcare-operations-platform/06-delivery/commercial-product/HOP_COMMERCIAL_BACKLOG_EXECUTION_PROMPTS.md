@@ -234,24 +234,24 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-010-FE-001 Compile inventory and internal quality UI outputs` is closed.
+`COM-MOD-010-CLOSEOUT Module closeout and registry update` is closed.
 Continue with:
 
-- Module: `COM-MOD-010`
-- Backlog item: `COM-MOD-010-QA-001`
-- Previous backlog item: `COM-MOD-010-FE-001` (closed)
+- Module: `COM-MOD-011`
+- Backlog item: `COM-MOD-011-DEF`
+- Previous backlog item: `COM-MOD-010-CLOSEOUT` (closed)
 - Paused functional backlog item: none
-- Folder: `08-qa/`
+- Folder: `01-product-definition/business-capabilities/packages/`
 
 Mandatory setup for this backlog:
 
 - Reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, capability traceability files and the local runbook pointers.
-- Preserve coverage floors: backend (82.94%), employee portal (87.87%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
+- Preserve coverage floors: backend (83.73%), employee portal (88.24%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
-- Validate end-to-end traceability across BCM-INV-001..009/BCM-QLT-001/003/004/005 `openapi-source.yaml`, `ui-model.yaml` and `permissions.yaml` against the closed backend and employee-portal implementations.
-- Compile integrated stock/quality QA and security-quality closure evidence for the module before `COM-MOD-010-CLOSEOUT`.
+- COM-MOD-011 capabilities (BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005) are reused from already-modeled/compiled capability packages; confirm no duplicate model or aggregate is created before adding any new public-website-specific artifacts.
+- Review `08-qa/technical-debt/technical-debt-index.yaml` before feature work and resolve or materially reduce at least one open item.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-010-FE-001` - Compile inventory and internal quality UI outputs. Compiled the employee-portal administration UI for all 13 COM-MOD-010 capability packages (BCM-INV-001..009, BCM-QLT-001/003/004/005): 11 permission-filtered screens, a typed `inventoryQualityApi` facade over all 27 backend REST operations, and full es-MX/en-US externalization. Addressed `TD-FE-010` (materially reduced) with a shared `DataTable` component and small-sub-component decomposition convention applied to all 11 new screens with 0 new lint warnings. Validation passed: `npm run quality`, 124 tests/48 test files/0 failures, employee-portal line coverage 86.47% -> 87.87%, `npm audit` and Trivy fs (vuln/secret/misconfig, all severities) 0 findings, YAML parse and agent-agnostic scan passed, `git diff --check` clean.
+`COM-MOD-010-CLOSEOUT` - Module closeout and registry update. Confirmed all 13 COM-MOD-010 capability packages (BCM-INV-001..009, BCM-QLT-001/003/004/005) are `module_closed` in `capability-package-index.yaml` and their `traceability.yaml` files. Reviewed `technical-debt-index.yaml` and found zero open or materially-reduced debt attributable to COM-MOD-010; corrected two pre-existing stale coverage baselines found during the sweep (backend/employee-portal not yet synced from `COM-MOD-010-QA-001`, patient/doctor portal not yet synced from `COM-MOD-009-QA-001`). This was a documentation/registry-only closeout: no source code was touched, so backend (83.73%), employee-portal (88.24%), mobile (99.21%), patient portal (94.11%) and doctor portal (96.28%) coverage are re-affirmed unchanged. YAML parse (1109 files), a repository-wide stale-pointer sweep and `git diff --check` passed.

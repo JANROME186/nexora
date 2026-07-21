@@ -4,9 +4,23 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-010-CLOSEOUT`.
+Current active backlog item: `COM-MOD-011-DEF`.
 
-Latest update: `COM-MOD-010-QA-001` is closed. It validated end-to-end traceability across all 13
+Latest update: `COM-MOD-010-CLOSEOUT` is closed. It is a documentation and registry
+synchronization backlog item only: no backend, employee-portal, mobile, patient-portal or
+doctor-portal source file was changed, and no runtime component, port, environment variable,
+startup order or database schema changed. It confirmed all 13 COM-MOD-010 capability packages
+(`BCM-INV-001..009`, `BCM-QLT-001/003/004/005`) are `module_closed` in
+`capability-package-index.yaml` and in each of their `traceability.yaml` files
+(`backlog_items.closeout_status: closed`), and confirmed zero open or materially-reduced technical
+debt is attributable to COM-MOD-010 after reviewing `technical-debt-index.yaml`. Backend (83.73%),
+employee-portal (88.24%), mobile (99.21%), patient-portal (94.11%) and doctor-portal (96.28%)
+coverage are re-affirmed unchanged from `COM-MOD-010-QA-001`/`COM-MOD-009` evidence. YAML parse, a
+repository-wide stale-pointer sweep and `git diff --check` were executed for this closeout. The
+next active backlog item is `COM-MOD-011-DEF` (Public Website and Digital Growth capability
+package models).
+
+Previous update: `COM-MOD-010-QA-001` is closed. It validated end-to-end traceability across all 13
 COM-MOD-010 capability packages and added one new backend integration test class
 (`InventoryQualityControlsLocalDatabaseTest.java`) exercising the 4 `BCM-QLT` JDBC adapters against
 a real local Postgres instance, closing a real coverage gap left by `COM-MOD-010-BE-002`. No new
@@ -17,7 +31,7 @@ measurement-inflation artifact, same pattern as the earlier MVP-MOD-005-QA-001 c
 tests, 48 test files). `npm audit`, OWASP Dependency-Check (65 dependencies) and Trivy fs
 (vuln/secret/misconfig, all severities) reported 0 vulnerabilities/secrets/misconfigurations.
 
-Previous update: `COM-MOD-010-FE-001` is closed. It added 11 permission-filtered employee-portal
+Earlier update: `COM-MOD-010-FE-001` is closed. It added 11 permission-filtered employee-portal
 screens (inventory catalog, reagent profiles, stock lots, purchase orders, combined stock
 entries/exits/consumption movements, adjustments, waste disposal, internal quality control runs,
 calibrations, equipment profile/availability, maintenance events) and a typed

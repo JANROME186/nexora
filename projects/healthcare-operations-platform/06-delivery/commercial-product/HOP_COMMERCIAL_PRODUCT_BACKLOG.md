@@ -206,9 +206,11 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-`COM-MOD-010-DEF`, `COM-MOD-010-BE-001`, `COM-MOD-010-BE-002` and `COM-MOD-010-FE-001` are closed.
-Continue with `COM-MOD-010-QA-001` from:
+`COM-MOD-010` (Inventory and Internal Quality) is closed: `COM-MOD-010-DEF`, `COM-MOD-010-BE-001`,
+`COM-MOD-010-BE-002`, `COM-MOD-010-FE-001`, `COM-MOD-010-QA-001` and `COM-MOD-010-CLOSEOUT` are all
+closed, and all 13 of its capability packages are `module_closed`. Continue with `COM-MOD-011-DEF`
+from:
 
 `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
 
-See `08-qa/qa/inventory-and-internal-quality/COM-MOD-010-FE-001-validation.yaml` for the latest validation evidence.
+See `08-qa/qa/inventory-and-internal-quality/COM-MOD-010-CLOSEOUT-validation.yaml` for the latest validation evidence.
