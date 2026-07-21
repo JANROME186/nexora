@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-011-FE-001 Content and request administration screens active (COM-MOD-011-WEB-001 closed with the public-website frontend compiled at 07-implementation/public-website/ consuming the anonymous /api/public/** surface -- published catalog discovery for BCM-SVC-001/002/003/005, public appointment/quotation request intake for BCM-ATT-001/006, explicit 429 handling for BCM-PLT-005 -- with SEO/accessibility/privacy/i18n foundations, a first-ever 98.61% line coverage baseline for this stack, and TD-UX-002 materially reduced)
+current_phase: COM-MOD-011-FE-001 Content and request administration screens active (COM-MOD-011-WEB-001 closed with the public-website frontend compiled at 07-implementation/public-website/ consuming the anonymous /api/public/** surface -- published catalog discovery for BCM-SVC-001/002/003/005, public appointment/quotation request intake for BCM-ATT-001/006, explicit 429 handling for BCM-PLT-005 -- with SEO/accessibility/privacy/i18n foundations, a first-ever 98.61% line coverage baseline for this stack, and TD-UX-002 materially reduced; live end-to-end backend verification later found and fixed a real catalog-seed status-casing defect in schema.sql with 0 backend regressions, 324 tests still passing and coverage unchanged at 83.96%)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -351,8 +351,16 @@ completed_deliverables:
     reference pattern for a new module (employee-portal itself untouched, so not closed); first
     coverage baseline for this stack -- 97 tests, 34 files, 0 failures, 98.61% line/statement
     coverage; ESLint 0 errors/16 non-blocking warnings; jscpd 3.9% duplication; npm audit and
-    Trivy fs (all severities) 0 findings; verified locally via npm run build && vite preview
-    (live backend integration not exercised this session, no reachable Docker daemon))
+    Trivy fs (all severities) 0 findings; verified locally via npm run build && vite preview.
+    Docker later became reachable in the same session, enabling full live end-to-end
+    verification against a real backend and Postgres instance for all 10 /api/public/**
+    operations; this surfaced and fixed a real pre-existing defect in
+    backend/src/main/resources/db/catalog-test-configuration/schema.sql, whose seed rows used
+    status='PUBLISHED' (uppercase) against the lowercase published domain constant, silently
+    hiding every seeded catalog row from published-only views project-wide. Corrected the 10
+    seed literals to lowercase; no Java source changed. Backend regression gates re-run clean --
+    324 tests/0 failures, coverage unchanged at 83.96%, checkstyle/pmd/spotbugs/duplicate-finder
+    0 new violations, OWASP Dependency-Check 65 deps/0 vulnerabilities, Trivy fs 0 findings)
 next_deliverables:
   - Execute COM-MOD-011-FE-001 Content and request administration screens
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008

@@ -27,10 +27,17 @@ coverage. ESLint 0 errors/16 non-blocking warnings; `jscpd` 3.9% duplication (be
 threshold); Prettier clean; `license-checker` MIT 3/UNLICENSED 1; `npm audit` and Trivy fs
 (vuln/secret/misconfig, all severities) both 0 findings; agent-agnostic scan 0 real hits; `git
 diff --check` clean. Verified locally via `npm run build && npm run preview` (production shell
-served correctly); live backend integration was not exercised this session (no reachable Docker
-daemon to bring up `compose.local.yml`) — recommended as part of human review before public
-exposure. The next active backlog item is `COM-MOD-011-FE-001` (Content and request administration
-screens).
+served correctly). Docker later became reachable in the same session, enabling full live
+end-to-end verification against a real backend and Postgres instance for all 10
+`/api/public/**` operations through the real dev proxy — this surfaced and fixed a real
+pre-existing defect (see "Backend defect fixed" note below). The next active backlog item is
+`COM-MOD-011-FE-001` (Content and request administration screens).
+
+**Backend defect fixed during this backlog item's live verification**: `backend/src/main/resources/db/catalog-test-configuration/schema.sql` seeded catalog rows (analytes, sample types, sample requirements, test definitions, diagnostic services) with `status='PUBLISHED'` (uppercase), while every catalog domain class's `STATUS_PUBLISHED` constant is the lowercase literal `published`. A case-sensitive filter therefore silently excluded every seeded catalog row from any published-only view, project-wide — not specific to this backlog item, but blocking verification of its core discovery flow, which is what surfaced it. Fixed by correcting the 10 seed literals to lowercase; no Java source changed.
+
+**Operational note**: because the seed `INSERT`s use `ON CONFLICT ... DO NOTHING`, this fix does not retroactively correct rows already seeded into an existing local database volume. If you set up your local Postgres volume before this fix, run `docker compose --env-file .env -f compose.local.yml down -v` then `up -d` once to get a fresh volume with correctly-cased seed data (any other local-only data in that volume is lost).
+
+Backend regression gates re-run clean after the fix: `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` (324 tests, 0 failures/errors/skipped, coverage unchanged at 83.96%), `checkstyle`/`pmd`/`spotbugs`/`duplicate-finder` (0 new violations), OWASP Dependency-Check (65 dependencies, 0 vulnerabilities) and Trivy fs on the backend directory (0 vulnerabilities/secrets/misconfigurations).
 
 Previous update: `COM-MOD-011-BE-001` is closed. It compiled the backend for HOP's anonymous
 public-website surface without introducing a new runtime component, port, environment variable or

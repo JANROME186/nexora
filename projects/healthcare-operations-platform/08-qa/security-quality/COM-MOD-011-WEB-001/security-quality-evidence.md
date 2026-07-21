@@ -34,7 +34,16 @@ Three new **dev-only** dependencies, all MIT-licensed: `eslint-plugin-jsx-a11y` 
 | YAML parse | all touched/added `.yml`/`.yaml` | 0 errors |
 | Agent-agnostic scan | grep for vendor/agent patterns | 1 false positive (CSS `cursor:`), 0 real hits |
 | git diff --check | `git diff --check` | 0 whitespace errors |
-| Local build verification | `npm run build && vite preview` | production shell served correctly; live backend integration not exercised (no reachable Docker daemon this session) |
+| Local build verification | `npm run build && vite preview` | production shell served correctly |
+| Live backend end-to-end verification | real `docker compose up -d` + `mvn spring-boot:run` + `npm run dev` through the real `/api` proxy | all 10 `/api/public/**` operations exercised against real Postgres data, exact expected shapes returned |
+
+## Incidental defect found and fixed
+
+Live verification against a freshly seeded local Postgres instance initially showed every published-catalog list endpoint returning `[]` and every snapshot endpoint returning `404`, despite the seed rows existing and being marked published. Root cause: `backend/src/main/resources/db/catalog-test-configuration/schema.sql` seeded rows with `status='PUBLISHED'` (uppercase) while every catalog domain class's `STATUS_PUBLISHED` constant is the lowercase literal `"published"` — a case-sensitive filter silently excluded all seeded data from any published-only view, project-wide (not specific to this backlog item, but blocking its own verification, which is what surfaced it).
+
+**Fix**: corrected all 10 seed literals in `schema.sql` from `'PUBLISHED'` to `'published'`. No Java source changed.
+
+**Regression gates re-run clean**: `mvn -Pquality -Dhop.local-db-tests=true clean verify` (324 tests, 0 failures, backend coverage unchanged at 83.96%), `checkstyle/pmd/spotbugs/duplicate-finder` (0 new violations), OWASP Dependency-Check (65 deps, 0 vulnerabilities), Trivy fs scan on the backend directory (0 vulnerabilities/secrets/misconfigurations).
 
 ## Closure
 

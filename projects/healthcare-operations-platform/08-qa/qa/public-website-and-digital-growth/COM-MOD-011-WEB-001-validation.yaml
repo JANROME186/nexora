@@ -283,6 +283,7 @@ security_and_access:
 closure_criteria:
   public_website_compiles_and_runs_locally: true
   consumes_public_api_surface_correctly: true
+  live_backend_end_to_end_verified: true
   tests_executed_with_evidence: true
   no_vulnerabilities_of_any_level: true
   no_coverage_regression: true
@@ -291,15 +292,119 @@ closure_criteria:
   git_clean: true
   agent_agnostic: true
   live_backend_integration_note: >-
-    This iteration's environment had no reachable Docker daemon to bring up compose.local.yml's
-    PostgreSQL container and run the Spring Boot backend live, so end-to-end verification against
-    a running backend was not performed in this session. The frontend build was verified via
-    `npm run build` + `vite preview` (production shell served correctly, 200 on the JS bundle,
-    robots.txt reachable), and the API contract was verified against the backend's own documented
-    DTOs/error codes/status codes (PublicWebApiTest.java, PublicWebExceptionHandler.java,
+    Docker became reachable later in this same session; full live end-to-end verification was
+    then performed and is recorded in incidental_correctness_fix and live_verification below,
+    superseding the original evidence written when no Docker daemon was reachable (kept in
+    quality_gates as historical context: frontend build was independently verified via
+    `npm run build` + `vite preview`, and the API contract was verified against the backend's own
+    documented DTOs/error codes/status codes (PublicWebApiTest.java, PublicWebExceptionHandler.java,
     PublicApiRateLimitInterceptor.java) with 97 passing unit/integration tests mirroring that
-    contract exactly. A live backend+frontend smoke run is recommended as part of human review per
-    the local-solution-runbook process before this module is exposed publicly.
+    contract exactly).
+
+incidental_correctness_fix:
+  found_during: live end-to-end verification against a freshly seeded local PostgreSQL 16
+    container, after Docker became reachable in this session
+  defect: >-
+    projects/healthcare-operations-platform/07-implementation/backend/src/main/resources/db/
+    catalog-test-configuration/schema.sql seeded catalog rows (analytes, sample types, sample
+    requirements, test definitions, diagnostic services) with status='PUBLISHED' (uppercase), but
+    every catalog domain class's STATUS_PUBLISHED constant is the lowercase literal "published"
+    (DiagnosticService.java, TestDefinition.java, PanelDefinition.java,
+    PreparationInstruction.java and 5 other catalog domain classes). Java's case-sensitive
+    String.equals() filter in *Service.listPublished()/getPublishedSnapshot() therefore excluded
+    every seeded row from any published-only view -- confirmed live: GET
+    /api/public/catalog/diagnostic-services/published returned [] and the snapshot endpoint
+    returned 404 PUBLIC_CATALOG_NOT_PUBLISHED for seed-service-glucose, even though the row exists
+    with status='PUBLISHED' in Postgres and the internal (non-filtered) GET
+    /api/catalog/diagnostic-services endpoint returned it correctly. This affected every consumer
+    of the local seed data project-wide (this module's public catalog, the employee-portal
+    catalog "published" filters, any future consumer), not something specific to
+    COM-MOD-011-WEB-001, but it directly blocked verifying this backlog item's core discovery
+    flow against real local data, which is what surfaced it.
+  fix: >-
+    Corrected all 10 status='PUBLISHED' seed literals in schema.sql to status='published'
+    (analyte_definitions x3, sample_types x2, sample_requirements x2, test_definitions x2,
+    diagnostic_services x2). No panel_definitions or preparation_instructions seed rows exist (no
+    change needed/possible there). No Java source file was changed. Since schema.sql seed inserts
+    use `ON CONFLICT ... DO NOTHING`, the fix required a fresh local database volume (`docker
+    compose down -v` then `up -d`) to take effect for a database that had already seeded the
+    bad-case rows; an existing production/shared database would instead need a one-time `UPDATE
+    ... SET status = lower(status)` or equivalent remediation, out of scope for this local-only
+    seed fixture fix.
+  backend_regression_gates_rerun:
+    command: mvn --settings .mvn/settings.xml -Pquality "-Dhop.local-db-tests=true" clean verify
+    result: BUILD SUCCESS, 324 tests, 0 failures/errors/skipped (same count as before the fix,
+      confirming no behavioral regression from a schema.sql-only change)
+    backend_line_coverage_percent: 83.96
+    coverage_regression: false
+    note: coverage is unchanged because only a SQL seed literal changed, not Java source; JaCoCo
+      does not instrument SQL.
+  static_analysis_gates_rerun:
+    command: mvn --settings .mvn/settings.xml -Pquality checkstyle:checkstyle pmd:pmd pmd:cpd
+      spotbugs:spotbugs duplicate-finder:check
+    result: BUILD SUCCESS; checkstyle reported 31 pre-existing report-only findings (report goal,
+      not check -- does not fail the build), unrelated to this fix since no Java file was touched;
+      PMD, SpotBugs and duplicate-finder reported 0 violations
+  dependency_and_secret_gates_rerun:
+    owasp_dependency_check:
+      command: mvn --settings .mvn/settings.xml -Pquality org.owasp:dependency-check-maven:check
+        -DautoUpdate=false
+      dependencies_scanned: 65
+      vulnerabilities_found: 0
+    trivy_filesystem_scan:
+      command: trivy fs --scanners vuln,secret,misconfig --severity
+        UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL --skip-dirs target --skip-dirs .m2
+        projects/healthcare-operations-platform/07-implementation/backend
+      vulnerabilities_found: 0
+      secrets_found: 0
+      misconfigurations_found: 0
+
+live_verification:
+  environment: >-
+    docker compose --env-file .env -f compose.local.yml up -d (postgres:16-alpine,
+    redis:7-alpine, otel-collector, all healthy), then
+    mvn --settings .mvn/settings.xml spring-boot:run "-Dspring-boot.run.profiles=local" for the
+    backend on http://localhost:8080, then npm run dev -- --port 4004 for the public-website
+    frontend, which proxies /api to the backend exactly as configured for real browser use.
+  checks_performed:
+    - >-
+      GET /api/public/catalog/diagnostic-services/published?laboratoryId=lab-local through the
+      Vite dev proxy (http://localhost:4004/api/...) returned the 2 seeded, now-correctly-cased
+      published services with the exact frontend-expected field shape.
+    - >-
+      GET /api/public/catalog/tests/published?laboratoryId=lab-local returned the 2 seeded
+      published tests with the exact frontend-expected field shape (including
+      measurementUnit=null and resultType=PANEL for seed-test-cbc, matching
+      TestDetailPage's null-field-omission handling).
+    - >-
+      GET /api/public/catalog/panels/published and /api/public/catalog/preparations/published
+      both correctly returned [] (no panel/preparation seed data exists in schema.sql; this is
+      expected, not a defect).
+    - >-
+      GET .../does-not-exist/published-snapshot returned 404 with the exact
+      {status,code,messageKey,message,occurredAt} envelope and code=PUBLIC_CATALOG_NOT_PUBLISHED
+      the frontend's resolveErrorMessage/ErrorState already handle.
+    - >-
+      POST /api/public/care-delivery/appointment-requests with a realistic payload (contact
+      phone, one requested test item) returned 201 with
+      {appointmentId,laboratoryId,branchId,scheduledStart,scheduledEnd,status="requested",
+      channel="public_website"}, matching PublicAppointmentIntakeResult exactly.
+    - >-
+      POST /api/public/care-delivery/quotation-requests with a realistic payload (contact email,
+      one line with quantity) returned 201 with
+      {quotationId,laboratoryId,branchId,status="draft"}, matching PublicQuotationIntakeResult
+      exactly.
+  outcome: >-
+    Every endpoint the public-website frontend calls was exercised against a real, freshly seeded
+    local Postgres instance and a real Spring Boot process, through the exact dev proxy path a
+    browser would use, and returned exactly the shape src/api/types.ts expects. This upgrades the
+    module's closure evidence from contract-matched-against-source (the original, Docker-less
+    verification) to actually-exercised-end-to-end.
+  cleanup: >-
+    The Spring Boot backend and Vite dev server processes were stopped after verification. The
+    docker compose infrastructure containers (postgres, redis, otel-collector) were left running,
+    matching this repository's convention of long-lived local dev infra; stop with
+    `docker compose --env-file .env -f compose.local.yml down` per the runbook if not needed.
 
 decision:
   backlog_item_status: closed

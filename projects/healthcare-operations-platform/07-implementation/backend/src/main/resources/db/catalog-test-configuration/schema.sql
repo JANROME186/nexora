@@ -243,11 +243,11 @@ INSERT INTO catalog.analyte_definitions (
     result_data_type, measurement_unit, decimal_precision, status, version, created_at, updated_at
 ) VALUES
     ('seed-analyte-glucose', 'tenant-local', 'lab-local', 'GLU', 'Glucose', 'Glucosa',
-     '2345-7', 'NUMERIC', 'mg/dL', 1, 'PUBLISHED', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+     '2345-7', 'NUMERIC', 'mg/dL', 1, 'published', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('seed-analyte-hemoglobin', 'tenant-local', 'lab-local', 'HGB', 'Hemoglobin', 'Hemoglobina',
-     '718-7', 'NUMERIC', 'g/dL', 1, 'PUBLISHED', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+     '718-7', 'NUMERIC', 'g/dL', 1, 'published', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('seed-analyte-leukocytes', 'tenant-local', 'lab-local', 'WBC', 'Leukocytes', 'Leucocitos',
-     '6690-2', 'NUMERIC', '10^3/uL', 2, 'PUBLISHED', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+     '6690-2', 'NUMERIC', '10^3/uL', 2, 'published', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 ON CONFLICT (laboratory_id, code) DO NOTHING;
 
 INSERT INTO catalog.sample_types (
@@ -255,9 +255,9 @@ INSERT INTO catalog.sample_types (
     version, created_at, updated_at
 ) VALUES
     ('seed-sample-serum', 'tenant-local', 'lab-local', 'SERUM', 'Serum', 'Suero',
-     'BLOOD', 'PUBLISHED', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+     'BLOOD', 'published', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('seed-sample-whole-blood', 'tenant-local', 'lab-local', 'WHOLE_BLOOD', 'Whole blood',
-     'Sangre total', 'BLOOD', 'PUBLISHED', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+     'Sangre total', 'BLOOD', 'published', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 ON CONFLICT (laboratory_id, code) DO NOTHING;
 
 INSERT INTO catalog.sample_requirements (
@@ -267,11 +267,11 @@ INSERT INTO catalog.sample_requirements (
 ) VALUES
     ('seed-req-serum-chemistry', 'tenant-local', 'lab-local', 'seed-sample-serum', 1.00,
      'SST', 'Centrifuge and separate serum within two hours.',
-     'Centrifugar y separar suero dentro de dos horas.', 'ROOM', 'PUBLISHED', 1,
+     'Centrifugar y separar suero dentro de dos horas.', 'ROOM', 'published', 1,
      CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('seed-req-edta-hematology', 'tenant-local', 'lab-local', 'seed-sample-whole-blood', 2.00,
      'EDTA', 'Mix gently after collection and avoid clotting.',
-     'Mezclar suavemente despues de la toma y evitar coagulos.', 'ROOM', 'PUBLISHED', 1,
+     'Mezclar suavemente despues de la toma y evitar coagulos.', 'ROOM', 'published', 1,
      CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 ON CONFLICT (requirement_id) DO NOTHING;
 
@@ -280,10 +280,10 @@ INSERT INTO catalog.test_definitions (
     measurement_unit, result_type, turnaround_time_hours, status, version, created_at, updated_at
 ) VALUES
     ('seed-test-glucose', 'tenant-local', 'lab-local', 'GLU_FASTING', 'Fasting glucose',
-     'Glucosa en ayuno', 'Enzymatic colorimetric', 'mg/dL', 'NUMERIC', 4, 'PUBLISHED', 1,
+     'Glucosa en ayuno', 'Enzymatic colorimetric', 'mg/dL', 'NUMERIC', 4, 'published', 1,
      CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('seed-test-cbc', 'tenant-local', 'lab-local', 'CBC', 'Complete blood count',
-     'Biometria hematica', 'Automated hematology', null, 'PANEL', 8, 'PUBLISHED', 1,
+     'Biometria hematica', 'Automated hematology', null, 'PANEL', 8, 'published', 1,
      CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 ON CONFLICT (laboratory_id, code) DO NOTHING;
 
@@ -307,10 +307,10 @@ INSERT INTO catalog.diagnostic_services (
     status, version, created_at, updated_at
 ) VALUES
     ('seed-service-glucose', 'tenant-local', 'lab-local', 'SVC_GLU_FASTING', 'Fasting glucose',
-     'Glucosa en ayuno', 'chemistry', 'LAB_TEST', 'PUBLISHED', 1,
+     'Glucosa en ayuno', 'chemistry', 'LAB_TEST', 'published', 1,
      CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('seed-service-cbc', 'tenant-local', 'lab-local', 'SVC_CBC', 'Complete blood count',
-     'Biometria hematica', 'hematology', 'LAB_TEST', 'PUBLISHED', 1,
+     'Biometria hematica', 'hematology', 'LAB_TEST', 'published', 1,
      CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 ON CONFLICT (laboratory_id, code) DO NOTHING;
 

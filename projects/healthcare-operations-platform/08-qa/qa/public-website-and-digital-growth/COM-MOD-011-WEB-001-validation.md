@@ -58,24 +58,43 @@ COM-MOD-011-DEF modeled no public branch/location capability, so there is no `/a
 
 ## Coverage preservation across other stacks
 
-- Backend Java/Maven: 83.96% (unchanged; no backend source file touched)
+- Backend Java/Maven: 83.96% (unchanged — see "Incidental defect found and fixed" below; only a SQL seed literal changed, no Java source file was touched, and JaCoCo does not instrument SQL)
 - Employee portal: 88.24% (unchanged)
 - Mobile TypeScript foundation: 99.21% (unchanged)
 - Patient portal: 94.11% (unchanged)
 - Doctor portal: 96.28% (unchanged)
 - **Public website (new)**: 98.61% lines/statements — first baseline established, registered in `technical-debt-index.yaml`.
 
-## Live backend integration note
+## Live backend integration
 
-This session's environment had no reachable Docker daemon to bring up `compose.local.yml`'s PostgreSQL container and run the Spring Boot backend live, so end-to-end verification against a *running* backend was not performed. The frontend build/serve was verified locally (`npm run build` + `vite preview`), and the API contract was verified against the backend's own documented DTOs/error codes/status codes with 97 passing tests mirroring that contract exactly. A live backend+frontend smoke run is recommended as part of human review, consistent with the local-solution-runbook's stated purpose of human validation of full local solutions.
+Docker became reachable later in this session, so full live end-to-end verification was performed (superseding the original Docker-less evidence): `docker compose up -d` (postgres/redis/otel, all healthy) → `mvn spring-boot:run -Dspring-boot.run.profiles=local` on port 8080 → `npm run dev -- --port 4004` for the public-website, using the exact `/api` dev proxy a browser would use. Every endpoint the frontend calls was exercised against a real Postgres instance:
+
+- `GET /api/public/catalog/diagnostic-services/published` and `.../tests/published` returned the seeded records with the exact frontend-expected shape.
+- `GET /api/public/catalog/panels/published` and `.../preparations/published` correctly returned `[]` (no seed data exists for those, as expected).
+- `GET .../does-not-exist/published-snapshot` returned `404 PUBLIC_CATALOG_NOT_PUBLISHED` in the exact envelope the frontend already handles.
+- `POST /api/public/care-delivery/appointment-requests` and `.../quotation-requests` both returned `201` with the exact `PublicAppointmentIntakeResult`/`PublicQuotationIntakeResult` shapes.
+
+### Incidental defect found and fixed
+
+Live verification initially returned `[]` for every published-catalog list endpoint and `404` for snapshots of catalog items known to exist and be published in the database. Root cause: `backend/src/main/resources/db/catalog-test-configuration/schema.sql` seeded catalog rows with `status='PUBLISHED'` (uppercase), while every catalog domain class's `STATUS_PUBLISHED` constant is the lowercase literal `"published"` — a case-sensitive `String.equals()` filter therefore excluded every seeded row from any published-only view project-wide (not specific to this backlog item, but blocking verification of its core discovery flow, which is what surfaced it).
+
+**Fix**: corrected all 10 `'PUBLISHED'` seed literals in `schema.sql` to `'published'` (analytes, sample types, sample requirements, test definitions, diagnostic services; no panel/preparation seed rows exist). No Java source file changed. Required a fresh local database volume for the fix to take effect against already-seeded data (`ON CONFLICT ... DO NOTHING` doesn't retroactively fix mismatched rows).
+
+**Regression gates re-run after the fix**:
+- `mvn -Pquality -Dhop.local-db-tests=true clean verify`: **BUILD SUCCESS, 324 tests, 0 failures/errors/skipped** (same count as before — no behavioral regression). Backend coverage unchanged at **83.96%**.
+- `checkstyle:checkstyle pmd:pmd pmd:cpd spotbugs:spotbugs duplicate-finder:check`: BUILD SUCCESS; Checkstyle's 31 findings are a pre-existing report-only baseline unrelated to this fix (no Java touched); PMD/SpotBugs/duplicate-finder 0 violations.
+- OWASP Dependency-Check: 65 dependencies, **0 vulnerabilities**.
+- Trivy fs scan (`vuln,secret,misconfig`, all severities, backend directory): **0 vulnerabilities, 0 secrets, 0 misconfigurations**.
+
+The backend and frontend dev processes were stopped after verification; the docker compose infra containers (postgres/redis/otel) were left running per this repo's long-lived-local-infra convention.
 
 ## Closure criteria
 
-- Public website compiles and runs locally: yes (build + preview verified).
-- Consumes `/api/public/**` correctly: yes (contract-matched against backend source/tests; live run not performed, see note above).
+- Public website compiles and runs locally: yes (build + preview verified, and live dev server verified against a real backend).
+- Consumes `/api/public/**` correctly: yes — verified live end-to-end against a real Postgres-backed backend (see above), not just contract-matched against source.
 - Tests executed with evidence: yes.
-- No vulnerabilities of any level: yes.
-- Coverage did not regress: yes (new baseline established; no other stack touched).
+- No vulnerabilities of any level: yes (frontend and backend gates both re-verified).
+- Coverage did not regress: yes (new public-website baseline established; backend unchanged at 83.96%; no other stack touched).
 - Required technical debt addressed: yes (TD-UX-002 materially reduced, TD-I18N-002 reduced).
 - No stale pointers: yes.
 - Git clean (after tracking updates below): yes.

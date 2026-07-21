@@ -135,8 +135,25 @@ project:
     backend port, no database schema change and no startup-order change; validated through the
     new `npm run quality` command in that folder (97 tests, 98.61% line coverage, first baseline
     for this stack) and `npm run build && npm run preview` (production shell served correctly
-    locally). Live backend integration was not exercised this session (no reachable Docker daemon
-    to bring up `compose.local.yml`). The next active backlog item is COM-MOD-011-FE-001.
+    locally). Docker later became reachable in the same session, enabling full live end-to-end
+    verification against a real backend and Postgres instance for all 10 `/api/public/**`
+    operations through the real dev proxy. This surfaced and fixed a real pre-existing defect --
+    `backend/src/main/resources/db/catalog-test-configuration/schema.sql` seeded catalog rows
+    with `status='PUBLISHED'` (uppercase) while every catalog domain class's `STATUS_PUBLISHED`
+    constant is the lowercase literal `published`, so a case-sensitive filter silently excluded
+    every seeded catalog row from any published-only view -- project-wide, not just for this
+    module. Corrected the 10 seed literals to lowercase (no Java source changed). Operational
+    note -- because `schema.sql` seed inserts use `ON CONFLICT ... DO NOTHING`, this fix does not
+    retroactively correct rows already seeded into an existing local database volume created
+    before this change; run `docker compose --env-file .env -f compose.local.yml down -v` then
+    `up -d` once to get a fresh volume with correctly-cased seed data (any other local data in
+    that volume is lost, matching the existing local-only, disposable nature of this compose
+    stack). Backend regression gates re-run clean after the fix -- `mvn -Pquality
+    "-Dhop.local-db-tests=true" clean verify` (324 tests, 0 failures/errors/skipped, coverage
+    unchanged at 83.96%), checkstyle/pmd/spotbugs/duplicate-finder (0 new violations), OWASP
+    Dependency-Check (65 dependencies, 0 vulnerabilities) and Trivy fs on the backend directory
+    (0 vulnerabilities/secrets/misconfigurations). The next active backlog item is
+    COM-MOD-011-FE-001.
   intended_audience:
     - human_reviewer
     - qa_reviewer

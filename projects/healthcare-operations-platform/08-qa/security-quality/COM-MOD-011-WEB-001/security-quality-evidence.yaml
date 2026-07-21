@@ -133,10 +133,27 @@ evidence_commands:
     findings: 0
   local_build_verification:
     command: npm run build && npm run preview -- --port 4444
-    result: production shell served correctly (200 on the JS bundle, robots.txt reachable);
-      live backend integration was not exercised in this session (no reachable Docker daemon to
-      bring up compose.local.yml locally) — see closure_criteria note in the QA validation
-      evidence for the same backlog item.
+    result: production shell served correctly (200 on the JS bundle, robots.txt reachable)
+  live_backend_end_to_end_verification:
+    environment: docker compose up -d (postgres 16, redis, otel, all healthy) + mvn
+      spring-boot:run -Dspring-boot.run.profiles=local (port 8080) + npm run dev -- --port 4004
+      (public-website, real /api proxy)
+    result: >-
+      Every /api/public/** endpoint the frontend calls (4 published-list, 4 published-snapshot,
+      2 POST intake) was exercised through the real dev proxy against a real Postgres instance
+      and returned exactly the shape the frontend's TypeScript types expect, including the
+      documented {status,code,messageKey,message,occurredAt} 404 error envelope for an unknown
+      snapshot id.
+    incidental_defect_found_and_fixed: >-
+      Live verification surfaced a real pre-existing defect: catalog-test-configuration/
+      schema.sql seeded rows with status='PUBLISHED' (uppercase) while every catalog domain
+      class's STATUS_PUBLISHED constant is lowercase "published", so a case-sensitive equals()
+      filter silently excluded all seeded rows from every published-only view project-wide.
+      Fixed by correcting the 10 seed literals to lowercase; no Java source changed. Backend
+      regression gates re-run clean: mvn -Pquality -Dhop.local-db-tests=true clean verify (324
+      tests, 0 failures, coverage unchanged at 83.96%), checkstyle/pmd/spotbugs/duplicate-finder
+      (0 new violations), OWASP Dependency-Check (65 deps, 0 vulnerabilities) and Trivy fs scan
+      on the backend directory (0 vulnerabilities/secrets/misconfigurations).
   git_diff_check:
     command: git diff --check
     result: 0 whitespace errors
@@ -151,3 +168,11 @@ closure:
   technical_debt_reduced:
     - id: TD-I18N-002
       contribution: full es-MX/en-US externalization of every visible string in the new module
+  incidental_defect_fixed:
+    - description: catalog seed data status literal case mismatch ('PUBLISHED' vs domain
+        constant "published") silently hid every seeded catalog row from published-only views
+      file: 07-implementation/backend/src/main/resources/db/catalog-test-configuration/schema.sql
+      found_via: live end-to-end verification of this backlog item's public catalog discovery
+        flow against a freshly seeded local database
+      regression_status: 0 new failures across backend test suite, static analysis, dependency
+        and secret scans after the fix
