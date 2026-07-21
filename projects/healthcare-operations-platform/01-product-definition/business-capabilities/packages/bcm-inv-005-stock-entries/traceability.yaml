@@ -71,11 +71,11 @@ traces:
     definition_status: closed
     compilation: COM-MOD-010-BE-001
     compilation_status: closed
-    custom_rules: COM-MOD-010-BE-002
-    custom_rules_status: pending
+    custom_rules: COM-MOD-010-BE-001
+    custom_rules_status: closed
     ui: COM-MOD-010-FE-001
     ui_status: closed
     validation: COM-MOD-010-QA-001
-    validation_status: active
+    validation_status: closed
     closeout: COM-MOD-010-CLOSEOUT
     closeout_status: pending

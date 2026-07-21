@@ -844,3 +844,47 @@ entries:
       Dependency-Check scanned 65 dependencies with 0 vulnerabilities using the local manual
       advisory database; Trivy vuln+misconfig reported 0 findings; YAML parse covered 1,583 files;
       agent-agnostic scan returned 0 findings.
+  - backlog_item: COM-MOD-010-FE-001
+    module: COM-MOD-010 Inventory and Internal Quality
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-010-FE-001/
+    human_readable: 08-qa/security-quality/COM-MOD-010-FE-001/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-010-FE-001/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: passed_with_non_blocking_warnings_registered
+      dependency_vulnerability_scan: passed
+      secrets_scan: passed
+      coverage: passed_no_regression
+      dast_for_runnable_web_or_api_surfaces: scheduled_for_COM-MOD-010-QA-001
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Compiled the employee-portal administration UI for all 13 COM-MOD-010 capability packages.
+      124 tests passed with 0 failures across 48 test files; employee-portal line coverage rose
+      from 86.47% to 87.87%; npm audit and Trivy fs (vuln/secret/misconfig, all severities)
+      reported 0 findings; no new npm dependency was added. This entry was missing from the index
+      and was backfilled during COM-MOD-010-QA-001.
+  - backlog_item: COM-MOD-010-QA-001
+    module: COM-MOD-010 Inventory and Internal Quality
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-010-QA-001/
+    human_readable: 08-qa/security-quality/COM-MOD-010-QA-001/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-010-QA-001/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: passed
+      dependency_vulnerability_scan: passed
+      secrets_scan: passed
+      coverage: passed_corrected_and_improved
+      dast_for_runnable_web_or_api_surfaces: passed_in_prior_zap_scans
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Integrated traceability, stock and quality evidence for all 13 COM-MOD-010 capability
+      packages. Fixed a stale backlog_items.custom_rules traceability pointer across the 9
+      BCM-INV-001..009 packages and a stale capability-package-index.yaml roadmap-group pointer.
+      Found and fixed a real backend coverage gap (81.90% clean-rebuild figure vs. the recorded
+      82.94% floor, caused by BE-002's 4 new JDBC adapters lacking a local-database test) by adding
+      InventoryQualityControlsLocalDatabaseTest.java; corrected coverage is 83.73%. Employee-portal
+      coverage 88.24% (floor 87.87%). OWASP Dependency-Check (65 dependencies), npm audit and Trivy
+      (all severities) reported 0 vulnerabilities/secrets/misconfigurations. YAML parse covered
+      1,105 files with 0 errors.

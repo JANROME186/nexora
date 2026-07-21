@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-010-QA-001
+  current_active_backlog_item: COM-MOD-010-CLOSEOUT
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -20,20 +20,26 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
-    backlog_item: COM-MOD-010-FE-001
+    backlog_item: COM-MOD-010-QA-001
     status: closed
-    next_active_backlog_item: COM-MOD-010-QA-001
+    next_active_backlog_item: COM-MOD-010-CLOSEOUT
     runtime_change: none
     port_change: none
     environment_variable_change: none
     startup_order_change: none
     database_schema_note: >-
-      COM-MOD-010-FE-001 is a frontend-only backlog item; it consumed the already-closed
-      COM-MOD-010-BE-001/BE-002 REST APIs and did not change any schema file.
+      COM-MOD-010-QA-001 is a validation-primary backlog item; it added one new backend test class
+      (InventoryQualityControlsLocalDatabaseTest.java) exercising the already-existing
+      inventory_quality schema tables against the running local PostgreSQL instance. No schema file
+      or Docker-init asset changed.
     validation_summary: >-
-      Employee-portal quality gate passed; 124 tests, 48 test files, 0 failures; employee-portal
-      line coverage 86.47% -> 87.87%; npm audit 0 vulnerabilities; Trivy fs
-      (vuln/secret/misconfig, all severities) 0 findings.
+      Backend `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` passed; 315 tests, 0
+      failures/errors/skipped; backend line coverage corrected and raised from a
+      reproducibly-measured 81.90% to 83.73% (see PROJECT_STATE.yaml correction_note) by adding a
+      local-database integration test for the 4 BCM-QLT JDBC adapters that COM-MOD-010-BE-002 had
+      left untested. Employee-portal `npm run quality` passed; 124 tests, 48 test files, 0
+      failures; line coverage 88.24% (floor 87.87%). OWASP Dependency-Check (65 dependencies), npm
+      audit and Trivy fs (all severities) reported 0 vulnerabilities/secrets/misconfigurations.
   runbook_confirmation_note: >-
     MVP-MOD-008-DEF (Integration and Migration Readiness capability package models) is a
     definition-only backlog item: it added no runtime component, port, environment variable,
@@ -71,7 +77,13 @@ project:
     COM-MOD-010-BE-001/BE-002 REST APIs; it introduced no new runtime component, port, environment
     variable, startup order or database schema change, and remains validated through the existing
     employee-portal `npm run quality` command documented below. Employee-portal Vitest coverage rose
-    to 87.87%. The next active backlog item is COM-MOD-010-QA-001.
+    to 87.87%. COM-MOD-010-QA-001 (traceability, stock and quality evidence) is closed. It added one
+    new backend test class (InventoryQualityControlsLocalDatabaseTest.java) exercising the existing
+    inventory_quality schema against a real local Postgres instance; no schema file, port,
+    environment variable or startup order changed. Backend coverage was corrected and raised from a
+    reproducibly-measured 81.90% (a jacoco.exec measurement-inflation artifact matching the earlier
+    MVP-MOD-005-QA-001 pattern) to 83.73%; employee-portal coverage confirmed at 88.24%. The next
+    active backlog item is COM-MOD-010-CLOSEOUT.
   intended_audience:
     - human_reviewer
     - qa_reviewer

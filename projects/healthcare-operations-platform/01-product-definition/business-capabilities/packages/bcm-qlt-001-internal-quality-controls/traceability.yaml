@@ -83,6 +83,6 @@ traces:
     ui: COM-MOD-010-FE-001
     ui_status: closed
     validation: COM-MOD-010-QA-001
-    validation_status: active
+    validation_status: closed
     closeout: COM-MOD-010-CLOSEOUT
     closeout_status: pending

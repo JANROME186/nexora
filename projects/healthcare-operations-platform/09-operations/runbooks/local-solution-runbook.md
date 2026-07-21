@@ -4,9 +4,20 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-010-QA-001`.
+Current active backlog item: `COM-MOD-010-CLOSEOUT`.
 
-Latest update: `COM-MOD-010-FE-001` is closed. It added 11 permission-filtered employee-portal
+Latest update: `COM-MOD-010-QA-001` is closed. It validated end-to-end traceability across all 13
+COM-MOD-010 capability packages and added one new backend integration test class
+(`InventoryQualityControlsLocalDatabaseTest.java`) exercising the 4 `BCM-QLT` JDBC adapters against
+a real local Postgres instance, closing a real coverage gap left by `COM-MOD-010-BE-002`. No new
+port, environment variable, startup order or database schema change was introduced. Backend
+coverage was corrected and raised from a reproducibly-measured 81.90% (a jacoco.exec
+measurement-inflation artifact, same pattern as the earlier MVP-MOD-005-QA-001 correction) to
+83.73% (315 tests, 0 failures/errors/skipped); employee-portal coverage confirmed at 88.24% (124
+tests, 48 test files). `npm audit`, OWASP Dependency-Check (65 dependencies) and Trivy fs
+(vuln/secret/misconfig, all severities) reported 0 vulnerabilities/secrets/misconfigurations.
+
+Previous update: `COM-MOD-010-FE-001` is closed. It added 11 permission-filtered employee-portal
 screens (inventory catalog, reagent profiles, stock lots, purchase orders, combined stock
 entries/exits/consumption movements, adjustments, waste disposal, internal quality control runs,
 calibrations, equipment profile/availability, maintenance events) and a typed

@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-010 Inventory and Internal Quality employee-portal UI compiled; COM-MOD-010-QA-001 active
+current_phase: COM-MOD-010 Inventory and Internal Quality traceability, stock and quality evidence closed; COM-MOD-010-CLOSEOUT active
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -274,8 +274,22 @@ completed_deliverables:
     11 new screens with 0 new lint size/complexity warnings; npm run quality passed with 124 tests,
     48 test files, 0 failures, employee-portal coverage 86.47% -> 87.87%; npm audit and Trivy fs
     (vuln/secret/misconfig, all severities) reported 0 findings)
+  - COM-MOD-010-QA-001 integrated traceability, stock and quality evidence (validated end-to-end
+    traceability across all 13 COM-MOD-010 capability packages -- openapi-source.yaml vs.
+    controllers, permissions.yaml vs. EndpointPermissionRegistry/RolePermissionCatalog,
+    ui-model.yaml vs. employee-portal screens, es-MX/en-US i18n key parity; fixed a stale
+    backlog_items.custom_rules traceability pointer across the 9 BCM-INV-001..009 traceability.yaml
+    files (was COM-MOD-010-BE-002/pending, corrected to COM-MOD-010-BE-001/closed) and a stale
+    capability-package-index.yaml COM-MOD-010 roadmap-group pointer; found and fixed a real backend
+    coverage gap -- a clean rebuild reproducibly measured 81.90% (0 backend source changes since
+    BE-002) because BE-002's 4 new JDBC adapters had no local-database integration test; added
+    InventoryQualityControlsLocalDatabaseTest.java, raising corrected backend coverage to 83.73%
+    (315 tests, 0 failures/errors/skipped); employee-portal coverage confirmed at 88.24% (124
+    tests/48 files, 0 failures); OWASP Dependency-Check (65 dependencies), npm audit and Trivy fs
+    (all severities) reported 0 vulnerabilities/secrets/misconfigurations; YAML parse (1105 files)
+    and agent-agnostic scan passed, git diff --check clean)
 next_deliverables:
-  - Compile inventory and internal quality traceability, stock and quality evidence (COM-MOD-010-QA-001)
+  - Close the COM-MOD-010 Inventory and Internal Quality module and update the registry (COM-MOD-010-CLOSEOUT)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -290,7 +304,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-010
   in_progress_module: COM-MOD-010
-  next_backlog_item: COM-MOD-010-QA-001
+  next_backlog_item: COM-MOD-010-CLOSEOUT
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -345,9 +359,9 @@ development_readiness:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 82.94
-        source_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 82.94
+        current_line_coverage_percent: 83.73
+        source_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 83.73
         final_closure_target_percent: 80
         tracked_by: TD-BE-003
         correction_note: >-
@@ -361,17 +375,27 @@ development_readiness:
           for this stack. MVP-MOD-008-BE-002 raised it further to 80.49% (265 tests, 0
           failures/errors/skipped). COM-MOD-009-PORTAL-002 raised it further to 80.60% (280 tests,
           0 failures/errors/skipped). COM-MOD-010-BE-001 raised it further to 82.94% (308 tests,
-          0 failures/errors/skipped); future backend iterations must not regress below 82.94%.
+          0 failures/errors/skipped). COM-MOD-010-QA-001 found the 82.94% figure was itself not
+          reproducible from a clean rebuild (a clean `mvn ... clean verify` measured 81.90% twice,
+          with 0 backend source changes since BE-002) -- the same jacoco.exec measurement-inflation
+          pattern as MVP-MOD-005-QA-001 above; root cause was BE-002's 4 new JDBC adapters
+          (quality-control/calibration/equipment/maintenance) having no local-database integration
+          test. Fixed with a new InventoryQualityControlsLocalDatabaseTest.java, raising the
+          corrected, reproducible clean-rebuild figure to 83.73% (315 tests, 0
+          failures/errors/skipped); future backend iterations must not regress below 83.73%.
       frontend_typescript_web:
-        current_line_coverage_percent: 87.87
-        source_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-FE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 87.87
+        current_line_coverage_percent: 88.24
+        source_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 88.24
         final_closure_target_percent: 80
         tracked_by: TD-FE-004 (closed; final-closure target reached; raised to 83.98% by
           MVP-MOD-007-FE-001, then to 84.44% by HOP-ENT-FOUND-001 corrective closure. MVP-MOD-007-
           CLOSEOUT found and fixed a real regression to 84.03% left uncaught by MVP-MOD-007-
           PORTAL-001, raising it to 85.50%. MVP-MOD-008-FE-001 raised it to 86.47%. COM-MOD-010-FE-001
-          raised it further to 87.87% (124 tests, 48 test files, 0 failures).)
+          raised it further to 87.87% (124 tests, 48 test files, 0 failures). COM-MOD-010-QA-001
+          re-confirmed 88.24% with the same 124 tests/48 files (no source file was touched by this
+          validation-only backlog item; the small delta from 87.87% reflects re-measurement, not a
+          regression).)
       mobile_typescript_foundation:
         current_line_coverage_percent: 99.21
         source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.yaml
@@ -402,7 +426,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: COM-MOD-010
-  current_backlog_item: COM-MOD-010-QA-001
+  current_backlog_item: COM-MOD-010-CLOSEOUT
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -476,9 +500,54 @@ implementation_progress:
     - COM-MOD-010-BE-001
     - COM-MOD-010-BE-002
     - COM-MOD-010-FE-001
+    - COM-MOD-010-QA-001
   in_progress_backlog_items: []
   pending_backlog_items: []
   latest_validation:
+    backlog_item_id: COM-MOD-010-QA-001
+    command: >-
+      mvn -Pquality "-Dhop.local-db-tests=true" clean verify checkstyle:checkstyle pmd:pmd pmd:cpd
+      spotbugs:spotbugs cyclonedx:makeAggregateBom duplicate-finder:check;
+      mvn -Pquality org.owasp:dependency-check-maven:check;
+      npm run quality; npm audit --audit-level=low;
+      trivy fs --scanners vuln,secret,misconfig --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: 315
+    tests_run_frontend: 124
+    test_files_frontend: 48
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 83.73
+    previous_line_coverage_baseline_backend_percent: 82.94
+    line_coverage_frontend_percent: 88.24
+    previous_line_coverage_baseline_frontend_percent: 87.87
+    coverage_regression: false
+    additional_checks:
+      - >-
+        Validated end-to-end traceability across all 13 COM-MOD-010 capability packages
+        (openapi-source.yaml vs. controllers, permissions.yaml vs.
+        EndpointPermissionRegistry/RolePermissionCatalog, ui-model.yaml vs. employee-portal
+        screens, es-MX/en-US i18n key parity).
+      - >-
+        Found and corrected a stale backlog_items.custom_rules traceability pointer in the 9
+        BCM-INV-001..009 traceability.yaml files (was COM-MOD-010-BE-002/pending; corrected to
+        COM-MOD-010-BE-001/closed, matching where those custom rules were actually implemented) and
+        a stale capability-package-index.yaml COM-MOD-010 roadmap-group pointer.
+      - >-
+        Found a real backend coverage gap: a clean rebuild reproducibly measured 81.90% (0 backend
+        source changes since BE-002) because BE-002's 4 new JDBC adapters
+        (quality-control/calibration/equipment/maintenance) had no local-database integration test.
+        Fixed with a new InventoryQualityControlsLocalDatabaseTest.java, raising corrected coverage
+        to 83.73% (315 tests, 0 failures/errors/skipped).
+      - >-
+        OWASP Dependency-Check scanned 65 dependencies with 0 vulnerabilities using the local
+        advisory database as-is (not refreshed); npm audit and Trivy fs (all severities) reported 0
+        vulnerabilities/secrets/misconfigurations; YAML parse covered 1105 files with 0 errors;
+        agent-agnostic scan and git diff --check passed.
+  previous_validation_com_mod_010_fe_001:
     backlog_item_id: COM-MOD-010-FE-001
     command: npm run quality; npm audit --audit-level=low; trivy fs --scanners vuln,secret,misconfig
     working_directory: projects/healthcare-operations-platform/07-implementation/employee-portal
