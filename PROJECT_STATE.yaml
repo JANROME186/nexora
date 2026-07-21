@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: HOP COM-MOD-010 Inventory and Internal Quality traceability, stock and quality evidence closed; ready for COM-MOD-010-CLOSEOUT
+current_phase: HOP COM-MOD-010 Inventory and Internal Quality module closed; ready for COM-MOD-011-DEF Public Website and Digital Growth capability models
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -29,8 +29,8 @@ projects:
     name: Healthcare Operations Platform
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
-    active_module: COM-MOD-010
-    active_backlog_item: COM-MOD-010-CLOSEOUT
+    active_module: COM-MOD-011
+    active_backlog_item: COM-MOD-011-DEF
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -105,9 +105,10 @@ projects:
       - COM-MOD-010-BE-002
       - COM-MOD-010-FE-001
       - COM-MOD-010-QA-001
+      - COM-MOD-010-CLOSEOUT
     structure: ordered_numbered_folders
 next_deliverables:
-  - Close the COM-MOD-010 Inventory and Internal Quality module and update the registry (COM-MOD-010-CLOSEOUT)
+  - Execute COM-MOD-011 Public Website and Digital Growth capability package models (COM-MOD-011-DEF)
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake
