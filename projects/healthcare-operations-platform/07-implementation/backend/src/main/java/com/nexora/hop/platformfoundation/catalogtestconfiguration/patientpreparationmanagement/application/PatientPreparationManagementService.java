@@ -178,6 +178,20 @@ public class PatientPreparationManagementService {
         return require(preparationId);
     }
 
+    /**
+     * Immutable published snapshot projection mirroring the BCM-SVC-001/002/003 pattern. A draft
+     * preparation has no published snapshot; the caller receives a not-found signal instead of a
+     * partial/pre-publication record.
+     */
+    public PreparationInstruction getPublishedSnapshot(String preparationId) {
+        PreparationInstruction current = require(preparationId);
+        if (PreparationInstruction.STATUS_DRAFT.equals(current.status())) {
+            throw new CatalogEntityNotFoundException(
+                    "This preparation has no published snapshot; it has never been published.");
+        }
+        return current;
+    }
+
     public List<PreparationAssignment> getAssignments(String preparationId) {
         require(preparationId);
         return repository.findAssignments(preparationId);
@@ -185,6 +199,18 @@ public class PatientPreparationManagementService {
 
     public List<PreparationInstruction> list(String laboratoryId) {
         return repository.findByLaboratoryId(requiredText(laboratoryId, "Laboratory id is required."));
+    }
+
+    /**
+     * Published-only projection over {@link #list(String)} used by the COM-MOD-011 anonymous
+     * public catalog surface for BCM-SVC-005 preparation instructions. Drafts, deprecated and
+     * retired records are never returned; the published snapshot remains the single source of
+     * truth (RN-005).
+     */
+    public List<PreparationInstruction> listPublished(String laboratoryId) {
+        return list(laboratoryId).stream()
+                .filter(entry -> PreparationInstruction.STATUS_PUBLISHED.equals(entry.status()))
+                .toList();
     }
 
     /**

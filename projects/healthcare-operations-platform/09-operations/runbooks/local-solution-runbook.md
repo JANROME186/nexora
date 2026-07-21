@@ -4,22 +4,61 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-011-BE-001`.
+Current active backlog item: `COM-MOD-011-WEB-001`.
 
-Latest update: `COM-MOD-011-DEF` is closed. It is a definition-only capability-package modeling
+Latest update: `COM-MOD-011-BE-001` is closed. It compiled the backend for HOP's anonymous
+public-website surface without introducing a new runtime component, port, environment variable or
+startup order. Ten new REST operations are reachable anonymously under `/api/public`:
+
+- `GET /api/public/catalog/{diagnostic-services,tests,panels,preparations}/published`
+- `GET /api/public/catalog/{diagnostic-services,tests,panels,preparations}/{id}/published-snapshot`
+- `POST /api/public/care-delivery/appointment-requests` (BCM-ATT-001 `RN-008`)
+- `POST /api/public/care-delivery/quotation-requests` (BCM-ATT-006 `RN-009`)
+
+A new `publicweb` Spring Modulith module hosts the controllers and depends only on two new named
+interfaces: `catalogtestconfiguration::catalog-public-read-port` (published-only snapshots) and
+`frontdeskcaredelivery::public-intake-port` (anonymous appointment/quotation intake).
+`BCM-PLT-005 RN-007` rate-limit enforcement was compiled as a new
+`PublicApiRateLimitInterceptor` co-located with the existing partner interceptor and registered by
+`ApiManagementWebConfig` for `/api/public/**`. Two additive DDL migrations use
+`ADD COLUMN IF NOT EXISTS`/`ALTER COLUMN DROP NOT NULL`:
+
+- `integration_interoperability.rate_limit_policies` gains `consumer_identification_method
+  varchar(32) NOT NULL DEFAULT 'partner_api_key'`. Pre-existing partner policies keep the previous
+  behavior.
+- `care_delivery.appointments` gains `prospective_full_name`, `prospective_phone`,
+  `prospective_email` and relaxes `patient_id` nullability so anonymous `channel = public_website`
+  requests can capture a reused BCM-ATT-006 `ProspectiveContact` shape without a registered Patient
+  link (`RN-008`).
+
+Because both migrations use `CREATE TABLE IF NOT EXISTS` and `ADD COLUMN IF NOT EXISTS`, a fresh
+`docker compose --env-file .env -f compose.local.yml up -d` picks them up automatically; an
+already-created local database is upgraded transparently by the additive DDL. Optional new request
+headers (`X-Forwarded-For`, `X-Public-Session-Token`) are consumed only by the new interceptor;
+requests without them are unaffected, so no existing validation step changes. `TD-BE-015` is
+closed (`PublicWebApiTest.publicRateLimitBlocksAnonymousTrafficByIpAddress` verifies rate-limit
+enforcement end-to-end); `TD-I18N-002` is further reduced by the new `public.error.*` and
+`public.rate_limit.*` es-MX/en-US catalog namespaces. Also fixed a pre-existing modeling vs
+routing gap in BCM-SVC-005 (`getPublishedPreparationSnapshot` now registered as a Spring MVC
+route). Backend line coverage rose from 83.73% to 83.96% (324 tests, 0 failures/errors/skipped
+with `-Dhop.local-db-tests=true` against a running compose.local.yml PostgreSQL 16 container).
+OWASP Dependency-Check (108 dependencies, 0 vulnerabilities), Trivy fs (vuln/secret/misconfig,
+all severities: 0 findings), YAML parse (1,154 files, 0 errors), agent-agnostic scan (0 real
+source-code hits) and `git diff --check` (0 whitespace errors) all pass. The next active backlog
+item is `COM-MOD-011-WEB-001` (Compile public website service discovery and conversion flows).
+
+Previous update: `COM-MOD-011-DEF` is closed. It is a definition-only capability-package modeling
 backlog item: it added no backend, employee-portal, mobile, patient-portal or doctor-portal
 source file, and no runtime component, port, environment variable, startup order or database
 schema changed. All 7 COM-MOD-011 capabilities (`BCM-SVC-001/002/003/005`, `BCM-ATT-001/006`,
 `BCM-PLT-005`) were confirmed reused from already-modeled/compiled capability packages owned by
 MVP-MOD-002, MVP-MOD-004 and MVP-MOD-008, with zero new capability package, aggregate or schema
 created. `TD-BE-015` was materially reduced via a new `BCM-PLT-005` `RN-007` and
-`RateLimitPolicy.consumerIdentificationMethod` field. Three pre-existing stale roadmap/status
-pointers and one pre-existing YAML-validity defect (an unescaped colon in `SOURCE_OF_TRUTH.yaml`)
-were found and corrected during modeling. Backend (83.73%), employee-portal (88.24%), mobile
-(99.21%), patient-portal (94.11%) and doctor-portal (96.28%) coverage are re-affirmed unchanged.
-YAML parse (1,110+ files, 0 failures), a repository-wide stale-pointer sweep and `git diff --check`
-were executed for this backlog item. The next active backlog item is `COM-MOD-011-BE-001` (Compile
-public catalog, location and request outputs).
+`RateLimitPolicy.consumerIdentificationMethod` field (later closed by `COM-MOD-011-BE-001`).
+Three pre-existing stale roadmap/status pointers and one pre-existing YAML-validity defect (an
+unescaped colon in `SOURCE_OF_TRUTH.yaml`) were found and corrected during modeling. Backend
+(83.73%), employee-portal (88.24%), mobile (99.21%), patient-portal (94.11%) and doctor-portal
+(96.28%) coverage are re-affirmed unchanged.
 
 Previous update: `COM-MOD-010-CLOSEOUT` is closed. It is a documentation and registry
 synchronization backlog item only: no backend, employee-portal, mobile, patient-portal or

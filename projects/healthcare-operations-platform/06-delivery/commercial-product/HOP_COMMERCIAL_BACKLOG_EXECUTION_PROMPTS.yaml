@@ -243,13 +243,13 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-011
-  backlog_item_id: COM-MOD-011-BE-001
-  name: Compile public catalog, location and request outputs
-  expected_folder: 07-implementation/backend/
+  backlog_item_id: COM-MOD-011-WEB-001
+  name: Compile public website service discovery and conversion flows
+  expected_folder: 07-implementation/public-website/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
-    backend_java_maven_line_coverage_percent_if_backend_is_touched: 83.73
+    backend_java_maven_line_coverage_percent_if_backend_is_touched: 83.96
     frontend_typescript_web_line_coverage_percent: 88.24
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.11
@@ -257,40 +257,48 @@ next_backlog_item:
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - Preserve coverage floors: backend (83.73%), employee portal (88.24%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
+    - Preserve coverage floors: backend (83.96%), employee portal (88.24%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
     - >-
-      Compile the public_surface operations modeled by COM-MOD-011-DEF in BCM-SVC-001/002/003/005
-      and BCM-ATT-001/006 (listPublished*/getPublished*Snapshot, requestAppointment RN-008,
-      startQuotation RN-009), and BCM-PLT-005's RN-007/RateLimitPolicy.consumerIdentificationMethod
-      rate-limit enforcement for anonymous public traffic (TD-BE-015). Do not create a new
-      capability package, aggregate or schema; extend the existing implementations compiled under
-      MVP-MOD-002/MVP-MOD-004/MVP-MOD-008.
+      Build the public-website frontend consuming the /api/public/** REST surface compiled by
+      COM-MOD-011-BE-001 (catalog reads, appointment intake, quotation intake) with SEO,
+      accessibility and privacy foundations.
     - Review 08-qa/technical-debt/technical-debt-index.yaml before feature work and resolve or materially reduce at least one open item.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-011-DEF
+    backlog_item_id: COM-MOD-011-BE-001
     status: closed
     summary: >-
-      COM-MOD-011-DEF modeled the Public Website and Digital Growth capability package surface.
-      Confirmed all 7 COM-MOD-011 capabilities (BCM-SVC-001/002/003/005, BCM-ATT-001/006,
-      BCM-PLT-005) are reused from already-modeled/compiled capability packages owned by
-      MVP-MOD-002, MVP-MOD-004 and MVP-MOD-008, with zero new capability package, aggregate or
-      schema created. Extended each package's product_surfaces, openapi-source.yaml, ui-model.yaml,
-      permissions.yaml and traceability.yaml with a public_website surface realizing pre-existing
-      future_surfaces/deferred_to placeholders. Catalog capabilities gained an anonymous
-      catalog.*.public_read scope and a published-only list projection reusing existing
-      Published*Snapshot schemas. BCM-ATT-001/006 gained RN-008/RN-009 restricting anonymous public
-      requests to a requested/draft-state record from a reused ProspectiveContact. BCM-PLT-005
-      gained RN-007 and a RateLimitPolicy.consumerIdentificationMethod field, materially reducing
-      TD-BE-015. Found and corrected three pre-existing stale roadmap/status pointers unrelated to
-      this item's own scope (BCM-ATT-001, BCM-ATT-006, BCM-PLT-005 capability-package.yaml/
-      traceability.yaml stuck at COM-MOD-009/"pending"/"modeled") and one pre-existing YAML-validity
-      defect in SOURCE_OF_TRUTH.yaml (an unescaped colon inside a plain scalar). This was a
-      definition-only backlog item: no backend, employee-portal, mobile, patient-portal or
-      doctor-portal source file was changed, so backend (83.73%), employee-portal (88.24%), mobile
-      (99.21%), patient-portal (94.11%) and doctor-portal (96.28%) coverage are re-affirmed
-      unchanged. Executed YAML parse (1,110+ files, 0 failures), a repository-wide stale-pointer
-      sweep and git diff --check. Reconciled PROJECT_STATE.yaml (root and project),
-      SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml, this prompt file and the local
-      runbook to advance the active backlog item to COM-MOD-011-BE-001.
+      COM-MOD-011-BE-001 compiled the Public Website backend surface. Ten anonymous public REST
+      operations reachable under /api/public: GET
+      /api/public/catalog/{diagnostic-services,tests,panels,preparations}/published, GET
+      /api/public/catalog/{diagnostic-services,tests,panels,preparations}/{id}/published-snapshot,
+      POST /api/public/care-delivery/appointment-requests (BCM-ATT-001 RN-008, always requested
+      state, never confirmed) and POST /api/public/care-delivery/quotation-requests (BCM-ATT-006
+      RN-009, always draft, never issued/priced). A new publicweb Spring Modulith module hosts the
+      controllers and depends only on two new named interfaces:
+      catalogtestconfiguration::catalog-public-read-port (published-only catalog snapshots) and
+      frontdeskcaredelivery::public-intake-port (anonymous appointment/quotation intake). BCM-PLT-005
+      RN-007 rate-limit enforcement compiled as a new PublicApiRateLimitInterceptor co-located
+      with the existing PartnerApiKeyRateLimitInterceptor, reusing PartnerApiRateLimiter's
+      fixed-window counter under a public:: namespace prefix and driven by the new
+      RateLimitPolicy.consumerIdentificationMethod field persisted end-to-end
+      (domain/JDBC/in-memory repositories/controller DTO/service validation) with an
+      ADD-COLUMN-IF-NOT-EXISTS schema migration. RN-008 extends AppointmentSlot inline with three
+      nullable prospective_contact fields and relaxes patient_id nullability for the
+      public_website channel only, additive DDL. Every public response DTO strips
+      tenantId/audit/patient-linkage fields so the anonymous public surface never leaks
+      operational identifiers. Added public.error.* and public.rate_limit.* i18n key namespaces
+      in es-MX and en-US (TD-I18N-002 further reduced). Closed TD-BE-015 with an executable
+      end-to-end test (PublicWebApiTest.publicRateLimitBlocksAnonymousTrafficByIpAddress). Found
+      and fixed a pre-existing openapi-source.yaml vs. Spring route gap in BCM-SVC-005
+      (getPublishedPreparationSnapshot had no matching controller route). Backend coverage
+      83.73% -> 83.96% with 324 tests and 0 failures/errors/skipped against a running
+      compose.local.yml PostgreSQL 16 container. OWASP Dependency-Check 108 dependencies, 0
+      vulnerabilities; Trivy fs vuln/secret/misconfig scan 0 findings across all severities;
+      YAML parse 1,154 files 0 errors; agent-agnostic scan 0 real source-code hits;
+      git diff --check clean. Reconciled PROJECT_STATE.yaml (root and project),
+      SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml, this prompt file, six capability
+      traceability.yaml files (BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005), the
+      technical-debt-index.yaml (TD-BE-015 closed and new backend coverage floor 83.96%) and the
+      local-solution-runbook to advance the active backlog item to COM-MOD-011-WEB-001.

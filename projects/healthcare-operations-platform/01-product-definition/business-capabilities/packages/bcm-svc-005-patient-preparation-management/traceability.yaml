@@ -67,3 +67,14 @@ traces:
         getPublishedPreparationSnapshot operation reusing the existing PublishedPreparationSnapshot
         schema), capability-package.yaml, ui-model.yaml and permissions.yaml. No new capability
         package or aggregate was created.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-BE-001
+      surface_added: public_website (runtime discovery)
+      note: >-
+        Compiled GET /api/public/catalog/preparations/published and
+        /api/public/catalog/preparations/{preparationId}/published-snapshot via the new
+        catalogtestconfiguration::catalog-public-read-port named interface, and added the missing
+        internal /api/catalog/preparations/{preparationId}/published-snapshot Spring route so the
+        resource-level getPublishedPreparationSnapshot operation modeled by COM-MOD-011-DEF is now
+        registered end to end. PatientPreparationManagementService.listPublished and
+        getPublishedSnapshot added; endpoints only return status=published records.

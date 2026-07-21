@@ -179,6 +179,18 @@ public class DiagnosticServiceCatalogService {
         return repository.findByLaboratoryId(requiredText(laboratoryId, "Laboratory id is required."));
     }
 
+    /**
+     * Published-only projection over {@link #list(String)} realizing BCM-SVC-001 {@code
+     * listPublishedServices} for the COM-MOD-011 anonymous public catalog. Drafts, deprecated and
+     * retired records are never returned; this is a filter, not a separate collection, so the
+     * published snapshot remains the single source of truth (RN-003).
+     */
+    public List<DiagnosticService> listPublished(String laboratoryId) {
+        return list(laboratoryId).stream()
+                .filter(entry -> DiagnosticService.STATUS_PUBLISHED.equals(entry.status()))
+                .toList();
+    }
+
     private DiagnosticService require(String serviceId) {
         return repository.findById(requiredText(serviceId, "Diagnostic service id is required."))
                 .orElseThrow(() -> new CatalogEntityNotFoundException("Diagnostic service was not found."));

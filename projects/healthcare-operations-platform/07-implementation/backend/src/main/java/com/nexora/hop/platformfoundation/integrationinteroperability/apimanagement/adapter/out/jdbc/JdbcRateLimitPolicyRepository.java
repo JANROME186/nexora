@@ -28,13 +28,16 @@ class JdbcRateLimitPolicyRepository implements RateLimitPolicyRepository {
     public RateLimitPolicy save(RateLimitPolicy policy) {
         jdbcTemplate.update("""
                 insert into integration_interoperability.rate_limit_policies
-                    (policy_id, classification, requests_per_minute, created_by, created_at, updated_by, updated_at)
-                values (?, ?, ?, ?, ?, ?, ?)
+                    (policy_id, classification, requests_per_minute, consumer_identification_method,
+                     created_by, created_at, updated_by, updated_at)
+                values (?, ?, ?, ?, ?, ?, ?, ?)
                 on conflict (classification) do update set
-                    requests_per_minute = excluded.requests_per_minute, updated_by = excluded.updated_by,
-                    updated_at = excluded.updated_at
+                    requests_per_minute = excluded.requests_per_minute,
+                    consumer_identification_method = excluded.consumer_identification_method,
+                    updated_by = excluded.updated_by, updated_at = excluded.updated_at
                 """,
-                policy.policyId(), policy.classification(), policy.requestsPerMinute(), policy.audit().createdBy(),
+                policy.policyId(), policy.classification(), policy.requestsPerMinute(),
+                policy.consumerIdentificationMethod(), policy.audit().createdBy(),
                 Timestamp.valueOf(policy.audit().createdAt()), policy.audit().updatedBy(),
                 Timestamp.valueOf(policy.audit().updatedAt()));
         return policy;
@@ -43,7 +46,8 @@ class JdbcRateLimitPolicyRepository implements RateLimitPolicyRepository {
     @Override
     public Optional<RateLimitPolicy> findByClassification(String classification) {
         return jdbcTemplate.query("""
-                select policy_id, classification, requests_per_minute, created_by, created_at, updated_by, updated_at
+                select policy_id, classification, requests_per_minute, consumer_identification_method,
+                       created_by, created_at, updated_by, updated_at
                 from integration_interoperability.rate_limit_policies
                 where classification = ?
                 """, JdbcRateLimitPolicyRepository::map, classification).stream().findFirst();
@@ -52,7 +56,8 @@ class JdbcRateLimitPolicyRepository implements RateLimitPolicyRepository {
     @Override
     public Optional<RateLimitPolicy> findById(String policyId) {
         return jdbcTemplate.query("""
-                select policy_id, classification, requests_per_minute, created_by, created_at, updated_by, updated_at
+                select policy_id, classification, requests_per_minute, consumer_identification_method,
+                       created_by, created_at, updated_by, updated_at
                 from integration_interoperability.rate_limit_policies
                 where policy_id = ?
                 """, JdbcRateLimitPolicyRepository::map, policyId).stream().findFirst();
@@ -63,6 +68,7 @@ class JdbcRateLimitPolicyRepository implements RateLimitPolicyRepository {
                 resultSet.getString("policy_id"),
                 resultSet.getString("classification"),
                 resultSet.getInt("requests_per_minute"),
+                resultSet.getString("consumer_identification_method"),
                 new AuditMetadata(
                         resultSet.getString("created_by"), localDateTime(resultSet, "created_at"),
                         resultSet.getString("updated_by"), localDateTime(resultSet, "updated_at")));

@@ -28,16 +28,20 @@ class RateLimitPolicyController {
     @PutMapping("/{classification}")
     ResponseEntity<RateLimitPolicyResponse> setRateLimitPolicy(
             @PathVariable String classification, @Valid @RequestBody SetPolicyRequest request) {
-        RateLimitPolicy saved = service.setRateLimitPolicy(classification, request.requestsPerMinute(), request.actorId());
+        RateLimitPolicy saved = service.setRateLimitPolicy(
+                classification, request.requestsPerMinute(), request.consumerIdentificationMethod(), request.actorId());
         return ResponseEntity.ok(RateLimitPolicyResponse.from(saved));
     }
 
-    record SetPolicyRequest(@Positive int requestsPerMinute, @NotBlank String actorId) {
+    record SetPolicyRequest(
+            @Positive int requestsPerMinute, String consumerIdentificationMethod, @NotBlank String actorId) {
     }
 
-    record RateLimitPolicyResponse(String policyId, String classification, int requestsPerMinute) {
+    record RateLimitPolicyResponse(
+            String policyId, String classification, int requestsPerMinute, String consumerIdentificationMethod) {
         static RateLimitPolicyResponse from(RateLimitPolicy entity) {
-            return new RateLimitPolicyResponse(entity.policyId(), entity.classification(), entity.requestsPerMinute());
+            return new RateLimitPolicyResponse(entity.policyId(), entity.classification(),
+                    entity.requestsPerMinute(), entity.consumerIdentificationMethod());
         }
     }
 }

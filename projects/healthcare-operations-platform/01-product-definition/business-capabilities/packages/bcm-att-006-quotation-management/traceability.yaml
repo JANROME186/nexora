@@ -137,3 +137,13 @@ traces:
         (RN-009, public_surface reusing startQuotation), capability-package.yaml,
         business-rules.yaml, test-model.yaml, ui-model.yaml and permissions.yaml. No new
         capability package, aggregate or schema was created.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-BE-001
+      surface_added: public_website (runtime intake)
+      note: >-
+        Compiled POST /api/public/care-delivery/quotation-requests via the new
+        frontdeskcaredelivery::public-intake-port named interface. RN-009 enforced:
+        QuotationManagementService.startPublic accepts a ProspectiveContact only, always lands in
+        draft state, and reuses the existing RN-001 published-catalog validation for every line.
+        No new capability package, aggregate or schema was created; the existing ProspectiveContact
+        inline fields on QuotationRequest are reused.

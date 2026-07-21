@@ -31,7 +31,7 @@ import com.nexora.hop.platformfoundation.organizationmanagement.BranchDirectory;
 
 /**
  * Compiles BCM-ATT-001 (Appointment Scheduling) generatable outputs and implements its custom
- * rules RN-001..RN-007. Never mutates DiagnosticOrder state directly (RN-005); check-in only
+ * rules RN-001..RN-008. Never mutates DiagnosticOrder state directly (RN-005); check-in only
  * hands the appointment off, order creation happens downstream in Admission Management.
  * <p>
  * <b>MVP-MOD-004-BE-002 refinements:</b> {@link #confirm(String)} now also enforces a tenant-
@@ -41,13 +41,19 @@ import com.nexora.hop.platformfoundation.organizationmanagement.BranchDirectory;
  * marked no-show (RN-006, {@link FrontDeskPolicyStore#noShowGraceDaysFor(String)}); and
  * {@link #getPreparationInstructions(String)} surfaces published preparation instructions
  * (VO-APT-002) for every requested catalog item.
+ * <p>
+ * <b>COM-MOD-011-BE-001 refinements:</b> {@link #requestFromProspectiveContact} implements
+ * RN-008. Anonymous public-website requests capture a reused BCM-ATT-006 ProspectiveContact,
+ * remain in {@code requested} status until staff confirmation, and never mutate a registered
+ * Patient link.
  */
 @Service
 public class AppointmentSchedulingService {
 
     private static final List<String> CHANNELS = List.of(
             AppointmentSlot.CHANNEL_WALK_IN_SCHEDULING, AppointmentSlot.CHANNEL_PHONE,
-            AppointmentSlot.CHANNEL_EMPLOYEE_PORTAL, AppointmentSlot.CHANNEL_PATIENT_PORTAL_REQUEST_LATER);
+            AppointmentSlot.CHANNEL_EMPLOYEE_PORTAL, AppointmentSlot.CHANNEL_PATIENT_PORTAL_REQUEST_LATER,
+            AppointmentSlot.CHANNEL_PUBLIC_WEBSITE);
 
     private static final List<String> ITEM_KINDS = List.of(
             RequestedCatalogItem.KIND_TEST, RequestedCatalogItem.KIND_PANEL);
@@ -101,6 +107,10 @@ public class AppointmentSchedulingService {
         String patientId = requiredText(command.patientId(), "Patient id is required.");
         String channel = requiredOneOf(command.channel(), "Appointment channel is invalid.",
                 CHANNELS.toArray(String[]::new));
+        if (AppointmentSlot.CHANNEL_PUBLIC_WEBSITE.equals(channel)) {
+            throw new com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.InvalidFrontDeskCommandException(
+                    "Public website appointment requests must use requestFromProspectiveContact.");
+        }
         if (command.scheduledStart() == null) {
             throw new com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.InvalidFrontDeskCommandException(
                     "Scheduled start date is required.");
@@ -118,7 +128,7 @@ public class AppointmentSchedulingService {
         AppointmentSlot appointment = new AppointmentSlot(
                 appointmentId, tenantId, laboratoryId, branchId, patientId, optionalText(command.doctorId()),
                 command.scheduledStart(), scheduledEnd, channel, AppointmentSlot.STATUS_REQUESTED, null, null,
-                optionalText(command.actorId()), 1, now, now);
+                optionalText(command.actorId()), null, null, null, 1, now, now);
         AppointmentSlot saved = repository.save(appointment);
         for (RequestAppointmentCommand.RequestedItemInput item : requestedItems) {
             repository.saveRequestedItem(new RequestedCatalogItem(
@@ -126,6 +136,54 @@ public class AppointmentSchedulingService {
         }
         auditRecorder.recordSystemEvent(tenantId, "AppointmentRequested", "AppointmentSlot", appointmentId,
                 "{\"branchId\":\"%s\",\"channel\":\"%s\"}".formatted(jsonText(branchId), jsonText(channel)));
+        return saved;
+    }
+
+    /**
+     * RN-008: anonymous public-website intake. Captures a ProspectiveContact instead of a
+     * registered Patient link, forces {@link AppointmentSlot#CHANNEL_PUBLIC_WEBSITE} and always
+     * lands in {@link AppointmentSlot#STATUS_REQUESTED}; staff confirmation still requires
+     * {@code appointment.manage}. Requested catalog items must still be published (RN-003).
+     */
+    public AppointmentSlot requestFromProspectiveContact(PublicRequestAppointmentCommand command) {
+        String tenantId = requiredText(command.tenantId(), "Tenant id is required.");
+        String laboratoryId = requiredText(command.laboratoryId(), "Laboratory id is required.");
+        String branchId = requiredText(command.branchId(), "Branch id is required.");
+        if (command.scheduledStart() == null) {
+            throw new com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.InvalidFrontDeskCommandException(
+                    "Scheduled start date is required.");
+        }
+        String fullName = optionalText(command.prospectiveFullName());
+        String phone = optionalText(command.prospectivePhone());
+        String email = optionalText(command.prospectiveEmail());
+        if (fullName == null && phone == null && email == null) {
+            throw new com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.InvalidFrontDeskCommandException(
+                    "At least one prospective contact field (name, phone or email) is required.");
+        }
+        java.time.LocalDate scheduledEnd = command.scheduledEnd() == null ? command.scheduledStart() : command.scheduledEnd();
+
+        String appointmentId = newId();
+        List<PublicRequestAppointmentCommand.RequestedItemInput> requestedItems =
+                command.requestedItems() == null ? List.of() : command.requestedItems();
+        for (PublicRequestAppointmentCommand.RequestedItemInput item : requestedItems) {
+            validateCatalogItemPublished(item.testDefinitionId(), item.catalogItemKind());
+        }
+
+        Instant now = Instant.now(clock);
+        AppointmentSlot appointment = new AppointmentSlot(
+                appointmentId, tenantId, laboratoryId, branchId, null, null,
+                command.scheduledStart(), scheduledEnd,
+                AppointmentSlot.CHANNEL_PUBLIC_WEBSITE, AppointmentSlot.STATUS_REQUESTED,
+                null, null, null, fullName, phone, email, 1, now, now);
+        AppointmentSlot saved = repository.save(appointment);
+        for (PublicRequestAppointmentCommand.RequestedItemInput item : requestedItems) {
+            repository.saveRequestedItem(new RequestedCatalogItem(
+                    newId(), appointmentId, item.testDefinitionId(), item.catalogItemKind()));
+        }
+        auditRecorder.recordSystemEvent(tenantId, "AppointmentRequestedPublicWebsite", "AppointmentSlot",
+                appointmentId,
+                "{\"branchId\":\"%s\",\"channel\":\"%s\"}".formatted(
+                        jsonText(branchId), AppointmentSlot.CHANNEL_PUBLIC_WEBSITE));
         return saved;
     }
 
@@ -145,11 +203,14 @@ public class AppointmentSchedulingService {
                     FrontDeskErrorCodes.APPOINTMENT_BRANCH_NOT_ACTIVE
                             + ": the branch is not operationally active.");
         }
-        boolean overlaps = repository.findByPatientAndBranch(appointment.patientId(), appointment.branchId()).stream()
-                .filter(other -> !other.appointmentId().equals(appointmentId))
-                .filter(other -> AppointmentSlot.STATUS_CONFIRMED.equals(other.status())
-                        || AppointmentSlot.STATUS_CHECKED_IN.equals(other.status()))
-                .anyMatch(other -> windowsOverlap(appointment, other));
+        boolean overlaps = false;
+        if (appointment.patientId() != null) {
+            overlaps = repository.findByPatientAndBranch(appointment.patientId(), appointment.branchId()).stream()
+                    .filter(other -> !other.appointmentId().equals(appointmentId))
+                    .filter(other -> AppointmentSlot.STATUS_CONFIRMED.equals(other.status())
+                            || AppointmentSlot.STATUS_CHECKED_IN.equals(other.status()))
+                    .anyMatch(other -> windowsOverlap(appointment, other));
+        }
         if (overlaps) {
             throw new FrontDeskConflictException(
                     FrontDeskErrorCodes.APPOINTMENT_WINDOW_OVERLAP
@@ -200,6 +261,7 @@ public class AppointmentSchedulingService {
                 appointment.scheduledStart(), appointment.scheduledEnd(), appointment.channel(),
                 AppointmentSlot.STATUS_CANCELLED, appointment.linkedOrderId(),
                 optionalText(reasonCode) == null ? "unspecified" : reasonCode, appointment.actorId(),
+                appointment.prospectiveFullName(), appointment.prospectivePhone(), appointment.prospectiveEmail(),
                 appointment.version() + 1, appointment.createdAt(), Instant.now(clock));
         AppointmentSlot saved = repository.save(cancelled);
         auditRecorder.recordSystemEvent(saved.tenantId(), "AppointmentCancelled", "AppointmentSlot", appointmentId,
@@ -297,8 +359,9 @@ public class AppointmentSchedulingService {
                 appointment.appointmentId(), appointment.tenantId(), appointment.laboratoryId(),
                 appointment.branchId(), appointment.patientId(), appointment.doctorId(),
                 appointment.scheduledStart(), appointment.scheduledEnd(), appointment.channel(), status,
-                appointment.linkedOrderId(), cancellationReason, appointment.actorId(), appointment.version() + 1,
-                appointment.createdAt(), Instant.now(clock));
+                appointment.linkedOrderId(), cancellationReason, appointment.actorId(),
+                appointment.prospectiveFullName(), appointment.prospectivePhone(), appointment.prospectiveEmail(),
+                appointment.version() + 1, appointment.createdAt(), Instant.now(clock));
     }
 
     private AppointmentSlot require(String appointmentId) {

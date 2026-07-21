@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-011-BE-001
+  current_active_backlog_item: COM-MOD-011-WEB-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -20,26 +20,46 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
-    backlog_item: COM-MOD-011-DEF
+    backlog_item: COM-MOD-011-BE-001
     status: closed
-    next_active_backlog_item: COM-MOD-011-BE-001
+    next_active_backlog_item: COM-MOD-011-WEB-001
     runtime_change: none
     port_change: none
     environment_variable_change: none
     startup_order_change: none
     database_schema_note: >-
-      COM-MOD-011-DEF is a definition-only capability-package modeling backlog item; it added no
-      backend, employee-portal, mobile, patient-portal or doctor-portal source file and no schema
-      or Docker-init asset changed.
+      Two additive DDL migrations were included in the two existing schema files and require no
+      new port, environment variable or startup order:
+        - integration_interoperability.rate_limit_policies gains
+          consumer_identification_method varchar(32) NOT NULL DEFAULT 'partner_api_key'
+          (ADD COLUMN IF NOT EXISTS).
+        - care_delivery.appointments gains prospective_full_name/phone/email (ADD COLUMN IF NOT
+          EXISTS) and ALTER COLUMN patient_id DROP NOT NULL so anonymous public_website channel
+          intake can persist a ProspectiveContact without a registered Patient link (BCM-ATT-001
+          RN-008).
+      Because schema.sql uses ADD COLUMN IF NOT EXISTS, a fresh docker compose up picks the
+      changes up automatically; an already-created local database is upgraded transparently.
     validation_summary: >-
-      Definition-only: no source code touched. Confirmed all 7 COM-MOD-011 capabilities
-      (BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005) reused from already-modeled/compiled
-      capability packages with zero new capability package, aggregate or schema created.
-      Materially reduced TD-BE-015. Corrected three pre-existing stale roadmap/status pointers and
-      one pre-existing YAML-validity defect found during modeling. Backend (83.73%, 315 tests),
-      employee-portal (88.24%, 124 tests/48 files), mobile (99.21%), patient-portal (94.11%) and
-      doctor-portal (96.28%) coverage are re-affirmed unchanged. YAML parse (1,110+ files, 0
-      failures), a repository-wide stale-pointer sweep and `git diff --check` were executed.
+      Compiled the /api/public/** REST surface for BCM-SVC-001/002/003/005 (published-only catalog
+      reads), BCM-ATT-001 RN-008 (anonymous appointment intake, always requested state), BCM-ATT-006
+      RN-009 (anonymous quotation intake, always draft) and BCM-PLT-005 RN-007 (public rate-limit
+      enforcement via new PublicApiRateLimitInterceptor). Introduced a new publicweb Spring
+      Modulith module that depends only on two new named interfaces
+      (catalogtestconfiguration::catalog-public-read-port and
+      frontdeskcaredelivery::public-intake-port). Persisted RateLimitPolicy.consumerIdentificationMethod
+      end-to-end (additive DDL, domain, JDBC and in-memory adapters, controller DTO, service
+      validation). Extended AppointmentSlot with three prospective_contact fields and relaxed
+      patient_id nullability for the public_website channel only. Fixed a pre-existing gap in
+      BCM-SVC-005 by registering the missing internal
+      /api/catalog/preparations/{id}/published-snapshot Spring route so
+      CatalogTestConfigurationContractTest passes end-to-end. Added the public.error.* and
+      public.rate_limit.* i18n key namespaces in es-MX and en-US (TD-I18N-002 further reduced).
+      Closed TD-BE-015 with real end-to-end runtime verification. Backend line coverage rose from
+      83.73% to 83.96% (324 tests, 0 failures/errors/skipped, docker compose PostgreSQL 16 up).
+      OWASP Dependency-Check reported 108 dependencies and 0 vulnerabilities; Trivy fs
+      (vuln/secret/misconfig, all severities) reported 0 findings; YAML parse succeeded for 1,154
+      files; agent-agnostic scan reported 0 real source-code hits; git diff --check reported 0
+      whitespace errors.
   runbook_confirmation_note: >-
     MVP-MOD-008-DEF (Integration and Migration Readiness capability package models) is a
     definition-only backlog item: it added no runtime component, port, environment variable,
@@ -95,7 +115,16 @@ project:
     models) is closed. It is a definition-only backlog item: it added no runtime component, port,
     environment variable, startup order or validation command. All 7 COM-MOD-011 capabilities were
     confirmed reused from already-modeled/compiled capability packages with no new capability
-    package, aggregate or schema created. The next active backlog item is COM-MOD-011-BE-001.
+    package, aggregate or schema created. COM-MOD-011-BE-001 (Compile public catalog, location and
+    request outputs) is closed. It added the /api/public/** REST surface (ten operations across
+    BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005) served by a new publicweb Spring
+    Modulith module and enforced by a new PublicApiRateLimitInterceptor co-located with the
+    partner interceptor. It introduced no new port, no new environment variable and no new startup
+    order; two additive DDL migrations use ADD COLUMN IF NOT EXISTS on the existing schema files
+    so a fresh docker compose up picks them up automatically and an already-created local database
+    is upgraded transparently. The same `mvn -Pquality "-Dhop.local-db-tests=true" clean verify`
+    command validates the additions. Backend line coverage rose from 83.73% to 83.96% and
+    TD-BE-015 is closed. The next active backlog item is COM-MOD-011-WEB-001.
   intended_audience:
     - human_reviewer
     - qa_reviewer

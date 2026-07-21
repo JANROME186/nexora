@@ -41,6 +41,9 @@ public class ApiManagementService {
     private static final Set<String> VALID_CLASSIFICATIONS = Set.of(
             ApiSurfaceRegistration.CLASSIFICATION_PUBLIC, ApiSurfaceRegistration.CLASSIFICATION_INTERNAL,
             ApiSurfaceRegistration.CLASSIFICATION_PARTNER);
+    private static final Set<String> VALID_IDENTIFICATION_METHODS = Set.of(
+            RateLimitPolicy.METHOD_PARTNER_API_KEY, RateLimitPolicy.METHOD_IP_ADDRESS,
+            RateLimitPolicy.METHOD_SESSION_TOKEN);
 
     private final ApiSurfaceRegistrationRepository registrationRepository;
     private final PartnerApiKeyRepository partnerApiKeyRepository;
@@ -234,8 +237,19 @@ public class ApiManagementService {
         return partnerApiKeyRepository.findByTenantId(requiredText(tenantId, "Tenant id is required."));
     }
 
-    /** RN-004/RN-005: configures the enforced rate-limit policy for a classification tier; audited. */
-    public RateLimitPolicy setRateLimitPolicy(String classification, int requestsPerMinute, String actorId) {
+    /**
+     * RN-004/RN-005/RN-007 (COM-MOD-011-BE-001): configures the enforced rate-limit policy for a
+     * classification tier; audited. The {@code consumerIdentificationMethod} declares how the
+     * enforcement middleware attributes a request to a consumer bucket for the fixed-window
+     * counter: {@link RateLimitPolicy#METHOD_PARTNER_API_KEY} for the {@code partner}
+     * classification, {@link RateLimitPolicy#METHOD_IP_ADDRESS} or
+     * {@link RateLimitPolicy#METHOD_SESSION_TOKEN} for the anonymous {@code public}
+     * classification (BCM-PLT-005 RN-007, materially reduces TD-BE-015). When
+     * {@code consumerIdentificationMethod} is {@code null} the method is derived from the
+     * classification, preserving pre-COM-MOD-011 behavior for existing callers.
+     */
+    public RateLimitPolicy setRateLimitPolicy(
+            String classification, int requestsPerMinute, String consumerIdentificationMethod, String actorId) {
         if (classification == null || !VALID_CLASSIFICATIONS.contains(classification)) {
             throw new InvalidIntegrationCommandException(
                     "Classification must be one of " + VALID_CLASSIFICATIONS + ".", "API_CLASSIFICATION_INVALID");
@@ -244,17 +258,46 @@ public class ApiManagementService {
             throw new InvalidIntegrationCommandException(
                     "Requests per minute must be positive.", "API_RATE_LIMIT_POLICY_INVALID");
         }
+        String method = defaultOrValidateIdentificationMethod(classification, consumerIdentificationMethod);
         String actor = requiredText(actorId, "Actor id is required.");
         RateLimitPolicy existing = rateLimitPolicyRepository.findByClassification(classification).orElse(null);
         LocalDateTime now = LocalDateTime.now(clock);
         RateLimitPolicy policy = new RateLimitPolicy(
-                existing == null ? newId() : existing.policyId(), classification, requestsPerMinute,
+                existing == null ? newId() : existing.policyId(), classification, requestsPerMinute, method,
                 existing == null ? new AuditMetadata(actor, now, actor, now)
                         : new AuditMetadata(existing.audit().createdBy(), existing.audit().createdAt(), actor, now));
         RateLimitPolicy saved = rateLimitPolicyRepository.save(policy);
         auditRecorder.recordSystemEvent("platform", "RateLimitPolicySet", "RateLimitPolicy", saved.policyId(),
-                "{\"classification\":\"%s\",\"requestsPerMinute\":%d}".formatted(classification, requestsPerMinute));
+                "{\"classification\":\"%s\",\"requestsPerMinute\":%d,\"consumerIdentificationMethod\":\"%s\"}"
+                        .formatted(classification, requestsPerMinute, method));
         return saved;
+    }
+
+    private static String defaultOrValidateIdentificationMethod(String classification, String method) {
+        if (method == null || method.isBlank()) {
+            if (ApiSurfaceRegistration.CLASSIFICATION_PARTNER.equals(classification)) {
+                return RateLimitPolicy.METHOD_PARTNER_API_KEY;
+            }
+            return RateLimitPolicy.METHOD_IP_ADDRESS;
+        }
+        if (!VALID_IDENTIFICATION_METHODS.contains(method)) {
+            throw new InvalidIntegrationCommandException(
+                    "Consumer identification method must be one of " + VALID_IDENTIFICATION_METHODS + ".",
+                    "API_RATE_LIMIT_POLICY_INVALID");
+        }
+        if (ApiSurfaceRegistration.CLASSIFICATION_PARTNER.equals(classification)
+                && !RateLimitPolicy.METHOD_PARTNER_API_KEY.equals(method)) {
+            throw new InvalidIntegrationCommandException(
+                    "Partner classification must use partner_api_key identification.",
+                    "API_RATE_LIMIT_POLICY_INVALID");
+        }
+        if (ApiSurfaceRegistration.CLASSIFICATION_PUBLIC.equals(classification)
+                && RateLimitPolicy.METHOD_PARTNER_API_KEY.equals(method)) {
+            throw new InvalidIntegrationCommandException(
+                    "Public classification cannot use partner_api_key identification.",
+                    "API_RATE_LIMIT_POLICY_INVALID");
+        }
+        return method;
     }
 
     private static String requiredText(String value, String message) {

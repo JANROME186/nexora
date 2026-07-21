@@ -67,3 +67,14 @@ traces:
         capability-package.yaml, ui-model.yaml and permissions.yaml. No new capability package,
         aggregate or schema was created; reuses TestDefinition/AGG-006, PublishedServiceSnapshot
         and getPublishedServiceSnapshot.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-BE-001
+      surface_added: public_website (runtime discovery)
+      note: >-
+        Compiled GET /api/public/catalog/diagnostic-services/published and
+        /api/public/catalog/diagnostic-services/{serviceId}/published-snapshot via the new
+        catalogtestconfiguration::catalog-public-read-port named interface (CatalogPublicReadPort
+        / CatalogPublicReadAdapter). DiagnosticServiceCatalogService.listPublished added.
+        Anonymous endpoints filter to status=published, so drafts, deprecated and retired records
+        are never returned. Public rate limiting is enforced by PublicApiRateLimitInterceptor
+        (BCM-PLT-005 RN-007).

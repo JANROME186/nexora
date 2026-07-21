@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-011-DEF Public Website and Digital Growth capability package models closed (all 7 capabilities reused from MVP-MOD-002/MVP-MOD-004/MVP-MOD-008, no duplicates); COM-MOD-011-BE-001 next
+current_phase: COM-MOD-011-BE-001 public website backend outputs compiled (published-only catalog reads for BCM-SVC-001/002/003/005, RN-008 anonymous appointment intake for BCM-ATT-001, RN-009 anonymous quotation intake for BCM-ATT-006, RN-007 anonymous rate-limit enforcement for BCM-PLT-005 via PublicApiRateLimitInterceptor; TD-BE-015 closed, TD-I18N-002 further reduced); COM-MOD-011-WEB-001 next
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -312,8 +312,30 @@ completed_deliverables:
     corrected three pre-existing stale roadmap/status pointers unrelated to this item's own scope
     in BCM-ATT-001, BCM-ATT-006 and BCM-PLT-005; definition-only, no code implemented, coverage
     unchanged; advanced the active commercial backlog item to COM-MOD-011-BE-001)
+  - COM-MOD-011-BE-001 Public Website backend outputs compiled (all 10 public REST operations
+    modeled by COM-MOD-011-DEF -- GET /api/public/catalog/{diagnostic-services,tests,panels,
+    preparations}/published, GET /api/public/catalog/{diagnostic-services,tests,panels,
+    preparations}/{id}/published-snapshot, POST /api/public/care-delivery/appointment-requests
+    (RN-008) and POST /api/public/care-delivery/quotation-requests (RN-009) -- functional and
+    anonymous; a new publicweb Spring Modulith module hosts them, depending only on the new
+    catalogtestconfiguration::catalog-public-read-port and frontdeskcaredelivery::public-intake-port
+    named interfaces; BCM-PLT-005 RN-007 rate-limit enforcement compiled as a new
+    PublicApiRateLimitInterceptor co-located with the partner interceptor, driven by the new
+    RateLimitPolicy.consumerIdentificationMethod field persisted end-to-end with an
+    ADD-COLUMN-IF-NOT-EXISTS schema migration; RN-008 extends AppointmentSlot inline with three
+    nullable prospective_contact fields and relaxes patient_id nullability for the
+    public_website channel only, additive DDL; every response DTO strips tenantId/audit/patient-
+    linkage fields so the anonymous public surface never leaks operational identifiers; new
+    public.error.* and public.rate_limit.* i18n key namespaces added in es-MX and en-US
+    (TD-I18N-002 further reduced); closes TD-BE-015 with a real end-to-end test
+    (PublicWebApiTest.publicRateLimitBlocksAnonymousTrafficByIpAddress); found and fixed a
+    pre-existing openapi-source.yaml vs Spring route gap in BCM-SVC-005
+    (getPublishedPreparationSnapshot had no matching PreparationInstructionController route);
+    backend coverage 83.73% -> 83.96% with 324 tests and 0 failures/errors/skipped (Docker
+    Compose PostgreSQL 16 up); OWASP Dependency-Check 108 deps 0 vulns; Trivy fs vuln/secret/
+    misconfig 0 findings across all severities)
 next_deliverables:
-  - Execute COM-MOD-011-BE-001 Compile public catalog, location and request outputs
+  - Execute COM-MOD-011-WEB-001 Compile public website service discovery and conversion flows
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -328,7 +350,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-011
   in_progress_module: COM-MOD-011
-  next_backlog_item: COM-MOD-011-BE-001
+  next_backlog_item: COM-MOD-011-WEB-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true

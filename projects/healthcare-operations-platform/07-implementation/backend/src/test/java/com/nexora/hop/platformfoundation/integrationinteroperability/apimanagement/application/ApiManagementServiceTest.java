@@ -97,7 +97,7 @@ class ApiManagementServiceTest {
     void settingARateLimitPolicyRecordsAnAuditEvent() {
         when(rateLimitPolicyRepository.findByClassification("partner")).thenReturn(Optional.empty());
 
-        RateLimitPolicy saved = service.setRateLimitPolicy("partner", 60, "admin-1");
+        RateLimitPolicy saved = service.setRateLimitPolicy("partner", 60, null, "admin-1");
 
         assertThat(saved.requestsPerMinute()).isEqualTo(60);
         verify(auditRecorder, times(1)).recordSystemEvent(

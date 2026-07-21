@@ -131,3 +131,14 @@ traces:
         business-rules.yaml, test-model.yaml, ui-model.yaml and permissions.yaml. No new
         capability package, aggregate or schema was created; reuses BCM-ATT-006's
         ProspectiveContact schema.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-BE-001
+      surface_added: public_website (runtime intake)
+      note: >-
+        Compiled POST /api/public/care-delivery/appointment-requests via the new
+        frontdeskcaredelivery::public-intake-port named interface. AppointmentSlot gained inline
+        prospective_full_name/phone/email columns (additive DDL, patient_id nullable when
+        channel = public_website only), plus a public_website channel value. RN-008 enforced:
+        anonymous requests always land in requested state, never a confirmed booking, and reuse
+        the existing published-catalog validation from BCM-SVC-002/003. Backend line coverage
+        83.73% -> 83.96%; 324 tests, 0 failures/errors/skipped.

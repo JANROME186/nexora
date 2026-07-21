@@ -67,3 +67,11 @@ traces:
         capability-package.yaml, ui-model.yaml and permissions.yaml. No new capability package,
         aggregate or schema was created; reuses TestDefinition/AGG-006, PublishedTestSnapshot and
         getPublishedTestSnapshot.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-BE-001
+      surface_added: public_website (runtime discovery)
+      note: >-
+        Compiled GET /api/public/catalog/tests/published and
+        /api/public/catalog/tests/{testId}/published-snapshot via the new
+        catalogtestconfiguration::catalog-public-read-port named interface.
+        TestCatalogService.listPublished added; endpoints only return status=published records.

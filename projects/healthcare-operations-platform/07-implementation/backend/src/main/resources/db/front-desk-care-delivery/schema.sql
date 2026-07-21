@@ -64,13 +64,15 @@ CREATE TABLE IF NOT EXISTS care_delivery.diagnostic_order_lines (
 
 CREATE INDEX IF NOT EXISTS idx_diagnostic_order_lines_order ON care_delivery.diagnostic_order_lines (order_id);
 
--- BCM-ATT-001 AppointmentSlot process record
+-- BCM-ATT-001 AppointmentSlot process record.
+-- COM-MOD-011-BE-001: patient_id is nullable for anonymous public_website channel (RN-008);
+-- prospective_full_name/phone/email carry the reused BCM-ATT-006 ProspectiveContact shape.
 CREATE TABLE IF NOT EXISTS care_delivery.appointments (
     appointment_id varchar(36) PRIMARY KEY,
     tenant_id varchar(36) NOT NULL,
     laboratory_id varchar(36) NOT NULL,
     branch_id varchar(36) NOT NULL,
-    patient_id varchar(36) NOT NULL,
+    patient_id varchar(36),
     doctor_id varchar(36),
     scheduled_start date NOT NULL,
     scheduled_end date NOT NULL,
@@ -79,10 +81,23 @@ CREATE TABLE IF NOT EXISTS care_delivery.appointments (
     linked_order_id varchar(36),
     cancellation_reason varchar(240),
     actor_id varchar(80),
+    prospective_full_name varchar(200),
+    prospective_phone varchar(80),
+    prospective_email varchar(200),
     version integer NOT NULL,
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone NOT NULL
 );
+
+-- Additive columns / nullability relaxation for the RN-008 anonymous public-website path.
+ALTER TABLE care_delivery.appointments
+    ADD COLUMN IF NOT EXISTS prospective_full_name varchar(200);
+ALTER TABLE care_delivery.appointments
+    ADD COLUMN IF NOT EXISTS prospective_phone varchar(80);
+ALTER TABLE care_delivery.appointments
+    ADD COLUMN IF NOT EXISTS prospective_email varchar(200);
+ALTER TABLE care_delivery.appointments
+    ALTER COLUMN patient_id DROP NOT NULL;
 
 CREATE INDEX IF NOT EXISTS idx_appointments_patient_branch ON care_delivery.appointments (patient_id, branch_id);
 

@@ -83,6 +83,12 @@ class PreparationInstructionController {
         return ResponseEntity.ok(PreparationInstructionResponse.from(service.deprecate(preparationId)));
     }
 
+    @GetMapping("/{preparationId}/published-snapshot")
+    ResponseEntity<PreparationInstructionResponse> getPublishedPreparationSnapshot(
+            @PathVariable String preparationId) {
+        return ResponseEntity.ok(PreparationInstructionResponse.from(service.getPublishedSnapshot(preparationId)));
+    }
+
     record AssignPreparationRequest(@NotBlank String targetType, @NotBlank String targetRefId) {
     }
 

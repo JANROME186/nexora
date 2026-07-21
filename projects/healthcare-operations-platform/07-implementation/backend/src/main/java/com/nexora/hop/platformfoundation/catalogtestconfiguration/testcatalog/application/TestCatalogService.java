@@ -192,6 +192,18 @@ public class TestCatalogService {
         return repository.findByLaboratoryId(requiredText(laboratoryId, "Laboratory id is required."));
     }
 
+    /**
+     * Published-only projection over {@link #list(String)} realizing BCM-SVC-002 {@code
+     * listPublishedTests} for the COM-MOD-011 anonymous public catalog. Drafts, deprecated and
+     * retired records are never returned; this is a filter, not a separate collection, so the
+     * published snapshot remains the single source of truth (RN-004).
+     */
+    public List<TestDefinition> listPublished(String laboratoryId) {
+        return list(laboratoryId).stream()
+                .filter(entry -> TestDefinition.STATUS_PUBLISHED.equals(entry.status()))
+                .toList();
+    }
+
     private TestDefinition require(String testDefinitionId) {
         return repository.findById(requiredText(testDefinitionId, "Test definition id is required."))
                 .orElseThrow(() -> new CatalogEntityNotFoundException("Test definition was not found."));

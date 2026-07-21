@@ -38,7 +38,7 @@ class InMemoryAppointmentSlotRepository implements AppointmentSlotRepository {
     @Override
     public List<AppointmentSlot> findByPatientAndBranch(String patientId, String branchId) {
         return appointments.values().stream()
-                .filter(a -> a.patientId().equals(patientId) && a.branchId().equals(branchId))
+                .filter(a -> patientId.equals(a.patientId()) && branchId.equals(a.branchId()))
                 .toList();
     }
 

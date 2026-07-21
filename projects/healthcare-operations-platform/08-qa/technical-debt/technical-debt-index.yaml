@@ -35,9 +35,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 83.73
-        source_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-QA-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 83.73
+        current_line_coverage_percent: 83.96
+        source_evidence: 08-qa/qa/public-website-and-digital-growth/COM-MOD-011-BE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 83.96
         final_closure_target_percent: 80
         correction_note: >-
           MVP-MOD-007-QA-001 raised backend line coverage to 78.42%. MVP-MOD-007-CLOSEOUT's
@@ -54,7 +54,9 @@ policy:
           figure to 83.73% (315 tests, 0 failures/errors/skipped). COM-MOD-010-CLOSEOUT corrected
           this registry entry's stale 82.94% value to match, since it had not yet been synced from
           COM-MOD-010-QA-001's own evidence; future backend iterations must not regress below
-          83.73%.
+          83.73%. COM-MOD-011-BE-001 raised it further to 83.96% (324 tests, 0 failures/errors/
+          skipped) after compiling the anonymous public-website surface plus the
+          PublicApiRateLimitInterceptor and closing TD-BE-015; the new floor is 83.96%.
       frontend_typescript_web:
         current_line_coverage_percent: 88.24
         source_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-QA-001-validation.yaml
@@ -549,15 +551,15 @@ entries:
     remediation_strategy: gradual_when_an_owning_module_next_exposes_a_migration_import_command
   - id: TD-BE-015
     title: Rate-limit enforcement is scoped to partner-API-key-bearing requests only
-    status: materially_reduced
+    status: closed
     risk_level: low
     blocking: false
     source_backlog_item: MVP-MOD-008-BE-002
     affected_area: api_management_rate_limit_enforcement
     file: 08-qa/technical-debt/TD-BE-015-rate-limit-enforcement-scoped-to-partner-keys.yaml
     remediation_strategy: >-
-      materially_reduced_by_COM_MOD_011_DEF_adding_RN_007_and_RateLimitPolicy_consumerIdentificationMethod_
-      to_model_public_consumer_identification;_runtime_counter_window_mechanism_remains_a_COM_MOD_011_BE_001_task
+      closed_by_COM_MOD_011_BE_001_PublicApiRateLimitInterceptor_and_RateLimitPolicy_consumerIdentificationMethod_
+      enforce_rate_limits_for_anonymous_public_traffic_via_ip_address_or_session_token_verified_by_PublicWebApiTest
   - id: TD-FE-010
     title: Employee-portal generated administration screens exceed function-size and complexity
       warning thresholds

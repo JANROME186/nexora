@@ -84,9 +84,15 @@ CREATE TABLE IF NOT EXISTS integration_interoperability.rate_limit_policies (
     policy_id varchar(36) PRIMARY KEY,
     classification varchar(20) NOT NULL,
     requests_per_minute integer NOT NULL,
+    consumer_identification_method varchar(32) NOT NULL DEFAULT 'partner_api_key',
     created_by varchar(80) NOT NULL,
     created_at timestamp with time zone NOT NULL,
     updated_by varchar(80) NOT NULL,
     updated_at timestamp with time zone NOT NULL,
     CONSTRAINT uq_rate_limit_policy_classification UNIQUE (classification)
 );
+
+-- COM-MOD-011-BE-001: additive column for RN-007 consumer identification method. Added with a
+-- default so pre-existing rows keep the partner-key behavior TD-BE-015 previously scoped to.
+ALTER TABLE integration_interoperability.rate_limit_policies
+    ADD COLUMN IF NOT EXISTS consumer_identification_method varchar(32) NOT NULL DEFAULT 'partner_api_key';

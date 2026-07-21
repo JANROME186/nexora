@@ -32,12 +32,16 @@ class JdbcAppointmentSlotRepository implements AppointmentSlotRepository {
                 insert into care_delivery.appointments (
                     appointment_id, tenant_id, laboratory_id, branch_id, patient_id, doctor_id,
                     scheduled_start, scheduled_end, channel, status, linked_order_id, cancellation_reason,
-                    actor_id, version, created_at, updated_at)
-                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    actor_id, prospective_full_name, prospective_phone, prospective_email,
+                    version, created_at, updated_at)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 on conflict (appointment_id) do update set
                     status = excluded.status,
                     linked_order_id = excluded.linked_order_id,
                     cancellation_reason = excluded.cancellation_reason,
+                    prospective_full_name = excluded.prospective_full_name,
+                    prospective_phone = excluded.prospective_phone,
+                    prospective_email = excluded.prospective_email,
                     version = excluded.version,
                     updated_at = excluded.updated_at
                 """,
@@ -45,7 +49,9 @@ class JdbcAppointmentSlotRepository implements AppointmentSlotRepository {
                 appointment.branchId(), appointment.patientId(), appointment.doctorId(),
                 Date.valueOf(appointment.scheduledStart()), Date.valueOf(appointment.scheduledEnd()),
                 appointment.channel(), appointment.status(), appointment.linkedOrderId(),
-                appointment.cancellationReason(), appointment.actorId(), appointment.version(),
+                appointment.cancellationReason(), appointment.actorId(),
+                appointment.prospectiveFullName(), appointment.prospectivePhone(), appointment.prospectiveEmail(),
+                appointment.version(),
                 Timestamp.from(appointment.createdAt()), Timestamp.from(appointment.updatedAt()));
         return appointment;
     }
@@ -105,7 +111,11 @@ class JdbcAppointmentSlotRepository implements AppointmentSlotRepository {
                 localDate(resultSet, "scheduled_start"), localDate(resultSet, "scheduled_end"),
                 resultSet.getString("channel"), resultSet.getString("status"),
                 resultSet.getString("linked_order_id"), resultSet.getString("cancellation_reason"),
-                resultSet.getString("actor_id"), resultSet.getInt("version"),
+                resultSet.getString("actor_id"),
+                resultSet.getString("prospective_full_name"),
+                resultSet.getString("prospective_phone"),
+                resultSet.getString("prospective_email"),
+                resultSet.getInt("version"),
                 resultSet.getTimestamp("created_at").toInstant(), resultSet.getTimestamp("updated_at").toInstant());
     }
 

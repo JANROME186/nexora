@@ -96,9 +96,11 @@ traces:
         Opened by MVP-MOD-008-BE-002 to track that RN-004 rate-limit enforcement is scoped to
         partner-API-key-bearing requests only. Materially reduced by COM-MOD-011-DEF: RN-007 and
         RateLimitPolicy.consumerIdentificationMethod now model IP-address/session-token
-        identification for the public classification tier, unblocking the first public API
-        consumers registered in this DEF item. The runtime counter/window mechanism for
-        non-keyed traffic remains a COM-MOD-011-BE-001 implementation task.
+        identification for the public classification tier. Closed by COM-MOD-011-BE-001:
+        PublicApiRateLimitInterceptor (co-located with PartnerApiKeyRateLimitInterceptor) reuses
+        PartnerApiRateLimiter under a public:: namespace and derives the consumer bucket from
+        RateLimitPolicy.consumerIdentificationMethod; verified end-to-end by
+        PublicWebApiTest.publicRateLimitBlocksAnonymousTrafficByIpAddress.
   generated_outputs_ref: generation-plan.yaml
   qa_evidence: ../../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
   compilation_evidence:
@@ -148,3 +150,13 @@ traces:
         classification=public operations registered by BCM-SVC-001/002/003/005 and
         BCM-ATT-001/006. No new capability package or aggregate was created; materially reduces
         TD-BE-015.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-BE-001
+      surface_added: public_website (runtime enforcement)
+      note: >-
+        Compiled PublicApiRateLimitInterceptor next to PartnerApiKeyRateLimitInterceptor and
+        persisted RateLimitPolicy.consumerIdentificationMethod end to end (domain record, JDBC and
+        in-memory repositories, controller DTO, service validation, ADD-COLUMN-IF-NOT-EXISTS
+        schema migration). Both interceptors are wired by ApiManagementWebConfig. Closes TD-BE-015.
+        Backend line coverage 83.73% -> 83.96%; 324 tests, 0 failures/errors/skipped; OWASP
+        Dependency-Check and Trivy fs report 0 findings.

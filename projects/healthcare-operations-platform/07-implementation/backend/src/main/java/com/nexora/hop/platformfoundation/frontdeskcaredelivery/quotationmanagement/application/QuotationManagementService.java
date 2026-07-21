@@ -135,6 +135,30 @@ public class QuotationManagementService {
     }
 
     /**
+     * RN-009 (COM-MOD-011-BE-001): anonymous public-website quotation intake. Captures a
+     * ProspectiveContact instead of a registered Patient link, always lands in
+     * {@link QuotationRequest#STATUS_DRAFT}, and every line still validates the RN-001
+     * published-catalog rule. Never issues, accepts or converts.
+     */
+    public QuotationRequest startPublic(StartQuotationCommand command) {
+        String fullName = optionalText(command.prospectiveFullName());
+        String phone = optionalText(command.prospectivePhone());
+        String email = optionalText(command.prospectiveEmail());
+        if (fullName == null && phone == null && email == null) {
+            throw new InvalidFrontDeskCommandException(
+                    "At least one prospective contact field (name, phone or email) is required.");
+        }
+        StartQuotationCommand sanitized = new StartQuotationCommand(
+                command.tenantId(), command.laboratoryId(), command.branchId(),
+                null, fullName, phone, email, null, command.lines());
+        QuotationRequest saved = start(sanitized);
+        auditRecorder.recordSystemEvent(saved.tenantId(), "QuotationDraftedPublicWebsite",
+                "QuotationRequest", saved.quotationId(),
+                "{\"branchId\":\"%s\",\"channel\":\"public_website\"}".formatted(jsonText(saved.branchId())));
+        return saved;
+    }
+
+    /**
      * RN-002, RN-003, RN-008: resolves a published price list independently for every quotation
      * line (a multi-service quotation may span catalog items only priced in different price
      * lists), prices each line from its own resolved entry, and applies a tenant-configurable
