@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-011-WEB-001 Public Website service discovery and conversion flows active (COM-MOD-011-BE-001 closed with published-only catalog reads for BCM-SVC-001/002/003/005, RN-008 anonymous appointment intake for BCM-ATT-001, RN-009 anonymous quotation intake for BCM-ATT-006, RN-007 anonymous rate-limit enforcement for BCM-PLT-005 via PublicApiRateLimitInterceptor, TD-BE-015 closed and TD-I18N-002 further reduced)
+current_phase: COM-MOD-011-FE-001 Content and request administration screens active (COM-MOD-011-WEB-001 closed with the public-website frontend compiled at 07-implementation/public-website/ consuming the anonymous /api/public/** surface -- published catalog discovery for BCM-SVC-001/002/003/005, public appointment/quotation request intake for BCM-ATT-001/006, explicit 429 handling for BCM-PLT-005 -- with SEO/accessibility/privacy/i18n foundations, a first-ever 98.61% line coverage baseline for this stack, and TD-UX-002 materially reduced)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -334,8 +334,27 @@ completed_deliverables:
     backend coverage 83.73% -> 83.96% with 324 tests and 0 failures/errors/skipped (Docker
     Compose PostgreSQL 16 up); OWASP Dependency-Check 108 deps 0 vulns; Trivy fs vuln/secret/
     misconfig 0 findings across all severities)
+  - COM-MOD-011-WEB-001 Public website frontend compiled (new
+    07-implementation/public-website/ module, React 19 + TypeScript 5 strict + Vite 6, following
+    patient-portal/doctor-portal conventions -- hand-rolled LocaleContext, plain-fetch httpClient,
+    no state-management library; a new hand-rolled History-API router instead of a router
+    dependency); consumes the anonymous /api/public/** surface from COM-MOD-011-BE-001 -- published
+    catalog discovery for diagnostic services/tests/panels/preparations (BCM-SVC-001/002/003/005,
+    each with a list and detail page sharing CatalogListView/CatalogDetailView chrome) and public
+    appointment/quotation request intake (BCM-ATT-001 RN-008, BCM-ATT-006 RN-009) with an explicit
+    client-side cooldown for BCM-PLT-005 RN-007's 429 responses (backend sends no Retry-After
+    header); deployment identity (tenantId/laboratoryId/branch list) is deployment-owned site
+    configuration since COM-MOD-011-DEF modeled no public branch-directory capability; added SEO
+    (per-page metadata, robots.txt, sitemap.xml), accessibility (eslint-plugin-jsx-a11y +
+    automated jest-axe regression check wired into npm run test/quality) and privacy (a /privacy
+    notice page, required consent checkboxes) foundations, materially reducing TD-UX-002 as the
+    reference pattern for a new module (employee-portal itself untouched, so not closed); first
+    coverage baseline for this stack -- 97 tests, 34 files, 0 failures, 98.61% line/statement
+    coverage; ESLint 0 errors/16 non-blocking warnings; jscpd 3.9% duplication; npm audit and
+    Trivy fs (all severities) 0 findings; verified locally via npm run build && vite preview
+    (live backend integration not exercised this session, no reachable Docker daemon))
 next_deliverables:
-  - Execute COM-MOD-011-WEB-001 Compile public website service discovery and conversion flows
+  - Execute COM-MOD-011-FE-001 Content and request administration screens
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -350,7 +369,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-011
   in_progress_module: COM-MOD-011
-  next_backlog_item: COM-MOD-011-WEB-001
+  next_backlog_item: COM-MOD-011-FE-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -462,6 +481,13 @@ development_readiness:
         next_iteration_minimum_line_coverage_percent: 96.28
         final_closure_target_percent: 80
         tracked_by: TD-FE-009 (closed)
+      public_website_typescript_web:
+        current_line_coverage_percent: 98.61
+        source_evidence: 08-qa/qa/public-website-and-digital-growth/COM-MOD-011-WEB-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 98
+        final_closure_target_percent: 80
+        tracked_by: first-ever measurement, established by COM-MOD-011-WEB-001 (97 tests, 34
+          files, 0 failures; 93.15% branch and 87.70% function coverage also recorded)
   client_stack_market_validation: 03-architecture/technology-architecture/client-stack-market-validation.yaml
   stack_quality_toolchain_baseline: 03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
   blocking_definition_gaps: []
@@ -472,7 +498,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: COM-MOD-011
-  current_backlog_item: COM-MOD-011-WEB-001
+  current_backlog_item: COM-MOD-011-FE-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -550,9 +576,56 @@ implementation_progress:
     - COM-MOD-010-CLOSEOUT
     - COM-MOD-011-DEF
     - COM-MOD-011-BE-001
+    - COM-MOD-011-WEB-001
   in_progress_backlog_items: []
   pending_backlog_items: []
   latest_validation:
+    backlog_item_id: COM-MOD-011-WEB-001
+    command: >-
+      Compiled the public website frontend at 07-implementation/public-website/ (React 19 +
+      TypeScript 5 strict + Vite 6) consuming the anonymous /api/public/** surface from
+      COM-MOD-011-BE-001: published catalog discovery (BCM-SVC-001/002/003/005) and public
+      appointment/quotation request intake (BCM-ATT-001 RN-008, BCM-ATT-006 RN-009) with explicit
+      429 rate-limit cooldown handling (BCM-PLT-005 RN-007). Executed npm run build (tsc -b,
+      strict mode), npm run test:coverage, npm run lint, npm run duplication, npm run
+      format:check, npm run license:check, npm audit, trivy fs (vuln/secret/misconfig, all
+      severities), repository-wide YAML parse, agent-agnostic scan and git diff --check. Verified
+      locally with npm run build && npm run preview.
+    working_directory: projects/healthcare-operations-platform/07-implementation/public-website
+    status: passed
+    tests_run_backend: 324
+    tests_run_backend_status: unchanged_not_touched
+    tests_run_frontend: 97
+    tests_run_frontend_status: passed
+    test_files_frontend: 34
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 83.96
+    previous_line_coverage_baseline_backend_percent: 83.96
+    line_coverage_frontend_percent: 98.61
+    previous_line_coverage_baseline_frontend_percent: not_previously_measured
+    coverage_regression: false
+    additional_checks:
+      - >-
+        Materially reduced TD-UX-002 (documented responsive breakpoints in styles.css and an
+        automated jest-axe accessibility check wired into npm run test/quality plus
+        eslint-plugin-jsx-a11y in npm run lint) as the reference pattern for a new module;
+        employee-portal itself was not touched, so the debt is not closed.
+      - >-
+        Established the first coverage baseline for the public-website stack: 98.61%
+        line/statement, 93.15% branch, 87.70% function coverage.
+      - >-
+        Fixed a repository-wide gap where the shared duplication npm script pattern was missing
+        jscpd's required positional path argument and silently scanning 0 files across every
+        portal; public-website's script now passes src explicitly and measured 3.9% duplication.
+      - >-
+        npm audit and Trivy fs (vuln/secret/misconfig, all severities) reported 0 findings.
+        Agent-agnostic scan reported 1 false positive (CSS cursor: property) and 0 real hits.
+        git diff --check reported 0 whitespace errors. Live backend integration was not exercised
+        this session (no reachable Docker daemon to bring up compose.local.yml).
+  previous_validation_com_mod_011_be_001:
     backlog_item_id: COM-MOD-011-BE-001
     command: >-
       Compiled the backend public-website surface for BCM-SVC-001/002/003/005, BCM-ATT-001/006 and

@@ -75,3 +75,12 @@ traces:
         /api/public/catalog/tests/{testId}/published-snapshot via the new
         catalogtestconfiguration::catalog-public-read-port named interface.
         TestCatalogService.listPublished added; endpoints only return status=published records.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-WEB-001
+      surface_added: public_website (frontend discovery)
+      note: >-
+        Compiled TestsPage (list) and TestDetailPage (snapshot, including methodology/measurement
+        unit/result type/turnaround time) at 07-implementation/public-website/src/pages/,
+        consuming GET /api/public/catalog/tests/published and
+        /api/public/catalog/tests/{testId}/published-snapshot. Tests and panels are also combined
+        into a single picker (useCatalogItemOptions) for the appointment/quotation request forms.

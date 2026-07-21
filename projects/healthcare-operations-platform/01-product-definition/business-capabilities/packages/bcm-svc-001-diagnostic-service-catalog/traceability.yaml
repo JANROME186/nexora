@@ -78,3 +78,13 @@ traces:
         Anonymous endpoints filter to status=published, so drafts, deprecated and retired records
         are never returned. Public rate limiting is enforced by PublicApiRateLimitInterceptor
         (BCM-PLT-005 RN-007).
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-WEB-001
+      surface_added: public_website (frontend discovery)
+      note: >-
+        Compiled ServicesPage (list) and ServiceDetailPage (snapshot) at
+        07-implementation/public-website/src/pages/, consuming
+        GET /api/public/catalog/diagnostic-services/published and
+        /api/public/catalog/diagnostic-services/{serviceId}/published-snapshot via
+        src/api/publicCatalogApi.ts. es-MX/en-US localized name display, loading/empty/error/
+        success states, SEO metadata and a real crawlable /services and /services/:id URL.

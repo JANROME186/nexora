@@ -243,9 +243,13 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-011
-  backlog_item_id: COM-MOD-011-WEB-001
-  name: Compile public website service discovery and conversion flows
-  expected_folder: 07-implementation/public-website/
+  backlog_item_id: COM-MOD-011-FE-001
+  name: Content and request administration screens
+  expected_folder: not yet defined; COM-MOD-011-DEF's acceptance_summary implies staff-facing
+    screens to review governed public content and route public appointment/quotation requests
+    into internal workflows, which suggests the existing employee-portal admin surface rather than
+    a new frontend module, but this has not been confirmed against a dedicated FE-001 definition
+    and must be re-derived from current capability packages before implementation.
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
@@ -254,51 +258,58 @@ next_backlog_item:
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.11
     doctor_portal_typescript_web_line_coverage_percent: 96.28
+    public_website_typescript_web_line_coverage_percent: 98
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - Preserve coverage floors: backend (83.96%), employee portal (88.24%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
+    - Preserve coverage floors: backend (83.96%), employee portal (88.24%), mobile (99.21%), patient portal (94.11%), doctor portal (96.28%), and public website (98%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
     - >-
-      Build the public-website frontend consuming the /api/public/** REST surface compiled by
-      COM-MOD-011-BE-001 (catalog reads, appointment intake, quotation intake) with SEO,
-      accessibility and privacy foundations.
+      Build the content and public-request administration screens (published-catalog content
+      review, appointment/quotation request queues) that let staff manage what COM-MOD-011-WEB-001's
+      public website exposes and consume the requests it submits.
     - Review 08-qa/technical-debt/technical-debt-index.yaml before feature work and resolve or materially reduce at least one open item.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-011-BE-001
+    backlog_item_id: COM-MOD-011-WEB-001
     status: closed
     summary: >-
-      COM-MOD-011-BE-001 compiled the Public Website backend surface. Ten anonymous public REST
-      operations reachable under /api/public: GET
-      /api/public/catalog/{diagnostic-services,tests,panels,preparations}/published, GET
-      /api/public/catalog/{diagnostic-services,tests,panels,preparations}/{id}/published-snapshot,
-      POST /api/public/care-delivery/appointment-requests (BCM-ATT-001 RN-008, always requested
-      state, never confirmed) and POST /api/public/care-delivery/quotation-requests (BCM-ATT-006
-      RN-009, always draft, never issued/priced). A new publicweb Spring Modulith module hosts the
-      controllers and depends only on two new named interfaces:
-      catalogtestconfiguration::catalog-public-read-port (published-only catalog snapshots) and
-      frontdeskcaredelivery::public-intake-port (anonymous appointment/quotation intake). BCM-PLT-005
-      RN-007 rate-limit enforcement compiled as a new PublicApiRateLimitInterceptor co-located
-      with the existing PartnerApiKeyRateLimitInterceptor, reusing PartnerApiRateLimiter's
-      fixed-window counter under a public:: namespace prefix and driven by the new
-      RateLimitPolicy.consumerIdentificationMethod field persisted end-to-end
-      (domain/JDBC/in-memory repositories/controller DTO/service validation) with an
-      ADD-COLUMN-IF-NOT-EXISTS schema migration. RN-008 extends AppointmentSlot inline with three
-      nullable prospective_contact fields and relaxes patient_id nullability for the
-      public_website channel only, additive DDL. Every public response DTO strips
-      tenantId/audit/patient-linkage fields so the anonymous public surface never leaks
-      operational identifiers. Added public.error.* and public.rate_limit.* i18n key namespaces
-      in es-MX and en-US (TD-I18N-002 further reduced). Closed TD-BE-015 with an executable
-      end-to-end test (PublicWebApiTest.publicRateLimitBlocksAnonymousTrafficByIpAddress). Found
-      and fixed a pre-existing openapi-source.yaml vs. Spring route gap in BCM-SVC-005
-      (getPublishedPreparationSnapshot had no matching controller route). Backend coverage
-      83.73% -> 83.96% with 324 tests and 0 failures/errors/skipped against a running
-      compose.local.yml PostgreSQL 16 container. OWASP Dependency-Check 108 dependencies, 0
-      vulnerabilities; Trivy fs vuln/secret/misconfig scan 0 findings across all severities;
-      YAML parse 1,154 files 0 errors; agent-agnostic scan 0 real source-code hits;
-      git diff --check clean. Reconciled PROJECT_STATE.yaml (root and project),
-      SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml, this prompt file, six capability
+      COM-MOD-011-WEB-001 compiled the public website frontend at
+      07-implementation/public-website/ (new React 19 + TypeScript 5 strict + Vite 6 module,
+      following the patient-portal/doctor-portal conventions: hand-rolled LocaleContext for
+      es-MX/en-US, a plain-fetch httpClient, no state-management library) consuming the anonymous
+      /api/public/** surface compiled by COM-MOD-011-BE-001. Implements service discovery for
+      diagnostic services/tests/panels/preparations (BCM-SVC-001/002/003/005: list + detail pages
+      backed by CatalogListView/CatalogDetailView shared chrome) and public appointment/quotation
+      request intake (BCM-ATT-001 RN-008, BCM-ATT-006 RN-009) with client-side contact-required/
+      at-least-one-item/consent validation and an explicit 429 rate-limit cooldown
+      (useRateLimitCooldown, since PublicApiRateLimitInterceptor sends no Retry-After header).
+      Added a minimal hand-rolled History-API router (no new router dependency) giving every page
+      and catalog item a real crawlable URL, per-page SEO metadata (usePageMeta: title/description/
+      canonical/Open Graph), robots.txt/sitemap.xml, a /privacy notice page with required consent
+      checkboxes, a documented mobile-first responsive breakpoint set (src/styles.css:
+      40rem/60rem/75rem) and an automated jest-axe accessibility regression check
+      (src/test/accessibility.test.tsx) wired into npm run test/quality plus eslint-plugin-jsx-a11y
+      in npm run lint — materially reducing TD-UX-002 (documented responsive breakpoints +
+      automated a11y check, the debt's own acceptance criteria) as the reference pattern for this
+      new module; employee-portal itself was untouched so the debt is not closed. Deployment
+      identity (tenantId/laboratoryId/branch list) is deployment-owned site configuration
+      (src/config/siteConfig.ts) since COM-MOD-011-DEF modeled no public branch-directory
+      capability. No response DTO carries tenantId/audit/internal identifiers; request bodies'
+      tenantId/laboratoryId/branchId come from site configuration, never a visible field. Added
+      strict:true to tsconfig.app.json/tsconfig.node.json (patient-portal/doctor-portal predate
+      this and remain non-strict). Established the module's first coverage baseline: 97 tests, 34
+      test files, 0 failures, 98.61% line/statement, 93.15% branch, 87.70% function coverage.
+      ESLint 0 errors/16 non-blocking warnings; jscpd 3.9% duplication (below the 5% threshold,
+      after fixing a repo-wide gap where the `duplication` npm script was missing jscpd's required
+      positional path argument and silently scanning 0 files); Prettier clean; license-checker MIT
+      3/UNLICENSED 1; npm audit and Trivy fs (vuln/secret/misconfig, all severities) both 0
+      findings; agent-agnostic scan 1 false positive (CSS `cursor:` property), 0 real hits; git
+      diff --check clean. Verified the production build serves correctly locally via
+      `vite preview`; live backend integration was not exercised this session (no reachable Docker
+      daemon to bring up compose.local.yml). Reconciled PROJECT_STATE.yaml (root and project),
+      SOURCE_OF_TRUTH.yaml, HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml, this prompt file, seven capability
       traceability.yaml files (BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005), the
-      technical-debt-index.yaml (TD-BE-015 closed and new backend coverage floor 83.96%) and the
-      local-solution-runbook to advance the active backlog item to COM-MOD-011-WEB-001.
+      technical-debt-index.yaml (new public_website_typescript_web coverage baseline, TD-UX-002
+      materially reduced) and the local-solution-runbook to advance the active backlog item to
+      COM-MOD-011-FE-001.

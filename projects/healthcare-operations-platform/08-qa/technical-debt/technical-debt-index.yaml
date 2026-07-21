@@ -110,6 +110,17 @@ policy:
           further to 96.28% (31 tests, 0 failures/errors). COM-MOD-010-CLOSEOUT corrected this
           registry entry's stale 89.86% value to match, since it had not yet been synced from
           COM-MOD-009-QA-001's own evidence.
+      public_website_typescript_web:
+        current_line_coverage_percent: 98.61
+        source_evidence: 08-qa/qa/public-website-and-digital-growth/COM-MOD-011-WEB-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 98
+        final_closure_target_percent: 80
+        correction_note: >-
+          First-ever coverage measurement for the new public-website module, taken during
+          COM-MOD-011-WEB-001 (97 tests, 34 test files, 0 failures): 98.61% lines/statements,
+          93.15% branches, 87.70% functions. vite.config.ts thresholds are set slightly below the
+          measured figures (lines/statements 98%, branches 90%, functions 85%) to leave headroom
+          for incidental variance; the registry floor tracks the same conservative 98% figure.
   promote_to_blocking_when:
     - vulnerability_or_secure_code_finding_without_disposition
     - unsupported_runtime_blocks_safe_development
@@ -458,13 +469,23 @@ entries:
   - id: TD-UX-002
     title: No formalized responsive breakpoints/layout system; no automated accessibility check
       wired into npm run quality
-    status: open
+    status: materially_reduced
     risk_level: medium
     blocking: false
     source_backlog_item: HOP-ENT-FOUND-001
     affected_area: employee_portal_responsive_and_accessibility_tooling
     file: 08-qa/technical-debt/TD-UX-002-no-responsive-accessibility-automation.yaml
     remediation_strategy: next_frontend_quality_profile_hardening_backlog_item
+    progress_note: >-
+      COM-MOD-011-WEB-001 (the next_frontend_quality_profile_hardening_backlog_item this debt
+      targeted) implements both acceptance criteria as the reference pattern in the new
+      public-website module: a documented mobile-first responsive breakpoint set applied to every
+      screen (src/styles.css) and an automated axe-core accessibility check
+      (src/test/accessibility.test.tsx, jest-axe) wired into npm run test / npm run quality, plus
+      eslint-plugin-jsx-a11y in the lint gate. employee-portal itself was not touched by this
+      backlog item (out of its working_directory scope), so its own styles.css/package.json
+      still lack the pattern; status is materially_reduced, not closed, until a future
+      employee-portal-scoped iteration retrofits the same pattern there.
   - id: TD-UX-003
     title: No mobile layout system defined yet (no renderer stack selected)
     status: open

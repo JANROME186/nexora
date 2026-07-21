@@ -4,9 +4,35 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-011-WEB-001`.
+Current active backlog item: `COM-MOD-011-FE-001`.
 
-Latest update: `COM-MOD-011-BE-001` is closed. It compiled the backend for HOP's anonymous
+Latest update: `COM-MOD-011-WEB-001` is closed. It compiled the public website frontend at
+`07-implementation/public-website/` (React 19 + TypeScript 5 strict + Vite 6), consuming the
+anonymous `/api/public/**` surface compiled by `COM-MOD-011-BE-001`: published catalog discovery
+(diagnostic services, tests, panels, preparations — each with a list and detail page) and public
+appointment/quotation request intake (`BCM-ATT-001 RN-008`, `BCM-ATT-006 RN-009`), with an
+explicit client-side cooldown for `BCM-PLT-005 RN-007`'s 429 rate-limit responses since the
+backend sends no `Retry-After` header. Added a new local dev runtime on port 4004 (proxying `/api`
+to the existing backend on port 8080) and three optional, defaulted environment variables
+(`VITE_TENANT_ID`, `VITE_LABORATORY_ID`, `VITE_DEFAULT_BRANCH_ID`); no backend port, database
+schema or startup order changed. Added SEO (per-page title/description/canonical/Open Graph,
+`robots.txt`, `sitemap.xml`), accessibility (`eslint-plugin-jsx-a11y` plus an automated `jest-axe`
+regression check wired into `npm run test`/`quality`), privacy (a `/privacy` notice page, required
+consent checkboxes on both request forms) and i18n (es-MX/en-US, no hardcoded strings)
+foundations. Materially reduced `TD-UX-002` (documented responsive breakpoints in `styles.css` +
+automated accessibility check, the debt's own acceptance criteria) as the reference pattern for
+this new module; `employee-portal` itself was not touched, so the debt is not closed. First
+coverage baseline for this stack: 97 tests, 34 test files, 0 failures, 98.61% line/statement
+coverage. ESLint 0 errors/16 non-blocking warnings; `jscpd` 3.9% duplication (below the 5%
+threshold); Prettier clean; `license-checker` MIT 3/UNLICENSED 1; `npm audit` and Trivy fs
+(vuln/secret/misconfig, all severities) both 0 findings; agent-agnostic scan 0 real hits; `git
+diff --check` clean. Verified locally via `npm run build && npm run preview` (production shell
+served correctly); live backend integration was not exercised this session (no reachable Docker
+daemon to bring up `compose.local.yml`) — recommended as part of human review before public
+exposure. The next active backlog item is `COM-MOD-011-FE-001` (Content and request administration
+screens).
+
+Previous update: `COM-MOD-011-BE-001` is closed. It compiled the backend for HOP's anonymous
 public-website surface without introducing a new runtime component, port, environment variable or
 startup order. Ten new REST operations are reachable anonymously under `/api/public`:
 

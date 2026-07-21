@@ -160,3 +160,13 @@ traces:
         schema migration). Both interceptors are wired by ApiManagementWebConfig. Closes TD-BE-015.
         Backend line coverage 83.73% -> 83.96%; 324 tests, 0 failures/errors/skipped; OWASP
         Dependency-Check and Trivy fs report 0 findings.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-WEB-001
+      surface_added: public_website (frontend rate-limit handling)
+      note: >-
+        Both public request forms (AppointmentRequestPage, QuotationRequestPage) handle 429
+        PUBLIC_RATE_LIMIT_EXCEEDED responses explicitly via useRateLimitCooldown
+        (07-implementation/public-website/src/state/useRateLimitCooldown.ts): the submit button
+        is disabled and a localized countdown is shown for a fixed client-side cooldown window,
+        since PublicApiRateLimitInterceptor sends no Retry-After header to compute an exact reset
+        time from.

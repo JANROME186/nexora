@@ -73,3 +73,12 @@ traces:
         /api/public/catalog/panels/{panelId}/published-snapshot via the new
         catalogtestconfiguration::catalog-public-read-port named interface.
         PanelCatalogService.listPublished added; endpoints only return status=published records.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-WEB-001
+      surface_added: public_website (frontend discovery)
+      note: >-
+        Compiled PanelsPage (list) and PanelDetailPage (snapshot) at
+        07-implementation/public-website/src/pages/, consuming
+        GET /api/public/catalog/panels/published and
+        /api/public/catalog/panels/{panelId}/published-snapshot. Panels are also combined with
+        tests into a single picker (useCatalogItemOptions) for the appointment/quotation forms.

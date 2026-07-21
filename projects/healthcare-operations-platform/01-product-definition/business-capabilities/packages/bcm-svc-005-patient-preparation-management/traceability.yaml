@@ -78,3 +78,12 @@ traces:
         resource-level getPublishedPreparationSnapshot operation modeled by COM-MOD-011-DEF is now
         registered end to end. PatientPreparationManagementService.listPublished and
         getPublishedSnapshot added; endpoints only return status=published records.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-WEB-001
+      surface_added: public_website (frontend discovery)
+      note: >-
+        Compiled PreparationsPage (list) and PreparationDetailPage (snapshot, including the
+        full localized instruction text, category and duration) at
+        07-implementation/public-website/src/pages/, consuming
+        GET /api/public/catalog/preparations/published and
+        /api/public/catalog/preparations/{preparationId}/published-snapshot.

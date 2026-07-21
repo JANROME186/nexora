@@ -142,3 +142,14 @@ traces:
         anonymous requests always land in requested state, never a confirmed booking, and reuse
         the existing published-catalog validation from BCM-SVC-002/003. Backend line coverage
         83.73% -> 83.96%; 324 tests, 0 failures/errors/skipped.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-WEB-001
+      surface_added: public_website (frontend intake)
+      note: >-
+        Compiled AppointmentRequestPage at 07-implementation/public-website/src/pages/, posting
+        to /api/public/care-delivery/appointment-requests via src/api/careDeliveryApi.ts.
+        Client-side validation requires at least one of phone/email, at least one selected
+        test/panel and an explicit consent checkbox before submission; an explicit cooldown
+        (useRateLimitCooldown) handles 429 PUBLIC_RATE_LIMIT_EXCEEDED responses since the backend
+        sends no Retry-After header. No internal identifier is displayed or requested; branchId
+        comes from deployment-owned site configuration.

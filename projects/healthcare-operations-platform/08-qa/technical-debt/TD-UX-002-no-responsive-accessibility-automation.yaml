@@ -3,9 +3,10 @@ artifact:
   type: technical-debt-item
   name: No formalized responsive breakpoints/layout system; no automated accessibility
     (axe-core/Playwright) check wired into npm run quality
-  version: 1.0.0
-  status: open
+  version: 1.1.0
+  status: materially_reduced
   created_date: 2026-07-17
+  updated_date: 2026-07-21
 
 source:
   discovered_during_backlog_item: HOP-ENT-FOUND-001
@@ -52,3 +53,24 @@ remediation:
     - An automated accessibility check runs as part of npm run quality with 0 blocking violations.
     - A documented responsive breakpoint set exists and is applied to at least one screen.
   owner_or_responsible_role: frontend_platform_team
+
+progress_log:
+  - date: 2026-07-21
+    backlog_item: COM-MOD-011-WEB-001
+    action: materially_reduced
+    detail: >-
+      COM-MOD-011-WEB-001 was the "next frontend quality-profile hardening backlog item" this
+      debt's remediation strategy pointed at. It implements both acceptance criteria in full as
+      the reference pattern for the new public-website module:
+      (1) a documented mobile-first responsive breakpoint set (40rem/60rem/75rem, see the header
+      comment in 07-implementation/public-website/src/styles.css) applied across every screen
+      (header nav, catalog grids, forms, detail pages); and
+      (2) an automated accessibility check (axe-core via jest-axe,
+      07-implementation/public-website/src/test/accessibility.test.tsx) that runs inside
+      npm run test/npm run quality with 0 violations across the home, catalog, form and privacy
+      pages, plus eslint-plugin-jsx-a11y wired into npm run lint for static a11y checks.
+    remaining_scope: >-
+      employee-portal (this debt's originally discovered affected_area) was not in
+      COM-MOD-011-WEB-001's working_directory and was not touched; its styles.css still has no
+      breakpoints and its package.json/eslint.config.js still lack jsx-a11y/axe-core. Closing this
+      debt fully requires a future employee-portal-scoped iteration to retrofit the same pattern.

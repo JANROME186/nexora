@@ -19,13 +19,15 @@ product:
     completed_module: COM-MOD-010 (COM-MOD-010-CLOSEOUT closed)
     completed_status: closed
     active_module: COM-MOD-011
-    active_backlog_item: COM-MOD-011-WEB-001
+    active_backlog_item: COM-MOD-011-FE-001
     active_module_progress: >-
-      COM-MOD-011-DEF and COM-MOD-011-BE-001 closed; publicweb Spring Modulith module compiled
-      with 10 anonymous public REST operations covering catalog reads (BCM-SVC-001/002/003/005),
-      appointment intake (BCM-ATT-001 RN-008), quotation intake (BCM-ATT-006 RN-009) and rate-
-      limit enforcement (BCM-PLT-005 RN-007) that closes TD-BE-015; ready for
-      COM-MOD-011-WEB-001
+      COM-MOD-011-DEF, COM-MOD-011-BE-001 and COM-MOD-011-WEB-001 closed. WEB-001 compiled the
+      public-website frontend (07-implementation/public-website/) consuming the anonymous
+      publicweb surface: service discovery for diagnostic services/tests/panels/preparations
+      (BCM-SVC-001/002/003/005) and public appointment/quotation request intake (BCM-ATT-001
+      RN-008, BCM-ATT-006 RN-009) with explicit 429 rate-limit handling (BCM-PLT-005 RN-007),
+      SEO/accessibility/privacy/i18n foundations, 97 tests (98.61% line coverage, first baseline
+      for this stack), and materially reduced TD-UX-002; ready for COM-MOD-011-FE-001
     paused_backlog_item: null
 
 source_inputs:
@@ -810,10 +812,10 @@ modules:
         status: closed
       - id: COM-MOD-011-WEB-001
         name: Compile public website service discovery and conversion flows
-        status: active
+        status: closed
       - id: COM-MOD-011-FE-001
         name: Content and request administration screens
-        status: planned
+        status: active
       - id: COM-MOD-011-QA-001
         name: Public web, SEO and privacy evidence
         status: planned
