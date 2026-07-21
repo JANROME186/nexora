@@ -1139,7 +1139,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_iteration: COM-MOD-010
   active_module: COM-MOD-010 Inventory and Internal Quality
-  active_backlog_item: COM-MOD-010-QA-001
+  active_backlog_item: COM-MOD-010-CLOSEOUT
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
@@ -1151,9 +1151,9 @@ commercial_product_progress:
     COM-MOD-010:
       name: Inventory and Internal Quality
       package_status: modeled
-      backlog_item: COM-MOD-010-QA-001
-      backlog_item_status: active
-      execution_flow_stage: validate
+      backlog_item: COM-MOD-010-CLOSEOUT
+      backlog_item_status: pending
+      execution_flow_stage: pending_closeout
       packages_modeled:
         - BCM-INV-001
         - BCM-INV-002
