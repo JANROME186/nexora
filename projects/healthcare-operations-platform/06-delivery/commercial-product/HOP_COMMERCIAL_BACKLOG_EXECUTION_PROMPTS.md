@@ -234,24 +234,25 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-010-CLOSEOUT Module closeout and registry update` is closed.
+`COM-MOD-012-DEF Capability package models` is closed.
 Continue with:
 
-- Module: `COM-MOD-011`
-- Backlog item: `COM-MOD-011-DEF`
-- Previous backlog item: `COM-MOD-010-CLOSEOUT` (closed)
+- Module: `COM-MOD-012`
+- Backlog item: `COM-MOD-012-OPS-001`
+- Previous backlog item: `COM-MOD-012-DEF` (closed)
 - Paused functional backlog item: none
-- Folder: `01-product-definition/business-capabilities/packages/`
+- Folder: `09-operations/deployment/` and `08-qa/qa/platform-hardening-and-saas-operations/`
 
 Mandatory setup for this backlog:
 
 - Reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, capability traceability files and the local runbook pointers.
-- Preserve coverage floors: backend (83.73%), employee portal (88.24%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
+- Preserve coverage floors: backend (83.99%), employee portal (88.68%), public website (98.61%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
-- COM-MOD-011 capabilities (BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005) are reused from already-modeled/compiled capability packages; confirm no duplicate model or aggregate is created before adding any new public-website-specific artifacts.
-- Review `08-qa/technical-debt/technical-debt-index.yaml` before feature work and resolve or materially reduce at least one open item.
+- Use the COM-MOD-012 capability packages modeled or extended by `COM-MOD-012-DEF`: `BCM-ORG-001`, `BCM-PLT-001`, `BCM-PLT-002`, `BCM-PLT-005`, `BCM-PLT-006`, `BCM-PLT-007`, `BCM-PLT-008`, and `BCM-PLT-009`.
+- Create the production deployment and environment strategy using open-source-first, reproducible and production-like practices.
+- Review `08-qa/technical-debt/technical-debt-index.yaml` before operational strategy work and resolve or materially reduce at least one open item when applicable.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-010-CLOSEOUT` - Module closeout and registry update. Confirmed all 13 COM-MOD-010 capability packages (BCM-INV-001..009, BCM-QLT-001/003/004/005) are `module_closed` in `capability-package-index.yaml` and their `traceability.yaml` files. Reviewed `technical-debt-index.yaml` and found zero open or materially-reduced debt attributable to COM-MOD-010; corrected two pre-existing stale coverage baselines found during the sweep (backend/employee-portal not yet synced from `COM-MOD-010-QA-001`, patient/doctor portal not yet synced from `COM-MOD-009-QA-001`). This was a documentation/registry-only closeout: no source code was touched, so backend (83.73%), employee-portal (88.24%), mobile (99.21%), patient portal (94.11%) and doctor portal (96.28%) coverage are re-affirmed unchanged. YAML parse (1109 files), a repository-wide stale-pointer sweep and `git diff --check` passed.
+`COM-MOD-012-DEF` - Capability package models. Established Platform Hardening and SaaS Operations models across 8 capabilities: 5 new packages (`BCM-ORG-001`, `BCM-PLT-002`, `BCM-PLT-006`, `BCM-PLT-007`, `BCM-PLT-009`) and 3 extended packages (`BCM-PLT-001`, `BCM-PLT-005`, `BCM-PLT-008`). The work was definition-only, preserved coverage floors across all delivered stacks, passed YAML parse, stale-pointer sweep, agent-agnostic scan, secret scan and `git diff --check`, and advanced the active backlog item to `COM-MOD-012-OPS-001`.
