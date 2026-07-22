@@ -41,3 +41,9 @@ backlog_items:
   definition_status: closed
   saas_hardening: COM-MOD-012-DEF
   saas_hardening_status: closed
+  operational_strategy: COM-MOD-012-OPS-001
+  operational_strategy_status: closed
+
+operational_strategy:
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
+  contribution: Release evidence, deployment checklist and onboarding evidence document retention.

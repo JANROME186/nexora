@@ -206,8 +206,8 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-`COM-MOD-011` (Public Website and Digital Growth) and `COM-MOD-012-DEF` (Platform Hardening Capability Package Models) are closed. All 8 capability package models for `COM-MOD-012` are established (`BCM-ORG-001`, `BCM-PLT-001`, `BCM-PLT-002`, `BCM-PLT-005`, `BCM-PLT-006`, `BCM-PLT-007`, `BCM-PLT-008`, `BCM-PLT-009`). Continue with `COM-MOD-012-OPS-001` from:
+`COM-MOD-011` (Public Website and Digital Growth), `COM-MOD-012-DEF` (Platform Hardening Capability Package Models) and `COM-MOD-012-OPS-001` (Production Deployment and Environment Strategy) are closed. Continue with `COM-MOD-012-OPS-002` from:
 
 `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
 
-See `08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-DEF-validation.yaml` for the latest validation evidence.
+See `08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml` for the latest validation evidence.

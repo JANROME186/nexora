@@ -81,3 +81,9 @@ backlog_items:
   closeout_status: closed
   saas_hardening: COM-MOD-012-DEF
   saas_hardening_status: closed
+  operational_strategy: COM-MOD-012-OPS-001
+  operational_strategy_status: closed
+
+operational_strategy:
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
+  contribution: Privileged operational access, least-privilege release approval and deployment audit actors.

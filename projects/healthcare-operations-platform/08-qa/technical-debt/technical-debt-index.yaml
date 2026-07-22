@@ -194,13 +194,13 @@ entries:
     remediation_strategy: gradual_release_policy_hardening_before_ga
   - id: TD-STACK-001
     title: Gradual stack modernization roadmap for major framework and runtime upgrades
-    status: open
+    status: materially_reduced
     risk_level: low
     blocking: false
     source_backlog_item: MVP-MOD-002-CLOSEOUT
     affected_area: full_stack
     file: 08-qa/technical-debt/TD-STACK-001-stack-modernization-roadmap.yaml
-    remediation_strategy: gradual_when_affected_components_are_touched
+    remediation_strategy: materially_reduced_by_COM_MOD_012_OPS_001_deployment_strategy_then_gradual_when_affected_components_are_touched
   - id: TD-BE-005
     title: Doctor referring-eligibility is a computed query, not an activation-gated status field
     status: open

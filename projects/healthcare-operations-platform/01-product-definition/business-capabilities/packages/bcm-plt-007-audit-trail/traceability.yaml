@@ -15,3 +15,9 @@ mappings:
     api_endpoints: [/api/v1/platform/audit/events, /api/v1/platform/audit/export]
     permissions: [audit:read, audit:export]
     tests: [TEST-AUD-001, TEST-AUD-002, TEST-AUD-003]
+
+operational_strategy:
+  backlog_item: COM-MOD-012-OPS-001
+  status: closed
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
+  contribution: Deployment, migration, rollback and privileged-operation audit evidence.

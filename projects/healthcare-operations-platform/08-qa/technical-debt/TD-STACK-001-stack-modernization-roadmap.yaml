@@ -3,8 +3,9 @@ artifact:
   type: technical-debt-item
   name: Gradual stack modernization roadmap for major framework and runtime upgrades
   version: 1.0.0
-  status: open
+  status: materially_reduced
   created_date: 2026-07-09
+  updated_date: 2026-07-22
 
 source:
   discovered_during_backlog_item: MVP-MOD-002-CLOSEOUT
@@ -68,7 +69,14 @@ current_vs_market:
     upgrade_trigger: evaluate 18 during deployment/operations hardening
 
 remediation:
-  strategy: gradual_when_affected_components_are_touched
+  strategy: materially_reduced_by_COM_MOD_012_OPS_001_then_gradual_when_affected_components_are_touched
+  latest_reduction:
+    backlog_item: COM-MOD-012-OPS-001
+    evidence: 09-operations/deployment/production-deployment-strategy.yaml
+    summary: >
+      Defined production environment lanes, release promotion controls, modernization triggers,
+      PostgreSQL/runtime evaluation points, rollback controls and compatibility checks so future
+      stack upgrades can be planned and executed safely by component.
   recommended_trigger:
     - dedicated modernization backlog item
     - major security-relevant advisory on a pinned major version

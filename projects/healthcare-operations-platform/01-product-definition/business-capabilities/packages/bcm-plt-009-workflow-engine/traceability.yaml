@@ -15,3 +15,9 @@ mappings:
     api_endpoints: ["/api/v1/platform/workflows/executions", "/api/v1/platform/workflows/executions/{executionId}/rollback"]
     permissions: [workflow:read, workflow:execute, workflow:rollback]
     tests: [TEST-WFK-001, TEST-WFK-002, TEST-WFK-003]
+
+operational_strategy:
+  backlog_item: COM-MOD-012-OPS-001
+  status: closed
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
+  contribution: Release promotion, approval, rollback and incident-handoff workflow boundaries.

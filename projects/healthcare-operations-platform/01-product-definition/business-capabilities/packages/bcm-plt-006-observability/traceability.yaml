@@ -15,3 +15,9 @@ mappings:
     api_endpoints: [/actuator/health/liveness, /actuator/health/readiness, /actuator/prometheus]
     permissions: [metrics:read, health:read]
     tests: [TEST-OBS-001, TEST-OBS-002, TEST-OBS-003]
+
+operational_strategy:
+  backlog_item: COM-MOD-012-OPS-001
+  status: closed
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
+  contribution: Required telemetry and probe gates for environment promotion and production readiness.

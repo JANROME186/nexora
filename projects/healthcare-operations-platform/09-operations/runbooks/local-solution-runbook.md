@@ -4,9 +4,9 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-012-OPS-001`.
+Current active backlog item: `COM-MOD-012-OPS-002`.
 
-Latest update: `COM-MOD-012-DEF` is closed. Capability package models for `COM-MOD-012 Platform Hardening and SaaS Operations` were established across 8 capabilities (5 new packages: `BCM-ORG-001`, `BCM-PLT-002`, `BCM-PLT-006`, `BCM-PLT-007`, `BCM-PLT-009`; 3 extended packages: `BCM-PLT-001`, `BCM-PLT-005`, `BCM-PLT-008`). Registered in `capability-package-index.yaml` v2.2.0. Verified clean YAML syntax, agent-agnostic compliance, secret scan, and zero coverage regressions across all stack baselines. Next active backlog item: `COM-MOD-012-OPS-001`.
+Latest update: `COM-MOD-012-OPS-001` is closed. Production deployment and environment strategy artifacts were added under `09-operations/deployment/`, covering local/dev/qa/staging/prod, deployment units, configuration and secrets, tenant onboarding, release promotion, rollback and deployment readiness. `TD-STACK-001` was materially reduced. No runtime, port, environment variable or startup order changed. Next active backlog item: `COM-MOD-012-OPS-002`.
 
 Previous update: `COM-MOD-011-CLOSEOUT` is closed. Formally closed the `COM-MOD-011 Public Website and Digital Growth` module. All 7 capability packages (`BCM-SVC-001/002/003/005`, `BCM-ATT-001/006`, `BCM-PLT-005`) are confirmed `module_closed` in `capability-package-index.yaml` and their respective `traceability.yaml` files. Technical debt items `TD-BE-015` and `TD-UX-002` are closed with zero open or blocking technical debt attributable to `COM-MOD-011`. Coverage baselines across all 6 Delivered Stacks were re-affirmed: backend 83.99% (327 tests), employee portal 88.68% (154 tests), public website 98.61% (97 tests), mobile 99.21%, patient portal 94.11%, doctor portal 96.28%. OWASP Dependency-Check, npm audit, and Trivy fs scans confirmed 0 vulnerabilities/secrets/misconfigurations. Repository YAML parse, stale-pointer sweep, and `git diff --check` passed clean.
 

@@ -16,3 +16,9 @@ mappings:
     permissions: [config:read, config:manage, feature_flags:toggle, masking_policy:manage]
     tests: [TEST-CFG-001, TEST-CFG-002, TEST-CFG-003]
     technical_debt_addressed: [TD-BE-008]
+
+operational_strategy:
+  backlog_item: COM-MOD-012-OPS-001
+  status: closed
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
+  contribution: Environment configuration, secret-provider precedence, maintenance mode and feature-flag rollout controls.

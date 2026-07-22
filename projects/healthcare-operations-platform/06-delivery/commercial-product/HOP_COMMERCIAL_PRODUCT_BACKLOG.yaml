@@ -19,9 +19,9 @@ product:
     completed_module: COM-MOD-011 (COM-MOD-011-CLOSEOUT closed)
     completed_status: closed
     active_module: COM-MOD-012
-    active_backlog_item: COM-MOD-012-OPS-001
+    active_backlog_item: COM-MOD-012-OPS-002
     active_module_progress: >-
-      COM-MOD-012-DEF closed clean. All 8 capability package models for Platform Hardening and SaaS Operations established (5 new packages: BCM-ORG-001, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-009; 3 extended packages: BCM-PLT-001, BCM-PLT-005, BCM-PLT-008). Registered in capability-package-index.yaml v2.2.0. Next item COM-MOD-012-OPS-001.
+      COM-MOD-012-OPS-001 closed clean. Production deployment and environment strategy established for local/dev/qa/staging/prod, deployment units, configuration/secrets, tenant onboarding, release promotion, rollback and deployment readiness. TD-STACK-001 materially reduced. Next item COM-MOD-012-OPS-002.
     paused_backlog_item: null
 
 source_inputs:
@@ -853,9 +853,10 @@ modules:
         status: closed
       - id: COM-MOD-012-OPS-001
         name: Production deployment and environment strategy
-        status: active
+        status: closed
       - id: COM-MOD-012-OPS-002
         name: Observability, backup, restore and incident runbooks
+        status: active
       - id: COM-MOD-012-BE-001
         name: Compile tenant operations, feature flags and operational controls
       - id: COM-MOD-012-QA-001

@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: "HOP COM-MOD-012-DEF Platform Hardening and SaaS Operations capability package models completed clean (all 8 capability packages modeled/extended, registered in capability-package-index.yaml v2.2.0, 0 coverage regressions across all 6 stack baselines; ready for COM-MOD-012-OPS-001)"
+current_phase: "HOP COM-MOD-012-OPS-001 Production deployment and environment strategy completed clean (open-source-first production environment path, deployment readiness checklist, tenant onboarding, configuration/secrets, rollback and promotion strategy defined; TD-STACK-001 materially reduced; ready for COM-MOD-012-OPS-002)"
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -30,7 +30,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
     active_module: COM-MOD-012
-    active_backlog_item: COM-MOD-012-OPS-001
+    active_backlog_item: COM-MOD-012-OPS-002
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -113,9 +113,10 @@ projects:
       - COM-MOD-011-QA-001
       - COM-MOD-011-CLOSEOUT
       - COM-MOD-012-DEF
+      - COM-MOD-012-OPS-001
     structure: ordered_numbered_folders
 next_deliverables:
-  - Execute COM-MOD-012-OPS-001 Production deployment and environment strategy
+  - Execute COM-MOD-012-OPS-002 Observability, backup, restore and incident runbooks
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake

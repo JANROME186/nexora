@@ -1,0 +1,75 @@
+artifact:
+  id: HOP-OPS-ENV-001
+  type: environment-matrix
+  name: HOP Environment Matrix
+  version: 1.0.0
+  status: approved
+  backlog_item: COM-MOD-012-OPS-001
+  human_readable: environment-matrix.md
+  machine_readable: environment-matrix.yaml
+
+environments:
+  local:
+    purpose: Single-machine developer and reviewer execution.
+    data_policy: Synthetic data only.
+    tenant_isolation: Single local tenant or deterministic seeded tenants.
+    approval_required: false
+    observability_level: local_logs_and_optional_metrics
+    deployment_trigger: manual
+  dev:
+    purpose: Shared integration of completed backlog items.
+    data_policy: Synthetic and generated test data only.
+    tenant_isolation: Dedicated dev tenants.
+    approval_required: false
+    observability_level: basic_metrics_logs_traces
+    deployment_trigger: merge_to_development_branch_or_manual_release_candidate
+  qa:
+    purpose: Automated regression, contract, security and integration evidence.
+    data_policy: Synthetic or masked data only.
+    tenant_isolation: Dedicated qa tenants with repeatable reset.
+    approval_required: qa_owner
+    observability_level: full_validation_metrics_logs_traces
+    deployment_trigger: release_candidate
+  staging:
+    purpose: Production rehearsal and customer-readiness validation.
+    data_policy: Masked production-like or curated production-equivalent data.
+    tenant_isolation: Production-equivalent isolation rules.
+    approval_required: product_owner_and_operations_owner
+    observability_level: production_equivalent
+    deployment_trigger: approved_release_candidate
+  prod:
+    purpose: Customer-facing SaaS operation.
+    data_policy: Customer production data.
+    tenant_isolation: Required and audited.
+    approval_required: release_manager_and_operations_owner
+    observability_level: production
+    deployment_trigger: approved_production_release
+
+common_required_controls:
+  - immutable_artifacts
+  - environment_specific_configuration
+  - secret_provider_no_plaintext_secrets
+  - audit_events_for_deployment_actions
+  - health_readiness_liveness_checks
+  - rollback_plan
+  - vulnerability_evidence_zero_unresolved_findings
+  - coverage_floor_no_regression
+
+minimum_resource_profiles:
+  local:
+    backend_instances: 1
+    database_instances: 1
+    portal_instances: 1
+  shared_non_prod:
+    backend_instances: 1
+    database_instances: 1
+    portal_instances: 1
+  production:
+    backend_instances: 2
+    database_instances: ha_or_managed
+    portal_instances: 2
+    backup_required: true
+
+validation:
+  next_backlog_item: COM-MOD-012-OPS-002
+  no_runtime_change_in_this_backlog: true

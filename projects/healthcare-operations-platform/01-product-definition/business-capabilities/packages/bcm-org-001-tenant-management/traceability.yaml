@@ -16,3 +16,9 @@ mappings:
     permissions: [tenant:create, tenant:read, tenant:update_status, tenant:manage_quota]
     tests: [TEST-TEN-001, TEST-TEN-002, TEST-TEN-003, TEST-TEN-004]
     technical_debt_addressed: [TD-DB-004]
+
+operational_strategy:
+  backlog_item: COM-MOD-012-OPS-001
+  status: closed
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
+  contribution: Tenant onboarding, isolation smoke checks, subscription state and tenant promotion controls.

@@ -41,6 +41,15 @@ completed_capability_package_groups:
     backlog_item: COM-MOD-012-DEF
     qa_evidence: ../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-DEF-validation.yaml
     security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-012-DEF/security-quality-evidence.yaml
+    operational_strategy:
+      backlog_item: COM-MOD-012-OPS-001
+      status: closed
+      qa_evidence: ../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
+      security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-012-OPS-001/security-quality-evidence.yaml
+      artifacts:
+        - ../../../09-operations/deployment/production-deployment-strategy.yaml
+        - ../../../09-operations/deployment/environment-matrix.yaml
+        - ../../../09-operations/deployment/deployment-readiness-checklist.yaml
     capabilities:
       - capability_id: BCM-ORG-001
         package_folder: bcm-org-001-tenant-management/

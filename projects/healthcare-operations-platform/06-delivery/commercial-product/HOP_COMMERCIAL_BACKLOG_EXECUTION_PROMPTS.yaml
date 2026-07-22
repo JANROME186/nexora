@@ -243,9 +243,9 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-012
-  backlog_item_id: COM-MOD-012-OPS-001
-  name: Production deployment and environment strategy
-  expected_folder: 09-operations/deployment/ and
+  backlog_item_id: COM-MOD-012-OPS-002
+  name: Observability, backup, restore and incident runbooks
+  expected_folder: 09-operations/runbooks/ and
     08-qa/qa/platform-hardening-and-saas-operations/
   paused_functional_backlog_item: null
   required_debt_first_action: null
@@ -262,10 +262,10 @@ next_backlog_item:
     - Preserve coverage floors: backend (83.99%), employee portal (88.68%), mobile (99.21%), patient portal (94.11%), doctor portal (96.28%), and public website (98.61%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
-    - Review 08-qa/technical-debt/technical-debt-index.yaml before operational strategy work and resolve or materially reduce at least one open item when applicable.
-    - Keep the strategy open-source-first, production-like, reproducible and compatible with the modeled COM-MOD-012 capability packages.
+    - Review 08-qa/technical-debt/technical-debt-index.yaml before runbook work and resolve or materially reduce at least one open item when applicable.
+    - Build on 09-operations/deployment/production-deployment-strategy.yaml and keep runbooks executable, open-source-first, production-like and compatible with the modeled COM-MOD-012 capability packages.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-012-DEF
+    backlog_item_id: COM-MOD-012-OPS-001
     status: closed
     summary: >-
-      COM-MOD-012-DEF closed clean. Capability package models for COM-MOD-012 Platform Hardening and SaaS Operations were established across 8 capabilities (5 new packages: BCM-ORG-001, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-009; 3 extended packages: BCM-PLT-001, BCM-PLT-005, BCM-PLT-008). The work was definition-only, preserved coverage floors across all delivered stacks, passed YAML parse, stale-pointer sweep, agent-agnostic scan, secret scan and git diff --check, and advanced next_backlog_item to COM-MOD-012-OPS-001.
+      COM-MOD-012-OPS-001 closed clean. Production deployment and environment strategy was defined under 09-operations/deployment, covering local/dev/qa/staging/prod, deployment units, configuration and secret policy, tenant onboarding, release promotion, rollback and deployment readiness. TD-STACK-001 was materially reduced. The work was definition-only, preserved coverage floors across all delivered stacks, passed YAML parse, stale-pointer sweep, agent-agnostic scan, secret scan and git diff --check, and advanced next_backlog_item to COM-MOD-012-OPS-002.

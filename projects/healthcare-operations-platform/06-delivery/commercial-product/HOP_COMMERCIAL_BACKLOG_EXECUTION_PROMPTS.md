@@ -234,14 +234,14 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-012-DEF Capability package models` is closed.
+`COM-MOD-012-OPS-001 Production deployment and environment strategy` is closed.
 Continue with:
 
 - Module: `COM-MOD-012`
-- Backlog item: `COM-MOD-012-OPS-001`
-- Previous backlog item: `COM-MOD-012-DEF` (closed)
+- Backlog item: `COM-MOD-012-OPS-002`
+- Previous backlog item: `COM-MOD-012-OPS-001` (closed)
 - Paused functional backlog item: none
-- Folder: `09-operations/deployment/` and `08-qa/qa/platform-hardening-and-saas-operations/`
+- Folder: `09-operations/runbooks/` and `08-qa/qa/platform-hardening-and-saas-operations/`
 
 Mandatory setup for this backlog:
 
@@ -250,9 +250,9 @@ Mandatory setup for this backlog:
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
 - Use the COM-MOD-012 capability packages modeled or extended by `COM-MOD-012-DEF`: `BCM-ORG-001`, `BCM-PLT-001`, `BCM-PLT-002`, `BCM-PLT-005`, `BCM-PLT-006`, `BCM-PLT-007`, `BCM-PLT-008`, and `BCM-PLT-009`.
-- Create the production deployment and environment strategy using open-source-first, reproducible and production-like practices.
-- Review `08-qa/technical-debt/technical-debt-index.yaml` before operational strategy work and resolve or materially reduce at least one open item when applicable.
+- Build on `09-operations/deployment/production-deployment-strategy.yaml` and create executable observability, backup, restore and incident runbooks.
+- Review `08-qa/technical-debt/technical-debt-index.yaml` before runbook work and resolve or materially reduce at least one open item when applicable.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-012-DEF` - Capability package models. Established Platform Hardening and SaaS Operations models across 8 capabilities: 5 new packages (`BCM-ORG-001`, `BCM-PLT-002`, `BCM-PLT-006`, `BCM-PLT-007`, `BCM-PLT-009`) and 3 extended packages (`BCM-PLT-001`, `BCM-PLT-005`, `BCM-PLT-008`). The work was definition-only, preserved coverage floors across all delivered stacks, passed YAML parse, stale-pointer sweep, agent-agnostic scan, secret scan and `git diff --check`, and advanced the active backlog item to `COM-MOD-012-OPS-001`.
+`COM-MOD-012-OPS-001` - Production deployment and environment strategy. Defined the open-source-first local/dev/qa/staging/prod path, deployment units, configuration and secret policy, tenant onboarding, release promotion, rollback and deployment readiness checklist under `09-operations/deployment/`. `TD-STACK-001` was materially reduced. The work was definition-only, preserved coverage floors across all delivered stacks, passed YAML parse, stale-pointer sweep, agent-agnostic scan, secret scan and `git diff --check`, and advanced the active backlog item to `COM-MOD-012-OPS-002`.
