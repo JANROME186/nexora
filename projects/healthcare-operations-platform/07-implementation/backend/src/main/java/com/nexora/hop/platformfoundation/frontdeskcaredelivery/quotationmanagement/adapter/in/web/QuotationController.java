@@ -56,7 +56,7 @@ class QuotationController {
         QuotationRequest started = service.start(new StartQuotationCommand(
                 request.tenantId(), request.laboratoryId(), request.branchId(), request.patientId(),
                 request.prospectiveFullName(), request.prospectivePhone(), request.prospectiveEmail(),
-                request.actorId(),
+                request.channel(), request.actorId(),
                 request.lines() == null ? List.of() : request.lines().stream().map(QuotationLineRequest::toInput).toList()));
         return ResponseEntity.created(URI.create("/api/care-delivery/quotations/" + started.quotationId()))
                 .body(started);
@@ -107,6 +107,7 @@ class QuotationController {
             String prospectiveFullName,
             String prospectivePhone,
             String prospectiveEmail,
+            String channel,
             String actorId,
             List<QuotationLineRequest> lines) {
     }

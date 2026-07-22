@@ -63,14 +63,14 @@ class PublicIntakeAdapter implements PublicIntakePort {
         try {
             QuotationRequest saved = quotationManagementService.startPublic(new StartQuotationCommand(
                     command.tenantId(), command.laboratoryId(), command.branchId(), null,
-                    command.prospectiveFullName(), command.prospectivePhone(), command.prospectiveEmail(), null,
+                    command.prospectiveFullName(), command.prospectivePhone(), command.prospectiveEmail(), null, null,
                     command.lines() == null ? List.of()
                             : command.lines().stream()
                                     .map(line -> new StartQuotationCommand.QuotationLineInput(
                                             line.testDefinitionId(), line.catalogItemKind(), line.quantity()))
                                     .toList()));
             return new PublicQuotationIntakeResult(saved.quotationId(), saved.laboratoryId(),
-                    saved.branchId(), saved.status());
+                    saved.branchId(), saved.status(), saved.channel());
         } catch (InvalidFrontDeskCommandException ex) {
             throw new PublicIntakeException(PublicIntakeException.Kind.INVALID, ex.getMessage());
         } catch (FrontDeskConflictException ex) {

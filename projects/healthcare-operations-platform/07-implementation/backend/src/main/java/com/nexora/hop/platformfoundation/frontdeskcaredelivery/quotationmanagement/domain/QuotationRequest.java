@@ -25,6 +25,7 @@ public record QuotationRequest(
         String discountKind,
         java.math.BigDecimal discountValue,
         LocalDate validUntil,
+        String channel,
         String status,
         String convertedOrderId,
         String cancellationReason,
@@ -43,4 +44,12 @@ public record QuotationRequest(
     public static final String DISCOUNT_PERCENTAGE = "percentage";
     public static final String DISCOUNT_FIXED_AMOUNT = "fixed_amount";
     public static final String DISCOUNT_PROMOTION_CODE = "promotion_code";
+
+    /** Mirrors {@code AppointmentSlot}'s channel set (COM-MOD-011-FE-001 defect fix: quotations
+     * previously had no queryable way to distinguish public-website-submitted drafts). */
+    public static final String CHANNEL_WALK_IN_SCHEDULING = "walk_in_scheduling";
+    public static final String CHANNEL_PHONE = "phone";
+    public static final String CHANNEL_EMPLOYEE_PORTAL = "employee_portal";
+    public static final String CHANNEL_PATIENT_PORTAL_REQUEST_LATER = "patient_portal_request_later";
+    public static final String CHANNEL_PUBLIC_WEBSITE = "public_website";
 }

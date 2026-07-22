@@ -41,6 +41,9 @@ import { InternalQualityControlsScreen } from "./components/screens/InternalQual
 import { EquipmentScreen } from "./components/screens/EquipmentScreen";
 import { CalibrationsScreen } from "./components/screens/CalibrationsScreen";
 import { MaintenanceScreen } from "./components/screens/MaintenanceScreen";
+import { PublicContentReviewScreen } from "./components/screens/PublicContentReviewScreen";
+import { PublicAppointmentRequestsScreen } from "./components/screens/PublicAppointmentRequestsScreen";
+import { PublicQuotationRequestsScreen } from "./components/screens/PublicQuotationRequestsScreen";
 import { AdminScopeProvider } from "./state/AdminScopeContext";
 import { SessionProvider } from "./state/SessionContext";
 import { LocaleProvider } from "./i18n/LocaleContext";
@@ -87,6 +90,9 @@ const SCREEN_COMPONENTS = {
   equipment: EquipmentScreen,
   calibrations: CalibrationsScreen,
   maintenance: MaintenanceScreen,
+  "public-content-review": PublicContentReviewScreen,
+  "public-appointment-requests": PublicAppointmentRequestsScreen,
+  "public-quotation-requests": PublicQuotationRequestsScreen,
 } as const satisfies Record<ScreenKey, () => JSX.Element>;
 
 function renderScreen(screen: ScreenKey) {

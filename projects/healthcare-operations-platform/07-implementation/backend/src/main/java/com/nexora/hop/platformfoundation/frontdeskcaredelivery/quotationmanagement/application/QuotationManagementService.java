@@ -60,6 +60,10 @@ public class QuotationManagementService {
     private static final List<String> DISCOUNT_KINDS = List.of(
             QuotationRequest.DISCOUNT_PERCENTAGE, QuotationRequest.DISCOUNT_FIXED_AMOUNT,
             QuotationRequest.DISCOUNT_PROMOTION_CODE);
+    private static final List<String> QUOTATION_CHANNELS = List.of(
+            QuotationRequest.CHANNEL_WALK_IN_SCHEDULING, QuotationRequest.CHANNEL_PHONE,
+            QuotationRequest.CHANNEL_EMPLOYEE_PORTAL, QuotationRequest.CHANNEL_PATIENT_PORTAL_REQUEST_LATER,
+            QuotationRequest.CHANNEL_PUBLIC_WEBSITE);
 
     static final int DEFAULT_VALIDITY_DAYS = 15;
     private static final String DEFAULT_CURRENCY = "USD";
@@ -105,32 +109,29 @@ public class QuotationManagementService {
         this.clock = clock;
     }
 
-    /** RN-001: quotation lines must reference only published catalog items. */
+    /**
+     * RN-001: quotation lines must reference only published catalog items.
+     * <p>
+     * <b>COM-MOD-011-FE-001 defect fix:</b> {@code channel} now mirrors {@link
+     * com.nexora.hop.platformfoundation.frontdeskcaredelivery.appointmentscheduling.domain.AppointmentSlot}'s
+     * channel field, closing the gap where public-website-submitted quotations were only
+     * distinguishable from staff-initiated ones by an unreliable heuristic. Defaults to {@link
+     * QuotationRequest#CHANNEL_EMPLOYEE_PORTAL} when omitted; {@link
+     * QuotationRequest#CHANNEL_PUBLIC_WEBSITE} is rejected here since only {@link #startPublic}
+     * may stamp it.
+     */
     public QuotationRequest start(StartQuotationCommand command) {
-        String tenantId = requiredText(command.tenantId(), "Tenant id is required.");
-        String laboratoryId = requiredText(command.laboratoryId(), "Laboratory id is required.");
-        String branchId = requiredText(command.branchId(), "Branch id is required.");
-        List<StartQuotationCommand.QuotationLineInput> requestedLines =
-                command.lines() == null ? List.of() : command.lines();
-
-        String quotationId = newId();
-        List<QuotationLine> lines = new ArrayList<>();
-        for (StartQuotationCommand.QuotationLineInput input : requestedLines) {
-            lines.add(buildLine(quotationId, input));
+        String channel = command.channel() == null
+                ? QuotationRequest.CHANNEL_EMPLOYEE_PORTAL
+                : requiredOneOf(command.channel(), "Quotation channel is invalid.",
+                        QUOTATION_CHANNELS.toArray(String[]::new));
+        if (QuotationRequest.CHANNEL_PUBLIC_WEBSITE.equals(channel)) {
+            throw new InvalidFrontDeskCommandException(
+                    "Public website quotation requests must use startPublic.");
         }
-
-        Instant now = Instant.now(clock);
-        QuotationRequest quotation = new QuotationRequest(
-                quotationId, tenantId, laboratoryId, branchId, optionalText(command.patientId()),
-                optionalText(command.prospectiveFullName()), optionalText(command.prospectivePhone()),
-                optionalText(command.prospectiveEmail()), null, 0, null, null, null, null,
-                QuotationRequest.STATUS_DRAFT, null, null, optionalText(command.actorId()), 1, now, now);
-        QuotationRequest saved = repository.save(quotation);
-        for (QuotationLine line : lines) {
-            repository.saveLine(line);
-        }
-        auditRecorder.recordSystemEvent(tenantId, "QuotationDrafted", "QuotationRequest", quotationId,
-                "{\"branchId\":\"%s\"}".formatted(jsonText(branchId)));
+        QuotationRequest saved = draft(command, channel);
+        auditRecorder.recordSystemEvent(saved.tenantId(), "QuotationDrafted", "QuotationRequest",
+                saved.quotationId(), "{\"branchId\":\"%s\"}".formatted(jsonText(saved.branchId())));
         return saved;
     }
 
@@ -150,11 +151,37 @@ public class QuotationManagementService {
         }
         StartQuotationCommand sanitized = new StartQuotationCommand(
                 command.tenantId(), command.laboratoryId(), command.branchId(),
-                null, fullName, phone, email, null, command.lines());
-        QuotationRequest saved = start(sanitized);
+                null, fullName, phone, email, QuotationRequest.CHANNEL_PUBLIC_WEBSITE, null, command.lines());
+        QuotationRequest saved = draft(sanitized, QuotationRequest.CHANNEL_PUBLIC_WEBSITE);
         auditRecorder.recordSystemEvent(saved.tenantId(), "QuotationDraftedPublicWebsite",
                 "QuotationRequest", saved.quotationId(),
                 "{\"branchId\":\"%s\",\"channel\":\"public_website\"}".formatted(jsonText(saved.branchId())));
+        return saved;
+    }
+
+    private QuotationRequest draft(StartQuotationCommand command, String channel) {
+        String tenantId = requiredText(command.tenantId(), "Tenant id is required.");
+        String laboratoryId = requiredText(command.laboratoryId(), "Laboratory id is required.");
+        String branchId = requiredText(command.branchId(), "Branch id is required.");
+        List<StartQuotationCommand.QuotationLineInput> requestedLines =
+                command.lines() == null ? List.of() : command.lines();
+
+        String quotationId = newId();
+        List<QuotationLine> lines = new ArrayList<>();
+        for (StartQuotationCommand.QuotationLineInput input : requestedLines) {
+            lines.add(buildLine(quotationId, input));
+        }
+
+        Instant now = Instant.now(clock);
+        QuotationRequest quotation = new QuotationRequest(
+                quotationId, tenantId, laboratoryId, branchId, optionalText(command.patientId()),
+                optionalText(command.prospectiveFullName()), optionalText(command.prospectivePhone()),
+                optionalText(command.prospectiveEmail()), null, 0, null, null, null, null, channel,
+                QuotationRequest.STATUS_DRAFT, null, null, optionalText(command.actorId()), 1, now, now);
+        QuotationRequest saved = repository.save(quotation);
+        for (QuotationLine line : lines) {
+            repository.saveLine(line);
+        }
         return saved;
     }
 
@@ -238,7 +265,8 @@ public class QuotationManagementService {
                 quotation.quotationId(), quotation.tenantId(), quotation.laboratoryId(), quotation.branchId(),
                 quotation.patientId(), quotation.prospectiveFullName(), quotation.prospectivePhone(),
                 quotation.prospectiveEmail(), primaryPriceList.priceListId(), primaryPriceList.version(),
-                new Money(currency, total), discountKind, discountValue, validUntil, QuotationRequest.STATUS_ISSUED,
+                new Money(currency, total), discountKind, discountValue, validUntil, quotation.channel(),
+                QuotationRequest.STATUS_ISSUED,
                 quotation.convertedOrderId(), quotation.cancellationReason(), quotation.actorId(),
                 quotation.version() + 1, quotation.createdAt(), Instant.now(clock));
         QuotationRequest saved = repository.save(issued);
@@ -289,7 +317,8 @@ public class QuotationManagementService {
                 quotation.patientId(), quotation.prospectiveFullName(), quotation.prospectivePhone(),
                 quotation.prospectiveEmail(), quotation.priceListId(), quotation.priceListVersion(),
                 quotation.totalAmount(), quotation.discountKind(), quotation.discountValue(), quotation.validUntil(),
-                QuotationRequest.STATUS_CONVERTED, order.orderId(), quotation.cancellationReason(),
+                quotation.channel(), QuotationRequest.STATUS_CONVERTED, order.orderId(),
+                quotation.cancellationReason(),
                 quotation.actorId(), quotation.version() + 1, quotation.createdAt(), Instant.now(clock));
         QuotationRequest saved = repository.save(converted);
         auditRecorder.recordSystemEvent(saved.tenantId(), "QuotationConverted", "QuotationRequest", quotationId,
@@ -374,7 +403,7 @@ public class QuotationManagementService {
                 quotation.patientId(), quotation.prospectiveFullName(), quotation.prospectivePhone(),
                 quotation.prospectiveEmail(), quotation.priceListId(), quotation.priceListVersion(),
                 quotation.totalAmount(), quotation.discountKind(), quotation.discountValue(), quotation.validUntil(),
-                status, quotation.convertedOrderId(), cancellationReason, quotation.actorId(),
+                quotation.channel(), status, quotation.convertedOrderId(), cancellationReason, quotation.actorId(),
                 quotation.version() + 1, quotation.createdAt(), Instant.now(clock));
     }
 

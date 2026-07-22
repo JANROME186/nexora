@@ -1,3 +1,15 @@
+/*
+ * Documented responsive breakpoint set (mobile-first), retrofitted for TD-UX-002 using the same
+ * three breakpoints already proven in 07-implementation/public-website/src/styles.css:
+ *   --hop-bp-sm: 40rem (640px)  - large phones / small tablets
+ *   --hop-bp-md: 60rem (960px)  - tablets / small laptops
+ *   --hop-bp-lg: 75rem (1200px) - desktop
+ * Every layout rule below the mobile-first base is expressed as a min-width media query at one
+ * of these breakpoints (media-feature values are hardcoded rem literals below, matching the
+ * public-website reference, since CSS custom properties cannot be referenced inside a media
+ * feature condition). Applied here to .app-shell so every administration screen — including the
+ * new COM-MOD-011-FE-001 screens — inherits it.
+ */
 :root {
   color-scheme: light;
   font-family:
@@ -5,6 +17,9 @@
     -apple-system,
     "Segoe UI",
     sans-serif;
+  --hop-bp-sm: 40rem;
+  --hop-bp-md: 60rem;
+  --hop-bp-lg: 75rem;
 
   /* Design tokens: names for the hex/rgba values already used below. Pure refactor — every
      resolved color stays identical, this only formalizes what was already in use. */
@@ -35,9 +50,28 @@ body {
 }
 
 .app-shell {
-  max-width: 960px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 1.5rem;
+  padding: 1rem;
+}
+
+@media (min-width: 40rem) {
+  .app-shell {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 60rem) {
+  .app-shell {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 75rem) {
+  .app-shell {
+    max-width: 1100px;
+    padding: 2rem;
+  }
 }
 
 .app-shell__header h1 {
@@ -150,9 +184,17 @@ table {
 th,
 td {
   text-align: left;
-  padding: 0.4rem 0.6rem;
+  padding: 0.3rem 0.4rem;
   border-bottom: 1px solid var(--hop-color-border-subtle);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+}
+
+@media (min-width: 40rem) {
+  th,
+  td {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+  }
 }
 
 .scope-indicator {

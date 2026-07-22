@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-011-FE-001 Content and request administration screens active (COM-MOD-011-WEB-001 closed with the public-website frontend compiled at 07-implementation/public-website/ consuming the anonymous /api/public/** surface -- published catalog discovery for BCM-SVC-001/002/003/005, public appointment/quotation request intake for BCM-ATT-001/006, explicit 429 handling for BCM-PLT-005 -- with SEO/accessibility/privacy/i18n foundations, a first-ever 98.61% line coverage baseline for this stack, and TD-UX-002 materially reduced; live end-to-end backend verification later found and fixed a real catalog-seed status-casing defect in schema.sql with 0 backend regressions, 324 tests still passing and coverage unchanged at 83.96%)
+current_phase: COM-MOD-011-QA-001 Public web, SEO and privacy evidence active (COM-MOD-011-FE-001 closed with the content and request administration screens compiled at 07-implementation/employee-portal/ -- PublicContentReviewScreen consuming the same anonymous /api/public/catalog/**/published surface the public website uses, PublicAppointmentRequestsScreen and PublicQuotationRequestsScreen triaging existing internal /api/care-delivery/** requests filtered client-side to channel=="public_website" -- with dynamic IAM-gated navigation, es-MX/en-US i18n and TD-UX-002 closed; a real defect was found and fixed along the way, QuotationRequest gained a channel field mirroring AppointmentSlot so public-submitted quotation drafts are reliably distinguishable, raising backend coverage to 83.99% and employee-portal coverage to 88.68%, and a Trivy-caught jackson-databind CVE-2026-59889 was fixed via a pom.xml version pin)
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -506,7 +506,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: COM-MOD-011
-  current_backlog_item: COM-MOD-011-FE-001
+  current_backlog_item: COM-MOD-011-QA-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -585,9 +585,60 @@ implementation_progress:
     - COM-MOD-011-DEF
     - COM-MOD-011-BE-001
     - COM-MOD-011-WEB-001
+    - COM-MOD-011-FE-001
   in_progress_backlog_items: []
   pending_backlog_items: []
   latest_validation:
+    backlog_item_id: COM-MOD-011-FE-001
+    command: >-
+      Compiled the content and public-request administration screens in the existing employee
+      portal at 07-implementation/employee-portal/: PublicContentReviewScreen (consuming the same
+      anonymous /api/public/catalog/**/published endpoints the public website itself calls),
+      PublicAppointmentRequestsScreen and PublicQuotationRequestsScreen (consuming the existing
+      internal /api/care-delivery/appointments and /api/care-delivery/quotations endpoints,
+      filtered client-side to channel=="public_website"). Found and fixed a real defect along the
+      way: QuotationRequest had no channel field (unlike AppointmentSlot), so it gained one
+      (additive schema.sql column, optional StartQuotationCommand field, whitelist validation),
+      which touched the backend and required re-running its full quality gate. Also closed
+      TD-UX-002 by retrofitting responsive breakpoints and an automated jest-axe accessibility
+      check into employee-portal itself. Executed npm run typecheck/lint/test:coverage/build/
+      duplication/format:check/license:check/audit, mvn -Pquality -Dhop.local-db-tests=true clean
+      verify, OWASP dependency-check, trivy fs (frontend and backend, vuln/secret/misconfig, all
+      severities), repository-wide YAML parse, agent-agnostic scan and git diff --check.
+    working_directory: projects/healthcare-operations-platform/07-implementation/employee-portal
+    status: passed
+    tests_run_backend: 327
+    tests_run_backend_status: passed
+    tests_run_frontend: 154
+    tests_run_frontend_status: passed
+    test_files_frontend: 54
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 83.99
+    previous_line_coverage_baseline_backend_percent: 83.96
+    line_coverage_frontend_percent: 88.68
+    previous_line_coverage_baseline_frontend_percent: 88.24
+    coverage_regression: false
+    additional_checks:
+      - >-
+        Closed TD-UX-002 (documented responsive breakpoints in styles.css and an automated
+        jest-axe accessibility check wired into npm run test/quality plus eslint-plugin-jsx-a11y
+        in npm run lint) in employee-portal itself, the debt's originally discovered
+        affected_area, satisfying both acceptance criteria there for the first time.
+        eslint-plugin-jsx-a11y surfaced and fixed 1 real finding (ConfirmDialog.tsx autoFocus).
+      - >-
+        Trivy fs scan on the backend found 1 MEDIUM vulnerability (CVE-2026-59889,
+        tools.jackson.core:jackson-databind 3.1.4) before the fix; pinned to 3.1.5 in pom.xml,
+        re-scan confirmed 0. OWASP dependency-check's first run (108 deps, 0 vulnerable) predated
+        this CVE being ingested into its database; a re-verification run could not complete due to
+        an unrelated stale lock file from another project sharing this machine's environment.
+      - >-
+        npm audit and Trivy fs (frontend and backend, vuln/secret/misconfig, all severities)
+        reported 0 findings after the fix. Agent-agnostic scan reported 4 false positives (CSS
+        cursor: property) and 0 real hits. git diff --check reported 0 whitespace errors.
+  previous_validation_com_mod_011_web_001:
     backlog_item_id: COM-MOD-011-WEB-001
     command: >-
       Compiled the public website frontend at 07-implementation/public-website/ (React 19 +
@@ -1405,7 +1456,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_iteration: COM-MOD-011
   active_module: COM-MOD-011 Public Website and Digital Growth
-  active_backlog_item: COM-MOD-011-FE-001
+  active_backlog_item: COM-MOD-011-QA-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
@@ -1417,7 +1468,7 @@ commercial_product_progress:
     COM-MOD-011:
       name: Public Website and Digital Growth
       package_status: reused_extended
-      backlog_item: COM-MOD-011-FE-001
+      backlog_item: COM-MOD-011-QA-001
       backlog_item_status: active
       execution_flow_stage: implement
       packages_reused:

@@ -36,7 +36,7 @@ export function ConfirmDialog({
           <button type="button" onClick={onCancel}>
             {cancelLabel}
           </button>
-          <button type="button" onClick={onConfirm} autoFocus>
+          <button type="button" onClick={onConfirm}>
             {confirmLabel}
           </button>
         </div>

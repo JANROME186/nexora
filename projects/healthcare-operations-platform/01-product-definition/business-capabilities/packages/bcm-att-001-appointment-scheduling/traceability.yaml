@@ -153,3 +153,13 @@ traces:
         (useRateLimitCooldown) handles 429 PUBLIC_RATE_LIMIT_EXCEEDED responses since the backend
         sends no Retry-After header. No internal identifier is displayed or requested; branchId
         comes from deployment-owned site configuration.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-FE-001
+      surface_added: employee_portal (staff request triage)
+      note: >-
+        Compiled PublicAppointmentRequestsScreen at
+        07-implementation/employee-portal/src/components/screens/, listing
+        GET /api/care-delivery/appointments (src/api/publicRequestsApi.ts) filtered client-side to
+        channel=="public_website" && status=="requested" — AppointmentSlot already carried both
+        fields, so no backend change was needed here. Confirm/reject actions reuse the existing
+        POST .../confirm and .../cancel endpoints; no new action endpoint was created.

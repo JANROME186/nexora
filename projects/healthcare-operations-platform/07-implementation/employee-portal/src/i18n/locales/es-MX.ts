@@ -82,6 +82,9 @@ export const esMX = {
       equipment: "Equipos",
       calibrations: "Calibraciones",
       maintenance: "Mantenimiento",
+      publicContentReview: "Contenido Público",
+      publicAppointmentRequests: "Citas Públicas",
+      publicQuotationRequests: "Cotizaciones Públicas",
     },
   },
   integrationMigration: {
@@ -368,6 +371,130 @@ export const esMX = {
       completeSuccess: "Mantenimiento completado.",
       loadEvents: "Cargar eventos",
       complete: "Completar",
+    },
+  },
+  publicContentReview: {
+    heading: "Revisión de Contenido Público",
+    description:
+      "Consulta el contenido del catálogo actualmente publicado en el sitio web público " +
+      "(servicios, pruebas, paneles y preparaciones).",
+    shared: {
+      laboratoryRequired: "Selecciona un laboratorio antes de continuar.",
+      load: "Cargar",
+      loaded: "Contenido publicado cargado.",
+      noRecords: "No hay contenido publicado para esta área.",
+    },
+    areas: {
+      services: "Servicios",
+      tests: "Pruebas",
+      panels: "Paneles",
+      preparations: "Preparaciones",
+    },
+    columns: {
+      code: "Código",
+      nameEn: "Nombre (inglés)",
+      nameEs: "Nombre (español)",
+      serviceType: "Tipo de servicio",
+      methodology: "Metodología",
+      resultType: "Tipo de resultado",
+      turnaroundTimeHours: "Tiempo de entrega (horas)",
+      titleEn: "Título (inglés)",
+      titleEs: "Título (español)",
+      category: "Categoría",
+      durationHours: "Duración (horas)",
+      version: "Versión",
+    },
+  },
+  publicAppointmentRequests: {
+    heading: "Solicitudes Públicas de Cita",
+    description: "Revisa y enruta las solicitudes de cita enviadas desde el sitio web público.",
+    shared: {
+      tenantRequired: "Selecciona un tenant antes de continuar.",
+      load: "Cargar solicitudes",
+      loaded: "Solicitudes cargadas.",
+      noRecords: "No hay solicitudes públicas de cita pendientes.",
+      selectFirst: "Selecciona una solicitud primero.",
+      dialogConfirm: "Confirmar",
+      dialogCancel: "Cancelar",
+    },
+    columns: {
+      appointmentId: "ID de la cita",
+      contact: "Contacto",
+      scheduledStart: "Inicio programado",
+      scheduledEnd: "Fin programado",
+      status: "Estado",
+    },
+    detail: {
+      heading: "Detalle de la Solicitud",
+      contactName: "Nombre de contacto",
+      contactPhone: "Teléfono de contacto",
+      contactEmail: "Correo de contacto",
+      scheduledStart: "Inicio programado",
+      scheduledEnd: "Fin programado",
+      status: "Estado",
+    },
+    actions: {
+      confirmAppointment: "Confirmar cita",
+      rejectAppointment: "Rechazar solicitud",
+      reasonCode: "Motivo de rechazo",
+    },
+    confirmAppointmentDialog: {
+      title: "Confirmar cita",
+      description: "Esta cita pública será confirmada y quedará agendada. ¿Continuar?",
+    },
+    rejectAppointmentDialog: {
+      title: "Rechazar solicitud",
+      description:
+        "Esta solicitud de cita pública será rechazada y no podrá confirmarse. ¿Continuar?",
+    },
+    success: {
+      confirmed: "Cita confirmada.",
+      rejected: "Solicitud rechazada.",
+    },
+  },
+  publicQuotationRequests: {
+    heading: "Solicitudes Públicas de Cotización",
+    description:
+      "Revisa y enruta las solicitudes de cotización enviadas desde el sitio web público.",
+    shared: {
+      tenantRequired: "Selecciona un tenant antes de continuar.",
+      load: "Cargar solicitudes",
+      loaded: "Solicitudes cargadas.",
+      noRecords: "No hay solicitudes públicas de cotización pendientes.",
+      selectFirst: "Selecciona una solicitud primero.",
+      dialogConfirm: "Confirmar",
+      dialogCancel: "Cancelar",
+    },
+    columns: {
+      quotationId: "ID de la cotización",
+      contact: "Contacto",
+      status: "Estado",
+    },
+    detail: {
+      heading: "Detalle de la Solicitud",
+      contactName: "Nombre de contacto",
+      contactPhone: "Teléfono de contacto",
+      contactEmail: "Correo de contacto",
+      status: "Estado",
+    },
+    actions: {
+      issue: "Emitir cotización",
+      reject: "Rechazar solicitud",
+      reasonCode: "Motivo de rechazo",
+    },
+    issueDialog: {
+      title: "Emitir cotización",
+      description:
+        "Esta cotización pública será emitida (precio calculado) y podrá enviarse al contacto. " +
+        "¿Continuar?",
+    },
+    rejectDialog: {
+      title: "Rechazar solicitud",
+      description: "Esta solicitud de cotización pública será cancelada. ¿Continuar?",
+    },
+    success: {
+      issued: "Cotización emitida.",
+      rejected: "Solicitud rechazada.",
     },
   },
 } as const;

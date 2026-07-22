@@ -3,10 +3,10 @@ artifact:
   type: technical-debt-item
   name: No formalized responsive breakpoints/layout system; no automated accessibility
     (axe-core/Playwright) check wired into npm run quality
-  version: 1.1.0
-  status: materially_reduced
+  version: 1.2.0
+  status: closed
   created_date: 2026-07-17
-  updated_date: 2026-07-21
+  updated_date: 2026-07-22
 
 source:
   discovered_during_backlog_item: HOP-ENT-FOUND-001
@@ -74,3 +74,23 @@ progress_log:
       COM-MOD-011-WEB-001's working_directory and was not touched; its styles.css still has no
       breakpoints and its package.json/eslint.config.js still lack jsx-a11y/axe-core. Closing this
       debt fully requires a future employee-portal-scoped iteration to retrofit the same pattern.
+  - date: 2026-07-22
+    backlog_item: COM-MOD-011-FE-001
+    action: closed
+    detail: >-
+      Retrofitted both acceptance criteria into employee-portal itself, the debt's originally
+      discovered affected_area, closing the remaining_scope left open by COM-MOD-011-WEB-001:
+      (1) a documented mobile-first responsive breakpoint set (--hop-bp-sm/md/lg at
+      40rem/60rem/75rem, same values as the public-website reference implementation) added to
+      07-implementation/employee-portal/src/styles.css and applied to .app-shell (padding/max-width)
+      and table th/td (padding/font-size) — both shared across every administration screen,
+      including the new COM-MOD-011-FE-001 screens; and (2) an automated accessibility check
+      (axe-core via jest-axe, 07-implementation/employee-portal/src/test/accessibility.test.tsx)
+      covering the AppShell/default screen plus the 3 new public-request-administration screens,
+      running inside npm run test/npm run quality with 0 violations, plus eslint-plugin-jsx-a11y
+      wired into eslint.config.js (surfaced and fixed one real finding in the process:
+      ConfirmDialog.tsx's confirm button had autoFocus, flagged by jsx-a11y/no-autofocus, removed).
+    remaining_scope: >-
+      None for employee-portal. Other frontend stacks (mobile, patient-portal, doctor-portal) were
+      never in this debt's affected_area/affected_components and are out of scope here; if any of
+      them lack the same pattern, that would be tracked as a new, separately scoped debt item.

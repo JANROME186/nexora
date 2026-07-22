@@ -87,3 +87,12 @@ traces:
         07-implementation/public-website/src/pages/, consuming
         GET /api/public/catalog/preparations/published and
         /api/public/catalog/preparations/{preparationId}/published-snapshot.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-FE-001
+      surface_added: employee_portal (staff content review)
+      note: >-
+        Compiled PublicContentReviewScreen at
+        07-implementation/employee-portal/src/components/screens/, consuming
+        GET /api/public/catalog/preparations/published (src/api/publicContentApi.ts) — the same
+        public endpoint, not an internal admin API — so no internal field can leak into the staff
+        review view. Read-only view of the currently published preparation instructions.

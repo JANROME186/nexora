@@ -4,9 +4,60 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-011-FE-001`.
+Current active backlog item: `COM-MOD-011-QA-001`.
 
-Latest update: `COM-MOD-011-WEB-001` is closed. It compiled the public website frontend at
+Latest update: `COM-MOD-011-FE-001` is closed. It compiled the content and public-request
+administration screens in the existing employee portal at
+`07-implementation/employee-portal/`: `PublicContentReviewScreen` consumes the same anonymous
+`/api/public/catalog/**/published` endpoints the public website itself calls (deliberately
+distinct from the internal catalog-admin API already owned by `DiagnosticCatalogScreen`, so no
+`tenantId`/audit/internal field can leak into the staff view by construction);
+`PublicAppointmentRequestsScreen` and `PublicQuotationRequestsScreen` consume the existing
+internal `/api/care-delivery/appointments` and `/api/care-delivery/quotations` endpoints, filtered
+client-side to `channel=="public_website"` and the pending status, with Confirm/Reject and
+Issue/Reject actions reusing existing confirm/cancel/issue endpoints — no new backend action
+endpoint was created. No new runtime, port or environment variable: this backlog item adds
+screens to the already-running employee-portal (port 5173). One additive database column:
+`care_delivery.quotations.channel varchar(40)` (nullable, idempotent, no volume reset needed) —
+see "Backend defect fixed" note below.
+
+Found and fixed a real defect along the way: `QuotationRequest` had no `channel` field, unlike
+`AppointmentSlot`, so public-website-submitted quotation drafts could not be reliably
+distinguished from staff-initiated ones. Added `QuotationRequest.channel` (mirroring
+`AppointmentSlot`'s `CHANNEL_*` constants); `QuotationManagementService.start()` defaults to
+`channel=employee_portal` when omitted (preserving every untouched caller) and rejects
+`channel=public_website` from internal callers; `startPublic()` always stamps
+`channel=public_website` server-side regardless of input. Because this touched the backend, its
+full Maven quality gate was re-run: `mvn -Pquality "-Dhop.local-db-tests=true" clean verify`
+(327 tests, 0 failures, backend line coverage 83.96% → 83.99%).
+
+Added 3 new `ScreenKey`/`PermissionCode` pairs (`SCREEN_PUBLIC_CONTENT_REVIEW`,
+`SCREEN_PUBLIC_APPOINTMENT_REQUESTS`, `SCREEN_PUBLIC_QUOTATION_REQUESTS`), granted to `ADMIN`
+(automatic) and `FRONT_DESK`, with navigation tabs hidden (not disabled) for other roles; all
+visible text uses new namespaced es-MX/en-US message groups. Closed `TD-UX-002` (not just
+materially reduced): retrofitted the same documented responsive breakpoint set
+(`--hop-bp-sm/md/lg`) and automated `jest-axe` accessibility check `COM-MOD-011-WEB-001`
+established as the reference pattern into `employee-portal` itself, this debt's originally
+discovered `affected_area`, closing the `remaining_scope` that item left open;
+`eslint-plugin-jsx-a11y` (newly added) surfaced and fixed one real finding
+(`ConfirmDialog.tsx`'s `autoFocus`). Employee-portal coverage rose 88.24% → 88.68% with 154 tests
+(54 test files, 0 failures); ESLint 0 errors/38 non-blocking warnings, all pre-existing (0 new
+from this item's own files).
+
+**Backend vulnerability fixed during this backlog item's quality gates**: Trivy fs on the backend
+directory found 1 MEDIUM vulnerability — `tools.jackson.core:jackson-databind` 3.1.4
+(`CVE-2026-59889`, the Jackson 3.x line managed by `spring-boot-starter-parent`). Pinned to 3.1.5
+in `backend/pom.xml`, mirroring the existing pin already there for the classic Jackson 2.x line
+(a prior CVE); re-scan confirmed 0. OWASP Dependency-Check's first run (108 dependencies, 0
+vulnerable) predated this CVE being ingested into its database; a re-verification run could not
+complete due to an unrelated stale lock file from another project sharing this machine's local
+environment — Trivy's independent confirmation is treated as authoritative. `npm audit` and Trivy
+fs (frontend and backend, vuln/secret/misconfig, all severities) reported 0 findings after the
+fix; agent-agnostic scan reported 4 false positives (CSS `cursor:` property) and 0 real hits;
+`git diff --check` clean. The next active backlog item is `COM-MOD-011-QA-001` (Public web, SEO
+and privacy evidence).
+
+Previous update: `COM-MOD-011-WEB-001` is closed. It compiled the public website frontend at
 `07-implementation/public-website/` (React 19 + TypeScript 5 strict + Vite 6), consuming the
 anonymous `/api/public/**` surface compiled by `COM-MOD-011-BE-001`: published catalog discovery
 (diagnostic services, tests, panels, preparations — each with a list and detail page) and public

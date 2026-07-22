@@ -10,6 +10,7 @@ public record StartQuotationCommand(
         String prospectiveFullName,
         String prospectivePhone,
         String prospectiveEmail,
+        String channel,
         String actorId,
         List<QuotationLineInput> lines) {
 

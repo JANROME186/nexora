@@ -48,6 +48,9 @@ const SCREEN_TAB_LABEL_KEYS = {
   equipment: "equipment",
   calibrations: "calibrations",
   maintenance: "maintenance",
+  "public-content-review": "publicContentReview",
+  "public-appointment-requests": "publicAppointmentRequests",
+  "public-quotation-requests": "publicQuotationRequests",
 } as const satisfies Record<ScreenKey, string>;
 
 interface ScreenTab {

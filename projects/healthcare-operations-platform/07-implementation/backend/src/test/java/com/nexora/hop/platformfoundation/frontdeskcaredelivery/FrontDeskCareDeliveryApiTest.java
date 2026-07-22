@@ -545,6 +545,43 @@ class FrontDeskCareDeliveryApiTest {
     }
 
     @Test
+    void quotationChannelDefaultsToEmployeePortalWhenOmitted() throws Exception {
+        String panelId = publishPanel();
+        publishPriceListForPanel(panelId, "80.00");
+
+        JsonNode quotation = postJson("/api/care-delivery/quotations", """
+                {"tenantId":"%s","laboratoryId":"%s","branchId":"%s",
+                 "lines":[{"testDefinitionId":"%s","catalogItemKind":"panel","quantity":1}]}
+                """.formatted(tenantId, laboratoryId, branchId, panelId));
+
+        assertThat(quotation.get("channel").asText()).isEqualTo("employee_portal");
+    }
+
+    @Test
+    void quotationChannelAcceptsAnExplicitInternalValue() throws Exception {
+        String panelId = publishPanel();
+        publishPriceListForPanel(panelId, "80.00");
+
+        JsonNode quotation = postJson("/api/care-delivery/quotations", """
+                {"tenantId":"%s","laboratoryId":"%s","branchId":"%s","channel":"phone",
+                 "lines":[{"testDefinitionId":"%s","catalogItemKind":"panel","quantity":1}]}
+                """.formatted(tenantId, laboratoryId, branchId, panelId));
+
+        assertThat(quotation.get("channel").asText()).isEqualTo("phone");
+    }
+
+    @Test
+    void quotationRejectsPublicWebsiteChannelFromInternalEndpoint() throws Exception {
+        mockMvc.perform(post("/api/care-delivery/quotations")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"tenantId":"%s","laboratoryId":"%s","branchId":"%s","channel":"public_website",
+                                 "lines":[]}
+                                """.formatted(tenantId, laboratoryId, branchId)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void quotationIssuePricesEachLineFromItsOwnPriceList() throws Exception {
         String panelA = publishPanel();
         publishPriceListForPanel(panelA, "20.00");

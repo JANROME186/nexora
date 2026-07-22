@@ -80,6 +80,9 @@ export const enUS: MessageCatalog = {
       equipment: "Equipment",
       calibrations: "Calibrations",
       maintenance: "Maintenance",
+      publicContentReview: "Public Content",
+      publicAppointmentRequests: "Public Appointments",
+      publicQuotationRequests: "Public Quotations",
     },
   },
   integrationMigration: {
@@ -366,6 +369,128 @@ export const enUS: MessageCatalog = {
       completeSuccess: "Maintenance completed.",
       loadEvents: "Load events",
       complete: "Complete",
+    },
+  },
+  publicContentReview: {
+    heading: "Public Content Review",
+    description:
+      "Review the catalog content currently published on the public website (services, tests, " +
+      "panels and preparations).",
+    shared: {
+      laboratoryRequired: "Select a laboratory before continuing.",
+      load: "Load",
+      loaded: "Published content loaded.",
+      noRecords: "No published content for this area.",
+    },
+    areas: {
+      services: "Services",
+      tests: "Tests",
+      panels: "Panels",
+      preparations: "Preparations",
+    },
+    columns: {
+      code: "Code",
+      nameEn: "Name (English)",
+      nameEs: "Name (Spanish)",
+      serviceType: "Service type",
+      methodology: "Methodology",
+      resultType: "Result type",
+      turnaroundTimeHours: "Turnaround time (hours)",
+      titleEn: "Title (English)",
+      titleEs: "Title (Spanish)",
+      category: "Category",
+      durationHours: "Duration (hours)",
+      version: "Version",
+    },
+  },
+  publicAppointmentRequests: {
+    heading: "Public Appointment Requests",
+    description: "Review and route appointment requests submitted from the public website.",
+    shared: {
+      tenantRequired: "Select a tenant before continuing.",
+      load: "Load requests",
+      loaded: "Requests loaded.",
+      noRecords: "No pending public appointment requests.",
+      selectFirst: "Select a request first.",
+      dialogConfirm: "Confirm",
+      dialogCancel: "Cancel",
+    },
+    columns: {
+      appointmentId: "Appointment ID",
+      contact: "Contact",
+      scheduledStart: "Scheduled start",
+      scheduledEnd: "Scheduled end",
+      status: "Status",
+    },
+    detail: {
+      heading: "Request Detail",
+      contactName: "Contact name",
+      contactPhone: "Contact phone",
+      contactEmail: "Contact email",
+      scheduledStart: "Scheduled start",
+      scheduledEnd: "Scheduled end",
+      status: "Status",
+    },
+    actions: {
+      confirmAppointment: "Confirm appointment",
+      rejectAppointment: "Reject request",
+      reasonCode: "Rejection reason",
+    },
+    confirmAppointmentDialog: {
+      title: "Confirm appointment",
+      description: "This public appointment will be confirmed and scheduled. Continue?",
+    },
+    rejectAppointmentDialog: {
+      title: "Reject request",
+      description:
+        "This public appointment request will be rejected and cannot be confirmed. Continue?",
+    },
+    success: {
+      confirmed: "Appointment confirmed.",
+      rejected: "Request rejected.",
+    },
+  },
+  publicQuotationRequests: {
+    heading: "Public Quotation Requests",
+    description: "Review and route quotation requests submitted from the public website.",
+    shared: {
+      tenantRequired: "Select a tenant before continuing.",
+      load: "Load requests",
+      loaded: "Requests loaded.",
+      noRecords: "No pending public quotation requests.",
+      selectFirst: "Select a request first.",
+      dialogConfirm: "Confirm",
+      dialogCancel: "Cancel",
+    },
+    columns: {
+      quotationId: "Quotation ID",
+      contact: "Contact",
+      status: "Status",
+    },
+    detail: {
+      heading: "Request Detail",
+      contactName: "Contact name",
+      contactPhone: "Contact phone",
+      contactEmail: "Contact email",
+      status: "Status",
+    },
+    actions: {
+      issue: "Issue quotation",
+      reject: "Reject request",
+      reasonCode: "Rejection reason",
+    },
+    issueDialog: {
+      title: "Issue quotation",
+      description:
+        "This public quotation will be issued (priced) and can be sent to the contact. Continue?",
+    },
+    rejectDialog: {
+      title: "Reject request",
+      description: "This public quotation request will be cancelled. Continue?",
+    },
+    success: {
+      issued: "Quotation issued.",
+      rejected: "Request rejected.",
     },
   },
 };

@@ -34,9 +34,9 @@ class JdbcQuotationRequestRepository implements QuotationRequestRepository {
                 insert into care_delivery.quotations (
                     quotation_id, tenant_id, laboratory_id, branch_id, patient_id, prospective_full_name,
                     prospective_phone, prospective_email, price_list_id, price_list_version, total_amount,
-                    total_currency, discount_kind, discount_value, valid_until, status, converted_order_id,
+                    total_currency, discount_kind, discount_value, valid_until, channel, status, converted_order_id,
                     cancellation_reason, actor_id, version, created_at, updated_at)
-                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 on conflict (quotation_id) do update set
                     price_list_id = excluded.price_list_id,
                     price_list_version = excluded.price_list_version,
@@ -45,6 +45,7 @@ class JdbcQuotationRequestRepository implements QuotationRequestRepository {
                     discount_kind = excluded.discount_kind,
                     discount_value = excluded.discount_value,
                     valid_until = excluded.valid_until,
+                    channel = excluded.channel,
                     status = excluded.status,
                     converted_order_id = excluded.converted_order_id,
                     cancellation_reason = excluded.cancellation_reason,
@@ -58,7 +59,7 @@ class JdbcQuotationRequestRepository implements QuotationRequestRepository {
                 quotation.totalAmount() == null ? null : quotation.totalAmount().amount(),
                 quotation.totalAmount() == null ? null : quotation.totalAmount().currency(),
                 quotation.discountKind(), quotation.discountValue(), sqlDate(quotation.validUntil()),
-                quotation.status(), quotation.convertedOrderId(), quotation.cancellationReason(),
+                quotation.channel(), quotation.status(), quotation.convertedOrderId(), quotation.cancellationReason(),
                 quotation.actorId(), quotation.version(), Timestamp.from(quotation.createdAt()),
                 Timestamp.from(quotation.updatedAt()));
         return quotation;
@@ -111,7 +112,7 @@ class JdbcQuotationRequestRepository implements QuotationRequestRepository {
                 priceListId, resultSet.getInt("price_list_version"),
                 totalAmount == null ? null : new Money(resultSet.getString("total_currency"), totalAmount),
                 resultSet.getString("discount_kind"), resultSet.getBigDecimal("discount_value"),
-                localDate(resultSet, "valid_until"), resultSet.getString("status"),
+                localDate(resultSet, "valid_until"), resultSet.getString("channel"), resultSet.getString("status"),
                 resultSet.getString("converted_order_id"), resultSet.getString("cancellation_reason"),
                 resultSet.getString("actor_id"), resultSet.getInt("version"),
                 resultSet.getTimestamp("created_at").toInstant(), resultSet.getTimestamp("updated_at").toInstant());

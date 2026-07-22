@@ -56,7 +56,7 @@ public interface PublicIntakePort {
     }
 
     record PublicQuotationIntakeResult(
-            String quotationId, String laboratoryId, String branchId, String status) {
+            String quotationId, String laboratoryId, String branchId, String status, String channel) {
     }
 
     /** Structured exception raised for validation or conflict failures during public intake. */

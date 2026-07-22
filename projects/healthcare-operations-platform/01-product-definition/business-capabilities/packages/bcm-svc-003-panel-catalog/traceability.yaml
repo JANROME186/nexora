@@ -82,3 +82,12 @@ traces:
         GET /api/public/catalog/panels/published and
         /api/public/catalog/panels/{panelId}/published-snapshot. Panels are also combined with
         tests into a single picker (useCatalogItemOptions) for the appointment/quotation forms.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-FE-001
+      surface_added: employee_portal (staff content review)
+      note: >-
+        Compiled PublicContentReviewScreen at
+        07-implementation/employee-portal/src/components/screens/, consuming
+        GET /api/public/catalog/panels/published (src/api/publicContentApi.ts) — the same public
+        endpoint, not the internal catalog-admin API — so no internal field can leak into the
+        staff review view. Read-only; publish lifecycle stays owned by DiagnosticCatalogScreen.

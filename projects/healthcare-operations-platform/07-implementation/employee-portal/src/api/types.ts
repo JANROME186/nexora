@@ -1777,3 +1777,143 @@ export interface CompleteMaintenanceRequest {
   nextScheduledAt?: string;
   downtimeMinutes?: number;
 }
+
+// -- Public Website Content and Request Administration (COM-MOD-011-FE-001: BCM-SVC-001/002/003/005,
+// BCM-ATT-001, BCM-ATT-006) -----------------------------------------------------------------------
+//
+// The published-content snapshot types mirror the anonymous public-website DTOs exactly (see
+// public-website/src/api/types.ts and backend CatalogPublicReadPort.java): no tenantId, audit
+// metadata or other internal identifier is present, so this screen shows staff exactly what a
+// public visitor sees without needing to redact anything.
+
+export interface PublicDiagnosticServiceSnapshot {
+  serviceId: string;
+  code: string;
+  nameEn: string;
+  nameEs: string;
+  serviceType: string;
+  version: number;
+}
+
+export interface PublicTestSnapshot {
+  testDefinitionId: string;
+  code: string;
+  nameEn: string;
+  nameEs: string;
+  methodology: string;
+  measurementUnit: string | null;
+  resultType: string;
+  turnaroundTimeHours: number;
+  version: number;
+}
+
+export interface PublicPanelSnapshot {
+  panelId: string;
+  code: string;
+  nameEn: string;
+  nameEs: string;
+  version: number;
+}
+
+export interface PublicPreparationSnapshot {
+  preparationId: string;
+  code: string;
+  titleEn: string;
+  titleEs: string;
+  instructionTextEn: string;
+  instructionTextEs: string;
+  category: string;
+  durationHours: number | null;
+  version: number;
+}
+
+export type AppointmentChannel =
+  | "walk_in_scheduling"
+  | "phone"
+  | "employee_portal"
+  | "patient_portal_request_later"
+  | "public_website";
+export type AppointmentStatus =
+  | "requested"
+  | "confirmed"
+  | "checked_in"
+  | "cancelled"
+  | "no_show"
+  | "completed";
+
+export interface AppointmentSlot {
+  appointmentId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  patientId?: string;
+  doctorId?: string;
+  scheduledStart: string;
+  scheduledEnd: string;
+  channel: AppointmentChannel | string;
+  status: AppointmentStatus | string;
+  linkedOrderId?: string;
+  cancellationReason?: string;
+  actorId?: string;
+  prospectiveFullName?: string;
+  prospectivePhone?: string;
+  prospectiveEmail?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CancelAppointmentRequest {
+  reasonCode?: string;
+}
+
+export type QuotationChannel =
+  | "walk_in_scheduling"
+  | "phone"
+  | "employee_portal"
+  | "patient_portal_request_later"
+  | "public_website";
+export type QuotationStatus =
+  | "draft"
+  | "issued"
+  | "accepted"
+  | "expired"
+  | "converted"
+  | "cancelled";
+
+export interface QuotationRequest {
+  quotationId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  patientId?: string;
+  prospectiveFullName?: string;
+  prospectivePhone?: string;
+  prospectiveEmail?: string;
+  priceListId?: string;
+  priceListVersion?: number;
+  totalAmount?: Money;
+  discountKind?: string;
+  discountValue?: number;
+  validUntil?: string;
+  channel: QuotationChannel | string;
+  status: QuotationStatus | string;
+  convertedOrderId?: string;
+  cancellationReason?: string;
+  actorId?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IssueQuotationRequest {
+  currency?: string;
+  discountKind?: string;
+  discountValue?: number;
+  validityDays?: number;
+  discountOverride?: boolean;
+}
+
+export interface CancelQuotationRequest {
+  reasonCode?: string;
+}

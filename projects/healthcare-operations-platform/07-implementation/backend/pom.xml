@@ -41,6 +41,7 @@
         <pitest-maven.version>1.17.4</pitest-maven.version>
         <jackson-classic.version>2.22.1</jackson-classic.version>
         <jackson-classic-annotations.version>2.22</jackson-classic-annotations.version>
+        <jackson3.version>3.1.5</jackson3.version>
         <commons-csv.version>1.14.1</commons-csv.version>
         <poi.version>5.4.1</poi.version>
         <commons-io.version>2.20.0</commons-io.version>
@@ -74,6 +75,20 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson-classic-annotations.version}</version>
+            </dependency>
+            <!-- COM-MOD-011-FE-001 defect fix: spring-boot-starter-parent 4.1.0 manages Jackson 3.x
+                 (tools.jackson.core) at 3.1.4, which is affected by CVE-2026-59889
+                 (@JsonView bypassed for @JsonUnwrapped container properties on deserialization,
+                 fixed in 3.1.5/3.2.1); pin to the patched 3.1.5 release. -->
+            <dependency>
+                <groupId>tools.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tools.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson3.version}</version>
             </dependency>
             <!-- commons-csv (2.20.0), poi (2.18.0) and poi's own commons-compress transitive
                  (2.16.1) each pull a different commons-io; pin the newest to satisfy

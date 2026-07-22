@@ -88,3 +88,13 @@ traces:
         /api/public/catalog/diagnostic-services/{serviceId}/published-snapshot via
         src/api/publicCatalogApi.ts. es-MX/en-US localized name display, loading/empty/error/
         success states, SEO metadata and a real crawlable /services and /services/:id URL.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-FE-001
+      surface_added: employee_portal (staff content review)
+      note: >-
+        Compiled PublicContentReviewScreen at
+        07-implementation/employee-portal/src/components/screens/, consuming the same
+        GET /api/public/catalog/diagnostic-services/published endpoint the public website calls
+        (via the new src/api/publicContentApi.ts), rather than the internal catalog-admin API, so
+        staff see exactly what a visitor sees with no tenantId/audit field ever entering the view.
+        Read-only; full draft/publish lifecycle stays owned by DiagnosticCatalogScreen.

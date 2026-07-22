@@ -156,3 +156,19 @@ traces:
         same CatalogItemLinesField component as AppointmentRequestPage, extended with a
         per-line quantity input. Same client-side validation (contact-required-or, at-least-one-
         line, consent) and 429 cooldown handling pattern as the appointment form.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-FE-001
+      surface_added: employee_portal (staff review) + backend defect fix
+      note: >-
+        Defect found and fixed: unlike AppointmentSlot, QuotationRequest had no channel field, so
+        public-website-submitted drafts were only distinguishable from staff-initiated ones by an
+        unreliable status+patientId heuristic. Added QuotationRequest.channel (mirroring
+        AppointmentSlot's CHANNEL_* constants), an additive nullable
+        care_delivery.quotations.channel column, and QuotationManagementService validation:
+        start() defaults to channel=employee_portal when omitted and rejects channel=public_website
+        from internal callers; startPublic() always stamps channel=public_website regardless of
+        input. Compiled PublicQuotationRequestsScreen at
+        07-implementation/employee-portal/src/components/screens/, listing
+        GET /api/care-delivery/quotations filtered client-side to
+        channel=="public_website" && status=="draft", with issue/cancel triage actions via the
+        existing endpoints. No new action endpoint was created.

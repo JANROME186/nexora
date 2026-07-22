@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-011-FE-001
+  current_active_backlog_item: COM-MOD-011-QA-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -20,46 +20,39 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
-    backlog_item: COM-MOD-011-WEB-001
+    backlog_item: COM-MOD-011-FE-001
     status: closed
-    next_active_backlog_item: COM-MOD-011-FE-001
-    runtime_change: >-
-      New frontend runtime: 07-implementation/public-website/ (React 19 + TypeScript 5 strict +
-      Vite 6). Run `npm install` then `npm run dev` from that folder for local development, or
-      `npm run build && npm run preview` to serve the production bundle.
-    port_change: >-
-      New local dev port 4004 for the public-website Vite dev server (patient-portal uses 4001;
-      confirm no collision with other locally running portals before starting all of them
-      together). The dev server proxies /api to http://localhost:8080, matching the other portals.
-    environment_variable_change: >-
-      Optional, defaulted: VITE_TENANT_ID (default tenant-local), VITE_LABORATORY_ID (default
-      lab-local), VITE_DEFAULT_BRANCH_ID (default branch-local). These select which
-      tenant/laboratory/branch identity the public catalog and request-intake calls use; the
-      defaults match the backend's local-fixture seed data so the module works out of the box
-      against a freshly seeded local database.
-    startup_order_change: none (public-website is a pure frontend client of the already-running
-      backend; no backend startup order change).
-    database_schema_note: none. COM-MOD-011-WEB-001 is frontend-only; no backend source file or
-      database schema was touched.
+    next_active_backlog_item: COM-MOD-011-QA-001
+    runtime_change: none. COM-MOD-011-FE-001 adds screens to the already-running employee-portal
+      runtime (07-implementation/employee-portal/, port 5173 below); no new frontend runtime was
+      introduced.
+    port_change: none.
+    environment_variable_change: none.
+    startup_order_change: none.
+    database_schema_note: >-
+      One additive column: `care_delivery.quotations.channel varchar(40)` (nullable), added via
+      `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` in
+      backend/src/main/resources/db/front-desk-care-delivery/schema.sql, mirroring the same
+      pattern already used for `care_delivery.appointments`' `channel` column. Idempotent; no
+      volume reset required for existing local databases (unlike the earlier
+      COM-MOD-011-WEB-001 seed-casing fix, which needed a fresh volume).
     validation_summary: >-
-      Compiled the public website frontend at 07-implementation/public-website/, consuming the
-      anonymous /api/public/** surface from COM-MOD-011-BE-001: published catalog discovery
-      (BCM-SVC-001/002/003/005 — diagnostic services, tests, panels, preparations, each with a
-      list and detail page) and public appointment/quotation request intake (BCM-ATT-001 RN-008,
-      BCM-ATT-006 RN-009) with an explicit client-side cooldown for BCM-PLT-005 RN-007's 429
-      rate-limit responses (the backend sends no Retry-After header). Added SEO (per-page
-      title/description/canonical/Open Graph, robots.txt, sitemap.xml), accessibility
-      (eslint-plugin-jsx-a11y + an automated jest-axe regression check wired into npm run
-      test/quality — materially reduces TD-UX-002 as the reference pattern for a new module),
-      privacy (a dedicated /privacy notice page, required consent checkboxes on both forms) and
-      i18n (es-MX/en-US, no hardcoded strings) foundations. First coverage baseline for this stack:
-      97 tests, 34 test files, 0 failures, 98.61% line/statement coverage. ESLint 0 errors/16
-      non-blocking warnings; jscpd 3.9% duplication (below the 5% threshold); Prettier clean;
-      license-checker MIT 3/UNLICENSED 1; npm audit and Trivy fs (vuln/secret/misconfig, all
-      severities) both 0 findings; agent-agnostic scan 0 real hits; git diff --check clean.
-      Verified locally via `npm run build && vite preview` (production shell served correctly);
-      live backend integration was not exercised this session (no reachable Docker daemon to
-      bring up compose.local.yml) — recommended as part of human review before public exposure.
+      Compiled the content and public-request administration screens at
+      07-implementation/employee-portal/: PublicContentReviewScreen (reusing the anonymous
+      published-catalog endpoints the public website itself calls), PublicAppointmentRequestsScreen
+      and PublicQuotationRequestsScreen (reusing the existing internal care-delivery
+      appointment/quotation endpoints, filtered client-side to the public_website channel). Found
+      and fixed a real defect: QuotationRequest gained a channel field (mirroring AppointmentSlot,
+      which already had one), so this backlog item touched the backend and its full Maven quality
+      gate was re-run: 327 tests, 0 failures, backend line coverage 83.96% -> 83.99%. Closed
+      TD-UX-002 by retrofitting employee-portal's own responsive breakpoints and automated
+      jest-axe accessibility check (closing the remaining_scope COM-MOD-011-WEB-001 left open).
+      Employee-portal coverage rose 88.24% -> 88.68% with 154 tests (54 test files, 0 failures).
+      Trivy fs on the backend caught 1 MEDIUM vulnerability (CVE-2026-59889, jackson-databind
+      3.1.4) before a pom.xml version-pin fix; re-scan confirmed 0. npm audit and Trivy fs
+      (frontend and backend, vuln/secret/misconfig, all severities) 0 findings after the fix;
+      agent-agnostic scan 4 false positives (CSS `cursor:` property), 0 real hits; git diff
+      --check clean.
   runbook_confirmation_note: >-
     MVP-MOD-008-DEF (Integration and Migration Readiness capability package models) is a
     definition-only backlog item: it added no runtime component, port, environment variable,
@@ -152,8 +145,15 @@ project:
     "-Dhop.local-db-tests=true" clean verify` (324 tests, 0 failures/errors/skipped, coverage
     unchanged at 83.96%), checkstyle/pmd/spotbugs/duplicate-finder (0 new violations), OWASP
     Dependency-Check (65 dependencies, 0 vulnerabilities) and Trivy fs on the backend directory
-    (0 vulnerabilities/secrets/misconfigurations). The next active backlog item is
-    COM-MOD-011-FE-001.
+    (0 vulnerabilities/secrets/misconfigurations). COM-MOD-011-FE-001 added the content and
+    public-request administration screens to the already-running employee-portal (no new runtime,
+    port or environment variable) and one additive database column --
+    `care_delivery.quotations.channel varchar(40)` nullable, idempotent, no volume reset needed --
+    documented above under `latest_runbook_update`. It also fixed a real dependency
+    vulnerability found by Trivy on the backend directory: `tools.jackson.core:jackson-databind`
+    3.1.4 (CVE-2026-59889, MEDIUM) was pinned to 3.1.5 in `backend/pom.xml`, mirroring the
+    existing pin already there for the classic Jackson 2.x line. The next active backlog item is
+    COM-MOD-011-QA-001.
   intended_audience:
     - human_reviewer
     - qa_reviewer

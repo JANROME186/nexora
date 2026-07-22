@@ -166,14 +166,29 @@ describe("Employee portal app smoke", () => {
 
     await user.click(screen.getByRole("button", { name: "Mantenimiento" }));
     expect(screen.getByRole("heading", { name: "Mantenimiento" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Contenido Público" }));
+    expect(
+      screen.getByRole("heading", { name: "Revisión de Contenido Público" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Citas Públicas" }));
+    expect(
+      screen.getByRole("heading", { name: "Solicitudes Públicas de Cita" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Cotizaciones Públicas" }));
+    expect(
+      screen.getByRole("heading", { name: "Solicitudes Públicas de Cotización" }),
+    ).toBeInTheDocument();
   });
 
   it("only renders tabs the current session has permission for", () => {
     render(<App />);
 
     // The local dev fixture session defaults to ADMIN, which is granted every screen
-    // permission, so all 41 navigation tabs remain visible.
+    // permission, so all 44 navigation tabs remain visible.
     const nav = screen.getByRole("navigation", { name: "Pantallas de administración" });
-    expect(within(nav).getAllByRole("button")).toHaveLength(41);
+    expect(within(nav).getAllByRole("button")).toHaveLength(44);
   });
 });

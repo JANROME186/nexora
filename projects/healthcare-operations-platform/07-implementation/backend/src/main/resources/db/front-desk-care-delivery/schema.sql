@@ -200,3 +200,8 @@ CREATE TABLE IF NOT EXISTS care_delivery.quotation_lines (
 );
 
 CREATE INDEX IF NOT EXISTS idx_quotation_lines_quotation ON care_delivery.quotation_lines (quotation_id);
+
+-- COM-MOD-011-FE-001 defect fix: quotations had no channel column, unlike care_delivery.appointments,
+-- so public-website-submitted drafts were only distinguishable by an unreliable heuristic.
+ALTER TABLE care_delivery.quotations
+    ADD COLUMN IF NOT EXISTS channel varchar(40);

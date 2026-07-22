@@ -49,7 +49,10 @@ export type ScreenKey =
   | "internal-quality-controls"
   | "equipment"
   | "calibrations"
-  | "maintenance";
+  | "maintenance"
+  | "public-content-review"
+  | "public-appointment-requests"
+  | "public-quotation-requests";
 
 export type PermissionCode =
   | "SCREEN_TENANTS"
@@ -92,7 +95,10 @@ export type PermissionCode =
   | "SCREEN_INTERNAL_QUALITY_CONTROLS"
   | "SCREEN_EQUIPMENT"
   | "SCREEN_CALIBRATIONS"
-  | "SCREEN_MAINTENANCE";
+  | "SCREEN_MAINTENANCE"
+  | "SCREEN_PUBLIC_CONTENT_REVIEW"
+  | "SCREEN_PUBLIC_APPOINTMENT_REQUESTS"
+  | "SCREEN_PUBLIC_QUOTATION_REQUESTS";
 
 export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   tenants: "SCREEN_TENANTS",
@@ -136,6 +142,9 @@ export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   equipment: "SCREEN_EQUIPMENT",
   calibrations: "SCREEN_CALIBRATIONS",
   maintenance: "SCREEN_MAINTENANCE",
+  "public-content-review": "SCREEN_PUBLIC_CONTENT_REVIEW",
+  "public-appointment-requests": "SCREEN_PUBLIC_APPOINTMENT_REQUESTS",
+  "public-quotation-requests": "SCREEN_PUBLIC_QUOTATION_REQUESTS",
 };
 
 /** Every permission code, derived from `SCREEN_TO_PERMISSION` so the two never drift apart. */
@@ -165,6 +174,9 @@ export const ROLE_PERMISSION_CATALOG: Record<RoleCode, readonly PermissionCode[]
     "SCREEN_RECEPTION",
     "SCREEN_DIAGNOSTIC_ORDERS",
     "SCREEN_DIAGNOSTIC_CATALOG",
+    "SCREEN_PUBLIC_CONTENT_REVIEW",
+    "SCREEN_PUBLIC_APPOINTMENT_REQUESTS",
+    "SCREEN_PUBLIC_QUOTATION_REQUESTS",
   ],
   CASHIER: ["SCREEN_CASH_SESSIONS", "SCREEN_SALES", "SCREEN_BILLING_REQUESTS"],
   LAB_TECHNICIAN: [

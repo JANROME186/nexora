@@ -130,6 +130,7 @@ class PublicWebApiTest {
                 """.formatted(tenantId, laboratoryId, branchId, publishedTestId));
 
         assertThat(created.get("status").asText()).isEqualTo("draft");
+        assertThat(created.get("channel").asText()).isEqualTo("public_website");
         assertThat(created.has("tenantId")).isFalse();
     }
 
