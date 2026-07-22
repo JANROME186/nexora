@@ -454,13 +454,15 @@ entries:
   - id: TD-DB-004
     title: Tenant scoping is enforced by application-level WHERE clauses, not PostgreSQL native
       row-level security policies
-    status: open
+    status: materially_reduced
     risk_level: low
     blocking: false
     source_backlog_item: HOP-ENT-FOUND-001
     affected_area: tenant_isolation
     file: 08-qa/technical-debt/TD-DB-004-no-native-row-level-security.yaml
-    remediation_strategy: release_readiness_hardening_backlog_item
+    remediation_strategy: >-
+      materially_reduced_by_COM_MOD_012_OPS_002_tenant_impact_triage_runbook_cross_tenant_leakage_check_
+      as_operational_compensating_control_then_release_readiness_hardening_backlog_item_for_native_RLS
   - id: TD-UX-001
     title: No shared Button/FormField/DataTable component library; each of the 26 employee-portal
       screens implements its own markup

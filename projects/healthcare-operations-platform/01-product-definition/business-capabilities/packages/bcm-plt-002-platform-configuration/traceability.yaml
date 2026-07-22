@@ -18,7 +18,11 @@ mappings:
     technical_debt_addressed: [TD-BE-008]
 
 operational_strategy:
-  backlog_item: COM-MOD-012-OPS-001
-  status: closed
-  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
-  contribution: Environment configuration, secret-provider precedence, maintenance mode and feature-flag rollout controls.
+  backlog_item: COM-MOD-012-OPS-002
+  status: active
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
+  contribution: >-
+    Environment configuration, secret-provider precedence, maintenance mode and feature-flag
+    rollout controls (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002's incident-response-runbook.yaml
+    names a tenant-specific feature-flag disable as the preferred, narrowest-first incident
+    mitigation, ahead of a full application rollback or database restore.

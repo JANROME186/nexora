@@ -234,14 +234,14 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-012-OPS-001 Production deployment and environment strategy` is closed.
+`COM-MOD-012-OPS-002 Observability, backup, restore and incident runbooks` is closed.
 Continue with:
 
 - Module: `COM-MOD-012`
-- Backlog item: `COM-MOD-012-OPS-002`
-- Previous backlog item: `COM-MOD-012-OPS-001` (closed)
+- Backlog item: `COM-MOD-012-BE-001`
+- Previous backlog item: `COM-MOD-012-OPS-002` (closed)
 - Paused functional backlog item: none
-- Folder: `09-operations/runbooks/` and `08-qa/qa/platform-hardening-and-saas-operations/`
+- Folder: `07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/` and `08-qa/qa/platform-hardening-and-saas-operations/`
 
 Mandatory setup for this backlog:
 
@@ -250,9 +250,9 @@ Mandatory setup for this backlog:
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
 - Use the COM-MOD-012 capability packages modeled or extended by `COM-MOD-012-DEF`: `BCM-ORG-001`, `BCM-PLT-001`, `BCM-PLT-002`, `BCM-PLT-005`, `BCM-PLT-006`, `BCM-PLT-007`, `BCM-PLT-008`, and `BCM-PLT-009`.
-- Build on `09-operations/deployment/production-deployment-strategy.yaml` and create executable observability, backup, restore and incident runbooks.
-- Review `08-qa/technical-debt/technical-debt-index.yaml` before runbook work and resolve or materially reduce at least one open item when applicable.
+- Compile their `openapi-source.yaml` operations into real Spring Modulith modules/controllers, and close each `09-operations/runbooks/` runbook's `known_gaps_and_forward_pointers` where in scope (a Prometheus-compatible metrics endpoint, `tenant_id`/`user_id`/`trace_id` MDC logging context, distinct liveness/readiness actuator groups).
+- Review `08-qa/technical-debt/technical-debt-index.yaml` before backend work and resolve or materially reduce at least one open item when applicable.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-012-OPS-001` - Production deployment and environment strategy. Defined the open-source-first local/dev/qa/staging/prod path, deployment units, configuration and secret policy, tenant onboarding, release promotion, rollback and deployment readiness checklist under `09-operations/deployment/`. `TD-STACK-001` was materially reduced. The work was definition-only, preserved coverage floors across all delivered stacks, passed YAML parse, stale-pointer sweep, agent-agnostic scan, secret scan and `git diff --check`, and advanced the active backlog item to `COM-MOD-012-OPS-002`.
+`COM-MOD-012-OPS-002` - Observability, backup, restore and incident runbooks. Added 10 executable runbook pairs (observability, health/readiness/liveness, metrics/logs/traces validation, backup, restore, incident response, rollback incident handoff, tenant-impact triage, evidence collection, post-incident review) plus an index README under `09-operations/runbooks/`, built on `production-deployment-strategy.yaml`. Every local-executable command was cross-checked against real repository state; unimplemented telemetry and unprovisioned shared-environment infrastructure were documented as `known_gaps_and_forward_pointers` rather than silently marked passed. `TD-DB-004` was materially reduced via `tenant-impact-triage-runbook.yaml`'s cross-tenant leakage check. Capability traceability was updated for all 8 COM-MOD-012 capabilities. The work was definition-only, preserved coverage floors across all delivered stacks, passed YAML parse, stale-pointer sweep, agent-agnostic scan, secret scan and `git diff --check`, and advanced the active backlog item to `COM-MOD-012-BE-001`.

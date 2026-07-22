@@ -19,9 +19,14 @@ product:
     completed_module: COM-MOD-011 (COM-MOD-011-CLOSEOUT closed)
     completed_status: closed
     active_module: COM-MOD-012
-    active_backlog_item: COM-MOD-012-OPS-002
+    active_backlog_item: COM-MOD-012-BE-001
     active_module_progress: >-
-      COM-MOD-012-OPS-001 closed clean. Production deployment and environment strategy established for local/dev/qa/staging/prod, deployment units, configuration/secrets, tenant onboarding, release promotion, rollback and deployment readiness. TD-STACK-001 materially reduced. Next item COM-MOD-012-OPS-002.
+      COM-MOD-012-OPS-002 closed clean. 10 executable runbook pairs (observability,
+      health/readiness/liveness, metrics/logs/traces validation, backup, restore, incident
+      response, rollback incident handoff, tenant-impact triage, evidence collection, post-incident
+      review) added under 09-operations/runbooks/, built on production-deployment-strategy.yaml.
+      TD-DB-004 materially reduced via tenant-impact-triage-runbook.yaml's cross-tenant leakage
+      check. Next item COM-MOD-012-BE-001.
     paused_backlog_item: null
 
 source_inputs:
@@ -856,9 +861,10 @@ modules:
         status: closed
       - id: COM-MOD-012-OPS-002
         name: Observability, backup, restore and incident runbooks
-        status: active
+        status: closed
       - id: COM-MOD-012-BE-001
         name: Compile tenant operations, feature flags and operational controls
+        status: active
       - id: COM-MOD-012-QA-001
         name: Performance, resilience and security evidence
       - id: COM-MOD-012-CLOSEOUT

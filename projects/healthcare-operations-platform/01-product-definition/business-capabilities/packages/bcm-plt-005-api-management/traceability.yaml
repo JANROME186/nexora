@@ -47,9 +47,13 @@ backlog_items:
   definition_status: closed
   saas_hardening: COM-MOD-012-DEF
   saas_hardening_status: closed
-  operational_strategy: COM-MOD-012-OPS-001
-  operational_strategy_status: closed
+  operational_strategy: COM-MOD-012-OPS-002
+  operational_strategy_status: active
 
 operational_strategy:
-  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
-  contribution: Promotion gate for CORS, CSP, HSTS, rate limits and API gateway policy validation.
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
+  contribution: >-
+    Promotion gate for CORS, CSP, HSTS, rate limits and API gateway policy validation
+    (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002 adds observability-runbook.yaml and
+    incident-response-runbook.yaml as the executable checks that verify these gateway policies stay
+    active in production and are re-checked during incident triage.

@@ -18,7 +18,12 @@ mappings:
     technical_debt_addressed: [TD-DB-004]
 
 operational_strategy:
-  backlog_item: COM-MOD-012-OPS-001
-  status: closed
-  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
-  contribution: Tenant onboarding, isolation smoke checks, subscription state and tenant promotion controls.
+  backlog_item: COM-MOD-012-OPS-002
+  status: active
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
+  contribution: >-
+    Tenant onboarding, isolation smoke checks, subscription state and tenant promotion controls
+    (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002 adds tenant-impact-triage-runbook.yaml, the
+    executable procedure that determines tenant scope during any incident, restore or higher-risk
+    deployment and serves as the operational compensating control for TD-DB-004 pending native
+    Row Level Security.

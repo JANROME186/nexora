@@ -17,7 +17,14 @@ mappings:
     tests: [TEST-OBS-001, TEST-OBS-002, TEST-OBS-003]
 
 operational_strategy:
-  backlog_item: COM-MOD-012-OPS-001
-  status: closed
-  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
-  contribution: Required telemetry and probe gates for environment promotion and production readiness.
+  backlog_item: COM-MOD-012-OPS-002
+  status: active
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
+  contribution: >-
+    Required telemetry and probe gates for environment promotion and production readiness
+    (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002 makes those gates executable via
+    observability-runbook.yaml, health-readiness-liveness-runbook.yaml and
+    metrics-logs-traces-validation-runbook.yaml, and documents the current gap between the modeled
+    ObservabilityTarget/SloDefinition and the actual running backend (health/info actuator only, no
+    Prometheus metrics endpoint or trace exporter yet), forward-pointing that gap to
+    COM-MOD-012-BE-001.

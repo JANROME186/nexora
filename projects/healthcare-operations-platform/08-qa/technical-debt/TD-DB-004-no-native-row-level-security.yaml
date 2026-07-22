@@ -3,9 +3,10 @@ artifact:
   type: technical-debt-item
   name: Tenant scoping is enforced by application-level WHERE clauses, not PostgreSQL native
     row-level security policies
-  version: 1.0.0
-  status: open
+  version: 1.1.0
+  status: materially_reduced
   created_date: 2026-07-17
+  updated_date: 2026-07-22
 
 source:
   discovered_during_backlog_item: HOP-ENT-FOUND-001
@@ -30,6 +31,13 @@ current_state:
     every repository query correctly including a tenant_id predicate.
   compensating_control:
     - Consistent, code-reviewed WHERE tenant_id = ? pattern across all existing repositories.
+    - >-
+      COM-MOD-012-OPS-002 added an executable, mandatory operational compensating control:
+      09-operations/runbooks/tenant-impact-triage-runbook.yaml requires a cross-tenant leakage
+      check (grouped tenant_id row counts against a known-good baseline) during every incident,
+      restore and higher-risk deployment, escalating any anomaly to P1 regardless of the originally
+      reported severity. This is defense-in-depth at the operational layer, not a database-layer
+      fix; TD-DB-004's acceptance criteria (native RLS) remain open.
 
 target_state:
   preferred_open_source_tooling: []
@@ -45,10 +53,20 @@ remediation:
   target_backlog: release_readiness_hardening_backlog_item
   dependencies_or_prerequisites:
     - TD-IAM-001 (a real authenticated principal is needed to set the RLS session tenant variable
-      safely)
+      safely) -- closed by HOP-ENT-FOUND-001, prerequisite satisfied.
   incremental_remediation_triggers:
     - Approaching release/GA readiness gates (GA-003 security and compliance gate).
   acceptance_criteria:
     - RLS policies enforce tenant isolation at the database layer as defense-in-depth alongside
       existing application-level filtering.
   owner_or_responsible_role: backend_platform_team
+
+disposition_history:
+  - backlog_item: COM-MOD-012-OPS-002
+    date: 2026-07-22
+    disposition: materially_reduced
+    reason: >-
+      Added the tenant-impact-triage-runbook.yaml operational compensating control described in
+      current_state.compensating_control. Native RLS (this item's acceptance_criteria) remains
+      open and is unchanged in scope; TD-IAM-001's dependency is now satisfied, so RLS is no longer
+      blocked and can be scheduled as its own backend code-changing backlog item.

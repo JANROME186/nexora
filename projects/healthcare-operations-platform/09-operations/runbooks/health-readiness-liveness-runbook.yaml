@@ -1,0 +1,113 @@
+artifact:
+  id: HOP-RUNBOOK-HEALTH-001
+  type: operational-runbook
+  name: Health, Readiness and Liveness Check Runbook
+  version: 1.0.0
+  status: active
+  backlog_item: COM-MOD-012-OPS-002
+  module: COM-MOD-012 Platform Hardening and SaaS Operations
+  human_readable: health-readiness-liveness-runbook.md
+  machine_readable: health-readiness-liveness-runbook.yaml
+  owner: Nexora Platform Operations
+  date: 2026-07-22
+
+purpose: >
+  Verify that every runnable HOP component exposes and passes its liveness, readiness and startup
+  probes, satisfying the BCM-PLT-006 invariant that every deployed service must expose
+  /health/liveness and /health/readiness. Used standalone during routine checks, and as a mandatory
+  step inside DEP-RUN-003 of deployment-readiness-checklist.yaml and inside incident triage.
+
+applicable_environments:
+  local: executable_today
+  dev: target_posture_infrastructure_not_yet_provisioned
+  qa: target_posture_infrastructure_not_yet_provisioned
+  staging: target_posture_infrastructure_not_yet_provisioned
+  prod: target_posture_infrastructure_not_yet_provisioned
+
+capability_traceability:
+  BCM-PLT-006:
+    responsibility: Owns HealthCheckProbe value object (LIVENESS/READINESS/STARTUP), check_interval_seconds and failure_threshold.
+  BCM-ORG-001:
+    responsibility: Tenant subscription-state check surfaced as part of readiness for tenant-scoped operations.
+  BCM-PLT-001:
+    responsibility: IAM service must itself be reachable for readiness to be meaningful (auth-dependent endpoints).
+
+iam_and_audit:
+  required_permissions:
+    - health:read
+  minimum_role: any_authenticated_operational_role_or_anonymous_for_liveness_only
+  audit_expectation: Routine probe checks are not audited individually; repeated probe failures that trigger an incident are captured by incident-response-runbook.yaml.
+
+prerequisites:
+  - id: PRE-001
+    name: Component under check is started per its component_inventory entry in local-solution-runbook.yaml
+    required_for: any_check
+  - id: PRE-002
+    name: PowerShell or compatible shell
+    required_for: local_commands_on_windows
+
+component_probe_matrix:
+  - component_id: INF-001
+    name: Local infrastructure services (PostgreSQL, Redis, OTel Collector)
+    probe_type: container_healthcheck
+    command: docker compose --env-file .env -f compose.local.yml ps
+    working_directory: 07-implementation
+    expected_result: postgres, redis and otel-collector all report healthy or Up.
+  - component_id: BE-001
+    name: HOP backend API
+    probe_type: liveness_and_readiness_via_actuator
+    command: Invoke-RestMethod http://localhost:8080/actuator/health
+    working_directory: repository_root
+    expected_result: status is UP; components.db (when present) is UP.
+  - component_id: WEB-001
+    name: Employee portal web app
+    probe_type: http_reachability
+    command: Invoke-WebRequest http://localhost:5173
+    working_directory: repository_root
+    expected_result: HTTP 200.
+  - component_id: OTEL-001
+    name: OpenTelemetry Collector
+    probe_type: collector_health_extension
+    command: Invoke-WebRequest http://localhost:13133
+    working_directory: repository_root
+    expected_result: HTTP 200.
+
+procedure:
+  - id: HEALTH-STEP-001
+    name: Run every row of component_probe_matrix relevant to the environment under check
+  - id: HEALTH-STEP-002
+    name: Record pass/fail per component with timestamp
+  - id: HEALTH-STEP-003
+    name: If any probe fails 3 consecutive times (failure_threshold default), classify as a candidate incident
+    reference: incident-response-runbook.yaml
+
+success_criteria:
+  - Every applicable component in component_probe_matrix reports healthy/UP/200 within its check_interval.
+  - No probe requires more than failure_threshold consecutive retries to recover.
+
+failure_criteria:
+  - Any component fails its probe for 3 or more consecutive intervals.
+  - A component that should exist per local-solution-runbook.yaml component_inventory is unreachable entirely (process not started, port not bound).
+
+evidence_expected:
+  - Pass/fail table per component with UTC timestamps, retained with the deployment or incident evidence bundle (see evidence-collection-runbook.yaml).
+
+responsible_role: platform_operations_on_call
+
+next_action_if_failed: >
+  A single transient failure: retry once. A sustained failure (3+ consecutive) on a shared or
+  production environment: open incident-response-runbook.yaml immediately and do not proceed with
+  deployment promotion per deployment-readiness-checklist.yaml DEP-RUN-003. On local/dev, consult
+  local-solution-runbook.yaml troubleshooting.
+
+related_runbooks:
+  - observability-runbook.yaml
+  - incident-response-runbook.yaml
+
+known_gaps_and_forward_pointers:
+  - gap: Backend actuator does not yet expose separate /actuator/health/liveness and /actuator/health/readiness groups (management.endpoint.health.probes.enabled=true is set, but the web exposure include list and Kubernetes-style probe paths are not yet confirmed wired end-to-end at the ingress layer for dev/qa/staging/prod).
+    forward_pointer: COM-MOD-012-BE-001.
+
+closure:
+  backlog_item: COM-MOD-012-OPS-002
+  status: active

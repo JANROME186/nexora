@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-012-OPS-002
+  current_active_backlog_item: COM-MOD-012-BE-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -20,20 +20,31 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
-    backlog_item: COM-MOD-012-OPS-001
+    backlog_item: COM-MOD-012-OPS-002
     status: closed
-    next_active_backlog_item: COM-MOD-012-OPS-002
-    runtime_change: none. Production deployment and environment strategy artifacts added.
+    next_active_backlog_item: COM-MOD-012-BE-001
+    runtime_change: none. Observability, backup, restore and incident runbook artifacts added under 09-operations/runbooks/.
     port_change: none.
     environment_variable_change: none.
     startup_order_change: none.
     validation_summary: >-
-      Defined COM-MOD-012 production deployment and environment strategy in 09-operations/deployment,
-      covering local/dev/qa/staging/prod, deployment units, configuration and secrets, tenant
-      onboarding, release promotion, rollback and deployment readiness. TD-STACK-001 materially
-      reduced. This was definition-only operations work with no runtime, port, environment variable
-      or startup order changes. Verified clean YAML syntax, agent-agnostic compliance, secret scan,
-      stale-pointer sweep and git diff --check. Next backlog item COM-MOD-012-OPS-002.
+      Added 10 executable runbook pairs (observability, health/readiness/liveness,
+      metrics/logs/traces validation, backup, restore, incident response, rollback incident
+      handoff, tenant-impact triage, evidence collection, post-incident review) plus an index
+      README under 09-operations/runbooks/, built on production-deployment-strategy.yaml. Every
+      local-executable command (docker compose health checks, backend actuator health/info, OTel
+      Collector health, GET /api/audit/events, pg_dump/pg_restore/psql against hop-local-postgres)
+      was cross-checked against compose.local.yml, .env.example, application.yml and
+      AuditComplianceController rather than assumed; unimplemented telemetry (Prometheus metrics
+      endpoint, trace export, tenant_id/user_id/trace_id MDC logging) and unprovisioned
+      dev/qa/staging/prod infrastructure were documented per-runbook as
+      known_gaps_and_forward_pointers rather than silently marked passed. TD-DB-004 materially
+      reduced via tenant-impact-triage-runbook.yaml's mandatory cross-tenant leakage check, an
+      operational compensating control pending native PostgreSQL Row Level Security. Capability
+      traceability updated for all 8 COM-MOD-012 capabilities. This was definition-only operations
+      work with no runtime, port, environment variable or startup order change. Verified clean YAML
+      syntax, agent-agnostic compliance, secret scan, stale-pointer sweep and git diff --check.
+      Next backlog item COM-MOD-012-BE-001.
       Formally closed COM-MOD-011 Public Website and Digital Growth module. Confirmed all 7 capability packages
       module_closed in capability-package-index.yaml, TD-BE-015 and TD-UX-002 closed, 0 open debt attributable to
       COM-MOD-011, and re-affirmed clean coverage baselines (backend 83.99%, public website 98.61%, employee portal

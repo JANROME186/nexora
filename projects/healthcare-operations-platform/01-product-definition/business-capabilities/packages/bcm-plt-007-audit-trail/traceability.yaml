@@ -17,7 +17,13 @@ mappings:
     tests: [TEST-AUD-001, TEST-AUD-002, TEST-AUD-003]
 
 operational_strategy:
-  backlog_item: COM-MOD-012-OPS-001
-  status: closed
-  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
-  contribution: Deployment, migration, rollback and privileged-operation audit evidence.
+  backlog_item: COM-MOD-012-OPS-002
+  status: active
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
+  contribution: >-
+    Deployment, migration, rollback and privileged-operation audit evidence
+    (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002's evidence-collection-runbook.yaml treats the
+    existing GET /api/audit/events surface as the authoritative timeline source for every incident,
+    restore and post-incident review, and every new runbook's iam_and_audit section defines the
+    audit expectation for its own privileged actions pending native BCM-PLT-009 workflow
+    automation of those audit events.

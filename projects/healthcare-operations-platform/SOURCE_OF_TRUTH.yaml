@@ -133,6 +133,21 @@ sources:
   com_mod_012_ops_001_qa_evidence_yaml: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
   com_mod_012_ops_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-012-OPS-001/security-quality-evidence.md
   com_mod_012_ops_001_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-012-OPS-001/security-quality-evidence.yaml
+  com_mod_012_ops_002_runbooks_root: 09-operations/runbooks/
+  com_mod_012_ops_002_observability_runbook_yaml: 09-operations/runbooks/observability-runbook.yaml
+  com_mod_012_ops_002_health_readiness_liveness_runbook_yaml: 09-operations/runbooks/health-readiness-liveness-runbook.yaml
+  com_mod_012_ops_002_metrics_logs_traces_validation_runbook_yaml: 09-operations/runbooks/metrics-logs-traces-validation-runbook.yaml
+  com_mod_012_ops_002_backup_runbook_yaml: 09-operations/runbooks/backup-runbook.yaml
+  com_mod_012_ops_002_restore_runbook_yaml: 09-operations/runbooks/restore-runbook.yaml
+  com_mod_012_ops_002_incident_response_runbook_yaml: 09-operations/runbooks/incident-response-runbook.yaml
+  com_mod_012_ops_002_rollback_incident_handoff_runbook_yaml: 09-operations/runbooks/rollback-incident-handoff-runbook.yaml
+  com_mod_012_ops_002_tenant_impact_triage_runbook_yaml: 09-operations/runbooks/tenant-impact-triage-runbook.yaml
+  com_mod_012_ops_002_evidence_collection_runbook_yaml: 09-operations/runbooks/evidence-collection-runbook.yaml
+  com_mod_012_ops_002_post_incident_review_runbook_yaml: 09-operations/runbooks/post-incident-review-runbook.yaml
+  com_mod_012_ops_002_qa_evidence: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.md
+  com_mod_012_ops_002_qa_evidence_yaml: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
+  com_mod_012_ops_002_security_quality_evidence: 08-qa/security-quality/COM-MOD-012-OPS-002/security-quality-evidence.md
+  com_mod_012_ops_002_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-012-OPS-002/security-quality-evidence.yaml
   com_mod_012_pkg_bcm_org_001: 01-product-definition/business-capabilities/packages/bcm-org-001-tenant-management/
   com_mod_012_pkg_bcm_plt_001: 01-product-definition/business-capabilities/packages/bcm-plt-001-identity-and-access-management/
   com_mod_012_pkg_bcm_plt_002: 01-product-definition/business-capabilities/packages/bcm-plt-002-platform-configuration/

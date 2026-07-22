@@ -41,9 +41,14 @@ backlog_items:
   definition_status: closed
   saas_hardening: COM-MOD-012-DEF
   saas_hardening_status: closed
-  operational_strategy: COM-MOD-012-OPS-001
-  operational_strategy_status: closed
+  operational_strategy: COM-MOD-012-OPS-002
+  operational_strategy_status: active
 
 operational_strategy:
-  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-001-validation.yaml
-  contribution: Release evidence, deployment checklist and onboarding evidence document retention.
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
+  contribution: >-
+    Release evidence, deployment checklist and onboarding evidence document retention
+    (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002's evidence-collection-runbook.yaml defines the
+    evidence_bundle_structure and retention policy every other new runbook depends on, pending
+    formal BCM-PLT-008 implementation; until then evidence is stored as repository files under
+    08-qa/ by convention.
