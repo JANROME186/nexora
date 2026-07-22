@@ -215,4 +215,6 @@ decision:
   backlog_item_status: closed
   ready_for_next_backlog_item: COM-MOD-011-CLOSEOUT
   next_backlog_item_name: Module closeout and registry update
-  commit_required: true
+  commit_required: false
+  committed: true
+  commit_hash: 887bc45

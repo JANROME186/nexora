@@ -255,11 +255,11 @@ next_backlog_item:
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.11
     doctor_portal_typescript_web_line_coverage_percent: 96.28
-    public_website_typescript_web_line_coverage_percent: 98
+    public_website_typescript_web_line_coverage_percent: 98.61
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - Preserve coverage floors: backend (83.99%), employee portal (88.68%), mobile (99.21%), patient portal (94.11%), doctor portal (96.28%), and public website (98%).
+    - Preserve coverage floors: backend (83.99%), employee portal (88.68%), mobile (99.21%), patient portal (94.11%), doctor portal (96.28%), and public website (98.61%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
     - >-
@@ -267,58 +267,7 @@ next_backlog_item:
       public website and COM-MOD-011-FE-001's employee-portal administration screens.
     - Review 08-qa/technical-debt/technical-debt-index.yaml before feature work and resolve or materially reduce at least one open item.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-011-FE-001
+    backlog_item_id: COM-MOD-011-QA-001
     status: closed
     summary: >-
-      COM-MOD-011-FE-001 compiled the content and public-request administration screens in the
-      existing employee portal at 07-implementation/employee-portal/, reusing existing public and
-      internal APIs (no new backend endpoint): PublicContentReviewScreen consumes the same
-      anonymous /api/public/catalog/**/published endpoints the public website itself calls
-      (src/api/publicContentApi.ts), deliberately distinct from the internal catalog-admin API
-      already owned by DiagnosticCatalogScreen, so no tenantId/audit/internal field can leak into
-      the staff view by construction; PublicAppointmentRequestsScreen and
-      PublicQuotationRequestsScreen consume the existing internal /api/care-delivery/appointments
-      and /api/care-delivery/quotations endpoints (src/api/publicRequestsApi.ts), filtered
-      client-side to channel=="public_website" and the pending status, with Confirm/Reject and
-      Issue/Reject actions behind ConfirmDialog reusing existing confirm/cancel/issue endpoints.
-      Found and fixed a real defect along the way: QuotationRequest had no channel field, unlike
-      AppointmentSlot, so public-website-submitted quotation drafts could not be reliably
-      distinguished from staff-initiated ones; added QuotationRequest.channel (mirroring
-      AppointmentSlot's CHANNEL_* constants), an additive nullable
-      care_delivery.quotations.channel column, and QuotationManagementService validation
-      (start() defaults to channel=employee_portal when omitted, preserving every untouched
-      caller, and rejects channel=public_website from internal callers; startPublic() always
-      stamps channel=public_website server-side). Because this touched the backend, its full
-      Maven -Pquality -Dhop.local-db-tests=true gate was re-run: 327 tests, 0 failures, backend
-      line coverage 83.96% -> 83.99%. Added 3 new ScreenKey/PermissionCode pairs
-      (SCREEN_PUBLIC_CONTENT_REVIEW, SCREEN_PUBLIC_APPOINTMENT_REQUESTS,
-      SCREEN_PUBLIC_QUOTATION_REQUESTS), granted to ADMIN (automatic) and FRONT_DESK, with
-      navigation tabs hidden (not disabled) for other roles; all visible text sourced from new
-      namespaced es-MX/en-US message groups (t.publicContentReview/publicAppointmentRequests/
-      publicQuotationRequests). Closed TD-UX-002 (not just materially reduced): retrofitted the
-      same documented responsive breakpoint set (--hop-bp-sm/md/lg, styles.css) and automated
-      jest-axe accessibility check (src/test/accessibility.test.tsx) COM-MOD-011-WEB-001
-      established as the reference pattern into employee-portal itself, this debt's originally
-      discovered affected_area, closing the remaining_scope that item left open;
-      eslint-plugin-jsx-a11y (newly added) surfaced and fixed one real finding
-      (ConfirmDialog.tsx's autoFocus). Employee-portal coverage rose 88.24% -> 88.68% with 154
-      tests (54 test files, 0 failures); ESLint 0 errors/38 non-blocking warnings (all
-      pre-existing, 0 new from this item's files, since the 3 new screens were built directly on
-      TD-FE-010's DataTable.tsx/statusPresentation.ts reusable components). Narrowed a
-      pre-existing blanket npm "overrides":{"minimatch":"10.2.5"} to scope it under
-      eslint-plugin-sonarjs only (matching public-website's convention), since the blanket
-      override broke eslint-plugin-jsx-a11y's own compatible minimatch@3.x resolution. Trivy fs
-      on the backend found 1 MEDIUM vulnerability (CVE-2026-59889,
-      tools.jackson.core:jackson-databind 3.1.4) before the fix; pinned to 3.1.5 in pom.xml
-      (mirroring the existing classic-Jackson-2.x pin already in that file for a prior CVE),
-      re-scan confirmed 0. OWASP Dependency-Check post-fix revalidation passed with the project
-      quality profile (65 dependencies, 0 vulnerable dependencies, 0 vulnerabilities; report
-      dated 2026-07-22T18:03:17Z) using the local advisory database. npm audit and Trivy fs
-      (frontend and backend, vuln/secret/misconfig, all severities) reported 0 findings after the
-      fix; agent-agnostic
-      scan reported 4 false positives (CSS cursor: property) and 0 real hits; git diff --check
-      clean. Reconciled PROJECT_STATE.yaml (root and project), SOURCE_OF_TRUTH.yaml,
-      HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml, this prompt file, six capability traceability.yaml
-      files (BCM-SVC-001/002/003/005, BCM-ATT-001/006), the technical-debt-index.yaml (TD-UX-002
-      closed, new backend/employee-portal coverage baselines) and the local-solution-runbook to
-      advance the active backlog item to COM-MOD-011-QA-001.
+      COM-MOD-011-QA-001 validated integrated public web, SEO, privacy, accessibility, and security evidence across all 7 capability packages (BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005). Verified backend public REST endpoints (/api/public/**), public website React application, and employee portal administration screens. Validated SEO metadata (sitemap, robots), privacy notice and consent enforcement, es-MX/en-US i18n externalization, and axe-core accessibility compliance. Confirmed 0 vulnerabilities across OWASP Dependency-Check, npm audit, and Trivy filesystem scans, and 0 security/secret findings. Confirmed 0 coverage regressions across all stacks, with coverage floors verified at: backend 83.99% (327 tests), public website 98.61% (97 tests), employee portal 88.68% (154 tests), mobile app 99.21%, patient portal 94.11%, and doctor portal 96.28%. Repository YAML parse (1,157 files), agent-agnostic scan, and git diff --check passed clean. Advanced next_backlog_item to COM-MOD-011-CLOSEOUT.
