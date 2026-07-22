@@ -1405,7 +1405,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_iteration: COM-MOD-011
   active_module: COM-MOD-011 Public Website and Digital Growth
-  active_backlog_item: COM-MOD-011-WEB-001
+  active_backlog_item: COM-MOD-011-FE-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
@@ -1417,7 +1417,7 @@ commercial_product_progress:
     COM-MOD-011:
       name: Public Website and Digital Growth
       package_status: reused_extended
-      backlog_item: COM-MOD-011-WEB-001
+      backlog_item: COM-MOD-011-FE-001
       backlog_item_status: active
       execution_flow_stage: implement
       packages_reused:
