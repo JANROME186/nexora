@@ -61,7 +61,7 @@ Both acceptance criteria now hold in `employee-portal`; **TD-UX-002 is closed**,
 - **npm audit**: **0 vulnerabilities**. Narrowed a pre-existing blanket `"minimatch":"10.2.5"` override to scope it under `eslint-plugin-sonarjs` only (matching public-website's convention) — the blanket override was breaking `eslint-plugin-jsx-a11y`'s own compatible `minimatch@3.x` resolution.
 - **Trivy filesystem scan** (employee-portal): **0 vulnerabilities, 0 secrets, 0 misconfigurations**.
 - **Backend Maven `-Pquality -Dhop.local-db-tests=true`** (re-run because the defect fix touched the backend): **BUILD SUCCESS, 327 tests, 0 failures**, line coverage **83.99%** (up from 83.96%).
-- **OWASP Dependency-Check (backend)**: first run (before the Jackson fix) reported 108 dependencies scanned, 0 vulnerable — its NVD-derived database had not yet ingested the very recent CVE described below. A re-run after the fix could not complete: the plugin hung indefinitely on a stale update lock file belonging to an unrelated project sharing this machine (`C:\Documents\Proyectos\Allianz\programas\.m2\...`), outside this repository's control. Trivy independently confirmed both the finding and the fix (below).
+- **OWASP Dependency-Check (backend)**: post-fix revalidation passed with `mvn -Pquality org.owasp:dependency-check-maven:check -DautoUpdate=false` using the local advisory database at `C:/Documents/Proyectos/Laboratorio/dependency-check-data`; report `target/dependency-check-report.json` dated `2026-07-22T18:03:17.077591400Z` scanned 65 dependencies, 0 vulnerable dependencies and 0 vulnerabilities.
 - **Trivy filesystem scan (backend)**: found **1 MEDIUM vulnerability** before the fix — `tools.jackson.core:jackson-databind` 3.1.4, `CVE-2026-59889` (`@JsonView` bypassed for `@JsonUnwrapped` container properties on deserialization), fixed upstream in 3.1.5/3.2.1. Fixed by pinning `tools.jackson.core:jackson-databind`/`jackson-core` to 3.1.5 in `pom.xml` (mirroring the existing pattern already used to pin the classic Jackson 2.x line for a prior CVE). Re-scan after the fix: **0 vulnerabilities, 0 secrets, 0 misconfigurations**.
 - **YAML parse**: all touched/added YAML files parse cleanly.
 - **Agent-agnostic scan**: 4 false-positive matches (CSS `cursor: pointer`/`cursor: not-allowed` in `styles.css`); 0 real vendor/agent references.
@@ -78,7 +78,7 @@ Both acceptance criteria now hold in `employee-portal`; **TD-UX-002 is closed**,
 - Administration screens implemented and tested: yes.
 - Dynamic menu/permissions integrated: yes (hidden, not disabled, for unauthorized roles).
 - No hardcoded visible text outside i18n: yes.
-- No vulnerabilities of any level: yes (see the OWASP environment caveat above; Trivy independently confirms 0 across both frontend and backend after the fix).
+- No vulnerabilities of any level: yes (OWASP Dependency-Check and Trivy both confirm 0 findings after the fix).
 - Coverage did not regress: yes (both touched stacks improved; no other stack touched).
 - Required technical debt addressed: yes (TD-UX-002 closed).
 - No stale pointers: yes.

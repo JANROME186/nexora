@@ -32,13 +32,13 @@ Three new **dev-only** dependencies, all MIT-licensed: `eslint-plugin-jsx-a11y` 
 | Frontend npm audit | `npm audit --audit-level=low` | 0 vulnerabilities |
 | Frontend Trivy fs scan | `trivy fs --scanners vuln,secret,misconfig --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL` | 0 vulnerabilities, 0 secrets, 0 misconfigurations |
 | Backend Maven quality profile | `mvn -Pquality -Dhop.local-db-tests=true clean verify` | BUILD SUCCESS; 327 tests, 0 failures; 83.99% line coverage (floor 83.96%) |
-| Backend OWASP Dependency-Check | `mvn org.owasp:dependency-check-maven:check -DautoUpdate=false` | 108 deps scanned, 0 vulnerable (first run); see caveat below |
+| Backend OWASP Dependency-Check | `mvn -Pquality org.owasp:dependency-check-maven:check -DautoUpdate=false` | Post-fix revalidation passed; 65 deps scanned, 0 vulnerable deps, 0 vulnerabilities |
 | Backend Trivy fs scan | `trivy fs --scanners vuln,secret,misconfig --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL --skip-dirs target --skip-dirs .m2 --skip-dirs .mvn` | 1 MEDIUM before fix -> 0 after fix; 0 secrets, 0 misconfigurations |
 | YAML parse | all touched/added `.yml`/`.yaml` | 0 errors |
 | Agent-agnostic scan | grep for vendor/agent patterns | 4 false positives (CSS `cursor:`), 0 real hits |
 | git diff --check | `git diff --check` | 0 whitespace errors |
 
-**OWASP Dependency-Check caveat**: the first run (before the Jackson fix) reported 0 vulnerable dependencies because its NVD-derived database had not yet ingested CVE-2026-59889, a very recent CVE. A re-verification run after the fix could not complete — the plugin hung indefinitely on `C:\Documents\Proyectos\Allianz\programas\.m2\...\odc.update.lock`, a stale lock file belonging to an unrelated project sharing this machine's local environment, outside this repository's control. Trivy, a separately-sourced vulnerability feed, independently found the vulnerability and independently confirmed the fix, and is treated as authoritative here.
+**OWASP Dependency-Check post-fix revalidation**: the project-profile scan passed after the Jackson fix with Dependency-Check 12.1.3, using the local advisory database at `C:/Documents/Proyectos/Laboratorio/dependency-check-data`. The generated JSON report is `07-implementation/backend/target/dependency-check-report.json`, dated `2026-07-22T18:03:17.077591400Z`, and reports 65 dependencies, 0 vulnerable dependencies and 0 vulnerabilities.
 
 ## Vulnerability fixed: CVE-2026-59889
 

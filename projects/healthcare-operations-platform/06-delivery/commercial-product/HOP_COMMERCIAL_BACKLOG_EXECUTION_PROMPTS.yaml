@@ -313,12 +313,11 @@ next_backlog_item:
       on the backend found 1 MEDIUM vulnerability (CVE-2026-59889,
       tools.jackson.core:jackson-databind 3.1.4) before the fix; pinned to 3.1.5 in pom.xml
       (mirroring the existing classic-Jackson-2.x pin already in that file for a prior CVE),
-      re-scan confirmed 0. OWASP Dependency-Check's first run (108 dependencies, 0 vulnerable)
-      predated this CVE being ingested into its database; a re-verification run could not
-      complete due to an unrelated stale update-lock file from another project sharing this
-      machine's local environment (documented as an environment caveat, not a gate skip — Trivy's
-      independent confirmation is authoritative). npm audit and Trivy fs (frontend and backend,
-      vuln/secret/misconfig, all severities) reported 0 findings after the fix; agent-agnostic
+      re-scan confirmed 0. OWASP Dependency-Check post-fix revalidation passed with the project
+      quality profile (65 dependencies, 0 vulnerable dependencies, 0 vulnerabilities; report
+      dated 2026-07-22T18:03:17Z) using the local advisory database. npm audit and Trivy fs
+      (frontend and backend, vuln/secret/misconfig, all severities) reported 0 findings after the
+      fix; agent-agnostic
       scan reported 4 false positives (CSS cursor: property) and 0 real hits; git diff --check
       clean. Reconciled PROJECT_STATE.yaml (root and project), SOURCE_OF_TRUTH.yaml,
       HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml, this prompt file, six capability traceability.yaml

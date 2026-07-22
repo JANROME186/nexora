@@ -247,18 +247,20 @@ quality_gates:
     previous_baseline_percent: 83.96
     coverage_regression: false
   - tool: OWASP Dependency-Check (backend)
-    status: passed_with_environment_caveat
-    evidence_command: mvn org.owasp:dependency-check-maven:check -DautoUpdate=false
-    dependencies_scanned: 108
+    status: passed
+    evidence_command: mvn -Pquality org.owasp:dependency-check-maven:check -DautoUpdate=false
+    dependency_check_version: 12.1.3
+    report: 07-implementation/backend/target/dependency-check-report.json
+    report_date_utc: 2026-07-22T18:03:17.077591400Z
+    data_directory: C:/Documents/Proyectos/Laboratorio/dependency-check-data
+    dependencies_scanned: 65
+    vulnerable_dependencies: 0
     vulnerabilities_found: 0
-    caveat: >-
-      This first run (before the Jackson pin fix below) reported 0 vulnerable dependencies; its
-      NVD-derived database had not yet ingested the very recent CVE-2026-59889. A second run
-      (to re-verify after the fix) could not complete: the plugin waited indefinitely on
-      C:\Documents\Proyectos\Allianz\programas\.m2\...\odc.update.lock, a stale lock file from an
-      unrelated project sharing this machine's environment, outside this repository's control.
-      Trivy (a separately-sourced vulnerability feed, see below) independently confirmed both the
-      original finding and the fix.
+    post_fix_reverification: passed
+    note: >-
+      Re-run after the Jackson 3.1.5 pin using the project's quality-profile Dependency-Check
+      configuration and the local advisory database available at execution time. This successful
+      post-fix project-profile scan supersedes the earlier pre-fix Dependency-Check evidence.
   - tool: Trivy filesystem scan (backend)
     status: passed
     evidence_command: trivy fs --scanners vuln,secret,misconfig --severity
@@ -304,7 +306,7 @@ security_and_access:
     No new production/runtime dependency was added beyond react/react-dom.
   vulnerabilities: >-
     0 known vulnerabilities in npm audit and Trivy scans (frontend and backend) after the Jackson
-    CVE-2026-59889 fix; see quality_gates for the OWASP environment caveat.
+    CVE-2026-59889 fix; OWASP Dependency-Check and Trivy both report 0 findings after the fix.
 
 closure_criteria:
   administration_screens_implemented_and_tested: true

@@ -377,7 +377,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-011
   in_progress_module: COM-MOD-011
-  next_backlog_item: COM-MOD-011-FE-001
+  next_backlog_item: COM-MOD-011-QA-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -1470,7 +1470,7 @@ commercial_product_progress:
       package_status: reused_extended
       backlog_item: COM-MOD-011-QA-001
       backlog_item_status: active
-      execution_flow_stage: implement
+      execution_flow_stage: validate
       packages_reused:
         - capability: BCM-SVC-001
           owning_roadmap_group: MVP-MOD-002

@@ -110,16 +110,19 @@ evidence_commands:
     result: BUILD SUCCESS; 327 tests, 0 failures/errors/skipped; line coverage 83.99%
       (previous floor 83.96%)
   backend_owasp_dependency_check:
-    command: mvn org.owasp:dependency-check-maven:check -DautoUpdate=false
-    dependencies_scanned: 108
-    vulnerabilities_found_first_run: 0
-    caveat: >-
-      First run (before the Jackson pin fix) reported 0 vulnerable; its NVD-derived database had
-      not yet ingested CVE-2026-59889. A re-verification run after the fix could not complete: the
-      plugin hung on C:\Documents\Proyectos\Allianz\programas\.m2\...\odc.update.lock, a stale
-      lock file belonging to an unrelated project sharing this machine's local environment,
-      outside this repository's control. Trivy (below) is the authoritative post-fix
-      confirmation.
+    command: mvn -Pquality org.owasp:dependency-check-maven:check -DautoUpdate=false
+    dependency_check_version: 12.1.3
+    report: 07-implementation/backend/target/dependency-check-report.json
+    report_date_utc: 2026-07-22T18:03:17.077591400Z
+    data_directory: C:/Documents/Proyectos/Laboratorio/dependency-check-data
+    dependencies_scanned: 65
+    vulnerable_dependencies: 0
+    vulnerabilities_found: 0
+    post_fix_reverification: passed
+    note: >-
+      Re-run after the Jackson 3.1.5 pin using the project's quality-profile Dependency-Check
+      configuration and the local advisory database available at execution time. This successful
+      post-fix project-profile scan supersedes the earlier pre-fix Dependency-Check evidence.
   backend_trivy_filesystem_scan:
     command: trivy fs --scanners vuln,secret,misconfig --severity
       UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL --skip-dirs target --skip-dirs .m2 --skip-dirs .mvn
