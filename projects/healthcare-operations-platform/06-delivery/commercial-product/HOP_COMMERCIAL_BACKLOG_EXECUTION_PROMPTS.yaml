@@ -242,11 +242,11 @@ validation_commands:
     command_template: "Run repository whitespace validation before closing the item."
 
 next_backlog_item:
-  module_id: COM-MOD-011
-  backlog_item_id: COM-MOD-011-CLOSEOUT
-  name: Module closeout and registry update
-  expected_folder: 08-qa/qa/public-website-and-digital-growth/ and
-    08-qa/security-quality/COM-MOD-011-CLOSEOUT/
+  module_id: COM-MOD-012
+  backlog_item_id: COM-MOD-012-DEF
+  name: Capability package models
+  expected_folder: 01-product-definition/business-capabilities/packages/ and
+    08-qa/qa/platform-hardening-and-saas-operations/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
@@ -262,12 +262,9 @@ next_backlog_item:
     - Preserve coverage floors: backend (83.99%), employee portal (88.68%), mobile (99.21%), patient portal (94.11%), doctor portal (96.28%), and public website (98.61%).
     - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
     - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
-    - >-
-      Validate the public web, SEO and privacy evidence end to end across COM-MOD-011-WEB-001's
-      public website and COM-MOD-011-FE-001's employee-portal administration screens.
     - Review 08-qa/technical-debt/technical-debt-index.yaml before feature work and resolve or materially reduce at least one open item.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-011-QA-001
+    backlog_item_id: COM-MOD-011-CLOSEOUT
     status: closed
     summary: >-
-      COM-MOD-011-QA-001 validated integrated public web, SEO, privacy, accessibility, and security evidence across all 7 capability packages (BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005). Verified backend public REST endpoints (/api/public/**), public website React application, and employee portal administration screens. Validated SEO metadata (sitemap, robots), privacy notice and consent enforcement, es-MX/en-US i18n externalization, and axe-core accessibility compliance. Confirmed 0 vulnerabilities across OWASP Dependency-Check, npm audit, and Trivy filesystem scans, and 0 security/secret findings. Confirmed 0 coverage regressions across all stacks, with coverage floors verified at: backend 83.99% (327 tests), public website 98.61% (97 tests), employee portal 88.68% (154 tests), mobile app 99.21%, patient portal 94.11%, and doctor portal 96.28%. Repository YAML parse (1,157 files), agent-agnostic scan, and git diff --check passed clean. Advanced next_backlog_item to COM-MOD-011-CLOSEOUT.
+      COM-MOD-011-CLOSEOUT formally closed the Public Website and Digital Growth module. All 7 capability packages (BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005) are confirmed module_closed in capability-package-index.yaml and their respective traceability.yaml files. Technical debt items TD-BE-015 and TD-UX-002 are closed with zero open or blocking technical debt attributable to COM-MOD-011. As a documentation and registry synchronization closeout (no source code touched), coverage baselines across all Delivered Stacks were re-affirmed: backend 83.99% (327 tests), employee portal 88.68% (154 tests), public website 98.61% (97 tests), mobile 99.21%, patient portal 94.11%, doctor portal 96.28%. OWASP Dependency-Check, npm audit, and Trivy fs scans confirmed 0 vulnerabilities/secrets/misconfigurations. Repository YAML parse, stale-pointer sweep, and git diff --check passed clean. Advanced next_backlog_item to COM-MOD-012-DEF.

@@ -176,3 +176,9 @@ traces:
       note: >-
         Validated rate-limit enforcement (PublicApiRateLimitInterceptor, TD-BE-015 closed) and frontend 429 cooldown handling
         end to end with zero vulnerabilities across Maven quality, OWASP Dependency-Check, npm audit, and Trivy fs scans.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-CLOSEOUT
+      surface_added: module closeout and registry update
+      note: >-
+        Formally closed COM-MOD-011 Public Website and Digital Growth module. Confirmed rate-limiting enforcement and API management
+        governance, zero vulnerability findings, zero coverage regressions, and all quality gates passing clean.

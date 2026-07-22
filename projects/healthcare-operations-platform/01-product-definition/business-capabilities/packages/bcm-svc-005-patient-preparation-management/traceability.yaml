@@ -104,3 +104,9 @@ traces:
         OWASP Dependency-Check, npm audit, and Trivy fs scans. Verified no tenantId, audit or internal
         identifier leakage. SEO metadata, sitemap, robots, i18n key parity and axe-core accessibility
         checks passed.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-CLOSEOUT
+      surface_added: module closeout and registry update
+      note: >-
+        Formally closed COM-MOD-011 Public Website and Digital Growth module. Confirmed reused public preparation instruction
+        surfaces, zero vulnerability findings, zero coverage regressions, and all quality gates passing clean.

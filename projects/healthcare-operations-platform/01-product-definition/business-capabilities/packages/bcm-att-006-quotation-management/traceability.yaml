@@ -180,3 +180,9 @@ traces:
         zero vulnerabilities across Maven quality, OWASP Dependency-Check, npm audit, and Trivy fs scans. Verified
         privacy consent, 429 rate limit handling, IAM permission gating, es-MX/en-US i18n key parity and axe-core
         accessibility checks.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-CLOSEOUT
+      surface_added: module closeout and registry update
+      note: >-
+        Formally closed COM-MOD-011 Public Website and Digital Growth module. Confirmed reused public quotation request
+        surfaces, zero vulnerability findings, zero coverage regressions, and all quality gates passing clean.

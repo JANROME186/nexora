@@ -16,15 +16,12 @@ product:
   commercial_name: Nexora Healthcare Operations Platform
   company: Nexora
   current_baseline:
-    completed_module: COM-MOD-010 (COM-MOD-010-CLOSEOUT closed)
+    completed_module: COM-MOD-011 (COM-MOD-011-CLOSEOUT closed)
     completed_status: closed
-    active_module: COM-MOD-011
-    active_backlog_item: COM-MOD-011-CLOSEOUT
+    active_module: COM-MOD-012
+    active_backlog_item: COM-MOD-012-DEF
     active_module_progress: >-
-      COM-MOD-011-DEF, COM-MOD-011-BE-001, COM-MOD-011-WEB-001, COM-MOD-011-FE-001 and COM-MOD-011-QA-001 closed.
-      QA-001 validated integrated public web, SEO, accessibility, privacy, and security evidence clean across all
-      7 capability packages with 0 vulnerabilities, 0 coverage regressions, 327 backend tests (83.99% coverage),
-      97 public website tests (98.61% coverage), and 154 employee portal tests (88.68% coverage). Ready for COM-MOD-011-CLOSEOUT.
+      COM-MOD-011 Public Website and Digital Growth module formally closed clean with all 7 capability packages module_closed, 0 vulnerabilities, 0 coverage regressions across all 6 stack baselines, and 0 open technical debt attributable to COM-MOD-011. Active module advanced to COM-MOD-012 Platform Hardening and SaaS Operations; next item COM-MOD-012-DEF.
     paused_backlog_item: null
 
 source_inputs:
@@ -778,7 +775,7 @@ modules:
     name: Public Website and Digital Growth
     release: REL-002
     priority: 100
-    status: active
+    status: closed
     source: derived_from_capability_dependency_map
     objective: Provide commercial public-facing discovery, service catalog visibility, contact flows and conversion paths.
     depends_on:
@@ -818,7 +815,7 @@ modules:
         status: closed
       - id: COM-MOD-011-CLOSEOUT
         name: Module closeout and registry update
-        status: active
+        status: closed
     acceptance_summary:
       - Prospective patients can discover services, preparation instructions, branches and contact paths.
       - Public requests can be routed into internal workflows without exposing private APIs.
@@ -828,7 +825,7 @@ modules:
     name: Platform Hardening and SaaS Operations
     release: REL-002
     priority: 110
-    status: planned
+    status: active
     source: derived_from_commercial_readiness
     objective: Harden HOP for production deployment, monitoring, support, data protection, tenant operations and upgrade safety.
     depends_on:
@@ -853,6 +850,7 @@ modules:
     backlog_items:
       - id: COM-MOD-012-DEF
         name: Capability package models
+        status: active
       - id: COM-MOD-012-OPS-001
         name: Production deployment and environment strategy
       - id: COM-MOD-012-OPS-002
