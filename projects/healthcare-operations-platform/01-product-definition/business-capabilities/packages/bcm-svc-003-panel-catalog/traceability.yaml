@@ -91,3 +91,11 @@ traces:
         GET /api/public/catalog/panels/published (src/api/publicContentApi.ts) — the same public
         endpoint, not the internal catalog-admin API — so no internal field can leak into the
         staff review view. Read-only; publish lifecycle stays owned by DiagnosticCatalogScreen.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-QA-001
+      surface_added: integrated QA, SEO and privacy validation
+      note: >-
+        Validated public panel catalog surface end to end with zero vulnerabilities across Maven quality,
+        OWASP Dependency-Check, npm audit, and Trivy fs scans. Verified no tenantId, audit or internal
+        identifier leakage. SEO metadata, sitemap, robots, i18n key parity and axe-core accessibility
+        checks passed.

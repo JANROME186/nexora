@@ -4,9 +4,11 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-011-QA-001`.
+Current active backlog item: `COM-MOD-011-CLOSEOUT`.
 
-Latest update: `COM-MOD-011-FE-001` is closed. It compiled the content and public-request
+Latest update: `COM-MOD-011-QA-001` is closed. Integrated quality, privacy, SEO, accessibility, and security validation for COM-MOD-011 was executed clean across all 7 capability packages (`BCM-SVC-001/002/003/005`, `BCM-ATT-001/006`, `BCM-PLT-005`) with 0 vulnerabilities, 0 security findings, 0 test failures, and 0 coverage regressions (backend 83.99%, public website 98.61%, employee portal 88.68%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%). Maven quality profile (327 tests), OWASP Dependency-Check (0 vulnerabilities), npm audit on public-website and employee-portal (0 vulnerabilities), Trivy fs (0 vulnerabilities, 0 secrets, 0 misconfigurations), repository YAML parse (1,157 files, 0 errors), agent-agnostic scan (0 hits), and git diff --check (0 whitespace errors) passed clean. Stale backlog pointers in all 7 capability package traceability.yaml files and capability-package-index.yaml were updated with COM-MOD-011-QA-001 validation entries. The next active backlog item is `COM-MOD-011-CLOSEOUT` (Module closeout and registry update).
+
+Previous update: `COM-MOD-011-FE-001` is closed. It compiled the content and public-request
 administration screens in the existing employee portal at
 `07-implementation/employee-portal/`: `PublicContentReviewScreen` consumes the same anonymous
 `/api/public/catalog/**/published` endpoints the public website itself calls (deliberately

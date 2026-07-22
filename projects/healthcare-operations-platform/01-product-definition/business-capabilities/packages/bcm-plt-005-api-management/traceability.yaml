@@ -170,3 +170,9 @@ traces:
         is disabled and a localized countdown is shown for a fixed client-side cooldown window,
         since PublicApiRateLimitInterceptor sends no Retry-After header to compute an exact reset
         time from.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-QA-001
+      surface_added: integrated QA, SEO and privacy validation
+      note: >-
+        Validated rate-limit enforcement (PublicApiRateLimitInterceptor, TD-BE-015 closed) and frontend 429 cooldown handling
+        end to end with zero vulnerabilities across Maven quality, OWASP Dependency-Check, npm audit, and Trivy fs scans.

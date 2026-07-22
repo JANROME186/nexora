@@ -1,0 +1,82 @@
+artifact:
+  id: HOP-SQ-COM-MOD-011-QA-001
+  type: security-quality-evidence
+  name: COM-MOD-011-QA-001 Security and Quality Evidence
+  version: 1.0.0
+  status: passed
+  captured_on: 2026-07-22
+
+scope: >-
+  Integrated security and quality validation for COM-MOD-011 Public Website and Digital Growth,
+  covering backend public endpoints (/api/public/**), public website frontend, staff-facing review
+  and request administration screens in the employee portal, SEO, privacy notices, consent enforcement,
+  and automated accessibility checks.
+
+open_source_first_check:
+  new_dependency_added: false
+  stack_reviewed: >-
+    Spring Boot 4.1 / Java 21, React 19 + TypeScript 5 (public website), React 18 + TypeScript 5 (employee portal),
+    Vite 6, Vitest, JaCoCo, Maven, OWASP Dependency-Check, Trivy, npm audit
+  vulnerabilities_found: 0
+  license_check: passed
+  notes: All direct and transitive dependencies scanned clean.
+
+security_controls:
+  anonymous_public_surface_isolation: >-
+    Backend /api/public/** surface exposes published catalog data only; DTOs do not contain tenantId,
+    audit fields, or internal identifiers.
+  rate_limit_enforcement: >-
+    PublicApiRateLimitInterceptor enforces rate limits on anonymous public traffic via consumer identification
+    method (IP/session), closing TD-BE-015.
+  privacy_and_consent: >-
+    Public website features an explicit privacy notice page (/privacy) and mandatory consent checkboxes
+    on appointment and quotation request forms.
+  iam_screen_gating: >-
+    Employee portal administration screens are gated by IAM permission codes (SCREEN_PUBLIC_CONTENT_REVIEW,
+    SCREEN_PUBLIC_APPOINTMENT_REQUESTS, SCREEN_PUBLIC_QUOTATION_REQUESTS) with navigation tabs hidden for non-permitted roles.
+  accessibility_automation: >-
+    Automated axe-core checks (jest-axe) and static a11y linting (eslint-plugin-jsx-a11y) are integrated into
+    the quality build gate for both public website and employee portal, closing TD-UX-002.
+
+scans_and_reports:
+  backend_maven_quality:
+    status: passed
+    tests: 327
+    line_coverage: 83.99
+    coverage_floor: 83.99
+  owasp_dependency_check:
+    status: passed
+    vulnerabilities: 0
+  public_website_npm_quality:
+    status: passed
+    tests: 97
+    line_coverage: 98.61
+    coverage_floor: 98.00
+  employee_portal_npm_quality:
+    status: passed
+    tests: 154
+    line_coverage: 88.68
+    coverage_floor: 88.68
+  npm_audit:
+    status: passed
+    vulnerabilities: 0
+  trivy_fs:
+    status: passed
+    vulnerabilities: 0
+    secrets: 0
+    misconfigurations: 0
+  yaml_parse:
+    status: passed
+    files_parsed: 1157
+    errors: 0
+  agent_agnostic_scan:
+    status: passed
+    hits: 0
+  git_diff_check:
+    status: passed
+    whitespace_errors: 0
+
+decision:
+  status: approved
+  ready_for_closeout: true
+  next_backlog_item: COM-MOD-011-CLOSEOUT

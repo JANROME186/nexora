@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-011-QA-001
+  current_active_backlog_item: COM-MOD-011-CLOSEOUT
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -20,9 +20,9 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
-    backlog_item: COM-MOD-011-FE-001
+    backlog_item: COM-MOD-011-QA-001
     status: closed
-    next_active_backlog_item: COM-MOD-011-QA-001
+    next_active_backlog_item: COM-MOD-011-CLOSEOUT
     runtime_change: none. COM-MOD-011-FE-001 adds screens to the already-running employee-portal
       runtime (07-implementation/employee-portal/, port 5173 below); no new frontend runtime was
       introduced.
@@ -153,7 +153,7 @@ project:
     vulnerability found by Trivy on the backend directory: `tools.jackson.core:jackson-databind`
     3.1.4 (CVE-2026-59889, MEDIUM) was pinned to 3.1.5 in `backend/pom.xml`, mirroring the
     existing pin already there for the classic Jackson 2.x line. The next active backlog item is
-    COM-MOD-011-QA-001.
+    COM-MOD-011-CLOSEOUT.
   intended_audience:
     - human_reviewer
     - qa_reviewer

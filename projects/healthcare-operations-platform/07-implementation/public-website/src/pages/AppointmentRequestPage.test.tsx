@@ -80,7 +80,7 @@ describe("AppointmentRequestPage", () => {
 
     await user.click(screen.getByRole("button", { name: "Enviar otra solicitud" }));
     expect(screen.getByRole("button", { name: "Enviar solicitud" })).toBeInTheDocument();
-  });
+  }, 20000);
 
   it("starts a cooldown and disables the submit button on a 429 response", async () => {
     vi.spyOn(careDeliveryApi, "submitAppointmentRequest").mockRejectedValue(

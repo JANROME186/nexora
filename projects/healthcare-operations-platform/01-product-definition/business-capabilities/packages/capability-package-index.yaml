@@ -415,8 +415,8 @@ active_capability_package_groups:
   - roadmap_group: COM-MOD-011
     name: Public Website and Digital Growth
     package_status: reused_extended
-    backlog_item: COM-MOD-011-DEF
-    qa_evidence: ../../../08-qa/qa/public-website-and-digital-growth/COM-MOD-011-DEF-validation.yaml
+    backlog_item: COM-MOD-011-QA-001
+    qa_evidence: ../../../08-qa/qa/public-website-and-digital-growth/COM-MOD-011-QA-001-validation.yaml
     note: >-
       All 7 capabilities are reused from already-modeled/compiled capability packages owned by
       MVP-MOD-002, MVP-MOD-004 and MVP-MOD-008. No new capability package, aggregate or schema was

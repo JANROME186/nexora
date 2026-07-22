@@ -98,3 +98,11 @@ traces:
         (via the new src/api/publicContentApi.ts), rather than the internal catalog-admin API, so
         staff see exactly what a visitor sees with no tenantId/audit field ever entering the view.
         Read-only; full draft/publish lifecycle stays owned by DiagnosticCatalogScreen.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-QA-001
+      surface_added: integrated QA, SEO and privacy validation
+      note: >-
+        Validated public diagnostic service catalog surface end to end with zero vulnerabilities across
+        Maven quality, OWASP Dependency-Check, npm audit, and Trivy fs scans. Verified no tenantId,
+        audit or internal identifier leakage. SEO metadata, sitemap, robots, i18n key parity and
+        axe-core accessibility checks passed.

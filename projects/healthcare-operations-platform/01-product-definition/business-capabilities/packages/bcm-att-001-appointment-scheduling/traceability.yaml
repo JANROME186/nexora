@@ -163,3 +163,11 @@ traces:
         channel=="public_website" && status=="requested" — AppointmentSlot already carried both
         fields, so no backend change was needed here. Confirm/reject actions reuse the existing
         POST .../confirm and .../cancel endpoints; no new action endpoint was created.
+    - roadmap_group: COM-MOD-011
+      backlog_item: COM-MOD-011-QA-001
+      surface_added: integrated QA, SEO and privacy validation
+      note: >-
+        Validated public appointment request intake and staff triage queue end to end with zero vulnerabilities
+        across Maven quality, OWASP Dependency-Check, npm audit, and Trivy fs scans. Verified privacy consent,
+        cooldown handling for 429 rate limits, IAM permission gating, es-MX/en-US i18n key parity and axe-core
+        accessibility checks.

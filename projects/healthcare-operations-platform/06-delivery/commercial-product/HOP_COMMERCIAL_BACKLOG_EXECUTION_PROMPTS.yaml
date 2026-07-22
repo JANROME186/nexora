@@ -243,12 +243,10 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-011
-  backlog_item_id: COM-MOD-011-QA-001
-  name: Public web, SEO and privacy evidence
+  backlog_item_id: COM-MOD-011-CLOSEOUT
+  name: Module closeout and registry update
   expected_folder: 08-qa/qa/public-website-and-digital-growth/ and
-    08-qa/security-quality/COM-MOD-011-QA-001/, validating the already-compiled
-    07-implementation/public-website/ and 07-implementation/employee-portal/ public-request
-    administration surfaces end to end.
+    08-qa/security-quality/COM-MOD-011-CLOSEOUT/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
