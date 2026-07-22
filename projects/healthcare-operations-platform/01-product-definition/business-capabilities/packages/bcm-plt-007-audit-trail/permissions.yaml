@@ -1,0 +1,18 @@
+artifact:
+  id: HOP-PERM-BCM-PLT-007
+  type: permissions
+  name: Audit Trail Permissions
+  version: 1.0.0
+
+roles:
+  - SYSTEM_ADMIN
+  - COMPLIANCE_OFFICER
+  - TENANT_ADMIN
+
+permissions:
+  - code: audit:read
+    description: Query and view audit log entries.
+    assigned_roles: [SYSTEM_ADMIN, COMPLIANCE_OFFICER, TENANT_ADMIN]
+  - code: audit:export
+    description: Trigger compliance audit exports.
+    assigned_roles: [SYSTEM_ADMIN, COMPLIANCE_OFFICER]

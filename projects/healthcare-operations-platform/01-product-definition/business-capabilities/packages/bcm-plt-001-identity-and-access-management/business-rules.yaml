@@ -2,7 +2,7 @@ artifact:
   id: HOP-BR-BCM-PLT-001
   type: business-rules
   name: Identity and Access Management Business Rules
-  version: 0.1.0
+  version: 1.1.0
   status: modeled
   classification: editable_model
   capability: BCM-PLT-001
@@ -50,3 +50,17 @@ rules:
     severity: Medium
     audit_required: false
     test_refs: [TS-IAM-006]
+  - id: RN-007
+    statement: Mandatory Multi-Factor Authentication (MFA) must be enforced for all administrative and operations role logins.
+    applies_to: UserAccount.mfaEnabled
+    enforcement_point: authentication_flow
+    severity: Critical
+    audit_required: true
+    test_refs: [TS-IAM-007]
+  - id: RN-008
+    statement: Authorization policies must evaluate fine-grained action scope grammar (domain.resource.action.scope) for API endpoint invocations (addressing TD-IAM-002).
+    applies_to: AccessControlInterceptor
+    enforcement_point: request_authorization
+    severity: High
+    audit_required: true
+    test_refs: [TS-IAM-008]

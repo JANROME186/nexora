@@ -1,0 +1,20 @@
+openapi: 3.0.3
+info:
+  title: Security Audit Trail API
+  version: 1.0.0
+  description: OpenAPI source specification for querying and exporting security audit events.
+paths:
+  /api/v1/platform/audit/events:
+    get:
+      summary: Search security audit events
+      operationId: searchAuditEvents
+      responses:
+        '200':
+          description: Paginated audit events
+  /api/v1/platform/audit/export:
+    post:
+      summary: Generate compliance audit export bundle
+      operationId: exportAuditEvents
+      responses:
+        '202':
+          description: Export job initiated

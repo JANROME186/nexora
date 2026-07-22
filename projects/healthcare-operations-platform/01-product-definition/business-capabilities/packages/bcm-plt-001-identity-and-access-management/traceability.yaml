@@ -2,7 +2,7 @@ artifact:
   id: HOP-TR-BCM-PLT-001
   type: traceability
   name: Identity and Access Management Traceability Matrix
-  version: 0.1.0
+  version: 1.1.0
   status: validated
   classification: editable_model
   capability: BCM-PLT-001
@@ -16,7 +16,7 @@ bcm_alignment:
 brm_alignment:
   rules:
     - id: BRM-001-R018
-      ref: RN-002, RN-003, RN-004
+      ref: RN-002, RN-003, RN-004, RN-007, RN-008
       description: Audit logging of all access and session modifications.
 
 hrp_alignment:
@@ -28,7 +28,7 @@ api_alignment:
   endpoints:
     - path: /api/auth/login
       operation: loginUser
-      rules: [RN-001, RN-002]
+      rules: [RN-001, RN-002, RN-007]
     - path: /api/auth/logout
       operation: logoutUser
       rules: [RN-003]
@@ -50,6 +50,10 @@ test_alignment:
       rule_ref: RN-005
     - id: TS-IAM-006
       rule_ref: RN-006
+    - id: TS-IAM-007
+      rule_ref: RN-007
+    - id: TS-IAM-008
+      rule_ref: RN-008
 
 security_privacy:
   controls:
@@ -57,6 +61,8 @@ security_privacy:
     - Rate limiting / lockouts after 5 consecutive failures.
     - Support assistance login constraints (cannot signature, audited).
     - Session context-based tenant isolation.
+    - Multi-Factor Authentication (MFA) enforcement for operational/admin roles.
+    - Action-level permission scope grammar (`domain.resource.action.scope` addressing TD-IAM-002).
 
 backlog_items:
   definition: COM-MOD-009-DEF
@@ -73,3 +79,5 @@ backlog_items:
   validation_status: closed
   closeout: COM-MOD-009-CLOSEOUT
   closeout_status: closed
+  saas_hardening: COM-MOD-012-DEF
+  saas_hardening_status: closed

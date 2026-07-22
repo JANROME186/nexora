@@ -1,184 +1,49 @@
 artifact:
-  id: HOP-TRACE-BCM-PLT-005
+  id: HOP-TR-BCM-PLT-005
   type: traceability
-  name: API Management Traceability
-  version: 0.2.0
-  status: modeled
+  name: API Management Traceability Matrix
+  version: 1.1.0
+  status: validated
   classification: editable_model
   capability: BCM-PLT-005
 
-traces:
-  capability_map:
-    bcm_001: BCM-PLT-005
-    domain: DOM-10 Platform
-  dependency_map:
-    bcm_002_profile: platform_extension
-    required_capabilities: [BCM-PLT-001, BCM-PLT-006, BCM-PLT-007]
-    downstream_consumer_roles: [public-api-consumers, partner-integrations]
-  domain_foundation:
-    bounded_context: integration-interoperability
-    aggregate_reference: ApiSurfaceRegistration (new platform aggregate; shares integration-interoperability bounded context with BCM-PLT-004's IntegrationEndpoint without duplicating it)
-    context_relationships: [REL-CTX-011]
-    context_map_observation: >-
-      context-map.yaml REL-CTX-011 already declares integration-interoperability as an
-      anti-corruption-layer bounded context; BCM-PLT-005 governs the outbound/API-consumer side of
-      that same bounded context while BCM-PLT-004 governs the inbound message side. No new
-      bounded-context or context-map.yaml entry was required.
-    shared_kernel_refs: [VO-ID-001, VO-006, VO-007]
-  brm_alignment:
-    - rule: BRM-001-R018
-      alignment: Audit records are append-only; every classification, key and deprecation action is audited (RN-005).
-  hrp_alignment:
-    - process: HRP-001-P08 Migration and Integration Dry Run
-      capability_role: Partner/public API governance segment of the process (shared with BCM-PLT-004).
-  rules_to_tests:
-    - rule: RN-001
-      tests: [TST-APIM-005-01]
-    - rule: RN-002
-      tests: [TST-APIM-005-02]
-    - rule: RN-003
-      tests: [TST-APIM-005-03]
-    - rule: RN-004
-      tests: [TST-APIM-005-04]
-    - rule: RN-005
-      tests: [TST-APIM-005-05]
-    - rule: RN-006
-      tests: [TST-APIM-005-06]
-    - rule: RN-007
-      tests: [TST-APIM-005-07]
-  processes_to_commands:
-    - process: PRC-APIM-005-01
-      commands: [ClassifyApiOperation]
-    - process: PRC-APIM-005-02
-      commands: [IssuePartnerApiKey]
-    - process: PRC-APIM-005-03
-      commands: [RevokePartnerApiKey]
-    - process: PRC-APIM-005-04
-      commands: [ScheduleApiDeprecation]
-  api_to_permissions:
-    - operation: classifyApiOperation
-      scope: api.classification.manage
-    - operation: issuePartnerApiKey
-      scope: api.partnerkey.manage
-    - operation: revokePartnerApiKey
-      scope: api.partnerkey.manage
-    - operation: setRateLimitPolicy
-      scope: api.ratelimit.manage
-  events_to_audit:
-    - event: ApiSurfaceClassified
-      audit_sink: BCM-PLT-007
-    - event: PartnerApiKeyIssued
-      audit_sink: BCM-PLT-007
-    - event: PartnerApiKeyRevoked
-      audit_sink: BCM-PLT-007
-    - event: ApiDeprecationScheduled
-      audit_sink: BCM-PLT-007
-  ui_to_api:
-    - screen: SCR-APIM-005-01
-      operations: [classifyApiOperation, listApiOperations, scheduleApiDeprecation]
-    - screen: SCR-APIM-005-02
-      operations: [issuePartnerApiKey, revokePartnerApiKey, listPartnerApiKeys]
-  consumed_by_capabilities:
-    - capability: BCM-PLT-004
-      relationship: Shares the integration-interoperability bounded context; IntegrationAcknowledgement informs delivery observability for governed partner operations.
-    - capability: COM-MOD-009 (future, doctor_portal partner_api_later)
-      relationship: Will consume partner-classified operations governed here once implemented.
-  technical_debt_alignment:
-    - debt: TD-STACK-003
-      alignment: generation-plan.yaml designates this capability as the concrete OpenAPI-Generator TypeScript client pilot target.
-    - debt: TD-I18N-002
-      alignment: >-
-        openapi-source.yaml error_model models a first-class `code` field from inception, matching
-        the acceptance criterion for structured-error-code API consumers; MVP-MOD-008-BE-002 added
-        a `messageKey` field alongside it.
-    - debt: TD-BE-015
-      alignment: >-
-        Opened by MVP-MOD-008-BE-002 to track that RN-004 rate-limit enforcement is scoped to
-        partner-API-key-bearing requests only. Materially reduced by COM-MOD-011-DEF: RN-007 and
-        RateLimitPolicy.consumerIdentificationMethod now model IP-address/session-token
-        identification for the public classification tier. Closed by COM-MOD-011-BE-001:
-        PublicApiRateLimitInterceptor (co-located with PartnerApiKeyRateLimitInterceptor) reuses
-        PartnerApiRateLimiter under a public:: namespace and derives the consumer bucket from
-        RateLimitPolicy.consumerIdentificationMethod; verified end-to-end by
-        PublicWebApiTest.publicRateLimitBlocksAnonymousTrafficByIpAddress.
-  generated_outputs_ref: generation-plan.yaml
-  qa_evidence: ../../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.yaml
-  compilation_evidence:
-    backend_implementation: ../../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/integrationinteroperability/apimanagement/
-    schema: ../../../../../07-implementation/backend/src/main/resources/db/integration-interoperability/schema.sql
-    qa_evidence: ../../../../08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.yaml
-    security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-008-BE-002/security-quality-evidence.yaml
-    notes: >-
-      listApiOperations, revokePartnerApiKey, listPartnerApiKeys, setRateLimitPolicy compiled as
-      generatable outputs. ClassifyApiOperation (CUS-APIM-005-01, classification/publish-gating) and
-      IssuePartnerApiKey (CUS-APIM-005-02, scope/tenant validation against partner-classified
-      operations) implemented. MVP-MOD-008-BE-002 implemented RN-003's retirement transition
-      (retireDeprecatedOperation, gated by the elapsed deprecation window) and RN-004's rate-limit
-      enforcement (PartnerApiKeyRateLimitInterceptor + PartnerApiRateLimiter fixed-window counter for
-      X-Partner-Api-Key-bearing requests; public/internal classification-tier enforcement remains
-      TD-BE-015). Also closed a real RN-005 audit gap: setRateLimitPolicy previously never recorded an
-      audit event. The OpenAPI-Generator TypeScript client pilot remains scheduled for
-      MVP-MOD-008-FE-001 per TD-STACK-003.
-  backlog_items:
-    definition: MVP-MOD-008-DEF
-    definition_status: closed
-    compilation: MVP-MOD-008-BE-001
-    compilation_status: closed
-    custom_rules: MVP-MOD-008-BE-002
-    custom_rules_status: closed
-    ui: MVP-MOD-008-FE-001
-    ui_status: closed
-    validation: MVP-MOD-008-QA-001
-    validation_status: closed
-    closeout: MVP-MOD-008-CLOSEOUT
-    closeout_status: closed
-    stale_status_correction_note: >-
-      Corrected by COM-MOD-011-DEF: ui/validation/closeout were stale at "pending" though
-      MVP-MOD-008-FE-001, MVP-MOD-008-QA-001 and MVP-MOD-008-CLOSEOUT are all closed per
-      PROJECT_STATE.yaml completed_backlog_items and capability-package-index.yaml (roadmap_group
-      MVP-MOD-008, package_status module_closed).
-  cross_module_reuse:
-    - roadmap_group: COM-MOD-009
-      backlog_item: COM-MOD-009-BE-001 (implied)
-      surface_added: doctor_portal (partner_api_later)
-      note: Recorded here retroactively by COM-MOD-011-DEF; not independently verified against COM-MOD-009 evidence.
-    - roadmap_group: COM-MOD-011
-      backlog_item: COM-MOD-011-DEF
-      surface_added: public_website (governance only)
-      note: >-
-        Added RN-007 and RateLimitPolicy.consumerIdentificationMethod to govern the new
-        classification=public operations registered by BCM-SVC-001/002/003/005 and
-        BCM-ATT-001/006. No new capability package or aggregate was created; materially reduces
-        TD-BE-015.
-    - roadmap_group: COM-MOD-011
-      backlog_item: COM-MOD-011-BE-001
-      surface_added: public_website (runtime enforcement)
-      note: >-
-        Compiled PublicApiRateLimitInterceptor next to PartnerApiKeyRateLimitInterceptor and
-        persisted RateLimitPolicy.consumerIdentificationMethod end to end (domain record, JDBC and
-        in-memory repositories, controller DTO, service validation, ADD-COLUMN-IF-NOT-EXISTS
-        schema migration). Both interceptors are wired by ApiManagementWebConfig. Closes TD-BE-015.
-        Backend line coverage 83.73% -> 83.96%; 324 tests, 0 failures/errors/skipped; OWASP
-        Dependency-Check and Trivy fs report 0 findings.
-    - roadmap_group: COM-MOD-011
-      backlog_item: COM-MOD-011-WEB-001
-      surface_added: public_website (frontend rate-limit handling)
-      note: >-
-        Both public request forms (AppointmentRequestPage, QuotationRequestPage) handle 429
-        PUBLIC_RATE_LIMIT_EXCEEDED responses explicitly via useRateLimitCooldown
-        (07-implementation/public-website/src/state/useRateLimitCooldown.ts): the submit button
-        is disabled and a localized countdown is shown for a fixed client-side cooldown window,
-        since PublicApiRateLimitInterceptor sends no Retry-After header to compute an exact reset
-        time from.
-    - roadmap_group: COM-MOD-011
-      backlog_item: COM-MOD-011-QA-001
-      surface_added: integrated QA, SEO and privacy validation
-      note: >-
-        Validated rate-limit enforcement (PublicApiRateLimitInterceptor, TD-BE-015 closed) and frontend 429 cooldown handling
-        end to end with zero vulnerabilities across Maven quality, OWASP Dependency-Check, npm audit, and Trivy fs scans.
-    - roadmap_group: COM-MOD-011
-      backlog_item: COM-MOD-011-CLOSEOUT
-      surface_added: module closeout and registry update
-      note: >-
-        Formally closed COM-MOD-011 Public Website and Digital Growth module. Confirmed rate-limiting enforcement and API management
-        governance, zero vulnerability findings, zero coverage regressions, and all quality gates passing clean.
+bcm_alignment:
+  capability_id: BCM-PLT-005
+  domain_id: DOM-10
+  priority: High
+  roadmap: MVP2
+
+brm_alignment:
+  rules:
+    - id: BRM-001-R018
+      ref: RN-005, RN-007, RN-008
+      description: Security and operational governance for API surfaces.
+
+test_alignment:
+  tests:
+    - id: TST-APIM-005-01
+      rule_ref: RN-001
+    - id: TST-APIM-005-02
+      rule_ref: RN-002
+    - id: TST-APIM-005-03
+      rule_ref: RN-003
+    - id: TST-APIM-005-04
+      rule_ref: RN-004
+    - id: TST-APIM-005-05
+      rule_ref: RN-005
+    - id: TST-APIM-005-06
+      rule_ref: RN-006
+    - id: TST-APIM-005-07
+      rule_ref: RN-007
+    - id: TST-APIM-005-08
+      rule_ref: RN-008
+
+technical_debt_addressed:
+  - TD-BE-015
+  - TD-FE-005
+
+backlog_items:
+  definition: COM-MOD-011-DEF
+  definition_status: closed
+  saas_hardening: COM-MOD-012-DEF
+  saas_hardening_status: closed

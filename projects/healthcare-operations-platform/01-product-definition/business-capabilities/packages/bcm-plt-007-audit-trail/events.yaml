@@ -1,0 +1,25 @@
+artifact:
+  id: HOP-EVT-BCM-PLT-007
+  type: events
+  name: Audit Trail Domain Events
+  version: 1.0.0
+
+events:
+  - name: AuditEventRecordedEvent
+    type: domain_event
+    publisher: audit-compliance
+    payload:
+      event_id: UUID
+      tenant_id: UUID
+      event_type: String
+      timestamp: Instant
+
+  - name: AuditTamperDetectedEvent
+    type: domain_event
+    publisher: audit-compliance
+    payload:
+      event_id: UUID
+      tenant_id: UUID
+      expected_hash: String
+      actual_hash: String
+      timestamp: Instant

@@ -1,0 +1,24 @@
+artifact:
+  id: HOP-PERM-BCM-ORG-001
+  type: permissions
+  name: Tenant Management Permissions
+  version: 1.0.0
+
+roles:
+  - SYSTEM_ADMIN
+  - PLATFORM_OPERATIONS
+  - TENANT_ADMIN
+
+permissions:
+  - code: tenant:create
+    description: Provision new tenant organizations.
+    assigned_roles: [SYSTEM_ADMIN]
+  - code: tenant:read
+    description: View tenant configuration and status.
+    assigned_roles: [SYSTEM_ADMIN, PLATFORM_OPERATIONS]
+  - code: tenant:update_status
+    description: Suspend or activate tenant operations.
+    assigned_roles: [SYSTEM_ADMIN, PLATFORM_OPERATIONS]
+  - code: tenant:manage_quota
+    description: Modify tenant resource consumption quotas.
+    assigned_roles: [SYSTEM_ADMIN]

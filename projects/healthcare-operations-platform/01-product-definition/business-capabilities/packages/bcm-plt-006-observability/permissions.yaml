@@ -1,0 +1,17 @@
+artifact:
+  id: HOP-PERM-BCM-PLT-006
+  type: permissions
+  name: Observability Permissions
+  version: 1.0.0
+
+roles:
+  - SYSTEM_ADMIN
+  - PLATFORM_OPERATIONS
+
+permissions:
+  - code: metrics:read
+    description: Access Prometheus metrics and Grafana dashboards.
+    assigned_roles: [SYSTEM_ADMIN, PLATFORM_OPERATIONS]
+  - code: health:read
+    description: Access detailed health probe breakdown.
+    assigned_roles: [SYSTEM_ADMIN, PLATFORM_OPERATIONS]

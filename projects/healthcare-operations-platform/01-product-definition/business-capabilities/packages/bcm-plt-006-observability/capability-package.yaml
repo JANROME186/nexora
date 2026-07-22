@@ -1,0 +1,83 @@
+artifact:
+  id: HOP-CAP-PKG-BCM-PLT-006
+  type: capability-package
+  name: Observability Capability Package
+  version: 1.0.0
+  status: validated
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.yaml
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-22
+  roadmap_group: COM-MOD-012
+  execution_flow_stage: model
+
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+
+capability:
+  id: BCM-PLT-006
+  name:
+    en: Observability
+    es: Observabilidad y Monitoreo
+  domain: DOM-10 Platform
+  priority: High
+  roadmap: MVP1
+  dependency_profile: foundation
+  bounded_context: platform-operations
+  primary_aggregate: ObservabilityTarget
+
+scope:
+  summary: >
+    Governs OpenTelemetry tracing, Prometheus metric collection standards, Grafana operational dashboard
+    definitions, health check probes (liveness, readiness, startup), SLO/SLA alert definitions, log
+    aggregation standards, and operational status page integrations for Healthcare Operations Platform.
+  in_scope:
+    - System health check endpoints (/health/liveness, /health/readiness, /health/startup).
+    - OpenTelemetry distributed trace context propagation across services and API gateways.
+    - Prometheus metrics catalog (request rate, error rate, latency quantiles, JVM, database connection pool, business metrics).
+    - Structured JSON logging format standard with MDC context (tenant_id, user_id, trace_id).
+    - Alerting threshold definitions for SLO breaches and critical operational failures.
+  out_of_scope:
+    - Business domain event auditing (handled by BCM-PLT-007 Audit Trail).
+    - Automatic infrastructure provisioning (handled by deployment runbooks and BCM-PLT-009).
+
+roadmap:
+  module: COM-MOD-012
+  release: REL-002
+  package_status: modeled
+  next_backlog_item: COM-MOD-012-OPS-001
+
+dependencies:
+  required_capabilities:
+    - BCM-ORG-001
+    - BCM-PLT-001
+  optional_capabilities:
+    - BCM-PLT-002
+    - BCM-PLT-007
+
+product_surfaces:
+  backend: required
+  employee_portal: monitoring_agent
+  operations_console: required
+  patient_portal: telemetry_only
+  doctor_portal: telemetry_only
+  mobile_app: crash_telemetry_only
+
+required_artifacts:
+  - capability-package.yaml
+  - business-model.yaml
+  - business-rules.yaml
+  - processes.yaml
+  - events.yaml
+  - openapi-source.yaml
+  - permissions.yaml
+  - ui-model.yaml
+  - mobile-model.yaml
+  - test-model.yaml
+  - observability-model.yaml
+  - generation-plan.yaml
+  - traceability.yaml
+  - README.md

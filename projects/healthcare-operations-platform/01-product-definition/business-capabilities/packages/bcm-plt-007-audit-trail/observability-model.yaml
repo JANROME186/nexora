@@ -1,0 +1,16 @@
+artifact:
+  id: HOP-OBS-BCM-PLT-007
+  type: observability-model
+  name: Audit Trail Observability Model
+  version: 1.0.0
+
+metrics:
+  - name: hop_audit_events_recorded_total
+    type: counter
+    labels: [category, tenant_id]
+    description: Count of security and operational audit events recorded.
+
+logs:
+  - event: AUDIT_EVENT_WRITTEN
+    level: INFO
+    attributes: [event_id, event_type, tenant_id, actor_id]

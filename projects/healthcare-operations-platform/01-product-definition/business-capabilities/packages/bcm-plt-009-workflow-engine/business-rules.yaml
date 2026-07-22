@@ -1,0 +1,30 @@
+artifact:
+  id: HOP-BUS-RLS-BCM-PLT-009
+  type: business-rules
+  name: Workflow Engine Business Rules
+  version: 1.0.0
+
+rules:
+  - id: RN-WFK-001
+    statement: Automated upgrade workflows must execute a pre-flight database migration dry-run and health check before traffic switching.
+    applies_to: WorkflowExecution
+    enforcement_point: UpgradeWorkflowExecutor
+    severity: CRITICAL
+    audit_required: true
+    test_refs: [TEST-WFK-001]
+
+  - id: RN-WFK-002
+    statement: Automated rollback must trigger instantly if post-deployment health check probes (readiness/liveness) fail 3 consecutive times within 60 seconds of release.
+    applies_to: WorkflowExecution
+    enforcement_point: DeploymentSafetyMonitor
+    severity: CRITICAL
+    audit_required: true
+    test_refs: [TEST-WFK-002]
+
+  - id: RN-WFK-003
+    statement: Automated backup workflows must record a cryptographic content hash proof in Document Management (BCM-PLT-008) and verify restoration dry-run in sandbox.
+    applies_to: WorkflowExecution
+    enforcement_point: BackupWorkflowExecutor
+    severity: HIGH
+    audit_required: true
+    test_refs: [TEST-WFK-003]

@@ -1,0 +1,90 @@
+artifact:
+  id: HOP-CAP-PKG-BCM-ORG-001
+  type: capability-package
+  name: Tenant Management Capability Package
+  version: 1.0.0
+  status: validated
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.yaml
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-22
+  roadmap_group: COM-MOD-012
+  execution_flow_stage: model
+
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+
+capability:
+  id: BCM-ORG-001
+  name:
+    en: Tenant Management
+    es: Gestión de Tenants
+  domain: DOM-01 Organization
+  priority: High
+  roadmap: MVP1
+  dependency_profile: foundation
+  bounded_context: organization-management
+  primary_aggregate: Tenant
+  aggregate_ref: AGG-017
+
+scope:
+  summary: >
+    Governs multi-tenant lifecycle management, tenant provisioning, configuration overrides,
+    resource quota enforcement, database/schema isolation policies (including PostgreSQL native RLS policy specs),
+    and SaaS subscription status binding for Healthcare Operations Platform.
+  in_scope:
+    - Tenant onboarding, provisioning, activation, suspension, and archive lifecycle.
+    - Tenant-level quota definition (storage, API calls, active users, branch limits).
+    - Tenant database/schema isolation policies (PostgreSQL native Row-Level Security parameters per TD-DB-004).
+    - Tenant organization profile, branding customization, locale defaults, and subscription binding.
+    - Tenant offboarding and data retention/purge workflow triggering.
+  out_of_scope:
+    - Individual user credential management (handled by BCM-PLT-001 IAM).
+    - Fine-grained feature flag toggling (handled by BCM-PLT-002 Platform Configuration).
+    - Invoicing and fiscal billing for SaaS subscription billing (handled by BCM-ATT-008).
+
+roadmap:
+  module: COM-MOD-012
+  release: REL-002
+  package_status: modeled
+  next_backlog_item: COM-MOD-012-OPS-001
+
+dependencies:
+  required_capabilities:
+    - BCM-PLT-001
+    - BCM-PLT-007
+  optional_capabilities:
+    - BCM-PLT-002
+    - BCM-PLT-006
+  downstream_capabilities:
+    - BCM-SVC-001
+    - BCM-PER-001
+    - BCM-ATT-001
+    - BCM-LAB-001
+
+product_surfaces:
+  backend: required
+  employee_portal: admin_required
+  operations_console: required
+  patient_portal: isolated
+  doctor_portal: isolated
+  mobile_app: isolated
+
+required_artifacts:
+  - capability-package.yaml
+  - business-model.yaml
+  - business-rules.yaml
+  - processes.yaml
+  - events.yaml
+  - openapi-source.yaml
+  - permissions.yaml
+  - ui-model.yaml
+  - mobile-model.yaml
+  - test-model.yaml
+  - observability-model.yaml
+  - generation-plan.yaml
+  - traceability.yaml
+  - README.md

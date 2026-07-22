@@ -1,0 +1,16 @@
+artifact:
+  id: HOP-UI-BCM-PLT-007
+  type: ui-model
+  name: Audit Trail UI Model
+  version: 1.0.0
+
+screens:
+  - id: SCR-AUD-001
+    name: Audit Log Explorer & Compliance Console
+    surface: employee_portal / operations_console
+    route: /admin/audit
+    components:
+      - AuditEventSearchForm
+      - AuditLogTable
+      - AuditChainStatusIndicator
+      - ExportAuditModal

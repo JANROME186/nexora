@@ -1,0 +1,83 @@
+artifact:
+  id: HOP-CAP-PKG-BCM-PLT-002
+  type: capability-package
+  name: Platform Configuration Capability Package
+  version: 1.0.0
+  status: validated
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.yaml
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-22
+  roadmap_group: COM-MOD-012
+  execution_flow_stage: model
+
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+
+capability:
+  id: BCM-PLT-002
+  name:
+    en: Platform Configuration
+    es: Configuración de Plataforma y Feature Flags
+  domain: DOM-10 Platform
+  priority: High
+  roadmap: MVP1
+  dependency_profile: foundation
+  bounded_context: platform-operations
+  primary_aggregate: PlatformConfiguration
+
+scope:
+  summary: >
+    Governs global platform parameters, system environment profiles (dev, staging, prod),
+    tenant feature flag toggles, dynamic PII data masking policy overrides (addressing TD-BE-008),
+    and maintenance window orchestration for Healthcare Operations Platform.
+  in_scope:
+    - Global platform parameters and tenant-specific configuration key-value overrides.
+    - Feature flag evaluation engine with percentage rollouts, tenant rules, and targeted evaluation.
+    - System environment configuration profiles.
+    - Dynamic data masking configuration for document/credential read models (addressing TD-BE-008).
+    - Maintenance mode activation and customer notification banner configuration.
+  out_of_scope:
+    - User role and permission definitions (handled by BCM-PLT-001 IAM).
+    - Hardening of external API endpoints (handled by BCM-PLT-005 API Management).
+
+roadmap:
+  module: COM-MOD-012
+  release: REL-002
+  package_status: modeled
+  next_backlog_item: COM-MOD-012-OPS-001
+
+dependencies:
+  required_capabilities:
+    - BCM-ORG-001
+    - BCM-PLT-001
+  optional_capabilities:
+    - BCM-PLT-006
+    - BCM-PLT-007
+
+product_surfaces:
+  backend: required
+  employee_portal: admin_required
+  operations_console: required
+  patient_portal: read_only_config
+  doctor_portal: read_only_config
+  mobile_app: read_only_config
+
+required_artifacts:
+  - capability-package.yaml
+  - business-model.yaml
+  - business-rules.yaml
+  - processes.yaml
+  - events.yaml
+  - openapi-source.yaml
+  - permissions.yaml
+  - ui-model.yaml
+  - mobile-model.yaml
+  - test-model.yaml
+  - observability-model.yaml
+  - generation-plan.yaml
+  - traceability.yaml
+  - README.md

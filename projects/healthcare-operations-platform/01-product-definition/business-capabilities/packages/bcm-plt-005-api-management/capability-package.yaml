@@ -2,14 +2,17 @@ artifact:
   id: HOP-CAP-PKG-BCM-PLT-005
   type: capability-package
   name: API Management Capability Package
-  version: 0.2.0
+  version: 1.1.0
   status: modeled
   classification: editable_model
   human_readable: README.md
   machine_readable: capability-package.yaml
   owner: Nexora Product Architecture Team
   created_date: 2026-07-18
+  updated_date: 2026-07-22
   roadmap_group: COM-MOD-011
+  extended_by_modules:
+    - COM-MOD-012
   execution_flow_stage: model
 
 standard:
@@ -33,36 +36,25 @@ capability:
 scope:
   summary: >
     Governance boundary for every API operation HOP exposes: classification as public, internal or
-    partner; partner API key issuance, scoping and revocation; rate-limit policy per consumer; and
-    deprecation/versioning governance for breaking changes. Does not implement the operations
-    themselves (each owning capability's openapi-source.yaml does that); this capability owns only
-    the classification, consumer and policy metadata that governs how those operations are exposed
-    and consumed externally.
+    partner; partner API key issuance, scoping and revocation; rate-limit policy per consumer;
+    edge security headers enforcement (CORS, CSP, HSTS, Cache-Control per TD-FE-005); and
+    deprecation/versioning governance for breaking changes.
   in_scope:
-    - "ApiSurfaceRegistration aggregate: per-operation classification (public/internal/partner), versioning and deprecation metadata."
-    - "PartnerApiKey entity: issuance, scope, tenant binding, revocation."
-    - Rate-limit policy per consumer and per classification tier.
-    - Deprecation window and migration-note governance for breaking changes to a published
-      public or partner operation.
+    - ApiSurfaceRegistration aggregate: per-operation classification (public/internal/partner), versioning and deprecation metadata.
+    - PartnerApiKey entity: issuance, scope, tenant binding, revocation.
+    - Rate-limit policy per consumer and per classification tier (addressing TD-BE-015 for anonymous and tenant traffic).
+    - API gateway edge security headers policy (CORS, HSTS, CSP, Cache-Control per TD-FE-005).
+    - Deprecation window and migration-note governance for breaking changes to a published public or partner operation.
   out_of_scope:
     - The business logic of any classified operation itself, which belongs to its owning capability.
     - Message-level protocol normalization for inbound integration traffic (BCM-PLT-004).
     - Bulk file-based migration ingestion (BCM-PLT-010).
-    - Concrete rate-limiting middleware/library selection, a custom implementation and stack
-      decision deferred to MVP-MOD-008-BE-002/generation-plan.yaml.
 
 roadmap:
   module: COM-MOD-011
   release: REL-002
   package_status: compiled
-  next_backlog_item: COM-MOD-011-CLOSEOUT
-  paused_functional_backlog_item: null
-  package_status_correction_note: >-
-    Corrected by COM-MOD-011-DEF: next_backlog_item was stale at COM-MOD-009-BE-001 (already
-    closed) and package_status at "module_closed" (a roadmap-group state, not a valid
-    capability-package_status enum value; capability-package-index.yaml correctly records this
-    capability itself as compiled). module/next_backlog_item now point at COM-MOD-011, the
-    current consuming module.
+  next_backlog_item: COM-MOD-012-OPS-001
 
 dependencies:
   required_capabilities:
@@ -70,16 +62,9 @@ dependencies:
     - BCM-PLT-006
     - BCM-PLT-007
   optional_capabilities:
+    - BCM-PLT-002
     - BCM-PLT-004
   downstream_capabilities: []
-  downstream_consumer_roles:
-    - public-api-consumers
-    - partner-integrations
-  upstream_contexts:
-    - integration-interoperability
-    - identity-access
-    - audit-compliance
-    - observability
 
 product_surfaces:
   backend: required
@@ -88,12 +73,7 @@ product_surfaces:
   doctor_portal: partner_api_later
   mobile_app: not_required
   public_website: governance_only
-  public_website_note: >-
-    This capability has no public-facing screen or endpoint of its own; it governs the
-    classification=public entries and public-tier RateLimitPolicy that BCM-SVC-001/002/003/005
-    and BCM-ATT-001/006 register for their new public_surface operations under COM-MOD-011. RN-007
-    (added by COM-MOD-011-DEF) materially reduces TD-BE-015 by modeling how anonymous public
-    consumers are identified for rate-limiting.
+  operations_console: required
 
 required_artifacts:
   - capability-package.yaml

@@ -1,0 +1,18 @@
+artifact:
+  id: HOP-TRC-BCM-PLT-002
+  type: traceability
+  name: Platform Configuration Traceability Matrix
+  version: 1.0.0
+
+capability_id: BCM-PLT-002
+roadmap_group: COM-MOD-012
+
+mappings:
+  - requirement: "Platform Configuration and Dynamic Feature Flags"
+    rules: [RN-CFG-001, RN-CFG-002, RN-CFG-003]
+    processes: [PROC-CFG-001, PROC-CFG-002]
+    events: [ConfigUpdatedEvent, FeatureFlagToggledEvent]
+    api_endpoints: [/api/v1/platform/config, /api/v1/platform/feature-flags]
+    permissions: [config:read, config:manage, feature_flags:toggle, masking_policy:manage]
+    tests: [TEST-CFG-001, TEST-CFG-002, TEST-CFG-003]
+    technical_debt_addressed: [TD-BE-008]

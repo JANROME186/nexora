@@ -1,0 +1,17 @@
+artifact:
+  id: HOP-TRC-BCM-PLT-006
+  type: traceability
+  name: Observability Traceability Matrix
+  version: 1.0.0
+
+capability_id: BCM-PLT-006
+roadmap_group: COM-MOD-012
+
+mappings:
+  - requirement: "SaaS Platform Observability and Health Probes"
+    rules: [RN-OBS-001, RN-OBS-002, RN-OBS-003]
+    processes: [PROC-OBS-001]
+    events: [HealthProbeFailedEvent, SloBreachedEvent]
+    api_endpoints: [/actuator/health/liveness, /actuator/health/readiness, /actuator/prometheus]
+    permissions: [metrics:read, health:read]
+    tests: [TEST-OBS-001, TEST-OBS-002, TEST-OBS-003]

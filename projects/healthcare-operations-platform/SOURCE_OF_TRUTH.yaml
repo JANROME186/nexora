@@ -119,6 +119,18 @@ sources:
   com_mod_011_closeout_qa_evidence_yaml: 08-qa/qa/public-website-and-digital-growth/COM-MOD-011-CLOSEOUT-validation.yaml
   com_mod_011_closeout_security_quality_evidence: 08-qa/security-quality/COM-MOD-011-CLOSEOUT/security-quality-evidence.md
   com_mod_011_closeout_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-011-CLOSEOUT/security-quality-evidence.yaml
+  com_mod_012_def_qa_evidence: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-DEF-validation.md
+  com_mod_012_def_qa_evidence_yaml: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-DEF-validation.yaml
+  com_mod_012_def_security_quality_evidence: 08-qa/security-quality/COM-MOD-012-DEF/security-quality-evidence.md
+  com_mod_012_def_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-012-DEF/security-quality-evidence.yaml
+  com_mod_012_pkg_bcm_org_001: 01-product-definition/business-capabilities/packages/bcm-org-001-tenant-management/
+  com_mod_012_pkg_bcm_plt_001: 01-product-definition/business-capabilities/packages/bcm-plt-001-identity-and-access-management/
+  com_mod_012_pkg_bcm_plt_002: 01-product-definition/business-capabilities/packages/bcm-plt-002-platform-configuration/
+  com_mod_012_pkg_bcm_plt_005: 01-product-definition/business-capabilities/packages/bcm-plt-005-api-management/
+  com_mod_012_pkg_bcm_plt_006: 01-product-definition/business-capabilities/packages/bcm-plt-006-observability/
+  com_mod_012_pkg_bcm_plt_007: 01-product-definition/business-capabilities/packages/bcm-plt-007-audit-trail/
+  com_mod_012_pkg_bcm_plt_008: 01-product-definition/business-capabilities/packages/bcm-plt-008-document-management/
+  com_mod_012_pkg_bcm_plt_009: 01-product-definition/business-capabilities/packages/bcm-plt-009-workflow-engine/
   mvp_mod_002_pkg_bcm_svc_001: 01-product-definition/business-capabilities/packages/bcm-svc-001-diagnostic-service-catalog/
   mvp_mod_002_pkg_bcm_svc_002: 01-product-definition/business-capabilities/packages/bcm-svc-002-test-catalog/
   mvp_mod_002_pkg_bcm_svc_003: 01-product-definition/business-capabilities/packages/bcm-svc-003-panel-catalog/

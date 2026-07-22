@@ -1,0 +1,17 @@
+artifact:
+  id: HOP-TRC-BCM-PLT-007
+  type: traceability
+  name: Audit Trail Traceability Matrix
+  version: 1.0.0
+
+capability_id: BCM-PLT-007
+roadmap_group: COM-MOD-012
+
+mappings:
+  - requirement: "Immutable Audit Trail and Compliance Logging"
+    rules: [RN-AUD-001, RN-AUD-002, RN-AUD-003]
+    processes: [PROC-AUD-001, PROC-AUD-002]
+    events: [AuditEventRecordedEvent, AuditTamperDetectedEvent]
+    api_endpoints: [/api/v1/platform/audit/events, /api/v1/platform/audit/export]
+    permissions: [audit:read, audit:export]
+    tests: [TEST-AUD-001, TEST-AUD-002, TEST-AUD-003]

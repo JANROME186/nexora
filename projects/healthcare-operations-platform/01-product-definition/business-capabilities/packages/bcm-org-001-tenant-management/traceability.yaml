@@ -1,0 +1,18 @@
+artifact:
+  id: HOP-TRC-BCM-ORG-001
+  type: traceability
+  name: Tenant Management Traceability Matrix
+  version: 1.0.0
+
+capability_id: BCM-ORG-001
+roadmap_group: COM-MOD-012
+
+mappings:
+  - requirement: "SaaS Tenant Operations & Multi-Tenancy Hardening"
+    rules: [RN-TEN-001, RN-TEN-002, RN-TEN-003, RN-TEN-004]
+    processes: [PROC-TEN-001, PROC-TEN-002, PROC-TEN-003]
+    events: [TenantProvisionedEvent, TenantStatusChangedEvent, TenantQuotaExceededEvent]
+    api_endpoints: ["/api/v1/platform/tenants", "/api/v1/platform/tenants/{tenantId}/status"]
+    permissions: [tenant:create, tenant:read, tenant:update_status, tenant:manage_quota]
+    tests: [TEST-TEN-001, TEST-TEN-002, TEST-TEN-003, TEST-TEN-004]
+    technical_debt_addressed: [TD-DB-004]

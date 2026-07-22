@@ -1,0 +1,40 @@
+artifact:
+  id: HOP-BUS-MOD-BCM-PLT-007
+  type: business-model
+  name: Audit Trail Business Model
+  version: 1.0.0
+
+aggregate:
+  name: AuditEvent
+  id: AGG-018
+  bounded_context: audit-compliance
+  root_entity: AuditEventRoot
+
+entities:
+  - name: AuditEventRoot
+    type: root_entity
+    fields:
+      event_id: UUID
+      tenant_id: UUID
+      actor_id: String
+      actor_type: Enum [USER, SERVICE_ACCOUNT, SYSTEM]
+      event_type: String
+      category: Enum [SECURITY, CLINICAL, FINANCIAL, OPERATIONAL]
+      resource_type: String
+      resource_id: String
+      ip_address: String
+      user_agent: String
+      payload_json: String
+      previous_hash: String
+      current_hash: String
+      timestamp: Instant
+
+  - name: AuditRetentionPolicy
+    type: value_object
+    fields:
+      retention_years: Integer (default 7)
+      cold_storage_export_enabled: Boolean
+
+invariants:
+  - Audit logs are append-only; update and delete SQL operations are strictly forbidden on audit tables.
+  - Every audit log entry must contain current_hash computed as SHA-256(previous_hash + payload).

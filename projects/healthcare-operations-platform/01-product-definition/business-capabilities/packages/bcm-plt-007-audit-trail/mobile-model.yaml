@@ -1,0 +1,9 @@
+artifact:
+  id: HOP-MOB-BCM-PLT-007
+  type: mobile-model
+  name: Audit Trail Mobile Model
+  version: 1.0.0
+
+mobile_scope:
+  status: internal_audit_consumer
+  note: Mobile application actions produce backend audit events transparently; no administrative audit search screen is rendered on mobile.

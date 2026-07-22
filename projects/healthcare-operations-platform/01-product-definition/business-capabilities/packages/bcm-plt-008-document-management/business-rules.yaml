@@ -2,7 +2,7 @@ artifact:
   id: HOP-BR-BCM-PLT-008
   type: business-rules
   name: Document Management Business Rules
-  version: 0.1.0
+  version: 1.1.0
   status: modeled
   classification: editable_model
   capability: BCM-PLT-008
@@ -16,7 +16,6 @@ rules:
     severity: critical
     audit_required: true
     generatable: false
-    custom_reason: Hash computation and mandatory-field enforcement at creation time.
     test_refs: [TST-DOC-008-01]
   - id: RN-002
     statement: Retrieving a document must re-verify its content hash against the bytes returned by the storage adapter; a mismatch blocks the read and raises a critical integrity alert.
@@ -25,7 +24,6 @@ rules:
     severity: critical
     audit_required: true
     generatable: false
-    custom_reason: Requires a runtime integrity check against externally stored bytes.
     test_refs: [TST-DOC-008-02]
   - id: RN-003
     statement: All physical storage access must go through the DocumentStoragePort; no caller or internal code path may address a storage provider directly.
@@ -34,7 +32,6 @@ rules:
     severity: critical
     audit_required: true
     generatable: false
-    custom_reason: Enforces the provider-agnostic adapter boundary mirroring FiscalAdapterPort (MVP-MOD-005).
     test_refs: [TST-DOC-008-03]
   - id: RN-004
     statement: A document under legal hold cannot be transitioned to pending_disposal or disposed, regardless of its retention date.
@@ -43,7 +40,6 @@ rules:
     severity: critical
     audit_required: true
     generatable: false
-    custom_reason: Legal-hold precedence over retention scheduling is a compliance rule, not a generic date comparison.
     test_refs: [TST-DOC-008-04]
   - id: RN-005
     statement: This capability never inspects or interprets stored bytes as business content and never mutates any owning capability's business aggregate.
@@ -52,7 +48,6 @@ rules:
     severity: critical
     audit_required: true
     generatable: false
-    custom_reason: Cross-capability boundary enforcement keeping this a generic, domain-agnostic service.
     test_refs: [TST-DOC-008-05]
   - id: RN-006
     statement: Document commands must execute within the actor's or calling capability's tenant and laboratory scope.
@@ -62,7 +57,15 @@ rules:
     audit_required: true
     generatable: true
     test_refs: [TST-DOC-008-06]
+  - id: RN-007
+    statement: Operational runbooks, SOPs, backup/restore proof artifacts, and compliance certificates stored for SaaS operations must be tagged with document_category=OPERATIONAL_DOC and versioned with audit traceability.
+    applies_to: StoredDocument
+    enforcement_point: command:StoreDocument
+    severity: high
+    audit_required: true
+    generatable: false
+    test_refs: [TST-DOC-008-07]
 
 enforcement_summary:
   generatable_rules: [RN-006]
-  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-004, RN-005]
+  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-004, RN-005, RN-007]

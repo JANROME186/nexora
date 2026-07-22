@@ -1,0 +1,55 @@
+artifact:
+  id: HOP-BUS-MOD-BCM-ORG-001
+  type: business-model
+  name: Tenant Management Business Model
+  version: 1.0.0
+
+aggregate:
+  name: Tenant
+  id: AGG-017
+  bounded_context: organization-management
+  root_entity: TenantRoot
+
+entities:
+  - name: TenantRoot
+    type: root_entity
+    fields:
+      tenant_id: UUID
+      code: String (unique)
+      legal_name: String
+      trade_name: String
+      tax_id: String
+      status: Enum [PENDING_PROVISIONING, ACTIVE, SUSPENDED, ARCHIVED]
+      tier: Enum [STARTER, PROFESSIONAL, ENTERPRISE]
+      isolation_strategy: Enum [SCHEMA_PER_TENANT, DISCRIMINATOR_WITH_RLS]
+      created_at: Instant
+      updated_at: Instant
+
+  - name: TenantQuota
+    type: value_object
+    fields:
+      max_branches: Integer
+      max_active_users: Integer
+      max_monthly_orders: Integer
+      storage_quota_gb: Integer
+      api_call_rate_limit: Integer
+
+  - name: TenantBranding
+    type: value_object
+    fields:
+      primary_color: String
+      logo_url: String
+      support_email: String
+      portal_domain: String
+
+  - name: TenantIsolationPolicy
+    type: value_object
+    fields:
+      row_level_security_enabled: Boolean
+      tenant_context_key: String
+      schema_name: String
+
+invariants:
+  - Tenant code must be unique globally.
+  - Active tenant must have at least one assigned admin user.
+  - Suspended tenant rejects all operational commands while retaining read-only archive access for compliance audit.

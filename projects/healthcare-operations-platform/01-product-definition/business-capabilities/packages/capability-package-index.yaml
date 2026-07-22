@@ -2,11 +2,11 @@ artifact:
   id: HOP-CAP-PKG-IDX-001
   type: capability-package-index
   name: HOP Business Capability Package Index
-  version: 2.1.0
+  version: 2.2.0
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.yaml
-  qa_evidence: ../../../08-qa/qa/public-website-and-digital-growth/COM-MOD-011-DEF-validation.yaml
+  qa_evidence: ../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-DEF-validation.yaml
 
 policy:
   primary_development_unit: business_capability_package
@@ -35,6 +35,62 @@ do_not_write_manually:
 active_capability_package_groups: []
 
 completed_capability_package_groups:
+  - roadmap_group: COM-MOD-012
+    name: Platform Hardening and SaaS Operations
+    package_status: modeled
+    backlog_item: COM-MOD-012-DEF
+    qa_evidence: ../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-DEF-validation.yaml
+    security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-012-DEF/security-quality-evidence.yaml
+    capabilities:
+      - capability_id: BCM-ORG-001
+        package_folder: bcm-org-001-tenant-management/
+        package_status: modeled
+        bounded_context: organization-management
+        primary_aggregate: AGG-017 Tenant
+        mobile_scope: isolated
+      - capability_id: BCM-PLT-001
+        package_folder: bcm-plt-001-identity-and-access-management/
+        package_status: extended_saas_iam_controls
+        bounded_context: identity-access
+        primary_aggregate: AGG-004 UserAccount
+        mobile_scope: required
+      - capability_id: BCM-PLT-002
+        package_folder: bcm-plt-002-platform-configuration/
+        package_status: modeled
+        bounded_context: platform-operations
+        primary_aggregate: PlatformConfiguration
+        mobile_scope: read_only_config
+      - capability_id: BCM-PLT-005
+        package_folder: bcm-plt-005-api-management/
+        package_status: extended_api_hardening
+        bounded_context: integration-interoperability
+        primary_aggregate: ApiSurfaceRegistration
+        mobile_scope: not_required
+      - capability_id: BCM-PLT-006
+        package_folder: bcm-plt-006-observability/
+        package_status: modeled
+        bounded_context: platform-operations
+        primary_aggregate: ObservabilityTarget
+        mobile_scope: crash_telemetry_only
+      - capability_id: BCM-PLT-007
+        package_folder: bcm-plt-007-audit-trail/
+        package_status: modeled
+        bounded_context: audit-compliance
+        primary_aggregate: AGG-018 AuditEvent
+        mobile_scope: internal_audit_consumer
+      - capability_id: BCM-PLT-008
+        package_folder: bcm-plt-008-document-management/
+        package_status: extended_operational_docs
+        bounded_context: document-management
+        primary_aggregate: StoredDocument
+        mobile_scope: not_required
+      - capability_id: BCM-PLT-009
+        package_folder: bcm-plt-009-workflow-engine/
+        package_status: modeled
+        bounded_context: platform-operations
+        primary_aggregate: WorkflowDefinition
+        mobile_scope: not_required
+
   - roadmap_group: COM-MOD-011
     name: Public Website and Digital Growth
     package_status: module_closed

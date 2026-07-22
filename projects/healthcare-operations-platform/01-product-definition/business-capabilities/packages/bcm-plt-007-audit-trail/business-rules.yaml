@@ -1,0 +1,30 @@
+artifact:
+  id: HOP-BUS-RLS-BCM-PLT-007
+  type: business-rules
+  name: Audit Trail Business Rules
+  version: 1.0.0
+
+rules:
+  - id: RN-AUD-001
+    statement: Audit records must be immutable; any attempt to modify or delete an existing audit log entry must trigger a P1 Security Alert.
+    applies_to: AuditEventRoot
+    enforcement_point: AuditPersistenceInterceptor
+    severity: CRITICAL
+    audit_required: true
+    test_refs: [TEST-AUD-001]
+
+  - id: RN-AUD-002
+    statement: All access to Patient Health Information (PHI) and clinical results must create an immutable audit record containing actor ID, tenant ID, and resource ID.
+    applies_to: AuditEventRoot
+    enforcement_point: PhiAccessAspect
+    severity: CRITICAL
+    audit_required: true
+    test_refs: [TEST-AUD-002]
+
+  - id: RN-AUD-003
+    statement: Audit event hash verification must validate chain integrity before compliance exports are generated.
+    applies_to: AuditEventRoot
+    enforcement_point: AuditChainValidator
+    severity: HIGH
+    audit_required: true
+    test_refs: [TEST-AUD-003]

@@ -1,0 +1,24 @@
+artifact:
+  id: HOP-TST-BCM-PLT-007
+  type: test-model
+  name: Audit Trail Test Model
+  version: 1.0.0
+
+test_cases:
+  - id: TEST-AUD-001
+    name: Verify Audit Log Immutability Enforcement
+    type: security
+    target_rule: RN-AUD-001
+    expected_result: Database UPDATE/DELETE on audit table throws SQL exception.
+
+  - id: TEST-AUD-002
+    name: Verify PHI Data Access Event Recording
+    type: integration
+    target_rule: RN-AUD-002
+    expected_result: Patient data fetch generates AuditEventRoot with actor, tenant, and resource details.
+
+  - id: TEST-AUD-003
+    name: Verify SHA-256 Hash Chain Validation
+    type: unit
+    target_rule: RN-AUD-003
+    expected_result: AuditChainValidator confirms continuous valid hash links across 1,000 sequential events.
