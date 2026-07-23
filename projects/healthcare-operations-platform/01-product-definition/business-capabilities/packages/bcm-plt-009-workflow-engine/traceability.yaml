@@ -18,7 +18,7 @@ mappings:
 
 operational_strategy:
   backlog_item: COM-MOD-012-OPS-002
-  status: active
+  status: closed
   evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
   contribution: >-
     Release promotion, approval, rollback and incident-handoff workflow boundaries

@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: "HOP COM-MOD-012-QA-001 Performance, resilience and security evidence completed clean (all 8 COM-MOD-012 capabilities validated live; a real resilience defect fixed -- readiness probe did not reflect database connectivity; a dedicated OWASP ZAP DAST pass found and this item fixed 2 real defects -- TD-QA-005 cross-cutting unhandled-500, TD-QA-006 AuthController exception-advice scope gap; a real backup/restore rehearsal executed; 367 tests/0 failures, backend coverage 84.11% -> 84.14%; TD-OBS-001 registered for confirmed-still-open observability infrastructure forward pointers; ready for COM-MOD-012-CLOSEOUT)"
+current_phase: "HOP COM-MOD-012-CLOSEOUT Module closeout and registry update completed clean (COM-MOD-012 Platform Hardening and SaaS Operations is module_closed; all 8 capabilities confirmed module_closed; TD-QA-005/TD-QA-006 confirmed closed and TD-OBS-001/TD-BE-016/TD-BE-017/TD-IAM-003 confirmed open, non-blocking and correctly classified; 2 stale registry defects found and corrected -- a stale operational_strategy status across 8 traceability.yaml files, and a duplicate active_capability_package_groups block still listing the already-closed COM-MOD-011 as active; documentation/registry-only, no production code touched; coverage re-affirmed unchanged; ready for COM-MOD-013-DEF)"
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -29,8 +29,8 @@ projects:
     name: Healthcare Operations Platform
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
-    active_module: COM-MOD-012
-    active_backlog_item: COM-MOD-012-CLOSEOUT
+    active_module: COM-MOD-013
+    active_backlog_item: COM-MOD-013-DEF
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -117,9 +117,10 @@ projects:
       - COM-MOD-012-OPS-002
       - COM-MOD-012-BE-001
       - COM-MOD-012-QA-001
+      - COM-MOD-012-CLOSEOUT
     structure: ordered_numbered_folders
 next_deliverables:
-  - Execute COM-MOD-012-CLOSEOUT Module closeout and registry update
+  - Execute COM-MOD-013-DEF Advanced Quality and Compliance capability package models
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake

@@ -82,7 +82,7 @@ backlog_items:
   saas_hardening: COM-MOD-012-DEF
   saas_hardening_status: closed
   operational_strategy: COM-MOD-012-OPS-002
-  operational_strategy_status: active
+  operational_strategy_status: closed
   saas_hardening_validation: COM-MOD-012-QA-001
   saas_hardening_validation_status: validated
 

@@ -234,24 +234,25 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-012-QA-001 Performance, resilience and security evidence` is closed.
+`COM-MOD-012-CLOSEOUT Module closeout and registry update` is closed. `COM-MOD-012` is `module_closed`.
 Continue with:
 
-- Module: `COM-MOD-012`
-- Backlog item: `COM-MOD-012-CLOSEOUT`
-- Previous backlog item: `COM-MOD-012-QA-001` (closed)
+- Module: `COM-MOD-013`
+- Backlog item: `COM-MOD-013-DEF`
+- Previous backlog item: `COM-MOD-012-CLOSEOUT` (closed)
 - Paused functional backlog item: none
-- Folder: `08-qa/qa/platform-hardening-and-saas-operations/` and registry files across the repository
+- Folder: `01-product-definition/business-capabilities/packages/`
 
 Mandatory setup for this backlog:
 
 - Reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, capability traceability files and the local runbook pointers.
 - Preserve coverage floors: backend (84.14%), employee portal (88.68%), public website (98.61%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
-- Confirm all 8 COM-MOD-012 capability packages are `module_closed` in `capability-package-index.yaml` and their `traceability.yaml` files.
-- Confirm zero open or blocking technical debt attributable to COM-MOD-012 (`TD-OBS-001`, `TD-BE-016`, `TD-BE-017` and `TD-IAM-003` remain open by design, non-blocking, with target backlog items).
-- This is documentation/registry-only closeout scope; do not touch source code unless a real defect is found during the closeout review itself.
+- COM-MOD-013 depends on `MVP-MOD-006`, `COM-MOD-010` and `COM-MOD-012`, all `module_closed`; capabilities in scope are `BCM-QLT-002`, `BCM-QLT-006`, `BCM-QLT-007`, `BCM-PLT-007` and `BCM-PLT-008`.
+- `BCM-PLT-007` (Audit Trail) and `BCM-PLT-008` (Document Management) are reused/extended packages; extend their existing packages and `traceability.yaml` rather than remodeling from scratch.
+- This is a definition-only item (modeling); do not implement code during this step.
+- 18 technical-debt entries remain open and 11 remain materially_reduced project-wide; review `technical-debt-index.yaml` before any future code-changing COM-MOD-013 item.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-012-QA-001` - Performance, resilience and security evidence. Validated all 8 COM-MOD-012 capabilities end to end against a running local backend (tenant provisioning/listing/status transition, platform config/feature flags, Prometheus/health/MDC observability, audit-event traceability), with a light local load check (30 sequential + 20 concurrent requests, 0 failures). Found and fixed a real resilience defect: the readiness probe did not reflect database connectivity, fixed and re-verified live via a real `docker stop`/`start` of the Postgres container. Executed a dedicated OWASP ZAP API scan against the full backend surface (deferred by BE-001) that found and this item fixed 2 real defects: `TD-QA-005` (a null byte or oversized string value reaching JDBC caused an unhandled 500 across `laboratoryworkflow` and `cashsales`, fixed via a narrow `GlobalExceptionHandler` mapping) and `TD-QA-006` (`AuthController.initiateAssistance` returned 500 instead of 404 for a nonexistent `assistedUserId`, fixed by widening `IdentityAccessExceptionHandler`'s scope); a final rescan confirmed 0 FAIL-NEW/0 WARN-NEW. A ZAP baseline scan against the unchanged employee portal found 0 FAIL-NEW. Executed a real backup (pg_dump, checksum, structural verification) and restore rehearsal (isolated database, matching row counts). Reviewed the 3 remaining `COM-MOD-012-BE-001` infrastructure forward pointers (distributed trace export, provisioned Grafana/Prometheus/Loki, SLO/SLA alerting) and registered `TD-OBS-001` rather than closing them without real infrastructure. 367 tests (0 failures/errors/skipped, up from 362), backend coverage raised 84.11% -> 84.14%. Passed the full quality gate (checkstyle, PMD/CPD, SpotBugs/FindSecBugs, duplicate-finder, CycloneDX SBOM, OWASP Dependency-Check, Trivy, YAML parse, agent-agnostic scan, stale-pointer sweep, `git diff --check`), and advanced the active backlog item to `COM-MOD-012-CLOSEOUT`.
+`COM-MOD-012-CLOSEOUT` - Module closeout and registry update. Documentation/registry-only closeout: confirmed all 8 COM-MOD-012 capability packages (`BCM-ORG-001`, `BCM-PLT-001`, `BCM-PLT-002`, `BCM-PLT-005`, `BCM-PLT-006`, `BCM-PLT-007`, `BCM-PLT-008`, `BCM-PLT-009`) `module_closed` in `capability-package-index.yaml` and their `traceability.yaml` files. Confirmed `TD-QA-005`/`TD-QA-006` remain closed, and `TD-OBS-001`/`TD-BE-016`/`TD-BE-017`/`TD-IAM-003` remain open, non-blocking and correctly classified with owner, risk level and target backlog -- none closed without real infrastructure or implementation. Found and corrected 2 stale registry defects predating this closeout during the stale-pointer sweep: a stale `operational_strategy` status of `active` left in all 8 `traceability.yaml` files after `COM-MOD-012-OPS-002` closed (corrected to `closed`), and a duplicate `active_capability_package_groups` block in `capability-package-index.yaml` still listing the already-closed `COM-MOD-011` as active (removed). No production code touched. Backend/frontend coverage re-affirmed unchanged from `COM-MOD-012-QA-001` (backend 84.14%, employee portal 88.68%, public website 98.61%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%; 367 backend tests, 0 failures). Ran the full closeout gate suite (YAML parse, stale-pointer sweep, evidence-state sweep, agent-agnostic scan, secrets scan, `git diff --check`), all passed, and advanced the active backlog item to `COM-MOD-013-DEF`.

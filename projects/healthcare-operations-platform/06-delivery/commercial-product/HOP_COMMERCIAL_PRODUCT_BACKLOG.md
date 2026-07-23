@@ -206,8 +206,8 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-`COM-MOD-011` (Public Website and Digital Growth), `COM-MOD-012-DEF` (Platform Hardening Capability Package Models), `COM-MOD-012-OPS-001` (Production Deployment and Environment Strategy), `COM-MOD-012-OPS-002` (Observability, Backup, Restore and Incident Runbooks), `COM-MOD-012-BE-001` (Compile Tenant Operations, Feature Flags and Operational Controls) and `COM-MOD-012-QA-001` (Performance, Resilience and Security Evidence) are closed. Continue with `COM-MOD-012-CLOSEOUT` from:
+`COM-MOD-012` (Platform Hardening and SaaS Operations) is `module_closed`: `COM-MOD-012-DEF`, `COM-MOD-012-OPS-001`, `COM-MOD-012-OPS-002`, `COM-MOD-012-BE-001`, `COM-MOD-012-QA-001` and `COM-MOD-012-CLOSEOUT` are all closed. Continue with `COM-MOD-013-DEF` (Advanced Quality and Compliance Capability Package Models) from:
 
 `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
 
-See `08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml` for the latest validation evidence.
+See `08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-CLOSEOUT-validation.yaml` for the latest validation evidence.

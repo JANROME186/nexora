@@ -2,11 +2,11 @@ artifact:
   id: HOP-CAP-PKG-IDX-001
   type: capability-package-index
   name: HOP Business Capability Package Index
-  version: 2.2.0
+  version: 2.3.0
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.yaml
-  qa_evidence: ../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-DEF-validation.yaml
+  qa_evidence: ../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-CLOSEOUT-validation.yaml
 
 policy:
   primary_development_unit: business_capability_package
@@ -37,10 +37,16 @@ active_capability_package_groups: []
 completed_capability_package_groups:
   - roadmap_group: COM-MOD-012
     name: Platform Hardening and SaaS Operations
-    package_status: compiled
-    backlog_item: COM-MOD-012-QA-001
-    qa_evidence: ../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
-    security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-012-QA-001/security-quality-evidence.yaml
+    package_status: module_closed
+    backlog_item: COM-MOD-012-CLOSEOUT
+    qa_evidence: ../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-CLOSEOUT-validation.yaml
+    closeout_evidence: ../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-CLOSEOUT-validation.yaml
+    security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-012-CLOSEOUT/security-quality-evidence.yaml
+    validation:
+      backlog_item: COM-MOD-012-QA-001
+      status: validated
+      qa_evidence: ../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
+      security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-012-QA-001/security-quality-evidence.yaml
     implementation:
       backlog_item: COM-MOD-012-BE-001
       status: compiled
@@ -53,7 +59,7 @@ completed_capability_package_groups:
           security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-012-DEF/security-quality-evidence.yaml
     operational_strategy:
       backlog_item: COM-MOD-012-OPS-002
-      status: active
+      status: closed
       qa_evidence: ../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
       security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-012-OPS-002/security-quality-evidence.yaml
       artifacts:
@@ -569,69 +575,6 @@ completed_capability_package_groups:
         bounded_context: catalog-test-configuration
         secondary_bounded_context: cash-sales
         primary_aggregate: AGG-006
-        mobile_scope: not_required
-
-active_capability_package_groups:
-  - roadmap_group: COM-MOD-011
-    name: Public Website and Digital Growth
-    package_status: reused_extended
-    backlog_item: COM-MOD-011-QA-001
-    qa_evidence: ../../../08-qa/qa/public-website-and-digital-growth/COM-MOD-011-QA-001-validation.yaml
-    note: >-
-      All 7 capabilities are reused from already-modeled/compiled capability packages owned by
-      MVP-MOD-002, MVP-MOD-004 and MVP-MOD-008. No new capability package, aggregate or schema was
-      created; COM-MOD-011-DEF extended each package's product_surfaces, openapi-source.yaml,
-      ui-model.yaml, permissions.yaml and traceability.yaml with a public_website surface. See
-      each package's own traceability.yaml cross_module_reuse entry.
-    capabilities:
-      - capability_id: BCM-SVC-001
-        package_folder: bcm-svc-001-diagnostic-service-catalog/
-        package_status: reused_public_surface_added
-        owning_roadmap_group: MVP-MOD-002
-        bounded_context: catalog-test-configuration
-        primary_aggregate: AGG-006 TestDefinition
-        mobile_scope: not_required
-      - capability_id: BCM-SVC-002
-        package_folder: bcm-svc-002-test-catalog/
-        package_status: reused_public_surface_added
-        owning_roadmap_group: MVP-MOD-002
-        bounded_context: catalog-test-configuration
-        primary_aggregate: AGG-006 TestDefinition
-        mobile_scope: not_required
-      - capability_id: BCM-SVC-003
-        package_folder: bcm-svc-003-panel-catalog/
-        package_status: reused_public_surface_added
-        owning_roadmap_group: MVP-MOD-002
-        bounded_context: catalog-test-configuration
-        primary_aggregate: AGG-006 TestDefinition
-        mobile_scope: not_required
-      - capability_id: BCM-SVC-005
-        package_folder: bcm-svc-005-patient-preparation-management/
-        package_status: reused_public_surface_added
-        owning_roadmap_group: MVP-MOD-002
-        bounded_context: catalog-test-configuration
-        primary_aggregate: AGG-006 TestDefinition
-        mobile_scope: deferred
-      - capability_id: BCM-ATT-001
-        package_folder: bcm-att-001-appointment-scheduling/
-        package_status: reused_public_surface_added
-        owning_roadmap_group: MVP-MOD-004
-        bounded_context: orders-samples
-        primary_aggregate: AGG-007 DiagnosticOrder (owned by BCM-LAB-001)
-        mobile_scope: required
-      - capability_id: BCM-ATT-006
-        package_folder: bcm-att-006-quotation-management/
-        package_status: reused_public_surface_added
-        owning_roadmap_group: MVP-MOD-004
-        bounded_context: cash-sales
-        primary_aggregate: none (standalone QuotationRequest)
-        mobile_scope: not_required
-      - capability_id: BCM-PLT-005
-        package_folder: bcm-plt-005-api-management/
-        package_status: reused_governance_extended
-        owning_roadmap_group: MVP-MOD-008
-        bounded_context: integration-interoperability
-        primary_aggregate: ApiSurfaceRegistration (new platform aggregate owned by this capability)
         mobile_scope: not_required
 
 planned_capability_package_groups:
