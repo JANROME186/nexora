@@ -18,7 +18,7 @@ The short sequence is:
 
 1. `00-start-here/` - Understand vision, handoff and execution order.
 2. `01-enterprise/` - Load Nexora company context.
-3. `02-standards/` - Load documentation, project folder, agent-agnostic, open-source-first, stack validation, security quality, integrated local runbook and framework feedback standards.
+3. `02-standards/` - Load documentation, project folder, agent-agnostic, open-source-first, stack validation, security quality, local toolchain inventory, integrated local runbook and framework feedback standards.
 4. `03-orchestration/` - Decide whether a project needs analysis, validation or implementation.
 5. `04-recipes/` - Apply the Agent-to-MVP recipe when definitions are missing.
 6. `05-prompts/` - Use generic and auxiliary prompts for analysis, validation and development.
@@ -56,6 +56,7 @@ It defines:
 - `02-standards/standards/product-marketplace-standard.yaml`
 - `02-standards/standards/business-requirement-versioning-standard.yaml`
 - `02-standards/standards/open-source-first-security-quality-standard.yaml`
+- `02-standards/standards/local-toolchain-inventory-standard.yaml`
 - `02-standards/standards/integrated-local-solution-runbook-standard.yaml`
 - `02-standards/standards/framework-feedback-continuous-improvement-standard.yaml`
 - `03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
@@ -79,10 +80,11 @@ For any project under `projects/<project-slug>/`:
 5. If analysis is incomplete, apply the Agent-to-MVP recipe.
 6. If the business requirement changed, generate an impact assessment before modifying derived artifacts.
 7. Apply the open-source-first, client stack market validation, technology evolution, security quality and technical-debt standards to technology choices and code-changing work.
-8. Maintain the integrated local solution runbook so human reviewers can start and validate the complete local solution from one guide.
-9. Capture framework feedback when execution reveals reusable improvements.
-10. Validate the project against the framework.
-11. Start development only from the approved project state and module package.
+8. Load and maintain the local toolchain inventory so agents can use known local executable paths, versions and generic command templates.
+9. Maintain the integrated local solution runbook so human reviewers can start and validate the complete local solution from one guide.
+10. Capture framework feedback when execution reveals reusable improvements.
+11. Validate the project against the framework.
+12. Start development only from the approved project state and module package.
 
 During every code-changing backlog item, the agent must treat the initial technology stack as the
 current baseline, not as a permanent constraint. If newer open source frameworks, runtimes,
@@ -106,6 +108,12 @@ Every project with runnable implementation must maintain an integrated local sol
 `09-operations/runbooks/local-solution-runbook.md`. Component READMEs may explain individual
 services, but the integrated runbook is the reviewer-facing path for starting infrastructure,
 backend, web surfaces, mobile validation, smoke checks, quality gates and shutdown steps.
+
+Every project with a selected technology stack must also maintain a local toolchain inventory at
+`03-architecture/technology-architecture/local-toolchain-inventory.yaml` or the equivalent
+architecture folder used by the project template. Agents must load this inventory before running
+build, test, quality, security or local runtime commands, and update it or register technical debt
+when required tools are stale or missing.
 
 ## Project Rule
 

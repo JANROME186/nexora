@@ -12,6 +12,7 @@ purpose: Provide reusable agent-agnostic prompts for open-source-first technolog
 
 required_context:
   - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  - nexora-framework/02-standards/standards/local-toolchain-inventory-standard.yaml
   - nexora-framework/02-standards/standards/enterprise-product-foundation-standard.yaml
   - nexora-framework/02-standards/standards/engineering-excellence-prioritization-standard.yaml
   - nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
@@ -90,6 +91,7 @@ prompts:
       For the selected backlog item, identify changed backend, web, mobile, API, dependency, container and deployment surfaces.
       Before implementing feature code, load 08-qa/technical-debt/technical-debt-index.yaml. If open debt exists, select at least one item by the standard's selection order and resolve or materially reduce it before feature work. If no open debt exists, record that explicitly in evidence.
       Determine the project's current phase and debt-remediation intensity. Early MVP iterations must reduce at least one relevant debt item when debt exists; module closeout, release preparation and later commercial iterations must reduce multiple relevant debt items or justify why only one could be safely reduced.
+      Load the project local toolchain inventory before executing commands. Use its executable paths, versions, working directories and generic command templates instead of rediscovering tools. If the inventory is missing, stale or incomplete for a required tool, update it when the correct value is known or register technical debt before closure.
       Probe the required toolchain first (runtime versions, build tools, package managers, native build binaries, Docker/database services and command paths) and compare it with the project runbook and stack baseline.
       Run applicable open source checks for tests, best practices, coding standards, duplicate code, complexity, SAST/static analysis, OWASP or equivalent secure-code rules, dependency vulnerabilities across all severities, secrets, coverage, contract quality and DAST when a runnable surface exists.
       For every changed stack, build an explicit required-validation matrix with one row per required category: tests, best practices, coding standards, duplicate code, complexity, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerabilities, secrets, coverage, i18n/message externalization, contract checks, DAST when runnable, container/IaC checks when changed and license/SBOM when dependencies or releasable artifacts change.

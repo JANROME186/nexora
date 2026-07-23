@@ -1,5 +1,9 @@
 # HOP Integrated Local Solution Runbook
 
+Before running commands, load the local toolchain inventory:
+
+`../../03-architecture/technology-architecture/local-toolchain-inventory.yaml`
+
 This is the single local runbook for starting, validating and stopping the Healthcare Operations
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.

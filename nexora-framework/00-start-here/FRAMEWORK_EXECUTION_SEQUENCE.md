@@ -26,7 +26,7 @@ The machine-readable version is:
    Load Nexora company context and enterprise identity.
 
 3. `02-standards/`
-   Load project folder, documentation, agent-agnostic, MDPE, capability package, open data ingestion, product marketplace, business requirement versioning, open-source security quality, enterprise product foundation, client stack validation, integrated local runbook, technology debt and framework feedback standards.
+   Load project folder, documentation, agent-agnostic, MDPE, capability package, open data ingestion, product marketplace, business requirement versioning, open-source security quality, local toolchain inventory, enterprise product foundation, client stack validation, integrated local runbook, technology debt and framework feedback standards.
 
 4. `03-orchestration/`
    Decide whether the target project needs analysis, validation or development.
@@ -66,6 +66,7 @@ Development can start only after:
 - Enterprise product foundations are defined for localization, IAM permissions, dynamic menus, session management, database deliverables, UX/UI, code documentation, persistence architecture and contract-first generation.
 - The requester-proposed or existing stack has been validated against current stable or LTS open source market practice.
 - A stack-specific quality toolchain baseline exists.
+- A local toolchain inventory exists for the current development machine.
 - An integrated local solution runbook exists for human review and validation.
 - The framework feedback capture mechanism exists so agents can propose framework improvements without implementing them.
 

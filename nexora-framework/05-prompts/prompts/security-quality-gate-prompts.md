@@ -5,7 +5,9 @@
 **Machine-readable source:** `security-quality-gate-prompts.yaml`
 **Version:** `1.5.2`
 
-Use these prompts with the Open Source First Security and Quality Standard, the Enterprise Product Foundation Standard and the Engineering Excellence Prioritization Standard.
+Use these prompts with the Open Source First Security and Quality Standard, the Local Toolchain
+Inventory Standard, the Enterprise Product Foundation Standard and the Engineering Excellence
+Prioritization Standard.
 
 ## Client Proposed Stack Market Validation
 
@@ -64,8 +66,8 @@ would materially improve security, maintainability, portability, cost or ecosyst
 
 ## Backlog Gate
 
-For every code-changing backlog item, probe the required toolchain first and then run applicable
-checks:
+For every code-changing backlog item, load the project local toolchain inventory first, verify the
+listed paths and versions for the changed stack, then run applicable checks:
 
 - Technical-debt first action: resolve or materially reduce at least one open debt item before
   feature work, unless no debt exists.

@@ -458,6 +458,8 @@ sources:
   framework_feedback_fwf_hop_003: 08-qa/framework-feedback/FWF-HOP-003-spring-modulith-cross-module-api-visibility.yaml
   client_stack_market_validation: 03-architecture/technology-architecture/client-stack-market-validation.yaml
   stack_quality_toolchain_baseline: 03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
+  local_toolchain_inventory: 03-architecture/technology-architecture/local-toolchain-inventory.yaml
+  local_toolchain_inventory_md: 03-architecture/technology-architecture/local-toolchain-inventory.md
   open_data_ingestion_contract: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md
   open_data_ingestion_contract_yaml: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml
   open_data_ingestion_requirements: 04-requirements/capabilities/bcm-plt-010-open-data-ingestion-and-migration/requirements.yaml
@@ -594,6 +596,7 @@ rules:
   - HOP must prefer open source, self-hostable and standards-based technologies unless an ADR approves an exception.
   - HOP must validate requester-proposed and current stack choices against current stable or LTS open source market practice before release-oriented decisions.
   - HOP must maintain stack-specific quality toolchain baselines and register non-blocking tooling gaps as technical debt.
+  - HOP must maintain a local toolchain inventory with executable paths, versions and generic commands for the current development machine; agents must load it before code-changing backlog work and update it or register technical debt when required tools are stale or missing.
   - HOP code-changing backlog items must produce security quality evidence with applicable tests, best-practice and coding-standard checks, duplicate-code checks, complexity checks, SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerability checks across all severities, secrets scan, coverage, message externalization/i18n review and DAST when runnable surfaces exist.
   - If a mandatory validation category applies to a touched stack or runnable surface but HOP lacks the executable script, plugin, tool or configuration, the agent must create or update technical debt before closure; informal "if configured", "if scripts exist" and undocumented not-applicable dispositions are not valid closure evidence.
   - HOP OWASP Dependency-Check uses a local advisory database refreshed manually once per day by the project operator or security reviewer. Agents must execute the scan against the database available at execution time and document its path and freshness; refreshing or downloading the NVD database is not a framework or backlog-agent responsibility unless explicitly assigned.

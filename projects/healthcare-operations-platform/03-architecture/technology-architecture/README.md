@@ -21,3 +21,4 @@ La tecnología debe permitir que Nexora pueda ejecutarse en:
 | `storage/storage-abstraction.md` | Abstracción de almacenamiento. |
 | `observability/opentelemetry-observability.md` | Observabilidad portable basada en OpenTelemetry. |
 | `local-development/local-development.md` | Ambiente local reproducible. |
+| `local-toolchain-inventory.yaml` | Inventario local de rutas, versiones y comandos base para herramientas de desarrollo y validación. |

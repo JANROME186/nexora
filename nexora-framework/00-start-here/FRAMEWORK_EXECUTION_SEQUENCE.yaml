@@ -23,7 +23,7 @@ sequence:
     responsibility: Load Nexora company context and enterprise identity.
   - step: "02"
     folder: 02-standards
-    responsibility: Load project folder, documentation, agent-agnostic, MDPE, capability package, ingestion, marketplace, business requirement versioning, open-source security quality, enterprise product foundation, client stack market validation, integrated local runbook, technology debt and framework feedback standards.
+    responsibility: Load project folder, documentation, agent-agnostic, MDPE, capability package, ingestion, marketplace, business requirement versioning, open-source security quality, local toolchain inventory, enterprise product foundation, client stack market validation, integrated local runbook, technology debt and framework feedback standards.
     primary_files:
       - 02-standards/standards/project-folder-standard.yaml
       - 02-standards/standards/documentation-standard.yaml
@@ -34,6 +34,7 @@ sequence:
       - 02-standards/standards/product-marketplace-standard.yaml
       - 02-standards/standards/business-requirement-versioning-standard.yaml
       - 02-standards/standards/open-source-first-security-quality-standard.yaml
+      - 02-standards/standards/local-toolchain-inventory-standard.yaml
       - 02-standards/standards/enterprise-product-foundation-standard.yaml
       - 02-standards/standards/integrated-local-solution-runbook-standard.yaml
       - 02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
@@ -89,6 +90,7 @@ development_gate:
     - Enterprise product foundations are defined for localization, IAM permissions, dynamic menus, session management, database deliverables, UX/UI, code documentation, persistence architecture and contract-first generation.
     - Requester-proposed or existing stack has been validated against current stable or LTS open source market practice.
     - Stack-specific quality toolchain baseline is defined.
+    - Local toolchain inventory is defined for the current development machine.
     - Integrated local solution runbook is defined for human review and validation.
     - Technology evolution reviews and technical-debt backlog handling are defined for iterative work.
     - Framework feedback capture mechanism is available for agent execution learning.
