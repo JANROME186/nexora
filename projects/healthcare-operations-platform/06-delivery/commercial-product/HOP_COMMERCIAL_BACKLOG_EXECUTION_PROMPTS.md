@@ -234,25 +234,25 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-012-OPS-002 Observability, backup, restore and incident runbooks` is closed.
+`COM-MOD-012-BE-001 Compile tenant operations, feature flags and operational controls` is closed.
 Continue with:
 
 - Module: `COM-MOD-012`
-- Backlog item: `COM-MOD-012-BE-001`
-- Previous backlog item: `COM-MOD-012-OPS-002` (closed)
+- Backlog item: `COM-MOD-012-QA-001`
+- Previous backlog item: `COM-MOD-012-BE-001` (closed)
 - Paused functional backlog item: none
 - Folder: `07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/` and `08-qa/qa/platform-hardening-and-saas-operations/`
 
 Mandatory setup for this backlog:
 
 - Reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, capability traceability files and the local runbook pointers.
-- Preserve coverage floors: backend (83.99%), employee portal (88.68%), public website (98.61%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
+- Preserve coverage floors: backend (84.11%), employee portal (88.68%), public website (98.61%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
-- Use the COM-MOD-012 capability packages modeled or extended by `COM-MOD-012-DEF`: `BCM-ORG-001`, `BCM-PLT-001`, `BCM-PLT-002`, `BCM-PLT-005`, `BCM-PLT-006`, `BCM-PLT-007`, `BCM-PLT-008`, and `BCM-PLT-009`.
-- Compile their `openapi-source.yaml` operations into real Spring Modulith modules/controllers, and close each `09-operations/runbooks/` runbook's `known_gaps_and_forward_pointers` where in scope (a Prometheus-compatible metrics endpoint, `tenant_id`/`user_id`/`trace_id` MDC logging context, distinct liveness/readiness actuator groups).
+- Validate performance, resilience and security evidence for the operations compiled by `COM-MOD-012-BE-001` (tenant provisioning/status transitions, feature flags, Prometheus/health/MDC observability); a dedicated DAST pass against the new endpoints was deferred and should be run here.
+- The forward pointers `COM-MOD-012-BE-001` left open (distributed trace export to the OTel Collector, a provisioned Grafana/Prometheus/Loki stack, and an SLO/SLA alerting backend) require infrastructure not yet available locally; do not attempt to close them without that infrastructure.
 - Review `08-qa/technical-debt/technical-debt-index.yaml` before backend work and resolve or materially reduce at least one open item when applicable.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-012-OPS-002` - Observability, backup, restore and incident runbooks. Added 10 executable runbook pairs (observability, health/readiness/liveness, metrics/logs/traces validation, backup, restore, incident response, rollback incident handoff, tenant-impact triage, evidence collection, post-incident review) plus an index README under `09-operations/runbooks/`, built on `production-deployment-strategy.yaml`. Every local-executable command was cross-checked against real repository state; unimplemented telemetry and unprovisioned shared-environment infrastructure were documented as `known_gaps_and_forward_pointers` rather than silently marked passed. `TD-DB-004` was materially reduced via `tenant-impact-triage-runbook.yaml`'s cross-tenant leakage check. Capability traceability was updated for all 8 COM-MOD-012 capabilities. The work was definition-only, preserved coverage floors across all delivered stacks, passed YAML parse, stale-pointer sweep, agent-agnostic scan, secret scan and `git diff --check`, and advanced the active backlog item to `COM-MOD-012-BE-001`.
+`COM-MOD-012-BE-001` - Compile tenant operations, feature flags and operational controls. Compiled `BCM-ORG-001` tenant operations (`provisionTenant` extended in place, `listTenants`/`updateTenantStatus` added, both privileged and audited), a new `BCM-PLT-002` `platformconfiguration` Spring Modulith module (`getPlatformConfig`/`evaluateFeatureFlags`/`updateFeatureFlag`), and `BCM-PLT-006` observability extensions (`/actuator/prometheus`, explicit liveness/readiness health groups, a new `RequestObservabilityContextFilter` populating `tenantId`/`userId`/`traceId` MDC on every log line). Closed 5 of 8 named `COM-MOD-012-OPS-002` runbook `known_gaps_and_forward_pointers` entries; the remaining 3 (distributed trace export, a provisioned observability stack, SLO/SLA alerting) require infrastructure not yet provisioned and were re-pointed to future items. `BCM-PLT-001`/`005`/`007`/`008`/`009` extensions were deliberately deferred and registered as `TD-BE-016`/`TD-BE-017`/`TD-IAM-003` rather than built speculatively. A real SpotBugs/FindSecBugs finding (`SERVLET_HEADER`) on the new MDC filter was fixed in code, not suppressed. 362 tests (0 failures/errors/skipped, up from 360), backend coverage raised 83.99% -> 84.11%. `TD-IAM-002` and `TD-DB-004` materially reduced further; `TD-I18N-002` further reduced. Passed the full quality gate (checkstyle, PMD/CPD, SpotBugs/FindSecBugs, duplicate-finder, CycloneDX SBOM, OWASP Dependency-Check, Trivy, YAML parse, agent-agnostic scan, stale-pointer sweep, `git diff --check`), and advanced the active backlog item to `COM-MOD-012-QA-001`.

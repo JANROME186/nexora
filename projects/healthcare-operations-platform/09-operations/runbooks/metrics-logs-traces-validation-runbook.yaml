@@ -94,11 +94,20 @@ related_runbooks:
 
 known_gaps_and_forward_pointers:
   - gap: Backend structured logs are not yet confirmed to carry tenant_id/user_id/trace_id MDC context on every line (BCM-PLT-006 invariant "all log entries must include W3C traceparent context when trace context exists" is modeled but not yet implemented in code).
-    forward_pointer: COM-MOD-012-BE-001.
+    status: closed_by_COM_MOD_012_BE_001
+    resolution: RequestObservabilityContextFilter populates SLF4J MDC (tenantId, userId, traceId) for every
+      request ahead of HopAuthorizationInterceptor; logging.pattern.console in application.yml renders all
+      three on every log line; traceId reuses an inbound W3C traceparent trace-id segment when present and
+      valid, otherwise mints one. Verified by RequestObservabilityContextFilterTest.
   - gap: No metrics catalog (request rate, error rate, latency quantiles, JVM, DB pool, business metrics) is exposed yet; Prometheus registry dependency absent.
-    forward_pointer: COM-MOD-012-BE-001.
+    status: closed_by_COM_MOD_012_BE_001
+    resolution: micrometer-registry-prometheus dependency added; GET /actuator/prometheus exposes the
+      standard Micrometer/JVM/HTTP-server metric catalog (request counts and latency histograms, JVM
+      memory/GC/threads, DataSource pool). A curated business-metrics catalog beyond the Micrometer
+      defaults remains future scope.
   - gap: No SLO/SLA alert definitions are wired to an alerting backend; SloDefinition exists only as a modeled value object.
-    forward_pointer: COM-MOD-012-BE-001 and a future alerting-infrastructure backlog item.
+    forward_pointer: future alerting-infrastructure backlog item (needs an actual alerting backend such as
+      Alertmanager, which is not yet provisioned per observability-runbook.yaml).
 
 closure:
   backlog_item: COM-MOD-012-OPS-002

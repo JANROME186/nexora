@@ -106,7 +106,11 @@ related_runbooks:
 
 known_gaps_and_forward_pointers:
   - gap: Backend actuator does not yet expose separate /actuator/health/liveness and /actuator/health/readiness groups (management.endpoint.health.probes.enabled=true is set, but the web exposure include list and Kubernetes-style probe paths are not yet confirmed wired end-to-end at the ingress layer for dev/qa/staging/prod).
-    forward_pointer: COM-MOD-012-BE-001.
+    status: closed_by_COM_MOD_012_BE_001
+    resolution: management.health.livenessstate.enabled and readinessstate.enabled explicitly set in
+      application.yml; GET /actuator/health/liveness and /actuator/health/readiness verified reachable
+      (200) by ObservabilityEndpointsWebTest. Ingress-layer path wiring for a real dev/qa/staging/prod
+      deployment target remains a future infrastructure-provisioning item (no such environment exists yet).
 
 closure:
   backlog_item: COM-MOD-012-OPS-002

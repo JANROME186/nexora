@@ -44,7 +44,8 @@ class PublicWebApiTest {
     @BeforeEach
     void bootstrapOrg() throws Exception {
         String token = UUID.randomUUID().toString().substring(0, 8);
-        JsonNode tenant = postJson("/api/platform/tenants", "{\"name\":\"Public Tenant " + token + "\"}");
+        JsonNode tenant = postJson("/api/platform/tenants",
+                "{\"code\":\"public-tenant-" + token + "\",\"legalName\":\"Public Tenant " + token + "\"}");
         tenantId = tenant.get("tenantId").asText();
         JsonNode laboratory = postJson("/api/organization/laboratories", """
                 {"tenantId":"%s","name":"Public Lab"}

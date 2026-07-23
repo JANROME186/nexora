@@ -69,7 +69,8 @@ completed_capability_package_groups:
     capabilities:
       - capability_id: BCM-ORG-001
         package_folder: bcm-org-001-tenant-management/
-        package_status: modeled
+        package_status: compiled
+        compiled_by: COM-MOD-012-BE-001
         bounded_context: organization-management
         primary_aggregate: AGG-017 Tenant
         mobile_scope: isolated
@@ -81,7 +82,8 @@ completed_capability_package_groups:
         mobile_scope: required
       - capability_id: BCM-PLT-002
         package_folder: bcm-plt-002-platform-configuration/
-        package_status: modeled
+        package_status: compiled
+        compiled_by: COM-MOD-012-BE-001
         bounded_context: platform-operations
         primary_aggregate: PlatformConfiguration
         mobile_scope: read_only_config
@@ -93,7 +95,8 @@ completed_capability_package_groups:
         mobile_scope: not_required
       - capability_id: BCM-PLT-006
         package_folder: bcm-plt-006-observability/
-        package_status: modeled
+        package_status: compiled
+        compiled_by: COM-MOD-012-BE-001
         bounded_context: platform-operations
         primary_aggregate: ObservabilityTarget
         mobile_scope: crash_telemetry_only

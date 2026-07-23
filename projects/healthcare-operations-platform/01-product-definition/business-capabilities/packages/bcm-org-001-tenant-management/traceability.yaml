@@ -27,3 +27,19 @@ operational_strategy:
     executable procedure that determines tenant scope during any incident, restore or higher-risk
     deployment and serves as the operational compensating control for TD-DB-004 pending native
     Row Level Security.
+
+implementation:
+  backlog_item: COM-MOD-012-BE-001
+  status: compiled
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-BE-001-validation.yaml
+  api_endpoints_implemented:
+    - "POST /api/platform/tenants (provisionTenant)"
+    - "GET /api/platform/tenants (listTenants)"
+    - "GET /api/platform/tenants/{tenantId} (getTenant)"
+    - "PUT /api/platform/tenants/{tenantId}/status (updateTenantStatus)"
+  note: >-
+    Implemented paths use the existing unversioned /api/platform/... prefix (matching every other
+    platform endpoint already shipped) rather than the /api/v1/... paths shown in this package's
+    openapi-source.yaml/mappings above. Tenant quota (TenantQuota), branding (TenantBranding) and
+    data-masking-policy value objects modeled in business-model.yaml are not yet exposed by any
+    operation and were not persisted, since no compiled endpoint requires them.

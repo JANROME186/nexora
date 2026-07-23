@@ -3,6 +3,7 @@ package com.nexora.hop.platformfoundation.organizationmanagement;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,7 +29,9 @@ class OrganizationManagementApiTest {
 
     @Test
     void tenantLaboratoryAndBranchCanBeCreatedAndQueried() throws Exception {
-        JsonNode tenant = postJson("/api/platform/tenants", "{\"name\":\"Nexora Diagnostics\"}");
+        JsonNode tenant = postJson("/api/platform/tenants", """
+                {"code":"nexora-diagnostics","legalName":"Nexora Diagnostics","tier":"PROFESSIONAL"}
+                """);
         String tenantId = tenant.get("tenantId").asText();
 
         JsonNode laboratory = postJson("/api/organization/laboratories", """
@@ -42,13 +45,16 @@ class OrganizationManagementApiTest {
         String branchId = branch.get("branchId").asText();
 
         assertThat(tenantId).isNotBlank();
+        assertThat(tenant.get("status").asText()).isEqualTo("PENDING_PROVISIONING");
+        assertThat(tenant.get("tier").asText()).isEqualTo("PROFESSIONAL");
         assertThat(laboratory.get("tenantId").asText()).isEqualTo(tenantId);
         assertThat(branch.get("tenantId").asText()).isEqualTo(tenantId);
         assertThat(branch.get("laboratoryId").asText()).isEqualTo(laboratoryId);
 
         mockMvc.perform(get("/api/platform/tenants/{tenantId}", tenantId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Nexora Diagnostics"));
+                .andExpect(jsonPath("$.legalName").value("Nexora Diagnostics"))
+                .andExpect(jsonPath("$.code").value("nexora-diagnostics"));
 
         mockMvc.perform(get("/api/organization/laboratories/{laboratoryId}", laboratoryId))
                 .andExpect(status().isOk())
@@ -57,6 +63,60 @@ class OrganizationManagementApiTest {
         mockMvc.perform(get("/api/organization/branches/{branchId}", branchId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.laboratoryId").value(laboratoryId));
+    }
+
+    @Test
+    void listTenantsReturnsProvisionedTenants() throws Exception {
+        JsonNode tenant = postJson("/api/platform/tenants", """
+                {"code":"list-tenants-case","legalName":"List Tenants Case"}
+                """);
+        String tenantId = tenant.get("tenantId").asText();
+
+        mockMvc.perform(get("/api/platform/tenants"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.tenantId=='" + tenantId + "')]").exists());
+    }
+
+    @Test
+    void updateTenantStatusTransitionsAndPersistsTheNewStatus() throws Exception {
+        JsonNode tenant = postJson("/api/platform/tenants", """
+                {"code":"triage-case","legalName":"Triage Case"}
+                """);
+        String tenantId = tenant.get("tenantId").asText();
+
+        mockMvc.perform(put("/api/platform/tenants/{tenantId}/status", tenantId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"status\":\"SUSPENDED\",\"reason\":\"cross-tenant impact triage\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("SUSPENDED"));
+
+        mockMvc.perform(get("/api/platform/tenants/{tenantId}", tenantId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("SUSPENDED"));
+    }
+
+    @Test
+    void updateTenantStatusRejectsUnknownStatusValue() throws Exception {
+        JsonNode tenant = postJson("/api/platform/tenants", """
+                {"code":"invalid-status-case","legalName":"Invalid Status Case"}
+                """);
+        String tenantId = tenant.get("tenantId").asText();
+
+        mockMvc.perform(put("/api/platform/tenants/{tenantId}/status", tenantId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"status\":\"NOT_A_REAL_STATUS\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void provisionTenantRejectsDuplicateCode() throws Exception {
+        postJson("/api/platform/tenants", "{\"code\":\"duplicate-code\",\"legalName\":\"First\"}");
+
+        mockMvc.perform(post("/api/platform/tenants")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"code\":\"duplicate-code\",\"legalName\":\"Second\"}"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("TENANT_CODE_CONFLICT"));
     }
 
     @Test

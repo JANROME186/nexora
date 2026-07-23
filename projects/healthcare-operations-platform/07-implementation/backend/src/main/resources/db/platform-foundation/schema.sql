@@ -10,6 +10,25 @@ CREATE TABLE IF NOT EXISTS organization.tenants (
     updated_at timestamp with time zone NOT NULL
 );
 
+-- COM-MOD-012-BE-001 (BCM-ORG-001 TenantRoot): tenant provisioning/lifecycle fields. The
+-- pre-existing "name" column is dropped in favor of legal_name/trade_name once every remaining
+-- caller has migrated to the richer provisionTenant model; this is pre-GA iterative schema
+-- evolution (no production tenant data exists yet), consistent with the incremental ALTER
+-- statements already used for identity.user_accounts.
+ALTER TABLE organization.tenants DROP COLUMN IF EXISTS name;
+ALTER TABLE organization.tenants ADD COLUMN IF NOT EXISTS code varchar(60);
+ALTER TABLE organization.tenants ADD COLUMN IF NOT EXISTS legal_name varchar(180);
+ALTER TABLE organization.tenants ADD COLUMN IF NOT EXISTS trade_name varchar(180);
+ALTER TABLE organization.tenants ADD COLUMN IF NOT EXISTS tax_id varchar(60);
+ALTER TABLE organization.tenants ADD COLUMN IF NOT EXISTS tier varchar(40) NOT NULL DEFAULT 'STARTER';
+ALTER TABLE organization.tenants
+    ADD COLUMN IF NOT EXISTS isolation_strategy varchar(40) NOT NULL DEFAULT 'DISCRIMINATOR_WITH_RLS';
+UPDATE organization.tenants SET legal_name = tenant_id WHERE legal_name IS NULL;
+UPDATE organization.tenants SET code = tenant_id WHERE code IS NULL;
+ALTER TABLE organization.tenants ALTER COLUMN code SET NOT NULL;
+ALTER TABLE organization.tenants ALTER COLUMN legal_name SET NOT NULL;
+CREATE UNIQUE INDEX IF NOT EXISTS tenants_code_key ON organization.tenants (code);
+
 CREATE TABLE IF NOT EXISTS organization.laboratories (
     laboratory_id varchar(36) PRIMARY KEY,
     tenant_id varchar(36) NOT NULL REFERENCES organization.tenants (tenant_id),

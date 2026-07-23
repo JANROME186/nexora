@@ -1,5 +1,7 @@
 package com.nexora.hop.platformfoundation.organizationmanagement.adapter.out.memory;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,6 +43,36 @@ class InMemoryOrganizationRepository implements OrganizationRepository {
     @Override
     public Optional<Tenant> findTenantById(String tenantId) {
         return Optional.ofNullable(tenants.get(tenantId));
+    }
+
+    @Override
+    public Optional<Tenant> findTenantByCode(String code) {
+        return tenants.values().stream().filter(tenant -> tenant.code().equals(code)).findFirst();
+    }
+
+    @Override
+    public List<Tenant> findAllTenants() {
+        return tenants.values().stream()
+                .sorted((left, right) -> left.createdAt().compareTo(right.createdAt()))
+                .toList();
+    }
+
+    @Override
+    public Tenant updateTenantStatus(String tenantId, String status, Instant updatedAt) {
+        Tenant current = tenants.get(tenantId);
+        Tenant updated = new Tenant(
+                current.tenantId(),
+                current.code(),
+                current.legalName(),
+                current.tradeName(),
+                current.taxId(),
+                status,
+                current.tier(),
+                current.isolationStrategy(),
+                current.createdAt(),
+                updatedAt);
+        tenants.put(tenantId, updated);
+        return updated;
     }
 
     @Override

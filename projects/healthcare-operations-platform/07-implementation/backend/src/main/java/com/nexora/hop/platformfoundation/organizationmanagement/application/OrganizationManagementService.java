@@ -2,6 +2,8 @@ package com.nexora.hop.platformfoundation.organizationmanagement.application;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,12 +19,14 @@ import com.nexora.hop.platformfoundation.organizationmanagement.domain.BranchSna
 import com.nexora.hop.platformfoundation.organizationmanagement.domain.Laboratory;
 import com.nexora.hop.platformfoundation.organizationmanagement.domain.OrganizationRepository;
 import com.nexora.hop.platformfoundation.organizationmanagement.domain.Tenant;
+import com.nexora.hop.platformfoundation.organizationmanagement.domain.TenantLifecycle;
 
 @Service
 public class OrganizationManagementService implements TenantDirectory, BranchDirectory {
 
     private static final String ACTIVE_STATUS = "active";
     private static final int NAME_MAX_LENGTH = 180;
+    private static final int CODE_MAX_LENGTH = 60;
     private static final int INITIAL_VERSION = 1;
 
     private final OrganizationRepository repository;
@@ -45,13 +49,60 @@ public class OrganizationManagementService implements TenantDirectory, BranchDir
         this.clock = clock;
     }
 
-    public Tenant createTenant(CreateTenantCommand command) {
-        String name = requiredNameText(command.name(), "Tenant name is required.");
+    /** BCM-ORG-001 {@code provisionTenant}: onboards a new tenant in {@code PENDING_PROVISIONING}. */
+    public Tenant provisionTenant(ProvisionTenantCommand command) {
+        String code = requiredCode(command.code());
+        String legalName = requiredNameText(command.legalName(), "Tenant legal name is required.");
+        String tradeName = StringUtils.hasText(command.tradeName()) ? command.tradeName().trim() : legalName;
+        String taxId = StringUtils.hasText(command.taxId()) ? command.taxId().trim() : "";
+        String tier = requiredTier(command.tier());
+
+        if (repository.findTenantByCode(code).isPresent()) {
+            throw new TenantCodeConflictException("Tenant code is already in use.");
+        }
+
         Instant now = Instant.now(clock);
-        Tenant tenant = repository.saveTenant(new Tenant(newId(), name, ACTIVE_STATUS, now, now));
+        Tenant tenant = repository.saveTenant(new Tenant(
+                newId(),
+                code,
+                legalName,
+                tradeName,
+                taxId,
+                TenantLifecycle.STATUS_PENDING_PROVISIONING,
+                tier,
+                TenantLifecycle.ISOLATION_DISCRIMINATOR_WITH_RLS,
+                now,
+                now));
         recordAudit(tenant.tenantId(), "TenantCreated", "Tenant", tenant.tenantId(),
-                "{\"name\":\"%s\"}".formatted(jsonText(tenant.name())));
+                "{\"code\":\"%s\",\"tier\":\"%s\"}".formatted(jsonText(tenant.code()), jsonText(tenant.tier())));
         return tenant;
+    }
+
+    /** BCM-ORG-001 {@code listTenants}: platform-level tenant directory. */
+    public List<Tenant> listTenants() {
+        return repository.findAllTenants();
+    }
+
+    /**
+     * BCM-ORG-001 {@code updateTenantStatus}: activate, suspend or archive a tenant. This is the
+     * operational control tenant-impact-triage-runbook.yaml uses to contain a tenant suspected of
+     * cross-tenant impact (COM-MOD-012-BE-001); every transition is a privileged operation and is
+     * therefore recorded to the audit trail (BCM-PLT-007).
+     */
+    public Tenant updateTenantStatus(UpdateTenantStatusCommand command) {
+        String tenantId = requiredText(command.tenantId(), "Tenant id is required.");
+        String status = requiredText(command.status(), "Tenant status is required.").toUpperCase(Locale.ROOT);
+        if (!TenantLifecycle.VALID_STATUSES.contains(status)) {
+            throw new InvalidOrganizationCommandException(
+                    "Tenant status must be one of " + TenantLifecycle.VALID_STATUSES + ".");
+        }
+        Tenant current = requireTenant(tenantId);
+        Tenant updated = repository.updateTenantStatus(tenantId, status, Instant.now(clock));
+        String reason = StringUtils.hasText(command.reason()) ? command.reason().trim() : "";
+        recordAudit(tenantId, "TenantStatusChanged", "Tenant", tenantId,
+                "{\"previousStatus\":\"%s\",\"newStatus\":\"%s\",\"reason\":\"%s\"}"
+                        .formatted(jsonText(current.status()), jsonText(status), jsonText(reason)));
+        return updated;
     }
 
     public Laboratory createLaboratory(CreateLaboratoryCommand command) {
@@ -82,8 +133,7 @@ public class OrganizationManagementService implements TenantDirectory, BranchDir
     }
 
     public Tenant getTenant(String tenantId) {
-        return repository.findTenantById(requiredText(tenantId, "Tenant id is required."))
-                .orElseThrow(() -> new OrganizationEntityNotFoundException("Tenant was not found."));
+        return requireTenant(requiredText(tenantId, "Tenant id is required."));
     }
 
     public Laboratory getLaboratory(String laboratoryId) {
@@ -159,6 +209,27 @@ public class OrganizationManagementService implements TenantDirectory, BranchDir
                     "Name must not exceed " + NAME_MAX_LENGTH + " characters.");
         }
         return trimmed;
+    }
+
+    private static String requiredCode(String value) {
+        String trimmed = requiredText(value, "Tenant code is required.");
+        if (trimmed.length() > CODE_MAX_LENGTH) {
+            throw new InvalidOrganizationCommandException(
+                    "Tenant code must not exceed " + CODE_MAX_LENGTH + " characters.");
+        }
+        return trimmed;
+    }
+
+    private static String requiredTier(String value) {
+        if (!StringUtils.hasText(value)) {
+            return TenantLifecycle.TIER_STARTER;
+        }
+        String tier = value.trim().toUpperCase(Locale.ROOT);
+        if (!TenantLifecycle.VALID_TIERS.contains(tier)) {
+            throw new InvalidOrganizationCommandException(
+                    "Tenant tier must be one of " + TenantLifecycle.VALID_TIERS + ".");
+        }
+        return tier;
     }
 
     private static String newId() {

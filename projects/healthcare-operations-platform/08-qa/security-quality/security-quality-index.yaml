@@ -29,6 +29,25 @@ required_checks_when_applicable:
   - container_or_iac_scan_when_assets_change
 
 entries:
+  - backlog_item: COM-MOD-012-BE-001
+    module: COM-MOD-012 Platform Hardening and SaaS Operations
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-012-BE-001/
+    human_readable: 08-qa/security-quality/COM-MOD-012-BE-001/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-012-BE-001/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: passed
+      dependency_vulnerability_scan: passed
+      secrets_scan: passed
+      coverage: passed
+      dast_for_runnable_web_or_api_surfaces: not_applicable_no_dedicated_dast_run_this_iteration
+      container_or_iac_scan_when_assets_change: not_applicable_no_container_or_iac_asset_changed
+    note: >-
+      Compiled BCM-ORG-001 tenant operations, new BCM-PLT-002 platformconfiguration module and
+      BCM-PLT-006 observability extensions (Prometheus, health groups, MDC logging). Materially
+      reduced TD-IAM-002 and TD-DB-004; further reduced TD-I18N-002. Registered TD-BE-016,
+      TD-BE-017 and TD-IAM-003 for honestly-scoped deferred capability extensions.
   - backlog_item: COM-MOD-012-OPS-002
     module: COM-MOD-012 Platform Hardening and SaaS Operations
     status: passed

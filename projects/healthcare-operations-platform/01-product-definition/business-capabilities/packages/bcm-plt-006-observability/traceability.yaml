@@ -28,3 +28,20 @@ operational_strategy:
     ObservabilityTarget/SloDefinition and the actual running backend (health/info actuator only, no
     Prometheus metrics endpoint or trace exporter yet), forward-pointing that gap to
     COM-MOD-012-BE-001.
+
+implementation:
+  backlog_item: COM-MOD-012-BE-001
+  status: compiled
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-BE-001-validation.yaml
+  api_endpoints_implemented:
+    - "GET /actuator/health/liveness"
+    - "GET /actuator/health/readiness"
+    - "GET /actuator/prometheus"
+  note: >-
+    All three operations are satisfied by Spring Boot Actuator + Micrometer configuration
+    (micrometer-registry-prometheus dependency, management.* properties) rather than hand-written
+    controllers. tenant_id/user_id/trace_id MDC logging context (RequestObservabilityContextFilter)
+    was added in the same backlog item to satisfy the metrics-logs-traces-validation-runbook.yaml
+    BCM-PLT-006 invariant. Distributed trace export to the local OTel Collector remains open
+    (observability-runbook.yaml known_gaps_and_forward_pointers); this backlog item only wired
+    trace-id propagation into log MDC, not span export.

@@ -26,3 +26,19 @@ operational_strategy:
     rollout controls (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002's incident-response-runbook.yaml
     names a tenant-specific feature-flag disable as the preferred, narrowest-first incident
     mitigation, ahead of a full application rollback or database restore.
+
+implementation:
+  backlog_item: COM-MOD-012-BE-001
+  status: compiled
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-BE-001-validation.yaml
+  api_endpoints_implemented:
+    - "GET /api/platform/config (getPlatformConfig)"
+    - "GET /api/platform/feature-flags (evaluateFeatureFlags)"
+    - "POST /api/platform/feature-flags (updateFeatureFlag)"
+  note: >-
+    New platformconfiguration Spring Modulith module (package
+    com.nexora.hop.platformfoundation.platformconfiguration). Implemented paths use the existing
+    unversioned /api/platform/... prefix rather than the /api/v1/... paths shown above.
+    DataMaskingPolicy (TD-BE-008) is modeled in business-model.yaml but not exposed by any
+    compiled operation; masking of encrypted config values (is_encrypted flag) is enforced
+    directly by getPlatformConfig rather than via a separate policy entity/endpoint.

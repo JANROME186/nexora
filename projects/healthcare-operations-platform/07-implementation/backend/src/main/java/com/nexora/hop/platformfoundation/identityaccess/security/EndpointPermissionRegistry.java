@@ -93,6 +93,14 @@ public class EndpointPermissionRegistry {
                   PermissionCode.SCREEN_MIGRATION_JOBS,
                   "BCM-PLT-010"),
               readWrite(
+                  "/api/platform/config",
+                  PermissionCode.SCREEN_PLATFORM_CONFIGURATION,
+                  "BCM-PLT-002"),
+              readWrite(
+                  "/api/platform/feature-flags",
+                  PermissionCode.SCREEN_PLATFORM_CONFIGURATION,
+                  "BCM-PLT-002"),
+              readWrite(
                   "/api/inventory/catalog",
                   PermissionCode.SCREEN_INVENTORY_CATALOG,
                   "BCM-INV-001"),

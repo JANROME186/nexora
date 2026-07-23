@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-012-BE-001
+  current_active_backlog_item: COM-MOD-012-QA-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -20,13 +20,45 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
-    backlog_item: COM-MOD-012-OPS-002
+    backlog_item: COM-MOD-012-BE-001
     status: closed
-    next_active_backlog_item: COM-MOD-012-BE-001
-    runtime_change: none. Observability, backup, restore and incident runbook artifacts added under 09-operations/runbooks/.
+    next_active_backlog_item: COM-MOD-012-QA-001
+    runtime_change: >-
+      New backend Maven dependency io.micrometer:micrometer-registry-prometheus (runtime scope,
+      no separate container/process). New schema file
+      backend/src/main/resources/db/platform-hardening-and-saas-operations/schema.sql added to
+      application-local.yml spring.sql.init.schema-locations. No new Docker/compose service.
     port_change: none.
     environment_variable_change: none.
     startup_order_change: none.
+    validation_summary: >-
+      Compiled BCM-ORG-001 tenant operations (provisionTenant extended in place with
+      code/legalName/tradeName/taxId/tier/isolationStrategy; listTenants and updateTenantStatus
+      added, both privileged and audited), a new BCM-PLT-002 platformconfiguration Spring Modulith
+      module (getPlatformConfig, evaluateFeatureFlags, updateFeatureFlag), and BCM-PLT-006
+      observability extensions: GET /actuator/prometheus now reachable (verify with
+      Invoke-RestMethod http://localhost:8080/actuator/prometheus), GET
+      /actuator/health/liveness and /actuator/health/readiness now reachable, and every backend
+      log line now carries tenantId/userId/traceId MDC context via the new
+      RequestObservabilityContextFilter. Closed 5 of 8 named COM-MOD-012-OPS-002 runbook
+      known_gaps_and_forward_pointers entries (Prometheus endpoint, MDC context, health groups,
+      metrics catalog, plus a real tenant-impact-triage containment control added as
+      TRIAGE-STEP-004B); the remaining 3 (distributed trace export, a provisioned
+      Grafana/Prometheus/Loki stack, SLO/SLA alerting) require infrastructure not yet provisioned
+      and were re-pointed to future items. A backward-compatible ProvisionTenantRequest.name
+      fallback plus auto-derived tenant code kept ~20 pre-existing module test fixtures working
+      unchanged. A real SpotBugs/FindSecBugs SERVLET_HEADER finding on the new MDC filter was fixed
+      in code (control-character stripping, strict W3C traceparent validation), not suppressed.
+      362 tests (0 failures/errors/skipped, up from 360), backend coverage raised 83.99% -> 84.11%.
+      TD-IAM-002 and TD-DB-004 materially reduced further; TD-I18N-002 further reduced; TD-BE-016/
+      TD-BE-017/TD-IAM-003 registered for honestly-scoped deferred BCM-PLT-001/005/007/009
+      extensions. Passed mvn -Pquality clean verify (checkstyle, PMD/CPD, SpotBugs/FindSecBugs,
+      duplicate-finder, CycloneDX SBOM), OWASP Dependency-Check (115 deps, 0 vulnerable), Trivy fs
+      scan (0 vulns/secrets/misconfigs), YAML parse (1,248 files), agent-agnostic scan (0 real
+      hits), stale-pointer sweep and git diff --check. Next backlog item COM-MOD-012-QA-001.
+  previous_runbook_update:
+    backlog_item: COM-MOD-012-OPS-002
+    status: closed
     validation_summary: >-
       Added 10 executable runbook pairs (observability, health/readiness/liveness,
       metrics/logs/traces validation, backup, restore, incident response, rollback incident
@@ -44,7 +76,6 @@ project:
       traceability updated for all 8 COM-MOD-012 capabilities. This was definition-only operations
       work with no runtime, port, environment variable or startup order change. Verified clean YAML
       syntax, agent-agnostic compliance, secret scan, stale-pointer sweep and git diff --check.
-      Next backlog item COM-MOD-012-BE-001.
       Formally closed COM-MOD-011 Public Website and Digital Growth module. Confirmed all 7 capability packages
       module_closed in capability-package-index.yaml, TD-BE-015 and TD-UX-002 closed, 0 open debt attributable to
       COM-MOD-011, and re-affirmed clean coverage baselines (backend 83.99%, public website 98.61%, employee portal
@@ -287,6 +318,21 @@ health_checks:
     working_directory: repository_root
     command: Invoke-WebRequest http://localhost:5173
     expected_result: HTTP 200.
+  - id: HC-004
+    name: Backend liveness probe (COM-MOD-012-BE-001)
+    working_directory: repository_root
+    command: Invoke-RestMethod http://localhost:8080/actuator/health/liveness
+    expected_result: status is UP.
+  - id: HC-005
+    name: Backend readiness probe (COM-MOD-012-BE-001)
+    working_directory: repository_root
+    command: Invoke-RestMethod http://localhost:8080/actuator/health/readiness
+    expected_result: status is UP.
+  - id: HC-006
+    name: Backend Prometheus metrics scrape endpoint (COM-MOD-012-BE-001)
+    working_directory: repository_root
+    command: Invoke-WebRequest http://localhost:8080/actuator/prometheus
+    expected_result: HTTP 200 with a text/plain Prometheus exposition-format body.
 
 smoke_validation:
   - id: SMOKE-001

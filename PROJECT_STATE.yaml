@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: "HOP COM-MOD-012-OPS-002 Observability, backup, restore and incident runbooks completed clean (10 executable runbook pairs under 09-operations/runbooks/ built on production-deployment-strategy.yaml; TD-DB-004 materially reduced; ready for COM-MOD-012-BE-001)"
+current_phase: "HOP COM-MOD-012-BE-001 Compile tenant operations, feature flags and operational controls completed clean (BCM-ORG-001 tenant operations, new BCM-PLT-002 platformconfiguration module, BCM-PLT-006 observability extensions -- Prometheus, health groups, MDC logging; 362 tests/0 failures, backend coverage 83.99% -> 84.11%; TD-IAM-002/TD-DB-004 materially reduced further; ready for COM-MOD-012-QA-001)"
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -30,7 +30,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
     active_module: COM-MOD-012
-    active_backlog_item: COM-MOD-012-BE-001
+    active_backlog_item: COM-MOD-012-QA-001
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -115,9 +115,10 @@ projects:
       - COM-MOD-012-DEF
       - COM-MOD-012-OPS-001
       - COM-MOD-012-OPS-002
+      - COM-MOD-012-BE-001
     structure: ordered_numbered_folders
 next_deliverables:
-  - Execute COM-MOD-012-BE-001 Compile tenant operations, feature flags and operational controls
+  - Execute COM-MOD-012-QA-001 Performance, resilience and security evidence
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake

@@ -120,9 +120,12 @@ related_runbooks:
 
 known_gaps_and_forward_pointers:
   - gap: No Prometheus-compatible metrics endpoint is exposed yet (management.endpoints.web.exposure.include is health,info only in application.yml; no micrometer-registry-prometheus dependency in backend/pom.xml).
-    forward_pointer: COM-MOD-012-BE-001 (Compile tenant operations, feature flags and operational controls).
+    status: closed_by_COM_MOD_012_BE_001
+    resolution: micrometer-registry-prometheus added to backend/pom.xml; management.endpoints.web.exposure.include
+      now includes prometheus; GET /actuator/prometheus verified reachable by ObservabilityEndpointsWebTest.
   - gap: No distributed tracing exporter is wired from the backend to the local OTel Collector yet; the collector runs and is reachable, but no application spans are produced.
-    forward_pointer: COM-MOD-012-BE-001.
+    forward_pointer: future backlog item once an OpenTelemetry Java agent/SDK is added; COM-MOD-012-BE-001 only
+      wired trace-id propagation into log MDC (see metrics-logs-traces-validation-runbook.yaml), not span export.
   - gap: No Grafana/Prometheus/Loki-compatible stack is provisioned in dev/qa/staging/prod; only the environment_configuration_policy target posture is defined in production-deployment-strategy.yaml.
     forward_pointer: future infrastructure-provisioning backlog item under COM-MOD-012 or a dedicated MVP-MOD infra item.
 

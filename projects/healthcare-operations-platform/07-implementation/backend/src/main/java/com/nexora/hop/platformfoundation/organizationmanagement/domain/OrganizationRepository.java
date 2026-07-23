@@ -1,5 +1,7 @@
 package com.nexora.hop.platformfoundation.organizationmanagement.domain;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 public interface OrganizationRepository {
@@ -11,6 +13,12 @@ public interface OrganizationRepository {
     Branch saveBranch(Branch branch);
 
     Optional<Tenant> findTenantById(String tenantId);
+
+    Optional<Tenant> findTenantByCode(String code);
+
+    List<Tenant> findAllTenants();
+
+    Tenant updateTenantStatus(String tenantId, String status, Instant updatedAt);
 
     Optional<Laboratory> findLaboratoryById(String laboratoryId);
 

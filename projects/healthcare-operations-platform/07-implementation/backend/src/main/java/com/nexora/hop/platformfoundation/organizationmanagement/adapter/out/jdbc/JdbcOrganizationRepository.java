@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.context.annotation.Profile;
@@ -28,12 +29,18 @@ class JdbcOrganizationRepository implements OrganizationRepository {
     @Override
     public Tenant saveTenant(Tenant tenant) {
         jdbcTemplate.update("""
-                insert into organization.tenants (tenant_id, name, status, created_at, updated_at)
-                values (?, ?, ?, ?, ?)
+                insert into organization.tenants
+                    (tenant_id, code, legal_name, trade_name, tax_id, status, tier, isolation_strategy, created_at, updated_at)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 tenant.tenantId(),
-                tenant.name(),
+                tenant.code(),
+                tenant.legalName(),
+                tenant.tradeName(),
+                tenant.taxId(),
                 tenant.status(),
+                tenant.tier(),
+                tenant.isolationStrategy(),
                 Timestamp.from(tenant.createdAt()),
                 Timestamp.from(tenant.updatedAt()));
         return tenant;
@@ -74,10 +81,36 @@ class JdbcOrganizationRepository implements OrganizationRepository {
     @Override
     public Optional<Tenant> findTenantById(String tenantId) {
         return jdbcTemplate.query("""
-                select tenant_id, name, status, created_at, updated_at
+                select tenant_id, code, legal_name, trade_name, tax_id, status, tier, isolation_strategy, created_at, updated_at
                 from organization.tenants
                 where tenant_id = ?
                 """, JdbcOrganizationRepository::mapTenant, tenantId).stream().findFirst();
+    }
+
+    @Override
+    public Optional<Tenant> findTenantByCode(String code) {
+        return jdbcTemplate.query("""
+                select tenant_id, code, legal_name, trade_name, tax_id, status, tier, isolation_strategy, created_at, updated_at
+                from organization.tenants
+                where code = ?
+                """, JdbcOrganizationRepository::mapTenant, code).stream().findFirst();
+    }
+
+    @Override
+    public List<Tenant> findAllTenants() {
+        return jdbcTemplate.query("""
+                select tenant_id, code, legal_name, trade_name, tax_id, status, tier, isolation_strategy, created_at, updated_at
+                from organization.tenants
+                order by created_at
+                """, JdbcOrganizationRepository::mapTenant);
+    }
+
+    @Override
+    public Tenant updateTenantStatus(String tenantId, String status, Instant updatedAt) {
+        jdbcTemplate.update("""
+                update organization.tenants set status = ?, updated_at = ? where tenant_id = ?
+                """, status, Timestamp.from(updatedAt), tenantId);
+        return findTenantById(tenantId).orElseThrow();
     }
 
     @Override
@@ -101,8 +134,13 @@ class JdbcOrganizationRepository implements OrganizationRepository {
     private static Tenant mapTenant(ResultSet resultSet, int rowNumber) throws SQLException {
         return new Tenant(
                 resultSet.getString("tenant_id"),
-                resultSet.getString("name"),
+                resultSet.getString("code"),
+                resultSet.getString("legal_name"),
+                resultSet.getString("trade_name"),
+                resultSet.getString("tax_id"),
                 resultSet.getString("status"),
+                resultSet.getString("tier"),
+                resultSet.getString("isolation_strategy"),
                 instant(resultSet, "created_at"),
                 instant(resultSet, "updated_at"));
     }

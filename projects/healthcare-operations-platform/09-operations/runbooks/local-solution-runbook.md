@@ -4,9 +4,11 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-012-BE-001`.
+Current active backlog item: `COM-MOD-012-QA-001`.
 
-Latest update: `COM-MOD-012-OPS-002` is closed. 10 executable runbook pairs (observability, health/readiness/liveness, metrics/logs/traces validation, backup, restore, incident response, rollback incident handoff, tenant-impact triage, evidence collection, post-incident review) plus an index README were added under `09-operations/runbooks/`, built on `production-deployment-strategy.yaml`. Every local-executable command was cross-checked against real repository state; unimplemented telemetry and unprovisioned shared-environment infrastructure were documented per-runbook rather than silently marked passed. `TD-DB-004` was materially reduced via `tenant-impact-triage-runbook.yaml`'s cross-tenant leakage check. No runtime, port, environment variable or startup order changed. Next active backlog item: `COM-MOD-012-BE-001`.
+Latest update: `COM-MOD-012-BE-001` is closed. Compiled `BCM-ORG-001` tenant operations (`provisionTenant` extended in place, `listTenants`/`updateTenantStatus` added, both privileged and audited), a new `BCM-PLT-002` `platformconfiguration` module (`getPlatformConfig`/`evaluateFeatureFlags`/`updateFeatureFlag`), and `BCM-PLT-006` observability extensions: `GET /actuator/prometheus`, `GET /actuator/health/liveness` and `GET /actuator/health/readiness` are now reachable, and every backend log line carries `tenantId`/`userId`/`traceId` MDC context via a new `RequestObservabilityContextFilter`. New runtime dependency: `io.micrometer:micrometer-registry-prometheus` (no new port, container or startup-order change). New schema file `db/platform-hardening-and-saas-operations/schema.sql` added to `application-local.yml`'s `spring.sql.init.schema-locations`. Closed 5 of 8 named `COM-MOD-012-OPS-002` runbook `known_gaps_and_forward_pointers` entries; the remaining 3 (distributed trace export, a provisioned observability stack, SLO/SLA alerting) require infrastructure not yet provisioned. 362 tests (0 failures, up from 360), backend coverage raised 83.99% -> 84.11%. `TD-IAM-002` and `TD-DB-004` materially reduced further. Next active backlog item: `COM-MOD-012-QA-001`.
+
+Previous update: `COM-MOD-012-OPS-002` is closed. 10 executable runbook pairs (observability, health/readiness/liveness, metrics/logs/traces validation, backup, restore, incident response, rollback incident handoff, tenant-impact triage, evidence collection, post-incident review) plus an index README were added under `09-operations/runbooks/`, built on `production-deployment-strategy.yaml`. Every local-executable command was cross-checked against real repository state; unimplemented telemetry and unprovisioned shared-environment infrastructure were documented per-runbook rather than silently marked passed. `TD-DB-004` was materially reduced via `tenant-impact-triage-runbook.yaml`'s cross-tenant leakage check. No runtime, port, environment variable or startup order changed.
 
 Previous update: `COM-MOD-011-CLOSEOUT` is closed. Formally closed the `COM-MOD-011 Public Website and Digital Growth` module. All 7 capability packages (`BCM-SVC-001/002/003/005`, `BCM-ATT-001/006`, `BCM-PLT-005`) are confirmed `module_closed` in `capability-package-index.yaml` and their respective `traceability.yaml` files. Technical debt items `TD-BE-015` and `TD-UX-002` are closed with zero open or blocking technical debt attributable to `COM-MOD-011`. Coverage baselines across all 6 Delivered Stacks were re-affirmed: backend 83.99% (327 tests), employee portal 88.68% (154 tests), public website 98.61% (97 tests), mobile 99.21%, patient portal 94.11%, doctor portal 96.28%. OWASP Dependency-Check, npm audit, and Trivy fs scans confirmed 0 vulnerabilities/secrets/misconfigurations. Repository YAML parse, stale-pointer sweep, and `git diff --check` passed clean.
 
@@ -370,6 +372,18 @@ Invoke-RestMethod http://localhost:8080/api/platform/health
 
 ```powershell
 Invoke-WebRequest http://localhost:5173
+```
+
+```powershell
+Invoke-RestMethod http://localhost:8080/actuator/health/liveness
+```
+
+```powershell
+Invoke-RestMethod http://localhost:8080/actuator/health/readiness
+```
+
+```powershell
+Invoke-WebRequest http://localhost:8080/actuator/prometheus
 ```
 
 Expected result:

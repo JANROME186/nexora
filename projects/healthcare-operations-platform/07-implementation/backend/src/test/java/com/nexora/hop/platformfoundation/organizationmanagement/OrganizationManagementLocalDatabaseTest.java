@@ -36,7 +36,9 @@ class OrganizationManagementLocalDatabaseTest {
 
     @Test
     void organizationCommandsArePersistedInPostgres() throws Exception {
-        JsonNode tenant = postJson("/api/platform/tenants", "{\"name\":\"Persisted Tenant\"}");
+        String code = "persisted-tenant-" + java.util.UUID.randomUUID().toString().substring(0, 8);
+        JsonNode tenant = postJson("/api/platform/tenants",
+                "{\"code\":\"%s\",\"legalName\":\"Persisted Tenant\"}".formatted(code));
         String tenantId = tenant.get("tenantId").asText();
 
         JsonNode laboratory = postJson("/api/organization/laboratories", """
@@ -50,9 +52,10 @@ class OrganizationManagementLocalDatabaseTest {
         String branchId = branch.get("branchId").asText();
 
         Integer tenants = jdbcTemplate.queryForObject(
-                "select count(*) from organization.tenants where tenant_id = ?",
+                "select count(*) from organization.tenants where tenant_id = ? and code = ?",
                 Integer.class,
-                tenantId);
+                tenantId,
+                code);
         Integer laboratories = jdbcTemplate.queryForObject(
                 "select count(*) from organization.laboratories where laboratory_id = ? and tenant_id = ?",
                 Integer.class,

@@ -1,0 +1,54 @@
+artifact:
+  id: TD-BE-016
+  type: technical-debt-item
+  name: BCM-PLT-007 searchAuditEvents/exportAuditEvents openapi-source.yaml operations not fully compiled
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-23
+
+source:
+  discovered_during_backlog_item: COM-MOD-012-BE-001
+  module: COM-MOD-012 Platform Hardening and SaaS Operations
+  evidence: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-BE-001-validation.yaml
+
+classification:
+  category: backend_api_contract_gap
+  affected_area: audit_trail_api_surface
+  affected_components:
+    - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/auditcompliance/adapter/in/web/AuditComplianceController.java
+  risk_level: low
+  urgency: low
+  blocking: false
+  reason_non_blocking: >-
+    The existing GET /api/audit/events (searchEvents, PF-BE-004) already gives every module reading
+    access to audit events for compliance review and the tenant-impact-triage-runbook.yaml. No
+    compliance workflow currently depends on a compliance-export bundle or the versioned
+    /api/v1/platform/audit/... path modeled in bcm-plt-007-audit-trail/openapi-source.yaml.
+
+current_state:
+  issue: >-
+    bcm-plt-007-audit-trail/openapi-source.yaml models two operations: searchAuditEvents (GET
+    /api/v1/platform/audit/events) and exportAuditEvents (POST /api/v1/platform/audit/export,
+    generates a compliance export bundle, 202 Accepted). Only a functionally-equivalent
+    search read (GET /api/audit/events, unversioned path, predates this capability package) exists.
+    exportAuditEvents has no implementation at all.
+
+target_state:
+  preferred_remediation: >-
+    Add a POST /api/audit/export (or the versioned path, decided when implemented) endpoint that
+    generates a downloadable/retrievable compliance export bundle (CSV or JSON) of matching audit
+    events, backed by a new AuditExportService reusing the existing AuditEventRepository.search.
+  quality_goal: >-
+    Every openapi-source.yaml operation for a capability package that is actively used by a runbook
+    or another module should have a real, reachable implementation before the package is considered
+    fully compiled.
+
+remediation:
+  strategy: gradual_when_a_future_backlog_item_next_touches_auditcompliance
+  owner: backend_team
+  estimated_effort: small
+  estimated_cost_impact: low
+  target_backlog: a_future_COM_MOD_012_or_compliance_focused_backlog_item
+  acceptance_criteria:
+    - POST .../audit/export is implemented and returns 202 with a retrievable export artifact.
+    - Existing GET /api/audit/events behavior and tests remain unchanged.
