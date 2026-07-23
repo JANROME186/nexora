@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-013-DEF
+  current_active_backlog_item: COM-MOD-013-BE-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -20,37 +20,18 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
-    backlog_item: COM-MOD-012-CLOSEOUT
+    backlog_item: COM-MOD-013-DEF
     status: closed
-    next_active_backlog_item: COM-MOD-013-DEF
+    next_active_backlog_item: COM-MOD-013-BE-001
     runtime_change: >-
-      None. Documentation and registry synchronization only: capability-package-index.yaml, the 8
-      COM-MOD-012 traceability.yaml files, PROJECT_STATE.yaml/SOURCE_OF_TRUTH.yaml (root and
-      project), HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml/.md,
-      HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml/.md, security-quality-index.yaml and this
-      runbook were updated. No backend, frontend, mobile or portal source file changed; no new
-      component, port, environment variable or startup-order change. The same
-      COM-MOD-012-BE-001 start_command and validation commands remain accurate.
-    environment_note: >-
-      Port 8080 on this shared local machine remains occupied by an unrelated, pre-existing Tomcat
-      process for a different, unaffiliated project outside this repository (unchanged from prior
-      validation sessions, which used server.port=8090 for validation only). No runtime was started
-      for this documentation-only closeout; the canonical documented port in this runbook remains
-      8080.
+      None. Definition-only capability package modeling item: defined 3 new capability packages
+      (BCM-QLT-002 External Quality Controls, BCM-QLT-006 CAPA Management, BCM-QLT-007 Audit Management)
+      and extended 2 platform capability packages (BCM-PLT-007 Audit Trail, BCM-PLT-008 Document Management)
+      across 70 standard YAML/MD model artifacts. No source code or runtime configurations modified.
     validation_summary: >-
-      Closed COM-MOD-012 as module_closed. Confirmed all 8 COM-MOD-012 capability packages
-      module_closed in capability-package-index.yaml and their traceability.yaml files. Confirmed
-      TD-QA-005/TD-QA-006 remain closed and TD-OBS-001/TD-BE-016/TD-BE-017/TD-IAM-003 remain open,
-      non-blocking, correctly classified with owner/risk-level/target-backlog. Found and corrected
-      2 stale registry defects predating this closeout: a stale operational_strategy status:
-      active field across all 8 traceability.yaml files after COM-MOD-012-OPS-002 closed
-      (corrected to closed), and a duplicate active_capability_package_groups block in
-      capability-package-index.yaml still listing the already-closed COM-MOD-011 as active
-      (removed). Re-affirmed coverage unchanged from COM-MOD-012-QA-001 (backend 84.14%, employee
-      portal 88.68%, public website 98.61%, mobile 99.21%, patient portal 94.11%, doctor portal
-      96.28%; 367 backend tests, 0 failures). Ran the closeout gate suite: YAML parse,
-      stale-pointer sweep, evidence-state sweep, agent-agnostic scan, secrets scan, git diff
-      --check, all passed. Next backlog item COM-MOD-013-DEF.
+      Completed COM-MOD-013-DEF clean. 70 standard model files created/extended across 5 packages.
+      YAML parse 100% clean, agent-agnostic scan clean, secrets scan clean, git diff --check clean.
+      Advanced next active backlog item to COM-MOD-013-BE-001.
   previous_runbook_update_com_mod_012_qa_001:
     backlog_item: COM-MOD-012-QA-001
     status: closed

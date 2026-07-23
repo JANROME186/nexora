@@ -1,40 +1,76 @@
 artifact:
-  id: HOP-BUS-MOD-BCM-PLT-007
+  id: HOP-BM-BCM-PLT-007
   type: business-model
   name: Audit Trail Business Model
-  version: 1.0.0
-
-aggregate:
-  name: AuditEvent
-  id: AGG-018
+  version: 1.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-007
   bounded_context: audit-compliance
-  root_entity: AuditEventRoot
+  primary_aggregate: AuditEvent
+  model_kind: aggregate_owner
 
 entities:
-  - name: AuditEventRoot
-    type: root_entity
+  - id: ENT-AUD-018
+    name: AuditEvent
+    is_aggregate_root: true
+    description: Append-only audit event log entry with cryptographic hash chaining and compliance correlation fields.
     fields:
-      event_id: UUID
-      tenant_id: UUID
-      actor_id: String
-      actor_type: Enum [USER, SERVICE_ACCOUNT, SYSTEM]
-      event_type: String
-      category: Enum [SECURITY, CLINICAL, FINANCIAL, OPERATIONAL]
-      resource_type: String
-      resource_id: String
-      ip_address: String
-      user_agent: String
-      payload_json: String
-      previous_hash: String
-      current_hash: String
-      timestamp: Instant
-
-  - name: AuditRetentionPolicy
-    type: value_object
-    fields:
-      retention_years: Integer (default 7)
-      cold_storage_export_enabled: Boolean
+      - name: eventId
+        type: uuid
+        required: true
+        identifier: true
+      - name: tenantId
+        type: TenantId
+        required: true
+      - name: eventType
+        type: string
+        required: true
+      - name: category
+        type: enum
+        values: [security, access, clinical, financial, quality_compliance, administration]
+        required: true
+      - name: actorId
+        type: UserId
+        required: true
+      - name: timestamp
+        type: datetime
+        required: true
+      - name: resourceType
+        type: string
+        required: true
+      - name: resourceId
+        type: string
+        required: true
+      - name: payloadSummary
+        type: json
+        required: true
+      - name: previousEventHash
+        type: string
+        required: true
+      - name: eventHash
+        type: string
+        required: true
+      - name: complianceCorrelationId
+        type: string
+        required: false
+        description: Extended under COM-MOD-013 to group related events across EQA, CAPA, Audit, and clinical actions.
+      - name: qualityInvestigationId
+        type: uuid
+        required: false
+        description: Extended under COM-MOD-013 to reference associated CAPA (BCM-QLT-006) or Audit (BCM-QLT-007).
+      - name: audit
+        type: AuditMetadata
+        required: true
 
 invariants:
-  - Audit logs are append-only; update and delete SQL operations are strictly forbidden on audit tables.
-  - Every audit log entry must contain current_hash computed as SHA-256(previous_hash + payload).
+  - id: INV-AUD-001
+    statement: AuditEvent records are append-only; updates and deletes are strictly prohibited.
+  - id: INV-AUD-002
+    statement: Cryptographic eventHash must match SHA-256(previousEventHash + eventId + timestamp + payloadSummary).
+
+external_references:
+  - shared_kernel:
+      - VO-ID-001 TenantId
+      - VO-ID-004 UserId
+      - VO-007 AuditMetadata

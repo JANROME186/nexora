@@ -1,69 +1,70 @@
 artifact:
-  id: HOP-TR-BCM-PLT-008
+  id: HOP-TRACE-BCM-PLT-008
   type: traceability
-  name: Document Management Traceability Matrix
-  version: 1.1.0
-  status: validated
+  name: Document Management Traceability
+  version: 1.2.0
+  status: modeled
   classification: editable_model
   capability: BCM-PLT-008
 
-bcm_alignment:
-  capability_id: BCM-PLT-008
-  domain_id: DOM-10
-  priority: High
-  roadmap: MVP1
-
-brm_alignment:
-  rules:
-    - id: BRM-001-R018
-      ref: RN-001, RN-002, RN-003, RN-004, RN-005, RN-006, RN-007
-      description: Document storage integrity, security, and operational documentation management.
-
-test_alignment:
-  tests:
-    - id: TST-DOC-008-01
-      rule_ref: RN-001
-    - id: TST-DOC-008-02
-      rule_ref: RN-002
-    - id: TST-DOC-008-03
-      rule_ref: RN-003
-    - id: TST-DOC-008-04
-      rule_ref: RN-004
-    - id: TST-DOC-008-05
-      rule_ref: RN-005
-    - id: TST-DOC-008-06
-      rule_ref: RN-006
-    - id: TST-DOC-008-07
-      rule_ref: RN-007
-
-backlog_items:
-  definition: MVP-MOD-007-DEF
-  definition_status: closed
-  saas_hardening: COM-MOD-012-DEF
-  saas_hardening_status: closed
-  operational_strategy: COM-MOD-012-OPS-002
-  operational_strategy_status: closed
-  saas_hardening_validation: COM-MOD-012-QA-001
-  saas_hardening_validation_status: validated
-
-operational_strategy:
-  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
-  contribution: >-
-    Release evidence, deployment checklist and onboarding evidence document retention
-    (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002's evidence-collection-runbook.yaml defines the
-    evidence_bundle_structure and retention policy every other new runbook depends on, pending
-    formal BCM-PLT-008 implementation; until then evidence is stored as repository files under
-    08-qa/ by convention.
-
-validation:
-  backlog_item: COM-MOD-012-QA-001
-  status: validated
-  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
-  contribution: >-
-    Confirmed BCM-PLT-008's COM-MOD-012 extension (retention/export controls modeled by
-    COM-MOD-012-DEF) remains extension_deferred, unchanged since COM-MOD-012-BE-001 deliberately
-    did not compile it (no operation this backlog item needed required it). This QA-001's own
-    backup/restore evidence (pg_dump artifact, SHA-256 checksum, pg_restore --list verification)
-    was itself stored as a repository file under 08-qa/qa/platform-hardening-and-saas-operations/
-    backups/ per the existing evidence-collection-runbook.yaml convention, confirming that
-    convention remains the working interim control.
+traces:
+  capability_map:
+    bcm_001: BCM-PLT-008
+    domain: DOM-10 Platform
+  dependency_map:
+    bcm_002_profile: platform_extension
+    required_capabilities: [BCM-PLT-001, BCM-PLT-007]
+    optional_capabilities: [BCM-PLT-002, BCM-PLT-006, BCM-QLT-002, BCM-QLT-006, BCM-QLT-007]
+    downstream_capabilities: [BCM-RES-002]
+  domain_foundation:
+    bounded_context: document-management
+    aggregate_reference: StoredDocument (AGG-023)
+  rules_to_tests:
+    - rule: RN-DOC-001
+      tests: [TST-DOC-001]
+    - rule: RN-DOC-002
+      tests: [TST-DOC-002]
+    - rule: RN-DOC-003
+      tests: [TST-DOC-003]
+    - rule: RN-DOC-004
+      tests: [TST-DOC-004]
+  processes_to_commands:
+    - process: PRC-DOC-001
+      commands: [uploadDocument]
+    - process: PRC-DOC-002
+      commands: [updateLegalHold]
+    - process: PRC-DOC-003
+      commands: [createComplianceEvidencePackage]
+  api_to_permissions:
+    - operation: getDocumentMetadata
+      scope: document.read
+    - operation: downloadDocumentBinary
+      scope: document.read
+    - operation: uploadDocument
+      scope: document.manage
+    - operation: createComplianceEvidencePackage
+      scope: document.manage
+    - operation: updateLegalHold
+      scope: document.retention.manage
+  events_to_audit:
+    - event: DocumentStored
+      audit_sink: BCM-PLT-007
+    - event: LegalHoldApplied
+      audit_sink: BCM-PLT-007
+    - event: ComplianceEvidencePackageCreated
+      audit_sink: BCM-PLT-007
+  ui_to_api:
+    - screen: SCR-DOC-001
+      operations: [getDocumentMetadata, downloadDocumentBinary, uploadDocument]
+    - screen: SCR-DOC-002
+      operations: [updateLegalHold, createComplianceEvidencePackage]
+  backlog_items:
+    definition: COM-MOD-013-DEF
+    definition_status: closed
+    compilation: COM-MOD-013-BE-001
+    compilation_status: pending
+    history:
+      - backlog_item: MVP-MOD-007-CLOSEOUT
+        status: closed
+      - backlog_item: COM-MOD-012-CLOSEOUT
+        status: closed

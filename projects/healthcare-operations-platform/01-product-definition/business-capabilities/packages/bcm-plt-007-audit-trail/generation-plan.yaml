@@ -2,15 +2,27 @@ artifact:
   id: HOP-GEN-BCM-PLT-007
   type: generation-plan
   name: Audit Trail Generation Plan
-  version: 1.0.0
+  version: 1.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-007
 
-generatable_outputs:
+targets:
   backend:
-    - AuditEvent entity, repository, and service skeleton.
-    - REST controller endpoints matching openapi-source.yaml.
-  frontend:
-    - Audit log search and export UI components.
+    module_name: auditcompliance
+    package_path: com.nexora.hop.platformfoundation.auditcompliance.audittrail
+    artifacts:
+      - entity: AuditEventEntity
+      - repository: AuditEventRepository
+      - service: AuditComplianceService
+      - controller: AuditComplianceController
 
-custom_implementation_points:
-  - Cryptographic SHA-256 hash chaining interceptor.
-  - Asynchronous non-blocking audit event writer with persistent queue buffer.
+  frontend:
+    surface: employee_portal
+    api_facade: src/api/auditTrailApi.ts
+    screen_components:
+      - src/components/screens/AuditTrailSearchScreen.tsx
+
+  schema:
+    migration_file: db/platform-foundation/schema.sql
+    table_name: audit_events

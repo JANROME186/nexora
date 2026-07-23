@@ -2,14 +2,15 @@ artifact:
   id: HOP-CAP-PKG-BCM-PLT-007
   type: capability-package
   name: Audit Trail Capability Package
-  version: 1.0.0
-  status: validated
+  version: 1.1.0
+  status: extended_quality_compliance_controls
   classification: editable_model
   human_readable: README.md
   machine_readable: capability-package.yaml
   owner: Nexora Product Architecture Team
   created_date: 2026-07-22
-  roadmap_group: COM-MOD-012
+  updated_date: 2026-07-23
+  roadmap_group: COM-MOD-013
   execution_flow_stage: model
 
 standard:
@@ -33,23 +34,24 @@ capability:
 scope:
   summary: >
     Governs append-only security audit event recording, tamper-evident hash chaining,
-    HIPAA/GDPR compliance data access logging, audit search & export APIs, and operational
-    retention policies for Healthcare Operations Platform.
+    HIPAA/GDPR compliance data access logging, structured audit search & export APIs, and operational
+    retention policies. Extended under COM-MOD-013 to log quality, CAPA, and audit events with
+    compliance correlation tags and support regulatory evidence extraction.
   in_scope:
     - Append-only recording of security events (authentication, authorization, permission changes).
-    - Clinical and financial data access logging (patient data view, medical result release, payment refund).
+    - Clinical, financial, quality, CAPA, and regulatory audit event logging.
     - Operational administration audit trail (tenant state changes, feature flag toggles, maintenance actions).
     - Tamper-evident cryptographic hash chaining for audit log integrity verification.
-    - Tenant-scoped audit log query and compliance export APIs.
+    - Structured query (`searchAuditEvents`) and compliance export (`exportAuditEvents`) for regulatory evidence.
   out_of_scope:
     - Ephemeral application telemetry or debug logs (handled by BCM-PLT-006 Observability).
     - Physical storage volume snapshot management (handled by BCM-PLT-008 and BCM-PLT-009).
 
 roadmap:
-  module: COM-MOD-012
-  release: REL-002
+  module: COM-MOD-013
+  release: REL-003
   package_status: modeled
-  next_backlog_item: COM-MOD-012-OPS-001
+  next_backlog_item: COM-MOD-013-BE-001
 
 dependencies:
   required_capabilities:
@@ -58,6 +60,9 @@ dependencies:
   optional_capabilities:
     - BCM-PLT-006
     - BCM-PLT-008
+    - BCM-QLT-002
+    - BCM-QLT-006
+    - BCM-QLT-007
 
 product_surfaces:
   backend: required

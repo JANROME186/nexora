@@ -2,17 +2,18 @@ artifact:
   id: HOP-CAP-PKG-BCM-PLT-008
   type: capability-package
   name: Document Management Capability Package
-  version: 1.1.0
-  status: modeled
+  version: 1.2.0
+  status: extended_regulatory_retention_controls
   classification: editable_model
   human_readable: README.md
   machine_readable: capability-package.yaml
   owner: Nexora Product Architecture Team
   created_date: 2026-07-17
-  updated_date: 2026-07-22
-  roadmap_group: MVP-MOD-007
+  updated_date: 2026-07-23
+  roadmap_group: COM-MOD-013
   extended_by_modules:
     - COM-MOD-012
+    - COM-MOD-013
   execution_flow_stage: model
 
 standard:
@@ -30,29 +31,30 @@ capability:
   roadmap: MVP1
   dependency_profile: platform_extension
   bounded_context: document-management
-  primary_aggregate: StoredDocument (new platform aggregate owned by this capability)
+  primary_aggregate: StoredDocument (AGG-023)
   process_ref: HRP-001-P07
 
 scope:
   summary: >
-    Generic, domain-agnostic document storage, operational documentation (runbooks, SOPs,
-    disaster recovery proof artifacts, compliance certificates), and versioning service
-    used across clinical and SaaS platform operation bounded contexts.
+    Generic document storage, operational documentation (runbooks, SOPs, disaster recovery proof artifacts,
+    compliance certificates), retention policy management, and evidence bundling service. Extended under COM-MOD-013
+    to support regulatory evidence packages (ISO 15189 / COFEPRIS / CAP), legal hold locks, and compliance tag indexing.
   in_scope:
     - StoredDocument aggregate: identifier, version, content hash, storage reference, retention policy.
-    - Operational documentation classification: SOPs, operational runbooks, backup/restore proof, compliance manuals.
+    - Operational & Regulatory documentation classification: SOPs, runbooks, EQA certificates, CAPA evidence, audit reports.
     - Storage-provider-agnostic port (DocumentStoragePort) with local filesystem/S3/MinIO adapters.
     - Document integrity verification (SHA-256 hash check) on read.
-    - Document retention and legal hold management.
+    - Document retention schedules (5-year, 10-year, permanent) and legal hold locking.
+    - Regulatory compliance evidence package bundling (`ComplianceEvidencePackage`).
   out_of_scope:
-    - Any business aggregate that references a document (LaboratoryResult, Patient, Invoice, ImagingStudy) — this capability never mutates them.
-    - PDF rendering itself (BCM-RES-002); this capability only stores and versions the resulting bytes.
+    - Business aggregate mutation (LaboratoryResult, Patient, Invoice, CAPA, Audit).
+    - Dynamic PDF layout rendering (handled by BCM-RES-002).
 
 roadmap:
-  module: MVP-MOD-007
-  release: REL-001
+  module: COM-MOD-013
+  release: REL-003
   package_status: modeled
-  next_backlog_item: COM-MOD-012-OPS-001
+  next_backlog_item: COM-MOD-013-BE-001
 
 dependencies:
   required_capabilities:
@@ -61,6 +63,9 @@ dependencies:
   optional_capabilities:
     - BCM-PLT-002
     - BCM-PLT-006
+    - BCM-QLT-002
+    - BCM-QLT-006
+    - BCM-QLT-007
   downstream_capabilities:
     - BCM-RES-002
 

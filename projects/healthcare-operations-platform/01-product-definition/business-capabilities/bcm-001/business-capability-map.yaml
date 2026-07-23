@@ -586,7 +586,7 @@ domains:
         es: Controles Externos
       priority: High
       roadmap: MVP3
-      status: draft
+      status: modeled
       source: BCM-001
     - id: BCM-QLT-003
       name:
@@ -618,7 +618,7 @@ domains:
         es: CAPA
       priority: High
       roadmap: MVP3
-      status: draft
+      status: modeled
       source: BCM-001
     - id: BCM-QLT-007
       name:
@@ -626,7 +626,7 @@ domains:
         es: Auditorías
       priority: High
       roadmap: MVP3
-      status: draft
+      status: modeled
       source: BCM-001
   DOM-10:
     name: Platform

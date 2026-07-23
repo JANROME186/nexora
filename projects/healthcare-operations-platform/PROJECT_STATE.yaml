@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: "COM-MOD-012-CLOSEOUT Module closeout and registry update completed clean: COM-MOD-012 Platform Hardening and SaaS Operations is module_closed; all 8 capabilities (BCM-ORG-001, BCM-PLT-001, BCM-PLT-002, BCM-PLT-005, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008, BCM-PLT-009) confirmed module_closed in capability-package-index.yaml and their traceability.yaml files; TD-QA-005/TD-QA-006 confirmed closed and TD-OBS-001/TD-BE-016/TD-BE-017/TD-IAM-003 confirmed open, non-blocking, correctly classified with owner/risk-level/target-backlog; found and corrected 2 stale registry defects predating this closeout (a stale operational_strategy status: active field across all 8 traceability.yaml files, and a duplicate active_capability_package_groups block in capability-package-index.yaml still listing the already-closed COM-MOD-011 as active); no production code touched; coverage re-affirmed unchanged (backend 84.14%, employee portal 88.68%, public website 98.61%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%); ready for COM-MOD-013-DEF"
+current_phase: "COM-MOD-013-DEF capability package models completed clean: defined 3 new capability packages (BCM-QLT-002 External Quality Controls, BCM-QLT-006 CAPA Management, BCM-QLT-007 Audit Management) and extended 2 platform capability packages (BCM-PLT-007 Audit Trail, BCM-PLT-008 Document Management) across 70 standard YAML/MD model artifacts; definition-only, no code touched; coverage re-affirmed unchanged; ready for COM-MOD-013-BE-001"
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -436,7 +436,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-013
   in_progress_module: COM-MOD-013
-  next_backlog_item: COM-MOD-013-DEF
+  next_backlog_item: COM-MOD-013-BE-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -665,25 +665,10 @@ implementation_progress:
   in_progress_backlog_items: []
   pending_backlog_items: []
   latest_validation:
-    backlog_item_id: COM-MOD-012-CLOSEOUT
+    backlog_item_id: COM-MOD-013-DEF
     command: >-
-      Closed COM-MOD-012 Platform Hardening and SaaS Operations as module_closed. Documentation/
-      registry-only closeout: confirmed all 8 COM-MOD-012 capability packages (BCM-ORG-001,
-      BCM-PLT-001, BCM-PLT-002, BCM-PLT-005, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008, BCM-PLT-009)
-      module_closed in capability-package-index.yaml and their traceability.yaml files. Confirmed
-      TD-QA-005 and TD-QA-006 remain closed, and TD-OBS-001/TD-BE-016/TD-BE-017/TD-IAM-003 remain
-      open, non-blocking and correctly classified with owner, risk level and target backlog --
-      none closed without real infrastructure or implementation. Found and corrected 2 stale
-      registry defects predating this closeout during the stale-pointer sweep: a stale
-      operational_strategy status: active field left across all 8 traceability.yaml files after
-      COM-MOD-012-OPS-002 closed (corrected to closed), and a duplicate
-      active_capability_package_groups block in capability-package-index.yaml still listing the
-      already-closed COM-MOD-011 as active (removed). No production code touched; no backend,
-      frontend, mobile or portal source file changed since COM-MOD-012-QA-001. Updated
-      PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml (root and project), HOP_COMMERCIAL_PRODUCT_
-      BACKLOG.yaml/.md, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml/.md, security-quality-
-      index.yaml and local-solution-runbook.yaml/.md; advanced next_backlog_item to
-      COM-MOD-013-DEF.
+      Defined 3 new capability packages (BCM-QLT-002, BCM-QLT-006, BCM-QLT-007) and extended 2
+      platform packages (BCM-PLT-007, BCM-PLT-008) across 70 standard model artifacts.
     working_directory: projects/healthcare-operations-platform
     status: passed
     tests_run_backend: 367

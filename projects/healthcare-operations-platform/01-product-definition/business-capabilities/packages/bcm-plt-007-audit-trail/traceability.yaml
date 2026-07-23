@@ -1,40 +1,53 @@
 artifact:
-  id: HOP-TRC-BCM-PLT-007
+  id: HOP-TRACE-BCM-PLT-007
   type: traceability
-  name: Audit Trail Traceability Matrix
-  version: 1.0.0
+  name: Audit Trail Traceability
+  version: 1.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-007
 
-capability_id: BCM-PLT-007
-roadmap_group: COM-MOD-012
-
-mappings:
-  - requirement: "Immutable Audit Trail and Compliance Logging"
-    rules: [RN-AUD-001, RN-AUD-002, RN-AUD-003]
-    processes: [PROC-AUD-001, PROC-AUD-002]
-    events: [AuditEventRecordedEvent, AuditTamperDetectedEvent]
-    api_endpoints: [/api/v1/platform/audit/events, /api/v1/platform/audit/export]
-    permissions: [audit:read, audit:export]
-    tests: [TEST-AUD-001, TEST-AUD-002, TEST-AUD-003]
-
-operational_strategy:
-  backlog_item: COM-MOD-012-OPS-002
-  status: closed
-  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
-  contribution: >-
-    Deployment, migration, rollback and privileged-operation audit evidence
-    (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002's evidence-collection-runbook.yaml treats the
-    existing GET /api/audit/events surface as the authoritative timeline source for every incident,
-    restore and post-incident review, and every new runbook's iam_and_audit section defines the
-    audit expectation for its own privileged actions pending native BCM-PLT-009 workflow
-    automation of those audit events.
-
-validation:
-  backlog_item: COM-MOD-012-QA-001
-  status: validated
-  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
-  contribution: >-
-    Confirmed live via GET /api/audit/events that both COM-MOD-012-BE-001 privileged operations
-    record correctly: TenantStatusChanged (previousStatus, newStatus, reason metadata) and
-    FeatureFlagUpdated (enabledByDefault, rolloutPercentage, updatedBy metadata). searchAuditEvents/
-    exportAuditEvents openapi-source.yaml operations remain not fully compiled, confirmed still
-    open per TD-BE-016 (unchanged).
+traces:
+  capability_map:
+    bcm_001: BCM-PLT-007
+    domain: DOM-10 Platform
+  dependency_map:
+    bcm_002_profile: foundation
+    required_capabilities: [BCM-ORG-001, BCM-PLT-001]
+    optional_capabilities: [BCM-PLT-006, BCM-PLT-008, BCM-QLT-002, BCM-QLT-006, BCM-QLT-007]
+  domain_foundation:
+    bounded_context: audit-compliance
+    aggregate_reference: AuditEvent (AGG-018)
+  rules_to_tests:
+    - rule: RN-AUD-TR-001
+      tests: [TST-AUD-TR-001]
+    - rule: RN-AUD-TR-002
+      tests: [TST-AUD-TR-002]
+    - rule: RN-AUD-TR-003
+      tests: [TST-AUD-TR-003]
+  processes_to_commands:
+    - process: PRC-AUD-TR-001
+      commands: [recordAuditEvent]
+    - process: PRC-AUD-TR-002
+      commands: [searchAuditEvents, exportAuditEvents]
+  api_to_permissions:
+    - operation: searchAuditEvents
+      scope: audit.trail.search
+    - operation: exportAuditEvents
+      scope: audit.trail.export
+  events_to_audit:
+    - event: AuditEventRecorded
+      audit_sink: BCM-PLT-007
+    - event: AuditTrailExported
+      audit_sink: BCM-PLT-007
+  ui_to_api:
+    - screen: SCR-AUD-TR-001
+      operations: [searchAuditEvents, exportAuditEvents]
+  backlog_items:
+    definition: COM-MOD-013-DEF
+    definition_status: closed
+    compilation: COM-MOD-013-BE-001
+    compilation_status: pending
+    history:
+      - backlog_item: COM-MOD-012-CLOSEOUT
+        status: closed

@@ -166,6 +166,15 @@ sources:
   com_mod_012_closeout_qa_evidence_yaml: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-CLOSEOUT-validation.yaml
   com_mod_012_closeout_security_quality_evidence: 08-qa/security-quality/COM-MOD-012-CLOSEOUT/security-quality-evidence.md
   com_mod_012_closeout_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-012-CLOSEOUT/security-quality-evidence.yaml
+  com_mod_013_def_qa_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-DEF-validation.md
+  com_mod_013_def_qa_evidence_yaml: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-DEF-validation.yaml
+  com_mod_013_def_security_quality_evidence: 08-qa/security-quality/COM-MOD-013-DEF/security-quality-evidence.md
+  com_mod_013_def_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-013-DEF/security-quality-evidence.yaml
+  com_mod_013_pkg_bcm_qlt_002: 01-product-definition/business-capabilities/packages/bcm-qlt-002-external-quality-controls/
+  com_mod_013_pkg_bcm_qlt_006: 01-product-definition/business-capabilities/packages/bcm-qlt-006-capa-management/
+  com_mod_013_pkg_bcm_qlt_007: 01-product-definition/business-capabilities/packages/bcm-qlt-007-audit-management/
+  com_mod_013_pkg_bcm_plt_007: 01-product-definition/business-capabilities/packages/bcm-plt-007-audit-trail/
+  com_mod_013_pkg_bcm_plt_008: 01-product-definition/business-capabilities/packages/bcm-plt-008-document-management/
   technical_debt_td_obs_001: 08-qa/technical-debt/TD-OBS-001-distributed-tracing-and-observability-stack-not-provisioned.yaml
   technical_debt_td_qa_005: 08-qa/technical-debt/TD-QA-005-null-byte-query-parameter-unhandled-500.yaml
   technical_debt_td_qa_006: 08-qa/technical-debt/TD-QA-006-authcontroller-not-found-exception-unmapped-500.yaml

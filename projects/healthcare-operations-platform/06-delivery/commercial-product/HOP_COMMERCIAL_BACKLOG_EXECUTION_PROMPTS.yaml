@@ -243,9 +243,9 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-013
-  backlog_item_id: COM-MOD-013-DEF
-  name: Capability package models
-  expected_folder: 01-product-definition/business-capabilities/packages/
+  backlog_item_id: COM-MOD-013-BE-001
+  name: Compile external QC, CAPA and audit management outputs
+  expected_folder: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/externalqualitycompliance/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
@@ -259,30 +259,13 @@ next_backlog_item:
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
     - Preserve coverage floors: backend (84.14%), employee portal (88.68%), mobile (99.21%), patient portal (94.11%), doctor portal (96.28%), and public website (98.61%).
-    - COM-MOD-013 depends on MVP-MOD-006, COM-MOD-010 and COM-MOD-012, all module_closed; capabilities BCM-QLT-002, BCM-QLT-006, BCM-QLT-007, BCM-PLT-007 and BCM-PLT-008 are in scope.
-    - BCM-PLT-007 (Audit Trail) and BCM-PLT-008 (Document Management) are reused/extended packages; do not remodel them from scratch, extend their existing packages and traceability.yaml per the capability-package-standard.
-    - This is a definition-only item (modeling); do not implement code during this step.
-    - 18 technical-debt entries remain open and 11 remain materially_reduced project-wide; review technical-debt-index.yaml before any future code-changing COM-MOD-013 item and apply debt-first selection when work begins.
+    - COM-MOD-013 depends on MVP-MOD-006, COM-MOD-010 and COM-MOD-012, all module_closed.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-012-CLOSEOUT
+    backlog_item_id: COM-MOD-013-DEF
     status: closed
     summary: >-
-      COM-MOD-012-CLOSEOUT closed clean. Documentation/registry-only closeout: confirmed all 8
-      COM-MOD-012 capability packages (BCM-ORG-001, BCM-PLT-001, BCM-PLT-002, BCM-PLT-005,
-      BCM-PLT-006, BCM-PLT-007, BCM-PLT-008, BCM-PLT-009) module_closed in
-      capability-package-index.yaml and their traceability.yaml files. Confirmed TD-QA-005 and
-      TD-QA-006 remain closed, and TD-OBS-001, TD-BE-016, TD-BE-017 and TD-IAM-003 remain open,
-      non-blocking and correctly classified with owner, risk level and target backlog -- none
-      closed without real infrastructure or implementation. Found and corrected 2 stale registry
-      defects predating this closeout during the stale-pointer sweep: a stale operational_strategy
-      status: active field left in all 8 traceability.yaml files after COM-MOD-012-OPS-002 closed
-      (corrected to closed), and a duplicate active_capability_package_groups block in
-      capability-package-index.yaml still listing the already-closed COM-MOD-011 as active
-      (removed). No production code touched. Backend/frontend coverage re-affirmed unchanged from
-      COM-MOD-012-QA-001 (backend 84.14%, employee portal 88.68%, public website 98.61%, mobile
-      99.21%, patient portal 94.11%, doctor portal 96.28%; 367 backend tests, 0 failures). Ran the
-      full closeout gate suite: YAML parse, stale-pointer sweep, evidence-state sweep,
-      agent-agnostic scan, secrets scan and git diff --check, all passed. Updated PROJECT_STATE.yaml
-      and SOURCE_OF_TRUTH.yaml (root and project), HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml/.md,
-      security-quality-index.yaml and local-solution-runbook.yaml/.md, and advanced
-      next_backlog_item to COM-MOD-013-DEF.
+      COM-MOD-013-DEF capability package models completed clean. Defined 3 new capability packages
+      (BCM-QLT-002 External Quality Controls, BCM-QLT-006 CAPA Management, BCM-QLT-007 Audit Management)
+      and extended 2 platform packages (BCM-PLT-007 Audit Trail, BCM-PLT-008 Document Management) across
+      70 standard YAML/MD model artifacts. All YAML files parse cleanly, git status clean. Advanced
+      next_backlog_item to COM-MOD-013-BE-001.

@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: "HOP COM-MOD-012-CLOSEOUT Module closeout and registry update completed clean (COM-MOD-012 Platform Hardening and SaaS Operations is module_closed; all 8 capabilities confirmed module_closed; TD-QA-005/TD-QA-006 confirmed closed and TD-OBS-001/TD-BE-016/TD-BE-017/TD-IAM-003 confirmed open, non-blocking and correctly classified; 2 stale registry defects found and corrected -- a stale operational_strategy status across 8 traceability.yaml files, and a duplicate active_capability_package_groups block still listing the already-closed COM-MOD-011 as active; documentation/registry-only, no production code touched; coverage re-affirmed unchanged; ready for COM-MOD-013-DEF)"
+current_phase: "HOP COM-MOD-013-DEF Advanced Quality and Compliance capability package models completed clean (defined BCM-QLT-002, BCM-QLT-006, BCM-QLT-007, BCM-PLT-007, BCM-PLT-008 across 70 standard model artifacts; definition-only, no code touched; coverage re-affirmed unchanged; ready for COM-MOD-013-BE-001)"
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -30,7 +30,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
     active_module: COM-MOD-013
-    active_backlog_item: COM-MOD-013-DEF
+    active_backlog_item: COM-MOD-013-BE-001
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -118,6 +118,7 @@ projects:
       - COM-MOD-012-BE-001
       - COM-MOD-012-QA-001
       - COM-MOD-012-CLOSEOUT
+      - COM-MOD-013-DEF
     structure: ordered_numbered_folders
 next_deliverables:
   - Execute COM-MOD-013-DEF Advanced Quality and Compliance capability package models

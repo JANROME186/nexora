@@ -2,16 +2,13 @@ artifact:
   id: HOP-MOB-BCM-PLT-008
   type: mobile-model
   name: Document Management Mobile Model
-  version: 0.1.0
-  status: deferred
+  version: 1.2.0
+  status: modeled
   classification: editable_model
   capability: BCM-PLT-008
+  mobile_scope: not_required
 
-mobile_scope:
-  status: not_required
-  rationale: >
-    Document Management is a backend-only, system-to-system storage service with no mobile
-    surface of its own.
-  deferred_to: []
-  flows: []
-  offline_expectations: none
+justification: >
+  Document administration, retention policy setup, legal hold locks, and compliance evidence bundling
+  are desktop administrative workflows scoped to Employee Portal and Operations Console.
+  Mobile client applications download released result PDFs via BCM-RES-002 / BCM-RES-004 endpoints.

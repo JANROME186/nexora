@@ -2,36 +2,58 @@ artifact:
   id: HOP-UI-BCM-PLT-008
   type: ui-model
   name: Document Management UI Model
-  version: 0.1.0
-  status: not_applicable
+  version: 1.2.0
+  status: modeled
   classification: editable_model
   capability: BCM-PLT-008
-  target_surface: none
+  target_surface: employee_portal
 
-surfaces:
-  employee_portal:
-    status: not_required
-    generatable: not_applicable
-  patient_portal:
-    status: not_required
-    generatable: not_applicable
-  doctor_portal:
-    status: not_required
-    generatable: not_applicable
+screens:
+  - id: SCR-DOC-001
+    name: Operational & Regulatory Document Library
+    title:
+      en: Document Library & Regulatory Evidence
+      es: Biblioteca Documental y Evidencia Regulatoria
+    route: /platform/documents
+    permission_required: document.read
+    components:
+      - id: CMP-DOC-001
+        type: DataTable
+        title:
+          en: Stored Operational & Regulatory Documents
+          es: Documentos Operativos y Regulatorios Almacenados
+        operations: [getDocumentMetadata, downloadDocumentBinary]
+      - id: CMP-DOC-002
+        type: UploadModal
+        title:
+          en: Upload Document
+          es: Cargar Documento
+        operations: [uploadDocument]
 
-screens: []
+  - id: SCR-DOC-002
+    name: Retention & Legal Hold Governance
+    title:
+      en: Document Retention & Legal Hold
+      es: Retención Documental y Bloqueo Legal
+    route: /platform/documents/retention
+    permission_required: document.retention.manage
+    components:
+      - id: CMP-DOC-003
+        type: LegalHoldTable
+        title:
+          en: Documents Under Legal Hold or Extended Retention
+          es: Documentos en Retención Legal o Archivo Extendido
+        operations: [updateLegalHold]
+      - id: CMP-DOC-004
+        type: BundleModal
+        title:
+          en: Create Compliance Evidence Package
+          es: Crear Paquete de Evidencia de Cumplimiento
+        operations: [createComplianceEvidencePackage]
 
-states:
-  - stored
-  - superseded
-  - pending_disposal
-  - disposed
-
-localization:
-  languages: [en, es]
-  default: es
-
-rationale: >
-  BCM-PLT-008 is a system-to-system internal storage service with no direct UI; owning
-  capabilities (BCM-RES-002) surface any document-facing screens themselves (report history,
-  regeneration). No screens are modeled here.
+i18n:
+  namespaces:
+    - platform.document_management
+  supported_locales:
+    - es-MX
+    - en-US

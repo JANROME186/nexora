@@ -1,43 +1,54 @@
 artifact:
   id: HOP-EVT-BCM-PLT-008
   type: events
-  name: Document Management Events
-  version: 0.1.0
+  name: Document Management Domain Events
+  version: 1.2.0
   status: modeled
   classification: editable_model
   capability: BCM-PLT-008
 
-domain_events:
-  - name: DocumentStored
-    description: A document was persisted through the storage port.
+events:
+  - id: EVT-DOC-001
+    name: DocumentStored
+    description: Emitted when a document is uploaded and saved.
     payload:
-      - documentId
-      - ownerCapability
-      - ownerReferenceId
-      - contentHash
-      - sizeBytes
-    audit: true
-  - name: DocumentIntegrityMismatchDetected
-    description: A retrieved document's bytes did not match its recorded content hash.
-    payload:
-      - documentId
-      - ownerCapability
-    audit: true
-  - name: DocumentDisposalScheduled
-    description: A document was scheduled for disposal after its retention period elapsed.
-    payload:
-      - documentId
-      - ownerCapability
-    audit: true
+      - name: documentId
+        type: uuid
+      - name: tenantId
+        type: string
+      - name: ownerCapability
+        type: string
+      - name: contentHash
+        type: string
+      - name: sizeBytes
+        type: integer
+      - name: storedAt
+        type: datetime
 
-integration_events:
-  published:
-    - name: DocumentStored
-      description: Signals the owning capability that its document is durably persisted.
-      consumers:
-        - laboratory-results
-  consumed: []
+  - id: EVT-DOC-002
+    name: LegalHoldApplied
+    description: Emitted when a document is placed on or removed from legal hold.
+    payload:
+      - name: documentId
+        type: uuid
+      - name: tenantId
+        type: string
+      - name: legalHold
+        type: boolean
+      - name: updatedBy
+        type: string
+      - name: updatedAt
+        type: datetime
 
-published_language:
-  - DocumentStored
-  - DocumentIntegrityMismatchDetected
+  - id: EVT-DOC-003
+    name: ComplianceEvidencePackageCreated
+    description: Emitted when a bundle of compliance evidence documents is generated.
+    payload:
+      - name: packageId
+        type: uuid
+      - name: tenantId
+        type: string
+      - name: documentCount
+        type: integer
+      - name: generatedAt
+        type: datetime

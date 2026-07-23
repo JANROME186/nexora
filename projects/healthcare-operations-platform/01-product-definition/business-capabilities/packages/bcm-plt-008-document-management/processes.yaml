@@ -1,68 +1,48 @@
 artifact:
-  id: HOP-PROC-BCM-PLT-008
+  id: HOP-PRC-BCM-PLT-008
   type: processes
   name: Document Management Processes
-  version: 0.1.0
+  version: 1.2.0
   status: modeled
   classification: editable_model
   capability: BCM-PLT-008
 
-actors:
-  - id: calling-capability
-    actor_ref: ACT-018
-    name: Audit Service
-    source: ACM-001
-    note: Document Management is invoked programmatically by owning capabilities (e.g. BCM-RES-002); ACT-018 represents the audit sink for this capability's own events, not a human actor.
-
 processes:
-  - id: PRC-DOC-008-01
-    name: Store document
-    actor: calling-capability
-    trigger: An owning capability has bytes to persist (e.g. a rendered PDF report).
-    commands:
-      - StoreDocument
-    preconditions:
-      - Caller supplies contentType and bytes.
+  - id: PRC-DOC-001
+    name: Upload & Store Document
+    description: Store binary document, calculate SHA-256 hash, and attach retention policy.
     steps:
-      - Compute contentHash.
-      - Invoke DocumentStoragePort.putDocument to persist bytes and obtain a StorageReference.
-      - Create StoredDocument in stored status.
-      - Publish DocumentStored.
-    outcome: DocumentStored
-    rules: [RN-001, RN-003, RN-006]
-  - id: PRC-DOC-008-02
-    name: Retrieve document
-    actor: calling-capability
-    trigger: An owning capability needs to serve or re-verify a document.
-    commands:
-      - none (query only)
-    preconditions:
-      - StoredDocument exists.
-    steps:
-      - Invoke DocumentStoragePort.getDocument.
-      - Re-verify contentHash against retrieved bytes.
-      - Return bytes only when the hash matches.
-    outcome: DocumentRetrieved
-    rules: [RN-002, RN-006]
-  - id: PRC-DOC-008-03
-    name: Schedule document disposal
-    actor: calling-capability
-    trigger: A document's retention period has elapsed and no legal hold applies.
-    commands:
-      - ScheduleDocumentDisposal
-    preconditions:
-      - retentionPolicy.retainUntil has passed.
-      - retentionPolicy.legalHold is false.
-    steps:
-      - Transition StoredDocument to pending_disposal.
-      - Publish DocumentDisposalScheduled.
-    outcome: DocumentDisposalScheduled
-    rules: [RN-004]
+      - step_number: 1
+        name: Ingest File Bytes
+        actor: System / User
+        action: Pass file bytes, contentType, ownerCapability, and ownerReferenceId to DocumentStoragePort.
+      - step_number: 2
+        name: Compute Hash & Persist Metadata
+        actor: System
+        action: Compute SHA-256 hash, write to storage adapter, and save StoredDocument record.
 
-commands:
-  - name: StoreDocument
-    generatable: false
-    custom_reason: Hash computation and delegated storage-adapter invocation.
-  - name: ScheduleDocumentDisposal
-    generatable: false
-    custom_reason: Legal-hold precedence check before scheduling.
+  - id: PRC-DOC-002
+    name: Manage Retention Schedule & Legal Hold
+    description: Apply retention schedule or legal hold to stored document.
+    steps:
+      - step_number: 1
+        name: Set Legal Hold Status
+        actor: Quality Manager / Legal Counsel
+        action: Set legalHold flag to true or false. Emit LegalHoldApplied event.
+      - step_number: 2
+        name: Update Retention Date
+        actor: Compliance Officer
+        action: Set retainUntil date in accordance with regulatory schedule.
+
+  - id: PRC-DOC-003
+    name: Bundle Compliance Evidence Package
+    description: Group related audit, EQA, and CAPA document artifacts into a zip manifest for regulatory inspection.
+    steps:
+      - step_number: 1
+        name: Select Document Manifest
+        actor: Compliance Officer
+        action: Select list of documentIds associated with an audit or investigation cycle.
+      - step_number: 2
+        name: Generate Bundle & Export
+        actor: System
+        action: Verify SHA-256 hash for each document, create bundle manifest, and emit ComplianceEvidencePackageCreated event.

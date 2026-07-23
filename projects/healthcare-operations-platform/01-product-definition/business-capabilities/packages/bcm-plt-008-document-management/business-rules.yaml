@@ -2,70 +2,44 @@ artifact:
   id: HOP-BR-BCM-PLT-008
   type: business-rules
   name: Document Management Business Rules
-  version: 1.1.0
+  version: 1.2.0
   status: modeled
   classification: editable_model
   capability: BCM-PLT-008
-  rule_id_pattern: "RN-###"
 
 rules:
-  - id: RN-001
-    statement: Every StoredDocument must carry a unique identifier, a version, a content type, a content hash and a storage reference; documents without complete integrity metadata are refused at creation.
-    applies_to: StoredDocument
-    enforcement_point: command:StoreDocument
-    severity: critical
-    audit_required: true
-    generatable: false
-    test_refs: [TST-DOC-008-01]
-  - id: RN-002
-    statement: Retrieving a document must re-verify its content hash against the bytes returned by the storage adapter; a mismatch blocks the read and raises a critical integrity alert.
-    applies_to: StoredDocument
-    enforcement_point: query:GetDocument
-    severity: critical
-    audit_required: true
-    generatable: false
-    test_refs: [TST-DOC-008-02]
-  - id: RN-003
-    statement: All physical storage access must go through the DocumentStoragePort; no caller or internal code path may address a storage provider directly.
-    applies_to: StoredDocument
-    enforcement_point: architecture_boundary
-    severity: critical
-    audit_required: true
-    generatable: false
-    test_refs: [TST-DOC-008-03]
-  - id: RN-004
-    statement: A document under legal hold cannot be transitioned to pending_disposal or disposed, regardless of its retention date.
-    applies_to: StoredDocument
-    enforcement_point: command:ScheduleDocumentDisposal
-    severity: critical
-    audit_required: true
-    generatable: false
-    test_refs: [TST-DOC-008-04]
-  - id: RN-005
-    statement: This capability never inspects or interprets stored bytes as business content and never mutates any owning capability's business aggregate.
-    applies_to: StoredDocument
-    enforcement_point: architecture_boundary
-    severity: critical
-    audit_required: true
-    generatable: false
-    test_refs: [TST-DOC-008-05]
-  - id: RN-006
-    statement: Document commands must execute within the actor's or calling capability's tenant and laboratory scope.
-    applies_to: StoredDocument
-    enforcement_point: authorization:document.store, authorization:document.read
-    severity: critical
-    audit_required: true
-    generatable: true
-    test_refs: [TST-DOC-008-06]
-  - id: RN-007
-    statement: Operational runbooks, SOPs, backup/restore proof artifacts, and compliance certificates stored for SaaS operations must be tagged with document_category=OPERATIONAL_DOC and versioned with audit traceability.
-    applies_to: StoredDocument
-    enforcement_point: command:StoreDocument
-    severity: high
-    audit_required: true
-    generatable: false
-    test_refs: [TST-DOC-008-07]
+  - id: RN-DOC-001
+    name: SHA-256 Hash Verification on Retrieval
+    description: Verification fails if calculated SHA-256 hash does not match stored contentHash.
+    enforcement: synchronous
+    error_code: DOCUMENT_HASH_MISMATCH
+    message:
+      en: Document integrity verification failed due to content hash mismatch.
+      es: Falló la verificación de integridad del documento por discrepancia de hash.
 
-enforcement_summary:
-  generatable_rules: [RN-006]
-  custom_implementation_rules: [RN-001, RN-002, RN-003, RN-004, RN-005, RN-007]
+  - id: RN-DOC-002
+    name: Legal Hold Disposal Lock
+    description: Setting legalHold=true prevents document status transition to pending_disposal or disposed.
+    enforcement: synchronous
+    error_code: DOCUMENT_LEGAL_HOLD_LOCKED
+    message:
+      en: Document cannot be deleted or marked for disposal while under legal hold.
+      es: El documento no puede ser eliminado ni marcado para disposición mientras esté bajo retención legal.
+
+  - id: RN-DOC-003
+    name: Regulatory Retention Minimum Duration
+    description: Documents classified as clinical_report, eqa_certificate, or audit_report must enforce a minimum 5-year retention period.
+    enforcement: synchronous
+    error_code: DOCUMENT_RETENTION_PERIOD_TOO_SHORT
+    message:
+      en: Regulatory documents require a minimum retention period of 5 years.
+      es: Los documentos regulatorios requieren un periodo mínimo de retención de 5 años.
+
+  - id: RN-DOC-004
+    name: Compliance Tagging Authorization
+    description: Updating compliance tags or applying legal hold requires document.retention.manage permission.
+    enforcement: synchronous
+    error_code: DOCUMENT_TAGGING_UNAUTHORIZED
+    message:
+      en: User lacks permission to update document compliance metadata or legal hold.
+      es: El usuario no cuenta con la autorización requerida para actualizar metadatos de cumplimiento o retención legal.

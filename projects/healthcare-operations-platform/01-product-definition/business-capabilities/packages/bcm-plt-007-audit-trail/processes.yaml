@@ -1,27 +1,35 @@
 artifact:
-  id: HOP-PROC-BCM-PLT-007
+  id: HOP-PRC-BCM-PLT-007
   type: processes
-  name: Audit Trail Business Processes
-  version: 1.0.0
+  name: Audit Trail Processes
+  version: 1.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-007
 
 processes:
-  - id: PROC-AUD-001
-    name: Record Security Audit Event
-    actor: System Interceptor / Security Service
-    trigger: Security or Domain Event Occurrence
+  - id: PRC-AUD-TR-001
+    name: Record Security & Operational Audit Event
+    description: Record append-only audit event with cryptographic hash chaining.
     steps:
-      - Intercept command or API call.
-      - Extract actor, tenant, IP, and payload metadata.
-      - Fetch previous event hash and compute SHA-256 current hash chain entry.
-      - Write to append-only audit repository.
-    outcome: Audit Event Recorded and Hash-Chained
+      - step_number: 1
+        name: Construct Audit Payload
+        actor: System / Application Boundary
+        action: Capture eventType, actorId, category, resourceType, resourceId, and complianceCorrelationId.
+      - step_number: 2
+        name: Compute Hash Chain & Persist
+        actor: System
+        action: Calculate eventHash over previousEventHash + payload and insert into append-only table.
 
-  - id: PROC-AUD-002
-    name: Compliance Audit Export & Integrity Verification
-    actor: Tenant Compliance Officer / Auditor
-    trigger: Regulatory Audit Request
+  - id: PRC-AUD-TR-002
+    name: Search & Export Compliance Audit Evidence
+    description: Execute structured search and export evidence packages for regulatory audits.
     steps:
-      - Validate audit chain hash integrity across selected time range.
-      - Generate encrypted CSV/NDJSON compliance audit package.
-      - Store audit export proof in Document Management (BCM-PLT-008).
-    outcome: Verifiable Audit Package Delivered
+      - step_number: 1
+        name: Query Audit Log
+        actor: Quality Auditor / Compliance Officer
+        action: Execute search filtered by category, date range, complianceCorrelationId, or qualityInvestigationId.
+      - step_number: 2
+        name: Verify Chain Integrity & Export
+        actor: System
+        action: Verify SHA-256 hash sequence and generate CSV/JSON compliance evidence export package.

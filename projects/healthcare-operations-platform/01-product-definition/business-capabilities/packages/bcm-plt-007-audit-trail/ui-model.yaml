@@ -2,15 +2,37 @@ artifact:
   id: HOP-UI-BCM-PLT-007
   type: ui-model
   name: Audit Trail UI Model
-  version: 1.0.0
+  version: 1.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-007
+  target_surface: employee_portal
 
 screens:
-  - id: SCR-AUD-001
-    name: Audit Log Explorer & Compliance Console
-    surface: employee_portal / operations_console
-    route: /admin/audit
+  - id: SCR-AUD-TR-001
+    name: Compliance Audit Trail Search & Export
+    title:
+      en: Audit Trail & Compliance Search
+      es: Búsqueda y Evidencia en Bitácora de Auditoría
+    route: /platform/audit-trail
+    permission_required: audit.trail.search
     components:
-      - AuditEventSearchForm
-      - AuditLogTable
-      - AuditChainStatusIndicator
-      - ExportAuditModal
+      - id: CMP-AUD-TR-001
+        type: SearchPanel
+        title:
+          en: Audit Event Search Filters
+          es: Filtros de Búsqueda de Eventos de Auditoría
+        operations: [searchAuditEvents]
+      - id: CMP-AUD-TR-002
+        type: ExportModal
+        title:
+          en: Export Compliance Evidence Package
+          es: Exportar Paquete de Evidencia de Cumplimiento
+        operations: [exportAuditEvents]
+
+i18n:
+  namespaces:
+    - platform.audit_trail
+  supported_locales:
+    - es-MX
+    - en-US

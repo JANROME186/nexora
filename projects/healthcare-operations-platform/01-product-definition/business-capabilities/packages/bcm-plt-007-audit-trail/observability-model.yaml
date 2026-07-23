@@ -2,15 +2,27 @@ artifact:
   id: HOP-OBS-BCM-PLT-007
   type: observability-model
   name: Audit Trail Observability Model
-  version: 1.0.0
+  version: 1.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-007
 
 metrics:
-  - name: hop_audit_events_recorded_total
+  - name: audit_events_recorded_total
     type: counter
-    labels: [category, tenant_id]
-    description: Count of security and operational audit events recorded.
+    description: Total number of audit events recorded.
+    labels: [tenant_id, category]
+
+  - name: audit_exports_total
+    type: counter
+    description: Total number of compliance audit exports performed.
+    labels: [tenant_id, format]
 
 logs:
-  - event: AUDIT_EVENT_WRITTEN
+  - event: AuditTrailExported
     level: INFO
-    attributes: [event_id, event_type, tenant_id, actor_id]
+    mdc_fields: [tenantId, userId, traceId, exportId, recordCount]
+    pattern: "Audit trail exported: exportId={exportId}, count={recordCount}"
+
+tracing:
+  propagation_headers: [X-Correlation-ID, X-Tenant-ID]

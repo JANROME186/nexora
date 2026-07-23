@@ -1,0 +1,32 @@
+artifact:
+  id: HOP-GEN-BCM-QLT-006
+  type: generation-plan
+  name: CAPA Management Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-006
+
+targets:
+  backend:
+    module_name: externalqualitycompliance
+    package_path: com.nexora.hop.platformfoundation.externalqualitycompliance.capamanagement
+    artifacts:
+      - entity: CapaInvestigationEntity
+      - entity: CapaActionPlanItemEntity
+      - repository: CapaInvestigationRepository
+      - service: CapaManagementService
+      - controller: CapaManagementController
+
+  frontend:
+    surface: employee_portal
+    api_facade: src/api/capaApi.ts
+    screen_components:
+      - src/components/screens/CapaManagementScreen.tsx
+      - src/components/screens/CapaDetailScreen.tsx
+
+  schema:
+    migration_file: db/external-quality-and-compliance/schema.sql
+    table_names:
+      - quality_capa_investigations
+      - quality_capa_action_items

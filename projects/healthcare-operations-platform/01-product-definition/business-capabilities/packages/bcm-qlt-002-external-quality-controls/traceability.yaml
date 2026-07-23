@@ -1,0 +1,54 @@
+artifact:
+  id: HOP-TRACE-BCM-QLT-002
+  type: traceability
+  name: External Quality Controls Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-002
+
+traces:
+  capability_map:
+    bcm_001: BCM-QLT-002
+    domain: DOM-09 Quality
+  dependency_map:
+    bcm_002_profile: quality_compliance
+    required_capabilities: [BCM-SVC-002, BCM-SVC-004, BCM-ORG-001, BCM-PLT-001, BCM-PLT-007, BCM-PLT-008]
+    downstream_capabilities: [BCM-QLT-006]
+  domain_foundation:
+    bounded_context: external-quality-compliance
+    aggregate_reference: ExternalQualityEvaluation (AGG-020)
+  rules_to_tests:
+    - rule: RN-EQC-001
+      tests: [TST-EQC-001]
+    - rule: RN-EQC-002
+      tests: [TST-EQC-002]
+    - rule: RN-EQC-004
+      tests: [TST-EQC-003]
+  processes_to_commands:
+    - process: PRC-EQC-001
+      commands: [createExternalQualityEvaluation]
+    - process: PRC-EQC-003
+      commands: [scoreExternalQualityEvaluation]
+  api_to_permissions:
+    - operation: listExternalQualityEvaluations
+      scope: quality.externalcontrol.read
+    - operation: createExternalQualityEvaluation
+      scope: quality.externalcontrol.manage
+    - operation: scoreExternalQualityEvaluation
+      scope: quality.externalcontrol.manage
+  events_to_audit:
+    - event: ExternalQualitySurveyReceived
+      audit_sink: BCM-PLT-007
+    - event: ExternalQualityEvaluationRecorded
+      audit_sink: BCM-PLT-007
+    - event: ExternalQualityOutOfRangeDetected
+      audit_sink: BCM-PLT-007
+  ui_to_api:
+    - screen: SCR-EQC-001
+      operations: [listExternalQualityEvaluations, createExternalQualityEvaluation, scoreExternalQualityEvaluation]
+  backlog_items:
+    definition: COM-MOD-013-DEF
+    definition_status: closed
+    compilation: COM-MOD-013-BE-001
+    compilation_status: pending
