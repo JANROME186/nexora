@@ -121,7 +121,7 @@ projects:
       - COM-MOD-013-DEF
     structure: ordered_numbered_folders
 next_deliverables:
-  - Execute COM-MOD-013-DEF Advanced Quality and Compliance capability package models
+  - Execute COM-MOD-013-BE-001 Compile external QC, CAPA and audit management outputs
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake
