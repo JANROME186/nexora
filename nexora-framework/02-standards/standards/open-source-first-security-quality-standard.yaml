@@ -2,7 +2,7 @@ artifact:
   id: NXF-OSS-SEC-QUAL-001
   type: framework-standard
   name: Open Source First Security and Quality Standard
-  version: 1.5.1
+  version: 1.5.2
   status: approved
   human_readable: open-source-first-security-quality-standard.md
   machine_readable: open-source-first-security-quality-standard.yaml
@@ -154,6 +154,7 @@ quality_gate_execution_policy:
       allowed_to_close:
         - passed
         - not_applicable_with_reason
+        - technical_debt_registered_with_blocking_decision
       not_allowed_to_close:
         - not_executed
         - blocked_by_missing_toolchain
@@ -197,6 +198,29 @@ quality_gate_execution_policy:
       as final closure states.
     - Use blocked_by_environment or ready_for_external_validation for incomplete
       mandatory gates.
+  missing_required_tooling_policy:
+    purpose: >
+      Prevent agents from treating absent scripts or absent stack-quality tools as
+      harmless comments when the changed product surface requires that validation.
+    rule: >
+      If a required quality category applies to a changed stack or runnable surface
+      but the project lacks the executable tool, script or configuration to run it,
+      the agent must create or update a technical-debt item before closure. The
+      evidence must identify the missing category, expected open source tool or
+      equivalent, affected component, risk, target backlog, owner, acceptance
+      criteria and whether the gap blocks the current item.
+    not_applicable_boundary: >
+      not_applicable_with_reason is allowed only when the product surface, code
+      type or runtime genuinely does not exist or was not touched by the backlog
+      item. It is not allowed when the product surface exists but the validation
+      tooling has not been implemented.
+    closure_effect: >
+      A missing required toolchain category is a failed gate until it is either
+      implemented and executed, promoted to blocked_by_environment or registered
+      as technical debt with immediate or gradual remediation according to risk.
+      Security-sensitive categories, vulnerability analysis, secrets scans and
+      secure-code/SAST gaps must be treated as blocking unless an accepted-risk
+      disposition exists with expiration and target backlog.
   local_vulnerability_database_policy:
     purpose: >
       Keep vulnerability scans reproducible and fast without making agents
@@ -247,7 +271,7 @@ verifiable_backlog_closure_policy:
       backlog prompt file and capability traceability files.
     - Confirm all mandatory executable gates for every changed stack ran in the
       current execution or have prior non-limited evidence explicitly referenced.
-    - Confirm every gate has final state passed or not_applicable_with_reason.
+    - Confirm every gate has final state passed, not_applicable_with_reason for absent or untouched surfaces only, or technical_debt_registered_with_blocking_decision for missing non-blocking tooling gaps.
     - Confirm no required gate is not_executed, failed, blocked_by_missing_toolchain,
       blocked_by_network, blocked_by_unsupported_runtime, passed_with_execution_limitation
       or closed_with_execution_limitation.
@@ -334,6 +358,26 @@ enterprise_stack_quality_policy:
     - coverage
     - architecture_boundaries_when_architecture_rules_exist
     - message_externalization_and_i18n
+  missing_tooling_disposition:
+    required: true
+    rule: >
+      Each required analysis category must have one of these dispositions in
+      security-quality evidence: passed, failed, blocked_by_environment,
+      ready_for_external_validation, or technical_debt_registered_with_blocking_decision.
+      Do not leave any required category as undocumented, "to evaluate", "if configured"
+      or "not applicable" when the changed stack exists and lacks tooling.
+    technical_debt_required_fields:
+      - missing_validation_category
+      - expected_tool_or_equivalent
+      - affected_stack
+      - affected_component
+      - source_backlog_item
+      - risk_level
+      - urgency
+      - target_backlog
+      - owner_or_responsible_role
+      - acceptance_criteria
+      - closure_blocking_decision
   required_tool_categories:
     backend:
       - unit_and_integration_tests
@@ -1021,6 +1065,8 @@ technical_debt_backlog_policy:
     - stack_migration_is_recommended_but_must_be_coordinated_with_touched_components
     - coverage_below_80_percent_or_below_stack_target
     - coverage_does_not_improve_when_below_80_percent
+    - required_quality_validation_category_has_no_executable_tool_or_script
+    - required_stack_quality_tooling_gap_is_found_during_backlog_execution
   debt_item_must_include:
     - id
     - title

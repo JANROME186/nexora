@@ -2,13 +2,33 @@ artifact:
   id: HOP-STACK-QUALITY-TOOLCHAIN-001
   type: stack-quality-toolchain-baseline
   name: HOP Stack Quality Toolchain Baseline
-  version: 1.2.1
+  version: 1.2.2
   status: active_with_mandatory_debt_first_remediation
   created_date: 2026-07-09
   last_refreshed_date: 2026-07-15
   standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
 
 selected_stack_reference: 03-architecture/technology-architecture/client-stack-market-validation.yaml
+
+missing_required_tooling_policy:
+  effective_from_backlog_item: COM-MOD-013-FE-001
+  rule: >-
+    If a required validation category applies to a changed HOP stack but the stack lacks an
+    executable script, plugin or tool configuration, the executing agent must create or update
+    technical debt before backlog closure. Missing duplicate-code, complexity, SAST/static
+    analysis, OWASP/secure-code, dependency, secrets, coverage, i18n, accessibility, DAST, SBOM
+    or license tooling must not be documented as merely "if configured" or "not applicable" when
+    the product surface exists.
+  valid_not_applicable_boundary: >-
+    not_applicable_with_reason is valid only when the surface, runtime or artifact type genuinely
+    does not exist or was not touched by the backlog item.
+  required_evidence_disposition_values:
+    - passed
+    - failed
+    - blocked_by_environment
+    - ready_for_external_validation
+    - technical_debt_registered_with_blocking_decision
+    - not_applicable_with_reason_for_absent_or_untouched_surface_only
 
 toolchain_by_stack:
   java_maven:
@@ -119,6 +139,7 @@ toolchain_by_stack:
         tool: OpenRewrite
         status: deferred
         required_action: use_for_future_modernization_debt_or_framework_migrations
+        debt_item: TD-STACK-001
       - category: API compatibility
         tool: Revapi
         status: configured_skipped_until_public_java_api_exists
@@ -127,10 +148,12 @@ toolchain_by_stack:
         tool: Google Error Prone
         status: not_yet_configured
         required_action: evaluate_compatibility_with_current_jdk_and_maven_build
+        debt_item: TD-BE-002
       - category: Additional SAST
         tool: Semgrep CE
         status: not_yet_configured
         required_action: evaluate_for_ci_defense_in_depth
+        debt_item: TD-BE-002
   toolchain_evolution:
     required: true
     rule: If an agent detects newer, safer, better maintained or replacement tools for any stack baseline, it must document the substitution, update project technical debt and create framework feedback before closing the backlog item.
@@ -160,11 +183,16 @@ toolchain_by_stack:
       lint_warnings: 24
       npm_audit_low_or_higher_vulnerabilities: 0
     gaps_to_evaluate:
-      - Semgrep CE
-      - frontend DAST with OWASP ZAP when runnable surface is available
-      - SBOM generation
-      - accessibility checks such as axe-core or Playwright accessibility assertions
-      - localization/i18n literal scan for user-visible strings
+      - gap: Semgrep CE
+        debt_item: TD-FE-003
+      - gap: frontend DAST with OWASP ZAP when runnable surface is available
+        debt_item: TD-QA-001
+      - gap: SBOM generation
+        debt_item: TD-FE-003
+      - gap: accessibility checks such as axe-core or Playwright accessibility assertions
+        debt_item: TD-FE-003
+      - gap: localization/i18n literal scan for user-visible strings
+        debt_item: TD-I18N-002
   mobile_typescript:
     applicable: true
     component: 07-implementation/mobile-app
@@ -184,12 +212,18 @@ toolchain_by_stack:
       coverage_lines_percent: 97.15
       npm_audit_low_or_higher_vulnerabilities: 0
     gaps_to_evaluate:
-      - final mobile renderer stack before native UI implementation
-      - native/mobile renderer-specific security analysis once native artifacts exist
-      - duplicate-code and complexity analysis
-      - secure-code analysis
-      - localization resource validation
-      - MobSF when native mobile artifacts are available
+      - gap: final mobile renderer stack before native UI implementation
+        debt_item: TD-APP-001
+      - gap: native/mobile renderer-specific security analysis once native artifacts exist
+        debt_item: TD-APP-001
+      - gap: duplicate-code and complexity analysis
+        debt_item: TD-APP-001
+      - gap: secure-code analysis
+        debt_item: TD-APP-001
+      - gap: localization resource validation
+        debt_item: TD-APP-001
+      - gap: MobSF when native mobile artifacts are available
+        debt_item: TD-APP-001
 
 enterprise_quality_gate_policy:
   effective_from_next_code_changing_backlog: true
@@ -216,6 +250,7 @@ enterprise_quality_gate_policy:
     - vulnerability_scan_filtered_only_to_high_or_critical
     - missing_duplicate_code_or_complexity_analysis
     - missing_owasp_or_secure_code_analysis
+    - missing_required_validation_tooling_without_registered_technical_debt
     - unexternalized_user_visible_messages_error_prose_or_magic_strings
   next_iteration_debt_candidates:
     - TD-BE-002

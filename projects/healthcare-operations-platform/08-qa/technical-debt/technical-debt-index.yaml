@@ -22,6 +22,32 @@ policy:
     - release_readiness
   remediation_strategy: debt_first_and_gradual_when_affected_components_are_touched
   final_project_closure_requires_no_open_debt: true
+  missing_required_tooling_policy:
+    required: true
+    effective_from_backlog_item: COM-MOD-013-FE-001
+    rule: >-
+      If a HOP backlog item touches a stack or runnable surface and a mandatory validation
+      category cannot run because the project lacks an executable script, plugin, tool or
+      configuration, the agent must create or update technical debt before closure. Missing
+      duplicate-code, complexity, SAST/static analysis, OWASP/secure-code, dependency,
+      secrets, coverage, i18n, accessibility, DAST, SBOM or license checks cannot remain
+      undocumented and cannot be closed as informal "not applicable" when the surface exists.
+    valid_not_applicable_only_when:
+      - product_surface_or_runtime_does_not_exist
+      - artifact_type_is_not_part_of_the_selected_backlog_scope
+      - stack_was_not_touched_and_prior_non_limited_evidence_is_referenced
+    debt_item_required_fields:
+      - missing_validation_category
+      - expected_open_source_tool_or_equivalent
+      - affected_stack
+      - affected_component
+      - source_backlog_item
+      - risk_level
+      - urgency
+      - owner_or_responsible_role
+      - target_backlog
+      - acceptance_criteria
+      - closure_blocking_decision
   debt_burndown_intensity:
     early_mvp: at_least_one_relevant_debt_item_per_code_changing_iteration
     module_closeout: reduce_multiple_relevant_items_when_open_debt_exists

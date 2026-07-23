@@ -87,7 +87,7 @@ Evidence must be written under:
 
 `08-qa/security-quality/<backlog-item-id>/`
 
-The evidence must include applicable tests, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when a runnable web/API surface exists.
+The evidence must include applicable tests, SAST/static analysis, dependency vulnerability checks, secrets scan, coverage and DAST when a runnable web/API surface exists. If a mandatory validation category applies but HOP lacks an executable tool/script/plugin, register or update technical debt before closure; do not treat missing tooling as informal `not applicable`.
 
 ## Business Requirement Change Rule
 

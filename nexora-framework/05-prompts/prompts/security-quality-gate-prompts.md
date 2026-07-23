@@ -3,7 +3,7 @@
 **Artifact ID:** `NXF-SQ-PROMPTS-001`  
 **Status:** Approved  
 **Machine-readable source:** `security-quality-gate-prompts.yaml`
-**Version:** `1.5.1`
+**Version:** `1.5.2`
 
 Use these prompts with the Open Source First Security and Quality Standard, the Enterprise Product Foundation Standard and the Engineering Excellence Prioritization Standard.
 
@@ -90,6 +90,16 @@ checks:
 - Stack-specific quality toolchain completeness review.
 - Technical-debt backlog update when non-blocking modernization findings exist.
 
+For every changed stack, the agent must write or update a required-validation matrix. Required
+categories such as duplicate-code, complexity, SAST/static analysis, OWASP or stack-equivalent
+secure-code checks, dependency analysis, secrets, coverage and i18n cannot be skipped because the
+project lacks a script. If the product surface exists but the executable tool/script/plugin is
+missing, the agent must create or update a technical-debt item with owner, target backlog,
+acceptance criteria and blocking decision.
+
+`not_applicable_with_reason` is allowed only when the surface, runtime or code type genuinely does
+not exist or was not touched by the backlog item.
+
 For tools that use a local vulnerability/advisory database, such as OWASP Dependency-Check with a
 local NVD cache, the agent must execute the scanner against the database available at that moment
 and record the database path plus freshness timestamp/date in evidence. The daily database refresh
@@ -108,8 +118,9 @@ Write evidence under:
 
 Do not close the backlog when vulnerabilities of any severity, secure-code findings, secrets,
 failing tests, missing duplicate/complexity/OWASP analysis, coverage below the previous iteration baseline,
-missing enterprise foundation evidence, missing debt-first execution, hard-coded messages/magic strings or unexecuted mandatory gates remain
-unresolved. Do not use
+missing required validation tooling without registered technical debt, missing enterprise foundation
+evidence, missing debt-first execution, hard-coded messages/magic strings or unexecuted mandatory
+gates remain unresolved. Do not use
 `passed_with_execution_limitation` or `closed_with_execution_limitation` as final states. Use
 `blocked_by_environment` or `ready_for_external_validation`, keep `next_backlog_item` unchanged,
 and write exact remediation commands.

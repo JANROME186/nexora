@@ -12,6 +12,12 @@ register or update a debt item here. If the finding affects mandatory quality ga
 evidence, message externalization, DAST or safe development, promote it to blocking or immediate
 quality alignment work.
 
+Missing mandatory validation tooling is technical debt. If a backlog touches a stack or runnable
+surface and HOP lacks an executable duplicate-code, complexity, SAST/static analysis,
+OWASP/secure-code, dependency, secrets, coverage, i18n, accessibility, DAST, SBOM or license gate,
+the agent must create or update a debt item here before closure. "If configured", "if scripts
+exist" and informal `not_applicable` notes are not valid when the surface exists.
+
 ## Quality Alignment Debt (closed)
 
 - `TD-I18N-001` - message externalization and magic-string remediation baseline. Closed by

@@ -3,7 +3,7 @@
 **Artifact ID:** `NXF-OSS-SEC-QUAL-001`  
 **Status:** Approved  
 **Machine-readable source:** `open-source-first-security-quality-standard.yaml`
-**Version:** `1.5.1`
+**Version:** `1.5.2`
 
 ## Purpose
 
@@ -70,6 +70,30 @@ Required checks, when applicable:
 - License review when dependencies change.
 - Technology evolution review against current open source options.
 - Technical-debt backlog update when non-blocking upgrade or migration findings exist.
+
+## Missing Tooling Is Debt
+
+Required quality categories cannot be skipped because the project lacks a script, plugin or local
+tool configuration. If a changed stack requires duplicate-code, complexity, SAST/static analysis,
+OWASP or stack-equivalent secure-code, dependency, secrets, coverage, i18n or any other mandatory
+validation and the tool is not configured, the agent must create or update a technical-debt item
+before closure.
+
+`not_applicable_with_reason` is valid only when the product surface or runtime genuinely does not
+exist or was not touched. It is not valid when the surface exists but the project has not implemented
+the validation tooling.
+
+Every missing required validation must be dispositioned as one of:
+
+- Implemented and `passed`.
+- `failed` with remediation.
+- `blocked_by_environment` or `ready_for_external_validation` with exact commands.
+- `technical_debt_registered_with_blocking_decision` with owner, target backlog, acceptance criteria and a blocking
+  decision.
+
+Security-sensitive gaps, including vulnerability analysis, secrets scanning and secure-code/SAST,
+must be treated as blocking unless an accepted-risk disposition exists with expiration and a target
+backlog.
 
 ## Vulnerability Database Refresh
 
@@ -220,6 +244,8 @@ Allowed final gate states are:
 
 - `passed`
 - `not_applicable_with_reason`
+- `technical_debt_registered_with_blocking_decision` for missing non-blocking tooling gaps with
+  owner, target backlog and acceptance criteria
 
 The following states are not allowed for closure:
 
@@ -391,6 +417,8 @@ A backlog item must not be closed when it introduces:
   values or repeated magic strings that are not externalized or dispositioned.
 - Required executable quality gates that were not actually run.
 - Missing or unsupported required toolchains, runtimes, native build binaries or audit endpoints.
+- Missing required quality validation tooling or scripts without a registered technical-debt item
+  and explicit blocking/non-blocking decision.
 - Evidence marked `passed_with_execution_limitation` or `closed_with_execution_limitation`.
 - Proprietary dependency without an exception ADR.
 - Manual edits to generated artifacts without a source model change.
