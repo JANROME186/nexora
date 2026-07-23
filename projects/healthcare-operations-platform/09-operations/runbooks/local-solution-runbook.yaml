@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-012-QA-001
+  current_active_backlog_item: COM-MOD-012-CLOSEOUT
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -20,6 +20,43 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
+    backlog_item: COM-MOD-012-QA-001
+    status: closed
+    next_active_backlog_item: COM-MOD-012-CLOSEOUT
+    runtime_change: >-
+      None. GlobalExceptionHandler.java gained a DataIntegrityViolationException handler,
+      IdentityAccessExceptionHandler.java's advice scope was widened to also cover AuthController,
+      and application-local.yml gained management.endpoint.health.group.readiness.include --
+      none of these are new components, ports, environment variables or startup-order changes; the
+      same mvn -Pquality "-Dhop.local-db-tests=true" clean verify command and BE-001 start_command
+      validate them.
+    environment_note: >-
+      Port 8080 on this shared local machine was occupied by an unrelated, pre-existing Tomcat
+      process for a different, unaffiliated project outside this repository. The backend was
+      started with server.port=8090 (via -Dspring-boot.run.jvmArguments) for this validation
+      session only; the canonical documented port in this runbook remains 8080 and no
+      compose.local.yml, application.yml or .env value was changed.
+    validation_summary: >-
+      Validated all 8 COM-MOD-012 capabilities live against a running backend on port 8090.
+      GET/POST tenant/config/feature-flag operations exercised with valid and invalid inputs; 20
+      concurrent tenant provisions succeeded with 0 races. Found and fixed a real resilience
+      defect: readiness stayed UP with PostgreSQL stopped (management.endpoint.health.group.readiness.include
+      was unset); fixed by scoping the include to application-local.yml (the profile with a real
+      DataSource bean -- the same include in the base application.yml breaks context startup for
+      profiles with none), re-verified live via a real docker stop/start of hop-local-postgres
+      (readiness DOWN/503 then UP; liveness stays UP throughout). Executed a dedicated OWASP ZAP
+      API scan against the full backend surface (353 URLs) that found and this item fixed 2 real
+      defects: TD-QA-005 (null byte/oversized value reaching JDBC caused an unhandled 500 across
+      laboratoryworkflow and cashsales) and TD-QA-006 (AuthController returned 500 instead of 404
+      for a nonexistent assistedUserId); final rescan 0 FAIL-NEW/0 WARN-NEW/118 PASS. ZAP baseline
+      against the unchanged employee portal: 0 FAIL-NEW. Executed a real backup (pg_dump, SHA-256
+      checksum, pg_restore --list: 415 TOC entries) and restore rehearsal (isolated database,
+      matching row counts 40=40). Confirmed the 3 remaining COM-MOD-012-BE-001 infrastructure
+      forward pointers (distributed trace export, provisioned Grafana/Prometheus/Loki, SLO/SLA
+      alerting) still require infrastructure not available locally; registered TD-OBS-001. 367
+      tests (0 failures/errors/skipped, up from 362), backend coverage raised 84.11% -> 84.14%.
+      Next backlog item COM-MOD-012-CLOSEOUT.
+  previous_runbook_update_com_mod_012_be_001:
     backlog_item: COM-MOD-012-BE-001
     status: closed
     next_active_backlog_item: COM-MOD-012-QA-001

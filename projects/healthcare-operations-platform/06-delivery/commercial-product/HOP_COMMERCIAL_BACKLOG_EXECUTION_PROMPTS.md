@@ -234,25 +234,24 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-012-BE-001 Compile tenant operations, feature flags and operational controls` is closed.
+`COM-MOD-012-QA-001 Performance, resilience and security evidence` is closed.
 Continue with:
 
 - Module: `COM-MOD-012`
-- Backlog item: `COM-MOD-012-QA-001`
-- Previous backlog item: `COM-MOD-012-BE-001` (closed)
+- Backlog item: `COM-MOD-012-CLOSEOUT`
+- Previous backlog item: `COM-MOD-012-QA-001` (closed)
 - Paused functional backlog item: none
-- Folder: `07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/` and `08-qa/qa/platform-hardening-and-saas-operations/`
+- Folder: `08-qa/qa/platform-hardening-and-saas-operations/` and registry files across the repository
 
 Mandatory setup for this backlog:
 
 - Reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, capability traceability files and the local runbook pointers.
-- Preserve coverage floors: backend (84.11%), employee portal (88.68%), public website (98.61%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
+- Preserve coverage floors: backend (84.14%), employee portal (88.68%), public website (98.61%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
-- Do not advance the backlog pointer if Node, npm, Docker, dependency, vulnerability, coverage, build or static-analysis gates cannot run.
-- Validate performance, resilience and security evidence for the operations compiled by `COM-MOD-012-BE-001` (tenant provisioning/status transitions, feature flags, Prometheus/health/MDC observability); a dedicated DAST pass against the new endpoints was deferred and should be run here.
-- The forward pointers `COM-MOD-012-BE-001` left open (distributed trace export to the OTel Collector, a provisioned Grafana/Prometheus/Loki stack, and an SLO/SLA alerting backend) require infrastructure not yet available locally; do not attempt to close them without that infrastructure.
-- Review `08-qa/technical-debt/technical-debt-index.yaml` before backend work and resolve or materially reduce at least one open item when applicable.
+- Confirm all 8 COM-MOD-012 capability packages are `module_closed` in `capability-package-index.yaml` and their `traceability.yaml` files.
+- Confirm zero open or blocking technical debt attributable to COM-MOD-012 (`TD-OBS-001`, `TD-BE-016`, `TD-BE-017` and `TD-IAM-003` remain open by design, non-blocking, with target backlog items).
+- This is documentation/registry-only closeout scope; do not touch source code unless a real defect is found during the closeout review itself.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-012-BE-001` - Compile tenant operations, feature flags and operational controls. Compiled `BCM-ORG-001` tenant operations (`provisionTenant` extended in place, `listTenants`/`updateTenantStatus` added, both privileged and audited), a new `BCM-PLT-002` `platformconfiguration` Spring Modulith module (`getPlatformConfig`/`evaluateFeatureFlags`/`updateFeatureFlag`), and `BCM-PLT-006` observability extensions (`/actuator/prometheus`, explicit liveness/readiness health groups, a new `RequestObservabilityContextFilter` populating `tenantId`/`userId`/`traceId` MDC on every log line). Closed 5 of 8 named `COM-MOD-012-OPS-002` runbook `known_gaps_and_forward_pointers` entries; the remaining 3 (distributed trace export, a provisioned observability stack, SLO/SLA alerting) require infrastructure not yet provisioned and were re-pointed to future items. `BCM-PLT-001`/`005`/`007`/`008`/`009` extensions were deliberately deferred and registered as `TD-BE-016`/`TD-BE-017`/`TD-IAM-003` rather than built speculatively. A real SpotBugs/FindSecBugs finding (`SERVLET_HEADER`) on the new MDC filter was fixed in code, not suppressed. 362 tests (0 failures/errors/skipped, up from 360), backend coverage raised 83.99% -> 84.11%. `TD-IAM-002` and `TD-DB-004` materially reduced further; `TD-I18N-002` further reduced. Passed the full quality gate (checkstyle, PMD/CPD, SpotBugs/FindSecBugs, duplicate-finder, CycloneDX SBOM, OWASP Dependency-Check, Trivy, YAML parse, agent-agnostic scan, stale-pointer sweep, `git diff --check`), and advanced the active backlog item to `COM-MOD-012-QA-001`.
+`COM-MOD-012-QA-001` - Performance, resilience and security evidence. Validated all 8 COM-MOD-012 capabilities end to end against a running local backend (tenant provisioning/listing/status transition, platform config/feature flags, Prometheus/health/MDC observability, audit-event traceability), with a light local load check (30 sequential + 20 concurrent requests, 0 failures). Found and fixed a real resilience defect: the readiness probe did not reflect database connectivity, fixed and re-verified live via a real `docker stop`/`start` of the Postgres container. Executed a dedicated OWASP ZAP API scan against the full backend surface (deferred by BE-001) that found and this item fixed 2 real defects: `TD-QA-005` (a null byte or oversized string value reaching JDBC caused an unhandled 500 across `laboratoryworkflow` and `cashsales`, fixed via a narrow `GlobalExceptionHandler` mapping) and `TD-QA-006` (`AuthController.initiateAssistance` returned 500 instead of 404 for a nonexistent `assistedUserId`, fixed by widening `IdentityAccessExceptionHandler`'s scope); a final rescan confirmed 0 FAIL-NEW/0 WARN-NEW. A ZAP baseline scan against the unchanged employee portal found 0 FAIL-NEW. Executed a real backup (pg_dump, checksum, structural verification) and restore rehearsal (isolated database, matching row counts). Reviewed the 3 remaining `COM-MOD-012-BE-001` infrastructure forward pointers (distributed trace export, provisioned Grafana/Prometheus/Loki, SLO/SLA alerting) and registered `TD-OBS-001` rather than closing them without real infrastructure. 367 tests (0 failures/errors/skipped, up from 362), backend coverage raised 84.11% -> 84.14%. Passed the full quality gate (checkstyle, PMD/CPD, SpotBugs/FindSecBugs, duplicate-finder, CycloneDX SBOM, OWASP Dependency-Check, Trivy, YAML parse, agent-agnostic scan, stale-pointer sweep, `git diff --check`), and advanced the active backlog item to `COM-MOD-012-CLOSEOUT`.

@@ -42,3 +42,15 @@ implementation:
     DataMaskingPolicy (TD-BE-008) is modeled in business-model.yaml but not exposed by any
     compiled operation; masking of encrypted config values (is_encrypted flag) is enforced
     directly by getPlatformConfig rather than via a separate policy entity/endpoint.
+
+validation:
+  backlog_item: COM-MOD-012-QA-001
+  status: validated
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
+  contribution: >-
+    Live runtime validation: getPlatformConfig returns seeded config parameters; evaluateFeatureFlags
+    defaults safely to false with no tenantId and returns the tenant-targeted value once a valid
+    tenantId is supplied (business-model.yaml invariant confirmed); updateFeatureFlag correctly
+    rejects a non-namespaced flagKey (400 COMMAND_INVALID) and an out-of-bounds rolloutPercentage
+    (400), accepts a valid update, and records a FeatureFlagUpdated audit event verified via a live
+    GET /api/audit/events query.

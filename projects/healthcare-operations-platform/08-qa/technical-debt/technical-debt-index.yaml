@@ -35,9 +35,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 84.11
-        source_evidence: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-BE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 84.11
+        current_line_coverage_percent: 84.14
+        source_evidence: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 84.14
         final_closure_target_percent: 80
         correction_note: >-
           MVP-MOD-007-QA-001 raised backend line coverage to 78.42%. MVP-MOD-007-CLOSEOUT's
@@ -63,7 +63,12 @@ policy:
           is 83.99%. COM-MOD-012-BE-001 compiled BCM-ORG-001 tenant operations, the new BCM-PLT-002
           platformconfiguration module and BCM-PLT-006 observability extensions, adding 8 new/
           extended test classes, raising it further to 84.11% (362 tests, 0 failures/errors/
-          skipped); the new floor is 84.11%.
+          skipped); the new floor is 84.11%. COM-MOD-012-QA-001 raised it further to 84.14% (367
+          tests, 0 failures/errors/skipped) by adding a resilience regression test
+          (readiness-vs-database-outage) and 4 new GlobalExceptionHandler/AuthController regression
+          tests for two real defects found and fixed by this backlog item's DAST run (a
+          cross-cutting null-byte/oversized-value 500, TD-QA-005; an AuthController
+          exception-advice scope gap, TD-QA-006); the new floor is 84.14%.
       frontend_typescript_web:
         current_line_coverage_percent: 88.68
         source_evidence: 08-qa/qa/public-website-and-digital-growth/COM-MOD-011-FE-001-validation.yaml
@@ -636,3 +641,33 @@ entries:
     affected_area: identity_access_extensions
     file: 08-qa/technical-debt/TD-IAM-003-mfa-service-account-scope-grammar-not-implemented.yaml
     remediation_strategy: gradual_when_a_future_backlog_item_next_touches_identityaccess
+  - id: TD-OBS-001
+    title: Distributed trace export, provisioned Grafana/Prometheus/Loki stack and SLO/SLA
+      alerting backend not implemented
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: COM-MOD-012-QA-001
+    affected_area: distributed_tracing_metrics_stack_and_alerting
+    file: 08-qa/technical-debt/TD-OBS-001-distributed-tracing-and-observability-stack-not-provisioned.yaml
+    remediation_strategy: gradual_dedicated_observability_infrastructure_backlog_item
+  - id: TD-QA-005
+    title: A null byte or oversized value in a request field or query parameter caused an
+      unhandled 500 instead of a 400 across multiple modules
+    status: closed
+    risk_level: low
+    blocking: false
+    source_backlog_item: COM-MOD-012-QA-001
+    affected_area: cross_cutting_jdbc_string_parameter_encoding_validation
+    file: 08-qa/technical-debt/TD-QA-005-null-byte-query-parameter-unhandled-500.yaml
+    remediation_strategy: closed_by_COM_MOD_012_QA_001_GlobalExceptionHandler_SQLState_class_22_mapping
+  - id: TD-QA-006
+    title: AuthController.initiateAssistance returned an unhandled 500 for a nonexistent
+      assistedUserId instead of 404
+    status: closed
+    risk_level: low
+    blocking: false
+    source_backlog_item: COM-MOD-012-QA-001
+    affected_area: identityaccess_exception_advice_scope
+    file: 08-qa/technical-debt/TD-QA-006-authcontroller-not-found-exception-unmapped-500.yaml
+    remediation_strategy: closed_by_COM_MOD_012_QA_001_widened_exception_advice_assignableTypes

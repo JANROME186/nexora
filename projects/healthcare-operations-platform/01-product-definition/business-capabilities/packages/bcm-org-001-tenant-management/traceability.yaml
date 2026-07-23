@@ -43,3 +43,15 @@ implementation:
     openapi-source.yaml/mappings above. Tenant quota (TenantQuota), branding (TenantBranding) and
     data-masking-policy value objects modeled in business-model.yaml are not yet exposed by any
     operation and were not persisted, since no compiled endpoint requires them.
+
+validation:
+  backlog_item: COM-MOD-012-QA-001
+  status: validated
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
+  contribution: >-
+    Live runtime validation of provisionTenant/listTenants/updateTenantStatus against a running
+    backend: duplicate tenant code correctly rejected (409), invalid status value correctly
+    rejected (400), status transition on a nonexistent tenant correctly rejected (404), 20
+    concurrent tenant provisions all succeeded with no duplicate-code race (unique index backstop
+    confirmed), and both TenantStatusChanged audit events verified present with
+    previousStatus/newStatus/reason metadata via a live GET /api/audit/events query.

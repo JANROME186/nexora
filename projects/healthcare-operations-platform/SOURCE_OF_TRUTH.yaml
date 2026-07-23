@@ -156,6 +156,15 @@ sources:
   com_mod_012_be_001_qa_evidence_yaml: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-BE-001-validation.yaml
   com_mod_012_be_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-012-BE-001/security-quality-evidence.md
   com_mod_012_be_001_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-012-BE-001/security-quality-evidence.yaml
+  com_mod_012_qa_001_qa_evidence: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.md
+  com_mod_012_qa_001_qa_evidence_yaml: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
+  com_mod_012_qa_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-012-QA-001/security-quality-evidence.md
+  com_mod_012_qa_001_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-012-QA-001/security-quality-evidence.yaml
+  com_mod_012_qa_001_zap_backend_api_report: 08-qa/security-quality/COM-MOD-012-QA-001/zap-backend-api.html
+  com_mod_012_qa_001_zap_employee_portal_report: 08-qa/security-quality/COM-MOD-012-QA-001/zap-employee-portal.html
+  technical_debt_td_obs_001: 08-qa/technical-debt/TD-OBS-001-distributed-tracing-and-observability-stack-not-provisioned.yaml
+  technical_debt_td_qa_005: 08-qa/technical-debt/TD-QA-005-null-byte-query-parameter-unhandled-500.yaml
+  technical_debt_td_qa_006: 08-qa/technical-debt/TD-QA-006-authcontroller-not-found-exception-unmapped-500.yaml
   com_mod_012_pkg_bcm_org_001: 01-product-definition/business-capabilities/packages/bcm-org-001-tenant-management/
   com_mod_012_pkg_bcm_plt_001: 01-product-definition/business-capabilities/packages/bcm-plt-001-identity-and-access-management/
   com_mod_012_pkg_bcm_plt_002: 01-product-definition/business-capabilities/packages/bcm-plt-002-platform-configuration/

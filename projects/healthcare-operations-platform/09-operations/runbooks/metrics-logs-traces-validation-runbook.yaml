@@ -106,7 +106,8 @@ known_gaps_and_forward_pointers:
       memory/GC/threads, DataSource pool). A curated business-metrics catalog beyond the Micrometer
       defaults remains future scope.
   - gap: No SLO/SLA alert definitions are wired to an alerting backend; SloDefinition exists only as a modeled value object.
-    forward_pointer: future alerting-infrastructure backlog item (needs an actual alerting backend such as
+    status: confirmed_still_open_by_COM_MOD_012_QA_001
+    forward_pointer: tracked as TD-OBS-001 (needs an actual alerting backend such as
       Alertmanager, which is not yet provisioned per observability-runbook.yaml).
 
 closure:

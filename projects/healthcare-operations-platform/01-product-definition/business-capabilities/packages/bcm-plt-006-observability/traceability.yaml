@@ -45,3 +45,28 @@ implementation:
     BCM-PLT-006 invariant. Distributed trace export to the local OTel Collector remains open
     (observability-runbook.yaml known_gaps_and_forward_pointers); this backlog item only wired
     trace-id propagation into log MDC, not span export.
+
+validation:
+  backlog_item: COM-MOD-012-QA-001
+  status: validated
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
+  contribution: >-
+    Live runtime validation against a running backend found and fixed a real resilience defect:
+    application-local.yml's readiness probe group only included the default readinessState (not
+    db), so it reported UP even with PostgreSQL stopped -- an orchestrator would have kept routing
+    traffic to a dead-database pod. Fixed by adding management.endpoint.health.group.readiness.include:
+    readinessState,db to application-local.yml (the profile with a real DataSource bean; the same
+    include in the base application.yml broke context startup for profiles with no DataSource, so
+    it was scoped there instead) plus a new regression test
+    (ObservabilityReadinessLocalDatabaseTest). Re-verified live: readiness correctly reports
+    DOWN/503 while PostgreSQL is stopped and UP again after recovery, while liveness correctly
+    stays UP throughout (no unnecessary pod restart). MDC tenantId/userId/traceId confirmed
+    populated on live HTTP traffic including malformed-JSON error paths; W3C traceparent reuse and
+    control-character header sanitization confirmed live. Also executed a real backup
+    (backup-runbook.yaml, pg_dump custom-format, SHA-256 checksum, pg_restore --list structural
+    verification: 415 TOC entries) and restore rehearsal (restore-runbook.yaml, isolated
+    hop_restore_verify database, row counts matched source exactly: 40=40) as operational
+    readiness evidence. Distributed trace export, a provisioned Grafana/Prometheus/Loki stack and
+    SLO/SLA alerting remain open, confirmed still not implemented; re-registered as TD-OBS-001
+    (the local OTel Collector container is running and reachable, but the backend has no
+    OpenTelemetry/micrometer-tracing dependency to export spans to it).

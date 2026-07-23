@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.nexora.hop.platformfoundation.identityaccess.application.IdentityEntityNotFoundException;
 import com.nexora.hop.platformfoundation.identityaccess.application.InvalidIdentityCommandException;
 
-@RestControllerAdvice(assignableTypes = IdentityAccessController.class)
+@RestControllerAdvice(assignableTypes = { IdentityAccessController.class, AuthController.class })
 class IdentityAccessExceptionHandler {
 
     @ExceptionHandler(IdentityEntityNotFoundException.class)

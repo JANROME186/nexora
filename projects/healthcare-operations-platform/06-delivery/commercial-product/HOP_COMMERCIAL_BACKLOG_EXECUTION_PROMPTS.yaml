@@ -243,14 +243,14 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-012
-  backlog_item_id: COM-MOD-012-QA-001
-  name: Performance, resilience and security evidence
-  expected_folder: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/ and
-    08-qa/qa/platform-hardening-and-saas-operations/
+  backlog_item_id: COM-MOD-012-CLOSEOUT
+  name: Module closeout and registry update
+  expected_folder: 08-qa/qa/platform-hardening-and-saas-operations/ and registry files across the
+    repository
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
-    backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.11
+    backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.14
     frontend_typescript_web_line_coverage_percent: 88.68
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.11
@@ -259,39 +259,44 @@ next_backlog_item:
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - Preserve coverage floors: backend (84.11%), employee portal (88.68%), mobile (99.21%), patient portal (94.11%), doctor portal (96.28%), and public website (98.61%).
-    - Do not advance next_backlog_item if compiler, typecheck, automated tests, build or static-analysis gates cannot run.
-    - Reconcile PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml, this prompt file, capability traceability files and local runbook pointers before commit.
-    - Review 08-qa/technical-debt/technical-debt-index.yaml before backend work and resolve or materially reduce at least one open item when applicable.
-    - Validate performance/resilience/security posture for the operations compiled by COM-MOD-012-BE-001 (tenant provisioning/status transitions, feature flags, Prometheus/health/MDC observability); a dedicated DAST pass against the new endpoints was deferred by BE-001 and should be run here.
-    - The remaining COM-MOD-012-BE-001 forward pointers still open (distributed trace export to the OTel Collector, a provisioned Grafana/Prometheus/Loki stack, and an SLO/SLA alerting backend) require infrastructure not yet available locally; do not attempt to close them without that infrastructure, register/refresh technical debt instead.
+    - Preserve coverage floors: backend (84.14%), employee portal (88.68%), mobile (99.21%), patient portal (94.11%), doctor portal (96.28%), and public website (98.61%).
+    - Confirm all 8 COM-MOD-012 capability packages are module_closed in capability-package-index.yaml and their traceability.yaml files.
+    - Confirm zero open or blocking technical debt attributable to COM-MOD-012 (TD-OBS-001, TD-BE-016, TD-BE-017 and TD-IAM-003 remain open by design, non-blocking, with target backlog items).
+    - This is documentation/registry-only closeout scope; do not touch source code unless a real defect is found during the closeout review itself.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-012-BE-001
+    backlog_item_id: COM-MOD-012-QA-001
     status: closed
     summary: >-
-      COM-MOD-012-BE-001 closed clean. Compiled BCM-ORG-001 tenant operations (provisionTenant
-      extended in place with code/legalName/tradeName/taxId/tier/isolationStrategy, listTenants and
-      updateTenantStatus added, both privileged and audited), a new BCM-PLT-002
-      platformconfiguration Spring Modulith module (getPlatformConfig, evaluateFeatureFlags,
-      updateFeatureFlag, all audited/validated per business-model.yaml invariants), and BCM-PLT-006
-      observability extensions (micrometer-registry-prometheus + /actuator/prometheus, explicit
-      liveness/readiness health groups, a new RequestObservabilityContextFilter populating
-      tenantId/userId/traceId MDC on every log line). Closed 5 of 8 named OPS-002 runbook
-      known_gaps_and_forward_pointers entries (Prometheus endpoint, MDC context, health groups, plus
-      a metrics catalog and a real tenant-impact-triage containment control); the remaining 3
-      (distributed trace export, a provisioned Grafana/Prometheus/Loki stack, SLO/SLA alerting)
-      require infrastructure not yet provisioned and were re-pointed to future items.
-      BCM-PLT-001/005/007/008/009 extensions were deliberately deferred (not exposed by any
-      operation this item needed to compile) and registered as TD-BE-016/TD-BE-017/TD-IAM-003
-      rather than built speculatively. A backward-compatible ProvisionTenantRequest.name fallback
-      plus auto-derived tenant code kept ~20 pre-existing module test fixtures working unchanged
-      against the richer Tenant model. A real SpotBugs/FindSecBugs SERVLET_HEADER finding on the
-      new MDC filter was fixed in code (control-character stripping, strict W3C traceparent
-      validation), not suppressed. 362 tests (0 failures/errors/skipped, up from 360), backend
-      coverage raised 83.99% -> 84.11%. TD-IAM-002 and TD-DB-004 materially reduced further;
-      TD-I18N-002 further reduced with 4 new i18n keys. Capability traceability updated for
-      BCM-ORG-001/BCM-PLT-002/BCM-PLT-006. Passed the full quality gate: mvn -Pquality clean verify
-      (checkstyle, PMD/CPD, SpotBugs/FindSecBugs, duplicate-finder, CycloneDX SBOM), OWASP
-      Dependency-Check (115 deps, 0 vulnerable), Trivy fs scan (0 vulns/secrets/misconfigs), YAML
-      parse (1,248 files), agent-agnostic scan (0 real hits), stale-pointer sweep and git diff
-      --check, and advanced next_backlog_item to COM-MOD-012-QA-001.
+      COM-MOD-012-QA-001 closed clean. Validated all 8 COM-MOD-012 capabilities end to end against
+      a running local backend: tenant provisioning/listing/status transition (duplicate-code 409,
+      invalid-status 400, nonexistent-tenant 404, 20 concurrent provisions with 0 races), platform
+      config/feature flags (safe-default-false invariant, namespace/rollout validation), Prometheus
+      metrics, health groups and MDC logging (verified live including malformed-input error paths,
+      W3C traceparent reuse and control-character sanitization), and audit-event traceability for
+      both privileged operations. Light local load check: 30 sequential + 20 concurrent requests, 0
+      failures. Found and fixed a real resilience defect: the readiness probe did not reflect
+      database connectivity (management.endpoint.health.group.readiness.include was unset in
+      application-local.yml); re-verified live via a real docker stop/start of the Postgres
+      container (readiness correctly DOWN/503 then UP, liveness stays UP throughout). Executed a
+      dedicated OWASP ZAP API scan against the full backend surface (deferred by BE-001, 353 URLs)
+      that found and this item fixed 2 real defects: TD-QA-005 (null byte / oversized string value
+      reaching JDBC caused an unhandled 500 across laboratoryworkflow and cashsales, fixed via a
+      narrow GlobalExceptionHandler SQLState-class-22 mapping that leaves real 23xxx constraint
+      conflicts unregressed) and TD-QA-006 (AuthController.initiateAssistance returned 500 instead
+      of 404 for a nonexistent assistedUserId, fixed by widening IdentityAccessExceptionHandler's
+      assignableTypes); a final rescan confirmed 0 FAIL-NEW/0 WARN-NEW/118 PASS. A ZAP baseline
+      scan against the unchanged employee portal found 0 FAIL-NEW (4 WARN-NEW all matching the
+      already-registered TD-FE-005). Executed a real backup (pg_dump, SHA-256 checksum, pg_restore
+      --list showing 415 TOC entries) and restore rehearsal (isolated database, matching row counts
+      40=40). Reviewed the 3 remaining COM-MOD-012-BE-001 infrastructure forward pointers
+      (distributed trace export, provisioned Grafana/Prometheus/Loki, SLO/SLA alerting): confirmed
+      the local OTel Collector container is running and reachable but the backend has no tracing
+      dependency wired to it, and registered TD-OBS-001 rather than closing them without real
+      infrastructure. 367 tests (0 failures/errors/skipped, up from 362), backend coverage raised
+      84.11% -> 84.14%. Passed the full quality gate: mvn -Pquality clean verify (checkstyle,
+      PMD/CPD, SpotBugs/FindSecBugs, duplicate-finder, CycloneDX SBOM), OWASP Dependency-Check (115
+      deps, 0 vulnerable), Trivy fs scan (0 vulns/secrets/misconfigs, backend and repo-wide), YAML
+      parse (1,256 files), agent-agnostic scan (0 real hits), stale-pointer sweep (corrected a
+      stale PROJECT_STATE.yaml coverage baseline, 4 runbook forward pointers, and a stale
+      capability-package-index.yaml COM-MOD-012 roadmap-group entry) and git diff --check, and
+      advanced next_backlog_item to COM-MOD-012-CLOSEOUT.

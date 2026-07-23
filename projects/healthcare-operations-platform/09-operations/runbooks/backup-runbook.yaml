@@ -129,7 +129,10 @@ related_runbooks:
 
 known_gaps_and_forward_pointers:
   - gap: No scheduled/automated backup job exists yet; this runbook is a manual, on-demand procedure.
-    forward_pointer: COM-MOD-012-BE-001 and BCM-PLT-009 workflow automation.
+    forward_pointer: >-
+      COM-MOD-012-BE-001 closed without implementing BCM-PLT-009 workflow orchestration
+      (deliberately deferred, registered as TD-BE-017); a future dedicated workflow-engine backlog
+      item owns automating this runbook's execution.
   - gap: No object-storage or off-host retention target is configured; artifacts remain on the local filesystem.
     forward_pointer: future infrastructure-provisioning backlog item.
   - gap: Backup currently covers the entire shared database (all tenants); there is no per-tenant export/backup path yet.

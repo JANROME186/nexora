@@ -43,6 +43,8 @@ backlog_items:
   saas_hardening_status: closed
   operational_strategy: COM-MOD-012-OPS-002
   operational_strategy_status: active
+  saas_hardening_validation: COM-MOD-012-QA-001
+  saas_hardening_validation_status: validated
 
 operational_strategy:
   evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
@@ -52,3 +54,16 @@ operational_strategy:
     evidence_bundle_structure and retention policy every other new runbook depends on, pending
     formal BCM-PLT-008 implementation; until then evidence is stored as repository files under
     08-qa/ by convention.
+
+validation:
+  backlog_item: COM-MOD-012-QA-001
+  status: validated
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
+  contribution: >-
+    Confirmed BCM-PLT-008's COM-MOD-012 extension (retention/export controls modeled by
+    COM-MOD-012-DEF) remains extension_deferred, unchanged since COM-MOD-012-BE-001 deliberately
+    did not compile it (no operation this backlog item needed required it). This QA-001's own
+    backup/restore evidence (pg_dump artifact, SHA-256 checksum, pg_restore --list verification)
+    was itself stored as a repository file under 08-qa/qa/platform-hardening-and-saas-operations/
+    backups/ per the existing evidence-collection-runbook.yaml convention, confirming that
+    convention remains the working interim control.

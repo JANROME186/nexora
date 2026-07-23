@@ -29,6 +29,28 @@ required_checks_when_applicable:
   - container_or_iac_scan_when_assets_change
 
 entries:
+  - backlog_item: COM-MOD-012-QA-001
+    module: COM-MOD-012 Platform Hardening and SaaS Operations
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-012-QA-001/
+    human_readable: 08-qa/security-quality/COM-MOD-012-QA-001/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-012-QA-001/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: passed
+      dependency_vulnerability_scan: passed
+      secrets_scan: passed
+      coverage: passed
+      dast_for_runnable_web_or_api_surfaces: passed
+      container_or_iac_scan_when_assets_change: not_applicable_no_container_or_iac_asset_changed
+    note: >-
+      Validated all 8 COM-MOD-012 capabilities live. Found and fixed a real resilience defect
+      (readiness probe not reflecting database connectivity) and, via a dedicated OWASP ZAP DAST
+      pass against the full backend API surface, 2 real defects (TD-QA-005 cross-cutting
+      unhandled-500, TD-QA-006 AuthController exception-advice scope gap), both closed
+      same-iteration with regression tests. Final ZAP API rescan: 0 FAIL-NEW, 0 WARN-NEW, 118 PASS.
+      Executed a real backup/restore rehearsal. Registered TD-OBS-001 for the confirmed-still-open
+      distributed tracing/Grafana-Prometheus-Loki/SLO-SLA-alerting forward pointers.
   - backlog_item: COM-MOD-012-BE-001
     module: COM-MOD-012 Platform Hardening and SaaS Operations
     status: passed

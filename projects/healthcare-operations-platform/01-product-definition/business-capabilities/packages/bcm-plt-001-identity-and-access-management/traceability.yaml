@@ -83,6 +83,8 @@ backlog_items:
   saas_hardening_status: closed
   operational_strategy: COM-MOD-012-OPS-002
   operational_strategy_status: active
+  saas_hardening_validation: COM-MOD-012-QA-001
+  saas_hardening_validation_status: validated
 
 operational_strategy:
   evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
@@ -92,3 +94,17 @@ operational_strategy:
     (platform:backup:execute, platform:restore:execute, platform:rollback:execute,
     platform:incident:manage, platform:tenant:read, platform:incident:review) enforced across every
     new operational runbook.
+
+validation:
+  backlog_item: COM-MOD-012-QA-001
+  status: validated
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
+  contribution: >-
+    Confirmed the new SCREEN_PLATFORM_CONFIGURATION EndpointPermissionRegistry entries
+    (/api/platform/config, /api/platform/feature-flags) compiled by COM-MOD-012-BE-001 are
+    reachable and deny-by-default per RolePermissionCatalog. Local runtime testing used the
+    project's pre-existing local-fixture ADMIN authentication bypass
+    (hop.security.local-fixture-enabled, unchanged, closed by TD-IAM-001); no new authentication
+    bypass was introduced. BCM-PLT-001 MFA, service-account credentials and the
+    domain.resource.action.scope permission grammar remain not implemented (TD-IAM-003, confirmed
+    still open).

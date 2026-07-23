@@ -27,3 +27,14 @@ operational_strategy:
     restore and post-incident review, and every new runbook's iam_and_audit section defines the
     audit expectation for its own privileged actions pending native BCM-PLT-009 workflow
     automation of those audit events.
+
+validation:
+  backlog_item: COM-MOD-012-QA-001
+  status: validated
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
+  contribution: >-
+    Confirmed live via GET /api/audit/events that both COM-MOD-012-BE-001 privileged operations
+    record correctly: TenantStatusChanged (previousStatus, newStatus, reason metadata) and
+    FeatureFlagUpdated (enabledByDefault, rolloutPercentage, updatedBy metadata). searchAuditEvents/
+    exportAuditEvents openapi-source.yaml operations remain not fully compiled, confirmed still
+    open per TD-BE-016 (unchanged).

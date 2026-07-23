@@ -25,4 +25,16 @@ operational_strategy:
     (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002 documents the concrete incident-response,
     rollback-incident-handoff and post-incident-review runbooks as this capability's target
     workflow, currently executed manually pending BCM-PLT-009's own backend implementation
-    (COM-MOD-012-BE-001).
+    (deliberately deferred by COM-MOD-012-BE-001 and registered as TD-BE-017, since a workflow
+    engine shell with no real process to orchestrate would itself be unwarranted CRUD).
+
+validation:
+  backlog_item: COM-MOD-012-QA-001
+  status: validated
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
+  contribution: >-
+    Confirmed BCM-PLT-009 remains not_implemented (TD-BE-017, unchanged). Manually exercised its
+    target workflow's first two steps for real: backup-runbook.yaml (pg_dump, checksum, structural
+    verification) and restore-runbook.yaml (isolated-database restore rehearsal with matching row
+    counts), both executed successfully against the running local stack, confirming the manual
+    procedure remains fully functional while automation is deferred.

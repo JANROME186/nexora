@@ -19,21 +19,27 @@ product:
     completed_module: COM-MOD-011 (COM-MOD-011-CLOSEOUT closed)
     completed_status: closed
     active_module: COM-MOD-012
-    active_backlog_item: COM-MOD-012-QA-001
+    active_backlog_item: COM-MOD-012-CLOSEOUT
     active_module_progress: >-
-      COM-MOD-012-OPS-002 closed clean. 10 executable runbook pairs (observability,
-      health/readiness/liveness, metrics/logs/traces validation, backup, restore, incident
-      response, rollback incident handoff, tenant-impact triage, evidence collection, post-incident
-      review) added under 09-operations/runbooks/, built on production-deployment-strategy.yaml.
-      TD-DB-004 materially reduced via tenant-impact-triage-runbook.yaml's cross-tenant leakage
-      check. COM-MOD-012-BE-001 closed clean: compiled BCM-ORG-001 tenant provisioning/listing/
+      COM-MOD-012-BE-001 closed clean: compiled BCM-ORG-001 tenant provisioning/listing/
       status-transition operations, a new BCM-PLT-002 platformconfiguration module (config +
       feature flags) and BCM-PLT-006 observability extensions (Prometheus metrics endpoint,
       liveness/readiness health groups, tenant/user/trace MDC logging), closing 5 of 8 named
       OPS-002 runbook known_gaps_and_forward_pointers entries. 362 tests (0 failures), backend
       coverage raised 83.99% -> 84.11%. TD-IAM-002 and TD-DB-004 materially reduced further;
       TD-BE-016/TD-BE-017/TD-IAM-003 registered for honestly-scoped deferred BCM-PLT-001/005/007/
-      009 extensions. Next item COM-MOD-012-QA-001.
+      009 extensions. COM-MOD-012-QA-001 closed clean: validated all 8 COM-MOD-012 capabilities
+      live against a running backend; found and fixed a real resilience defect (the readiness
+      probe did not reflect database connectivity, re-verified live via a real
+      docker stop/start of the Postgres container); executed a dedicated OWASP ZAP DAST pass
+      against the full backend API surface (deferred by BE-001) that found and this item fixed 2
+      real defects (TD-QA-005 cross-cutting null-byte/oversized-value unhandled 500, TD-QA-006
+      AuthController exception-advice scope gap; final rescan 0 FAIL-NEW/0 WARN-NEW); ZAP baseline
+      against the unchanged employee portal 0 FAIL-NEW; executed a real backup and restore
+      rehearsal; confirmed the 3 remaining infrastructure forward pointers (distributed trace
+      export, provisioned Grafana/Prometheus/Loki, SLO/SLA alerting) still require infrastructure
+      not available locally and registered TD-OBS-001. 367 tests (0 failures), backend coverage
+      raised 84.11% -> 84.14%. Next item COM-MOD-012-CLOSEOUT.
     paused_backlog_item: null
 
 source_inputs:
@@ -874,9 +880,10 @@ modules:
         status: closed
       - id: COM-MOD-012-QA-001
         name: Performance, resilience and security evidence
-        status: active
+        status: closed
       - id: COM-MOD-012-CLOSEOUT
         name: Module closeout and registry update
+        status: active
     acceptance_summary:
       - HOP can be deployed and operated in a production-like environment.
       - Backups, restores, upgrades and incidents have executable runbooks.

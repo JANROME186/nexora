@@ -119,7 +119,10 @@ related_runbooks:
 
 known_gaps_and_forward_pointers:
   - gap: No automated restore-rehearsal schedule exists; rehearsal is manual and on-demand.
-    forward_pointer: COM-MOD-012-BE-001 and BCM-PLT-009 workflow automation.
+    forward_pointer: >-
+      COM-MOD-012-BE-001 closed without implementing BCM-PLT-009 workflow orchestration
+      (deliberately deferred, registered as TD-BE-017); a future dedicated workflow-engine backlog
+      item owns automating this runbook's execution.
   - gap: No point-in-time recovery (PITR) capability is configured; only full-dump restore is exercised.
     forward_pointer: adoption of pgBackRest or equivalent WAL-archiving tool for staging/prod.
 

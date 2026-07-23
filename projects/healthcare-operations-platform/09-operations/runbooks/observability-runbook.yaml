@@ -124,10 +124,14 @@ known_gaps_and_forward_pointers:
     resolution: micrometer-registry-prometheus added to backend/pom.xml; management.endpoints.web.exposure.include
       now includes prometheus; GET /actuator/prometheus verified reachable by ObservabilityEndpointsWebTest.
   - gap: No distributed tracing exporter is wired from the backend to the local OTel Collector yet; the collector runs and is reachable, but no application spans are produced.
-    forward_pointer: future backlog item once an OpenTelemetry Java agent/SDK is added; COM-MOD-012-BE-001 only
-      wired trace-id propagation into log MDC (see metrics-logs-traces-validation-runbook.yaml), not span export.
+    status: confirmed_still_open_by_COM_MOD_012_QA_001
+    forward_pointer: >-
+      tracked as TD-OBS-001, owned by a future dedicated observability-infrastructure backlog
+      item; COM-MOD-012-BE-001 only wired trace-id propagation into log MDC (see
+      metrics-logs-traces-validation-runbook.yaml), not span export.
   - gap: No Grafana/Prometheus/Loki-compatible stack is provisioned in dev/qa/staging/prod; only the environment_configuration_policy target posture is defined in production-deployment-strategy.yaml.
-    forward_pointer: future infrastructure-provisioning backlog item under COM-MOD-012 or a dedicated MVP-MOD infra item.
+    status: confirmed_still_open_by_COM_MOD_012_QA_001
+    forward_pointer: tracked as TD-OBS-001, owned by a future dedicated observability-infrastructure backlog item.
 
 closure:
   backlog_item: COM-MOD-012-OPS-002

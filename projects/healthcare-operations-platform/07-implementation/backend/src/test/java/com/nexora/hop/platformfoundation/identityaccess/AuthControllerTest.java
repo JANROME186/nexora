@@ -149,6 +149,35 @@ class AuthControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+    @Test
+    void assistanceForANonexistentAssistedUserReturnsNotFoundInsteadOfServerError() throws Exception {
+        JsonNode tenant = postJson("/api/platform/tenants", "{\"name\":\"Auth Not Found Test Tenant\"}");
+        String tenantId = tenant.get("tenantId").asText();
+
+        UserAccount supportUser = service.createUser(
+                new CreateUserCommand(tenantId, "Support Agent 2", "support2@nexora.example"),
+                "supportagent2",
+                "support123"
+        );
+        service.assignRole(supportUser.userId(), new AssignRoleCommand(
+                "SUPPORT", "tenant", tenantId, "tester-2"
+        ));
+        String supportToken = "local-session:" + tenantId + ":" + supportUser.userId();
+
+        String assistancePayload = """
+                {
+                    "assistedUserId": "00000000-0000-0000-0000-000000000000",
+                    "ticketReference": "TICKET-404"
+                }
+                """;
+
+        mockMvc.perform(post("/api/auth/assistance")
+                .header("Authorization", "Bearer " + supportToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(assistancePayload))
+                .andExpect(status().isNotFound());
+    }
+
     private JsonNode postJson(String path, String json) throws Exception {
         MvcResult result = mockMvc.perform(post(path)
                 .contentType(MediaType.APPLICATION_JSON)

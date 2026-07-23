@@ -137,7 +137,10 @@ related_runbooks:
 
 known_gaps_and_forward_pointers:
   - gap: No alerting backend pages an on-call operator automatically; incident detection today is manual, driven by running observability-runbook.yaml.
-    forward_pointer: COM-MOD-012-BE-001 and a future alerting-infrastructure backlog item.
+    forward_pointer: >-
+      COM-MOD-012-BE-001 closed without an alerting backend; tracked as TD-OBS-001 (distributed
+      trace export, provisioned Grafana/Prometheus/Loki stack and SLO/SLA alerting backend), owned
+      by a future dedicated observability-infrastructure backlog item.
   - gap: No incident-tracking system integration exists; this runbook's evidence trail is the record of truth until one is adopted.
     forward_pointer: BCM-PLT-009 workflow automation.
 

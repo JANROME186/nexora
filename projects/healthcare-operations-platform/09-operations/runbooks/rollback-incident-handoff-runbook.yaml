@@ -126,7 +126,10 @@ known_gaps_and_forward_pointers:
   - gap: No image-digest registry or blue/green-canary orchestration exists yet outside local drills; rollback beyond local is a target posture, not an executable mechanism today.
     forward_pointer: future deployment-infrastructure backlog item building on production-deployment-strategy.yaml.
   - gap: No automated native rollback audit event exists yet; this runbook's manual evidence log is the interim control.
-    forward_pointer: COM-MOD-012-BE-001 and BCM-PLT-009 workflow automation.
+    forward_pointer: >-
+      COM-MOD-012-BE-001 closed without implementing BCM-PLT-009 workflow orchestration
+      (deliberately deferred, registered as TD-BE-017); a future dedicated workflow-engine backlog
+      item owns automating this runbook's execution.
 
 closure:
   backlog_item: COM-MOD-012-OPS-002
