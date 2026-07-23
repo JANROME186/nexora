@@ -1,0 +1,37 @@
+artifact:
+  id: HOP-SQ-COM-MOD-013-BE-001
+  type: security-quality-evidence
+  name: COM-MOD-013-BE-001 Security Quality Evidence Report
+  version: 1.0.0
+  status: validated
+  backlog_item: COM-MOD-013-BE-001
+  module: COM-MOD-013 Advanced Quality and Compliance
+  created_date: 2026-07-23
+
+security_checks:
+  owasp_dependency_check:
+    status: passed
+    vulnerabilities_found: 0
+    note: Executed against existing local NVD database baseline.
+  trivy_fs_scan:
+    status: passed
+    findings_count: 0
+  secrets_scan:
+    status: passed
+    secrets_found: 0
+  agent_agnostic_scan:
+    status: passed
+    agent_specific_leaks: 0
+  iam_action_authorization:
+    status: passed
+    enforcement: deny_by_default_interceptor
+
+technical_debt:
+  remediated:
+    - id: TD-BE-016
+      title: BCM-PLT-007 searchAuditEvents/exportAuditEvents openapi-source.yaml operations not fully compiled
+      status: closed
+
+summary: >
+  Security and quality checks passed for COM-MOD-013-BE-001. No security vulnerabilities or hardcoded secrets
+  were introduced. IAM per-action permission mapping is registered and technical debt TD-BE-016 is closed.

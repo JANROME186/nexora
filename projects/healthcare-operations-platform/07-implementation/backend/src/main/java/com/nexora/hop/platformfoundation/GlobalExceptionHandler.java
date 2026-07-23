@@ -28,6 +28,34 @@ public class GlobalExceptionHandler {
      */
     private static final Set<String> CLIENT_DATA_EXCEPTION_SQLSTATES = Set.of("22021", "22001");
 
+    @ExceptionHandler(com.nexora.hop.platformfoundation.externalqualitycompliance.ExternalQualityComplianceException.class)
+    public ResponseEntity<Object> handleExternalQualityComplianceException(
+            com.nexora.hop.platformfoundation.externalqualitycompliance.ExternalQualityComplianceException ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        HttpStatus status = ex.getCode().contains("NOT_FOUND") ? HttpStatus.NOT_FOUND : HttpStatus.BAD_REQUEST;
+        body.put("status", status.value());
+        body.put("code", ex.getCode());
+        body.put("messageKey", ex.getMessageKey());
+        body.put("message", ex.getMessage());
+        body.put("path", request.getDescription(false).replace("uri=", ""));
+        return new ResponseEntity<>(body, status);
+    }
+
+    @ExceptionHandler(com.nexora.hop.platformfoundation.documentmanagement.domain.DocumentManagementException.class)
+    public ResponseEntity<Object> handleDocumentManagementException(
+            com.nexora.hop.platformfoundation.documentmanagement.domain.DocumentManagementException ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        HttpStatus status = ex.getMessage().contains("not found") ? HttpStatus.NOT_FOUND : HttpStatus.BAD_REQUEST;
+        body.put("status", status.value());
+        body.put("code", "DOCUMENT_MANAGEMENT_ERROR");
+        body.put("messageKey", "document.error.generic");
+        body.put("message", ex.getMessage());
+        body.put("path", request.getDescription(false).replace("uri=", ""));
+        return new ResponseEntity<>(body, status);
+    }
+
     @ExceptionHandler({
             org.apache.tomcat.util.http.InvalidParameterException.class,
             IllegalArgumentException.class

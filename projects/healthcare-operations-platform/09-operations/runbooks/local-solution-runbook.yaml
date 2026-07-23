@@ -12,7 +12,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-013-BE-001
+  current_active_backlog_item: COM-MOD-013-FE-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -20,9 +20,9 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
-    backlog_item: COM-MOD-013-DEF
+    backlog_item: COM-MOD-013-BE-001
     status: closed
-    next_active_backlog_item: COM-MOD-013-BE-001
+    next_active_backlog_item: COM-MOD-013-FE-001
     runtime_change: >-
       None. Definition-only capability package modeling item: defined 3 new capability packages
       (BCM-QLT-002 External Quality Controls, BCM-QLT-006 CAPA Management, BCM-QLT-007 Audit Management)

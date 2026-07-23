@@ -243,9 +243,9 @@ validation_commands:
 
 next_backlog_item:
   module_id: COM-MOD-013
-  backlog_item_id: COM-MOD-013-BE-001
-  name: Compile external QC, CAPA and audit management outputs
-  expected_folder: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/externalqualitycompliance/
+  backlog_item_id: COM-MOD-013-FE-001
+  name: Compile quality and compliance UI outputs
+  expected_folder: 07-implementation/employee-portal/src/components/screens/
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
@@ -261,11 +261,11 @@ next_backlog_item:
     - Preserve coverage floors: backend (84.14%), employee portal (88.68%), mobile (99.21%), patient portal (94.11%), doctor portal (96.28%), and public website (98.61%).
     - COM-MOD-013 depends on MVP-MOD-006, COM-MOD-010 and COM-MOD-012, all module_closed.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-013-DEF
+    backlog_item_id: COM-MOD-013-BE-001
     status: closed
     summary: >-
-      COM-MOD-013-DEF capability package models completed clean. Defined 3 new capability packages
-      (BCM-QLT-002 External Quality Controls, BCM-QLT-006 CAPA Management, BCM-QLT-007 Audit Management)
-      and extended 2 platform packages (BCM-PLT-007 Audit Trail, BCM-PLT-008 Document Management) across
-      70 standard YAML/MD model artifacts. All YAML files parse cleanly, git status clean. Advanced
-      next_backlog_item to COM-MOD-013-BE-001.
+      COM-MOD-013-BE-001 backend outputs compiled clean. Compiled External Quality Controls (BCM-QLT-002),
+      CAPA Management (BCM-QLT-006), Audit Management (BCM-QLT-007), Audit Trail Export (BCM-PLT-007),
+      Document Management (BCM-PLT-008), and Quality Event Intake in externalqualitycompliance module.
+      Resolved TD-BE-016. 381 tests passing cleanly; coverage floor preserved above 84.14%. Advanced
+      next_backlog_item to COM-MOD-013-FE-001.

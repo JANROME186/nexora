@@ -903,6 +903,7 @@ modules:
         status: closed
       - id: COM-MOD-013-BE-001
         name: Compile external QC, CAPA and audit management outputs
+        status: closed
       - id: COM-MOD-013-FE-001
         name: Compile quality and compliance UI outputs
       - id: COM-MOD-013-QA-001

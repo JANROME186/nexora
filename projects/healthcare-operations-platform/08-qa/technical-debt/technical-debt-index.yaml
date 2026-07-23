@@ -615,13 +615,13 @@ entries:
       COM-MOD-010-FE-001;_apply_to_the_three_legacy_files_next_time_bcm_plt_004_005_010_screens_are_touched
   - id: TD-BE-016
     title: BCM-PLT-007 searchAuditEvents/exportAuditEvents openapi-source.yaml operations not fully compiled
-    status: open
+    status: closed
     risk_level: low
     blocking: false
     source_backlog_item: COM-MOD-012-BE-001
     affected_area: audit_trail_api_surface
     file: 08-qa/technical-debt/TD-BE-016-audit-trail-search-export-not-fully-compiled.yaml
-    remediation_strategy: gradual_when_a_future_backlog_item_next_touches_auditcompliance
+    remediation_strategy: closed_by_COM_MOD_013_BE_001_audit_events_export_and_filtered_search
   - id: TD-BE-017
     title: BCM-PLT-009 Workflow Engine (listWorkflowExecutions/triggerWorkflow/rollbackWorkflow) not implemented
     status: open

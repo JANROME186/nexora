@@ -141,6 +141,26 @@ public class EndpointPermissionRegistry {
                   PermissionCode.SCREEN_INTERNAL_QUALITY_CONTROLS,
                   "BCM-QLT-001"),
               readWrite(
+                  "/api/quality/external-controls",
+                  PermissionCode.SCREEN_EXTERNAL_QUALITY_CONTROLS,
+                  "BCM-QLT-002"),
+              readWrite(
+                  "/api/quality/capa",
+                  PermissionCode.SCREEN_CAPA_MANAGEMENT,
+                  "BCM-QLT-006"),
+              readWrite(
+                  "/api/quality/audits",
+                  PermissionCode.SCREEN_AUDIT_MANAGEMENT,
+                  "BCM-QLT-007"),
+              readWrite(
+                  "/api/quality/events",
+                  PermissionCode.SCREEN_CAPA_MANAGEMENT,
+                  "BCM-QLT-006"),
+              readWrite(
+                  "/api/documents",
+                  PermissionCode.SCREEN_DOCUMENT_MANAGEMENT,
+                  "BCM-PLT-008"),
+              readWrite(
                   "/api/quality/calibrations",
                   PermissionCode.SCREEN_CALIBRATIONS,
                   "BCM-QLT-003"),
