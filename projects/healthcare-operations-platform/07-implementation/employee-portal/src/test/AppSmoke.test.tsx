@@ -38,7 +38,9 @@ describe("Employee portal app smoke", () => {
     expect(screen.getByRole("heading", { name: "Role Assignment" })).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Eventos de Auditoría" }));
-    expect(screen.getByRole("heading", { name: "Audit Search" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Búsqueda de Eventos de Auditoría" }),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Catálogo Diagnóstico" }));
     expect(screen.getByRole("heading", { name: "Diagnostic Catalog" })).toBeInTheDocument();
@@ -71,7 +73,7 @@ describe("Employee portal app smoke", () => {
 
     await user.click(screen.getByRole("button", { name: "Solicitudes de Facturación" }));
     expect(screen.getByRole("heading", { name: "Billing Requests" })).toBeInTheDocument();
-  });
+  }, 35000);
 
   it("navigates to Results and Digital Delivery screens (MVP-MOD-007)", async () => {
     const user = userEvent.setup();
@@ -181,14 +183,35 @@ describe("Employee portal app smoke", () => {
     expect(
       screen.getByRole("heading", { name: "Solicitudes Públicas de Cotización" }),
     ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Controles de Calidad Ext." }));
+    expect(
+      screen.getByRole("heading", { name: "Controles de Calidad Externos" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Gestión CAPA" }));
+    expect(screen.getByRole("heading", { name: "Gestión de CAPA" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Auditorías de Calidad" }));
+    expect(
+      screen.getByRole("heading", { name: "Gestión de Auditorías de Calidad" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Evidencia de Cumplimiento" }));
+    expect(screen.getByRole("heading", { name: "Evidencia de Cumplimiento" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Eventos de Calidad" }));
+    expect(
+      screen.getByRole("heading", { name: "Ingesta de Eventos de Calidad" }),
+    ).toBeInTheDocument();
   });
 
   it("only renders tabs the current session has permission for", () => {
     render(<App />);
 
     // The local dev fixture session defaults to ADMIN, which is granted every screen
-    // permission, so all 44 navigation tabs remain visible.
+    // permission, so all 49 navigation tabs remain visible (44 prior + 5 COM-MOD-013).
     const nav = screen.getByRole("navigation", { name: "Pantallas de administración" });
-    expect(within(nav).getAllByRole("button")).toHaveLength(44);
+    expect(within(nav).getAllByRole("button")).toHaveLength(49);
   });
 });

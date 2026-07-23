@@ -1917,3 +1917,219 @@ export interface IssueQuotationRequest {
 export interface CancelQuotationRequest {
   reasonCode?: string;
 }
+
+// -- Advanced Quality and Compliance (COM-MOD-013-FE-001) ------------------------------------
+// BCM-QLT-002 External Quality Controls, BCM-QLT-006 CAPA Management,
+// BCM-QLT-007 Audit Management, BCM-PLT-007 Compliance Evidence Export,
+// BCM-PLT-008 Document Management, Quality Event Intake.
+
+// BCM-QLT-002 External Quality Controls
+export type ExternalQCStatus = "pending" | "in_review" | "approved" | "rejected" | "closed";
+
+export interface ExternalQualityControl {
+  externalQCId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId?: string;
+  controlType: string;
+  providerName: string;
+  referenceCode: string;
+  description: string;
+  status: ExternalQCStatus | string;
+  performedAt?: string;
+  reviewedBy?: string;
+  reviewedAt?: string;
+  comments?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateExternalQCRequest {
+  controlType: string;
+  providerName: string;
+  referenceCode: string;
+  description: string;
+  performedAt?: string;
+}
+
+export interface ReviewExternalQCRequest {
+  reviewedBy: string;
+  comments?: string;
+}
+
+// BCM-QLT-006 CAPA Management
+export type CapaStatus = "open" | "assigned" | "in_progress" | "closed" | "verified";
+
+export interface CapaRecord {
+  capaId: string;
+  tenantId: string;
+  laboratoryId: string;
+  sourceEventType: string;
+  sourceEventId?: string;
+  description: string;
+  rootCauseAnalysis?: string;
+  correctiveAction?: string;
+  preventiveAction?: string;
+  assignedTo?: string;
+  dueDate?: string;
+  closedAt?: string;
+  closedBy?: string;
+  verifiedAt?: string;
+  verifiedBy?: string;
+  status: CapaStatus | string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface OpenCapaRequest {
+  sourceEventType: string;
+  sourceEventId?: string;
+  description: string;
+}
+
+export interface AssignCapaRequest {
+  assignedTo: string;
+  dueDate?: string;
+  rootCauseAnalysis?: string;
+}
+
+export interface CloseCapaRequest {
+  closedBy: string;
+  correctiveAction: string;
+  preventiveAction?: string;
+}
+
+export interface VerifyCapaRequest {
+  verifiedBy: string;
+}
+
+// BCM-QLT-007 Audit Management
+export type QualityAuditStatus = "planned" | "open" | "findings_recorded" | "closed";
+
+export interface QualityAuditFinding {
+  findingId: string;
+  category: string;
+  description: string;
+  severity: string;
+  recordedAt?: string;
+}
+
+export interface QualityAudit {
+  auditId: string;
+  tenantId: string;
+  laboratoryId: string;
+  auditType: string;
+  auditorName: string;
+  scheduledDate?: string;
+  openedAt?: string;
+  closedAt?: string;
+  closedBy?: string;
+  status: QualityAuditStatus | string;
+  findings: QualityAuditFinding[];
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface PlanQualityAuditRequest {
+  auditType: string;
+  auditorName: string;
+  scheduledDate?: string;
+}
+
+export interface OpenQualityAuditRequest {
+  auditorName?: string;
+}
+
+export interface RecordFindingRequest {
+  category: string;
+  description: string;
+  severity: string;
+}
+
+export interface CloseQualityAuditRequest {
+  closedBy: string;
+}
+
+// BCM-PLT-007 Compliance Evidence Export / Search
+export interface ComplianceEvidenceExport {
+  exportId: string;
+  tenantId: string;
+  requestedBy: string;
+  fromDate?: string;
+  toDate?: string;
+  subjectType?: string;
+  documentId?: string;
+  exportedAt: string;
+  recordCount: number;
+  status: string;
+}
+
+export interface ExportComplianceEvidenceRequest {
+  requestedBy: string;
+  fromDate?: string;
+  toDate?: string;
+  subjectType?: string;
+}
+
+export interface SearchComplianceEvidenceParams {
+  tenantId?: string;
+  subjectType?: string;
+  subjectId?: string;
+  fromDate?: string;
+  toDate?: string;
+}
+
+// BCM-PLT-008 Document Management (compliance surface)
+export interface StoredDocument {
+  documentId: string;
+  tenantId: string;
+  ownerId?: string;
+  ownerType?: string;
+  fileName: string;
+  contentType: string;
+  storedAt: string;
+  retentionUntil?: string;
+  tags?: string[];
+  version: number;
+}
+
+export interface SearchDocumentsParams {
+  tenantId?: string;
+  ownerType?: string;
+  ownerId?: string;
+  tag?: string;
+}
+
+// Quality Event Intake (operational/clinical event linked to quality investigations)
+export type QualityEventStatus = "open" | "under_investigation" | "linked" | "closed";
+
+export interface QualityEvent {
+  qualityEventId: string;
+  tenantId: string;
+  laboratoryId: string;
+  eventType: string;
+  description: string;
+  reportedBy: string;
+  reportedAt?: string;
+  linkedInvestigationId?: string;
+  linkedInvestigationType?: string;
+  status: QualityEventStatus | string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface RecordQualityEventRequest {
+  eventType: string;
+  description: string;
+  reportedBy: string;
+  reportedAt?: string;
+}
+
+export interface LinkQualityEventRequest {
+  linkedInvestigationId: string;
+  linkedInvestigationType: string;
+}

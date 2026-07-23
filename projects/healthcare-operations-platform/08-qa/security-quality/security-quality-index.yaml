@@ -29,6 +29,25 @@ required_checks_when_applicable:
   - container_or_iac_scan_when_assets_change
 
 entries:
+  - backlog_item: COM-MOD-013-FE-001
+    module: COM-MOD-013 Advanced Quality and Compliance
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-013-FE-001/
+    human_readable: 08-qa/security-quality/COM-MOD-013-FE-001/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-013-FE-001/security-quality-evidence.yaml
+    checks:
+      tests: passed
+      sast_or_static_analysis: passed_with_non_blocking_lint_warnings_dispositioned_to_td_fe_010
+      dependency_vulnerability_scan: passed
+      secrets_scan: passed
+      coverage: passed_no_regression
+      dast_for_runnable_web_or_api_surfaces: deferred_to_COM_MOD_013_QA_001_integrated_validation
+      container_or_iac_scan_when_assets_change: not_applicable_no_container_or_iac_asset_changed
+    note: >-
+      Compiled the Advanced Quality and Compliance employee-portal UI. Typecheck, coverage,
+      build, duplication, format, license, npm audit and Trivy passed; employee-portal coverage
+      raised 88.68% -> 89.74%. Lint passed with 0 errors and 51 non-blocking warnings
+      dispositioned under TD-FE-010/TD-I18N-002.
   - backlog_item: COM-MOD-013-DEF
     module: COM-MOD-013 Advanced Quality and Compliance
     status: passed

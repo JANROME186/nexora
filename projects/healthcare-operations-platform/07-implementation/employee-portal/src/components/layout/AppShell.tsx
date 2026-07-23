@@ -51,6 +51,11 @@ const SCREEN_TAB_LABEL_KEYS = {
   "public-content-review": "publicContentReview",
   "public-appointment-requests": "publicAppointmentRequests",
   "public-quotation-requests": "publicQuotationRequests",
+  "external-quality-controls": "externalQualityControls",
+  "capa-management": "capaManagement",
+  "audit-management": "auditManagement",
+  "compliance-evidence": "complianceEvidence",
+  "quality-event-intake": "qualityEventIntake",
 } as const satisfies Record<ScreenKey, string>;
 
 interface ScreenTab {

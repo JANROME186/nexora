@@ -44,6 +44,11 @@ import { MaintenanceScreen } from "./components/screens/MaintenanceScreen";
 import { PublicContentReviewScreen } from "./components/screens/PublicContentReviewScreen";
 import { PublicAppointmentRequestsScreen } from "./components/screens/PublicAppointmentRequestsScreen";
 import { PublicQuotationRequestsScreen } from "./components/screens/PublicQuotationRequestsScreen";
+import { ExternalQualityControlsScreen } from "./components/screens/ExternalQualityControlsScreen";
+import { CapaManagementScreen } from "./components/screens/CapaManagementScreen";
+import { AuditManagementScreen } from "./components/screens/AuditManagementScreen";
+import { ComplianceEvidenceScreen } from "./components/screens/ComplianceEvidenceScreen";
+import { QualityEventIntakeScreen } from "./components/screens/QualityEventIntakeScreen";
 import { AdminScopeProvider } from "./state/AdminScopeContext";
 import { SessionProvider } from "./state/SessionContext";
 import { LocaleProvider } from "./i18n/LocaleContext";
@@ -93,6 +98,11 @@ const SCREEN_COMPONENTS = {
   "public-content-review": PublicContentReviewScreen,
   "public-appointment-requests": PublicAppointmentRequestsScreen,
   "public-quotation-requests": PublicQuotationRequestsScreen,
+  "external-quality-controls": ExternalQualityControlsScreen,
+  "capa-management": CapaManagementScreen,
+  "audit-management": AuditManagementScreen,
+  "compliance-evidence": ComplianceEvidenceScreen,
+  "quality-event-intake": QualityEventIntakeScreen,
 } as const satisfies Record<ScreenKey, () => JSX.Element>;
 
 function renderScreen(screen: ScreenKey) {

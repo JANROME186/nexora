@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: "HOP COM-MOD-013-BE-001 backend outputs compiled clean (compiled BCM-QLT-002, BCM-QLT-006, BCM-QLT-007, BCM-PLT-007, BCM-PLT-008; resolved TD-BE-016; 381 unit and integration tests passing cleanly; coverage floor preserved above 84.14%; ready for COM-MOD-013-FE-001)"
+current_phase: "HOP COM-MOD-013-FE-001 frontend outputs compiled clean (Advanced Quality and Compliance employee-portal screens, API facade, IAM permissions, es-MX/en-US i18n and AuditEventsScreen debt-first retrofit; 187 tests passing; coverage raised 88.68% -> 89.74%; npm audit and Trivy reported 0 findings; ready for COM-MOD-013-QA-001)"
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -30,7 +30,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
     active_module: COM-MOD-013
-    active_backlog_item: COM-MOD-013-FE-001
+    active_backlog_item: COM-MOD-013-QA-001
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -120,9 +120,10 @@ projects:
       - COM-MOD-012-CLOSEOUT
       - COM-MOD-013-DEF
       - COM-MOD-013-BE-001
+      - COM-MOD-013-FE-001
     structure: ordered_numbered_folders
 next_deliverables:
-  - Execute COM-MOD-013-FE-001 Compile quality and compliance UI outputs
+  - Execute COM-MOD-013-QA-001 Integrated Advanced Quality and Compliance validation and evidence
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake

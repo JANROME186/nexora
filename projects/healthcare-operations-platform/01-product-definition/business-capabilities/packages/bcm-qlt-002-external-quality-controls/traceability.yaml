@@ -51,4 +51,11 @@ traces:
     definition: COM-MOD-013-DEF
     definition_status: closed
     compilation: COM-MOD-013-BE-001
-    compilation_status: pending
+    compilation_status: closed
+    frontend_compilation: COM-MOD-013-FE-001
+    frontend_compilation_status: closed
+    next_validation: COM-MOD-013-QA-001
+    history:
+      - backlog_item: COM-MOD-013-FE-001
+        status: closed
+        note: ExternalQualityControlsScreen compiled with IAM, i18n, tests and security-quality evidence.

@@ -52,7 +52,12 @@ export type ScreenKey =
   | "maintenance"
   | "public-content-review"
   | "public-appointment-requests"
-  | "public-quotation-requests";
+  | "public-quotation-requests"
+  | "external-quality-controls"
+  | "capa-management"
+  | "audit-management"
+  | "compliance-evidence"
+  | "quality-event-intake";
 
 export type PermissionCode =
   | "SCREEN_TENANTS"
@@ -98,7 +103,12 @@ export type PermissionCode =
   | "SCREEN_MAINTENANCE"
   | "SCREEN_PUBLIC_CONTENT_REVIEW"
   | "SCREEN_PUBLIC_APPOINTMENT_REQUESTS"
-  | "SCREEN_PUBLIC_QUOTATION_REQUESTS";
+  | "SCREEN_PUBLIC_QUOTATION_REQUESTS"
+  | "SCREEN_EXTERNAL_QUALITY_CONTROLS"
+  | "SCREEN_CAPA_MANAGEMENT"
+  | "SCREEN_AUDIT_MANAGEMENT"
+  | "SCREEN_COMPLIANCE_EVIDENCE"
+  | "SCREEN_QUALITY_EVENT_INTAKE";
 
 export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   tenants: "SCREEN_TENANTS",
@@ -145,6 +155,11 @@ export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   "public-content-review": "SCREEN_PUBLIC_CONTENT_REVIEW",
   "public-appointment-requests": "SCREEN_PUBLIC_APPOINTMENT_REQUESTS",
   "public-quotation-requests": "SCREEN_PUBLIC_QUOTATION_REQUESTS",
+  "external-quality-controls": "SCREEN_EXTERNAL_QUALITY_CONTROLS",
+  "capa-management": "SCREEN_CAPA_MANAGEMENT",
+  "audit-management": "SCREEN_AUDIT_MANAGEMENT",
+  "compliance-evidence": "SCREEN_COMPLIANCE_EVIDENCE",
+  "quality-event-intake": "SCREEN_QUALITY_EVENT_INTAKE",
 };
 
 /** Every permission code, derived from `SCREEN_TO_PERMISSION` so the two never drift apart. */
@@ -156,7 +171,8 @@ export type RoleCode =
   | "CASHIER"
   | "LAB_TECHNICIAN"
   | "MEDICAL_REVIEWER"
-  | "RESULTS_COORDINATOR";
+  | "RESULTS_COORDINATOR"
+  | "QUALITY_MANAGER";
 
 /**
  * Mirrors the backend's `identityaccess/domain/RolePermissionCatalog.java` role -> permission
@@ -192,6 +208,14 @@ export const ROLE_PERMISSION_CATALOG: Record<RoleCode, readonly PermissionCode[]
     "SCREEN_RESULT_REPORTS",
     "SCREEN_CRITICAL_ESCALATIONS",
     "SCREEN_RESULT_NOTIFICATIONS",
+  ],
+  QUALITY_MANAGER: [
+    "SCREEN_EXTERNAL_QUALITY_CONTROLS",
+    "SCREEN_CAPA_MANAGEMENT",
+    "SCREEN_AUDIT_MANAGEMENT",
+    "SCREEN_COMPLIANCE_EVIDENCE",
+    "SCREEN_QUALITY_EVENT_INTAKE",
+    "SCREEN_AUDIT_EVENTS",
   ],
 };
 

@@ -96,9 +96,9 @@ policy:
           cross-cutting null-byte/oversized-value 500, TD-QA-005; an AuthController
           exception-advice scope gap, TD-QA-006); the new floor is 84.14%.
       frontend_typescript_web:
-        current_line_coverage_percent: 88.68
-        source_evidence: 08-qa/qa/public-website-and-digital-growth/COM-MOD-011-FE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 88.68
+        current_line_coverage_percent: 89.74
+        source_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-FE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 89.74
         final_closure_target_percent: 80
         correction_note: >-
           MVP-MOD-007-CLOSEOUT found employee-portal coverage had regressed from the 84.44% floor
@@ -115,7 +115,9 @@ policy:
           COM-MOD-010-CLOSEOUT corrected this registry entry's stale 87.87% value to match, since
           it had not yet been synced from COM-MOD-010-QA-001's own evidence. Must not regress
           below 88.24%. COM-MOD-011-FE-001 added the 3 public-request-administration screens (154
-          tests, 54 test files, 0 failures), raising it further to 88.68%; the new floor is 88.68%.
+          tests, 54 test files, 0 failures), raising it further to 88.68%. COM-MOD-013-FE-001
+          added the Advanced Quality and Compliance employee-portal screens plus tests, raising it
+          further to 89.74% (187 tests, 60 test files, 0 failures); the new floor is 89.74%.
       mobile_typescript_foundation:
         current_line_coverage_percent: 99.21
         source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.yaml
@@ -400,7 +402,8 @@ entries:
       further_reduced_by_MVP_MOD_008_DEF_first_class_code_field_and_reserved_message_key_namespaces_modeled_for_new_integration_capabilities;
       further_reduced_by_MVP_MOD_008_BE_002_adding_a_first_class_messageKey_field_alongside_code_on_every_BCM_PLT_004_005_010_error_response_with_es_MX_en_US_catalog_entries_for_every_code;
       further_reduced_by_COM_MOD_009_PORTAL_002_replacing_the_doctor_portal_wrong_domain_locale_catalog_with_a_complete_correct_doctor_domain_catalog;
-      further_reduced_by_COM_MOD_012_BE_001_organizationmanagement_error_and_platformconfiguration_error_i18n_namespaces
+      further_reduced_by_COM_MOD_012_BE_001_organizationmanagement_error_and_platformconfiguration_error_i18n_namespaces;
+      further_reduced_by_COM_MOD_013_FE_001_AuditEventsScreen_hardcoded_string_retrofit_and_advancedQualityCompliance_i18n_namespaces
   - id: TD-FE-006
     title: Employee portal is missing dedicated Appointment Scheduling, Admission Management and Quotation Management UI
     status: open
@@ -638,7 +641,9 @@ entries:
     file: 08-qa/technical-debt/TD-FE-010-employee-portal-admin-screen-composition.yaml
     remediation_strategy: >-
       preferred_remediation_pattern_implemented_and_proven_on_11_com_mod_010_screens_in
-      COM-MOD-010-FE-001;_apply_to_the_three_legacy_files_next_time_bcm_plt_004_005_010_screens_are_touched
+      COM-MOD-010-FE-001;_COM-MOD-013-FE-001_added_tests_and_boundaries_but_lint_still_reports
+      non_blocking_long_function_warnings_for_new_and_legacy_admin_screens;_continue_component
+      extraction_when_employee_portal_admin_screens_are_next_touched
   - id: TD-BE-016
     title: BCM-PLT-007 searchAuditEvents/exportAuditEvents openapi-source.yaml operations not fully compiled
     status: closed

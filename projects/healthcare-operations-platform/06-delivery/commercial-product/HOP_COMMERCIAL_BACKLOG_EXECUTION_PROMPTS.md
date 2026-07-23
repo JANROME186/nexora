@@ -10,6 +10,14 @@ The machine-readable source is `HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml`.
 
 Use this playbook after `MVP-MOD-001 Platform Foundation` to continue HOP toward a commercial product. It tells an agent how to select the next backlog item, generate capability package models, validate them, compile generated outputs, implement custom rule points and close each capability group.
 
+Current next backlog item: `COM-MOD-013-QA-001` - Compliance workflow and evidence retention validation.
+
+Previous backlog item: `COM-MOD-013-FE-001` is closed. It compiled the Advanced Quality and
+Compliance employee-portal UI, raised employee-portal line coverage from 88.68% to 89.74%, and
+passed typecheck, coverage, build, duplication, formatting, license, npm audit and Trivy gates.
+`TD-I18N-002` was materially reduced, while residual non-blocking lint warnings remain
+dispositioned under `TD-FE-010`/`TD-I18N-002`.
+
 ## MDPE Rule
 
 HOP follows:

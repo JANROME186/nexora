@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: "COM-MOD-013-BE-001 backend compilation completed clean: compiled backend outputs for External Quality Control (BCM-QLT-002), CAPA Management (BCM-QLT-006), Audit Management (BCM-QLT-007), Audit Trail Export (BCM-PLT-007), Document Management (BCM-PLT-008), and Quality Event Intake; resolved TD-BE-016; 381 unit and integration tests passing cleanly; coverage floor preserved above 84.14%; ready for COM-MOD-013-FE-001"
+current_phase: "COM-MOD-013-FE-001 frontend compilation completed clean: compiled employee portal UI outputs for External Quality Control (BCM-QLT-002), CAPA Management (BCM-QLT-006), Audit Management (BCM-QLT-007), Compliance Evidence (BCM-PLT-007 / BCM-PLT-008), and Quality Event Intake; debt-first TD-I18N-002 AuditEventsScreen retrofit completed; 187 employee portal tests passing cleanly; 7 quality gates verified; ready for COM-MOD-013-QA-001"
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -420,8 +420,9 @@ completed_deliverables:
     vulnerabilities, Trivy fs 0 findings (backend and repo-wide), YAML parse 1,256 files/0 errors,
     agent-agnostic scan 0 real hits, git diff --check clean; advanced active commercial backlog
     item to COM-MOD-012-CLOSEOUT)
+  - COM-MOD-013-FE-001 is closed. Advanced Quality and Compliance employee portal UI compiled (ExternalQualityControlsScreen, CapaManagementScreen, AuditManagementScreen, ComplianceEvidenceScreen, QualityEventIntakeScreen; thin typed externalQualityComplianceApi facade; IAM permissions, SCREEN_TO_PERMISSION, QUALITY_MANAGER role; complete es-MX and en-US i18n catalogs; TD-I18N-002 debt-first AuditEventsScreen retrofit). Validation gates executed clean: npm run typecheck, npm run test:coverage (187 tests, 60 files, 0 failures, employee-portal line coverage 88.68% -> 89.74%), npm run build, npm run duplication, npm run format:check, npm run license:check, npm run audit:all (0 vulnerabilities), and Trivy fs vuln/secret/misconfig all severities (0 findings). npm run lint passed with 0 errors and 51 non-blocking warnings; warnings are dispositioned as residual TD-FE-010/TD-I18N-002 follow-up, not closure blockers. Ready for COM-MOD-013-QA-001.
 next_deliverables:
-  - Execute COM-MOD-012-CLOSEOUT Module closeout and registry update
+  - Execute COM-MOD-013-QA-001 Integrated Advanced Quality and Compliance validation and evidence
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -436,7 +437,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-013
   in_progress_module: COM-MOD-013
-  next_backlog_item: COM-MOD-013-FE-001
+  next_backlog_item: COM-MOD-013-QA-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -525,9 +526,9 @@ development_readiness:
           plus a resilience regression test, raising it to 84.14% (367 tests, 0
           failures/errors/skipped); future backend iterations must not regress below 84.14%.
       frontend_typescript_web:
-        current_line_coverage_percent: 88.68
-        source_evidence: 08-qa/qa/public-website-and-digital-growth/COM-MOD-011-FE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 88.68
+        current_line_coverage_percent: 89.74
+        source_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-FE-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 89.74
         final_closure_target_percent: 80
         tracked_by: TD-FE-004 (closed; final-closure target reached; raised to 83.98% by
           MVP-MOD-007-FE-001, then to 84.44% by HOP-ENT-FOUND-001 corrective closure. MVP-MOD-007-
@@ -574,7 +575,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: COM-MOD-013
-  current_backlog_item: COM-MOD-013-FE-001
+  current_backlog_item: COM-MOD-013-QA-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -1710,7 +1711,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_iteration: COM-MOD-013
   active_module: COM-MOD-013 Advanced Quality and Compliance
-  active_backlog_item: COM-MOD-013-FE-001
+  active_backlog_item: COM-MOD-013-QA-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml

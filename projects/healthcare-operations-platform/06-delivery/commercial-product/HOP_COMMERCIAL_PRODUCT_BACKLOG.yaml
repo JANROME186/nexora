@@ -19,11 +19,12 @@ product:
     completed_module: COM-MOD-012 (COM-MOD-012-CLOSEOUT closed)
     completed_status: closed
     active_module: COM-MOD-013
-    active_backlog_item: COM-MOD-013-FE-001
+    active_backlog_item: COM-MOD-013-QA-001
     active_module_progress: >-
-      COM-MOD-013-BE-001 backend outputs compiled clean. All 5 capability packages (BCM-QLT-002,
-      BCM-QLT-006, BCM-QLT-007, BCM-PLT-007, BCM-PLT-008) backend outputs compiled in externalqualitycompliance
-      module; TD-BE-016 resolved; 381 unit and integration tests passing clean. Next item COM-MOD-013-FE-001.
+      COM-MOD-013-FE-001 frontend outputs compiled clean. Advanced Quality and Compliance
+      employee-portal screens, IAM permission filtering, es-MX/en-US i18n and typed API facade are
+      implemented; employee-portal coverage raised 88.68% -> 89.74% with 187 tests and 0
+      vulnerabilities. Next item COM-MOD-013-QA-001.
     paused_backlog_item: null
 
 source_inputs:
@@ -905,6 +906,7 @@ modules:
         status: closed
       - id: COM-MOD-013-FE-001
         name: Compile quality and compliance UI outputs
+        status: closed
       - id: COM-MOD-013-QA-001
         name: Compliance workflow and evidence retention validation
       - id: COM-MOD-013-CLOSEOUT
