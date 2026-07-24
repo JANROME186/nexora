@@ -9,9 +9,9 @@ Before handing a backlog to a commercial execution agent, generate or review a c
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py `
   --root C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora `
-  --task-id COM-MOD-017-BE-001 `
-  --title "Compile marketplace backend outputs" `
-  --summary-ref projects/healthcare-operations-platform/08-qa/handoffs/COM-MOD-017-DEF-summary.md
+  --task-id COM-MOD-017-BE-002 `
+  --title "Implement marketplace entitlement, compatibility and billing-adapter custom rules" `
+  --summary-ref projects/healthcare-operations-platform/08-qa/handoffs/COM-MOD-017-BE-001-summary.md
 ```
 
 As of `NXF-CTX-002`, this is mandatory framework bootstrap behavior. The normal path requires
@@ -22,11 +22,13 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-017-BE-001`.
+Current active backlog item: `COM-MOD-017-BE-002`.
 
-Latest update: `COM-MOD-017-DEF` is closed. Product Marketplace and Extension Packaging is modeled: `BCM-PLT-011 Product Marketplace and Entitlements` was created with standard capability artifacts plus marketplace package, manifest, offer, license, entitlement, compatibility, installation, upgrade, security review, support and telemetry models. The reused platform capabilities `BCM-PLT-001/002/005/006/007/009` now include marketplace enablement traceability. All 6 coverage floors were preserved, and the next active backlog item is `COM-MOD-017-BE-001`. No runtime component, port, environment variable, database schema, Docker service, dependency or startup-order changed.
+Latest update: `COM-MOD-017-BE-001` is closed. Product Marketplace and Extension Packaging backend outputs are compiled: a new `marketplaceentitlements` Spring Modulith module (`packagecatalog`, `commercialoffers`, `tenantentitlements`, `packageinstallation`, `compatibilityevaluation`, `billingadapter`) hosts all 21 `BCM-PLT-011` `openapi-source.yaml` operations. A new `db/product-marketplace-and-entitlements/schema.sql` (6 tables) was added and registered in `application-local.yml`; no port, environment variable, Docker service or startup-order changed. Backend coverage was raised from 84.25% to a reproducible 84.53% (442 tests, 0 failures/errors/skipped, Docker Compose PostgreSQL 16 up); `TD-BE-018` was registered for the deferred custom-rule sophistication, and the next active backlog item is `COM-MOD-017-BE-002`.
 
-Previous update: `COM-MOD-016-CLOSEOUT` is closed. Commercial Launch and Customer Enablement is formally `module_closed`: all 7 capability packages are marked `module_closed` in `capability-package-index.yaml` and their `traceability.yaml` files, `PROJECT_STATE.yaml` now includes `capability_package_progress.COM-MOD-016`, `TD-QA-008` remains open non-blocking as project-wide toolchain inventory debt, all 6 coverage floors were preserved, and the next active backlog item is `COM-MOD-017-DEF`. No runtime component, port, environment variable, database schema, Docker service or startup-order changed.
+Previous update: `COM-MOD-017-DEF` closed Product Marketplace and Extension Packaging modeling: `BCM-PLT-011 Product Marketplace and Entitlements` was created with standard capability artifacts plus marketplace package, manifest, offer, license, entitlement, compatibility, installation, upgrade, security review, support and telemetry models. The reused platform capabilities `BCM-PLT-001/002/005/006/007/009` now include marketplace enablement traceability. All 6 coverage floors were preserved. No runtime component, port, environment variable, database schema, Docker service, dependency or startup-order changed.
+
+Earlier update: `COM-MOD-016-CLOSEOUT` is closed. Commercial Launch and Customer Enablement is formally `module_closed`: all 7 capability packages are marked `module_closed` in `capability-package-index.yaml` and their `traceability.yaml` files, `PROJECT_STATE.yaml` now includes `capability_package_progress.COM-MOD-016`, `TD-QA-008` remains open non-blocking as project-wide toolchain inventory debt, all 6 coverage floors were preserved, and the next active backlog item is `COM-MOD-017-DEF`. No runtime component, port, environment variable, database schema, Docker service or startup-order changed.
 
 Previous update: `COM-MOD-016-QA-001` is closed. Commercial readiness validation confirmed COM-MOD-016-DEF/DOC-001/OPS-001/COM-001 (**COM-MOD-016 Commercial Launch and Customer Enablement**) are complete, consistent and traceable. Found and fixed 4 stale-pointer/registry defects (`capability-package-index.yaml` + 7 `traceability.yaml` `commercial_enablement` blocks, `PROJECT_STATE.yaml` `completed_backlog_items`, `SOURCE_OF_TRUTH.yaml` missing `sources:` keys). Registered `TD-QA-008` (open, non-blocking). No secrets, PII, vendor lock-in or forbidden execution-status markers found. Preserved all 6 stack coverage floors. Full repository sweeps (YAML parse, stale pointers, evidence state, agent-agnostic, secrets, git diff check) passed clean. Next active backlog item: `COM-MOD-016-CLOSEOUT`.
 

@@ -22,6 +22,7 @@ spring:
         - classpath:db/inventory-and-internal-quality/schema.sql
         - classpath:db/platform-hardening-and-saas-operations/schema.sql
         - classpath:db/external-quality-and-compliance/schema.sql
+        - classpath:db/product-marketplace-and-entitlements/schema.sql
 
 management:
   endpoint:

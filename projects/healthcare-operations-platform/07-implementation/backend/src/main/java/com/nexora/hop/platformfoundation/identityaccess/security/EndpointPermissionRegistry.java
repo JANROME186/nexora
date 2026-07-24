@@ -175,7 +175,31 @@ public class EndpointPermissionRegistry {
               readWrite(
                   "/api/auth/assistance",
                   PermissionCode.PORTAL_SUPPORT_IMPERSONATE,
-                  "BCM-PLT-001"))
+                  "BCM-PLT-001"),
+              readWrite(
+                  "/api/marketplace/packages",
+                  PermissionCode.SCREEN_MARKETPLACE_PACKAGES,
+                  "BCM-PLT-011"),
+              readWrite(
+                  "/api/marketplace/compatibility",
+                  PermissionCode.SCREEN_MARKETPLACE_PACKAGES,
+                  "BCM-PLT-011"),
+              readWrite(
+                  "/api/marketplace/offers",
+                  PermissionCode.SCREEN_MARKETPLACE_OFFERS,
+                  "BCM-PLT-011"),
+              readWrite(
+                  "/api/marketplace/entitlements",
+                  PermissionCode.SCREEN_MARKETPLACE_ENTITLEMENTS,
+                  "BCM-PLT-011"),
+              readWrite(
+                  "/api/marketplace/installations",
+                  PermissionCode.SCREEN_MARKETPLACE_INSTALLATIONS,
+                  "BCM-PLT-011"),
+              readWrite(
+                  "/api/marketplace/billing",
+                  PermissionCode.SCREEN_MARKETPLACE_INSTALLATIONS,
+                  "BCM-PLT-011"))
           .stream()
           .sorted(Comparator.comparingInt((PathRule rule) -> rule.pathPrefix().length()).reversed())
           .toList();

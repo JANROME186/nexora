@@ -502,6 +502,12 @@ sources:
   com_mod_017_def_security_quality_evidence: 08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.md
   com_mod_017_def_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.yaml
   com_mod_017_def_handoff_summary: 08-qa/handoffs/COM-MOD-017-DEF-summary.md
+  com_mod_017_be_001_qa_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-001-validation.md
+  com_mod_017_be_001_qa_evidence_yaml: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-001-validation.yaml
+  com_mod_017_be_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-017-BE-001/security-quality-evidence.md
+  com_mod_017_be_001_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-017-BE-001/security-quality-evidence.yaml
+  com_mod_017_be_001_handoff_summary: 08-qa/handoffs/COM-MOD-017-BE-001-summary.md
+  td_be_018: 08-qa/technical-debt/TD-BE-018-marketplace-entitlement-policy-and-billing-adapter-basic-only.yaml
   nxf_ctx_001_handoff_summary: 08-qa/handoffs/NXF-CTX-001-summary.md
   td_fmt_001: 08-qa/technical-debt/TD-FMT-001-yaml-monolith-to-frontmatter-transition.yaml
   actor_catalog: 02-domain-definition/actors/acm-001/actor-catalog.yaml

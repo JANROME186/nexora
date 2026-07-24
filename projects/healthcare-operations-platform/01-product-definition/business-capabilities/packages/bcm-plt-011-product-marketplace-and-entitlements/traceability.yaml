@@ -36,3 +36,31 @@ definition:
   qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.yaml
   security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.yaml
 
+compilation:
+  backlog_item: COM-MOD-017-BE-001
+  status: closed
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-001-validation.yaml
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-BE-001/security-quality-evidence.yaml
+  notes: >-
+    All 21 openapi-source.yaml operations compiled as generatable outputs across a new
+    marketplaceentitlements Spring Modulith module (packagecatalog, commercialoffers,
+    tenantentitlements, packageinstallation, compatibilityevaluation, billingadapter). Each
+    generation-plan.yaml custom_implementation_point (entitlement policy evaluator, compatibility
+    evaluation strategy, billing provider adapter boundary, installation rollback orchestration)
+    implemented at a basic, correct level sufficient for every endpoint to function; deeper
+    sophistication registered as TD-BE-018 targeting a future COM-MOD-017-BE-002. Runtime
+    feature-availability integration with IAM and menu generation not yet started (also TD-BE-018).
+
+backlog_items:
+  definition: COM-MOD-017-DEF
+  definition_status: closed
+  compilation: COM-MOD-017-BE-001
+  compilation_status: closed
+  custom_rules: COM-MOD-017-BE-002
+  custom_rules_status: pending
+  ui: COM-MOD-017-FE-001
+  ui_status: pending
+  validation: COM-MOD-017-QA-001
+  validation_status: pending
+  closeout: COM-MOD-017-CLOSEOUT
+

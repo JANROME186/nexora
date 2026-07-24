@@ -15,7 +15,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-017-BE-001
+  current_active_backlog_item: COM-MOD-017-BE-002
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -23,6 +23,23 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
+    backlog_item: COM-MOD-017-BE-001
+    status: closed
+    next_active_backlog_item: COM-MOD-017-BE-002
+    runtime_change: >-
+      Added a new database schema db/product-marketplace-and-entitlements/schema.sql (6 tables,
+      marketplace_entitlements schema), registered in application-local.yml's
+      spring.sql.init.schema-locations. No port, environment variable, Docker service, dependency
+      or startup-order change.
+    validation_summary: >-
+      Compiled BCM-PLT-011 Product Marketplace and Entitlements backend outputs: a new
+      marketplaceentitlements Spring Modulith module (packagecatalog, commercialoffers,
+      tenantentitlements, packageinstallation, compatibilityevaluation, billingadapter), all 21
+      openapi-source.yaml operations functional, 4 new IAM screens/2 roles, 16 i18n keys, 60 new
+      tests. Backend coverage raised from 84.25% to a reproducible 84.53% (442 tests, 0
+      failures/errors/skipped, Docker Compose PostgreSQL 16 up). Registered TD-BE-018 for deferred
+      custom-rule sophistication and advanced active backlog to COM-MOD-017-BE-002.
+  previous_runbook_update_nxf_ctx_002:
     backlog_item: NXF-CTX-002
     status: closed
     next_active_backlog_item: COM-MOD-017-BE-001
