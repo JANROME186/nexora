@@ -53,3 +53,37 @@ summarizer. Ollama does not decide closure; P0/P1 deterministic findings are aut
 backlog is incomplete, it writes a compact correction prompt to:
 
 `projects/healthcare-operations-platform/08-qa/generated-prompts/<TASK_ID>-closure-fix-prompt.md`
+
+## Frontmatter Migration
+
+Heavy YAML/Markdown artifacts are migrated with the local frontmatter migrator. Inventory and
+structured conversion use Python/PyYAML only; Ollama is used only for narrative files when
+`--use-ollama` is explicitly enabled.
+
+Install the local Python requirements:
+
+```powershell
+python -m pip install -r nexora-framework/08-engineering/agents/context-orchestrator/requirements.txt
+```
+
+Pilot inventory:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py `
+  --root C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora `
+  --scope projects/healthcare-operations-platform `
+  --limit 20
+```
+
+Write pilot conversions without archiving source YAML:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py `
+  --root C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora `
+  --scope projects/healthcare-operations-platform/08-qa/qa `
+  --limit 20 `
+  --apply
+```
+
+When a target Markdown file already exists, rerun with `--combine-existing` after review so the
+converted YAML and existing Markdown are preserved in a single optimized artifact.

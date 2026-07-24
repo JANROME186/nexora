@@ -167,8 +167,15 @@ tools:
     version_command: python --version
     generic_commands:
       - python --version
+      - python -m pip install -r nexora-framework/08-engineering/agents/context-orchestrator/requirements.txt
       - python -c "from pathlib import Path; import yaml; [yaml.safe_load(p.read_text(encoding='utf-8')) for p in Path('.').rglob('*.yaml') if not any(part in {'.git','node_modules','target','dist','build'} for part in p.parts)]; print('YAML OK')"
     status: available
+    installed_packages:
+      PyYAML: 6.0.3
+      ollama: 0.6.2
+    notes:
+      - PyYAML is required for deterministic frontmatter migration.
+      - The official Python ollama package is required for local SLLM narrative migration.
   - id: ollama
     category: required_local_llm_runtime
     executable_name: ollama
@@ -281,6 +288,8 @@ validation:
     - Get-Command trivy; trivy --version
     - Get-Command rg; rg --version
     - Get-Command python; python --version
+    - python -c "import importlib.metadata as m; print(m.version('ollama'))"
+    - python nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py --root C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora --scope projects/healthcare-operations-platform --limit 20
     - Test-Path C:/Users/Administrator/AppData/Local/Programs/Ollama/ollama.exe
     - C:/Users/Administrator/AppData/Local/Programs/Ollama/ollama.exe --version
     - C:/Users/Administrator/AppData/Local/Programs/Ollama/ollama.exe list
@@ -290,3 +299,4 @@ validation:
     - Inventory records generic commands only; backlog execution evidence remains under 08-qa.
     - qwen2.5-coder:0.5b is installed locally and validated as the mandatory bootstrap model.
     - COM-MOD-017-BE-001 generated prompt SHA256 is 62adf7b643aff753adde833d97b62c85c5426c46902cad0d6e3ebe33e8adaf60.
+    - Frontmatter migration pilot inventory completed with 20 candidates, 20 planned, 0 written, 0 errors.

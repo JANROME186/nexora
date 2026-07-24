@@ -2,9 +2,14 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: "COM-MOD-017-BE-001 closed. BCM-PLT-011 Product Marketplace and Entitlements backend outputs compiled. Active backlog advanced to COM-MOD-017-BE-002."
+current_phase: "NXF-FMT-001 closed for framework tooling. HOP keeps COM-MOD-017-BE-001 closed and active backlog remains COM-MOD-017-BE-002. Frontmatter migration pilot inventory is available for review before any mass conversion."
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
+  - NXF-FMT-001 Frontmatter artifact migration tooling added (Nexora Framework now includes
+    frontmatter-artifact-migration-standard.yaml/md and frontmatter_migrator.py for local
+    Python/PyYAML deterministic conversion plus optional local Ollama narrative conversion; pilot
+    inventory report stored at 08-qa/format-migration/frontmatter-migration-report.yaml; no mass
+    source migration, YAML archive or pointer replacement was applied yet)
   - COM-MOD-017-BE-001 Product Marketplace and Entitlements backend outputs compiled (new marketplaceentitlements
     Spring Modulith module with packagecatalog, commercialoffers, tenantentitlements, packageinstallation,
     compatibilityevaluation and billingadapter capabilities; all 21 BCM-PLT-011 openapi-source.yaml operations
@@ -507,6 +512,8 @@ development_readiness:
   business_requirement_versioning_ready: true
   open_source_first_security_quality_ready: true
   context_efficient_execution_ready: true
+  frontmatter_artifact_migration_ready: true
+  frontmatter_migration_pilot_report: 08-qa/format-migration/frontmatter-migration-report.yaml
   local_orchestrator_prompt_generation_ready: validated_with_ollama_primary_qwen2_5_coder_0_5b
   required_framework_execution_stack: python_ollama_qwen2_5_coder_0_5b_ripgrep_git
   memory_handoff_required: true

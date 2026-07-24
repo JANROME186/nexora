@@ -3,7 +3,7 @@ artifact:
   type: framework-improvement-item
   name: Context-efficient format migration for legacy YAML execution artifacts
   version: 1.0.0
-  status: proposed
+  status: implemented_tooling_pilot_ready
   created_date: 2026-07-24
 
 source:
@@ -26,7 +26,16 @@ proposal:
     - validate optional Ollama-assisted conversion
     - update templates so new projects start with lightweight handoffs
   acceptance_criteria:
-    - Migration plan approved by Nexora Engineering.
-    - Framework templates include task summary handoff files.
-    - New project prompts reference the context orchestrator and lazy-loading protocol.
+    - Migration standard approved in nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.yaml.
+    - Local migration tool implemented in nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py.
+    - Pilot inventory generated for HOP at projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-report.yaml.
     - No authoritative automation artifact is removed without replacement validation.
+
+implementation:
+  implemented_date: 2026-07-24
+  tooling_status: pilot_ready
+  mass_migration_status: pending_manual_pilot_review
+  commercial_tokens_used: false
+  local_processing:
+    deterministic: Python and PyYAML
+    narrative: Python plus local Ollama using the official Python ollama package

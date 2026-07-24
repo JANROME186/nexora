@@ -51,12 +51,18 @@ validation or module closeout. It is not a command history; backlog evidence rem
 | Trivy | 0.72.0 | `C:/ProgramData/chocolatey/bin/trivy.exe` |
 | ripgrep | 15.1.0 | Resolve with `Get-Command rg`; do not depend on named-agent bundled paths |
 | Python | 3.13.7 | `C:/Python313/python.exe` |
+| Python package PyYAML | 6.0.3 | Required for deterministic frontmatter migration |
+| Python package ollama | 0.6.2 | Required for local SLLM narrative migration |
 | Ollama | 0.32.3 | `C:/Users/Administrator/AppData/Local/Programs/Ollama/ollama.exe` |
 | Ollama bootstrap model | qwen2.5-coder:0.5b | local model digest `4ff64a7f502a08b7616edb8ca0a79eb1853fc363d842b7df4b46915d11a3fb09` |
 
 The reproducible prompt generated for `COM-MOD-017-BE-001` is stored at
 `08-qa/generated-prompts/COM-MOD-017-BE-001-prompt.md` with SHA256
 `62adf7b643aff753adde833d97b62c85c5426c46902cad0d6e3ebe33e8adaf60`.
+
+Frontmatter migration tooling is available through
+`nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py`. The current
+pilot inventory report is stored at `08-qa/format-migration/frontmatter-migration-report.yaml`.
 
 ## Generic Commands
 

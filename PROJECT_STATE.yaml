@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: "NXF-CTX-002 closed. Nexora Framework now requires a mandatory open-source-first execution stack from bootstrap: Python, Ollama, qwen2.5-coder:0.5b, ripgrep and git. Active HOP backlog remains COM-MOD-017-BE-001."
+current_phase: "NXF-FMT-001 closed. Nexora Framework now includes local Python/PyYAML plus Ollama frontmatter migration tooling for heavy YAML/Markdown artifacts. Active HOP backlog is COM-MOD-017-BE-002."
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -19,6 +19,7 @@ framework:
     - nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
     - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
     - nexora-framework/02-standards/standards/context-efficient-execution-standard.yaml
+    - nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.yaml
     - nexora-framework/02-standards/standards/stack-market-and-toolchain-quality-standard.yaml
     - nexora-framework/02-standards/standards/framework-feedback-proposal-standard.yaml
   orchestration:
@@ -31,7 +32,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
     active_module: COM-MOD-017
-    active_backlog_item: COM-MOD-017-BE-001
+    active_backlog_item: COM-MOD-017-BE-002
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -131,9 +132,11 @@ projects:
       - COM-MOD-016-QA-001
       - COM-MOD-016-CLOSEOUT
       - COM-MOD-017-DEF
+      - COM-MOD-017-BE-001
     structure: ordered_numbered_folders
 next_deliverables:
-  - Execute COM-MOD-017-BE-001 Product Marketplace and Extension Packaging backend generated outputs
+  - Execute COM-MOD-017-BE-002 Product Marketplace and Entitlements custom-rule maturation
+  - Run frontmatter migration pilot review before applying any mass YAML/Markdown conversion
   - Use context-efficient prompt orchestration and compact handoff summaries for future backlog delegation
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
