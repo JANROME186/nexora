@@ -53,8 +53,11 @@ traces:
     validation: COM-MOD-013-QA-001
     validation_status: closed
     closeout: COM-MOD-013-CLOSEOUT
-    closeout_status: pending
+    closeout_status: closed
     history:
+      - backlog_item: COM-MOD-013-CLOSEOUT
+        status: closed
+        note: Module closeout complete. Package status moved to module_closed.
       - backlog_item: COM-MOD-013-QA-001
         status: closed
         note: >-

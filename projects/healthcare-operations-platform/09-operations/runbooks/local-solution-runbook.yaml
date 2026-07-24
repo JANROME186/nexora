@@ -13,7 +13,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-013-CLOSEOUT
+  current_active_backlog_item: COM-MOD-016-DEF
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -21,6 +21,20 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
+    backlog_item: COM-MOD-013-CLOSEOUT
+    status: closed
+    next_active_backlog_item: COM-MOD-016-DEF
+    runtime_change: >-
+      None. Documentation and registry synchronization closeout for COM-MOD-013 Advanced Quality
+      and Compliance. No new runtime component, port, environment variable, database schema, Docker
+      service or startup-order change.
+    validation_summary: >-
+      Formally closed COM-MOD-013. All 5 capability packages (BCM-QLT-002, BCM-QLT-006, BCM-QLT-007,
+      BCM-PLT-007, BCM-PLT-008) moved to module_closed. Technical debt TD-DB-005 and TD-QA-007 closed.
+      TD-IAM-004 open with explicit non-blocking justification. All coverage floors preserved across
+      all 6 stacks (backend 84.25%, employee-portal 89.75%, public website 98.61%, mobile 99.21%,
+      patient portal 94.11%, doctor portal 96.28%). Advanced next active backlog item to COM-MOD-016-DEF.
+  previous_runbook_update_com_mod_013_qa_001:
     backlog_item: COM-MOD-013-QA-001
     status: closed
     next_active_backlog_item: COM-MOD-013-CLOSEOUT

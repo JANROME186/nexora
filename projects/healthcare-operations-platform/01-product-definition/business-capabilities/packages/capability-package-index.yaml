@@ -6,7 +6,7 @@ artifact:
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.yaml
-  qa_evidence: ../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-CLOSEOUT-validation.yaml
+  qa_evidence: ../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-CLOSEOUT-validation.yaml
 
 policy:
   primary_development_unit: business_capability_package
@@ -32,13 +32,16 @@ do_not_write_manually:
   - Duplicate models
   - Repetitive test cases
 
-active_capability_package_groups:
+active_capability_package_groups: []
+
+completed_capability_package_groups:
   - roadmap_group: COM-MOD-013
     name: Advanced Quality and Compliance
-    package_status: validated
-    backlog_item: COM-MOD-013-QA-001
-    qa_evidence: ../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
-    security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-013-QA-001/security-quality-evidence.yaml
+    package_status: module_closed
+    backlog_item: COM-MOD-013-CLOSEOUT
+    qa_evidence: ../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-CLOSEOUT-validation.yaml
+    closeout_evidence: ../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-CLOSEOUT-validation.yaml
+    security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-013-CLOSEOUT/security-quality-evidence.yaml
     validation:
       backlog_item: COM-MOD-013-QA-001
       status: validated
@@ -62,37 +65,35 @@ active_capability_package_groups:
     capabilities:
       - capability_id: BCM-QLT-002
         package_folder: bcm-qlt-002-external-quality-controls/
-        package_status: compiled
+        package_status: module_closed
         bounded_context: external-quality-compliance
         primary_aggregate: ExternalQualityEvaluation (AGG-020)
         mobile_scope: not_required
       - capability_id: BCM-QLT-006
         package_folder: bcm-qlt-006-capa-management/
-        package_status: compiled
+        package_status: module_closed
         bounded_context: external-quality-compliance
         primary_aggregate: CapaInvestigation (AGG-021)
         mobile_scope: not_required
       - capability_id: BCM-QLT-007
         package_folder: bcm-qlt-007-audit-management/
-        package_status: compiled
+        package_status: module_closed
         bounded_context: external-quality-compliance
         primary_aggregate: AuditSchedule (AGG-022)
         mobile_scope: not_required
       - capability_id: BCM-PLT-007
         package_folder: bcm-plt-007-audit-trail/
-        package_status: extended_quality_compliance_controls
+        package_status: module_closed
         bounded_context: audit-compliance
         primary_aggregate: AuditEvent (AGG-018)
         mobile_scope: internal_audit_consumer
       - capability_id: BCM-PLT-008
         package_folder: bcm-plt-008-document-management/
-        package_status: extended_regulatory_retention_controls
+        package_status: module_closed
         bounded_context: document-management
         primary_aggregate: StoredDocument (AGG-023)
         mobile_scope: not_required
 
-
-completed_capability_package_groups:
   - roadmap_group: COM-MOD-012
     name: Platform Hardening and SaaS Operations
     package_status: module_closed

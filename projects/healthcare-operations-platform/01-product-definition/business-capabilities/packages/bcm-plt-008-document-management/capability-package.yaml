@@ -53,8 +53,8 @@ scope:
 roadmap:
   module: COM-MOD-013
   release: REL-003
-  package_status: extended_regulatory_retention_controls
-  next_backlog_item: COM-MOD-013-CLOSEOUT
+  package_status: module_closed
+  next_backlog_item: none (module closed; see COM-MOD-016-DEF for the next roadmap module)
 
 dependencies:
   required_capabilities:

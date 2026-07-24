@@ -29,6 +29,25 @@ required_checks_when_applicable:
   - container_or_iac_scan_when_assets_change
 
 entries:
+  - backlog_item: COM-MOD-013-CLOSEOUT
+    module: COM-MOD-013 Advanced Quality and Compliance
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-013-CLOSEOUT/
+    human_readable: 08-qa/security-quality/COM-MOD-013-CLOSEOUT/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-013-CLOSEOUT/security-quality-evidence.yaml
+    checks:
+      tests: passed_via_COM_MOD_013_QA_001
+      sast_or_static_analysis: passed_via_COM_MOD_013_QA_001
+      dependency_vulnerability_scan: passed_via_COM_MOD_013_QA_001
+      secrets_scan: passed
+      coverage: passed_no_regression
+      dast_for_runnable_web_or_api_surfaces: passed_in_prior_scans
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Formal module closeout for COM-MOD-013 Advanced Quality and Compliance. All 5 capability packages
+      (BCM-QLT-002, BCM-QLT-006, BCM-QLT-007, BCM-PLT-007, BCM-PLT-008) moved to module_closed.
+      Technical debt TD-DB-005 and TD-QA-007 confirmed closed. TD-IAM-004 open with non-blocking justification.
+      All coverage floors preserved with zero regressions. Advanced active backlog to COM-MOD-016-DEF.
   - backlog_item: COM-MOD-013-QA-001
     module: COM-MOD-013 Advanced Quality and Compliance
     status: passed

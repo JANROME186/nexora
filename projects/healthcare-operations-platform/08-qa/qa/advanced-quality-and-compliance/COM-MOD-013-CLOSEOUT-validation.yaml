@@ -1,0 +1,166 @@
+artifact:
+  id: HOP-QA-COM-MOD-013-CLOSEOUT-001
+  type: module-closeout-evidence
+  name: COM-MOD-013 Advanced Quality and Compliance Closeout Validation
+  version: 1.0.0
+  status: passed
+  human_readable: COM-MOD-013-CLOSEOUT-validation.md
+  machine_readable: COM-MOD-013-CLOSEOUT-validation.yaml
+  created_date: 2026-07-24
+  owner: Nexora Product Architecture Team
+
+scope:
+  module: COM-MOD-013 Advanced Quality and Compliance
+  backlog_item: COM-MOD-013-CLOSEOUT
+  release: REL-003
+  capabilities:
+    - BCM-QLT-002 External Quality Controls
+    - BCM-QLT-006 CAPA Management
+    - BCM-QLT-007 Audit Management
+    - BCM-PLT-007 Audit Trail
+    - BCM-PLT-008 Document Management
+  objective: >-
+    Formally close the Advanced Quality and Compliance module after capability package modeling,
+    backend compilation of external quality/CAPA/audit/document endpoints, employee-portal UI
+    compilation, and integrated DAST/resilience/quality validation across all 5 capabilities,
+    confirming all capability packages are module_closed and advancing to COM-MOD-016-DEF.
+
+module_evidence:
+  definition:
+    - 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-DEF-validation.yaml
+  backend:
+    - 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-BE-001-validation.yaml
+  frontend:
+    - 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-FE-001-validation.yaml
+  qa:
+    - 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
+  security_quality:
+    - 08-qa/security-quality/COM-MOD-013-DEF/security-quality-evidence.yaml
+    - 08-qa/security-quality/COM-MOD-013-BE-001/security-quality-evidence.yaml
+    - 08-qa/security-quality/COM-MOD-013-FE-001/security-quality-evidence.yaml
+    - 08-qa/security-quality/COM-MOD-013-QA-001/security-quality-evidence.yaml
+    - 08-qa/security-quality/COM-MOD-013-CLOSEOUT/security-quality-evidence.yaml
+
+backlog_items_closed:
+  - id: COM-MOD-013-DEF
+    name: Capability package models
+    status: closed
+  - id: COM-MOD-013-BE-001
+    name: Compile external QC, CAPA and audit management outputs
+    status: closed
+  - id: COM-MOD-013-FE-001
+    name: Compile quality and compliance UI outputs
+    status: closed
+  - id: COM-MOD-013-QA-001
+    name: Compliance workflow and evidence retention validation
+    status: closed
+  - id: COM-MOD-013-CLOSEOUT
+    name: Module closeout and registry update
+    status: closed
+
+capability_package_closure:
+  total_packages: 5
+  all_packages_module_closed: true
+  packages:
+    - capability_id: BCM-QLT-002
+      traceability: 01-product-definition/business-capabilities/packages/bcm-qlt-002-external-quality-controls/traceability.yaml
+      closeout_status: closed
+    - capability_id: BCM-QLT-006
+      traceability: 01-product-definition/business-capabilities/packages/bcm-qlt-006-capa-management/traceability.yaml
+      closeout_status: closed
+    - capability_id: BCM-QLT-007
+      traceability: 01-product-definition/business-capabilities/packages/bcm-qlt-007-audit-management/traceability.yaml
+      closeout_status: closed
+    - capability_id: BCM-PLT-007
+      traceability: 01-product-definition/business-capabilities/packages/bcm-plt-007-audit-trail/traceability.yaml
+      closeout_status: closed
+    - capability_id: BCM-PLT-008
+      traceability: 01-product-definition/business-capabilities/packages/bcm-plt-008-document-management/traceability.yaml
+      closeout_status: closed
+  capability_package_index_update: >-
+    01-product-definition/business-capabilities/packages/capability-package-index.yaml moved
+    COM-MOD-013 from active_capability_package_groups to completed_capability_package_groups with
+    package_status module_closed and backlog_item COM-MOD-013-CLOSEOUT.
+
+dast_validation_summary:
+  backend_zap_api_scan:
+    tool: OWASP ZAP (Docker ghcr.io/zaproxy/zaproxy:stable) zap-api-scan.py
+    urls_scanned: 939
+    initial_findings: 1 Medium Buffer Overflow finding (abrupt disconnect mid multipart upload to POST /api/documents)
+    fix_applied: >-
+      GlobalExceptionHandler gained MultipartException -> 400 mapping (TD-QA-007), with regression test
+      GlobalExceptionHandlerTest.mapsMultipartExceptionToBadRequestBody.
+    rescan_result: FAIL-NEW 0, WARN-NEW 0, PASS 118
+    reports_present:
+      - 08-qa/security-quality/COM-MOD-013-QA-001/zap-backend-api.html
+      - 08-qa/security-quality/COM-MOD-013-QA-001/zap-backend-api.json
+  employee_portal_zap_baseline_scan:
+    tool: OWASP ZAP (Docker ghcr.io/zaproxy/zaproxy:stable) zap-baseline.py with Ajax Spider
+    urls_scanned: 125
+    result: FAIL-NEW 0, WARN-NEW 6, PASS 61
+    warn_new_disposition: >-
+      All 6 WARN-NEW findings are mapped to known TD-FE-005 (CSP/COEP headers deferred to prod hosting)
+      or dev-server-only artifacts with no production impact.
+    reports_present:
+      - 08-qa/security-quality/COM-MOD-013-QA-001/zap-employee-portal.html
+      - 08-qa/security-quality/COM-MOD-013-QA-001/zap-employee-portal.json
+
+technical_debt_summary:
+  closed_items:
+    - id: TD-DB-005
+      title: COM-MOD-013 persistence wiring missing schema.sql registration and inverted @Profile
+      status: closed
+      remediation: Fixed in COM-MOD-013-QA-001; schema registered and @Profile corrected to local.
+    - id: TD-QA-007
+      title: Malformed/truncated multipart upload unhandled 500 on POST /api/documents
+      status: closed
+      remediation: Fixed in COM-MOD-013-QA-001; MultipartException mapped to 400 with DAST re-scan confirmation.
+  open_non_blocking_items:
+    - id: TD-IAM-004
+      title: External Quality/CAPA/Audit/Document-Management controllers assign synthetic tenant ID
+      status: open
+      risk_level: medium
+      owner: backend_team
+      target_backlog: dedicated_future_IAM_hardening_item
+      reason_non_blocking: >-
+        Deny-by-default request authorization remains intact (EndpointPermissionRegistry enforces permissions);
+        synthetic tenant ID affects evidence attribution, not access control. Deferred pending Spring Modulith
+        module-boundary decision for shared tenant-context port.
+  honest_non_closed_debt:
+    - id: TD-I18N-002
+      status: materially_reduced
+      note: Kept materially_reduced; AuditEventsScreen retrofitted and 1 hardcoded string fixed.
+    - id: TD-FE-010
+      status: materially_reduced
+      note: Kept materially_reduced; DocumentsSection extracted in ComplianceEvidenceScreen.tsx.
+    - id: TD-BE-002
+      status: open
+      note: Kept open; backend static analysis findings burn-down ongoing.
+    - id: TD-FE-005
+      status: open
+      note: Kept open; production hosting security headers deferred.
+
+quality_and_coverage_floors:
+  backend_line_coverage_percent: 84.25
+  employee_portal_line_coverage_percent: 89.75
+  public_website_line_coverage_percent: 98.61
+  mobile_line_coverage_percent: 99.21
+  patient_portal_line_coverage_percent: 94.11
+  doctor_portal_line_coverage_percent: 96.28
+  coverage_regressions_detected: 0
+
+next_backlog_selection:
+  selected_module: COM-MOD-016
+  selected_module_name: Commercial Launch and Customer Enablement
+  selected_backlog_item: COM-MOD-016-DEF
+  dependency_order_status: dependencies_satisfied
+  prerequisites:
+    - MVP-MOD-008: closed
+    - COM-MOD-009: module_closed
+    - COM-MOD-010: module_closed
+    - COM-MOD-012: module_closed
+    - COM-MOD-013: module_closed
+
+closure_decision:
+  status: approved
+  module_closed: true

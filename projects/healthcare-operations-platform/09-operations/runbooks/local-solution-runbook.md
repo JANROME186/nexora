@@ -8,9 +8,11 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-013-CLOSEOUT`.
+Current active backlog item: `COM-MOD-016-DEF`.
 
-Latest update: `COM-MOD-013-QA-001` is closed. Integrated validation of COM-MOD-013 found and
+Latest update: `COM-MOD-013-CLOSEOUT` is closed. Formally closed module **COM-MOD-013 Advanced Quality and Compliance**. All 5 capability packages (`BCM-QLT-002`, `BCM-QLT-006`, `BCM-QLT-007`, `BCM-PLT-007`, `BCM-PLT-008`) are marked `module_closed` in `capability-package-index.yaml` and package registries. Technical debt `TD-DB-005` (persistence profile mismatch and missing schema registration) and `TD-QA-007` (DAST multipart upload unhandled 500) are confirmed closed. `TD-IAM-004` remains open with explicit non-blocking justification (deny-by-default access control is intact; synthetic tenant ID affects evidence attribution, not authorization). All coverage floors across all six delivered stacks are preserved without regression: backend **84.25%**, employee portal **89.75%**, public website **98.61%**, mobile **99.21%**, patient portal **94.11%**, doctor portal **96.28%**. Full repository sweeps (YAML parse, stale pointers, evidence state, agent-agnostic, secrets, git diff check) passed clean. Next active backlog item: `COM-MOD-016-DEF`.
+
+Previous update: `COM-MOD-013-QA-001` is closed. Integrated validation of COM-MOD-013 found and
 closed a major persistence-wiring defect, `TD-DB-005`: `application-local.yml`'s
 `spring.sql.init.schema-locations` never registered `db/external-quality-and-compliance/schema.sql`,
 compounded by an inverted `@Profile` on the 4 externalqualitycompliance JDBC/in-memory repository
@@ -44,8 +46,8 @@ backend on its session-only `8090` port for this scan. DAST reports saved under
 assign a synthetic random tenant id instead of the authenticated request's real tenant; deferred
 pending a Spring Modulith module-boundary decision -- deny-by-default authorization itself is
 unaffected). OWASP Dependency-Check (72 deps), npm audit and Trivy (backend/employee-portal/
-repo-wide, all severities) reported 0 vulnerabilities/secrets/misconfigurations. Next active
-backlog item: `COM-MOD-013-CLOSEOUT`.
+repo-wide, all severities) reported 0 vulnerabilities/secrets/misconfigurations. Advanced next active
+backlog item to `COM-MOD-013-CLOSEOUT`.
 
 Previous update: `COM-MOD-013-FE-001` is closed. Compiled the Advanced Quality and Compliance
 employee-portal UI for External Quality Control (`BCM-QLT-002`), CAPA Management (`BCM-QLT-006`),
