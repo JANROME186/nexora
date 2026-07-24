@@ -1,0 +1,585 @@
+artifact:
+  id: HOP-COM-CAP-MATRIX-001
+  type: capability-matrix
+  name: HOP Capability Matrix by Package
+  version: 1.0.0
+  status: approved
+  human_readable: capability-matrix-by-package.md
+  machine_readable: capability-matrix-by-package.yaml
+  backlog_item: COM-MOD-016-COM-001
+  created_date: 2026-07-24
+  owner: Nexora Commercial Product Team
+
+project:
+  name: Healthcare Operations Platform
+  slug: healthcare-operations-platform
+  module: COM-MOD-016
+  release: REL-003
+
+legend:
+  included: Capability is included in this package tier.
+  add_on: Capability can be purchased as an add-on for this tier.
+  not_available: Capability is not available at this tier.
+  expansion: Capability requires the Enterprise tier plus the named expansion package.
+
+capability_matrix:
+  # --- Organization and Platform Foundation ---
+  - capability: BCM-ORG-001
+    name: Tenant Management
+    domain: Organization
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-ORG-002
+    name: Laboratory Management
+    domain: Organization
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-ORG-003
+    name: Branch Management
+    domain: Organization
+    starter: included
+    professional: included
+    enterprise: included
+
+  # --- Diagnostic Catalog ---
+  - capability: BCM-SVC-001
+    name: Diagnostic Service Catalog
+    domain: Catalog
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-SVC-002
+    name: Test Catalog
+    domain: Catalog
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-SVC-003
+    name: Panel Catalog
+    domain: Catalog
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-SVC-004
+    name: Analyte Catalog
+    domain: Catalog
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-SVC-005
+    name: Patient Preparation Management
+    domain: Catalog
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-SVC-006
+    name: Reference Range Management
+    domain: Catalog
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-SVC-007
+    name: Sample Catalog
+    domain: Catalog
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-SVC-009
+    name: Price List Management
+    domain: Catalog
+    starter: included
+    professional: included
+    enterprise: included
+
+  # --- People and Clinical Master Data ---
+  - capability: BCM-PER-001
+    name: Person Management
+    domain: People
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-PER-002
+    name: Patient Management
+    domain: People
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-PER-003
+    name: Doctor Management
+    domain: People
+    starter: included
+    professional: included
+    enterprise: included
+
+  # --- Front Desk and Care Delivery ---
+  - capability: BCM-ATT-001
+    name: Appointment Scheduling
+    domain: Front Desk
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-ATT-002
+    name: Patient Registration
+    domain: Front Desk
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-ATT-003
+    name: Reception Management
+    domain: Front Desk
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-ATT-004
+    name: Admission Management
+    domain: Front Desk
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-ATT-005
+    name: Cashier Operations
+    domain: Front Desk
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-ATT-006
+    name: Quotation Management
+    domain: Front Desk
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-ATT-008
+    name: Billing Request Management
+    domain: Front Desk
+    starter: included
+    professional: included
+    enterprise: included
+
+  # --- Laboratory Workflow ---
+  - capability: BCM-LAB-001
+    name: Diagnostic Order Management
+    domain: Laboratory
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-LAB-002
+    name: Sample Collection
+    domain: Laboratory
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-LAB-003
+    name: Sample Labeling
+    domain: Laboratory
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-LAB-005
+    name: Sample Reception
+    domain: Laboratory
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-LAB-006
+    name: Laboratory Processing
+    domain: Laboratory
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-LAB-008
+    name: Technical Validation
+    domain: Laboratory
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-LAB-009
+    name: Medical Validation
+    domain: Laboratory
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-LAB-010
+    name: Result Release
+    domain: Laboratory
+    starter: included
+    professional: included
+    enterprise: included
+
+  # --- Results and Delivery ---
+  - capability: BCM-RES-001
+    name: Result Management
+    domain: Results
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-RES-002
+    name: PDF Report Generation
+    domain: Results
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-RES-004
+    name: Digital Delivery
+    domain: Results
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-RES-005
+    name: Result History
+    domain: Results
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-RES-006
+    name: Critical Results
+    domain: Results
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-RES-007
+    name: Result Notifications
+    domain: Results
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  # --- Platform Services ---
+  - capability: BCM-PLT-001
+    name: Identity and Access Management
+    domain: Platform
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-PLT-002
+    name: Platform Configuration and Feature Flags
+    domain: Platform
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-PLT-003
+    name: Notification Management
+    domain: Platform
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-PLT-004
+    name: Integration Management
+    domain: Platform
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-PLT-005
+    name: API Management
+    domain: Platform
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-PLT-006
+    name: Observability
+    domain: Platform
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-PLT-007
+    name: Audit Trail
+    domain: Platform
+    starter: included
+    professional: included
+    enterprise: included
+
+  - capability: BCM-PLT-008
+    name: Document Management
+    domain: Platform
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-PLT-009
+    name: Workflow Engine
+    domain: Platform
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-PLT-010
+    name: Open Data Ingestion and Migration
+    domain: Platform
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-PLT-011
+    name: Product Marketplace and Entitlements
+    domain: Platform
+    starter: not_available
+    professional: not_available
+    enterprise: included
+
+  # --- Inventory ---
+  - capability: BCM-INV-001
+    name: Product Catalog
+    domain: Inventory
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-INV-002
+    name: Reagent Management
+    domain: Inventory
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-INV-003
+    name: Lot Management
+    domain: Inventory
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-INV-004
+    name: Procurement Management
+    domain: Inventory
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-INV-005
+    name: Stock Entries
+    domain: Inventory
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-INV-006
+    name: Stock Exits
+    domain: Inventory
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-INV-007
+    name: Consumption Tracking
+    domain: Inventory
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-INV-008
+    name: Inventory Adjustments
+    domain: Inventory
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-INV-009
+    name: Waste Management
+    domain: Inventory
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  # --- Quality ---
+  - capability: BCM-QLT-001
+    name: Internal Quality Controls
+    domain: Quality
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-QLT-002
+    name: External Quality Controls
+    domain: Quality
+    starter: not_available
+    professional: not_available
+    enterprise: included
+
+  - capability: BCM-QLT-003
+    name: Calibration Management
+    domain: Quality
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-QLT-004
+    name: Equipment Management
+    domain: Quality
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-QLT-005
+    name: Maintenance Management
+    domain: Quality
+    starter: not_available
+    professional: included
+    enterprise: included
+
+  - capability: BCM-QLT-006
+    name: CAPA Management
+    domain: Quality
+    starter: not_available
+    professional: not_available
+    enterprise: included
+
+  - capability: BCM-QLT-007
+    name: Audit Management
+    domain: Quality
+    starter: not_available
+    professional: not_available
+    enterprise: included
+
+  # --- Imaging (Expansion) ---
+  - capability: BCM-IMG-001
+    name: Imaging Appointment
+    domain: Imaging
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-IMAGING)
+
+  - capability: BCM-IMG-002
+    name: Imaging Reception
+    domain: Imaging
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-IMAGING)
+
+  - capability: BCM-IMG-003
+    name: Study Management
+    domain: Imaging
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-IMAGING)
+
+  - capability: BCM-IMG-004
+    name: DICOM/PACS Integration
+    domain: Imaging
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-IMAGING)
+
+  - capability: BCM-IMG-005
+    name: Dictation
+    domain: Imaging
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-IMAGING)
+
+  - capability: BCM-IMG-006
+    name: Signature
+    domain: Imaging
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-IMAGING)
+
+  - capability: BCM-IMG-007
+    name: Imaging Delivery
+    domain: Imaging
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-IMAGING)
+
+  - capability: BCM-IMG-008
+    name: Imaging Reports
+    domain: Imaging
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-IMAGING)
+
+  # --- AI (Expansion) ---
+  - capability: BCM-AI-001
+    name: AI Assistant
+    domain: AI
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-AI)
+
+  - capability: BCM-AI-002
+    name: OCR
+    domain: AI
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-AI)
+
+  - capability: BCM-AI-003
+    name: Summary
+    domain: AI
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-AI)
+
+  - capability: BCM-AI-004
+    name: Semantic Search
+    domain: AI
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-AI)
+
+  - capability: BCM-AI-005
+    name: Retrieval
+    domain: AI
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-AI)
+
+  - capability: BCM-AI-006
+    name: AI Audit
+    domain: AI
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-AI)
+
+  - capability: BCM-AI-007
+    name: AI Policy
+    domain: AI
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-AI)
+
+  - capability: BCM-AI-008
+    name: AI Explainability
+    domain: AI
+    starter: not_available
+    professional: not_available
+    enterprise: expansion (HOP-EXP-AI)
+
+open_source_first: true
+agent_agnostic: true
+no_proprietary_agent_dependencies: true

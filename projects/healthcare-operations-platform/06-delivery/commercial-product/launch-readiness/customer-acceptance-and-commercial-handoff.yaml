@@ -1,0 +1,120 @@
+artifact:
+  id: HOP-CUST-ACCEPT-001
+  type: customer-acceptance-and-commercial-handoff
+  name: HOP Customer Acceptance and Commercial Handoff
+  version: 1.0.0
+  status: approved
+  human_readable: customer-acceptance-and-commercial-handoff.md
+  machine_readable: customer-acceptance-and-commercial-handoff.yaml
+  backlog_item: COM-MOD-016-COM-001
+  created_date: 2026-07-24
+  owner: Nexora Professional Services and Commercial Team
+
+project:
+  name: Healthcare Operations Platform
+  slug: healthcare-operations-platform
+  module: COM-MOD-016
+  release: REL-003
+
+customer_acceptance_criteria:
+  - category: Operational Acceptance
+    criteria:
+      - Customer can configure tenant, laboratory, and branches.
+      - Customer can manage diagnostic catalog (services, tests, panels, prices).
+      - Customer can register patients and doctors.
+      - Customer can create and process diagnostic orders end to end.
+      - Customer can collect samples, process results, and release reports.
+      - Customer can operate cash sessions, payments, and billing requests.
+    evidence: Walkthrough with customer using the employee portal.
+
+  - category: Digital Channel Acceptance
+    criteria:
+      - Patients can access released results through patient portal and mobile app.
+      - Doctors can access referred patient results through doctor portal.
+      - Public website displays published catalog and accepts appointment requests.
+    evidence: Customer-validated access from each digital channel.
+
+  - category: Quality and Compliance Acceptance
+    criteria:
+      - Internal quality controls can be recorded and reviewed.
+      - External quality controls, CAPA, and audit management workflows are functional (Enterprise tier).
+      - Audit trail is searchable and complete.
+    evidence: Quality manager walkthrough with sample data.
+
+  - category: Integration and Data Acceptance
+    criteria:
+      - Legacy data has been migrated using BCM-PLT-010 with reconciliation report signed off.
+      - Integration endpoints are configured and tested.
+      - API keys and rate limits are configured for partner integrations.
+    evidence: Migration reconciliation report and integration test results.
+
+  - category: Operations and Support Acceptance
+    criteria:
+      - Customer administrators are trained on the employee portal.
+      - Key operational roles have completed role-specific training.
+      - Support escalation path is documented and communicated.
+      - Customer knows how to contact L1/L2 support.
+    evidence: Training completion records and support contact documentation.
+
+commercial_handoff_protocol:
+  phases:
+    - phase: 1_Sales_to_Implementation
+      trigger: Contract signed and onboarding scheduled.
+      owner: Sales Lead to Professional Services Lead.
+      deliverables:
+        - Signed contract with package tier and add-ons.
+        - Customer profile (organization type, branch count, user count, special requirements).
+        - Pilot or production designation.
+        - Target go-live date.
+      handoff_document: Sales to Implementation Handoff Form.
+
+    - phase: 2_Implementation_to_Hypercare
+      trigger: Customer acceptance criteria met and signoff obtained.
+      owner: Professional Services Lead to L2 Support Lead.
+      deliverables:
+        - Tenant Onboarding Report (ONB-GUIDE-001 completion evidence).
+        - Data Migration Reconciliation Report (ONB-GUIDE-006 completion evidence).
+        - Training Completion Records (ONB-GUIDE-007 completion evidence).
+        - Customer Acceptance Signoff Document.
+        - Open issues and known limitations list.
+      handoff_document: Implementation to Hypercare Handoff Document.
+      reference: 09-operations/governance/implementation-support-ops-handoff.yaml.
+
+    - phase: 3_Hypercare_to_BAU
+      trigger: 30-day hypercare period completed with zero P1/P2 incidents for 10 consecutive days.
+      owner: L2 Support Lead to Customer Success Manager.
+      deliverables:
+        - Hypercare Summary Report (incidents, resolutions, feedback).
+        - Customer satisfaction survey results.
+        - Formal Handoff Protocol Signoff Document.
+        - Transition to standard support SLA.
+      handoff_document: Hypercare to BAU Handoff Document.
+      reference: 09-operations/governance/implementation-support-ops-handoff.yaml.
+
+  pilot_to_ga_promotion:
+    trigger: Pilot exit criteria met (from pricing-model.yaml pilot_program section).
+    criteria:
+      - Customer completed onboarding checklist.
+      - Customer processed at least 500 diagnostic orders through the full workflow.
+      - Customer provided structured feedback.
+      - Zero unresolved P1 incidents during pilot.
+    promotion_actions:
+      - Convert pilot subscription to production contract.
+      - Upgrade tenant configuration from pilot to production settings.
+      - Transition from pilot support to standard or premium SLA.
+      - Archive pilot metrics for reference case development.
+
+escalation_path:
+  commercial_escalation:
+    - level: Account Manager
+      scope: Contract, billing, and package change requests.
+    - level: Sales Director
+      scope: Pricing disputes, custom terms, and renewal negotiations.
+    - level: VP Commercial
+      scope: Strategic account decisions and executive-level escalations.
+  technical_escalation:
+    reference: 09-operations/governance/support-model-and-escalation-matrix.yaml.
+
+open_source_first: true
+agent_agnostic: true
+no_proprietary_agent_dependencies: true

@@ -8,9 +8,11 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-016-COM-001`.
+Current active backlog item: `COM-MOD-016-QA-001`.
 
-Latest update: `COM-MOD-016-OPS-001` is closed. Formally completed operational support, escalation, and release governance documentation (**COM-MOD-016 Commercial Launch and Customer Enablement**). Created 10 governance specifications and master index under `09-operations/governance/` (`GOV-SPEC-001` through `GOV-SPEC-010`), integrated with `onboarding/` and `runbooks/`, preserved all 6 stack coverage floors. Full repository sweeps (YAML parse, stale pointers, evidence state, agent-agnostic, secrets, git diff check) passed clean. Next active backlog item: `COM-MOD-016-COM-001`.
+Latest update: `COM-MOD-016-COM-001` is closed. Formally completed pricing package, sales demo and launch readiness assets (**COM-MOD-016 Commercial Launch and Customer Enablement**). Created commercial packages, capability matrix, pricing model, upgrade/downgrade criteria, sales demo script, demo data checklist, sales enablement one-pager, buyer personas, value proposition, launch readiness checklist and customer acceptance/commercial handoff assets under `06-delivery/commercial-product/`, preserved all 6 stack coverage floors. Full repository sweeps (YAML parse, stale pointers, evidence state, agent-agnostic, secrets, git diff check) passed clean. Next active backlog item: `COM-MOD-016-QA-001`.
+
+Previous update: `COM-MOD-016-OPS-001` is closed. Formally completed operational support, escalation, and release governance documentation (**COM-MOD-016 Commercial Launch and Customer Enablement**). Created 10 governance specifications and master index under `09-operations/governance/` (`GOV-SPEC-001` through `GOV-SPEC-010`), integrated with `onboarding/` and `runbooks/`, preserved all 6 stack coverage floors. Full repository sweeps (YAML parse, stale pointers, evidence state, agent-agnostic, secrets, git diff check) passed clean. Next active backlog item: `COM-MOD-016-COM-001`.
 
 Previous update: `COM-MOD-016-DOC-001` is closed. Formally completed customer onboarding and configuration guides (**COM-MOD-016 Commercial Launch and Customer Enablement**). All 8 onboarding guides and specifications created under `09-operations/onboarding/` (`ONB-GUIDE-001` through `ONB-GUIDE-008`). Preserved all 6 stack coverage floors. Full repository sweeps (YAML parse, stale pointers, evidence state, agent-agnostic, secrets, git diff check) passed clean. Next active backlog item: `COM-MOD-016-OPS-001`.
 

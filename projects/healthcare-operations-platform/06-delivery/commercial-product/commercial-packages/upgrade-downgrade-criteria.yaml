@@ -1,0 +1,121 @@
+artifact:
+  id: HOP-COM-UPGRADE-001
+  type: commercial-upgrade-downgrade-criteria
+  name: HOP Tenant Upgrade and Downgrade Criteria
+  version: 1.0.0
+  status: approved
+  human_readable: upgrade-downgrade-criteria.md
+  machine_readable: upgrade-downgrade-criteria.yaml
+  backlog_item: COM-MOD-016-COM-001
+  created_date: 2026-07-24
+  owner: Nexora Commercial Product Team
+
+project:
+  name: Healthcare Operations Platform
+  slug: healthcare-operations-platform
+  module: COM-MOD-016
+  release: REL-003
+
+upgrade_paths:
+  - from: starter
+    to: professional
+    trigger_criteria:
+      - Tenant exceeds 3 branches and requires multi-branch management.
+      - Tenant requires patient portal, doctor portal, or mobile app access.
+      - Tenant needs inventory management, quality controls, or integration capabilities.
+      - Tenant requires observability, advanced configuration, or feature flag management.
+      - Tenant exceeds 25 concurrent users or 5000 monthly orders consistently.
+    migration_actions:
+      - Enable Professional-tier feature flags for the tenant via BCM-PLT-002.
+      - Provision patient portal, doctor portal, and mobile app access per BCM-PLT-001.
+      - Enable public website deployment for the tenant.
+      - Activate inventory and internal quality modules.
+      - Activate integration and migration capabilities.
+      - Update tenant tier in BCM-ORG-001 from starter to professional.
+      - Adjust billing and SLA per pricing model.
+    data_impact: No data loss. All existing data preserved. New capabilities become available immediately.
+    rollback_possible: true
+    rollback_window_days: 30
+
+  - from: professional
+    to: enterprise
+    trigger_criteria:
+      - Tenant requires advanced quality and compliance (external QC, CAPA, audit management).
+      - Tenant requires product marketplace and extension packaging.
+      - Tenant exceeds Professional-tier branch, user, or order limits.
+      - Tenant requires custom SLAs or dedicated account management.
+      - Regulatory or accreditation requirements mandate advanced audit and compliance capabilities.
+    migration_actions:
+      - Enable Enterprise-tier feature flags for the tenant via BCM-PLT-002.
+      - Activate advanced quality and compliance modules.
+      - Provision marketplace access.
+      - Assign dedicated account manager.
+      - Negotiate and configure custom SLA terms.
+      - Update tenant tier in BCM-ORG-001 from professional to enterprise.
+      - Adjust billing per custom quote.
+    data_impact: No data loss. All existing data preserved. Advanced capabilities become available immediately.
+    rollback_possible: true
+    rollback_window_days: 30
+
+downgrade_paths:
+  - from: enterprise
+    to: professional
+    trigger_criteria:
+      - Customer requests downgrade due to reduced operational scope.
+      - Contract renewal at lower tier.
+    preconditions:
+      - No active marketplace packages installed that require Enterprise tier.
+      - No active CAPA, external QC, or audit management records in open state.
+      - Customer acknowledges loss of access to Enterprise-only capabilities.
+    migration_actions:
+      - Disable Enterprise-tier feature flags for the tenant.
+      - Revoke marketplace access.
+      - Close or archive open compliance workflow records.
+      - Remove dedicated account manager assignment.
+      - Update tenant tier in BCM-ORG-001 from enterprise to professional.
+      - Adjust billing per Professional pricing.
+    data_impact: >-
+      Enterprise-only data (external QC, CAPA, audit management records) remains in storage but
+      becomes read-only and inaccessible through the UI. Data can be exported before downgrade.
+      No data deletion occurs automatically.
+    data_export_required: true
+    rollback_possible: true
+    rollback_window_days: 30
+
+  - from: professional
+    to: starter
+    trigger_criteria:
+      - Customer requests downgrade due to reduced operational scope.
+      - Customer reduces branch count to 3 or fewer.
+    preconditions:
+      - Tenant has 3 or fewer active branches.
+      - Tenant has 25 or fewer concurrent users.
+      - No active integration endpoints or migration jobs in progress.
+      - Customer acknowledges loss of access to Professional-only capabilities.
+    migration_actions:
+      - Disable Professional-tier feature flags for the tenant.
+      - Revoke patient portal, doctor portal, mobile app, and public website access.
+      - Deactivate inventory, quality, integration, and migration modules.
+      - Update tenant tier in BCM-ORG-001 from professional to starter.
+      - Adjust billing per Starter pricing.
+    data_impact: >-
+      Professional-only data (inventory, quality controls, integration configs) remains in storage
+      but becomes read-only and inaccessible through the UI. Data can be exported before downgrade.
+      Patient, doctor, and mobile portal users lose access immediately.
+    data_export_required: true
+    rollback_possible: true
+    rollback_window_days: 30
+
+feature_gate_mechanism:
+  description: >-
+    Package tier enforcement uses BCM-PLT-002 Platform Configuration and Feature Flags.
+    Each capability has a feature flag scoped to the tenant tier. When a tenant is provisioned
+    or upgraded, the corresponding feature flags are activated. When downgraded, flags are
+    deactivated. The backend enforces feature gates at the API level; UI surfaces hide
+    inaccessible screens via permission-filtered navigation (BCM-PLT-001).
+  implementation_reference: BCM-PLT-002 feature flag evaluation and BCM-PLT-001 role-permission catalog.
+  audit_trail: Every tier change and feature flag toggle is recorded as an append-only AuditEvent (AGG-018).
+
+open_source_first: true
+agent_agnostic: true
+no_proprietary_agent_dependencies: true

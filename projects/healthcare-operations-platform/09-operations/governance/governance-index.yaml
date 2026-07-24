@@ -77,6 +77,16 @@ governance_specifications:
     machine_readable: operational-acceptance-criteria.yaml
     capability_coverage: [BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008]
 
+related_commercial_launch_assets:
+  launch_readiness_checklist: ../../06-delivery/commercial-product/launch-readiness/launch-readiness-checklist.yaml
+  customer_acceptance_and_handoff: ../../06-delivery/commercial-product/launch-readiness/customer-acceptance-and-commercial-handoff.yaml
+  commercial_packages: ../../06-delivery/commercial-product/commercial-packages/hop-commercial-packages.yaml
+  note: >-
+    Launch readiness, customer acceptance, and commercial handoff assets are produced by
+    COM-MOD-016-COM-001 and integrate with the governance specifications (especially
+    GOV-SPEC-008 Implementation to Support Handoff and GOV-SPEC-010 Operational Acceptance
+    Criteria) to form the complete customer enablement and launch governance chain.
+
 standards_compliance:
   agent_agnostic: true
   open_source_first: true

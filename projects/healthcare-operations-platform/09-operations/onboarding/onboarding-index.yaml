@@ -72,6 +72,15 @@ guides:
       - BCM-PLT-006
       - BCM-PLT-007
 
+related_commercial_assets:
+  commercial_packages: ../../06-delivery/commercial-product/commercial-packages/
+  sales_enablement: ../../06-delivery/commercial-product/sales-enablement/
+  launch_readiness: ../../06-delivery/commercial-product/launch-readiness/
+  note: >-
+    Commercial packaging, sales enablement, and launch readiness assets are produced by
+    COM-MOD-016-COM-001 and complement the onboarding guides by providing pricing, demo
+    scripts, buyer personas, and customer acceptance criteria.
+
 standards_compliance:
   agent_agnostic: true
   open_source_first: true
