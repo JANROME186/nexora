@@ -21,3 +21,10 @@ modeling:
   status: modeled
   qa_evidence: ../../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.yaml
   security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-016-DEF/security-quality-evidence.yaml
+
+commercial_enablement:
+  backlog_item: COM-MOD-016-OPS-001
+  status: operational_governance_completed
+  qa_evidence: ../../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-OPS-001-validation.yaml
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-016-OPS-001/security-quality-evidence.yaml
+  governance_specifications: ../../../../09-operations/governance/governance-index.yaml

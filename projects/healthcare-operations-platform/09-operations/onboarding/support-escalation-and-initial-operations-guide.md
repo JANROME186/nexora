@@ -53,3 +53,9 @@ During the first 30 days post-go-live:
 2. **Daily Standup Call**: 15-minute daily sync between customer project manager and HOP enablement team.
 3. **Weekly Operational Review**: Review ticket volume, system performance, user adoption, and open feedback.
 4. **Transition to Standard Support**: Formal sign-off transitioning customer from Hypercare to standard SLA support at Day 30.
+
+## Complete Operational & Release Governance Specifications
+
+For detailed specifications on L1/L2/L3 support, escalation matrix, SLAs/SLOs, incident management, problem management/RCA, change management/CAB, release governance & readiness, rollback/hotfix, and handoff procedures, refer to the master index:
+- [governance-index.yaml](file:///c:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora/projects/healthcare-operations-platform/09-operations/governance/governance-index.yaml)
+- [README.md](file:///c:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora/projects/healthcare-operations-platform/09-operations/governance/README.md)

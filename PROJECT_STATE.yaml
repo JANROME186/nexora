@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: "COM-MOD-016-DOC-001 Customer onboarding and configuration guides completed and validated. Produced 8 MD and 8 YAML onboarding guides under 09-operations/onboarding/, preserved all 6 coverage floors, passed YAML parse, stale pointer sweep, agent-agnostic scan, secrets scan and git diff --check clean. Ready for COM-MOD-016-OPS-001."
+current_phase: "COM-MOD-016-OPS-001 Support, escalation and release governance completed and validated. Produced 10 MD and 10 YAML governance specifications under 09-operations/governance/, preserved all 6 coverage floors, passed YAML parse, stale pointer sweep, agent-agnostic scan, secrets scan and git diff --check clean. Ready for COM-MOD-016-COM-001."
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -30,7 +30,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
     active_module: COM-MOD-016
-    active_backlog_item: COM-MOD-016-OPS-001
+    active_backlog_item: COM-MOD-016-COM-001
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -125,9 +125,10 @@ projects:
       - COM-MOD-013-CLOSEOUT
       - COM-MOD-016-DEF
       - COM-MOD-016-DOC-001
+      - COM-MOD-016-OPS-001
     structure: ordered_numbered_folders
 next_deliverables:
-  - Execute COM-MOD-016-OPS-001 Support, escalation and release governance
+  - Execute COM-MOD-016-COM-001 Pricing package, sales demo and launch readiness assets
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake

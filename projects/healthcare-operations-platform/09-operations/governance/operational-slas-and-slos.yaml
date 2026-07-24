@@ -1,0 +1,102 @@
+artifact:
+  id: HOP-GOV-SLA-001
+  type: operational-governance-specification
+  name: HOP Operational SLAs and SLOs Governance Specification
+  version: 1.0.0
+  status: approved
+  human_readable: operational-slas-and-slos.md
+  machine_readable: operational-slas-and-slos.yaml
+  backlog_item: COM-MOD-016-OPS-001
+  created_date: 2026-07-24
+  owner: HOP Platform & Service Level Architecture Team
+
+project:
+  name: Healthcare Operations Platform
+  slug: healthcare-operations-platform
+  module: COM-MOD-016
+  release: REL-003
+
+service_level_agreements:
+  sla_definitions:
+    - priority: P1_critical
+      response_time_minutes: 15
+      resolution_time_hours: 2
+      update_frequency_minutes: 30
+      availability_impact: high
+      financial_remediation_eligible: true
+
+    - priority: P2_high
+      response_time_minutes: 60
+      resolution_time_hours: 8
+      update_frequency_hours: 2
+      availability_impact: medium
+      financial_remediation_eligible: true
+
+    - priority: P3_medium
+      response_time_minutes: 240
+      resolution_time_hours: 48
+      update_frequency_hours: 12
+      availability_impact: low
+      financial_remediation_eligible: false
+
+    - priority: P4_low
+      response_time_minutes: 1440
+      resolution_time_hours: next_release_cycle
+      update_frequency_hours: 48
+      availability_impact: none
+      financial_remediation_eligible: false
+
+service_level_objectives:
+  availability:
+    target_percentage: 99.9
+    measurement_window: 30_days_rolling
+    endpoint: GET /actuator/health/readiness
+    allowed_downtime_per_month_minutes: 43.2
+
+  latency:
+    backend_api_p95_ms: 200
+    backend_api_p99_ms: 500
+    employee_portal_page_load_p95_seconds: 1.5
+    public_website_page_load_p95_seconds: 1.0
+    measurement_metric: http_server_requests_seconds
+
+  error_rate:
+    max_5xx_error_percentage: 0.01
+    measurement_metric: http_server_requests_5xx_total / http_server_requests_total
+
+  operational_resilience:
+    mttd_minutes: 15
+    mttr_hours: 2
+    rpo_hours: 1
+    rto_hours: 4
+    backup_frequency_hours: 6
+    restore_rehearsal_frequency: monthly
+
+error_budget_policy:
+  monthly_budget_minutes: 43.2
+  thresholds:
+    - consumption_percentage: 50
+      action: Inform L2 support and review active technical debt
+    - consumption_percentage: 75
+      action: Freeze non-critical feature deployments; prioritize stability patches
+    - consumption_percentage: 100
+      action: Full deployment freeze except P1 emergency hotfixes; mandatory CAB RCA review
+
+maintenance_windows:
+  standard_window:
+    day: Sunday
+    time_utc: "02:00-06:00"
+    notice_period_days: 7
+  urgent_window:
+    notice_period_hours: 24
+    approval_required: Emergency CAB (eCAB)
+
+traceability:
+  capabilities:
+    - BCM-PLT-002
+    - BCM-PLT-006
+    - BCM-PLT-007
+  standards_compliance:
+    agent_agnostic: true
+    open_source_first: true
+    no_proprietary_agent_dependencies: true

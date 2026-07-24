@@ -1,0 +1,80 @@
+artifact:
+  id: HOP-GOV-INC-001
+  type: operational-governance-specification
+  name: HOP Incident Management Governance Specification
+  version: 1.0.0
+  status: approved
+  human_readable: incident-management-governance.md
+  machine_readable: incident-management-governance.yaml
+  backlog_item: COM-MOD-016-OPS-001
+  created_date: 2026-07-24
+  owner: HOP Operations Governance & Security Team
+
+project:
+  name: Healthcare Operations Platform
+  slug: healthcare-operations-platform
+  module: COM-MOD-016
+  release: REL-003
+
+incident_lifecycle:
+  phases:
+    - phase: 1_Detection_and_Triage
+      description: Automated health check failure, alert trigger, or user ticket received. Severity classified (P1-P4).
+      max_duration_minutes: 15
+      output: Incident ticket created, Incident Commander assigned for P1/P2.
+
+    - phase: 2_Containment_and_Triage
+      description: Isolate failure impact, apply tenant containment, activate fallback/circuit breaker, preserve diagnostic evidence.
+      max_duration_minutes: 30
+      runbook_reference: 09-operations/runbooks/tenant-impact-triage-runbook.yaml
+
+    - phase: 3_Remediation_and_Recovery
+      description: Deploy hotfix, execute configuration adjustment, or perform rollback. Validate readiness probe restoration.
+      max_duration_minutes: 90
+      runbook_reference: 09-operations/runbooks/rollback-incident-handoff-runbook.yaml
+
+    - phase: 4_Resolution_Verification
+      description: Confirm full service restoration across affected tenants, verify backend/frontend error rate return to baseline.
+      max_duration_minutes: 15
+      output: Ticket marked Resolved; evidence bundle assembled.
+
+    - phase: 5_Post_Incident_Review
+      description: Conduct blameless PIR, document root cause, log actionable technical debt items, publish customer summary.
+      max_duration_days: 3
+      runbook_reference: 09-operations/runbooks/post-incident-review-runbook.yaml
+
+key_roles:
+  incident_commander:
+    responsibility: Overall incident authority, war room leadership, triage direction, and escalation management.
+  technical_lead:
+    responsibility: Technical diagnosis, code/db investigation, patch creation, and technical remediation.
+  communications_lead:
+    responsibility: Status page updates, customer notifications, executive briefings, and internal alignment.
+
+evidence_collection_mandate:
+  required_artifacts:
+    - Actuator metrics snapshot (/actuator/prometheus)
+    - Health probe status history (/actuator/health)
+    - MDC trace log snippet (traceId, tenantId, userId correlation)
+    - Database query log or locking trace
+    - Git commit SHA and deployment version running at failure time
+    - Customer impact matrix (affected tenants, branches, order IDs)
+  evidence_runbook: 09-operations/runbooks/evidence-collection-runbook.yaml
+
+severity_reclassification_rules:
+  upgrade:
+    - Trigger: P2/P3 incident affecting multiple tenants or spreading across core clinical workflows.
+    - Action: Immediately upgrade to P1; notify Incident Commander and activate Emergency Bridge.
+  downgrade:
+    - Trigger: Workaround applied that restores clinical/financial workflow while permanent fix is prepared.
+    - Action: Demote P1 to P2; update status page and maintain active monitoring queue.
+
+traceability:
+  capabilities:
+    - BCM-PLT-002
+    - BCM-PLT-006
+    - BCM-PLT-007
+  standards_compliance:
+    agent_agnostic: true
+    open_source_first: true
+    no_proprietary_agent_dependencies: true

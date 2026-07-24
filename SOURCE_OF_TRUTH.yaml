@@ -161,6 +161,12 @@ sources:
   hop_stack_quality_toolchain_baseline: projects/healthcare-operations-platform/03-architecture/technology-architecture/stack-quality-toolchain-baseline.yaml
   hop_local_solution_runbook: projects/healthcare-operations-platform/09-operations/runbooks/local-solution-runbook.md
   hop_local_solution_runbook_yaml: projects/healthcare-operations-platform/09-operations/runbooks/local-solution-runbook.yaml
+  hop_com_mod_016_ops_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-OPS-001-validation.md
+  hop_com_mod_016_ops_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-OPS-001-validation.yaml
+  hop_com_mod_016_ops_001_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/COM-MOD-016-OPS-001/security-quality-evidence.md
+  hop_com_mod_016_ops_001_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/COM-MOD-016-OPS-001/security-quality-evidence.yaml
+  hop_operational_governance_index: projects/healthcare-operations-platform/09-operations/governance/governance-index.yaml
+  hop_operational_governance_readme: projects/healthcare-operations-platform/09-operations/governance/README.md
 rules:
   - Nexora is the company and repository-level framework owner.
   - Nexora final vision and strategic handoff define company-level intent and must remain agent agnostic.

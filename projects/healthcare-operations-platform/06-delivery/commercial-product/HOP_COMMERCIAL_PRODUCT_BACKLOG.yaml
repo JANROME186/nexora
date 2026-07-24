@@ -19,9 +19,9 @@ product:
     completed_module: COM-MOD-013 (COM-MOD-013-CLOSEOUT closed)
     completed_status: closed
     active_module: COM-MOD-016
-    active_backlog_item: COM-MOD-016-OPS-001
+    active_backlog_item: COM-MOD-016-COM-001
     active_module_progress: >-
-      COM-MOD-016-DEF capability package models and COM-MOD-016-DOC-001 customer onboarding and configuration guides completed and validated. Produced all 8 onboarding guides under 09-operations/onboarding/, preserved coverage floors across all 6 stacks, passed full validation sweep. Next item COM-MOD-016-OPS-001.
+      COM-MOD-016-DEF capability package models, COM-MOD-016-DOC-001 customer onboarding guides, and COM-MOD-016-OPS-001 support, escalation and release governance completed and validated. Produced 10 governance specifications under 09-operations/governance/, preserved coverage floors across all 6 stacks, passed full validation sweep. Next item COM-MOD-016-COM-001.
     paused_backlog_item: null
 
 source_inputs:
@@ -1045,6 +1045,7 @@ modules:
         status: closed
       - id: COM-MOD-016-OPS-001
         name: Support, escalation and release governance
+        status: closed
       - id: COM-MOD-016-COM-001
         name: Pricing package, sales demo and launch readiness assets
       - id: COM-MOD-016-QA-001

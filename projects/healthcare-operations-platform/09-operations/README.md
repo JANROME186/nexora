@@ -20,6 +20,24 @@ COM-MOD-012 defines HOP's production deployment and environment strategy in:
 
 These files describe the open-source-first, agent-agnostic environment path from local to production, including configuration, secrets, tenant onboarding, release promotion, rollback and deployment readiness checks.
 
+## Customer Onboarding Guides
+
+COM-MOD-016-DOC-001 defines customer onboarding and configuration guides in:
+
+- `onboarding/README.md`
+- `onboarding/onboarding-index.yaml`
+
+Covers customer/tenant onboarding, organization & branch config, roles & permissions (27 permissions), regional localization, technical prerequisites, open data migration checklist, training/human validation, and initial support & operations.
+
+## Support, Escalation and Release Governance
+
+COM-MOD-016-OPS-001 defines operational support, escalation, and release governance in:
+
+- `governance/README.md`
+- `governance/governance-index.yaml`
+
+Covers L1/L2/L3 support model, escalation matrix, SLAs/SLOs, incident management, problem management/RCA, change management/CAB, release governance, readiness checklists, rollback/hotfix procedures, implementation-to-ops handoff, customer incident/release communication, and operational acceptance criteria (OAC).
+
 ## Integrated Local Solution Runbook
 
 Human reviewers should start here when they need to run the complete local solution:

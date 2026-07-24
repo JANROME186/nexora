@@ -1,0 +1,83 @@
+artifact:
+  id: HOP-GOV-IDX-001
+  type: operational-governance-master-index
+  name: HOP Operational Support, Escalation and Release Governance Master Index
+  version: 1.0.0
+  status: approved
+  human_readable: README.md
+  machine_readable: governance-index.yaml
+  backlog_item: COM-MOD-016-OPS-001
+  created_date: 2026-07-24
+  owner: HOP Operations & Release Governance Team
+
+project:
+  name: Healthcare Operations Platform
+  slug: healthcare-operations-platform
+  module: COM-MOD-016
+  release: REL-003
+
+governance_specifications:
+  - id: GOV-SPEC-001
+    name: Support Model L1/L2/L3 and Escalation Matrix Specification
+    human_readable: support-model-and-escalation-matrix.md
+    machine_readable: support-model-and-escalation-matrix.yaml
+    capability_coverage: [BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007]
+
+  - id: GOV-SPEC-002
+    name: Operational SLAs and SLOs Governance Specification
+    human_readable: operational-slas-and-slos.md
+    machine_readable: operational-slas-and-slos.yaml
+    capability_coverage: [BCM-PLT-002, BCM-PLT-006, BCM-PLT-007]
+
+  - id: GOV-SPEC-003
+    name: Incident Management Governance Specification
+    human_readable: incident-management-governance.md
+    machine_readable: incident-management-governance.yaml
+    capability_coverage: [BCM-PLT-002, BCM-PLT-006, BCM-PLT-007]
+
+  - id: GOV-SPEC-004
+    name: Problem Management & RCA Governance Specification
+    human_readable: problem-management-governance.md
+    machine_readable: problem-management-governance.yaml
+    capability_coverage: [BCM-PLT-002, BCM-PLT-006, BCM-PLT-007]
+
+  - id: GOV-SPEC-005
+    name: Change Management Governance Specification
+    human_readable: change-management-governance.md
+    machine_readable: change-management-governance.yaml
+    capability_coverage: [BCM-PLT-002, BCM-PLT-006, BCM-PLT-007]
+
+  - id: GOV-SPEC-006
+    name: Release Governance & Release Readiness Checklist Specification
+    human_readable: release-governance-and-readiness.md
+    machine_readable: release-governance-and-readiness.yaml
+    capability_coverage: [BCM-ORG-001, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008]
+
+  - id: GOV-SPEC-007
+    name: Rollback and Hotfix Governance Specification
+    human_readable: rollback-and-hotfix-governance.md
+    machine_readable: rollback-and-hotfix-governance.yaml
+    capability_coverage: [BCM-PLT-002, BCM-PLT-006, BCM-PLT-007]
+
+  - id: GOV-SPEC-008
+    name: Implementation to Support & Operations Handoff Specification
+    human_readable: implementation-support-ops-handoff.md
+    machine_readable: implementation-support-ops-handoff.yaml
+    capability_coverage: [BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008]
+
+  - id: GOV-SPEC-009
+    name: Customer Incident and Release Communication Governance Specification
+    human_readable: customer-incident-release-communication.md
+    machine_readable: customer-incident-release-communication.yaml
+    capability_coverage: [BCM-ORG-001, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008]
+
+  - id: GOV-SPEC-010
+    name: Operational Acceptance Criteria (OAC) Specification
+    human_readable: operational-acceptance-criteria.md
+    machine_readable: operational-acceptance-criteria.yaml
+    capability_coverage: [BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008]
+
+standards_compliance:
+  agent_agnostic: true
+  open_source_first: true
+  no_proprietary_agent_dependencies: true

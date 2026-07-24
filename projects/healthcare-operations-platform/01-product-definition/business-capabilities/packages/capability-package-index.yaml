@@ -35,10 +35,12 @@ do_not_write_manually:
 active_capability_package_groups:
   - roadmap_group: COM-MOD-016
     name: Commercial Launch and Customer Enablement
-    package_status: modeled
-    backlog_item: COM-MOD-016-DEF
-    qa_evidence: ../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.yaml
-    security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-016-DEF/security-quality-evidence.yaml
+    package_status: operational_governance_completed
+    backlog_item: COM-MOD-016-OPS-001
+    qa_evidence: ../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-OPS-001-validation.yaml
+    security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-016-OPS-001/security-quality-evidence.yaml
+    onboarding_evidence: ../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DOC-001-validation.yaml
+    definition_evidence: ../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.yaml
     capabilities:
       - capability_id: BCM-ORG-001
         package_folder: bcm-org-001-tenant-management/

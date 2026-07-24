@@ -8,11 +8,11 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-016-OPS-001`.
+Current active backlog item: `COM-MOD-016-COM-001`.
 
-Latest update: `COM-MOD-016-DOC-001` is closed. Formally completed customer onboarding and configuration guides (**COM-MOD-016 Commercial Launch and Customer Enablement**). All 8 onboarding guides and specifications created under `09-operations/onboarding/` (`ONB-GUIDE-001` through `ONB-GUIDE-008`). Preserved all 6 stack coverage floors. Full repository sweeps (YAML parse, stale pointers, evidence state, agent-agnostic, secrets, git diff check) passed clean. Next active backlog item: `COM-MOD-016-OPS-001`.
+Latest update: `COM-MOD-016-OPS-001` is closed. Formally completed operational support, escalation, and release governance documentation (**COM-MOD-016 Commercial Launch and Customer Enablement**). Created 10 governance specifications and master index under `09-operations/governance/` (`GOV-SPEC-001` through `GOV-SPEC-010`), integrated with `onboarding/` and `runbooks/`, preserved all 6 stack coverage floors. Full repository sweeps (YAML parse, stale pointers, evidence state, agent-agnostic, secrets, git diff check) passed clean. Next active backlog item: `COM-MOD-016-COM-001`.
 
-Previous update: `COM-MOD-016-DEF` is closed. Formally completed capability package models for **COM-MOD-016 Commercial Launch and Customer Enablement**. All 7 capability packages (`BCM-ORG-001`, `BCM-ORG-002`, `BCM-ORG-003`, `BCM-PLT-002`, `BCM-PLT-006`, `BCM-PLT-007`, `BCM-PLT-008`) are modeled and traced in `capability-package-index.yaml` and package registries. Full repository sweeps (YAML parse, stale pointers, evidence state, agent-agnostic, secrets, git diff check) passed clean. Next active backlog item: `COM-MOD-016-DOC-001`.
+Previous update: `COM-MOD-016-DOC-001` is closed. Formally completed customer onboarding and configuration guides (**COM-MOD-016 Commercial Launch and Customer Enablement**). All 8 onboarding guides and specifications created under `09-operations/onboarding/` (`ONB-GUIDE-001` through `ONB-GUIDE-008`). Preserved all 6 stack coverage floors. Full repository sweeps (YAML parse, stale pointers, evidence state, agent-agnostic, secrets, git diff check) passed clean. Next active backlog item: `COM-MOD-016-OPS-001`.
 
 Previous update: `COM-MOD-013-QA-001` is closed. Integrated validation of COM-MOD-013 found and
 closed a major persistence-wiring defect, `TD-DB-005`: `application-local.yml`'s

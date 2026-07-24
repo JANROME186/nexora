@@ -37,6 +37,13 @@ health_probes:
 
 hypercare_duration_days: 30
 
+governance_integration:
+  master_governance_index: ../governance/governance-index.yaml
+  support_model_spec: ../governance/support-model-and-escalation-matrix.yaml
+  sla_slo_spec: ../governance/operational-slas-and-slos.yaml
+  release_governance_spec: ../governance/release-governance-and-readiness.yaml
+  ops_backlog_item: COM-MOD-016-OPS-001
+
 traceability:
   capabilities:
     - BCM-PLT-006

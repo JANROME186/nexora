@@ -54,8 +54,8 @@ scope:
 roadmap:
   module: COM-MOD-016
   release: REL-003
-  package_status: extended_customer_enablement_assets
-  next_backlog_item: COM-MOD-016-OPS-001
+  package_status: operational_governance_completed
+  next_backlog_item: COM-MOD-016-COM-001
 
 dependencies:
   required_capabilities:

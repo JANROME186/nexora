@@ -1,0 +1,80 @@
+artifact:
+  id: HOP-GOV-CHG-001
+  type: operational-governance-specification
+  name: HOP Change Management Governance Specification
+  version: 1.0.0
+  status: approved
+  human_readable: change-management-governance.md
+  machine_readable: change-management-governance.yaml
+  backlog_item: COM-MOD-016-OPS-001
+  created_date: 2026-07-24
+  owner: HOP Change Advisory Board & Operations Governance Team
+
+project:
+  name: Healthcare Operations Platform
+  slug: healthcare-operations-platform
+  module: COM-MOD-016
+  release: REL-003
+
+change_categories:
+  - category: Standard_Change
+    definition: Pre-approved low-risk operational changes with established runbooks and zero downtime impact.
+    examples: Feature flag activation, standard configuration update, user role adjustments.
+    approval_authority: Peer Review / L2 Lead
+    lead_time_hours: 4
+    cab_review_required: false
+
+  - category: Normal_Change
+    definition: Planned releases, schema additions, integration updates, or non-emergency bug fixes.
+    examples: Scheduled minor version release, API endpoint addition, database migration deployment.
+    approval_authority: Change Advisory Board (CAB)
+    lead_time_days: 3
+    cab_review_required: true
+
+  - category: Emergency_Change
+    definition: Urgent fixes required to restore P1 outage or mitigate critical security vulnerability.
+    examples: Security patch application, hotfix deployment, database rollback execution.
+    approval_authority: Emergency CAB (eCAB - Incident Commander + Tech Lead + Ops Lead)
+    lead_time_minutes: 15
+    cab_review_required: true (retroactive full CAB review within 24 hours)
+
+change_advisory_board:
+  composition:
+    - Product Architecture Lead
+    - Operations & Infrastructure Lead
+    - Quality Assurance & Security Lead
+    - Customer Success Lead
+  meeting_schedule: Weekly on Thursdays at 14:00 UTC (eCAB convened on demand 24/7)
+  decision_rules:
+    unanimous_for_normal: Required for minor/major releases
+    quorum_for_emergency: 2 of 3 eCAB members required
+
+risk_assessment_matrix:
+  risk_levels:
+    - level: Low
+      criteria: Independent service update, backward compatible API, zero schema changes, reversible.
+    - level: Medium
+      criteria: Multi-service update, additive DDL migration, external adapter modification.
+    - level: High
+      criteria: Core persistence schema modification, auth/IAM permission catalog updates, breaking API change.
+    - level: Critical
+      criteria: Cross-tenant data boundary update, major framework version migration, platform-wide rollback.
+
+change_freeze_windows:
+  rules:
+    - window: Fiscal_Year_End_Freeze
+      dates: December 20 to January 5 annually
+      allowed_changes: Emergency P1 hotfixes only
+    - window: Customer_Major_Go_Live_Freeze
+      dates: Configurable per tenant (7 days surrounding customer cutover)
+      allowed_changes: Standard configuration changes and pre-approved cutover scripts only
+
+traceability:
+  capabilities:
+    - BCM-PLT-002
+    - BCM-PLT-006
+    - BCM-PLT-007
+  standards_compliance:
+    agent_agnostic: true
+    open_source_first: true
+    no_proprietary_agent_dependencies: true

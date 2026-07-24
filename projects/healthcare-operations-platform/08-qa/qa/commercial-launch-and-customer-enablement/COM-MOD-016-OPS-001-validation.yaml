@@ -1,0 +1,131 @@
+artifact:
+  id: HOP-QA-COM-MOD-016-OPS-001
+  type: qa-validation-evidence
+  name: COM-MOD-016-OPS-001 Support, Escalation and Release Governance QA Validation Evidence
+  version: 1.0.0
+  status: validated
+  created_date: 2026-07-24
+  owner: Nexora Quality Assurance Team
+
+backlog_item:
+  id: COM-MOD-016-OPS-001
+  name: Support, escalation and release governance
+  module: COM-MOD-016
+  release: REL-003
+  status: closed
+
+prerequisites_verification:
+  dependencies_closed:
+    - MVP-MOD-008: closed
+    - COM-MOD-009: closed
+    - COM-MOD-010: closed
+    - COM-MOD-012: closed
+    - COM-MOD-013: closed
+    - COM-MOD-016-DEF: closed
+    - COM-MOD-016-DOC-001: closed
+  status: verified
+
+governance_specifications_created_and_verified:
+  - id: GOV-SPEC-001
+    name: Support Model L1/L2/L3 and Escalation Matrix Specification
+    files:
+      md: projects/healthcare-operations-platform/09-operations/governance/support-model-and-escalation-matrix.md
+      yaml: projects/healthcare-operations-platform/09-operations/governance/support-model-and-escalation-matrix.yaml
+    status: verified
+
+  - id: GOV-SPEC-002
+    name: Operational SLAs and SLOs Governance Specification
+    files:
+      md: projects/healthcare-operations-platform/09-operations/governance/operational-slas-and-slos.md
+      yaml: projects/healthcare-operations-platform/09-operations/governance/operational-slas-and-slos.yaml
+    status: verified
+
+  - id: GOV-SPEC-003
+    name: Incident Management Governance Specification
+    files:
+      md: projects/healthcare-operations-platform/09-operations/governance/incident-management-governance.md
+      yaml: projects/healthcare-operations-platform/09-operations/governance/incident-management-governance.yaml
+    status: verified
+
+  - id: GOV-SPEC-004
+    name: Problem Management & RCA Governance Specification
+    files:
+      md: projects/healthcare-operations-platform/09-operations/governance/problem-management-governance.md
+      yaml: projects/healthcare-operations-platform/09-operations/governance/problem-management-governance.yaml
+    status: verified
+
+  - id: GOV-SPEC-005
+    name: Change Management Governance Specification
+    files:
+      md: projects/healthcare-operations-platform/09-operations/governance/change-management-governance.md
+      yaml: projects/healthcare-operations-platform/09-operations/governance/change-management-governance.yaml
+    status: verified
+
+  - id: GOV-SPEC-006
+    name: Release Governance & Release Readiness Checklist Specification
+    files:
+      md: projects/healthcare-operations-platform/09-operations/governance/release-governance-and-readiness.md
+      yaml: projects/healthcare-operations-platform/09-operations/governance/release-governance-and-readiness.yaml
+    status: verified
+
+  - id: GOV-SPEC-007
+    name: Rollback and Hotfix Governance Specification
+    files:
+      md: projects/healthcare-operations-platform/09-operations/governance/rollback-and-hotfix-governance.md
+      yaml: projects/healthcare-operations-platform/09-operations/governance/rollback-and-hotfix-governance.yaml
+    status: verified
+
+  - id: GOV-SPEC-008
+    name: Implementation to Support & Operations Handoff Specification
+    files:
+      md: projects/healthcare-operations-platform/09-operations/governance/implementation-support-ops-handoff.md
+      yaml: projects/healthcare-operations-platform/09-operations/governance/implementation-support-ops-handoff.yaml
+    status: verified
+
+  - id: GOV-SPEC-009
+    name: Customer Incident and Release Communication Governance Specification
+    files:
+      md: projects/healthcare-operations-platform/09-operations/governance/customer-incident-release-communication.md
+      yaml: projects/healthcare-operations-platform/09-operations/governance/customer-incident-release-communication.yaml
+    status: verified
+
+  - id: GOV-SPEC-10
+    name: Operational Acceptance Criteria (OAC) Specification
+    files:
+      md: projects/healthcare-operations-platform/09-operations/governance/operational-acceptance-criteria.md
+      yaml: projects/healthcare-operations-platform/09-operations/governance/operational-acceptance-criteria.yaml
+    status: verified
+
+master_index:
+  file_md: projects/healthcare-operations-platform/09-operations/governance/README.md
+  file_yaml: projects/healthcare-operations-platform/09-operations/governance/governance-index.yaml
+  status: verified
+
+capability_package_integration:
+  group: COM-MOD-016
+  capabilities:
+    - BCM-ORG-001
+    - BCM-ORG-002
+    - BCM-ORG-003
+    - BCM-PLT-002
+    - BCM-PLT-006
+    - BCM-PLT-007
+    - BCM-PLT-008
+  status: integrated
+
+coverage_floors_preserved:
+  backend_java_maven: 84.25
+  employee_portal_web: 89.75
+  mobile_app: 99.21
+  patient_portal_web: 94.11
+  doctor_portal_web: 96.28
+  public_website: 98.61
+
+validation_summary:
+  yaml_syntax_check: passed
+  stale_pointer_sweep: passed
+  agent_agnostic_check: passed
+  secrets_scan: passed
+  git_diff_check: clean
+  technical_debt_compliance: passed (documentation/governance item; code debt unchanged, no false closures)
+  next_backlog_item: COM-MOD-016-COM-001

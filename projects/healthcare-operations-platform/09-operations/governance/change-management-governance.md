@@ -1,0 +1,83 @@
+# HOP Change Management Governance Specification
+
+## Overview
+
+Change Management governs all modifications to the **Healthcare Operations Platform (HOP)** production software, database schemas, environment configurations, and integration adapter boundaries. The objective is to minimize service disruptions, ensure security compliance, and maintain full traceability for all operational changes.
+
+---
+
+## Change Classification & Workflows
+
+```
+[ Request for Change (RFC) ]
+             │
+    ┌────────┴────────┬─────────────────┐
+    ▼                 ▼                 ▼
+[ Standard ]      [ Normal ]       [ Emergency ]
+(Pre-Approved)   (CAB Review)     (eCAB - 15m)
+    │                 │                 │
+    └────────┬────────┴─────────────────┘
+             ▼
+[ Deployment & Audit Log ]
+```
+
+### 1. Standard Changes
+- **Criteria**: Low-risk, routine operational tasks with proven, repeatable runbooks and no user downtime.
+- **Examples**: Toggling tenant feature flags via BCM-PLT-002, updating localization text resources, adding minor user roles.
+- **Approval**: Peer review and L2 Lead signoff.
+- **Lead Time**: Minimum 4 hours advance logging.
+
+### 2. Normal Changes
+- **Criteria**: Scheduled software releases, additive database DDL migrations, new feature introductions, or integration adapter updates.
+- **Examples**: Deploying a minor release tag (`v1.2.0`), applying Spring schema migrations, updating REST controllers.
+- **Approval**: Formal **Change Advisory Board (CAB)** approval.
+- **Lead Time**: Minimum 3 business days advance RFC submission.
+
+### 3. Emergency Changes
+- **Criteria**: Urgent hotfixes required to restore a P1 outage or mitigate a High/Critical security vulnerability.
+- **Examples**: Deploying a emergency patch for an unhandled 500 error, applying zero-day dependency patches.
+- **Approval**: **Emergency CAB (eCAB)** consisting of Incident Commander, Technical Lead, and Operations Lead.
+- **Lead Time**: 15 minutes fast-track review, followed by full CAB retroactive audit within 24 hours.
+
+---
+
+## Change Advisory Board (CAB) Structure
+
+- **Members**:
+  - Product Architecture Lead
+  - Operations & Infrastructure Lead
+  - Quality Assurance & Security Lead
+  - Customer Success Lead
+- **Meeting Cadence**: Weekly on Thursdays at 14:00 UTC.
+- **RFC Evaluation Criteria**:
+  1. Automated test results (unit, integration, contract tests pass).
+  2. Security quality evidence (`08-qa/security-quality/` clean).
+  3. Reversible database migration plan or backward-compatible schema design.
+  4. Operational acceptance checklist (`09-operations/governance/operational-acceptance-criteria.md`).
+  5. Backout/Rollback plan documented and tested.
+
+---
+
+## Risk Assessment Matrix
+
+| Risk Level | Criteria | Required Evidence | Approval Scope |
+|---|---|---|---|
+| **Low** | Isolated service update, zero schema change, fully reversible. | Test report, git diff check | L2 Lead / Peer |
+| **Medium** | Multi-service release, additive DDL migration, external adapter update. | QA evidence, security scan, rollback script | Full CAB |
+| **High** | Core domain schema change, auth/IAM permission catalog edit, breaking API. | Complete regression suite, DAST pass, staging rehearse | Full CAB + Exec |
+| **Critical** | Tenant isolation boundary change, major framework upgrade, emergency P1 hotfix. | eCAB signoff, live backup snapshot, instant rollback plan | eCAB / Exec |
+
+---
+
+## Change Freeze Policies
+
+1. **Fiscal Year-End Freeze**: December 20 to January 5 annually. Only emergency P1 hotfixes are permitted.
+2. **Customer Onboarding Freeze**: Configurable 7-day window surrounding a major customer cutover or hypercare launch.
+
+---
+
+## Traceability & Audit Standards
+
+- **Capabilities**: [BCM-PLT-002](file:///c:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora/projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-plt-002-platform-configuration/capability-package.yaml), [BCM-PLT-006](file:///c:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora/projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-plt-006-observability/capability-package.yaml), [BCM-PLT-007](file:///c:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora/projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-plt-007-audit-trail/capability-package.yaml)
+- **Agent-Agnostic**: Yes
+- **Open-Source-First**: Yes

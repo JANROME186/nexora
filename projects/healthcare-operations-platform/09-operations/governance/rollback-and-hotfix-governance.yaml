@@ -1,0 +1,70 @@
+artifact:
+  id: HOP-GOV-RLB-001
+  type: operational-governance-specification
+  name: HOP Rollback and Hotfix Governance Specification
+  version: 1.0.0
+  status: approved
+  human_readable: rollback-and-hotfix-governance.md
+  machine_readable: rollback-and-hotfix-governance.yaml
+  backlog_item: COM-MOD-016-OPS-001
+  created_date: 2026-07-24
+  owner: HOP Platform Engineering & Operations Governance Team
+
+project:
+  name: Healthcare Operations Platform
+  slug: healthcare-operations-platform
+  module: COM-MOD-016
+  release: REL-003
+
+rollback_triggers:
+  automatic_triggers:
+    - trigger: readiness_probe_failure
+      condition: /actuator/health/readiness returns 503 or fails for 3 consecutive minutes post-deployment.
+      action: Immediate automated blue/green container traffic reversion to previous release image tag.
+
+    - trigger: error_rate_spike
+      condition: HTTP 5xx error rate exceeds 1% within first 15 minutes of deployment.
+      action: Automated container traffic shift back to stable release tag.
+
+    - trigger: data_integrity_alert
+      condition: Unhandled database migration error or cross-tenant query failure detected during launch.
+      action: Instant deployment halt, traffic reversion, and database rollback execution.
+
+  manual_triggers:
+    - trigger: P1_uncapped_outage
+      condition: Unresolved P1 issue with no viable operational workaround within 30 minutes of deployment.
+      authority: Incident Commander signoff.
+
+hotfix_governance:
+  branch_naming_convention: hotfix/v<X.Y.Z>-<issue-id>-<short-description>
+  fast_track_workflow:
+    - Step 1: Branch from current production release tag.
+    - Step 2: Implement minimal reproducible code fix.
+    - Step 3: Add dedicated regression test covering root cause.
+    - Step 4: Execute targeted Maven/npm quality suite for affected stack.
+    - Step 5: Fast-track eCAB review (15-minute SLA).
+    - Step 6: Tag patch release (e.g., v1.2.1), promote to production container registry.
+    - Step 7: Verify health probes and error rate baseline.
+    - Step 8: Post-deployment code merge back to main development branch.
+
+database_rollback_policy:
+  schema_migration_rules:
+    - Destructive DDL (DROP TABLE, DROP COLUMN) is forbidden in normal releases; must follow a 2-phase deprecation cycle.
+    - Every database migration must include a verified rollback script (Liquibase/Flyway undo or manual down script).
+    - In the event of a rollback, verify data written during the failed release window is preserved or safely isolated before executing schema down scripts.
+
+post_rollback_triage:
+  mandatory_actions:
+    - Notify L1/L2 support and updated status page within 15 minutes.
+    - Convene Blameless PIR within 24 hours (referencing post-incident-review-runbook.yaml).
+    - Update Known Error Database (KEDB) and technical debt index with lessons learned.
+
+traceability:
+  capabilities:
+    - BCM-PLT-002
+    - BCM-PLT-006
+    - BCM-PLT-007
+  standards_compliance:
+    agent_agnostic: true
+    open_source_first: true
+    no_proprietary_agent_dependencies: true
