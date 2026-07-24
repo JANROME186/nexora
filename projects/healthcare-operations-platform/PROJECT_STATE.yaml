@@ -617,7 +617,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: COM-MOD-016
-  current_backlog_item: COM-MOD-016-DOC-001
+  current_backlog_item: COM-MOD-016-OPS-001
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -1792,7 +1792,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_iteration: COM-MOD-016
   active_module: COM-MOD-016 Commercial Launch and Customer Enablement
-  active_backlog_item: COM-MOD-016-DOC-001
+  active_backlog_item: COM-MOD-016-OPS-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml

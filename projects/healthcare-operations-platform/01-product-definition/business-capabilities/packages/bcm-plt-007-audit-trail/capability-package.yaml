@@ -55,8 +55,8 @@ scope:
 roadmap:
   module: COM-MOD-016
   release: REL-003
-  package_status: modeled
-  next_backlog_item: COM-MOD-016-DOC-001
+  package_status: extended_launch_support_governance_controls
+  next_backlog_item: COM-MOD-016-OPS-001
 
 dependencies:
   required_capabilities:
