@@ -747,3 +747,12 @@ entries:
     affected_area: document_management_multipart_upload
     file: 08-qa/technical-debt/TD-QA-007-multipart-upload-abrupt-disconnect-unhandled-500.yaml
     remediation_strategy: closed_by_COM_MOD_013_QA_001_MultipartException_handler_and_DAST_rescan
+  - id: TD-QA-008
+    title: OWASP ZAP local availability is undocumented in the toolchain inventory and baseline
+    status: open
+    risk_level: low
+    blocking: false
+    source_backlog_item: COM-MOD-016-QA-001
+    affected_area: local_quality_toolchain_inventory
+    file: 08-qa/technical-debt/TD-QA-008-zap-tooling-undocumented-in-inventory.yaml
+    remediation_strategy: gradual_when_toolchain_inventory_or_baseline_is_next_touched

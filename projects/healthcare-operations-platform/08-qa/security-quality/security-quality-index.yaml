@@ -29,6 +29,76 @@ required_checks_when_applicable:
   - container_or_iac_scan_when_assets_change
 
 entries:
+  - backlog_item: COM-MOD-016-QA-001
+    module: COM-MOD-016 Commercial Launch and Customer Enablement
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-016-QA-001/
+    human_readable: 08-qa/security-quality/COM-MOD-016-QA-001/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-016-QA-001/security-quality-evidence.yaml
+    checks:
+      tests: not_applicable_validation_only
+      sast_or_static_analysis: not_applicable_validation_only
+      dependency_vulnerability_scan: not_applicable_validation_only
+      secrets_scan: passed
+      coverage: passed_no_regression
+      dast_for_runnable_web_or_api_surfaces: not_applicable_no_runnable_surface
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Commercial readiness validation across COM-MOD-016-DEF/DOC-001/OPS-001/COM-001; found and
+      fixed 4 stale-pointer/registry defects; registered TD-QA-008 (non-blocking); no secrets, PII,
+      vendor lock-in or forbidden execution states found. Advanced active backlog to
+      COM-MOD-016-CLOSEOUT.
+  - backlog_item: COM-MOD-016-COM-001
+    module: COM-MOD-016 Commercial Launch and Customer Enablement
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-016-COM-001/
+    human_readable: 08-qa/security-quality/COM-MOD-016-COM-001/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-016-COM-001/security-quality-evidence.yaml
+    checks:
+      tests: not_applicable_documentation_only
+      sast_or_static_analysis: not_applicable_documentation_only
+      dependency_vulnerability_scan: not_applicable_documentation_only
+      secrets_scan: passed
+      coverage: passed_no_regression
+      dast_for_runnable_web_or_api_surfaces: not_applicable_documentation_only
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Documentation-only backlog item; commercial packages, sales enablement and launch readiness
+      assets created under 06-delivery/commercial-product/; no backend/frontend/mobile code changed.
+  - backlog_item: COM-MOD-016-OPS-001
+    module: COM-MOD-016 Commercial Launch and Customer Enablement
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-016-OPS-001/
+    human_readable: 08-qa/security-quality/COM-MOD-016-OPS-001/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-016-OPS-001/security-quality-evidence.yaml
+    checks:
+      tests: not_applicable_documentation_only
+      sast_or_static_analysis: not_applicable_documentation_only
+      dependency_vulnerability_scan: not_applicable_documentation_only
+      secrets_scan: passed
+      coverage: passed_no_regression
+      dast_for_runnable_web_or_api_surfaces: not_applicable_documentation_only
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Documentation-only backlog item; GOV-SPEC-001 through GOV-SPEC-010 governance specifications
+      created under 09-operations/governance/; no backend/frontend/mobile code changed.
+  - backlog_item: COM-MOD-016-DOC-001
+    module: COM-MOD-016 Commercial Launch and Customer Enablement
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-016-DOC-001/
+    human_readable: 08-qa/security-quality/COM-MOD-016-DOC-001/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-016-DOC-001/security-quality-evidence.yaml
+    checks:
+      tests: not_applicable_documentation_only
+      sast_or_static_analysis: not_applicable_documentation_only
+      dependency_vulnerability_scan: not_applicable_documentation_only
+      secrets_scan: passed
+      coverage: passed_no_regression
+      dast_for_runnable_web_or_api_surfaces: not_applicable_documentation_only
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Documentation-only backlog item; ONB-GUIDE-001 through ONB-GUIDE-008 onboarding guides
+      created under 09-operations/onboarding/; no backend/frontend/mobile code changed.
   - backlog_item: COM-MOD-016-DEF
     module: COM-MOD-016 Commercial Launch and Customer Enablement
     status: passed
