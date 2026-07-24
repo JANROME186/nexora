@@ -1,0 +1,101 @@
+artifact:
+  id: HOP-QA-COM-MOD-017-DEF
+  type: qa-validation-evidence
+  name: COM-MOD-017-DEF Marketplace Capability Package Validation
+  version: 1.0.0
+  status: passed
+  backlog_item: COM-MOD-017-DEF
+  module: COM-MOD-017 Product Marketplace and Extension Packaging
+  created_date: 2026-07-24
+  owner: Nexora Product Architecture Team
+
+scope:
+  work_type: definition_only
+  code_changed: false
+  runtime_changed: false
+  database_changed: false
+  dependency_changed: false
+  next_backlog_item: COM-MOD-017-BE-001
+
+prerequisites:
+  MVP-MOD-008: closed
+  COM-MOD-012: closed
+  COM-MOD-016: closed
+
+validated_artifacts:
+  new_capability_package:
+    capability_id: BCM-PLT-011
+    folder: ../../01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/
+    required_standard_artifacts:
+      - capability-package.yaml
+      - business-model.yaml
+      - business-rules.yaml
+      - processes.yaml
+      - events.yaml
+      - openapi-source.yaml
+      - permissions.yaml
+      - ui-model.yaml
+      - mobile-model.yaml
+      - test-model.yaml
+      - observability-model.yaml
+      - generation-plan.yaml
+      - traceability.yaml
+      - README.md
+    required_marketplace_artifacts:
+      - marketplace-package.yaml
+      - package-manifest.yaml
+      - commercial-offer.yaml
+      - license-plan.yaml
+      - entitlement-policy.yaml
+      - compatibility.yaml
+      - installation-model.yaml
+      - upgrade-model.yaml
+      - security-review.yaml
+      - support-model.yaml
+      - telemetry-model.yaml
+  reused_platform_capabilities:
+    - capability_id: BCM-PLT-001
+      contribution: IAM permission and entitlement guard
+      traceability_status: marketplace_enablement_modeled
+    - capability_id: BCM-PLT-002
+      contribution: tenant configuration, language, currency and feature flags
+      traceability_status: marketplace_enablement_modeled
+    - capability_id: BCM-PLT-005
+      contribution: API boundary and contract publication
+      traceability_status: marketplace_enablement_modeled
+    - capability_id: BCM-PLT-006
+      contribution: metrics, logs and traces
+      traceability_status: marketplace_enablement_modeled
+    - capability_id: BCM-PLT-007
+      contribution: immutable audit trail
+      traceability_status: marketplace_enablement_modeled
+    - capability_id: BCM-PLT-009
+      contribution: lifecycle workflow orchestration
+      traceability_status: marketplace_enablement_modeled
+
+validation_results:
+  capability_package_standard: passed
+  product_marketplace_standard: passed
+  model_driven_product_engineering: passed
+  agent_agnostic_review: passed
+  open_source_first_review: passed
+  business_traceability: passed
+  generated_vs_custom_boundary: passed
+  coverage_floor_preserved: passed
+  technical_debt_policy: not_applicable_definition_only_no_code_changed
+
+coverage_floors_preserved:
+  backend_java_maven_line_coverage_percent: 84.25
+  employee_portal_typescript_web_line_coverage_percent: 89.75
+  mobile_typescript_foundation_line_coverage_percent: 99.21
+  patient_portal_typescript_web_line_coverage_percent: 94.11
+  doctor_portal_typescript_web_line_coverage_percent: 96.28
+  public_website_typescript_web_line_coverage_percent: 98.61
+
+closure:
+  decision: closed
+  next_backlog_item: COM-MOD-017-BE-001
+  notes:
+    - COM-MOD-017-DEF produced the package and commercial marketplace models only.
+    - Backend compilation, executable tests, coverage and security quality gates start in COM-MOD-017-BE-001.
+    - No permission, environment, dependency or runtime limitation was introduced.

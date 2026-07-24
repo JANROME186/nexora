@@ -108,3 +108,13 @@ validation:
     bypass was introduced. BCM-PLT-001 MFA, service-account credentials and the
     domain.resource.action.scope permission grammar remain not implemented (TD-IAM-003, confirmed
     still open).
+
+marketplace_enablement:
+  backlog_item: COM-MOD-017-DEF
+  status: modeled
+  contribution: >-
+    Provides deny-by-default role and permission checks for marketplace package administration,
+    tenant entitlement administration, package installation actions and entitlement-aware runtime
+    feature access. Purchase or installation never bypasses IAM.
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.yaml
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.yaml

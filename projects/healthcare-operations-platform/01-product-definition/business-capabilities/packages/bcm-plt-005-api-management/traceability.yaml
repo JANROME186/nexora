@@ -78,3 +78,12 @@ validation:
     item) confirmed 0 FAIL-NEW findings; the 4 WARN-NEW findings (missing CSP/COEP headers,
     non-cacheable content) all match the already-registered TD-FE-005 (deferred to the production
     hosting layer).
+
+marketplace_enablement:
+  backlog_item: COM-MOD-017-DEF
+  status: modeled
+  contribution: >-
+    Provides contract-first publication boundaries, rate policies and API gateway classification
+    for catalog, offer, entitlement, installation, compatibility and billing-adapter endpoints.
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.yaml
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.yaml

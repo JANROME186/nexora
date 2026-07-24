@@ -1,0 +1,40 @@
+artifact:
+  id: HOP-PROC-BCM-PLT-011
+  type: processes
+  name: Product Marketplace and Entitlements Processes
+  version: 1.0.0
+  status: modeled
+  backlog_item: COM-MOD-017-DEF
+
+processes:
+  - id: PROC-MKT-001
+    name: Model and submit package
+    primary_actor: package_publisher
+    commands: [submitPackageForCertification]
+    outcome: Package enters certification review.
+  - id: PROC-MKT-002
+    name: Certify and publish package
+    primary_actor: marketplace_operator
+    commands: [certifyPackage, publishPackageVersion]
+    outcome: Package is visible in catalog with offer metadata.
+  - id: PROC-MKT-003
+    name: Purchase or grant offer
+    primary_actor: customer_buyer
+    commands: [acceptCommercialOffer, grantTrialEntitlement]
+    outcome: Tenant entitlement is created without activating capabilities yet.
+  - id: PROC-MKT-004
+    name: Install and activate package
+    primary_actor: tenant_administrator
+    commands: [installPackage, activatePackage]
+    outcome: Entitled package becomes available to authorized users.
+  - id: PROC-MKT-005
+    name: Upgrade, rollback or suspend package
+    primary_actor: tenant_administrator
+    commands: [upgradePackage, rollbackPackage, suspendPackage]
+    outcome: Package lifecycle state changes with evidence and rollback safety.
+  - id: PROC-MKT-006
+    name: Retire or uninstall package
+    primary_actor: marketplace_operator
+    commands: [retirePackage, uninstallPackage]
+    outcome: Package is removed or made unavailable without orphaning tenant evidence.
+

@@ -63,3 +63,12 @@ validation:
   backlog_item: COM-MOD-013-QA-001
   status: validated
   evidence: ../../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
+
+marketplace_enablement:
+  backlog_item: COM-MOD-017-DEF
+  status: modeled
+  contribution: >-
+    Records immutable audit events for package publication, entitlement grants/revocations,
+    installation lifecycle transitions, compatibility decisions, billing events and support actions.
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.yaml
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.yaml

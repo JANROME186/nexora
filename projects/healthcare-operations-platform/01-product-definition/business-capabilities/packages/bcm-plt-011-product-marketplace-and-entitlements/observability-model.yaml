@@ -1,0 +1,39 @@
+artifact:
+  id: HOP-OBS-BCM-PLT-011
+  type: observability-model
+  name: Product Marketplace and Entitlements Observability Model
+  version: 1.0.0
+  status: modeled
+  backlog_item: COM-MOD-017-DEF
+
+audit_events:
+  - MarketplacePackagePublishedEvent
+  - CommercialOfferAcceptedEvent
+  - TenantEntitlementGrantedEvent
+  - PackageInstalledEvent
+  - PackageActivatedEvent
+  - PackageRollbackCompletedEvent
+  - PackageRetiredEvent
+
+metrics:
+  - marketplace_packages_published_total
+  - marketplace_entitlements_active_total
+  - marketplace_installations_active_total
+  - marketplace_installation_failures_total
+  - marketplace_billing_events_published_total
+
+logs:
+  structured_fields:
+    - tenant_id
+    - package_id
+    - package_version
+    - entitlement_id
+    - installation_id
+    - correlation_id
+
+alerts:
+  - id: ALERT-MKT-001
+    condition: installation_failure_rate_above_threshold
+  - id: ALERT-MKT-002
+    condition: billing_adapter_event_publish_failures
+

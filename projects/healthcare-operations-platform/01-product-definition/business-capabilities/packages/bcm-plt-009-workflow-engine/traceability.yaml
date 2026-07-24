@@ -38,3 +38,13 @@ validation:
     verification) and restore-runbook.yaml (isolated-database restore rehearsal with matching row
     counts), both executed successfully against the running local stack, confirming the manual
     procedure remains fully functional while automation is deferred.
+
+marketplace_enablement:
+  backlog_item: COM-MOD-017-DEF
+  status: modeled
+  contribution: >-
+    Orchestrates package security review, commercial approval, installation, activation, upgrade,
+    rollback, suspension, uninstall and retirement workflows without embedding provider-specific
+    agent or billing runtime assumptions.
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.yaml
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.yaml

@@ -1,0 +1,38 @@
+artifact:
+  id: HOP-TRC-BCM-PLT-011
+  type: traceability
+  name: Product Marketplace and Entitlements Traceability Matrix
+  version: 1.0.0
+  status: modeled
+
+capability_id: BCM-PLT-011
+roadmap_group: COM-MOD-017
+
+mappings:
+  - requirement: Product Marketplace and Extension Packaging
+    rules: [RN-MKT-001, RN-MKT-002, RN-MKT-003, RN-MKT-004, RN-MKT-005, RN-MKT-006]
+    processes: [PROC-MKT-001, PROC-MKT-002, PROC-MKT-003, PROC-MKT-004, PROC-MKT-005, PROC-MKT-006]
+    events:
+      - MarketplacePackagePublishedEvent
+      - TenantEntitlementGrantedEvent
+      - PackageInstalledEvent
+      - PackageActivatedEvent
+      - PackageRetiredEvent
+    api_endpoints:
+      - /api/marketplace/packages
+      - /api/marketplace/offers
+      - /api/marketplace/tenants/{tenantId}/entitlements
+      - /api/marketplace/tenants/{tenantId}/installations
+    permissions:
+      - marketplace.package:publish
+      - marketplace.offer:accept
+      - marketplace.entitlement:grant
+      - marketplace.installation:activate
+    tests: [TEST-MKT-001, TEST-MKT-002, TEST-MKT-003, TEST-MKT-004, TEST-MKT-005, TEST-MKT-006, TEST-MKT-007]
+
+definition:
+  backlog_item: COM-MOD-017-DEF
+  status: modeled
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.yaml
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.yaml
+

@@ -244,25 +244,28 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-012-CLOSEOUT Module closeout and registry update` is closed. `COM-MOD-012` is `module_closed`.
+`COM-MOD-017-DEF Marketplace capability package and commercial package models` is closed.
 Continue with:
 
-- Module: `COM-MOD-013`
-- Backlog item: `COM-MOD-013-DEF`
-- Previous backlog item: `COM-MOD-012-CLOSEOUT` (closed)
+- Module: `COM-MOD-017`
+- Backlog item: `COM-MOD-017-BE-001`
+- Previous backlog item: `COM-MOD-017-DEF` (closed)
 - Paused functional backlog item: none
-- Folder: `01-product-definition/business-capabilities/packages/`
+- Folder: `08-qa/qa/product-marketplace-and-extension-packaging/`
 
 Mandatory setup for this backlog:
 
-- Reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, capability traceability files and the local runbook pointers.
-- Preserve coverage floors: backend (84.14%), employee portal (88.68%), public website (98.61%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
+- Load `03-architecture/technology-architecture/local-toolchain-inventory.yaml` before running any build, test, coverage, SAST, dependency, DAST, Docker or database command.
+- Reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, capability traceability files and the local runbook pointers before closure.
+- Preserve coverage floors: backend (84.25%), employee portal (89.75%), public website (98.61%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
-- COM-MOD-013 depends on `MVP-MOD-006`, `COM-MOD-010` and `COM-MOD-012`, all `module_closed`; capabilities in scope are `BCM-QLT-002`, `BCM-QLT-006`, `BCM-QLT-007`, `BCM-PLT-007` and `BCM-PLT-008`.
-- `BCM-PLT-007` (Audit Trail) and `BCM-PLT-008` (Document Management) are reused/extended packages; extend their existing packages and `traceability.yaml` rather than remodeling from scratch.
-- This is a definition-only item (modeling); do not implement code during this step.
-- 18 technical-debt entries remain open and 11 remain materially_reduced project-wide; review `technical-debt-index.yaml` before any future code-changing COM-MOD-013 item.
+- Before feature work, review `08-qa/technical-debt/technical-debt-index.yaml` and materially reduce at least one applicable open technical-debt item or record why no relevant debt can be reduced without widening scope.
+- COM-MOD-017 depends on `MVP-MOD-008`, `COM-MOD-012` and `COM-MOD-016`, all closed.
+- Load `BCM-PLT-011 Product Marketplace and Entitlements` and the marketplace enablement traces for `BCM-PLT-001`, `BCM-PLT-002`, `BCM-PLT-005`, `BCM-PLT-006`, `BCM-PLT-007` and `BCM-PLT-009`.
+- Compile backend generated outputs for marketplace catalog, package manifest, offer, license plan, entitlement, compatibility, installation, activation, update, retirement and billing-adapter boundaries.
+- Run mandatory backend gates with executable evidence: tests, build, coverage, best-practice/standards, duplicate code, complexity, SAST/static analysis, OWASP/secure-code, dependency vulnerabilities across all severities, secrets scan and any applicable DAST for runnable surfaces.
+- Do not advance the backlog if Maven, Java, Docker, database, dependency scan, coverage or static-analysis execution is blocked; request support or keep the item open with exact remediation steps.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-012-CLOSEOUT` - Module closeout and registry update. Documentation/registry-only closeout: confirmed all 8 COM-MOD-012 capability packages (`BCM-ORG-001`, `BCM-PLT-001`, `BCM-PLT-002`, `BCM-PLT-005`, `BCM-PLT-006`, `BCM-PLT-007`, `BCM-PLT-008`, `BCM-PLT-009`) `module_closed` in `capability-package-index.yaml` and their `traceability.yaml` files. Confirmed `TD-QA-005`/`TD-QA-006` remain closed, and `TD-OBS-001`/`TD-BE-016`/`TD-BE-017`/`TD-IAM-003` remain open, non-blocking and correctly classified with owner, risk level and target backlog -- none closed without real infrastructure or implementation. Found and corrected 2 stale registry defects predating this closeout during the stale-pointer sweep: a stale `operational_strategy` status of `active` left in all 8 `traceability.yaml` files after `COM-MOD-012-OPS-002` closed (corrected to `closed`), and a duplicate `active_capability_package_groups` block in `capability-package-index.yaml` still listing the already-closed `COM-MOD-011` as active (removed). No production code touched. Backend/frontend coverage re-affirmed unchanged from `COM-MOD-012-QA-001` (backend 84.14%, employee portal 88.68%, public website 98.61%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%; 367 backend tests, 0 failures). Ran the full closeout gate suite (YAML parse, stale-pointer sweep, evidence-state sweep, agent-agnostic scan, secrets scan, `git diff --check`), all passed, and advanced the active backlog item to `COM-MOD-013-DEF`.
+`COM-MOD-017-DEF` - Marketplace capability package and commercial package models. Definition-only closeout: created `BCM-PLT-011 Product Marketplace and Entitlements` with standard capability artifacts plus marketplace package, manifest, offer, license, entitlement, compatibility, installation, upgrade, security review, support and telemetry models. Extended marketplace enablement traceability for `BCM-PLT-001/002/005/006/007/009`. No production code, dependency, database, runtime, container or infrastructure asset changed. Coverage floors were preserved and the active backlog item advanced to `COM-MOD-017-BE-001`.

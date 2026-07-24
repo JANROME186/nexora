@@ -1,0 +1,31 @@
+artifact:
+  id: HOP-MKT-LICENSE-BCM-PLT-011
+  type: license-plan-model
+  name: Marketplace License Plan Model
+  version: 1.0.0
+  status: modeled
+
+license_plans:
+  supported_models:
+    - subscription
+    - usage_based
+    - hybrid_subscription_usage
+    - enterprise_contract
+  constraints:
+    - tenant_scope_required
+    - effective_date_required
+    - expiration_or_renewal_policy_required
+    - cancellation_policy_required
+    - audit_trail_required
+  base_languages:
+    - es-MX
+    - en-US
+  base_currencies:
+    - MXN
+    - USD
+
+license_controls:
+  entitlement_check_frequency: per_request_for_runtime_actions
+  offline_grace_policy: disabled_until_explicitly_modeled
+  overage_policy: route_to_billing_adapter_and_policy_decision
+  renewal_policy: explicit_renewal_event_required

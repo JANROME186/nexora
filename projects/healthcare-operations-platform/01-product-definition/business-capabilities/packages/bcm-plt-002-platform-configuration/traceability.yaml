@@ -56,3 +56,12 @@ validation:
   backlog_item: COM-MOD-012-QA-001
   status: validated
   evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
+
+marketplace_enablement:
+  backlog_item: COM-MOD-017-DEF
+  status: modeled
+  contribution: >-
+    Supplies tenant-scoped feature flags, regional settings, language/currency configuration and
+    marketplace package activation toggles used by compatibility and entitlement decisions.
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.yaml
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.yaml

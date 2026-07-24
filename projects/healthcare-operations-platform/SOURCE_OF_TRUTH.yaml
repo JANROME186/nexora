@@ -487,6 +487,11 @@ sources:
   product_marketplace_contract: 05-contracts/marketplace/product-marketplace/product-marketplace-contract.md
   product_marketplace_contract_yaml: 05-contracts/marketplace/product-marketplace/product-marketplace-contract.yaml
   product_marketplace_requirements: 04-requirements/capabilities/bcm-plt-011-product-marketplace-and-entitlements/requirements.yaml
+  com_mod_017_pkg_bcm_plt_011: 01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/
+  com_mod_017_def_qa_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.md
+  com_mod_017_def_qa_evidence_yaml: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.yaml
+  com_mod_017_def_security_quality_evidence: 08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.md
+  com_mod_017_def_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.yaml
   actor_catalog: 02-domain-definition/actors/acm-001/actor-catalog.yaml
   healthcare_reference_processes: 02-domain-definition/processes/hrp-001/healthcare-reference-processes.yaml
   business_rules_catalog: 02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml

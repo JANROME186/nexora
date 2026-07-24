@@ -13,7 +13,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-017-DEF
+  current_active_backlog_item: COM-MOD-017-BE-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -21,9 +21,22 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
+    backlog_item: COM-MOD-017-DEF
+    status: closed
+    next_active_backlog_item: COM-MOD-017-BE-001
+    runtime_change: >-
+      None. Marketplace capability package definition item. No new runtime component, port,
+      environment variable, database schema, Docker service, dependency or startup-order change.
+    validation_summary: >-
+      Formally closed COM-MOD-017-DEF. Created BCM-PLT-011 Product Marketplace and Entitlements
+      capability package with standard capability artifacts plus marketplace package, manifest,
+      offer, license, entitlement, compatibility, installation, upgrade, security review, support
+      and telemetry models. Extended BCM-PLT-001/002/005/006/007/009 traceability for marketplace
+      enablement. Preserved all 6 coverage floors and advanced active backlog to COM-MOD-017-BE-001.
+  previous_runbook_update_com_mod_016_closeout:
     backlog_item: COM-MOD-016-CLOSEOUT
     status: closed
-    next_active_backlog_item: COM-MOD-017-DEF
+    historical_following_backlog_item: COM-MOD-017-DEF
     runtime_change: >-
       None. Module closeout registry and documentation item. No new runtime component, port,
       environment variable, database schema, Docker service or startup-order change.

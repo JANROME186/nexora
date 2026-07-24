@@ -1,0 +1,61 @@
+artifact:
+  id: HOP-SQ-COM-MOD-017-DEF
+  type: security-quality-evidence
+  name: COM-MOD-017-DEF Security Quality Evidence
+  version: 1.0.0
+  status: passed
+  backlog_item: COM-MOD-017-DEF
+  module: COM-MOD-017 Product Marketplace and Extension Packaging
+  created_date: 2026-07-24
+
+scope:
+  work_type: definition_only
+  code_changed: false
+  runtime_changed: false
+  database_changed: false
+  dependency_changed: false
+  container_or_iac_changed: false
+  next_backlog_item: COM-MOD-017-BE-001
+
+checks:
+  tests:
+    status: not_applicable_definition_only
+    reason: No executable product code changed.
+  coverage:
+    status: passed_no_regression
+    reason: No source or test code changed; existing floors were preserved.
+  sast_or_static_analysis:
+    status: not_applicable_definition_only
+    reason: No source code changed.
+  dependency_vulnerability_scan:
+    status: not_applicable_no_dependency_changed
+    reason: No dependency manifests changed.
+  container_or_iac_scan:
+    status: not_applicable_no_assets_changed
+    reason: No container or infrastructure asset changed.
+  dast:
+    status: not_applicable_no_runnable_surface_changed
+    reason: No API or web runtime surface changed.
+  secrets_scan:
+    status: passed
+  agent_agnostic_scan:
+    status: passed
+  yaml_parse:
+    status: passed
+  stale_pointer_sweep:
+    status: passed
+
+security_controls_modeled:
+  - deny-by-default entitlement policy
+  - IAM permission requirement for marketplace actions
+  - compatibility check before installation or purchase
+  - immutable audit events for entitlement and package lifecycle
+  - provider-agnostic billing adapter boundary
+  - security review before package publication
+  - SBOM and vulnerability review before publish
+  - tenant isolation and data classification review
+
+closure:
+  decision: closed
+  next_backlog_item: COM-MOD-017-BE-001
+  limitation: none
