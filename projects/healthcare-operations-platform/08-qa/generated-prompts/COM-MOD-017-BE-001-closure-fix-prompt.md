@@ -8,8 +8,7 @@ PROJECT: projects/healthcare-operations-platform
 - Mantener ejecución agent-agnostic y no avanzar punteros hasta que todo quede consistente.
 
 ## 2. Hallazgos a Cerrar
-- product_backlog_item_not_closed: Expected closed, found active.
-- product_baseline_stale_active_item: HOP commercial product backlog baseline still points to the closed task.
+- Revalidar cierre; no hay hallazgos duros registrados.
 
 ## 3. Acciones Obligatorias
 - Sincronizar `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml` y `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml`.

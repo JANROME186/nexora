@@ -2,6 +2,6 @@
 
 Status: `incomplete`
 
-Hard findings: `2`
+Hard findings: `0`
 
-Ollama summary: The product backlog item is still active, but the task ID does not match the expected status.
+Ollama summary: No hay detalles sobre el problema o la solución que se ha encontrado.
