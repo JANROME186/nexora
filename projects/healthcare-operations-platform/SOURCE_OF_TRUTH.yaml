@@ -178,6 +178,17 @@ sources:
   com_mod_013_qa_001_qa_evidence_yaml: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
   com_mod_013_qa_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-013-QA-001/security-quality-evidence.md
   com_mod_013_qa_001_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-013-QA-001/security-quality-evidence.yaml
+  com_mod_016_def_qa_evidence: 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.md
+  com_mod_016_def_qa_evidence_yaml: 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.yaml
+  com_mod_016_def_security_quality_evidence: 08-qa/security-quality/COM-MOD-016-DEF/security-quality-evidence.md
+  com_mod_016_def_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-016-DEF/security-quality-evidence.yaml
+  com_mod_016_pkg_bcm_org_001: 01-product-definition/business-capabilities/packages/bcm-org-001-tenant-management/
+  com_mod_016_pkg_bcm_org_002: 01-product-definition/business-capabilities/packages/bcm-org-002-laboratory-management/
+  com_mod_016_pkg_bcm_org_003: 01-product-definition/business-capabilities/packages/bcm-org-003-branch-management/
+  com_mod_016_pkg_bcm_plt_002: 01-product-definition/business-capabilities/packages/bcm-plt-002-platform-configuration/
+  com_mod_016_pkg_bcm_plt_006: 01-product-definition/business-capabilities/packages/bcm-plt-006-observability/
+  com_mod_016_pkg_bcm_plt_007: 01-product-definition/business-capabilities/packages/bcm-plt-007-audit-trail/
+  com_mod_016_pkg_bcm_plt_008: 01-product-definition/business-capabilities/packages/bcm-plt-008-document-management/
   technical_debt_td_db_005: 08-qa/technical-debt/TD-DB-005-quality-compliance-persistence-never-wired.yaml
   technical_debt_td_iam_004: 08-qa/technical-debt/TD-IAM-004-quality-compliance-controllers-synthetic-tenant.yaml
   com_mod_013_pkg_bcm_qlt_002: 01-product-definition/business-capabilities/packages/bcm-qlt-002-external-quality-controls/

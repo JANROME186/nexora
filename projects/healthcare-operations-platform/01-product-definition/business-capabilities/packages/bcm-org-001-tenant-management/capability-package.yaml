@@ -2,14 +2,18 @@ artifact:
   id: HOP-CAP-PKG-BCM-ORG-001
   type: capability-package
   name: Tenant Management Capability Package
-  version: 1.0.0
-  status: validated
+  version: 1.1.0
+  status: extended_customer_enablement_controls
   classification: editable_model
   human_readable: README.md
   machine_readable: capability-package.yaml
   owner: Nexora Product Architecture Team
   created_date: 2026-07-22
-  roadmap_group: COM-MOD-012
+  updated_date: 2026-07-24
+  roadmap_group: COM-MOD-016
+  extended_by_modules:
+    - COM-MOD-012
+    - COM-MOD-016
   execution_flow_stage: model
 
 standard:
@@ -21,7 +25,7 @@ capability:
   id: BCM-ORG-001
   name:
     en: Tenant Management
-    es: Gestión de Tenants
+    es: Gestión de Tenants y Habilitación de Clientes
   domain: DOM-01 Organization
   priority: High
   roadmap: MVP1
@@ -32,11 +36,13 @@ capability:
 
 scope:
   summary: >
-    Governs multi-tenant lifecycle management, tenant provisioning, configuration overrides,
-    resource quota enforcement, database/schema isolation policies (including PostgreSQL native RLS policy specs),
-    and SaaS subscription status binding for Healthcare Operations Platform.
+    Governs multi-tenant lifecycle management, tenant provisioning, customer onboarding workflows,
+    initial tenant configuration, commercial launch readiness checkpoints, resource quota enforcement,
+    database/schema isolation policies, and SaaS subscription status binding for Healthcare Operations Platform.
   in_scope:
-    - Tenant onboarding, provisioning, activation, suspension, and archive lifecycle.
+    - Tenant onboarding, customer initialization, provisioning, activation, suspension, and archive lifecycle.
+    - Initial customer configuration management, setup guides, and commercial onboarding status.
+    - Commercial launch readiness validation and operational evidence checkpoints.
     - Tenant-level quota definition (storage, API calls, active users, branch limits).
     - Tenant database/schema isolation policies (PostgreSQL native Row-Level Security parameters per TD-DB-004).
     - Tenant organization profile, branding customization, locale defaults, and subscription binding.
@@ -47,10 +53,10 @@ scope:
     - Invoicing and fiscal billing for SaaS subscription billing (handled by BCM-ATT-008).
 
 roadmap:
-  module: COM-MOD-012
-  release: REL-002
+  module: COM-MOD-016
+  release: REL-003
   package_status: modeled
-  next_backlog_item: COM-MOD-012-OPS-001
+  next_backlog_item: COM-MOD-016-DOC-001
 
 dependencies:
   required_capabilities:
@@ -59,7 +65,10 @@ dependencies:
   optional_capabilities:
     - BCM-PLT-002
     - BCM-PLT-006
+    - BCM-PLT-008
   downstream_capabilities:
+    - BCM-ORG-002
+    - BCM-ORG-003
     - BCM-SVC-001
     - BCM-PER-001
     - BCM-ATT-001

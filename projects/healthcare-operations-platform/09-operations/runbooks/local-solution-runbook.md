@@ -8,9 +8,9 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-016-DEF`.
+Current active backlog item: `COM-MOD-016-DOC-001`.
 
-Latest update: `COM-MOD-013-CLOSEOUT` is closed. Formally closed module **COM-MOD-013 Advanced Quality and Compliance**. All 5 capability packages (`BCM-QLT-002`, `BCM-QLT-006`, `BCM-QLT-007`, `BCM-PLT-007`, `BCM-PLT-008`) are marked `module_closed` in `capability-package-index.yaml` and package registries. Technical debt `TD-DB-005` (persistence profile mismatch and missing schema registration) and `TD-QA-007` (DAST multipart upload unhandled 500) are confirmed closed. `TD-IAM-004` remains open with explicit non-blocking justification (deny-by-default access control is intact; synthetic tenant ID affects evidence attribution, not authorization). All coverage floors across all six delivered stacks are preserved without regression: backend **84.25%**, employee portal **89.75%**, public website **98.61%**, mobile **99.21%**, patient portal **94.11%**, doctor portal **96.28%**. Full repository sweeps (YAML parse, stale pointers, evidence state, agent-agnostic, secrets, git diff check) passed clean. Next active backlog item: `COM-MOD-016-DEF`.
+Latest update: `COM-MOD-016-DEF` is closed. Formally completed capability package models for **COM-MOD-016 Commercial Launch and Customer Enablement**. All 7 capability packages (`BCM-ORG-001`, `BCM-ORG-002`, `BCM-ORG-003`, `BCM-PLT-002`, `BCM-PLT-006`, `BCM-PLT-007`, `BCM-PLT-008`) are modeled and traced in `capability-package-index.yaml` and package registries. Full repository sweeps (YAML parse, stale pointers, evidence state, agent-agnostic, secrets, git diff check) passed clean. Next active backlog item: `COM-MOD-016-DOC-001`.
 
 Previous update: `COM-MOD-013-QA-001` is closed. Integrated validation of COM-MOD-013 found and
 closed a major persistence-wiring defect, `TD-DB-005`: `application-local.yml`'s

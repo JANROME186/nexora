@@ -1,0 +1,64 @@
+artifact:
+  id: HOP-API-BCM-ORG-002
+  type: openapi-source
+  name: Laboratory Management OpenAPI Source Contract
+  version: 1.0.0
+
+openapi_version: 3.0.3
+
+info:
+  title: Laboratory Management API
+  version: 1.0.0
+  description: Public and internal API surface for laboratory organization identity, licenses, and operating status.
+
+paths:
+  /api/platform/laboratories:
+    get:
+      summary: List laboratories for current tenant
+      operationId: listLaboratories
+      tags: [Laboratory Management]
+      responses:
+        "200":
+          description: List of laboratories returned successfully
+    post:
+      summary: Register a new laboratory
+      operationId: createLaboratory
+      tags: [Laboratory Management]
+      responses:
+        "201":
+          description: Laboratory created successfully
+        "400":
+          description: Invalid payload or validation rule failure
+        "409":
+          description: Duplicate laboratory code under tenant
+
+  /api/platform/laboratories/{laboratoryId}:
+    get:
+      summary: Get laboratory profile by ID
+      operationId: getLaboratory
+      tags: [Laboratory Management]
+      responses:
+        "200":
+          description: Laboratory detail returned
+        "404":
+          description: Laboratory not found
+
+  /api/platform/laboratories/{laboratoryId}/status:
+    put:
+      summary: Update laboratory operating status
+      operationId: updateLaboratoryStatus
+      tags: [Laboratory Management]
+      responses:
+        "200":
+          description: Status updated successfully
+        "400":
+          description: Invalid status transition
+
+  /api/platform/laboratories/{laboratoryId}/license:
+    put:
+      summary: Update sanitary license and clinical director assignment
+      operationId: updateLaboratoryLicense
+      tags: [Laboratory Management]
+      responses:
+        "200":
+          description: License updated successfully

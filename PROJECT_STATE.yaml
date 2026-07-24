@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: "HOP COM-MOD-013 Advanced Quality and Compliance formally closed (COM-MOD-013-CLOSEOUT). All 5 capability packages (BCM-QLT-002, BCM-QLT-006, BCM-QLT-007, BCM-PLT-007, BCM-PLT-008) moved to module_closed in capability-package-index.yaml and package registries. Technical debt TD-DB-005 and TD-QA-007 confirmed closed; TD-IAM-004 open with non-blocking justification. OWASP ZAP DAST executed clean against 939 backend URLs and 125 portal URLs. Backend coverage 84.25%, employee-portal coverage 89.75%, public website 98.61%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%. Ready for COM-MOD-016-DEF."
+current_phase: "COM-MOD-016-DEF Capability Package Models for Commercial Launch and Customer Enablement completed and validated. All 7 capability packages (BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008) modeled and traced in capability-package-index.yaml and package registries. Ready for COM-MOD-016-DOC-001."
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -30,7 +30,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
     active_module: COM-MOD-016
-    active_backlog_item: COM-MOD-016-DEF
+    active_backlog_item: COM-MOD-016-DOC-001
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -123,9 +123,10 @@ projects:
       - COM-MOD-013-FE-001
       - COM-MOD-013-QA-001
       - COM-MOD-013-CLOSEOUT
+      - COM-MOD-016-DEF
     structure: ordered_numbered_folders
 next_deliverables:
-  - Execute COM-MOD-016-DEF capability package models for Commercial Launch and Customer Enablement
+  - Execute COM-MOD-016-DOC-001 Customer onboarding and configuration guides
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake

@@ -1,0 +1,46 @@
+artifact:
+  id: HOP-PROC-BCM-ORG-002
+  type: processes
+  name: Laboratory Management Processes
+  version: 1.0.0
+
+processes:
+  - id: PROC-LAB-001
+    name: Register Laboratory
+    actor: Tenant Admin
+    summary: Create a new laboratory entity under tenant administration with profile, code, and tax details.
+    trigger: Tenant onboarding or operational expansion request.
+    steps:
+      - Validate laboratory code uniqueness under tenant.
+      - Save laboratory profile record in PENDING_CONFIGURATION status.
+      - Record audit event LaboratoryRegisteredEvent.
+    outcomes:
+      success: Laboratory entity created with PENDING_CONFIGURATION status.
+      failure: Rejection due to duplicate code or invalid profile payload.
+
+  - id: PROC-LAB-002
+    name: Assign Clinical Director and Sanitary License
+    actor: Compliance Officer / Lab Manager
+    summary: Attach verified clinical director and upload sanitary license document to activate laboratory operations.
+    trigger: Laboratory configuration setup phase.
+    steps:
+      - Verify clinical director professional license credentials.
+      - Record sanitary license number, authority, and document reference.
+      - Validate compliance rules RN-LAB-002 and RN-LAB-003.
+      - Transition status to ACTIVE.
+    outcomes:
+      success: Laboratory operations enabled in ACTIVE status.
+      failure: Rejection due to missing license or unverified director.
+
+  - id: PROC-LAB-003
+    name: Update Laboratory Operating Status
+    actor: Operations Manager
+    summary: Pause or resume laboratory operations due to maintenance, audit, or administrative mandate.
+    trigger: Administrative directive or compliance incident.
+    steps:
+      - Validate current status and proposed transition.
+      - Execute status update and propagate status to child branches.
+      - Record audit event LaboratoryStatusChangedEvent.
+    outcomes:
+      success: Status updated and audit logged.
+      failure: Rejection due to invalid transition state.

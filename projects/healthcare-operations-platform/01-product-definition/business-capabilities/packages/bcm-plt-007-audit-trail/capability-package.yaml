@@ -2,15 +2,19 @@ artifact:
   id: HOP-CAP-PKG-BCM-PLT-007
   type: capability-package
   name: Audit Trail Capability Package
-  version: 1.1.0
-  status: extended_quality_compliance_controls
+  version: 1.2.0
+  status: extended_launch_support_governance_controls
   classification: editable_model
   human_readable: README.md
   machine_readable: capability-package.yaml
   owner: Nexora Product Architecture Team
   created_date: 2026-07-22
-  updated_date: 2026-07-23
-  roadmap_group: COM-MOD-013
+  updated_date: 2026-07-24
+  roadmap_group: COM-MOD-016
+  extended_by_modules:
+    - COM-MOD-012
+    - COM-MOD-013
+    - COM-MOD-016
   execution_flow_stage: model
 
 standard:
@@ -22,7 +26,7 @@ capability:
   id: BCM-PLT-007
   name:
     en: Audit Trail
-    es: Auditoría de Seguridad y Operaciones
+    es: Auditoría de Seguridad, Calidad y Lanzamiento
   domain: DOM-10 Platform
   priority: Critical
   roadmap: MVP1
@@ -35,12 +39,13 @@ scope:
   summary: >
     Governs append-only security audit event recording, tamper-evident hash chaining,
     HIPAA/GDPR compliance data access logging, structured audit search & export APIs, and operational
-    retention policies. Extended under COM-MOD-013 to log quality, CAPA, and audit events with
-    compliance correlation tags and support regulatory evidence extraction.
+    retention policies. Extended under COM-MOD-013 for quality and CAPA audit logging, and under COM-MOD-016 to log
+    customer onboarding, support escalation, launch readiness approvals, and release governance actions.
   in_scope:
     - Append-only recording of security events (authentication, authorization, permission changes).
     - Clinical, financial, quality, CAPA, and regulatory audit event logging.
     - Operational administration audit trail (tenant state changes, feature flag toggles, maintenance actions).
+    - Customer onboarding events, support escalation audit entries, and launch readiness sign-offs.
     - Tamper-evident cryptographic hash chaining for audit log integrity verification.
     - Structured query (`searchAuditEvents`) and compliance export (`exportAuditEvents`) for regulatory evidence.
   out_of_scope:
@@ -48,10 +53,10 @@ scope:
     - Physical storage volume snapshot management (handled by BCM-PLT-008 and BCM-PLT-009).
 
 roadmap:
-  module: COM-MOD-013
+  module: COM-MOD-016
   release: REL-003
-  package_status: module_closed
-  next_backlog_item: none (module closed; see COM-MOD-016-DEF for the next roadmap module)
+  package_status: modeled
+  next_backlog_item: COM-MOD-016-DOC-001
 
 dependencies:
   required_capabilities:

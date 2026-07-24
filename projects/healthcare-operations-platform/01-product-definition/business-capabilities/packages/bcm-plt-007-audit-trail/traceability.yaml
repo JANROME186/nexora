@@ -1,73 +1,49 @@
 artifact:
-  id: HOP-TRACE-BCM-PLT-007
+  id: HOP-TRC-BCM-PLT-007
   type: traceability
-  name: Audit Trail Traceability
-  version: 1.1.0
-  status: modeled
-  classification: editable_model
-  capability: BCM-PLT-007
+  name: Audit Trail Traceability Matrix
+  version: 1.2.0
 
-traces:
-  capability_map:
-    bcm_001: BCM-PLT-007
-    domain: DOM-10 Platform
-  dependency_map:
-    bcm_002_profile: foundation
-    required_capabilities: [BCM-ORG-001, BCM-PLT-001]
-    optional_capabilities: [BCM-PLT-006, BCM-PLT-008, BCM-QLT-002, BCM-QLT-006, BCM-QLT-007]
-  domain_foundation:
-    bounded_context: audit-compliance
-    aggregate_reference: AuditEvent (AGG-018)
-  rules_to_tests:
-    - rule: RN-AUD-TR-001
-      tests: [TST-AUD-TR-001]
-    - rule: RN-AUD-TR-002
-      tests: [TST-AUD-TR-002]
-    - rule: RN-AUD-TR-003
-      tests: [TST-AUD-TR-003]
-  processes_to_commands:
-    - process: PRC-AUD-TR-001
-      commands: [recordAuditEvent]
-    - process: PRC-AUD-TR-002
-      commands: [searchAuditEvents, exportAuditEvents]
-  api_to_permissions:
-    - operation: searchAuditEvents
-      scope: audit.trail.search
-    - operation: exportAuditEvents
-      scope: audit.trail.export
-  events_to_audit:
-    - event: AuditEventRecorded
-      audit_sink: BCM-PLT-007
-    - event: AuditTrailExported
-      audit_sink: BCM-PLT-007
-  ui_to_api:
-    - screen: SCR-AUD-TR-001
-      operations: [searchAuditEvents, exportAuditEvents]
-  backlog_items:
-    definition: COM-MOD-013-DEF
-    definition_status: closed
-    compilation: COM-MOD-013-BE-001
-    compilation_status: closed
-    frontend_compilation: COM-MOD-013-FE-001
-    frontend_compilation_status: closed
-    validation: COM-MOD-013-QA-001
-    validation_status: closed
-    closeout: COM-MOD-013-CLOSEOUT
-    closeout_status: closed
-    history:
-      - backlog_item: COM-MOD-013-CLOSEOUT
-        status: closed
-        note: Module closeout complete. Package status moved to module_closed.
-      - backlog_item: COM-MOD-013-QA-001
-        status: closed
-        note: >-
-          Traceability re-validated: searchAuditEvents/exportAuditEvents match
-          AuditComplianceService, permissions.yaml matches EndpointPermissionRegistry, ui-model.yaml
-          matches ComplianceEvidenceScreen. TD-DB-005 (persistence-wiring defect) found and closed
-          for the sibling BCM-QLT-002/006/007 capabilities this capability depends on; audit event
-          recording itself (AGG-018) was already correctly persisted and unaffected.
-      - backlog_item: COM-MOD-013-FE-001
-        status: closed
-        note: ComplianceEvidenceScreen and AuditEventsScreen i18n retrofit compiled with IAM, tests and security-quality evidence.
-      - backlog_item: COM-MOD-012-CLOSEOUT
-        status: closed
+capability_id: BCM-PLT-007
+roadmap_group: COM-MOD-016
+
+mappings:
+  - requirement: "Security & Operations Audit Trail"
+    rules: [RN-AUD-001, RN-AUD-002, RN-AUD-003, RN-AUD-004]
+    processes: [PROC-AUD-001, PROC-AUD-002]
+    events: [AuditEventRecordedEvent, AuditLogIntegrityVerifiedEvent]
+    api_endpoints: ["/api/v1/audit/events", "/api/v1/audit/export"]
+    permissions: [audit:read, audit:export]
+    tests: [TEST-AUD-001, TEST-AUD-002, TEST-AUD-003]
+
+  - requirement: "Quality & Compliance Audit Trail Extension"
+    rules: [RN-AUD-005]
+    processes: [PROC-AUD-003]
+    events: [QualityAuditEventRecordedEvent]
+    api_endpoints: ["/api/v1/audit/compliance-query"]
+    permissions: [audit:compliance_read]
+    tests: [TEST-AUD-004]
+
+  - requirement: "Commercial Launch & Release Governance Audit"
+    rules: [RN-AUD-006]
+    processes: [PROC-AUD-004]
+    events: [CommercialLaunchApprovalRecordedEvent]
+    api_endpoints: ["/api/platform/audit/launch-governance"]
+    permissions: [audit:launch_governance]
+    tests: [TEST-AUD-005]
+
+commercial_enablement:
+  backlog_item: COM-MOD-016-DEF
+  status: modeled
+  qa_evidence: ../../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.yaml
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-016-DEF/security-quality-evidence.yaml
+
+implementation:
+  backlog_item: COM-MOD-013-BE-001
+  status: compiled
+  evidence: ../../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-BE-001-validation.yaml
+
+validation:
+  backlog_item: COM-MOD-013-QA-001
+  status: validated
+  evidence: ../../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml

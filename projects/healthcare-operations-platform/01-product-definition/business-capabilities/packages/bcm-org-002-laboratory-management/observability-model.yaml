@@ -1,0 +1,23 @@
+artifact:
+  id: HOP-OBS-BCM-ORG-002
+  type: observability-model
+  name: Laboratory Management Observability Model
+  version: 1.0.0
+
+metrics:
+  - name: hop_laboratories_active_total
+    type: gauge
+    description: Total number of active laboratories per tenant.
+
+  - name: hop_laboratory_license_expiring_days
+    type: gauge
+    description: Days remaining until sanitary license expiration.
+
+log_events:
+  - event_type: LABORATORY_REGISTERED
+    level: INFO
+    mdc_keys: [tenant_id, laboratory_id, user_id]
+
+  - event_type: LABORATORY_STATUS_CHANGED
+    level: WARN
+    mdc_keys: [tenant_id, laboratory_id, user_id, previous_status, new_status]

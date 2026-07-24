@@ -1,89 +1,49 @@
 artifact:
-  id: HOP-TRACE-BCM-PLT-008
+  id: HOP-TRC-BCM-PLT-008
   type: traceability
-  name: Document Management Traceability
-  version: 1.2.0
-  status: modeled
-  classification: editable_model
-  capability: BCM-PLT-008
+  name: Document Management Traceability Matrix
+  version: 1.3.0
 
-traces:
-  capability_map:
-    bcm_001: BCM-PLT-008
-    domain: DOM-10 Platform
-  dependency_map:
-    bcm_002_profile: platform_extension
-    required_capabilities: [BCM-PLT-001, BCM-PLT-007]
-    optional_capabilities: [BCM-PLT-002, BCM-PLT-006, BCM-QLT-002, BCM-QLT-006, BCM-QLT-007]
-    downstream_capabilities: [BCM-RES-002]
-  domain_foundation:
-    bounded_context: document-management
-    aggregate_reference: StoredDocument (AGG-023)
-  rules_to_tests:
-    - rule: RN-DOC-001
-      tests: [TST-DOC-001]
-    - rule: RN-DOC-002
-      tests: [TST-DOC-002]
-    - rule: RN-DOC-003
-      tests: [TST-DOC-003]
-    - rule: RN-DOC-004
-      tests: [TST-DOC-004]
-  processes_to_commands:
-    - process: PRC-DOC-001
-      commands: [uploadDocument]
-    - process: PRC-DOC-002
-      commands: [updateLegalHold]
-    - process: PRC-DOC-003
-      commands: [createComplianceEvidencePackage]
-  api_to_permissions:
-    - operation: getDocumentMetadata
-      scope: document.read
-    - operation: downloadDocumentBinary
-      scope: document.read
-    - operation: uploadDocument
-      scope: document.manage
-    - operation: createComplianceEvidencePackage
-      scope: document.manage
-    - operation: updateLegalHold
-      scope: document.retention.manage
-  events_to_audit:
-    - event: DocumentStored
-      audit_sink: BCM-PLT-007
-    - event: LegalHoldApplied
-      audit_sink: BCM-PLT-007
-    - event: ComplianceEvidencePackageCreated
-      audit_sink: BCM-PLT-007
-  ui_to_api:
-    - screen: SCR-DOC-001
-      operations: [getDocumentMetadata, downloadDocumentBinary, uploadDocument]
-    - screen: SCR-DOC-002
-      operations: [updateLegalHold, createComplianceEvidencePackage]
-  backlog_items:
-    definition: COM-MOD-013-DEF
-    definition_status: closed
-    compilation: COM-MOD-013-BE-001
-    compilation_status: closed
-    frontend_compilation: COM-MOD-013-FE-001
-    frontend_compilation_status: closed
-    validation: COM-MOD-013-QA-001
-    validation_status: closed
-    closeout: COM-MOD-013-CLOSEOUT
-    closeout_status: closed
-    history:
-      - backlog_item: COM-MOD-013-CLOSEOUT
-        status: closed
-        note: Module closeout complete. Package status moved to module_closed.
-      - backlog_item: COM-MOD-013-QA-001
-        status: closed
-        note: >-
-          Traceability re-validated: DocumentManagementController operations match
-          openapi-source.yaml, permissions.yaml matches EndpointPermissionRegistry, ui-model.yaml
-          matches ComplianceEvidenceScreen. Fixed a SpotBugs High DM_DEFAULT_ENCODING finding in
-          uploadDocument's parseUuidOrGenerate helper (explicit UTF-8 charset).
-      - backlog_item: COM-MOD-013-FE-001
-        status: closed
-        note: ComplianceEvidenceScreen compiled with IAM, i18n, tests and security-quality evidence.
-      - backlog_item: MVP-MOD-007-CLOSEOUT
-        status: closed
-      - backlog_item: COM-MOD-012-CLOSEOUT
-        status: closed
+capability_id: BCM-PLT-008
+roadmap_group: COM-MOD-016
+
+mappings:
+  - requirement: "Operational Document Management Baseline"
+    rules: [RN-DOC-001, RN-DOC-002, RN-DOC-003, RN-DOC-004]
+    processes: [PROC-DOC-001, PROC-DOC-002]
+    events: [DocumentStoredEvent, DocumentRetainedEvent]
+    api_endpoints: ["/api/v1/documents", "/api/v1/documents/{documentId}"]
+    permissions: [document:upload, document:read, document:delete]
+    tests: [TEST-DOC-001, TEST-DOC-002, TEST-DOC-003]
+
+  - requirement: "Quality Compliance Evidence Bundling"
+    rules: [RN-DOC-005]
+    processes: [PROC-DOC-003]
+    events: [CompliancePackageBundledEvent]
+    api_endpoints: ["/api/v1/documents/compliance-packages"]
+    permissions: [document:bundle_compliance]
+    tests: [TEST-DOC-004]
+
+  - requirement: "Commercial Enablement & Launch Asset Management"
+    rules: [RN-DOC-006]
+    processes: [PROC-DOC-004]
+    events: [EnablementAssetPublishedEvent]
+    api_endpoints: ["/api/platform/documents/enablement-assets"]
+    permissions: [document:manage_enablement_assets]
+    tests: [TEST-DOC-005]
+
+commercial_enablement:
+  backlog_item: COM-MOD-016-DEF
+  status: modeled
+  qa_evidence: ../../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.yaml
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-016-DEF/security-quality-evidence.yaml
+
+implementation:
+  backlog_item: COM-MOD-013-BE-001
+  status: compiled
+  evidence: ../../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-BE-001-validation.yaml
+
+validation:
+  backlog_item: COM-MOD-013-QA-001
+  status: validated
+  evidence: ../../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml

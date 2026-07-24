@@ -2,10 +2,10 @@ artifact:
   id: HOP-TRC-BCM-ORG-001
   type: traceability
   name: Tenant Management Traceability Matrix
-  version: 1.0.0
+  version: 1.1.0
 
 capability_id: BCM-ORG-001
-roadmap_group: COM-MOD-012
+roadmap_group: COM-MOD-016
 
 mappings:
   - requirement: "SaaS Tenant Operations & Multi-Tenancy Hardening"
@@ -16,6 +16,14 @@ mappings:
     permissions: [tenant:create, tenant:read, tenant:update_status, tenant:manage_quota]
     tests: [TEST-TEN-001, TEST-TEN-002, TEST-TEN-003, TEST-TEN-004]
     technical_debt_addressed: [TD-DB-004]
+
+  - requirement: "Commercial Launch & Customer Enablement Onboarding"
+    rules: [RN-TEN-005, RN-TEN-006]
+    processes: [PROC-TEN-004, PROC-TEN-005]
+    events: [CustomerOnboardingStartedEvent, CustomerOnboardingCompletedEvent, CommercialReadinessValidatedEvent]
+    api_endpoints: ["/api/platform/tenants/{tenantId}/onboarding", "/api/platform/tenants/{tenantId}/readiness"]
+    permissions: [tenant:onboard, tenant:validate_readiness]
+    tests: [TEST-TEN-005, TEST-TEN-006]
 
 operational_strategy:
   backlog_item: COM-MOD-012-OPS-002
@@ -37,12 +45,12 @@ implementation:
     - "GET /api/platform/tenants (listTenants)"
     - "GET /api/platform/tenants/{tenantId} (getTenant)"
     - "PUT /api/platform/tenants/{tenantId}/status (updateTenantStatus)"
-  note: >-
-    Implemented paths use the existing unversioned /api/platform/... prefix (matching every other
-    platform endpoint already shipped) rather than the /api/v1/... paths shown in this package's
-    openapi-source.yaml/mappings above. Tenant quota (TenantQuota), branding (TenantBranding) and
-    data-masking-policy value objects modeled in business-model.yaml are not yet exposed by any
-    operation and were not persisted, since no compiled endpoint requires them.
+
+commercial_enablement:
+  backlog_item: COM-MOD-016-DEF
+  status: modeled
+  qa_evidence: ../../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.yaml
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-016-DEF/security-quality-evidence.yaml
 
 validation:
   backlog_item: COM-MOD-012-QA-001

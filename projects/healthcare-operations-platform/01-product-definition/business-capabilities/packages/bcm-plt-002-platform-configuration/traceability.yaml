@@ -2,55 +2,41 @@ artifact:
   id: HOP-TRC-BCM-PLT-002
   type: traceability
   name: Platform Configuration Traceability Matrix
-  version: 1.0.0
+  version: 1.1.0
 
 capability_id: BCM-PLT-002
-roadmap_group: COM-MOD-012
+roadmap_group: COM-MOD-016
 
 mappings:
-  - requirement: "Platform Configuration and Dynamic Feature Flags"
-    rules: [RN-CFG-001, RN-CFG-002, RN-CFG-003]
+  - requirement: "SaaS Platform Configuration & Feature Flags"
+    rules: [RN-CFG-001, RN-CFG-002, RN-CFG-003, RN-CFG-004]
     processes: [PROC-CFG-001, PROC-CFG-002]
-    events: [ConfigUpdatedEvent, FeatureFlagToggledEvent]
-    api_endpoints: [/api/v1/platform/config, /api/v1/platform/feature-flags]
-    permissions: [config:read, config:manage, feature_flags:toggle, masking_policy:manage]
+    events: [PlatformConfigUpdatedEvent, FeatureFlagToggledEvent]
+    api_endpoints: ["/api/v1/platform/config", "/api/v1/platform/feature-flags"]
+    permissions: [config:read, config:write, feature_flag:manage]
     tests: [TEST-CFG-001, TEST-CFG-002, TEST-CFG-003]
     technical_debt_addressed: [TD-BE-008]
 
-operational_strategy:
-  backlog_item: COM-MOD-012-OPS-002
-  status: closed
-  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.yaml
-  contribution: >-
-    Environment configuration, secret-provider precedence, maintenance mode and feature-flag
-    rollout controls (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002's incident-response-runbook.yaml
-    names a tenant-specific feature-flag disable as the preferred, narrowest-first incident
-    mitigation, ahead of a full application rollback or database restore.
+  - requirement: "Commercial Launch & Customer Enablement Configurations"
+    rules: [RN-CFG-005]
+    processes: [PROC-CFG-003]
+    events: [CustomerConfigTemplateAppliedEvent]
+    api_endpoints: ["/api/platform/config/onboarding-templates"]
+    permissions: [config:manage_templates]
+    tests: [TEST-CFG-004]
+
+commercial_enablement:
+  backlog_item: COM-MOD-016-DEF
+  status: modeled
+  qa_evidence: ../../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.yaml
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-016-DEF/security-quality-evidence.yaml
 
 implementation:
   backlog_item: COM-MOD-012-BE-001
   status: compiled
   evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-BE-001-validation.yaml
-  api_endpoints_implemented:
-    - "GET /api/platform/config (getPlatformConfig)"
-    - "GET /api/platform/feature-flags (evaluateFeatureFlags)"
-    - "POST /api/platform/feature-flags (updateFeatureFlag)"
-  note: >-
-    New platformconfiguration Spring Modulith module (package
-    com.nexora.hop.platformfoundation.platformconfiguration). Implemented paths use the existing
-    unversioned /api/platform/... prefix rather than the /api/v1/... paths shown above.
-    DataMaskingPolicy (TD-BE-008) is modeled in business-model.yaml but not exposed by any
-    compiled operation; masking of encrypted config values (is_encrypted flag) is enforced
-    directly by getPlatformConfig rather than via a separate policy entity/endpoint.
 
 validation:
   backlog_item: COM-MOD-012-QA-001
   status: validated
   evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
-  contribution: >-
-    Live runtime validation: getPlatformConfig returns seeded config parameters; evaluateFeatureFlags
-    defaults safely to false with no tenantId and returns the tenant-targeted value once a valid
-    tenantId is supplied (business-model.yaml invariant confirmed); updateFeatureFlag correctly
-    rejects a non-namespaced flagKey (400 COMMAND_INVALID) and an out-of-bounds rolloutPercentage
-    (400), accepts a valid update, and records a FeatureFlagUpdated audit event verified via a live
-    GET /api/audit/events query.

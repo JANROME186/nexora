@@ -2,14 +2,18 @@ artifact:
   id: HOP-CAP-PKG-BCM-PLT-006
   type: capability-package
   name: Observability Capability Package
-  version: 1.0.0
-  status: validated
+  version: 1.1.0
+  status: extended_launch_evidence_controls
   classification: editable_model
   human_readable: README.md
   machine_readable: capability-package.yaml
   owner: Nexora Product Architecture Team
   created_date: 2026-07-22
-  roadmap_group: COM-MOD-012
+  updated_date: 2026-07-24
+  roadmap_group: COM-MOD-016
+  extended_by_modules:
+    - COM-MOD-012
+    - COM-MOD-016
   execution_flow_stage: model
 
 standard:
@@ -32,10 +36,11 @@ capability:
 scope:
   summary: >
     Governs OpenTelemetry tracing, Prometheus metric collection standards, Grafana operational dashboard
-    definitions, health check probes (liveness, readiness, startup), SLO/SLA alert definitions, log
-    aggregation standards, and operational status page integrations for Healthcare Operations Platform.
+    definitions, health check probes, SLO/SLA alert definitions, log aggregation standards,
+    customer onboarding telemetry, and operational launch evidence for Healthcare Operations Platform.
   in_scope:
     - System health check endpoints (/health/liveness, /health/readiness, /health/startup).
+    - Commercial launch readiness telemetry targets (SLO/SLA baseline metrics, customer onboarding funnel metrics, launch error budgets).
     - OpenTelemetry distributed trace context propagation across services and API gateways.
     - Prometheus metrics catalog (request rate, error rate, latency quantiles, JVM, database connection pool, business metrics).
     - Structured JSON logging format standard with MDC context (tenant_id, user_id, trace_id).
@@ -45,10 +50,10 @@ scope:
     - Automatic infrastructure provisioning (handled by deployment runbooks and BCM-PLT-009).
 
 roadmap:
-  module: COM-MOD-012
-  release: REL-002
+  module: COM-MOD-016
+  release: REL-003
   package_status: modeled
-  next_backlog_item: COM-MOD-012-OPS-001
+  next_backlog_item: COM-MOD-016-DOC-001
 
 dependencies:
   required_capabilities:
