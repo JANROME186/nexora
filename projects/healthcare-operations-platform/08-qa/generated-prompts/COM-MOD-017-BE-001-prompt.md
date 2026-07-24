@@ -1,5 +1,6 @@
 # TASK: COM-MOD-017-BE-001 - Marketplace & Entitlements Backend Compilation
 ROOT: C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora
+PROJECT: projects/healthcare-operations-platform
 ORCHESTRATION: ollama_primary
 
 ## 1. Alcance / Objetivos Directos
@@ -11,15 +12,15 @@ ORCHESTRATION: ollama_primary
 - No avanzar punteros si un gate obligatorio queda bloqueado o sin evidencia.
 
 ## 2. Contexto Inmediato (Punteros)
-- Handoff previo: `projects/healthcare-operations-platform/08-qa/handoffs/COM-MOD-017-DEF-summary.md`
-- Modelos base: `projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/`
-- Prompts y estado: inspeccionar `projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml` y `projects/healthcare-operations-platform/PROJECT_STATE.yaml` bajo demanda.
+- Handoff previo: `08-qa/handoffs/COM-MOD-017-DEF-summary.md`
+- Modelos base: `01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/`
+- Prompts y estado: inspeccionar `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml` y `PROJECT_STATE.yaml` bajo demanda.
 
 ## 3. Entregables
 - Cambios backend y tests asociados.
-- QA Evidence: `projects/healthcare-operations-platform/08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-001-validation.[md|yaml]`
-- Security Evidence: `projects/healthcare-operations-platform/08-qa/security-quality/COM-MOD-017-BE-001/security-quality-evidence.[md|yaml]`
-- Transición: crear `projects/healthcare-operations-platform/08-qa/handoffs/COM-MOD-017-BE-001-summary.md`.
+- QA Evidence: `08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-001-validation.[md|yaml]`
+- Security Evidence: `08-qa/security-quality/COM-MOD-017-BE-001/security-quality-evidence.[md|yaml]`
+- Transición: crear `08-qa/handoffs/COM-MOD-017-BE-001-summary.md`.
 - Actualizar `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, backlog/prompts, runbook e índices aplicables.
 
 ## 4. Criterios de Cierre
@@ -27,4 +28,4 @@ ORCHESTRATION: ollama_primary
 - Commit: `feat(hop): compile marketplace backend outputs`.
 - `git status --short` limpio si no hay bloqueantes.
 
-<!-- ollama_plan_hash: 5257e56086c9390bedfc8880f6308913cdcd2e06dd9cac7bf0145b014b2f7737 -->
+<!-- ollama_plan_hash: 9874b9b5234343d71ba583316ebc5b459643c45570726c8ea2c2f5ce6d8babe5 -->

@@ -94,7 +94,9 @@ format_policy:
 lazy_loading:
   root_path:
     rule: Define ROOT_PATH once per generated prompt.
-    repetition_policy: Avoid repeating long absolute or relative paths.
+    project_path_rule: Define PROJECT_PATH once when the task targets a project folder.
+    repetition_policy: Avoid repeating long absolute or project-prefixed paths.
+    project_relative_policy: After PROJECT_PATH is declared, use paths relative to that project folder in pointers and deliverables.
   file_loading:
     preload_full_files: prohibited_unless_explicitly_required
     required_method: targeted_inspection
@@ -141,6 +143,7 @@ synthetic_prompt_contract:
   template: |
     # TASK: [ID_TAREA] - [TITULO]
     ROOT: [RUTA_BASE]
+    PROJECT: [RUTA_PROYECTO]
 
     ## 1. Alcance / Objetivos Directos
     - [Instrucciones concisas]

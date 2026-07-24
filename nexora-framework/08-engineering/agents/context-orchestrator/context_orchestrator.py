@@ -40,6 +40,7 @@ DEFAULT_HOP_BACKLOG_FILE = (
     "projects/healthcare-operations-platform/06-delivery/commercial-product/"
     "HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml"
 )
+DEFAULT_PROJECT_PATH = "projects/healthcare-operations-platform"
 DEFAULT_HANDOFF_DIR = "projects/healthcare-operations-platform/08-qa/handoffs"
 DEFAULT_PROMPT_OUTPUT_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts"
 DEFAULT_ORCHESTRATION_CACHE_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts/cache"
@@ -194,6 +195,12 @@ def compact_title(title: str) -> str:
     return replacements.get(title, title)
 
 
+def project_relative(path: str) -> str:
+    normalized = path.replace("\\", "/")
+    prefix = DEFAULT_PROJECT_PATH + "/"
+    return normalized[len(prefix) :] if normalized.startswith(prefix) else normalized
+
+
 def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage_floor: dict) -> list[str]:
     """Convert verbose source notes into a layer-aware Spanish checklist."""
     workstream = infer_workstream(task_id)
@@ -230,11 +237,11 @@ def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage
 def context_pointer_block(summary_ref: str | None) -> list[str]:
     pointers: list[str] = []
     if summary_ref:
-        pointers.append(f"Handoff previo: `{summary_ref}`")
+        pointers.append(f"Handoff previo: `{project_relative(summary_ref)}`")
     pointers.extend(
         [
-            "Modelos base: `projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/`",
-            "Prompts y estado: inspeccionar `projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml` y `projects/healthcare-operations-platform/PROJECT_STATE.yaml` bajo demanda.",
+            "Modelos base: `01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/`",
+            "Prompts y estado: inspeccionar `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml` y `PROJECT_STATE.yaml` bajo demanda.",
         ]
     )
     return pointers
@@ -276,6 +283,7 @@ def build_canonical_context(
 ) -> dict:
     return {
         "root": root.as_posix(),
+        "project": DEFAULT_PROJECT_PATH,
         "task_id": task_id,
         "title": title,
         "summary_ref": summary_ref,
@@ -283,11 +291,11 @@ def build_canonical_context(
         "context_lines": context_pointer_block(summary_ref),
         "coverage_floor": relevant_coverage_floor(coverage_floor, task_id),
         "workstream": infer_workstream(task_id),
-        "base_models_path": "projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
-        "operational_prompt_path": "projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml",
-        "qa_evidence_pattern": f"projects/healthcare-operations-platform/08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md/yaml",
-        "security_evidence_pattern": f"projects/healthcare-operations-platform/08-qa/security-quality/{task_id}/security-quality-evidence.md/yaml",
-        "handoff_path": f"projects/healthcare-operations-platform/08-qa/handoffs/{task_id}-summary.md",
+        "base_models_path": "01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
+        "operational_prompt_path": "06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml",
+        "qa_evidence_pattern": f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md/yaml",
+        "security_evidence_pattern": f"08-qa/security-quality/{task_id}/security-quality-evidence.md/yaml",
+        "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
         "commit_suggestion": "feat(hop): compile marketplace backend outputs",
     }
 
@@ -419,6 +427,7 @@ def build_prompt(
     notes_block = "\n".join(f"- {note}" for note in compact_mandatory_notes(task_id, title, mandatory_notes, coverage_floor))
     return f"""# TASK: {task_id} - {title}
 ROOT: {root.as_posix()}
+PROJECT: {DEFAULT_PROJECT_PATH}
 ORCHESTRATION: {orchestration_mode}
 
 ## 1. Alcance / Objetivos Directos
@@ -429,9 +438,9 @@ ORCHESTRATION: {orchestration_mode}
 
 ## 3. Entregables
 - Cambios {infer_workstream(task_id)} y tests asociados.
-- QA Evidence: `projects/healthcare-operations-platform/08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.[md|yaml]`
-- Security Evidence: `projects/healthcare-operations-platform/08-qa/security-quality/{task_id}/security-quality-evidence.[md|yaml]`
-- Transición: crear `projects/healthcare-operations-platform/08-qa/handoffs/{task_id}-summary.md`.
+- QA Evidence: `08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.[md|yaml]`
+- Security Evidence: `08-qa/security-quality/{task_id}/security-quality-evidence.[md|yaml]`
+- Transición: crear `08-qa/handoffs/{task_id}-summary.md`.
 - Actualizar `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, backlog/prompts, runbook e índices aplicables.
 
 ## 4. Criterios de Cierre

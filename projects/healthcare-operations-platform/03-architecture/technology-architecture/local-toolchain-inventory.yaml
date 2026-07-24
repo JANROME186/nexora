@@ -289,4 +289,4 @@ validation:
   notes:
     - Inventory records generic commands only; backlog execution evidence remains under 08-qa.
     - qwen2.5-coder:0.5b is installed locally and validated as the mandatory bootstrap model.
-    - COM-MOD-017-BE-001 generated prompt SHA256 is 15d86e48708df77b17ac7ab9d99b9de08b345ded4560ae0905574e92de7bb97f.
+    - COM-MOD-017-BE-001 generated prompt SHA256 is 62adf7b643aff753adde833d97b62c85c5426c46902cad0d6e3ebe33e8adaf60.

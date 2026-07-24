@@ -31,6 +31,10 @@ backend gates, not unrelated mobile or portal coverage floors unless those compo
 changed. Generated prompts must use one language consistently; HOP commercial prompts are rendered
 in Spanish.
 
+When a task belongs to a project folder, the generated prompt must declare `PROJECT` once after
+`ROOT`. All pointers and deliverables inside that project must then use project-relative paths
+instead of repeating the full project prefix.
+
 ## Format Policy
 
 New task and handoff artifacts should use Markdown with minimal YAML frontmatter. Compact inventories or configuration may use TOML or Markdown tables.
@@ -42,6 +46,7 @@ Existing YAML artifacts remain supported until a controlled migration is complet
 ```text
 # TASK: [ID_TAREA] - [TITULO]
 ROOT: [RUTA_BASE]
+PROJECT: [RUTA_PROYECTO]
 
 ## 1. Alcance / Objetivos Directos
 - [Instrucciones concisas]

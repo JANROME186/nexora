@@ -56,7 +56,7 @@ validation or module closeout. It is not a command history; backlog evidence rem
 
 The reproducible prompt generated for `COM-MOD-017-BE-001` is stored at
 `08-qa/generated-prompts/COM-MOD-017-BE-001-prompt.md` with SHA256
-`15d86e48708df77b17ac7ab9d99b9de08b345ded4560ae0905574e92de7bb97f`.
+`62adf7b643aff753adde833d97b62c85c5426c46902cad0d6e3ebe33e8adaf60`.
 
 ## Generic Commands
 
