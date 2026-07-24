@@ -1,0 +1,25 @@
+# TASK: COM-MOD-017-BE-001 - Cierre Correctivo de Backlog
+ROOT: C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora
+PROJECT: projects/healthcare-operations-platform
+
+## 1. Objetivo
+- Corregir únicamente los hallazgos que impiden cerrar `COM-MOD-017-BE-001`.
+- No implementar funcionalidad nueva fuera del cierre.
+- Mantener ejecución agent-agnostic y no avanzar punteros hasta que todo quede consistente.
+
+## 2. Hallazgos a Cerrar
+- product_backlog_item_not_closed: Expected closed, found active.
+- product_baseline_stale_active_item: HOP commercial product backlog baseline still points to the closed task.
+
+## 3. Acciones Obligatorias
+- Sincronizar `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml` y `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml`.
+- Confirmar que QA Evidence, Security Evidence y handoff de `COM-MOD-017-BE-001` existan, estén validados y estén referenciados en `SOURCE_OF_TRUTH.yaml`.
+- Ejecutar parseo YAML del proyecto, sweep de punteros obsoletos y `git diff --check`.
+- Si no hay bloqueantes, hacer commit y dejar `git status --short` limpio.
+
+## 4. Criterios de Cierre
+- El validador local reporta `decision: closed`.
+- No existen hallazgos P0/P1 sin registrar o corregir.
+- El siguiente backlog activo queda alineado en todos los registros.
+
+<!-- local_ollama_review: incomplete -->

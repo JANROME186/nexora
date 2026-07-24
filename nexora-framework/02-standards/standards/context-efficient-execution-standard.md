@@ -65,3 +65,22 @@ PROJECT: [RUTA_PROYECTO]
 ```
 
 Quality gates, security checks, coverage floors, stale-pointer sweeps and clean git status remain mandatory. Token optimization never justifies skipping validation.
+
+## Backlog Closure Validation
+
+After an execution agent claims completion, the framework must run the local closure validator:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py `
+  --root C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora `
+  --prompt projects/healthcare-operations-platform/08-qa/generated-prompts/<TASK_ID>-prompt.md
+```
+
+The validator first applies deterministic repository checks: expected evidence files, evidence
+status, project state, product backlog status, execution prompt transition, source-of-truth
+references and clean git status. Ollama is then used as the mandatory local summarizer, but it
+cannot override deterministic P0/P1 findings.
+
+If the backlog is incomplete, the validator writes
+`08-qa/generated-prompts/<TASK_ID>-closure-fix-prompt.md` with only the missing work required to
+close the item.

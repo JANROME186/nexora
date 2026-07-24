@@ -36,3 +36,19 @@ The final prompt is rendered from canonical fields and cached by context hash. T
 executions stable while still using Ollama as the primary local orchestration source.
 
 The output must remain agent agnostic. It should point to files and commands instead of pasting complete artifacts into the commercial prompt.
+
+## Backlog Closure Validation
+
+After an execution agent claims a backlog is complete, run the local validator against the generated
+prompt:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py `
+  --root C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora `
+  --prompt projects/healthcare-operations-platform/08-qa/generated-prompts/COM-MOD-017-BE-001-prompt.md
+```
+
+The validator uses deterministic repository checks first and Ollama as the mandatory local
+summarizer. If the backlog is incomplete, it writes a compact correction prompt to:
+
+`projects/healthcare-operations-platform/08-qa/generated-prompts/<TASK_ID>-closure-fix-prompt.md`

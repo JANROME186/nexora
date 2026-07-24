@@ -139,6 +139,29 @@ local_context_processing:
       final prompt must still be rendered from canonical deterministic fields. If Ollama or the
       required model is unavailable, the framework bootstrap is incomplete.
 
+backlog_closure_validation:
+  required_after_agent_claims_completion: true
+  local_validator: nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
+  model_runtime: ollama
+  required_model: qwen2.5-coder:0.5b
+  deterministic_checks_are_authoritative: true
+  required_inputs:
+    - generated backlog prompt
+    - project state
+    - product backlog
+    - execution prompts
+    - source of truth
+    - QA evidence
+    - security-quality evidence
+    - handoff summary
+    - git status
+  closure_policy:
+    - If P0/P1 deterministic findings exist, the backlog is incomplete regardless of the local model summary.
+    - If the backlog is incomplete, generate a compact closure-fix prompt with only the missing work.
+    - Do not advance the next backlog pointer until the validator reports closed.
+    - Validation reports must be persisted under the project 08-qa/backlog-validations folder.
+    - Closure-fix prompts must be persisted under the project 08-qa/generated-prompts folder.
+
 synthetic_prompt_contract:
   template: |
     # TASK: [ID_TAREA] - [TITULO]
@@ -166,3 +189,4 @@ closure_rules:
   - Quality gates, security checks, coverage floors, stale-pointer sweeps and clean git status remain mandatory.
   - If format migration is outside the selected backlog scope, register or update technical debt instead of silently ignoring it.
   - Generated prompt files must be stable across repeated executions while the canonical context hash is unchanged.
+  - After an execution agent claims completion, run the backlog closure validator before accepting the item as closed.
