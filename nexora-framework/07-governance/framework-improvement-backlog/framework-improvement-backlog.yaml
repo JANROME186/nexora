@@ -40,6 +40,17 @@ statuses:
   - deferred
 
 entries:
+  - item_id: FWI-GOV-002
+    title: Context-efficient format migration for legacy YAML execution artifacts
+    source_feedback_ids:
+      - user-request-2026-07-24-token-optimized-context-execution
+    affected_framework_area: documentation_format_and_prompt_execution
+    priority: P1_high
+    expected_impact: Reduces commercial LLM token usage and stale-context risk through lightweight handoffs and controlled YAML migration.
+    status: proposed
+    owner: Nexora Engineering
+    item_file: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-002-context-efficient-format-migration.yaml
+    target_decision: triage_required
   - item_id: FWI-GOV-001
     title: Define framework feedback and continuous improvement loop
     source_feedback_ids:

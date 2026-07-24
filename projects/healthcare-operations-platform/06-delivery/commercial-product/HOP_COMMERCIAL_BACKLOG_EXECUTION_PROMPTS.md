@@ -256,6 +256,9 @@ Continue with:
 Mandatory setup for this backlog:
 
 - Load `03-architecture/technology-architecture/local-toolchain-inventory.yaml` before running any build, test, coverage, SAST, dependency, DAST, Docker or database command.
+- Prefer the latest compact handoff in `08-qa/handoffs/` and use targeted `rg`/line reads instead of loading complete historical registries into the prompt.
+- When handing this backlog to another execution agent, generate a compact prompt with `nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py` if local Python is available.
+- At closure, create `08-qa/handoffs/COM-MOD-017-BE-001-summary.md` with `Status`, `Cambios Clave`, `Deuda Técnica Creada` and `Siguiente Paso`.
 - Reconcile `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, this prompt file, capability traceability files and the local runbook pointers before closure.
 - Preserve coverage floors: backend (84.25%), employee portal (89.75%), public website (98.61%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.

@@ -16,7 +16,8 @@ Start with:
 - `standards/local-toolchain-inventory-standard.yaml`
 - `standards/enterprise-product-foundation-standard.yaml`
 - `standards/engineering-excellence-prioritization-standard.yaml`
+- `standards/context-efficient-execution-standard.yaml`
 - `standards/integrated-local-solution-runbook-standard.yaml`
 - `standards/framework-feedback-continuous-improvement-standard.yaml`
 
-These files control project structure, documentation format, agent-agnostic execution, model-driven engineering, capability packages, open data ingestion, product marketplace extensibility, business requirement change impact analysis, open-source-first technology selection, local toolchain inventory, enterprise product foundations, engineering excellence prioritization, integrated local solution runbooks, continuous security quality gates and framework feedback for continuous improvement.
+These files control project structure, documentation format, agent-agnostic execution, model-driven engineering, capability packages, open data ingestion, product marketplace extensibility, business requirement change impact analysis, open-source-first technology selection, local toolchain inventory, enterprise product foundations, engineering excellence prioritization, token-optimized context execution, integrated local solution runbooks, continuous security quality gates and framework feedback for continuous improvement.

@@ -1,0 +1,32 @@
+artifact:
+  id: FWI-GOV-002
+  type: framework-improvement-item
+  name: Context-efficient format migration for legacy YAML execution artifacts
+  version: 1.0.0
+  status: proposed
+  created_date: 2026-07-24
+
+source:
+  source_feedback_ids:
+    - user-request-2026-07-24-token-optimized-context-execution
+  related_standard: ../../../02-standards/standards/context-efficient-execution-standard.yaml
+  related_hop_debt: ../../../../projects/healthcare-operations-platform/08-qa/technical-debt/TD-FMT-001-yaml-monolith-to-frontmatter-transition.yaml
+
+classification:
+  affected_framework_area: documentation_format_and_prompt_execution
+  priority: P1_high
+  expected_impact: >-
+    Reduces commercial LLM token usage and stale-context risk by migrating large task/state YAML
+    artifacts into lightweight Markdown frontmatter handoffs or compact TOML/Markdown tables.
+
+proposal:
+  scope:
+    - inventory legacy YAML execution/state artifacts
+    - classify artifacts as keep, split, frontmatter-wrap or migrate-to-TOML
+    - validate optional Ollama-assisted conversion
+    - update templates so new projects start with lightweight handoffs
+  acceptance_criteria:
+    - Migration plan approved by Nexora Engineering.
+    - Framework templates include task summary handoff files.
+    - New project prompts reference the context orchestrator and lazy-loading protocol.
+    - No authoritative automation artifact is removed without replacement validation.

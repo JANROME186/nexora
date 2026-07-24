@@ -32,6 +32,10 @@ sources:
   business_requirement_versioning_standard_md: nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
   open_source_first_security_quality_standard: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
   open_source_first_security_quality_standard_md: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+  context_efficient_execution_standard: nexora-framework/02-standards/standards/context-efficient-execution-standard.yaml
+  context_efficient_execution_standard_md: nexora-framework/02-standards/standards/context-efficient-execution-standard.md
+  context_orchestrator_python: nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py
+  context_orchestrator_runbook: nexora-framework/08-engineering/agents/context-orchestrator/README.md
   integrated_local_solution_runbook_standard: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml
   integrated_local_solution_runbook_standard_md: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md
   framework_feedback_continuous_improvement_standard: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
@@ -47,6 +51,8 @@ sources:
   business_requirement_impact_prompts_yaml: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
   security_quality_gate_prompts: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
   security_quality_gate_prompts_yaml: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
+  context_optimized_backlog_prompts: nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.md
+  context_optimized_backlog_prompts_yaml: nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.yaml
   integrated_local_runbook_prompts: nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
   integrated_local_runbook_prompts_yaml: nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml
   framework_feedback_prompts: nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
@@ -54,6 +60,7 @@ sources:
   framework_improvement_backlog: nexora-framework/07-governance/framework-improvement-backlog/framework-improvement-backlog.yaml
   framework_improvement_backlog_readme: nexora-framework/07-governance/framework-improvement-backlog/README.md
   framework_improvement_fwi_gov_001: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-001-framework-feedback-loop.yaml
+  framework_improvement_fwi_gov_002: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-002-context-efficient-format-migration.yaml
   multi_project_structure_adr: nexora-framework/07-governance/adr/ADR-024-multi-project-repository-structure.md
   project_template: nexora-framework/06-templates/templates/project-template/
   project_template_local_solution_runbook: nexora-framework/06-templates/templates/project-template/09-operations/runbooks/local-solution-runbook.md
@@ -145,6 +152,9 @@ sources:
   hop_security_quality_evidence_root: projects/healthcare-operations-platform/08-qa/security-quality/
   hop_security_quality_evidence_index: projects/healthcare-operations-platform/08-qa/security-quality/security-quality-index.yaml
   hop_technical_debt_index: projects/healthcare-operations-platform/08-qa/technical-debt/technical-debt-index.yaml
+  hop_technical_debt_td_fmt_001: projects/healthcare-operations-platform/08-qa/technical-debt/TD-FMT-001-yaml-monolith-to-frontmatter-transition.yaml
+  hop_com_mod_017_def_handoff_summary: projects/healthcare-operations-platform/08-qa/handoffs/COM-MOD-017-DEF-summary.md
+  hop_nxf_ctx_001_handoff_summary: projects/healthcare-operations-platform/08-qa/handoffs/NXF-CTX-001-summary.md
   hop_mvp_mod_002_qa_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/catalog-test-configuration/MVP-MOD-002-QA-001-validation.md
   hop_mvp_mod_002_qa_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/catalog-test-configuration/MVP-MOD-002-QA-001-validation.yaml
   hop_mvp_mod_002_qa_001_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.md

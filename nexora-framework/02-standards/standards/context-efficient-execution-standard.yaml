@@ -1,0 +1,131 @@
+artifact:
+  id: NXF-STD-014
+  type: execution-standard
+  name: Context Efficient Execution and Local Orchestrator Standard
+  version: 1.0.0
+  status: approved
+  human_readable: context-efficient-execution-standard.md
+  machine_readable: context-efficient-execution-standard.yaml
+  owner: Nexora Engineering
+
+purpose: >-
+  Minimize commercial model token consumption while preserving delivery quality, closure evidence
+  and agent-agnostic execution. Local preprocessing can summarize, route and compress context, but
+  must never become a hard dependency on a specific proprietary agent or cloud runtime.
+
+principles:
+  agent_agnostic: true
+  local_orchestration_optional_but_preferred: true
+  commercial_prompt_budget_target_tokens: 300_to_600
+  no_quality_degradation_allowed: true
+  no_named_agent_dependency_allowed: true
+  lazy_loading_required: true
+  memory_handoff_required: true
+
+local_orchestrator:
+  preferred_runtime: python
+  optional_model_runtime: ollama
+  suggested_models:
+    - llama3.2
+    - qwen2.5-coder
+  role: prompt_orchestrator_and_context_compressor
+  responsibilities:
+    - read the active backlog pointer
+    - inspect only relevant local file slices through ripgrep or targeted reads
+    - select the minimum relevant context files
+    - generate a synthetic prompt for the commercial execution agent
+    - produce a compact memory handoff after task closure
+  prohibited_responsibilities:
+    - replace mandatory quality gates
+    - skip executable validation
+    - require a specific cloud agent or proprietary runtime
+    - hide blockers or unresolved debt
+
+format_policy:
+  new_task_inputs:
+    preferred_format: markdown_with_yaml_frontmatter
+    frontmatter_scope: minimal_metadata_only
+    body_scope: concise_human_readable_task_instructions
+  new_handoffs:
+    required: true
+    filename_pattern: "<TASK_ID>-summary.md"
+    max_tokens: 200
+    required_sections:
+      - Status
+      - Cambios Clave
+      - Deuda Técnica Creada
+      - Siguiente Paso
+  compact_configuration:
+    preferred_formats:
+      - TOML
+      - compact_markdown_tables
+  existing_yaml:
+    status: legacy_supported_until_migrated
+    rule: >-
+      Existing YAML source artifacts remain valid and must not be deleted without a controlled
+      migration. New monolithic YAML task/state artifacts are discouraged; use Markdown with
+      minimal frontmatter unless automation requires structured YAML.
+    migration_required: true
+    debt_required_when_monolithic_yaml_remains: true
+
+lazy_loading:
+  root_path:
+    rule: Define ROOT_PATH once per generated prompt.
+    repetition_policy: Avoid repeating long absolute or relative paths.
+  file_loading:
+    preload_full_files: prohibited_unless_explicitly_required
+    required_method: targeted_inspection
+    allowed_tools:
+      - rg
+      - rg --files
+      - targeted read_file
+      - line-ranged file reads
+      - local python filters
+      - local semantic search when available
+  prompt_instructions:
+    - Ask the commercial agent to run targeted commands for the lines or sections it needs.
+    - Include pointers to files and handoffs, not pasted full file contents.
+    - Prefer the latest task summary over historical logs.
+
+local_context_processing:
+  search:
+    primary: ripgrep
+    optional_semantic:
+      vector_store: ChromaDB
+      embedding_model: all-MiniLM-L6-v2
+      status: optional
+  prompt_compression:
+    optional_tool: llmlingua
+    rule: Use only when available locally and when prompts exceed the budget target.
+  ollama_routing:
+    optional: true
+    rule: >-
+      Use a local Ollama model for routing, preliminary summaries or file selection when available.
+      If Ollama is unavailable, use deterministic local heuristics and register debt only when the
+      project explicitly requires local-model execution.
+
+synthetic_prompt_contract:
+  template: |
+    # TASK: [ID_TAREA] - [TITULO]
+    ROOT: [RUTA_BASE]
+
+    ## 1. Alcance / Objetivos Directos
+    - [Instrucciones concisas]
+
+    ## 2. Contexto Inmediato (Punteros)
+    - Ref: [handoff previo o archivo puntual]
+
+    ## 3. Entregables
+    - [Archivos a crear/modificar]
+    - Crear [TASK_ID]-summary.md con Status, Cambios Clave, Deuda Técnica Creada y Siguiente Paso.
+
+    ## 4. Criterios de Cierre
+    - [Status esperado]
+    - [Pruebas obligatorias]
+    - [Conventional Commit sugerido]
+
+closure_rules:
+  - Every task must produce a compact summary handoff.
+  - Responses must not consolidate the full historical execution log.
+  - Quality gates, security checks, coverage floors, stale-pointer sweeps and clean git status remain mandatory.
+  - If format migration is outside the selected backlog scope, register or update technical debt instead of silently ignoring it.

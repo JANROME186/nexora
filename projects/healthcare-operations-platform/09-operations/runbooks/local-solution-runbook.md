@@ -4,6 +4,16 @@ Before running commands, load the local toolchain inventory:
 
 `../../03-architecture/technology-architecture/local-toolchain-inventory.yaml`
 
+Before handing a backlog to a commercial execution agent, generate or review a compact prompt:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py `
+  --root C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora `
+  --task-id COM-MOD-017-BE-001 `
+  --title "Compile marketplace backend outputs" `
+  --summary-ref projects/healthcare-operations-platform/08-qa/handoffs/COM-MOD-017-DEF-summary.md
+```
+
 This is the single local runbook for starting, validating and stopping the Healthcare Operations
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.

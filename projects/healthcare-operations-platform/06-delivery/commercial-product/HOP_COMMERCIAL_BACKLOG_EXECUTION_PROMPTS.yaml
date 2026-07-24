@@ -11,7 +11,7 @@ artifact:
 
 rules:
   - These prompts are operational instructions only; source artifacts remain authoritative.
-  - Agents must load YAML files before Markdown when both exist.
+  - Agents must load YAML files before Markdown for legacy structured automation artifacts; agents must load compact Markdown handoffs first when a <TASK_ID>-summary.md exists.
   - Agents must not continue if BUSINESS_REQUIREMENT.md is missing.
   - Agents must not require a vendor-specific agent, runtime, prompt extension or configuration.
   - Agents must prefer open source, self-hostable and standards-based technologies unless an ADR approves an exception.
@@ -21,6 +21,10 @@ rules:
   - HOP cannot be marked commercially complete, GA-ready or finally closed while any technical debt item remains open.
   - Agents must run stack-appropriate checks for best practices, coding standards, duplicate code, complexity, OWASP or equivalent secure coding, dependency vulnerabilities across all severities, secrets, coverage and message externalization/i18n.
   - Agents must load 03-architecture/technology-architecture/local-toolchain-inventory.yaml before running build, test, quality, security or local runtime commands, and must use or update its tool paths instead of rediscovering them every iteration.
+  - Agents should use nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py before handing a backlog to a commercial execution agent, when local Python is available.
+  - Agents must use lazy loading for continuation context: prefer the latest <TASK_ID>-summary.md handoff, then inspect only relevant lines with rg or targeted reads; do not paste complete YAML/MD files into prompts unless explicitly required.
+  - New task handoffs must be Markdown with minimal YAML frontmatter and must stay under 200 tokens where practical.
+  - New monolithic YAML task/state artifacts are discouraged; existing YAML remains supported until migrated through registered technical debt.
   - If a required quality category applies to a changed stack but HOP lacks an executable script, plugin or tool configuration, the agent must create or update technical debt before closure; "if configured", "if scripts exist" and undocumented not-applicable dispositions are not valid closure evidence.
   - Agents must target at least 80 percent line coverage for every applicable delivered stack. If a stack is below 80 percent during an intermediate iteration, the previous measured coverage is the hard lower bound and coverage must never decrease.
   - If a changed stack remains below 80 percent line coverage, agents must target a 3 to 5 percentage point improvement in that iteration; smaller improvements require explicit justification, maximum meaningful in-scope tests and immediate coverage debt.
@@ -50,7 +54,9 @@ required_context:
     - ../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
     - ../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml
     - ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+    - ../../../../nexora-framework/02-standards/standards/context-efficient-execution-standard.yaml
     - ../../../../nexora-framework/02-standards/standards/enterprise-product-foundation-standard.yaml
+    - ../../../../nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.yaml
     - ../../../../nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
     - ../../../../nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
   project_level:
@@ -83,6 +89,8 @@ prompt_sequence:
       - execution_plan
     prompt: |
       Load the HOP project state and HOP commercial product backlog.
+      Prefer the latest compact handoff under ../../08-qa/handoffs/ when it exists.
+      Use targeted rg/read operations for only the active backlog lines; do not preload whole registries into the commercial prompt.
       Select the next executable backlog item by dependency order.
       If any dependency is incomplete, stop and report the exact blocker.
       If the selected item changes code, load 08-qa/technical-debt/technical-debt-index.yaml and include the required debt-first action in the execution plan.
@@ -118,7 +126,7 @@ prompt_sequence:
       Place each package under 01-product-definition/business-capabilities/packages/.
       Do not implement code during this step.
       Do not manually define CRUD, DTO, controller, repository, SDK, Swagger, repetitive documentation or repetitive test artifacts as implementation work; capture them in generation-plan.yaml as generated outputs.
-      Every machine-executable artifact must be YAML when applicable, with Markdown as the human companion.
+      Existing machine-executable YAML remains valid. New task handoffs must be Markdown with minimal frontmatter; new structured artifacts may use YAML only when automation requires it.
 
   - id: HOP-COM-PROMPT-003
     name: Validate capability package models
@@ -158,6 +166,7 @@ prompt_sequence:
       - registry_updates
     prompt: |
       Implement only the selected backlog item.
+      If preparing work for another execution agent, first generate a compact prompt using the local context orchestrator when available.
       Load the selected Capability Package models first and follow existing project implementation patterns.
       Before feature work, load ../../08-qa/technical-debt/technical-debt-index.yaml and resolve or materially reduce at least one open debt item using the framework selection order. If no open debt exists, record that explicitly in evidence.
       Determine whether the current HOP phase requires higher debt burn-down intensity. Early MVP work reduces at least one relevant debt item; module closeout, release preparation and late commercial work must reduce multiple relevant items when open debt remains.
@@ -180,6 +189,7 @@ prompt_sequence:
       Do not close the backlog item with unresolved vulnerabilities of any severity, missing duplicate/complexity/OWASP analysis, missing required validation tooling without registered technical debt, coverage below the previous iteration baseline, missing debt-first action, or unexternalized user-facing messages/magic strings unless an immediate accepted-risk/debt disposition exists with owner and target backlog.
       Write security quality evidence under 08-qa/security-quality/<selected-backlog-item-id>/.
       Write QA evidence under 08-qa and update PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml.
+      Write 08-qa/handoffs/<selected-backlog-item-id>-summary.md with Status, Cambios Clave, Deuda Técnica Creada y Siguiente Paso. Keep it compact and do not duplicate the full execution log.
       Before closure, reconcile every backlog pointer and status registry that references the
       current or next backlog item, including PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml,
       HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml, affected capability traceability.yaml files,

@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: "COM-MOD-017-DEF completed. Product Marketplace and Extension Packaging capability package models are defined, BCM-PLT-011 was created with marketplace package, offer, entitlement, installation, upgrade, security, support and telemetry models, reused platform capabilities were traced, all 6 coverage floors were preserved, and active backlog advanced to COM-MOD-017-BE-001."
+current_phase: "NXF-CTX-001 completed. Nexora Framework now includes context-efficient execution, optional Python/Ollama prompt orchestration, lazy-loading and compact memory handoff standards; HOP was updated with TD-FMT-001 and compact handoffs while preserving active backlog COM-MOD-017-BE-001."
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -18,6 +18,7 @@ framework:
     - nexora-framework/02-standards/standards/product-marketplace-standard.yaml
     - nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
     - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+    - nexora-framework/02-standards/standards/context-efficient-execution-standard.yaml
     - nexora-framework/02-standards/standards/stack-market-and-toolchain-quality-standard.yaml
     - nexora-framework/02-standards/standards/framework-feedback-proposal-standard.yaml
   orchestration:
@@ -133,6 +134,7 @@ projects:
     structure: ordered_numbered_folders
 next_deliverables:
   - Execute COM-MOD-017-BE-001 Product Marketplace and Extension Packaging backend generated outputs
+  - Use context-efficient prompt orchestration and compact handoff summaries for future backlog delegation
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake

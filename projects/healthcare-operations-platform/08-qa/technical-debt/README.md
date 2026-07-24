@@ -7,6 +7,11 @@ quality alignment items can block functional development until remediated or exp
 Agents must review technology debt during every code-changing backlog item, module closeout and
 release readiness gate. The initial stack is the current baseline, not a permanent constraint.
 
+Context-efficient execution adds one extra format rule: new task handoffs should be compact
+Markdown with minimal frontmatter. Existing YAML remains supported until migrated, but monolithic
+YAML task/state artifacts must be tracked as format migration debt (`TD-FMT-001`) when they are
+touched.
+
 When a better open source, safer, more maintainable or more cost-effective option is detected,
 register or update a debt item here. If the finding affects mandatory quality gates, vulnerability
 evidence, message externalization, DAST or safe development, promote it to blocking or immediate

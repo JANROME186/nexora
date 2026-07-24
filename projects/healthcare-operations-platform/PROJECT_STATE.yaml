@@ -2,9 +2,10 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: "COM-MOD-017-DEF completed. Product Marketplace and Extension Packaging capability package models are defined, BCM-PLT-011 was created with marketplace package, offer, entitlement, installation, upgrade, security, support and telemetry models, reused platform capabilities were traced, all 6 coverage floors were preserved, and active backlog advanced to COM-MOD-017-BE-001."
+current_phase: "NXF-CTX-001 completed. HOP now references Nexora context-efficient execution, optional Python/Ollama prompt orchestration, lazy-loading and compact memory handoff standards; TD-FMT-001 tracks the gradual legacy YAML migration. Active backlog remains COM-MOD-017-BE-001."
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
+  - NXF-CTX-001 Context efficient execution framework update (Nexora standard, prompt playbook, Python/Ollama orchestrator, HOP toolchain/runbook integration, compact handoffs and TD-FMT-001 migration debt created; active functional backlog remains COM-MOD-017-BE-001)
   - COM-MOD-017-DEF Product Marketplace and Extension Packaging capability package models (BCM-PLT-011 created under capability packages with standard capability artifacts plus marketplace package, manifest, offer, license, entitlement, compatibility, installation, upgrade, security review, support and telemetry models; BCM-PLT-001/002/005/006/007/009 traceability extended for marketplace enablement; evidence at 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.yaml and 08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.yaml; advanced active backlog to COM-MOD-017-BE-001)
   - COM-MOD-016-CLOSEOUT Commercial Launch and Customer Enablement closeout (all 7 capability packages BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008 marked module_closed in capability-package-index.yaml and traceability.yaml files; TD-QA-008 kept open non-blocking; closeout evidence at 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-CLOSEOUT-validation.yaml and 08-qa/security-quality/COM-MOD-016-CLOSEOUT/security-quality-evidence.yaml; advanced active backlog to COM-MOD-017-DEF)
   - COM-MOD-016-QA-001 Commercial readiness validation (validated capability packages, onboarding guides, governance specifications and commercial launch assets for completeness, traceability and consistency; fixed 4 stale-pointer/registry defects; registered TD-QA-008; evidence at 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-QA-001-validation.yaml and 08-qa/security-quality/COM-MOD-016-QA-001/security-quality-evidence.yaml)
@@ -487,6 +488,10 @@ development_readiness:
   business_requirement_to_yaml_prompt_ready: true
   business_requirement_versioning_ready: true
   open_source_first_security_quality_ready: true
+  context_efficient_execution_ready: true
+  local_orchestrator_prompt_generation_ready: true
+  memory_handoff_required: true
+  lightweight_task_format_transition_required: true
   enterprise_product_foundation_standard_ready: true
   enterprise_product_foundation_alignment_required: true
   enterprise_product_foundation_alignment_status: closed

@@ -1,5 +1,18 @@
 # HOP Local Toolchain Inventory
 
+Context orchestration is now supported through the framework Python helper:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py `
+  --root C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora `
+  --task-id <TASK_ID> `
+  --title "<TITLE>"
+```
+
+Ollama is optional. When present, it may compress or route context locally with models such as
+`llama3.2` or `qwen2.5-coder`. When absent, agents must use the deterministic Python fallback and
+continue without creating a vendor-specific dependency.
+
 **Machine-readable source:** `local-toolchain-inventory.yaml`  
 **Status:** Active  
 **Last verified:** 2026-07-23

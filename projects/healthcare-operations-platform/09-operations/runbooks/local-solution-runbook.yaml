@@ -8,6 +8,8 @@ artifact:
   machine_readable: local-solution-runbook.yaml
   standard: ../../../../nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml
   local_toolchain_inventory: ../../03-architecture/technology-architecture/local-toolchain-inventory.yaml
+  context_orchestrator: ../../../../nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py
+  context_optimized_prompt_playbook: ../../../../nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.yaml
   owner: Nexora Engineering
 
 project:
@@ -21,6 +23,17 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
+    backlog_item: NXF-CTX-001
+    status: closed
+    next_active_backlog_item: COM-MOD-017-BE-001
+    runtime_change: >-
+      None. Framework and HOP documentation/tooling standard update. No product runtime component,
+      port, environment variable, database schema, Docker service, dependency or startup-order change.
+    validation_summary: >-
+      Added context-efficient execution standard, optional Python/Ollama prompt orchestrator,
+      compact handoff protocol and TD-FMT-001 for gradual YAML monolith migration. Preserved the
+      active HOP backlog item COM-MOD-017-BE-001.
+  previous_runbook_update_com_mod_017_def:
     backlog_item: COM-MOD-017-DEF
     status: closed
     next_active_backlog_item: COM-MOD-017-BE-001

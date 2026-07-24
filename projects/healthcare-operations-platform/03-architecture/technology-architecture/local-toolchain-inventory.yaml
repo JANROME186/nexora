@@ -169,6 +169,23 @@ tools:
       - python --version
       - python -c "from pathlib import Path; import yaml; [yaml.safe_load(p.read_text(encoding='utf-8')) for p in Path('.').rglob('*.yaml') if not any(part in {'.git','node_modules','target','dist','build'} for part in p.parts)]; print('YAML OK')"
     status: available
+  - id: ollama
+    category: optional_local_llm_runtime
+    executable_name: ollama
+    path: resolved_from_current_shell_with_Get-Command_ollama
+    version: verify_locally
+    required_for: [optional_context_orchestration, optional_prompt_compression]
+    detection_command: Get-Command ollama
+    version_command: ollama --version
+    generic_commands:
+      - ollama --version
+      - ollama list
+      - ollama run llama3.2
+      - ollama run qwen2.5-coder
+    status: optional
+    notes:
+      - Ollama is preferred for zero-cost local prompt routing and compression, but HOP execution must not depend on it.
+      - If unavailable, use the Python context orchestrator deterministic fallback and do not block backlog execution.
 
 command_templates:
   backend_java_maven:
@@ -235,6 +252,10 @@ command_templates:
   yaml_validation:
     working_directory: C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora
     parse_project_yaml: python -c "from pathlib import Path; import yaml; [yaml.safe_load(p.read_text(encoding='utf-8')) for p in Path('projects/healthcare-operations-platform').rglob('*.yaml') if not any(part in {'.git','node_modules','target','dist','build'} for part in p.parts)]; print('HOP YAML OK')"
+  context_orchestration:
+    working_directory: C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora
+    generate_compact_prompt: python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py --root C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora --task-id <TASK_ID> --title "<TITLE>"
+    optional_ollama_model: llama3.2
 
 maintenance_policy:
   update_required_when:
