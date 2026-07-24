@@ -13,7 +13,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-016-DOC-001
+  current_active_backlog_item: COM-MOD-016-OPS-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -21,6 +21,17 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
+    backlog_item: COM-MOD-016-DOC-001
+    status: closed
+    next_active_backlog_item: COM-MOD-016-OPS-001
+    runtime_change: >-
+      None. Customer onboarding and configuration guides documentation backlog item. No new runtime
+      component, port, environment variable, database schema, Docker service or startup-order change.
+    validation_summary: >-
+      Formally closed COM-MOD-016-DOC-001. Produced 8 onboarding guides and specifications under
+      09-operations/onboarding/, preserved all 6 stack coverage floors, passed YAML parse, stale pointer sweep,
+      agent-agnostic scan, secrets scan and git diff --check clean. Advanced next active backlog item to COM-MOD-016-OPS-001.
+  previous_runbook_update_com_mod_016_def:
     backlog_item: COM-MOD-016-DEF
     status: closed
     next_active_backlog_item: COM-MOD-016-DOC-001

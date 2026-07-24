@@ -2,9 +2,10 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: "COM-MOD-016-DEF Capability Package Models for Commercial Launch and Customer Enablement completed and validated. All 7 capability packages (BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008) modeled and traced in capability-package-index.yaml and package registries. Ready for COM-MOD-016-DOC-001."
+current_phase: "COM-MOD-016-DOC-001 Customer onboarding and configuration guides completed and validated. Produced 8 MD and 8 YAML onboarding guides under 09-operations/onboarding/, preserved all 6 coverage floors, passed YAML parse, stale pointer sweep, agent-agnostic scan, secrets scan and git diff --check clean. Ready for COM-MOD-016-OPS-001."
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
+  - COM-MOD-016-DOC-001 Customer onboarding and configuration guides (ONB-GUIDE-001 through ONB-GUIDE-008, MD and YAML specification pairs created under 09-operations/onboarding/ covering customer/tenant onboarding lifecycle, org/lab/branch/user config, RBAC 27 permissions, regional localization es-MX/en-US, technical prerequisites, BCM-PLT-010 data ingestion, role training/human validation/acceptance, and L1-L3 support SLAs)
   - COM-MOD-016-DEF Commercial Launch and Customer Enablement capability package models (BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008 modeled and traced in capability-package-index.yaml and package registries)
   - COM-MOD-013 Advanced Quality and Compliance closeout (COM-MOD-013-CLOSEOUT; all 5 capability packages BCM-QLT-002, BCM-QLT-006, BCM-QLT-007, BCM-PLT-007, BCM-PLT-008 marked module_closed; TD-DB-005 and TD-QA-007 closed; TD-IAM-004 open non-blocking; DAST 939 backend / 125 portal URLs clean; all coverage floors preserved; advanced active backlog to COM-MOD-016-DEF)
   - High-Level Business Requirement
@@ -448,7 +449,7 @@ completed_deliverables:
     severities) reported 0 vulnerabilities/secrets/misconfigurations. Ready for
     COM-MOD-013-CLOSEOUT.
 next_deliverables:
-  - Execute COM-MOD-016-DOC-001 Customer onboarding and configuration guides
+  - Execute COM-MOD-016-OPS-001 Support, escalation and release governance
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -463,7 +464,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-016
   in_progress_module: COM-MOD-016
-  next_backlog_item: COM-MOD-016-DOC-001
+  next_backlog_item: COM-MOD-016-OPS-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true

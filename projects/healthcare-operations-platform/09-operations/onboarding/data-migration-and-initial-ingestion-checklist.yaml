@@ -1,0 +1,49 @@
+artifact:
+  id: HOP-ONB-GUIDE-006
+  type: data-migration-ingestion-specification
+  name: HOP Data Migration and Initial Ingestion Checklist Specification
+  version: 1.0.0
+  status: approved
+  human_readable: data-migration-and-initial-ingestion-checklist.md
+  machine_readable: data-migration-and-initial-ingestion-checklist.yaml
+  backlog_item: COM-MOD-016-DOC-001
+
+ingestion_capability: BCM-PLT-010
+supported_formats:
+  - CSV
+  - JSON
+  - NDJSON
+  - ZIP
+  - XLSX
+
+ingestion_sequence:
+  - category_1_master_reference_data
+  - category_2_organization_and_branch_structure
+  - category_3_user_accounts_and_doctors
+  - category_4_diagnostic_catalog
+  - category_5_patient_master_index
+  - category_6_inventory_baseline
+  - category_7_historical_diagnostic_results
+
+job_states:
+  - SUBMITTED
+  - VALIDATING
+  - DRY_RUN_COMPLETED
+  - COMMITTING
+  - COMPLETED
+  - FAILED
+
+verification_checks:
+  - manifest_checksum_verified
+  - dry_run_passed
+  - duplicate_detection_checked
+  - row_count_reconciliation_matched
+  - sample_verification_passed
+
+traceability:
+  capabilities:
+    - BCM-PLT-010
+    - BCM-PLT-008
+    - BCM-PLT-007
+  open_source_first: true
+  agent_agnostic: true

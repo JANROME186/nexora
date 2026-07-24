@@ -1044,6 +1044,7 @@ modules:
         status: closed
       - id: COM-MOD-016-DOC-001
         name: Customer onboarding and configuration guides
+        status: closed
       - id: COM-MOD-016-OPS-001
         name: Support, escalation and release governance
       - id: COM-MOD-016-COM-001

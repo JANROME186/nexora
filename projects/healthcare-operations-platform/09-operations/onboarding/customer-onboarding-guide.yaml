@@ -1,0 +1,44 @@
+artifact:
+  id: HOP-ONB-GUIDE-001
+  type: customer-onboarding-specification
+  name: HOP Customer and Tenant Onboarding Guide Specification
+  version: 1.0.0
+  status: approved
+  human_readable: customer-onboarding-guide.md
+  machine_readable: customer-onboarding-guide.yaml
+  backlog_item: COM-MOD-016-DOC-001
+
+tenant_provisioning_schema:
+  capability: BCM-ORG-001
+  endpoint: POST /api/platform/tenants
+  required_fields:
+    - code
+    - name
+    - legalName
+    - tradeName
+    - taxId
+    - tier
+    - isolationStrategy
+  valid_tiers:
+    - COMMERCIAL_STANDARD
+    - COMMERCIAL_ENTERPRISE
+  valid_isolation_strategies:
+    - DIS_SHARED_SCHEMA
+    - DIS_SCHEMA_PER_TENANT
+    - DIS_DATABASE_PER_TENANT
+
+status_transitions:
+  endpoint: PUT /api/platform/tenants/{tenantId}/status
+  valid_statuses:
+    - ACTIVE
+    - SUSPENDED
+    - TERMINATED
+  audit_required: true
+
+traceability:
+  capabilities:
+    - BCM-ORG-001
+    - BCM-PLT-002
+    - BCM-PLT-007
+  open_source_first: true
+  agent_agnostic: true

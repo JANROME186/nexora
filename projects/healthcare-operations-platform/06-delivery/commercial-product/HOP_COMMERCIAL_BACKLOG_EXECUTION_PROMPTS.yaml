@@ -245,11 +245,9 @@ validation_commands:
   git_whitespace:
     intent: Confirm no whitespace errors before commit.
     command_template: "Run repository whitespace validation before closing the item."
-
-next_backlog_item:
   module_id: COM-MOD-016
-  backlog_item_id: COM-MOD-016-DOC-001
-  name: Customer onboarding and configuration guides
+  backlog_item_id: COM-MOD-016-OPS-001
+  name: Support, escalation and release governance
   expected_folder: 08-qa/qa/commercial-launch-and-customer-enablement/
   paused_functional_backlog_item: null
   required_debt_first_action: null
@@ -264,12 +262,13 @@ next_backlog_item:
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
     - Preserve coverage floors: backend (84.25%), employee portal (89.75%), mobile (99.21%), patient portal (94.11%), doctor portal (96.28%), and public website (98.61%).
-    - COM-MOD-016 depends on MVP-MOD-008, COM-MOD-009, COM-MOD-010, COM-MOD-012 and COM-MOD-013, all closed; COM-MOD-016-DEF is closed.
-    - For COM-MOD-016-DOC-001, produce customer onboarding and initial configuration guides following open-source-first and agent-agnostic standards.
+    - COM-MOD-016 depends on MVP-MOD-008, COM-MOD-009, COM-MOD-010, COM-MOD-012 and COM-MOD-013, all closed; COM-MOD-016-DEF and COM-MOD-016-DOC-001 are closed.
+    - For COM-MOD-016-OPS-001, produce support, escalation and release governance documentation and runbooks.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-016-DEF
+    backlog_item_id: COM-MOD-016-DOC-001
     status: closed
     summary: >-
-      COM-MOD-016-DEF capability package models completed and validated. Modeled and traced all 7 capability
-      packages (BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008) in
-      capability-package-index.yaml and package registries. Advanced next_backlog_item to COM-MOD-016-DOC-001.
+      COM-MOD-016-DOC-001 customer onboarding and configuration guides completed and validated. Produced all 8
+      onboarding guides and specifications under 09-operations/onboarding/, preserved coverage floors across all 6 stacks,
+      passed YAML parse, stale pointer sweep, agent-agnostic scan, secrets scan and git diff --check clean.
+      Advanced next_backlog_item to COM-MOD-016-OPS-001.
