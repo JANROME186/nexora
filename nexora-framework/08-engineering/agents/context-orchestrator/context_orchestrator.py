@@ -54,7 +54,7 @@ def read_yaml(path: Path) -> dict:
     return data if isinstance(data, dict) else {}
 
 
-def infer_active_task(root: Path) -> tuple[str, str, list[str], str | None]:
+def infer_active_task(root: Path) -> tuple[str, str, list[str], str | None, dict]:
     prompt_data = read_yaml(root / DEFAULT_HOP_PROMPT_FILE)
     active_block = prompt_data
     validation_commands = prompt_data.get("validation_commands")
@@ -63,6 +63,7 @@ def infer_active_task(root: Path) -> tuple[str, str, list[str], str | None]:
     task_id = active_block.get("backlog_item_id")
     title = active_block.get("name")
     notes = active_block.get("mandatory_execution_notes") or []
+    coverage_floor = active_block.get("coverage_floor") or {}
     previous = active_block.get("previous_backlog_item") or {}
     summary_ref = None
     previous_id = previous.get("backlog_item_id") if isinstance(previous, dict) else None
@@ -72,7 +73,7 @@ def infer_active_task(root: Path) -> tuple[str, str, list[str], str | None]:
             summary_ref = candidate.relative_to(root).as_posix()
 
     if task_id and title:
-        return str(task_id), str(title), stringify_notes(notes), summary_ref
+        return str(task_id), str(title), stringify_notes(notes), summary_ref, coverage_floor if isinstance(coverage_floor, dict) else {}
 
     backlog_data = read_yaml(root / DEFAULT_HOP_BACKLOG_FILE)
     baseline = ((backlog_data.get("product") or {}).get("current_baseline") or {})
@@ -82,7 +83,7 @@ def infer_active_task(root: Path) -> tuple[str, str, list[str], str | None]:
         title = find_backlog_title(backlog_data, str(task_id)) or title
     if not task_id:
         raise SystemExit("Cannot infer active backlog item. Provide --task-id and --title.")
-    return str(task_id), title, [], summary_ref
+    return str(task_id), title, [], summary_ref, {}
 
 
 def stringify_notes(notes: object) -> list[str]:
@@ -151,6 +152,94 @@ def compact_lines(text: str, task_id: str, root: Path, limit: int = 8) -> list[s
     return (focused or lines)[:limit]
 
 
+def infer_workstream(task_id: str) -> str:
+    if "-BE-" in task_id:
+        return "backend"
+    if "-FE-" in task_id or "-WEB-" in task_id or "-PORTAL-" in task_id:
+        return "frontend"
+    if "-APP-" in task_id:
+        return "mobile"
+    if "-QA-" in task_id or task_id.endswith("-CLOSEOUT"):
+        return "quality"
+    return "definition"
+
+
+def relevant_coverage_floor(coverage_floor: dict, task_id: str) -> str | None:
+    workstream = infer_workstream(task_id)
+    key_by_workstream = {
+        "backend": "backend_java_maven_line_coverage_percent_if_backend_is_touched",
+        "frontend": "frontend_typescript_web_line_coverage_percent",
+        "mobile": "mobile_typescript_foundation_line_coverage_percent",
+    }
+    key = key_by_workstream.get(workstream)
+    if not key:
+        return None
+    value = coverage_floor.get(key)
+    if value is None:
+        return None
+    label = {
+        "backend": "Backend",
+        "frontend": "Frontend/Web",
+        "mobile": "App/Mobile",
+    }[workstream]
+    return f"{label} >= {value}%"
+
+
+def compact_title(title: str) -> str:
+    replacements = {
+        "Compile marketplace catalog, offer, entitlement and installation backend outputs": (
+            "Marketplace & Entitlements Backend Compilation"
+        )
+    }
+    return replacements.get(title, title)
+
+
+def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage_floor: dict) -> list[str]:
+    """Convert verbose source notes into a layer-aware Spanish checklist."""
+    workstream = infer_workstream(task_id)
+    coverage = relevant_coverage_floor(coverage_floor, task_id)
+    result: list[str] = []
+
+    if workstream == "backend":
+        result.append(
+            "Compilar outputs backend para marketplace catalog, package manifest, offer, "
+            "license plan, entitlement, installation y billing-adapter."
+        )
+    else:
+        result.append(f"Atender el backlog activo: {title}.")
+
+    result.append("Mantener ejecución agent-agnostic, sin dependencias propietarias de agentes o runtimes.")
+    if coverage:
+        result.append(f"Preservar piso de cobertura {coverage}.")
+    elif coverage_floor.get("final_target_percent") is not None:
+        result.append(f"Preservar o mejorar cobertura; objetivo final >= {coverage_floor['final_target_percent']}%.")
+    result.append("Revisar deuda técnica abierta y reducir al menos 1 item aplicable antes del feature work.")
+
+    gate_by_workstream = {
+        "backend": "Ejecutar gates backend obligatorios: Maven, Java, Docker/BD local, SAST, dependencias, cobertura y scans de seguridad.",
+        "frontend": "Ejecutar gates frontend obligatorios: typecheck, tests/cobertura, build, SAST, dependencias, i18n y scans de seguridad.",
+        "mobile": "Ejecutar gates app/mobile obligatorios: typecheck, tests/cobertura, build, SAST, dependencias, i18n y scans de seguridad.",
+        "quality": "Ejecutar gates de cierre, punteros, evidencias, deuda técnica, seguridad, cobertura y estado git.",
+        "definition": "Ejecutar gates documentales: YAML/MD parseable, trazabilidad, punteros, deuda técnica y estado git.",
+    }
+    result.append(gate_by_workstream.get(workstream, gate_by_workstream["definition"]))
+    result.append("No avanzar punteros si un gate obligatorio queda bloqueado o sin evidencia.")
+    return result
+
+
+def context_pointer_block(summary_ref: str | None) -> list[str]:
+    pointers: list[str] = []
+    if summary_ref:
+        pointers.append(f"Handoff previo: `{summary_ref}`")
+    pointers.extend(
+        [
+            "Modelos base: `projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/`",
+            "Prompts y estado: inspeccionar `projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml` y `projects/healthcare-operations-platform/PROJECT_STATE.yaml` bajo demanda.",
+        ]
+    )
+    return pointers
+
+
 def canonical_json(data: object) -> str:
     return json.dumps(data, ensure_ascii=True, sort_keys=True, separators=(",", ":"))
 
@@ -183,14 +272,17 @@ def build_canonical_context(
     context_lines: list[str],
     summary_ref: str | None,
     mandatory_notes: list[str],
+    coverage_floor: dict,
 ) -> dict:
     return {
         "root": root.as_posix(),
         "task_id": task_id,
         "title": title,
         "summary_ref": summary_ref,
-        "mandatory_notes": mandatory_notes[:8],
-        "context_lines": context_lines[:8],
+        "mandatory_notes": compact_mandatory_notes(task_id, title, mandatory_notes, coverage_floor),
+        "context_lines": context_pointer_block(summary_ref),
+        "coverage_floor": relevant_coverage_floor(coverage_floor, task_id),
+        "workstream": infer_workstream(task_id),
         "base_models_path": "projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
         "operational_prompt_path": "projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml",
         "qa_evidence_pattern": f"projects/healthcare-operations-platform/08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md/yaml",
@@ -234,6 +326,11 @@ def ollama_plan(context: dict, model: str, allow_fallback: bool) -> tuple[dict, 
     payload = {
         "model": model,
         "prompt": (
+            "SYSTEM RULES: DEDUPLICACION: if context contains repeated grep/search lines for the "
+            "same task id or state, keep only one file reference and never paste repeated matches. "
+            "RELEVANCIA: for backend tasks omit frontend/mobile-specific details unless directly "
+            "affected; for frontend tasks omit backend-only metrics unless directly affected. "
+            "IDIOMA UNIFICADO: produce all generated prompt content in Spanish only. "
             "Return only this JSON object shape with short arrays and no markdown: "
             "{\"objectives\":[],\"deliverables\":[],\"closure_criteria\":[]}. "
             "Use the provided canonical context. Do not invent files. Do not add vendor-agent "
@@ -315,42 +412,32 @@ def build_prompt(
     context_lines: list[str],
     summary_ref: str | None,
     mandatory_notes: list[str],
+    coverage_floor: dict,
     orchestration_mode: str = "ollama_primary",
 ) -> str:
-    pointer_block = "\n".join(f"- {line}" for line in context_lines[:16]) or "- Inspeccionar punteros activos con rg antes de editar."
-    if summary_ref:
-        pointer_block = f"- Handoff previo: {summary_ref}\n{pointer_block}"
-    notes_block = "\n".join(f"- {note}" for note in mandatory_notes[:8])
-    if not notes_block:
-        notes_block = "- Cargar el bloque activo del prompt operativo y ejecutar solo sus actividades."
+    pointer_block = "\n".join(f"- {line}" for line in context_pointer_block(summary_ref))
+    notes_block = "\n".join(f"- {note}" for note in compact_mandatory_notes(task_id, title, mandatory_notes, coverage_floor))
     return f"""# TASK: {task_id} - {title}
 ROOT: {root.as_posix()}
 ORCHESTRATION: {orchestration_mode}
 
 ## 1. Alcance / Objetivos Directos
-- Ejecutar solo el backlog activo.
-- Usar lazy loading: no pegar archivos completos; inspeccionar secciones puntuales con rg/read.
-- Mantener ejecucion agent-agnostic y validar deuda tecnica, calidad, seguridad, cobertura y punteros.
-- Actividades obligatorias:
 {notes_block}
 
 ## 2. Contexto Inmediato (Punteros)
 {pointer_block}
-- Modelos base: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/
-- Prompt operativo: projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
 
 ## 3. Entregables
-- Cambios del backlog activo y evidencias requeridas.
-- QA: projects/healthcare-operations-platform/08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md/yaml.
-- Security: projects/healthcare-operations-platform/08-qa/security-quality/{task_id}/security-quality-evidence.md/yaml.
-- Actualizar PROJECT_STATE, SOURCE_OF_TRUTH, backlog/prompts, runbook e indices aplicables.
-- Crear projects/healthcare-operations-platform/08-qa/handoffs/{task_id}-summary.md con Status, Cambios Clave, Deuda Tecnica Creada y Siguiente Paso.
+- Cambios {infer_workstream(task_id)} y tests asociados.
+- QA Evidence: `projects/healthcare-operations-platform/08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.[md|yaml]`
+- Security Evidence: `projects/healthcare-operations-platform/08-qa/security-quality/{task_id}/security-quality-evidence.[md|yaml]`
+- Transición: crear `projects/healthcare-operations-platform/08-qa/handoffs/{task_id}-summary.md`.
+- Actualizar `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, backlog/prompts, runbook e índices aplicables.
 
 ## 4. Criterios de Cierre
-- Gates obligatorios ejecutados o bloqueo formal sin avanzar punteros.
-- YAML/Markdown/frontmatter parseable segun aplique, git diff --check limpio.
-- Commit sugerido: feat(hop): compile marketplace backend outputs.
-- git status --short limpio si no hay bloqueantes.
+- Gates obligatorios ejecutados; YAML/MD parseables; `git diff --check` limpio.
+- Commit: `feat(hop): compile marketplace backend outputs`.
+- `git status --short` limpio si no hay bloqueantes.
 """
 
 
@@ -380,9 +467,9 @@ def main() -> int:
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
-    inferred_task_id, inferred_title, mandatory_notes, inferred_summary_ref = infer_active_task(root)
+    inferred_task_id, inferred_title, mandatory_notes, inferred_summary_ref, coverage_floor = infer_active_task(root)
     task_id = args.task_id or inferred_task_id
-    title = args.title or inferred_title
+    title = compact_title(args.title or inferred_title)
     summary_ref = args.summary_ref or inferred_summary_ref
     context = run_rg(root, args.paths, DEFAULT_PATTERNS)
     context_lines = compact_lines(context, task_id, root)
@@ -393,6 +480,7 @@ def main() -> int:
         context_lines,
         summary_ref,
         mandatory_notes,
+        coverage_floor,
     )
     context_hash = sha256_text(canonical_json(canonical_context))
     default_output_path, cache_path = cache_paths(root, task_id)
@@ -414,6 +502,7 @@ def main() -> int:
             context_lines,
             summary_ref,
             mandatory_notes,
+            coverage_floor,
             orchestration_mode,
         )
         if ollama_metadata:

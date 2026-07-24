@@ -24,6 +24,13 @@ incomplete unless the operator explicitly runs a diagnostic fallback.
 8. Send the compact prompt to the execution agent.
 9. At closure, write `<TASK_ID>-summary.md` with `Status`, `Cambios Clave`, `Deuda Técnica Creada` and `Siguiente Paso`.
 
+The renderer must deduplicate grep/search output before writing the final prompt. Repeated lines
+that only confirm the same task id, pointer or state must collapse into one file reference. The
+renderer must also filter context by workstream: a backend task includes backend coverage and
+backend gates, not unrelated mobile or portal coverage floors unless those components are directly
+changed. Generated prompts must use one language consistently; HOP commercial prompts are rendered
+in Spanish.
+
 ## Format Policy
 
 New task and handoff artifacts should use Markdown with minimal YAML frontmatter. Compact inventories or configuration may use TOML or Markdown tables.

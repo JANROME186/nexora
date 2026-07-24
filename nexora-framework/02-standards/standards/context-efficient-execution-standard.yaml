@@ -109,6 +109,10 @@ lazy_loading:
     - Ask the commercial agent to run targeted commands for the lines or sections it needs.
     - Include pointers to files and handoffs, not pasted full file contents.
     - Prefer the latest task summary over historical logs.
+    - Deduplicate grep or search output before prompt rendering; never paste repeated lines that only confirm the same task id, pointer or state.
+    - Keep only one reference per relevant source file when multiple matches point to the same source.
+    - Filter context by workstream; backend prompts must not include frontend, mobile or portal coverage floors unless those stacks are directly changed by the backlog.
+    - Render each generated prompt in one language consistently. HOP commercial backlog prompts use Spanish.
 
 local_context_processing:
   search:
@@ -119,7 +123,13 @@ local_context_processing:
       status: optional
   prompt_compression:
     optional_tool: llmlingua
-    rule: Use only when available locally and when prompts exceed the budget target.
+    rule: Always apply deterministic compression before persisting generated prompts.
+    required_cleanup:
+      - remove duplicate pointers
+      - remove repeated task-id confirmations
+      - remove repeated closure rules
+      - remove mixed-language bullets
+      - remove irrelevant cross-stack coverage details
   ollama_routing:
     required: true
     rule: >-
