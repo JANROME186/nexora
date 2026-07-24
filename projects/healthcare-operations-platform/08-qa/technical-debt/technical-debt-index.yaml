@@ -61,11 +61,17 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 84.14
-        source_evidence: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 84.14
+        current_line_coverage_percent: 84.24
+        source_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 84.24
         final_closure_target_percent: 80
         correction_note: >-
+          COM-MOD-013-QA-001 found the recorded 84.14% figure was not reproducible from a clean
+          rebuild (measured 82.57%); investigating that gap surfaced and closed TD-DB-005 (COM-MOD-013's
+          backend was silently using in-memory storage instead of PostgreSQL due to a missing
+          schema.sql registration compounded by inverted @Profile wiring on 4 JDBC/in-memory
+          repository pairs). After the fix, the reproducible clean-rebuild figure is 84.24% (381
+          tests, 0 failures/errors/skipped); the new floor is 84.24%.
           MVP-MOD-007-QA-001 raised backend line coverage to 78.42%. MVP-MOD-007-CLOSEOUT's
           TD-BE-010 fix added one real unit test for the new SampleReadPort-backed cancellation
           branch, raising it to 78.51% (211 tests, 0 failures/errors) with no regression.
@@ -96,11 +102,14 @@ policy:
           cross-cutting null-byte/oversized-value 500, TD-QA-005; an AuthController
           exception-advice scope gap, TD-QA-006); the new floor is 84.14%.
       frontend_typescript_web:
-        current_line_coverage_percent: 89.74
-        source_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-FE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 89.74
+        current_line_coverage_percent: 89.75
+        source_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 89.75
         final_closure_target_percent: 80
         correction_note: >-
+          COM-MOD-013-QA-001 fixed a hardcoded string and a function-size violation in
+          ComplianceEvidenceScreen.tsx, raising coverage from 89.74% to 89.75% (187 tests, 60
+          files, 0 failures); the new floor is 89.75%.
           MVP-MOD-007-CLOSEOUT found employee-portal coverage had regressed from the 84.44% floor
           to 84.03%: MVP-MOD-007-PORTAL-001 expanded laboratoryOperationsApi.ts and
           laboratoryResultMapper.ts (shared with the employee portal) without adding a dedicated
@@ -403,7 +412,8 @@ entries:
       further_reduced_by_MVP_MOD_008_BE_002_adding_a_first_class_messageKey_field_alongside_code_on_every_BCM_PLT_004_005_010_error_response_with_es_MX_en_US_catalog_entries_for_every_code;
       further_reduced_by_COM_MOD_009_PORTAL_002_replacing_the_doctor_portal_wrong_domain_locale_catalog_with_a_complete_correct_doctor_domain_catalog;
       further_reduced_by_COM_MOD_012_BE_001_organizationmanagement_error_and_platformconfiguration_error_i18n_namespaces;
-      further_reduced_by_COM_MOD_013_FE_001_AuditEventsScreen_hardcoded_string_retrofit_and_advancedQualityCompliance_i18n_namespaces
+      further_reduced_by_COM_MOD_013_FE_001_AuditEventsScreen_hardcoded_string_retrofit_and_advancedQualityCompliance_i18n_namespaces;
+      further_reduced_by_COM_MOD_013_QA_001_ComplianceEvidenceScreen_hardcoded_status_column_header_retrofit
   - id: TD-FE-006
     title: Employee portal is missing dedicated Appointment Scheduling, Admission Management and Quotation Management UI
     status: open
@@ -642,7 +652,9 @@ entries:
     remediation_strategy: >-
       preferred_remediation_pattern_implemented_and_proven_on_11_com_mod_010_screens_in
       COM-MOD-010-FE-001;_COM-MOD-013-FE-001_added_tests_and_boundaries_but_lint_still_reports
-      non_blocking_long_function_warnings_for_new_and_legacy_admin_screens;_continue_component
+      non_blocking_long_function_warnings_for_new_and_legacy_admin_screens;_COM-MOD-013-QA-001
+      extracted_DocumentsSection_from_ComplianceEvidenceScreen_bringing_it_under_the_120_line
+      threshold_51_to_50_warnings;_continue_component
       extraction_when_employee_portal_admin_screens_are_next_touched
   - id: TD-BE-016
     title: BCM-PLT-007 searchAuditEvents/exportAuditEvents openapi-source.yaml operations not fully compiled
@@ -702,3 +714,23 @@ entries:
     affected_area: identityaccess_exception_advice_scope
     file: 08-qa/technical-debt/TD-QA-006-authcontroller-not-found-exception-unmapped-500.yaml
     remediation_strategy: closed_by_COM_MOD_012_QA_001_widened_exception_advice_assignableTypes
+  - id: TD-DB-005
+    title: COM-MOD-013 quality/compliance backend silently used in-memory storage instead of PostgreSQL
+    status: closed
+    risk_level: high
+    blocking: false
+    source_backlog_item: COM-MOD-013-QA-001
+    affected_area: external_quality_capa_audit_and_quality_event_intake_persistence
+    file: 08-qa/technical-debt/TD-DB-005-quality-compliance-persistence-never-wired.yaml
+    remediation_strategy: >-
+      closed_by_COM_MOD_013_QA_001_schema_sql_registration_and_inverted_Profile_wiring_correction
+  - id: TD-IAM-004
+    title: External Quality/CAPA/Audit/Document-Management controllers assign a synthetic random
+      TenantId instead of the authenticated request tenant
+    status: open
+    risk_level: medium
+    blocking: false
+    source_backlog_item: COM-MOD-013-QA-001
+    affected_area: quality_compliance_and_document_management_tenant_traceability
+    file: 08-qa/technical-debt/TD-IAM-004-quality-compliance-controllers-synthetic-tenant.yaml
+    remediation_strategy: gradual_when_a_shared_tenant_context_port_is_next_designed_or_when_these_controllers_are_next_touched

@@ -1,7 +1,7 @@
 package com.nexora.hop.platformfoundation.externalqualitycompliance.application;
 
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.CapaInvestigation;
-import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.ExternalQualityComplianceException;
+import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.ExternalQualityDomainException;
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.ExternalQualityEvaluation;
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.ExternalQualityEvaluationRepository;
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.events.ExternalQualityEvaluationScoredEvent;
@@ -58,7 +58,7 @@ public class ExternalQualityService {
 
     public ExternalQualityEvaluation getEvaluation(UUID evaluationId) {
         return repository.findById(evaluationId)
-                .orElseThrow(() -> new ExternalQualityComplianceException("EQA_NOT_FOUND", "quality.error.evaluation_not_found", "External quality evaluation not found with ID: " + evaluationId));
+                .orElseThrow(() -> new ExternalQualityDomainException("EQA_NOT_FOUND", "quality.error.evaluation_not_found", "External quality evaluation not found with ID: " + evaluationId));
     }
 
     public List<ExternalQualityEvaluation> listEvaluations(String programCode, String rating) {

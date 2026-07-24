@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class CapaInvestigation {
+public final class CapaInvestigation {
 
     public enum Status {
         INITIATED,
@@ -70,10 +70,10 @@ public class CapaInvestigation {
             LocalDate targetCompletionDate,
             AuditMetadata audit) {
         if (title == null || title.isBlank()) {
-            throw new ExternalQualityComplianceException("CAPA_TITLE_REQUIRED", "quality.error.capa_title_required", "CAPA title is required");
+            throw new ExternalQualityDomainException("CAPA_TITLE_REQUIRED", "quality.error.capa_title_required", "CAPA title is required");
         }
         if (assignedInvestigatorId == null) {
-            throw new ExternalQualityComplianceException("CAPA_INVESTIGATOR_REQUIRED", "quality.error.investigator_required", "Assigned investigator ID is required");
+            throw new ExternalQualityDomainException("CAPA_INVESTIGATOR_REQUIRED", "quality.error.investigator_required", "Assigned investigator ID is required");
         }
 
         this.capaId = capaId != null ? capaId : UUID.randomUUID();
@@ -122,7 +122,7 @@ public class CapaInvestigation {
 
     public void recordRca(String rootCauseMethodology, String rootCauseSummary, AuditMetadata updateAudit) {
         if (rootCauseSummary == null || rootCauseSummary.isBlank()) {
-            throw new ExternalQualityComplianceException("CAPA_RCA_SUMMARY_REQUIRED", "quality.error.rca_summary_required", "RCA summary is required");
+            throw new ExternalQualityDomainException("CAPA_RCA_SUMMARY_REQUIRED", "quality.error.rca_summary_required", "RCA summary is required");
         }
         this.rootCauseMethodology = rootCauseMethodology != null ? rootCauseMethodology.trim() : "5_WHY";
         this.rootCauseSummary = rootCauseSummary.trim();
@@ -132,7 +132,7 @@ public class CapaInvestigation {
 
     public void approveActionPlan(AuditMetadata updateAudit) {
         if (this.status != Status.RCA_COMPLETED && this.status != Status.INITIATED) {
-            throw new ExternalQualityComplianceException("CAPA_INVALID_STATE_FOR_APPROVAL", "quality.error.invalid_state_approval", "CAPA cannot be approved from state: " + this.status);
+            throw new ExternalQualityDomainException("CAPA_INVALID_STATE_FOR_APPROVAL", "quality.error.invalid_state_approval", "CAPA cannot be approved from state: " + this.status);
         }
         this.status = Status.PLAN_APPROVED;
         if (updateAudit != null) this.audit = updateAudit;
@@ -140,7 +140,7 @@ public class CapaInvestigation {
 
     public void verifyEffectiveness(EffectivenessRating rating, String closureNotes, AuditMetadata updateAudit) {
         if (rating == null || rating == EffectivenessRating.NONE) {
-            throw new ExternalQualityComplianceException("CAPA_RATING_REQUIRED", "quality.error.effectiveness_rating_required", "Effectiveness rating is required");
+            throw new ExternalQualityDomainException("CAPA_RATING_REQUIRED", "quality.error.effectiveness_rating_required", "Effectiveness rating is required");
         }
         this.effectivenessRating = rating;
         this.closureNotes = closureNotes != null ? closureNotes.trim() : "";

@@ -7,7 +7,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class QualityEventIntake {
+public final class QualityEventIntake {
 
     private final UUID eventId;
     private final TenantId tenantId;
@@ -34,10 +34,10 @@ public class QualityEventIntake {
             Instant ingestedAt,
             AuditMetadata audit) {
         if (sourceSystem == null || sourceSystem.isBlank()) {
-            throw new ExternalQualityComplianceException("EVENT_SOURCE_REQUIRED", "quality.error.event_source_required", "Source system is required");
+            throw new ExternalQualityDomainException("EVENT_SOURCE_REQUIRED", "quality.error.event_source_required", "Source system is required");
         }
         if (eventType == null || eventType.isBlank()) {
-            throw new ExternalQualityComplianceException("EVENT_TYPE_REQUIRED", "quality.error.event_type_required", "Event type is required");
+            throw new ExternalQualityDomainException("EVENT_TYPE_REQUIRED", "quality.error.event_type_required", "Event type is required");
         }
 
         this.eventId = eventId != null ? eventId : UUID.randomUUID();

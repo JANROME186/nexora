@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class AuditSchedule {
+public final class AuditSchedule {
 
     public enum Status {
         PLANNED,
@@ -53,10 +53,10 @@ public class AuditSchedule {
             LocalDate plannedEndDate,
             AuditMetadata audit) {
         if (title == null || title.isBlank()) {
-            throw new ExternalQualityComplianceException("AUDIT_TITLE_REQUIRED", "quality.error.audit_title_required", "Audit title is required");
+            throw new ExternalQualityDomainException("AUDIT_TITLE_REQUIRED", "quality.error.audit_title_required", "Audit title is required");
         }
         if (leadAuditorId == null) {
-            throw new ExternalQualityComplianceException("AUDIT_LEAD_AUDITOR_REQUIRED", "quality.error.lead_auditor_required", "Lead auditor ID is required");
+            throw new ExternalQualityDomainException("AUDIT_LEAD_AUDITOR_REQUIRED", "quality.error.lead_auditor_required", "Lead auditor ID is required");
         }
 
         this.auditId = auditId != null ? auditId : UUID.randomUUID();

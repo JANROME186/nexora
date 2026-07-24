@@ -54,8 +54,17 @@ traces:
     compilation_status: closed
     frontend_compilation: COM-MOD-013-FE-001
     frontend_compilation_status: closed
-    next_validation: COM-MOD-013-QA-001
+    validation: COM-MOD-013-QA-001
+    validation_status: closed
+    closeout: COM-MOD-013-CLOSEOUT
+    closeout_status: pending
     history:
+      - backlog_item: COM-MOD-013-QA-001
+        status: closed
+        note: >-
+          Traceability re-validated: openapi-source.yaml operations match ExternalQualityController,
+          permissions.yaml matches EndpointPermissionRegistry, ui-model.yaml matches
+          ExternalQualityControlsScreen. No BCM-QLT-002-specific defect found.
       - backlog_item: COM-MOD-013-FE-001
         status: closed
         note: ExternalQualityControlsScreen compiled with IAM, i18n, tests and security-quality evidence.

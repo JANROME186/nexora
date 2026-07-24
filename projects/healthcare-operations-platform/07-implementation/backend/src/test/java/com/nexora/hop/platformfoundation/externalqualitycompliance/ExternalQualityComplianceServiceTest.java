@@ -11,7 +11,7 @@ import com.nexora.hop.platformfoundation.externalqualitycompliance.application.Q
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.AuditFinding;
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.AuditSchedule;
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.CapaInvestigation;
-import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.ExternalQualityComplianceException;
+import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.ExternalQualityDomainException;
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.ExternalQualityEvaluation;
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.QualityEventIntake;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
@@ -213,12 +213,12 @@ class ExternalQualityComplianceServiceTest {
     @Test
     void testValidationErrorsHandling() {
         assertThatThrownBy(() -> eqaService.createEvaluation(randomTenant(), "", "PROG", "Q1", UUID.randomUUID(), "S1", 10.0, null))
-                .isInstanceOf(ExternalQualityComplianceException.class);
+                .isInstanceOf(ExternalQualityDomainException.class);
 
         assertThatThrownBy(() -> capaService.createCapa(randomTenant(), "", "CAT", "REF", UUID.randomUUID(), null, null))
-                .isInstanceOf(ExternalQualityComplianceException.class);
+                .isInstanceOf(ExternalQualityDomainException.class);
 
         assertThatThrownBy(() -> auditService.createAuditSchedule(randomTenant(), "", "CAT", "STD", UUID.randomUUID(), null, null, null))
-                .isInstanceOf(ExternalQualityComplianceException.class);
+                .isInstanceOf(ExternalQualityDomainException.class);
     }
 }

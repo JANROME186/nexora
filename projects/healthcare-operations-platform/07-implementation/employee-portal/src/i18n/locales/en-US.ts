@@ -629,6 +629,7 @@ export const enUS: MessageCatalog = {
       exportId: "Export ID",
       recordCount: "Records exported",
       exportedAt: "Exported at",
+      status: "Status",
       documentsHeading: "Compliance documents",
       fileName: "File name",
       storedAt: "Stored at",

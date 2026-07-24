@@ -13,7 +13,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-013-QA-001
+  current_active_backlog_item: COM-MOD-013-CLOSEOUT
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -21,6 +21,28 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
+    backlog_item: COM-MOD-013-QA-001
+    status: closed
+    next_active_backlog_item: COM-MOD-013-CLOSEOUT
+    runtime_change: >-
+      Real fix, not additive: `application-local.yml`'s `spring.sql.init.schema-locations` was
+      missing `classpath:db/external-quality-and-compliance/schema.sql` (added). This was
+      compounded by an inverted `@Profile` on the 4 externalqualitycompliance JDBC/in-memory
+      repository pairs (corrected to `@Profile("local")` / `@Profile("!local")`, matching every
+      other module's convention). Together these meant the local backend previously started fine
+      but silently persisted External Quality/CAPA/Audit/Quality-Event-Intake data in memory only
+      -- lost on every restart -- instead of to hop-local-postgres. No new component, port,
+      environment variable, Docker service or startup-order change; existing schema-locations
+      mechanism now correctly covers this module's tables.
+    validation_summary: >-
+      Completed COM-MOD-013-QA-001 clean. Found and closed TD-DB-005 (the persistence defect
+      above); backend coverage rose from a clean-rebuild 82.57% to 84.24% (381 tests, 0
+      failures/errors/skipped). Fixed 2 SpotBugs High and 5 Medium findings; employee-portal
+      coverage 89.74% -> 89.75% (187 tests, 60 files, 0 failures, lint warnings 51 -> 50). OWASP
+      Dependency-Check (72 deps), npm audit and Trivy (backend/employee-portal/repo-wide, all
+      severities) reported 0 vulnerabilities/secrets/misconfigurations. Registered new debt
+      TD-IAM-004. Advanced next active backlog item to COM-MOD-013-CLOSEOUT.
+  previous_runbook_update_com_mod_013_fe_001:
     backlog_item: COM-MOD-013-FE-001
     status: closed
     next_active_backlog_item: COM-MOD-013-QA-001

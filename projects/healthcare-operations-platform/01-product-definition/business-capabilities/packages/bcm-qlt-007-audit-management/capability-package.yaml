@@ -49,8 +49,8 @@ scope:
 roadmap:
   module: COM-MOD-013
   release: REL-003
-  package_status: compiled
-  next_backlog_item: COM-MOD-013-QA-001
+  package_status: validated
+  next_backlog_item: COM-MOD-013-CLOSEOUT
   paused_functional_backlog_item: null
 
 dependencies:

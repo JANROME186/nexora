@@ -1,0 +1,88 @@
+artifact:
+  id: TD-DB-005
+  type: technical-debt-item
+  name: COM-MOD-013 quality/compliance backend silently used in-memory storage instead of PostgreSQL
+  version: 1.0.0
+  status: closed
+  created_date: 2026-07-24
+
+source:
+  discovered_during_backlog_item: COM-MOD-013-QA-001
+  module: COM-MOD-013 Advanced Quality and Compliance
+  evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
+
+classification:
+  category: persistence_wiring_defect
+  affected_area: external_quality_capa_audit_and_quality_event_intake_persistence
+  affected_components:
+    - db/external-quality-and-compliance/schema.sql (not registered)
+    - externalqualitycompliance.adapter.out.jdbc.JdbcAuditScheduleRepository
+    - externalqualitycompliance.adapter.out.jdbc.JdbcCapaInvestigationRepository
+    - externalqualitycompliance.adapter.out.jdbc.JdbcExternalQualityEvaluationRepository
+    - externalqualitycompliance.adapter.out.jdbc.JdbcQualityEventIntakeRepository
+  risk_level: high
+  urgency: high
+  blocking: false
+  reason_non_blocking: >-
+    Found and fully fixed within this same backlog item before closure; not left open.
+
+current_state_before_fix:
+  issue_1: >-
+    `application-local.yml`'s `spring.sql.init.schema-locations` list registers every other
+    module's `db/<module>/schema.sql` (platform-foundation, catalog-test-configuration, ...,
+    inventory-and-internal-quality, platform-hardening-and-saas-operations) but never included
+    `db/external-quality-and-compliance/schema.sql`, so the tables backing BCM-QLT-002/006/007
+    (external_quality_evaluations, capa_investigations, audit_schedules, audit_findings,
+    quality_event_intakes) were never created in the local PostgreSQL database.
+  issue_2: >-
+    Independently, the 4 real JDBC repository implementations
+    (JdbcAuditScheduleRepository/JdbcCapaInvestigationRepository/
+    JdbcExternalQualityEvaluationRepository/JdbcQualityEventIntakeRepository) were annotated
+    `@Profile("!local & !test")` and their in-memory counterparts `@Profile("local | test")` --
+    the inverse of the convention used by every other already-validated module in this codebase
+    (e.g. inventoryquality's Jdbc*Repository classes use `@Profile("local")`, in-memory use
+    `@Profile("!local")`). This meant the real JDBC adapters were unreachable in the "local"
+    profile (real local development and this project's own local-db-tests) regardless of issue 1,
+    masking issue 1 entirely: the app never attempted the missing-table INSERT because the
+    in-memory repository was always selected instead.
+  combined_effect: >-
+    Every External Quality Control, CAPA, Audit Management and Quality Event Intake record created
+    through the running local backend was silently stored in a process-local in-memory map, never
+    in PostgreSQL -- lost on every restart -- directly contradicting this module's own acceptance
+    criterion "Compliance evidence is traceable, searchable and retained." This also explains why
+    `externalqualitycompliance.adapter.out.jdbc` measured 0% line coverage (0/199 lines) in a
+    clean-rebuild JaCoCo report: the real JDBC code was dead/unreachable code under every profile
+    exercised by the test suite.
+  how_found: >-
+    A clean `mvn ... -Pquality -Dhop.local-db-tests=true clean verify` run for this QA-001
+    validation measured backend line coverage at 82.57%, below the registry's recorded 84.14%
+    floor. Investigating the regression (rather than accepting a lower "corrected" baseline)
+    surfaced the 0%-covered `externalqualitycompliance.adapter.out.jdbc` package, which led to
+    both root causes above.
+
+fix_applied:
+  fix_1: >-
+    Added `- classpath:db/external-quality-and-compliance/schema.sql` to
+    `application-local.yml`'s `spring.sql.init.schema-locations`.
+  fix_2: >-
+    Corrected the 4 Jdbc*Repository classes to `@Profile("local")` and their 4 in-memory
+    counterparts to `@Profile("!local")`, matching the rest of the codebase's convention.
+  verification: >-
+    Re-ran `ExternalQualityComplianceLocalDatabaseTest` (already existed, unmodified) against the
+    real `hop-local-postgres` container: both tests now pass, exercising real INSERT/SELECT SQL
+    against the newly-created tables. Full backend suite re-run clean: 381 tests, 0
+    failures/errors/skipped. `externalqualitycompliance.adapter.out.jdbc` line coverage rose from
+    0/199 (0%) to 146/199 (73.4%). Overall backend line coverage rose from the clean-rebuild
+    82.57% to 84.24%, now above both the 80% final-closure target and the previously recorded
+    84.14% floor.
+
+remediation:
+  strategy: closed_by_COM_MOD_013_QA_001_schema_registration_and_profile_correction
+  owner: backend_team
+  estimated_effort: small
+  estimated_cost_impact: none
+  target_backlog: closed
+  acceptance_criteria:
+    - external-quality-and-compliance schema.sql tables exist in the local PostgreSQL database.
+    - The 4 real JDBC repositories are selected under the "local" Spring profile.
+    - ExternalQualityComplianceLocalDatabaseTest passes against real PostgreSQL.

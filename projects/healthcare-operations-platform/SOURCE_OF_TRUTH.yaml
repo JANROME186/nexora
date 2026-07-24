@@ -174,6 +174,12 @@ sources:
   com_mod_013_fe_001_qa_evidence_yaml: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-FE-001-validation.yaml
   com_mod_013_fe_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-013-FE-001/security-quality-evidence.md
   com_mod_013_fe_001_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-013-FE-001/security-quality-evidence.yaml
+  com_mod_013_qa_001_qa_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.md
+  com_mod_013_qa_001_qa_evidence_yaml: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
+  com_mod_013_qa_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-013-QA-001/security-quality-evidence.md
+  com_mod_013_qa_001_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-013-QA-001/security-quality-evidence.yaml
+  technical_debt_td_db_005: 08-qa/technical-debt/TD-DB-005-quality-compliance-persistence-never-wired.yaml
+  technical_debt_td_iam_004: 08-qa/technical-debt/TD-IAM-004-quality-compliance-controllers-synthetic-tenant.yaml
   com_mod_013_pkg_bcm_qlt_002: 01-product-definition/business-capabilities/packages/bcm-qlt-002-external-quality-controls/
   com_mod_013_pkg_bcm_qlt_006: 01-product-definition/business-capabilities/packages/bcm-qlt-006-capa-management/
   com_mod_013_pkg_bcm_qlt_007: 01-product-definition/business-capabilities/packages/bcm-qlt-007-audit-management/

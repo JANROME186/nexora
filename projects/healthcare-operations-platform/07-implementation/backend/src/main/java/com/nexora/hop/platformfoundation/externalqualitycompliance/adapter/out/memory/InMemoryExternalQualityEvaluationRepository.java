@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("local | test")
+@Profile("!local")
 public class InMemoryExternalQualityEvaluationRepository implements ExternalQualityEvaluationRepository {
 
     private final Map<UUID, ExternalQualityEvaluation> store = new ConcurrentHashMap<>();

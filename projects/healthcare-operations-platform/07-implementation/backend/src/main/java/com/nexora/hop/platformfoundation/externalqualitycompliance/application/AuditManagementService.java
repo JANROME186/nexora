@@ -4,7 +4,7 @@ import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.AuditF
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.AuditSchedule;
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.AuditScheduleRepository;
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.CapaInvestigation;
-import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.ExternalQualityComplianceException;
+import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.ExternalQualityDomainException;
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.events.AuditEvents;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.TenantId;
@@ -73,7 +73,7 @@ public class AuditManagementService {
 
     public AuditSchedule getAuditSchedule(UUID auditId) {
         return repository.findById(auditId)
-                .orElseThrow(() -> new ExternalQualityComplianceException("AUDIT_NOT_FOUND", "quality.error.audit_not_found", "Audit schedule not found with ID: " + auditId));
+                .orElseThrow(() -> new ExternalQualityDomainException("AUDIT_NOT_FOUND", "quality.error.audit_not_found", "Audit schedule not found with ID: " + auditId));
     }
 
     public List<AuditSchedule> listAuditSchedules(String category, String status) {

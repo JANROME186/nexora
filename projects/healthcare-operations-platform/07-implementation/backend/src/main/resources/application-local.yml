@@ -21,6 +21,7 @@ spring:
         - classpath:db/data-migration-portability/schema.sql
         - classpath:db/inventory-and-internal-quality/schema.sql
         - classpath:db/platform-hardening-and-saas-operations/schema.sql
+        - classpath:db/external-quality-and-compliance/schema.sql
 
 management:
   endpoint:

@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: "HOP COM-MOD-013-FE-001 frontend outputs compiled clean (Advanced Quality and Compliance employee-portal screens, API facade, IAM permissions, es-MX/en-US i18n and AuditEventsScreen debt-first retrofit; 187 tests passing; coverage raised 88.68% -> 89.74%; npm audit and Trivy reported 0 findings; ready for COM-MOD-013-QA-001)"
+current_phase: "HOP COM-MOD-013-QA-001 integrated validation closed (found and closed a major persistence-wiring defect TD-DB-005 -- missing schema.sql registration plus inverted Spring @Profile wiring silently routed all COM-MOD-013 compliance data to in-memory storage instead of PostgreSQL; backend coverage rose from a clean-rebuild 82.57% to 84.24%; fixed 2 SpotBugs High and 5 Medium findings plus 1 hardcoded i18n string and 1 function-size violation; employee-portal coverage 89.74% -> 89.75%; registered new debt TD-IAM-004; 0 vulnerabilities across OWASP Dependency-Check, npm audit and Trivy; ready for COM-MOD-013-CLOSEOUT)"
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -30,7 +30,7 @@ projects:
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
     active_module: COM-MOD-013
-    active_backlog_item: COM-MOD-013-QA-001
+    active_backlog_item: COM-MOD-013-CLOSEOUT
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -121,9 +121,10 @@ projects:
       - COM-MOD-013-DEF
       - COM-MOD-013-BE-001
       - COM-MOD-013-FE-001
+      - COM-MOD-013-QA-001
     structure: ordered_numbered_folders
 next_deliverables:
-  - Execute COM-MOD-013-QA-001 Integrated Advanced Quality and Compliance validation and evidence
+  - Execute COM-MOD-013-CLOSEOUT Module closeout and registry update
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake

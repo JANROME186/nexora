@@ -2,7 +2,7 @@ package com.nexora.hop.platformfoundation.externalqualitycompliance.domain;
 
 import java.util.UUID;
 
-public class AuditFinding {
+public final class AuditFinding {
 
     public enum Severity {
         CRITICAL,
@@ -35,7 +35,7 @@ public class AuditFinding {
             String evidenceReference,
             UUID capaId) {
         if (observation == null || observation.isBlank()) {
-            throw new ExternalQualityComplianceException("AUDIT_FINDING_OBSERVATION_REQUIRED", "quality.error.finding_observation_required", "Finding observation is required");
+            throw new ExternalQualityDomainException("AUDIT_FINDING_OBSERVATION_REQUIRED", "quality.error.finding_observation_required", "Finding observation is required");
         }
 
         this.findingId = findingId != null ? findingId : UUID.randomUUID();

@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("local | test")
+@Profile("!local")
 public class InMemoryAuditScheduleRepository implements AuditScheduleRepository {
 
     private final Map<UUID, AuditSchedule> store = new ConcurrentHashMap<>();

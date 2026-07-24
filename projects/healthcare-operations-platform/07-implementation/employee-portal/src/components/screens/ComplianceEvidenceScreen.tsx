@@ -15,7 +15,7 @@ import type { ComplianceEvidenceExport, StoredDocument } from "../../api/types";
 import { useLocale } from "../../i18n/LocaleContext";
 import type { MessageCatalog } from "../../i18n/locales/es-MX";
 import { useAdminScope } from "../../state/AdminScopeContext";
-import { useAsyncAction } from "../../state/useAsyncAction";
+import { useAsyncAction, type AsyncStatus } from "../../state/useAsyncAction";
 import { DataTable, type DataTableColumn } from "../common/DataTable";
 import { ScopeIndicator } from "../common/ScopeIndicator";
 import { StatusBanner } from "../common/StatusBanner";
@@ -144,7 +144,7 @@ function evidenceColumns(labels: Labels): DataTableColumn<ComplianceEvidenceExpo
     { key: "requestedBy", header: labels.requestedBy, render: (r) => r.requestedBy },
     { key: "recordCount", header: labels.recordCount, render: (r) => String(r.recordCount) },
     { key: "exportedAt", header: labels.exportedAt, render: (r) => r.exportedAt },
-    { key: "status", header: "Estado", render: (r) => r.status },
+    { key: "status", header: labels.status, render: (r) => r.status },
   ];
 }
 
@@ -158,6 +158,45 @@ function docColumns(labels: Labels): DataTableColumn<StoredDocument>[] {
       render: (r) => r.retentionUntil ?? "-",
     },
   ];
+}
+
+interface DocumentsSectionProps {
+  labels: Labels;
+  shared: SharedLabels;
+  documents: StoredDocument[];
+  status: AsyncStatus;
+  errorMessage?: string;
+  onLoad: () => void;
+}
+
+/** Compliance documents list with its load action, extracted to keep the parent screen's render
+ * function under the enterprise quality profile's function-size threshold (TD-FE-010). */
+function DocumentsSection({
+  labels,
+  shared,
+  documents,
+  status,
+  errorMessage,
+  onLoad,
+}: DocumentsSectionProps) {
+  return (
+    <>
+      <h3>{labels.documentsHeading}</h3>
+      <button type="button" id="ce-load-docs-btn" disabled={status === "loading"} onClick={onLoad}>
+        {labels.loadDocuments}
+      </button>
+      <StatusBanner status={status} errorMessage={errorMessage} successMessage={shared.loaded} />
+      {status === "success" && documents.length === 0 ? (
+        <p className="empty-state">{shared.noRecords}</p>
+      ) : null}
+      <DataTable
+        caption={labels.documentsHeading}
+        columns={docColumns(labels)}
+        rows={documents}
+        rowKey={(r) => r.documentId}
+      />
+    </>
+  );
 }
 
 export function ComplianceEvidenceScreen() {
@@ -266,28 +305,13 @@ export function ComplianceEvidenceScreen() {
         successMessage={labels.exportSuccess}
       />
 
-      <h3>{labels.documentsHeading}</h3>
-      <button
-        type="button"
-        id="ce-load-docs-btn"
-        disabled={docsAction.status === "loading"}
-        onClick={handleLoadDocuments}
-      >
-        {labels.loadDocuments}
-      </button>
-      <StatusBanner
+      <DocumentsSection
+        labels={labels}
+        shared={shared}
+        documents={documents}
         status={docsAction.status}
         errorMessage={docsAction.errorMessage}
-        successMessage={shared.loaded}
-      />
-      {docsAction.status === "success" && documents.length === 0 ? (
-        <p className="empty-state">{shared.noRecords}</p>
-      ) : null}
-      <DataTable
-        caption={labels.documentsHeading}
-        columns={docColumns(labels)}
-        rows={documents}
-        rowKey={(r) => r.documentId}
+        onLoad={handleLoadDocuments}
       />
 
       <ConfirmDialog

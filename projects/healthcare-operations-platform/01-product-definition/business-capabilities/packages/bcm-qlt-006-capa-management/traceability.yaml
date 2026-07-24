@@ -68,8 +68,18 @@ traces:
     compilation_status: closed
     frontend_compilation: COM-MOD-013-FE-001
     frontend_compilation_status: closed
-    next_validation: COM-MOD-013-QA-001
+    validation: COM-MOD-013-QA-001
+    validation_status: closed
+    closeout: COM-MOD-013-CLOSEOUT
+    closeout_status: pending
     history:
+      - backlog_item: COM-MOD-013-QA-001
+        status: closed
+        note: >-
+          Traceability re-validated: openapi-source.yaml operations match CapaManagementController,
+          permissions.yaml matches EndpointPermissionRegistry, ui-model.yaml matches
+          CapaManagementScreen. End-to-end CAPA lifecycle (create/RCA/approve/verify) re-confirmed
+          live against real PostgreSQL after TD-DB-005's persistence fix.
       - backlog_item: COM-MOD-013-FE-001
         status: closed
         note: CapaManagementScreen compiled with IAM, i18n, tests and security-quality evidence.

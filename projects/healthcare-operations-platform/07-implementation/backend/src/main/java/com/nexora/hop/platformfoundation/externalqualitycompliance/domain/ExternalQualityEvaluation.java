@@ -7,7 +7,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class ExternalQualityEvaluation {
+public final class ExternalQualityEvaluation {
 
     public enum Rating {
         PENDING_EVALUATION,
@@ -55,13 +55,13 @@ public class ExternalQualityEvaluation {
             double measuredValue,
             AuditMetadata audit) {
         if (providerName == null || providerName.isBlank()) {
-            throw new ExternalQualityComplianceException("EQA_PROVIDER_REQUIRED", "quality.error.provider_required", "Provider name is required");
+            throw new ExternalQualityDomainException("EQA_PROVIDER_REQUIRED", "quality.error.provider_required", "Provider name is required");
         }
         if (programCode == null || programCode.isBlank()) {
-            throw new ExternalQualityComplianceException("EQA_PROGRAM_REQUIRED", "quality.error.program_required", "Program code is required");
+            throw new ExternalQualityDomainException("EQA_PROGRAM_REQUIRED", "quality.error.program_required", "Program code is required");
         }
         if (sampleCode == null || sampleCode.isBlank()) {
-            throw new ExternalQualityComplianceException("EQA_SAMPLE_REQUIRED", "quality.error.sample_required", "Sample code is required");
+            throw new ExternalQualityDomainException("EQA_SAMPLE_REQUIRED", "quality.error.sample_required", "Sample code is required");
         }
 
         this.evaluationId = evaluationId != null ? evaluationId : UUID.randomUUID();
@@ -116,7 +116,7 @@ public class ExternalQualityEvaluation {
 
     public void applyScoring(double peerGroupMean, double peerGroupSd, Integer peerGroupCount, UUID storedDocumentId, AuditMetadata updateAudit) {
         if (peerGroupSd <= 0) {
-            throw new ExternalQualityComplianceException("EQA_INVALID_SD", "quality.error.invalid_sd", "Peer group SD must be greater than zero");
+            throw new ExternalQualityDomainException("EQA_INVALID_SD", "quality.error.invalid_sd", "Peer group SD must be greater than zero");
         }
         this.peerGroupMean = peerGroupMean;
         this.peerGroupSd = peerGroupSd;

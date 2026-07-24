@@ -54,7 +54,7 @@ roadmap:
   module: COM-MOD-013
   release: REL-003
   package_status: extended_regulatory_retention_controls
-  next_backlog_item: COM-MOD-013-QA-001
+  next_backlog_item: COM-MOD-013-CLOSEOUT
 
 dependencies:
   required_capabilities:

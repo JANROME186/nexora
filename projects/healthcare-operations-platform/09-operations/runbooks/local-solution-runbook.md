@@ -8,9 +8,31 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-013-QA-001`.
+Current active backlog item: `COM-MOD-013-CLOSEOUT`.
 
-Latest update: `COM-MOD-013-FE-001` is closed. Compiled the Advanced Quality and Compliance
+Latest update: `COM-MOD-013-QA-001` is closed. Integrated validation of COM-MOD-013 found and
+closed a major persistence-wiring defect, `TD-DB-005`: `application-local.yml`'s
+`spring.sql.init.schema-locations` never registered `db/external-quality-and-compliance/schema.sql`,
+compounded by an inverted `@Profile` on the 4 externalqualitycompliance JDBC/in-memory repository
+pairs (`@Profile("!local & !test")` on the real JDBC classes instead of `@Profile("local")`, the
+convention used by every other module). Together these meant External Quality Control, CAPA, Audit
+Management and Quality Event Intake data was silently persisted in memory only -- lost on every
+backend restart -- instead of to `hop-local-postgres`. Fixed both root causes; re-ran the
+pre-existing `ExternalQualityComplianceLocalDatabaseTest` live against real PostgreSQL (passed,
+previously would have failed with `relation "external_quality_evaluations" does not exist` once
+only the profile fix was applied). Backend coverage rose from a clean-rebuild 82.57% to 84.24%
+(381 tests, 0 failures/errors/skipped), above the previously recorded 84.14% floor. Also fixed 2
+SpotBugs High findings (`DM_DEFAULT_ENCODING`, `NM_SAME_SIMPLE_NAME_AS_SUPERCLASS`), 5 Medium
+`CT_CONSTRUCTOR_THROW` findings, 1 hardcoded i18n string and 1 `TD-FE-010` function-size violation
+in `ComplianceEvidenceScreen.tsx` (employee-portal coverage 89.74% -> 89.75%, 187 tests, 60 files,
+lint warnings 51 -> 50). Registered new debt `TD-IAM-004` (5 controllers assign a synthetic random
+tenant id instead of the authenticated request's real tenant; deferred pending a Spring Modulith
+module-boundary decision -- deny-by-default authorization itself is unaffected). OWASP
+Dependency-Check (72 deps), npm audit and Trivy (backend/employee-portal/repo-wide, all
+severities) reported 0 vulnerabilities/secrets/misconfigurations. Next active backlog item:
+`COM-MOD-013-CLOSEOUT`.
+
+Previous update: `COM-MOD-013-FE-001` is closed. Compiled the Advanced Quality and Compliance
 employee-portal UI for External Quality Control (`BCM-QLT-002`), CAPA Management (`BCM-QLT-006`),
 Audit Management (`BCM-QLT-007`), Compliance Evidence (`BCM-PLT-007` / `BCM-PLT-008`) and Quality
 Event Intake. Added the typed `externalQualityComplianceApi` facade, IAM permission-filtered
@@ -21,7 +43,7 @@ validation passed: 187 tests, 60 files, 0 failures, line coverage raised 88.68% 
 audit 0 vulnerabilities, Trivy fs 0 vulnerabilities/secrets/misconfigurations, build/duplication/
 format/license/typecheck clean. Next active backlog item: `COM-MOD-013-QA-001`.
 
-Previous update: `COM-MOD-012-QA-001` is closed. Validated all 8 COM-MOD-012 capabilities live against a running backend. Found and fixed a real resilience defect: the readiness probe did not reflect database connectivity (`management.endpoint.health.group.readiness.include` was unset), fixed by scoping the include to `application-local.yml` and re-verified live via a real `docker stop`/`start` of `hop-local-postgres` (readiness correctly `DOWN`/503 then `UP`; liveness stays `UP` throughout, no unnecessary restart). Executed a dedicated OWASP ZAP API scan against the full backend surface (353 URLs, deferred by BE-001) that found and this item fixed 2 real defects: `TD-QA-005` (a null byte or oversized string value reaching JDBC caused an unhandled 500 across `laboratoryworkflow` and `cashsales`, fixed via a narrow `GlobalExceptionHandler` mapping keyed on PostgreSQL SQLState class 22) and `TD-QA-006` (`AuthController.initiateAssistance` returned 500 instead of 404 for a nonexistent `assistedUserId`, fixed by widening `IdentityAccessExceptionHandler`'s exception-advice scope); a final rescan confirmed 0 FAIL-NEW/0 WARN-NEW/118 PASS. A ZAP baseline scan against the unchanged employee portal found 0 FAIL-NEW. Executed a real backup (`pg_dump`, SHA-256 checksum, `pg_restore --list` showing 415 TOC entries) and restore rehearsal (isolated database, matching row counts). Confirmed the 3 remaining `COM-MOD-012-BE-001` infrastructure forward pointers (distributed trace export, provisioned Grafana/Prometheus/Loki, SLO/SLA alerting) still require infrastructure not available locally and registered `TD-OBS-001` rather than closing them. No new runtime component, port, environment variable or startup order was introduced; port `8080` on this shared local machine was occupied by an unrelated, pre-existing process for a different project, so this session's validation used `server.port=8090` for the backend only (no runbook or config change -- the canonical documented port remains 8080). 367 tests (0 failures, up from 362), backend coverage raised 84.11% -> 84.14%. Next active backlog item: `COM-MOD-012-CLOSEOUT`.
+Earlier update: `COM-MOD-012-QA-001` is closed. Validated all 8 COM-MOD-012 capabilities live against a running backend. Found and fixed a real resilience defect: the readiness probe did not reflect database connectivity (`management.endpoint.health.group.readiness.include` was unset), fixed by scoping the include to `application-local.yml` and re-verified live via a real `docker stop`/`start` of `hop-local-postgres` (readiness correctly `DOWN`/503 then `UP`; liveness stays `UP` throughout, no unnecessary restart). Executed a dedicated OWASP ZAP API scan against the full backend surface (353 URLs, deferred by BE-001) that found and this item fixed 2 real defects: `TD-QA-005` (a null byte or oversized string value reaching JDBC caused an unhandled 500 across `laboratoryworkflow` and `cashsales`, fixed via a narrow `GlobalExceptionHandler` mapping keyed on PostgreSQL SQLState class 22) and `TD-QA-006` (`AuthController.initiateAssistance` returned 500 instead of 404 for a nonexistent `assistedUserId`, fixed by widening `IdentityAccessExceptionHandler`'s exception-advice scope); a final rescan confirmed 0 FAIL-NEW/0 WARN-NEW/118 PASS. A ZAP baseline scan against the unchanged employee portal found 0 FAIL-NEW. Executed a real backup (`pg_dump`, SHA-256 checksum, `pg_restore --list` showing 415 TOC entries) and restore rehearsal (isolated database, matching row counts). Confirmed the 3 remaining `COM-MOD-012-BE-001` infrastructure forward pointers (distributed trace export, provisioned Grafana/Prometheus/Loki, SLO/SLA alerting) still require infrastructure not available locally and registered `TD-OBS-001` rather than closing them. No new runtime component, port, environment variable or startup order was introduced; port `8080` on this shared local machine was occupied by an unrelated, pre-existing process for a different project, so this session's validation used `server.port=8090` for the backend only (no runbook or config change -- the canonical documented port remains 8080). 367 tests (0 failures, up from 362), backend coverage raised 84.11% -> 84.14%. Next active backlog item: `COM-MOD-012-CLOSEOUT`.
 
 Previous update: `COM-MOD-012-OPS-002` is closed. 10 executable runbook pairs (observability, health/readiness/liveness, metrics/logs/traces validation, backup, restore, incident response, rollback incident handoff, tenant-impact triage, evidence collection, post-incident review) plus an index README were added under `09-operations/runbooks/`, built on `production-deployment-strategy.yaml`. Every local-executable command was cross-checked against real repository state; unimplemented telemetry and unprovisioned shared-environment infrastructure were documented per-runbook rather than silently marked passed. `TD-DB-004` was materially reduced via `tenant-impact-triage-runbook.yaml`'s cross-tenant leakage check. No runtime, port, environment variable or startup order changed.
 

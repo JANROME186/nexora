@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: "COM-MOD-013-FE-001 frontend compilation completed clean: compiled employee portal UI outputs for External Quality Control (BCM-QLT-002), CAPA Management (BCM-QLT-006), Audit Management (BCM-QLT-007), Compliance Evidence (BCM-PLT-007 / BCM-PLT-008), and Quality Event Intake; debt-first TD-I18N-002 AuditEventsScreen retrofit completed; 187 employee portal tests passing cleanly; 7 quality gates verified; ready for COM-MOD-013-QA-001"
+current_phase: "COM-MOD-013-QA-001 integrated validation completed clean: found and closed a major persistence-wiring defect (TD-DB-005 -- missing schema.sql registration plus inverted @Profile wiring silently routed COM-MOD-013 data to in-memory storage instead of PostgreSQL); backend coverage rose from a clean-rebuild 82.57% to 84.24% after the fix; fixed 2 SpotBugs High and 5 Medium findings plus 1 hardcoded string and 1 TD-FE-010 function-size violation; employee-portal coverage 89.74% -> 89.75%; registered new debt TD-IAM-004; 0 vulnerabilities across OWASP Dependency-Check/npm audit/Trivy; ready for COM-MOD-013-CLOSEOUT"
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -421,8 +421,26 @@ completed_deliverables:
     agent-agnostic scan 0 real hits, git diff --check clean; advanced active commercial backlog
     item to COM-MOD-012-CLOSEOUT)
   - COM-MOD-013-FE-001 is closed. Advanced Quality and Compliance employee portal UI compiled (ExternalQualityControlsScreen, CapaManagementScreen, AuditManagementScreen, ComplianceEvidenceScreen, QualityEventIntakeScreen; thin typed externalQualityComplianceApi facade; IAM permissions, SCREEN_TO_PERMISSION, QUALITY_MANAGER role; complete es-MX and en-US i18n catalogs; TD-I18N-002 debt-first AuditEventsScreen retrofit). Validation gates executed clean: npm run typecheck, npm run test:coverage (187 tests, 60 files, 0 failures, employee-portal line coverage 88.68% -> 89.74%), npm run build, npm run duplication, npm run format:check, npm run license:check, npm run audit:all (0 vulnerabilities), and Trivy fs vuln/secret/misconfig all severities (0 findings). npm run lint passed with 0 errors and 51 non-blocking warnings; warnings are dispositioned as residual TD-FE-010/TD-I18N-002 follow-up, not closure blockers. Ready for COM-MOD-013-QA-001.
+  - COM-MOD-013-QA-001 is closed. Integrated validation found and closed a major persistence-wiring
+    defect (TD-DB-005) -- application-local.yml never registered
+    db/external-quality-and-compliance/schema.sql, compounded by an inverted @Profile on the 4
+    externalqualitycompliance JDBC/in-memory repository pairs (real JDBC classes were
+    @Profile("!local & !test") instead of the codebase's @Profile("local") convention), so the
+    module silently persisted External Quality Control, CAPA, Audit Management and Quality Event
+    Intake data in memory only, never to PostgreSQL. Fixed both root causes; re-ran the
+    pre-existing ExternalQualityComplianceLocalDatabaseTest live against real PostgreSQL (passed).
+    Backend coverage rose from a clean-rebuild 82.57% to 84.24% (381 tests, 0
+    failures/errors/skipped), above the previously recorded 84.14% floor. Also fixed 2 SpotBugs
+    High findings (DM_DEFAULT_ENCODING, NM_SAME_SIMPLE_NAME_AS_SUPERCLASS), 5 Medium
+    CT_CONSTRUCTOR_THROW findings, 1 hardcoded i18n string and 1 TD-FE-010 function-size violation
+    in ComplianceEvidenceScreen.tsx (employee-portal coverage 89.74% -> 89.75%, 187 tests, 60
+    files, lint warnings 51 -> 50). Registered new debt TD-IAM-004 (synthetic tenant id in 5
+    controllers, deferred pending a Spring Modulith module-boundary decision; deny-by-default
+    authorization itself unaffected). OWASP Dependency-Check (72 deps), npm audit and Trivy
+    (backend/employee-portal/repo-wide, all severities) reported 0
+    vulnerabilities/secrets/misconfigurations. Ready for COM-MOD-013-CLOSEOUT.
 next_deliverables:
-  - Execute COM-MOD-013-QA-001 Integrated Advanced Quality and Compliance validation and evidence
+  - Execute COM-MOD-013-CLOSEOUT module closeout and registry update
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
@@ -437,7 +455,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-013
   in_progress_module: COM-MOD-013
-  next_backlog_item: COM-MOD-013-QA-001
+  next_backlog_item: COM-MOD-013-CLOSEOUT
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -492,12 +510,22 @@ development_readiness:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 84.14
-        source_evidence: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 84.14
+        current_line_coverage_percent: 84.24
+        source_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 84.24
         final_closure_target_percent: 80
         tracked_by: TD-BE-003
         correction_note: >-
+          COM-MOD-013-QA-001 found the 84.14% figure below was itself not reproducible from a
+          clean rebuild (measured 82.57%) -- the same jacoco/wiring-inflation pattern seen before
+          in MVP-MOD-005-QA-001 and COM-MOD-010-QA-001. Root cause this time was different:
+          application-local.yml never registered db/external-quality-and-compliance/schema.sql,
+          compounded by an inverted @Profile on 4 externalqualitycompliance JDBC/in-memory
+          repository pairs, so the module's real JDBC code was dead/unreachable (0% covered) and
+          all its data was silently stored in memory only, never PostgreSQL (registered and closed
+          as TD-DB-005). Fixed both root causes, raising the corrected, reproducible clean-rebuild
+          figure to 84.24% (381 tests, 0 failures/errors/skipped); future backend iterations must
+          not regress below 84.24%.
           This block had drifted out of sync with the authoritative running baseline maintained in
           08-qa/technical-debt/technical-debt-index.yaml (still showing 83.99% from
           COM-MOD-011-FE-001 despite COM-MOD-011-BE-001, COM-MOD-012-BE-001 and COM-MOD-012-QA-001
@@ -526,11 +554,13 @@ development_readiness:
           plus a resilience regression test, raising it to 84.14% (367 tests, 0
           failures/errors/skipped); future backend iterations must not regress below 84.14%.
       frontend_typescript_web:
-        current_line_coverage_percent: 89.74
-        source_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-FE-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 89.74
+        current_line_coverage_percent: 89.75
+        source_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
+        next_iteration_minimum_line_coverage_percent: 89.75
         final_closure_target_percent: 80
-        tracked_by: TD-FE-004 (closed; final-closure target reached; raised to 83.98% by
+        tracked_by: TD-FE-004 (closed; final-closure target reached; COM-MOD-013-QA-001 fixed a
+          hardcoded string and a function-size violation in ComplianceEvidenceScreen.tsx, raising
+          it from 89.74% to 89.75% (187 tests, 60 files, 0 failures); raised to 83.98% by
           MVP-MOD-007-FE-001, then to 84.44% by HOP-ENT-FOUND-001 corrective closure. MVP-MOD-007-
           CLOSEOUT found and fixed a real regression to 84.03% left uncaught by MVP-MOD-007-
           PORTAL-001, raising it to 85.50%. MVP-MOD-008-FE-001 raised it to 86.47%. COM-MOD-010-FE-001
@@ -575,7 +605,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: COM-MOD-013
-  current_backlog_item: COM-MOD-013-QA-001
+  current_backlog_item: COM-MOD-013-CLOSEOUT
   completed_backlog_items:
     - PF-BE-001
     - PF-OPS-001
@@ -665,9 +695,53 @@ implementation_progress:
     - COM-MOD-012-CLOSEOUT
     - COM-MOD-013-DEF
     - COM-MOD-013-BE-001
+    - COM-MOD-013-FE-001
+    - COM-MOD-013-QA-001
   in_progress_backlog_items: []
   pending_backlog_items: []
   latest_validation:
+    backlog_item_id: COM-MOD-013-QA-001
+    command: >-
+      Integrated validation of COM-MOD-013; found and closed a major persistence-wiring defect
+      (TD-DB-005) -- application-local.yml never registered
+      db/external-quality-and-compliance/schema.sql, compounded by an inverted @Profile on the 4
+      externalqualitycompliance JDBC/in-memory repository pairs, so the module silently persisted
+      External Quality Control, CAPA, Audit Management and Quality Event Intake data in memory
+      only, never to PostgreSQL. Fixed both root causes and re-verified live against real
+      PostgreSQL. Also fixed 2 SpotBugs High and 5 Medium findings, 1 hardcoded i18n string and 1
+      TD-FE-010 function-size violation. Registered new debt TD-IAM-004.
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: 381
+    tests_run_backend_status: passed
+    tests_run_frontend: 187
+    tests_run_frontend_status: passed
+    test_files_frontend: 60
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 84.24
+    previous_line_coverage_baseline_backend_percent: 84.14
+    line_coverage_frontend_percent: 89.75
+    previous_line_coverage_baseline_frontend_percent: 89.74
+    coverage_regression: false
+    additional_checks:
+      - >-
+        Repository YAML parse passed across all HOP YAML files (1263 files, 0 errors).
+      - >-
+        Stale-pointer sweep found and corrected implementation_progress.completed_backlog_items
+        missing COM-MOD-013-FE-001, a missing capability_package_progress.COM-MOD-013 block, and a
+        capability-package-index.yaml active_capability_package_groups entry still pointing at
+        COM-MOD-013-BE-001 instead of the latest closed backlog item.
+      - >-
+        Evidence-state sweep found no blocked, failed, not_executed,
+        passed_with_execution_limitation, closed_with_execution_limitation or unresolved
+        vulnerability markers in any COM-MOD-013 evidence.
+      - >-
+        Agent-agnostic scan and secrets scan passed clean for all files touched by this item.
+        git diff --check reported 0 whitespace errors.
+  previous_validation_com_mod_013_be_001:
     backlog_item_id: COM-MOD-013-BE-001
     command: >-
       Compiled backend outputs for External Quality Control (BCM-QLT-002), CAPA Management (BCM-QLT-006),
@@ -689,22 +763,6 @@ implementation_progress:
     line_coverage_frontend_percent: 88.68
     previous_line_coverage_baseline_frontend_percent: 88.68
     coverage_regression: false
-    additional_checks:
-      - >-
-        Repository YAML parse passed across all HOP YAML files and root state files, including
-        every file touched by this closeout.
-      - >-
-        Stale-pointer sweep found and corrected the stale operational_strategy status field
-        (active -> closed) in all 8 COM-MOD-012 traceability.yaml files, and the duplicate
-        active_capability_package_groups block in capability-package-index.yaml still listing
-        COM-MOD-011 as active (removed). No other stale active/current/next pointers found.
-      - >-
-        Evidence-state sweep found no blocked, failed, not_executed,
-        passed_with_execution_limitation, closed_with_execution_limitation or unresolved
-        vulnerability markers in any COM-MOD-012 evidence.
-      - >-
-        Agent-agnostic scan and secrets scan passed clean for all files touched by this closeout.
-        git diff --check reported 0 whitespace errors.
   previous_validation_com_mod_012_qa_001:
     backlog_item_id: COM-MOD-012-QA-001
     command: >-
@@ -1711,7 +1769,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
   current_iteration: COM-MOD-013
   active_module: COM-MOD-013 Advanced Quality and Compliance
-  active_backlog_item: COM-MOD-013-QA-001
+  active_backlog_item: COM-MOD-013-CLOSEOUT
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
@@ -1778,6 +1836,51 @@ commercial_product_progress:
       module_validated: true
       ready_for_closeout: true
       module_closed: true
+    COM-MOD-013:
+      name: Advanced Quality and Compliance
+      package_status: validated
+      backlog_item: COM-MOD-013-QA-001
+      backlog_item_status: closed
+      execution_flow_stage: validated
+      capabilities:
+        - capability: BCM-QLT-002
+          package_status: compiled
+        - capability: BCM-QLT-006
+          package_status: compiled
+        - capability: BCM-QLT-007
+          package_status: compiled
+        - capability: BCM-PLT-007
+          package_status: extended_quality_compliance_controls
+        - capability: BCM-PLT-008
+          package_status: extended_regulatory_retention_controls
+      new_capability_packages_created: 3
+      new_aggregates_or_schemas_created: 4
+      bounded_contexts:
+        - external-quality-compliance
+        - audit-compliance
+        - document-management
+      qa_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
+      qa_evidence_md: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.md
+      technical_debt_closed:
+        - TD-DB-005
+      technical_debt_materially_reduced:
+        - TD-I18N-002
+        - TD-FE-010
+      technical_debt_registered_open_non_blocking:
+        - TD-IAM-004
+      stale_pointers_corrected:
+        - implementation_progress.completed_backlog_items missing COM-MOD-013-FE-001 (added, then COM-MOD-013-QA-001 appended)
+        - capability_package_progress had no COM-MOD-013 block (this block added)
+        - capability-package-index.yaml active group backlog_item stale at COM-MOD-013-BE-001 (advanced)
+      ready_for_compilation: true
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
+      ready_for_ui_compilation: true
+      ui_compilation_completed: true
+      ready_for_module_validation: true
+      module_validated: true
+      ready_for_closeout: true
+      module_closed: false
     COM-MOD-011:
       name: Public Website and Digital Growth
       package_status: module_closed

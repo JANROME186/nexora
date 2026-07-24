@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("!local & !test")
+@Profile("local")
 public class JdbcExternalQualityEvaluationRepository implements ExternalQualityEvaluationRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;

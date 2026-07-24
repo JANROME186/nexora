@@ -112,7 +112,7 @@ public class DocumentManagementController {
         try {
             return UUID.fromString(val);
         } catch (IllegalArgumentException e) {
-            return UUID.nameUUIDFromBytes(val.getBytes());
+            return UUID.nameUUIDFromBytes(val.getBytes(java.nio.charset.StandardCharsets.UTF_8));
         }
     }
 

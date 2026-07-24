@@ -35,10 +35,30 @@ do_not_write_manually:
 active_capability_package_groups:
   - roadmap_group: COM-MOD-013
     name: Advanced Quality and Compliance
-    package_status: compiled
-    backlog_item: COM-MOD-013-BE-001
-    qa_evidence: ../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-BE-001-validation.yaml
-    security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-013-BE-001/security-quality-evidence.yaml
+    package_status: validated
+    backlog_item: COM-MOD-013-QA-001
+    qa_evidence: ../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
+    security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-013-QA-001/security-quality-evidence.yaml
+    validation:
+      backlog_item: COM-MOD-013-QA-001
+      status: validated
+      qa_evidence: ../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
+      security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-013-QA-001/security-quality-evidence.yaml
+    implementation:
+      backlog_item: COM-MOD-013-BE-001
+      status: compiled
+      qa_evidence: ../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-BE-001-validation.yaml
+      security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-013-BE-001/security-quality-evidence.yaml
+      history:
+        - backlog_item: COM-MOD-013-DEF
+          status: closed
+          qa_evidence: ../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-DEF-validation.yaml
+          security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-013-DEF/security-quality-evidence.yaml
+    ui_compilation:
+      backlog_item: COM-MOD-013-FE-001
+      status: compiled
+      qa_evidence: ../../../08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-FE-001-validation.yaml
+      security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-013-FE-001/security-quality-evidence.yaml
     capabilities:
       - capability_id: BCM-QLT-002
         package_folder: bcm-qlt-002-external-quality-controls/

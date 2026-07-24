@@ -50,8 +50,19 @@ traces:
     compilation_status: closed
     frontend_compilation: COM-MOD-013-FE-001
     frontend_compilation_status: closed
-    next_validation: COM-MOD-013-QA-001
+    validation: COM-MOD-013-QA-001
+    validation_status: closed
+    closeout: COM-MOD-013-CLOSEOUT
+    closeout_status: pending
     history:
+      - backlog_item: COM-MOD-013-QA-001
+        status: closed
+        note: >-
+          Traceability re-validated: searchAuditEvents/exportAuditEvents match
+          AuditComplianceService, permissions.yaml matches EndpointPermissionRegistry, ui-model.yaml
+          matches ComplianceEvidenceScreen. TD-DB-005 (persistence-wiring defect) found and closed
+          for the sibling BCM-QLT-002/006/007 capabilities this capability depends on; audit event
+          recording itself (AGG-018) was already correctly persisted and unaffected.
       - backlog_item: COM-MOD-013-FE-001
         status: closed
         note: ComplianceEvidenceScreen and AuditEventsScreen i18n retrofit compiled with IAM, tests and security-quality evidence.

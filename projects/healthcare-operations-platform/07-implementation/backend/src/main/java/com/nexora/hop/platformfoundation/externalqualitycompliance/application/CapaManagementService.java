@@ -2,7 +2,7 @@ package com.nexora.hop.platformfoundation.externalqualitycompliance.application;
 
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.CapaInvestigation;
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.CapaInvestigationRepository;
-import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.ExternalQualityComplianceException;
+import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.ExternalQualityDomainException;
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.events.CapaEvents;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.TenantId;
@@ -65,7 +65,7 @@ public class CapaManagementService {
 
     public CapaInvestigation getCapa(UUID capaId) {
         return repository.findById(capaId)
-                .orElseThrow(() -> new ExternalQualityComplianceException("CAPA_NOT_FOUND", "quality.error.capa_not_found", "CAPA investigation not found with ID: " + capaId));
+                .orElseThrow(() -> new ExternalQualityDomainException("CAPA_NOT_FOUND", "quality.error.capa_not_found", "CAPA investigation not found with ID: " + capaId));
     }
 
     public List<CapaInvestigation> listCapas(String status, String sourceCategory) {

@@ -636,6 +636,7 @@ export const esMX = {
       exportId: "ID de exportación",
       recordCount: "Registros exportados",
       exportedAt: "Fecha de exportación",
+      status: "Estado",
       documentsHeading: "Documentos de cumplimiento",
       fileName: "Nombre de archivo",
       storedAt: "Almacenado el",
