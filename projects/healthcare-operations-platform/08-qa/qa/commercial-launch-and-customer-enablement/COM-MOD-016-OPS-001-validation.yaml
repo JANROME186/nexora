@@ -89,7 +89,7 @@ governance_specifications_created_and_verified:
       yaml: projects/healthcare-operations-platform/09-operations/governance/customer-incident-release-communication.yaml
     status: verified
 
-  - id: GOV-SPEC-10
+  - id: GOV-SPEC-010
     name: Operational Acceptance Criteria (OAC) Specification
     files:
       md: projects/healthcare-operations-platform/09-operations/governance/operational-acceptance-criteria.md
