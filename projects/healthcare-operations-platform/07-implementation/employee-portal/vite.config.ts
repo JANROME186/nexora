@@ -37,7 +37,9 @@ export default defineConfig({
     allowedHosts: ["localhost", "127.0.0.1", "host.docker.internal"],
     proxy: {
       "/api": {
-        target: "http://localhost:8080",
+        // Overridable for local sessions where port 8080 is occupied by an unrelated process
+        // (documented recurring conflict on shared dev machines); defaults to the canonical port.
+        target: process.env.HOP_BACKEND_URL ?? "http://localhost:8080",
         changeOrigin: true,
       },
     },

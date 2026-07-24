@@ -164,6 +164,15 @@ other_defects_found_and_fixed:
     fix: >-
       Marked all 5 classes `final` (confirmed none are subclassed anywhere in the backend), the
       standard SpotBugs-recognized mitigation for this finding.
+  - id: dast-multipart-exception-500
+    finding: >-
+      OWASP ZAP API scan Buffer Overflow (Medium) probe: an abrupt client disconnect mid multipart
+      upload to POST /api/documents surfaced an unhandled MultipartException as HTTP 500.
+    fix: >-
+      Added GlobalExceptionHandler.handleMultipartException() mapping MultipartException (incl.
+      MaxUploadSizeExceededException) to 400; added a regression test. Confirmed by a clean ZAP
+      re-scan (0 FAIL-NEW, 0 WARN-NEW).
+    technical_debt: TD-QA-007, closed same iteration.
 
 technical_debt_dispositioned_not_fixed:
   - finding: >-
@@ -270,6 +279,75 @@ i18n_validation:
   finding: 1 hardcoded string found and fixed (see other_defects_found_and_fixed above).
   result: passed_after_fix
 
+dast_validation:
+  status: passed
+  scope: >-
+    Real OWASP ZAP DAST against a running backend and employee-portal, covering all COM-MOD-013
+    runnable surfaces: /api/quality/external-controls, /api/quality/capa, /api/quality/audits,
+    /api/quality/events, /api/documents, /api/audit/events/export, and the 5 COM-MOD-013
+    employee-portal screens (part of the client-routed SPA shell scanned by the baseline crawler).
+  environment_setup: >-
+    Infrastructure already running (hop-local-postgres/hop-local-redis/hop-local-otel-collector).
+    Backend started via `mvn spring-boot:run -Dspring-boot.run.profiles=local
+    -Dspring-boot.run.jvmArguments=-Dserver.port=8090` (port 8080 occupied by an unrelated
+    pre-existing process on this shared machine; session-only workaround, no runbook/config port
+    change). Employee-portal started via `HOP_BACKEND_URL=http://localhost:8090 npm run dev --
+    host 127.0.0.1`; vite.config.ts's dev-proxy target, previously hardcoded to localhost:8080 with
+    no override, now reads an optional HOP_BACKEND_URL env var (falls back to the existing
+    http://localhost:8080 default when unset) -- a small, backward-compatible fix enabling this and
+    future sessions to point the portal at an alternate backend port without editing source.
+  backend_api_scan:
+    tool: OWASP ZAP (Docker ghcr.io/zaproxy/zaproxy:stable) zap-api-scan.py
+    command: >-
+      docker run --rm --add-host=host.docker.internal:host-gateway -v
+      "<repo>/08-qa/security-quality/COM-MOD-013-QA-001:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable
+      zap-api-scan.py -t http://host.docker.internal:8090/v3/api-docs -f openapi -r
+      zap-backend-api.html -J zap-backend-api.json
+    target: full backend OpenAPI surface, 939 URLs imported from 379 operations
+    first_run: "FAIL-NEW 0, WARN-NEW 2, PASS 117"
+    finding: >-
+      Buffer Overflow (Medium) active-scan probe against POST /api/documents (BCM-PLT-008) abruptly
+      closed the TCP connection mid multipart-body transmission; Spring's multipart parser surfaced
+      this as an unhandled org.springframework.web.multipart.MultipartException, which
+      GlobalExceptionHandler had no mapping for, so it fell through to the default 500 handler.
+      Reproduced manually: a plain oversized multipart upload already returned 400 correctly (an
+      existing IllegalArgumentException path), but an abrupt mid-stream disconnect specifically
+      triggered the unmapped MultipartException path.
+    fix: >-
+      Added GlobalExceptionHandler.handleMultipartException(), mapping MultipartException (which
+      also covers MaxUploadSizeExceededException) to 400 with the same body shape as the existing
+      invalid-parameter handler. Added
+      GlobalExceptionHandlerTest.mapsMultipartExceptionToBadRequestBody (382 backend tests total, 0
+      failures). Backend restarted with the fix.
+    rescan: "FAIL-NEW 0, WARN-NEW 0, PASS 118"
+    technical_debt: TD-QA-007, registered and closed same iteration.
+    report_files:
+      - 08-qa/security-quality/COM-MOD-013-QA-001/zap-backend-api.html
+      - 08-qa/security-quality/COM-MOD-013-QA-001/zap-backend-api.json
+  employee_portal_baseline_scan:
+    tool: OWASP ZAP (Docker ghcr.io/zaproxy/zaproxy:stable) zap-baseline.py with Ajax Spider (-j)
+    command: >-
+      docker run --rm --add-host=host.docker.internal:host-gateway -v
+      "<repo>/08-qa/security-quality/COM-MOD-013-QA-001:/zap/wrk" ghcr.io/zaproxy/zaproxy:stable
+      zap-baseline.py -t http://host.docker.internal:5173 -r zap-employee-portal.html -J
+      zap-employee-portal.json -m 2 -j
+    target: employee-portal dev server, 125 URLs (spider + Ajax spider, 2-minute max duration each)
+    result: "FAIL-NEW 0, WARN-NEW 6, PASS 61"
+    findings_disposition: >-
+      Content Security Policy Header Not Set [10038] and Cross-Origin-Embedder-Policy Header
+      Missing [90004] both match the already-registered TD-FE-005 (intentionally deferred to the
+      production hosting layer; Vite's dev-server eval-based HMR requires relaxed CSP/COEP,
+      documented in vite.config.ts). The remaining 4 (Information Disclosure - Sensitive
+      Information in URL [10024] for a Vite HMR websocket handshake token; Information Disclosure -
+      Suspicious Comments [10027] for Vite/React bundled dev-mode source comments; Storable and
+      Cacheable Content [10049] for dev-asset cache headers; Modern Web Application [10109], an
+      informational scan-tuning hint, not a vulnerability) are dev-server-only artifacts inherent to
+      Vite's dev mode with no production relevance and no COM-MOD-013-specific content. No new debt
+      registered for these.
+    report_files:
+      - 08-qa/security-quality/COM-MOD-013-QA-001/zap-employee-portal.html
+      - 08-qa/security-quality/COM-MOD-013-QA-001/zap-employee-portal.json
+
 quality_gates:
   backend:
     tool: >-
@@ -279,11 +357,11 @@ quality_gates:
       - "mvn --settings .mvn/settings.xml -Pquality -Dhop.local-db-tests=true clean verify"
       - "mvn --settings .mvn/settings.xml -Pquality checkstyle:check pmd:check pmd:cpd-check spotbugs:check duplicate-finder:check org.owasp:dependency-check-maven:check"
     status: passed
-    tests_run: 381
+    tests_run: 382
     failures: 0
     errors: 0
     skipped: 0
-    line_coverage_percent: 84.24
+    line_coverage_percent: 84.25
     previous_recorded_floor_percent: 84.14
     clean_rebuild_figure_before_td_db_005_fix_percent: 82.57
     coverage_floor_met: true
@@ -291,9 +369,11 @@ quality_gates:
     coverage_note: >-
       The registry's recorded 84.14% floor was not reproducible from a clean rebuild at the start
       of this item (measured 82.57%); investigating that gap led to finding and closing TD-DB-005.
-      After the fix, the reproducible clean-rebuild figure is 84.24%, above both the 80%
-      final-closure target and the previously recorded 84.14% floor. Future backend iterations
-      must not regress below 84.24%.
+      After that fix, the reproducible clean-rebuild figure was 84.24%. A follow-up DAST pass found
+      and fixed one further defect (TD-QA-007, a MultipartException handling gap), adding one
+      regression test and raising coverage to 84.25% (382 tests), above both the 80% final-closure
+      target and the previously recorded 84.14% floor. Future backend iterations must not regress
+      below 84.25%.
     checkstyle:
       findings_total: 73
       fail_on_violation: false
@@ -396,6 +476,7 @@ frontend_coverage_preservation:
 
 closure_criteria:
   all_5_capabilities_validated: true
+  dast_executed_against_runnable_backend_and_employee_portal_surfaces: true
   no_vulnerabilities_of_any_severity_open_without_disposition: true
   coverage_not_regressed_and_above_previous_floor: true
   technical_debt_reduced: true

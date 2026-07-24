@@ -2,7 +2,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: "COM-MOD-013-QA-001 integrated validation completed clean: found and closed a major persistence-wiring defect (TD-DB-005 -- missing schema.sql registration plus inverted @Profile wiring silently routed COM-MOD-013 data to in-memory storage instead of PostgreSQL); backend coverage rose from a clean-rebuild 82.57% to 84.24% after the fix; fixed 2 SpotBugs High and 5 Medium findings plus 1 hardcoded string and 1 TD-FE-010 function-size violation; employee-portal coverage 89.74% -> 89.75%; registered new debt TD-IAM-004; 0 vulnerabilities across OWASP Dependency-Check/npm audit/Trivy; ready for COM-MOD-013-CLOSEOUT"
+current_phase: "COM-MOD-013-QA-001 integrated validation completed clean: found and closed a major persistence-wiring defect (TD-DB-005 -- missing schema.sql registration plus inverted @Profile wiring silently routed COM-MOD-013 data to in-memory storage instead of PostgreSQL); backend coverage rose from a clean-rebuild 82.57% to 84.24% after that fix; fixed 2 SpotBugs High and 5 Medium findings plus 1 hardcoded string and 1 TD-FE-010 function-size violation; executed real OWASP ZAP DAST against the running backend and employee-portal (939 and 125 URLs), found and fixed 1 further backend defect (TD-QA-007, unhandled 500 on a malformed multipart upload), confirmed by a clean re-scan, raising backend coverage to 84.25%; employee-portal coverage 89.74% -> 89.75%; registered new debt TD-IAM-004; 0 vulnerabilities across OWASP Dependency-Check/npm audit/Trivy; ready for COM-MOD-013-CLOSEOUT"
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
   - High-Level Business Requirement
@@ -429,16 +429,22 @@ completed_deliverables:
     module silently persisted External Quality Control, CAPA, Audit Management and Quality Event
     Intake data in memory only, never to PostgreSQL. Fixed both root causes; re-ran the
     pre-existing ExternalQualityComplianceLocalDatabaseTest live against real PostgreSQL (passed).
-    Backend coverage rose from a clean-rebuild 82.57% to 84.24% (381 tests, 0
+    Backend coverage rose from a clean-rebuild 82.57% to 84.24% at that point (381 tests, 0
     failures/errors/skipped), above the previously recorded 84.14% floor. Also fixed 2 SpotBugs
     High findings (DM_DEFAULT_ENCODING, NM_SAME_SIMPLE_NAME_AS_SUPERCLASS), 5 Medium
     CT_CONSTRUCTOR_THROW findings, 1 hardcoded i18n string and 1 TD-FE-010 function-size violation
     in ComplianceEvidenceScreen.tsx (employee-portal coverage 89.74% -> 89.75%, 187 tests, 60
-    files, lint warnings 51 -> 50). Registered new debt TD-IAM-004 (synthetic tenant id in 5
-    controllers, deferred pending a Spring Modulith module-boundary decision; deny-by-default
-    authorization itself unaffected). OWASP Dependency-Check (72 deps), npm audit and Trivy
-    (backend/employee-portal/repo-wide, all severities) reported 0
-    vulnerabilities/secrets/misconfigurations. Ready for COM-MOD-013-CLOSEOUT.
+    files, lint warnings 51 -> 50). A required follow-up real OWASP ZAP DAST pass against the
+    running backend (939 URLs) and employee-portal (125 URLs) found and fixed one further backend
+    defect -- TD-QA-007, an unhandled 500 on a malformed/abruptly-truncated multipart upload to
+    POST /api/documents, remapped to 400 -- confirmed by a clean re-scan (0 FAIL-NEW/0 WARN-NEW),
+    raising backend coverage to 84.25% (382 tests). The portal baseline scan found 0 FAIL-NEW and 6
+    WARN-NEW, all matching the already-known TD-FE-005 or dev-server-only artifacts. Registered new
+    debt TD-IAM-004 (synthetic tenant id in 5 controllers, deferred pending a Spring Modulith
+    module-boundary decision; deny-by-default authorization itself unaffected). OWASP
+    Dependency-Check (72 deps), npm audit and Trivy (backend/employee-portal/repo-wide, all
+    severities) reported 0 vulnerabilities/secrets/misconfigurations. Ready for
+    COM-MOD-013-CLOSEOUT.
 next_deliverables:
   - Execute COM-MOD-013-CLOSEOUT module closeout and registry update
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
@@ -510,9 +516,9 @@ development_readiness:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 84.24
+        current_line_coverage_percent: 84.25
         source_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 84.24
+        next_iteration_minimum_line_coverage_percent: 84.25
         final_closure_target_percent: 80
         tracked_by: TD-BE-003
         correction_note: >-
@@ -524,8 +530,11 @@ development_readiness:
           repository pairs, so the module's real JDBC code was dead/unreachable (0% covered) and
           all its data was silently stored in memory only, never PostgreSQL (registered and closed
           as TD-DB-005). Fixed both root causes, raising the corrected, reproducible clean-rebuild
-          figure to 84.24% (381 tests, 0 failures/errors/skipped); future backend iterations must
-          not regress below 84.24%.
+          figure to 84.24% (381 tests, 0 failures/errors/skipped). A required follow-up real OWASP
+          ZAP DAST pass against the running backend found and fixed one further defect, TD-QA-007
+          (unhandled 500 on a malformed multipart upload, remapped to 400), adding one regression
+          test and raising it to 84.25% (382 tests, 0 failures/errors/skipped); future backend
+          iterations must not regress below 84.25%.
           This block had drifted out of sync with the authoritative running baseline maintained in
           08-qa/technical-debt/technical-debt-index.yaml (still showing 83.99% from
           COM-MOD-011-FE-001 despite COM-MOD-011-BE-001, COM-MOD-012-BE-001 and COM-MOD-012-QA-001
@@ -709,10 +718,13 @@ implementation_progress:
       External Quality Control, CAPA, Audit Management and Quality Event Intake data in memory
       only, never to PostgreSQL. Fixed both root causes and re-verified live against real
       PostgreSQL. Also fixed 2 SpotBugs High and 5 Medium findings, 1 hardcoded i18n string and 1
-      TD-FE-010 function-size violation. Registered new debt TD-IAM-004.
+      TD-FE-010 function-size violation. Executed real OWASP ZAP DAST against the running backend
+      (939 URLs) and employee-portal (125 URLs); found and fixed 1 further backend defect
+      (TD-QA-007, unhandled 500 on a malformed multipart upload), confirmed by a clean re-scan.
+      Registered new debt TD-IAM-004.
     working_directory: projects/healthcare-operations-platform
     status: passed
-    tests_run_backend: 381
+    tests_run_backend: 382
     tests_run_backend_status: passed
     tests_run_frontend: 187
     tests_run_frontend_status: passed
@@ -721,7 +733,7 @@ implementation_progress:
     errors: 0
     skipped: 0
     vulnerabilities: 0
-    line_coverage_backend_percent: 84.24
+    line_coverage_backend_percent: 84.25
     previous_line_coverage_baseline_backend_percent: 84.14
     line_coverage_frontend_percent: 89.75
     previous_line_coverage_baseline_frontend_percent: 89.74
@@ -741,6 +753,12 @@ implementation_progress:
       - >-
         Agent-agnostic scan and secrets scan passed clean for all files touched by this item.
         git diff --check reported 0 whitespace errors.
+      - >-
+        DAST (OWASP ZAP) executed for real against the running backend and employee-portal (both
+        runnable surfaces), not left not_applicable: zap-api-scan.py against 939 backend URLs found
+        and this item fixed TD-QA-007; re-scan confirmed 0 FAIL-NEW/0 WARN-NEW. zap-baseline.py
+        with the Ajax Spider against 125 employee-portal URLs found 0 FAIL-NEW, 6 WARN-NEW all
+        dispositioned to the existing TD-FE-005 or dev-server-only artifacts.
   previous_validation_com_mod_013_be_001:
     backlog_item_id: COM-MOD-013-BE-001
     command: >-
@@ -1863,6 +1881,7 @@ commercial_product_progress:
       qa_evidence_md: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.md
       technical_debt_closed:
         - TD-DB-005
+        - TD-QA-007
       technical_debt_materially_reduced:
         - TD-I18N-002
         - TD-FE-010

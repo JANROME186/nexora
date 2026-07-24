@@ -65,6 +65,20 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * A multipart upload (e.g. POST /api/documents) whose body is malformed, truncated by an
+     * abrupt client disconnect mid-stream, or exceeds the configured size limit fails while Spring
+     * is still parsing the request, before any controller or business logic runs. That is always a
+     * client-input/transport problem, not a server fault, so it is remapped to 400 instead of the
+     * default 500 (found by an OWASP ZAP Buffer Overflow active-scan probe against
+     * DocumentManagementController.uploadDocument).
+     */
+    @ExceptionHandler(org.springframework.web.multipart.MultipartException.class)
+    public ResponseEntity<Object> handleMultipartException(
+            org.springframework.web.multipart.MultipartException ex, WebRequest request) {
+        return badRequestResponse(ex, request);
+    }
+
+    /**
      * A request field or query parameter containing malformed or oversized data (e.g. a null byte,
      * or a value longer than a column's declared length) is structurally valid Java input but is
      * rejected by PostgreSQL's own data validation once it reaches a JDBC statement, surfacing here

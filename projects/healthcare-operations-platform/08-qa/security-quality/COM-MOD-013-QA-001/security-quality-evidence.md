@@ -9,11 +9,12 @@
 ## Summary
 
 Integrated backend + employee-portal security/quality validation for COM-MOD-013 Advanced Quality
-and Compliance. No new dependency was introduced. All mandatory gates ran and passed. Two real
-defects were found and fixed, one major (a persistence-wiring defect, TD-DB-005) and several minor
-(SpotBugs High/Medium findings, one hardcoded string, one function-size violation). One new
-technical-debt item was registered (TD-IAM-004) for a finding judged out of narrow validation
-scope to fix safely.
+and Compliance, including real DAST (OWASP ZAP) against both the running backend and employee
+portal. No new dependency was introduced. All mandatory gates ran and passed. Real defects were
+found and fixed: one major (a persistence-wiring defect, TD-DB-005), several SpotBugs High/Medium
+findings, one hardcoded string, one function-size violation, and one DAST-found defect
+(TD-QA-007, an unhandled 500 on a malformed multipart upload). One new technical-debt item was
+registered (TD-IAM-004) for a finding judged out of narrow validation scope to fix safely.
 
 ## Vulnerability / Dependency Scans
 
@@ -48,12 +49,30 @@ map instead of PostgreSQL, due to a missing `schema.sql` registration compounded
 `@Profile` wiring on 4 JDBC/in-memory repository pairs. See the QA validation evidence for full
 root-cause detail.
 
+## DAST (OWASP ZAP)
+
+Backend started on `localhost:8090` (port `8080` occupied by an unrelated pre-existing process on
+this shared machine, same documented conflict as prior sessions) and employee-portal on
+`localhost:5173`, proxying to the 8090 backend via a new optional `HOP_BACKEND_URL` env var read by
+`vite.config.ts` (backward compatible; falls back to the existing `localhost:8080` default when
+unset).
+
+| Scan | Target | First run | Fix | Re-scan |
+|---|---|---|---|---|
+| `zap-api-scan.py` | `http://host.docker.internal:8090/v3/api-docs` (939 URLs, full backend incl. all COM-MOD-013 endpoints) | FAIL-NEW 0, **WARN-NEW 2** (Buffer Overflow: `POST /api/documents` returned 500 on an abrupt-disconnect multipart upload) | `GlobalExceptionHandler` gained a `MultipartException` → 400 mapping (`TD-QA-007`, closed) | **FAIL-NEW 0, WARN-NEW 0, PASS 118** |
+| `zap-baseline.py -j` (Ajax Spider) | `http://host.docker.internal:5173` (125 URLs, employee-portal) | FAIL-NEW 0, WARN-NEW 6 | none needed | all 6 map to the already-registered `TD-FE-005` (CSP/COEP, deferred to production hosting) or dev-server-only artifacts (HMR token, Vite dev-mode source comments, dev-asset caching, informational scan-tuning hint) |
+
+Reports saved under `08-qa/security-quality/COM-MOD-013-QA-001/`: `zap-backend-api.html/json`,
+`zap-employee-portal.html/json`.
+
 ## New Technical Debt
 
 - **`TD-IAM-004`** (open): 5 controllers assign a synthetic random `TenantId` instead of the
   authenticated request's real tenant. Access control (deny-by-default authorization) is
   unaffected; the gap is data attribution. Deferred because a correct fix requires a Spring
   Modulith module-boundary decision beyond safe scope for a validation-only backlog item.
+- **`TD-QA-007`** (closed, same iteration): found by the ZAP API scan, fixed, and confirmed by a
+  clean re-scan (see DAST section above).
 
 ## Accepted Risks
 

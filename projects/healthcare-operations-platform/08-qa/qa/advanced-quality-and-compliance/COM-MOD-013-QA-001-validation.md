@@ -56,8 +56,9 @@ passes against real `hop-local-postgres` (it failed with `relation "external_qua
 does not exist` when only the profile fix was applied, confirming both causes were real and both
 were required). Full backend suite re-run clean — 381 tests, 0 failures/errors/skipped.
 `externalqualitycompliance.adapter.out.jdbc` coverage rose from 0/199 to 146/199 (73.4%). Overall
-backend line coverage rose to **84.24%**, above both the 80% final-closure target and the
-previously recorded 84.14% floor. See `TD-DB-005-quality-compliance-persistence-never-wired.yaml`.
+backend line coverage rose to 84.24% at that point (later 84.25% after the DAST fix in Section 3a),
+above both the 80% final-closure target and the previously recorded 84.14% floor. See
+`TD-DB-005-quality-compliance-persistence-never-wired.yaml`.
 
 ---
 
@@ -72,6 +73,27 @@ previously recorded 84.14% floor. See `TD-DB-005-quality-compliance-persistence-
 | SpotBugs Medium `CT_CONSTRUCTOR_THROW` × 5 (`AuditFinding`, `AuditSchedule`, `CapaInvestigation`, `ExternalQualityEvaluation`, `QualityEventIntake`) | Marked all 5 classes `final` (none subclassed anywhere) |
 
 SpotBugs/FindSecBugs total findings dropped from 70 to 63 as a result.
+
+---
+
+## 3a. DAST (OWASP ZAP) — required for this validation-level backlog item
+
+Backend and employee-portal are both runnable surfaces, so DAST was executed for real, not marked
+`not_applicable`. Port `8080` was occupied by an unrelated pre-existing process on this shared
+machine (same documented conflict as prior sessions); the backend was started on `server.port=8090`
+for this session only. `vite.config.ts`'s dev-proxy target, previously hardcoded to
+`localhost:8080` with no override mechanism, now reads an optional `HOP_BACKEND_URL` environment
+variable (falls back to the existing `http://localhost:8080` default when unset) — a small,
+backward-compatible fix so the portal could be pointed at the 8090 backend for this session and any
+future one with the same conflict.
+
+| Scan | Target | First run | Fix | Re-scan |
+|---|---|---|---|---|
+| `zap-api-scan.py` | `http://host.docker.internal:8090/v3/api-docs` (939 URLs — full backend, all COM-MOD-013 endpoints included) | FAIL-NEW 0, **WARN-NEW 2** (Buffer Overflow: `POST /api/documents` returned 500 when a client abruptly disconnected mid multipart upload) | `GlobalExceptionHandler.handleMultipartException()` added, mapping `MultipartException` → 400; regression test added (`TD-QA-007`, closed) | **FAIL-NEW 0, WARN-NEW 0, PASS 118** |
+| `zap-baseline.py -j` (Ajax Spider) | `http://host.docker.internal:5173` (125 URLs — employee-portal) | FAIL-NEW 0, WARN-NEW 6 | none needed | all 6 map to the already-registered `TD-FE-005` (CSP/COEP, deferred to production hosting) or dev-server-only artifacts (Vite HMR token, dev-mode source comments, dev-asset caching, an informational scan-tuning hint) |
+
+Reports: `zap-backend-api.html/json`, `zap-employee-portal.html/json` under
+`08-qa/security-quality/COM-MOD-013-QA-001/`.
 
 ---
 
@@ -123,8 +145,8 @@ operations match controllers, `permissions.yaml` matches `EndpointPermissionRegi
 
 | Check | Result |
 |---|---|
-| Unit/integration tests | **381 passed**, 0 failures/errors/skipped |
-| Line coverage | **84.24%** (floor 84.14%, no regression; see TD-DB-005 note) |
+| Unit/integration tests | **382 passed**, 0 failures/errors/skipped |
+| Line coverage | **84.25%** (floor 84.14%, no regression; see TD-DB-005 and TD-QA-007 notes) |
 | Checkstyle | 73 findings, non-blocking, tracked under TD-BE-002 |
 | PMD / CPD | 570 violations / 2 duplications, non-blocking, tracked under TD-BE-002 |
 | SpotBugs / FindSecBugs | 63 findings (down from 70), 0 remaining High severity |
@@ -148,6 +170,12 @@ operations match controllers, `permissions.yaml` matches `EndpointPermissionRegi
 | npm audit | **0 vulnerabilities** |
 | Trivy fs (employee-portal) | 0 vulnerabilities / 0 secrets / 0 misconfigurations |
 
+### DAST
+
+- Backend ZAP API scan (939 URLs): **FAIL-NEW 0, WARN-NEW 0** after fixing `TD-QA-007`.
+- Employee-portal ZAP baseline scan (125 URLs, Ajax Spider): **FAIL-NEW 0**, 6 WARN-NEW all
+  dispositioned (TD-FE-005 or dev-server-only artifacts).
+
 ### Repo-Wide
 
 - Trivy fs (backend, doctor-portal, employee-portal, patient-portal, public-website): **0
@@ -162,7 +190,8 @@ operations match controllers, `permissions.yaml` matches `EndpointPermissionRegi
 **Status**: closed
 **Next backlog item**: `COM-MOD-013-CLOSEOUT`
 
-All closure criteria met: capabilities validated, no unresolved vulnerabilities of any severity,
-coverage above the previous floor and target, at least one technical-debt item materially reduced
-(two: TD-I18N-002 and TD-FE-010) plus one fully closed (TD-DB-005), no stale pointers after sweep,
+All closure criteria met: capabilities validated, DAST executed against both runnable surfaces (no
+`not_applicable` disposition), no unresolved vulnerabilities of any severity, coverage above the
+previous floor and target, at least one technical-debt item materially reduced (two: TD-I18N-002
+and TD-FE-010) plus two fully closed (TD-DB-005, TD-QA-007), no stale pointers after sweep,
 repository clean after commit.

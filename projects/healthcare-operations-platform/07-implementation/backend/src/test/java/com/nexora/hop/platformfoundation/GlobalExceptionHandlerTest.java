@@ -92,6 +92,25 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
+    void mapsMultipartExceptionToBadRequestBody() {
+        WebRequest request = mock(WebRequest.class);
+        when(request.getDescription(false)).thenReturn("uri=/api/documents");
+        org.springframework.web.multipart.MultipartException ex =
+                new org.springframework.web.multipart.MultipartException(
+                        "Failed to parse multipart servlet request",
+                        new java.io.IOException("Connection closed prematurely"));
+
+        ResponseEntity<Object> response = handler.handleMultipartException(ex, request);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> body = (Map<String, Object>) response.getBody();
+        assertThat(body).isNotNull();
+        assertThat(body.get("status")).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(body.get("path")).isEqualTo("/api/documents");
+    }
+
+    @Test
     void rethrowsOtherDataIntegrityViolationCausesUnchanged() {
         WebRequest request = mock(WebRequest.class);
         DataIntegrityViolationException ex =

@@ -41,17 +41,20 @@ entries:
       dependency_vulnerability_scan: passed
       secrets_scan: passed
       coverage: passed_above_previous_floor
-      dast_for_runnable_web_or_api_surfaces: not_applicable_no_new_runnable_surface_this_item
+      dast_for_runnable_web_or_api_surfaces: passed_after_fixing_1_finding_TD_QA_007
       container_or_iac_scan_when_assets_change: not_applicable_no_container_or_iac_asset_changed
     note: >-
       Integrated validation of COM-MOD-013. Found and closed a major persistence-wiring defect
       (TD-DB-005: missing schema.sql registration + inverted @Profile wiring caused the backend to
       silently use in-memory storage instead of PostgreSQL), raising backend coverage from a
       clean-rebuild 82.57% to 84.24%. Fixed 2 SpotBugs High and 5 Medium findings, 1 hardcoded
-      string (TD-I18N-002) and 1 function-size violation (TD-FE-010). Registered new debt
-      TD-IAM-004 for a synthetic-tenant-id finding deferred pending a Modulith boundary decision.
-      0 vulnerabilities across OWASP Dependency-Check, npm audit and Trivy (all severities,
-      backend/employee-portal/repo-wide).
+      string (TD-I18N-002) and 1 function-size violation (TD-FE-010). Executed real OWASP ZAP DAST
+      against the running backend (939 URLs) and employee-portal (125 URLs); found and fixed 1
+      backend defect (TD-QA-007: unhandled 500 on a malformed multipart upload, remapped to 400),
+      confirmed by a clean re-scan (0 FAIL-NEW/0 WARN-NEW); raising backend coverage to 84.25%.
+      Registered new debt TD-IAM-004 for a synthetic-tenant-id finding deferred pending a Modulith
+      boundary decision. 0 vulnerabilities across OWASP Dependency-Check, npm audit and Trivy (all
+      severities, backend/employee-portal/repo-wide).
   - backlog_item: COM-MOD-013-FE-001
     module: COM-MOD-013 Advanced Quality and Compliance
     status: passed

@@ -61,17 +61,21 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 84.24
+        current_line_coverage_percent: 84.25
         source_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.yaml
-        next_iteration_minimum_line_coverage_percent: 84.24
+        next_iteration_minimum_line_coverage_percent: 84.25
         final_closure_target_percent: 80
         correction_note: >-
           COM-MOD-013-QA-001 found the recorded 84.14% figure was not reproducible from a clean
           rebuild (measured 82.57%); investigating that gap surfaced and closed TD-DB-005 (COM-MOD-013's
           backend was silently using in-memory storage instead of PostgreSQL due to a missing
           schema.sql registration compounded by inverted @Profile wiring on 4 JDBC/in-memory
-          repository pairs). After the fix, the reproducible clean-rebuild figure is 84.24% (381
-          tests, 0 failures/errors/skipped); the new floor is 84.24%.
+          repository pairs). After that fix, the reproducible clean-rebuild figure was 84.24% (381
+          tests, 0 failures/errors/skipped). A subsequent OWASP ZAP DAST pass against the running
+          backend (required for this validation item, not left not_applicable) found and fixed one
+          further defect, TD-QA-007 (unhandled 500 on a malformed/abruptly-truncated multipart
+          upload to POST /api/documents, remapped to 400), adding one regression test and raising
+          it to 84.25% (382 tests, 0 failures/errors/skipped); the new floor is 84.25%.
           MVP-MOD-007-QA-001 raised backend line coverage to 78.42%. MVP-MOD-007-CLOSEOUT's
           TD-BE-010 fix added one real unit test for the new SampleReadPort-backed cancellation
           branch, raising it to 78.51% (211 tests, 0 failures/errors) with no regression.
@@ -734,3 +738,12 @@ entries:
     affected_area: quality_compliance_and_document_management_tenant_traceability
     file: 08-qa/technical-debt/TD-IAM-004-quality-compliance-controllers-synthetic-tenant.yaml
     remediation_strategy: gradual_when_a_shared_tenant_context_port_is_next_designed_or_when_these_controllers_are_next_touched
+  - id: TD-QA-007
+    title: Malformed/truncated multipart upload caused an unhandled 500 instead of 400 on POST /api/documents
+    status: closed
+    risk_level: medium
+    blocking: false
+    source_backlog_item: COM-MOD-013-QA-001
+    affected_area: document_management_multipart_upload
+    file: 08-qa/technical-debt/TD-QA-007-multipart-upload-abrupt-disconnect-unhandled-500.yaml
+    remediation_strategy: closed_by_COM_MOD_013_QA_001_MultipartException_handler_and_DAST_rescan

@@ -20,17 +20,32 @@ Management and Quality Event Intake data was silently persisted in memory only -
 backend restart -- instead of to `hop-local-postgres`. Fixed both root causes; re-ran the
 pre-existing `ExternalQualityComplianceLocalDatabaseTest` live against real PostgreSQL (passed,
 previously would have failed with `relation "external_quality_evaluations" does not exist` once
-only the profile fix was applied). Backend coverage rose from a clean-rebuild 82.57% to 84.24%
-(381 tests, 0 failures/errors/skipped), above the previously recorded 84.14% floor. Also fixed 2
-SpotBugs High findings (`DM_DEFAULT_ENCODING`, `NM_SAME_SIMPLE_NAME_AS_SUPERCLASS`), 5 Medium
-`CT_CONSTRUCTOR_THROW` findings, 1 hardcoded i18n string and 1 `TD-FE-010` function-size violation
-in `ComplianceEvidenceScreen.tsx` (employee-portal coverage 89.74% -> 89.75%, 187 tests, 60 files,
-lint warnings 51 -> 50). Registered new debt `TD-IAM-004` (5 controllers assign a synthetic random
-tenant id instead of the authenticated request's real tenant; deferred pending a Spring Modulith
-module-boundary decision -- deny-by-default authorization itself is unaffected). OWASP
-Dependency-Check (72 deps), npm audit and Trivy (backend/employee-portal/repo-wide, all
-severities) reported 0 vulnerabilities/secrets/misconfigurations. Next active backlog item:
-`COM-MOD-013-CLOSEOUT`.
+only the profile fix was applied). Backend coverage rose from a clean-rebuild 82.57% to 84.24% at
+that point (381 tests, 0 failures/errors/skipped), above the previously recorded 84.14% floor.
+Also fixed 2 SpotBugs High findings (`DM_DEFAULT_ENCODING`, `NM_SAME_SIMPLE_NAME_AS_SUPERCLASS`), 5
+Medium `CT_CONSTRUCTOR_THROW` findings, 1 hardcoded i18n string and 1 `TD-FE-010` function-size
+violation in `ComplianceEvidenceScreen.tsx` (employee-portal coverage 89.74% -> 89.75%, 187 tests,
+60 files, lint warnings 51 -> 50). A follow-up real DAST pass (OWASP ZAP, required since backend
+and employee-portal are both runnable surfaces) executed `zap-api-scan.py` against the full backend
+OpenAPI surface (939 URLs, all COM-MOD-013 endpoints included) and `zap-baseline.py` with the Ajax
+Spider against the employee portal (125 URLs). The API scan found and this item fixed one further
+real defect, `TD-QA-007`: an abrupt client disconnect mid multipart upload to `POST /api/documents`
+caused an unhandled 500 (`GlobalExceptionHandler` had no mapping for
+`org.springframework.web.multipart.MultipartException`); fixed by adding that mapping to 400 plus a
+regression test, confirmed by a clean re-scan (0 FAIL-NEW/0 WARN-NEW, up from 2 WARN-NEW),
+raising backend coverage to 84.25% (382 tests). The portal baseline scan found 0 FAIL-NEW and 6
+WARN-NEW, all matching the already-known `TD-FE-005` (CSP/COEP, deferred to the production hosting
+layer) or dev-server-only artifacts (Vite HMR token, dev-mode source comments, dev-asset caching,
+an informational scan-tuning hint) with no production relevance. `vite.config.ts`'s dev-proxy
+target, previously hardcoded to `localhost:8080`, now reads an optional `HOP_BACKEND_URL`
+environment variable (falls back to the existing default when unset) so the portal could reach the
+backend on its session-only `8090` port for this scan. DAST reports saved under
+`08-qa/security-quality/COM-MOD-013-QA-001/`. Registered new debt `TD-IAM-004` (5 controllers
+assign a synthetic random tenant id instead of the authenticated request's real tenant; deferred
+pending a Spring Modulith module-boundary decision -- deny-by-default authorization itself is
+unaffected). OWASP Dependency-Check (72 deps), npm audit and Trivy (backend/employee-portal/
+repo-wide, all severities) reported 0 vulnerabilities/secrets/misconfigurations. Next active
+backlog item: `COM-MOD-013-CLOSEOUT`.
 
 Previous update: `COM-MOD-013-FE-001` is closed. Compiled the Advanced Quality and Compliance
 employee-portal UI for External Quality Control (`BCM-QLT-002`), CAPA Management (`BCM-QLT-006`),

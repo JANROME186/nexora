@@ -33,15 +33,31 @@ project:
       but silently persisted External Quality/CAPA/Audit/Quality-Event-Intake data in memory only
       -- lost on every restart -- instead of to hop-local-postgres. No new component, port,
       environment variable, Docker service or startup-order change; existing schema-locations
-      mechanism now correctly covers this module's tables.
+      mechanism now correctly covers this module's tables. Additionally,
+      `employee-portal/vite.config.ts`'s dev-server `/api` proxy target, previously hardcoded to
+      `http://localhost:8080` with no override, now reads an optional `HOP_BACKEND_URL`
+      environment variable (falls back to the existing `http://localhost:8080` default when
+      unset) -- a small, backward-compatible fix so the portal can be pointed at an alternate
+      backend port (e.g. the documented `8090` workaround below) without editing source.
+    dast_execution: >-
+      This backlog item validates a runnable backend and employee-portal, so DAST was executed for
+      real (not `not_applicable`): `zap-api-scan.py` against the full backend OpenAPI surface (939
+      URLs, all COM-MOD-013 endpoints included) found and this item fixed a real defect (`TD-QA-007`
+      -- an abrupt client disconnect mid multipart upload to POST /api/documents caused an
+      unhandled 500; `GlobalExceptionHandler` gained a `MultipartException` -> 400 mapping);
+      re-scan confirmed 0 FAIL-NEW/0 WARN-NEW. `zap-baseline.py` with the Ajax Spider against the
+      employee portal (125 URLs) found 0 FAIL-NEW and 6 WARN-NEW, all matching the already-known
+      `TD-FE-005` (CSP/COEP) or dev-server-only artifacts with no production relevance. Reports
+      saved under `08-qa/security-quality/COM-MOD-013-QA-001/`.
     validation_summary: >-
       Completed COM-MOD-013-QA-001 clean. Found and closed TD-DB-005 (the persistence defect
-      above); backend coverage rose from a clean-rebuild 82.57% to 84.24% (381 tests, 0
-      failures/errors/skipped). Fixed 2 SpotBugs High and 5 Medium findings; employee-portal
-      coverage 89.74% -> 89.75% (187 tests, 60 files, 0 failures, lint warnings 51 -> 50). OWASP
-      Dependency-Check (72 deps), npm audit and Trivy (backend/employee-portal/repo-wide, all
-      severities) reported 0 vulnerabilities/secrets/misconfigurations. Registered new debt
-      TD-IAM-004. Advanced next active backlog item to COM-MOD-013-CLOSEOUT.
+      above) and TD-QA-007 (the DAST-found defect above); backend coverage rose from a
+      clean-rebuild 82.57% to 84.25% (382 tests, 0 failures/errors/skipped). Fixed 2 SpotBugs High
+      and 5 Medium findings; employee-portal coverage 89.74% -> 89.75% (187 tests, 60 files, 0
+      failures, lint warnings 51 -> 50). OWASP Dependency-Check (72 deps), npm audit and Trivy
+      (backend/employee-portal/repo-wide, all severities) reported 0
+      vulnerabilities/secrets/misconfigurations. Registered new debt TD-IAM-004. Advanced next
+      active backlog item to COM-MOD-013-CLOSEOUT.
   previous_runbook_update_com_mod_013_fe_001:
     backlog_item: COM-MOD-013-FE-001
     status: closed

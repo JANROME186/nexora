@@ -254,7 +254,7 @@ next_backlog_item:
   paused_functional_backlog_item: null
   required_debt_first_action: null
   coverage_floor:
-    backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.24
+    backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.25
     frontend_typescript_web_line_coverage_percent: 89.75
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.11
@@ -263,9 +263,9 @@ next_backlog_item:
     final_target_percent: 80
   mandatory_execution_notes:
     - Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
-    - Preserve coverage floors: backend (84.24%), employee portal (89.75%), mobile (99.21%), patient portal (94.11%), doctor portal (96.28%), and public website (98.61%).
+    - Preserve coverage floors: backend (84.25%), employee portal (89.75%), mobile (99.21%), patient portal (94.11%), doctor portal (96.28%), and public website (98.61%).
     - COM-MOD-013 depends on MVP-MOD-006, COM-MOD-010 and COM-MOD-012, all module_closed; COM-MOD-013-DEF, COM-MOD-013-BE-001, COM-MOD-013-FE-001 and COM-MOD-013-QA-001 are closed.
-    - For COM-MOD-013-CLOSEOUT, confirm all 5 capability packages module_closed in capability-package-index.yaml and their traceability.yaml files, confirm TD-DB-005 closed and TD-IAM-004 correctly registered as open/non-blocking, and re-affirm coverage figures unchanged unless source is touched.
+    - For COM-MOD-013-CLOSEOUT, confirm all 5 capability packages module_closed in capability-package-index.yaml and their traceability.yaml files, confirm TD-DB-005 and TD-QA-007 closed and TD-IAM-004 correctly registered as open/non-blocking, and re-affirm coverage figures unchanged unless source is touched.
   previous_backlog_item:
     backlog_item_id: COM-MOD-013-QA-001
     status: closed
@@ -275,12 +275,18 @@ next_backlog_item:
       the 4 real JDBC repositories were wired with an inverted @Profile (active only outside
       local/test) so the module silently used in-memory storage instead of PostgreSQL. Fixed both
       root causes; re-ran the pre-existing ExternalQualityComplianceLocalDatabaseTest live against
-      real PostgreSQL (passed). Backend coverage rose from a clean-rebuild 82.57% to 84.24%
-      (381 tests, 0 failures/errors/skipped), above the previously recorded 84.14% floor. Also
-      fixed 2 SpotBugs High findings (DM_DEFAULT_ENCODING, NM_SAME_SIMPLE_NAME_AS_SUPERCLASS), 5
-      Medium CT_CONSTRUCTOR_THROW findings, 1 hardcoded i18n string and 1 TD-FE-010 function-size
-      violation in ComplianceEvidenceScreen.tsx (employee-portal coverage 89.74% -> 89.75%, 187
-      tests). Registered new debt TD-IAM-004 (synthetic tenant id in 5 controllers, deferred
-      pending a Modulith boundary decision). OWASP Dependency-Check (72 deps), npm audit and Trivy
+      real PostgreSQL (passed). Also executed real OWASP ZAP DAST against the running backend (939
+      URLs) and employee-portal (125 URLs), required since both are runnable surfaces; found and
+      fixed one further backend defect (TD-QA-007: an abrupt client disconnect mid multipart
+      upload to POST /api/documents caused an unhandled 500, remapped to 400), confirmed by a
+      clean re-scan (0 FAIL-NEW/0 WARN-NEW). The portal baseline scan found 0 FAIL-NEW and 6
+      WARN-NEW, all matching the already-registered TD-FE-005 or dev-server-only artifacts. Backend
+      coverage rose from a clean-rebuild 82.57% to 84.25% (382 tests, 0 failures/errors/skipped),
+      above the previously recorded 84.14% floor. Also fixed 2 SpotBugs High findings
+      (DM_DEFAULT_ENCODING, NM_SAME_SIMPLE_NAME_AS_SUPERCLASS), 5 Medium CT_CONSTRUCTOR_THROW
+      findings, 1 hardcoded i18n string and 1 TD-FE-010 function-size violation in
+      ComplianceEvidenceScreen.tsx (employee-portal coverage 89.74% -> 89.75%, 187 tests).
+      Registered new debt TD-IAM-004 (synthetic tenant id in 5 controllers, deferred pending a
+      Modulith boundary decision). OWASP Dependency-Check (72 deps), npm audit and Trivy
       (backend/employee-portal/repo-wide, all severities) reported 0 vulnerabilities/secrets/
       misconfigurations. Advanced next_backlog_item to COM-MOD-013-CLOSEOUT.

@@ -12,7 +12,9 @@ changed_components:
   - backend: externalqualitycompliance (adapter/in/web, adapter/out/jdbc, adapter/out/memory, domain)
   - backend: documentmanagement.adapter.in.web.DocumentManagementController
   - backend: application-local.yml (spring.sql.init.schema-locations)
+  - backend: GlobalExceptionHandler.java (MultipartException -> 400 mapping, DAST-found)
   - employee-portal: ComplianceEvidenceScreen.tsx, i18n/locales/es-MX.ts, i18n/locales/en-US.ts
+  - employee-portal: vite.config.ts (optional HOP_BACKEND_URL dev-proxy override, backward compatible)
 
 open_source_first_assessment:
   new_dependency_added: false
@@ -57,6 +59,7 @@ tools_run:
     - CycloneDX Maven Plugin (SBOM)
     - duplicate-finder-maven-plugin
     - Trivy 0.72.0 (fs: vuln, secret, misconfig)
+    - OWASP ZAP (Docker ghcr.io/zaproxy/zaproxy:stable) zap-api-scan.py, full DAST active scan
   employee_portal:
     - TypeScript compiler (typecheck)
     - ESLint (lint, incl. eslint-plugin-security, eslint-plugin-sonarjs, eslint-plugin-jsx-a11y)
@@ -67,6 +70,7 @@ tools_run:
     - license-checker-rseidelsohn (license:check)
     - npm audit (audit:all)
     - Trivy 0.72.0 (fs: vuln, secret, misconfig)
+    - OWASP ZAP (Docker ghcr.io/zaproxy/zaproxy:stable) zap-baseline.py with Ajax Spider
   repository:
     - Trivy 0.72.0 (repo-wide fs scan across backend, doctor-portal, employee-portal,
       patient-portal, public-website)
@@ -81,15 +85,19 @@ commands_or_equivalent_steps:
   - "npm run audit:all"
   - "trivy fs --scanners vuln,secret,misconfig --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL --exit-code 0 --timeout 15m . (employee-portal)"
   - "trivy fs --scanners vuln,secret,misconfig --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL --exit-code 0 --timeout 30m . (repo root)"
+  - "mvn --settings .mvn/settings.xml spring-boot:run -Dspring-boot.run.profiles=local -Dspring-boot.run.jvmArguments=-Dserver.port=8090 (backend, session-only port workaround)"
+  - "HOP_BACKEND_URL=http://localhost:8090 npm run dev -- --host 127.0.0.1 (employee-portal)"
+  - "docker run --rm --add-host=host.docker.internal:host-gateway -v <repo>/08-qa/security-quality/COM-MOD-013-QA-001:/zap/wrk ghcr.io/zaproxy/zaproxy:stable zap-api-scan.py -t http://host.docker.internal:8090/v3/api-docs -f openapi -r zap-backend-api.html -J zap-backend-api.json"
+  - "docker run --rm --add-host=host.docker.internal:host-gateway -v <repo>/08-qa/security-quality/COM-MOD-013-QA-001:/zap/wrk ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://host.docker.internal:5173 -r zap-employee-portal.html -J zap-employee-portal.json -m 2 -j"
 
 results:
-  backend_tests: "381 passed, 0 failures/errors/skipped"
+  backend_tests: "382 passed, 0 failures/errors/skipped (381 -> 382: new GlobalExceptionHandlerTest.mapsMultipartExceptionToBadRequestBody regression test)"
   frontend_tests: "187 passed, 60 files, 0 failures"
   builds: "backend BUILD SUCCESS; employee-portal vite build clean"
 
 coverage_summary:
-  backend_line_coverage_percent: 84.24
-  backend_previous_floor_percent: 84.14
+  backend_line_coverage_percent: 84.25
+  backend_previous_floor_percent: 84.24
   backend_regression: false
   employee_portal_line_coverage_percent: 89.75
   employee_portal_previous_floor_percent: 89.74
@@ -122,7 +130,54 @@ sast_summary:
     warnings: 50
     disposition: non_blocking_tracked_under_TD_FE_010_and_TD_I18N_002
 
-dast_summary_when_applicable: not_applicable_no_runnable_full_stack_scenario_added_this_item
+dast_summary_when_applicable:
+  status: passed
+  backend_zap_api_scan:
+    tool: OWASP ZAP (Docker ghcr.io/zaproxy/zaproxy:stable) zap-api-scan.py
+    target: http://host.docker.internal:8090/v3/api-docs (full backend OpenAPI surface, 939 URLs,
+      including all COM-MOD-013 endpoint prefixes -- /api/quality/external-controls,
+      /api/quality/capa, /api/quality/audits, /api/quality/events, /api/documents,
+      /api/audit/events/export)
+    first_run_result: "FAIL-NEW 0, WARN-NEW 2 (both the same finding: a Buffer Overflow active-scan
+      probe against POST /api/documents abruptly closed the connection mid multipart upload,
+      surfacing an unhandled MultipartException as HTTP 500), PASS 117"
+    finding_fixed: >-
+      Registered and closed as TD-QA-007. GlobalExceptionHandler gained a
+      MultipartException -> 400 mapping (also covers oversized uploads via
+      MaxUploadSizeExceededException, a MultipartException subtype); a new regression test
+      (GlobalExceptionHandlerTest.mapsMultipartExceptionToBadRequestBody) was added; backend
+      restarted with the fix.
+    rescan_result: "FAIL-NEW 0, WARN-NEW 0, PASS 118"
+    reports:
+      - 08-qa/security-quality/COM-MOD-013-QA-001/zap-backend-api.html
+      - 08-qa/security-quality/COM-MOD-013-QA-001/zap-backend-api.json
+  employee_portal_zap_baseline_scan:
+    tool: OWASP ZAP (Docker ghcr.io/zaproxy/zaproxy:stable) zap-baseline.py with Ajax Spider (-j)
+    target: http://host.docker.internal:5173 (employee-portal dev server, 125 URLs including the
+      COM-MOD-013 SPA shell/routes)
+    result: "FAIL-NEW 0, WARN-NEW 6, PASS 61"
+    warn_new_disposition: >-
+      All 6 WARN-NEW categories are either the already-registered TD-FE-005 (Content Security
+      Policy Header Not Set [10038]; Cross-Origin-Embedder-Policy Header Missing [90004] -- both
+      intentionally deferred to the production hosting layer since Vite's dev-server eval-based HMR
+      requires relaxed CSP/COEP, documented in vite.config.ts) or dev-server-only artifacts with no
+      production relevance: a Vite HMR websocket handshake token in the URL (Information
+      Disclosure - Sensitive Information in URL [10024]), Vite/React bundled dev-mode source
+      comments (Information Disclosure - Suspicious Comments [10027]), dev-asset cache headers
+      (Storable and Cacheable Content [10049]), and an informational "Modern Web Application"
+      [10109] scan-tuning hint (not a vulnerability). No new debt registered; none of these are
+      real, in-scope, fixable findings distinct from the already-tracked TD-FE-005.
+    reports:
+      - 08-qa/security-quality/COM-MOD-013-QA-001/zap-employee-portal.html
+      - 08-qa/security-quality/COM-MOD-013-QA-001/zap-employee-portal.json
+  runtime_setup_note: >-
+    Port 8080 was occupied by an unrelated pre-existing process on this shared machine (same
+    documented conflict as prior sessions); the backend was started with server.port=8090 for this
+    DAST session only (no runbook/config port change). employee-portal's Vite dev-server proxy
+    target was previously hardcoded to localhost:8080 with no override mechanism; added a small,
+    backward-compatible change to vite.config.ts reading an optional HOP_BACKEND_URL environment
+    variable (falls back to the existing http://localhost:8080 default when unset), enabling this
+    and future sessions to point the portal at an alternate backend port without editing source.
 
 secrets_scan_summary:
   tool: trivy secret scanner
@@ -140,7 +195,9 @@ complexity_summary: >-
 owasp_or_secure_code_summary: >-
   2 SpotBugs High findings (DM_DEFAULT_ENCODING, NM_SAME_SIMPLE_NAME_AS_SUPERCLASS) fixed; 5
   Medium CT_CONSTRUCTOR_THROW findings fixed; 3 Medium DE_MIGHT_IGNORE findings dispositioned as
-  accepted risk (documented, intentional best-effort pattern).
+  accepted risk (documented, intentional best-effort pattern). DAST (OWASP ZAP): 1 Medium Buffer
+  Overflow finding on POST /api/documents fixed (TD-QA-007, unhandled 500 on malformed/truncated
+  multipart upload remapped to 400); confirmed by a clean re-scan (0 FAIL-NEW, 0 WARN-NEW).
 
 message_externalization_summary: >-
   1 hardcoded visible string found (ComplianceEvidenceScreen.tsx status column header) and
@@ -157,6 +214,9 @@ technical_debt_items_created_or_updated:
   - id: TD-DB-005
     status: closed
     action: created_and_closed_same_iteration
+  - id: TD-QA-007
+    status: closed
+    action: created_and_closed_same_iteration_found_by_DAST_rescan_confirmed
   - id: TD-IAM-004
     status: open
     action: created
