@@ -1,18 +1,28 @@
 # Context Efficient Execution and Local Orchestrator Standard
 
-This standard reduces commercial LLM token usage without lowering delivery quality.
+This standard defines the mandatory Nexora Framework execution stack for prompt generation and
+agent orchestration.
 
-Nexora agents should use a local preprocessing layer before sending work to a commercial execution agent. The preferred local layer is a Python orchestrator with optional Ollama support. Its job is to inspect only the active backlog pointers, select the smallest useful context, and generate a synthetic prompt of roughly 300-600 tokens.
+The base stack is Python 3.11+, Ollama local service, at least one approved open source Ollama
+model, `ripgrep` and `git`. The bootstrap default model is `qwen2.5-coder:0.5b`;
+`qwen2.5-coder:3b`, `llama3.2:3b` and `qwen2.5-coder:7b` are also approved.
 
-The orchestrator is optional infrastructure, not a vendor lock. If Ollama is unavailable, the Python script must fall back to deterministic local inspection with `rg` and targeted file reads.
+Ollama is now the primary local orchestrator. The final prompt is rendered by Python from a
+canonical context so repeated runs remain stable. If the canonical context hash has not changed,
+the cached prompt is reused. If Ollama or the required model is missing, framework bootstrap is
+incomplete unless the operator explicitly runs a diagnostic fallback.
 
 ## Required Flow
 
 1. Read the active backlog pointer.
 2. Inspect only relevant lines or sections.
-3. Generate a compact prompt with `ROOT` defined once.
-4. Send the compact prompt to the commercial execution agent.
-5. At closure, write `<TASK_ID>-summary.md` with `Status`, `Cambios Clave`, `Deuda Técnica Creada` and `Siguiente Paso`.
+3. Build and hash the canonical context.
+4. Ask Ollama for deterministic orchestration metadata.
+5. Render a compact prompt with `ROOT` defined once.
+6. Persist the prompt to `08-qa/generated-prompts/<TASK_ID>-prompt.md`.
+7. Reuse the cached prompt while the context hash is unchanged.
+8. Send the compact prompt to the execution agent.
+9. At closure, write `<TASK_ID>-summary.md` with `Status`, `Cambios Clave`, `Deuda Técnica Creada` and `Siguiente Paso`.
 
 ## Format Policy
 

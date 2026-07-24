@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
-"""Generate compact backlog prompts with optional local Ollama preprocessing.
+"""Generate compact backlog prompts with Ollama-first local orchestration.
 
-The script intentionally works without Ollama. When Ollama is available, it can compress the draft
-prompt; otherwise it uses deterministic local heuristics so the framework stays agent agnostic.
+Ollama is the mandatory primary local orchestrator for normal framework execution. Determinism is
+guaranteed by rendering the final prompt from a canonical context and by reusing a cache keyed by the
+context hash. The Python-only deterministic fallback is disabled by default and may be used only for
+explicit bootstrap diagnostics, never to close delivery backlog work.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import os
 import re
 import shutil
 import subprocess
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 import yaml
@@ -35,6 +41,10 @@ DEFAULT_HOP_BACKLOG_FILE = (
     "HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml"
 )
 DEFAULT_HANDOFF_DIR = "projects/healthcare-operations-platform/08-qa/handoffs"
+DEFAULT_PROMPT_OUTPUT_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts"
+DEFAULT_ORCHESTRATION_CACHE_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts/cache"
+DEFAULT_OLLAMA_MODEL = "qwen2.5-coder:0.5b"
+DEFAULT_OLLAMA_TIMEOUT_SECONDS = 300
 
 
 def read_yaml(path: Path) -> dict:
@@ -137,29 +147,165 @@ def compact_lines(text: str, task_id: str, root: Path, limit: int = 8) -> list[s
         or "next_backlog_item" in line
     ]
     focused = [line for line in focused if not any(marker in line for marker in skip_markers)]
+    focused = sorted(dict.fromkeys(focused))
     return (focused or lines)[:limit]
 
 
-def ollama_compress(text: str, model: str) -> str | None:
-    if not shutil.which("ollama"):
-        return None
-    prompt = (
-        "Compress this backlog context into a precise execution prompt. "
-        "Keep only task, root, pointers, deliverables and closure criteria. "
-        "Do not add vendor-agent requirements.\n\n"
-        + text
+def canonical_json(data: object) -> str:
+    return json.dumps(data, ensure_ascii=True, sort_keys=True, separators=(",", ":"))
+
+
+def sha256_text(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def parse_json_object(text: str) -> dict:
+    try:
+        parsed = json.loads(text)
+        return parsed if isinstance(parsed, dict) else {}
+    except json.JSONDecodeError:
+        pass
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end == -1 or end <= start:
+        return {}
+    try:
+        parsed = json.loads(text[start : end + 1])
+        return parsed if isinstance(parsed, dict) else {}
+    except json.JSONDecodeError:
+        return {}
+
+
+def build_canonical_context(
+    root: Path,
+    task_id: str,
+    title: str,
+    context_lines: list[str],
+    summary_ref: str | None,
+    mandatory_notes: list[str],
+) -> dict:
+    return {
+        "root": root.as_posix(),
+        "task_id": task_id,
+        "title": title,
+        "summary_ref": summary_ref,
+        "mandatory_notes": mandatory_notes[:8],
+        "context_lines": context_lines[:8],
+        "base_models_path": "projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
+        "operational_prompt_path": "projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml",
+        "qa_evidence_pattern": f"projects/healthcare-operations-platform/08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md/yaml",
+        "security_evidence_pattern": f"projects/healthcare-operations-platform/08-qa/security-quality/{task_id}/security-quality-evidence.md/yaml",
+        "handoff_path": f"projects/healthcare-operations-platform/08-qa/handoffs/{task_id}-summary.md",
+        "commit_suggestion": "feat(hop): compile marketplace backend outputs",
+    }
+
+
+def ollama_models() -> list[str]:
+    try:
+        with urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=10) as response:
+            body = json.loads(response.read().decode("utf-8"))
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError):
+        return []
+    models = body.get("models", [])
+    if not isinstance(models, list):
+        return []
+    names = [model.get("name") for model in models if isinstance(model, dict)]
+    return sorted(name for name in names if isinstance(name, str))
+
+
+def require_ollama_model(model: str, allow_fallback: bool) -> bool:
+    models = ollama_models()
+    if model in models:
+        return True
+    if allow_fallback:
+        return False
+    installed = ", ".join(models) if models else "none"
+    raise SystemExit(
+        "Ollama model prerequisite not satisfied. "
+        f"Required model: {model}. Installed models: {installed}. "
+        f"Install with: ollama pull {model}"
     )
-    result = subprocess.run(
-        ["ollama", "run", model],
-        input=prompt,
-        text=True,
-        capture_output=True,
-        check=False,
-        timeout=120,
+
+
+def ollama_plan(context: dict, model: str, allow_fallback: bool) -> tuple[dict, str]:
+    """Ask Ollama for a compact plan, then keep only deterministic allowlisted fields."""
+    if not require_ollama_model(model, allow_fallback):
+        return {}, "fallback_ollama_model_missing"
+    payload = {
+        "model": model,
+        "prompt": (
+            "Return only this JSON object shape with short arrays and no markdown: "
+            "{\"objectives\":[],\"deliverables\":[],\"closure_criteria\":[]}. "
+            "Use the provided canonical context. Do not invent files. Do not add vendor-agent "
+            "requirements.\n\n"
+            + canonical_json(context)
+        ),
+        "stream": False,
+        "format": "json",
+        "options": {
+            "temperature": 0,
+            "top_p": 0,
+            "seed": 42,
+            "num_ctx": 4096,
+            "num_predict": 256,
+        },
+    }
+    request = urllib.request.Request(
+        "http://127.0.0.1:11434/api/generate",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
     )
-    if result.returncode != 0:
+    try:
+        with urllib.request.urlopen(request, timeout=DEFAULT_OLLAMA_TIMEOUT_SECONDS) as response:
+            body = json.loads(response.read().decode("utf-8"))
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        if allow_fallback:
+            return {}, f"fallback_ollama_unavailable:{type(exc).__name__}"
+        raise SystemExit(f"Ollama orchestration failed: {type(exc).__name__}") from exc
+
+    raw = body.get("response", "")
+    parsed = parse_json_object(raw)
+    if not parsed:
+        if allow_fallback:
+            return {}, "fallback_invalid_ollama_json"
+        return {}, "ollama_primary_metadata_unparseable"
+    allowed = {
+        key: parsed.get(key)
+        for key in ("objectives", "deliverables", "closure_criteria")
+        if isinstance(parsed.get(key), list)
+    }
+    return allowed, "ollama_primary"
+
+
+def cache_paths(root: Path, task_id: str) -> tuple[Path, Path]:
+    prompt_path = root / DEFAULT_PROMPT_OUTPUT_DIR / f"{task_id}-prompt.md"
+    cache_path = root / DEFAULT_ORCHESTRATION_CACHE_DIR / f"{task_id}-prompt-cache.json"
+    return prompt_path, cache_path
+
+
+def read_cached_prompt(cache_path: Path, context_hash: str) -> str | None:
+    if not cache_path.exists():
         return None
-    return result.stdout.strip()
+    try:
+        cache = json.loads(cache_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    if cache.get("context_hash") != context_hash:
+        return None
+    prompt = cache.get("prompt")
+    return prompt if isinstance(prompt, str) else None
+
+
+def write_cache(cache_path: Path, context_hash: str, prompt: str, mode: str) -> None:
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    cache = {
+        "context_hash": context_hash,
+        "prompt_hash": sha256_text(prompt),
+        "orchestration_mode": mode,
+        "prompt": prompt,
+    }
+    cache_path.write_text(json.dumps(cache, ensure_ascii=True, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def build_prompt(
@@ -169,6 +315,7 @@ def build_prompt(
     context_lines: list[str],
     summary_ref: str | None,
     mandatory_notes: list[str],
+    orchestration_mode: str = "ollama_primary",
 ) -> str:
     pointer_block = "\n".join(f"- {line}" for line in context_lines[:16]) or "- Inspeccionar punteros activos con rg antes de editar."
     if summary_ref:
@@ -178,6 +325,7 @@ def build_prompt(
         notes_block = "- Cargar el bloque activo del prompt operativo y ejecutar solo sus actividades."
     return f"""# TASK: {task_id} - {title}
 ROOT: {root.as_posix()}
+ORCHESTRATION: {orchestration_mode}
 
 ## 1. Alcance / Objetivos Directos
 - Ejecutar solo el backlog activo.
@@ -212,8 +360,11 @@ def main() -> int:
     parser.add_argument("--task-id", default=None, help="Backlog task id. Inferred from HOP when omitted.")
     parser.add_argument("--title", default=None, help="Backlog task title. Inferred from HOP when omitted.")
     parser.add_argument("--summary-ref", default=None, help="Previous task summary path.")
-    parser.add_argument("--ollama-model", default="llama3.2", help="Optional Ollama model.")
-    parser.add_argument("--output", default=None, help="Output file for the synthetic prompt.")
+    parser.add_argument("--ollama-model", default=DEFAULT_OLLAMA_MODEL, help="Required local Ollama model.")
+    parser.add_argument("--allow-deterministic-fallback", action="store_true", help="Allow Python deterministic fallback when Ollama/model is unavailable. Intended only for bootstrap diagnostics.")
+    parser.add_argument("--refresh", action="store_true", help="Regenerate the prompt even when the context hash matches the cache.")
+    parser.add_argument("--output", default=None, help="Output file for the synthetic prompt. Defaults to the HOP generated-prompts folder.")
+    parser.add_argument("--stdout", action="store_true", help="Print the prompt content instead of only the output path.")
     parser.add_argument(
         "--paths",
         nargs="*",
@@ -234,21 +385,48 @@ def main() -> int:
     title = args.title or inferred_title
     summary_ref = args.summary_ref or inferred_summary_ref
     context = run_rg(root, args.paths, DEFAULT_PATTERNS)
-    draft = build_prompt(
+    context_lines = compact_lines(context, task_id, root)
+    canonical_context = build_canonical_context(
         root,
         task_id,
         title,
-        compact_lines(context, task_id, root),
+        context_lines,
         summary_ref,
         mandatory_notes,
     )
-    compressed = ollama_compress(draft, args.ollama_model)
-    final = compressed if compressed else draft
+    context_hash = sha256_text(canonical_json(canonical_context))
+    default_output_path, cache_path = cache_paths(root, task_id)
+    output_path = Path(args.output) if args.output else default_output_path
+    cached_prompt = None if args.refresh else read_cached_prompt(cache_path, context_hash)
 
-    if args.output:
-        Path(args.output).write_text(final, encoding="utf-8")
+    if cached_prompt is not None:
+        final = cached_prompt
     else:
+        ollama_metadata, orchestration_mode = ollama_plan(
+            canonical_context,
+            args.ollama_model,
+            args.allow_deterministic_fallback,
+        )
+        final = build_prompt(
+            root,
+            task_id,
+            title,
+            context_lines,
+            summary_ref,
+            mandatory_notes,
+            orchestration_mode,
+        )
+        if ollama_metadata:
+            final = final.rstrip() + "\n\n<!-- ollama_plan_hash: " + sha256_text(canonical_json(ollama_metadata)) + " -->\n"
+        write_cache(cache_path, context_hash, final, orchestration_mode)
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(final, encoding="utf-8", newline="\n")
+
+    if args.stdout:
         print(final)
+    else:
+        print(output_path.resolve())
     return 0
 
 

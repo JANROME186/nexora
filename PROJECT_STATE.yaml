@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: "NXF-CTX-001 completed. Nexora Framework now includes context-efficient execution, optional Python/Ollama prompt orchestration, lazy-loading and compact memory handoff standards; HOP was updated with TD-FMT-001 and compact handoffs while preserving active backlog COM-MOD-017-BE-001."
+current_phase: "NXF-CTX-002 closed. Nexora Framework now requires a mandatory open-source-first execution stack from bootstrap: Python, Ollama, qwen2.5-coder:0.5b, ripgrep and git. Active HOP backlog remains COM-MOD-017-BE-001."
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company

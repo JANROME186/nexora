@@ -14,6 +14,10 @@ python nexora-framework/08-engineering/agents/context-orchestrator/context_orche
   --summary-ref projects/healthcare-operations-platform/08-qa/handoffs/COM-MOD-017-DEF-summary.md
 ```
 
+As of `NXF-CTX-002`, this is mandatory framework bootstrap behavior. The normal path requires
+Python 3.11+, Ollama, `qwen2.5-coder:0.5b`, `rg` and `git`; missing Ollama or a missing required
+model blocks prompt generation until the local execution stack is repaired.
+
 This is the single local runbook for starting, validating and stopping the Healthcare Operations
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.

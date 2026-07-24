@@ -7,7 +7,7 @@ artifact:
   standard: ../../../../nexora-framework/02-standards/standards/local-toolchain-inventory-standard.yaml
   human_readable: local-toolchain-inventory.md
   machine_readable: local-toolchain-inventory.yaml
-  last_verified_date: 2026-07-23
+  last_verified_date: 2026-07-24
   owner: Nexora Engineering
 
 project:
@@ -170,22 +170,23 @@ tools:
       - python -c "from pathlib import Path; import yaml; [yaml.safe_load(p.read_text(encoding='utf-8')) for p in Path('.').rglob('*.yaml') if not any(part in {'.git','node_modules','target','dist','build'} for part in p.parts)]; print('YAML OK')"
     status: available
   - id: ollama
-    category: optional_local_llm_runtime
+    category: required_local_llm_runtime
     executable_name: ollama
-    path: resolved_from_current_shell_with_Get-Command_ollama
-    version: verify_locally
-    required_for: [optional_context_orchestration, optional_prompt_compression]
-    detection_command: Get-Command ollama
+    path: C:/Users/Administrator/AppData/Local/Programs/Ollama/ollama.exe
+    version: 0.32.3
+    required_for: [framework_prompt_orchestration, backlog_prompt_generation, local_context_routing]
+    detection_command: Get-Command ollama or Test-Path C:/Users/Administrator/AppData/Local/Programs/Ollama/ollama.exe
     version_command: ollama --version
     generic_commands:
       - ollama --version
       - ollama list
-      - ollama run llama3.2
-      - ollama run qwen2.5-coder
-    status: optional
+      - ollama pull qwen2.5-coder:0.5b
+      - ollama run qwen2.5-coder:0.5b
+    status: required
     notes:
-      - Ollama is preferred for zero-cost local prompt routing and compression, but HOP execution must not depend on it.
-      - If unavailable, use the Python context orchestrator deterministic fallback and do not block backlog execution.
+      - Ollama is the primary open-source local prompt orchestrator for Nexora Framework.
+      - qwen2.5-coder:0.5b is the bootstrap default required model for deterministic backlog prompt orchestration.
+      - Missing Ollama or missing approved model means framework bootstrap is incomplete.
 
 command_templates:
   backend_java_maven:
@@ -255,7 +256,7 @@ command_templates:
   context_orchestration:
     working_directory: C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora
     generate_compact_prompt: python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py --root C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora --task-id <TASK_ID> --title "<TITLE>"
-    optional_ollama_model: llama3.2
+    required_ollama_model: qwen2.5-coder:0.5b
 
 maintenance_policy:
   update_required_when:
@@ -269,7 +270,7 @@ maintenance_policy:
   missing_required_tool_disposition: register_or_update_technical_debt_before_closure
 
 validation:
-  last_verified_date: 2026-07-23
+  last_verified_date: 2026-07-24
   verified_commands:
     - Get-Command java; java -version
     - Get-Command mvn; mvn -version
@@ -280,5 +281,12 @@ validation:
     - Get-Command trivy; trivy --version
     - Get-Command rg; rg --version
     - Get-Command python; python --version
+    - Test-Path C:/Users/Administrator/AppData/Local/Programs/Ollama/ollama.exe
+    - C:/Users/Administrator/AppData/Local/Programs/Ollama/ollama.exe --version
+    - C:/Users/Administrator/AppData/Local/Programs/Ollama/ollama.exe list
+    - python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py --root C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora --refresh
+    - Get-FileHash projects/healthcare-operations-platform/08-qa/generated-prompts/COM-MOD-017-BE-001-prompt.md -Algorithm SHA256
   notes:
     - Inventory records generic commands only; backlog execution evidence remains under 08-qa.
+    - qwen2.5-coder:0.5b is installed locally and validated as the mandatory bootstrap model.
+    - COM-MOD-017-BE-001 generated prompt SHA256 is e0ddf317b0b173b69372022333ba48a3fe95abfacfe41364160a9ebeecadf83c.

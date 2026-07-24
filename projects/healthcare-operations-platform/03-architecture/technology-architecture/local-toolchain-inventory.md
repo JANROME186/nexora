@@ -1,6 +1,6 @@
 # HOP Local Toolchain Inventory
 
-Context orchestration is now supported through the framework Python helper:
+Context orchestration is now a required Nexora Framework capability through Ollama and the Python helper:
 
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py `
@@ -9,13 +9,22 @@ python nexora-framework/08-engineering/agents/context-orchestrator/context_orche
   --title "<TITLE>"
 ```
 
-Ollama is optional. When present, it may compress or route context locally with models such as
-`llama3.2` or `qwen2.5-coder`. When absent, agents must use the deterministic Python fallback and
-continue without creating a vendor-specific dependency.
+Ollama is the primary open-source local orchestrator. The bootstrap default required model is
+`qwen2.5-coder:0.5b`.
+
+Install or refresh the required model with:
+
+```powershell
+ollama pull qwen2.5-coder:0.5b
+```
+
+The Python helper renders the final prompt from canonical fields and reuses a cache keyed by the
+canonical context hash, so repeated executions produce the same prompt while the active backlog
+context does not change.
 
 **Machine-readable source:** `local-toolchain-inventory.yaml`  
 **Status:** Active  
-**Last verified:** 2026-07-23
+**Last verified:** 2026-07-24
 
 This inventory records where the main local development tools are installed on this workstation and
 which generic commands agents should use before running HOP backlog work.
@@ -42,6 +51,12 @@ validation or module closeout. It is not a command history; backlog evidence rem
 | Trivy | 0.72.0 | `C:/ProgramData/chocolatey/bin/trivy.exe` |
 | ripgrep | 15.1.0 | Resolve with `Get-Command rg`; do not depend on named-agent bundled paths |
 | Python | 3.13.7 | `C:/Python313/python.exe` |
+| Ollama | 0.32.3 | `C:/Users/Administrator/AppData/Local/Programs/Ollama/ollama.exe` |
+| Ollama bootstrap model | qwen2.5-coder:0.5b | local model digest `4ff64a7f502a08b7616edb8ca0a79eb1853fc363d842b7df4b46915d11a3fb09` |
+
+The reproducible prompt generated for `COM-MOD-017-BE-001` is stored at
+`08-qa/generated-prompts/COM-MOD-017-BE-001-prompt.md` with SHA256
+`e0ddf317b0b173b69372022333ba48a3fe95abfacfe41364160a9ebeecadf83c`.
 
 ## Generic Commands
 

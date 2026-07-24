@@ -21,7 +21,8 @@ rules:
   - HOP cannot be marked commercially complete, GA-ready or finally closed while any technical debt item remains open.
   - Agents must run stack-appropriate checks for best practices, coding standards, duplicate code, complexity, OWASP or equivalent secure coding, dependency vulnerabilities across all severities, secrets, coverage and message externalization/i18n.
   - Agents must load 03-architecture/technology-architecture/local-toolchain-inventory.yaml before running build, test, quality, security or local runtime commands, and must use or update its tool paths instead of rediscovering them every iteration.
-  - Agents should use nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py before handing a backlog to a commercial execution agent, when local Python is available.
+  - Agents must use nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py before handing a backlog to any execution agent.
+  - Ollama with an approved open source model is the primary Nexora Framework prompt orchestration runtime; missing Ollama/model is a framework bootstrap blocker, not an optional skip.
   - Agents must use lazy loading for continuation context: prefer the latest <TASK_ID>-summary.md handoff, then inspect only relevant lines with rg or targeted reads; do not paste complete YAML/MD files into prompts unless explicitly required.
   - New task handoffs must be Markdown with minimal YAML frontmatter and must stay under 200 tokens where practical.
   - New monolithic YAML task/state artifacts are discouraged; existing YAML remains supported until migrated through registered technical debt.
@@ -166,7 +167,7 @@ prompt_sequence:
       - registry_updates
     prompt: |
       Implement only the selected backlog item.
-      If preparing work for another execution agent, first generate a compact prompt using the local context orchestrator when available.
+      If preparing work for another execution agent, first generate a compact prompt using the mandatory local Python/Ollama context orchestrator.
       Load the selected Capability Package models first and follow existing project implementation patterns.
       Before feature work, load ../../08-qa/technical-debt/technical-debt-index.yaml and resolve or materially reduce at least one open debt item using the framework selection order. If no open debt exists, record that explicitly in evidence.
       Determine whether the current HOP phase requires higher debt burn-down intensity. Early MVP work reduces at least one relevant debt item; module closeout, release preparation and late commercial work must reduce multiple relevant items when open debt remains.

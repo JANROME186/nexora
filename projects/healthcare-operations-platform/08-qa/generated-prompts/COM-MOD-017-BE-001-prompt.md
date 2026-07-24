@@ -1,0 +1,44 @@
+# TASK: COM-MOD-017-BE-001 - Compile marketplace catalog, offer, entitlement and installation backend outputs
+ROOT: C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora
+ORCHESTRATION: ollama_primary
+
+## 1. Alcance / Objetivos Directos
+- Ejecutar solo el backlog activo.
+- Usar lazy loading: no pegar archivos completos; inspeccionar secciones puntuales con rg/read.
+- Mantener ejecucion agent-agnostic y validar deuda tecnica, calidad, seguridad, cobertura y punteros.
+- Actividades obligatorias:
+- Keep the implementation agent-agnostic; do not add vendor-specific agent/runtime dependencies.
+- Preserve coverage floors: backend (84.25%), employee portal (89.75%), mobile (99.21%), patient portal (94.11%), doctor portal (96.28%), and public website (98.61%).
+- COM-MOD-017 depends on MVP-MOD-008, COM-MOD-012 and COM-MOD-016, all closed.
+- COM-MOD-017-DEF is closed; load BCM-PLT-011 and reused platform capability marketplace_enablement traces before implementation.
+- For COM-MOD-017-BE-001, compile backend generated outputs for marketplace catalog, package manifest, offer, license plan, entitlement, compatibility, installation, activation, update, retirement and billing-adapter boundaries.
+- Before feature work, review open technical debt and materially reduce at least one applicable item or record why no relevant debt can be reduced without widening scope.
+- Run mandatory backend executable gates through the local toolchain inventory; do not advance the backlog if Maven, Java, Docker, database, SAST, dependency, coverage or required scan execution is blocked.
+
+## 2. Contexto Inmediato (Punteros)
+- Handoff previo: projects/healthcare-operations-platform/08-qa/handoffs/COM-MOD-017-DEF-summary.md
+- PROJECT_STATE.yaml:34:    active_backlog_item: COM-MOD-017-BE-001
+- projects\healthcare-operations-platform\06-delivery\commercial-product\HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml:198:      be consistently closed, and the next_backlog_item pointer must match PROJECT_STATE.yaml.
+- projects\healthcare-operations-platform\06-delivery\commercial-product\HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml:260:  backlog_item_id: COM-MOD-017-BE-001
+- projects\healthcare-operations-platform\06-delivery\commercial-product\HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml:291:      next_backlog_item to COM-MOD-017-BE-001.
+- projects\healthcare-operations-platform\06-delivery\commercial-product\HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml:22:    active_backlog_item: COM-MOD-017-BE-001
+- projects\healthcare-operations-platform\PROJECT_STATE.yaml:1813:  active_backlog_item: COM-MOD-017-BE-001
+- projects\healthcare-operations-platform\PROJECT_STATE.yaml:1827:      next_backlog_item: COM-MOD-017-BE-001
+- projects\healthcare-operations-platform\PROJECT_STATE.yaml:474:  next_backlog_item: COM-MOD-017-BE-001
+- Modelos base: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/
+- Prompt operativo: projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml
+
+## 3. Entregables
+- Cambios del backlog activo y evidencias requeridas.
+- QA: projects/healthcare-operations-platform/08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-001-validation.md/yaml.
+- Security: projects/healthcare-operations-platform/08-qa/security-quality/COM-MOD-017-BE-001/security-quality-evidence.md/yaml.
+- Actualizar PROJECT_STATE, SOURCE_OF_TRUTH, backlog/prompts, runbook e indices aplicables.
+- Crear projects/healthcare-operations-platform/08-qa/handoffs/COM-MOD-017-BE-001-summary.md con Status, Cambios Clave, Deuda Tecnica Creada y Siguiente Paso.
+
+## 4. Criterios de Cierre
+- Gates obligatorios ejecutados o bloqueo formal sin avanzar punteros.
+- YAML/Markdown/frontmatter parseable segun aplique, git diff --check limpio.
+- Commit sugerido: feat(hop): compile marketplace backend outputs.
+- git status --short limpio si no hay bloqueantes.
+
+<!-- ollama_plan_hash: a13029a889385f1d25147832e1698513be477ee612c0807905aefb49a7a3ecb7 -->

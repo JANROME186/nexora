@@ -23,6 +23,20 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
+    backlog_item: NXF-CTX-002
+    status: closed
+    next_active_backlog_item: COM-MOD-017-BE-001
+    runtime_change: >-
+      Framework execution stack update only. No product runtime component, port, environment
+      variable, database schema, Docker service, dependency or startup-order change.
+    validation_summary: >-
+      Upgraded Nexora Framework execution from optional prompt assistance to mandatory
+      open-source-first local orchestration: Python 3.11+, Ollama, qwen2.5-coder:0.5b, ripgrep and
+      git. Agents must generate backlog prompts through the context orchestrator before handing work
+      to execution agents; missing Ollama or missing required model is a framework bootstrap blocker.
+      Generated COM-MOD-017-BE-001 prompt is cached and reproducible with SHA256
+      e0ddf317b0b173b69372022333ba48a3fe95abfacfe41364160a9ebeecadf83c.
+  previous_runbook_update_nxf_ctx_001:
     backlog_item: NXF-CTX-001
     status: closed
     next_active_backlog_item: COM-MOD-017-BE-001
