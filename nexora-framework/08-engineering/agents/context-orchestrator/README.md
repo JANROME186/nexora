@@ -49,6 +49,7 @@ python nexora-framework/08-engineering/agents/context-orchestrator/backlog_valid
 ```
 
 The validator uses deterministic repository checks first and Ollama as the mandatory local
-summarizer. If the backlog is incomplete, it writes a compact correction prompt to:
+summarizer. Ollama does not decide closure; P0/P1 deterministic findings are authoritative. If the
+backlog is incomplete, it writes a compact correction prompt to:
 
 `projects/healthcare-operations-platform/08-qa/generated-prompts/<TASK_ID>-closure-fix-prompt.md`

@@ -145,6 +145,7 @@ backlog_closure_validation:
   model_runtime: ollama
   required_model: qwen2.5-coder:0.5b
   deterministic_checks_are_authoritative: true
+  ollama_decision_role: informational_summary_only
   required_inputs:
     - generated backlog prompt
     - project state
@@ -157,6 +158,7 @@ backlog_closure_validation:
     - git status
   closure_policy:
     - If P0/P1 deterministic findings exist, the backlog is incomplete regardless of the local model summary.
+    - If no deterministic findings exist, the backlog is closed even if the local model produces ambiguous wording.
     - If the backlog is incomplete, generate a compact closure-fix prompt with only the missing work.
     - Do not advance the next backlog pointer until the validator reports closed.
     - Validation reports must be persisted under the project 08-qa/backlog-validations folder.

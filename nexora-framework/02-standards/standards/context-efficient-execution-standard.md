@@ -78,8 +78,9 @@ python nexora-framework/08-engineering/agents/context-orchestrator/backlog_valid
 
 The validator first applies deterministic repository checks: expected evidence files, evidence
 status, project state, product backlog status, execution prompt transition, source-of-truth
-references and clean git status. Ollama is then used as the mandatory local summarizer, but it
-cannot override deterministic P0/P1 findings.
+references and clean git status. Ollama is then used as the mandatory local summarizer only. It
+cannot override deterministic P0/P1 findings, and it cannot keep a backlog incomplete when the
+deterministic layer has zero findings.
 
 If the backlog is incomplete, the validator writes
 `08-qa/generated-prompts/<TASK_ID>-closure-fix-prompt.md` with only the missing work required to

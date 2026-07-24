@@ -41,7 +41,6 @@ sources:
   hop_com_mod_017_be_001_generated_prompt: projects/healthcare-operations-platform/08-qa/generated-prompts/COM-MOD-017-BE-001-prompt.md
   hop_com_mod_017_be_001_generated_prompt_cache: projects/healthcare-operations-platform/08-qa/generated-prompts/cache/COM-MOD-017-BE-001-prompt-cache.json
   hop_com_mod_017_be_001_closure_validation: projects/healthcare-operations-platform/08-qa/backlog-validations/COM-MOD-017-BE-001-closure-validation.yaml
-  hop_com_mod_017_be_001_closure_fix_prompt: projects/healthcare-operations-platform/08-qa/generated-prompts/COM-MOD-017-BE-001-closure-fix-prompt.md
   hop_local_toolchain_inventory: projects/healthcare-operations-platform/03-architecture/technology-architecture/local-toolchain-inventory.yaml
   integrated_local_solution_runbook_standard: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml
   integrated_local_solution_runbook_standard_md: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md

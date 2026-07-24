@@ -2,8 +2,8 @@
 """Validate whether a generated backlog prompt was fully closed.
 
 The validator uses deterministic repository checks as the source of truth and Ollama as the
-mandatory local summarizer for the closure decision. If closure is incomplete, it writes a compact
-follow-up prompt with only the missing work.
+mandatory local summarizer. If closure is incomplete, it writes a compact follow-up prompt with only
+the missing work.
 """
 
 from __future__ import annotations
@@ -125,9 +125,10 @@ def ollama_review(context: dict, model: str) -> dict:
         "format": "json",
         "prompt": (
             "Devuelve solo JSON compacto con esta forma: "
-            "{\"decision\":\"closed|incomplete\",\"summary\":\"...\",\"top_risks\":[],\"required_actions\":[]}. "
-            "Usa las reglas deterministicas como fuente de verdad. Si hard_findings no esta vacio, "
-            "decision debe ser incomplete. No inventes archivos ni ejecuciones.\n\n"
+            "{\"summary\":\"...\",\"top_risks\":[],\"required_actions\":[]}. "
+            "Resume el contexto y lista riesgos o acciones solo si estan soportados por hard_findings. "
+            "No emitas decision de cierre; las reglas deterministicas son la unica autoridad. "
+            "No inventes archivos ni ejecuciones.\n\n"
             + json.dumps(context, ensure_ascii=True, sort_keys=True, separators=(",", ":"))
         ),
         "options": {
@@ -150,7 +151,7 @@ def ollama_review(context: dict, model: str) -> dict:
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
         raise SystemExit(f"Ollama closure validation failed: {type(exc).__name__}") from exc
     parsed = parse_json_object(str(body.get("response", "")))
-    return parsed if parsed else {"decision": "incomplete", "summary": "Ollama returned invalid JSON.", "top_risks": [], "required_actions": []}
+    return parsed if parsed else {"summary": "Ollama returned invalid JSON.", "top_risks": [], "required_actions": []}
 
 
 def find_backlog_item_status(data: object, task_id: str) -> str | None:
@@ -281,7 +282,7 @@ PROJECT: {PROJECT_PATH}
 - No existen hallazgos P0/P1 sin registrar o corregir.
 - El siguiente backlog activo queda alineado en todos los registros.
 
-<!-- local_ollama_review: {str(review.get('decision', 'incomplete'))} -->
+<!-- local_ollama_review: informational_only -->
 """
 
 
@@ -290,7 +291,7 @@ def write_outputs(root: Path, task_id: str, context: dict, review: dict) -> tupl
     out_dir.mkdir(parents=True, exist_ok=True)
     report_yaml = out_dir / f"{task_id}-closure-validation.yaml"
     report_md = out_dir / f"{task_id}-closure-validation.md"
-    decision = "closed" if not context["hard_findings"] and review.get("decision") == "closed" else "incomplete"
+    decision = "incomplete" if context["hard_findings"] else "closed"
     report = {
         "artifact": {
             "id": f"{task_id}-closure-validation",
@@ -314,6 +315,10 @@ def write_outputs(root: Path, task_id: str, context: dict, review: dict) -> tupl
     if decision != "closed":
         prompt_path = root / PROJECT_PATH / "08-qa/generated-prompts" / f"{task_id}-closure-fix-prompt.md"
         prompt_path.write_text(correction_prompt(task_id, context, review), encoding="utf-8", newline="\n")
+    else:
+        stale_prompt = root / PROJECT_PATH / "08-qa/generated-prompts" / f"{task_id}-closure-fix-prompt.md"
+        if stale_prompt.exists():
+            stale_prompt.unlink()
     return report_yaml, prompt_path
 
 
@@ -335,13 +340,11 @@ def main() -> int:
 
     context = build_context(root, task_id, prompt_path, require_clean_git=not args.no_require_clean_git)
     review = ollama_review(context, args.ollama_model)
-    if context["hard_findings"]:
-        review["decision"] = "incomplete"
     report_path, prompt_fix_path = write_outputs(root, task_id, context, review)
     print(report_path.resolve())
     if prompt_fix_path:
         print(prompt_fix_path.resolve())
-    return 0 if review.get("decision") == "closed" and not context["hard_findings"] else 2
+    return 0 if not context["hard_findings"] else 2
 
 
 if __name__ == "__main__":

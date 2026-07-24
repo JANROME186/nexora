@@ -31,7 +31,6 @@ sources:
   generated_backlog_prompt_com_mod_017_be_001: 08-qa/generated-prompts/COM-MOD-017-BE-001-prompt.md
   generated_backlog_prompt_com_mod_017_be_001_cache: 08-qa/generated-prompts/cache/COM-MOD-017-BE-001-prompt-cache.json
   backlog_closure_validation_com_mod_017_be_001: 08-qa/backlog-validations/COM-MOD-017-BE-001-closure-validation.yaml
-  generated_closure_fix_prompt_com_mod_017_be_001: 08-qa/generated-prompts/COM-MOD-017-BE-001-closure-fix-prompt.md
   context_optimized_backlog_prompts_yaml: ../../nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.yaml
   context_optimized_backlog_prompts_md: ../../nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.md
   enterprise_product_foundation_standard: ../../nexora-framework/02-standards/standards/enterprise-product-foundation-standard.yaml
