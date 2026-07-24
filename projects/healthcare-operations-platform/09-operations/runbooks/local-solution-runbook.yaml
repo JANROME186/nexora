@@ -13,7 +13,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-016-CLOSEOUT
+  current_active_backlog_item: COM-MOD-017-DEF
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml
@@ -21,6 +21,19 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.yaml
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.yaml
   latest_runbook_update:
+    backlog_item: COM-MOD-016-CLOSEOUT
+    status: closed
+    next_active_backlog_item: COM-MOD-017-DEF
+    runtime_change: >-
+      None. Module closeout registry and documentation item. No new runtime component, port,
+      environment variable, database schema, Docker service or startup-order change.
+    validation_summary: >-
+      Formally closed COM-MOD-016. All 7 capability packages marked module_closed in
+      capability-package-index.yaml and traceability.yaml files, PROJECT_STATE.yaml populated with
+      capability_package_progress.COM-MOD-016, TD-QA-008 reviewed as open non-blocking project-wide
+      toolchain inventory debt, all 6 coverage floors preserved, and active backlog advanced to
+      COM-MOD-017-DEF.
+  previous_runbook_update_com_mod_016_qa_001:
     backlog_item: COM-MOD-016-QA-001
     status: closed
     next_active_backlog_item: COM-MOD-016-CLOSEOUT

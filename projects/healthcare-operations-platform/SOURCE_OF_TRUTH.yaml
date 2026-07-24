@@ -641,6 +641,10 @@ sources:
   com_mod_016_qa_001_qa_evidence_yaml: 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-QA-001-validation.yaml
   com_mod_016_qa_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-016-QA-001/security-quality-evidence.md
   com_mod_016_qa_001_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-016-QA-001/security-quality-evidence.yaml
+  com_mod_016_closeout_qa_evidence: 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-CLOSEOUT-validation.md
+  com_mod_016_closeout_qa_evidence_yaml: 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-CLOSEOUT-validation.yaml
+  com_mod_016_closeout_security_quality_evidence: 08-qa/security-quality/COM-MOD-016-CLOSEOUT/security-quality-evidence.md
+  com_mod_016_closeout_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-016-CLOSEOUT/security-quality-evidence.yaml
 rules:
   - Healthcare Operations Platform is a project under Nexora.
   - This folder is the boundary for HOP-specific artifacts.
@@ -733,6 +737,18 @@ rules:
     stale-pointer sweep, forbidden execution-status token sweep, agent-agnostic scan, secrets
     scan, MD/YAML consistency check, capability traceability check and git diff --check. Advanced
     active commercial backlog item to COM-MOD-016-CLOSEOUT.
+  - >-
+    COM-MOD-016-CLOSEOUT is closed. Commercial Launch and Customer Enablement is module_closed:
+    all 6 backlog items are closed, all 7 capability packages (BCM-ORG-001, BCM-ORG-002,
+    BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008) are marked module_closed in
+    capability-package-index.yaml and their traceability.yaml files, and
+    PROJECT_STATE.yaml now contains capability_package_progress.COM-MOD-016. TD-QA-008 was
+    reviewed and remains open non-blocking as project-wide toolchain inventory debt, not a
+    capability-specific blocker. Documentation/registry-only closeout, no source code touched;
+    backend 84.25%, employee portal 89.75%, public website 98.61%, mobile 99.21%, patient portal
+    94.11% and doctor portal 96.28% coverage floors are re-affirmed unchanged. YAML parse,
+    stale-pointer sweep, evidence-state sweep, agent-agnostic scan, secrets scan and git diff
+    --check executed clean. Advanced active commercial backlog item to COM-MOD-017-DEF.
   - HOP agents must execute at least one technical-debt remediation or material reduction before feature implementation in each code-changing backlog item unless no open debt exists.
   - HOP technical-debt burn-down must become stricter as the project advances; final project closure requires no open technical debt.
   - HOP line coverage target is 80 percent for every applicable delivered stack.

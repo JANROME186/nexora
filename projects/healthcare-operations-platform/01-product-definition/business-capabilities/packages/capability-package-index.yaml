@@ -2,11 +2,11 @@ artifact:
   id: HOP-CAP-PKG-IDX-001
   type: capability-package
   name: HOP Business Capability Package Index
-  version: 2.5.0
+  version: 2.6.0
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.yaml
-  qa_evidence: ../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-QA-001-validation.yaml
+  qa_evidence: ../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-CLOSEOUT-validation.yaml
 
 policy:
   primary_development_unit: business_capability_package
@@ -32,13 +32,21 @@ do_not_write_manually:
   - Duplicate models
   - Repetitive test cases
 
-active_capability_package_groups:
+active_capability_package_groups: []
+
+completed_capability_package_groups:
   - roadmap_group: COM-MOD-016
     name: Commercial Launch and Customer Enablement
-    package_status: commercial_readiness_validated
-    backlog_item: COM-MOD-016-QA-001
-    qa_evidence: ../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-QA-001-validation.yaml
-    security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-016-QA-001/security-quality-evidence.yaml
+    package_status: module_closed
+    backlog_item: COM-MOD-016-CLOSEOUT
+    qa_evidence: ../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-CLOSEOUT-validation.yaml
+    security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-016-CLOSEOUT/security-quality-evidence.yaml
+    closeout_evidence: ../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-CLOSEOUT-validation.yaml
+    validation:
+      backlog_item: COM-MOD-016-QA-001
+      status: validated
+      qa_evidence: ../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-QA-001-validation.yaml
+      security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-016-QA-001/security-quality-evidence.yaml
     onboarding_evidence: ../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DOC-001-validation.yaml
     definition_evidence: ../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.yaml
     operational_governance_evidence: ../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-OPS-001-validation.yaml
@@ -46,48 +54,47 @@ active_capability_package_groups:
     capabilities:
       - capability_id: BCM-ORG-001
         package_folder: bcm-org-001-tenant-management/
-        package_status: extended_customer_enablement_controls
+        package_status: module_closed
         bounded_context: organization-management
         primary_aggregate: AGG-017 Tenant
         mobile_scope: isolated
       - capability_id: BCM-ORG-002
         package_folder: bcm-org-002-laboratory-management/
-        package_status: modeled
+        package_status: module_closed
         bounded_context: organization-management
         primary_aggregate: AGG-002 Laboratory
         mobile_scope: read_only_info
       - capability_id: BCM-ORG-003
         package_folder: bcm-org-003-branch-management/
-        package_status: modeled
+        package_status: module_closed
         bounded_context: organization-management
         primary_aggregate: AGG-003 Branch
         mobile_scope: read_only_info
       - capability_id: BCM-PLT-002
         package_folder: bcm-plt-002-platform-configuration/
-        package_status: extended_customer_enablement_controls
+        package_status: module_closed
         bounded_context: platform-operations
         primary_aggregate: PlatformConfiguration
         mobile_scope: read_only_config
       - capability_id: BCM-PLT-006
         package_folder: bcm-plt-006-observability/
-        package_status: extended_launch_evidence_controls
+        package_status: module_closed
         bounded_context: platform-operations
         primary_aggregate: ObservabilityTarget
         mobile_scope: crash_telemetry_only
       - capability_id: BCM-PLT-007
         package_folder: bcm-plt-007-audit-trail/
-        package_status: extended_launch_support_governance_controls
+        package_status: module_closed
         bounded_context: audit-compliance
         primary_aggregate: AGG-018 AuditEvent
         mobile_scope: internal_audit_consumer
       - capability_id: BCM-PLT-008
         package_folder: bcm-plt-008-document-management/
-        package_status: extended_customer_enablement_assets
+        package_status: module_closed
         bounded_context: document-management
         primary_aggregate: AGG-023 StoredDocument
         mobile_scope: not_required
 
-completed_capability_package_groups:
   - roadmap_group: COM-MOD-013
     name: Advanced Quality and Compliance
     package_status: module_closed

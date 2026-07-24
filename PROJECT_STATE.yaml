@@ -1,6 +1,6 @@
 repository: Nexora
 repository_version: 1.0.0
-current_phase: "COM-MOD-016-QA-001 Commercial readiness validation completed and closed. Validated COM-MOD-016-DEF/DOC-001/OPS-001/COM-001 for completeness, MD/YAML consistency and traceability; found and fixed 4 stale-pointer/registry defects; registered TD-QA-008 (open, non-blocking); no secrets, PII, vendor lock-in or forbidden execution-status markers found; all 6 coverage floors preserved. Ready for COM-MOD-016-CLOSEOUT."
+current_phase: "COM-MOD-016-CLOSEOUT completed. Commercial Launch and Customer Enablement is module_closed with all 7 capability packages closed, COM-MOD-016 closeout evidence created, TD-QA-008 reviewed as open non-blocking project-wide toolchain inventory debt, all 6 coverage floors preserved, and active backlog advanced to COM-MOD-017-DEF."
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -29,8 +29,8 @@ projects:
     name: Healthcare Operations Platform
     path: projects/healthcare-operations-platform/
     status: commercial_product_development_in_progress
-    active_module: COM-MOD-016
-    active_backlog_item: COM-MOD-016-CLOSEOUT
+    active_module: COM-MOD-017
+    active_backlog_item: COM-MOD-017-DEF
     completed_backlog_items:
       - PF-BE-001
       - PF-OPS-001
@@ -128,9 +128,10 @@ projects:
       - COM-MOD-016-OPS-001
       - COM-MOD-016-COM-001
       - COM-MOD-016-QA-001
+      - COM-MOD-016-CLOSEOUT
     structure: ordered_numbered_folders
 next_deliverables:
-  - Execute COM-MOD-016-CLOSEOUT to close the Commercial Launch and Customer Enablement module
+  - Execute COM-MOD-017-DEF Product Marketplace and Extension Packaging capability package models
   - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
   - Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
   - Use HOP Business Requirement as the reference template for future project intake

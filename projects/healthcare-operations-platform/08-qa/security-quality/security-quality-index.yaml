@@ -29,6 +29,24 @@ required_checks_when_applicable:
   - container_or_iac_scan_when_assets_change
 
 entries:
+  - backlog_item: COM-MOD-016-CLOSEOUT
+    module: COM-MOD-016 Commercial Launch and Customer Enablement
+    status: passed
+    evidence_path: 08-qa/security-quality/COM-MOD-016-CLOSEOUT/
+    human_readable: 08-qa/security-quality/COM-MOD-016-CLOSEOUT/security-quality-evidence.md
+    machine_readable: 08-qa/security-quality/COM-MOD-016-CLOSEOUT/security-quality-evidence.yaml
+    checks:
+      tests: passed_via_prior_COM_MOD_016_evidence
+      sast_or_static_analysis: not_applicable_no_code_changed
+      dependency_vulnerability_scan: not_applicable_no_dependency_changed
+      secrets_scan: passed
+      coverage: passed_no_regression
+      dast_for_runnable_web_or_api_surfaces: not_applicable_no_runnable_surface_changed
+      container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+    note: >-
+      Module closeout, registry and documentation synchronization item. COM-MOD-016 is module_closed;
+      all 7 capability packages were moved to completed/module_closed and TD-QA-008 remains open
+      non-blocking as project-wide toolchain inventory debt. Advanced active backlog to COM-MOD-017-DEF.
   - backlog_item: COM-MOD-016-QA-001
     module: COM-MOD-016 Commercial Launch and Customer Enablement
     status: passed
