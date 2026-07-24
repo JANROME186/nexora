@@ -273,20 +273,3 @@ next_backlog_item:
       COM-MOD-016-DEF capability package models completed and validated. Modeled and traced all 7 capability
       packages (BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008) in
       capability-package-index.yaml and package registries. Advanced next_backlog_item to COM-MOD-016-DOC-001.
-      local/test) so the module silently used in-memory storage instead of PostgreSQL. Fixed both
-      root causes; re-ran the pre-existing ExternalQualityComplianceLocalDatabaseTest live against
-      real PostgreSQL (passed). Also executed real OWASP ZAP DAST against the running backend (939
-      URLs) and employee-portal (125 URLs), required since both are runnable surfaces; found and
-      fixed one further backend defect (TD-QA-007: an abrupt client disconnect mid multipart
-      upload to POST /api/documents caused an unhandled 500, remapped to 400), confirmed by a
-      clean re-scan (0 FAIL-NEW/0 WARN-NEW). The portal baseline scan found 0 FAIL-NEW and 6
-      WARN-NEW, all matching the already-registered TD-FE-005 or dev-server-only artifacts. Backend
-      coverage rose from a clean-rebuild 82.57% to 84.25% (382 tests, 0 failures/errors/skipped),
-      above the previously recorded 84.14% floor. Also fixed 2 SpotBugs High findings
-      (DM_DEFAULT_ENCODING, NM_SAME_SIMPLE_NAME_AS_SUPERCLASS), 5 Medium CT_CONSTRUCTOR_THROW
-      findings, 1 hardcoded i18n string and 1 TD-FE-010 function-size violation in
-      ComplianceEvidenceScreen.tsx (employee-portal coverage 89.74% -> 89.75%, 187 tests).
-      Registered new debt TD-IAM-004 (synthetic tenant id in 5 controllers, deferred pending a
-      Modulith boundary decision). OWASP Dependency-Check (72 deps), npm audit and Trivy
-      (backend/employee-portal/repo-wide, all severities) reported 0 vulnerabilities/secrets/
-      misconfigurations. Advanced next_backlog_item to COM-MOD-013-CLOSEOUT.
