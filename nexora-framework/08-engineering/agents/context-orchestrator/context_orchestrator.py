@@ -48,7 +48,7 @@ DEFAULT_HISTORY_PROMPT_DIR = "projects/healthcare-operations-platform/08-qa/gene
 DEFAULT_ORCHESTRATION_CACHE_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts/cache"
 DEFAULT_OLLAMA_MODEL = "qwen2.5-coder:0.5b"
 DEFAULT_OLLAMA_TIMEOUT_SECONDS = 300
-PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v2"
+PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v3"
 
 
 def extract_structured_payload(text: str) -> str:
@@ -210,6 +210,8 @@ def infer_workstream(task_id: str) -> str:
         return "format_migration"
     if "-BE-" in task_id:
         return "backend"
+    if "-INT-" in task_id:
+        return "integration"
     if "-FE-" in task_id or "-WEB-" in task_id or "-PORTAL-" in task_id:
         return "frontend"
     if "-APP-" in task_id:
@@ -223,6 +225,7 @@ def relevant_coverage_floor(coverage_floor: dict, task_id: str) -> str | None:
     workstream = infer_workstream(task_id)
     key_by_workstream = {
         "backend": "backend_java_maven_line_coverage_percent_if_backend_is_touched",
+        "integration": "backend_java_maven_line_coverage_percent_if_backend_is_touched",
         "frontend": "frontend_typescript_web_line_coverage_percent",
         "mobile": "mobile_typescript_foundation_line_coverage_percent",
     }
@@ -234,6 +237,7 @@ def relevant_coverage_floor(coverage_floor: dict, task_id: str) -> str | None:
         return None
     label = {
         "backend": "Backend",
+        "integration": "Backend/Integration",
         "frontend": "Frontend/Web",
         "mobile": "App/Mobile",
     }[workstream]
@@ -282,6 +286,8 @@ def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage
         )
     elif workstream == "backend":
         result.append(f"Compilar outputs backend para el backlog activo: {title}.")
+    elif workstream == "integration":
+        result.append(f"Implementar boundaries/adapters de integración para el backlog activo: {title}.")
     else:
         result.append(f"Atender el backlog activo: {title}.")
 
@@ -298,6 +304,7 @@ def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage
     gate_by_workstream = {
         "format_migration": "Ejecutar inventario, piloto, conversión por lotes, validación de referencias, parseo Markdown/frontmatter y git diff --check.",
         "backend": "Ejecutar gates backend obligatorios: Maven, Java, Docker/BD local, SAST, dependencias, cobertura y scans de seguridad.",
+        "integration": "Ejecutar gates backend/integración obligatorios: Maven, Java, Docker/BD local, contratos/adapters, SAST, dependencias, cobertura y scans de seguridad.",
         "frontend": "Ejecutar gates frontend obligatorios: typecheck, tests/cobertura, build, SAST, dependencias, i18n y scans de seguridad.",
         "mobile": "Ejecutar gates app/mobile obligatorios: typecheck, tests/cobertura, build, SAST, dependencias, i18n y scans de seguridad.",
         "quality": "Ejecutar gates de cierre, punteros, evidencias, deuda técnica, seguridad, cobertura y estado git.",
@@ -365,6 +372,7 @@ def task_artifact_profile(task_id: str) -> dict[str, str]:
     workstream = infer_workstream(task_id)
     commit_by_workstream = {
         "backend": f"feat(hop): compile {module_profile['commit_subject']} backend outputs",
+        "integration": f"feat(hop): implement {module_profile['commit_subject']} integration boundaries",
         "frontend": f"feat(hop): compile {module_profile['commit_subject']} UI",
         "mobile": f"feat(hop): compile {module_profile['commit_subject']} mobile surfaces",
         "quality": f"test(hop): validate {module_profile['commit_subject']} backlog closure",
