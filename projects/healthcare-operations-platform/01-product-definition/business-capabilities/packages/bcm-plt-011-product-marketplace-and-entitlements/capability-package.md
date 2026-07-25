@@ -66,8 +66,11 @@ scope:
 roadmap:
   module: COM-MOD-017
   release: REL-003
-  package_status: modeled
-  next_backlog_item: COM-MOD-017-QA-001
+  package_status: module_closed
+  next_backlog_item: none (module closed; COM-MOD-017-WEB-001 public marketplace
+    listing surface remains deferred and tracked as TD-WEB-001; see COM-MOD-014-DEF
+    for the next roadmap module)
+  paused_functional_backlog_item: null
 dependencies:
   required_capabilities:
   - BCM-PLT-001

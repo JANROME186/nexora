@@ -16,7 +16,7 @@ This checklist maps launch readiness against the 9 Commercial Readiness Pillars 
 | CRP-006 | Integration and Migration Readiness | Verified |
 | CRP-007 | Customer Enablement Readiness | Verified |
 | CRP-008 | Expansion Readiness | Planned (COM-MOD-014, COM-MOD-015) |
-| CRP-009 | Marketplace Readiness | Planned (COM-MOD-017) |
+| CRP-009 | Marketplace Readiness | Verified (COM-MOD-017 module_closed; COM-MOD-017-WEB-001 public listing surface deferred, tracked as TD-WEB-001) |
 
 ## CRP-001: Operational Completeness
 
@@ -32,7 +32,7 @@ This checklist maps launch readiness against the 9 Commercial Readiness Pillars 
 
 ## CRP-003: Digital Channel Readiness
 
-- [x] Employee portal (89.75% coverage)
+- [x] Employee portal (90.68% coverage)
 - [x] Patient portal (94.11% coverage)
 - [x] Doctor portal (96.28% coverage)
 - [x] Mobile app (99.21% coverage)
@@ -76,12 +76,13 @@ This checklist maps launch readiness against the 9 Commercial Readiness Pillars 
 
 ## CRP-009: Marketplace Readiness
 
-- [ ] Product Marketplace (COM-MOD-017) — Planned for REL-003
-- [ ] BCM-PLT-011 implementation — Planned
+- [x] Product Marketplace (COM-MOD-017) — module_closed, REL-003
+- [x] BCM-PLT-011 implementation — Compiled, tested and validated (COM-MOD-017-BE-001/BE-002/FE-001/QA-001/CLOSEOUT)
+- [ ] Public marketplace listing surface (COM-MOD-017-WEB-001) — Deferred, tracked as non-blocking debt TD-WEB-001
 
 ## Overall Assessment
 
-**Conditionally Ready:** 7 of 9 pillars verified. CRP-008 and CRP-009 are planned for future releases and do not block initial commercial launch.
+**Conditionally Ready:** 8 of 9 pillars verified. CRP-008 is planned for a future release and does not block initial commercial launch. CRP-009's core marketplace lifecycle (publish, sell, entitle, install, activate, upgrade, retire) is verified; only the outward public-website discovery surface remains deferred (TD-WEB-001, non-blocking).
 
 > **Note:** HOP cannot be marked GA-ready while any technical debt remains open. Technical debt review is scheduled for COM-MOD-016-QA-001.
 
@@ -142,7 +143,7 @@ readiness_pillars:
   name: Digital Channel Readiness
   checklist:
   - item: Employee portal covers all operational workflows.
-    evidence: Employee portal coverage 89.75%.
+    evidence: Employee portal coverage 90.68%.
     status: verified
   - item: Patient portal provides result access, appointments, and notifications.
     evidence: COM-MOD-009-PORTAL-001 validation evidence. Coverage 94.11%.
@@ -237,12 +238,18 @@ readiness_pillars:
 - pillar: CRP-009
   name: Marketplace Readiness
   checklist:
-  - item: Product Marketplace module (COM-MOD-017) is defined in the backlog.
-    evidence: HOP_COMMERCIAL_PRODUCT_BACKLOG.md.
-    status: planned (not yet implemented)
-  - item: BCM-PLT-011 Product Marketplace and Entitlements capability preserved.
-    evidence: Capability package index.
-    status: planned (not yet implemented)
+  - item: Product Marketplace module (COM-MOD-017) is module_closed.
+    evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-CLOSEOUT-validation.md.
+    status: verified
+  - item: BCM-PLT-011 Product Marketplace and Entitlements capability compiled,
+      tested and validated (backend, IAM, employee-portal administration, entitlement-gated
+      installation lifecycle).
+    evidence: 01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/traceability.md.
+    status: verified
+  - item: Public marketplace listing surface (COM-MOD-017-WEB-001) remains deferred
+      and unscheduled.
+    evidence: 08-qa/technical-debt/TD-WEB-001-marketplace-public-listing-surface-not-implemented.md.
+    status: open_non_blocking
 overall_launch_readiness_assessment:
   status: conditionally_ready
   ready_pillars:
@@ -253,14 +260,15 @@ overall_launch_readiness_assessment:
   - CRP-005
   - CRP-006
   - CRP-007
+  - CRP-009
   planned_pillars:
   - CRP-008 (expansion packages pending COM-MOD-014 and COM-MOD-015 implementation)
-  - CRP-009 (marketplace pending COM-MOD-017 implementation)
   blocking_items: []
   non_blocking_planned_items:
   - COM-MOD-014 Imaging Operations (REL-004)
   - COM-MOD-015 AI Overlay (REL-004)
-  - COM-MOD-017 Product Marketplace (REL-003)
+  - COM-MOD-017-WEB-001 public marketplace listing surface (TD-WEB-001, deferred
+    and unscheduled)
   open_technical_debt_note: HOP cannot be marked commercially complete or GA-ready
     while any technical debt remains open. The current technical debt status must
     be reviewed during COM-MOD-016-QA-001 before GA gates are evaluated.

@@ -244,33 +244,32 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-017-FE-001 Compile marketplace administration and package installation UI outputs` is closed.
+`COM-MOD-017-CLOSEOUT Marketplace readiness closeout and registry update` is closed. Module `COM-MOD-017` is `module_closed`.
 Continue with:
 
-- Module: `COM-MOD-017`
-- Backlog item: `COM-MOD-017-QA-001`
-- Previous backlog item: `COM-MOD-017-FE-001` (closed)
+- Module: `COM-MOD-014`
+- Backlog item: `COM-MOD-014-DEF`
+- Previous backlog item: `COM-MOD-017-CLOSEOUT` (closed)
 - Paused functional backlog item: none
-- Folder: `07-implementation/employee-portal/` and `07-implementation/backend/` (integrated validation)
+- Folder: `01-product-definition/business-capabilities/packages/` (new BCM-IMG-001..008 capability package models)
 
 Mandatory setup for this backlog:
 
 - Load `03-architecture/technology-architecture/local-toolchain-inventory.md` before running any build, test, coverage, SAST, dependency, DAST, Docker or database command.
 - Prefer the latest compact handoff in `08-qa/handoffs/` and use targeted `rg`/line reads instead of loading complete historical registries into the prompt.
 - When handing this backlog to another execution agent, generate a compact prompt with `nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py` if local Python is available.
-- At closure, create `08-qa/handoffs/COM-MOD-017-QA-001-summary.md` with `Status`, `Cambios Clave`, `Deuda Técnica Creada` and `Siguiente Paso`.
+- At closure, create `08-qa/handoffs/COM-MOD-014-DEF-summary.md` with `Status`, `Cambios Clave`, `Deuda Técnica Creada` and `Siguiente Paso`.
 - Reconcile `PROJECT_STATE.md`, `SOURCE_OF_TRUTH.md`, this prompt file, capability traceability files and the local runbook pointers before closure.
 - Preserve coverage floors: backend (84.65%), employee portal (90.68%), public website (98.61%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
 - Before feature work, review `08-qa/technical-debt/technical-debt-index.md` and materially reduce at least one applicable open technical-debt item or record why no relevant debt can be reduced without widening scope.
-- COM-MOD-017 depends on `MVP-MOD-008`, `COM-MOD-012` and `COM-MOD-016`, all closed.
-- Perform an integrated end-to-end validation of COM-MOD-017 (BCM-PLT-011 Product Marketplace and Entitlements): backend REST contracts vs. `openapi-source.md`, IAM `PermissionCode`s/`RolePermissionCatalog.java` vs. `permissions.ts`/`ROLE_PERMISSION_CATALOG`, `ui-model.md` screens vs. the 4 marketplace employee-portal screens, and es-MX/en-US i18n key parity.
-- Run mandatory backend and frontend gates with executable evidence.
+- COM-MOD-014 (Imaging Operations) depends on `MVP-MOD-003`, `MVP-MOD-004`, `MVP-MOD-007`, `MVP-MOD-008` and `COM-MOD-012`, all closed.
+- Model BCM-IMG-001 through BCM-IMG-008 capability packages (imaging appointment, reception, study management, DICOM/PACS integration, dictation, signature and delivery) per the standard capability package template.
 - Do not advance the backlog if Maven, Java, Node, npm, Docker, database, dependency scan, coverage or static-analysis execution is blocked; request support or keep the item open with exact remediation steps.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-017-FE-001` - Compile marketplace administration and package installation UI outputs. Compiled 4 new marketplace employee-portal screens (`MarketplacePackagesScreen`, `MarketplaceOffersScreen`, `MarketplaceEntitlementsScreen`, `MarketplaceInstallationsScreen`) covering `BCM-PLT-011`'s full `ui-model.md` `employee_portal.screens` scope, a typed `marketplaceApi.ts` facade over the 4 marketplace controllers, and IAM/menu wiring (`permissions.ts`/`AppShell.tsx`/`App.tsx`, `MARKETPLACE_OPERATOR`/`TENANT_ADMIN` roles mirroring `RolePermissionCatalog.java`). Closed **TD-BE-019** for real as the debt-first action: `MarketplaceInstallationsScreen`'s install control is genuinely gated on real tenant entitlement runtime state (mirroring the backend's `TenantEntitlement.isEffectivelyActive`), not a fabricated relationship. `npm run quality` passed (224 tests, 65 test files, 0 failures; employee-portal line coverage 89.75% -> 90.68%). `npm audit` found 17 pre-existing high-severity devDependency-only advisories unrelated to this item's diff; a non-breaking `npm audit fix` reduced it to 10 (production dependencies 0 vulnerabilities), registered as new debt **TD-FE-012**. Trivy fs scan reported 0 findings. Active backlog item advanced to `COM-MOD-017-QA-001`.
+`COM-MOD-017-CLOSEOUT` - Marketplace readiness closeout and registry update. Marked `BCM-PLT-011` `module_closed` in `capability-package.md` and `capability-package-index.md` (moved from `active_capability_package_groups` to `completed_capability_package_groups`); added a `closeout:` section to `traceability.md`. Documentation and registry-only closeout -- no source changed; backend (484 tests, 84.65%) and employee-portal (224 tests/65 files, 90.68%) figures re-affirmed unchanged from `COM-MOD-017-QA-001`. Confirmed `TD-BE-018`/`TD-BE-019`/`TD-BE-020` closed; `TD-FE-012` re-confirmed open/non-blocking. Found and corrected two stale `technical-debt-index.md` coverage baselines (`backend_java_maven` 84.53% -> 84.65%, `frontend_typescript_web` 89.75% -> 90.68%) never synced from prior evidence. Found and registered new debt **TD-WEB-001** -- `ui-model.md`'s `PUBLIC_MARKETPLACE_LISTING` public_website surface was modeled but never compiled (`COM-MOD-017-WEB-001` never scheduled); non-blocking, outward discovery surface only. REL-003 Commercial General Availability is now fully complete (`COM-MOD-013`, `COM-MOD-016` and `COM-MOD-017` all `module_closed`). Active backlog item advanced to `COM-MOD-014-DEF`.
 
 <!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
 
@@ -739,10 +738,10 @@ validation_commands:
   git_whitespace:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
-  module_id: COM-MOD-017
-  backlog_item_id: COM-MOD-017-QA-001
-  name: Integrated marketplace validation
-  expected_folder: 07-implementation/employee-portal/ and 07-implementation/backend/
+  module_id: COM-MOD-014
+  backlog_item_id: COM-MOD-014-DEF
+  name: Imaging Operations capability package models
+  expected_folder: 01-product-definition/business-capabilities/packages/
   required_debt_first_action: none
   coverage_floor:
     backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.65
@@ -753,34 +752,33 @@ validation_commands:
     public_website_typescript_web_line_coverage_percent: 98.61
     final_target_percent: 80
   mandatory_execution_notes:
-  - Resume functional work only from the compact generated prompt and COM-MOD-017-FE-001
+  - Resume functional work only from the compact generated prompt and COM-MOD-017-CLOSEOUT
     handoff; do not preload broad YAML registries.
-  - Validate BCM-PLT-011 end-to-end -- backend REST contracts vs. openapi-source.md,
-    IAM PermissionCodes/RolePermissionCatalog.java vs. permissions.ts/ROLE_PERMISSION_CATALOG,
-    ui-model.md screens vs. the 4 marketplace employee-portal screens, and es-MX/en-US
-    i18n key parity.
+  - Model BCM-IMG-001 through BCM-IMG-008 capability packages (imaging appointment,
+    reception, study management, DICOM/PACS integration, dictation, signature and
+    delivery) per the standard capability package template; definition-only, no
+    code implemented.
   - Keep execution agent-agnostic and preserve the open-source-first stack and quality
     gates.
   - Address or reduce at least one applicable technical-debt item before feature work
-    if one is found applicable during validation (e.g. TD-FE-012).
+    if one is found applicable during modeling.
   - Preserve backend coverage at or above 84.65% and employee-portal coverage at or
     above 90.68%; keep final project target at 80% or higher.
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product
     backlog and execution prompts, and commit only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-017-QA-001
+    backlog_item_id: COM-MOD-017-CLOSEOUT
     status: closed
-    summary: Integrated marketplace validation. Ran 4 traceability sweeps (openapi-source.md
-      vs. the 6 marketplace controllers, IAM permissions across PermissionCode.java/RolePermissionCatalog.java/EndpointPermissionRegistry.java/permissions.ts,
-      ui-model.md vs. the 4 employee-portal screens, es-MX/en-US i18n key parity);
-      found and fixed 3 real doc-vs-implementation drifts (openapi-source.md path
-      mismatches plus 1 undocumented endpoint; permissions.md/ui-model.md documented
-      an unimplemented 15-code fine-grained permission model while the shipped system
-      correctly uses the platform's coarse 4-code SCREEN_MARKETPLACE_* model, TD-IAM-002
-      pattern). i18n was clean (109 keys, full parity). Debt-first action -- closed TD-BE-018
-      (all 5 of 5 named custom_implementation_points now closed via the TD-BE-019
-      chain closed by COM-MOD-017-FE-001); TD-FE-012 re-confirmed still open/non-blocking.
-      Backend -- 484 tests/0 failures/errors/skipped, 84.65% coverage (no regression),
-      72 dependencies/0 vulnerabilities. Employee portal -- 224 tests/65 files/0 failures,
-      90.68% coverage (no regression). Trivy fs 0 findings.
+    summary: Marketplace readiness closeout and registry update. Marked BCM-PLT-011
+      module_closed in capability-package.md and capability-package-index.md (moved
+      from active_capability_package_groups to completed_capability_package_groups);
+      added a closeout section to traceability.md. Documentation and registry-only
+      closeout -- no source changed; backend (484 tests, 84.65%) and employee-portal
+      (224 tests/65 files, 90.68%) figures re-affirmed unchanged. Confirmed TD-BE-018/TD-BE-019/TD-BE-020
+      closed; TD-FE-012 re-confirmed open/non-blocking. Corrected two stale technical-debt-index.md
+      coverage baselines never synced from prior evidence. Registered new debt TD-WEB-001
+      for the modeled-but-uncompiled PUBLIC_MARKETPLACE_LISTING public_website surface
+      (COM-MOD-017-WEB-001 never scheduled), non-blocking. REL-003 Commercial General
+      Availability is now fully complete (COM-MOD-013, COM-MOD-016 and COM-MOD-017
+      all module_closed).
 ```

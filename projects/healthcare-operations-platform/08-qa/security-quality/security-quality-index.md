@@ -39,6 +39,26 @@ required_checks_when_applicable:
 - dast_for_runnable_web_or_api_surfaces
 - container_or_iac_scan_when_assets_change
 entries:
+- backlog_item: COM-MOD-017-CLOSEOUT
+  module: COM-MOD-017 Product Marketplace and Extension Packaging
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-017-CLOSEOUT/
+  human_readable: 08-qa/security-quality/COM-MOD-017-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-017-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: passed_via_COM_MOD_017_BE_002_FE_001_and_QA_001_re_affirmed_unchanged
+    sast_or_static_analysis: passed_via_COM_MOD_017_BE_002_and_QA_001
+    dependency_vulnerability_scan: passed_via_COM_MOD_017_QA_001
+    secrets_scan: passed_via_COM_MOD_017_QA_001
+    coverage: passed_backend_84_65_percent_employee_portal_90_68_percent_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_new_runnable_surface_documentation_only_item
+    container_or_iac_scan_when_assets_change: not_applicable_no_container_or_iac_assets_changed
+  note: 'Module closeout and registry update. Marked BCM-PLT-011 module_closed in
+    capability-package-index.md and traceability.md. Confirmed TD-BE-018/TD-BE-019/TD-BE-020
+    closed; TD-FE-012 re-confirmed open/non-blocking. Corrected two stale technical-debt-index.md
+    coverage baselines. Registered new debt TD-WEB-001 for the uncompiled public
+    marketplace listing surface. Documentation and registry-only closeout, no source
+    changed. Advanced active backlog to COM-MOD-014-DEF.'
 - backlog_item: COM-MOD-017-QA-001
   module: COM-MOD-017 Product Marketplace and Extension Packaging
   status: passed

@@ -549,6 +549,10 @@ sources:
   com_mod_017_qa_001_qa_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-QA-001-validation.md
   com_mod_017_qa_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-017-QA-001/security-quality-evidence.md
   com_mod_017_qa_001_handoff_summary: 08-qa/handoffs/COM-MOD-017-QA-001-summary.md
+  com_mod_017_closeout_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-CLOSEOUT-validation.md
+  com_mod_017_closeout_security_quality_evidence: 08-qa/security-quality/COM-MOD-017-CLOSEOUT/security-quality-evidence.md
+  com_mod_017_closeout_handoff_summary: 08-qa/handoffs/COM-MOD-017-CLOSEOUT-summary.md
+  td_web_001: 08-qa/technical-debt/TD-WEB-001-marketplace-public-listing-surface-not-implemented.md
   nxf_ctx_001_handoff_summary: 08-qa/handoffs/NXF-CTX-001-summary.md
   td_fmt_001: 08-qa/technical-debt/TD-FMT-001-yaml-monolith-to-frontmatter-transition.md
   actor_catalog: 02-domain-definition/actors/acm-001/actor-catalog.md

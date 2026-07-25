@@ -14,9 +14,28 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-017-QA-001 closed. Active backlog item is COM-MOD-017-CLOSEOUT.
+current_phase: COM-MOD-017-CLOSEOUT closed. Active backlog item is COM-MOD-014-DEF.
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
+- COM-MOD-017-CLOSEOUT Module closeout and registry update (BCM-PLT-011 marked
+  module_closed in capability-package-index.md -- moved from active_capability_package_groups
+  to completed_capability_package_groups -- and in its own traceability.md; the
+  6 reused dependency capabilities BCM-PLT-001/002/005/006/007/009 now carry an
+  explicit owning_roadmap_group pointer. Confirmed TD-BE-018/TD-BE-019/TD-BE-020
+  closed; TD-FE-012 re-confirmed open/non-blocking. Documentation and registry-only
+  closeout -- no source changed, coverage re-affirmed unchanged (backend 84.65%,
+  employee portal 90.68%, public website 98.61%, mobile 99.21%, patient portal
+  94.11%, doctor portal 96.28%). Found and corrected two stale technical-debt-index.md
+  coverage_policy.current_stack_baselines entries (backend_java_maven 84.53% ->
+  84.65%, frontend_typescript_web 89.75% -> 90.68%) never synced from
+  COM-MOD-017-BE-002/FE-001/QA-001. Found and registered new debt TD-WEB-001 --
+  ui-model.md's PUBLIC_MARKETPLACE_LISTING public_website surface was modeled but
+  never compiled (COM-MOD-017-WEB-001 never scheduled); non-blocking, outward
+  discovery surface only. Reconciled stale "next backlog item" pointers in
+  HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md and HOP_COMMERCIAL_PRODUCT_BACKLOG.md.
+  REL-003 Commercial General Availability is now fully complete (COM-MOD-013,
+  COM-MOD-016 and COM-MOD-017 all module_closed); advanced active backlog to
+  COM-MOD-014-DEF)
 - COM-MOD-017-QA-001 Integrated marketplace validation (4 traceability sweeps run --
   openapi-source.md vs. the 6 marketplace controllers, IAM permissions across PermissionCode.java/RolePermissionCatalog.java/EndpointPermissionRegistry.java/permissions.ts,
   ui-model.md vs. the 4 employee-portal screens, and es-MX/en-US i18n key parity; i18n
@@ -2012,9 +2031,9 @@ commercial_product_progress:
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.md
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.md
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
-  current_iteration: COM-MOD-017
-  active_module: Product Marketplace and Extension Packaging
-  active_backlog_item: COM-MOD-017-CLOSEOUT
+  current_iteration: COM-MOD-014
+  active_module: Imaging Operations
+  active_backlog_item: COM-MOD-014-DEF
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
@@ -2025,14 +2044,15 @@ commercial_product_progress:
   capability_package_progress:
     COM-MOD-017:
       name: Product Marketplace and Extension Packaging
-      package_status: ui_compiled
-      backlog_item: COM-MOD-017-QA-001
+      package_status: module_closed
+      backlog_item: COM-MOD-017-CLOSEOUT
       backlog_item_status: closed
-      next_backlog_item: COM-MOD-017-CLOSEOUT
-      execution_flow_stage: ready_for_closeout
+      next_backlog_item: none (module closed; COM-MOD-017-WEB-001 public marketplace
+        listing surface deferred, tracked as TD-WEB-001)
+      execution_flow_stage: released
       capabilities:
       - capability: BCM-PLT-011
-        package_status: ui_compiled
+        package_status: module_closed
       - capability: BCM-PLT-001
         package_status: reused_marketplace_entitlement_guard
       - capability: BCM-PLT-002
@@ -2055,6 +2075,16 @@ commercial_product_progress:
       - audit-compliance
       qa_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-QA-001-validation.md
       security_quality_evidence: 08-qa/security-quality/COM-MOD-017-QA-001/security-quality-evidence.md
+      closeout_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-CLOSEOUT-validation.md
+      closeout_security_quality_evidence: 08-qa/security-quality/COM-MOD-017-CLOSEOUT/security-quality-evidence.md
+      technical_debt_closed:
+      - TD-BE-018
+      - TD-BE-019
+      - TD-BE-020
+      technical_debt_materially_reduced: []
+      technical_debt_registered_open_non_blocking:
+      - TD-FE-012
+      - TD-WEB-001
     COM-MOD-016:
       name: Commercial Launch and Customer Enablement
       package_status: module_closed

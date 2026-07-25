@@ -75,9 +75,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 84.53
-        source_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-001-validation.md
-        next_iteration_minimum_line_coverage_percent: 84.53
+        current_line_coverage_percent: 84.65
+        source_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-QA-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 84.65
         final_closure_target_percent: 80
         correction_note: 'COM-MOD-013-QA-001 found the recorded 84.14% figure was
           not reproducible from a clean rebuild (measured 82.57%); investigating that
@@ -129,12 +129,17 @@ policy:
           it to a reproducible clean-rebuild 84.53% (442 tests, 0 failures/errors/skipped,
           Docker Compose PostgreSQL 16 up); registered TD-BE-018 for the deferred
           deeper entitlement-policy/compatibility/billing-adapter/ rollback sophistication
-          named by generation-plan.md''s custom_implementation_points; the new floor
-          is 84.53%.'
+          named by generation-plan.md''s custom_implementation_points. COM-MOD-017-BE-002
+          closed 4 of TD-BE-018''s 5 points and raised it further to 84.65% (484 tests,
+          0 failures/errors/skipped); COM-MOD-017-QA-001 re-confirmed 84.65% unchanged
+          (no backend source changed by that validation-only item). COM-MOD-017-CLOSEOUT
+          corrected this registry entry''s stale 84.53% value to match, since it had
+          not yet been synced from COM-MOD-017-BE-002/QA-001''s own evidence; the
+          new floor is 84.65%.'
       frontend_typescript_web:
-        current_line_coverage_percent: 89.75
-        source_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.md
-        next_iteration_minimum_line_coverage_percent: 89.75
+        current_line_coverage_percent: 90.68
+        source_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-QA-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 90.68
         final_closure_target_percent: 80
         correction_note: 'COM-MOD-013-QA-001 fixed a hardcoded string and a function-size
           violation in ComplianceEvidenceScreen.tsx, raising coverage from 89.74%
@@ -157,7 +162,14 @@ policy:
           public-request-administration screens (154 tests, 54 test files, 0 failures),
           raising it further to 88.68%. COM-MOD-013-FE-001 added the Advanced Quality
           and Compliance employee-portal screens plus tests, raising it further to
-          89.74% (187 tests, 60 test files, 0 failures); the new floor is 89.74%.'
+          89.74% (187 tests, 60 test files, 0 failures); the new floor is 89.74%.
+          COM-MOD-017-FE-001 added the 4 marketplace administration screens plus
+          tests, raising it further to 90.68% (224 tests, 65 test files, 0 failures);
+          COM-MOD-017-QA-001 re-confirmed 90.68% unchanged (no employee-portal source
+          changed by that validation-only item). COM-MOD-017-CLOSEOUT corrected this
+          registry entry''s stale 89.75% value to match, since it had not yet been
+          synced from COM-MOD-017-FE-001/QA-001''s own evidence; the new floor is
+          90.68%.'
       mobile_typescript_foundation:
         current_line_coverage_percent: 99.21
         source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.md
@@ -847,4 +859,14 @@ entries:
   affected_area: employee_portal_npm_audit_gate
   file: 08-qa/technical-debt/TD-FE-012-employee-portal-npm-audit-devdependency-high-severity-findings.md
   remediation_strategy: gradual_when_a_dedicated_devdependency_maintenance_backlog_item_is_scheduled
+- id: TD-WEB-001
+  title: Public marketplace listing surface (PUBLIC_MARKETPLACE_LISTING) modeled
+    by BCM-PLT-011 but never compiled
+  status: open
+  risk_level: low
+  blocking: false
+  source_backlog_item: COM-MOD-017-CLOSEOUT
+  affected_area: bcm_plt_011_public_website_marketplace_listing
+  file: 08-qa/technical-debt/TD-WEB-001-marketplace-public-listing-surface-not-implemented.md
+  remediation_strategy: gradual_dedicated_backlog_item_com_mod_017_web_001
 ```

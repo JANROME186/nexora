@@ -125,6 +125,25 @@ validation:
     (TD-IAM-002 pattern). i18n key parity was clean. Debt-first action -- closed TD-BE-018
     (all 5 of 5 named custom_implementation_points now closed via the TD-BE-019 chain
     closed by COM-MOD-017-FE-001).
+closeout:
+  backlog_item: COM-MOD-017-CLOSEOUT
+  status: closed
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-CLOSEOUT-validation.md
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-CLOSEOUT/security-quality-evidence.md
+  notes: Formally closed COM-MOD-017 Product Marketplace and Extension Packaging.
+    Marked BCM-PLT-011 module_closed in capability-package.md and capability-package-index.md
+    (moved from active_capability_package_groups to completed_capability_package_groups).
+    Confirmed zero open technical debt attributable to BCM-PLT-011's own compiled
+    scope -- TD-BE-018, TD-BE-019 and TD-BE-020 are all closed; TD-FE-012 remains
+    open non-blocking (devDependency-only, no non-breaking fix available). Documentation
+    and registry-only closeout; no application source changed, so backend (84.65%)
+    and employee-portal (90.68%) coverage are re-affirmed unchanged from COM-MOD-017-QA-001.
+    Found and registered new debt TD-WEB-001 -- ui-model.md's PUBLIC_MARKETPLACE_LISTING
+    public_website surface and generation-plan.md's matching generated_outputs entry
+    were modeled but never compiled; COM-MOD-017-WEB-001 remains deferred and unscheduled,
+    tracked as non-blocking debt rather than silently dropped, since it is an outward
+    discovery surface only and does not gate any purchase, entitlement or installation
+    workflow (all of which are fully compiled, tested and validated).
 backlog_items:
   definition: COM-MOD-017-DEF
   definition_status: closed
@@ -137,4 +156,5 @@ backlog_items:
   validation: COM-MOD-017-QA-001
   validation_status: closed
   closeout: COM-MOD-017-CLOSEOUT
+  closeout_status: closed
 ```

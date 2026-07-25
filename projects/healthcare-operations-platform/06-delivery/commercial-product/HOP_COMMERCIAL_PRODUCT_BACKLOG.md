@@ -206,11 +206,11 @@ HOP reaches commercial general availability only after these gates pass:
 
 ## Next Action
 
-`COM-MOD-012` (Platform Hardening and SaaS Operations) is `module_closed`: `COM-MOD-012-DEF`, `COM-MOD-012-OPS-001`, `COM-MOD-012-OPS-002`, `COM-MOD-012-BE-001`, `COM-MOD-012-QA-001` and `COM-MOD-012-CLOSEOUT` are all closed. `COM-MOD-013-DEF` (Advanced Quality and Compliance Capability Package Models) is `closed`. Continue with `COM-MOD-013-BE-001` (Compile external QC, CAPA and audit management outputs) from:
+`COM-MOD-017` (Product Marketplace and Extension Packaging) is `module_closed`: `COM-MOD-017-DEF`, `COM-MOD-017-BE-001`, `COM-MOD-017-BE-002`, `COM-MOD-017-FE-001`, `COM-MOD-017-QA-001` and `COM-MOD-017-CLOSEOUT` are all closed (`COM-MOD-017-WEB-001` deferred, tracked as non-blocking debt `TD-WEB-001`). REL-003 Commercial General Availability is now fully complete (`COM-MOD-013`, `COM-MOD-016` and `COM-MOD-017` all `module_closed`). Continue with `COM-MOD-014-DEF` (Imaging Operations capability package models) from:
 
 `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md`
 
-See `08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-DEF-validation.md` for the latest validation evidence.
+See `08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-CLOSEOUT-validation.md` for the latest validation evidence.
 
 <!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
 
@@ -234,25 +234,27 @@ product:
   commercial_name: Nexora Healthcare Operations Platform
   company: Nexora
   current_baseline:
-    completed_module: COM-MOD-016 (COM-MOD-016-CLOSEOUT closed)
+    completed_module: COM-MOD-017 (COM-MOD-017-CLOSEOUT closed; REL-003 Commercial
+      General Availability fully complete)
     completed_status: closed
-    active_module: COM-MOD-017
-    active_backlog_item: COM-MOD-017-CLOSEOUT
-    active_module_progress: COM-MOD-017-QA-001 Integrated marketplace validation is
-      closed. 4 traceability sweeps run (REST contract vs. controllers, IAM permissions
-      across 4 layers, ui-model.md vs. the 4 employee-portal screens, i18n key parity);
-      3 real doc-vs-implementation drifts found and corrected in capability-package
-      model documents (openapi-source.md path mismatches plus 1 undocumented endpoint;
-      permissions.md/ui-model.md documented an unimplemented 15-code fine-grained
-      permission model while the shipped system correctly uses the platform's coarse
-      4-code SCREEN_MARKETPLACE_* model, TD-IAM-002 pattern); i18n key parity was
-      clean (109 keys, full es-MX/en-US parity). Debt-first action -- closed TD-BE-018 (all
-      5 of 5 named custom_implementation_points now closed via the TD-BE-019 chain
-      closed by COM-MOD-017-FE-001); TD-FE-012 re-confirmed still open/non-blocking
-      (no non-breaking fix available). Backend -- 484 tests, 0 failures/errors/skipped,
-      84.65% coverage (no regression), 72 dependencies/0 vulnerabilities (OWASP Dependency-Check).
-      Employee portal -- 224 tests/65 files/0 failures, 90.68% coverage (no regression).
-      Trivy fs 0 findings. Active backlog item advanced to COM-MOD-017-CLOSEOUT.
+    active_module: COM-MOD-014
+    active_backlog_item: COM-MOD-014-DEF
+    active_module_progress: COM-MOD-017-CLOSEOUT closed COM-MOD-017 Product Marketplace
+      and Extension Packaging. Marked BCM-PLT-011 module_closed in capability-package.md
+      and capability-package-index.md (moved from active_capability_package_groups
+      to completed_capability_package_groups); added a closeout section to traceability.md.
+      Documentation and registry-only closeout -- no source changed; backend (484
+      tests, 84.65%) and employee-portal (224 tests/65 files, 90.68%) figures re-affirmed
+      unchanged from COM-MOD-017-QA-001. Confirmed TD-BE-018/TD-BE-019/TD-BE-020
+      closed; TD-FE-012 re-confirmed open/non-blocking. Found and corrected two
+      stale technical-debt-index.md coverage baselines (backend_java_maven 84.53%
+      -> 84.65%, frontend_typescript_web 89.75% -> 90.68%) never synced from prior
+      evidence. Found and registered new debt TD-WEB-001 -- ui-model.md's PUBLIC_MARKETPLACE_LISTING
+      public_website surface was modeled but never compiled (COM-MOD-017-WEB-001
+      never scheduled); non-blocking, outward discovery surface only. Active backlog
+      item advanced to COM-MOD-014-DEF (Imaging Operations capability package models;
+      dependencies MVP-MOD-003, MVP-MOD-004, MVP-MOD-007, MVP-MOD-008 and COM-MOD-012
+      all closed).
     paused_backlog_item: null
     pause_reason: null
 source_inputs:
@@ -1202,7 +1204,7 @@ modules:
   name: Imaging Operations
   release: REL-004
   priority: 130
-  status: planned
+  status: active
   source: mvp_framework_future_module
   objective: Add imaging appointment, reception, study management, DICOM/PACS integration,
     dictation, signature and delivery.
@@ -1349,7 +1351,7 @@ modules:
   name: Product Marketplace and Extension Packaging
   release: REL-003
   priority: 160
-  status: active
+  status: module_closed
   source: derived_from_product_marketplace_standard
   objective: Enable HOP to publish, sell, entitle, install, activate, update and retire
     optional commercial product packages per tenant.
@@ -1410,6 +1412,9 @@ modules:
       security_quality: ../../08-qa/security-quality/COM-MOD-017-FE-001/security-quality-evidence.md
   - id: COM-MOD-017-WEB-001
     name: Compile public marketplace listing and package discovery surfaces
+    status: deferred_not_scheduled
+    evidence:
+      technical_debt: ../../08-qa/technical-debt/TD-WEB-001-marketplace-public-listing-surface-not-implemented.md
   - id: COM-MOD-017-QA-001
     name: Validate purchase, entitlement, installation, activation, upgrade, rollback
       and retirement evidence
@@ -1420,6 +1425,11 @@ modules:
       handoff: ../../08-qa/handoffs/COM-MOD-017-QA-001-summary.md
   - id: COM-MOD-017-CLOSEOUT
     name: Marketplace readiness closeout and registry update
+    status: closed
+    evidence:
+      qa: ../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-CLOSEOUT-validation.md
+      security_quality: ../../08-qa/security-quality/COM-MOD-017-CLOSEOUT/security-quality-evidence.md
+      handoff: ../../08-qa/handoffs/COM-MOD-017-CLOSEOUT-summary.md
   acceptance_summary:
   - Published packages can be discovered with version, compatibility, support and
     pricing metadata.

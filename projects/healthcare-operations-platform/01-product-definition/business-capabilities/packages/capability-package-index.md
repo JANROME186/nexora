@@ -18,11 +18,11 @@ artifact:
   id: HOP-CAP-PKG-IDX-001
   type: capability-package
   name: HOP Business Capability Package Index
-  version: 2.7.0
+  version: 2.8.0
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.md
-  qa_evidence: ../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.md
+  qa_evidence: ../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-CLOSEOUT-validation.md
 policy:
   primary_development_unit: business_capability_package
   roadmap_grouping_allowed: true
@@ -45,58 +45,71 @@ do_not_write_manually:
 - Repetitive documentation
 - Duplicate models
 - Repetitive test cases
-active_capability_package_groups:
+active_capability_package_groups: []
+completed_capability_package_groups:
 - roadmap_group: COM-MOD-017
   name: Product Marketplace and Extension Packaging
-  package_status: ui_compiled
-  backlog_item: COM-MOD-017-FE-001
-  next_backlog_item: COM-MOD-017-QA-001
-  qa_evidence: ../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-FE-001-validation.md
-  security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-017-FE-001/security-quality-evidence.md
+  package_status: module_closed
+  backlog_item: COM-MOD-017-CLOSEOUT
+  qa_evidence: ../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-CLOSEOUT-validation.md
+  closeout_evidence: ../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-CLOSEOUT-validation.md
+  security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-017-CLOSEOUT/security-quality-evidence.md
+  note: BCM-PLT-011's own scope (backend, IAM, employee-portal administration and
+    entitlement-gated installation lifecycle) is fully compiled and validated.
+    The modeled public_website PUBLIC_MARKETPLACE_LISTING discovery surface
+    (COM-MOD-017-WEB-001) was never scheduled; carried forward as non-blocking
+    debt TD-WEB-001 rather than dropped silently. The 6 dependency capabilities
+    below are reused from their own owning roadmap groups and remain individually
+    active/closed under their own module lifecycle.
   capabilities:
   - capability_id: BCM-PLT-011
     package_folder: bcm-plt-011-product-marketplace-and-entitlements/
-    package_status: compiled
+    package_status: module_closed
     bounded_context: marketplace-entitlements
     primary_aggregate: MarketplacePackage (AGG-030)
     mobile_scope: entitlement_aware
   - capability_id: BCM-PLT-001
     package_folder: bcm-plt-001-identity-and-access-management/
     package_status: reused_marketplace_entitlement_guard
+    owning_roadmap_group: COM-MOD-012
     bounded_context: identity-access
     primary_aggregate: AGG-004 UserAccount
     mobile_scope: required
   - capability_id: BCM-PLT-002
     package_folder: bcm-plt-002-platform-configuration/
     package_status: reused_marketplace_configuration
+    owning_roadmap_group: COM-MOD-016
     bounded_context: platform-operations
     primary_aggregate: PlatformConfiguration
     mobile_scope: read_only_config
   - capability_id: BCM-PLT-005
     package_folder: bcm-plt-005-api-management/
     package_status: reused_marketplace_api_boundary
+    owning_roadmap_group: MVP-MOD-008
     bounded_context: integration-interoperability
     primary_aggregate: ApiProduct
     mobile_scope: public_contract_consumer
   - capability_id: BCM-PLT-006
     package_folder: bcm-plt-006-observability/
     package_status: reused_marketplace_observability
+    owning_roadmap_group: COM-MOD-016
     bounded_context: platform-operations
     primary_aggregate: ObservabilityTarget
     mobile_scope: telemetry_consumer
   - capability_id: BCM-PLT-007
     package_folder: bcm-plt-007-audit-trail/
     package_status: reused_marketplace_audit
+    owning_roadmap_group: COM-MOD-016
     bounded_context: audit-compliance
     primary_aggregate: AGG-018 AuditEvent
     mobile_scope: internal_audit_consumer
   - capability_id: BCM-PLT-009
     package_folder: bcm-plt-009-workflow-engine/
     package_status: reused_marketplace_lifecycle_workflows
+    owning_roadmap_group: COM-MOD-012
     bounded_context: platform-operations
     primary_aggregate: WorkflowDefinition
     mobile_scope: not_required
-completed_capability_package_groups:
 - roadmap_group: COM-MOD-016
   name: Commercial Launch and Customer Enablement
   package_status: module_closed
