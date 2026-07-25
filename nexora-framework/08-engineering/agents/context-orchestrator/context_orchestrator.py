@@ -258,12 +258,12 @@ def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage
 
     if workstream == "format_migration":
         result.append("Pausar desarrollo funcional de HOP hasta cerrar la optimización de formato.")
-        result.append("Migrar/optimizar artefactos YAML/MD pesados a Markdown con frontmatter compacto.")
+        result.append("Migrar/optimizar artefactos legados pesados a Markdown con frontmatter compacto.")
         result.append("Usar solo Python, PyYAML y Ollama local; no consumir tokens comerciales.")
     elif task_id == "COM-MOD-017-BE-002":
         result.append("Implementar enforcement custom de entitlements para instalación, activación y consumo runtime de paquetes marketplace.")
         result.append("Implementar boundary provider-agnostic para billing sin acoplar HOP a un proveedor propietario.")
-        result.append("Retomar desde el handoff compacto de NXF-FMT-002; no precargar inventarios YAML amplios.")
+        result.append("Retomar desde el handoff compacto de NXF-FMT-002; no precargar inventarios amplios.")
     elif workstream == "backend":
         result.append(
             "Compilar outputs backend para marketplace catalog, package manifest, offer, "
@@ -283,12 +283,12 @@ def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage
         result.append("Revisar deuda técnica abierta y reducir al menos 1 item aplicable antes del feature work.")
 
     gate_by_workstream = {
-        "format_migration": "Ejecutar inventario, piloto, conversión por lotes, validación de referencias, parseo YAML y git diff --check.",
+        "format_migration": "Ejecutar inventario, piloto, conversión por lotes, validación de referencias, parseo Markdown/frontmatter y git diff --check.",
         "backend": "Ejecutar gates backend obligatorios: Maven, Java, Docker/BD local, SAST, dependencias, cobertura y scans de seguridad.",
         "frontend": "Ejecutar gates frontend obligatorios: typecheck, tests/cobertura, build, SAST, dependencias, i18n y scans de seguridad.",
         "mobile": "Ejecutar gates app/mobile obligatorios: typecheck, tests/cobertura, build, SAST, dependencias, i18n y scans de seguridad.",
         "quality": "Ejecutar gates de cierre, punteros, evidencias, deuda técnica, seguridad, cobertura y estado git.",
-        "definition": "Ejecutar gates documentales: YAML/MD parseable, trazabilidad, punteros, deuda técnica y estado git.",
+        "definition": "Ejecutar gates documentales: Markdown/frontmatter parseable, trazabilidad, punteros, deuda técnica y estado git.",
     }
     result.append(gate_by_workstream.get(workstream, gate_by_workstream["definition"]))
     result.append("No avanzar punteros si un gate obligatorio queda bloqueado o sin evidencia.")
@@ -319,15 +319,15 @@ def task_artifact_profile(task_id: str) -> dict[str, str]:
     if task_id == "COM-MOD-017-BE-002":
         return {
             "context_path": "01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
-            "qa_evidence_pattern": f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md/yaml",
-            "security_evidence_pattern": f"08-qa/security-quality/{task_id}/security-quality-evidence.md/yaml",
+            "qa_evidence_pattern": f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md",
+            "security_evidence_pattern": f"08-qa/security-quality/{task_id}/security-quality-evidence.md",
             "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
             "commit_suggestion": "feat(hop): implement marketplace entitlement enforcement",
         }
     return {
         "context_path": "01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
-        "qa_evidence_pattern": f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md/yaml",
-        "security_evidence_pattern": f"08-qa/security-quality/{task_id}/security-quality-evidence.md/yaml",
+        "qa_evidence_pattern": f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md",
+        "security_evidence_pattern": f"08-qa/security-quality/{task_id}/security-quality-evidence.md",
         "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
         "commit_suggestion": "feat(hop): compile marketplace backend outputs",
     }
@@ -533,7 +533,7 @@ ORCHESTRATION: {orchestration_mode}
 - Actualizar `PROJECT_STATE.md`, `SOURCE_OF_TRUTH.md`, backlog/prompts, runbook e índices aplicables.
 
 ## 4. Criterios de Cierre
-- Gates obligatorios ejecutados; YAML/MD parseables; `git diff --check` limpio.
+- Gates obligatorios ejecutados; Markdown/frontmatter parseable; `git diff --check` limpio.
 - Commit: `{profile['commit_suggestion']}`.
 - `git status --short` limpio si no hay bloqueantes.
 """
