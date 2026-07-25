@@ -74,6 +74,12 @@ clean. If the validator reports stale pointers, missing evidence, dirty worktree
 closure-fix prompt, the agent must report the inconsistencies, correct them, commit the corrections
 and run the strict validator again.
 
+Execution agents must not modify `backlog_validator.py` or `tool-registry.md` while closing product
+backlog work. Those files are protected controls; changing them during closure is treated as a P0
+finding. The agent may attempt closure at most 3 times. If the validator still reports P0/P1
+findings after the third attempt, the agent must stop, leave the findings visible, and report the
+remaining gaps plus the technical explanation for why the item appears closeable.
+
 ## Frontmatter Migration
 
 Heavy YAML/Markdown artifacts are migrated with the local frontmatter migrator. Inventory and

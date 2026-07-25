@@ -26,6 +26,10 @@ ACTIVE_PROMPT_DIR = f"{PROJECT_PATH}/08-qa/generated-prompts/active_prompt"
 HISTORY_PROMPT_DIR = f"{PROJECT_PATH}/08-qa/generated-prompts/history_prompt"
 DEFAULT_MODEL = "qwen2.5-coder:0.5b"
 DEFAULT_TIMEOUT_SECONDS = 300
+PROTECTED_VALIDATOR_PATHS = (
+    "nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py",
+    "nexora-framework/08-engineering/agents/context-orchestrator/tool-registry.md",
+)
 
 
 def read_text(path: Path) -> str:
@@ -91,6 +95,17 @@ def project_file(root: Path, relative_path: str) -> Path:
 def git_status(root: Path) -> str:
     result = subprocess.run(
         ["git", "status", "--short"],
+        cwd=root,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    return result.stdout.strip()
+
+
+def git_status_for_paths(root: Path, paths: tuple[str, ...]) -> str:
+    result = subprocess.run(
+        ["git", "status", "--short", "--", *paths],
         cwd=root,
         text=True,
         capture_output=True,
@@ -286,6 +301,17 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
     if execution_previous != task_id or execution_previous_status != "closed":
         hard_findings.append({"id": "execution_prompt_previous_not_closed", "severity": "P0", "detail": "Execution prompt must carry the validated task as previous_backlog_item closed."})
 
+    protected_validator_changes = git_status_for_paths(root, PROTECTED_VALIDATOR_PATHS)
+    if protected_validator_changes:
+        hard_findings.append({
+            "id": "protected_validator_modified",
+            "severity": "P0",
+            "detail": (
+                "Execution agents must not modify the closure validator or tool registry "
+                f"while closing product backlog work: {protected_validator_changes[:800]}"
+            ),
+        })
+
     source_values = set((source_of_truth.get("sources") or {}).values()) if isinstance(source_of_truth.get("sources"), dict) else set()
     for relative in (
         qa_rel,
@@ -317,6 +343,8 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
         "product_backlog_item_status": product_backlog_status,
         "execution_prompt_previous_backlog_item": execution_previous,
         "execution_prompt_previous_status": execution_previous_status,
+        "protected_validator_paths": list(PROTECTED_VALIDATOR_PATHS),
+        "protected_validator_changes": protected_validator_changes,
         "source_of_truth_checked": True,
         "git_head": git_head(root),
         "git_clean": git_clean_value,

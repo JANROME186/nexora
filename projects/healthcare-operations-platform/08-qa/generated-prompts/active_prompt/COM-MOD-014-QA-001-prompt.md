@@ -27,7 +27,9 @@ ORCHESTRATION: ollama_primary
 - Commit: `test(hop): validate imaging operations backlog closure`.
 - Después del commit, ejecutar `tool: backlog_closure_validator`; la herramienta toma el prompt desde `active_prompt/` sin parámetros.
 - El validador debe terminar con código 0, reportar `status: closed`, `Hard findings: 0` y generar evidencia en `08-qa/backlog-validations/COM-MOD-014-QA-001-closure-validation.md`.
-- Si el validador genera `COM-MOD-014-QA-001-closure-fix-prompt.md` o reporta inconsistencias, no declarar cierre; reportar los hallazgos, corregirlos y repetir commit + validación estricta.
+- No modificar `backlog_validator.py` ni `tool-registry.md` para cerrar el backlog; son controles protegidos.
+- Si el validador genera `COM-MOD-014-QA-001-closure-fix-prompt.md` o reporta inconsistencias, no declarar cierre; corregir solo producto/evidencia/registros y repetir commit + validación estricta.
+- Máximo 3 intentos de cierre. Si después de 3 intentos el validador sigue fallando, detenerse y reportar hallazgos vigentes, correcciones realizadas y justificación técnica de por qué se considera que debería poder cerrar.
 - `git status --short` limpio después del commit y de la validación final.
 
 <!-- ollama_plan_hash: 77b783a5889114822fb7ddb489fda03bc2758aa15eb4e41b4a8b5ece61892c49 -->

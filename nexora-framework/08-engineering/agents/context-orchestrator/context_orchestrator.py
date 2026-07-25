@@ -48,7 +48,7 @@ DEFAULT_HISTORY_PROMPT_DIR = "projects/healthcare-operations-platform/08-qa/gene
 DEFAULT_ORCHESTRATION_CACHE_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts/cache"
 DEFAULT_OLLAMA_MODEL = "qwen2.5-coder:0.5b"
 DEFAULT_OLLAMA_TIMEOUT_SECONDS = 300
-PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v3"
+PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v4"
 
 
 def extract_structured_payload(text: str) -> str:
@@ -481,6 +481,8 @@ def ollama_plan(context: dict, model: str, allow_fallback: bool) -> tuple[dict, 
             "RELEVANCIA: for backend tasks omit frontend/mobile-specific details unless directly "
             "affected; for frontend tasks omit backend-only metrics unless directly affected. "
             "IDIOMA UNIFICADO: produce all generated prompt content in Spanish only. "
+            "VALIDADOR PROTEGIDO: execution agents must not modify backlog_validator.py or "
+            "tool-registry.md to close product backlog work. "
             "Return only this JSON object shape with short arrays and no markdown: "
             "{\"objectives\":[],\"deliverables\":[],\"closure_criteria\":[]}. "
             "Use the provided canonical context. Do not invent files. Do not add vendor-agent "
@@ -611,7 +613,9 @@ ORCHESTRATION: {orchestration_mode}
 - Commit: `{profile['commit_suggestion']}`.
 - Después del commit, ejecutar `tool: backlog_closure_validator`; la herramienta toma el prompt desde `active_prompt/` sin parámetros.
 - El validador debe terminar con código 0, reportar `status: closed`, `Hard findings: 0` y generar evidencia en `08-qa/backlog-validations/{task_id}-closure-validation.md`.
-- Si el validador genera `{task_id}-closure-fix-prompt.md` o reporta inconsistencias, no declarar cierre; reportar los hallazgos, corregirlos y repetir commit + validación estricta.
+- No modificar `backlog_validator.py` ni `tool-registry.md` para cerrar el backlog; son controles protegidos.
+- Si el validador genera `{task_id}-closure-fix-prompt.md` o reporta inconsistencias, no declarar cierre; corregir solo producto/evidencia/registros y repetir commit + validación estricta.
+- Máximo 3 intentos de cierre. Si después de 3 intentos el validador sigue fallando, detenerse y reportar hallazgos vigentes, correcciones realizadas y justificación técnica de por qué se considera que debería poder cerrar.
 - `git status --short` limpio después del commit y de la validación final.
 """
 

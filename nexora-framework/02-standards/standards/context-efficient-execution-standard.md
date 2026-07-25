@@ -92,6 +92,16 @@ If the backlog is incomplete, the validator writes
 `08-qa/generated-prompts/<TASK_ID>-closure-fix-prompt.md` with only the missing work required to
 close the item.
 
+Execution agents must not modify the closure validator or the tool registry while closing a product
+backlog item. The validator and registry are protected controls, not implementation scope. If they
+are changed during a closure attempt, the validator must report a P0 finding.
+
+Agents may perform at most 3 closure attempts for the same backlog item. Each attempt must correct
+the product, evidence, registry pointers, tests, quality gates or documentation. If the validator
+still reports P0/P1 findings after the third attempt, the agent must stop and report the remaining
+findings, what was corrected, and a technical explanation of why the item appears closeable without
+weakening the validator.
+
 <!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
 
 ## Structured Payload
@@ -246,6 +256,10 @@ backlog_closure_validation:
   active_prompt_folder: projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt
   history_prompt_folder: projects/healthcare-operations-platform/08-qa/generated-prompts/history_prompt
   local_validator: nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
+  protected_control_files:
+  - nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
+  - nexora-framework/08-engineering/agents/context-orchestrator/tool-registry.md
+  max_closure_attempts: 3
   model_runtime: ollama
   required_model: qwen2.5-coder:0.5b
   deterministic_checks_are_authoritative: true
@@ -267,6 +281,10 @@ backlog_closure_validation:
     produces ambiguous wording.
   - If the backlog is incomplete, generate a compact closure-fix prompt with only
     the missing work.
+  - Execution agents must not modify protected control files to make a backlog pass.
+  - If protected control files are dirty during closure, report a P0 finding.
+  - If the validator still fails after 3 attempts, stop and report remaining findings
+    plus closure rationale instead of weakening controls.
   - Do not advance the next backlog pointer until the validator reports closed.
   - Read the active prompt from active_prompt without task-specific parameters.
   - Move the prompt to history_prompt only after a successful strict validation.
@@ -318,6 +336,10 @@ closure_rules:
   debt instead of silently ignoring it.
 - Generated prompt files must be stable across repeated executions while the canonical
   context hash is unchanged.
-- After an execution agent claims completion, run `tool: backlog_closure_validator`
-  before accepting the item as closed.
+- "After an execution agent claims completion, run `tool: backlog_closure_validator`
+  before accepting the item as closed."
+- Product backlog execution agents must not edit the protected validator or tool
+  registry while closing their own work.
+- Stop after 3 failed closure attempts and report unresolved findings plus closure
+  rationale.
 ```

@@ -48,3 +48,20 @@ Successful closure requires:
 If this tool reports inconsistencies, stale pointers, missing evidence, dirty worktree, or writes
 `<TASK_ID>-closure-fix-prompt.md`, the backlog is not closed. The execution agent must report the
 findings, correct them, commit the correction, and run this tool again in strict mode.
+
+Protected control files:
+
+- `nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py`
+- `nexora-framework/08-engineering/agents/context-orchestrator/tool-registry.md`
+
+Execution agents closing HOP/product backlog items must not modify protected control files. The
+validator treats protected-file changes as a P0 finding because the execution agent must not be
+judge and party in its own closure.
+
+Closure retry policy:
+
+- Try closure at most 3 times.
+- Each retry must correct product code, evidence, registries, pointers, tests or documentation.
+- A retry must not weaken or edit this tool definition or the closure validator.
+- If the strict validator still fails after 3 attempts, stop and report the remaining findings,
+  the corrections already made, and the technical rationale for why closure might be acceptable.
