@@ -48,7 +48,7 @@ DEFAULT_HISTORY_PROMPT_DIR = "projects/healthcare-operations-platform/08-qa/gene
 DEFAULT_ORCHESTRATION_CACHE_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts/cache"
 DEFAULT_OLLAMA_MODEL = "qwen2.5-coder:0.5b"
 DEFAULT_OLLAMA_TIMEOUT_SECONDS = 300
-PROMPT_RENDERER_VERSION = "active-history-prompt-v1"
+PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v1"
 
 
 def extract_structured_payload(text: str) -> str:
@@ -327,9 +327,34 @@ def task_artifact_profile(task_id: str) -> dict[str, str]:
             "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
             "commit_suggestion": "chore(framework): optimize artifact formats",
         }
+    module_id = "-".join(task_id.split("-")[:3]) if task_id.startswith("COM-MOD-") else task_id
+    module_profile = {
+        "COM-MOD-014": {
+            "context_path": "01-product-definition/business-capabilities/packages/",
+            "qa_folder": "imaging-operations",
+            "commit_subject": "imaging operations",
+        },
+        "COM-MOD-015": {
+            "context_path": "01-product-definition/business-capabilities/packages/",
+            "qa_folder": "ai-overlay",
+            "commit_subject": "AI overlay",
+        },
+        "COM-MOD-017": {
+            "context_path": "01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
+            "qa_folder": "product-marketplace-and-extension-packaging",
+            "commit_subject": "marketplace",
+        },
+    }.get(
+        module_id,
+        {
+            "context_path": "01-product-definition/business-capabilities/packages/",
+            "qa_folder": "commercial-product-delivery",
+            "commit_subject": "commercial product",
+        },
+    )
     if task_id == "COM-MOD-017-BE-002":
         return {
-            "context_path": "01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
+            "context_path": module_profile["context_path"],
             "qa_evidence_pattern": f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md",
             "security_evidence_pattern": f"08-qa/security-quality/{task_id}/security-quality-evidence.md",
             "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
@@ -337,19 +362,19 @@ def task_artifact_profile(task_id: str) -> dict[str, str]:
         }
     workstream = infer_workstream(task_id)
     commit_by_workstream = {
-        "backend": "feat(hop): compile marketplace backend outputs",
-        "frontend": "feat(hop): compile marketplace administration UI",
-        "mobile": "feat(hop): compile marketplace mobile surfaces",
-        "quality": "test(hop): validate marketplace backlog closure",
-        "definition": "docs(hop): refine marketplace package definitions",
+        "backend": f"feat(hop): compile {module_profile['commit_subject']} backend outputs",
+        "frontend": f"feat(hop): compile {module_profile['commit_subject']} UI",
+        "mobile": f"feat(hop): compile {module_profile['commit_subject']} mobile surfaces",
+        "quality": f"test(hop): validate {module_profile['commit_subject']} backlog closure",
+        "definition": f"docs(hop): define {module_profile['commit_subject']} capability packages",
         "format_migration": "chore(framework): optimize artifact formats",
     }
     return {
-        "context_path": "01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
-        "qa_evidence_pattern": f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md",
+        "context_path": module_profile["context_path"],
+        "qa_evidence_pattern": f"08-qa/qa/{module_profile['qa_folder']}/{task_id}-validation.md",
         "security_evidence_pattern": f"08-qa/security-quality/{task_id}/security-quality-evidence.md",
         "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
-        "commit_suggestion": commit_by_workstream.get(workstream, "chore(hop): close marketplace backlog item"),
+        "commit_suggestion": commit_by_workstream.get(workstream, f"chore(hop): close {module_profile['commit_subject']} backlog item"),
     }
 
 
