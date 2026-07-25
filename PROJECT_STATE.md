@@ -12,7 +12,7 @@ format: markdown_structured_payload
 ```yaml
 repository: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-017-BE-002 closed. Functional HOP development resumes at COM-MOD-017-FE-001
+current_phase: COM-MOD-017-QA-001 closed. Functional HOP development resumes at COM-MOD-017-CLOSEOUT
   with compact Markdown/frontmatter prompts and handoffs as the agent-facing execution
   surface.
 company:
@@ -46,7 +46,7 @@ projects:
   path: projects/healthcare-operations-platform/
   status: commercial_product_development_active
   active_module: COM-MOD-017
-  active_backlog_item: COM-MOD-017-FE-001
+  active_backlog_item: COM-MOD-017-CLOSEOUT
   last_format_migration_module: NXF-FMT
   last_format_migration_backlog_item: NXF-FMT-002
   completed_backlog_items:
@@ -150,9 +150,12 @@ projects:
   - COM-MOD-017-DEF
   - COM-MOD-017-BE-001
   - NXF-FMT-002
+  - COM-MOD-017-BE-002
+  - COM-MOD-017-FE-001
+  - COM-MOD-017-QA-001
   structure: ordered_numbered_folders
 next_deliverables:
-- Resume COM-MOD-017-FE-001 using compact generated prompts and COM-MOD-017-BE-002 handoff
+- Resume COM-MOD-017-CLOSEOUT using compact generated prompts and COM-MOD-017-QA-001 handoff
   evidence
 - Keep TD-FMT-001 as non-blocking gradual migration debt and convert YAML artifacts
   when touched

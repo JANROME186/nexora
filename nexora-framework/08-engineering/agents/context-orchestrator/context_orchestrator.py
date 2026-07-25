@@ -101,15 +101,24 @@ def read_yaml_compat(path: Path) -> dict:
 
 def infer_active_task(root: Path) -> tuple[str, str, list[str], str | None, dict]:
     prompt_data = read_yaml(root / DEFAULT_HOP_PROMPT_FILE)
+    backlog_data = read_yaml(root / DEFAULT_HOP_BACKLOG_FILE)
+    baseline = ((backlog_data.get("product") or {}).get("current_baseline") or {})
+    baseline_task_id = baseline.get("active_backlog_item")
     active_block = prompt_data
     validation_commands = prompt_data.get("validation_commands")
-    if isinstance(validation_commands, dict) and validation_commands.get("backlog_item_id"):
+    if (
+        not baseline_task_id
+        and isinstance(validation_commands, dict)
+        and validation_commands.get("backlog_item_id")
+    ):
         active_block = validation_commands
-    task_id = active_block.get("backlog_item_id")
+    task_id = baseline_task_id or active_block.get("backlog_item_id")
     title = active_block.get("name")
     notes = active_block.get("mandatory_execution_notes") or []
     coverage_floor = active_block.get("coverage_floor") or {}
     previous = active_block.get("previous_backlog_item") or {}
+    if baseline_task_id and isinstance(validation_commands, dict):
+        previous = validation_commands.get("previous_backlog_item") or previous
     summary_ref = None
     previous_id = previous.get("backlog_item_id") if isinstance(previous, dict) else None
     if previous_id:
@@ -118,11 +127,10 @@ def infer_active_task(root: Path) -> tuple[str, str, list[str], str | None, dict
             summary_ref = candidate.relative_to(root).as_posix()
 
     if task_id and title:
+        if baseline_task_id and str(task_id) == str(baseline_task_id):
+            title = find_backlog_title(backlog_data, str(task_id)) or title
         return str(task_id), str(title), stringify_notes(notes), summary_ref, coverage_floor if isinstance(coverage_floor, dict) else {}
 
-    backlog_data = read_yaml(root / DEFAULT_HOP_BACKLOG_FILE)
-    baseline = ((backlog_data.get("product") or {}).get("current_baseline") or {})
-    task_id = baseline.get("active_backlog_item")
     title = "Active HOP backlog item"
     if task_id:
         title = find_backlog_title(backlog_data, str(task_id)) or title
@@ -497,7 +505,11 @@ def archive_other_active_prompts(root: Path, active_prompt_path: Path) -> None:
     for prompt_path in active_dir.glob("*.md"):
         if prompt_path.resolve() == active_prompt_path.resolve():
             continue
-        shutil.move(str(prompt_path), str(history_dir / prompt_path.name))
+        archived_path = history_dir / prompt_path.name
+        if archived_path.exists():
+            prompt_path.unlink()
+            continue
+        shutil.move(str(prompt_path), str(archived_path))
 
 
 def read_cached_prompt(cache_path: Path, context_hash: str) -> str | None:
