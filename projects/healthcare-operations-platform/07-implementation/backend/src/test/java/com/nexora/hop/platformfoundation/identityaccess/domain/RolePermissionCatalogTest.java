@@ -24,7 +24,9 @@ class RolePermissionCatalogTest {
                         PermissionCode.SCREEN_PATIENT_REGISTRATIONS,
                         PermissionCode.SCREEN_RECEPTION,
                         PermissionCode.SCREEN_DIAGNOSTIC_ORDERS,
-                        PermissionCode.SCREEN_DIAGNOSTIC_CATALOG);
+                        PermissionCode.SCREEN_DIAGNOSTIC_CATALOG,
+                        PermissionCode.SCREEN_IMAGING_APPOINTMENTS,
+                        PermissionCode.SCREEN_IMAGING_RECEPTION);
     }
 
     @Test
@@ -44,7 +46,10 @@ class RolePermissionCatalogTest {
                         PermissionCode.SCREEN_SAMPLE_LABELING,
                         PermissionCode.SCREEN_SAMPLE_RECEPTION,
                         PermissionCode.SCREEN_LABORATORY_PROCESSING,
-                        PermissionCode.SCREEN_TECHNICAL_VALIDATION);
+                        PermissionCode.SCREEN_TECHNICAL_VALIDATION,
+                        PermissionCode.SCREEN_IMAGING_STUDIES,
+                        PermissionCode.SCREEN_IMAGING_DICOM,
+                        PermissionCode.SCREEN_IMAGING_PACS);
     }
 
     @Test
@@ -53,7 +58,10 @@ class RolePermissionCatalogTest {
                 .containsExactlyInAnyOrder(
                         PermissionCode.SCREEN_MEDICAL_VALIDATION,
                         PermissionCode.SCREEN_RESULT_RELEASE,
-                        PermissionCode.SCREEN_RESULT_SEARCH);
+                        PermissionCode.SCREEN_RESULT_SEARCH,
+                        PermissionCode.SCREEN_IMAGING_DICTATION,
+                        PermissionCode.SCREEN_IMAGING_REPORTS,
+                        PermissionCode.SCREEN_IMAGING_DELIVERY);
     }
 
     @Test

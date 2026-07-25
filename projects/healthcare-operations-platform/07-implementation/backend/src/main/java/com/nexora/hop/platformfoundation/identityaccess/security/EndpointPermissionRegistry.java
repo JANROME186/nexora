@@ -199,7 +199,71 @@ public class EndpointPermissionRegistry {
               readWrite(
                   "/api/marketplace/billing",
                   PermissionCode.SCREEN_MARKETPLACE_INSTALLATIONS,
-                  "BCM-PLT-011"))
+                  "BCM-PLT-011"),
+              readWrite(
+                  "/api/v1/imaging/bcm-img-001",
+                  PermissionCode.SCREEN_IMAGING_APPOINTMENTS,
+                  "BCM-IMG-001"),
+              readWrite(
+                  "/api/v1/imaging/bcm-img-002",
+                  PermissionCode.SCREEN_IMAGING_RECEPTION,
+                  "BCM-IMG-002"),
+              readWrite(
+                  "/api/v1/imaging/bcm-img-003",
+                  PermissionCode.SCREEN_IMAGING_STUDIES,
+                  "BCM-IMG-003"),
+              readWrite(
+                  "/api/v1/imaging/bcm-img-004",
+                  PermissionCode.SCREEN_IMAGING_DICOM,
+                  "BCM-IMG-004"),
+              readWrite(
+                  "/api/v1/imaging/bcm-img-005",
+                  PermissionCode.SCREEN_IMAGING_PACS,
+                  "BCM-IMG-005"),
+              readWrite(
+                  "/api/v1/imaging/bcm-img-006",
+                  PermissionCode.SCREEN_IMAGING_DICTATION,
+                  "BCM-IMG-006"),
+              readWrite(
+                  "/api/v1/imaging/bcm-img-007",
+                  PermissionCode.SCREEN_IMAGING_REPORTS,
+                  "BCM-IMG-007"),
+              readWrite(
+                  "/api/v1/imaging/bcm-img-008",
+                  PermissionCode.SCREEN_IMAGING_DELIVERY,
+                  "BCM-IMG-008"),
+              readWrite(
+                  "/api/v1/imaging/appointments",
+                  PermissionCode.SCREEN_IMAGING_APPOINTMENTS,
+                  "BCM-IMG-001"),
+              readWrite(
+                  "/api/v1/imaging/receptions",
+                  PermissionCode.SCREEN_IMAGING_RECEPTION,
+                  "BCM-IMG-002"),
+              readWrite(
+                  "/api/v1/imaging/studies",
+                  PermissionCode.SCREEN_IMAGING_STUDIES,
+                  "BCM-IMG-003"),
+              readWrite(
+                  "/api/v1/imaging/dicom-configs",
+                  PermissionCode.SCREEN_IMAGING_DICOM,
+                  "BCM-IMG-004"),
+              readWrite(
+                  "/api/v1/imaging/pacs-endpoints",
+                  PermissionCode.SCREEN_IMAGING_PACS,
+                  "BCM-IMG-005"),
+              readWrite(
+                  "/api/v1/imaging/dictations",
+                  PermissionCode.SCREEN_IMAGING_DICTATION,
+                  "BCM-IMG-006"),
+              readWrite(
+                  "/api/v1/imaging/reports",
+                  PermissionCode.SCREEN_IMAGING_REPORTS,
+                  "BCM-IMG-007"),
+              readWrite(
+                  "/api/v1/imaging/delivery-packages",
+                  PermissionCode.SCREEN_IMAGING_DELIVERY,
+                  "BCM-IMG-008"))
           .stream()
           .sorted(Comparator.comparingInt((PathRule rule) -> rule.pathPrefix().length()).reversed())
           .toList();

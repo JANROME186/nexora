@@ -1,0 +1,26 @@
+package com.nexora.hop.platformfoundation.imagingoperations.shared;
+
+public enum ImagingErrorCode {
+    APPOINTMENT_NOT_FOUND("imaging.error.appointment_not_found"),
+    MODALITY_CONFLICT("imaging.error.modality_conflict"),
+    ROOM_NOT_AVAILABLE("imaging.error.room_not_available"),
+    RECEPTION_NOT_FOUND("imaging.error.reception_not_found"),
+    STUDY_NOT_FOUND("imaging.error.study_not_found"),
+    ACCESSION_EXISTS("imaging.error.accession_exists"),
+    DICOM_CONFIG_NOT_FOUND("imaging.error.dicom_config_not_found"),
+    PACS_ENDPOINT_NOT_FOUND("imaging.error.pacs_endpoint_not_found"),
+    DICTATION_NOT_FOUND("imaging.error.dictation_not_found"),
+    REPORT_NOT_FOUND("imaging.error.report_not_found"),
+    DELIVERY_PACKAGE_NOT_FOUND("imaging.error.delivery_package_not_found"),
+    INVALID_STATUS_TRANSITION("imaging.error.invalid_status_transition");
+
+    private final String messageKey;
+
+    ImagingErrorCode(String messageKey) {
+        this.messageKey = messageKey;
+    }
+
+    public String getMessageKey() {
+        return messageKey;
+    }
+}

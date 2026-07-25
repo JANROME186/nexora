@@ -364,7 +364,7 @@ entries:
   source_backlog_item: MVP-MOD-004-DEF
   affected_area: appointment_scheduling_capacity_validation
   file: 08-qa/technical-debt/TD-DEF-002-appointment-capacity-planning-deferred.md
-  remediation_strategy: materially_reduced_by_COM_MOD_014_DEF_imaging_modality_slot_and_procedure_room_schedule_models; gradual_until_BCM_ORG_007
+  remediation_strategy: materially_reduced_by_COM_MOD_014_DEF_imaging_modality_slot_and_procedure_room_schedule_models_and_BE_001_backend_room_concurrency_validation; gradual_until_BCM_ORG_007
 - id: TD-BE-009
   title: Branch snapshot version is a fixed placeholder, not a real optimistic-concurrency
     counter
@@ -474,7 +474,8 @@ entries:
     further_reduced_by_COM_MOD_009_PORTAL_002_replacing_the_doctor_portal_wrong_domain_locale_catalog_with_a_complete_correct_doctor_domain_catalog;
     further_reduced_by_COM_MOD_012_BE_001_organizationmanagement_error_and_platformconfiguration_error_i18n_namespaces;
     further_reduced_by_COM_MOD_013_FE_001_AuditEventsScreen_hardcoded_string_retrofit_and_advancedQualityCompliance_i18n_namespaces;
-    further_reduced_by_COM_MOD_013_QA_001_ComplianceEvidenceScreen_hardcoded_status_column_header_retrofit
+    further_reduced_by_COM_MOD_013_QA_001_ComplianceEvidenceScreen_hardcoded_status_column_header_retrofit;
+    further_reduced_by_COM_MOD_014_BE_001_imaging_operations_error_i18n_namespaces
 - id: TD-FE-006
   title: Employee portal is missing dedicated Appointment Scheduling, Admission Management
     and Quotation Management UI

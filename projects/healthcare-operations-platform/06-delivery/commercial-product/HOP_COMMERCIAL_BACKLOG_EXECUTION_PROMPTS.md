@@ -10,9 +10,9 @@ The machine-readable source is `HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md`.
 
 Use this playbook after `MVP-MOD-001 Platform Foundation` to continue HOP toward a commercial product. It tells an agent how to select the next backlog item, generate capability package models, validate them, compile generated outputs, implement custom rule points and close each capability group.
 
-Current next backlog item: `COM-MOD-014-BE-001` - Compile imaging workflow outputs.
+Current next backlog item: `COM-MOD-014-INT-001` - Compile imaging external integration & DICOM/PACS adapter boundaries.
 
-Previous backlog item: `COM-MOD-014-DEF` is closed. Modeled 8 capability packages (BCM-IMG-001 through BCM-IMG-008) under `01-product-definition/business-capabilities/packages/`. Registered `COM-MOD-014` as `definition_completed` in `capability-package-index.md`. Materially reduced `TD-DEF-002` (appointment capacity planning) by modeling imaging modality/room schedule slots and procedure lead time rules in `BCM-IMG-001`.
+Previous backlog item: `COM-MOD-014-BE-001` is closed. Compiled Spring Modulith `imagingoperations` module with 8 capability sub-packages (BCM-IMG-001 through BCM-IMG-008) and 8 root aggregates (`ImagingAppointmentSlot`, `ImagingReceptionIntake`, `ImagingStudy`, `DicomAdapterConfiguration`, `PacsIntegrationEndpoint`, `RadiologyDictation`, `RadiologyReport`, `ImagingDeliveryPackage`). Registered `db/imaging-operations/schema.sql` (8 tables). Added `SCREEN_IMAGING_*` permissions to IAM catalogs and mapped endpoints in `EndpointPermissionRegistry`. Materially reduced `TD-DEF-002` (procedure room schedule concurrency checks) and `TD-I18N-002` (`imaging.error.*` message codes).
 
 ## MDPE Rule
 

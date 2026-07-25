@@ -238,13 +238,14 @@ product:
       General Availability fully complete)
     completed_status: closed
     active_module: COM-MOD-014
-    active_backlog_item: COM-MOD-014-BE-001
-    active_module_progress: COM-MOD-014-DEF closed. Modeled 8 capability packages
-      (BCM-IMG-001 through BCM-IMG-008) under 01-product-definition/business-capabilities/packages/.
-      Registered COM-MOD-014 as definition_completed in capability-package-index.md.
-      Materially reduced TD-DEF-002 by modeling imaging modality concurrency, procedure
-      room schedules and study preparation rules in BCM-IMG-001. Active backlog item
-      advanced to COM-MOD-014-BE-001 (Compile imaging workflow outputs).
+    active_backlog_item: COM-MOD-014-INT-001
+    active_module_progress: COM-MOD-014-BE-001 closed. Compiled Spring Modulith imagingoperations
+      module with 8 capability sub-packages (BCM-IMG-001 through BCM-IMG-008) and 8 root aggregates
+      (ImagingAppointmentSlot, ImagingReceptionIntake, ImagingStudy, DicomAdapterConfiguration,
+      PacsIntegrationEndpoint, RadiologyDictation, RadiologyReport, ImagingDeliveryPackage).
+      Registered db/imaging-operations/schema.sql (8 tables). Added SCREEN_IMAGING_* permissions
+      to IAM catalogs. Materially reduced TD-DEF-002 and TD-I18N-002. Active backlog item
+      advanced to COM-MOD-014-INT-001 (Compile imaging external integration & DICOM/PACS adapter boundaries).
     paused_backlog_item: null
     pause_reason: null
 source_inputs:

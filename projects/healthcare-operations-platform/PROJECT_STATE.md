@@ -14,9 +14,15 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-014-DEF closed. Active backlog item is COM-MOD-014-BE-001.
+current_phase: COM-MOD-014-BE-001 closed. Active backlog item is COM-MOD-014-INT-001.
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
+- COM-MOD-014-BE-001 Compile imaging workflow outputs (compiled Spring Modulith imagingoperations
+  module with 8 capability sub-packages BCM-IMG-001 through BCM-IMG-008; registered db/imaging-operations/schema.sql
+  8 tables; added SCREEN_IMAGING_* permissions to PermissionCode, RolePermissionCatalog and EndpointPermissionRegistry;
+  externalized imaging.error.* i18n messages; materially reduced TD-DEF-002 and TD-I18N-002;
+  QA evidence 08-qa/qa/imaging-operations/COM-MOD-014-BE-001-validation.md, security evidence
+  08-qa/security-quality/COM-MOD-014-BE-001/security-quality-evidence.md, handoff 08-qa/handoffs/COM-MOD-014-BE-001-summary.md)
 - COM-MOD-014-DEF Capability package models for Imaging Operations (modeled 8 capability
   packages BCM-IMG-001 through BCM-IMG-008 under 01-product-definition/business-capabilities/packages/;
   registered COM-MOD-014 as definition_completed in capability-package-index.md;
