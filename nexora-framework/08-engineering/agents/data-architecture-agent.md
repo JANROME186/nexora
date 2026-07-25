@@ -6,8 +6,8 @@ Definir, validar y mantener la arquitectura de datos de Nexora a partir de capac
 
 ## Entradas obligatorias
 
-- `PROJECT_MANIFEST.yaml`
-- `SOURCE_OF_TRUTH.yaml`
+- `PROJECT_MANIFEST.md`
+- `SOURCE_OF_TRUTH.md`
 - `meta-model/`
 - `business/capabilities/`
 - `business/processes/`

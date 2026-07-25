@@ -1,6 +1,6 @@
 -- Generated/model-derived schema for MVP-MOD-002 Diagnostic Catalog (catalog-test-configuration
 -- bounded context). Source models: 01-product-definition/business-capabilities/packages/
--- bcm-svc-001..007,009 business-model.yaml. Compiled for backlog item MVP-MOD-002-BE-001.
+-- bcm-svc-001..007,009 business-model.md. Compiled for backlog item MVP-MOD-002-BE-001.
 
 CREATE SCHEMA IF NOT EXISTS catalog;
 
@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS catalog.sample_types (
     UNIQUE (laboratory_id, code)
 );
 
--- Model gap: business-model.yaml ENT-SMP-002 does not declare tenant_id/laboratory_id on
+-- Model gap: business-model.md ENT-SMP-002 does not declare tenant_id/laboratory_id on
 -- SampleRequirement. Added here for tenant/laboratory scoping consistency (minimum compatible
 -- option); see MVP-MOD-002-BE-001 QA evidence gap notes.
 CREATE TABLE IF NOT EXISTS catalog.sample_requirements (

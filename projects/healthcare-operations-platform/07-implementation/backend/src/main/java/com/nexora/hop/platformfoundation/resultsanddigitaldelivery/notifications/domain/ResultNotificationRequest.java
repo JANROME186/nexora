@@ -39,7 +39,7 @@ public class ResultNotificationRequest {
             PatientId patientId,
             UUID underlyingNotificationId,
             AuditMetadata audit) {
-        
+
         this.resultNotificationId = resultNotificationId;
         this.resultId = resultId;
         this.tenantId = tenantId;

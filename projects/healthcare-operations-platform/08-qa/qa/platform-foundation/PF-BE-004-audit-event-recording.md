@@ -46,3 +46,60 @@ Result: passed.
 ## Decision
 
 `PF-BE-004` is complete. The next backlog item is `PF-FE-001 Create employee portal administration screens`.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-QA-PF-BE-004
+  type: qa-evidence
+  name: PF-BE-004 Audit Event Recording QA Evidence
+  version: 1.0.0
+  status: passed
+  human_readable: PF-BE-004-audit-event-recording.md
+  machine_readable: PF-BE-004-audit-event-recording.md
+backlog_item:
+  id: PF-BE-004
+  title: Implement append-only audit event recording
+  module: MVP-MOD-001
+  status: complete
+implemented_behavior:
+- record_tenant_creation_audit_event
+- record_laboratory_creation_audit_event
+- record_branch_creation_audit_event
+- record_user_account_creation_audit_event
+- record_role_assignment_audit_event
+- query_audit_events
+- filter_audit_events_by_tenant
+- filter_audit_events_by_subject
+- persist_audit_events_with_local_postgresql_profile
+- expose_audit_recording_through_public_module_port
+validation:
+  standard_suite:
+    command: mvn --settings .mvn/settings.xml test
+    working_directory: projects/healthcare-operations-platform/07-implementation/backend
+    status: passed
+    tests_run: 18
+    failures: 0
+    errors: 0
+    skipped: 4
+  local_database_suite:
+    command: mvn --settings .mvn/settings.xml "-Dhop.local-db-tests=true" "-Dtest=PlatformFoundationLocalDatabaseTest,OrganizationManagementLocalDatabaseTest,IdentityAccessLocalDatabaseTest,AuditComplianceLocalDatabaseTest"
+      test
+    working_directory: projects/healthcare-operations-platform/07-implementation/backend
+    status: passed
+    tests_run: 4
+    failures: 0
+    errors: 0
+    skipped: 0
+  compose_services_healthy:
+  - postgres
+  - redis
+  - otel-collector
+completion_decision:
+  status: complete
+  next_backlog_item: PF-FE-001
+  next_backlog_title: Create employee portal administration screens
+```

@@ -1,9 +1,9 @@
 # CAP-001 Patient Management
 
-**Capability ID:** CAP-001  
-**Name:** Patient Management  
-**Status:** Draft  
-**Specification Version:** 0.23.0  
+**Capability ID:** CAP-001
+**Name:** Patient Management
+**Status:** Draft
+**Specification Version:** 0.23.0
 **Owner:** Product + Clinical Operations + Data Stewardship
 
 Patient Management is the foundational capability that governs the full lifecycle of patient identity, demographic information, clinical profile, consent, documents, guardianship, communication preferences, portal access and historical relationship with Nexora diagnostic services.
@@ -42,7 +42,7 @@ This capability is intentionally designed as a reusable business capability cons
 | KPIs | `17-kpis.md` |
 | Compliance | `18-compliance.md` |
 | Traceability | `19-traceability.md` |
-| Machine-readable model | `capability.yaml` |
+| Machine-readable model | `capability.md` |
 
 ## Source of truth priority
 

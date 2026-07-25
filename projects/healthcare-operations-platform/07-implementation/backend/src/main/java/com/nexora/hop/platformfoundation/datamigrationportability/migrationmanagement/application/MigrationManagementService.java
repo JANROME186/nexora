@@ -39,7 +39,7 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 
 /**
  * Compiles the generatable outputs of bcm-plt-010-open-data-ingestion-and-migration/
- * generation-plan.yaml (job creation/listing, approve, reconciliation report reading,
+ * generation-plan.md (job creation/listing, approve, reconciliation report reading,
  * PRC-MIG-010-01) and implements the CUS-MIG-010-01 through CUS-MIG-010-06 custom rules: real
  * manifest/checksum verification and CSV/JSON/NDJSON/XLSX/ZIP parsing via
  * {@link ManifestParser}/{@link ImportFileParser} (RN-001), a naive identity field-mapping

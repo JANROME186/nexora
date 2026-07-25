@@ -1,0 +1,31 @@
+---
+id: HOP-MOB-BCM-PLT-007
+format: markdown_structured_payload
+type: mobile-model
+name: Audit Trail Mobile Model
+version: 1.1.0
+status: modeled
+---
+
+# Audit Trail Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-PLT-007
+  type: mobile-model
+  name: Audit Trail Mobile Model
+  version: 1.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-007
+  mobile_scope: internal_audit_consumer
+justification: 'Mobile client applications write append-only audit events asynchronously
+  to the backend API boundary for security and tracking. Administrative search and
+  evidence export features are scoped to desktop Employee Portal.
+
+  '
+```

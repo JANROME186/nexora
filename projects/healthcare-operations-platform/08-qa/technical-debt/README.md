@@ -31,10 +31,10 @@ exist" and informal `not_applicable` notes are not valid when the surface exists
 
 These items were addressed by:
 
-`06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.yaml`
+`06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.md`
 
 (Corrected during `MVP-MOD-005-CLOSEOUT`: both entries had been closed in
-`technical-debt-index.yaml` since `HOP-QA-ALIGN-CLOSEOUT` but this section still listed them as
+`technical-debt-index.md` since `HOP-QA-ALIGN-CLOSEOUT` but this section still listed them as
 active/blocking.)
 
 ## Final Closure Debt

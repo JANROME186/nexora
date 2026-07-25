@@ -1,0 +1,112 @@
+---
+id: HOP-CAP-PKG-BCM-QLT-002
+format: markdown_structured_payload
+type: capability-package
+name: External Quality Controls Capability Package
+version: 0.1.0
+status: modeled
+---
+
+# External Quality Controls Capability Package
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-CAP-PKG-BCM-QLT-002
+  type: capability-package
+  name: External Quality Controls Capability Package
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.md
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-23
+  roadmap_group: COM-MOD-013
+  execution_flow_stage: model
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.md
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.md
+capability:
+  id: BCM-QLT-002
+  name:
+    en: External Quality Controls
+    es: Controles Externos
+  domain: DOM-09 Quality
+  priority: High
+  roadmap: MVP3
+  dependency_profile: quality_compliance
+  bounded_context: external-quality-compliance
+  primary_aggregate: ExternalQualityEvaluation (AGG-020)
+  process_ref: not_yet_defined_in_HRP-001
+scope:
+  summary: 'Manages participation in External Quality Assessment (EQA) and Proficiency
+    Testing (PT) schemes from accredited providers (e.g., CAP, RIQAS, PEEC). Records
+    survey shipments, sample measurement results, peer group comparisons, z-score
+    and Standard Deviation Index (SDDI) metrics, provider evaluations, and triggers
+    CAPA investigations (BCM-QLT-006) when performance falls outside acceptable limits
+    (|z| > 2.0 or unacceptable rating).
+
+    '
+  in_scope:
+  - EQA/PT survey registration, sample measurement entry, and submission tracking.
+  - Evaluation receipt, peer group mean/SD recording, z-score and SDDI calculation.
+  - Performance rating assignment (acceptable, warning, unacceptable).
+  - Automatic trigger to CAPA Management (BCM-QLT-006) upon unacceptable evaluation.
+  - Retaining immutable EQA certificates and provider evaluation reports via Document
+    Management (BCM-PLT-008).
+  out_of_scope:
+  - Internal daily QC routines and Westgard rule evaluation (BCM-QLT-001).
+  - Equipment maintenance and calibration scheduling (BCM-QLT-003/004/005).
+  - Patient result reporting or patient sample processing (BCM-LAB-006/010).
+roadmap:
+  module: COM-MOD-013
+  release: REL-003
+  package_status: module_closed
+  next_backlog_item: none (module closed; see COM-MOD-016-DEF for the next roadmap
+    module)
+  paused_functional_backlog_item: null
+dependencies:
+  required_capabilities:
+  - BCM-SVC-002
+  - BCM-SVC-004
+  - BCM-ORG-001
+  - BCM-PLT-001
+  - BCM-PLT-007
+  - BCM-PLT-008
+  optional_capabilities:
+  - BCM-QLT-006
+  - BCM-PLT-009
+  downstream_capabilities:
+  - BCM-QLT-006
+  upstream_contexts:
+  - catalog-test-configuration
+  - identity-access
+  - audit-compliance
+  - document-management
+product_surfaces:
+  backend: required
+  employee_portal: required
+  patient_portal: not_required
+  doctor_portal: not_required
+  mobile_app: not_required
+required_artifacts:
+- capability-package.md
+- business-model.md
+- business-rules.md
+- processes.md
+- events.md
+- openapi-source.md
+- permissions.md
+- ui-model.md
+- mobile-model.md
+- test-model.md
+- observability-model.md
+- generation-plan.md
+- traceability.md
+- README.md
+```

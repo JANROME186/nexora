@@ -28,7 +28,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.pricelistmanag
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.pricelistmanagement.domain.PriceEntry;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.pricelistmanagement.domain.PriceList;
 
-/** Rendered controller for bcm-svc-009-price-list-management/openapi-source.yaml (base path /api/catalog/price-lists). */
+/** Rendered controller for bcm-svc-009-price-list-management/openapi-source.md (base path /api/catalog/price-lists). */
 @RestController
 @RequestMapping("/api/catalog/price-lists")
 class PriceListController {

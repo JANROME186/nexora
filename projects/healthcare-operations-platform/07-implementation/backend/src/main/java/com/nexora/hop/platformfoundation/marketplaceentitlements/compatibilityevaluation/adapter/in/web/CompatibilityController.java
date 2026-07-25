@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.compatibilityevaluation.application.CompatibilityEvaluator;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.compatibilityevaluation.domain.CompatibilityDecision;
 
-/** Rendered controller for bcm-plt-011/openapi-source.yaml {@code /compatibility/evaluate}. */
+/** Rendered controller for bcm-plt-011/openapi-source.md {@code /compatibility/evaluate}. */
 @RestController
 @RequestMapping("/api/marketplace/compatibility")
 class CompatibilityController {

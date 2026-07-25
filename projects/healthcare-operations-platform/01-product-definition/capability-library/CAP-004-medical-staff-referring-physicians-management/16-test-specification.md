@@ -19,4 +19,4 @@
 
 ## Contract tests
 
-Deben generarse desde `05-contracts/contracts/openapi/doctors/doctors.openapi.yaml`.
+Deben generarse desde `05-contracts/contracts/openapi/doctors/doctors.openapi.md`.

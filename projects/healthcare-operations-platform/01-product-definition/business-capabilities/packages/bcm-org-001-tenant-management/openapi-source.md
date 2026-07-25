@@ -1,0 +1,47 @@
+---
+id: openapi-source
+format: markdown_structured_payload
+---
+
+# Openapi Source
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+openapi: 3.0.3
+info:
+  title: Tenant Management API
+  version: 1.0.0
+  description: OpenAPI source specification for Tenant Management operations.
+paths:
+  /api/v1/platform/tenants:
+    post:
+      summary: Provision a new tenant
+      operationId: provisionTenant
+      tags:
+      - Tenant Management
+      responses:
+        '201':
+          description: Tenant provisioned successfully
+        '400':
+          description: Invalid request parameters
+    get:
+      summary: List platform tenants
+      operationId: listTenants
+      tags:
+      - Tenant Management
+      responses:
+        '200':
+          description: List of tenants
+  /api/v1/platform/tenants/{tenantId}/status:
+    put:
+      summary: Update tenant status (activate/suspend/archive)
+      operationId: updateTenantStatus
+      tags:
+      - Tenant Management
+      responses:
+        '200':
+          description: Status updated successfully
+```

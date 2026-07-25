@@ -8,7 +8,7 @@
  *   BCM-RES-007  Result Notifications  — notification history per result
  *
  * BCM-RES-004 (Digital Delivery) and BCM-RES-005 (Result History) target the patient_portal and
- * doctor_portal surfaces only (ui-model.yaml surfaces.employee_portal.status = not_required for
+ * doctor_portal surfaces only (ui-model.md surfaces.employee_portal.status = not_required for
  * both packages). Their backend endpoints are accessible to employee actors for operational
  * oversight via ResultDeliveryController but are not exposed as a dedicated employee-portal screen
  * in this backlog item. The authorize-delivery action is included here for the result-delivery

@@ -1,0 +1,55 @@
+---
+id: HOP-EVT-BCM-PLT-007
+format: markdown_structured_payload
+type: events
+name: Audit Trail Domain Events
+version: 1.1.0
+status: modeled
+---
+
+# Audit Trail Domain Events
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-EVT-BCM-PLT-007
+  type: events
+  name: Audit Trail Domain Events
+  version: 1.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-007
+events:
+- id: EVT-AUD-TR-001
+  name: AuditEventRecorded
+  description: Emitted whenever a security or operational event is written to audit
+    trail.
+  payload:
+  - name: eventId
+    type: uuid
+  - name: tenantId
+    type: string
+  - name: category
+    type: string
+  - name: eventType
+    type: string
+  - name: timestamp
+    type: datetime
+- id: EVT-AUD-TR-002
+  name: AuditTrailExported
+  description: Emitted when an auditor exports compliance audit evidence.
+  payload:
+  - name: exportId
+    type: uuid
+  - name: tenantId
+    type: string
+  - name: requestedBy
+    type: string
+  - name: recordCount
+    type: integer
+  - name: exportedAt
+    type: datetime
+```

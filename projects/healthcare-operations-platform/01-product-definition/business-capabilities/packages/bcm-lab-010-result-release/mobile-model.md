@@ -1,0 +1,36 @@
+---
+id: HOP-MOB-BCM-LAB-010
+format: markdown_structured_payload
+type: mobile-model
+name: Result Release Mobile Model
+version: 0.1.0
+status: deferred
+---
+
+# Result Release Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-LAB-010
+  type: mobile-model
+  name: Result Release Mobile Model
+  version: 0.1.0
+  status: deferred
+  classification: editable_model
+  capability: BCM-LAB-010
+mobile_scope:
+  status: not_required
+  rationale: 'MVP-MOD-006 declares mobile_app not_required for result release. Patient
+    and doctor mobile visibility of released results is explicitly MVP-MOD-007 (Results
+    and Digital Delivery) scope, not this capability.
+
+    '
+  deferred_to:
+  - MVP-MOD-007 Results and Digital Delivery
+  flows: []
+  offline_expectations: none
+```

@@ -4,7 +4,7 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 
 /**
  * Root aggregate of BCM-PLT-010 Open Data Ingestion and Migration (ENT-MIG-001, AGG-016
- * MigrationJob per aggregate-catalog.yaml). Never writes directly to a business aggregate's
+ * MigrationJob per aggregate-catalog.md). Never writes directly to a business aggregate's
  * storage (INV-MIG-003); {@code executing} is only reachable through the checkpointed
  * {@code ImportExecution} lifecycle delegating to {@code MigrationDomainCommandPort}, and
  * {@code reconciled} only once every declared entity category has been committed.

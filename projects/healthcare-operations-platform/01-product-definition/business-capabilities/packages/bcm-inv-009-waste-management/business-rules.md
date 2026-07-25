@@ -1,0 +1,89 @@
+---
+id: HOP-BR-BCM-INV-009
+format: markdown_structured_payload
+type: business-rules
+name: Waste Management Business Rules
+version: 0.1.0
+status: modeled
+---
+
+# Waste Management Business Rules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BR-BCM-INV-009
+  type: business-rules
+  name: Waste Management Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-009
+  rule_id_pattern: RN-###
+rules:
+- id: RN-001
+  statement: A waste record's quantity must be strictly greater than zero and must
+    not exceed the referenced StockLot's remainingQuantity.
+  applies_to: WasteRecord
+  enforcement_point: command:ApplyWasteDisposal
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Requires reading current StockLot.remainingQuantity before allowing
+    the decrement.
+  test_refs:
+  - TST-WST-009-01
+- id: RN-002
+  statement: wasteReasonCode is mandatory for every disposal.
+  applies_to: WasteRecord
+  enforcement_point: command:ApplyWasteDisposal
+  severity: medium
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-WST-009-02
+- id: RN-003
+  statement: Only this capability may invoke ApplyWasteDisposal, the sole disposal
+    path for InventoryItem.stockSummary and the referenced StockLot.remainingQuantity/status.
+  applies_to: InventoryItem
+  enforcement_point: architecture_boundary
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Enforces the delegated field-mutation boundary shared across COM-MOD-010.
+  test_refs:
+  - TST-WST-009-03
+- id: RN-004
+  statement: When a disposal drives StockLot.remainingQuantity to zero, the lot's
+    status must transition to disposed within the same transaction.
+  applies_to: WasteRecord
+  enforcement_point: command:ApplyWasteDisposal
+  severity: high
+  audit_required: true
+  generatable: false
+  custom_reason: Cross-entity transactional consistency between the waste transaction
+    and the referenced StockLot status.
+  test_refs:
+  - TST-WST-009-04
+- id: RN-005
+  statement: Waste management commands must execute within the actor's tenant, laboratory
+    and branch scope.
+  applies_to: WasteRecord
+  enforcement_point: authorization:inventory.waste.manage, authorization:inventory.waste.read
+  severity: critical
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-WST-009-05
+enforcement_summary:
+  generatable_rules:
+  - RN-002
+  - RN-005
+  custom_implementation_rules:
+  - RN-001
+  - RN-003
+  - RN-004
+```

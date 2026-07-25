@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * BCM-INV-003 Lot Management. Compiles registerStockLot/listStockLots/quarantineStockLot/
- * expireStockLot per bcm-inv-003-lot-management/openapi-source.yaml. Enforces RN-001
+ * expireStockLot per bcm-inv-003-lot-management/openapi-source.md. Enforces RN-001
  * (remainingQuantity cannot go negative), RN-004 (a disposed/expired lot cannot transition
  * further) and the delegated ownership boundary — this service is the single write path for
  * StockLot state.

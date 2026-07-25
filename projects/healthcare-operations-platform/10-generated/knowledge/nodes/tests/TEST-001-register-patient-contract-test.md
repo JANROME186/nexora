@@ -1,0 +1,33 @@
+---
+id: TEST-001
+format: markdown_structured_payload
+type: test_artifact
+name: Register Patient Contract Test
+version: 0.13.0
+status: draft
+---
+
+# Register Patient Contract Test
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: TEST-001
+name: Register Patient Contract Test
+type: test_artifact
+status: draft
+version: 0.13.0
+owner: QA Engineering
+source_path: qa/contract-tests/patients/register-patient.md
+description: 'Contract test validating POST /patients behavior against the OpenAPI
+  contract and related business rules.
+
+  '
+related_nodes:
+- US-001
+- API-001
+- END-001
+- BR-001
+```

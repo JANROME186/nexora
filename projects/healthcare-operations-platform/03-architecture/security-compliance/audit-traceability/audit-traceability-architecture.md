@@ -61,3 +61,51 @@ When AI assists in a clinical or operational process, the audit trail must recor
 - Output classification.
 - Human reviewer.
 - Final decision.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: AUD-ARCH-001
+name: Audit and Traceability Architecture
+version: 0.19.0
+status: Draft
+audit_event_categories:
+- identity_session
+- user_permission_changes
+- patient_record_changes
+- consent_changes
+- order_lifecycle
+- sample_lifecycle
+- result_lifecycle
+- payment_cash_cut
+- invoice
+- inventory_movement
+- ai_usage
+- data_export
+- configuration_changes
+minimum_fields:
+- auditEventId
+- timestamp
+- tenantId
+- branchId
+- actorType
+- actorId
+- action
+- resourceType
+- resourceId
+- correlationId
+- requestId
+clinical_traceability:
+  overwrite_without_audit: forbidden
+ai_traceability:
+  required: true
+  records:
+  - capability
+  - provider_or_model_family
+  - input_classification
+  - output_classification
+  - human_reviewer
+  - final_decision
+```

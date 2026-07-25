@@ -24,7 +24,7 @@ Transform business goals into structured business architecture artifacts before 
 ## Inputs
 
 - `CONSTITUTION.md`
-- `PROJECT_MANIFEST.yaml`
+- `PROJECT_MANIFEST.md`
 - `business/architecture/value-chain.md`
 - `business/capabilities/business-capability-model.md`
 - Existing journeys, processes, rules and traceability matrices.

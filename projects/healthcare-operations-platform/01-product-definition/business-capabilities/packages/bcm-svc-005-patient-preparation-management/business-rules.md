@@ -1,0 +1,96 @@
+---
+id: HOP-BR-BCM-SVC-005
+format: markdown_structured_payload
+type: business-rules
+name: Patient Preparation Management Business Rules
+version: 0.1.0
+status: modeled
+---
+
+# Patient Preparation Management Business Rules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BR-BCM-SVC-005
+  type: business-rules
+  name: Patient Preparation Management Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-005
+  rule_id_pattern: RN-###
+rules:
+- id: RN-001
+  statement: A preparation instruction must have a unique code within its laboratory
+    scope.
+  applies_to: PreparationInstruction
+  enforcement_point: command:CreatePreparation, command:UpdatePreparation
+  severity: high
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-SVC-005-01
+- id: RN-002
+  statement: A published preparation must have localized instruction text for all
+    supported languages.
+  applies_to: PreparationInstruction
+  enforcement_point: command:PublishPreparation
+  severity: high
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-SVC-005-02
+- id: RN-003
+  statement: A fasting preparation must declare a duration in hours.
+  applies_to: PreparationInstruction
+  enforcement_point: command:CreatePreparation, command:UpdatePreparation
+  severity: medium
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-SVC-005-03
+- id: RN-004
+  statement: A preparation can only be assigned to a published test or panel.
+  applies_to: PreparationAssignment
+  enforcement_point: command:AssignPreparation
+  severity: high
+  audit_required: true
+  generatable: false
+  custom_reason: Cross-aggregate target publication validation.
+  test_refs:
+  - TST-SVC-005-04
+- id: RN-005
+  statement: A published preparation version is immutable; edits create a new draft
+    version.
+  applies_to: PreparationInstruction
+  enforcement_point: command:UpdatePreparation
+  severity: high
+  audit_required: true
+  generatable: false
+  custom_reason: Snapshot copy and version increment logic.
+  test_refs:
+  - TST-SVC-005-05
+- id: RN-006
+  statement: Only users with catalog authoring permission may create, update or publish
+    preparations.
+  applies_to: PreparationInstruction
+  enforcement_point: authorization:catalog.preparation.write
+  severity: critical
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-SVC-005-06
+enforcement_summary:
+  generatable_rules:
+  - RN-001
+  - RN-002
+  - RN-003
+  - RN-006
+  custom_implementation_rules:
+  - RN-004
+  - RN-005
+```

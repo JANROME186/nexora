@@ -1,0 +1,55 @@
+---
+id: HOP-BUS-MOD-BCM-PLT-002
+format: markdown_structured_payload
+type: business-model
+name: Platform Configuration Business Model
+version: 1.0.0
+---
+
+# Platform Configuration Business Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BUS-MOD-BCM-PLT-002
+  type: business-model
+  name: Platform Configuration Business Model
+  version: 1.0.0
+aggregate:
+  name: PlatformConfiguration
+  bounded_context: platform-operations
+  root_entity: ConfigKeyRoot
+entities:
+- name: ConfigKeyRoot
+  type: root_entity
+  fields:
+    config_id: UUID
+    key: String (unique)
+    value_type: Enum [STRING, BOOLEAN, INTEGER, JSON]
+    raw_value: String
+    tenant_override_allowed: Boolean
+    is_encrypted: Boolean
+- name: FeatureFlag
+  type: entity
+  fields:
+    flag_id: UUID
+    flag_key: String (unique)
+    enabled_by_default: Boolean
+    target_tenants: List[UUID]
+    rollout_percentage: Integer (0-100)
+- name: DataMaskingPolicy
+  type: entity
+  fields:
+    policy_id: UUID
+    target_aggregate: String
+    field_name: String
+    masking_pattern: Enum [LAST_4_CHARS, FULL_MASK, HASH_ONLY]
+    tenant_configurable: Boolean
+invariants:
+- Config keys must follow standard namespace formatting (e.g. platform.security.session_timeout).
+- Feature flag evaluation must default to false if targeting rules fail.
+- Data masking policies must satisfy HIPAA/GDPR PII privacy defaults (addressing TD-BE-008).
+```

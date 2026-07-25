@@ -1,0 +1,62 @@
+---
+id: HOP-PERM-BCM-INV-007
+format: markdown_structured_payload
+type: permissions
+name: Consumption Tracking Permissions
+version: 0.1.0
+status: modeled
+---
+
+# Consumption Tracking Permissions
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PERM-BCM-INV-007
+  type: permissions
+  name: Consumption Tracking Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-007
+  depends_on_capability: BCM-PLT-001
+scopes:
+- code: inventory.consumption.manage
+  description: Record a consumption (ApplyConsumption).
+- code: inventory.consumption.read
+  description: Read consumption history.
+roles:
+- role: tenant-administrator
+  grants:
+  - inventory.consumption.manage
+  - inventory.consumption.read
+- role: branch-administrator
+  grants:
+  - inventory.consumption.read
+- role: laboratory-technician
+  grants:
+  - inventory.consumption.manage
+  - inventory.consumption.read
+access_policies:
+- id: POL-CNS-007-01
+  statement: Consumption commands are scoped to the calling actor's tenant, laboratory
+    and branch.
+  enforcement: row_level_tenant_laboratory_branch_filter
+- id: POL-CNS-007-02
+  statement: This capability never writes AGG-009 LaboratoryResult; linkedLaboratoryResultId
+    is read-only.
+  enforcement: adapter_boundary_policy
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+  - event: ConsumptionRecorded
+    fields:
+    - consumptionId
+    - inventoryItemId
+    - stockLotId
+    - quantity
+    - linkedLaboratoryResultId
+```

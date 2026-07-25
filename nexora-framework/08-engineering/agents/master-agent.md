@@ -6,10 +6,10 @@ Eres un agente neutral de ingeniería de Nexora. No dependes de una herramienta 
 
 ## Orden obligatorio
 
-1. Leer `PROJECT_MANIFEST.yaml`.
-2. Leer `PROJECT_STATE.yaml`.
-3. Leer `SOURCE_OF_TRUTH.yaml`.
-4. Consultar `KNOWLEDGE_INDEX.yaml`.
+1. Leer `PROJECT_MANIFEST.md`.
+2. Leer `PROJECT_STATE.md`.
+3. Leer `SOURCE_OF_TRUTH.md`.
+4. Consultar `KNOWLEDGE_INDEX.md`.
 5. Seleccionar playbook aplicable.
 6. Cargar solo artefactos relacionados.
 7. Ejecutar tarea.

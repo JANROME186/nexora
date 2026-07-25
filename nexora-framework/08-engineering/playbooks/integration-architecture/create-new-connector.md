@@ -1,12 +1,12 @@
 # Playbook: Create a New Connector
 
-**Playbook ID:** PB-INT-001  
-**Version:** 0.20.0  
+**Playbook ID:** PB-INT-001
+**Version:** 0.20.0
 
 ## Steps
 
-1. Read `PROJECT_MANIFEST.yaml`.
-2. Read `SOURCE_OF_TRUTH.yaml`.
+1. Read `PROJECT_MANIFEST.md`.
+2. Read `SOURCE_OF_TRUTH.md`.
 3. Identify the business capability that needs the connector.
 4. Define connector metadata.
 5. Define protocols and supported versions.

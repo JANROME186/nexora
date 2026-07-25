@@ -25,19 +25,19 @@ delegated-ownership pattern from MVP-MOD-006/MVP-MOD-007.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | InventoryItem aggregate, StockSummary/ReagentProfile/EquipmentProfile placeholders |
-| `business-rules.yaml` | Numbered rules RN-001..RN-005 |
-| `processes.yaml` | Register, update, discontinue |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee-portal catalog screen |
-| `mobile-model.yaml` | Mobile scope (not_required) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | InventoryItem aggregate, StockSummary/ReagentProfile/EquipmentProfile placeholders |
+| `business-rules.md` | Numbered rules RN-001..RN-005 |
+| `processes.md` | Register, update, discontinue |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee-portal catalog screen |
+| `mobile-model.md` | Mobile scope (not_required) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, tests, QA |
 
 ## Delegated ownership map
 
@@ -63,6 +63,6 @@ snapshot, mirroring the PatientSnapshot pattern used by DiagnosticOrder.
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers itemType/classification consistency, the field-level
 delegation boundary and the discontinuation gate.

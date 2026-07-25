@@ -22,7 +22,7 @@ public class JdbcStoredDocumentRepository implements StoredDocumentRepository {
 
     // Stub implementation to satisfy technical debt TD-DB-001 for now.
     // Complete mapping will be implemented when non-local durability is required.
-    
+
     public StoredDocument save(StoredDocument entity) {
         throw new UnsupportedOperationException("JDBC implementation pending full field mapping");
     }
@@ -34,7 +34,7 @@ public class JdbcStoredDocumentRepository implements StoredDocumentRepository {
     public Optional<StoredDocument> findByPatientId(PatientId id) {
         return Optional.empty();
     }
-    
+
     public List<StoredDocument> findByResultId(ResultId resultId, TenantId tenantId) {
         return List.of();
     }

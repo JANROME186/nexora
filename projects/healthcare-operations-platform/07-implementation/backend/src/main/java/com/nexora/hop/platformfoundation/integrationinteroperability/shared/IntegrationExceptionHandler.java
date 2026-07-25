@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * Shared exception mapping for BCM-PLT-004 Integration Management and BCM-PLT-005 API Management
  * controllers. Every response carries a first-class {@code code} field (RFC7807-inspired, per
- * each capability's {@code openapi-source.yaml error_model}), the first HOP error shape to do so,
+ * each capability's {@code openapi-source.md error_model}), the first HOP error shape to do so,
  * plus a {@code messageKey} (i18n/messages catalog key, see {@code integration.error.*} in
  * {@code i18n/messages*.properties}) so a client can resolve a localized message independently of
  * the always-English {@code message} field (further reduces TD-I18N-002).

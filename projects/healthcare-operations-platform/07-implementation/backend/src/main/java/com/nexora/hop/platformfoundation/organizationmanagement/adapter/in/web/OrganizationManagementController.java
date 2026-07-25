@@ -74,7 +74,7 @@ class OrganizationManagementController {
     }
 
     /**
-     * BCM-ORG-001 {@code updateTenantStatus}: the tenant-impact-triage-runbook.yaml operational
+     * BCM-ORG-001 {@code updateTenantStatus}: the tenant-impact-triage-runbook.md operational
      * control used to suspend or archive a tenant (COM-MOD-012-BE-001).
      */
     @PutMapping("/platform/tenants/{tenantId}/status")

@@ -1,0 +1,52 @@
+---
+id: HOP-OBS-BCM-PLT-007
+format: markdown_structured_payload
+type: observability-model
+name: Audit Trail Observability Model
+version: 1.1.0
+status: modeled
+---
+
+# Audit Trail Observability Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-OBS-BCM-PLT-007
+  type: observability-model
+  name: Audit Trail Observability Model
+  version: 1.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-007
+metrics:
+- name: audit_events_recorded_total
+  type: counter
+  description: Total number of audit events recorded.
+  labels:
+  - tenant_id
+  - category
+- name: audit_exports_total
+  type: counter
+  description: Total number of compliance audit exports performed.
+  labels:
+  - tenant_id
+  - format
+logs:
+- event: AuditTrailExported
+  level: INFO
+  mdc_fields:
+  - tenantId
+  - userId
+  - traceId
+  - exportId
+  - recordCount
+  pattern: 'Audit trail exported: exportId={exportId}, count={recordCount}'
+tracing:
+  propagation_headers:
+  - X-Correlation-ID
+  - X-Tenant-ID
+```

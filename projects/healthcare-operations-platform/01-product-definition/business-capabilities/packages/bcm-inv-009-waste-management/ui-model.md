@@ -1,0 +1,62 @@
+---
+id: HOP-UI-BCM-INV-009
+format: markdown_structured_payload
+type: ui-model
+name: Waste Management UI Model
+version: 0.1.0
+status: modeled
+---
+
+# Waste Management Ui Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-UI-BCM-INV-009
+  type: ui-model
+  name: Waste Management UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-009
+  target_surface: employee_portal
+surfaces:
+  employee_portal:
+    status: required
+    generatable: partial
+  patient_portal:
+    status: not_required
+    generatable: not_applicable
+  doctor_portal:
+    status: not_required
+    generatable: not_applicable
+screens:
+- id: SCR-WST-009-01
+  name: Waste and Disposal
+  route: /admin/inventory/waste
+  purpose: Record and review stock disposal (expired, damaged, contaminated, recalled).
+  components:
+  - DataTable
+  - WasteDisposalForm
+  - ReasonCodePicker
+  generatable: partial
+  custom_reason: Disposal confirmation invokes the custom ApplyWasteDisposal command
+    (RN-001, RN-003, RN-004).
+states:
+- recorded
+localization:
+  languages:
+  - en
+  - es
+  default: es
+  message_key_namespace: inventory.waste.*
+  note: New user-facing strings must be registered under the inventory.waste.* message-key
+    namespace, not hardcoded.
+rationale: 'Waste recording is a warehouse/laboratory back-office task performed from
+  the employee portal, with a mobile capture option deferred per mobile-model.md.
+
+  '
+```

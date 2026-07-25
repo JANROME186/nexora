@@ -44,7 +44,7 @@ import com.nexora.hop.platformfoundation.laboratoryworkflow.shared.SampleReadPor
  * <p>Does not mutate Patient, Doctor, DiagnosticOrder, Sale or Invoice aggregates.
  *
  * <p>Custom validation rules for collectSample, receiveSample, rejectSample and disposeSample
- * are extension points deferred to MVP-MOD-006-BE-002 (see generation-plan.yaml CUS-COL-002-*).
+ * are extension points deferred to MVP-MOD-006-BE-002 (see generation-plan.md CUS-COL-002-*).
  */
 @Service
 public class OrderSamplesService implements SampleReadPort {
@@ -161,12 +161,12 @@ public class OrderSamplesService implements SampleReadPort {
         String actorId = requiredText(command.actorId(), "Actor id is required.");
 
         Sample existing = loadSample(sampleId, tenantId);
-        
+
         // CUS-LAB-003-01: Status precondition check
         if (existing.status() != SampleStatus.collected && existing.status() != SampleStatus.in_transit) {
              throw new LabWorkflowConflictException("CUS-LAB-003-01: Sample must be collected or in_transit to be labeled.");
         }
-        
+
         // CUS-LAB-003-02: Barcode generation and uniqueness enforcement / mismatch detection
         if (barcodeValue.length() < 5) {
              throw new LabWorkflowConflictException("CUS-LAB-003-02: Barcode value is too short. Minimum 5 characters required.");
@@ -206,17 +206,17 @@ public class OrderSamplesService implements SampleReadPort {
 
         Sample existing = loadSample(sampleId, tenantId);
         guardNotTerminal(existing);
-        
+
         // CUS-LAB-005-02: Labeled-status precondition guard
         if (existing.status() != SampleStatus.labeled && existing.status() != SampleStatus.in_transit) {
              throw new LabWorkflowConflictException("CUS-LAB-005-02: Sample must be labeled or in_transit to be received. Current status: " + existing.status());
         }
-        
+
         Instant now = Instant.now(clock);
 
         ReceptionCondition condition = parseEnum(ReceptionCondition.class,
                 optionalText(command.conditionAtReception()));
-                
+
         // CUS-LAB-005-01: Multi-criterion condition check
         if (condition == ReceptionCondition.wrong_container || condition == ReceptionCondition.unlabeled) {
              throw new LabWorkflowConflictException("CUS-LAB-005-01: Sample cannot be received if condition is " + condition.name());
@@ -262,12 +262,12 @@ public class OrderSamplesService implements SampleReadPort {
 
         Sample existing = loadSample(sampleId, tenantId);
         guardNotTerminal(existing);
-        
+
         // CUS-COL-002-04: Structured reason-code validation and terminal-state guard
         if (reasonCode == RejectionReasonCode.other && (command.notes() == null || command.notes().isBlank())) {
             throw new LabWorkflowConflictException("CUS-COL-002-04: Notes must be provided when rejection reason is 'other'.");
         }
-        
+
         Instant now = Instant.now(clock);
 
         SampleRejectionReason rejectionReason = new SampleRejectionReason(
@@ -306,12 +306,12 @@ public class OrderSamplesService implements SampleReadPort {
         if (existing.status() == SampleStatus.disposed) {
             throw new LabWorkflowConflictException("Sample is already disposed.");
         }
-        
+
         // CUS-LAB-005-03: Terminal-state precondition guard
         if (existing.status() != SampleStatus.rejected && existing.status() != SampleStatus.in_process) {
              throw new LabWorkflowConflictException("CUS-LAB-005-03: Sample can only be disposed if it is rejected or fully in_process. Current status: " + existing.status());
         }
-        
+
         Instant now = Instant.now(clock);
 
         List<ChainOfCustodyEvent> updatedChain = appendCustodyEvent(

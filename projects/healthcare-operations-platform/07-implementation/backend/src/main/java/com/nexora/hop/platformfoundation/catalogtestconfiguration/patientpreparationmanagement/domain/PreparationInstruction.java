@@ -6,7 +6,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.Localiz
 
 /**
  * A patient preparation instruction associated with tests or panels (BCM-SVC-005).
- * Modeled in bcm-svc-005-patient-preparation-management/business-model.yaml (ENT-PRP-001).
+ * Modeled in bcm-svc-005-patient-preparation-management/business-model.md (ENT-PRP-001).
  */
 public record PreparationInstruction(
         String preparationId,

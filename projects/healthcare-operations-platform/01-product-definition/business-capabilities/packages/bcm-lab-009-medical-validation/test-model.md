@@ -1,0 +1,72 @@
+---
+id: HOP-TEST-BCM-LAB-009
+format: markdown_structured_payload
+type: test-model
+name: Medical Validation Test Model
+version: 0.1.0
+status: modeled
+---
+
+# Medical Validation Test Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TEST-BCM-LAB-009
+  type: test-model
+  name: Medical Validation Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-009
+test_cases:
+- id: TST-MVL-009-01
+  type: acceptance
+  validates_rule: RN-001
+  statement: Medically validating a result that is not yet technically validated is
+    rejected.
+  generatable: false
+- id: TST-MVL-009-02
+  type: acceptance
+  validates_rule: RN-002
+  statement: Medical validation by an actor with an unverified or expired credential
+    is rejected.
+  generatable: false
+- id: TST-MVL-009-03
+  type: architecture
+  validates_rule: RN-003
+  statement: No AI-capability code path can invoke PerformMedicalValidation under
+    any configuration.
+  generatable: false
+- id: TST-MVL-009-04
+  type: architecture
+  validates_rule: RN-004
+  statement: This capability writes only medicalValidation, never technicalValidation,
+    criticalFlag, releaseRecord or amendments.
+  generatable: false
+- id: TST-MVL-009-05
+  type: contract
+  validates_rule: RN-005
+  statement: Unauthorized or out-of-scope actors cannot perform medical validation.
+  generatable: true
+- id: TST-MVL-009-06
+  type: unit
+  validates_rule: RN-006
+  statement: ResultMedicallyValidated carries actor, result reference and timestamp.
+  generatable: true
+test_layers:
+- contract_tests
+- unit_tests
+- acceptance_tests
+- architecture_tests
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests:
+  - TST-MVL-009-01
+  - TST-MVL-009-02
+  - TST-MVL-009-03
+  - TST-MVL-009-04
+```

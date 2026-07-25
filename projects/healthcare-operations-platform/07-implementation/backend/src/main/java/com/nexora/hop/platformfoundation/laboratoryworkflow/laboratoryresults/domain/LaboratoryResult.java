@@ -12,7 +12,7 @@ import java.util.List;
  * BCM-LAB-010 holds delegated authority to mutate {@code releaseRecord} and {@code amendments}.
  * No other capability may write LaboratoryResult persistence directly (INV-LPR-003).
  *
- * <p>Invariants from business-model.yaml:
+ * <p>Invariants from business-model.md:
  * <ul>
  *   <li>INV-LPR-001: Cannot be created without a received Sample, AnalyteSnapshot and ReferenceRangeSnapshot.</li>
  *   <li>INV-LPR-002: Cannot exist for a rejected Sample.</li>

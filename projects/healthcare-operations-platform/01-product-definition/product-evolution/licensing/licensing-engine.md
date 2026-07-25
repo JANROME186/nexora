@@ -1,7 +1,7 @@
 # Licensing Engine Architecture
 
-**Artifact ID:** LIC-001  
-**Status:** Draft  
+**Artifact ID:** LIC-001
+**Status:** Draft
 **Version:** 0.22.0
 
 ## Purpose
@@ -75,3 +75,56 @@ User Request
 ## Anti-Pattern
 
 Do not hard-code plan checks inside controllers, UI components or domain logic.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: LIC-001
+name: Licensing Engine Architecture
+type: licensing-architecture
+version: 0.22.0
+status: draft
+plans:
+- id: plan-starter
+  name: Starter
+  target: Small laboratories
+  capabilities:
+  - patient-management.core
+  - order-management.core
+  - sample-management.core
+  - results.core
+  - cashier.core
+  excluded:
+  - ai.advanced
+  - pacs.core
+  - hl7.integration
+- id: plan-professional
+  name: Professional
+  target: Growing laboratories
+  capabilities:
+  - patient-management.core
+  - order-management.core
+  - doctor-portal.core
+  - patient-portal.core
+  - inventory.core
+  - billing.core
+  - ai.basic
+  - device-integrations.basic
+- id: plan-enterprise
+  name: Enterprise
+  target: Large diagnostic organizations
+  capabilities:
+  - '*'
+runtime_flow:
+- authentication
+- tenant-resolution
+- license-resolution
+- feature-flag-resolution
+- authorization
+- capability-execution
+rules:
+- Do not hard-code plan checks inside controllers, UI components or domain logic.
+- Entitlements must be resolved through a dedicated policy service.
+```

@@ -34,3 +34,86 @@ Nexora administra información clínica, administrativa, financiera, operativa, 
 ## Principio clave
 
 El modelo físico de base de datos no gobierna el producto. El producto es gobernado por capacidades, procesos, dominios, reglas y contratos. La base de datos es una implementación derivada.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: DATA-ARCH-001
+name: Enterprise Data Architecture Baseline
+version: 0.16.0
+status: Draft
+owner: Data Architecture
+principles:
+- Information is an enterprise asset
+- Business model before physical schema
+- Privacy and security by design
+- Auditability for clinical and financial data
+- Master data governance
+- Country-aware retention policies
+data_categories:
+  master_data:
+    examples:
+    - Patient
+    - Physician
+    - Laboratory
+    - Branch
+    - Supplier
+    - ClinicalTest
+  reference_data:
+    examples:
+    - Country
+    - State
+    - Gender
+    - Specialty
+    - UnitOfMeasure
+  transaction_data:
+    examples:
+    - Order
+    - Payment
+    - Invoice
+    - Sample
+    - Result
+  operational_data:
+    examples:
+    - WorkflowTask
+    - QueueItem
+    - AppointmentSlot
+  audit_data:
+    examples:
+    - AuditLog
+    - AccessLog
+    - SignatureLog
+  analytical_data:
+    examples:
+    - KPI
+    - Aggregation
+    - Prediction
+  document_data:
+    examples:
+    - ResultPDF
+    - ConsentForm
+    - IdentificationDocument
+  imaging_data:
+    examples:
+    - DICOMStudy
+    - ImagingReport
+    - PACSMetadata
+source_of_truth:
+  business_concepts: business-architecture
+  business_rules: business-rules
+  entities: domain-model-and-data-architecture
+  api_contracts: openapi
+  physical_schema: database-migrations
+  imaging: pacs-dicom-metadata
+relationships:
+  depends_on:
+  - NMM-001
+  - CAP-001
+  informs:
+  - database-model
+  - data-retention-policy
+  - analytics-model
+  - ai-data-policy
+```

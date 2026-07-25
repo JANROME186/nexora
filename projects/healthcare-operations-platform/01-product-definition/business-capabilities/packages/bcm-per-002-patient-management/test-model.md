@@ -1,0 +1,98 @@
+---
+id: HOP-TEST-BCM-PER-002
+format: markdown_structured_payload
+type: test-model
+name: Patient Management Test Model
+version: 0.1.0
+status: modeled
+---
+
+# Patient Management Test Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TEST-BCM-PER-002
+  type: test-model
+  name: Patient Management Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PER-002
+test_cases:
+- id: TST-PAT-002-01
+  type: unit
+  validates_rule: RN-001
+  statement: Reject registration of duplicate patient code within tenant.
+  generatable: true
+- id: TST-PAT-002-02
+  type: acceptance
+  validates_rule: RN-002
+  statement: Registration is blocked when duplicate detection has not been invoked.
+  generatable: false
+- id: TST-PAT-002-03
+  type: acceptance
+  validates_rule: RN-002
+  statement: Registration proceeds when duplicate detection returns no acceptable
+    match.
+  generatable: false
+- id: TST-PAT-002-04
+  type: architecture
+  validates_rule: RN-003
+  statement: Only patient-management repository writes are permitted for Patient aggregate.
+  generatable: false
+- id: TST-PAT-002-05
+  type: unit
+  validates_rule: RN-004
+  statement: PatientUpdated event carries the delta of changed fields.
+  generatable: true
+- id: TST-PAT-002-06
+  type: acceptance
+  validates_rule: RN-005
+  statement: Merging patients archives source snapshot and rewires downstream references.
+  generatable: false
+- id: TST-PAT-002-07
+  type: acceptance
+  validates_rule: RN-006
+  statement: Representative access is honored only when authorization range is active.
+  generatable: false
+- id: TST-PAT-002-08
+  type: regression
+  validates_rule: RN-007
+  statement: Revoking a consent produces a new revocation record without deleting
+    the original evidence.
+  generatable: false
+- id: TST-PAT-002-09
+  type: unit
+  validates_rule: RN-008
+  statement: Patient snapshot masks primary document number per tenant policy.
+  generatable: true
+- id: TST-PAT-002-10
+  type: unit
+  validates_rule: RN-009
+  statement: Deceased status cannot be reverted by update commands.
+  generatable: true
+- id: TST-PAT-002-11
+  type: contract
+  validates_rule: RN-010
+  statement: Unauthorized actors cannot read, write or merge patients.
+  generatable: true
+test_layers:
+- contract_tests
+- unit_tests
+- acceptance_tests
+- regression_tests
+- architecture_tests
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests:
+  - TST-PAT-002-02
+  - TST-PAT-002-03
+  - TST-PAT-002-04
+  - TST-PAT-002-06
+  - TST-PAT-002-07
+  - TST-PAT-002-08
+```

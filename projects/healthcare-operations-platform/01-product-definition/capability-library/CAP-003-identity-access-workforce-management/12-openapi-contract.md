@@ -2,7 +2,7 @@
 
 The source of truth for Identity, Access & Workforce APIs is:
 
-`05-contracts/contracts/openapi/iam/iam.openapi.yaml`
+`05-contracts/contracts/openapi/iam/iam.openapi.md`
 
 ## Initial endpoint scope
 

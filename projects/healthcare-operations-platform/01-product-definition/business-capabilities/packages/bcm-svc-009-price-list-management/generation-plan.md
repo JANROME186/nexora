@@ -1,0 +1,84 @@
+---
+id: HOP-GEN-BCM-SVC-009
+format: markdown_structured_payload
+type: generation-plan
+name: Price List Management Generation Plan
+version: 0.1.0
+status: modeled
+---
+
+# Price List Management Generation Plan
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-GEN-BCM-SVC-009
+  type: generation-plan
+  name: Price List Management Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-009
+  compiler_strategy: model_to_platform
+generated_outputs:
+  backend:
+  - CRUD scaffolding for PriceList, PriceEntry
+  - DTOs
+  - Controllers for generatable operations
+  - Repository interfaces and baseline persistence adapters
+  - Domain skeleton for price list projection on TestDefinition context
+  - API adapters
+  frontend:
+  - Employee portal index and editor components (SCR-SVC-009-01, SCR-SVC-009-02)
+  - Routes
+  - Forms
+  - Client SDK usage
+  contracts:
+  - Rendered OpenAPI document from openapi-source.md
+  - Typed SDK
+  - Swagger documentation
+  tests:
+  - Repetitive unit tests for RN-001, RN-002, RN-007
+  - Contract tests
+  - Acceptance test skeletons
+  operations:
+  - Metric and log wiring from observability-model.md
+  - Dashboard definition skeleton
+  - Alert definitions for publish failures and effective price resolution misses
+custom_implementation_points:
+- id: CUS-SVC-009-01
+  description: Catalog item publication validation at publish time (RN-003).
+  maps_to_backlog: MVP-MOD-002-BE-002
+- id: CUS-SVC-009-02
+  description: Effective-dated immutable versioning and snapshot freeze (RN-004).
+  maps_to_backlog: MVP-MOD-002-BE-002
+- id: CUS-SVC-009-03
+  description: Effective-date overlap detection across scope and currency (RN-005).
+  maps_to_backlog: MVP-MOD-002-BE-002
+- id: CUS-SVC-009-04
+  description: Effective price resolution query for quotation, cash and billing (RN-006).
+  maps_to_backlog: MVP-MOD-002-BE-002
+do_not_write_manually:
+- CRUD scaffolding
+- DTOs
+- Controllers
+- Repositories
+- Swagger documentation
+- SDKs
+- Repetitive documentation
+- Repetitive test cases
+provenance:
+  source_models:
+  - business-model.md
+  - business-rules.md
+  - processes.md
+  - events.md
+  - openapi-source.md
+  - ui-model.md
+  - permissions.md
+  - observability-model.md
+  generation_metadata_required: true
+```

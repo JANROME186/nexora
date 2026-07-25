@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 
 /**
- * Registration process record modeled by {@code bcm-att-002-patient-registration/business-model.yaml}
+ * Registration process record modeled by {@code bcm-att-002-patient-registration/business-model.md}
  * ENT-REG-001. The registration workflow orchestrates BCM-PER-001 duplicate detection and delegates
  * mutation to BCM-PER-002 aggregate commands; the aggregate is never owned here (RN-002).
  */

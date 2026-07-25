@@ -1,8 +1,8 @@
 # Playbook: Build CAP-010 Inventory Capability
 
-1. Read `PROJECT_MANIFEST.yaml`.
-2. Load `SOURCE_OF_TRUTH.yaml`.
-3. Load CAP-010 `capability.yaml`.
+1. Read `PROJECT_MANIFEST.md`.
+2. Load `SOURCE_OF_TRUTH.md`.
+3. Load CAP-010 `capability.md`.
 4. Load business rules and decision tables.
 5. Validate state machines.
 6. Update Inventory OpenAPI contract first.

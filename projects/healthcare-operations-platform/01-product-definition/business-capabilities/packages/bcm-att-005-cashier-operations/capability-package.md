@@ -1,0 +1,113 @@
+---
+id: HOP-CAP-PKG-BCM-ATT-005
+format: markdown_structured_payload
+type: capability-package
+name: Cashier Operations Capability Package
+version: 0.4.0
+status: module_closed
+---
+
+# Cashier Operations Capability Package
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-CAP-PKG-BCM-ATT-005
+  type: capability-package
+  name: Cashier Operations Capability Package
+  version: 0.4.0
+  status: module_closed
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.md
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-16
+  roadmap_group: MVP-MOD-005
+  execution_flow_stage: release
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.md
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.md
+capability:
+  id: BCM-ATT-005
+  name:
+    en: Cashier Operations
+    es: Caja
+  domain: DOM-04 Care Delivery
+  priority: Critical
+  roadmap: MVP1
+  dependency_profile: revenue_cycle
+  bounded_context: cash-sales
+  primary_aggregates:
+  - AGG-010 Sale
+  - AGG-011 CashRegister
+  process_ref: HRP-001-P04
+scope:
+  summary: 'Manages branch cashier work: opening cash sessions, creating sales from
+    accepted diagnostic orders or accepted quotations, registering payments, allocating
+    payments to sale balances, handling cancellations/refunds and closing sessions
+    with variance evidence.
+
+    '
+  in_scope:
+  - Cash session open, movement, close and variance recording.
+  - Sale creation from diagnostic orders and accepted quotations.
+  - Payment registration, allocation and cancellation/refund request boundaries.
+  - Branch-level financial audit and reconciliation events.
+  out_of_scope:
+  - Fiscal invoice issuance and tax authority integration (BCM-ATT-008).
+  - Country-specific fiscal adapter implementation.
+  - Payment gateway settlement adapters beyond provider-agnostic registration boundary.
+  - Clinical order mutation after sale/payment.
+roadmap:
+  module: MVP-MOD-005
+  release: REL-001
+  package_status: module_closed
+  next_backlog_item: none (module closed; see MVP-MOD-006-DEF for the next roadmap
+    module)
+dependencies:
+  required_capabilities:
+  - BCM-LAB-001
+  - BCM-ATT-006
+  - BCM-SVC-009
+  - BCM-PER-002
+  - BCM-PLT-001
+  - BCM-PLT-007
+  optional_capabilities:
+  - BCM-ATT-008
+  - BCM-ATT-007
+  - BCM-RES-004
+  downstream_capabilities:
+  - BCM-ATT-008
+  - BCM-RES-004
+  upstream_contexts:
+  - orders-samples
+  - catalog-test-configuration
+  - patient-management
+  - audit-compliance
+product_surfaces:
+  backend: required
+  employee_portal: required
+  patient_portal: payment_history_later
+  doctor_portal: not_required
+  mobile_app: payment_receipt_later
+  public_website: not_required
+required_artifacts:
+- capability-package.md
+- business-model.md
+- business-rules.md
+- processes.md
+- events.md
+- openapi-source.md
+- permissions.md
+- ui-model.md
+- mobile-model.md
+- test-model.md
+- observability-model.md
+- generation-plan.md
+- traceability.md
+- README.md
+```

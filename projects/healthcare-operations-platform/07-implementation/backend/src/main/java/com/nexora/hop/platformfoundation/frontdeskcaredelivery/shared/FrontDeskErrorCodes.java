@@ -3,7 +3,7 @@ package com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared;
 /**
  * Stable domain error codes for the custom-implementation rules of BCM-LAB-001, BCM-ATT-001,
  * BCM-ATT-003, BCM-ATT-004 and BCM-ATT-006, extracted from each capability package's
- * {@code openapi-source.yaml} {@code error_model.domain_errors} list (the model is the source of
+ * {@code openapi-source.md} {@code error_model.domain_errors} list (the model is the source of
  * truth; these constants are a 1:1 mechanical projection of it, not a new design decision).
  * <p>
  * Every {@link FrontDeskConflictException} and {@link FrontDeskEntityNotFoundException} thrown for

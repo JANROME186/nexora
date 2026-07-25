@@ -16,15 +16,15 @@ Describe la decisión tomada.
 
 ### Positivas
 
-- 
+-
 
 ### Negativas
 
-- 
+-
 
 ## Alternativas consideradas
 
-- 
+-
 
 ## Relaciones
 

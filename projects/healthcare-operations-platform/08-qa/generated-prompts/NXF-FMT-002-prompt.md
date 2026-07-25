@@ -13,15 +13,15 @@ ORCHESTRATION: ollama_primary
 - No avanzar punteros si un gate obligatorio queda bloqueado o sin evidencia.
 
 ## 2. Contexto Inmediato (Punteros)
-- Prompts y estado: inspeccionar `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml` y `PROJECT_STATE.yaml` bajo demanda.
-- Contexto principal: `../../nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.yaml`
+- Prompts y estado: inspeccionar `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md` y `PROJECT_STATE.md` bajo demanda.
+- Contexto principal: `../../nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md`
 
 ## 3. Entregables
 - Cambios format_migration y validaciones asociadas.
 - QA Evidence: `08-qa/format-migration/NXF-FMT-002-validation.md`
 - Security Evidence: `not_applicable_format_migration_no_runtime_code`
 - Transición: crear `08-qa/handoffs/NXF-FMT-002-summary.md`.
-- Actualizar `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, backlog/prompts, runbook e índices aplicables.
+- Actualizar `PROJECT_STATE.md`, `SOURCE_OF_TRUTH.md`, backlog/prompts, runbook e índices aplicables.
 
 ## 4. Criterios de Cierre
 - Gates obligatorios ejecutados; YAML/MD parseables; `git diff --check` limpio.

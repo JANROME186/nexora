@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.billingadapter.application.BillingEventService;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.billingadapter.domain.BillingEventRecord;
 
-/** Rendered controller for bcm-plt-011/openapi-source.yaml {@code /billing/events}. */
+/** Rendered controller for bcm-plt-011/openapi-source.md {@code /billing/events}. */
 @RestController
 @RequestMapping("/api/marketplace/billing")
 class BillingEventController {

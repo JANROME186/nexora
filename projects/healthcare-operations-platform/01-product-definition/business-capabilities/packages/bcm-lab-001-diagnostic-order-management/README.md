@@ -32,24 +32,24 @@ already used in MVP-MOD-003.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | DiagnosticOrder aggregate, order lines and five immutable snapshot value objects |
-| `business-rules.yaml` | Numbered rules RN-001..RN-009 |
-| `processes.yaml` | Create, price, accept, cancel and complete order |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee portal creation wizard, list, detail and actions |
-| `mobile-model.yaml` | Mobile scope (not_required, deferred to COM-MOD-009) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | DiagnosticOrder aggregate, order lines and five immutable snapshot value objects |
+| `business-rules.md` | Numbered rules RN-001..RN-009 |
+| `processes.md` | Create, price, accept, cancel and complete order |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee portal creation wizard, list, detail and actions |
+| `mobile-model.md` | Mobile scope (not_required, deferred to COM-MOD-009) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, UI, tests, QA |
 
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers multi-source snapshot capture, published-catalog
 validation, price-list resolution, aggregate boundary enforcement, terminal-
 state immutability and the order creation wizard UI.

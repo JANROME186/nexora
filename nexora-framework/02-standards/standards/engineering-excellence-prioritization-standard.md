@@ -2,7 +2,7 @@
 
 **Artifact ID:** `NXF-ENG-EXCELLENCE-001`
 **Status:** Approved
-**Machine-readable source:** `engineering-excellence-prioritization-standard.yaml`
+**Machine-readable source:** `engineering-excellence-prioritization-standard.md`
 **Version:** `1.0.0`
 
 This standard prevents the framework from becoming either too weak or too heavy.
@@ -59,3 +59,387 @@ integrity or production reliability risk requires it.
 - AI features before a modeled business need exists.
 
 Markdown is for people. YAML is the executable source for agents.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: NXF-ENG-EXCELLENCE-001
+  type: framework-standard
+  name: Engineering Excellence Prioritization Standard
+  version: 1.0.0
+  status: approved
+  human_readable: engineering-excellence-prioritization-standard.md
+  machine_readable: engineering-excellence-prioritization-standard.md
+  owner: Nexora Engineering
+purpose: 'Classify engineering principles and practices into blocking minimums, incremental
+  quality improvements and desirable contextual practices so Nexora products can improve
+  continuously without stopping delivery unnecessarily.
+
+  '
+gating_model:
+  P0_minimum_enterprise_baseline:
+    weight: 5
+    meaning: Must be satisfied for changed scope before backlog closure.
+    closure_rule: 'If missing for the changed component, the backlog cannot close
+      unless the work is explicitly blocked, remediated immediately or accepted through
+      a documented risk with owner, expiration and target backlog.
+
+      '
+    evidence_required: true
+  P1_incremental_quality_backlog:
+    weight: 3
+    meaning: Should be implemented when the affected component is touched.
+    closure_rule: 'If not implemented now, register or update technical debt with
+      priority, effort, target backlog and acceptance criteria. The item must be consumed
+      gradually through the debt-first execution policy.
+
+      '
+    evidence_required: true
+  P2_contextual_or_desirable:
+    weight: 1
+    meaning: Valuable when the domain, scale, risk or maturity justifies it.
+    closure_rule: 'Does not block backlog closure. Document as not applicable, future
+      improvement or optional architecture decision when relevant.
+
+      '
+    evidence_required: false
+general_application_rules:
+- Apply P0 only to the changed scope and required product baseline; avoid forcing
+  unrelated rewrites.
+- Promote any P1 or P2 practice to P0 when regulatory, security, patient safety, financial
+  integrity or production reliability risk demands it.
+- Demote no P0 practice silently; use accepted risk with expiration if the current
+  iteration cannot remediate.
+- Convert missing P1 practices into technical debt and consume at least one open debt
+  item before each code-changing backlog.
+- Keep the solution open-source-first, agent-agnostic, reproducible and portable.
+- Prefer simple, observable, testable implementations before advanced patterns.
+priority_matrix:
+  architecture:
+    P0_minimum_enterprise_baseline:
+    - Clean Architecture boundaries for changed code
+    - Hexagonal Architecture / Ports and Adapters for external dependencies
+    - Domain Driven Design for core business capabilities
+    - modularity
+    - separation_of_concerns
+    - high_cohesion
+    - low_coupling
+    - dependency_inversion
+    - encapsulation
+    - composition_over_inheritance
+    - API First
+    - Contract First
+    P1_incremental_quality_backlog:
+    - design_by_contract
+    - law_of_demeter
+    - Event Driven Architecture for cross-boundary business events
+    - CQRS when read and write models diverge materially
+    P2_contextual_or_desirable:
+    - Event Sourcing when temporal audit/replay is a true domain requirement
+    - advanced CQRS for simple CRUD-like flows
+  software_design:
+    P0_minimum_enterprise_baseline:
+    - SOLID
+    - DRY
+    - KISS
+    - YAGNI
+    - principle_of_least_surprise
+    - fail_fast
+    - defensive_programming_for_boundaries
+    - single_responsibility
+    - domain_oriented_design
+    - correct_reuse
+    - configuration_over_hard_coding
+    - convention_over_configuration_when_it_reduces_cognitive_load
+    P1_incremental_quality_backlog:
+    - immutability_for_value_objects_and_snapshots
+    - rich_domain_objects_over_anemic_models_when_business_rules_exist
+    - extensibility_at_declared_extension_points
+    P2_contextual_or_desirable:
+    - broad extensibility before concrete variation exists
+  code_quality:
+    P0_minimum_enterprise_baseline:
+    - Clean Code
+    - self_explanatory_code
+    - readability
+    - consistency
+    - simplicity
+    - no_dead_code_in_changed_scope
+    - no_unnecessary_duplication_in_changed_scope
+    - meaningful_names
+    - low_cyclomatic_or_cognitive_complexity_for_changed_code
+    - low_nesting
+    - correct_exception_handling
+    - no_unnecessary_technical_debt
+    - continuous_refactoring_when_touching_code
+    P1_incremental_quality_backlog:
+    - small_methods
+    - small_classes
+    - broader_module_refactoring
+    - duplication_removal_outside_changed_scope
+    P2_contextual_or_desirable:
+    - cosmetic refactoring unrelated to active work
+  development_practices:
+    P0_minimum_enterprise_baseline:
+    - Boy Scout Rule for touched code
+    - code_review_or_agent_review_evidence
+    - small_commits
+    - Conventional Commits
+    - reproducible_branch_state
+    P1_incremental_quality_backlog:
+    - continuous_refactoring_program
+    - Peer Review
+    - Pull Requests pequeños
+    - Trunk Based Development or Git Flow selected by team policy
+    - Feature Flags for risky or incomplete runtime behavior
+    P2_contextual_or_desirable:
+    - Pair Programming
+    - Mob Programming
+  testing:
+    P0_minimum_enterprise_baseline:
+    - automated_tests_for_changed_code
+    - unit_testing
+    - integration_testing_for_boundaries
+    - contract_testing_for_api_changes
+    - smoke_testing_for_runnable_surfaces
+    - regression_testing_for_fixed_or_touched_behavior
+    - meaningful_coverage_for_changed_scope
+    - test_quality_not_only_percentage
+    - test_pyramid_awareness
+    P1_incremental_quality_backlog:
+    - TDD for complex or risky logic
+    - BDD or ATDD for business-critical flows
+    - component_testing
+    - end_to_end_testing_for_core_user_journeys
+    - mutation_testing_for_core_domain_or_high_risk_logic
+    - performance_testing_for_suspected_or_declared_hot_paths
+    P2_contextual_or_desirable:
+    - chaos_testing_before production resilience maturity
+    - exhaustive E2E coverage for low-risk flows
+  security:
+    P0_minimum_enterprise_baseline:
+    - Secure by Design
+    - Security by Default
+    - Principle of Least Privilege
+    - OWASP Top 10 controls for exposed surfaces
+    - input_validation
+    - output_encoding
+    - injection_protection
+    - XSS_protection
+    - CSRF_protection_when_browser_session_auth_applies
+    - SSRF_protection_when_server_side_fetching_exists
+    - secure_authentication
+    - secure_authorization
+    - secure_session_management_when_sessions_exist
+    - secret_management
+    - dependency_management
+    - vulnerability_management_all_severities
+    - SBOM for release candidates
+    P1_incremental_quality_backlog:
+    - OWASP ASVS mapping
+    - threat_modeling_for_new_sensitive_flows
+    - defense_in_depth
+    - Zero Trust for distributed production boundaries
+    P2_contextual_or_desirable:
+    - full formal ASVS certification for early internal MVP
+  performance:
+    P0_minimum_enterprise_baseline:
+    - pagination_for_unbounded_lists
+    - idempotency_for_retryable_commands_or_integrations
+    - safe_concurrency_for_shared_mutable_state
+    - query_efficiency_for_changed_persistence_paths
+    P1_incremental_quality_backlog:
+    - Performance by Design for hot paths
+    - caching_when_measured_or_expected_benefit_exists
+    - lazy_loading_when_payload_size_or_latency_requires_it
+    - asynchronous_processing_for_long_running_work
+    - memory_and_cpu_optimization_when_observed
+    - horizontal_scalability_for production services
+    P2_contextual_or_desirable:
+    - vertical_scaling_tuning
+    - advanced_parallelism_without_measured_need
+  observability:
+    P0_minimum_enterprise_baseline:
+    - structured_logging
+    - correlation_id
+    - audit_for_security_financial_and_clinical_actions
+    - health_checks
+    - readiness_checks_for_services
+    - liveness_checks_for_services
+    P1_incremental_quality_backlog:
+    - metrics
+    - distributed_tracing
+    - alerts_for_production_risks
+    - continuous_monitoring
+    P2_contextual_or_desirable:
+    - advanced dashboards before production operational use
+  devops:
+    P0_minimum_enterprise_baseline:
+    - Continuous Integration
+    - Shift Left quality and security checks
+    - reproducible_builds
+    - quality_gates
+    - semantic_versioning_for_released_artifacts
+    - safe_rollback_plan_for_deployable_changes
+    P1_incremental_quality_backlog:
+    - Continuous Delivery
+    - Infrastructure as Code
+    - automation_of_release_checks
+    - immutable_infrastructure
+    - GitOps when platform maturity supports it
+    P2_contextual_or_desirable:
+    - Continuous Deployment
+    - Blue/Green Deployment
+    - Canary Deployment
+  maintainability:
+    P0_minimum_enterprise_baseline:
+    - modularity
+    - low_coupling
+    - high_cohesion
+    - unnecessary_dependency_removal_for_changed_scope
+    - technical_debt_management
+    - living_documentation_for_changed_behavior
+    P1_incremental_quality_backlog:
+    - evolvability
+    - extensibility
+    - backward_compatibility_for_public_contracts
+    - reuse_of_stable_components
+    P2_contextual_or_desirable:
+    - generalized frameworks before repeated use cases exist
+  data:
+    P0_minimum_enterprise_baseline:
+    - data_integrity
+    - consistency
+    - atomicity_for_multi_step_state_changes
+    - idempotency_for_imports_and_commands
+    - controlled_schema_migrations
+    - audit_for_sensitive_records
+    - referential_integrity
+    P1_incremental_quality_backlog:
+    - schema_versioning
+    - soft_delete_when_domain_requires_recovery_or_audit
+    - index_optimization_for_known_queries
+    P2_contextual_or_desirable:
+    - broad data platform optimization before workload evidence
+  apis:
+    P0_minimum_enterprise_baseline:
+    - RESTful Design for REST APIs
+    - OpenAPI First
+    - stable_contracts
+    - contract_validation
+    - consistent_error_handling
+    - idempotency_for_retryable_operations
+    - versioning_strategy_for_public_or_partner_apis
+    - automatic_documentation_from_contracts
+    P1_incremental_quality_backlog:
+    - GraphQL Best Practices when GraphQL is selected
+    - gRPC Best Practices when gRPC is selected
+    - backward_compatibility_tests
+    P2_contextual_or_desirable:
+    - additional API paradigms without concrete consumer need
+  developer_experience:
+    P0_minimum_enterprise_baseline:
+    - reproducible_scripts
+    - simple_configuration
+    - consistent_local_environment
+    - minimal_required_dependencies
+    - fast_feedback_for_common_checks
+    - onboarding_runbook
+    P1_incremental_quality_backlog:
+    - developer_experience_improvements
+    - automation_for_repetitive_tasks
+    - self_service_quality_commands
+    P2_contextual_or_desirable:
+    - advanced internal portals before team scale requires them
+  artificial_intelligence:
+    P0_minimum_enterprise_baseline:
+    - human_in_the_loop_for_clinical_financial_or_sensitive_ai_decisions
+    - AI Safety guardrails for any AI-assisted production feature
+    - traceability_of_ai_decisions_when_ai_affects_workflows
+    - prompt_and_context_versioning_for_shipped_ai_features
+    P1_incremental_quality_backlog:
+    - Prompt Engineering
+    - Context Engineering
+    - Agentic Design
+    - MCP when tool interoperability is needed
+    - RAG for grounded knowledge workflows
+    - prompt_evaluation
+    - AI observability
+    - model_versioning
+    P2_contextual_or_desirable:
+    - AI features before a modeled business need exists
+  project_management:
+    P0_minimum_enterprise_baseline:
+    - Definition of Ready
+    - Definition of Done
+    - Acceptance Criteria
+    - ADR for architecture decisions
+    - change_management
+    - risk_management_for_blocking_findings
+    P1_incremental_quality_backlog:
+    - User Stories
+    - Event Storming
+    - Impact Mapping
+    - Domain Modeling workshops
+    P2_contextual_or_desirable:
+    - ceremony-heavy project process for small low-risk slices
+  process_quality:
+    P0_minimum_enterprise_baseline:
+    - Quality by Design
+    - DevSecOps
+    - continuous_improvement_feedback_loop
+    - engineering_excellence_evidence
+    P1_incremental_quality_backlog:
+    - Lean
+    - Kaizen
+    - SRE practices for production services
+    - Platform Engineering for repeated delivery needs
+    P2_contextual_or_desirable:
+    - Six Sigma unless process measurement and operational scale justify it
+  general_principles:
+    P0_minimum_enterprise_baseline:
+    - simplicity
+    - clarity
+    - consistency
+    - predictability
+    - robustness
+    - security
+    - observability
+    - automation
+    - traceability
+    - testability
+    - maintainability
+    - reliability
+    - reproducibility
+    - portability
+    P1_incremental_quality_backlog:
+    - resilience
+    - availability
+    - scalability
+    P2_contextual_or_desirable:
+    - maximum_scalability_before_product_usage_requires_it
+evidence_model:
+  required_for_p0:
+  - quality_gate_results
+  - qa_or_security_quality_evidence
+  - changed_scope_statement
+  - accepted_risks_when_any
+  required_for_p1_debt:
+  - technical_debt_item
+  - priority
+  - affected_components
+  - target_backlog_or_trigger
+  - acceptance_criteria
+  required_for_p2:
+  - optional_not_applicable_or_future_note_when_relevant
+agent_rules:
+- Agents must classify engineering findings as P0, P1 or P2 before deciding whether
+  to block a backlog item.
+- Agents must not use P2 items to block delivery unless project risk promotes them.
+- Agents must not ignore P1 items; they must be registered as technical debt and consumed
+  through debt-first execution.
+- Agents must treat P0 gaps as closure blockers for the changed scope.
+```

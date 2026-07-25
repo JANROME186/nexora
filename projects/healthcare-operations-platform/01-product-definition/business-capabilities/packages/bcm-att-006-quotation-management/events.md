@@ -1,0 +1,85 @@
+---
+id: HOP-EVT-BCM-ATT-006
+format: markdown_structured_payload
+type: events
+name: Quotation Management Events
+version: 0.1.0
+status: modeled
+---
+
+# Quotation Management Events
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-EVT-BCM-ATT-006
+  type: events
+  name: Quotation Management Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-006
+domain_events:
+- name: QuotationDrafted
+  description: A quotation draft was started with an initial catalog selection.
+  payload:
+  - quotationId
+  - tenantId
+  - branchId
+  - actorId
+  audit: true
+- name: QuotationIssued
+  description: A quotation was priced and issued with a validity window.
+  payload:
+  - quotationId
+  - priceListId
+  - totalAmount
+  - validUntil
+  - actorId
+  audit: true
+- name: QuotationAccepted
+  description: The quotation was accepted by the patient or prospective customer.
+  payload:
+  - quotationId
+  - actorId
+  - totalAmount
+  audit: true
+- name: QuotationConverted
+  description: The accepted quotation was converted into a diagnostic order.
+  payload:
+  - quotationId
+  - convertedOrderId
+  - actorId
+  audit: true
+- name: QuotationClosed
+  description: The quotation was cancelled or expired without conversion.
+  payload:
+  - quotationId
+  - reasonCode
+  - actorId
+  audit: true
+integration_events:
+  published:
+  - name: QuotationAccepted
+    description: Signals order intake modules that a priced quotation is ready for
+      conversion.
+    consumers:
+    - orders-samples
+  - name: QuotationConverted
+    description: Signals downstream cashier and billing modules of the resulting order.
+    consumers:
+    - cash-sales
+  consumed:
+  - name: TestDefinitionPublished
+    source: BCM-SVC-002
+  - name: PriceListPublished
+    source: BCM-SVC-009
+  - name: PatientRegistrationCommitted
+    source: BCM-ATT-002
+published_language:
+- QuotationAccepted
+- QuotationConverted
+```

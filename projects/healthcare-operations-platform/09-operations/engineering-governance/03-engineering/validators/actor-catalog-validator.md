@@ -6,9 +6,9 @@ Validate ACM-001 before implementation agents generate IAM, authorization, API o
 
 ## Inputs
 
-- `02-domain-definition/actors/acm-001/actor-catalog.yaml`
-- `01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml`
-- `06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
+- `02-domain-definition/actors/acm-001/actor-catalog.md`
+- `01-product-definition/business-capabilities/bcm-001/business-capability-map.md`
+- `06-delivery/mvp/healthcare-operations-platform-mvp-framework.md`
 
 ## Required Checks
 

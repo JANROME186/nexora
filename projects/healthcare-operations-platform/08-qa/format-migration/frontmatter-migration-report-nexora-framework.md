@@ -50,18 +50,18 @@ reference_issues: 0
 | --- | --- | --- |
 | nexora-framework/00-start-here/docs/README.md | nexora-framework/00-start-here/docs/README.md | ollama |
 | nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md | nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md | ollama |
-| nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.yaml | nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md | deterministic |
+| nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md | nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md | deterministic |
 | nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md | nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md | ollama |
-| nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml | nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md | deterministic |
+| nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md | nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md | deterministic |
 | nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md | nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md | ollama |
-| nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml | nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md | deterministic |
+| nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md | nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md | deterministic |
 | nexora-framework/00-start-here/README.md | nexora-framework/00-start-here/README.md | ollama |
-| nexora-framework/01-enterprise/company/company-profile.yaml | nexora-framework/01-enterprise/company/company-profile.md | deterministic |
+| nexora-framework/01-enterprise/company/company-profile.md | nexora-framework/01-enterprise/company/company-profile.md | deterministic |
 | nexora-framework/01-enterprise/company/README.md | nexora-framework/01-enterprise/company/README.md | ollama |
 | nexora-framework/01-enterprise/README.md | nexora-framework/01-enterprise/README.md | ollama |
 | nexora-framework/02-standards/README.md | nexora-framework/02-standards/README.md | ollama |
 | nexora-framework/02-standards/standards/agent-agnostic-standard.md | nexora-framework/02-standards/standards/agent-agnostic-standard.md | ollama |
-| nexora-framework/02-standards/standards/agent-agnostic-standard.yaml | nexora-framework/02-standards/standards/agent-agnostic-standard.md | deterministic |
+| nexora-framework/02-standards/standards/agent-agnostic-standard.md | nexora-framework/02-standards/standards/agent-agnostic-standard.md | deterministic |
 | nexora-framework/02-standards/standards/business-requirement-versioning-standard.md | nexora-framework/02-standards/standards/business-requirement-versioning-standard.md | ollama |
 
 ## Context Policy

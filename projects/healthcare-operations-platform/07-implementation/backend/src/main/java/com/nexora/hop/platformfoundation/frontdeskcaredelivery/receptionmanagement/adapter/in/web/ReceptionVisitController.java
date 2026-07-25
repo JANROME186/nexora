@@ -20,7 +20,7 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.receptionmanageme
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.receptionmanagement.domain.ReceptionVisit;
 
 /**
- * Rendered controller for {@code bcm-att-003-reception-management/openapi-source.yaml} (base path
+ * Rendered controller for {@code bcm-att-003-reception-management/openapi-source.md} (base path
  * /api/care-delivery/reception-visits).
  */
 @RestController

@@ -1,10 +1,10 @@
 # CAP-009 Billing, Invoicing & Tax Compliance
 
-**Capability ID:** CAP-009  
-**Status:** Draft  
-**Version:** 0.31.0  
-**Owner:** Product / Finance / Compliance  
-**Depends on:** CAP-002, CAP-003, CAP-006, CAP-008  
+**Capability ID:** CAP-009
+**Status:** Draft
+**Version:** 0.31.0
+**Owner:** Product / Finance / Compliance
+**Depends on:** CAP-002, CAP-003, CAP-006, CAP-008
 
 Esta capacidad gobierna la facturación, comprobantes fiscales, recibos, notas de crédito, cancelaciones fiscales, impuestos, series/folios y adaptación por país mediante Country Packs.
 

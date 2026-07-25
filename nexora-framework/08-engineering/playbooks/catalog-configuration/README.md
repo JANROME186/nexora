@@ -1,10 +1,10 @@
 # Playbook: Create or Change a Diagnostic Study Configuration
 
-1. Read `PROJECT_MANIFEST.yaml`.
+1. Read `PROJECT_MANIFEST.md`.
 2. Load CAP-005 capability metadata.
 3. Identify whether the change is a new study, new version, branch override or catalog import.
 4. Update the human-readable capability document if the business model changes.
-5. Update `capability.yaml` when traceability changes.
+5. Update `capability.md` when traceability changes.
 6. Update OpenAPI contracts first.
 7. Update entity definitions only after contract and domain review.
 8. Generate backend use cases and tests from OpenAPI and rules.

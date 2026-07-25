@@ -23,7 +23,7 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.admissionmanageme
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.admissionmanagement.domain.AdmissionRequest;
 
 /**
- * Rendered controller for {@code bcm-att-004-admission-management/openapi-source.yaml} (base path
+ * Rendered controller for {@code bcm-att-004-admission-management/openapi-source.md} (base path
  * /api/care-delivery/admission-requests).
  */
 @RestController

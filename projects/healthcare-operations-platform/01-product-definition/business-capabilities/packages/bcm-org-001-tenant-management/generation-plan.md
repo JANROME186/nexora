@@ -1,0 +1,32 @@
+---
+id: HOP-GEN-BCM-ORG-001
+format: markdown_structured_payload
+type: generation-plan
+name: Tenant Management Generation Plan
+version: 1.0.0
+---
+
+# Tenant Management Generation Plan
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-GEN-BCM-ORG-001
+  type: generation-plan
+  name: Tenant Management Generation Plan
+  version: 1.0.0
+generatable_outputs:
+  backend:
+  - Tenant entity, repository, and CRUD service skeleton.
+  - REST controller endpoints matching openapi-source.md.
+  - Domain event definitions.
+  frontend:
+  - Admin Tenant management screen markup and TypeScript interfaces.
+custom_implementation_points:
+- PostgreSQL Row-Level Security session interceptor and tenant DataSource routing
+  (addressing TD-DB-004).
+- Quota enforcement aspect integration with cache layer.
+```

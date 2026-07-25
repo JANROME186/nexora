@@ -1,0 +1,73 @@
+---
+id: HOP-TEST-BCM-RES-006
+format: markdown_structured_payload
+type: test-model
+name: Critical Results Test Model
+version: 0.1.0
+status: modeled
+---
+
+# Critical Results Test Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TEST-BCM-RES-006
+  type: test-model
+  name: Critical Results Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-006
+test_cases:
+- id: TST-CRR-006-01
+  type: acceptance
+  validates_rule: RN-001
+  statement: Every ResultFlaggedCritical event produces a CriticalResultEscalation,
+    with no exception path.
+  generatable: false
+- id: TST-CRR-006-02
+  type: acceptance
+  validates_rule: RN-002
+  statement: An unacknowledged escalation past its deadline advances tier and triggers
+    a new notification.
+  generatable: false
+- id: TST-CRR-006-03
+  type: acceptance
+  validates_rule: RN-003
+  statement: Closing an escalation without both acknowledgedBy and acknowledgedAt
+    is rejected.
+  generatable: false
+- id: TST-CRR-006-04
+  type: architecture
+  validates_rule: RN-004
+  statement: This capability never issues a command against LaboratoryResult, including
+    the criticalFlag field.
+  generatable: false
+- id: TST-CRR-006-05
+  type: contract
+  validates_rule: RN-005
+  statement: Unauthorized or out-of-scope actors cannot acknowledge or read escalations.
+  generatable: true
+- id: TST-CRR-006-06
+  type: unit
+  validates_rule: RN-006
+  statement: Escalation lifecycle events carry actor or system trigger, result reference
+    and tier.
+  generatable: true
+test_layers:
+- contract_tests
+- unit_tests
+- acceptance_tests
+- architecture_tests
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests:
+  - TST-CRR-006-01
+  - TST-CRR-006-02
+  - TST-CRR-006-03
+  - TST-CRR-006-04
+```

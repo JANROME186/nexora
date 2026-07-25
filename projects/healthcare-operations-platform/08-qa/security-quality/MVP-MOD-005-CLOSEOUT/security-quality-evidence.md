@@ -26,9 +26,9 @@ named-agent requirement was introduced.
 
 1. **Coverage measurement bug**: `MVP-MOD-005-QA-001` reported backend coverage as 68.66% from a
    non-clean, multi-run `jacoco.exec` accumulation. Corrected to the reproducible clean-rebuild
-   figure, **67.47%**, across its own evidence files plus `PROJECT_STATE.yaml`,
-   `SOURCE_OF_TRUTH.yaml`, `technical-debt-index.yaml` and `TD-BE-003-backend-coverage-gate.yaml`.
-2. **Stale registry baseline**: `technical-debt-index.yaml`'s frontend coverage baseline was still
+   figure, **67.47%**, across its own evidence files plus `PROJECT_STATE.md`,
+   `SOURCE_OF_TRUTH.md`, `technical-debt-index.md` and `TD-BE-003-backend-coverage-gate.md`.
+2. **Stale registry baseline**: `technical-debt-index.md`'s frontend coverage baseline was still
    80.57% (from `MVP-MOD-005-FE-001`), never updated after `MVP-MOD-005-QA-001` measured 80.66%.
    Corrected in the same pass.
 
@@ -54,3 +54,129 @@ started.
 
 Security/quality status: **passed**. Ready for next backlog item: **`MVP-MOD-006-DEF`** —
 Laboratory Workflow capability package models.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: MVP-MOD-005-CLOSEOUT-SECURITY-QUALITY
+  type: security-quality-evidence
+  backlog_item: MVP-MOD-005-CLOSEOUT
+  status: passed
+  created_date: 2026-07-16
+  standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+open_source_first:
+  status: passed
+  proprietary_runtime_dependency_detected: false
+  new_dependencies_introduced: false
+  note: 'Closeout introduced evidence and registry updates only (plus correcting an
+    inflated coverage figure and a stale registry baseline discovered during the sweep).
+    No new runtime dependency, proprietary platform dependency or named-agent requirement
+    was introduced.
+
+    '
+checks:
+  tests: passed
+  sast_or_static_analysis: passed
+  dependency_vulnerability_scan: passed
+  secrets_scan: passed
+  coverage: passed_no_regression_backend_unchanged_frontend_improved
+  message_externalization_i18n_review: passed_no_new_runtime_messages
+  dast_for_runnable_web_or_api_surfaces: covered_by_MVP_MOD_005_QA_001
+  container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+results:
+  backend_quality_profile_clean_rebuild:
+    tests_run: 105
+    failures: 0
+    errors: 0
+    skipped: 8
+    line_coverage_percent: 67.47
+    line_covered: 3779
+    line_missed: 1822
+    total_lines: 5601
+    checkstyle: passed
+    pmd: passed
+    cpd: passed
+    spotbugs: passed
+    cyclonedx_sbom: passed
+    duplicate_finder: passed
+    note: Reproduced identically across two independent `mvn clean ...` runs, correcting
+      an inflated 68.66% figure that MVP-MOD-005-QA-001 had reported from a non-clean
+      multi-run jacoco.exec accumulation. See MVP-MOD-005-CLOSEOUT.md's coverage_measurement_correction_disclosed.
+  dependency_vulnerability_scans:
+    backend_owasp_dependency_check_vulnerabilities: 0
+    backend_trivy_vulnerabilities: 0
+    integrated_trivy_vulnerabilities: 0
+    integrated_trivy_secrets: 0
+    integrated_trivy_misconfigurations: 0
+    frontend_npm_audit_vulnerabilities: 0
+  frontend_quality_profile:
+    tests_run: 33
+    test_files: 17
+    failures: 0
+    line_coverage_percent: 80.66
+    eslint_errors: 0
+    eslint_warnings: 17
+    jscpd_duplication_findings: 0
+registry_corrections_applied:
+- finding: MVP-MOD-005-QA-001 backend coverage was reported as 68.66% due to a non-clean
+    jacoco.exec accumulation across multiple Maven test invocations in the same session.
+  correction: Corrected to the reproducible clean-rebuild figure, 67.47%, in MVP-MOD-005-QA-001-validation.md/.md,
+    its security-quality-evidence.md/.md, PROJECT_STATE.md (project), SOURCE_OF_TRUTH.md
+    (project), technical-debt-index.md and TD-BE-003-backend-coverage-gate.md.
+- finding: technical-debt-index.md's frontend_typescript_web coverage baseline was
+    still 80.57% (from MVP-MOD-005-FE-001), never updated after MVP-MOD-005-QA-001
+    measured 80.66%.
+  correction: Corrected to 80.66% with source_evidence pointing at the current evidence.
+technical_debt:
+  closed_by_this_module_lifecycle:
+  - TD-DEF-001
+  - TD-BE-011
+  - TD-FE-004
+  - TD-BE-001
+  materially_reduced_unchanged_this_iteration:
+  - TD-BE-002
+  - TD-BE-003
+  - TD-BE-004
+  - TD-FE-003
+  - TD-APP-001
+  open_unrelated_to_this_module:
+  - TD-STACK-001
+  - TD-BE-005
+  - TD-BE-006
+  - TD-BE-007
+  - TD-BE-008
+  - TD-FE-002
+  - TD-DEF-002
+  - TD-BE-009
+  - TD-BE-010
+  - TD-APP-002
+  - TD-FE-005
+  - TD-QA-004
+  - TD-I18N-002
+  - TD-FE-006
+  blocking: []
+exceptions: []
+commercial_readiness_disclosure:
+  hop_commercially_complete: false
+  hop_ga_ready: false
+  reason: 'MVP-MOD-006 (Laboratory Workflow), MVP-MOD-007 (Results and Digital Delivery)
+    and MVP-MOD-008 (Integration and Migration Readiness) remain planned within REL-001
+    alone. 14 technical-debt items remain open project-wide (final closure requires
+    zero). Backend line coverage (67.47%) and mobile/app coverage (not yet measured)
+    remain below the 80% final-closure target; frontend (80.66%) already meets it
+    but must not regress. None of the REL-002/REL-003/REL-004 commercial-beta, GA
+    or expansion-package modules have started.
+
+    '
+readiness:
+  security_quality_status: passed
+  ready_for_next_backlog_item: MVP-MOD-006-DEF
+  next_required_focus:
+  - Model MVP-MOD-006 Laboratory Workflow capability packages (BCM-LAB-002/003/005/006/008/009/010).
+  - Continue debt-first execution and preserve backend (67.47%) and frontend (80.66%)
+    coverage floors.
+  - Continue closing project-wide technical debt as affected components are touched.
+```

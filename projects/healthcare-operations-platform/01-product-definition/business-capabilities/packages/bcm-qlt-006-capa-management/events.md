@@ -1,0 +1,78 @@
+---
+id: HOP-EVT-BCM-QLT-006
+format: markdown_structured_payload
+type: events
+name: CAPA Management Domain Events
+version: 0.1.0
+status: modeled
+---
+
+# Capa Management Domain Events
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-EVT-BCM-QLT-006
+  type: events
+  name: CAPA Management Domain Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-006
+events:
+- id: EVT-CAP-001
+  name: CapaInvestigationOpened
+  description: Emitted when a new CAPA investigation is initiated.
+  payload:
+  - name: capaId
+    type: uuid
+  - name: tenantId
+    type: string
+  - name: capaNumber
+    type: string
+  - name: sourceCategory
+    type: string
+  - name: openedAt
+    type: datetime
+- id: EVT-CAP-002
+  name: CapaActionPlanApproved
+  description: Emitted when an action plan receives formal quality sign-off.
+  payload:
+  - name: capaId
+    type: uuid
+  - name: tenantId
+    type: string
+  - name: approvedBy
+    type: string
+  - name: approvedAt
+    type: datetime
+- id: EVT-CAP-003
+  name: CapaEffectivenessVerified
+  description: Emitted when effectiveness evaluation is recorded.
+  payload:
+  - name: capaId
+    type: uuid
+  - name: tenantId
+    type: string
+  - name: effectivenessRating
+    type: string
+  - name: verifiedBy
+    type: string
+  - name: verifiedAt
+    type: datetime
+- id: EVT-CAP-004
+  name: CapaClosed
+  description: Emitted when CAPA investigation is officially closed.
+  payload:
+  - name: capaId
+    type: uuid
+  - name: tenantId
+    type: string
+  - name: capaNumber
+    type: string
+  - name: closedAt
+    type: datetime
+```

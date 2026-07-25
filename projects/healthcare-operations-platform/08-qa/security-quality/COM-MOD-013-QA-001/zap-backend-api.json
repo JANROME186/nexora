@@ -93,13 +93,13 @@
 			"statistic": "1070"
 		}
 	],
-	"site":[ 
+	"site":[
 		{
 			"@name": "http://host.docker.internal:8090",
 			"@host": "host.docker.internal",
 			"@port": "8090",
 			"@ssl": "false",
-			"alerts": [ 
+			"alerts": [
 				{
 					"pluginid": "100000",
 					"alertRef": "100000-1",
@@ -109,7 +109,7 @@
 					"confidence": "3",
 					"riskdesc": "Informational (High)",
 					"desc": "<p>A response code of 404 was returned by the server.</p><p>This may indicate that the application is failing to handle unexpected input correctly.</p><p>Raised by the 'Alert on HTTP Response Code Error' script</p>",
-					"instances":[ 
+					"instances":[
 						{
 							"id": "277",
 							"uri": "http://host.docker.internal:8090/api/people/doctors/doctorId/specialties/assignmentId",
@@ -11149,7 +11149,7 @@
 					"confidence": "3",
 					"riskdesc": "Informational (High)",
 					"desc": "<p>The given request has been identified as an authentication request. The 'Other Info' field contains a set of key=value lines which identify any relevant fields. If the request is in a context which has an Authentication Method set to \"Auto-Detect\" then this rule will change the authentication to match the request identified.</p>",
-					"instances":[ 
+					"instances":[
 						{
 							"id": "254",
 							"uri": "http://host.docker.internal:8090/api/auth/login",
@@ -11179,7 +11179,7 @@
 					"confidence": "2",
 					"riskdesc": "Informational (Medium)",
 					"desc": "<p>The request appeared to contain sensitive information leaked in the URL. This can violate PCI and most organizational compliance policies. You can configure the list of strings for this check to add or remove values specific to your environment.</p>",
-					"instances":[ 
+					"instances":[
 						{
 							"id": "89",
 							"uri": "http://host.docker.internal:8090/api/results/critical-escalations/escalationId/acknowledge?userId=userId&actorId=actorId",
@@ -11209,7 +11209,7 @@
 					"confidence": "2",
 					"riskdesc": "Informational (Medium)",
 					"desc": "<p>The response contents are not storable by caching components such as proxy servers. If the response does not contain sensitive, personal or user-specific information, it may benefit from being stored and cached, to improve performance.</p>",
-					"instances":[ 
+					"instances":[
 						{
 							"id": "3",
 							"uri": "http://host.docker.internal:8090/v3/api-docs",

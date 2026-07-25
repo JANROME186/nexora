@@ -6,7 +6,7 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 
 /**
  * Root aggregate of AGG-031 CommercialOffer (BCM-PLT-011). Customer-facing offer, bundle, trial
- * and pricing reference (commercial-offer.yaml). {@code tierCodes} models {@code OfferTier}
+ * and pricing reference (commercial-offer.md). {@code tierCodes} models {@code OfferTier}
  * membership; {@code trialPeriodDays} models {@code TrialPolicy}; {@code billingEventRulesSummary}
  * models {@code BillingEventRule} as free text (OFFER-004: provider-specific details never live
  * here).

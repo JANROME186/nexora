@@ -107,7 +107,7 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <!-- BCM-PLT-006 observability: Prometheus-compatible /actuator/prometheus scrape endpoint
-             (COM-MOD-012-BE-001, closing the observability-runbook.yaml known gap). -->
+             (COM-MOD-012-BE-001, closing the observability-runbook.md known gap). -->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
@@ -144,14 +144,14 @@
             <scope>runtime</scope>
         </dependency>
         <!-- Open-source-first, explicitly named by bcm-plt-010-open-data-ingestion-and-migration's
-             generation-plan.yaml (CUS-MIG-010-01) for CSV row parsing of open data ingestion bundles. -->
+             generation-plan.md (CUS-MIG-010-01) for CSV row parsing of open data ingestion bundles. -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
             <version>${commons-csv.version}</version>
         </dependency>
         <!-- Open-source-first, explicitly named by bcm-plt-010-open-data-ingestion-and-migration's
-             generation-plan.yaml (CUS-MIG-010-01) for XLSX row parsing of open data ingestion
+             generation-plan.md (CUS-MIG-010-01) for XLSX row parsing of open data ingestion
              bundles; closes TD-BE-013. poi-ooxml alone (without poi-ooxml-full/poi-scratchpad) is
              sufficient for reading .xlsx worksheet rows. -->
         <dependency>

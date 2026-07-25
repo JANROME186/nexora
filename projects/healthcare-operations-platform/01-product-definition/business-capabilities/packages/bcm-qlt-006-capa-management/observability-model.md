@@ -1,0 +1,59 @@
+---
+id: HOP-OBS-BCM-QLT-006
+format: markdown_structured_payload
+type: observability-model
+name: CAPA Management Observability Model
+version: 0.1.0
+status: modeled
+---
+
+# Capa Management Observability Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-OBS-BCM-QLT-006
+  type: observability-model
+  name: CAPA Management Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-006
+metrics:
+- name: capa_investigations_total
+  type: counter
+  description: Total number of CAPA investigations created.
+  labels:
+  - tenant_id
+  - source_category
+  - status
+- name: capa_open_investigations
+  type: gauge
+  description: Number of currently open/active CAPA investigations.
+  labels:
+  - tenant_id
+  - status
+- name: capa_overdue_total
+  type: counter
+  description: Counter of CAPA investigations past target completion date.
+  labels:
+  - tenant_id
+logs:
+- event: CapaClosed
+  level: INFO
+  mdc_fields:
+  - tenantId
+  - userId
+  - traceId
+  - capaId
+  - capaNumber
+  - effectivenessRating
+  pattern: 'CAPA closed: capaNumber={capaNumber}, rating={effectivenessRating}'
+tracing:
+  propagation_headers:
+  - X-Correlation-ID
+  - X-Tenant-ID
+```

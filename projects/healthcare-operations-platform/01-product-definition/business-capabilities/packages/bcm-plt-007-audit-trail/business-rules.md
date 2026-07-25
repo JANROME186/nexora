@@ -1,0 +1,54 @@
+---
+id: HOP-BR-BCM-PLT-007
+format: markdown_structured_payload
+type: business-rules
+name: Audit Trail Business Rules
+version: 1.1.0
+status: modeled
+---
+
+# Audit Trail Business Rules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BR-BCM-PLT-007
+  type: business-rules
+  name: Audit Trail Business Rules
+  version: 1.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-007
+rules:
+- id: RN-AUD-TR-001
+  name: Append-Only Immutability Enforcement
+  description: Database level rules must reject any UPDATE or DELETE statement on
+    audit_events table.
+  enforcement: database_constraint
+  error_code: AUDIT_TRAIL_IMMUTABLE
+  message:
+    en: Audit trail entries cannot be updated or deleted.
+    es: Los registros de la bitácora de auditoría son inmutables.
+- id: RN-AUD-TR-002
+  name: Compliance Audit Export Authorization
+  description: Exporting structured audit trail evidence requires explicit audit.trail.export
+    scope authorization.
+  enforcement: synchronous
+  error_code: AUDIT_EXPORT_UNAUTHORIZED
+  message:
+    en: User lacks authorization to perform compliance audit trail exports.
+    es: El usuario no cuenta con la autorización necesaria para exportar la bitácora
+      de auditoría.
+- id: RN-AUD-TR-003
+  name: Tamper-Evident Hash Chain Verification
+  description: Audit trail search queries must verify hash chain integrity before
+    returning compliance export reports.
+  enforcement: synchronous
+  error_code: AUDIT_HASH_CHAIN_CORRUPTED
+  message:
+    en: Audit log hash chain integrity verification failed.
+    es: Falló la verificación de integridad de la cadena de bloques de auditoría.
+```

@@ -24,7 +24,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.panelcatalog.a
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.panelcatalog.domain.PanelDefinition;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.panelcatalog.domain.PanelMember;
 
-/** Rendered controller for bcm-svc-003-panel-catalog/openapi-source.yaml (base path /api/catalog/panels). */
+/** Rendered controller for bcm-svc-003-panel-catalog/openapi-source.md (base path /api/catalog/panels). */
 @RestController
 @RequestMapping("/api/catalog/panels")
 class PanelDefinitionController {

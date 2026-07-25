@@ -1,0 +1,88 @@
+---
+id: HOP-API-BCM-ORG-003
+format: markdown_structured_payload
+type: openapi-source
+name: Branch Management OpenAPI Source Contract
+version: 1.0.0
+---
+
+# Branch Management Openapi Source Contract
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-API-BCM-ORG-003
+  type: openapi-source
+  name: Branch Management OpenAPI Source Contract
+  version: 1.0.0
+openapi_version: 3.0.3
+info:
+  title: Branch Management API
+  version: 1.0.0
+  description: Public and internal API surface for physical branch setup, schedules,
+    and status management.
+paths:
+  /api/platform/branches:
+    get:
+      summary: List branches for current tenant / laboratory
+      operationId: listBranches
+      tags:
+      - Branch Management
+      responses:
+        '200':
+          description: List of branches returned successfully
+    post:
+      summary: Create a new physical branch location
+      operationId: createBranch
+      tags:
+      - Branch Management
+      responses:
+        '201':
+          description: Branch created successfully
+        '400':
+          description: Invalid payload or validation rule failure
+        '409':
+          description: Duplicate branch code under laboratory
+  /api/platform/branches/{branchId}:
+    get:
+      summary: Get branch detail by ID
+      operationId: getBranch
+      tags:
+      - Branch Management
+      responses:
+        '200':
+          description: Branch detail returned
+        '404':
+          description: Branch not found
+    put:
+      summary: Update branch profile, address, and capacity
+      operationId: updateBranch
+      tags:
+      - Branch Management
+      responses:
+        '200':
+          description: Branch updated successfully
+  /api/platform/branches/{branchId}/status:
+    put:
+      summary: Update branch operating status
+      operationId: updateBranchStatus
+      tags:
+      - Branch Management
+      responses:
+        '200':
+          description: Branch status updated
+        '400':
+          description: Invalid status transition
+  /api/platform/branches/{branchId}/schedule:
+    put:
+      summary: Update branch operating schedule
+      operationId: updateBranchSchedule
+      tags:
+      - Branch Management
+      responses:
+        '200':
+          description: Schedule updated successfully
+```

@@ -1,5 +1,5 @@
 ---
-machine_readable: MVP-MOD-007-APP-001-quality-report.yaml
+machine_readable: MVP-MOD-007-APP-001-quality-report.md
 ---
 
 # MVP-MOD-007-APP-001 Quality Report
@@ -29,3 +29,38 @@ machine_readable: MVP-MOD-007-APP-001-quality-report.yaml
 ## Technical Debt Resolved
 - **TD-STACK-004**: Closed in technical-debt-index and YAML file.
 - **TD-FE-007**: Marked closed in YAML file.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+human_readable: MVP-MOD-007-APP-001-quality-report.md
+report:
+  title: MVP-MOD-007-APP-001 Quality Report
+  module: MVP-MOD-007 Results and Digital Delivery
+  backlog_item: MVP-MOD-007-APP-001
+  status: Passed
+metrics:
+  coverage:
+    tool: vitest
+    line_coverage_percentage: 98.87
+    threshold: 97.15
+  linting_and_formatting:
+    command: npm run quality
+    status: passed
+  security:
+    command: npm audit --audit-level=low
+    vulnerabilities: 0
+    status: passed
+actions_performed:
+- Fixed test coverage by adding tests to mobileApp.ts, resultsApi.ts, routes.ts, and
+  screen models.
+- Formatted codebase using Prettier.
+- Cleaned untracked coverage directory and updated .gitignore.
+- Resolved technical debt items TD-STACK-004 and TD-FE-007 correctly by closing their
+  open files.
+technical_debt_resolved:
+- TD-STACK-004
+- TD-FE-007
+```

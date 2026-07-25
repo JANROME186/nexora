@@ -1,0 +1,35 @@
+---
+id: HOP-MOB-BCM-LAB-006
+format: markdown_structured_payload
+type: mobile-model
+name: Laboratory Processing Mobile Model
+version: 0.1.0
+status: deferred
+---
+
+# Laboratory Processing Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-LAB-006
+  type: mobile-model
+  name: Laboratory Processing Mobile Model
+  version: 0.1.0
+  status: deferred
+  classification: editable_model
+  capability: BCM-LAB-006
+mobile_scope:
+  status: not_required
+  rationale: 'MVP-MOD-006 declares mobile_app not_required for laboratory processing.
+    Result capture happens inside the laboratory on analyzers and the employee portal;
+    no field mobility requirement has been identified.
+
+    '
+  deferred_to: []
+  flows: []
+  offline_expectations: none
+```

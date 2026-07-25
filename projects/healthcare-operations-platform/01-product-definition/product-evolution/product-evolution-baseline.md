@@ -1,8 +1,8 @@
 # Product Evolution Architecture Baseline
 
-**Artifact ID:** PEA-001  
-**Status:** Draft  
-**Version:** 0.22.0  
+**Artifact ID:** PEA-001
+**Status:** Draft
+**Version:** 0.22.0
 **Owner:** Product Architecture
 
 ## Purpose
@@ -72,3 +72,46 @@ MVP 1 must include only the minimum runtime foundations required to support futu
 - Product lifecycle states.
 
 Implementation may be simple, but the model must exist from the beginning.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: PEA-001
+name: Product Evolution Architecture Baseline
+type: product-evolution-architecture
+version: 0.22.0
+status: draft
+owner: Product Architecture
+principles:
+- Evolution First
+- Backward Compatibility
+- Capability-Based Product Design
+- Feature-Flagged Delivery
+- Marketplace Ready
+- Commercial Configuration Over Code
+- Entitlement-Gated Package Consumption
+mvp1_scope:
+- Tenant-level plan assignment
+- Feature flag evaluation model
+- License entitlement model
+- Country pack abstraction
+- API compatibility policy
+- Product lifecycle states
+commercial_ga_scope:
+- Marketplace package catalog
+- Commercial offer model
+- Tenant entitlement model
+- Package installation and activation model
+- Billing-provider adapter boundary
+- Package compatibility and rollback policy
+related_artifacts:
+- CONSTITUTION.md
+- SOURCE_OF_TRUTH.md
+- product-evolution/licensing/licensing-engine.md
+- product-evolution/feature-flags/feature-flag-strategy.md
+- product-evolution/marketplace/marketplace-architecture.md
+- ../../05-contracts/marketplace/product-marketplace/product-marketplace-contract.md
+- ../../../../nexora-framework/02-standards/standards/product-marketplace-standard.md
+```

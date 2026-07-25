@@ -26,19 +26,19 @@ labels samples — those remain BCM-LAB-002 and BCM-LAB-003.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | ReceptionWorklistEntry process record, condition-check and disposal value objects |
-| `business-rules.yaml` | Numbered rules RN-001..RN-007 |
-| `processes.yaml` | Receive, reject-at-reception and dispose sample |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee portal reception worklist, condition checklist and disposal panel |
-| `mobile-model.yaml` | Mobile scope (not_required) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA, technical debt |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | ReceptionWorklistEntry process record, condition-check and disposal value objects |
+| `business-rules.md` | Numbered rules RN-001..RN-007 |
+| `processes.md` | Receive, reject-at-reception and dispose sample |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee portal reception worklist, condition checklist and disposal panel |
+| `mobile-model.md` | Mobile scope (not_required) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, UI, tests, QA, technical debt |
 
 ## Clinical rules modeled
 
@@ -49,13 +49,13 @@ labels samples — those remain BCM-LAB-002 and BCM-LAB-003.
 
 ## Technical debt note
 
-`traceability.yaml` documents that this package's real `Sample.status`
+`traceability.md` documents that this package's real `Sample.status`
 values (received, rejected) unblock `TD-BE-010`'s code-level remediation
 in `MVP-MOD-006-BE-002`.
 
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers the condition-check evaluation, terminal-state guards,
 evidence-preserving disposal and the delegated aggregate-boundary rule.

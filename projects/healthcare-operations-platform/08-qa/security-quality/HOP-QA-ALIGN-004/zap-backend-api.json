@@ -85,13 +85,13 @@
 			"statistic": "1"
 		}
 	],
-	"site":[ 
+	"site":[
 		{
 			"@name": "http://host.docker.internal:8080",
 			"@host": "host.docker.internal",
 			"@port": "8080",
 			"@ssl": "false",
-			"alerts": [ 
+			"alerts": [
 				{
 					"pluginid": "100000",
 					"alertRef": "100000-2",
@@ -101,7 +101,7 @@
 					"confidence": "3",
 					"riskdesc": "Low (High)",
 					"desc": "<p>A response code of 500 was returned by the server.</p><p>This may indicate that the application is failing to handle unexpected input correctly.</p><p>Raised by the 'Alert on HTTP Response Code Error' script</p>",
-					"instances":[ 
+					"instances":[
 						{
 							"id": "34305",
 							"uri": "http://host.docker.internal:8080/api/platform/tenants",
@@ -131,7 +131,7 @@
 					"confidence": "3",
 					"riskdesc": "Informational (High)",
 					"desc": "<p>A response code of 404 was returned by the server.</p><p>This may indicate that the application is failing to handle unexpected input correctly.</p><p>Raised by the 'Alert on HTTP Response Code Error' script</p>",
-					"instances":[ 
+					"instances":[
 						{
 							"id": "158",
 							"uri": "http://host.docker.internal:8080/api/people/doctors/doctorId/specialties/assignmentId",
@@ -4861,7 +4861,7 @@
 					"confidence": "2",
 					"riskdesc": "Informational (Medium)",
 					"desc": "<p>The response contents are not storable by caching components such as proxy servers. If the response does not contain sensitive, personal or user-specific information, it may benefit from being stored and cached, to improve performance.</p>",
-					"instances":[ 
+					"instances":[
 						{
 							"id": "69",
 							"uri": "http://host.docker.internal:8080/api/catalog/analytes/analyteId",
@@ -4931,7 +4931,7 @@
 					"confidence": "2",
 					"riskdesc": "Informational (Medium)",
 					"desc": "<p>The response contents are storable by caching components such as proxy servers, and may be retrieved directly from the cache, rather than from the origin server by the caching servers, in response to similar requests from other users. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where \"shared\" caching servers such as \"proxy\" caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance.</p>",
-					"instances":[ 
+					"instances":[
 						{
 							"id": "64",
 							"uri": "http://host.docker.internal:8080/api/catalog/panels/panelId",

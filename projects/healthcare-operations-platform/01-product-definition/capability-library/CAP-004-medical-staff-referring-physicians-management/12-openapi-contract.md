@@ -2,7 +2,7 @@
 
 Contrato fuente de verdad:
 
-`05-contracts/contracts/openapi/doctors/doctors.openapi.yaml`
+`05-contracts/contracts/openapi/doctors/doctors.openapi.md`
 
 ## Recursos iniciales
 

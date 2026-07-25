@@ -1,0 +1,178 @@
+---
+id: HOP-BM-BCM-QLT-006
+format: markdown_structured_payload
+type: business-model
+name: CAPA Management Business Model
+version: 0.1.0
+status: modeled
+---
+
+# Capa Management Business Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BM-BCM-QLT-006
+  type: business-model
+  name: CAPA Management Business Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-006
+  bounded_context: external-quality-compliance
+  primary_aggregate: CapaInvestigation
+  model_kind: aggregate_owner
+entities:
+- id: ENT-CAP-001
+  name: CapaInvestigation
+  is_aggregate_root: true
+  description: 'Aggregate root managing a CAPA investigation, root cause analysis,
+    action items, approvals, and post-execution effectiveness verification.
+
+    '
+  fields:
+  - name: capaId
+    type: uuid
+    required: true
+    identifier: true
+  - name: tenantId
+    type: TenantId
+    required: true
+  - name: capaNumber
+    type: string
+    required: true
+    description: Human-readable reference number (e.g., CAPA-2026-0042).
+  - name: title
+    type: string
+    required: true
+  - name: sourceCategory
+    type: enum
+    values:
+    - external_qc_failure
+    - internal_qc_failure
+    - audit_finding
+    - critical_result_incident
+    - patient_complaint
+    - manual_entry
+    required: true
+  - name: sourceReferenceId
+    type: string
+    required: false
+    description: Identifier of the triggering entity (e.g., evaluationId, auditFindingId).
+  - name: status
+    type: enum
+    values:
+    - draft
+    - investigating
+    - action_plan_pending
+    - action_plan_approved
+    - in_execution
+    - verification_pending
+    - closed
+    - rejected
+    required: true
+  - name: rootCauseMethodology
+    type: enum
+    values:
+    - five_whys
+    - fishbone_ishikawa
+    - fault_tree_analysis
+    - failure_mode_effects_analysis
+    required: false
+  - name: rootCauseSummary
+    type: string
+    required: false
+  - name: assignedInvestigatorId
+    type: UserId
+    required: true
+  - name: targetCompletionDate
+    type: date
+    required: true
+  - name: actionPlans
+    type: list[CapaActionPlanItem]
+    required: false
+  - name: approvedBy
+    type: UserId
+    required: false
+  - name: approvedAt
+    type: datetime
+    required: false
+  - name: effectivenessVerifiedBy
+    type: UserId
+    required: false
+  - name: effectivenessVerifiedAt
+    type: datetime
+    required: false
+  - name: effectivenessRating
+    type: enum
+    values:
+    - pending
+    - effective
+    - partially_effective
+    - ineffective
+    required: false
+  - name: closureNotes
+    type: string
+    required: false
+  - name: audit
+    type: AuditMetadata
+    required: true
+entities_child:
+- id: ENT-CAP-002
+  name: CapaActionPlanItem
+  is_aggregate_root: false
+  description: Action item within a CAPA investigation.
+  fields:
+  - name: itemId
+    type: uuid
+    required: true
+  - name: actionType
+    type: enum
+    values:
+    - corrective
+    - preventive
+    - immediate_containment
+    required: true
+  - name: description
+    type: string
+    required: true
+  - name: assigneeId
+    type: UserId
+    required: true
+  - name: dueDate
+    type: date
+    required: true
+  - name: isCompleted
+    type: boolean
+    required: true
+  - name: completedAt
+    type: datetime
+    required: false
+  - name: completionEvidenceDocumentId
+    type: uuid
+    required: false
+    description: Document ID of evidence stored in BCM-PLT-008.
+invariants:
+- id: INV-CAP-001
+  statement: A CAPA investigation cannot move to 'closed' status without an effectivenessRating
+    of 'effective' or 'partially_effective'.
+- id: INV-CAP-002
+  statement: Action plans cannot be marked 'action_plan_approved' by the assignedInvestigatorId
+    (separation of duties).
+- id: INV-CAP-003
+  statement: All CapaActionPlanItems must be completed before status can transition
+    to 'verification_pending'.
+external_references:
+- shared_kernel:
+  - VO-ID-001 TenantId
+  - VO-ID-004 UserId
+  - VO-007 AuditMetadata
+- capabilities:
+  - BCM-QLT-001 Internal Quality Controls (source trigger)
+  - BCM-QLT-002 External Quality Controls (source trigger)
+  - BCM-QLT-007 Audit Management (source trigger)
+  - BCM-PLT-008 Document Management (completion evidence attachment)
+```

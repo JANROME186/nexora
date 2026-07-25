@@ -22,30 +22,30 @@ consumed by orders, quotations and portals.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | Entities, relationships and invariants |
-| `business-rules.yaml` | Numbered rules RN-001..RN-006 |
-| `processes.yaml` | Processes, actors and commands |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee portal screens and states |
-| `mobile-model.yaml` | Mobile scope (not_required for this module) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | Entities, relationships and invariants |
+| `business-rules.md` | Numbered rules RN-001..RN-006 |
+| `processes.md` | Processes, actors and commands |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee portal screens and states |
+| `mobile-model.md` | Mobile scope (not_required for this module) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, UI, tests, QA |
 
 ## COM-MOD-011 reuse
 
 The published-catalog read surface (`getPublishedServiceSnapshot` plus a new
 `listPublishedServices` projection) is reused, unauthenticated and rate-limited, by the
 COM-MOD-011 Public Website and Digital Growth module. No new capability package, aggregate
-or schema was created for this reuse; see `traceability.yaml`'s `cross_module_reuse` entry.
+or schema was created for this reuse; see `traceability.md`'s `cross_module_reuse` entry.
 
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are declared
-as generated outputs in `generation-plan.yaml`. Only custom rules (publication
+as generated outputs in `generation-plan.md`. Only custom rules (publication
 validation, immutable versioning, published snapshot projection, order eligibility) are
 implemented manually in later backlog items.

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ResultDeliveryTicket {
-    
+
     private UUID ticketId;
     private ResultId resultId;
     private TenantId tenantId;
@@ -47,7 +47,7 @@ public class ResultDeliveryTicket {
             String accessCode,
             LocalDateTime expiresAt,
             AuditMetadata audit) {
-        
+
         this.ticketId = ticketId;
         this.resultId = resultId;
         this.tenantId = tenantId;
@@ -75,7 +75,7 @@ public class ResultDeliveryTicket {
             String deliveryChannel,
             DeliveryAuthorizationCheck authorizationCheck,
             AuditMetadata audit) {
-        
+
         this.ticketId = ticketId;
         this.resultId = resultId;
         this.tenantId = tenantId;

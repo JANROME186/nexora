@@ -1,0 +1,123 @@
+---
+id: HOP-TRACE-BCM-QLT-006
+format: markdown_structured_payload
+type: traceability
+name: CAPA Management Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Capa Management Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-QLT-006
+  type: traceability
+  name: CAPA Management Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-006
+traces:
+  capability_map:
+    bcm_001: BCM-QLT-006
+    domain: DOM-09 Quality
+  dependency_map:
+    bcm_002_profile: quality_compliance
+    required_capabilities:
+    - BCM-ORG-001
+    - BCM-PLT-001
+    - BCM-PLT-007
+    - BCM-PLT-008
+    downstream_capabilities:
+    - BCM-QLT-007
+    - BCM-PLT-008
+  domain_foundation:
+    bounded_context: external-quality-compliance
+    aggregate_reference: CapaInvestigation (AGG-021)
+  rules_to_tests:
+  - rule: RN-CAP-001
+    tests:
+    - TST-CAP-001
+  - rule: RN-CAP-002
+    tests:
+    - TST-CAP-002
+  - rule: RN-CAP-003
+    tests:
+    - TST-CAP-003
+  processes_to_commands:
+  - process: PRC-CAP-001
+    commands:
+    - createCapaInvestigation
+  - process: PRC-CAP-002
+    commands:
+    - recordRootCauseAnalysis
+  - process: PRC-CAP-003
+    commands:
+    - approveCapaActionPlan
+  - process: PRC-CAP-004
+    commands:
+    - verifyCapaEffectiveness
+  api_to_permissions:
+  - operation: listCapaInvestigations
+    scope: quality.capa.read
+  - operation: getCapaInvestigation
+    scope: quality.capa.read
+  - operation: createCapaInvestigation
+    scope: quality.capa.manage
+  - operation: recordRootCauseAnalysis
+    scope: quality.capa.manage
+  - operation: approveCapaActionPlan
+    scope: quality.capa.approve
+  - operation: verifyCapaEffectiveness
+    scope: quality.capa.approve
+  events_to_audit:
+  - event: CapaInvestigationOpened
+    audit_sink: BCM-PLT-007
+  - event: CapaActionPlanApproved
+    audit_sink: BCM-PLT-007
+  - event: CapaEffectivenessVerified
+    audit_sink: BCM-PLT-007
+  - event: CapaClosed
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-CAP-001
+    operations:
+    - listCapaInvestigations
+    - createCapaInvestigation
+  - screen: SCR-CAP-002
+    operations:
+    - getCapaInvestigation
+    - recordRootCauseAnalysis
+    - approveCapaActionPlan
+    - verifyCapaEffectiveness
+  backlog_items:
+    definition: COM-MOD-013-DEF
+    definition_status: closed
+    compilation: COM-MOD-013-BE-001
+    compilation_status: closed
+    frontend_compilation: COM-MOD-013-FE-001
+    frontend_compilation_status: closed
+    validation: COM-MOD-013-QA-001
+    validation_status: closed
+    closeout: COM-MOD-013-CLOSEOUT
+    closeout_status: closed
+    history:
+    - backlog_item: COM-MOD-013-CLOSEOUT
+      status: closed
+      note: Module closeout complete. Package status moved to module_closed.
+    - backlog_item: COM-MOD-013-QA-001
+      status: closed
+      note: 'Traceability re-validated: openapi-source.md operations match CapaManagementController,
+        permissions.md matches EndpointPermissionRegistry, ui-model.md matches
+        CapaManagementScreen. End-to-end CAPA lifecycle (create/RCA/approve/verify)
+        re-confirmed live against real PostgreSQL after TD-DB-005''s persistence fix.'
+    - backlog_item: COM-MOD-013-FE-001
+      status: closed
+      note: CapaManagementScreen compiled with IAM, i18n, tests and security-quality
+        evidence.
+```

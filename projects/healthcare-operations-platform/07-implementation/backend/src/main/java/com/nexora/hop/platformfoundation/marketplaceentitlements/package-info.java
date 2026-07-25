@@ -10,13 +10,13 @@
  * {@code billingadapter} (the provider-agnostic billing event boundary, mirroring
  * FiscalAdapterPort/IntegrationAdapterPort/NotificationProviderPort/DocumentStoragePort).
  *
- * <p>Per generation-plan.yaml, this backlog item (COM-MOD-017-BE-001) compiles the generatable
- * outputs only: aggregate skeletons, REST controllers rendered from openapi-source.yaml,
+ * <p>Per generation-plan.md, this backlog item (COM-MOD-017-BE-001) compiles the generatable
+ * outputs only: aggregate skeletons, REST controllers rendered from openapi-source.md,
  * repository ports/adapters and audit event mappings, plus a basic implementation of each named
  * custom_implementation_point (entitlement policy evaluator, billing adapter boundary,
  * compatibility evaluation strategy, installation rollback orchestration) sufficient for every
  * endpoint to be functional with no 501 response. Deeper policy sophistication (the full
- * evaluation_order chain in entitlement-policy.yaml, IAM/feature-flag/clinical-safety/usage-limit
+ * evaluation_order chain in entitlement-policy.md, IAM/feature-flag/clinical-safety/usage-limit
  * gates, a real billing provider adapter, richer compatibility dimensions beyond platform_version)
  * remains explicit deferred scope for a future COM-MOD-017-BE-002, tracked as TD-BE-018.</p>
  */

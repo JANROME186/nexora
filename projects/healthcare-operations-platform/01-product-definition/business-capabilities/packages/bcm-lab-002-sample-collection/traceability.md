@@ -1,0 +1,162 @@
+---
+id: HOP-TRACE-BCM-LAB-002
+format: markdown_structured_payload
+type: traceability
+name: Sample Collection Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Sample Collection Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-LAB-002
+  type: traceability
+  name: Sample Collection Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-002
+traces:
+  capability_map:
+    bcm_001: BCM-LAB-002
+    domain: DOM-05 Clinical Operations
+  dependency_map:
+    bcm_002_profile: clinical_operations
+    required_capabilities:
+    - BCM-LAB-001
+    - BCM-SVC-007
+    - BCM-PER-002
+    - BCM-ORG-003
+    - BCM-PLT-001
+    - BCM-PLT-007
+    downstream_capabilities:
+    - BCM-LAB-003
+    - BCM-LAB-005
+    - BCM-LAB-006
+  domain_foundation:
+    bounded_context: orders-samples
+    aggregate_reference: AGG-008 Sample
+    context_relationships:
+    - REL-CTX-002
+    - REL-CTX-003
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-002
+    - VO-ID-003
+    - VO-ID-004
+    - VO-ID-005
+    - VO-ID-007
+    - VO-ID-008
+    - VO-002
+    - VO-007
+  brm_alignment:
+  - rule: BRM-001-R009
+    alignment: Every collected sample references order, patient snapshot, branch,
+      collector and collection time (RN-001, RN-002).
+  - rule: BRM-001-R010
+    alignment: Rejected samples are terminal and cannot be processed (RN-005).
+  - rule: BRM-001-R018
+    alignment: Every sample state transition appends an audit chain-of-custody event
+      (RN-004, RN-009).
+  hrp_alignment:
+  - process: HRP-001-P05 Sample Collection and Processing
+    capability_role: Collect sample and reject-at-collection segment of the sample
+      lifecycle process.
+  technical_debt_alignment:
+  - debt: TD-BE-010
+    alignment: TD-BE-010 deferred DiagnosticOrder cancellation's downstream sample-state
+      check pending MVP-MOD-006 modeling. This package now defines SampleStatus and
+      the real Sample aggregate, satisfying the modeling precondition; the code-level
+      remediation (checking real Sample status instead of the order-status proxy)
+      is now unblocked for MVP-MOD-006-BE-002.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-COL-002-01
+  - rule: RN-002
+    tests:
+    - TST-COL-002-02
+  - rule: RN-003
+    tests:
+    - TST-COL-002-03
+  - rule: RN-004
+    tests:
+    - TST-COL-002-04
+  - rule: RN-005
+    tests:
+    - TST-COL-002-05
+  - rule: RN-006
+    tests:
+    - TST-COL-002-06
+  - rule: RN-007
+    tests:
+    - TST-COL-002-07
+  - rule: RN-008
+    tests:
+    - TST-COL-002-08
+  - rule: RN-009
+    tests:
+    - TST-COL-002-09
+  processes_to_commands:
+  - process: PRC-COL-002-02
+    commands:
+    - CollectSample
+  - process: PRC-COL-002-03
+    commands:
+    - RejectSampleAtCollection
+  api_to_permissions:
+  - operation: collectSample
+    scope: sample.collect
+  - operation: rejectSampleAtCollection
+    scope: sample.collect
+  - operation: listCollectionWorklist
+    scope: sample.collect
+  - operation: getSample
+    scope: sample.read
+  events_to_audit:
+  - event: SampleCollected
+    audit_sink: BCM-PLT-007
+  - event: SampleRejected
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-COL-002-01
+    operations:
+    - listCollectionWorklist
+  - screen: SCR-COL-002-02
+    operations:
+    - collectSample
+    - rejectSampleAtCollection
+  - screen: SCR-COL-002-03
+    operations:
+    - getSample
+  consumed_by_capabilities:
+  - capability: BCM-LAB-003
+    relationship: Assigns SpecimenLabelInfo on the Sample created by this capability.
+  - capability: BCM-LAB-005
+    relationship: Transitions the labeled Sample to received, rejected-at-reception
+      or disposed.
+  - capability: BCM-LAB-006
+    relationship: Reads the received Sample to begin laboratory processing and result
+      capture.
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/laboratory-workflow/MVP-MOD-006-DEF-validation.md
+  backlog_items:
+    definition: MVP-MOD-006-DEF
+    definition_status: modeled
+    compilation: MVP-MOD-006-BE-001
+    compilation_status: closed
+    custom_rules: MVP-MOD-006-BE-002
+    custom_rules_status: closed
+    ui: MVP-MOD-006-FE-001
+    ui_status: closed
+    validation: MVP-MOD-006-QA-001
+    validation_status: closed
+    closeout: MVP-MOD-006-CLOSEOUT
+    closeout_status: closed
+```

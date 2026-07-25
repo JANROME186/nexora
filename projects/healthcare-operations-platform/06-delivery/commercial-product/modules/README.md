@@ -17,4 +17,4 @@ Commercial modules are created here only when their definition backlog item star
 - `COM-MOD-015-ai-overlay/`
 - `COM-MOD-016-commercial-launch-and-customer-enablement/`
 
-Each module folder must contain the required definition artifacts listed in `../HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`.
+Each module folder must contain the required definition artifacts listed in `../HOP_COMMERCIAL_PRODUCT_BACKLOG.md`.

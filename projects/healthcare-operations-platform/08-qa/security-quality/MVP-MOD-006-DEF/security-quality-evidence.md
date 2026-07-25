@@ -32,8 +32,8 @@ Coverage baselines are unchanged from `MVP-MOD-005-CLOSEOUT`: backend 67.47%, fr
 `TD-BE-010` (order cancellation's downstream sample-state check) explicitly named
 `gradual_when_mvp_mod_006_laboratory_workflow_is_modeled` as its remediation trigger. This backlog
 item modeled the Sample aggregate (AGG-008) with a real `SampleStatus` value, satisfying that
-precondition. Both `TD-BE-010-order-cancellation-sample-state-check-deferred.yaml` and
-`technical-debt-index.yaml` were updated to record this. The debt item remains **open** — only its
+precondition. Both `TD-BE-010-order-cancellation-sample-state-check-deferred.md` and
+`technical-debt-index.md` were updated to record this. The debt item remains **open** — only its
 modeling precondition is satisfied; the code-level fix is deferred to `MVP-MOD-006-BE-002`.
 
 No other open technical-debt item is modeling-, traceability-, YAML-, documentation-,
@@ -50,3 +50,145 @@ agent-agnostic- or pointer-consistency-related in a way a definition-only backlo
 
 - Ready for next backlog item: `MVP-MOD-006-BE-001` — Compile sample lifecycle backend outputs.
 - Coverage floors to preserve once code is implemented: backend 67.47%, frontend 80.66%.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: MVP-MOD-006-DEF-SECURITY-QUALITY
+  type: security-quality-evidence
+  backlog_item: MVP-MOD-006-DEF
+  status: passed
+  created_date: 2026-07-16
+  standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+scope_note: 'MVP-MOD-006-DEF is a definition-only backlog item: it creates capability
+  package models under 01-product-definition/business-capabilities/packages/ and updates
+  registries. No backend, frontend or mobile code was created or modified. Backend/frontend
+  build, test, coverage, SAST, dependency vulnerability, DAST and message-externalization
+  gates therefore do not apply to this backlog item; they are unchanged from their
+  last measured values (backend 67.47%, frontend 80.66%, both established during MVP-MOD-005-CLOSEOUT)
+  and are not regressed.
+
+  '
+open_source_first:
+  status: passed
+  proprietary_runtime_dependency_detected: false
+  new_dependencies_introduced: false
+  note: 'This backlog item introduced only editable YAML/Markdown capability-package
+    models and registry updates. No new runtime dependency, proprietary platform dependency
+    or named-agent requirement was introduced.
+
+    '
+checks:
+  tests: not_applicable_no_code_changed
+  sast_or_static_analysis: not_applicable_no_code_changed
+  dependency_vulnerability_scan: not_applicable_no_code_changed
+  secrets_scan: passed
+  coverage: not_applicable_no_code_changed_baselines_unchanged
+  message_externalization_i18n_review: not_applicable_no_code_changed
+  dast_for_runnable_web_or_api_surfaces: not_applicable_no_code_changed
+  container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  yaml_parse: passed
+  agent_agnostic_scan: passed
+  stale_pointer_sweep: passed
+  git_whitespace_check: passed
+results:
+  yaml_parse:
+    files_checked: 91
+    detail: 'All 91 new capability-package YAML files (13 per package x 7 packages:
+      bcm-lab-002, bcm-lab-003, bcm-lab-005, bcm-lab-006, bcm-lab-008, bcm-lab-009,
+      bcm-lab-010) parsed without syntax errors, plus every touched registry file
+      (capability-package-index.md, technical-debt-index.md, TD-BE-010-order-cancellation-sample-state-check-deferred.md,
+      project and root PROJECT_STATE.md/SOURCE_OF_TRUTH.md, HOP_COMMERCIAL_PRODUCT_BACKLOG.md,
+      HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md).'
+  agent_agnostic_scan:
+    pattern: claude|anthropic|copilot|cursor|chatgpt|openai|gemini|codex|windsurf|aider
+      (case-insensitive)
+    matches_found: 0
+    detail: No named-agent or vendor-runtime dependency found in any new or touched
+      artifact.
+  secrets_scan:
+    pattern: password|secret|api[_-]?key|private[_-]?key|token\s*[:=] (case-insensitive)
+    matches_found: 0
+    detail: No credential-shaped literal found in any new or touched artifact.
+  stale_pointer_sweep:
+    method: Repository-wide grep for MVP-MOD-006-DEF and MVP-MOD-006 as next_backlog_item/
+      active_backlog_item/current_backlog_item before and after this backlog item's
+      closure.
+    result: passed
+    detail: 'All live registries advanced to MVP-MOD-006-BE-001 as the next/active/current
+      pointer; MVP-MOD-006-DEF is retained only inside immutable historical evidence
+      (this file and its QA companion) and inside the capability packages'' own traceability.md
+      backlog_items blocks, which correctly still show definition: MVP-MOD-006-DEF
+      / definition_status: modeled.'
+  git_whitespace_check:
+    command: git diff --check
+    result: passed
+    detail: No trailing-whitespace or conflict-marker errors found in any touched
+      file.
+  unchanged_baselines:
+    backend_line_coverage_percent: 67.47
+    backend_source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.md
+    frontend_line_coverage_percent: 80.66
+    frontend_source_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.md
+    mobile_coverage: not_measured
+    note: No stack's coverage changed as a result of this definition-only backlog
+      item.
+technical_debt:
+  debt_first_action: 'TD-BE-010''s remediation_strategy explicitly named "gradual_when_mvp_mod_006_laboratory_workflow_is_modeled"
+    as its trigger. This backlog item modeled the Sample aggregate (AGG-008) with
+    a real SampleStatus value, satisfying that precondition. Updated TD-BE-010-order-cancellation-sample-state-check-deferred.md
+    with a modeling_precondition_status block and technical-debt-index.md''s remediation_strategy
+    field to record this; the debt item remains open (status: open) because the code-level
+    fix is deferred to MVP-MOD-006-BE-002, consistent with the instruction to not
+    close debt items with unresolved code-level remediation.'
+  no_other_applicable_debt: No other open technical-debt item is modeling-, traceability-,
+    YAML-, documentation-, agent-agnostic- or pointer-consistency-related in a way
+    addressable by a definition-only backlog item.
+  open_project_wide_unrelated_to_this_backlog_item:
+  - TD-STACK-001
+  - TD-BE-002
+  - TD-BE-003
+  - TD-BE-004
+  - TD-BE-005
+  - TD-BE-006
+  - TD-BE-007
+  - TD-BE-008
+  - TD-FE-002
+  - TD-DEF-002
+  - TD-BE-009
+  - TD-APP-002
+  - TD-FE-003
+  - TD-FE-005
+  - TD-QA-004
+  - TD-I18N-002
+  - TD-FE-006
+  - TD-APP-001
+  blocking: []
+exceptions: []
+commercial_readiness_disclosure:
+  hop_commercially_complete: false
+  hop_ga_ready: false
+  reason: 'MVP-MOD-006 remains only definition-modeled; MVP-MOD-006-BE-001 through
+    MVP-MOD-006-CLOSEOUT, MVP-MOD-007 (Results and Digital Delivery) and MVP-MOD-008
+    (Integration and Migration Readiness) remain planned within REL-001 alone. 17
+    technical-debt items remain open project-wide (final closure requires zero). Backend
+    line coverage (67.47%) and mobile/app coverage (not yet measured) remain below
+    the 80% final-closure target; frontend (80.66%) already meets it but must not
+    regress. None of the REL-002/REL-003/REL-004 commercial-beta, GA or expansion-package
+    modules have started.
+
+    '
+readiness:
+  security_quality_status: passed
+  ready_for_next_backlog_item: MVP-MOD-006-BE-001
+  next_required_focus:
+  - Compile sample lifecycle backend outputs from the 7 modeled capability packages
+    (MVP-MOD-006-BE-001).
+  - Apply debt-first execution against MVP-MOD-006-BE-001's affected components, including
+    advancing TD-BE-010's code-level fix where the affected component (order cancellation)
+    is touched.
+  - Preserve backend (67.47%) and frontend (80.66%) coverage floors once code is implemented.
+```

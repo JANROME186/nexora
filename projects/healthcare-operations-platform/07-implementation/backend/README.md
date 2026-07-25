@@ -84,4 +84,4 @@ Expected environment variables:
 - `HOP_DB_USERNAME`
 - `HOP_DB_PASSWORD`
 
-The Docker Compose runtime is defined in `../compose.local.yml`.
+The Docker Compose runtime is defined in `../compose.local.json`.

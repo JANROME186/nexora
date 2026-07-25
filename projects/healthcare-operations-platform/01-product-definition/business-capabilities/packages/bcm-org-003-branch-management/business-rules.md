@@ -1,0 +1,66 @@
+---
+id: HOP-BUS-RUL-BCM-ORG-003
+format: markdown_structured_payload
+type: business-rules
+name: Branch Management Business Rules
+version: 1.0.0
+---
+
+# Branch Management Business Rules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BUS-RUL-BCM-ORG-003
+  type: business-rules
+  name: Branch Management Business Rules
+  version: 1.0.0
+rules:
+- id: RN-BRN-001
+  statement: Branch code must be unique within the owning laboratory.
+  applies_to: BranchRoot.code
+  enforcement_point: BranchRegistrationService.createBranch
+  severity: CRITICAL
+  audit_required: true
+  test_refs:
+  - TEST-BRN-001
+- id: RN-BRN-002
+  statement: Branch activation requires a complete physical address, defined schedule,
+    and positive sampling capacity.
+  applies_to: BranchRoot.status
+  enforcement_point: BranchStatusService.activateBranch
+  severity: HIGH
+  audit_required: true
+  test_refs:
+  - TEST-BRN-002
+- id: RN-BRN-003
+  statement: Branch status cannot be OPERATIONAL if the parent laboratory status is
+    not ACTIVE.
+  applies_to: BranchRoot.status
+  enforcement_point: BranchStatusService.activateBranch
+  severity: CRITICAL
+  audit_required: true
+  test_refs:
+  - TEST-BRN-003
+- id: RN-BRN-004
+  statement: Total active branches under a tenant cannot exceed the tenant tier's
+    max_branches quota.
+  applies_to: BranchRoot
+  enforcement_point: BranchRegistrationService.createBranch
+  severity: CRITICAL
+  audit_required: true
+  test_refs:
+  - TEST-BRN-004
+- id: RN-BRN-005
+  statement: Branch operational maintenance mode suspends online appointment booking
+    while retaining walk-in intake.
+  applies_to: BranchRoot.status
+  enforcement_point: BranchStatusService.setMaintenanceMode
+  severity: MEDIUM
+  audit_required: true
+  test_refs:
+  - TEST-BRN-005
+```

@@ -28,19 +28,19 @@ commands — never a direct write to a business aggregate.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | MigrationJob aggregate and its owned entities |
-| `business-rules.yaml` | Numbered rules RN-001..RN-006 |
-| `processes.yaml` | Receive, map/dry-run, approve/execute, retry |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model: import/dry-run/commit/reconciliation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee-portal admin screens (jobs, dry-run, reconciliation) |
-| `mobile-model.yaml` | Mobile scope (not_required) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, contract, requirements, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | MigrationJob aggregate and its owned entities |
+| `business-rules.md` | Numbered rules RN-001..RN-006 |
+| `processes.md` | Receive, map/dry-run, approve/execute, retry |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model: import/dry-run/commit/reconciliation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee-portal admin screens (jobs, dry-run, reconciliation) |
+| `mobile-model.md` | Mobile scope (not_required) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, contract, requirements, tests, QA |
 
 ## Key rules modeled
 
@@ -52,20 +52,20 @@ commands — never a direct write to a business aggregate.
 
 ## Aggregate naming note
 
-`aggregate-catalog.yaml` AGG-016 names `MigrationJob`'s owned sub-entities
+`aggregate-catalog.md` AGG-016 names `MigrationJob`'s owned sub-entities
 `SourceDataset` and `ValidationReport`. This package uses `ImportBatch` and
 `ImportValidationReport` — the exact names
-`capability-dependency-map.yaml`'s `related_aggregates` list uses for
+`capability-dependency-map.md`'s `related_aggregates` list uses for
 BCM-PLT-010. Both name pairs refer to the same conceptual entities; see
-`traceability.yaml` for the explicit correspondence. No aggregate-catalog.yaml
-or context-map.yaml edit was required — both already declare
+`traceability.md` for the explicit correspondence. No aggregate-catalog.md
+or context-map.md edit was required — both already declare
 `data-migration-portability` and its published language
 (`UniversalImportRecord`/`CanonicalDataRecord`/`MigrationValidationReport`, per
 REL-CTX-010).
 
 ## Technical debt alignment
 
-`generation-plan.yaml`'s custom implementation points name concrete
+`generation-plan.md`'s custom implementation points name concrete
 open-source-first parsing libraries (Apache Commons CSV, Apache POI, Jackson)
 as the evaluation basis for future backend compilation, consistent with
 Nexora's open-source-first technology selection policy.
@@ -73,7 +73,7 @@ Nexora's open-source-first technology selection policy.
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers manifest/checksum verification, field mapping,
 multi-category dry-run validation, domain-command-only execution, checkpoint
 retry and reconciliation aggregation.

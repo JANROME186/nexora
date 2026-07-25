@@ -26,7 +26,7 @@ import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanag
 import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanagement.domain.ReconciliationReport;
 import com.nexora.hop.platformfoundation.datamigrationportability.shared.InvalidMigrationCommandException;
 
-/** Rendered controller for bcm-plt-010-open-data-ingestion-and-migration/openapi-source.yaml (MigrationJob resource). */
+/** Rendered controller for bcm-plt-010-open-data-ingestion-and-migration/openapi-source.md (MigrationJob resource). */
 @RestController
 @RequestMapping("/api/platform/migration/jobs")
 class MigrationJobController {

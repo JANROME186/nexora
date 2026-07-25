@@ -93,9 +93,9 @@ CREATE TABLE IF NOT EXISTS audit.audit_events (
 );
 
 -- HOP-ENT-FOUND-001: country/locale/currency reference catalogs (baseline MX/US, es-MX/en-US,
--- MXN/USD). See 03-architecture/data-architecture/database-architecture.yaml and
--- seed-data-catalog.yaml. Parallel name_es_mx/name_en_us columns are a deliberate, size-appropriate
--- denormalization for these small, static reference tables (see normalization-report.yaml).
+-- MXN/USD). See 03-architecture/data-architecture/database-architecture.md and
+-- seed-data-catalog.md. Parallel name_es_mx/name_en_us columns are a deliberate, size-appropriate
+-- denormalization for these small, static reference tables (see normalization-report.md).
 CREATE TABLE IF NOT EXISTS organization.countries (
     country_code varchar(2) PRIMARY KEY,
     name_es_mx varchar(120) NOT NULL,

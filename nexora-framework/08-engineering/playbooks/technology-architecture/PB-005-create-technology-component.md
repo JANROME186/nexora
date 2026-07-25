@@ -14,7 +14,7 @@ Definir un nuevo componente tecnológico sin romper los principios de portabilid
 ## Pasos
 
 1. Leer `CONSTITUTION.md`.
-2. Leer `technology-architecture/technology-architecture.yaml`.
+2. Leer `technology-architecture/technology-architecture.md`.
 3. Identificar si el componente pertenece a identidad, almacenamiento, mensajería, observabilidad, gateway, compute, seguridad o datos.
 4. Definir la abstracción antes que la implementación concreta.
 5. Documentar al menos una implementación local.
@@ -22,7 +22,7 @@ Definir un nuevo componente tecnológico sin romper los principios de portabilid
 7. Verificar que el dominio no importe SDKs del proveedor.
 8. Actualizar el mapa de fuentes de verdad si aplica.
 9. Crear o actualizar ADR.
-10. Actualizar `PROJECT_STATE.yaml` y `CHANGELOG.md`.
+10. Actualizar `PROJECT_STATE.md` y `CHANGELOG.md`.
 
 ## Criterios de aceptación
 

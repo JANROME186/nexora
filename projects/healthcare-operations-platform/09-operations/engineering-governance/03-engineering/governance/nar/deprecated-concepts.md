@@ -1,0 +1,54 @@
+---
+id: NAR-DEPRECATED-CONCEPTS-001
+format: markdown_structured_payload
+type: deprecated-concepts-registry
+version: 0.34.0
+status: approved
+---
+
+# Nar Deprecated Concepts 001
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: NAR-DEPRECATED-CONCEPTS-001
+type: deprecated-concepts-registry
+owner: Architecture Governance
+status: approved
+version: 0.34.0
+concepts:
+- deprecated: Named Assistant Development Kit
+  replacement: Agent Agnostic Engineering Framework
+  reason: Nexora no depende de un agente específico.
+- deprecated: assistant Prompt
+  replacement: Agent Playbook / Agent Context Package
+  reason: Los prompts deben ser consumibles por cualquier agente.
+- deprecated: Serverless First
+  replacement: Compute Agnostic
+  reason: Algunos componentes requieren contenedores, procesos largos o ejecución
+    on-premise.
+- deprecated: Cloud First
+  replacement: Anywhere First
+  reason: Nexora debe ejecutarse local, on-premise, cloud o híbrido.
+- deprecated: AWS Lambda
+  replacement: Compute Adapter / Function Runtime
+  reason: Evitar dependencia de proveedor.
+- deprecated: S3
+  replacement: Object Storage Adapter
+  reason: Permitir MinIO, S3, Azure Blob, GCS, Ceph.
+- deprecated: SQS
+  replacement: Messaging Adapter
+  reason: Permitir RabbitMQ, NATS, Kafka, SQS, Azure Service Bus.
+- deprecated: SNS
+  replacement: Notification Adapter
+  reason: Permitir email, SMS, WhatsApp, push y proveedores variados.
+- deprecated: CloudWatch
+  replacement: Observability Provider via OpenTelemetry
+  reason: Evitar lock-in de observabilidad.
+- deprecated: Microservices as default
+  replacement: Deployable Units
+  reason: Cada dominio puede desplegarse como monolito modular, servicio, worker o
+    función.
+```

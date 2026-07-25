@@ -1,0 +1,47 @@
+---
+id: HOP-TST-BCM-ORG-003
+format: markdown_structured_payload
+type: test-model
+name: Branch Management Test Model
+version: 1.0.0
+---
+
+# Branch Management Test Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TST-BCM-ORG-003
+  type: test-model
+  name: Branch Management Test Model
+  version: 1.0.0
+test_cases:
+- id: TEST-BRN-001
+  name: Validate branch code uniqueness under parent laboratory
+  type: unit
+  target_rule: RN-BRN-001
+  expected_result: Creation fails with 409 Conflict if code exists under same laboratory.
+- id: TEST-BRN-002
+  name: Validate physical address and schedule required for branch activation
+  type: integration
+  target_rule: RN-BRN-002
+  expected_result: Activation fails if physical address or operating schedule is incomplete.
+- id: TEST-BRN-003
+  name: Validate branch status constraint against parent laboratory status
+  type: integration
+  target_rule: RN-BRN-003
+  expected_result: Branch activation fails if parent laboratory is SUSPENDED or ARCHIVED.
+- id: TEST-BRN-004
+  name: Validate tenant tier branch quota enforcement
+  type: contract
+  target_rule: RN-BRN-004
+  expected_result: Creation fails when tenant max_branches quota is reached.
+- id: TEST-BRN-005
+  name: Validate maintenance mode status behavior
+  type: unit
+  target_rule: RN-BRN-005
+  expected_result: Maintenance mode blocks online appointment booking for the branch.
+```

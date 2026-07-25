@@ -1,0 +1,92 @@
+---
+id: HOP-PROC-BCM-LAB-003
+format: markdown_structured_payload
+type: processes
+name: Sample Labeling Processes
+version: 0.1.0
+status: modeled
+---
+
+# Sample Labeling Processes
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PROC-BCM-LAB-003
+  type: processes
+  name: Sample Labeling Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-003
+actors:
+- id: sample-collector
+  actor_ref: ACT-006
+  name: Sample Collector
+  source: ACM-001
+processes:
+- id: PRC-LBL-003-01
+  name: Print specimen label
+  actor: sample-collector
+  trigger: A sample has been collected and requires a physical barcode label.
+  commands:
+  - PrintSpecimenLabel
+  preconditions:
+  - Sample is in collected status.
+  - Actor holds sample.label.
+  steps:
+  - Select label template from the sample-requirement reference.
+  - Generate barcode value.
+  - Queue LabelPrintJob and send to the print target.
+  - Increment printAttempts.
+  outcome: SpecimenLabelPrinted
+  rules:
+  - RN-001
+  - RN-004
+- id: PRC-LBL-003-02
+  name: Confirm specimen label
+  actor: sample-collector
+  trigger: The printed label has been physically applied to the container.
+  commands:
+  - ConfirmSpecimenLabel
+  preconditions:
+  - LabelPrintJob is in printed status.
+  steps:
+  - Perform LabelMismatchCheck against the sample's order and patient reference.
+  - Transition LabelPrintJob to confirmed status when matched.
+  - Invoke AssignSpecimenLabel on the Sample aggregate.
+  - Publish SpecimenLabelAssigned.
+  outcome: SpecimenLabelAssigned
+  rules:
+  - RN-002
+  - RN-003
+  - RN-006
+- id: PRC-LBL-003-03
+  name: Reprint specimen label
+  actor: sample-collector
+  trigger: The physical label was damaged, misprinted or a mismatch was detected.
+  commands:
+  - RequestLabelReprint
+  preconditions:
+  - LabelPrintJob exists for the sample.
+  steps:
+  - Record reprint reason.
+  - Transition LabelPrintJob to reprint_requested.
+  - Re-run PRC-LBL-003-01.
+  outcome: SpecimenLabelReprinted
+  rules:
+  - RN-005
+commands:
+- name: PrintSpecimenLabel
+  generatable: false
+  custom_reason: Sample-status precondition check and barcode generation.
+- name: ConfirmSpecimenLabel
+  generatable: false
+  custom_reason: Mismatch detection and delegated Sample.labelInfo mutation.
+- name: RequestLabelReprint
+  generatable: false
+  custom_reason: Override reason capture for relabeling after prior print attempts.
+```

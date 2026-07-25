@@ -34,11 +34,11 @@ DEFAULT_PATTERNS = (
 
 DEFAULT_HOP_PROMPT_FILE = (
     "projects/healthcare-operations-platform/06-delivery/commercial-product/"
-    "HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml"
+    "HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md"
 )
 DEFAULT_HOP_BACKLOG_FILE = (
     "projects/healthcare-operations-platform/06-delivery/commercial-product/"
-    "HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml"
+    "HOP_COMMERCIAL_PRODUCT_BACKLOG.md"
 )
 DEFAULT_PROJECT_PATH = "projects/healthcare-operations-platform"
 DEFAULT_HANDOFF_DIR = "projects/healthcare-operations-platform/08-qa/handoffs"
@@ -48,11 +48,52 @@ DEFAULT_OLLAMA_MODEL = "qwen2.5-coder:0.5b"
 DEFAULT_OLLAMA_TIMEOUT_SECONDS = 300
 
 
-def read_yaml(path: Path) -> dict:
+def extract_structured_payload(text: str) -> str:
+    payload_start = text.find("<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->")
+    if payload_start != -1:
+        text = text[payload_start:]
+    marker = "```yaml\n"
+    start = text.find(marker)
+    if start != -1:
+        start += len(marker)
+        end = text.find("\n```", start)
+        if end != -1:
+            return text[start:end]
+    if text.startswith("---\n"):
+        end = text.find("\n---\n", 4)
+        if end != -1:
+            return text[4:end]
+    return text
+
+
+def read_structured(path: Path) -> dict:
     if not path.exists():
-        return {}
-    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        if path.suffix == ".md":
+            legacy = path.with_suffix(".yaml")
+            if legacy.exists():
+                path = legacy
+        elif path.suffix in {".yaml", ".yml"}:
+            migrated = path.with_suffix(".md")
+            if migrated.exists():
+                path = migrated
+        if not path.exists():
+            return {}
+    raw = path.read_text(encoding="utf-8")
+    data = yaml.safe_load(extract_structured_payload(raw))
     return data if isinstance(data, dict) else {}
+
+
+def read_yaml(path: Path) -> dict:
+    return read_structured(path)
+
+
+def read_yaml_compat(path: Path) -> dict:
+    if path.exists():
+        return read_structured(path)
+    migrated = path.with_suffix(".md")
+    if migrated.exists():
+        return read_structured(migrated)
+    return {}
 
 
 def infer_active_task(root: Path) -> tuple[str, str, list[str], str | None, dict]:
@@ -260,7 +301,7 @@ def context_pointer_block(task_id: str, summary_ref: str | None) -> list[str]:
         pointers.append(f"Handoff previo: `{project_relative(summary_ref)}`")
     pointers.extend(
         [
-            "Prompts y estado: inspeccionar `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml` y `PROJECT_STATE.yaml` bajo demanda.",
+            "Prompts y estado: inspeccionar `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md` y `PROJECT_STATE.md` bajo demanda.",
         ]
     )
     return pointers
@@ -269,7 +310,7 @@ def context_pointer_block(task_id: str, summary_ref: str | None) -> list[str]:
 def task_artifact_profile(task_id: str) -> dict[str, str]:
     if task_id.startswith("NXF-FMT"):
         return {
-            "context_path": "../../nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.yaml",
+            "context_path": "../../nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md",
             "qa_evidence_pattern": f"08-qa/format-migration/{task_id}-validation.md",
             "security_evidence_pattern": "not_applicable_format_migration_no_runtime_code",
             "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
@@ -338,7 +379,7 @@ def build_canonical_context(
         "coverage_floor": relevant_coverage_floor(coverage_floor, task_id),
         "workstream": infer_workstream(task_id),
         "context_path": profile["context_path"],
-        "operational_prompt_path": "06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml",
+        "operational_prompt_path": "06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md",
         "qa_evidence_pattern": profile["qa_evidence_pattern"],
         "security_evidence_pattern": profile["security_evidence_pattern"],
         "handoff_path": profile["handoff_path"],
@@ -489,7 +530,7 @@ ORCHESTRATION: {orchestration_mode}
 - QA Evidence: `{profile['qa_evidence_pattern']}`
 - Security Evidence: `{profile['security_evidence_pattern']}`
 - Transición: crear `{profile['handoff_path']}`.
-- Actualizar `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, backlog/prompts, runbook e índices aplicables.
+- Actualizar `PROJECT_STATE.md`, `SOURCE_OF_TRUTH.md`, backlog/prompts, runbook e índices aplicables.
 
 ## 4. Criterios de Cierre
 - Gates obligatorios ejecutados; YAML/MD parseables; `git diff --check` limpio.
@@ -513,11 +554,11 @@ def main() -> int:
         "--paths",
         nargs="*",
         default=[
-            "PROJECT_STATE.yaml",
-            "SOURCE_OF_TRUTH.yaml",
-            "projects/healthcare-operations-platform/PROJECT_STATE.yaml",
-            "projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml",
-            "projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml",
+            "PROJECT_STATE.md",
+            "SOURCE_OF_TRUTH.md",
+            "projects/healthcare-operations-platform/PROJECT_STATE.md",
+            "projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md",
+            "projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md",
         ],
         help="Relative files to inspect with ripgrep.",
     )

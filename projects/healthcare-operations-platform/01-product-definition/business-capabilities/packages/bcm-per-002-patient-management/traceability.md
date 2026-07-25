@@ -1,0 +1,203 @@
+---
+id: HOP-TRACE-BCM-PER-002
+format: markdown_structured_payload
+type: traceability
+name: Patient Management Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Patient Management Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-PER-002
+  type: traceability
+  name: Patient Management Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PER-002
+traces:
+  capability_map:
+    bcm_001: BCM-PER-002
+    domain: DOM-02 People
+  dependency_map:
+    bcm_002_profile: master_data
+    required_capabilities:
+    - BCM-PER-001
+    - BCM-ORG-001
+    - BCM-ORG-002
+    - BCM-ORG-003
+    - BCM-PLT-001
+    - BCM-PLT-007
+    downstream_capabilities:
+    - BCM-ATT-002
+    - BCM-ATT-003
+    - BCM-LAB-001
+    - BCM-RES-004
+    - BCM-IMG-003
+  domain_foundation:
+    bounded_context: patient-management
+    aggregate: AGG-001 Patient
+    context_relationships:
+    - REL-CTX-002
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-002
+    - VO-ID-005
+    - VO-002
+    - VO-004
+    - VO-005
+    - VO-006
+    - VO-007
+    - VO-008
+  brm_alignment:
+  - rule: BRM-001-R003
+    alignment: Only patient-management may mutate Patient aggregate (RN-003).
+  - rule: BRM-001-R015
+    alignment: Representative access requires active authorization (RN-006).
+  - rule: BRM-001-R018
+    alignment: Audit events on Patient are append-only.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-PAT-002-01
+  - rule: RN-002
+    tests:
+    - TST-PAT-002-02
+    - TST-PAT-002-03
+  - rule: RN-003
+    tests:
+    - TST-PAT-002-04
+  - rule: RN-004
+    tests:
+    - TST-PAT-002-05
+  - rule: RN-005
+    tests:
+    - TST-PAT-002-06
+  - rule: RN-006
+    tests:
+    - TST-PAT-002-07
+  - rule: RN-007
+    tests:
+    - TST-PAT-002-08
+  - rule: RN-008
+    tests:
+    - TST-PAT-002-09
+  - rule: RN-009
+    tests:
+    - TST-PAT-002-10
+  - rule: RN-010
+    tests:
+    - TST-PAT-002-11
+  processes_to_commands:
+  - process: PRC-PAT-002-01
+    commands:
+    - RegisterPatient
+  - process: PRC-PAT-002-02
+    commands:
+    - UpdatePatient
+  - process: PRC-PAT-002-03
+    commands:
+    - RecordPatientConsent
+    - RevokePatientConsent
+  - process: PRC-PAT-002-04
+    commands:
+    - AttachPatientRepresentative
+    - UpdatePatientRepresentative
+    - RevokePatientRepresentative
+  - process: PRC-PAT-002-05
+    commands:
+    - MergePatient
+  - process: PRC-PAT-002-06
+    commands:
+    - DeactivatePatient
+  api_to_permissions:
+  - operation: getPatient
+    scope: patient.read
+  - operation: registerPatient
+    scope: patient.write
+  - operation: updatePatient
+    scope: patient.write
+  - operation: mergePatient
+    scope: patient.merge
+  - operation: revokePatientRepresentative
+    scope: patient.write
+  - operation: revokePatientConsent
+    scope: patient.write
+  events_to_audit:
+  - event: PatientRegistered
+    audit_sink: BCM-PLT-007
+  - event: PatientUpdated
+    audit_sink: BCM-PLT-007
+  - event: PatientMerged
+    audit_sink: BCM-PLT-007
+  - event: PatientConsentRecorded
+    audit_sink: BCM-PLT-007
+  - event: PatientConsentRevoked
+    audit_sink: BCM-PLT-007
+  - event: PatientRepresentativeAttached
+    audit_sink: BCM-PLT-007
+  - event: PatientRepresentativeRevoked
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-PAT-002-01
+    operations:
+    - listPatients
+  - screen: SCR-PAT-002-02
+    operations:
+    - getPatient
+    - registerPatient
+    - updatePatient
+  - screen: SCR-PAT-002-03
+    operations:
+    - listPatientConsents
+    - recordPatientConsent
+    - revokePatientConsent
+  - screen: SCR-PAT-002-04
+    operations:
+    - listPatientRepresentatives
+    - attachPatientRepresentative
+    - updatePatientRepresentative
+    - revokePatientRepresentative
+  - screen: SCR-PAT-002-05
+    operations:
+    - mergePatient
+  - screen: SCR-PAT-002-06
+    operations:
+    - listPatientDocuments
+    - attachPatientDocument
+    - removePatientDocument
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
+  compilation_qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.md
+  compilation_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.md
+  compilation_backend_root: ../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/peopleclinicalmasterdata/patientmanagement/
+  compilation_schema: ../../../../07-implementation/backend/src/main/resources/db/people-and-clinical-master-data/schema.sql
+  custom_rules_qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-002-validation.md
+  custom_rules_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-003-BE-002/security-quality-evidence.md
+  backlog_items:
+    definition: MVP-MOD-003-DEF
+    com_mod_009_def: COM-MOD-009-DEF
+    compilation: MVP-MOD-003-BE-001
+    compilation_status: closed
+    custom_rules: MVP-MOD-003-BE-002
+    custom_rules_status: closed
+    ui: MVP-MOD-003-FE-001
+    ui_status: closed
+    ui_qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-FE-001-validation.md
+    ui_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-003-FE-001/security-quality-evidence.md
+    validation: MVP-MOD-003-QA-001
+    validation_status: closed
+    validation_qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-QA-001-validation.md
+    validation_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-003-QA-001/security-quality-evidence.md
+    closeout: MVP-MOD-003-CLOSEOUT
+    closeout_status: closed
+    closeout_qa_evidence: ../../../../08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-CLOSEOUT.md
+    closeout_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-003-CLOSEOUT/security-quality-evidence.md
+```

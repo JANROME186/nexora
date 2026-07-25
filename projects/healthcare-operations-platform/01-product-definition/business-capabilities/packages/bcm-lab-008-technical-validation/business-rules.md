@@ -1,0 +1,123 @@
+---
+id: HOP-BR-BCM-LAB-008
+format: markdown_structured_payload
+type: business-rules
+name: Technical Validation Business Rules
+version: 0.1.0
+status: modeled
+---
+
+# Technical Validation Business Rules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BR-BCM-LAB-008
+  type: business-rules
+  name: Technical Validation Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-008
+  rule_id_pattern: RN-###
+rules:
+- id: RN-001
+  statement: A result can be technically validated only after it is submitted for
+    validation (pending_technical_validation) and has no unresolved reliability-affecting
+    processing incident.
+  applies_to: LaboratoryResult
+  enforcement_point: command:PerformTechnicalValidation
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Requires a read-only cross-capability check of LaboratoryResult.processingIncidents
+    owned by BCM-LAB-006.
+  test_refs:
+  - TST-TVL-008-01
+- id: RN-002
+  statement: Technical validation must be performed by an actor holding the technical-validator
+    role; when tenant policy requires segregation of duties, the validator must differ
+    from the actor who captured the result.
+  applies_to: LaboratoryResult
+  enforcement_point: command:PerformTechnicalValidation
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Segregation-of-duties comparison against the capturing actor requires
+    cross-field business logic beyond a role check.
+  test_refs:
+  - TST-TVL-008-02
+- id: RN-003
+  statement: A result whose captured value exceeds the reference range's critical
+    low or high threshold must be flagged critical; flagging is mandatory and cannot
+    be silently bypassed even if the validator disagrees with the threshold.
+  applies_to: LaboratoryResult
+  enforcement_point: command:FlagCriticalResult
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Threshold comparison against the ReferenceRangeSnapshot's critical
+    bounds is domain logic, not a generic field validator.
+  test_refs:
+  - TST-TVL-008-03
+- id: RN-004
+  statement: Flagging a result critical must publish a domain event that triggers
+    a traceable notification or escalation record; a critical flag without a resulting
+    notification trace is a defect.
+  applies_to: LaboratoryResult
+  enforcement_point: event:ResultFlaggedCritical
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Requires an integration hook to BCM-PLT-003 with a verifiable delivery
+    or escalation trace, not just an in-process event.
+  brm_alignment: BRM-001-R013
+  test_refs:
+  - TST-TVL-008-04
+- id: RN-005
+  statement: This capability may mutate only LaboratoryResult.technicalValidation
+    and LaboratoryResult.criticalFlag; it must never write medicalValidation, releaseRecord
+    or amendments.
+  applies_to: LaboratoryResult
+  enforcement_point: architecture_boundary
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Cross-capability boundary enforcement mirrors the aggregate ownership
+    rule declared by BCM-LAB-006 (RN-006).
+  test_refs:
+  - TST-TVL-008-05
+- id: RN-006
+  statement: Technical validation commands must execute within the actor's tenant
+    and laboratory scope.
+  applies_to: LaboratoryResult
+  enforcement_point: authorization:result.manage
+  severity: critical
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-TVL-008-06
+- id: RN-007
+  statement: Technical validation and critical-flag events must include actor identity,
+    result reference and validation timestamp.
+  applies_to: LaboratoryResult
+  enforcement_point: event:ResultTechnicallyValidated, event:ResultFlaggedCritical
+  severity: high
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-TVL-008-07
+enforcement_summary:
+  generatable_rules:
+  - RN-006
+  - RN-007
+  custom_implementation_rules:
+  - RN-001
+  - RN-002
+  - RN-003
+  - RN-004
+  - RN-005
+```

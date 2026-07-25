@@ -1,0 +1,77 @@
+---
+id: HOP-GEN-BCM-QLT-001
+format: markdown_structured_payload
+type: generation-plan
+name: Internal Quality Controls Generation Plan
+version: 0.1.0
+status: modeled
+---
+
+# Internal Quality Controls Generation Plan
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-GEN-BCM-QLT-001
+  type: generation-plan
+  name: Internal Quality Controls Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-001
+  compiler_strategy: model_to_platform
+generated_outputs:
+  backend:
+  - DTOs for QualityControlRun, ExpectedRange
+  - Repository interfaces and persistence adapters for QualityControlRun
+  - API adapters for listQualityControlRuns, getQualityControlRun
+  frontend:
+  - Internal Quality Control Runs screen shell (custom recording/override actions
+    wired separately)
+  contracts:
+  - Rendered OpenAPI document from openapi-source.md
+  - Typed SDK
+  tests:
+  - Repetitive unit tests for RN-005
+  operations:
+  - Metric and log wiring from observability-model.md
+  - Out-of-control critical alert definitions
+custom_implementation_points:
+- id: CUS-IQC-001-01
+  description: Read-only cross-bounded-context reference boundary to InventoryItem/StockLot/LaboratoryResult
+    (RN-001).
+  maps_to_backlog: COM-MOD-010-BE-002
+- id: CUS-IQC-001-02
+  description: Westgard-style statistical multi-rule evaluation (RN-002).
+  maps_to_backlog: COM-MOD-010-BE-002
+- id: CUS-IQC-001-03
+  description: Supervisor-scoped, audited override of an out-of-control acceptance
+    decision (RN-003).
+  maps_to_backlog: COM-MOD-010-BE-002
+- id: CUS-IQC-001-04
+  description: Cross-capability control-material lot eligibility validation (RN-004).
+  maps_to_backlog: COM-MOD-010-BE-002
+do_not_write_manually:
+- CRUD scaffolding
+- DTOs
+- Controllers
+- Repositories
+- Swagger documentation
+- SDKs
+- Repetitive documentation
+- Repetitive test cases
+provenance:
+  source_models:
+  - business-model.md
+  - business-rules.md
+  - processes.md
+  - events.md
+  - openapi-source.md
+  - ui-model.md
+  - permissions.md
+  - observability-model.md
+  generation_metadata_required: true
+```

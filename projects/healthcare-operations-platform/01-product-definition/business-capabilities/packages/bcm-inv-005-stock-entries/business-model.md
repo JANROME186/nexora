@@ -1,0 +1,101 @@
+---
+id: HOP-BM-BCM-INV-005
+format: markdown_structured_payload
+type: business-model
+name: Stock Entries Business Model
+version: 0.1.0
+status: modeled
+---
+
+# Stock Entries Business Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BM-BCM-INV-005
+  type: business-model
+  name: Stock Entries Business Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-005
+  bounded_context: inventory-procurement
+  primary_aggregate: InventoryItem (AGG-013, owned by BCM-INV-001)
+  model_kind: operational_process_over_shared_aggregate
+entities:
+- id: ENT-SEN-001
+  name: StockEntryRecord
+  is_aggregate_root: false
+  described_as: process_record
+  owned_by_aggregate: InventoryItem
+  description: Append-only receipt record; each row is one goods-receipt transaction
+    against a StockLot.
+  fields:
+  - name: stockEntryId
+    type: uuid
+    required: true
+    identifier: true
+  - name: inventoryItemId
+    type: InventoryItemId
+    required: true
+  - name: stockLotId
+    type: uuid
+    required: true
+  - name: tenantId
+    type: TenantId
+    required: true
+  - name: branchId
+    type: BranchId
+    required: true
+  - name: quantity
+    type: decimal
+    required: true
+  - name: sourceType
+    type: enum
+    values:
+    - purchase_order_receipt
+    - manual_entry
+    - return_from_branch
+    required: true
+  - name: sourcePurchaseOrderLineId
+    type: uuid
+    required: false
+  - name: receivedBy
+    type: UserId
+    required: true
+  - name: receivedAt
+    type: datetime
+    required: true
+  - name: audit
+    type: AuditMetadata
+    required: true
+value_objects: []
+invariants:
+- id: INV-SEN-001
+  statement: quantity must be strictly greater than zero.
+- id: INV-SEN-002
+  statement: A StockEntryRecord with sourceType purchase_order_receipt must reference
+    a valid sourcePurchaseOrderLineId belonging to an approved or partially_received
+    PurchaseOrder.
+- id: INV-SEN-003
+  statement: Confirming a StockEntryRecord is the only trigger allowed to invoke ApplyStockReceipt
+    on InventoryItem.stockSummary and the referenced StockLot.remainingQuantity; this
+    capability never mutates any other field.
+- id: INV-SEN-004
+  statement: A receipt against a discontinued InventoryItem is rejected.
+external_references:
+- shared_kernel:
+  - VO-ID-001 TenantId
+  - VO-ID-003 BranchId
+  - VO-ID-004 UserId
+  - VO-007 AuditMetadata
+- capabilities:
+  - BCM-INV-001 InventoryItem aggregate (delegated mutation target for stockSummary
+    increase)
+  - BCM-INV-003 Lot Management (creates/updates the referenced StockLot in coordination
+    with this capability)
+  - BCM-INV-004 Procurement Management (originating purchase order line, when applicable)
+```

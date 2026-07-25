@@ -1,7 +1,7 @@
 # Country Pack Architecture
 
-**Artifact ID:** CPK-001  
-**Status:** Draft  
+**Artifact ID:** CPK-001
+**Status:** Draft
 **Version:** 0.22.0
 
 ## Purpose
@@ -45,3 +45,42 @@ Country Packs allow Nexora to adapt to local regulatory, fiscal, language, forma
 ## Design Rule
 
 Country-specific behavior must be provided by country packs, not hard-coded inside the core domain.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: CPK-001
+name: Country Pack Architecture
+type: country-pack-architecture
+version: 0.22.0
+status: draft
+responsibilities:
+- fiscalRules
+- invoiceProviderIntegration
+- taxIdentifiers
+- addressFormats
+- legalConsentTemplates
+- dataRetentionRules
+- languageVariants
+- regulatoryReports
+- localCatalogMappings
+- paymentMethodRules
+examples:
+  mexico:
+  - cfdiIntegration
+  - rfcValidation
+  - satCatalogs
+  - mexicanAddressStructure
+  - es-MXLocalization
+  colombia:
+  - dianIntegration
+  - nitValidation
+  - geographicCatalogs
+  peru:
+  - sunatIntegration
+  - rucValidation
+design_rule: Country-specific behavior must be provided by country packs, not hard-coded
+  inside the core domain.
+```

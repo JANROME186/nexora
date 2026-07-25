@@ -10,7 +10,7 @@
  * critical-value flags, and a LifecycleStatusTimeline summary.
  *
  * Screens requiring patient_portal or doctor_portal surfaces (BCM-RES-004 Digital Delivery,
- * BCM-RES-005 Result History) are NOT rendered here; their ui-model.yaml surfaces.employee_portal
+ * BCM-RES-005 Result History) are NOT rendered here; their ui-model.md surfaces.employee_portal
  * field is set to not_required. Employee-actor oversight of delivery tickets is available
  * via the ResultDelivery management surface in the API layer only.
  */

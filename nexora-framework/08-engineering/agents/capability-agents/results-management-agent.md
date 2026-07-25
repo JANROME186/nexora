@@ -4,7 +4,7 @@ Responsible for generating and validating artifacts related to CAP-007 Laborator
 
 Inputs:
 - capability-library/CAP-007-laboratory-results-report-management/
-- contracts/openapi/results/results-api.yaml
+- contracts/openapi/results/results-api.md
 - CAP-005 test configuration
 - CAP-006 sample collection
 - Security & Compliance Architecture

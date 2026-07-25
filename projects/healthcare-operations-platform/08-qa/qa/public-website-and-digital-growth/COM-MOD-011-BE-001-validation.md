@@ -76,11 +76,11 @@ No hardcoded user-facing message strings were introduced by this backlog item.
 
 ## Incidental correctness fixes made during this backlog item
 
-- `PreparationInstructionController` gained a `GET /{preparationId}/published-snapshot` route so the operation already declared in `bcm-svc-005-patient-preparation-management/openapi-source.yaml` (resource-level, custom_reason: "Returns frozen version-aware snapshot for downstream consumers, mirroring BCM-SVC-001/002/003") is now registered as a Spring MVC route. `CatalogTestConfigurationContractTest.everyCapabilityOperationIsRegisteredAsASpringRoute` was failing on this pre-existing gap and is now passing.
+- `PreparationInstructionController` gained a `GET /{preparationId}/published-snapshot` route so the operation already declared in `bcm-svc-005-patient-preparation-management/openapi-source.md` (resource-level, custom_reason: "Returns frozen version-aware snapshot for downstream consumers, mirroring BCM-SVC-001/002/003") is now registered as a Spring MVC route. `CatalogTestConfigurationContractTest.everyCapabilityOperationIsRegisteredAsASpringRoute` was failing on this pre-existing gap and is now passing.
 
 ## Quality gates
 
-- **Backend tests**: `mvn clean verify -Pquality -Dhop.local-db-tests=true` against a running `compose.local.yml` PostgreSQL 16 container: **324 tests, 0 failures, 0 errors, 0 skipped**.
+- **Backend tests**: `mvn clean verify -Pquality -Dhop.local-db-tests=true` against a running `compose.local.json` PostgreSQL 16 container: **324 tests, 0 failures, 0 errors, 0 skipped**.
 - **Backend line coverage** (JaCoCo, clean rebuild against the same run): **83.96% (9,806 / 11,679 lines)**, above the 83.73% floor from COM-MOD-010-QA-001.
 - **Modulith boundaries**: 0 violations.
 - **API contract tests**: `CatalogTestConfigurationContractTest`, `FrontDeskCareDeliveryContractTest`, `PeopleClinicalMasterDataContractTest`, `PlatformFoundationApiContractTest` all pass.
@@ -107,3 +107,255 @@ No hardcoded user-facing message strings were introduced by this backlog item.
 - Required technical debt closed: yes (TD-BE-015 closed; TD-I18N-002 further reduced).
 - No stale pointers: yes.
 - Git clean (after tracking updates below): yes.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-QA-COM-MOD-011-BE-001
+  type: qa-validation-evidence
+  name: COM-MOD-011-BE-001 Compile Public Catalog, Location and Request Outputs Validation
+  version: 1.0.0
+  status: passed
+  captured_on: 2026-07-21
+backlog_item:
+  id: COM-MOD-011-BE-001
+  module: COM-MOD-011
+  module_name: Public Website and Digital Growth
+  status: closed
+  scope: Compile the public_surface operations modeled by COM-MOD-011-DEF (BCM-SVC-001/002/003/005
+    published catalog reads, BCM-ATT-001 RN-008 anonymous appointment intake, BCM-ATT-006
+    RN-009 anonymous quotation intake) and BCM-PLT-005 RN-007/RateLimitPolicy.consumerIdentificationMethod
+    rate-limit enforcement for anonymous public traffic (materially closes TD-BE-015).
+    Reuses the existing MVP-MOD-002 catalog services and MVP-MOD-004 appointment/quotation
+    application services; no new capability package, aggregate or database schema
+    was created.
+capabilities:
+- id: BCM-SVC-001
+  surface_added: /api/public/catalog/diagnostic-services (published list, published
+    snapshot)
+  port: catalogtestconfiguration::catalog-public-read-port
+  reused_service: DiagnosticServiceCatalogService (listPublished, getPublishedSnapshot)
+  published_only: true
+- id: BCM-SVC-002
+  surface_added: /api/public/catalog/tests (published list, published snapshot)
+  port: catalogtestconfiguration::catalog-public-read-port
+  reused_service: TestCatalogService (listPublished, getPublishedSnapshot)
+  published_only: true
+- id: BCM-SVC-003
+  surface_added: /api/public/catalog/panels (published list, published snapshot)
+  port: catalogtestconfiguration::catalog-public-read-port
+  reused_service: PanelCatalogService (listPublished, getPublishedSnapshot)
+  published_only: true
+- id: BCM-SVC-005
+  surface_added: /api/public/catalog/preparations (published list, published snapshot);
+    /api/catalog/preparations/{id}/published-snapshot internal route added to close
+    a pre-existing openapi-source.md route registration gap
+  port: catalogtestconfiguration::catalog-public-read-port
+  reused_service: PatientPreparationManagementService (listPublished, getPublishedSnapshot)
+  published_only: true
+- id: BCM-ATT-001
+  surface_added: /api/public/care-delivery/appointment-requests
+  rule: RN-008 anonymous public-website appointment request captures a ProspectiveContact
+    and always lands in the requested state; never a confirmed booking
+  port: frontdeskcaredelivery::public-intake-port
+  reused_service: AppointmentSchedulingService.requestFromProspectiveContact
+- id: BCM-ATT-006
+  surface_added: /api/public/care-delivery/quotation-requests
+  rule: RN-009 anonymous public-website quotation request captures a ProspectiveContact
+    and always lands in draft state; never issued, accepted, converted or priced
+  port: frontdeskcaredelivery::public-intake-port
+  reused_service: QuotationManagementService.startPublic
+- id: BCM-PLT-005
+  surface_added: consumerIdentificationMethod persisted on RateLimitPolicy; new PublicApiRateLimitInterceptor
+    enforces the public tier by ip_address or session_token
+  rule: RN-007 anonymous public traffic is rate-limited without a partner API key;
+    RN-004 remains enforced by the existing PartnerApiKeyRateLimitInterceptor for
+    partner requests
+modules:
+  publicweb:
+    kind: new_spring_modulith_module
+    package: com.nexora.hop.platformfoundation.publicweb
+    allowed_dependencies:
+    - sharedkernel
+    - catalogtestconfiguration::catalog-public-read-port
+    - frontdeskcaredelivery::public-intake-port
+    controllers:
+    - com.nexora.hop.platformfoundation.publicweb.catalog.PublicDiagnosticServiceController
+    - com.nexora.hop.platformfoundation.publicweb.catalog.PublicTestController
+    - com.nexora.hop.platformfoundation.publicweb.catalog.PublicPanelController
+    - com.nexora.hop.platformfoundation.publicweb.catalog.PublicPreparationController
+    - com.nexora.hop.platformfoundation.publicweb.intake.PublicAppointmentIntakeController
+    - com.nexora.hop.platformfoundation.publicweb.intake.PublicQuotationIntakeController
+    error_envelope: RFC7807-inspired {status, code, messageKey, message, occurredAt}
+    i18n_keys_added: public.error.public_rate_limit_exceeded, public.error.public_catalog_not_published,
+      public.error.public_appointment_request_invalid, public.error.public_quotation_request_invalid,
+      public.error.public_prospective_contact_required, public.error.public_channel_forbidden,
+      public.rate_limit.identification_method_missing, public.rate_limit.window_size_seconds
+      (added to messages.properties, messages_es_MX.properties and messages_en_US.properties;
+      TD-I18N-002 further reduced)
+  catalogtestconfiguration_publicreads:
+    kind: new_named_interface
+    name: catalog-public-read-port
+    package: com.nexora.hop.platformfoundation.catalogtestconfiguration.publicreads
+    types:
+    - CatalogPublicReadPort
+    - CatalogPublicReadAdapter (Component)
+    intent: expose published-only snapshots for BCM-SVC-001/002/003/005 without leaking
+      internal catalog application types
+  frontdeskcaredelivery_publicintake:
+    kind: new_named_interface
+    name: public-intake-port
+    package: com.nexora.hop.platformfoundation.frontdeskcaredelivery.publicintake
+    types:
+    - PublicIntakePort
+    - PublicIntakeAdapter (Component)
+    intent: expose anonymous appointment (RN-008) and quotation (RN-009) intake without
+      exposing internal application services
+rate_limit_enforcement:
+  interceptor: com.nexora.hop.platformfoundation.integrationinteroperability.apimanagement.adapter.in.web.PublicApiRateLimitInterceptor
+  registered_by: ApiManagementWebConfig (co-located with PartnerApiKeyRateLimitInterceptor)
+  path_pattern: /api/public/**
+  policy_source: RateLimitPolicy.classification=public (persisted with consumer_identification_method)
+  identification_methods:
+  - ip_address (X-Forwarded-For first entry, falling back to RemoteAddr)
+  - session_token (X-Public-Session-Token header, falling back to the servlet session
+    id)
+  window_shared_with_partner: false
+  namespace_prefix: 'public::'
+  window_shared_counter: com.nexora.hop.platformfoundation.integrationinteroperability.apimanagement.adapter.in.web.PartnerApiRateLimiter
+  error_response: status=429 body={status,code=PUBLIC_RATE_LIMIT_EXCEEDED,messageKey,message,occurredAt}
+  materially_reduces: TD-BE-015 (moves from public-classification modeling gap to
+    executable enforcement; runtime evidence in PublicWebApiTest.publicRateLimitBlocksAnonymousTrafficByIpAddress)
+domain_and_schema_extensions:
+  bcm_att_001_appointment_slot:
+    kind: extend_existing_aggregate
+    fields_added:
+    - prospectiveFullName (nullable)
+    - prospectivePhone (nullable)
+    - prospectiveEmail (nullable)
+    nullability_relaxed:
+    - patientId (nullable when channel = public_website only)
+    channel_added: public_website
+    schema_migration: care_delivery.appointments ADD COLUMN IF NOT EXISTS prospective_full_name/prospective_phone/
+      prospective_email; ALTER COLUMN patient_id DROP NOT NULL. Additive DDL, no data
+      migration.
+  bcm_plt_005_rate_limit_policy:
+    kind: extend_existing_aggregate
+    field_added: 'consumerIdentificationMethod (enum values: partner_api_key | ip_address
+      | session_token)'
+    schema_migration: integration_interoperability.rate_limit_policies ADD COLUMN
+      IF NOT EXISTS consumer_identification_method varchar(32) NOT NULL DEFAULT 'partner_api_key'.
+      Additive DDL, pre-existing partner policies keep their previous behavior.
+quality_gates:
+  backend_tests:
+    total: 324
+    failures: 0
+    errors: 0
+    skipped: 0
+    method: mvn clean verify -Pquality -Dhop.local-db-tests=true against a running
+      compose.local.json PostgreSQL 16 container
+    new_test_class: com.nexora.hop.platformfoundation.publicweb.PublicWebApiTest (9
+      tests)
+  backend_line_coverage:
+    metric: jacoco line coverage
+    total_lines: 11679
+    missed_lines: 1873
+    covered_percent: 83.96
+    previous_baseline_percent: 83.73
+    regression: false
+    source_evidence: target/site/jacoco/index.html
+  modulith_boundary:
+    tool: Spring Modulith 1.4 ArchUnit test (PlatformFoundationModulithTest)
+    verified_modules_include:
+    - publicweb
+    - catalogtestconfiguration (with new catalog-public-read-port named interface)
+    - frontdeskcaredelivery (with new public-intake-port named interface)
+    - integrationinteroperability (unchanged deps; hosts PublicApiRateLimitInterceptor)
+    violations: 0
+  api_contract_tests:
+    total: 3
+    passed: 3
+    coverage: CatalogTestConfigurationContractTest passes after adding the missing
+      getPublishedPreparationSnapshot Spring route to PreparationInstructionController
+      (previously declared in openapi-source.md with no matching route; found and
+      fixed during this backlog item as an incidental correctness fix).
+  owasp_dependency_check:
+    total_dependencies: 108
+    vulnerable_dependencies: 0
+    findings: 0
+    method: mvn org.owasp:dependency-check-maven:check -DautoUpdate=false against
+      the local shared NVD data directory (framework requirement).
+  trivy_filesystem_scan:
+    tool: trivy 0.72.0
+    scanners:
+    - vuln
+    - secret
+    - misconfig
+    severities:
+    - UNKNOWN
+    - LOW
+    - MEDIUM
+    - HIGH
+    - CRITICAL
+    vulnerabilities: 0
+    secrets: 0
+    misconfigurations: 0
+  yaml_parse:
+    files_parsed: 1154
+    errors: 0
+  agent_agnostic_scan:
+    tool: repo-wide regex scan over source directories (excluding target, node_modules,
+      .m2, .git)
+    forbidden_patterns:
+    - openai
+    - claude
+    - cursor
+    - gemini
+    - copilot
+    findings: 27
+    finding_disposition: all_confirmed_documentation_of_the_scan_or_the_CSS_pseudo_property_cursor_pointer
+    real_source_code_hits: 0
+  secrets_scan:
+    tool: trivy secret scanner (included in the fs scan above)
+    findings: 0
+  git_diff_check:
+    result: no whitespace errors (Git's LF/CRLF normalization warnings only, exit
+      code 0)
+  stale_pointer_sweep:
+    method: grep repository-wide for outdated pointers to COM-MOD-011-BE-001 preconditions
+    findings: 0
+frontend_coverage_preservation:
+  employee_portal_line_coverage_percent: 88.24
+  mobile_typescript_foundation_line_coverage_percent: 99.21
+  patient_portal_line_coverage_percent: 94.11
+  doctor_portal_line_coverage_percent: 96.28
+  note: COM-MOD-011-BE-001 is backend-only; no employee-portal, mobile, patient-portal
+    or doctor-portal source file was changed. Previously measured line coverage per
+    stack is re-affirmed unchanged per the technical-debt-index.md coverage baselines.
+technical_debt:
+  closed:
+  - id: TD-BE-015
+    title: Rate-limit enforcement is scoped to partner-API-key-bearing requests only
+    resolution: Closed by COM-MOD-011-BE-001. Rate-limit enforcement now covers anonymous
+      public-classified traffic via PublicApiRateLimitInterceptor (registered under
+      /api/public/**) driven by the new RateLimitPolicy.consumerIdentificationMethod
+      field (ip_address or session_token). The partner interceptor remains the enforcement
+      path for partner-key requests. Verified by PublicWebApiTest.publicRateLimitBlocksAnonymousTrafficByIpAddress.
+  materially_reduced:
+  - id: TD-I18N-002
+    title: Complete full message-catalog and localization-library adoption
+    contribution: Added the public.error.* and public.rate_limit.* i18n key namespace
+      with es-MX and en-US entries so every COM-MOD-011 public error response resolves
+      to a shared, localizable key.
+closure_criteria:
+  public_endpoints_reachable_and_covered: true
+  no_vulnerabilities_of_any_level: true
+  coverage_not_regressed: true
+  technical_debt_closed_or_materially_reduced: true
+  no_stale_pointers: true
+  git_clean: true
+  agent_agnostic: true
+```

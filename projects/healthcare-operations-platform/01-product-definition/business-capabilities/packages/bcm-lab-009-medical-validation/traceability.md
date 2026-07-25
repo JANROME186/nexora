@@ -1,0 +1,116 @@
+---
+id: HOP-TRACE-BCM-LAB-009
+format: markdown_structured_payload
+type: traceability
+name: Medical Validation Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Medical Validation Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-LAB-009
+  type: traceability
+  name: Medical Validation Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-009
+traces:
+  capability_map:
+    bcm_001: BCM-LAB-009
+    domain: DOM-05 Clinical Operations
+  dependency_map:
+    bcm_002_profile: clinical_operations
+    required_capabilities:
+    - BCM-LAB-008
+    - BCM-PER-003
+    - BCM-PLT-001
+    - BCM-PLT-007
+    downstream_capabilities:
+    - BCM-LAB-010
+  domain_foundation:
+    bounded_context: laboratory-results
+    aggregate_reference: AGG-009 LaboratoryResult (owned by BCM-LAB-006)
+    context_relationships:
+    - REL-CTX-004
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-002
+    - VO-ID-006
+    - VO-ID-009
+    - VO-007
+  brm_alignment:
+  - rule: BRM-001-R017
+    alignment: Medical validation is restricted to a licensed human authority and
+      can never be performed by an AI capability (RN-002, RN-003).
+  - rule: BRM-001-R018
+    alignment: Medical validation events are audited (RN-005, RN-006).
+  hrp_alignment:
+  - process: HRP-001-P06 Result Validation and Release
+    capability_role: Perform medical validation segment of the result lifecycle process;
+      medical validation is required before release.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-MVL-009-01
+  - rule: RN-002
+    tests:
+    - TST-MVL-009-02
+  - rule: RN-003
+    tests:
+    - TST-MVL-009-03
+  - rule: RN-004
+    tests:
+    - TST-MVL-009-04
+  - rule: RN-005
+    tests:
+    - TST-MVL-009-05
+  - rule: RN-006
+    tests:
+    - TST-MVL-009-06
+  processes_to_commands:
+  - process: PRC-MVL-009-01
+    commands:
+    - PerformMedicalValidation
+  api_to_permissions:
+  - operation: performMedicalValidation
+    scope: result.manage
+  - operation: listMedicalValidationWorklist
+    scope: result.manage
+  events_to_audit:
+  - event: ResultMedicallyValidated
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-MVL-009-01
+    operations:
+    - listMedicalValidationWorklist
+  - screen: SCR-MVL-009-02
+    operations:
+    - performMedicalValidation
+  consumed_by_capabilities:
+  - capability: BCM-LAB-010
+    relationship: Result release reads the medically validated result and invokes
+      ReleaseResult.
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/laboratory-workflow/MVP-MOD-006-DEF-validation.md
+  backlog_items:
+    definition: MVP-MOD-006-DEF
+    definition_status: modeled
+    compilation: MVP-MOD-006-BE-001
+    compilation_status: closed
+    custom_rules: MVP-MOD-006-BE-002
+    custom_rules_status: closed
+    ui: MVP-MOD-006-FE-001
+    ui_status: closed
+    validation: MVP-MOD-006-QA-001
+    validation_status: closed
+    closeout: MVP-MOD-006-CLOSEOUT
+    closeout_status: closed
+```

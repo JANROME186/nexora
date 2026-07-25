@@ -1,0 +1,116 @@
+---
+id: HOP-EVT-BCM-PER-003
+format: markdown_structured_payload
+type: events
+name: Doctor Management Events
+version: 0.1.0
+status: modeled
+---
+
+# Doctor Management Events
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-EVT-BCM-PER-003
+  type: events
+  name: Doctor Management Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PER-003
+  aggregate: Doctor
+domain_events:
+- name: DoctorRegistered
+  description: A new doctor master-data record was registered.
+  payload:
+  - doctorId
+  - tenantId
+  - laboratoryId
+  - doctorCode
+  - doctorType
+  - registeredAt
+  - actorId
+  audit: true
+- name: DoctorUpdated
+  description: A doctor master-data record was updated.
+  payload:
+  - doctorId
+  - changedFields
+  - updatedAt
+  - actorId
+  audit: true
+- name: DoctorCredentialAttached
+  description: A professional credential was attached to a doctor with pending verification.
+  payload:
+  - doctorId
+  - credentialId
+  - credentialType
+  - actorId
+  audit: true
+- name: DoctorCredentialVerified
+  description: A doctor credential was verified.
+  payload:
+  - doctorId
+  - credentialId
+  - verifiedAt
+  - actorId
+  audit: true
+- name: DoctorCredentialRevoked
+  description: A doctor credential was revoked.
+  payload:
+  - doctorId
+  - credentialId
+  - revokedAt
+  - actorId
+  audit: true
+- name: DoctorCredentialExpired
+  description: A doctor credential automatically expired.
+  payload:
+  - doctorId
+  - credentialId
+  - expiredAt
+  audit: true
+- name: DoctorSuspended
+  description: A doctor was suspended.
+  payload:
+  - doctorId
+  - suspendedAt
+  - reasonCode
+  - actorId
+  audit: true
+- name: DoctorRetired
+  description: A doctor was retired.
+  payload:
+  - doctorId
+  - retiredAt
+  - actorId
+  audit: true
+- name: DoctorPortalAccessPrepared
+  description: A doctor portal access baseline was prepared for later provisioning.
+  payload:
+  - doctorId
+  - portalStatus
+  - preparedAt
+  - actorId
+  audit: true
+integration_events:
+  published:
+  - name: DoctorSnapshotProjected
+    description: Signals downstream consumers that a Doctor projection changed.
+    consumers:
+    - orders-samples
+    - laboratory-results
+    - imaging-operations
+    - doctor-portal
+  consumed:
+  - name: PersonDuplicateDetectionRequested
+    source: BCM-PER-001
+published_language:
+- DoctorId
+- DoctorSnapshot
+- DoctorEligibilityStatus
+```

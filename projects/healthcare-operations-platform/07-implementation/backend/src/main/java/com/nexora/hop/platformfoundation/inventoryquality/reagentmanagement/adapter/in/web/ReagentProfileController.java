@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Rendered controller for bcm-inv-002-reagent-management/openapi-source.yaml. */
+/** Rendered controller for bcm-inv-002-reagent-management/openapi-source.md. */
 @RestController
 @RequestMapping("/api/inventory/reagents")
 class ReagentProfileController {

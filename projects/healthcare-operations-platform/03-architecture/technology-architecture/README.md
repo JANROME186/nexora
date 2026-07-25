@@ -15,10 +15,10 @@ La tecnología debe permitir que Nexora pueda ejecutarse en:
 | Artefacto | Propósito |
 |---|---|
 | `technology-architecture.md` | Descripción humana de la arquitectura tecnológica. |
-| `technology-architecture.yaml` | Modelo computable para agentes y validadores. |
+| `technology-architecture.md` | Modelo computable para agentes y validadores. |
 | `deployment-profiles/deployment-profiles.md` | Perfiles Local, Team, Enterprise, SaaS y On-Premise. |
 | `runtime/container-runtime.md` | Estándar de ejecución con contenedores OCI. |
 | `storage/storage-abstraction.md` | Abstracción de almacenamiento. |
 | `observability/opentelemetry-observability.md` | Observabilidad portable basada en OpenTelemetry. |
 | `local-development/local-development.md` | Ambiente local reproducible. |
-| `local-toolchain-inventory.yaml` | Inventario local de rutas, versiones y comandos base para herramientas de desarrollo y validación. |
+| `local-toolchain-inventory.md` | Inventario local de rutas, versiones y comandos base para herramientas de desarrollo y validación. |

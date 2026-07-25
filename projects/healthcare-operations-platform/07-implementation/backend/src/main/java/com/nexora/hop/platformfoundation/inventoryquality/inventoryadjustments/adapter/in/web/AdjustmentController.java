@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Rendered controller for bcm-inv-008-inventory-adjustments/openapi-source.yaml. */
+/** Rendered controller for bcm-inv-008-inventory-adjustments/openapi-source.md. */
 @RestController
 @RequestMapping("/api/inventory/adjustments")
 class AdjustmentController {

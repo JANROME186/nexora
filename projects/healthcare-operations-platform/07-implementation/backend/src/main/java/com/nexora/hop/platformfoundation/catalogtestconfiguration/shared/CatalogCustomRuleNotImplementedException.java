@@ -1,7 +1,7 @@
 package com.nexora.hop.platformfoundation.catalogtestconfiguration.shared;
 
 /**
- * Explicit hook for a business rule or operation that generation-plan.yaml declares as a
+ * Explicit hook for a business rule or operation that generation-plan.md declares as a
  * custom_implementation_point deferred to MVP-MOD-002-BE-002. Compiling MVP-MOD-002-BE-001
  * must not implement complex custom business rules; this exception marks precisely where
  * the follow-up backlog item must plug in real behavior.

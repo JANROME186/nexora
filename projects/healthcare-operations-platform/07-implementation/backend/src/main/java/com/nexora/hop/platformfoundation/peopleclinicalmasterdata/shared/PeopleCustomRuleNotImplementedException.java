@@ -2,7 +2,7 @@ package com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared;
 
 /**
  * Explicit hook for a People and Clinical Master Data business rule that is declared as a
- * {@code custom_implementation_point} in generation-plan.yaml and deferred to MVP-MOD-003-BE-002.
+ * {@code custom_implementation_point} in generation-plan.md and deferred to MVP-MOD-003-BE-002.
  * <p>
  * Compiling MVP-MOD-003-BE-001 must never invent custom behavior. Endpoints that expose those
  * deferred rules raise this exception so the follow-up backlog item has a discoverable, testable

@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 /**
  * BCM-INV-009 Waste Management. Decrements the referenced lot's remainingQuantity and the
  * InventoryItem's stockSummary. If disposing the entire remaining lot quantity, transitions the
- * lot to disposed (conditional cross-entity status transition per openapi-source.yaml
+ * lot to disposed (conditional cross-entity status transition per openapi-source.md
  * custom_reason).
  */
 @Service

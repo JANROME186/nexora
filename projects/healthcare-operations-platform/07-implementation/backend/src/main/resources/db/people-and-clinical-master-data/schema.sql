@@ -1,6 +1,6 @@
 -- Generated/model-derived schema for MVP-MOD-003 People and Clinical Master Data. Source models:
 -- 01-product-definition/business-capabilities/packages/bcm-per-001/002/003 and bcm-att-002
--- business-model.yaml. Compiled for backlog item MVP-MOD-003-BE-001. Owning bounded contexts
+-- business-model.md. Compiled for backlog item MVP-MOD-003-BE-001. Owning bounded contexts
 -- patient-management (AGG-001 Patient) and medical-staff (AGG-005 Doctor) share one Postgres
 -- schema {people} for MVP compilation. Table-per-aggregate boundaries stay intact.
 

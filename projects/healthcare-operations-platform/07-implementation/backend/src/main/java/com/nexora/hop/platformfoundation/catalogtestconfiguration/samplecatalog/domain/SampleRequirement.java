@@ -8,7 +8,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.Localiz
 /**
  * The sample specification required to run a test (BCM-SVC-007, ENT-SMP-002).
  *
- * <p>Model gap: business-model.yaml does not declare tenantId/laboratoryId fields on
+ * <p>Model gap: business-model.md does not declare tenantId/laboratoryId fields on
  * SampleRequirement (unlike every other catalog entity). This implementation adds them for
  * tenant/laboratory scoping consistency with the rest of the Diagnostic Catalog, following the
  * minimum-compatible-option rule; see traceability notes for MVP-MOD-002-BE-001.</p>

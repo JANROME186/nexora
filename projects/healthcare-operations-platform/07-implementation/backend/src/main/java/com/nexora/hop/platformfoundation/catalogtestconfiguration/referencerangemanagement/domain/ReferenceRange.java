@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 /**
  * A demographic-segmented range of expected analyte values (BCM-SVC-006).
- * Modeled in bcm-svc-006-reference-range-management/business-model.yaml (ENT-REF-001).
+ * Modeled in bcm-svc-006-reference-range-management/business-model.md (ENT-REF-001).
  */
 public record ReferenceRange(
         String rangeId,

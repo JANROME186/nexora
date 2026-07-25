@@ -1,7 +1,7 @@
 # Nexora Application Portfolio
 
-**ID:** APP-PORT-001  
-**Estado:** Draft  
+**ID:** APP-PORT-001
+**Estado:** Draft
 **Versión:** 0.17.0
 
 ## Objetivo
@@ -58,3 +58,39 @@ Cada aplicación debe:
 - Usar componentes del design system.
 - Soportar degradación progresiva cuando el dispositivo o navegador tenga capacidades limitadas.
 - Emitir trazas y métricas mínimas.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: APP-PORT-001
+name: Nexora Application Portfolio
+version: 0.17.0
+status: Draft
+applications:
+  public:
+  - APP-001
+  employee:
+  - APP-002
+  patient:
+  - APP-003
+  - APP-005
+  doctor:
+  - APP-004
+  - APP-006
+  externalSystems:
+  - APP-007
+  - APP-008
+  intelligence:
+  - APP-009
+  analytics:
+  - APP-010
+qualityAttributes:
+- API Contract First
+- Centralized IAM
+- Internationalization
+- Progressive Enhancement
+- Observability
+- Accessibility
+```

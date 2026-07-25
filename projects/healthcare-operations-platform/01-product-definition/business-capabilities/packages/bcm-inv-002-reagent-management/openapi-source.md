@@ -1,0 +1,65 @@
+---
+id: HOP-API-SRC-BCM-INV-002
+format: markdown_structured_payload
+type: openapi-source
+name: Reagent Management API Source Model
+version: 0.1.0
+status: modeled
+---
+
+# Reagent Management Api Source Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-API-SRC-BCM-INV-002
+  type: openapi-source
+  name: Reagent Management API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-002
+api:
+  base_path: /api/inventory/reagents
+  surface_classification: internal
+  security:
+    scheme: bearer_jwt
+    required_scopes_default:
+    - inventory.reagent.manage
+    - inventory.reagent.read
+resources:
+- name: ReagentProfileAssignment
+  operations:
+  - id: assignReagentProfile
+    method: POST
+    path: /items/{inventoryItemId}/reagent-profile
+    scopes:
+    - inventory.reagent.manage
+    generatable: false
+    custom_reason: Delegated single-field mutation with cross-capability itemType
+      validation.
+  - id: getReagentProfile
+    method: GET
+    path: /items/{inventoryItemId}/reagent-profile
+    scopes:
+    - inventory.reagent.read
+    generatable: true
+schemas_source:
+- ReagentProfileAssignment
+error_model:
+  standard: rfc7807
+  code_field: 'Every error response carries a first-class `code` string field, consistent
+    with the COM-MOD-010 module convention.
+
+    '
+  domain_errors:
+  - code: REAGENT_ITEM_TYPE_NOT_ELIGIBLE
+    maps_to_rule: RN-001
+  - code: REAGENT_CONSUMPTION_RATIO_INVALID
+    maps_to_rule: RN-002
+  - code: REAGENT_SCOPE_MISMATCH
+    maps_to_rule: RN-004
+```

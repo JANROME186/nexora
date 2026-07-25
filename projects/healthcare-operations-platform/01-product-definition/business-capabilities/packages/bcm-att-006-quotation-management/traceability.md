@@ -1,0 +1,245 @@
+---
+id: HOP-TRACE-BCM-ATT-006
+format: markdown_structured_payload
+type: traceability
+name: Quotation Management Traceability
+version: 0.2.0
+status: modeled
+---
+
+# Quotation Management Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-ATT-006
+  type: traceability
+  name: Quotation Management Traceability
+  version: 0.2.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-006
+traces:
+  capability_map:
+    bcm_001: BCM-ATT-006
+    domain: DOM-04 Care Delivery
+  dependency_map:
+    bcm_002_profile: care_delivery
+    required_capabilities:
+    - BCM-SVC-001
+    - BCM-SVC-002
+    - BCM-SVC-003
+    - BCM-SVC-009
+    - BCM-PLT-001
+    - BCM-PLT-007
+    downstream_capabilities:
+    - BCM-LAB-001
+    - BCM-ATT-005
+    - BCM-ATT-008
+  domain_foundation:
+    bounded_context: cash-sales
+    secondary_bounded_context: catalog-test-configuration
+    aggregate_reference: none (Sale AGG-010 deferred to future MVP-MOD-005; QuotationRequest
+      is a standalone process aggregate owned by this capability)
+    context_relationships:
+    - REL-CTX-003
+    - REL-CTX-006
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-002
+    - VO-ID-003
+    - VO-ID-005
+    - VO-ID-007
+    - VO-001
+    - VO-003
+    - VO-004
+    - VO-007
+  brm_alignment:
+  - rule: BRM-001-R005
+    alignment: Quotation lines must reference only published catalog items (RN-001).
+  - rule: BRM-001-R006
+    alignment: Quotations preserve a price snapshot before acceptance and conversion
+      (RN-002).
+  - rule: BRM-001-R018
+    alignment: Quotation events are append-only and audit trace fields are required
+      (RN-008).
+  hrp_alignment:
+  - process: HRP-001-P03 Patient Registration and Order Intake
+    capability_role: Optional pre-order price estimation segment feeding order intake
+      on acceptance.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-QUO-006-01
+  - rule: RN-002
+    tests:
+    - TST-QUO-006-02
+  - rule: RN-003
+    tests:
+    - TST-QUO-006-03
+  - rule: RN-004
+    tests:
+    - TST-QUO-006-04
+  - rule: RN-005
+    tests:
+    - TST-QUO-006-05
+  - rule: RN-006
+    tests:
+    - TST-QUO-006-06
+  - rule: RN-007
+    tests:
+    - TST-QUO-006-07
+  - rule: RN-008
+    tests:
+    - TST-QUO-006-08
+  - rule: RN-009
+    tests:
+    - TST-QUO-006-09
+  processes_to_commands:
+  - process: PRC-QUO-006-01
+    commands:
+    - StartQuotation
+  - process: PRC-QUO-006-02
+    commands:
+    - IssueQuotation
+  - process: PRC-QUO-006-03
+    commands:
+    - AcceptQuotation
+  - process: PRC-QUO-006-04
+    commands:
+    - ConvertQuotation
+  - process: PRC-QUO-006-05
+    commands:
+    - CancelQuotation
+    - ExpireQuotation
+  api_to_permissions:
+  - operation: startQuotation
+    scope: quotation.manage
+  - operation: issueQuotation
+    scope: quotation.manage
+  - operation: acceptQuotation
+    scope: quotation.manage
+  - operation: convertQuotation
+    scope: quotation.manage
+  - operation: cancelQuotation
+    scope: quotation.manage
+  - operation: expireQuotation
+    scope: quotation.manage
+  - operation: listQuotations
+    scope: quotation.read
+  - operation: getQuotation
+    scope: quotation.read
+  events_to_audit:
+  - event: QuotationDrafted
+    audit_sink: BCM-PLT-007
+  - event: QuotationIssued
+    audit_sink: BCM-PLT-007
+  - event: QuotationAccepted
+    audit_sink: BCM-PLT-007
+  - event: QuotationConverted
+    audit_sink: BCM-PLT-007
+  - event: QuotationClosed
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-QUO-006-01
+    operations:
+    - startQuotation
+    - issueQuotation
+  - screen: SCR-QUO-006-02
+    operations:
+    - listQuotations
+  - screen: SCR-QUO-006-03
+    operations:
+    - getQuotation
+    - acceptQuotation
+    - convertQuotation
+    - cancelQuotation
+  future_aggregate_note: 'Once MVP-MOD-005 Cashier and Billing Request models the
+    Sale aggregate (AGG-010), a follow-up capability-package revision may add an optional
+    QuotationRequest-to-Sale conversion path alongside the existing QuotationRequest-to-DiagnosticOrder
+    path. No forward dependency is taken on unbuilt MVP-MOD-005 artifacts.
+
+    '
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.md
+  compilation_qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-001-validation.md
+  compilation_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-004-BE-001/security-quality-evidence.md
+  custom_rules_qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-002-validation.md
+  custom_rules_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-004-BE-002/security-quality-evidence.md
+  compilation_backend_root: ../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/frontdeskcaredelivery/quotationmanagement/
+  compilation_schema: ../../../../07-implementation/backend/src/main/resources/db/front-desk-care-delivery/schema.sql
+  backlog_items:
+    definition: MVP-MOD-004-DEF
+    definition_status: closed
+    compilation: MVP-MOD-004-BE-001
+    compilation_status: closed
+    custom_rules: MVP-MOD-004-BE-002
+    custom_rules_status: closed
+    ui: MVP-MOD-004-FE-001
+    ui_status: closed
+    validation: MVP-MOD-004-QA-001
+    validation_status: closed
+    closeout: MVP-MOD-004-CLOSEOUT
+    closeout_status: closed
+    stale_status_correction_note: 'Corrected by COM-MOD-011-DEF: ui/validation/closeout
+      were stale at "pending" though MVP-MOD-004-FE-001, MVP-MOD-004-QA-001 and MVP-MOD-004-CLOSEOUT
+      are all closed per PROJECT_STATE.md completed_backlog_items and capability-package-index.md
+      (roadmap_group MVP-MOD-004, package_status module_closed).'
+  cross_module_reuse:
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-DEF
+    surface_added: public_website
+    note: Public website quotation-request intake modeled by extending openapi-source.md
+      (RN-009, public_surface reusing startQuotation), capability-package.md, business-rules.md,
+      test-model.md, ui-model.md and permissions.md. No new capability package,
+      aggregate or schema was created.
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-BE-001
+    surface_added: public_website (runtime intake)
+    note: 'Compiled POST /api/public/care-delivery/quotation-requests via the new
+      frontdeskcaredelivery::public-intake-port named interface. RN-009 enforced:
+      QuotationManagementService.startPublic accepts a ProspectiveContact only, always
+      lands in draft state, and reuses the existing RN-001 published-catalog validation
+      for every line. No new capability package, aggregate or schema was created;
+      the existing ProspectiveContact inline fields on QuotationRequest are reused.'
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-WEB-001
+    surface_added: public_website (frontend intake)
+    note: Compiled QuotationRequestPage at 07-implementation/public-website/src/pages/,
+      posting to /api/public/care-delivery/quotation-requests via src/api/careDeliveryApi.ts.
+      Reuses the same CatalogItemLinesField component as AppointmentRequestPage, extended
+      with a per-line quantity input. Same client-side validation (contact-required-or,
+      at-least-one- line, consent) and 429 cooldown handling pattern as the appointment
+      form.
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-FE-001
+    surface_added: employee_portal (staff review) + backend defect fix
+    note: 'Defect found and fixed: unlike AppointmentSlot, QuotationRequest had no
+      channel field, so public-website-submitted drafts were only distinguishable
+      from staff-initiated ones by an unreliable status+patientId heuristic. Added
+      QuotationRequest.channel (mirroring AppointmentSlot''s CHANNEL_* constants),
+      an additive nullable care_delivery.quotations.channel column, and QuotationManagementService
+      validation: start() defaults to channel=employee_portal when omitted and rejects
+      channel=public_website from internal callers; startPublic() always stamps channel=public_website
+      regardless of input. Compiled PublicQuotationRequestsScreen at 07-implementation/employee-portal/src/components/screens/,
+      listing GET /api/care-delivery/quotations filtered client-side to channel=="public_website"
+      && status=="draft", with issue/cancel triage actions via the existing endpoints.
+      No new action endpoint was created.'
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-QA-001
+    surface_added: integrated QA, SEO and privacy validation
+    note: Validated public quotation request intake, channel field integrity, and
+      staff triage queue end to end with zero vulnerabilities across Maven quality,
+      OWASP Dependency-Check, npm audit, and Trivy fs scans. Verified privacy consent,
+      429 rate limit handling, IAM permission gating, es-MX/en-US i18n key parity
+      and axe-core accessibility checks.
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-CLOSEOUT
+    surface_added: module closeout and registry update
+    note: Formally closed COM-MOD-011 Public Website and Digital Growth module. Confirmed
+      reused public quotation request surfaces, zero vulnerability findings, zero
+      coverage regressions, and all quality gates passing clean.
+```

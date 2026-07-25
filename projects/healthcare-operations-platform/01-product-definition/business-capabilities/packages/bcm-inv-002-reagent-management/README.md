@@ -22,7 +22,7 @@ mutation authority over `InventoryItem.reagentProfile` only.
 ## Package contents
 
 Same 14-artifact structure as every COM-MOD-010 package (see
-`capability-package.yaml` `required_artifacts`).
+`capability-package.md` `required_artifacts`).
 
 ## Key rules modeled
 
@@ -33,6 +33,6 @@ Same 14-artifact structure as every COM-MOD-010 package (see
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers itemType eligibility and the delegated field-mutation
 boundary.

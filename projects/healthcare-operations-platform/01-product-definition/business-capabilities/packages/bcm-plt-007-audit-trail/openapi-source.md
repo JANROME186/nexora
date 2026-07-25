@@ -1,0 +1,135 @@
+---
+id: openapi-source
+format: markdown_structured_payload
+---
+
+# Openapi Source
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+openapi: 3.0.3
+info:
+  title: Audit Trail API
+  version: 1.1.0
+  description: API for querying, searching, and exporting append-only security and
+    operational audit trail logs.
+paths:
+  /api/audit/events:
+    get:
+      summary: Search audit events
+      operationId: searchAuditEvents
+      parameters:
+      - name: category
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: complianceCorrelationId
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: qualityInvestigationId
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - name: fromDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: toDate
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: List of audit events.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuditEventResponse'
+  /api/audit/events/export:
+    post:
+      summary: Export compliance audit evidence package
+      operationId: exportAuditEvents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportAuditEventsRequest'
+      responses:
+        '200':
+          description: Export package generated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportAuditEventsResponse'
+components:
+  schemas:
+    ExportAuditEventsRequest:
+      type: object
+      required:
+      - fromDate
+      - toDate
+      properties:
+        category:
+          type: string
+        complianceCorrelationId:
+          type: string
+        fromDate:
+          type: string
+          format: date-time
+        toDate:
+          type: string
+          format: date-time
+        format:
+          type: string
+          enum:
+          - csv
+          - json
+    ExportAuditEventsResponse:
+      type: object
+      properties:
+        exportId:
+          type: string
+          format: uuid
+        recordCount:
+          type: integer
+        storedDocumentId:
+          type: string
+          format: uuid
+        generatedAt:
+          type: string
+          format: date-time
+    AuditEventResponse:
+      type: object
+      properties:
+        eventId:
+          type: string
+          format: uuid
+        category:
+          type: string
+        eventType:
+          type: string
+        actorId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        complianceCorrelationId:
+          type: string
+        eventHash:
+          type: string
+```

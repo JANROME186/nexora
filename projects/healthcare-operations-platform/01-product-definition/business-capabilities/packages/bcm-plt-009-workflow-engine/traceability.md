@@ -1,0 +1,76 @@
+---
+id: HOP-TRC-BCM-PLT-009
+format: markdown_structured_payload
+type: traceability
+name: Workflow Engine Traceability Matrix
+version: 1.0.0
+---
+
+# Workflow Engine Traceability Matrix
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRC-BCM-PLT-009
+  type: traceability
+  name: Workflow Engine Traceability Matrix
+  version: 1.0.0
+capability_id: BCM-PLT-009
+roadmap_group: COM-MOD-012
+mappings:
+- requirement: Automated SaaS Operational Workflows and Safe Upgrades
+  rules:
+  - RN-WFK-001
+  - RN-WFK-002
+  - RN-WFK-003
+  processes:
+  - PROC-WFK-001
+  - PROC-WFK-002
+  events:
+  - WorkflowStartedEvent
+  - WorkflowCompletedEvent
+  - RollbackTriggeredEvent
+  api_endpoints:
+  - /api/v1/platform/workflows/executions
+  - /api/v1/platform/workflows/executions/{executionId}/rollback
+  permissions:
+  - workflow:read
+  - workflow:execute
+  - workflow:rollback
+  tests:
+  - TEST-WFK-001
+  - TEST-WFK-002
+  - TEST-WFK-003
+operational_strategy:
+  backlog_item: COM-MOD-012-OPS-002
+  status: closed
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.md
+  contribution: Release promotion, approval, rollback and incident-handoff workflow
+    boundaries (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002 documents the concrete incident-response,
+    rollback-incident-handoff and post-incident-review runbooks as this capability's
+    target workflow, currently executed manually pending BCM-PLT-009's own backend
+    implementation (deliberately deferred by COM-MOD-012-BE-001 and registered as
+    TD-BE-017, since a workflow engine shell with no real process to orchestrate would
+    itself be unwarranted CRUD).
+validation:
+  backlog_item: COM-MOD-012-QA-001
+  status: validated
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.md
+  contribution: 'Confirmed BCM-PLT-009 remains not_implemented (TD-BE-017, unchanged).
+    Manually exercised its target workflow''s first two steps for real: backup-runbook.md
+    (pg_dump, checksum, structural verification) and restore-runbook.md (isolated-database
+    restore rehearsal with matching row counts), both executed successfully against
+    the running local stack, confirming the manual procedure remains fully functional
+    while automation is deferred.'
+marketplace_enablement:
+  backlog_item: COM-MOD-017-DEF
+  status: modeled
+  contribution: Orchestrates package security review, commercial approval, installation,
+    activation, upgrade, rollback, suspension, uninstall and retirement workflows
+    without embedding provider-specific agent or billing runtime assumptions.
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.md
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.md
+```

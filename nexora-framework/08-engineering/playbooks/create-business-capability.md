@@ -6,11 +6,11 @@ Create a complete Nexora Capability Library package for a business capability.
 
 ## Steps
 
-1. Read `PROJECT_MANIFEST.yaml`.
-2. Read `SOURCE_OF_TRUTH.yaml`.
+1. Read `PROJECT_MANIFEST.md`.
+2. Read `SOURCE_OF_TRUTH.md`.
 3. Assign capability ID using the Knowledge ID convention.
 4. Create folder under `capability-library/{CAP-ID}-{slug}`.
-5. Create `README.md` and `capability.yaml`.
+5. Create `README.md` and `capability.md`.
 6. Define capability purpose, actors, goals, included and excluded scope.
 7. Define business rules before user stories.
 8. Define decision tables for conditional behavior.

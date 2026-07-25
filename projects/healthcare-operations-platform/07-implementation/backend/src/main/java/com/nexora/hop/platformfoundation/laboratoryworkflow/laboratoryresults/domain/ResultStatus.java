@@ -2,7 +2,7 @@ package com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.d
 
 /**
  * Laboratory result lifecycle status (AGG-009, BCM-LAB-006).
- * Source model: bcm-lab-006-laboratory-processing/business-model.yaml VO-LPR-010.
+ * Source model: bcm-lab-006-laboratory-processing/business-model.md VO-LPR-010.
  */
 public enum ResultStatus {
     captured,

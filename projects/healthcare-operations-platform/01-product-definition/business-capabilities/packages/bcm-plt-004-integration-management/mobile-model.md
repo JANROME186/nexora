@@ -1,0 +1,35 @@
+---
+id: HOP-MOB-BCM-PLT-004
+format: markdown_structured_payload
+type: mobile-model
+name: Integration Management Mobile Model
+version: 0.1.0
+status: deferred
+---
+
+# Integration Management Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-PLT-004
+  type: mobile-model
+  name: Integration Management Mobile Model
+  version: 0.1.0
+  status: deferred
+  classification: editable_model
+  capability: BCM-PLT-004
+mobile_scope:
+  status: not_required
+  rationale: 'Integration Management is an administrative, system-to-system capability
+    with no mobile surface; the module''s product_surfaces classify mobile_app as
+    not_required for MVP-MOD-008.
+
+    '
+  deferred_to: []
+  flows: []
+  offline_expectations: none
+```

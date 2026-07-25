@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS platform_configuration.feature_flags (
     updated_by varchar(80) NOT NULL
 );
 
--- Baseline operational configuration parameters (business-model.yaml ConfigKeyRoot); the session
+-- Baseline operational configuration parameters (business-model.md ConfigKeyRoot); the session
 -- timeout is tenant-overridable, the maintenance-mode switch is platform-global only.
 INSERT INTO platform_configuration.config_parameters
     (config_key, value_type, raw_value, tenant_override_allowed, is_encrypted) VALUES

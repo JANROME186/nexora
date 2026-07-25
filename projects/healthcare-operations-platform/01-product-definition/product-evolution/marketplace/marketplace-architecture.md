@@ -6,11 +6,11 @@
 
 Framework standard:
 
-`../../../../../nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
+`../../../../../nexora-framework/02-standards/standards/product-marketplace-standard.md`
 
 Project contract:
 
-`../../../05-contracts/marketplace/product-marketplace/product-marketplace-contract.yaml`
+`../../../05-contracts/marketplace/product-marketplace/product-marketplace-contract.md`
 
 ## Purpose
 
@@ -65,3 +65,71 @@ MVP 1 does not need a full marketplace UI. It must define extension metadata and
 ## Commercial GA Scope
 
 Commercial GA must support package catalog publication, offer and entitlement models, tenant installation and activation, runtime entitlement checks, lifecycle events, billing events and operational observability.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: MKT-001
+name: Marketplace Architecture
+type: marketplace-architecture
+version: 1.0.0
+status: approved
+framework_standard: ../../../../../nexora-framework/02-standards/standards/product-marketplace-standard.md
+project_contract: ../../../05-contracts/marketplace/product-marketplace/product-marketplace-contract.md
+extension_types:
+- connector
+- country-pack
+- healthcare-pack
+- ai-pack
+- report-pack
+- workflow-pack
+- data-ingestion-adapter
+- capability-package
+principles:
+- Extensions must be isolated from core domain logic.
+- Extensions must declare capabilities, permissions, events and data access.
+- Extensions must be versioned.
+- Extensions must be installable per tenant.
+- Extensions must be auditable.
+- Extensions must support rollback.
+- Customers buy offers, tenants receive entitlements and installations activate packages.
+- Marketplace packages must remain provider-agnostic and agent-agnostic.
+lifecycle:
+- modeled
+- validated
+- certified
+- published
+- purchased
+- entitled
+- installed
+- activated
+- updated
+- suspended
+- deprecated
+- removed
+commercial_model:
+  objects:
+  - marketplace_package
+  - commercial_offer
+  - license_plan
+  - tenant_entitlement
+  - package_installation
+  required_controls:
+  - centralized_entitlement_check
+  - iam_authorization_check
+  - audit_events
+  - compatibility_validation
+  - rollback_or_migration_bound_uninstall
+mvp1_scope:
+- Define extension metadata.
+- Define tenant installation concept.
+- Defer marketplace UI.
+commercial_ga_scope:
+- Publish package catalog.
+- Define offer and entitlement models.
+- Install and activate packages per tenant.
+- Gate package consumption with entitlement and authorization checks.
+- Emit lifecycle, billing and observability events.
+```

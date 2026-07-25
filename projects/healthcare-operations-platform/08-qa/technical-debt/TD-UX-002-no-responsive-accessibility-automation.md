@@ -1,0 +1,110 @@
+---
+id: TD-UX-002
+format: markdown_structured_payload
+type: technical-debt-item
+name: No formalized responsive breakpoints/layout system; no automated accessibility
+  (axe-core/Playwright) check wired into npm run quality
+version: 1.2.0
+status: closed
+---
+
+# No Formalized Responsive Breakpoints/Layout System; No Automated Accessibility (Axe Core/Playwright) Check Wired Into Npm Run Quality
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: TD-UX-002
+  type: technical-debt-item
+  name: No formalized responsive breakpoints/layout system; no automated accessibility
+    (axe-core/Playwright) check wired into npm run quality
+  version: 1.2.0
+  status: closed
+  created_date: 2026-07-17
+  updated_date: 2026-07-22
+source:
+  discovered_during_backlog_item: HOP-ENT-FOUND-001
+  module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  evidence: 03-architecture/ux-ui/ux-ui-foundation.md
+classification:
+  category: ux_ui_design_system_gap
+  affected_area: employee_portal_responsive_and_accessibility_tooling
+  affected_components:
+  - 07-implementation/employee-portal/src/styles.css
+  - 07-implementation/employee-portal/package.json
+  risk_level: medium
+  urgency: medium
+  blocking: false
+  reason_non_blocking: 'The standard requires accessibility checks "when_ui_changes";
+    this iteration''s own UI changes (language switch) reuse existing accessible patterns
+    (aria-current/aria-label), so no new accessibility regression is known to exist.
+    The gap is the absence of automated tooling to catch future regressions, not a
+    confirmed current defect.
+
+    '
+current_state:
+  issue: No breakpoints/media queries exist in styles.css; no axe-core or Playwright
+    accessibility check is part of the npm run quality chain.
+  compensating_control:
+  - Manual review found existing aria-current/aria-label usage on the navigation landmark.
+target_state:
+  preferred_open_source_tooling:
+  - axe-core or @axe-core/playwright for automated accessibility checks.
+  expected_integration_points:
+  - New npm script (e.g. a11y:check) added to the npm run quality chain.
+remediation:
+  strategy: next_frontend_quality_profile_hardening_backlog_item
+  owner: frontend_platform_team
+  estimated_effort: medium
+  estimated_cost_impact: low
+  target_backlog: next_frontend_quality_profile_hardening_backlog_item
+  dependencies_or_prerequisites: []
+  incremental_remediation_triggers:
+  - Next frontend quality-profile hardening backlog item.
+  acceptance_criteria:
+  - An automated accessibility check runs as part of npm run quality with 0 blocking
+    violations.
+  - A documented responsive breakpoint set exists and is applied to at least one screen.
+  owner_or_responsible_role: frontend_platform_team
+progress_log:
+- date: 2026-07-21
+  backlog_item: COM-MOD-011-WEB-001
+  action: materially_reduced
+  detail: 'COM-MOD-011-WEB-001 was the "next frontend quality-profile hardening backlog
+    item" this debt''s remediation strategy pointed at. It implements both acceptance
+    criteria in full as the reference pattern for the new public-website module: (1)
+    a documented mobile-first responsive breakpoint set (40rem/60rem/75rem, see the
+    header comment in 07-implementation/public-website/src/styles.css) applied across
+    every screen (header nav, catalog grids, forms, detail pages); and (2) an automated
+    accessibility check (axe-core via jest-axe, 07-implementation/public-website/src/test/accessibility.test.tsx)
+    that runs inside npm run test/npm run quality with 0 violations across the home,
+    catalog, form and privacy pages, plus eslint-plugin-jsx-a11y wired into npm run
+    lint for static a11y checks.'
+  remaining_scope: employee-portal (this debt's originally discovered affected_area)
+    was not in COM-MOD-011-WEB-001's working_directory and was not touched; its styles.css
+    still has no breakpoints and its package.json/eslint.config.js still lack jsx-a11y/axe-core.
+    Closing this debt fully requires a future employee-portal-scoped iteration to
+    retrofit the same pattern.
+- date: 2026-07-22
+  backlog_item: COM-MOD-011-FE-001
+  action: closed
+  detail: 'Retrofitted both acceptance criteria into employee-portal itself, the debt''s
+    originally discovered affected_area, closing the remaining_scope left open by
+    COM-MOD-011-WEB-001: (1) a documented mobile-first responsive breakpoint set (--hop-bp-sm/md/lg
+    at 40rem/60rem/75rem, same values as the public-website reference implementation)
+    added to 07-implementation/employee-portal/src/styles.css and applied to .app-shell
+    (padding/max-width) and table th/td (padding/font-size) — both shared across every
+    administration screen, including the new COM-MOD-011-FE-001 screens; and (2) an
+    automated accessibility check (axe-core via jest-axe, 07-implementation/employee-portal/src/test/accessibility.test.tsx)
+    covering the AppShell/default screen plus the 3 new public-request-administration
+    screens, running inside npm run test/npm run quality with 0 violations, plus eslint-plugin-jsx-a11y
+    wired into eslint.config.js (surfaced and fixed one real finding in the process:
+    ConfirmDialog.tsx''s confirm button had autoFocus, flagged by jsx-a11y/no-autofocus,
+    removed).'
+  remaining_scope: None for employee-portal. Other frontend stacks (mobile, patient-portal,
+    doctor-portal) were never in this debt's affected_area/affected_components and
+    are out of scope here; if any of them lack the same pattern, that would be tracked
+    as a new, separately scoped debt item.
+```

@@ -1,6 +1,6 @@
 # HOP Data Dictionary
 
-Machine-readable source: `data-dictionary.yaml`. Produced by `HOP-ENT-FOUND-001`.
+Machine-readable source: `data-dictionary.md`. Produced by `HOP-ENT-FOUND-001`.
 
 Business-meaning-level dictionary for all 48 tables across HOP's 6 `schema.sql` files (45
 pre-existing + 3 new reference tables). **Column-level physical detail is authoritative in the
@@ -43,3 +43,222 @@ registration intake.
 (via the provider-agnostic `FiscalAdapterPort`) with tax lines.
 
 Full per-table purpose and relationships: see the YAML companion.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-DATA-DICT-001
+  type: data-dictionary
+  name: HOP Data Dictionary
+  version: 1.0.0
+  status: approved
+  human_readable: data-dictionary.md
+  machine_readable: data-dictionary.md
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-17
+  source_backlog_item: HOP-ENT-FOUND-001
+purpose: 'Business-meaning-level data dictionary for every table across HOP''s 6 schema.sql
+  files (48 tables including the 3 new reference tables added by this iteration).
+  Column-level physical detail (exact types, lengths, nullability, constraints) is
+  authoritative in the referenced schema.sql file per table, per data-architecture-baseline.md''s
+  stated source-of-truth rule ("Esquemas físicos: fuente de verdad = Database Migrations");
+  this dictionary documents business purpose, key relationships and lifecycle so the
+  schema is understandable without re-deriving intent from DDL alone.
+
+  '
+schemas:
+- schema: organization
+  file: db/platform-foundation/schema.sql
+  tables:
+  - table: tenants
+    purpose: Top-level customer/organization boundary. Root of tenant scoping for
+      every other table in the database.
+    key_relationships: Parent of laboratories, branches, user_accounts.
+  - table: laboratories
+    purpose: A diagnostic laboratory operated by a tenant (a tenant may operate more
+      than one).
+    key_relationships: References tenants; parent of branches.
+  - table: branches
+    purpose: A physical service point of a laboratory where samples/orders/cash sessions
+      occur.
+    key_relationships: References tenants and laboratories; consumed as an immutable
+      BranchSnapshot by frontdeskcaredelivery at order-creation time.
+    changed_this_iteration: version integer column added (TD-BE-009 remediation),
+      following the same optimistic-concurrency-counter convention already used by
+      people.patients/ doctors and catalog.test_definitions/panel_definitions/price_lists.
+  - table: countries
+    purpose: Country reference catalog (baseline MX/US).
+    new_this_iteration: true
+  - table: locales
+    purpose: Supported locale reference catalog (baseline es-MX default, en-US fallback).
+    new_this_iteration: true
+  - table: currencies
+    purpose: Currency reference catalog (baseline MXN/USD) including minor-unit digit
+      count for monetary rounding.
+    new_this_iteration: true
+- schema: identity
+  file: db/platform-foundation/schema.sql
+  tables:
+  - table: user_accounts
+    purpose: A platform user (employee) identity within a tenant. Not yet linked to
+      a real authentication credential (see session-management-baseline.md).
+    key_relationships: References tenants; parent of role_assignments.
+  - table: role_assignments
+    purpose: Append-only record of a role granted to a user within a scope (tenant/laboratory/
+      branch). createdBy now records the real acting administrator instead of a hardcoded
+      "system" literal (session-management-baseline.md remediation).
+    key_relationships: References user_accounts. role_code values correspond to the
+      role_permission_catalog roles in iam-permission-model.md.
+- schema: audit
+  file: db/platform-foundation/schema.sql
+  tables:
+  - table: audit_events
+    purpose: Cross-cutting, append-only audit log for every recorded domain/system
+      event platform-wide (actor, action, subject, metadata_json). Queried by the
+      employee-portal Audit Events screen.
+- schema: catalog
+  file: db/catalog-test-configuration/schema.sql
+  tables:
+  - table: diagnostic_services
+    purpose: Top-level sellable diagnostic service grouping (may bundle tests/panels).
+  - table: diagnostic_service_component_links
+    purpose: Links a diagnostic_service to its constituent test/panel components.
+  - table: test_definitions
+    purpose: A single orderable laboratory test definition, published/versioned.
+  - table: test_analyte_links
+    purpose: Links a test_definition to the analytes it produces.
+  - table: test_sample_requirement_links
+    purpose: Links a test_definition to its required sample type(s)/volume.
+  - table: panel_definitions
+    purpose: A named bundle of tests sold/ordered together.
+  - table: panel_members
+    purpose: Links a panel_definition to its member test_definitions.
+  - table: analyte_definitions
+    purpose: A single measurable/reportable analyte (e.g. a lab parameter) produced
+      by tests.
+  - table: analyte_result_constraints
+    purpose: Validity constraints for a reported analyte result value (e.g. numeric
+      range, coded value set).
+  - table: analyte_coded_values
+    purpose: Enumerated coded result values allowed for a coded-value analyte.
+  - table: preparation_instructions
+    purpose: Patient-preparation instruction text/rules (e.g. fasting) reusable across
+      tests.
+  - table: preparation_assignments
+    purpose: Links a preparation_instruction to the test_definitions/panels that require
+      it.
+  - table: reference_ranges
+    purpose: Versioned, effective-dated normal/reference range definition for an analyte.
+  - table: reference_range_segments
+    purpose: Per-segment (e.g. age/sex-banded) breakdown of a reference_range.
+  - table: sample_types
+    purpose: Catalog of physical sample types (e.g. serum, whole blood, urine).
+  - table: sample_requirements
+    purpose: Volume/container/handling requirements for a sample_type as required
+      by a test.
+  - table: price_lists
+    purpose: A named, versioned, effective-dated price list (tenant/branch-scoped
+      pricing).
+  - table: price_entries
+    purpose: Per-test/panel price entry within a price_list.
+  translatable_catalog_gap: See database-architecture.md's TD-DB-002 — names in
+    this schema are not yet locale-variant columns.
+- schema: care_delivery
+  file: db/front-desk-care-delivery/schema.sql
+  tables:
+  - table: diagnostic_orders
+    purpose: A patient's order for one or more diagnostic tests/panels, with immutable
+      patient/doctor/branch/catalog/price snapshots captured at order time.
+  - table: diagnostic_order_lines
+    purpose: Per-test/panel line item of a diagnostic_order with its resolved price
+      snapshot.
+  - table: appointments
+    purpose: A scheduled patient visit (front-desk scheduling).
+  - table: appointment_requested_items
+    purpose: Tests/panels requested for an appointment prior to order creation.
+  - table: reception_visits
+    purpose: Walk-in or scheduled arrival record used by the Front Desk reception
+      worklist.
+  - table: admission_requests
+    purpose: Formal admission of a patient for sample collection/processing.
+  - table: admission_catalog_selections
+    purpose: Catalog items selected as part of an admission_request.
+  - table: quotations
+    purpose: A non-binding price quotation for tests/panels prior to order commitment.
+  - table: quotation_lines
+    purpose: Per-test/panel line item of a quotation.
+- schema: orders_samples
+  file: db/laboratory-workflow/schema.sql
+  tables:
+  - table: samples
+    purpose: A physical specimen collected against a diagnostic order, tracked through
+      collection/labeling/reception/rejection states. Owned by BCM-LAB-002 with delegated
+      field-level mutation authority for BCM-LAB-003/005.
+  - table: chain_of_custody
+    purpose: Append-only custody-transfer log for a sample (who handled it, when,
+      from/to state).
+- schema: laboratory_results
+  file: db/laboratory-workflow/schema.sql
+  tables:
+  - table: results
+    purpose: A laboratory result record progressing through technical/medical validation
+      to release. Owned by BCM-LAB-006 with delegated field-level mutation authority
+      for BCM-LAB-008/009/010; read-only end to end for MVP-MOD-007's Results and
+      Digital Delivery capabilities (see TD-FE-007 for the FE wire-shape mismatch
+      this creates).
+  - table: processing_incidents
+    purpose: Recorded processing anomalies/incidents against a result.
+- schema: people
+  file: db/people-and-clinical-master-data/schema.sql
+  tables:
+  - table: patients
+    purpose: Authoritative patient master record (versioned; immutable snapshots are
+      captured downstream at order time).
+  - table: patient_representatives
+    purpose: Legal representative/guardian records for a patient (e.g. minors).
+  - table: patient_consents
+    purpose: Recorded consent grants/revocations for a patient.
+  - table: patient_documents
+    purpose: Document metadata attached to a patient record (identification, forms).
+  - table: patient_emergency_contacts
+    purpose: Emergency contact records for a patient.
+  - table: doctors
+    purpose: Authoritative referring/treating doctor master record (versioned).
+  - table: doctor_credentials
+    purpose: Professional license/credential records for a doctor, with expiration
+      tracking (see TD-BE-007 for the not-yet-automated expiration transition).
+  - table: doctor_specialty_assignments
+    purpose: Specialty tags assigned to a doctor.
+  - table: person_merge_coordinations
+    purpose: Tracks duplicate-person merge/resolution workflow state.
+  - table: patient_registrations
+    purpose: Portal/self-service registration intake records prior to becoming an
+      authoritative patient record.
+- schema: cash_sales
+  file: db/cash-sales/schema.sql
+  tables:
+  - table: cash_sessions
+    purpose: A cashier's open/close working session with expected/actual cash variance
+      tracking.
+  - table: sales
+    purpose: A completed sale transaction against an accepted order or quotation.
+  - table: sale_lines
+    purpose: Per-item line of a sale.
+  - table: payment_allocations
+    purpose: Payment method/amount allocations against a sale, enforcing the outstanding-balance
+      guard.
+  - table: invoice_requests
+    purpose: A billing/fiscal request submitted through the provider-agnostic FiscalAdapterPort
+      (submit/retry/cancel lifecycle with idempotency keys).
+  - table: invoice_tax_lines
+    purpose: Tax line breakdown for an invoice_request.
+column_level_authority: 'For exact column names, SQL types, lengths, defaults and
+  constraints, the corresponding schema.sql file listed per schema above is authoritative.
+  This dictionary intentionally documents business meaning and relationships, which
+  schema.sql does not express.
+
+  '
+```

@@ -1,0 +1,60 @@
+---
+id: TD-UX-003
+format: markdown_structured_payload
+type: technical-debt-item
+name: No mobile layout system defined yet (no renderer stack selected)
+version: 1.0.0
+status: open
+---
+
+# No Mobile Layout System Defined Yet (No Renderer Stack Selected)
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: TD-UX-003
+  type: technical-debt-item
+  name: No mobile layout system defined yet (no renderer stack selected)
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-17
+source:
+  discovered_during_backlog_item: HOP-ENT-FOUND-001
+  module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  evidence: 03-architecture/ux-ui/ux-ui-foundation.md
+classification:
+  category: ux_ui_design_system_gap
+  affected_area: mobile_app_layout
+  affected_components:
+  - 07-implementation/mobile-app/src/**
+  risk_level: low
+  urgency: low
+  blocking: false
+  reason_non_blocking: mobile-app has no renderable UI layer yet; a layout system
+    is meaningless before a renderer stack exists.
+current_state:
+  issue: mobile-app is model-only (569 lines, no React Native/Expo/Flutter renderer);
+    no layout system can be defined yet.
+  compensating_control: []
+target_state:
+  preferred_open_source_tooling: []
+  expected_integration_points:
+  - New 03-architecture/ux-ui/mobile-layout-system.yaml/.md once TD-APP-001 selects
+    a stack.
+remediation:
+  strategy: after_TD-APP-001_renderer_selection
+  owner: mobile_platform_team
+  estimated_effort: medium
+  estimated_cost_impact: low
+  target_backlog: after_TD-APP-001_renderer_selection
+  dependencies_or_prerequisites:
+  - TD-APP-001 (mobile quality baseline / renderer stack selection)
+  incremental_remediation_triggers:
+  - TD-APP-001 selects a renderer stack.
+  acceptance_criteria:
+  - A mobile layout system document exists once a renderer stack is chosen.
+  owner_or_responsible_role: mobile_platform_team
+```

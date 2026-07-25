@@ -32,5 +32,5 @@ Read AGENT_BOOTSTRAP.md.
 Treat Nexora as the company and Healthcare Operations Platform as the first product.
 Do not redesign the architecture.
 Continue with BCM-002 Capability Dependency Map.
-Work directly in the repository and keep PROJECT_STATE.yaml and SOURCE_OF_TRUTH.yaml updated.
+Work directly in the repository and keep PROJECT_STATE.md and SOURCE_OF_TRUTH.md updated.
 ```

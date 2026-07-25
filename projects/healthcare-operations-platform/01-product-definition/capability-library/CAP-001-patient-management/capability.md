@@ -1,0 +1,127 @@
+---
+id: CAP-001
+format: markdown_structured_payload
+type: business_capability
+name: Patient Management
+version: 0.23.0
+status: draft
+---
+
+# Patient Management
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: CAP-001
+name: Patient Management
+type: business_capability
+status: draft
+version: 0.23.0
+owner:
+- Product
+- Clinical Operations
+- Data Stewardship
+principles:
+- Business First
+- Rule Driven
+- Privacy by Design
+- API Contract First
+- Multi-Tenant
+- Accessible & Low-Resource First
+- Progressive Capability
+maturity_levels:
+- level: L1
+  name: Basic
+  description: Manual patient registration and search.
+- level: L2
+  name: Operational
+  description: Duplicate detection, consent and audit.
+- level: L3
+  name: Omnichannel
+  description: Web, portal, mobile and API registration.
+- level: L4
+  name: Intelligent
+  description: AI-assisted intake and summarization.
+- level: L5
+  name: Ecosystem
+  description: Cross-organization identity and integrations.
+actors:
+- receptionist
+- branch_supervisor
+- laboratory_administrator
+- patient
+- doctor
+- call_center_agent
+- integration_client
+business_rules:
+- id: CAP-001-BR-001
+  text: Every patient must belong to one laboratory tenant.
+  priority: critical
+- id: CAP-001-BR-020
+  text: A minor patient must have at least one guardian or responsible party.
+  priority: critical
+- id: CAP-001-BR-030
+  text: Patient consent records must be auditable and versioned.
+  priority: critical
+state_machines:
+- id: SM-PAT-001
+  entity: Patient
+  states:
+  - Draft
+  - Active
+  - Inactive
+  - Blocked
+  - Merged
+decision_tables:
+- id: DT-001
+  name: Minor patient requirement
+- id: DT-002
+  name: Digital delivery eligibility
+- id: DT-003
+  name: Duplicate patient handling
+entities:
+- ENT-001
+- ENT-002
+- ENT-003
+- ENT-004
+- ENT-005
+- ENT-006
+- ENT-007
+- ENT-008
+- ENT-009
+- ENT-010
+events:
+- EVT-001
+- EVT-002
+- EVT-003
+- EVT-004
+- EVT-005
+- EVT-006
+- EVT-007
+- EVT-008
+apis:
+  openapi: 05-contracts/contracts/openapi/patients/patients.openapi.md
+  endpoints:
+  - POST /v1/patients
+  - GET /v1/patients
+  - GET /v1/patients/{patientId}
+  - PATCH /v1/patients/{patientId}
+  - POST /v1/patients/{patientId}/consents
+  - POST /v1/patients/{patientId}/guardians
+  - POST /v1/patients/{patientId}/deactivate
+  - POST /v1/patients/{patientId}/reactivate
+user_stories:
+- US-001
+- US-002
+- US-003
+- US-004
+- US-005
+traceability:
+  knowledge_index: knowledge/capabilities/CAP-001-patient-management.md
+  source_of_truth:
+    rules: capability-library/CAP-001-patient-management/02-business-rules.md
+    api: 05-contracts/contracts/openapi/patients/patients.openapi.md
+    domain: capability-library/CAP-001-patient-management/07-domain-model.md
+```

@@ -1,0 +1,89 @@
+---
+id: TD-BE-004
+format: markdown_structured_payload
+type: technical-debt-item
+name: Add backend release readiness supply-chain gates (SBOM, license, build rules)
+version: 1.0.0
+status: materially_reduced
+---
+
+# Add Backend Release Readiness Supply Chain Gates (Sbom, License, Build Rules)
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: TD-BE-004
+  type: technical-debt-item
+  name: Add backend release readiness supply-chain gates (SBOM, license, build rules)
+  version: 1.0.0
+  status: materially_reduced
+  created_date: 2026-07-09
+source:
+  discovered_during_backlog_item: MVP-MOD-002-CLOSEOUT
+  module: MVP-MOD-002 Diagnostic Catalog
+  evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-CLOSEOUT.md
+classification:
+  category: supply_chain_and_release_gating
+  affected_area: backend_build_and_release_evidence
+  affected_components:
+  - 07-implementation/backend
+  risk_level: medium
+  blocking: false
+  reason_non_blocking: 'The backend quality profile now includes SBOM, Maven Enforcer,
+    dependency vulnerability, license, duplicate dependency/class and API compatibility
+    tooling. Release policy hardening still remains before GA.
+
+    '
+current_state:
+  issue: 'The backend quality profile now configures CycloneDX, Maven Enforcer, OWASP
+    Dependency-Check, License Maven Plugin, Maven Versions Plugin, Duplicate Finder,
+    Revapi and PIT. The remaining gap is to make release thresholds and CI policy
+    strict enough for commercial GA.
+
+    '
+  compensating_control:
+  - Trivy filesystem scan covers dependency CVEs, secrets and misconfiguration across
+    all severities.
+  - OWASP Dependency-Check reports 0 vulnerabilities.
+  - Reviewed dependency licenses are all within the accepted open-source families.
+target_state:
+  preferred_open_source_tooling:
+  - CycloneDX Maven Plugin for SBOM generation.
+  - Maven Enforcer for Java/Maven version and dependency convergence rules.
+  - License Maven Plugin for license header and dependency license policy validation.
+  expected_integration_points:
+  - backend Maven package/verify phase
+  - release readiness evidence
+  - CI release workflow
+remediation:
+  strategy: gradual_release_policy_hardening_before_ga
+  owner: backend_platform_team
+  target_backlog: first_release_candidate_preparation_backlog_item_not_yet_scheduled
+  priority: P1
+  recommended_trigger:
+  - first release-candidate preparation
+  - release readiness gate
+  - CI pipeline implementation
+  acceptance_criteria:
+  - A CycloneDX SBOM is produced for release candidates.
+  - Maven Enforcer blocks unsupported Java/Maven versions and duplicate dependencies.
+  - License policy validation passes or exceptions are documented via ADR.
+dependency_note:
+  owasp_dependency_check:
+    status: configured
+    detail: 'OWASP Dependency-Check is configured in the Maven quality profile. OSS
+      Index analyzer is disabled because unauthenticated access returned 401; NVD/KEV
+      analysis remains active.
+
+      '
+latest_evidence:
+  backlog_item: HOP-QA-ALIGN-002
+  evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.md
+  status: materially_reduced
+  residual_findings:
+  - Release CI policy still needs to enforce SBOM/license/API compatibility thresholds.
+  - PIT mutation testing is configured but not yet used as a strict release gate.
+```

@@ -1,7 +1,7 @@
 # Channel Architecture Strategy
 
-**ID:** APP-CH-001  
-**Estado:** Approved  
+**ID:** APP-CH-001
+**Estado:** Approved
 **Versión:** 0.17.0
 
 ## Principio

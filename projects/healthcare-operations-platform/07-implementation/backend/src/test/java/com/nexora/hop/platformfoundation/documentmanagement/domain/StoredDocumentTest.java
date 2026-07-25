@@ -71,7 +71,7 @@ class StoredDocumentTest {
 
         doc.markDisposed(update1);
         assertEquals(StoredDocument.Status.DISPOSED, doc.getStatus());
-        
+
         assertThrows(IllegalStateException.class, () -> doc.markDisposed(update1));
     }
 

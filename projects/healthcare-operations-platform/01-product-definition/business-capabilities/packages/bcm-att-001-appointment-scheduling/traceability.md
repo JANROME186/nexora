@@ -1,0 +1,227 @@
+---
+id: HOP-TRACE-BCM-ATT-001
+format: markdown_structured_payload
+type: traceability
+name: Appointment Scheduling Traceability
+version: 0.2.0
+status: modeled
+---
+
+# Appointment Scheduling Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-ATT-001
+  type: traceability
+  name: Appointment Scheduling Traceability
+  version: 0.2.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-001
+traces:
+  capability_map:
+    bcm_001: BCM-ATT-001
+    domain: DOM-04 Care Delivery
+  dependency_map:
+    bcm_002_profile: care_delivery
+    required_capabilities:
+    - BCM-PER-002
+    - BCM-ORG-003
+    - BCM-PLT-001
+    - BCM-PLT-007
+    downstream_capabilities:
+    - BCM-ATT-003
+    - BCM-LAB-001
+  domain_foundation:
+    bounded_context: orders-samples
+    aggregate_reference: AGG-007 DiagnosticOrder (owned by BCM-LAB-001)
+    context_relationships:
+    - REL-CTX-002
+    - REL-CTX-003
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-002
+    - VO-ID-003
+    - VO-ID-005
+    - VO-ID-006
+    - VO-006
+    - VO-007
+  brm_alignment:
+  - rule: BRM-001-R005
+    alignment: Requested catalog items must be published (RN-003).
+  - rule: BRM-001-R018
+    alignment: Appointment events are append-only and audit trace fields are required
+      (RN-007).
+  hrp_alignment:
+  - process: HRP-001-P03 Patient Registration and Order Intake
+    capability_role: Appointment request, confirmation and check-in segment preceding
+      order intake.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-APT-001-01
+  - rule: RN-002
+    tests:
+    - TST-APT-001-02
+  - rule: RN-003
+    tests:
+    - TST-APT-001-03
+  - rule: RN-004
+    tests:
+    - TST-APT-001-04
+  - rule: RN-005
+    tests:
+    - TST-APT-001-05
+  - rule: RN-006
+    tests:
+    - TST-APT-001-06
+  - rule: RN-007
+    tests:
+    - TST-APT-001-07
+  - rule: RN-008
+    tests:
+    - TST-APT-001-08
+  processes_to_commands:
+  - process: PRC-APT-001-01
+    commands:
+    - RequestAppointment
+  - process: PRC-APT-001-02
+    commands:
+    - ConfirmAppointment
+  - process: PRC-APT-001-03
+    commands:
+    - CheckInAppointment
+  - process: PRC-APT-001-04
+    commands:
+    - CancelAppointment
+  - process: PRC-APT-001-05
+    commands:
+    - MarkAppointmentNoShow
+  api_to_permissions:
+  - operation: requestAppointment
+    scope: appointment.manage
+  - operation: confirmAppointment
+    scope: appointment.manage
+  - operation: checkInAppointment
+    scope: appointment.manage
+  - operation: cancelAppointment
+    scope: appointment.manage
+  - operation: markAppointmentNoShow
+    scope: appointment.manage
+  - operation: listAppointments
+    scope: appointment.read
+  - operation: getAppointment
+    scope: appointment.read
+  events_to_audit:
+  - event: AppointmentRequested
+    audit_sink: BCM-PLT-007
+  - event: AppointmentConfirmed
+    audit_sink: BCM-PLT-007
+  - event: AppointmentCheckedIn
+    audit_sink: BCM-PLT-007
+  - event: AppointmentCancelled
+    audit_sink: BCM-PLT-007
+  - event: AppointmentNoShowMarked
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-APT-001-01
+    operations:
+    - requestAppointment
+    - confirmAppointment
+  - screen: SCR-APT-001-02
+    operations:
+    - listAppointments
+    - checkInAppointment
+  - screen: SCR-APT-001-03
+    operations:
+    - getAppointment
+    - cancelAppointment
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.md
+  compilation_qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-001-validation.md
+  compilation_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-004-BE-001/security-quality-evidence.md
+  custom_rules_qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-002-validation.md
+  custom_rules_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-004-BE-002/security-quality-evidence.md
+  compilation_backend_root: ../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/frontdeskcaredelivery/appointmentscheduling/
+  compilation_schema: ../../../../07-implementation/backend/src/main/resources/db/front-desk-care-delivery/schema.sql
+  backlog_items:
+    definition: MVP-MOD-004-DEF
+    definition_status: closed
+    compilation: MVP-MOD-004-BE-001
+    compilation_status: closed
+    custom_rules: MVP-MOD-004-BE-002
+    custom_rules_status: closed
+    ui: MVP-MOD-004-FE-001
+    ui_status: closed
+    validation: MVP-MOD-004-QA-001
+    validation_status: closed
+    closeout: MVP-MOD-004-CLOSEOUT
+    closeout_status: closed
+    stale_status_correction_note: 'Corrected by COM-MOD-011-DEF: ui/validation/closeout
+      were stale at "pending" though MVP-MOD-004-FE-001, MVP-MOD-004-QA-001 and MVP-MOD-004-CLOSEOUT
+      are all closed per PROJECT_STATE.md completed_backlog_items and capability-package-index.md
+      (roadmap_group MVP-MOD-004, package_status module_closed). COM-MOD-009-PORTAL-001
+      later extended this package''s ui-model.md with the patient-portal self-scheduler
+      screen (SCR-APT-001-04) without updating this block.'
+  cross_module_reuse:
+  - roadmap_group: COM-MOD-009
+    backlog_item: COM-MOD-009-PORTAL-001
+    surface_added: patient_portal
+    note: Added SCR-APT-001-04 Patient Self-Scheduler; recorded here retroactively
+      by COM-MOD-011-DEF.
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-DEF
+    surface_added: public_website
+    note: Public website appointment-request intake modeled by extending openapi-source.md
+      (RN-008, public_surface reusing requestAppointment), capability-package.md,
+      business-rules.md, test-model.md, ui-model.md and permissions.md. No
+      new capability package, aggregate or schema was created; reuses BCM-ATT-006's
+      ProspectiveContact schema.
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-BE-001
+    surface_added: public_website (runtime intake)
+    note: 'Compiled POST /api/public/care-delivery/appointment-requests via the new
+      frontdeskcaredelivery::public-intake-port named interface. AppointmentSlot gained
+      inline prospective_full_name/phone/email columns (additive DDL, patient_id nullable
+      when channel = public_website only), plus a public_website channel value. RN-008
+      enforced: anonymous requests always land in requested state, never a confirmed
+      booking, and reuse the existing published-catalog validation from BCM-SVC-002/003.
+      Backend line coverage 83.73% -> 83.96%; 324 tests, 0 failures/errors/skipped.'
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-WEB-001
+    surface_added: public_website (frontend intake)
+    note: Compiled AppointmentRequestPage at 07-implementation/public-website/src/pages/,
+      posting to /api/public/care-delivery/appointment-requests via src/api/careDeliveryApi.ts.
+      Client-side validation requires at least one of phone/email, at least one selected
+      test/panel and an explicit consent checkbox before submission; an explicit cooldown
+      (useRateLimitCooldown) handles 429 PUBLIC_RATE_LIMIT_EXCEEDED responses since
+      the backend sends no Retry-After header. No internal identifier is displayed
+      or requested; branchId comes from deployment-owned site configuration.
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-FE-001
+    surface_added: employee_portal (staff request triage)
+    note: Compiled PublicAppointmentRequestsScreen at 07-implementation/employee-portal/src/components/screens/,
+      listing GET /api/care-delivery/appointments (src/api/publicRequestsApi.ts) filtered
+      client-side to channel=="public_website" && status=="requested" — AppointmentSlot
+      already carried both fields, so no backend change was needed here. Confirm/reject
+      actions reuse the existing POST .../confirm and .../cancel endpoints; no new
+      action endpoint was created.
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-QA-001
+    surface_added: integrated QA, SEO and privacy validation
+    note: Validated public appointment request intake and staff triage queue end to
+      end with zero vulnerabilities across Maven quality, OWASP Dependency-Check,
+      npm audit, and Trivy fs scans. Verified privacy consent, cooldown handling for
+      429 rate limits, IAM permission gating, es-MX/en-US i18n key parity and axe-core
+      accessibility checks.
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-CLOSEOUT
+    surface_added: module closeout and registry update
+    note: Formally closed COM-MOD-011 Public Website and Digital Growth module. Confirmed
+      reused public appointment request surfaces, zero vulnerability findings, zero
+      coverage regressions, and all quality gates passing clean.
+```

@@ -1,0 +1,184 @@
+---
+id: openapi-source
+format: markdown_structured_payload
+---
+
+# Openapi Source
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+openapi: 3.0.3
+info:
+  title: Document Management API
+  version: 1.2.0
+  description: API for storing, retrieving, retention management, and bundling of
+    operational and compliance documents.
+paths:
+  /api/documents:
+    post:
+      summary: Upload a document
+      operationId: uploadDocument
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - file
+              - ownerCapability
+              - ownerReferenceId
+              properties:
+                file:
+                  type: string
+                  format: binary
+                ownerCapability:
+                  type: string
+                ownerReferenceId:
+                  type: string
+                complianceCategory:
+                  type: string
+      responses:
+        '201':
+          description: Document stored.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoredDocumentResponse'
+  /api/documents/{id}:
+    get:
+      summary: Get document metadata
+      operationId: getDocumentMetadata
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Document metadata.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoredDocumentResponse'
+  /api/documents/{id}/download:
+    get:
+      summary: Download document binary
+      operationId: downloadDocumentBinary
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Document binary file.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  /api/documents/{id}/legal-hold:
+    put:
+      summary: Toggle legal hold lock on document
+      operationId: updateLegalHold
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - legalHold
+              properties:
+                legalHold:
+                  type: boolean
+      responses:
+        '200':
+          description: Legal hold updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoredDocumentResponse'
+  /api/documents/evidence-package:
+    post:
+      summary: Create compliance evidence document bundle
+      operationId: createComplianceEvidencePackage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEvidencePackageRequest'
+      responses:
+        '201':
+          description: Evidence package created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidencePackageResponse'
+components:
+  schemas:
+    CreateEvidencePackageRequest:
+      type: object
+      required:
+      - title
+      - documentIds
+      properties:
+        title:
+          type: string
+        documentIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+    EvidencePackageResponse:
+      type: object
+      properties:
+        packageId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        documentCount:
+          type: integer
+        generatedAt:
+          type: string
+          format: date-time
+    StoredDocumentResponse:
+      type: object
+      properties:
+        documentId:
+          type: string
+          format: uuid
+        ownerCapability:
+          type: string
+        ownerReferenceId:
+          type: string
+        contentType:
+          type: string
+        contentHash:
+          type: string
+        sizeBytes:
+          type: integer
+        complianceCategory:
+          type: string
+        legalHold:
+          type: boolean
+        status:
+          type: string
+```

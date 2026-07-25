@@ -1,0 +1,65 @@
+---
+id: HOP-PERM-BCM-INV-003
+format: markdown_structured_payload
+type: permissions
+name: Lot Management Permissions
+version: 0.1.0
+status: modeled
+---
+
+# Lot Management Permissions
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PERM-BCM-INV-003
+  type: permissions
+  name: Lot Management Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-003
+  depends_on_capability: BCM-PLT-001
+scopes:
+- code: inventory.lot.manage
+  description: Register, quarantine, release or expire a StockLot.
+- code: inventory.lot.read
+  description: Read stock lot data.
+roles:
+- role: tenant-administrator
+  grants:
+  - inventory.lot.manage
+  - inventory.lot.read
+- role: branch-administrator
+  grants:
+  - inventory.lot.manage
+  - inventory.lot.read
+- role: laboratory-technician
+  grants:
+  - inventory.lot.manage
+  - inventory.lot.read
+access_policies:
+- id: POL-LOT-003-01
+  statement: Lot management commands are scoped to the calling actor's tenant, laboratory
+    and branch.
+  enforcement: row_level_tenant_laboratory_branch_filter
+- id: POL-LOT-003-02
+  statement: Lot metadata fields may only be written by this capability; quantity
+    fields are exclusively delegated elsewhere.
+  enforcement: field_level_delegation_boundary
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+  - event: StockLotQuarantined
+    fields:
+    - stockLotId
+    - inventoryItemId
+  - event: StockLotExpired
+    fields:
+    - stockLotId
+    - inventoryItemId
+    - expirationDate
+```

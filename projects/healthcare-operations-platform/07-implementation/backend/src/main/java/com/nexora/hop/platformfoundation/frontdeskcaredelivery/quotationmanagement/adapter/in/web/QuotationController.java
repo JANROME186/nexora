@@ -23,7 +23,7 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.quotationmanageme
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.quotationmanagement.domain.QuotationRequest;
 
 /**
- * Rendered controller for {@code bcm-att-006-quotation-management/openapi-source.yaml} (base path
+ * Rendered controller for {@code bcm-att-006-quotation-management/openapi-source.md} (base path
  * /api/care-delivery/quotations).
  */
 @RestController

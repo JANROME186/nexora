@@ -8,7 +8,7 @@ must not implement those improvements unless Nexora explicitly assigns the frame
 Primary index:
 
 ```text
-framework-improvement-backlog.yaml
+framework-improvement-backlog.md
 ```
 
 Item folder:

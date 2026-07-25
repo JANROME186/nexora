@@ -27,4 +27,4 @@ Standard 14-artifact capability package per the Business Capability Package Stan
 This capability is financially sensitive: publication validation, effective-dated
 versioning, overlap detection and effective price resolution are custom rules. CRUD,
 DTOs, controllers, repositories, SDKs, Swagger and repetitive tests remain generated
-outputs declared in `generation-plan.yaml`.
+outputs declared in `generation-plan.md`.

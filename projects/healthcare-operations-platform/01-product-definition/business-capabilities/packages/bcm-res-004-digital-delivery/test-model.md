@@ -1,0 +1,84 @@
+---
+id: HOP-TEST-BCM-RES-004
+format: markdown_structured_payload
+type: test-model
+name: Digital Delivery Test Model
+version: 0.1.0
+status: modeled
+---
+
+# Digital Delivery Test Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TEST-BCM-RES-004
+  type: test-model
+  name: Digital Delivery Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-004
+test_cases:
+- id: TST-DLV-004-01
+  type: acceptance
+  validates_rule: RN-001
+  statement: A delivery ticket cannot be authorized for a non-released result.
+  generatable: false
+- id: TST-DLV-004-02
+  type: acceptance
+  validates_rule: RN-002
+  statement: A patient cannot view another patient's delivered result.
+  generatable: false
+- id: TST-DLV-004-03
+  type: acceptance
+  validates_rule: RN-003
+  statement: A patient representative with an expired or revoked authorization cannot
+    be authorized for delivery.
+  generatable: false
+- id: TST-DLV-004-04
+  type: acceptance
+  validates_rule: RN-004
+  statement: A doctor not referenced as referring or treating physician on the source
+    order cannot be authorized for delivery.
+  generatable: false
+- id: TST-DLV-004-05
+  type: acceptance
+  validates_rule: RN-005
+  statement: Amending a delivered result withholds existing tickets until re-authorization.
+  generatable: false
+- id: TST-DLV-004-06
+  type: architecture
+  validates_rule: RN-006
+  statement: This capability issues no command against LaboratoryResult, Patient or
+    Doctor.
+  generatable: false
+- id: TST-DLV-004-07
+  type: unit
+  validates_rule: RN-007
+  statement: Opening a delivered result records ResultViewed with recipient and timestamp.
+  generatable: false
+- id: TST-DLV-004-08
+  type: contract
+  validates_rule: RN-008
+  statement: Unauthorized or out-of-scope actors cannot view another recipient's delivery.
+  generatable: true
+test_layers:
+- contract_tests
+- unit_tests
+- acceptance_tests
+- architecture_tests
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests:
+  - TST-DLV-004-01
+  - TST-DLV-004-02
+  - TST-DLV-004-03
+  - TST-DLV-004-04
+  - TST-DLV-004-05
+  - TST-DLV-004-06
+  - TST-DLV-004-07
+```

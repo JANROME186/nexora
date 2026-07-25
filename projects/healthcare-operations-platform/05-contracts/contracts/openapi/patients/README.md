@@ -4,7 +4,7 @@ Patients API is the contract-first interface for patient registration, search, u
 
 The OpenAPI contract is the source of truth for API behavior.
 
-- Contract: `openapi.yaml`
+- Contract: `openapi.md`
 - Related capability: `CAP-001`
 - Related story: `US-001`
 - Related entity: `ENT-001`

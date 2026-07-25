@@ -1,0 +1,226 @@
+---
+id: HOP-BM-BCM-INV-001
+format: markdown_structured_payload
+type: business-model
+name: Product Catalog Business Model
+version: 0.1.0
+status: modeled
+---
+
+# Product Catalog Business Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BM-BCM-INV-001
+  type: business-model
+  name: Product Catalog Business Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-001
+  bounded_context: inventory-procurement
+  primary_aggregate: InventoryItem
+  model_kind: aggregate_owner
+entities:
+- id: ENT-CAT-001
+  name: InventoryItem
+  is_aggregate_root: true
+  aggregate_ref: AGG-013
+  description: 'The single shared aggregate for the whole Inventory and Internal Quality
+    module. This capability defines the complete field structure and creates the aggregate;
+    BCM-INV-002, BCM-INV-003, BCM-INV-005, BCM-INV-006, BCM-INV-007, BCM-INV-008,
+    BCM-INV-009, BCM-QLT-003, BCM-QLT-004 and BCM-QLT-005 hold delegated authority
+    to mutate specific named fields through their own commands, never through direct
+    persistence access.
+
+    '
+  fields:
+  - name: inventoryItemId
+    type: InventoryItemId
+    required: true
+    identifier: true
+  - name: tenantId
+    type: TenantId
+    required: true
+  - name: laboratoryId
+    type: LaboratoryId
+    required: true
+  - name: branchId
+    type: BranchId
+    required: true
+  - name: itemCode
+    type: string
+    required: true
+    description: Unique within tenant/laboratory/branch scope.
+  - name: itemName
+    type: string
+    required: true
+  - name: itemType
+    type: enum
+    values:
+    - consumable
+    - reagent
+    - supply
+    - equipment
+    required: true
+  - name: classification
+    type: enum
+    values:
+    - diagnostic_reagent
+    - lab_supply
+    - ppe
+    - calibrator_control_material
+    - capital_equipment
+    - other
+    required: true
+  - name: unitOfMeasure
+    type: string
+    required: true
+  - name: status
+    type: enum
+    values:
+    - active
+    - inactive
+    - discontinued
+    required: true
+  - name: stockSummary
+    type: StockSummary
+    required: true
+    description: 'Rollup field owned by this capability structurally but mutated only
+      through the Apply* delegated commands of BCM-INV-005/006/007/008/009; never
+      written directly after creation.
+
+      '
+  - name: reagentProfile
+    type: ReagentProfile
+    required: false
+    description: Owned by BCM-INV-002; null until AssignReagentProfile executes.
+  - name: equipmentProfile
+    type: EquipmentProfile
+    required: false
+    description: Owned by BCM-QLT-004; null until SetEquipmentProfile executes; only
+      meaningful when itemType is equipment.
+  - name: audit
+    type: AuditMetadata
+    required: true
+value_objects:
+- id: VO-CAT-001
+  name: StockSummary
+  description: 'Aggregate-level stock rollup. Mutated exclusively by the Apply* commands
+    defined in BCM-INV-005 (Stock Entries), BCM-INV-006 (Stock Exits), BCM-INV-007
+    (Consumption Tracking), BCM-INV-008 (Inventory Adjustments) and BCM-INV-009 (Waste
+    Management).
+
+    '
+  fields:
+  - name: onHandQuantity
+    type: decimal
+    required: true
+    default: 0
+  - name: reservedQuantity
+    type: decimal
+    required: true
+    default: 0
+  - name: reorderPoint
+    type: decimal
+    required: false
+  - name: reorderQuantity
+    type: decimal
+    required: false
+  - name: lastMovementAt
+    type: datetime
+    required: false
+- id: VO-CAT-002
+  name: ReagentProfile
+  description: Owned and mutated exclusively by BCM-INV-002; modeled here only as
+    a field placeholder on the shared aggregate.
+  fields:
+  - name: linkedTestDefinitionId
+    type: uuid
+    required: false
+  - name: reagentCategory
+    type: enum
+    values:
+    - calibrator
+    - control
+    - working_reagent
+    - buffer
+    - diluent
+    - other
+    required: true
+  - name: consumptionUnitRatio
+    type: decimal
+    required: true
+- id: VO-CAT-003
+  name: EquipmentProfile
+  description: Owned and mutated exclusively by BCM-QLT-004; modeled here only as
+    a field placeholder on the shared aggregate.
+  fields:
+  - name: assetTag
+    type: string
+    required: true
+  - name: serialNumber
+    type: string
+    required: false
+  - name: manufacturer
+    type: string
+    required: false
+  - name: model
+    type: string
+    required: false
+  - name: installedAt
+    type: datetime
+    required: false
+  - name: location
+    type: string
+    required: false
+  - name: availabilityStatus
+    type: enum
+    values:
+    - available
+    - in_use
+    - out_of_service
+    - retired
+    required: true
+invariants:
+- id: INV-CAT-001
+  statement: An InventoryItem must always carry a valid tenantId/laboratoryId/branchId
+    scope and a unique itemCode within that scope.
+- id: INV-CAT-002
+  statement: stockSummary.onHandQuantity must never go negative; every Apply* command
+    from a delegated capability must reject a movement that would drive it below zero.
+- id: INV-CAT-003
+  statement: Only BCM-INV-001, BCM-INV-002, BCM-INV-003, BCM-INV-005, BCM-INV-006,
+    BCM-INV-007, BCM-INV-008, BCM-INV-009, BCM-QLT-003, BCM-QLT-004 and BCM-QLT-005
+    may mutate InventoryItem state, each restricted to its own named field set; no
+    other capability or bounded context may write InventoryItem persistence directly.
+- id: INV-CAT-004
+  statement: equipmentProfile may only be set (by BCM-QLT-004) when itemType is equipment.
+- id: INV-CAT-005
+  statement: A discontinued InventoryItem cannot receive new stock entries but retains
+    its historical stock lot, quality control, calibration and maintenance records
+    for traceability.
+external_references:
+- shared_kernel:
+  - VO-ID-001 TenantId
+  - VO-ID-002 LaboratoryId
+  - VO-ID-003 BranchId
+  - VO-007 AuditMetadata
+- capabilities:
+  - BCM-SVC-002 Test Catalog / BCM-SVC-004 Analyte Catalog (read-only TestDefinition
+    reference used by BCM-INV-002's reagentProfile.linkedTestDefinitionId)
+  - BCM-PER-006 Supplier Management (not yet modeled; AGG-014 Supplier remains an
+    external, ID-only reference for BCM-INV-004 and is never owned or mutated by this
+    module)
+- context_map_published_language:
+  - ConsumableRequirement
+  - ReagentRequirement
+  - TestConsumptionProfile
+- aggregate_catalog:
+  - AGG-013 InventoryItem (forbidden_mutators: orders-samples, laboratory-results,
+      cash-sales)
+```

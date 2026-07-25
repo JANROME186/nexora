@@ -1,8 +1,8 @@
 # ADR-009: Integration and Interoperability Through Adapters
 
-**Status:** Approved  
-**Date:** 2026-07-07  
-**Version:** 0.20.0  
+**Status:** Approved
+**Date:** 2026-07-07
+**Version:** 0.20.0
 
 ## Context
 

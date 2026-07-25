@@ -15,10 +15,10 @@ Maintains the Nexora Meta Model and ensures that artifacts are both human-readab
 
 ## Inputs
 
-- `PROJECT_MANIFEST.yaml`
-- `meta-model/artifact-type-catalog.yaml`
+- `PROJECT_MANIFEST.md`
+- `meta-model/artifact-type-catalog.md`
 - `meta-model/schemas/*`
-- `KNOWLEDGE_INDEX.yaml`
+- `KNOWLEDGE_INDEX.md`
 - Capability-specific indexes.
 
 ## Outputs

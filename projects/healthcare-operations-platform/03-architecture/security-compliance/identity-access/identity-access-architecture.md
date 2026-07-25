@@ -50,3 +50,39 @@ A user may belong to multiple laboratories or branches. Permissions must always 
 ## MVP scope
 
 MVP 1 may start with username/password plus JWT/OIDC-compatible architecture, but it must not prevent migration to an external IdP.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: IAM-ARCH-001
+name: Identity and Access Architecture
+version: 0.19.0
+status: Draft
+identity_provider_strategy:
+  provider_agnostic: true
+  supported_patterns:
+  - local-development-idp
+  - self-hosted-idp
+  - enterprise-idp
+standards:
+- OpenID Connect
+- OAuth2
+- JWT
+identity_types:
+- platform_admin
+- laboratory_owner
+- branch_admin
+- employee
+- physician
+- patient
+- external_system
+- service_account
+- ai_agent
+requirements:
+  tenant_aware_identity: true
+  mfa_supported: true
+  service_to_service_authentication: true
+  api_keys_limited_to_integrations: true
+```

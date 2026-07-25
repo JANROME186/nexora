@@ -9,7 +9,7 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PersonN
 
 /**
  * Patient aggregate root (AGG-001) owned by the {@code patient-management} bounded context.
- * Modeled by {@code bcm-per-002-patient-management/business-model.yaml} ENT-PAT-001. Only the
+ * Modeled by {@code bcm-per-002-patient-management/business-model.md} ENT-PAT-001. Only the
  * patient-management context may mutate this aggregate; downstream consumers must reference
  * {@link PatientSnapshot} instead (BCM-PER-002 RN-003).
  */

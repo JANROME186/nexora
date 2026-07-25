@@ -32,7 +32,7 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagem
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagement.domain.PatientSnapshot;
 
 /**
- * Rendered controller for {@code bcm-per-002-patient-management/openapi-source.yaml} (base path
+ * Rendered controller for {@code bcm-per-002-patient-management/openapi-source.md} (base path
  * /api/people/patients). Custom-rule operations declared as {@code generatable: false} throw
  * {@link com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PeopleCustomRuleNotImplementedException}
  * inside the service and are mapped to HTTP 501 by the shared exception handler.

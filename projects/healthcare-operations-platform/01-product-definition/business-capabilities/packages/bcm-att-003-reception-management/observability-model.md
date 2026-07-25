@@ -1,0 +1,95 @@
+---
+id: HOP-OBS-BCM-ATT-003
+format: markdown_structured_payload
+type: observability-model
+name: Reception Management Observability Model
+version: 0.1.0
+status: modeled
+---
+
+# Reception Management Observability Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-OBS-BCM-ATT-003
+  type: observability-model
+  name: Reception Management Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-003
+  depends_on_capability: BCM-PLT-006
+logs:
+- event: reception_visit_started
+  level: info
+  fields:
+  - visitId
+  - branchId
+  - actorId
+  - intakeChannel
+- event: reception_identity_confirmed
+  level: info
+  fields:
+  - visitId
+  - actorId
+  - identityConfirmationMethod
+- event: reception_visit_ready_for_admission
+  level: info
+  fields:
+  - visitId
+  - branchId
+  - actorId
+- event: reception_visit_abandoned
+  level: warn
+  fields:
+  - visitId
+  - actorId
+metrics:
+- name: reception_visit_started_total
+  type: counter
+  labels:
+  - tenantId
+  - branchId
+  - intakeChannel
+- name: reception_visit_abandoned_total
+  type: counter
+  labels:
+  - tenantId
+  - branchId
+- name: reception_wait_duration_ms
+  type: histogram
+  labels:
+  - tenantId
+  - branchId
+  - priority
+- name: reception_queue_depth
+  type: gauge
+  labels:
+  - tenantId
+  - branchId
+traces:
+- span: StartReceptionVisit
+  child_spans:
+  - ValidateAppointmentLinkage
+  - PersistReceptionVisit
+- span: AdvanceToAdmission
+  child_spans:
+  - ValidateIdentityConfirmed
+  - PublishReceptionVisitReadyForAdmission
+audit_events:
+- ReceptionVisitStarted
+- ReceptionIdentityConfirmed
+- ReceptionVisitReadyForAdmission
+- ReceptionVisitAbandoned
+alerts:
+- name: HighReceptionAbandonmentRate
+  condition: reception_visit_abandoned_total rate exceeds threshold
+  severity: warning
+- name: HighReceptionQueueDepth
+  condition: reception_queue_depth exceeds threshold
+  severity: warning
+```

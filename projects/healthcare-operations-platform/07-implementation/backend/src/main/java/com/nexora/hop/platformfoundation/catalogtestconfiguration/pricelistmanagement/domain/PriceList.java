@@ -7,7 +7,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.Localiz
 
 /**
  * A version-aware collection of price entries (BCM-SVC-009).
- * Modeled in bcm-svc-009-price-list-management/business-model.yaml (ENT-PRC-001).
+ * Modeled in bcm-svc-009-price-list-management/business-model.md (ENT-PRC-001).
  */
 public record PriceList(
         String priceListId,

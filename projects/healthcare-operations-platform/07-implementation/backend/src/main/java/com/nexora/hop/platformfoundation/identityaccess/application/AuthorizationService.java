@@ -11,7 +11,7 @@ import com.nexora.hop.platformfoundation.identityaccess.domain.RolePermissionCat
 
 /**
  * Domain-level authorization decision service for the IAM permission model
- * (enterprise-product-foundation-standard.yaml {@code mandatory_foundations.iam_permission_model}).
+ * (enterprise-product-foundation-standard.md {@code mandatory_foundations.iam_permission_model}).
  * <p>
  * This service answers "does role X hold permission Y" and "what is the union of permissions
  * across roles Y1..Yn" (a {@link com.nexora.hop.platformfoundation.identityaccess.domain.RoleAssignment

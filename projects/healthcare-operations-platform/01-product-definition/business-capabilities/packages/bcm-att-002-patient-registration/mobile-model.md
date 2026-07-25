@@ -1,0 +1,35 @@
+---
+id: HOP-MOB-BCM-ATT-002
+format: markdown_structured_payload
+type: mobile-model
+name: Patient Registration Mobile Model
+version: 0.1.0
+status: deferred
+---
+
+# Patient Registration Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-ATT-002
+  type: mobile-model
+  name: Patient Registration Mobile Model
+  version: 0.1.0
+  status: deferred
+  classification: editable_model
+  capability: BCM-ATT-002
+mobile_scope:
+  status: required
+  flows:
+  - id: MOB-FLOW-REG-001
+    name: Mobile Self-Registration
+    description: Register and sign initial consent.
+    screens:
+    - MobileIntakeForm
+    - ConsentTermsView
+  offline_expectations: none
+```

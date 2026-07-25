@@ -1,0 +1,110 @@
+---
+id: HOP-PROC-BCM-PLT-004
+format: markdown_structured_payload
+type: processes
+name: Integration Management Processes
+version: 0.1.0
+status: modeled
+---
+
+# Integration Management Processes
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PROC-BCM-PLT-004
+  type: processes
+  name: Integration Management Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-004
+actors:
+- id: integration-partner
+  actor_ref: ACT-014
+  name: Integration Partner System
+  source: ACM-001
+- id: laboratory-device
+  actor_ref: ACT-015
+  name: Laboratory Device
+  source: ACM-001
+- id: platform-administrator
+  actor_ref: ACT-001
+  name: Platform Super Administrator
+  source: ACM-001
+  note: Registers and manages IntegrationEndpoint records from the employee portal.
+processes:
+- id: PRC-INT-004-01
+  name: Register integration endpoint
+  actor: platform-administrator
+  trigger: A new external system, device or partner integration needs a connection
+    point.
+  commands:
+  - RegisterIntegrationEndpoint
+  preconditions:
+  - Actor holds integration.endpoint.manage scope.
+  steps:
+  - Create IntegrationEndpoint in registered status.
+  - Publish IntegrationEndpointRegistered.
+  outcome: IntegrationEndpointRegistered
+  rules:
+  - RN-006
+- id: PRC-INT-004-02
+  name: Receive and normalize external message
+  actor: integration-partner
+  trigger: An external system or device sends a message to a registered endpoint.
+  commands:
+  - ReceiveMessage
+  - NormalizeMessage
+  preconditions:
+  - IntegrationEndpoint is active.
+  - externalMessageId has not been previously processed to completion.
+  steps:
+  - Invoke IntegrationAdapterPort.receiveMessage to obtain an ExternalMessageEnvelope.
+  - Invoke IntegrationAdapterPort.normalizeMessage to obtain a NormalizedClinicalMessage.
+  - Hand the normalized message to the owning domain's own command.
+  - Publish ExternalMessageReceived and MessageNormalized (or MessageNormalizationFailed).
+  outcome: MessageNormalized
+  rules:
+  - RN-001
+  - RN-002
+  - RN-003
+  - RN-006
+- id: PRC-INT-004-03
+  name: Acknowledge and retry failed message
+  actor: integration-partner
+  trigger: Normalization or downstream domain handling failed.
+  commands:
+  - AcknowledgeMessage
+  - RetryMessage
+  preconditions:
+  - IntegrationMessageRecord exists in normalization_failed or retrying status.
+  - retryCount is within the configured retry limit.
+  steps:
+  - Invoke IntegrationAdapterPort.acknowledgeMessage with the outcome.
+  - If retryable, schedule a bounded retry through the owning domain's own command
+    path.
+  - Publish IntegrationAcknowledgementSent (and MessageRetryScheduled or MessageDeadLettered).
+  outcome: IntegrationAcknowledgementSent
+  rules:
+  - RN-004
+  - RN-005
+commands:
+- name: RegisterIntegrationEndpoint
+  generatable: true
+- name: ReceiveMessage
+  generatable: false
+  custom_reason: Delegated to IntegrationAdapterPort with idempotency-key deduplication.
+- name: NormalizeMessage
+  generatable: false
+  custom_reason: Protocol-specific normalization and canonical error mapping.
+- name: AcknowledgeMessage
+  generatable: false
+  custom_reason: Correlation-id propagation and canonical acknowledgement construction.
+- name: RetryMessage
+  generatable: false
+  custom_reason: Bounded backoff/retry-limit policy.
+```

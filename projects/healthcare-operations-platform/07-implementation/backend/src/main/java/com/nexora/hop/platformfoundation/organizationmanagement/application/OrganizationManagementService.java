@@ -85,7 +85,7 @@ public class OrganizationManagementService implements TenantDirectory, BranchDir
 
     /**
      * BCM-ORG-001 {@code updateTenantStatus}: activate, suspend or archive a tenant. This is the
-     * operational control tenant-impact-triage-runbook.yaml uses to contain a tenant suspected of
+     * operational control tenant-impact-triage-runbook.md uses to contain a tenant suspected of
      * cross-tenant impact (COM-MOD-012-BE-001); every transition is a privileged operation and is
      * therefore recorded to the audit trail (BCM-PLT-007).
      */

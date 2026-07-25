@@ -1,0 +1,142 @@
+---
+id: HOP-API-SRC-BCM-PLT-010
+format: markdown_structured_payload
+type: openapi-source
+name: Open Data Ingestion and Migration API Source Model
+version: 0.1.0
+status: modeled
+---
+
+# Open Data Ingestion And Migration Api Source Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-API-SRC-BCM-PLT-010
+  type: openapi-source
+  name: Open Data Ingestion and Migration API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-010
+  note: 'Source contract model. The rendered OpenAPI document, controllers, DTOs and
+    SDKs are generated outputs declared in generation-plan.md. Internal, employee-portal-admin-only
+    surface; no patient/doctor portal or public consumer calls it.
+
+    '
+api:
+  base_path: /api/platform/migration
+  surface_classification: internal
+  security:
+    scheme: bearer_jwt
+    required_scopes_default:
+    - migration.job.create
+    - migration.job.review
+    - migration.job.approve
+resources:
+- name: MigrationJob
+  operations:
+  - id: createMigrationJob
+    method: POST
+    path: /jobs
+    scopes:
+    - migration.job.create
+    generatable: true
+  - id: getMigrationJob
+    method: GET
+    path: /jobs/{migrationJobId}
+    scopes:
+    - migration.job.review
+    generatable: true
+  - id: listMigrationJobs
+    method: GET
+    path: /jobs
+    scopes:
+    - migration.job.review
+    generatable: true
+- name: ImportBatch
+  operations:
+  - id: receiveImportPackage
+    method: POST
+    path: /jobs/{migrationJobId}/import-batches
+    scopes:
+    - migration.job.create
+    generatable: false
+    custom_reason: Manifest and checksum verification per the Open Data Ingestion
+      Standard.
+- name: DryRun
+  operations:
+  - id: runDryRunValidation
+    method: POST
+    path: /import-batches/{importBatchId}/dry-run
+    scopes:
+    - migration.job.create
+    generatable: false
+    custom_reason: Multi-category validation without mutation.
+  - id: getDryRunReport
+    method: GET
+    path: /import-batches/{importBatchId}/dry-run
+    scopes:
+    - migration.job.review
+    generatable: true
+- name: Commit
+  operations:
+  - id: approveImport
+    method: POST
+    path: /import-batches/{importBatchId}/approve
+    scopes:
+    - migration.job.approve
+    generatable: true
+  - id: commitImport
+    method: POST
+    path: /import-batches/{importBatchId}/commit
+    scopes:
+    - migration.job.approve
+    generatable: false
+    custom_reason: Delegated exclusively to existing domain commands with checkpointed
+      execution.
+  - id: retryImportExecution
+    method: POST
+    path: /jobs/{migrationJobId}/retry
+    scopes:
+    - migration.job.approve
+    generatable: false
+    custom_reason: Checkpoint-based idempotent resume.
+- name: Reconciliation
+  operations:
+  - id: getReconciliationReport
+    method: GET
+    path: /jobs/{migrationJobId}/reconciliation
+    scopes:
+    - migration.job.review
+    generatable: true
+schemas_source:
+- MigrationJob
+- ImportBatch
+- MappingTemplate
+- ImportValidationReport
+- ReconciliationReport
+- ImportExecution
+- MigrationManifest
+error_model:
+  standard: rfc7807
+  code_field: 'Every error response carries a first-class, independently parseable
+    `code` string field, consistent with BCM-PLT-004/BCM-PLT-005''s precedent for
+    the new integration and migration capability set.
+
+    '
+  domain_errors:
+  - code: MIGRATION_MANIFEST_INVALID_OR_MISSING
+    maps_to_rule: RN-001
+  - code: MIGRATION_DRY_RUN_NOT_PASSED
+    maps_to_rule: RN-002
+  - code: MIGRATION_DIRECT_AGGREGATE_WRITE_ATTEMPTED
+    maps_to_rule: RN-003
+  - code: MIGRATION_RETRY_CHECKPOINT_MISMATCH
+    maps_to_rule: RN-004
+  - code: MIGRATION_SCOPE_MISMATCH
+    maps_to_rule: RN-006
+```

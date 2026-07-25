@@ -1,0 +1,137 @@
+---
+id: HOP-BR-BCM-PER-003
+format: markdown_structured_payload
+type: business-rules
+name: Doctor Management Business Rules
+version: 0.1.0
+status: modeled
+---
+
+# Doctor Management Business Rules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BR-BCM-PER-003
+  type: business-rules
+  name: Doctor Management Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PER-003
+  rule_id_pattern: RN-###
+rules:
+- id: RN-001
+  statement: A doctor code must be unique within its tenant scope.
+  applies_to: Doctor
+  enforcement_point: command:RegisterDoctor, command:UpdateDoctor
+  severity: high
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-DOC-003-01
+- id: RN-002
+  statement: Duplicate detection must be invoked and recorded before a doctor is registered.
+  applies_to: Doctor
+  enforcement_point: command:RegisterDoctor
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Registration must consult BCM-PER-001 duplicate detector and record
+    decision.
+  test_refs:
+  - TST-DOC-003-02
+- id: RN-003
+  statement: Only the medical-staff bounded context may mutate Doctor aggregate state;
+    other contexts must reference DoctorSnapshot only.
+  applies_to: Doctor
+  enforcement_point: architecture_boundary
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Enforced through repository and adapter policy; verified in contract
+    tests.
+  test_refs:
+  - TST-DOC-003-03
+- id: RN-004
+  statement: A doctor cannot become active without at least one verified medical license
+    credential.
+  applies_to: Doctor, ProfessionalCredential
+  enforcement_point: command:ActivateDoctor, command:VerifyCredential
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Activation depends on cross-entity credential state.
+  test_refs:
+  - TST-DOC-003-04
+  - TST-DOC-003-05
+- id: RN-005
+  statement: A credential must transition to expired when its expiresAt date has passed
+    and must trigger a doctor flag for re-verification.
+  applies_to: ProfessionalCredential, Doctor
+  enforcement_point: scheduler:credential_expiration_watcher
+  severity: high
+  audit_required: true
+  generatable: false
+  custom_reason: Time-based transition requires scheduled evaluation and cascade rules.
+  test_refs:
+  - TST-DOC-003-06
+- id: RN-006
+  statement: A suspended doctor cannot be selected as referring doctor on new orders.
+  applies_to: Doctor
+  enforcement_point: query:GetDoctorSnapshot, projection:DoctorSnapshot
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Eligibility filter is a custom rule consumed by orders and portal.
+  test_refs:
+  - TST-DOC-003-07
+- id: RN-007
+  statement: A doctor portal access baseline may declare provisioning readiness but
+    must not grant portal access without a completed portal identity provisioning
+    workflow.
+  applies_to: DoctorPortalAccessBaseline
+  enforcement_point: command:PreparePortalAccess
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Portal identity provisioning happens in COM-MOD-009 and must not
+    be short-circuited.
+  test_refs:
+  - TST-DOC-003-08
+- id: RN-008
+  statement: Personal document numbers and credential numbers must be stored with
+    tenant-configured masking when displayed in read models.
+  applies_to: Doctor, ProfessionalCredential
+  enforcement_point: projection:DoctorSnapshot
+  severity: high
+  audit_required: false
+  generatable: true
+  test_refs:
+  - TST-DOC-003-09
+- id: RN-009
+  statement: Doctor search, read and update require an authorized actor with the appropriate
+    scope.
+  applies_to: Doctor
+  enforcement_point: authorization:doctor.read, authorization:doctor.write
+  severity: critical
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-DOC-003-10
+enforcement_summary:
+  generatable_rules:
+  - RN-001
+  - RN-008
+  - RN-009
+  custom_implementation_rules:
+  - RN-002
+  - RN-003
+  - RN-004
+  - RN-005
+  - RN-006
+  - RN-007
+```

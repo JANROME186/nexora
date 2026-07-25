@@ -2,7 +2,6 @@ package com.nexora.hop.platformfoundation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -20,7 +19,7 @@ class PlatformFoundationApiContractTest {
             "mvp",
             "modules",
             "MVP-MOD-001-platform-foundation",
-            "api-contract.openapi.yaml");
+            "api-contract.openapi.md");
 
     @Test
     void openApiContractDeclaresImplementedPlatformFoundationEndpoints() throws Exception {
@@ -79,9 +78,23 @@ class PlatformFoundationApiContractTest {
     }
 
     private static Map<String, Object> loadContract() throws Exception {
-        try (InputStream inputStream = Files.newInputStream(API_CONTRACT)) {
-            return map(new Yaml().load(inputStream));
+        return map(new Yaml().load(extractStructuredPayload(Files.readString(API_CONTRACT))));
+    }
+
+    private static String extractStructuredPayload(String markdown) {
+        String payloadMarker = "<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->";
+        int payloadStart = markdown.indexOf(payloadMarker);
+        if (payloadStart >= 0) {
+            markdown = markdown.substring(payloadStart);
         }
+        String marker = "```yaml\n";
+        int start = markdown.indexOf(marker);
+        if (start < 0) {
+            return markdown;
+        }
+        start += marker.length();
+        int end = markdown.indexOf("\n```", start);
+        return end < 0 ? markdown.substring(start) : markdown.substring(start, end);
     }
 
     private static void assertOperation(

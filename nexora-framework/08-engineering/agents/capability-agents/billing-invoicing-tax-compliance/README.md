@@ -5,7 +5,7 @@ Responsable de generar y validar artefactos de CAP-009 usando reglas fiscales, O
 ## Inputs
 
 - capability-library/CAP-009-billing-invoicing-tax-compliance/
-- contracts/billing/openapi.yaml
+- contracts/billing/openapi.md
 - security-compliance/
 - product-evolution/country-packs
 - capability-library/CAP-008-cash-sales-cash-closing-management/

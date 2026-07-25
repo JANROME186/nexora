@@ -1,0 +1,86 @@
+---
+id: HOP-PROC-BCM-QLT-001
+format: markdown_structured_payload
+type: processes
+name: Internal Quality Controls Processes
+version: 0.1.0
+status: modeled
+---
+
+# Internal Quality Controls Processes
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PROC-BCM-QLT-001
+  type: processes
+  name: Internal Quality Controls Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-001
+actors:
+- id: laboratory-technician
+  actor_ref: ACT-007
+  name: Laboratory Technician
+  source: ACM-001
+  note: 'ACM-001 does not yet define a dedicated "Quality Officer" actor; this capability
+    reuses Laboratory Technician for run execution and Technical Validator for override
+    review, documented as a non-blocking substitution.
+
+    '
+- id: technical-validator
+  actor_ref: ACT-008
+  name: Technical Validator
+  source: ACM-001
+processes:
+- id: PRC-IQC-001-01
+  name: Record internal quality control run
+  actor: laboratory-technician
+  trigger: A scheduled or ad hoc internal QC run is performed with a control-material
+    lot before or alongside patient testing.
+  commands:
+  - RecordQualityControlRun
+  preconditions:
+  - controlMaterialStockLotId references an active calibrator_control_material StockLot.
+  - measuredValue and expectedRange are supplied.
+  steps:
+  - Evaluate ruleEvaluation using Westgard-style multi-rule logic.
+  - Set acceptanceDecision from ruleEvaluation (in_control -> accepted; warning ->
+    repeat_required unless overridden; out_of_control -> rejected unless overridden).
+  - Publish QualityControlRunRecorded.
+  outcome: QualityControlRunRecorded
+  rules:
+  - RN-002
+  - RN-004
+  - RN-005
+- id: PRC-IQC-001-02
+  name: Override acceptance decision
+  actor: technical-validator
+  trigger: A supervisor reviews an out_of_control or warning run and determines patient
+    results can still proceed with documented justification.
+  commands:
+  - OverrideAcceptanceDecision
+  preconditions:
+  - QualityControlRun exists with ruleEvaluation warning or out_of_control.
+  - Actor holds a supervisor-scoped quality.internalcontrol.manage grant.
+  - An override reason is supplied.
+  steps:
+  - Record the override with actor, reason and timestamp.
+  - Publish QualityControlOverrideRecorded.
+  outcome: QualityControlOverrideRecorded
+  rules:
+  - RN-003
+  - RN-005
+commands:
+- name: RecordQualityControlRun
+  generatable: false
+  custom_reason: Westgard-style statistical multi-rule evaluation and cross-capability
+    control-material lot validation.
+- name: OverrideAcceptanceDecision
+  generatable: false
+  custom_reason: Supervisor-scoped authorization and mandatory audited override reason.
+```

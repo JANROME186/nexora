@@ -1,7 +1,7 @@
 # File Exchange Strategy
 
-**Artifact ID:** IIA-FILE-001  
-**Version:** 0.20.0  
+**Artifact ID:** IIA-FILE-001
+**Version:** 0.20.0
 
 ## Purpose
 

@@ -1,0 +1,95 @@
+---
+id: HOP-BR-BCM-SVC-002
+format: markdown_structured_payload
+type: business-rules
+name: Test Catalog Business Rules
+version: 0.1.0
+status: modeled
+---
+
+# Test Catalog Business Rules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BR-BCM-SVC-002
+  type: business-rules
+  name: Test Catalog Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-002
+  rule_id_pattern: RN-###
+rules:
+- id: RN-001
+  statement: A test definition must have a unique code within its laboratory scope.
+  applies_to: TestDefinition
+  enforcement_point: command:CreateTestDefinition, command:UpdateTestDefinition
+  severity: high
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-SVC-002-01
+- id: RN-002
+  statement: A numeric result type test must declare a measurement unit.
+  applies_to: TestDefinition
+  enforcement_point: command:CreateTestDefinition, command:UpdateTestDefinition
+  severity: high
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-SVC-002-02
+- id: RN-003
+  statement: A test cannot be published without at least one linked sample requirement.
+  applies_to: TestDefinition
+  enforcement_point: command:PublishTestDefinition
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Cross-aggregate validation against sample catalog publication state.
+  test_refs:
+  - TST-SVC-002-03
+- id: RN-004
+  statement: A published test version is immutable; edits create a new draft version.
+  applies_to: TestDefinition
+  enforcement_point: command:UpdateTestDefinition
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Snapshot copy and version increment logic.
+  test_refs:
+  - TST-SVC-002-04
+- id: RN-005
+  statement: Linked analytes must reference published analyte definitions at publish
+    time.
+  applies_to: TestDefinition
+  enforcement_point: command:PublishTestDefinition
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Cross-aggregate analyte publication validation.
+  test_refs:
+  - TST-SVC-002-05
+- id: RN-006
+  statement: Only users with catalog authoring permission may create, update or publish
+    tests.
+  applies_to: TestDefinition
+  enforcement_point: authorization:catalog.test.write
+  severity: critical
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-SVC-002-06
+enforcement_summary:
+  generatable_rules:
+  - RN-001
+  - RN-002
+  - RN-006
+  custom_implementation_rules:
+  - RN-003
+  - RN-004
+  - RN-005
+```

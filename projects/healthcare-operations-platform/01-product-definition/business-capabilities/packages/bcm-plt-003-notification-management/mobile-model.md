@@ -1,0 +1,35 @@
+---
+id: HOP-MOB-BCM-PLT-003
+format: markdown_structured_payload
+type: mobile-model
+name: Notification Management Mobile Model
+version: 0.1.0
+status: deferred
+---
+
+# Notification Management Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-PLT-003
+  type: mobile-model
+  name: Notification Management Mobile Model
+  version: 0.1.0
+  status: deferred
+  classification: editable_model
+  capability: BCM-PLT-003
+mobile_scope:
+  status: not_required
+  rationale: 'Notification Management is a backend-only dispatch service. Mobile push
+    notification receipt is a client-side concern of the requesting capability''s
+    mobile flows (BCM-RES-004/BCM-RES-007), not this dispatch platform capability.
+
+    '
+  deferred_to: []
+  flows: []
+  offline_expectations: none
+```

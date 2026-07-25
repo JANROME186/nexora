@@ -38,18 +38,18 @@ class LaboratoryResultsApiTest {
     @BeforeEach
     void setupContext() throws Exception {
         String runToken = UUID.randomUUID().toString().substring(0, 8);
-        
+
         JsonNode tenant = postJson("/api/platform/tenants", "{\"name\":\"Lab Workflow Tenant " + runToken + "\"}");
         tenantId = tenant.get("tenantId").asText();
-        
+
         JsonNode laboratory = postJson("/api/organization/laboratories",
                 "{\"tenantId\":\"%s\",\"name\":\"Lab Workflow Lab\"}".formatted(tenantId));
         laboratoryId = laboratory.get("laboratoryId").asText();
-        
+
         JsonNode branch = postJson("/api/organization/branches",
                 "{\"laboratoryId\":\"%s\",\"name\":\"Lab Workflow Branch\"}".formatted(laboratoryId));
         branchId = branch.get("branchId").asText();
-        
+
         // orderId and sampleId will be created during the test to avoid 404
     }
 
@@ -113,9 +113,9 @@ class LaboratoryResultsApiTest {
         mockMvc.perform(post("/api/clinical-operations/laboratory-results/{resultId}/technical-validation/validate", resultId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(validatePayload))
-                .andExpect(status().isOk()); 
+                .andExpect(status().isOk());
 
-                
+
         String medValidatePayload = """
                 {"tenantId": "%s", "actorId": "doc-1", "licenseIdentifier": "12345"}
                 """.formatted(tenantId);
@@ -123,7 +123,7 @@ class LaboratoryResultsApiTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(medValidatePayload))
                 .andExpect(status().isOk());
-                
+
         String releasePayload = """
                 {"tenantId": "%s", "actorId": "doc-1"}
                 """.formatted(tenantId);
@@ -131,17 +131,17 @@ class LaboratoryResultsApiTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(releasePayload))
                 .andExpect(status().isOk());
-                
+
         // 5. Test List Worklists
         mockMvc.perform(get("/api/clinical-operations/laboratory-results/processing-worklist?tenantId={t}&laboratoryId={l}", tenantId, laboratoryId))
                 .andExpect(status().isOk());
-                
+
         mockMvc.perform(get("/api/clinical-operations/laboratory-results/{resultId}/technical-validation/technical-validation-worklist?tenantId={t}&laboratoryId={l}", resultId, tenantId, laboratoryId))
                 .andExpect(status().isOk());
-                
+
         mockMvc.perform(get("/api/clinical-operations/laboratory-results/{resultId}/medical-validation/medical-validation-worklist?tenantId={t}&laboratoryId={l}", resultId, tenantId, laboratoryId))
                 .andExpect(status().isOk());
-                
+
         mockMvc.perform(get("/api/clinical-operations/laboratory-results/{resultId}/release/release-worklist?tenantId={t}&laboratoryId={l}", resultId, tenantId, laboratoryId))
                 .andExpect(status().isOk());
 
@@ -166,7 +166,7 @@ class LaboratoryResultsApiTest {
         mockMvc.perform(get("/api/clinical-operations/laboratory-results/{resultId}/notifications?tenantId={t}", resultId, tenantId))
                 .andExpect(status().isOk());
     }
-    
+
     @Test
     void exceptionsAndErrorsCoverage() throws Exception {
         mockMvc.perform(post("/api/clinical-operations/laboratory-results/bad-id/incidents")
@@ -184,7 +184,7 @@ class LaboratoryResultsApiTest {
                 """.formatted(tenantId, laboratoryId, branchId, orderId, UUID.randomUUID().toString());
         JsonNode sample = postJson("/api/clinical-operations/samples", collectPayload);
         sampleId = sample.get("sampleId").asText();
-        
+
         // Label and receive sample
         mockMvc.perform(post("/api/clinical-operations/samples/{sampleId}/label/print", sampleId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -205,7 +205,7 @@ class LaboratoryResultsApiTest {
                 }
                 """.formatted(tenantId, laboratoryId, branchId, orderId, sampleId);
         String resultId = postJson("/api/clinical-operations/laboratory-results", capturePayload).get("resultId").asText();
-        
+
         // Test incident validation failure
         String incidentPayload = """
                 {

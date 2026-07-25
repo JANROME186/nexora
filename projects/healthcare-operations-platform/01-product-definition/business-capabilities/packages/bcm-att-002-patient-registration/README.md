@@ -26,24 +26,24 @@ its creation or reuse.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | Registration request entity, draft VOs and orchestration outcome |
-| `business-rules.yaml` | Numbered rules RN-001..RN-008 |
-| `processes.yaml` | Start, commit and cancel registration |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee portal wizard, list and detail |
-| `mobile-model.yaml` | Mobile scope (check_in_later, deferred to COM-MOD-009) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | Registration request entity, draft VOs and orchestration outcome |
+| `business-rules.md` | Numbered rules RN-001..RN-008 |
+| `processes.md` | Start, commit and cancel registration |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee portal wizard, list and detail |
+| `mobile-model.md` | Mobile scope (check_in_later, deferred to COM-MOD-009) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, UI, tests, QA |
 
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom implementation
+declared as generated outputs in `generation-plan.md`. Custom implementation
 covers orchestration of duplicate-detection consultation, cross-capability
 commit delegation, atomic representative attach, tenant-configurable consent
 requirements, age-of-majority default and the registration wizard UI.

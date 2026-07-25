@@ -1,0 +1,33 @@
+---
+id: HOP-MOB-BCM-QLT-006
+format: markdown_structured_payload
+type: mobile-model
+name: CAPA Management Mobile Model
+version: 0.1.0
+status: modeled
+---
+
+# Capa Management Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-QLT-006
+  type: mobile-model
+  name: CAPA Management Mobile Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-006
+  mobile_scope: not_required
+justification: 'Corrective Action and Preventive Action (CAPA) investigations involve
+  complex multi-step root cause analysis (5-Whys/Fishbone), action plan formalization,
+  formal quality approval, and regulatory evidence evaluation. These workflows are
+  scoped exclusively to the desktop Employee Portal for quality assurance professionals.
+  No mobile interface is required.
+
+  '
+```

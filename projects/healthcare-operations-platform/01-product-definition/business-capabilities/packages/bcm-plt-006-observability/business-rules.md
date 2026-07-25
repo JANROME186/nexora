@@ -1,0 +1,49 @@
+---
+id: HOP-BUS-RLS-BCM-PLT-006
+format: markdown_structured_payload
+type: business-rules
+name: Observability Business Rules
+version: 1.0.0
+---
+
+# Observability Business Rules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BUS-RLS-BCM-PLT-006
+  type: business-rules
+  name: Observability Business Rules
+  version: 1.0.0
+rules:
+- id: RN-OBS-001
+  statement: Readiness probes must fail if downstream mandatory services (PostgreSQL
+    database) are unreachable.
+  applies_to: HealthCheckProbe
+  enforcement_point: ReadinessHealthIndicator
+  severity: CRITICAL
+  audit_required: false
+  test_refs:
+  - TEST-OBS-001
+- id: RN-OBS-002
+  statement: Logs produced by all services must be formatted as structured JSON containing
+    trace_id, tenant_id, user_id, and service_name.
+  applies_to: ServiceTelemetryProfile
+  enforcement_point: JsonLoggingFormatter
+  severity: HIGH
+  audit_required: false
+  test_refs:
+  - TEST-OBS-002
+- id: RN-OBS-003
+  statement: SLO breach alerts must fire when 99th percentile API latency exceeds
+    500ms over a 5-minute rolling window.
+  applies_to: SloDefinition
+  enforcement_point: PrometheusAlertRule
+  severity: CRITICAL
+  audit_required: true
+  test_refs:
+  - TEST-OBS-003
+```

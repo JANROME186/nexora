@@ -28,19 +28,19 @@ this module.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | LaboratoryResult aggregate and ten value objects covering capture through release/amendment placeholders |
-| `business-rules.yaml` | Numbered rules RN-001..RN-008 |
-| `processes.yaml` | Capture result, record incident, submit for validation |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee portal processing worklist, capture form and result detail |
-| `mobile-model.yaml` | Mobile scope (not_required) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | LaboratoryResult aggregate and ten value objects covering capture through release/amendment placeholders |
+| `business-rules.md` | Numbered rules RN-001..RN-008 |
+| `processes.md` | Capture result, record incident, submit for validation |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee portal processing worklist, capture form and result detail |
+| `mobile-model.md` | Mobile scope (not_required) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, UI, tests, QA |
 
 ## Clinical rules modeled
 
@@ -52,7 +52,7 @@ this module.
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers snapshot capture, plausibility checking, the
 device-message anti-corruption boundary, incident-reliability judgment and
 the aggregate boundary rule shared with BCM-LAB-008, BCM-LAB-009 and

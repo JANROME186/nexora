@@ -1,0 +1,44 @@
+---
+id: HOP-TST-BCM-PLT-007
+format: markdown_structured_payload
+type: test-model
+name: Audit Trail Test Model
+version: 1.1.0
+status: modeled
+---
+
+# Audit Trail Test Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TST-BCM-PLT-007
+  type: test-model
+  name: Audit Trail Test Model
+  version: 1.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-007
+test_cases:
+- id: TST-AUD-TR-001
+  name: Append Only Reject Mutation
+  type: unit
+  target_rule: RN-AUD-TR-001
+  description: Verify database triggers/constraints reject UPDATE and DELETE operations
+    on audit_events table.
+- id: TST-AUD-TR-002
+  name: Export Authorization Check
+  type: unit
+  target_rule: RN-AUD-TR-002
+  description: Verify exportAuditEvents rejects requests lacking audit.trail.export
+    permission.
+- id: TST-AUD-TR-003
+  name: Verify Cryptographic Hash Chain
+  type: unit
+  target_rule: RN-AUD-TR-003
+  description: Verify SHA-256 eventHash sequence validation during audit search and
+    export.
+```

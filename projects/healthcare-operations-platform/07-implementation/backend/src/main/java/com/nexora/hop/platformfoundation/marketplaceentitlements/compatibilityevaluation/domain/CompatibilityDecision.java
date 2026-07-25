@@ -1,7 +1,7 @@
 package com.nexora.hop.platformfoundation.marketplaceentitlements.compatibilityevaluation.domain;
 
 /**
- * Outcome of a package/platform compatibility evaluation (compatibility.yaml {@code decisions}).
+ * Outcome of a package/platform compatibility evaluation (compatibility.md {@code decisions}).
  * {@link #effect()} mirrors the modeled {@code allow_installation}/{@code
  * allow_with_operator_acknowledgement}/{@code block_installation}/{@code block_until_reviewed}
  * effects.

@@ -2,7 +2,7 @@ package com.nexora.hop.platformfoundation.laboratoryworkflow.shared;
 
 /**
  * Named error code constants for Laboratory Workflow domain errors.
- * Mirrors the error_model declared in openapi-source.yaml for each capability package.
+ * Mirrors the error_model declared in openapi-source.md for each capability package.
  * Named constants prevent magic strings across the module (HOP-QA-ALIGN-005 compliance).
  */
 public final class LabWorkflowErrorCodes {

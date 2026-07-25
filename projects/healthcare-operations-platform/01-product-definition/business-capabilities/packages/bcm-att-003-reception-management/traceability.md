@@ -1,0 +1,161 @@
+---
+id: HOP-TRACE-BCM-ATT-003
+format: markdown_structured_payload
+type: traceability
+name: Reception Management Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Reception Management Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-ATT-003
+  type: traceability
+  name: Reception Management Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-003
+traces:
+  capability_map:
+    bcm_001: BCM-ATT-003
+    domain: DOM-04 Care Delivery
+  dependency_map:
+    bcm_002_profile: care_delivery
+    required_capabilities:
+    - BCM-PER-002
+    - BCM-PER-003
+    - BCM-ORG-003
+    - BCM-PLT-001
+    - BCM-PLT-007
+    - BCM-LAB-001
+    downstream_capabilities:
+    - BCM-ATT-004
+    - BCM-ATT-005
+    - BCM-LAB-002
+  domain_foundation:
+    bounded_context: orders-samples
+    aggregate_reference: AGG-007 DiagnosticOrder (owned by BCM-LAB-001)
+    context_relationships:
+    - REL-CTX-002
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-002
+    - VO-ID-003
+    - VO-ID-005
+    - VO-007
+  brm_alignment:
+  - rule: BRM-001-R003
+    alignment: Reception identity confirmation is read-only and never mutates Patient
+      aggregate state (RN-003).
+  - rule: BRM-001-R018
+    alignment: Reception events are append-only and audit trace fields are required
+      (RN-007).
+  hrp_alignment:
+  - process: HRP-001-P03 Patient Registration and Order Intake
+    capability_role: Front-desk queue and identity confirmation segment preceding
+      admission.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-REC-003-01
+  - rule: RN-002
+    tests:
+    - TST-REC-003-02
+  - rule: RN-003
+    tests:
+    - TST-REC-003-03
+  - rule: RN-004
+    tests:
+    - TST-REC-003-04
+  - rule: RN-005
+    tests:
+    - TST-REC-003-05
+  - rule: RN-006
+    tests:
+    - TST-REC-003-06
+  - rule: RN-007
+    tests:
+    - TST-REC-003-07
+  processes_to_commands:
+  - process: PRC-REC-003-01
+    commands:
+    - StartReceptionVisit
+  - process: PRC-REC-003-02
+    commands:
+    - ConfirmReceptionIdentity
+  - process: PRC-REC-003-03
+    commands:
+    - AdvanceToAdmission
+  - process: PRC-REC-003-04
+    commands:
+    - UpdateReceptionPriority
+  - process: PRC-REC-003-05
+    commands:
+    - AbandonReceptionVisit
+  api_to_permissions:
+  - operation: startReceptionVisit
+    scope: reception.manage
+  - operation: confirmReceptionIdentity
+    scope: reception.manage
+  - operation: advanceToAdmission
+    scope: reception.manage
+  - operation: updateReceptionPriority
+    scope: reception.manage
+  - operation: abandonReceptionVisit
+    scope: reception.manage
+  - operation: listReceptionVisits
+    scope: reception.read
+  - operation: getReceptionVisit
+    scope: reception.read
+  events_to_audit:
+  - event: ReceptionVisitStarted
+    audit_sink: BCM-PLT-007
+  - event: ReceptionIdentityConfirmed
+    audit_sink: BCM-PLT-007
+  - event: ReceptionVisitReadyForAdmission
+    audit_sink: BCM-PLT-007
+  - event: ReceptionVisitAbandoned
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-REC-003-01
+    operations:
+    - listReceptionVisits
+    - startReceptionVisit
+    - updateReceptionPriority
+  - screen: SCR-REC-003-02
+    operations:
+    - confirmReceptionIdentity
+  - screen: SCR-REC-003-03
+    operations:
+    - getReceptionVisit
+    - advanceToAdmission
+    - abandonReceptionVisit
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.md
+  compilation_qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-001-validation.md
+  compilation_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-004-BE-001/security-quality-evidence.md
+  custom_rules_qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-002-validation.md
+  custom_rules_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-004-BE-002/security-quality-evidence.md
+  compilation_backend_root: ../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/frontdeskcaredelivery/receptionmanagement/
+  compilation_schema: ../../../../07-implementation/backend/src/main/resources/db/front-desk-care-delivery/schema.sql
+  backlog_items:
+    definition: MVP-MOD-004-DEF
+    definition_status: closed
+    compilation: MVP-MOD-004-BE-001
+    compilation_status: closed
+    custom_rules: MVP-MOD-004-BE-002
+    custom_rules_status: closed
+    ui: MVP-MOD-004-FE-001
+    ui_status: pending
+    validation: MVP-MOD-004-QA-001
+    validation_status: pending
+    closeout: MVP-MOD-004-CLOSEOUT
+    closeout_status: pending
+```

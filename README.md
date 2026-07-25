@@ -27,7 +27,7 @@ Agents must use the Nexora framework to scan `projects/`, validate whether each 
 3. Structure it into `PROJECT_BRIEF.md`.
 4. Apply `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`.
 5. Apply `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`.
-6. Generate the required source artifacts until `PROJECT_STATE.yaml` has no blocking definition gaps.
+6. Generate the required source artifacts until `PROJECT_STATE.md` has no blocking definition gaps.
 7. Start implementation from the first module definition package.
 
 For detailed step-by-step usage, analysis-agent instructions, validation gates and development-agent handoff, read:
@@ -80,27 +80,27 @@ Next backlog item:
 
 Commercial backlog:
 
-`projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
+`projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md`
 
 Capability package index:
 
-`projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/capability-package-index.yaml`
+`projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/capability-package-index.md`
 
 Open data ingestion contract:
 
-`projects/healthcare-operations-platform/05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml`
+`projects/healthcare-operations-platform/05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md`
 
 Reusable framework standard:
 
-`nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
+`nexora-framework/02-standards/standards/open-data-ingestion-standard.md`
 
 Product marketplace standard:
 
-`nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
+`nexora-framework/02-standards/standards/product-marketplace-standard.md`
 
 HOP product marketplace contract:
 
-`projects/healthcare-operations-platform/05-contracts/marketplace/product-marketplace/product-marketplace-contract.yaml`
+`projects/healthcare-operations-platform/05-contracts/marketplace/product-marketplace/product-marketplace-contract.md`
 
 HOP business requirement reference template:
 
@@ -108,19 +108,19 @@ HOP business requirement reference template:
 
 Business requirement to YAML prompt:
 
-`projects/healthcare-operations-platform/04-requirements/prompts/business-requirement-to-yaml-prompt.yaml`
+`projects/healthcare-operations-platform/04-requirements/prompts/business-requirement-to-yaml-prompt.md`
 
 Business requirement version index:
 
-`projects/healthcare-operations-platform/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`
+`projects/healthcare-operations-platform/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.md`
 
 Business requirement versioning standard:
 
-`nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
+`nexora-framework/02-standards/standards/business-requirement-versioning-standard.md`
 
 Open-source-first security quality standard:
 
-`nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
+`nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md`
 
 Project folder:
 

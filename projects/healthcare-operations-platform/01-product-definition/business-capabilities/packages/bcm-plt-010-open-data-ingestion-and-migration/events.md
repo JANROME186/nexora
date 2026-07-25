@@ -1,0 +1,104 @@
+---
+id: HOP-EVT-BCM-PLT-010
+format: markdown_structured_payload
+type: events
+name: Open Data Ingestion and Migration Events
+version: 0.1.0
+status: modeled
+---
+
+# Open Data Ingestion And Migration Events
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-EVT-BCM-PLT-010
+  type: events
+  name: Open Data Ingestion and Migration Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-010
+domain_events:
+- name: MigrationJobCreated
+  description: A new migration job was created for a tenant/laboratory onboarding
+    effort.
+  payload:
+  - migrationJobId
+  - sourceSystemName
+  audit: true
+- name: ImportPackageReceived
+  description: A manifest-declared migration package was received and verified.
+  payload:
+  - migrationJobId
+  - importBatchId
+  - entityCounts
+  audit: true
+- name: MappingCompleted
+  description: A MappingTemplate was applied to an ImportBatch.
+  payload:
+  - importBatchId
+  - mappingTemplateId
+  audit: true
+- name: ImportDryRunValidated
+  description: Dry-run validation completed for an ImportBatch, producing an ImportValidationReport.
+  payload:
+  - importBatchId
+  - reportId
+  - passed
+  audit: true
+- name: MigrationExecuted
+  description: An ImportExecution attempt committed domain-command changes.
+  payload:
+  - migrationJobId
+  - executionId
+  - status
+  audit: true
+- name: ImportReconciled
+  description: A ReconciliationReport was produced or updated for a migration job.
+  payload:
+  - migrationJobId
+  - reconciliationReportId
+  - importedCounts
+  - rejectedCounts
+  audit: true
+- name: MigrationValidated
+  description: Alias event name used by HRP-001-P08 and aggregate-catalog.md AGG-016
+    for ImportDryRunValidated; emitted identically to preserve cross-registry naming.
+  payload:
+  - migrationJobId
+  - passed
+  audit: true
+- name: MigrationImportApproved
+  description: An authorized actor approved a dry-run-validated import batch for commit
+    (POL-MIG-010-03 two-step approval). Named during MVP-MOD-008-BE-001 compilation
+    to give the ApproveImport command's audit action an explicit domain-event identity
+    alongside the pre-existing set.
+  payload:
+  - migrationJobId
+  - importBatchId
+  audit: true
+- name: MigrationImportRetried
+  description: A new ImportExecution attempt was started for a migration job still
+    executing. Named during MVP-MOD-008-BE-001 compilation; full checkpoint-based
+    resume semantics (CUS-MIG-010-05) remain MVP-MOD-008-BE-002 scope.
+  payload:
+  - migrationJobId
+  - attemptNumber
+  audit: true
+integration_events:
+  published:
+  - name: ImportReconciled
+    description: Signals customer-facing onboarding tooling that migration evidence
+      is available for review.
+    consumers: []
+  consumed: []
+published_language:
+- MigrationJobCreated
+- ImportPackageReceived
+- ImportDryRunValidated
+- ImportReconciled
+```

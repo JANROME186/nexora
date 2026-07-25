@@ -2,7 +2,6 @@ package com.nexora.hop.platformfoundation.peopleclinicalmasterdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -64,7 +63,7 @@ class PeopleClinicalMasterDataContractTest {
         }
 
         assertThat(missing)
-                .as("Operations declared in openapi-source.yaml but not registered as Spring routes")
+                .as("Operations declared in openapi-source.md but not registered as Spring routes")
                 .isEmpty();
     }
 
@@ -91,10 +90,24 @@ class PeopleClinicalMasterDataContractTest {
 
     private static Map<String, Object> loadOpenApiSource(String packageName) throws Exception {
         Path source = Path.of("..", "..", "01-product-definition", "business-capabilities", "packages",
-                packageName, "openapi-source.yaml");
-        try (InputStream inputStream = Files.newInputStream(source)) {
-            return map(new Yaml().load(inputStream));
+                packageName, "openapi-source.md");
+        return map(new Yaml().load(extractStructuredPayload(Files.readString(source))));
+    }
+
+    private static String extractStructuredPayload(String markdown) {
+        String payloadMarker = "<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->";
+        int payloadStart = markdown.indexOf(payloadMarker);
+        if (payloadStart >= 0) {
+            markdown = markdown.substring(payloadStart);
         }
+        String marker = "```yaml\n";
+        int start = markdown.indexOf(marker);
+        if (start < 0) {
+            return markdown;
+        }
+        start += marker.length();
+        int end = markdown.indexOf("\n```", start);
+        return end < 0 ? markdown.substring(start) : markdown.substring(start, end);
     }
 
     @SuppressWarnings("unchecked")

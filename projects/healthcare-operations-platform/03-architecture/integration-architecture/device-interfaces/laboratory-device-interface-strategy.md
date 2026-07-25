@@ -1,7 +1,7 @@
 # Laboratory Device Interface Strategy
 
-**Artifact ID:** IIA-DEV-001  
-**Version:** 0.20.0  
+**Artifact ID:** IIA-DEV-001
+**Version:** 0.20.0
 
 ## Purpose
 

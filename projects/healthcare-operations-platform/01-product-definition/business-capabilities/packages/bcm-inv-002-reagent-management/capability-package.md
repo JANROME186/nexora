@@ -1,0 +1,110 @@
+---
+id: HOP-CAP-PKG-BCM-INV-002
+format: markdown_structured_payload
+type: capability-package
+name: Reagent Management Capability Package
+version: 0.1.0
+status: modeled
+---
+
+# Reagent Management Capability Package
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-CAP-PKG-BCM-INV-002
+  type: capability-package
+  name: Reagent Management Capability Package
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.md
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-20
+  roadmap_group: COM-MOD-010
+  execution_flow_stage: model
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.md
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.md
+capability:
+  id: BCM-INV-002
+  name:
+    en: Reagent Management
+    es: Reactivos
+  domain: DOM-08 Inventory
+  priority: Critical
+  roadmap: MVP2
+  dependency_profile: inventory_quality
+  bounded_context: inventory-procurement
+  primary_aggregate: InventoryItem (AGG-013, owned by BCM-INV-001; reagentProfile
+    delegated)
+  process_ref: not_yet_defined_in_HRP-001
+scope:
+  summary: 'Classifies reagent- and consumable-type InventoryItem records with their
+    diagnostic test linkage and consumption ratio, so that BCM-INV-007 Consumption
+    Tracking can automatically decrement stock when a linked test is performed. Holds
+    delegated, field-scoped mutation authority over InventoryItem.reagentProfile only;
+    never creates or deletes an InventoryItem, never touches stockSummary or any other
+    delegated field.
+
+    '
+  in_scope:
+  - 'ReagentProfile assignment: reagentCategory, consumptionUnitRatio, linkedTestDefinitionId.'
+  - Read-only validation of linkedTestDefinitionId against BCM-SVC-002/BCM-SVC-004
+    published TestDefinition.
+  out_of_scope:
+  - InventoryItem creation and core identity fields (BCM-INV-001).
+  - Stock lot, quantity or consumption event handling (BCM-INV-003/007).
+  - TestDefinition mutation (read-only reference to catalog-test-configuration only).
+roadmap:
+  module: COM-MOD-010
+  release: REL-002
+  package_status: module_closed
+  next_backlog_item: none (module closed; see COM-MOD-011-DEF for the next roadmap
+    module)
+  paused_functional_backlog_item: null
+dependencies:
+  required_capabilities:
+  - BCM-INV-001
+  - BCM-SVC-002
+  - BCM-SVC-007
+  - BCM-ORG-003
+  - BCM-PLT-001
+  - BCM-PLT-007
+  optional_capabilities:
+  - BCM-PLT-009
+  - BCM-AI-001
+  downstream_capabilities:
+  - BCM-INV-007
+  upstream_contexts:
+  - inventory-procurement
+  - catalog-test-configuration
+  - identity-access
+  - audit-compliance
+product_surfaces:
+  backend: required
+  employee_portal: required
+  patient_portal: not_required
+  doctor_portal: not_required
+  mobile_app: not_required
+required_artifacts:
+- capability-package.md
+- business-model.md
+- business-rules.md
+- processes.md
+- events.md
+- openapi-source.md
+- permissions.md
+- ui-model.md
+- mobile-model.md
+- test-model.md
+- observability-model.md
+- generation-plan.md
+- traceability.md
+- README.md
+```

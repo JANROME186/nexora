@@ -1,0 +1,67 @@
+---
+id: TRC-001
+format: markdown_structured_payload
+type: traceabilityRecord
+name: Patient Management Traceability
+version: 0.15.0
+status: draft
+---
+
+# Patient Management Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: TRC-001
+type: traceabilityRecord
+name: Patient Management Traceability
+status: draft
+version: 0.15.0
+owner: Knowledge Architecture
+root: CAP-001
+nodes:
+- CAP-001
+- BPR-001
+- BR-001
+- DOM-001
+- ENT-001
+- EVT-001
+- US-001
+- API-001
+- UI-001
+- MOB-001
+- QA-001
+relations:
+- from: CAP-001
+  type: realizedBy
+  to: BPR-001
+- from: BPR-001
+  type: produces
+  to: US-001
+- from: US-001
+  type: constrainedBy
+  to: BR-001
+- from: US-001
+  type: implementedBy
+  to: API-001
+- from: US-001
+  type: usesEntity
+  to: ENT-001
+- from: DOM-001
+  type: ownsEntity
+  to: ENT-001
+- from: DOM-001
+  type: emits
+  to: EVT-001
+- from: US-001
+  type: representedBy
+  to: UI-001
+- from: US-001
+  type: representedBy
+  to: MOB-001
+- from: QA-001
+  type: verifies
+  to: US-001
+```

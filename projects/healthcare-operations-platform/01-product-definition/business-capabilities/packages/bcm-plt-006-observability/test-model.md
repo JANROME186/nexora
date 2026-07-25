@@ -1,0 +1,38 @@
+---
+id: HOP-TST-BCM-PLT-006
+format: markdown_structured_payload
+type: test-model
+name: Observability Test Model
+version: 1.0.0
+---
+
+# Observability Test Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TST-BCM-PLT-006
+  type: test-model
+  name: Observability Test Model
+  version: 1.0.0
+test_cases:
+- id: TEST-OBS-001
+  name: Verify Readiness Probe Fails When DB Down
+  type: integration
+  target_rule: RN-OBS-001
+  expected_result: /actuator/health/readiness returns HTTP 503 OUT_OF_SERVICE.
+- id: TEST-OBS-002
+  name: Verify Structured JSON Log Format Contains Context
+  type: unit
+  target_rule: RN-OBS-002
+  expected_result: Log output includes valid trace_id, tenant_id, and user_id fields.
+- id: TEST-OBS-003
+  name: Verify Prometheus Metric Export
+  type: integration
+  target_rule: RN-OBS-003
+  expected_result: /actuator/prometheus output includes hop_http_requests_seconds_bucket
+    counters.
+```

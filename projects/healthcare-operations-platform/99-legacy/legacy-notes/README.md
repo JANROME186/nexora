@@ -4,7 +4,7 @@ This project keeps historical folder names from the v0.41.0 definition baseline 
 
 Do not delete or move historical artifacts without updating:
 
-- `SOURCE_OF_TRUTH.yaml`
-- `PROJECT_STATE.yaml`
+- `SOURCE_OF_TRUTH.md`
+- `PROJECT_STATE.md`
 - traceability records
 - relevant ADRs

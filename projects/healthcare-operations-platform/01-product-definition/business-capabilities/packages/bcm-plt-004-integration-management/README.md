@@ -27,19 +27,19 @@ self-hostable default adapter. Normalizes external payloads into canonical
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | IntegrationEndpoint aggregate, message envelope value objects, IntegrationAdapterPort |
-| `business-rules.yaml` | Numbered rules RN-001..RN-006 |
-| `processes.yaml` | Register endpoint, receive/normalize, acknowledge/retry |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee-portal admin screens (endpoints, message log) |
-| `mobile-model.yaml` | Mobile scope (not_required) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | IntegrationEndpoint aggregate, message envelope value objects, IntegrationAdapterPort |
+| `business-rules.md` | Numbered rules RN-001..RN-006 |
+| `processes.md` | Register endpoint, receive/normalize, acknowledge/retry |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee-portal admin screens (endpoints, message log) |
+| `mobile-model.md` | Mobile scope (not_required) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, tests, QA |
 
 ## Key rules modeled
 
@@ -51,14 +51,14 @@ self-hostable default adapter. Normalizes external payloads into canonical
 
 ## Architecture note
 
-`context-map.yaml` REL-CTX-011 already declares `integration-interoperability`
+`context-map.md` REL-CTX-011 already declares `integration-interoperability`
 as an anti-corruption layer with published-language types
 `ExternalMessageEnvelope`/`NormalizedClinicalMessage`/`IntegrationAcknowledgement`.
-This package reuses those exact names; no context-map.yaml edit was needed.
+This package reuses those exact names; no context-map.md edit was needed.
 
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom implementation
+declared as generated outputs in `generation-plan.md`. Custom implementation
 covers the adapter port/protocol-parsing boundary, canonical error mapping,
 idempotency, bounded retry and correlation-id audit propagation.

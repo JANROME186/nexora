@@ -1,0 +1,102 @@
+---
+id: HOP-API-SRC-BCM-ATT-003
+format: markdown_structured_payload
+type: openapi-source
+name: Reception Management API Source Model
+version: 0.1.0
+status: modeled
+---
+
+# Reception Management Api Source Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-API-SRC-BCM-ATT-003
+  type: openapi-source
+  name: Reception Management API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-003
+  note: 'Source contract model. The rendered OpenAPI document, controllers, DTOs and
+    SDKs are generated outputs declared in generation-plan.md.
+
+    '
+api:
+  base_path: /api/care-delivery/reception-visits
+  surface_classification: internal
+  future_surfaces: []
+  security:
+    scheme: bearer_jwt
+    required_scopes_default:
+    - reception.manage
+resources:
+- name: ReceptionVisit
+  operations:
+  - id: listReceptionVisits
+    method: GET
+    path: /
+    scopes:
+    - reception.read
+    generatable: true
+  - id: getReceptionVisit
+    method: GET
+    path: /{visitId}
+    scopes:
+    - reception.read
+    generatable: true
+  - id: startReceptionVisit
+    method: POST
+    path: /
+    scopes:
+    - reception.manage
+    generatable: false
+    custom_reason: Appointment linkage validation.
+  - id: confirmReceptionIdentity
+    method: POST
+    path: /{visitId}/confirm-identity
+    scopes:
+    - reception.manage
+    generatable: false
+    custom_reason: Read-only cross-capability identity check.
+  - id: advanceToAdmission
+    method: POST
+    path: /{visitId}/advance-to-admission
+    scopes:
+    - reception.manage
+    generatable: false
+    custom_reason: Precondition enforcement and handoff to Admission Management.
+  - id: updateReceptionPriority
+    method: POST
+    path: /{visitId}/priority
+    scopes:
+    - reception.manage
+    generatable: false
+    custom_reason: Tenant-configurable priority computation.
+  - id: abandonReceptionVisit
+    method: POST
+    path: /{visitId}/abandon
+    scopes:
+    - reception.manage
+    generatable: true
+schemas_source:
+- ReceptionVisit
+- QueuePosition
+error_model:
+  standard: rfc7807
+  domain_errors:
+  - code: RECEPTION_IDENTITY_NOT_CONFIRMED
+    maps_to_rule: RN-001
+  - code: RECEPTION_APPOINTMENT_NOT_CHECKED_IN
+    maps_to_rule: RN-002
+  - code: RECEPTION_PATIENT_MUTATION_FORBIDDEN
+    maps_to_rule: RN-003
+  - code: RECEPTION_SCOPE_MISMATCH
+    maps_to_rule: RN-004
+  - code: RECEPTION_ORDER_BOUNDARY_VIOLATION
+    maps_to_rule: RN-006
+```

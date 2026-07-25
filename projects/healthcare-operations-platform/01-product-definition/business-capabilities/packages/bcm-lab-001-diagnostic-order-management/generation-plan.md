@@ -1,0 +1,93 @@
+---
+id: HOP-GEN-BCM-LAB-001
+format: markdown_structured_payload
+type: generation-plan
+name: Diagnostic Order Management Generation Plan
+version: 0.1.0
+status: modeled
+---
+
+# Diagnostic Order Management Generation Plan
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-GEN-BCM-LAB-001
+  type: generation-plan
+  name: Diagnostic Order Management Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-001
+  compiler_strategy: model_to_platform
+generated_outputs:
+  backend:
+  - CRUD scaffolding for DiagnosticOrder read paths
+  - DTOs for DiagnosticOrder, OrderLine, PatientSnapshot, DoctorSnapshot, BranchSnapshot,
+    CatalogSnapshot and OrderPricingSnapshot
+  - Controllers for generatable operations (list, get, complete)
+  - Repository interfaces and persistence adapters
+  - Event consumers for PatientRegistrationCommitted, DoctorCredentialVerified, TestDefinitionPublished,
+    PriceListPublished and QuotationAccepted
+  - API adapters
+  frontend:
+  - Employee portal order list and detail (SCR-ORD-001-02, SCR-ORD-001-03)
+  - Routes and Client SDK usage
+  contracts:
+  - Rendered OpenAPI document from openapi-source.md
+  - Typed SDK
+  - Swagger documentation
+  tests:
+  - Repetitive unit tests for RN-005, RN-008 and RN-009
+  - Contract tests for authorization
+  - Acceptance test skeletons for orchestration rules
+  operations:
+  - Metric and log wiring from observability-model.md
+  - Dashboard skeleton
+  - Alert definitions
+custom_implementation_points:
+- id: CUS-ORD-001-01
+  description: Multi-source snapshot capture (patient, doctor, branch) at order creation
+    (RN-001).
+  maps_to_backlog: MVP-MOD-004-BE-002
+- id: CUS-ORD-001-02
+  description: Published-catalog validation for order lines (RN-002).
+  maps_to_backlog: MVP-MOD-004-BE-002
+- id: CUS-ORD-001-03
+  description: Price-list resolution and pricing snapshot capture (RN-003).
+  maps_to_backlog: MVP-MOD-004-BE-002
+- id: CUS-ORD-001-04
+  description: Cross-capability aggregate boundary enforcement so only this capability
+    mutates DiagnosticOrder (RN-004).
+  maps_to_backlog: MVP-MOD-004-BE-002
+- id: CUS-ORD-001-05
+  description: Terminal-state immutability guard and cancellation override justification
+    (RN-006, RN-007).
+  maps_to_backlog: MVP-MOD-004-BE-002
+- id: CUS-ORD-001-06
+  description: Order creation wizard UI with snapshot pickers and pricing preview.
+  maps_to_backlog: MVP-MOD-004-FE-001
+do_not_write_manually:
+- CRUD scaffolding
+- DTOs
+- Controllers
+- Repositories
+- Swagger documentation
+- SDKs
+- Repetitive documentation
+- Repetitive test cases
+provenance:
+  source_models:
+  - business-model.md
+  - business-rules.md
+  - processes.md
+  - events.md
+  - openapi-source.md
+  - ui-model.md
+  - permissions.md
+  - observability-model.md
+  generation_metadata_required: true
+```

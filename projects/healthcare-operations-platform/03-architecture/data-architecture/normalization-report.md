@@ -1,6 +1,6 @@
 # HOP Third Normal Form Review
 
-Machine-readable source: `normalization-report.yaml`. Produced by `HOP-ENT-FOUND-001`.
+Machine-readable source: `normalization-report.md`. Produced by `HOP-ENT-FOUND-001`.
 
 ## Overall finding
 
@@ -26,3 +26,103 @@ intentional exception for a genuinely variable-shape audit payload, not a violat
 ## Closure gate compliance
 
 Third normal form review is documented; every denormalization found has a stated business reason.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-DB-NORM-001
+  type: normalization-report
+  name: HOP Third Normal Form Review
+  version: 1.0.0
+  status: approved
+  human_readable: normalization-report.md
+  machine_readable: normalization-report.md
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-17
+  source_backlog_item: HOP-ENT-FOUND-001
+purpose: 'Review HOP''s 48 tables for third normal form (3NF) compliance and explicitly
+  document every intentional denormalization with its business reason, per ../../../../nexora-framework/02-standards/standards/enterprise-product-foundation-standard.md
+  (database_product_baseline.minimum_database_requirements: third_normal_form_or_documented_denormalization_with_reason).
+
+  '
+method: 'Manual review of every schema.sql table against 1NF (atomic columns, no repeating
+  groups), 2NF (no partial-key dependency; not applicable, every table uses a single-column
+  surrogate primary key) and 3NF (no transitive dependency on a non-key column), cross-checked
+  against the data dictionary''s documented relationships.
+
+  '
+overall_finding: 'The schema is in 3NF except for a small set of deliberate, domain-driven
+  denormalizations, all of which exist to satisfy an explicit business/legal requirement
+  for point-in-time immutability (an order must reflect the patient/doctor/branch/price
+  exactly as they were at order time, even if the source record is edited later) rather
+  than being an oversight. Each is documented below with its reason, per the standard''s
+  "third_normal_form_or_documented_denormalization_with_reason" allowance.
+
+  '
+documented_denormalizations:
+- location: care_delivery.diagnostic_orders (and diagnostic_order_lines)
+  denormalized_fields: Immutable patient/doctor/branch identity fields and resolved
+    test/panel/price values, duplicated from people.patients, people.doctors, organization.branches
+    and catalog.price_entries at order-creation time (captured as PatientSnapshot/DoctorSnapshot/BranchSnapshot/price-line
+    value objects in the domain layer, persisted as denormalized columns).
+  reason: 'RN-family business rules across MVP-MOD-003/004/005 require that an order''s
+    clinical and financial record never silently changes when the source patient,
+    doctor, branch or price list is later edited or re-versioned — this is a correctness
+    requirement (audit and clinical safety), not an optimization. Each snapshot''s
+    source version is captured alongside it (branchSnapshot.sourceVersion now sourced
+    from the real Branch.version field as of this iteration''s TD-BE-009 fix, previously
+    a hardcoded placeholder).
+
+    '
+  classification: intentional_domain_driven_denormalization_not_a_defect
+- location: cash_sales.sales / cash_sales.sale_lines
+  denormalized_fields: Line-item price/description captured at sale time rather than
+    joined live from catalog.price_entries.
+  reason: A financial transaction record must not retroactively change if catalog
+    pricing is edited after the sale.
+  classification: intentional_domain_driven_denormalization_not_a_defect
+- location: laboratory_results.results (embedded analyteSnapshot/referenceRangeSnapshot/
+    resultValue, per TD-FE-007's backend-side description)
+  denormalized_fields: Analyte/reference-range definitions captured at result time
+    rather than joined live from catalog.analyte_definitions/reference_ranges.
+  reason: A released clinical result must remain interpretable exactly as reported
+    even if the analyte's reference range is later revised.
+  classification: intentional_domain_driven_denormalization_not_a_defect
+- location: organization.countries / organization.locales / organization.currencies
+    (new this iteration)
+  denormalized_fields: name_es_mx and name_en_us stored as parallel columns on the
+    same row rather than a separate translation table keyed by (entity_id, locale_code).
+  reason: 'These are small (2 rows today), rarely-changing, effectively-static reference
+    catalogs; a fully-normalized separate translation table would add a join for no
+    realistic benefit at this scale. This is a deliberate, size-appropriate simplification,
+    not a 3NF violation in the strict sense (each row still has no transitive dependency
+    issue — name_es_mx/name_en_us both depend only on the primary key, not on each
+    other or on a non-key column).
+
+    '
+  classification: intentional_size_appropriate_denormalization_not_a_defect
+  revisit_trigger: 'If a country/locale/currency catalog grows large or gains many
+    translatable attributes, or if the same pattern is extended to catalog.diagnostic_services/test_definitions/
+    panel_definitions/analyte_definitions (TD-DB-002) where table size and attribute
+    count justify it, switch to a proper name_translations(entity_type, entity_id,
+    locale_code, value) table instead of repeating parallel columns.
+
+    '
+no_other_issues_found: 'No unintentional repeating groups, no multi-valued columns
+  encoding lists as delimited strings, and no non-key-to-non-key transitive dependency
+  was found in the remaining tables reviewed (organization/identity/audit, catalog''s
+  18 tables, orders_samples/laboratory_results, people''s 10 tables). jsonb metadata_json
+  on audit.audit_events is an intentional exception for a genuinely variable-shape
+  event payload (audit trail), not a normalization violation of a fixed-shape business
+  entity.
+
+  '
+closure_gate_compliance: '"Document third normal form review": satisfied. Every denormalization
+  found is domain-driven and documented with its business reason; none is an unreviewed
+  oversight.
+
+  '
+```

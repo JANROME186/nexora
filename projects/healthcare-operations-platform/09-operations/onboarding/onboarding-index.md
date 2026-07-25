@@ -1,0 +1,100 @@
+---
+id: HOP-ONBOARDING-IDX-001
+format: markdown_structured_payload
+type: onboarding-index-registry
+name: HOP Customer Onboarding and Configuration Master Index
+version: 1.0.0
+status: approved
+backlog_item: COM-MOD-016-DOC-001
+---
+
+# Hop Customer Onboarding And Configuration Master Index
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-ONBOARDING-IDX-001
+  type: onboarding-index-registry
+  name: HOP Customer Onboarding and Configuration Master Index
+  version: 1.0.0
+  status: approved
+  human_readable: README.md
+  machine_readable: onboarding-index.md
+  backlog_item: COM-MOD-016-DOC-001
+project:
+  name: Healthcare Operations Platform
+  slug: healthcare-operations-platform
+  module: COM-MOD-016
+  release: REL-003
+guides:
+- id: ONB-GUIDE-001
+  name: Customer and Tenant Onboarding Guide
+  human_readable: customer-onboarding-guide.md
+  machine_readable: customer-onboarding-guide.md
+  capability_coverage:
+  - BCM-ORG-001
+  - BCM-PLT-002
+- id: ONB-GUIDE-002
+  name: Initial Organization and Laboratory Configuration Guide
+  human_readable: initial-organization-and-laboratory-config-guide.md
+  machine_readable: initial-organization-and-laboratory-config-guide.md
+  capability_coverage:
+  - BCM-ORG-001
+  - BCM-ORG-002
+  - BCM-ORG-003
+  - BCM-PLT-001
+- id: ONB-GUIDE-003
+  name: Roles, Permissions, Dynamic Navigation and Session Guide
+  human_readable: roles-permissions-navigation-and-session-guide.md
+  machine_readable: roles-permissions-navigation-and-session-guide.md
+  capability_coverage:
+  - BCM-PLT-001
+  - BCM-PLT-007
+- id: ONB-GUIDE-004
+  name: Regional Localization and Currency Configuration Guide
+  human_readable: regional-localization-and-currency-config-guide.md
+  machine_readable: regional-localization-and-currency-config-guide.md
+  capability_coverage:
+  - BCM-PLT-002
+- id: ONB-GUIDE-005
+  name: Technical Prerequisites Checklist
+  human_readable: technical-prerequisites-checklist.md
+  machine_readable: technical-prerequisites-checklist.md
+  capability_coverage:
+  - BCM-PLT-006
+- id: ONB-GUIDE-006
+  name: Data Migration and Initial Ingestion Checklist
+  human_readable: data-migration-and-initial-ingestion-checklist.md
+  machine_readable: data-migration-and-initial-ingestion-checklist.md
+  capability_coverage:
+  - BCM-PLT-010
+  - BCM-PLT-008
+- id: ONB-GUIDE-007
+  name: Initial Training, Human Validation and Customer Acceptance Guide
+  human_readable: initial-training-human-validation-and-acceptance-guide.md
+  machine_readable: initial-training-human-validation-and-acceptance-guide.md
+  capability_coverage:
+  - BCM-ORG-001
+  - BCM-PLT-007
+- id: ONB-GUIDE-008
+  name: Support, Escalation and Initial Operations Guide
+  human_readable: support-escalation-and-initial-operations-guide.md
+  machine_readable: support-escalation-and-initial-operations-guide.md
+  capability_coverage:
+  - BCM-PLT-006
+  - BCM-PLT-007
+related_commercial_assets:
+  commercial_packages: ../../06-delivery/commercial-product/commercial-packages/
+  sales_enablement: ../../06-delivery/commercial-product/sales-enablement/
+  launch_readiness: ../../06-delivery/commercial-product/launch-readiness/
+  note: Commercial packaging, sales enablement, and launch readiness assets are produced
+    by COM-MOD-016-COM-001 and complement the onboarding guides by providing pricing,
+    demo scripts, buyer personas, and customer acceptance criteria.
+standards_compliance:
+  agent_agnostic: true
+  open_source_first: true
+  no_proprietary_agent_dependencies: true
+```

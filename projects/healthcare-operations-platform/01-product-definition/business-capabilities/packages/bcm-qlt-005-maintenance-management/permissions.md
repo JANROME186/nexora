@@ -1,0 +1,64 @@
+---
+id: HOP-PERM-BCM-QLT-005
+format: markdown_structured_payload
+type: permissions
+name: Maintenance Management Permissions
+version: 0.1.0
+status: modeled
+---
+
+# Maintenance Management Permissions
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PERM-BCM-QLT-005
+  type: permissions
+  name: Maintenance Management Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-005
+  depends_on_capability: BCM-PLT-001
+scopes:
+- code: quality.maintenance.manage
+  description: Start and complete a maintenance event.
+- code: quality.maintenance.read
+  description: Read maintenance history.
+roles:
+- role: tenant-administrator
+  grants:
+  - quality.maintenance.manage
+  - quality.maintenance.read
+- role: branch-administrator
+  grants:
+  - quality.maintenance.read
+- role: laboratory-technician
+  grants:
+  - quality.maintenance.manage
+  - quality.maintenance.read
+access_policies:
+- id: POL-MNT-005-01
+  statement: Maintenance commands are scoped to the calling actor's tenant, laboratory
+    and branch.
+  enforcement: row_level_tenant_laboratory_branch_filter
+- id: POL-MNT-005-02
+  statement: maintenanceRecord may only be appended to by this capability; equipmentProfile
+    is never written here.
+  enforcement: field_level_delegation_boundary
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+  - event: MaintenanceScheduled
+    fields:
+    - maintenanceEventId
+    - inventoryItemId
+  - event: MaintenanceCompleted
+    fields:
+    - maintenanceEventId
+    - inventoryItemId
+    - downtimeMinutes
+```

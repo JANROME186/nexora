@@ -1,0 +1,87 @@
+---
+id: HOP-GEN-BCM-SVC-006
+format: markdown_structured_payload
+type: generation-plan
+name: Reference Range Management Generation Plan
+version: 0.1.0
+status: modeled
+---
+
+# Reference Range Management Generation Plan
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-GEN-BCM-SVC-006
+  type: generation-plan
+  name: Reference Range Management Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-006
+  compiler_strategy: model_to_platform
+generated_outputs:
+  backend:
+  - CRUD scaffolding for ReferenceRange, ReferenceRangeSegment
+  - DTOs
+  - Controllers for generatable operations
+  - Repository interfaces and baseline persistence adapters
+  - Domain skeleton for reference range projection on TestDefinition context
+  - API adapters
+  frontend:
+  - Employee portal list and editor components (SCR-SVC-006-01, SCR-SVC-006-02)
+  - Routes
+  - Forms
+  - Client SDK usage
+  contracts:
+  - Rendered OpenAPI document from openapi-source.md
+  - Typed SDK
+  - Swagger documentation
+  tests:
+  - Repetitive unit tests for RN-001, RN-007
+  - Contract tests
+  - Acceptance and decision-table test skeletons
+  operations:
+  - Metric and log wiring from observability-model.md
+  - Dashboard definition skeleton
+  - Alert definitions for publish failures and effective range resolution misses
+custom_implementation_points:
+- id: CUS-SVC-006-01
+  description: Critical threshold consistency decision table (RN-002).
+  maps_to_backlog: MVP-MOD-002-BE-002
+- id: CUS-SVC-006-02
+  description: Demographic segment overlap detection (RN-003).
+  maps_to_backlog: MVP-MOD-002-BE-002
+- id: CUS-SVC-006-03
+  description: Analyte publication validation at publish time (RN-004).
+  maps_to_backlog: MVP-MOD-002-BE-002
+- id: CUS-SVC-006-04
+  description: Effective-dated immutable versioning and snapshot freeze (RN-005).
+  maps_to_backlog: MVP-MOD-002-BE-002
+- id: CUS-SVC-006-05
+  description: Effective range resolution query for downstream validation (RN-006).
+  maps_to_backlog: MVP-MOD-002-BE-002
+do_not_write_manually:
+- CRUD scaffolding
+- DTOs
+- Controllers
+- Repositories
+- Swagger documentation
+- SDKs
+- Repetitive documentation
+- Repetitive test cases
+provenance:
+  source_models:
+  - business-model.md
+  - business-rules.md
+  - processes.md
+  - events.md
+  - openapi-source.md
+  - ui-model.md
+  - permissions.md
+  - observability-model.md
+  generation_metadata_required: true
+```

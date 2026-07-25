@@ -2,7 +2,7 @@ package com.nexora.hop.platformfoundation.integrationinteroperability.shared;
 
 /**
  * Canonical structured error codes for BCM-PLT-004 Integration Management and BCM-PLT-005 API
- * Management, matching each capability's {@code openapi-source.yaml} {@code error_model
+ * Management, matching each capability's {@code openapi-source.md} {@code error_model
  * .domain_errors} exactly. First HOP capability set to carry a first-class {@code code} field on
  * every error response (TD-I18N-002 trigger).
  */

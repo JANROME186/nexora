@@ -1,0 +1,54 @@
+---
+id: HOP-MKT-OFFER-BCM-PLT-011
+format: markdown_structured_payload
+type: commercial-offer-model
+name: Marketplace Commercial Offer Model
+version: 1.0.0
+status: modeled
+---
+
+# Marketplace Commercial Offer Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MKT-OFFER-BCM-PLT-011
+  type: commercial-offer-model
+  name: Marketplace Commercial Offer Model
+  version: 1.0.0
+  status: modeled
+offers:
+  offer_types:
+  - base_plan
+  - expansion_package
+  - usage_addon
+  - services_package
+  pricing_dimensions:
+  - tenant
+  - branch
+  - active_user
+  - transaction_volume
+  - storage_volume
+  - ai_usage_unit
+  lifecycle_states:
+  - draft
+  - pending_review
+  - published
+  - deprecated
+  - retired
+rules:
+- id: OFFER-001
+  statement: An offer cannot be published without a package manifest, license plan,
+    entitlement policy and compatibility model.
+- id: OFFER-002
+  statement: A tenant cannot buy an offer when compatibility evaluation fails.
+- id: OFFER-003
+  statement: Commercial offer changes must create a new effective version and preserve
+    prior tenant entitlements.
+- id: OFFER-004
+  statement: Billing-provider details are resolved only through provider-agnostic
+    billing adapter ports.
+```

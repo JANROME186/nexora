@@ -43,7 +43,7 @@ public class ResultDeliveryService {
             PatientManagementService patientManagementService,
             FrontDeskSaleSourcePort saleSourcePort,
             ApplicationEventPublisher eventPublisher) {
-        
+
         this.repository = repository;
         this.laboratoryResultsRepository = laboratoryResultsRepository;
         this.patientManagementService = patientManagementService;

@@ -1,0 +1,60 @@
+---
+id: HOP-OBS-BCM-PLT-001
+format: markdown_structured_payload
+type: observability-model
+name: Identity and Access Management Observability Model
+version: 0.1.0
+status: modeled
+---
+
+# Identity And Access Management Observability Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-OBS-BCM-PLT-001
+  type: observability-model
+  name: Identity and Access Management Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-001
+telemetry:
+  logs:
+  - name: SecurityAuditLog
+    level: info
+    format: JSON
+    fields:
+    - tenantId
+    - userId
+    - action [login_success, login_failed, account_locked, impersonation_started]
+    - clientIp
+    - timestamp
+  - name: SupportAssistanceAuditLog
+    level: warn
+    format: JSON
+    fields:
+    - assistantUserId
+    - assistedUserId
+    - ticketReference
+    - reasonCode
+    - timestamp
+  metrics:
+  - name: hop_iam_login_success_total
+    type: counter
+    labels:
+    - tenantId
+    - role
+  - name: hop_iam_login_failed_total
+    type: counter
+    labels:
+    - tenantId
+    - clientIp
+  - name: hop_iam_account_locks_total
+    type: counter
+    labels:
+    - tenantId
+```

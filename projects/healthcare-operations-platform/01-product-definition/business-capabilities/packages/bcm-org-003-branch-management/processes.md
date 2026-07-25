@@ -1,0 +1,60 @@
+---
+id: HOP-PROC-BCM-ORG-003
+format: markdown_structured_payload
+type: processes
+name: Branch Management Processes
+version: 1.0.0
+---
+
+# Branch Management Processes
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PROC-BCM-ORG-003
+  type: processes
+  name: Branch Management Processes
+  version: 1.0.0
+processes:
+- id: PROC-BRN-001
+  name: Create Physical Branch
+  actor: Laboratory Admin / Tenant Admin
+  summary: Register a new physical branch location under a laboratory.
+  trigger: Branch expansion or customer onboarding setup.
+  steps:
+  - Verify tenant branch quota limit (RN-BRN-004).
+  - Validate branch code uniqueness under parent laboratory (RN-BRN-001).
+  - Create branch record in CONFIGURATION status.
+  - Record audit event BranchCreatedEvent.
+  outcomes:
+    success: Branch created in CONFIGURATION status.
+    failure: Rejection due to quota breach or duplicate code.
+- id: PROC-BRN-002
+  name: Configure Branch Operating Parameters
+  actor: Branch Manager
+  summary: Set branch physical address, operating schedule, and booth/sampling capacity.
+  trigger: Branch onboarding setup.
+  steps:
+  - Save address details and geo-coordinates.
+  - Set operating hours and sampling cutoff times.
+  - Set reception booth and sampling cubicle counts.
+  - Validate readiness rules (RN-BRN-002).
+  - Transition branch status to OPERATIONAL.
+  outcomes:
+    success: Branch configured and transitioned to OPERATIONAL status.
+    failure: Rejection due to incomplete configuration.
+- id: PROC-BRN-003
+  name: Manage Branch Operational Status
+  actor: Operations Manager
+  summary: Update branch state (OPERATIONAL, MAINTENANCE, SUSPENDED, CLOSED).
+  trigger: Maintenance schedule, holiday, or emergency.
+  steps:
+  - Validate transition and parent laboratory status (RN-BRN-003).
+  - Execute status change and record audit event BranchStatusChangedEvent.
+  outcomes:
+    success: Branch status updated.
+    failure: Rejection due to parent laboratory constraint.
+```

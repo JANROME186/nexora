@@ -1,0 +1,64 @@
+---
+id: HOP-PROC-BCM-INV-008
+format: markdown_structured_payload
+type: processes
+name: Inventory Adjustments Processes
+version: 0.1.0
+status: modeled
+---
+
+# Inventory Adjustments Processes
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PROC-BCM-INV-008
+  type: processes
+  name: Inventory Adjustments Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-008
+actors:
+- id: laboratory-technician
+  actor_ref: ACT-007
+  name: Laboratory Technician
+  source: ACM-001
+  note: Requests adjustments after a physical count; reused as the closest existing
+    role.
+- id: branch-administrator
+  actor_ref: ACT-003
+  name: Branch Administrator
+  source: ACM-001
+  note: Approves adjustments; separation of duties from the requester (RN-002).
+processes:
+- id: PRC-ADJ-008-01
+  name: Request and approve stock adjustment
+  actor: laboratory-technician
+  trigger: A physical count or data review finds a discrepancy against recorded stock.
+  commands:
+  - ApplyAdjustment
+  preconditions:
+  - StockLot exists.
+  - quantityDelta is non-zero and would not drive stock negative.
+  - reasonCode is supplied.
+  steps:
+  - Capture requestedBy from the acting user.
+  - Route to branch-administrator for approvedBy confirmation.
+  - Apply the signed correction to StockLot.remainingQuantity and InventoryItem.stockSummary.onHandQuantity.
+  - Publish StockAdjusted.
+  outcome: StockAdjusted
+  rules:
+  - RN-001
+  - RN-002
+  - RN-003
+  - RN-005
+commands:
+- name: ApplyAdjustment
+  generatable: false
+  custom_reason: Delegated multi-field mutation with a real-time negative-quantity
+    guard and mandatory dual-actor approval.
+```

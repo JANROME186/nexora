@@ -1,0 +1,42 @@
+---
+id: HOP-GEN-BCM-ORG-002
+format: markdown_structured_payload
+type: generation-plan
+name: Laboratory Management Generation Plan
+version: 1.0.0
+---
+
+# Laboratory Management Generation Plan
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-GEN-BCM-ORG-002
+  type: generation-plan
+  name: Laboratory Management Generation Plan
+  version: 1.0.0
+strategy:
+  backend_scaffolding: generated
+  frontend_scaffolding: generated
+  custom_rules: hand_coded
+generated_outputs:
+  backend:
+  - Laboratory REST Controller endpoints
+  - Laboratory DTOs and mappers
+  - Spring Data / JDBC repository scaffolding
+  - Laboratory domain entity skeletons
+  frontend:
+  - Laboratory management React screens
+  - API client facade methods
+  contracts:
+  - OpenAPI rendered specification
+  tests:
+  - Scaffolding CRUD unit tests
+  - OpenAPI contract tests
+custom_implementation_points:
+- Sanitary license document verification and expiration scheduler logic (RN-LAB-004).
+- Cross-branch status suspension cascade logic (RN-LAB-005).
+```

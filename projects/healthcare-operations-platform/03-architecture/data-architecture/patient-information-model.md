@@ -34,3 +34,80 @@ Este modelo se relaciona con:
 - `BR-001 Minor Patient Requires Guardian`
 - `US-001 Register Patient`
 - `API-001 Patients API`
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: INFO-001
+name: Patient Information Model
+version: 0.16.0
+status: Draft
+owner: Data Architecture
+related_artifacts:
+  capability: CAP-001
+  domain: DOM-001
+  entity: ENT-001
+  rule: BR-001
+  user_story: US-001
+  api: API-001
+information_groups:
+  identity:
+    classification: Sensitive Personal
+    fields:
+    - fullName
+    - birthDate
+    - gender
+    - externalIdentifiers
+  contact:
+    classification: Sensitive Personal
+    fields:
+    - phone
+    - email
+    - address
+  clinical_baseline:
+    classification: Clinical Sensitive
+    fields:
+    - allergies
+    - declaredConditions
+    - clinicalNotes
+  guardian:
+    classification: Sensitive Personal
+    fields:
+    - guardianName
+    - guardianRelationship
+    - guardianContact
+  consents:
+    classification: Clinical Sensitive
+    fields:
+    - privacyConsent
+    - serviceConsent
+    - dataProcessingConsent
+  documents:
+    classification: Sensitive Personal
+    fields:
+    - identificationDocument
+    - consentForm
+    - attachments
+  operational_history:
+    classification: Clinical/Financial Sensitive
+    fields:
+    - orders
+    - appointments
+    - payments
+    - results
+  preferences:
+    classification: Confidential
+    fields:
+    - preferredLanguage
+    - notificationChannel
+    - accessibilityPreferences
+rules:
+- id: BR-001
+  description: Minor patients require guardian or responsible adult.
+- id: DATA-RULE-001
+  description: Clinical history access must be audited.
+- id: DATA-RULE-002
+  description: Preferred language must drive patient communications when available.
+```

@@ -39,3 +39,71 @@ actually introduced.
 ## Closure
 
 Security quality status: passed. Ready for next backlog item: `COM-MOD-012-BE-001`.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-SEC-COM-MOD-012-OPS-002
+  type: security-quality-evidence
+  name: COM-MOD-012-OPS-002 Security Quality Verification
+  version: 1.0.0
+  backlog_item: COM-MOD-012-OPS-002
+  module: COM-MOD-012 Platform Hardening and SaaS Operations
+  status: passed
+  date: 2026-07-22
+  human_readable: security-quality-evidence.md
+  machine_readable: security-quality-evidence.md
+scope:
+  code_changed: false
+  dependency_changed: false
+  runtime_changed: false
+  infrastructure_executable_changed: false
+  operations_definition_changed: true
+checks:
+  tests:
+    status: not_applicable_no_code_changed
+  sast_or_static_analysis:
+    status: not_applicable_no_code_changed
+  dependency_vulnerability_scan:
+    status: not_applicable_no_dependency_change
+  secrets_scan:
+    status: passed
+    result: No credential, token, password or private key literal introduced in the
+      21 new COM-MOD-012-OPS-002 files. All example database credentials referenced
+      (hop/hop) are the pre-existing, already-committed local-only defaults from 07-implementation/.env.example,
+      not new secrets.
+  coverage:
+    status: passed_no_regression
+    result: Coverage floors preserved because no application code changed.
+  dast_for_runnable_web_or_api_surfaces:
+    status: not_applicable_no_runtime_surface_changed
+  container_or_iac_scan_when_assets_change:
+    status: not_applicable_no_executable_container_or_iac_asset_changed
+security_design_controls_defined:
+- least_privilege_operational_permissions_per_runbook (platform:backup:execute, platform:restore:execute,
+  platform:rollback:execute, platform:incident:manage, platform:tenant:read, platform:incident:review,
+  metrics:read, health:read, audit:read)
+- staged_approval_required_for_live_restore_and_production_rollback
+- narrowest_effective_mitigation_first_feature_flag_before_rollback_before_restore
+- mandatory_cross_tenant_leakage_check_as_defense_in_depth_pending_native_row_level_security
+- audit_trail_as_authoritative_incident_timeline_source
+- evidence_bundle_retention_aligned_to_BCM-PLT-007_audit_retention_policy
+- blameless_post_incident_review_with_tracked_durable_follow_ups
+- open_source_first_backup_restore_tooling_pg_dump_pg_restore_locally_pgBackRest_recommended_for_prod_no_proprietary_dependency_introduced
+open_source_first_review:
+  new_tooling_referenced:
+  - name: pg_dump / pg_restore
+    license: PostgreSQL License (permissive, open source)
+    status: already_in_use_bundled_with_the_existing_postgres_16_alpine_image
+  - name: pgBackRest (recommended, not adopted)
+    license: MIT
+    status: documented_as_a_future_production_backup_tool_recommendation_only_no_dependency_added_this_backlog_item
+  proprietary_dependency_introduced: false
+  adr_required: false
+closure:
+  security_quality_status: passed
+  ready_for_next_backlog_item: COM-MOD-012-BE-001
+```

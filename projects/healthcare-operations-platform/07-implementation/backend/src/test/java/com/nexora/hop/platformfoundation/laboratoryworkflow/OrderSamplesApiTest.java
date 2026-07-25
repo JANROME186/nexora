@@ -40,19 +40,19 @@ class OrderSamplesApiTest {
     @BeforeEach
     void setupContext() throws Exception {
         String runToken = UUID.randomUUID().toString().substring(0, 8);
-        
+
         // Use Platform API to create tenant
         JsonNode tenant = postJson("/api/platform/tenants", "{\"name\":\"Lab Workflow Tenant " + runToken + "\"}");
         tenantId = tenant.get("tenantId").asText();
-        
+
         JsonNode laboratory = postJson("/api/organization/laboratories",
                 "{\"tenantId\":\"%s\",\"name\":\"Lab Workflow Lab\"}".formatted(tenantId));
         laboratoryId = laboratory.get("laboratoryId").asText();
-        
+
         JsonNode branch = postJson("/api/organization/branches",
                 "{\"laboratoryId\":\"%s\",\"name\":\"Lab Workflow Branch\"}".formatted(laboratoryId));
         branchId = branch.get("branchId").asText();
-        
+
         orderId = UUID.randomUUID().toString();
         orderLineId = UUID.randomUUID().toString();
     }
@@ -73,7 +73,7 @@ class OrderSamplesApiTest {
         JsonNode sample = postJson("/api/clinical-operations/samples", collectPayload);
         String sampleId = sample.get("sampleId").asText();
         assertThat(sample.get("status").asText()).isEqualTo("collected");
-        
+
         // 2. Label
         String labelPayload = """
                 {
@@ -81,7 +81,7 @@ class OrderSamplesApiTest {
                     "barcodeValue": "B-456", "actorId": "nurse-1"
                 }
                 """.formatted(tenantId);
-        
+
         mockMvc.perform(post("/api/clinical-operations/samples/{sampleId}/label/print", sampleId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(labelPayload))
@@ -96,22 +96,22 @@ class OrderSamplesApiTest {
                     "conditionAtReception": "acceptable"
                 }
                 """.formatted(tenantId);
-        
+
         mockMvc.perform(post("/api/clinical-operations/samples/{sampleId}/reception/receive", sampleId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(receivePayload))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("received"));
-                
+
         // 4. Get by ID
         mockMvc.perform(get("/api/clinical-operations/samples/{sampleId}?tenantId={t}", sampleId, tenantId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("received"));
-                
+
         // 5. Test List Worklists
         mockMvc.perform(get("/api/clinical-operations/samples/collection-worklist?tenantId={t}&branchId={b}", tenantId, branchId))
                 .andExpect(status().isOk());
-                
+
         mockMvc.perform(get("/api/clinical-operations/samples/{sampleId}/label/reception-worklist?tenantId={t}&laboratoryId={l}", sampleId, tenantId, laboratoryId))
                 .andExpect(status().isOk());
     }
@@ -144,7 +144,7 @@ class OrderSamplesApiTest {
                 .andExpect(jsonPath("$.status").value("rejected"))
                 .andExpect(jsonPath("$.rejectionReason.reasonCode").value("insufficient_volume"));
     }
-    
+
     @Test
     void canDisposeRejectedSample() throws Exception {
         String collectPayload = """
@@ -165,7 +165,7 @@ class OrderSamplesApiTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(rejectPayload))
                 .andExpect(status().isOk());
-                
+
         String disposePayload = """
                 {"tenantId": "%s", "actorId": "tech-1"}
                 """.formatted(tenantId);
@@ -175,7 +175,7 @@ class OrderSamplesApiTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("disposed"));
     }
-    
+
     @Test
     void exceptionsAndErrorsCoverage() throws Exception {
         // Fetch non-existent
@@ -199,7 +199,7 @@ class OrderSamplesApiTest {
         mockMvc.perform(post("/api/clinical-operations/samples/{sampleId}/reception/receive", sampleId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(receivePayload));
-                
+
         // Reject already collected -> works, but label disposed -> conflict
         mockMvc.perform(post("/api/clinical-operations/samples/{sampleId}/dispose", sampleId)
                 .contentType(MediaType.APPLICATION_JSON)

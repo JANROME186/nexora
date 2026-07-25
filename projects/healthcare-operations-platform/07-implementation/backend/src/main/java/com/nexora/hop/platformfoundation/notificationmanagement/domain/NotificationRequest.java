@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class NotificationRequest {
-    
+
     private UUID notificationId;
     private TenantId tenantId;
     private LaboratoryId laboratoryId;
@@ -44,7 +44,7 @@ public class NotificationRequest {
             String subject,
             String content,
             AuditMetadata audit) {
-        
+
         this.notificationId = notificationId;
         this.tenantId = tenantId;
         this.laboratoryId = laboratoryId;

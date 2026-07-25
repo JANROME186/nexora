@@ -1,0 +1,37 @@
+---
+id: HOP-MOB-BCM-LAB-001
+format: markdown_structured_payload
+type: mobile-model
+name: Diagnostic Order Management Mobile Model
+version: 0.1.0
+status: deferred
+---
+
+# Diagnostic Order Management Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-LAB-001
+  type: mobile-model
+  name: Diagnostic Order Management Mobile Model
+  version: 0.1.0
+  status: deferred
+  classification: editable_model
+  capability: BCM-LAB-001
+mobile_scope:
+  status: not_required
+  rationale: 'MVP-MOD-004 declares mobile_app not_required for backend order creation
+    surfaces. Mobile involvement with orders is limited to check-in (BCM-ATT-001/BCM-ATT-003
+    mobile scope) and, later, doctor order requests through COM-MOD-009 Patient and
+    Doctor Portals mobile workflows.
+
+    '
+  deferred_to:
+  - COM-MOD-009 Patient and Doctor Portals
+  flows: []
+  offline_expectations: none
+```

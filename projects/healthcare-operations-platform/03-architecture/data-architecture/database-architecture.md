@@ -1,6 +1,6 @@
 # HOP Database Architecture
 
-Machine-readable source: `database-architecture.yaml`. Produced by `HOP-ENT-FOUND-001`.
+Machine-readable source: `database-architecture.md`. Produced by `HOP-ENT-FOUND-001`.
 
 ## Engine and portability
 
@@ -58,3 +58,221 @@ the broader `TD-STACK-001` stack-modernization roadmap.
 
 TD-DB-001 (no persistence for 3 MVP-MOD-007 modules), TD-DB-002 (catalog not translatable),
 TD-DB-003 (no reference-data read API), TD-DB-004 (no native RLS) — see YAML for full detail.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-DB-ARCH-001
+  type: database-architecture
+  name: HOP Database Architecture
+  version: 1.0.0
+  status: approved
+  human_readable: database-architecture.md
+  machine_readable: database-architecture.md
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-17
+  source_backlog_item: HOP-ENT-FOUND-001
+purpose: 'Document HOP''s database as an independent product deliverable (not merely
+  local Docker infrastructure), per ../../../../nexora-framework/02-standards/standards/enterprise-product-foundation-standard.md
+  (mandatory_foundations.database_product_baseline), complementing the company-wide
+  strategic ../data-architecture-baseline.md and the entity-level ../database-model/
+  folder with a concrete, HOP-specific, implementation-traceable architecture.
+
+  '
+engine_and_portability:
+  engine: PostgreSQL
+  driver: org.postgresql:postgresql 42.7.13 (see ../technology-architecture/persistence-and-contract-generation-review.md
+    for the persistence stack review)
+  portability: 'Standard SQL DDL/DML in schema.sql files, no PostgreSQL-proprietary
+    extensions beyond jsonb (widely portable to other JSON-capable RDBMS if ever required)
+    and gen_random_uuid()-style application-generated UUIDs (ids are generated in
+    application code as varchar(36), not by a database-specific function), keeping
+    the schema close to standard SQL per technology-architecture.md''s open_standards_first
+    principle.
+
+    '
+  infrastructure_independence: 'Schema definition (schema.sql per bounded context)
+    is a versioned source artifact under 07-implementation/backend/src/main/resources/db/,
+    independent of the local Docker Compose profile (07-implementation/compose.local.json)
+    used only to run PostgreSQL locally. The database product deliverable is the set
+    of schema.sql files plus this architecture documentation plus the data dictionary,
+    normalization report and seed data catalog — not the Docker container.
+
+    '
+schema_organization:
+  convention: One PostgreSQL schema (namespace) per bounded context, one schema.sql
+    file per module folder under src/main/resources/db/<bounded-context-folder>/.
+  bounded_contexts:
+  - postgres_schemas:
+    - organization
+    - identity
+    - audit
+    folder: db/platform-foundation/schema.sql
+    owning_module: platformfoundation (organizationmanagement, identityaccess, auditcompliance)
+  - postgres_schemas:
+    - catalog
+    folder: db/catalog-test-configuration/schema.sql
+    owning_module: catalogtestconfiguration
+  - postgres_schemas:
+    - care_delivery
+    folder: db/front-desk-care-delivery/schema.sql
+    owning_module: frontdeskcaredelivery
+  - postgres_schemas:
+    - orders_samples
+    - laboratory_results
+    folder: db/laboratory-workflow/schema.sql
+    owning_module: laboratoryworkflow
+  - postgres_schemas:
+    - people
+    folder: db/people-and-clinical-master-data/schema.sql
+    owning_module: peopleclinicalmasterdata
+  - postgres_schemas:
+    - cash_sales
+    folder: db/cash-sales/schema.sql
+    owning_module: cashsales
+  note: 'resultsanddigitaldelivery and documentmanagement (MVP-MOD-007) and notificationmanagement
+    do not yet have dedicated schema.sql files; their aggregates (GeneratedResultReport,
+    ResultDeliveryTicket, CriticalResultEscalation, ResultNotificationRequest, NotificationRequest,
+    StoredDocument) are currently served by in-memory repository adapters only (no
+    @Profile("local") Jdbc adapter exists yet for these modules). This is a pre-existing,
+    out-of-scope gap for this foundation-alignment iteration (module DEF/BE-001/BE-002
+    evidence already discloses this as definition/compilation scope); registered below
+    as TD-DB-001 rather than silently left undocumented.
+
+    '
+conventions:
+  primary_keys: varchar(36) application-generated UUID strings (no database-native
+    uuid type or sequence-based surrogate keys), consistent across every existing
+    table.
+  audit_columns: 'Every mutable business table carries created_at/updated_at timestamp
+    with time zone columns (or created_at + created_by for append-only tables like
+    identity.role_assignments and audit.audit_events). Append-only domain events additionally
+    flow through the dedicated audit.audit_events table (append-only, no update/delete
+    path in code), giving HOP a belt-and-suspenders combination of per-table audit
+    columns plus a cross-cutting audit event log, satisfying the standard''s audit_columns_or_audit_events_for_mutating_business_tables
+    minimum requirement via both mechanisms.
+
+    '
+  tenant_scoping: 'Every business table carries a tenant_id column (directly or transitively
+    via a foreign key to a tenant-scoped parent, e.g. organization.branches -> organization.laboratories
+    -> organization.tenants), implementing row-level tenant partitioning at the application/query
+    layer (WHERE tenant_id = :tenantId on every read), not PostgreSQL native row-level
+    security policies. Native RLS is evaluated and deferred — see technical_debt_registered
+    below.
+
+    '
+  referential_integrity: Foreign keys are declared explicitly (see organization.branches
+    referencing both organization.tenants and organization.laboratories as a representative
+    example); cross-schema foreign keys are used where the referenced aggregate is
+    the acknowledged owner (e.g. identity.role_assignments references identity.user_accounts;
+    care_delivery tables reference people.patients/doctors and catalog test/panel
+    ids as immutable snapshot values rather than live foreign keys where the domain
+    model requires point-in-time immutability — see normalization-report.md's documented
+    denormalization for snapshot fields).
+  status_columns: varchar(40) free-text status fields (not a shared enum type), matching
+    each aggregate's own domain-level status vocabulary; considered adequate for the
+    current schema count and revisited if a shared cross-module status catalog becomes
+    necessary.
+country_locale_currency_and_translatable_catalogs:
+  new_this_iteration:
+    tables:
+    - organization.countries (country_code PK, name_es_mx, name_en_us, status)
+    - organization.locales (locale_code PK, name_es_mx, name_en_us, is_default)
+    - organization.currencies (currency_code PK, name_es_mx, name_en_us, minor_unit_digits)
+    file: db/platform-foundation/schema.sql
+    seed: see seed-data-catalog.md (MX/US, es-MX/en-US, MXN/USD)
+    pattern_demonstrated: 'Each reference table carries parallel name_es_mx/name_en_us
+      columns rather than a separate translation table, chosen for these three small,
+      rarely-changing, effectively-static reference catalogs (2 rows each today).
+      This is the recommended pattern for HOP''s larger translatable business catalogs
+      too (diagnostic test/panel/analyte names under the `catalog` schema currently
+      have a single name column with no translation columns at all).
+
+      '
+  translatable_business_catalogs_gap: 'catalog.diagnostic_services, catalog.test_definitions,
+    catalog.panel_definitions and catalog.analyte_definitions (owned by the already-closed
+    MVP-MOD-002 module) each have a single `name`/equivalent column with no locale
+    variant. Altering that already-closed module''s schema was judged out of scope
+    for this platform-level foundation-alignment iteration (risk of touching a closed
+    module''s contract without a dedicated backlog item and migration plan). Registered
+    as TD-DB-002 below with a recommended migration strategy (parallel name_es_mx/
+    name_en_us columns, matching the pattern just established for country/locale/currency,
+    applied when catalog-test-configuration is next touched by a code-changing backlog
+    item).
+
+    '
+  reference_data_service_gap: 'No backend repository/service/controller was added
+    to read the new countries/locales/ currencies tables this iteration (no employee-portal
+    screen currently needs to consume them). The tables and seed data exist as a real
+    product/database deliverable; a thin read-only ReferenceDataService/controller
+    is a small, low-risk, well-scoped follow-up once a consumer exists (registered
+    as TD-DB-003).
+
+    '
+migration_strategy:
+  current_mechanism: Idempotent CREATE SCHEMA IF NOT EXISTS / CREATE TABLE IF NOT
+    EXISTS / ALTER-free additive schema.sql files, executed at application startup
+    by JdbcXxxRepository/DataSource initialization in the "local" Spring profile (see
+    ../technology-architecture/persistence-and-contract-generation-review.md for the
+    full persistence-tooling review, including the Flyway/Liquibase evaluation).
+  reversibility: 'Current schema.sql files are additive-only (no destructive ALTER/DROP
+    has been required to date because every schema change so far has been either a
+    new table or a new column with a safe default, e.g. this iteration''s organization.branches.version
+    int not null default 1). No formal down-migration exists; this is accepted as
+    an interim baseline (documented, not silent) and tracked as TD-STACK-001''s broader
+    stack-modernization scope, which already recommends evaluating Flyway/Liquibase
+    for versioned, reversible migrations as HOP approaches release readiness.
+
+    '
+technical_debt_registered:
+- id: TD-DB-001
+  title: resultsanddigitaldelivery, documentmanagement and notificationmanagement
+    have no persistent (Jdbc) schema/repository — in-memory adapters only
+  status: open
+  risk_level: medium
+  blocking: false
+  target_backlog: next_MVP-MOD-007-related_backlog_item_that_requires_data_to_survive_restart
+  owner: backend_platform_team
+- id: TD-DB-002
+  title: Diagnostic catalog business tables (test/panel/analyte/service names) are
+    not yet translatable (single name column, no es-MX/en-US variants)
+  status: open
+  risk_level: medium
+  blocking: false
+  recommended_migration: Add parallel name_es_mx/name_en_us columns (and equivalent
+    for other translatable text fields) to catalog.diagnostic_services, catalog.test_definitions,
+    catalog.panel_definitions, catalog.analyte_definitions, matching the pattern established
+    by organization.countries/locales/currencies in this iteration.
+  target_backlog: next_catalog_test_configuration_backlog_item
+  owner: backend_platform_team
+- id: TD-DB-003
+  title: No backend read API exists yet for the new country/locale/currency reference
+    tables
+  status: open
+  risk_level: low
+  blocking: false
+  target_backlog: whenever_a_screen_or_client_first_needs_country_locale_currency_options
+  owner: backend_platform_team
+- id: TD-DB-004
+  title: Tenant scoping is enforced by application-level WHERE clauses, not PostgreSQL
+    native row-level security policies
+  status: open
+  risk_level: low
+  blocking: false
+  reason_non_blocking: Every existing JdbcXxxRepository consistently parameterizes
+    tenant_id in its queries (spot-checked across multiple modules); native RLS would
+    be defense-in-depth, not a correctness fix for a known bug.
+  target_backlog: release_readiness_hardening_backlog_item
+  owner: backend_platform_team
+validations:
+- Confirmed via repository grep that all 6 existing schema.sql files use exclusively
+  CREATE SCHEMA IF NOT EXISTS / CREATE TABLE IF NOT EXISTS (idempotent, additive).
+- Confirmed organization.branches gains a version integer column this iteration (TD-BE-009
+  remediation), consistent with the audit/versioning convention already used by people.patients/doctors
+  and catalog.test_definitions/panel_definitions/price_lists.
+- New organization.countries/locales/currencies tables added additively; existing
+  tables unchanged except organization.branches (see above).
+```

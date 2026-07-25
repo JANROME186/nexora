@@ -1,0 +1,35 @@
+---
+id: HOP-MOB-BCM-RES-006
+format: markdown_structured_payload
+type: mobile-model
+name: Critical Results Mobile Model
+version: 0.1.0
+status: deferred
+---
+
+# Critical Results Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-RES-006
+  type: mobile-model
+  name: Critical Results Mobile Model
+  version: 0.1.0
+  status: deferred
+  classification: editable_model
+  capability: BCM-RES-006
+mobile_scope:
+  status: not_required
+  rationale: 'MVP-MOD-007 declares mobile_app as result_view_required for patient/doctor
+    released-result viewing (BCM-RES-004), not for internal critical-result escalation
+    management, which remains an employee_portal-only clinical workflow.
+
+    '
+  deferred_to: []
+  flows: []
+  offline_expectations: none
+```

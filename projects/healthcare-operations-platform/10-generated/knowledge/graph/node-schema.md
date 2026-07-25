@@ -1,0 +1,43 @@
+---
+id: node-schema
+format: markdown_structured_payload
+---
+
+# Node Schema
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+node_schema:
+  required:
+  - id
+  - name
+  - type
+  - status
+  - version
+  - owner
+  - source_path
+  fields:
+    id: string
+    name: string
+    type: enum
+    status:
+      values:
+      - draft
+      - review
+      - approved
+      - deprecated
+      - removed
+    version: semver
+    owner: string
+    description: string
+    tags: array
+    source_path: string
+    related_nodes: array
+    dependencies: array
+    downstream: array
+    created_at: date
+    updated_at: date
+```

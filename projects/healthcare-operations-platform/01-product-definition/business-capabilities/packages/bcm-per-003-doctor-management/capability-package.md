@@ -1,0 +1,109 @@
+---
+id: HOP-CAP-PKG-BCM-PER-003
+format: markdown_structured_payload
+type: capability-package
+name: Doctor Management Capability Package
+version: 0.1.0
+status: modeled
+---
+
+# Doctor Management Capability Package
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-CAP-PKG-BCM-PER-003
+  type: capability-package
+  name: Doctor Management Capability Package
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.md
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-09
+  roadmap_group: COM-MOD-009
+  execution_flow_stage: model
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.md
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.md
+capability:
+  id: BCM-PER-003
+  name:
+    en: Doctor Management
+    es: Gestión de Médicos
+  domain: DOM-02 People
+  priority: High
+  roadmap: MVP1
+  dependency_profile: master_data
+  bounded_context: medical-staff
+  primary_aggregate: Doctor
+  aggregate_ref: AGG-005
+scope:
+  summary: 'Owns the Doctor aggregate lifecycle including professional identity, credentials,
+    specialties, referring context and portal access baseline. Publishes the authoritative
+    DoctorSnapshot consumed by order intake, results delivery, imaging and doctor
+    portal.
+
+    '
+  in_scope:
+  - Doctor registration, update and suspension.
+  - Professional credential registration and verification.
+  - Specialty assignment.
+  - Doctor portal access baseline.
+  - Publication of DoctorSnapshot.
+  out_of_scope:
+  - Patient master data (BCM-PER-002).
+  - Person shared duplicate detection (BCM-PER-001).
+  - Order intake and referral consumption (BCM-LAB-001).
+  - Result delivery to doctor portal (BCM-RES-004).
+roadmap:
+  module: COM-MOD-009
+  release: REL-002
+  package_status: modeled
+  next_backlog_item: COM-MOD-009-BE-001
+dependencies:
+  required_capabilities:
+  - BCM-PER-001
+  - BCM-ORG-001
+  - BCM-ORG-002
+  - BCM-ORG-003
+  - BCM-PLT-001
+  - BCM-PLT-007
+  optional_capabilities:
+  - BCM-PLT-003
+  - BCM-PLT-008
+  downstream_capabilities:
+  - BCM-LAB-001
+  - BCM-RES-004
+  - BCM-IMG-007
+  upstream_contexts:
+  - identity-access
+  - organization-management
+  - audit-compliance
+product_surfaces:
+  backend: required
+  employee_portal: required
+  patient_portal: not_required
+  doctor_portal: required
+  mobile_app: not_required
+required_artifacts:
+- capability-package.md
+- business-model.md
+- business-rules.md
+- processes.md
+- events.md
+- openapi-source.md
+- permissions.md
+- ui-model.md
+- mobile-model.md
+- test-model.md
+- observability-model.md
+- generation-plan.md
+- traceability.md
+- README.md
+```

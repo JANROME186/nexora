@@ -1,0 +1,98 @@
+---
+id: HOP-TR-BCM-PLT-005
+format: markdown_structured_payload
+type: traceability
+name: API Management Traceability Matrix
+version: 1.1.0
+status: validated
+---
+
+# Api Management Traceability Matrix
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TR-BCM-PLT-005
+  type: traceability
+  name: API Management Traceability Matrix
+  version: 1.1.0
+  status: validated
+  classification: editable_model
+  capability: BCM-PLT-005
+bcm_alignment:
+  capability_id: BCM-PLT-005
+  domain_id: DOM-10
+  priority: High
+  roadmap: MVP2
+brm_alignment:
+  rules:
+  - id: BRM-001-R018
+    ref: RN-005, RN-007, RN-008
+    description: Security and operational governance for API surfaces.
+test_alignment:
+  tests:
+  - id: TST-APIM-005-01
+    rule_ref: RN-001
+  - id: TST-APIM-005-02
+    rule_ref: RN-002
+  - id: TST-APIM-005-03
+    rule_ref: RN-003
+  - id: TST-APIM-005-04
+    rule_ref: RN-004
+  - id: TST-APIM-005-05
+    rule_ref: RN-005
+  - id: TST-APIM-005-06
+    rule_ref: RN-006
+  - id: TST-APIM-005-07
+    rule_ref: RN-007
+  - id: TST-APIM-005-08
+    rule_ref: RN-008
+technical_debt_addressed:
+- TD-BE-015
+- TD-FE-005
+backlog_items:
+  definition: COM-MOD-011-DEF
+  definition_status: closed
+  saas_hardening: COM-MOD-012-DEF
+  saas_hardening_status: closed
+  operational_strategy: COM-MOD-012-OPS-002
+  operational_strategy_status: closed
+  saas_hardening_validation: COM-MOD-012-QA-001
+  saas_hardening_validation_status: validated
+operational_strategy:
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.md
+  contribution: Promotion gate for CORS, CSP, HSTS, rate limits and API gateway policy
+    validation (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002 adds observability-runbook.md
+    and incident-response-runbook.md as the executable checks that verify these
+    gateway policies stay active in production and are re-checked during incident
+    triage.
+validation:
+  backlog_item: COM-MOD-012-QA-001
+  status: validated
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.md
+  contribution: 'OWASP ZAP API scan (zap-api-scan.py, full /v3/api-docs surface, 353
+    imported URLs) against the running backend found 0 SQLi/XSS/RCE/path-traversal/SSRF
+    findings across every active-scan rule (all PASS). It found and this backlog item
+    fixed a real cross-cutting defect: a null byte or other invalid-UTF8 string parameter
+    reaching JDBC returned an unhandled 500 (Spring DataIntegrityViolationException
+    wrapping a PostgreSQL SQLSTATE 22021 PSQLException) instead of a 400 on 6 laboratoryworkflow
+    worklist endpoints plus /api/revenue/cashier/sessions (TD-QA-005, closed same-iteration
+    via a narrow GlobalExceptionHandler mapping keyed on the SQLSTATE, leaving all
+    other DataIntegrityViolationException causes -- e.g. real 409 conflicts -- unregressed).
+    No stack trace or internal path was ever exposed in the client response in either
+    case. OWASP ZAP baseline scan against the employee portal (unchanged by this backlog
+    item) confirmed 0 FAIL-NEW findings; the 4 WARN-NEW findings (missing CSP/COEP
+    headers, non-cacheable content) all match the already-registered TD-FE-005 (deferred
+    to the production hosting layer).'
+marketplace_enablement:
+  backlog_item: COM-MOD-017-DEF
+  status: modeled
+  contribution: Provides contract-first publication boundaries, rate policies and
+    API gateway classification for catalog, offer, entitlement, installation, compatibility
+    and billing-adapter endpoints.
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.md
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.md
+```

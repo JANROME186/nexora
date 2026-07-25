@@ -1,0 +1,59 @@
+---
+id: HOP-OBS-BCM-INV-007
+format: markdown_structured_payload
+type: observability-model
+name: Consumption Tracking Observability Model
+version: 0.1.0
+status: modeled
+---
+
+# Consumption Tracking Observability Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-OBS-BCM-INV-007
+  type: observability-model
+  name: Consumption Tracking Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-007
+  depends_on_capability: BCM-PLT-006
+logs:
+- event: consumption_recorded
+  level: info
+  fields:
+  - consumptionId
+  - inventoryItemId
+  - stockLotId
+  - quantity
+  - linkedLaboratoryResultId
+  correlation_id: consumptionId
+metrics:
+- name: consumption_records_total
+  type: counter
+  labels:
+  - tenantId
+  - branchId
+- name: consumption_quantity_total
+  type: counter
+  labels:
+  - tenantId
+  - branchId
+  - inventoryItemId
+traces:
+- span: ApplyConsumption
+  child_spans:
+  - ResolveConsumptionUnitRatio
+  - ValidateStockLotEligibility
+audit_events:
+- ConsumptionRecorded
+alerts:
+- name: ConsumptionAnomalySpike
+  condition: consumption_quantity_total deviates from historical baseline beyond threshold
+  severity: medium
+```

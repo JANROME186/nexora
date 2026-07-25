@@ -1,0 +1,106 @@
+---
+id: TD-QA-005
+format: markdown_structured_payload
+type: technical-debt-item
+name: A null byte (invalid UTF-8 byte sequence) in a request field or query parameter
+  causes an unhandled 500 instead of a 400 across multiple modules
+version: 1.0.0
+status: closed
+---
+
+# A Null Byte (Invalid Utf 8 Byte Sequence) In A Request Field Or Query Parameter Causes An Unhandled 500 Instead Of A 400 Across Multiple Modules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: TD-QA-005
+  type: technical-debt-item
+  name: A null byte (invalid UTF-8 byte sequence) in a request field or query parameter
+    causes an unhandled 500 instead of a 400 across multiple modules
+  version: 1.0.0
+  status: closed
+  created_date: 2026-07-23
+  closed_date: 2026-07-23
+  closed_by: COM-MOD-012-QA-001
+source:
+  discovered_during_backlog_item: COM-MOD-012-QA-001
+  module: laboratoryworkflow (discovered by a DAST run scoped to COM-MOD-012; the
+    affected endpoints belong to an unrelated, already-shipped module)
+  evidence: 08-qa/security-quality/COM-MOD-012-QA-001/zap-backend-api.json (ZAP alert
+    "A Server Error response code was returned by the server", risk Low/confidence
+    High, 19 instances)
+classification:
+  category: backend_unhandled_exception
+  affected_area: cross_cutting_jdbc_string_parameter_encoding_validation
+  affected_components:
+  - GET /api/clinical-operations/samples/collection-worklist
+  - GET /api/clinical-operations/samples/{sampleId}/label/reception-worklist
+  - GET /api/clinical-operations/laboratory-results/processing-worklist
+  - GET /api/clinical-operations/laboratory-results/{resultId}/medical-validation/medical-validation-worklist
+  - GET /api/clinical-operations/laboratory-results/{resultId}/release/release-worklist
+  - GET /api/clinical-operations/laboratory-results/{resultId}/technical-validation/technical-validation-worklist
+  - POST /api/revenue/cashier/sessions (same DataIntegrityViolationException/PSQLException
+    root-cause class confirmed independently in the same scan's backend log, cash_sales.cash_sessions
+    insert)
+  risk_level: low
+  urgency: low
+  blocking: false
+  reason_non_blocking: 'Confirmed the client response leaks no stack trace, exception
+    class name or internal path -- only the standard Spring Boot default error body
+    {"timestamp","status":500,"error":"Internal Server Error","path"}. ZAP''s "Information
+    Disclosure - Debug Error Messages" and "Application Error Disclosure" alerts on
+    the two unrelated /api/auth/assistance and /api/revenue/cashier/sessions findings
+    from the same scan were verified to be the same generic Spring Boot error body
+    (reproduced locally: both now correctly return 400 with bean-validation field
+    errors for a malformed body, not 500 -- the ZAP 500s there came from a different,
+    non-JSON payload variant of ZAP''s fuzzing that this debt item''s root cause below
+    also explains) -- no new information-disclosure debt is registered for those two;
+    only the genuine unhandled-500 defect below.'
+  reproduction: 'curl "http://localhost:8090/api/clinical-operations/samples/collection-worklist?tenantId=%00&branchId=branchId"
+    returns HTTP 500. Backend log shows the root cause: org.postgresql.util.PSQLException:
+    ERROR: invalid byte sequence for encoding "UTF8": 0x00, wrapped in an unhandled
+    org.springframework.dao.DataIntegrityViolationException from a JdbcTemplate query
+    against orders_samples.samples using the raw tenantId parameter value.'
+current_state:
+  issue: GlobalExceptionHandler.java (the same class that closed TD-QA-004 for a Tomcat-level
+    parameter-parsing edge case) only mapped org.apache.tomcat.util.http.InvalidParameterException
+    and IllegalArgumentException to 400. It did not map org.springframework.dao.DataIntegrityViolationException,
+    so a malformed string query parameter or request field that survives Spring's
+    own binding (a null byte is a structurally valid Java String) reached the JDBC
+    layer, and PostgreSQL's own encoding validation raised the exception, propagating
+    unhandled to a generic 500.
+resolution:
+  fix: Added GlobalExceptionHandler.handleDataIntegrityViolationException(), which
+    walks the exception's cause chain and only remaps to 400 when the root cause is
+    a java.sql.SQLException whose SQLState is in {22021 invalid_byte_sequence_for_encoding,
+    22001 string_data_right_truncation}. A rescan after the first fix found the same
+    defect class reachable via a second SQLState (22001, an oversized field value
+    on POST /api/revenue/cashier/sessions), so the check was generalized to a small
+    SQLState-class-22 set rather than a single hardcoded code. Every other DataIntegrityViolationException
+    cause (e.g. a real unique-constraint conflict, SQLState 23505) is deliberately
+    rethrown unchanged, so this remains a narrow, additive fix with no behavior change
+    to existing 409-conflict handling elsewhere in the codebase.
+  regression_tests:
+  - GlobalExceptionHandlerTest.mapsInvalidByteSequenceDataIntegrityViolationToBadRequestBody
+  - GlobalExceptionHandlerTest.mapsStringDataRightTruncationDataIntegrityViolationToBadRequestBody
+  - GlobalExceptionHandlerTest.rethrowsOtherDataIntegrityViolationCausesUnchanged
+  verified_live: curl "http://localhost:8090/api/clinical-operations/samples/collection-worklist?tenantId=%00&branchId=branchId"
+    and an oversized tenantId POSTed to /api/revenue/cashier/sessions both returned
+    400 (previously 500) after the fix, rebuilt and restarted. A third, final ZAP
+    API rescan against the full OpenAPI surface confirmed 0 remaining findings of
+    any kind (FAIL-NEW 0, WARN-NEW 0, PASS 118), up from WARN-NEW 3 (19 server-error
+    instances) on the first scan.
+remediation:
+  strategy: fixed_in_COM_MOD_012_QA_001
+  owner: backend_team
+  estimated_effort: small
+  estimated_cost_impact: low
+  acceptance_criteria:
+  - A null byte or other invalid UTF-8 byte sequence in a string query parameter or
+    request field returns 400 with the standard error envelope, not a 500.
+  - Existing DataIntegrityViolationException-driven 409 conflict behavior in other
+    modules is unregressed (verified by rethrowsOtherDataIntegrityViolationCausesUnchanged).
+```

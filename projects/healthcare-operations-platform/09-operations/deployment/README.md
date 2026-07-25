@@ -4,11 +4,11 @@ This folder contains HOP production deployment and environment strategy artifact
 
 Start with:
 
-- `production-deployment-strategy.yaml`
 - `production-deployment-strategy.md`
-- `environment-matrix.yaml`
+- `production-deployment-strategy.md`
 - `environment-matrix.md`
-- `deployment-readiness-checklist.yaml`
+- `environment-matrix.md`
+- `deployment-readiness-checklist.md`
 - `deployment-readiness-checklist.md`
 
 These artifacts are definition and operations sources. They do not deploy HOP by themselves; later implementation backlog items may generate Docker, Kubernetes, IaC, CI/CD and observability assets from these models.

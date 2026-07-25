@@ -3,13 +3,13 @@
 Backlog item: `HOP-QA-ALIGN-005` — Establish message externalization and magic-string remediation
 baseline. Result: **completed**.
 
-Machine-readable companion: `HOP-QA-ALIGN-005-validation.yaml`.
+Machine-readable companion: `HOP-QA-ALIGN-005-validation.md`.
 
 ## Required outputs delivered
 
 | Output | Location |
 |---|---|
-| `message_externalization_inventory_yaml` | `HOP-QA-ALIGN-005-message-externalization-inventory.yaml` |
+| `message_externalization_inventory_yaml` | `HOP-QA-ALIGN-005-message-externalization-inventory.md` |
 | `message_externalization_inventory_md` | `HOP-QA-ALIGN-005-message-externalization-inventory.md` |
 | Updated/new technical debt items | `TD-I18N-001` (closed), `TD-I18N-002` (new) |
 | Proposed backend message catalog strategy | Inventory MD, "Backend message catalog strategy" |
@@ -53,8 +53,8 @@ frontend 18/0, mobile 8/0).
 - **VAL-001 YAML parse** — passed, full project and framework tree.
 - **VAL-002 Agent-agnostic scan** — passed, 0 forbidden files/folders, 0 content matches.
 - **VAL-003 Stale pointer scan** — passed. `HOP-QA-ALIGN-004` no longer appears as an active/
-  current/next backlog pointer anywhere in the repository; `PROJECT_STATE.yaml`,
-  `SOURCE_OF_TRUTH.yaml`, `HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml` and the runbook now all
+  current/next backlog pointer anywhere in the repository; `PROJECT_STATE.md`,
+  `SOURCE_OF_TRUTH.md`, `HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md` and the runbook now all
   point to `HOP-QA-ALIGN-CLOSEOUT`.
 - **VAL-004 No prohibited execution-limitation statuses** — passed, 0 matches for
   `passed_with_execution_limitation`, `closed_with_execution_limitation` or a mandatory gate
@@ -76,3 +76,207 @@ frontend 18/0, mobile 8/0).
 - `HOP-QA-ALIGN-005` status: **closed**.
 - Ready for next backlog item: **`HOP-QA-ALIGN-CLOSEOUT`**.
 - `MVP-MOD-004-FE-001` remains paused pending `HOP-QA-ALIGN-CLOSEOUT`.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-QA-ALIGN-005-VALIDATION
+  type: qa-validation-evidence
+  name: Message Externalization and Magic-String Remediation Baseline Evidence
+  version: 1.0.0
+  status: passed
+  created_date: 2026-07-16
+  human_readable: HOP-QA-ALIGN-005-validation.md
+  machine_readable: HOP-QA-ALIGN-005-validation.md
+backlog_item:
+  id: HOP-QA-ALIGN-005
+  name: Establish message externalization and magic-string remediation baseline
+  result: completed
+  functional_development_blocker_removed_for_this_item: true
+scope:
+  components:
+  - 07-implementation/backend
+  - 07-implementation/employee-portal
+  - 07-implementation/mobile-app
+  debt_items_closed:
+  - TD-I18N-001
+  debt_items_newly_registered:
+  - TD-I18N-002
+  debt_items_reviewed_unchanged:
+  - TD-BE-008
+  - TD-FE-002
+required_outputs_delivered:
+- id: message_externalization_inventory_yaml
+  path: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-message-externalization-inventory.md
+  result: delivered
+- id: message_externalization_inventory_md
+  path: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-005-message-externalization-inventory.md
+  result: delivered
+- id: updated_technical_debt_items_or_new_items_for_unexternalized_messages
+  path: 08-qa/technical-debt/TD-I18N-001-message-externalization-baseline.md (closed),
+    08-qa/technical-debt/TD-I18N-002-full-localization-adoption.md (new)
+  result: delivered
+- id: proposed_backend_message_catalog_strategy
+  path: HOP-QA-ALIGN-005-message-externalization-inventory.md, section "Backend message
+    catalog strategy (proposed)"
+  result: delivered
+- id: proposed_frontend_i18n_strategy
+  path: HOP-QA-ALIGN-005-message-externalization-inventory.md, section "Frontend i18n
+    strategy (proposed)"
+  result: delivered
+- id: proposed_mobile_localization_strategy
+  path: HOP-QA-ALIGN-005-message-externalization-inventory.md, section "Mobile localization
+    strategy (proposed)"
+  result: delivered
+passed_checks:
+- backend_compile
+- backend_test_suite_all_77_tests_unchanged
+- backend_coverage_no_regression
+- frontend_typecheck
+- frontend_lint
+- frontend_test_suite_all_18_tests
+- frontend_coverage_no_regression
+- frontend_build
+- frontend_duplication_scan
+- frontend_format_check
+- frontend_license_check
+- frontend_npm_audit_zero_vulnerabilities
+- mobile_typecheck
+- mobile_lint
+- mobile_test_suite_all_8_tests
+- mobile_duplication_scan
+- mobile_format_check
+validation_commands:
+- id: backend_compile
+  working_directory: 07-implementation/backend
+  command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -q compile
+  result: passed
+  detail: Compiles cleanly with the new FrontDeskErrorCodes constants class and all
+    30 updated throw sites across the 5 frontdeskcaredelivery service classes.
+- id: backend_test_suite
+  working_directory: 07-implementation/backend
+  command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml test
+  result: passed
+  detail: 77 tests run, 0 failures, 0 errors, 7 skipped (local-db-only tests skipped
+    without a running Postgres) — identical counts to the pre-existing HOP-QA-ALIGN-004
+    baseline, confirming the FrontDeskErrorCodes refactor is behavior-preserving (byte-identical
+    exception messages).
+- id: backend_coverage
+  working_directory: 07-implementation/backend
+  command: mvn -gs .mvn/global-settings.xml --settings .mvn/settings.xml -Pquality
+    test jacoco:report
+  result: passed
+  line_coverage_percent: 66.48
+  previous_baseline_percent: 65.82
+  regression: false
+- id: frontend_quality_gate
+  working_directory: 07-implementation/employee-portal
+  command: npm run quality
+  result: passed
+  detail: typecheck (tsc --noEmit) passed; lint (eslint) passed with 9 pre-existing
+    warnings (0 errors, none introduced by this backlog item — all in functions unrelated
+    to the i18n changes); test:coverage — 10 test files, 18 tests, 0 failures; build
+    (tsc -b && vite build) passed; duplication (jscpd) passed; format:check (prettier)
+    passed after formatting the 2 new files; license:check passed (5 MIT, 1 UNLICENSED
+    — unchanged from before).
+  line_coverage_percent: 73.04
+  previous_baseline_percent: 72.89
+  regression: false
+- id: frontend_npm_audit
+  working_directory: 07-implementation/employee-portal
+  command: npm audit --audit-level=low
+  result: passed
+  vulnerabilities: 0
+- id: mobile_quality_gate
+  working_directory: 07-implementation/mobile-app
+  command: npm run quality
+  result: passed
+  detail: typecheck, lint, test (5 test files, 8 tests, 0 failures), duplication and
+    format:check all passed.
+- id: mobile_coverage_baseline
+  result: unchanged_pre_existing_gap
+  detail: mobile-app still has no coverage tooling of its own (TD-APP-002, pre-existing,
+    unrelated to message externalization); not attempted, consistent with HOP-QA-ALIGN-004's
+    prior disposition.
+  tracked_by: TD-APP-002
+behavior_preservation_evidence: All backend and frontend/mobile remediation in this
+  backlog item was a pure extraction of already-duplicated or already-informally-coded
+  literal values into named constants/shared functions — no exception message text,
+  UI copy, or control flow changed. This is directly evidenced by every touched test
+  suite passing with identical pass/fail/skip counts to the pre-existing baseline
+  (backend 77/0/7, frontend 18/0, mobile 8/0).
+bounded_context_and_aggregate_ownership: No aggregate ownership changed. No OpenAPI
+  contract for any HOP capability package changed — FrontDeskErrorCodes is a pure
+  internal Java constants class with no API surface; the frontend/ mobile i18n modules
+  are internal TypeScript modules with no external contract.
+model_gaps_identified: []
+out_of_scope_confirmed:
+- Adding a `code` field to the 5 backend `*ApiErrorResponse` shapes (OpenAPI contract
+  change across 5 capability packages; tracked by TD-I18N-002).
+- Full frontend i18n-library adoption for the ~125 remaining single-occurrence UI
+  strings (tracked by TD-I18N-002).
+- Full mobile localization (no renderable UI layer exists yet; tracked by TD-I18N-002,
+  gated on TD-APP-001's renderer-stack selection).
+- Mobile coverage baseline establishment (TD-APP-002, pre-existing, unrelated to this
+  backlog item).
+- TD-BE-008 and TD-FE-002 (reviewed; neither impacted by message-externalization changes).
+validations:
+- id: VAL-001
+  name: YAML repository files remain parseable
+  method: Full-project YAML parse (framework and project trees) including this evidence
+    file, its companion security-quality-evidence.md, the inventory YAML, and every
+    touched technical-debt YAML.
+  result: passed
+- id: VAL-002
+  name: Agent-agnostic scan
+  method: Directory scan for .claude/.cursor/.copilot/.windsurf/.aider* files or folders
+    (tracked and untracked), plus a content grep of every file touched by this backlog
+    item for claude|anthropic|copilot|cursor|chatgpt|openai|gemini|codex|windsurf|aider
+    (case-insensitive).
+  result: passed
+  detail: 0 forbidden files/folders found; 0 content matches in any file touched by
+    this backlog item. The pattern-list words above are written out only in this evidence
+    file and its companion security-quality-evidence.md as documentation of what
+    the scan searched for.
+- id: VAL-003
+  name: Stale pointer scan
+  method: Grepped the repository for "HOP-QA-ALIGN-004" appearing as an active/current/next
+    backlog pointer (as opposed to a historical evidence reference); confirmed PROJECT_STATE.md,
+    SOURCE_OF_TRUTH.md, HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md and the runbook
+    all already pointed to HOP-QA-ALIGN-005 before this backlog item started (advanced
+    by the prior HOP-QA-ALIGN-004 closure), and updated them to HOP-QA-ALIGN-CLOSEOUT
+    as part of this backlog item's closure.
+  result: passed
+- id: VAL-004
+  name: No prohibited execution-limitation statuses
+  method: Grepped this evidence file, its security-quality companion, PROJECT_STATE.md,
+    SOURCE_OF_TRUTH.md and the runbook for passed_with_execution_limitation, closed_with_execution_limitation
+    and not_executed on any mandatory gate.
+  result: passed
+  detail: 0 matches. Every mandatory gate (backend compile/test/coverage, frontend
+    quality gate, mobile quality gate) executed to completion.
+- id: VAL-005
+  name: git diff --check
+  method: git diff --check across every file touched by this backlog item.
+  result: passed
+blocking_gaps: []
+readiness:
+  hop_qa_align_005_status: closed
+  ready_for_next_backlog_item: HOP-QA-ALIGN-CLOSEOUT
+  next_backlog_item_name: HOP Enterprise Quality Alignment Closeout
+  rationale: All six required_outputs were delivered. The backend, frontend and mobile
+    inventories are complete (full read of every non-test source file in employee-portal
+    and mobile-app; grep-based cross-referenced inventory of all 33 modeled backend
+    domain error codes). Findings are classified P0/P1/P2 per HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.md.
+    Every P0 finding was remediated directly in a behavior-preserving way, verified
+    by unchanged test pass/fail/skip counts across all three stacks and no coverage
+    regression (backend 66.48% >= 65.82%; frontend 73.04% >= 72.89%). Every P1/P2
+    finding not remediated immediately is either an existing strength requiring no
+    action, or is formally dispositioned as technical debt (TD-I18N-002) with owner,
+    target trigger and acceptance criteria. TD-I18N-001, the blocking debt item that
+    required this baseline to exist, is closed. No mandatory gate was left not_executed
+    or closed with an execution limitation.
+```

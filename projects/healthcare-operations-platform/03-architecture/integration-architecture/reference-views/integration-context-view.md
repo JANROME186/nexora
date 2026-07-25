@@ -1,7 +1,7 @@
 # Integration Context View
 
-**Artifact ID:** IIA-VIEW-001  
-**Version:** 0.20.0  
+**Artifact ID:** IIA-VIEW-001
+**Version:** 0.20.0
 
 ```mermaid
 flowchart LR

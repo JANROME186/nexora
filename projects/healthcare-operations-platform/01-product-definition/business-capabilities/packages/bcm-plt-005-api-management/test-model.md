@@ -1,0 +1,82 @@
+---
+id: HOP-TEST-BCM-PLT-005
+format: markdown_structured_payload
+type: test-model
+name: API Management Test Model
+version: 0.2.0
+status: modeled
+---
+
+# Api Management Test Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TEST-BCM-PLT-005
+  type: test-model
+  name: API Management Test Model
+  version: 0.2.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-005
+test_cases:
+- id: TST-APIM-005-01
+  type: acceptance
+  validates_rule: RN-001
+  statement: An unclassified API operation cannot be published as public or partner
+    and defaults to internal.
+  generatable: false
+- id: TST-APIM-005-02
+  type: acceptance
+  validates_rule: RN-002
+  statement: A partner operation call with a revoked, expired or scope-mismatched
+    key is rejected.
+  generatable: false
+- id: TST-APIM-005-03
+  type: acceptance
+  validates_rule: RN-003
+  statement: Scheduling deprecation for a published operation without a deprecation
+    window or migration note is rejected.
+  generatable: false
+- id: TST-APIM-005-04
+  type: acceptance
+  validates_rule: RN-004
+  statement: A consumer exceeding its configured rate-limit policy receives a canonical
+    rate-limit error rather than being silently dropped or unbounded.
+  generatable: false
+- id: TST-APIM-005-05
+  type: architecture
+  validates_rule: RN-005
+  statement: Every classification change, key issuance/revocation, rate-limit change
+    and deprecation scheduling emits an audited event.
+  generatable: false
+- id: TST-APIM-005-06
+  type: contract
+  validates_rule: RN-006
+  statement: A tenant administrator cannot classify operations or issue keys for another
+    tenant.
+  generatable: true
+- id: TST-APIM-005-07
+  type: acceptance
+  validates_rule: RN-007
+  statement: An anonymous public-classification request without a PartnerApiKey is
+    still rate-limited by IP address or session token, not exempted.
+  generatable: false
+test_layers:
+- contract_tests
+- unit_tests
+- acceptance_tests
+- architecture_tests
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests:
+  - TST-APIM-005-01
+  - TST-APIM-005-02
+  - TST-APIM-005-03
+  - TST-APIM-005-04
+  - TST-APIM-005-05
+  - TST-APIM-005-07
+```

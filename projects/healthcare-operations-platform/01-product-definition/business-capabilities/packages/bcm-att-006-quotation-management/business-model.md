@@ -1,0 +1,201 @@
+---
+id: HOP-BM-BCM-ATT-006
+format: markdown_structured_payload
+type: business-model
+name: Quotation Management Business Model
+version: 0.1.0
+status: modeled
+---
+
+# Quotation Management Business Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BM-BCM-ATT-006
+  type: business-model
+  name: Quotation Management Business Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-006
+  bounded_context: cash-sales
+  primary_aggregate: none
+  model_kind: standalone_pre_order_process
+entities:
+- id: ENT-QUO-001
+  name: QuotationRequest
+  is_aggregate_root: true
+  described_as: standalone_process_aggregate
+  description: 'A versionable pre-order price estimate. Owned entirely by this capability
+    today; will remain the aggregate root until a future MVP-MOD-005 Sale aggregate
+    optionally supersedes its commercial lifecycle.
+
+    '
+  fields:
+  - name: quotationId
+    type: uuid
+    required: true
+    identifier: true
+  - name: tenantId
+    type: TenantId
+    required: true
+  - name: laboratoryId
+    type: LaboratoryId
+    required: true
+  - name: branchId
+    type: BranchId
+    required: true
+  - name: patientId
+    type: PatientId
+    required: false
+    description: Optional; a quotation may be issued for a prospective, unregistered
+      patient.
+  - name: prospectiveContact
+    type: ProspectiveContact
+    required: false
+  - name: catalogSelection
+    type: list[QuotationLine]
+    required: true
+  - name: pricingSnapshot
+    type: QuotationPricingSnapshot
+    required: true
+  - name: discountApplication
+    type: DiscountApplication
+    required: false
+  - name: validUntil
+    type: date
+    required: true
+  - name: status
+    type: enum
+    values:
+    - draft
+    - issued
+    - accepted
+    - expired
+    - converted
+    - cancelled
+    required: true
+  - name: convertedOrderId
+    type: OrderId
+    required: false
+  - name: cancellationReason
+    type: string
+    required: false
+  - name: audit
+    type: AuditMetadata
+    required: true
+value_objects:
+- id: VO-QUO-001
+  name: QuotationLine
+  description: A published test or panel included in the quotation, captured as a
+    catalog snapshot.
+  fields:
+  - name: testDefinitionId
+    type: TestDefinitionId
+    required: true
+  - name: publishedVersion
+    type: integer
+    required: true
+  - name: kind
+    type: enum
+    values:
+    - test
+    - panel
+    required: true
+  - name: quantity
+    type: integer
+    required: true
+    default: 1
+  - name: unitAmount
+    type: Money
+    required: true
+- id: VO-QUO-002
+  name: QuotationPricingSnapshot
+  description: Immutable copy of the price-list entries applied at issuance time from
+    BCM-SVC-009.
+  fields:
+  - name: priceListId
+    type: uuid
+    required: true
+  - name: priceListVersion
+    type: integer
+    required: true
+  - name: subtotalAmount
+    type: Money
+    required: true
+  - name: totalAmount
+    type: Money
+    required: true
+  - name: capturedAt
+    type: datetime
+    required: true
+- id: VO-QUO-003
+  name: DiscountApplication
+  description: Commercial discount applied within tenant-configured policy limits.
+  fields:
+  - name: discountKind
+    type: enum
+    values:
+    - percentage
+    - fixed_amount
+    - promotion_code
+    required: true
+  - name: value
+    type: decimal
+    required: true
+  - name: policyLimitRespected
+    type: boolean
+    required: true
+  - name: appliedBy
+    type: UserId
+    required: true
+- id: VO-QUO-004
+  name: ProspectiveContact
+  description: Minimal contact data for a quotation issued before patient registration.
+  fields:
+  - name: fullName
+    type: string
+    required: true
+  - name: phone
+    type: PhoneNumber
+    required: false
+  - name: email
+    type: EmailAddress
+    required: false
+invariants:
+- id: INV-QUO-001
+  statement: A quotation line may reference only a CatalogSnapshot taken from a published
+    TestDefinition or panel version.
+- id: INV-QUO-002
+  statement: A quotation cannot be issued without a pricing snapshot captured from
+    a published price list.
+- id: INV-QUO-003
+  statement: A discount application must respect the tenant-configured maximum discount
+    policy.
+- id: INV-QUO-004
+  statement: A quotation cannot be accepted after its validUntil date; it must first
+    be reissued or extended.
+- id: INV-QUO-005
+  statement: Converting an accepted quotation into a diagnostic order must use BCM-LAB-001
+    CreateDiagnosticOrder rather than direct order persistence.
+external_references:
+- shared_kernel:
+  - VO-ID-001 TenantId
+  - VO-ID-002 LaboratoryId
+  - VO-ID-003 BranchId
+  - VO-ID-005 PatientId
+  - VO-ID-007 OrderId
+  - VO-001 Money
+  - VO-003 EmailAddress
+  - VO-004 PhoneNumber
+  - VO-007 AuditMetadata
+- capabilities:
+  - BCM-SVC-001/002/003 published TestDefinition (catalog snapshot source)
+  - BCM-SVC-009 published price list (pricing snapshot source)
+  - BCM-PER-002 Patient aggregate (optional identity reference)
+  - BCM-LAB-001 DiagnosticOrder aggregate commands (conversion target)
+```

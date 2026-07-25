@@ -59,3 +59,44 @@ All requests from web/mobile channels must supply HTTP session context headers:
 - `Authorization`: Bearer JWT token with user identity and scopes.
 - `X-Branch-ID`: Identifies active operational branch context.
 - `X-Trace-ID`: Distributed correlation trace identifier.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-ONB-GUIDE-003
+  type: rbac-navigation-session-specification
+  name: HOP Roles, Permissions, Dynamic Navigation and Session Specification
+  version: 1.0.0
+  status: approved
+  human_readable: roles-permissions-navigation-and-session-guide.md
+  machine_readable: roles-permissions-navigation-and-session-guide.md
+  backlog_item: COM-MOD-016-DOC-001
+permissions_count: 27
+standard_roles:
+- ADMIN
+- FRONT_DESK
+- LAB_TECH
+- MEDICAL_VALIDATOR
+- QUALITY_MANAGER
+- PATIENT
+- DOCTOR
+session_headers:
+- X-Tenant-ID
+- Authorization
+- X-Branch-ID
+- X-Trace-ID
+security_policies:
+  least_privilege: true
+  dynamic_navigation_filtering: true
+  deny_by_default: true
+  audit_logging: true
+traceability:
+  capabilities:
+  - BCM-PLT-001
+  - BCM-PLT-007
+  open_source_first: true
+  agent_agnostic: true
+```

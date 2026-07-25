@@ -1,0 +1,77 @@
+---
+id: HOP-PERM-BCM-SVC-009
+format: markdown_structured_payload
+type: permissions
+name: Price List Management Permissions
+version: 0.1.0
+status: modeled
+---
+
+# Price List Management Permissions
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PERM-BCM-SVC-009
+  type: permissions
+  name: Price List Management Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-009
+  depends_on_capability: BCM-PLT-001
+scopes:
+- code: catalog.price.read
+  description: Read price lists and effective price snapshots.
+- code: catalog.price.write
+  description: Create and update price list drafts and entries.
+- code: catalog.price.publish
+  description: Publish and deprecate price lists.
+roles:
+- role: catalog-administrator
+  grants:
+  - catalog.price.read
+  - catalog.price.write
+- role: finance-manager
+  grants:
+  - catalog.price.read
+  - catalog.price.write
+  - catalog.price.publish
+- role: cashier
+  grants:
+  - catalog.price.read
+- role: reception-agent
+  grants:
+  - catalog.price.read
+access_policies:
+- id: POL-SVC-009-01
+  statement: Price list write and publish operations are tenant and laboratory scoped.
+  enforcement: row_level_tenant_laboratory_filter
+- id: POL-SVC-009-02
+  statement: Price list publication is restricted to finance authority roles.
+  enforcement: role_based_publish_restriction
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+  - event: PriceListCreated
+    fields:
+    - priceListId
+    - actorId
+    - tenantId
+  - event: PriceListPublished
+    fields:
+    - priceListId
+    - version
+    - currency
+    - effectiveFrom
+    - actorId
+  - event: PriceListRevised
+    fields:
+    - priceListId
+    - previousVersion
+    - newVersion
+    - actorId
+```

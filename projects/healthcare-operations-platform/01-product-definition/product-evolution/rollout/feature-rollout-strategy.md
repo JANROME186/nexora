@@ -1,7 +1,7 @@
 # Feature Rollout Strategy
 
-**Artifact ID:** FRS-001  
-**Status:** Draft  
+**Artifact ID:** FRS-001
+**Status:** Draft
 **Version:** 0.22.0
 
 ## Purpose

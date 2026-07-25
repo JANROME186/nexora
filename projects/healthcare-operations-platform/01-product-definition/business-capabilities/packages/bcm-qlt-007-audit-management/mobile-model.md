@@ -1,0 +1,31 @@
+---
+id: HOP-MOB-BCM-QLT-007
+format: markdown_structured_payload
+type: mobile-model
+name: Audit Management Mobile Model
+version: 0.1.0
+status: modeled
+---
+
+# Audit Management Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-QLT-007
+  type: mobile-model
+  name: Audit Management Mobile Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-007
+  mobile_scope: not_required
+justification: 'Quality audit management (ISO 15189 / COFEPRIS / CAP inspection planning,
+  checklist finding entry, CAPA linking, and regulatory report publication) requires
+  desktop administrative Employee Portal workflows. No mobile interface is required.
+
+  '
+```

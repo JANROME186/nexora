@@ -1,0 +1,157 @@
+---
+id: HOP-TRACE-BCM-ATT-004
+format: markdown_structured_payload
+type: traceability
+name: Admission Management Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Admission Management Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-ATT-004
+  type: traceability
+  name: Admission Management Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-004
+traces:
+  capability_map:
+    bcm_001: BCM-ATT-004
+    domain: DOM-04 Care Delivery
+  dependency_map:
+    bcm_002_profile: care_delivery
+    required_capabilities:
+    - BCM-ATT-003
+    - BCM-PER-002
+    - BCM-SVC-001
+    - BCM-SVC-002
+    - BCM-SVC-009
+    - BCM-PLT-001
+    - BCM-PLT-007
+    - BCM-LAB-001
+    downstream_capabilities:
+    - BCM-LAB-001
+    - BCM-LAB-002
+  domain_foundation:
+    bounded_context: orders-samples
+    aggregate_reference: AGG-007 DiagnosticOrder (owned by BCM-LAB-001)
+    context_relationships:
+    - REL-CTX-002
+    - REL-CTX-003
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-002
+    - VO-ID-003
+    - VO-ID-005
+    - VO-ID-006
+    - VO-ID-007
+    - VO-007
+  brm_alignment:
+  - rule: BRM-001-R005
+    alignment: Admission catalog selection must be published (RN-002).
+  - rule: BRM-001-R018
+    alignment: Admission events are append-only and audit trace fields are required
+      (RN-007).
+  hrp_alignment:
+  - process: HRP-001-P03 Patient Registration and Order Intake
+    capability_role: Order-intake completeness gate that commits the diagnostic order.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-ADM-004-01
+  - rule: RN-002
+    tests:
+    - TST-ADM-004-02
+  - rule: RN-003
+    tests:
+    - TST-ADM-004-03
+  - rule: RN-004
+    tests:
+    - TST-ADM-004-04
+  - rule: RN-005
+    tests:
+    - TST-ADM-004-05
+  - rule: RN-006
+    tests:
+    - TST-ADM-004-06
+  - rule: RN-007
+    tests:
+    - TST-ADM-004-07
+  processes_to_commands:
+  - process: PRC-ADM-004-01
+    commands:
+    - StartAdmissionRequest
+  - process: PRC-ADM-004-02
+    commands:
+    - MarkAdmissionReady
+  - process: PRC-ADM-004-03
+    commands:
+    - CommitAdmissionRequest
+  - process: PRC-ADM-004-04
+    commands:
+    - RejectAdmissionRequest
+  api_to_permissions:
+  - operation: startAdmissionRequest
+    scope: admission.manage
+  - operation: markAdmissionReady
+    scope: admission.manage
+  - operation: commitAdmissionRequest
+    scope: admission.manage
+  - operation: rejectAdmissionRequest
+    scope: admission.manage
+  - operation: listAdmissionRequests
+    scope: admission.read
+  - operation: getAdmissionRequest
+    scope: admission.read
+  events_to_audit:
+  - event: AdmissionRequestStarted
+    audit_sink: BCM-PLT-007
+  - event: AdmissionMarkedReady
+    audit_sink: BCM-PLT-007
+  - event: AdmissionRequestCommitted
+    audit_sink: BCM-PLT-007
+  - event: AdmissionRequestRejected
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-ADM-004-01
+    operations:
+    - markAdmissionReady
+    - commitAdmissionRequest
+  - screen: SCR-ADM-004-02
+    operations:
+    - listAdmissionRequests
+    - startAdmissionRequest
+  - screen: SCR-ADM-004-03
+    operations:
+    - getAdmissionRequest
+    - rejectAdmissionRequest
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.md
+  compilation_qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-001-validation.md
+  compilation_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-004-BE-001/security-quality-evidence.md
+  custom_rules_qa_evidence: ../../../../08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-002-validation.md
+  custom_rules_security_quality_evidence: ../../../../08-qa/security-quality/MVP-MOD-004-BE-002/security-quality-evidence.md
+  compilation_backend_root: ../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/frontdeskcaredelivery/admissionmanagement/
+  compilation_schema: ../../../../07-implementation/backend/src/main/resources/db/front-desk-care-delivery/schema.sql
+  backlog_items:
+    definition: MVP-MOD-004-DEF
+    definition_status: closed
+    compilation: MVP-MOD-004-BE-001
+    compilation_status: closed
+    custom_rules: MVP-MOD-004-BE-002
+    custom_rules_status: closed
+    ui: MVP-MOD-004-FE-001
+    ui_status: pending
+    validation: MVP-MOD-004-QA-001
+    validation_status: pending
+    closeout: MVP-MOD-004-CLOSEOUT
+    closeout_status: pending
+```

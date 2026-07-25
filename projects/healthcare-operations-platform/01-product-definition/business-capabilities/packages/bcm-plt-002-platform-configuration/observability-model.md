@@ -1,0 +1,36 @@
+---
+id: HOP-OBS-BCM-PLT-002
+format: markdown_structured_payload
+type: observability-model
+name: Platform Configuration Observability Model
+version: 1.0.0
+---
+
+# Platform Configuration Observability Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-OBS-BCM-PLT-002
+  type: observability-model
+  name: Platform Configuration Observability Model
+  version: 1.0.0
+metrics:
+- name: hop_feature_flag_evaluations_total
+  type: counter
+  labels:
+  - flag_key
+  - result
+  - tenant_id
+  description: Count of feature flag evaluations.
+logs:
+- event: FEATURE_FLAG_TOGGLED
+  level: INFO
+  attributes:
+  - flag_key
+  - new_status
+  - user_id
+```

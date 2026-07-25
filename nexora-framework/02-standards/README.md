@@ -4,20 +4,20 @@ Defines the rules every Nexora project and agent must follow.
 
 Start with:
 
-- `standards/project-folder-standard.yaml`
-- `standards/documentation-standard.yaml`
-- `standards/agent-agnostic-standard.yaml`
-- `standards/model-driven-product-engineering-standard.yaml`
-- `standards/capability-package-standard.yaml`
-- `standards/open-data-ingestion-standard.yaml`
-- `standards/product-marketplace-standard.yaml`
-- `standards/business-requirement-versioning-standard.yaml`
-- `standards/open-source-first-security-quality-standard.yaml`
-- `standards/local-toolchain-inventory-standard.yaml`
-- `standards/enterprise-product-foundation-standard.yaml`
-- `standards/engineering-excellence-prioritization-standard.yaml`
-- `standards/context-efficient-execution-standard.yaml`
-- `standards/integrated-local-solution-runbook-standard.yaml`
-- `standards/framework-feedback-continuous-improvement-standard.yaml`
+- `standards/project-folder-standard.md`
+- `standards/documentation-standard.md`
+- `standards/agent-agnostic-standard.md`
+- `standards/model-driven-product-engineering-standard.md`
+- `standards/capability-package-standard.md`
+- `standards/open-data-ingestion-standard.md`
+- `standards/product-marketplace-standard.md`
+- `standards/business-requirement-versioning-standard.md`
+- `standards/open-source-first-security-quality-standard.md`
+- `standards/local-toolchain-inventory-standard.md`
+- `standards/enterprise-product-foundation-standard.md`
+- `standards/engineering-excellence-prioritization-standard.md`
+- `standards/context-efficient-execution-standard.md`
+- `standards/integrated-local-solution-runbook-standard.md`
+- `standards/framework-feedback-continuous-improvement-standard.md`
 
 These files control project structure, documentation format, agent-agnostic execution, model-driven engineering, capability packages, open data ingestion, product marketplace extensibility, business requirement change impact analysis, open-source-first technology selection, local toolchain inventory, enterprise product foundations, engineering excellence prioritization, token-optimized context execution, integrated local solution runbooks, continuous security quality gates and framework feedback for continuous improvement.

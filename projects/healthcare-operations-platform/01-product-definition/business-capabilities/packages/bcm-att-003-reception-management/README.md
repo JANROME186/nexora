@@ -26,24 +26,24 @@ and performs no direct order or patient mutation.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | ReceptionVisit process entity and queue value object |
-| `business-rules.yaml` | Numbered rules RN-001..RN-007 |
-| `processes.yaml` | Start, confirm identity, advance, reprioritize, abandon |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee portal queue worklist, identity confirmation, detail |
-| `mobile-model.yaml` | Mobile scope (not_required, front-desk only) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | ReceptionVisit process entity and queue value object |
+| `business-rules.md` | Numbered rules RN-001..RN-007 |
+| `processes.md` | Start, confirm identity, advance, reprioritize, abandon |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee portal queue worklist, identity confirmation, detail |
+| `mobile-model.md` | Mobile scope (not_required, front-desk only) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, UI, tests, QA |
 
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers read-only identity confirmation, appointment linkage
 validation, tenant-configurable queue prioritization, the admission handoff
 boundary and the queue worklist UI.

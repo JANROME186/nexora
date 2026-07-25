@@ -4,7 +4,7 @@ This folder contains HOP Business Capability Packages.
 
 The Business Capability Map is the master index:
 
-`../bcm-001/business-capability-map.yaml`
+`../bcm-001/business-capability-map.md`
 
 Each capability package is created when its capability becomes active for modeling, compilation or implementation.
 
@@ -12,7 +12,7 @@ Capability packages are the primary unit of HOP development. Modules may group c
 
 Each package must follow:
 
-`../../../../../nexora-framework/02-standards/standards/capability-package-standard.yaml`
+`../../../../../nexora-framework/02-standards/standards/capability-package-standard.md`
 
 The first capability packages to create belong to `MVP-MOD-002 Diagnostic Catalog`:
 

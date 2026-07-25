@@ -10,3 +10,140 @@ TD-QA-008 remains open and non-blocking as project-wide toolchain inventory debt
 
 Next backlog item: `COM-MOD-017-DEF`.
 
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-QA-COM-MOD-016-CLOSEOUT-001
+  type: module-closeout-evidence
+  name: COM-MOD-016 Commercial Launch and Customer Enablement Closeout Validation
+  version: 1.0.0
+  status: passed
+  human_readable: COM-MOD-016-CLOSEOUT-validation.md
+  machine_readable: COM-MOD-016-CLOSEOUT-validation.md
+  created_date: 2026-07-24
+  owner: Nexora Product Architecture Team
+scope:
+  module: COM-MOD-016 Commercial Launch and Customer Enablement
+  backlog_item: COM-MOD-016-CLOSEOUT
+  release: REL-003
+  objective: Formally close the Commercial Launch and Customer Enablement module after
+    definition, onboarding, operational governance, commercial launch assets and readiness
+    validation.
+module_evidence:
+  definition:
+  - 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.md
+  onboarding:
+  - 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DOC-001-validation.md
+  operational_governance:
+  - 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-OPS-001-validation.md
+  commercial_launch:
+  - 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-COM-001-validation.md
+  readiness_validation:
+  - 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-QA-001-validation.md
+  closeout:
+  - 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-CLOSEOUT-validation.md
+  security_quality:
+  - 08-qa/security-quality/COM-MOD-016-DEF/security-quality-evidence.md
+  - 08-qa/security-quality/COM-MOD-016-DOC-001/security-quality-evidence.md
+  - 08-qa/security-quality/COM-MOD-016-OPS-001/security-quality-evidence.md
+  - 08-qa/security-quality/COM-MOD-016-COM-001/security-quality-evidence.md
+  - 08-qa/security-quality/COM-MOD-016-QA-001/security-quality-evidence.md
+  - 08-qa/security-quality/COM-MOD-016-CLOSEOUT/security-quality-evidence.md
+backlog_items_closed:
+- id: COM-MOD-016-DEF
+  name: Capability package models
+  status: closed
+- id: COM-MOD-016-DOC-001
+  name: Customer onboarding and configuration guides
+  status: closed
+- id: COM-MOD-016-OPS-001
+  name: Support, escalation and release governance
+  status: closed
+- id: COM-MOD-016-COM-001
+  name: Pricing package, sales demo and launch readiness assets
+  status: closed
+- id: COM-MOD-016-QA-001
+  name: Commercial readiness validation
+  status: closed
+- id: COM-MOD-016-CLOSEOUT
+  name: General availability closeout
+  status: closed
+capability_package_closure:
+  total_packages: 7
+  all_packages_module_closed: true
+  packages:
+  - capability_id: BCM-ORG-001
+    traceability: 01-product-definition/business-capabilities/packages/bcm-org-001-tenant-management/traceability.md
+    closeout_status: closed
+  - capability_id: BCM-ORG-002
+    traceability: 01-product-definition/business-capabilities/packages/bcm-org-002-laboratory-management/traceability.md
+    closeout_status: closed
+  - capability_id: BCM-ORG-003
+    traceability: 01-product-definition/business-capabilities/packages/bcm-org-003-branch-management/traceability.md
+    closeout_status: closed
+  - capability_id: BCM-PLT-002
+    traceability: 01-product-definition/business-capabilities/packages/bcm-plt-002-platform-configuration/traceability.md
+    closeout_status: closed
+  - capability_id: BCM-PLT-006
+    traceability: 01-product-definition/business-capabilities/packages/bcm-plt-006-observability/traceability.md
+    closeout_status: closed
+  - capability_id: BCM-PLT-007
+    traceability: 01-product-definition/business-capabilities/packages/bcm-plt-007-audit-trail/traceability.md
+    closeout_status: closed
+  - capability_id: BCM-PLT-008
+    traceability: 01-product-definition/business-capabilities/packages/bcm-plt-008-document-management/traceability.md
+    closeout_status: closed
+  capability_package_index_update: capability-package-index.md moved COM-MOD-016
+    from active_capability_package_groups to completed_capability_package_groups with
+    package_status module_closed and backlog_item COM-MOD-016-CLOSEOUT.
+  traceability_update: All 7 capability package traceability.md files now carry
+    commercial_enablement.status module_closed, closeout evidence and preserved COM-MOD-016-QA-001
+    validation references.
+technical_debt_summary:
+  reviewed_index: 08-qa/technical-debt/technical-debt-index.md
+  closed_by_this_item: []
+  materially_reduced_by_this_item: []
+  open_non_blocking_items:
+  - id: TD-QA-008
+    title: OWASP ZAP local availability is undocumented in the toolchain inventory
+      and baseline
+    status: open
+    risk_level: low
+    blocking: false
+    disposition: Reviewed during closeout and kept open honestly. It is project-wide
+      toolchain inventory debt, not a COM-MOD-016 capability defect. It does not block
+      this documentation and registry-only module closeout, but it remains a final
+      GA/project-closure concern.
+  final_project_closure_note: HOP final GA/project closure still requires all open
+    and materially-reduced technical debt to be closed according to the technical-debt
+    policy.
+quality_and_coverage_floors:
+  backend_line_coverage_percent: 84.25
+  employee_portal_line_coverage_percent: 89.75
+  public_website_line_coverage_percent: 98.61
+  mobile_line_coverage_percent: 99.21
+  patient_portal_line_coverage_percent: 94.11
+  doctor_portal_line_coverage_percent: 96.28
+  coverage_regressions_detected: 0
+  note: Documentation and registry-only closeout. No application source, runtime configuration,
+    dependency, database schema, Docker service or UI surface changed.
+validation_checks:
+  yaml_parse: passed
+  stale_pointer_sweep: passed
+  evidence_state_sweep: passed
+  agent_agnostic_scan: passed
+  secrets_scan: passed
+  git_diff_check: passed
+next_backlog_selection:
+  selected_module: COM-MOD-017
+  selected_module_name: Product Marketplace and Extension Packaging
+  selected_backlog_item: COM-MOD-017-DEF
+  dependency_order_status: dependencies_satisfied
+  prerequisites:
+  - MVP-MOD-008: closed
+  - COM-MOD-012: module_closed
+  - COM-MOD-016: module_closed
+```

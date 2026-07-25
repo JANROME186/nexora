@@ -22,3 +22,283 @@ These are not UI flows. They are business process baselines that agents must use
 ## Implementation Rule
 
 Every MVP implementation story must map to at least one HRP process step or explicitly state that it is platform infrastructure.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HRP-001
+  type: healthcare-reference-processes
+  name: Healthcare Operations Platform MVP Reference Processes
+  version: 1.0.0
+  status: draft
+  owner: Product Architecture Team
+  source_of_truth: 02-domain-definition/processes/hrp-001/healthcare-reference-processes.md
+  depends_on:
+  - ACM-001
+  - BCM-001
+  - BCM-002
+  - HOP-MVP-FWK-001
+processes:
+- id: HRP-001-P01
+  name: Tenant and Branch Setup
+  mvp_module: MVP-MOD-001
+  primary_actors:
+  - ACT-001
+  - ACT-002
+  - ACT-003
+  capabilities:
+  - BCM-ORG-001
+  - BCM-ORG-002
+  - BCM-ORG-003
+  - BCM-ORG-006
+  - BCM-ORG-008
+  - BCM-PLT-001
+  - BCM-PLT-007
+  trigger: New diagnostic organization onboarding.
+  outcome: Tenant, laboratory, branch, users and audit baseline are ready.
+  steps:
+  - Create tenant.
+  - Create laboratory.
+  - Create first branch.
+  - Configure organizational settings.
+  - Create tenant administrator and initial users.
+  - Assign roles and scopes.
+  - Verify audit and observability.
+  required_events:
+  - TenantCreated
+  - LaboratoryCreated
+  - BranchCreated
+  - UserCreated
+  - RoleAssigned
+  - AuditEventRecorded
+  controls:
+  - Only platform or tenant administrators can create organization structures.
+  - Every role assignment must be audited.
+- id: HRP-001-P02
+  name: Diagnostic Catalog Publication
+  mvp_module: MVP-MOD-002
+  primary_actors:
+  - ACT-010
+  capabilities:
+  - BCM-SVC-001
+  - BCM-SVC-002
+  - BCM-SVC-003
+  - BCM-SVC-004
+  - BCM-SVC-005
+  - BCM-SVC-006
+  - BCM-SVC-007
+  - BCM-SVC-009
+  trigger: New or updated diagnostic service offering.
+  outcome: Published test or panel can be used in orders.
+  steps:
+  - Define diagnostic service.
+  - Define test or panel.
+  - Define analytes and result structure.
+  - Define sample requirements.
+  - Define preparation instructions.
+  - Define reference ranges.
+  - Define price.
+  - Publish catalog item.
+  required_events:
+  - TestDefinitionCreated
+  - ReferenceRangeUpdated
+  - TestDefinitionPublished
+  controls:
+  - Draft catalog items cannot be ordered.
+  - Published catalog changes must create version-aware snapshots.
+- id: HRP-001-P03
+  name: Patient Registration and Order Intake
+  mvp_module: MVP-MOD-003
+  primary_actors:
+  - ACT-004
+  - ACT-011
+  - ACT-012
+  - ACT-013
+  capabilities:
+  - BCM-PER-001
+  - BCM-PER-002
+  - BCM-PER-003
+  - BCM-ATT-001
+  - BCM-ATT-002
+  - BCM-ATT-003
+  - BCM-ATT-004
+  - BCM-LAB-001
+  trigger: Patient requests or receives diagnostic service.
+  outcome: Diagnostic order exists with patient, doctor, branch and catalog snapshots.
+  steps:
+  - Search or register patient.
+  - Validate representative if applicable.
+  - Select referring doctor if available.
+  - Create appointment or walk-in reception.
+  - Select tests or panels from published catalog.
+  - Capture clinical notes and order metadata.
+  - Calculate order price snapshot.
+  - Accept diagnostic order.
+  required_events:
+  - PatientRegistered
+  - DiagnosticOrderCreated
+  - OrderPriced
+  - OrderAccepted
+  controls:
+  - Orders reference patient snapshots and cannot mutate patient master data.
+  - Only published catalog items can be ordered.
+- id: HRP-001-P04
+  name: Payment and Billing Request
+  mvp_module: MVP-MOD-005
+  primary_actors:
+  - ACT-005
+  - ACT-016
+  capabilities:
+  - BCM-ATT-005
+  - BCM-ATT-008
+  - BCM-SVC-009
+  trigger: Order requires payment or fiscal document request.
+  outcome: Sale, payment and optional billing request are recorded.
+  steps:
+  - Open or validate cash session.
+  - Create sale from accepted order.
+  - Register payment.
+  - Request invoice when required.
+  - Record fiscal adapter response.
+  - Close cash session when shift ends.
+  required_events:
+  - CashSessionOpened
+  - SaleCreated
+  - PaymentRegistered
+  - InvoiceRequested
+  - CashSessionClosed
+  controls:
+  - Payments require an active cash session.
+  - Fiscal operations pass through country-pack adapters.
+- id: HRP-001-P05
+  name: Sample Collection and Processing
+  mvp_module: MVP-MOD-006
+  primary_actors:
+  - ACT-006
+  - ACT-007
+  - ACT-015
+  capabilities:
+  - BCM-LAB-002
+  - BCM-LAB-003
+  - BCM-LAB-005
+  - BCM-LAB-006
+  trigger: Accepted order has sample requirements.
+  outcome: Samples are collected, received and processed.
+  steps:
+  - Generate collection worklist.
+  - Collect sample.
+  - Print or confirm sample label.
+  - Receive sample in laboratory.
+  - Reject sample if requirements fail.
+  - Process sample.
+  - Capture or ingest result values.
+  required_events:
+  - SampleCollected
+  - SampleReceived
+  - SampleRejected
+  - ResultCaptured
+  controls:
+  - Samples must be linked to order, patient, branch and collector.
+  - Device messages must be normalized before result capture.
+- id: HRP-001-P06
+  name: Result Validation and Release
+  mvp_module: MVP-MOD-006
+  primary_actors:
+  - ACT-008
+  - ACT-009
+  capabilities:
+  - BCM-LAB-008
+  - BCM-LAB-009
+  - BCM-LAB-010
+  - BCM-RES-001
+  - BCM-RES-006
+  trigger: Result values are captured and ready for review.
+  outcome: Result is technically and medically validated, then released.
+  steps:
+  - Perform technical validation.
+  - Flag critical results when applicable.
+  - Perform medical validation.
+  - Release result.
+  - Request amendment if post-release correction is needed.
+  required_events:
+  - ResultFlaggedCritical
+  - ResultValidated
+  - ResultReleased
+  - ResultAmended
+  controls:
+  - Medical validation is required before release.
+  - AI cannot validate, release or amend clinical results.
+- id: HRP-001-P07
+  name: Result Report and Digital Delivery
+  mvp_module: MVP-MOD-007
+  primary_actors:
+  - ACT-009
+  - ACT-011
+  - ACT-012
+  - ACT-013
+  - ACT-017
+  capabilities:
+  - BCM-RES-002
+  - BCM-RES-004
+  - BCM-RES-005
+  - BCM-RES-007
+  - BCM-PLT-003
+  - BCM-PLT-008
+  trigger: Result is released.
+  outcome: Authorized users can access report and receive notifications.
+  steps:
+  - Generate PDF report.
+  - Store report document.
+  - Notify patient or doctor according to preferences.
+  - Display released result in patient portal.
+  - Display released result in doctor portal.
+  - Record delivery status.
+  required_events:
+  - ReportGenerated
+  - NotificationRequested
+  - NotificationDelivered
+  - ResultViewed
+  controls:
+  - Only released results are visible externally.
+  - Patient representatives require explicit authorization.
+- id: HRP-001-P08
+  name: Migration and Integration Dry Run
+  mvp_module: MVP-MOD-008
+  primary_actors:
+  - ACT-001
+  - ACT-002
+  - ACT-014
+  capabilities:
+  - BCM-PLT-004
+  - BCM-PLT-005
+  trigger: External data or partner integration is prepared.
+  outcome: Data or messages are validated before domain mutation.
+  steps:
+  - Receive external dataset or message.
+  - Normalize input into canonical records.
+  - Validate records against domain rules.
+  - Produce dry-run report.
+  - Approve import or integration activation.
+  required_events:
+  - MigrationJobCreated
+  - MigrationValidated
+  - IntegrationAcknowledgement
+  controls:
+  - Adapters cannot write directly to persistence tables.
+  - Failed validation blocks import execution.
+coverage:
+  mvp_modules_covered:
+  - MVP-MOD-001
+  - MVP-MOD-002
+  - MVP-MOD-003
+  - MVP-MOD-004
+  - MVP-MOD-005
+  - MVP-MOD-006
+  - MVP-MOD-007
+  - MVP-MOD-008
+  open_items:
+  - Detailed BPMN diagrams may be generated after implementation stories are decomposed.
+```

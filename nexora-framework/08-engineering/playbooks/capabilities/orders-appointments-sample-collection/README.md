@@ -1,7 +1,7 @@
 # Playbook — Implement CAP-006
 
-1. Read `PROJECT_MANIFEST.yaml`.
-2. Load CAP-006 `capability.yaml`.
+1. Read `PROJECT_MANIFEST.md`.
+2. Load CAP-006 `capability.md`.
 3. Load dependent capabilities CAP-001 through CAP-005.
 4. Validate business rules and state machines.
 5. Validate OpenAPI contracts.

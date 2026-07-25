@@ -1,0 +1,144 @@
+---
+id: HOP-TRACE-BCM-SVC-005
+format: markdown_structured_payload
+type: traceability
+name: Patient Preparation Management Traceability
+version: 0.2.0
+status: modeled
+---
+
+# Patient Preparation Management Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-SVC-005
+  type: traceability
+  name: Patient Preparation Management Traceability
+  version: 0.2.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-005
+traces:
+  capability_map:
+    bcm_001: BCM-SVC-005
+    domain: DOM-03 Diagnostic Services
+  dependency_map:
+    bcm_002_profile: catalog
+    required_capabilities:
+    - BCM-ORG-001
+    - BCM-ORG-002
+    - BCM-PLT-001
+    - BCM-PLT-007
+    downstream_capabilities:
+    - BCM-ATT-001
+    - BCM-LAB-002
+    - BCM-PLT-003
+  domain_foundation:
+    bounded_context: catalog-test-configuration
+    aggregate: AGG-006 TestDefinition
+    context_relationships:
+    - REL-CTX-003
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-002
+    - VO-007
+    - VO-008
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-SVC-005-01
+  - rule: RN-002
+    tests:
+    - TST-SVC-005-02
+  - rule: RN-003
+    tests:
+    - TST-SVC-005-03
+  - rule: RN-004
+    tests:
+    - TST-SVC-005-04
+  - rule: RN-005
+    tests:
+    - TST-SVC-005-05
+  - rule: RN-006
+    tests:
+    - TST-SVC-005-06
+  processes_to_commands:
+  - process: PRC-SVC-005-01
+    commands:
+    - CreatePreparation
+  - process: PRC-SVC-005-02
+    commands:
+    - AssignPreparation
+  - process: PRC-SVC-005-03
+    commands:
+    - PublishPreparation
+  api_to_permissions:
+  - operation: createPreparation
+    scope: catalog.preparation.write
+  - operation: publishPreparation
+    scope: catalog.preparation.publish
+  events_to_audit:
+  - event: PreparationPublished
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-SVC-005-02
+    operations:
+    - createPreparation
+    - updatePreparation
+    - assignPreparation
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.md
+  backlog_items:
+    definition: MVP-MOD-002-DEF
+    compilation: MVP-MOD-002-BE-001
+    custom_rules: MVP-MOD-002-BE-002
+    ui: MVP-MOD-002-FE-001
+  cross_module_reuse:
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-DEF
+    surface_added: public_website
+    note: Public website discovery surface modeled by extending openapi-source.md
+      (new getPublishedPreparationSnapshot operation reusing the existing PublishedPreparationSnapshot
+      schema), capability-package.md, ui-model.md and permissions.md. No new
+      capability package or aggregate was created.
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-BE-001
+    surface_added: public_website (runtime discovery)
+    note: Compiled GET /api/public/catalog/preparations/published and /api/public/catalog/preparations/{preparationId}/published-snapshot
+      via the new catalogtestconfiguration::catalog-public-read-port named interface,
+      and added the missing internal /api/catalog/preparations/{preparationId}/published-snapshot
+      Spring route so the resource-level getPublishedPreparationSnapshot operation
+      modeled by COM-MOD-011-DEF is now registered end to end. PatientPreparationManagementService.listPublished
+      and getPublishedSnapshot added; endpoints only return status=published records.
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-WEB-001
+    surface_added: public_website (frontend discovery)
+    note: Compiled PreparationsPage (list) and PreparationDetailPage (snapshot, including
+      the full localized instruction text, category and duration) at 07-implementation/public-website/src/pages/,
+      consuming GET /api/public/catalog/preparations/published and /api/public/catalog/preparations/{preparationId}/published-snapshot.
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-FE-001
+    surface_added: employee_portal (staff content review)
+    note: Compiled PublicContentReviewScreen at 07-implementation/employee-portal/src/components/screens/,
+      consuming GET /api/public/catalog/preparations/published (src/api/publicContentApi.ts)
+      — the same public endpoint, not an internal admin API — so no internal field
+      can leak into the staff review view. Read-only view of the currently published
+      preparation instructions.
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-QA-001
+    surface_added: integrated QA, SEO and privacy validation
+    note: Validated public preparation instructions surface end to end with zero vulnerabilities
+      across Maven quality, OWASP Dependency-Check, npm audit, and Trivy fs scans.
+      Verified no tenantId, audit or internal identifier leakage. SEO metadata, sitemap,
+      robots, i18n key parity and axe-core accessibility checks passed.
+  - roadmap_group: COM-MOD-011
+    backlog_item: COM-MOD-011-CLOSEOUT
+    surface_added: module closeout and registry update
+    note: Formally closed COM-MOD-011 Public Website and Digital Growth module. Confirmed
+      reused public preparation instruction surfaces, zero vulnerability findings,
+      zero coverage regressions, and all quality gates passing clean.
+```

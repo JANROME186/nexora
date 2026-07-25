@@ -1,0 +1,108 @@
+---
+id: HOP-CAP-PKG-BCM-INV-005
+format: markdown_structured_payload
+type: capability-package
+name: Stock Entries Capability Package
+version: 0.1.0
+status: modeled
+---
+
+# Stock Entries Capability Package
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-CAP-PKG-BCM-INV-005
+  type: capability-package
+  name: Stock Entries Capability Package
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.md
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-20
+  roadmap_group: COM-MOD-010
+  execution_flow_stage: model
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.md
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.md
+capability:
+  id: BCM-INV-005
+  name:
+    en: Stock Entries
+    es: Entradas
+  domain: DOM-08 Inventory
+  priority: High
+  roadmap: MVP2
+  dependency_profile: inventory_quality
+  bounded_context: inventory-procurement
+  primary_aggregate: InventoryItem (AGG-013, owned by BCM-INV-001; stockSummary increase
+    delegated to this capability)
+  process_ref: not_yet_defined_in_HRP-001
+scope:
+  summary: 'Records goods receipt (from an approved BCM-INV-004 purchase order line
+    or a manual entry) increasing StockLot.remainingQuantity and InventoryItem.stockSummary.onHandQuantity
+    through the narrowly-scoped ApplyStockReceipt command. Coordinates with BCM-INV-003
+    to create the first StockLot for a new batch.
+
+    '
+  in_scope:
+  - 'Goods receipt: increase StockLot.remainingQuantity and InventoryItem.stockSummary.onHandQuantity.'
+  - Linking a receipt to its originating BCM-INV-004 purchase order line, when applicable.
+  out_of_scope:
+  - Lot metadata ownership (BCM-INV-003).
+  - Purchase order lifecycle (BCM-INV-004).
+  - Stock decreases of any kind (BCM-INV-006/007/008/009).
+roadmap:
+  module: COM-MOD-010
+  release: REL-002
+  package_status: module_closed
+  next_backlog_item: none (module closed; see COM-MOD-011-DEF for the next roadmap
+    module)
+  paused_functional_backlog_item: null
+dependencies:
+  required_capabilities:
+  - BCM-INV-001
+  - BCM-INV-003
+  - BCM-SVC-002
+  - BCM-SVC-007
+  - BCM-ORG-003
+  - BCM-PLT-001
+  - BCM-PLT-007
+  optional_capabilities:
+  - BCM-INV-004
+  - BCM-PLT-009
+  downstream_capabilities:
+  - BCM-INV-003
+  - BCM-INV-007
+  upstream_contexts:
+  - inventory-procurement
+  - identity-access
+  - audit-compliance
+product_surfaces:
+  backend: required
+  employee_portal: required
+  patient_portal: not_required
+  doctor_portal: not_required
+  mobile_app: optional_for_stock_actions
+required_artifacts:
+- capability-package.md
+- business-model.md
+- business-rules.md
+- processes.md
+- events.md
+- openapi-source.md
+- permissions.md
+- ui-model.md
+- mobile-model.md
+- test-model.md
+- observability-model.md
+- generation-plan.md
+- traceability.md
+- README.md
+```

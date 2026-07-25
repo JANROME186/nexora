@@ -1,0 +1,30 @@
+---
+id: HOP-GEN-BCM-PLT-002
+format: markdown_structured_payload
+type: generation-plan
+name: Platform Configuration Generation Plan
+version: 1.0.0
+---
+
+# Platform Configuration Generation Plan
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-GEN-BCM-PLT-002
+  type: generation-plan
+  name: Platform Configuration Generation Plan
+  version: 1.0.0
+generatable_outputs:
+  backend:
+  - FeatureFlag and ConfigKey entities and repositories.
+  - REST controller endpoints matching openapi-source.md.
+  frontend:
+  - Feature flag administration components.
+custom_implementation_points:
+- Cache-backed feature flag evaluation engine.
+- PII masking transformer aspect (addressing TD-BE-008).
+```

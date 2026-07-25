@@ -25,3 +25,98 @@ Debt:
 - `TD-FE-010` registered for non-blocking generated admin-screen size/complexity warnings.
 
 Ready for next backlog item: **MVP-MOD-008-QA-001**.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: MVP-MOD-008-FE-001-SECURITY-QUALITY
+type: security-quality-evidence
+backlog_item: MVP-MOD-008-FE-001
+module: MVP-MOD-008
+status: passed
+date: 2026-07-19
+executor: agent
+summary: Employee-portal integration/API-governance/migration administration screens
+  passed typecheck, tests, coverage, build, duplicate-code, format, license, npm audit,
+  Trivy, YAML parse, agent-agnostic and whitespace checks. Employee-portal line coverage
+  improved from 85.50% to 86.47%. No npm vulnerabilities or new dependencies were
+  introduced.
+open_source_first_check:
+  new_dependency_added: false
+  stack_reviewed: React 18, TypeScript 5, Vite 6, Vitest, ESLint, jscpd, Prettier,
+    npm audit, Trivy
+  vulnerabilities_found: 0
+  license_check: passed
+  notes: No runtime or development dependency change was required. Existing open-source
+    tooling remained sufficient for implementation and validation.
+checks:
+- tool: TypeScript
+  status: passed
+  evidence_command: npm run typecheck
+- tool: ESLint + security + sonarjs
+  status: passed_with_non_blocking_warnings_registered
+  evidence_command: npm run lint
+  errors: 0
+  warnings: 27
+  debt: TD-FE-010 plus pre-existing screen-size warnings
+- tool: Vitest + V8 coverage
+  status: passed
+  tests_run: 101
+  test_files: 36
+  failures: 0
+  line_coverage_percent: 86.47
+  previous_baseline_percent: 85.5
+  final_closure_target_percent: 80
+- tool: Vite build
+  status: passed
+  evidence_command: npm run build
+- tool: jscpd
+  status: passed
+  evidence_command: npm run duplication
+- tool: Prettier
+  status: passed
+  evidence_command: npm run format:check
+- tool: license-checker-rseidelsohn
+  status: passed
+  evidence_command: npm run license:check
+  result: MIT 5, UNLICENSED 1
+- tool: npm audit
+  status: passed
+  evidence_command: npm run audit:all
+  vulnerabilities_found: 0
+- tool: Trivy fs (vuln, secret, misconfig)
+  status: passed
+  scope: employee_portal
+  vulnerabilities_found: 0
+  secrets_found: 0
+  misconfigurations_found: 0
+- tool: Agent-agnostic scan
+  status: passed
+  result: no agent/vendor references in touched source/test files
+- tool: YAML parse
+  status: passed
+  files_parsed: 896
+- tool: git diff --check
+  status: passed
+  notes: CRLF normalization warnings only; no whitespace errors.
+secure_code_review:
+  dynamic_navigation: New screens use the existing dynamic AppShell permission filter
+    and map each screen to one backend-aligned PermissionCode.
+  data_upload: Migration package upload uses FormData without forcing a JSON Content-Type,
+    preserving browser multipart boundaries and avoiding malformed upload requests.
+  i18n: New visible UI labels/messages are externalized in es-MX/en-US catalogs; no
+    new one-language hardcoded labels were intentionally added for MVP-MOD-008 screens.
+  contract_alignment: Screen actions and typed API facade were mapped directly to
+    BE-002 controllers and endpoint paths before implementation.
+decision:
+  security_quality_status: passed
+  closed_debt: []
+  reduced_debt:
+  - TD-STACK-003
+  - TD-I18N-002
+  created_debt:
+  - TD-FE-010
+  ready_for_next_backlog_item: MVP-MOD-008-QA-001
+```

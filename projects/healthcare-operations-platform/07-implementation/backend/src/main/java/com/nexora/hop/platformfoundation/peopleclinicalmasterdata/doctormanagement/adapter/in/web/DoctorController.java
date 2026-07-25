@@ -30,7 +30,7 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.doctormanageme
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.doctormanagement.domain.SpecialtyAssignment;
 
 /**
- * Rendered controller for {@code bcm-per-003-doctor-management/openapi-source.yaml} (base path
+ * Rendered controller for {@code bcm-per-003-doctor-management/openapi-source.md} (base path
  * /api/people/doctors).
  */
 @RestController

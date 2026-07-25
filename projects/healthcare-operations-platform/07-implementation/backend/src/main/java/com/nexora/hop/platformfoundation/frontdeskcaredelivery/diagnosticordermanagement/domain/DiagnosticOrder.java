@@ -4,7 +4,7 @@ import java.time.Instant;
 
 /**
  * Diagnostic order aggregate root (AGG-007) owned by the {@code orders-samples} bounded context.
- * Modeled by {@code bcm-lab-001-diagnostic-order-management/business-model.yaml} ENT-ORD-001. Only
+ * Modeled by {@code bcm-lab-001-diagnostic-order-management/business-model.md} ENT-ORD-001. Only
  * this capability may mutate this aggregate; Appointment Scheduling, Reception Management and
  * Admission Management orchestrate around it and reference the result by {@code orderId} (RN-004).
  * Order lines are a separate child collection, retrieved through

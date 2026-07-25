@@ -1,0 +1,107 @@
+---
+id: HOP-CAP-PKG-BCM-LAB-010
+format: markdown_structured_payload
+type: capability-package
+name: Result Release Capability Package
+version: 0.1.0
+status: validated
+---
+
+# Result Release Capability Package
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-CAP-PKG-BCM-LAB-010
+  type: capability-package
+  name: Result Release Capability Package
+  version: 0.1.0
+  status: validated
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.md
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-16
+  roadmap_group: MVP-MOD-006
+  execution_flow_stage: model
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.md
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.md
+capability:
+  id: BCM-LAB-010
+  name:
+    en: Result Release
+    es: Liberación de Resultados
+  domain: DOM-05 Clinical Operations
+  priority: Critical
+  roadmap: MVP1
+  dependency_profile: clinical_operations
+  bounded_context: laboratory-results
+  primary_aggregate: LaboratoryResult (AGG-009, owned by BCM-LAB-006)
+  process_ref: HRP-001-P06
+scope:
+  summary: 'Releases a medically validated LaboratoryResult, making it eligible for
+    downstream report generation and digital delivery (MVP-MOD-007), and handles post-release
+    correction through an explicit, audited amendment workflow. Holds delegated authority
+    over LaboratoryResult.releaseRecord and LaboratoryResult.amendments only; it does
+    not capture, technically validate or medically validate results. A released result
+    is immutable except through ResultAmendment.
+
+    '
+  in_scope:
+  - ResultReleaseRecord process/state field on the shared LaboratoryResult aggregate.
+  - Release precondition enforcement (medical validation required first).
+  - Delegated mutation of LaboratoryResult.releaseRecord through ReleaseResult.
+  - Post-release correction through ResultAmendment (delegated mutation of LaboratoryResult.amendments).
+  - Release hooks for downstream report generation and delivery (consumed by MVP-MOD-007).
+  out_of_scope:
+  - Result capture, technical and medical validation (BCM-LAB-006, BCM-LAB-008, BCM-LAB-009).
+  - PDF report generation and patient/doctor digital delivery (BCM-RES-001, BCM-RES-002,
+    MVP-MOD-007).
+  - Notification delivery mechanics (BCM-PLT-003).
+roadmap:
+  module: MVP-MOD-006
+  release: REL-001
+  package_status: module_closed
+  next_backlog_item: none (module closed; see MVP-MOD-007-DEF for the next roadmap
+    module)
+dependencies:
+  required_capabilities:
+  - BCM-LAB-009
+  - BCM-PLT-001
+  - BCM-PLT-007
+  optional_capabilities:
+  - BCM-PLT-003
+  downstream_capabilities:
+  - BCM-RES-001
+  - BCM-RES-002
+  upstream_contexts:
+  - laboratory-results
+  - identity-access
+  - audit-compliance
+product_surfaces:
+  backend: required
+  employee_portal: required
+  patient_portal: status_later
+  doctor_portal: status_later
+  mobile_app: not_required
+required_artifacts:
+- capability-package.md
+- business-model.md
+- business-rules.md
+- processes.md
+- events.md
+- openapi-source.md
+- permissions.md
+- ui-model.md
+- mobile-model.md
+- test-model.md
+- observability-model.md
+- generation-plan.md
+- traceability.md
+- README.md
+```

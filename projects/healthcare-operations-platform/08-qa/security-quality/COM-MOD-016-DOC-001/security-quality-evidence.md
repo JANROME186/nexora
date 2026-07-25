@@ -23,3 +23,41 @@ All 6 stack coverage floors remain preserved without regression:
 - Patient Portal: `94.11%`
 - Doctor Portal: `96.28%`
 - Public Website: `98.61%`
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-SQ-COM-MOD-016-DOC-001
+  type: security-quality-evidence
+  name: Security and Quality Evidence for COM-MOD-016-DOC-001
+  version: 1.0.0
+  status: validated
+  created_date: 2026-07-24
+  owner: Nexora Security and Quality Assurance Team
+backlog_item:
+  id: COM-MOD-016-DOC-001
+  name: Customer onboarding and configuration guides
+  module: COM-MOD-016
+  release: REL-003
+  status: closed
+security_quality_checks:
+  open_source_first: passed
+  agent_agnostic_scan: passed
+  secrets_scan: passed
+  yaml_syntax_parse: passed
+  git_whitespace_check: passed
+  technical_debt_compliance: passed (documentation-only item; code debt unchanged,
+    no false closures)
+coverage_floors_preserved:
+  backend_java_maven: 84.25
+  employee_portal_web: 89.75
+  mobile_app: 99.21
+  patient_portal_web: 94.11
+  doctor_portal_web: 96.28
+  public_website: 98.61
+traceability:
+  qa_validation: projects/healthcare-operations-platform/08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DOC-001-validation.md
+```

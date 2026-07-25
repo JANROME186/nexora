@@ -1,0 +1,84 @@
+---
+id: HOP-PERM-BCM-PLT-005
+format: markdown_structured_payload
+type: permissions
+name: API Management Permissions
+version: 0.2.0
+status: modeled
+---
+
+# Api Management Permissions
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PERM-BCM-PLT-005
+  type: permissions
+  name: API Management Permissions
+  version: 0.2.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-005
+  depends_on_capability: BCM-PLT-001
+scopes:
+- code: api.classification.manage
+  description: Classify API operations and schedule deprecations.
+- code: api.partnerkey.manage
+  description: Issue, list and revoke partner API keys.
+- code: api.ratelimit.manage
+  description: Configure rate-limit policies per classification tier.
+roles:
+- role: system
+  grants:
+  - api.classification.manage
+  - api.partnerkey.manage
+  - api.ratelimit.manage
+- role: tenant-administrator
+  grants:
+  - api.partnerkey.manage
+- role: platform-administrator
+  grants:
+  - api.classification.manage
+  - api.partnerkey.manage
+  - api.ratelimit.manage
+access_policies:
+- id: POL-APIM-005-01
+  statement: Partner API key issuance and revocation are scoped to the actor's tenant;
+    a tenant administrator cannot manage another tenant's keys.
+  enforcement: row_level_tenant_filter
+- id: POL-APIM-005-02
+  statement: API operation classification and deprecation scheduling are platform-level
+    administrative actions, not tenant-scoped.
+  enforcement: platform_scope_policy
+- id: POL-APIM-005-03
+  statement: Public-classified requests carry no actor identity; RN-007's consumerIdentificationMethod
+    (IP address or session token) is the sole basis for their rate-limit accounting.
+    No administrative scope is granted or checked for anonymous public traffic.
+  enforcement: public_classification_rate_limit_identification
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+  - event: ApiSurfaceClassified
+    fields:
+    - registrationId
+    - ownerCapability
+    - operationId
+    - classification
+  - event: PartnerApiKeyIssued
+    fields:
+    - keyId
+    - consumerName
+    - grantedScopes
+  - event: PartnerApiKeyRevoked
+    fields:
+    - keyId
+    - consumerName
+  - event: ApiDeprecationScheduled
+    fields:
+    - registrationId
+    - operationId
+    - deprecationWindow
+```

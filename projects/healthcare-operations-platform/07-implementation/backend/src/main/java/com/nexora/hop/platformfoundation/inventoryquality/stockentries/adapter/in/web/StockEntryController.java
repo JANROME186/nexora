@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Rendered controller for bcm-inv-005-stock-entries/openapi-source.yaml. */
+/** Rendered controller for bcm-inv-005-stock-entries/openapi-source.md. */
 @RestController
 @RequestMapping("/api/inventory/stock-entries")
 class StockEntryController {

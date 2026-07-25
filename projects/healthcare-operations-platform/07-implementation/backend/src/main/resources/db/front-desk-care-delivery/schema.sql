@@ -1,6 +1,6 @@
 -- Generated/model-derived schema for MVP-MOD-004 Front Desk and Care Delivery. Source models:
 -- 01-product-definition/business-capabilities/packages/bcm-att-001/003/004/006 and bcm-lab-001
--- business-model.yaml. Compiled for backlog item MVP-MOD-004-BE-001. BCM-LAB-001 owns the
+-- business-model.md. Compiled for backlog item MVP-MOD-004-BE-001. BCM-LAB-001 owns the
 -- DiagnosticOrder aggregate (AGG-007) in the orders-samples bounded context; BCM-ATT-001/003/004
 -- orchestrate around it without owning it. BCM-ATT-006 owns a standalone QuotationRequest
 -- aggregate in the cash-sales bounded context. Cross-context references (patient_id, doctor_id,

@@ -12,9 +12,9 @@ The Capability Library Agent creates and validates Nexora Capability Library pac
 
 ## Inputs
 
-- `PROJECT_MANIFEST.yaml`
-- `SOURCE_OF_TRUTH.yaml`
-- `capability-library/{CAP-ID}/capability.yaml`
+- `PROJECT_MANIFEST.md`
+- `SOURCE_OF_TRUTH.md`
+- `capability-library/{CAP-ID}/capability.md`
 - Meta Model schemas.
 - Business Architecture documents.
 

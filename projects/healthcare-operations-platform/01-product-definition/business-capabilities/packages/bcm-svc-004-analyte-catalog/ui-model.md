@@ -1,0 +1,82 @@
+---
+id: HOP-UI-BCM-SVC-004
+format: markdown_structured_payload
+type: ui-model
+name: Analyte Catalog UI Model
+version: 0.1.0
+status: modeled
+---
+
+# Analyte Catalog Ui Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-UI-BCM-SVC-004
+  type: ui-model
+  name: Analyte Catalog UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-004
+  target_surface: employee_portal
+surfaces:
+  employee_portal:
+    status: required
+    generatable: true
+  patient_portal:
+    status: not_applicable
+    generatable: not_required
+  doctor_portal:
+    status: read_only_later
+    generatable: deferred
+screens:
+- id: SCR-SVC-004-01
+  name: Analyte List
+  route: /catalog/analytes
+  type: list
+  scopes:
+  - catalog.analyte.read
+  components:
+  - DataTable
+  - StatusFilter
+  - DataTypeFilter
+  - SearchBar
+  generatable: true
+- id: SCR-SVC-004-02
+  name: Analyte Editor
+  route: /catalog/analytes/{analyteId}
+  type: form
+  scopes:
+  - catalog.analyte.write
+  components:
+  - AnalyteDetailForm
+  - ResultConstraintEditor
+  - CodedValueEditor
+  - UnitPrecisionSelector
+  generatable: true
+- id: SCR-SVC-004-03
+  name: Publish Analyte Dialog
+  route: /catalog/analytes/{analyteId}/publish
+  type: confirmation
+  scopes:
+  - catalog.analyte.publish
+  components:
+  - PublicationChecklist
+  - DependentImpactSummary
+  generatable: false
+  custom_reason: Displays dependent test and range impact for data type versioning.
+states:
+- draft
+- published
+- deprecated
+- retired
+localization:
+  languages:
+  - en
+  - es
+  default: es
+```

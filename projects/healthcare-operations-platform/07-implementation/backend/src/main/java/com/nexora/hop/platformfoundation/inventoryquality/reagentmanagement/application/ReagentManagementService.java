@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Compiles bcm-inv-002-reagent-management/openapi-source.yaml. Delegated single-field mutation of
+ * Compiles bcm-inv-002-reagent-management/openapi-source.md. Delegated single-field mutation of
  * {@link InventoryItem#reagentProfile()} — never mutates any other InventoryItem field. Enforces
  * BCM-INV-002 RN-001 (itemType must be reagent), RN-002 (consumption ratio must be positive) and
  * RN-004 (discontinued items reject new assignments).

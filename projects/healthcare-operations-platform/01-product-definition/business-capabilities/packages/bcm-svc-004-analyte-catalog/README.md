@@ -26,6 +26,6 @@ Standard 14-artifact capability package per the Business Capability Package Stan
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are generated
-outputs declared in `generation-plan.yaml`. Custom rules (immutable versioning, data type
+outputs declared in `generation-plan.md`. Custom rules (immutable versioning, data type
 change ripple review, published snapshot projection) are implemented in later backlog
 items.

@@ -6,7 +6,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.Localiz
 
 /**
  * The atomic orderable clinical test definition (BCM-SVC-002, AGG-006 TestDefinition root).
- * Modeled in bcm-svc-002-test-catalog/business-model.yaml (ENT-TST-001).
+ * Modeled in bcm-svc-002-test-catalog/business-model.md (ENT-TST-001).
  */
 public record TestDefinition(
         String testDefinitionId,

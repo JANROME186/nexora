@@ -1,0 +1,59 @@
+---
+id: HOP-EVT-BCM-RES-007
+format: markdown_structured_payload
+type: events
+name: Result Notifications Events
+version: 0.1.0
+status: modeled
+---
+
+# Result Notifications Events
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-EVT-BCM-RES-007
+  type: events
+  name: Result Notifications Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-007
+domain_events:
+- name: ResultNotificationComposed
+  description: A notification decision was made and submitted for dispatch.
+  payload:
+  - resultNotificationRequestId
+  - resultId
+  - recipientType
+  - triggerReason
+  audit: true
+- name: ResultNotificationStatusUpdated
+  description: The dispatch status mirrored from BCM-PLT-003 changed.
+  payload:
+  - resultNotificationRequestId
+  - dispatchStatus
+  audit: true
+integration_events:
+  published:
+  - name: ResultNotificationRequested
+    description: Submitted to BCM-PLT-003 as the trigger for provider-agnostic dispatch.
+    consumers:
+    - notifications
+  consumed:
+  - name: ResultDeliveryAuthorized
+    source: BCM-RES-004
+  - name: ResultFlaggedCritical
+    source: BCM-LAB-008
+  - name: ResultAmended
+    source: BCM-LAB-010
+  - name: NotificationDispatched
+    source: BCM-PLT-003
+  - name: NotificationDeliveryFailed
+    source: BCM-PLT-003
+published_language:
+- ResultNotificationRequested
+```

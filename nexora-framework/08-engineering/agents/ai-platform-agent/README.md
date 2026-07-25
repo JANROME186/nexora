@@ -6,8 +6,8 @@ Diseñar, validar y evolucionar capacidades de IA en Nexora sin acoplar el produ
 
 ## Entradas
 
-- `PROJECT_MANIFEST.yaml`
-- `SOURCE_OF_TRUTH.yaml`
+- `PROJECT_MANIFEST.md`
+- `SOURCE_OF_TRUTH.md`
 - `ai-platform/**`
 - `security-compliance/**`
 - `integration-architecture/**`

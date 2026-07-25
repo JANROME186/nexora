@@ -1,0 +1,106 @@
+---
+id: CAP-011
+format: markdown_structured_payload
+name: Imaging Operations & DICOM/PACS Management
+version: 0.33.0
+status: draft
+---
+
+# Imaging Operations & Dicom/Pacs Management
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: CAP-011
+name: Imaging Operations & DICOM/PACS Management
+status: draft
+version: 0.33.0
+owner: Product Architecture
+classification: core-capability
+dependsOn:
+- CAP-001
+- CAP-002
+- CAP-003
+- CAP-004
+- CAP-005
+- CAP-006
+- CAP-007
+- CAP-009
+businessRules:
+- IMG-BR-001
+- IMG-BR-002
+- IMG-BR-003
+- IMG-BR-004
+- IMG-BR-005
+- IMG-BR-006
+- IMG-BR-007
+- IMG-BR-008
+- IMG-BR-009
+- IMG-BR-010
+- IMG-BR-011
+- IMG-BR-012
+- IMG-BR-013
+- IMG-BR-014
+- IMG-BR-015
+- IMG-BR-016
+- IMG-BR-017
+- IMG-BR-018
+- IMG-BR-019
+- IMG-BR-020
+stateMachines:
+- ImagingStudy
+- DicomStudy
+- ImagingReport
+- Modality
+domainEvents:
+- IMG-EVT-001
+- IMG-EVT-002
+- IMG-EVT-003
+- IMG-EVT-004
+- IMG-EVT-005
+- IMG-EVT-006
+- IMG-EVT-007
+- IMG-EVT-008
+- IMG-EVT-009
+- IMG-EVT-010
+- IMG-EVT-011
+- IMG-EVT-012
+openapi:
+- 05-contracts/contracts/openapi/imaging/imaging.md
+entities:
+- ImagingStudy
+- ImagingAppointment
+- ImagingService
+- ImagingRoom
+- Modality
+- DicomStudy
+- DicomSeries
+- DicomInstance
+- PacsObjectReference
+- DicomReconciliationTask
+- ImagingReport
+- ImagingReportVersion
+- ViewerAccessLink
+- ViewerAccessAudit
+channels:
+- Admin Portal
+- Patient Portal
+- Physician Portal
+- Patient Mobile App
+- Physician Mobile App
+- Staff Mobile App
+- Public API
+aiUseCases:
+- Patient-friendly imaging report explanation
+- Radiology template suggestion
+- Report completeness check
+- Radiologist worklist prioritization
+qualityGates:
+- OpenAPI contract exists
+- RBAC/ABAC permissions defined
+- DICOM reconciliation rules documented
+- Report amendment audit tests defined
+- Viewer link security tests defined
+```

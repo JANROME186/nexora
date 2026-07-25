@@ -1,0 +1,126 @@
+---
+id: HOP-API-SRC-BCM-ATT-005
+format: markdown_structured_payload
+type: openapi-source
+name: Cashier Operations API Source Model
+version: 0.1.0
+status: modeled
+---
+
+# Cashier Operations Api Source Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-API-SRC-BCM-ATT-005
+  type: openapi-source
+  name: Cashier Operations API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-005
+api:
+  base_path: /api/revenue/cashier
+  surface_classification: internal
+  security:
+    scheme: bearer_jwt
+    required_scopes_default:
+    - cashier.manage
+resources:
+- name: CashSession
+  operations:
+  - id: openCashSession
+    method: POST
+    path: /sessions
+    scopes:
+    - cashier.manage
+    generatable: false
+    custom_reason: branch register exclusivity and opening balance validation
+  - id: closeCashSession
+    method: POST
+    path: /sessions/{sessionId}/close
+    scopes:
+    - cashier.manage
+    generatable: false
+    custom_reason: expected-vs-counted variance calculation
+  - id: getCashSession
+    method: GET
+    path: /sessions/{sessionId}
+    scopes:
+    - cashier.read
+    generatable: true
+  - id: listCashSessions
+    method: GET
+    path: /sessions
+    scopes:
+    - cashier.read
+    generatable: true
+- name: Sale
+  operations:
+  - id: createSale
+    method: POST
+    path: /sales
+    scopes:
+    - sale.manage
+    generatable: false
+    custom_reason: source order/quotation validation and price snapshot capture
+  - id: getSale
+    method: GET
+    path: /sales/{saleId}
+    scopes:
+    - sale.read
+    generatable: true
+  - id: listSales
+    method: GET
+    path: /sales
+    scopes:
+    - sale.read
+    generatable: true
+  - id: registerPayment
+    method: POST
+    path: /sales/{saleId}/payments
+    scopes:
+    - payment.manage
+    generatable: false
+    custom_reason: payment policy and cash-session validation
+  - id: cancelSale
+    method: POST
+    path: /sales/{saleId}/cancel
+    scopes:
+    - sale.cancel
+    generatable: false
+    custom_reason: paid/refund state and audit policy
+  - id: requestBilling
+    method: POST
+    path: /sales/{saleId}/billing-request
+    scopes:
+    - billing.request
+    generatable: false
+    custom_reason: cross-capability boundary to BCM-ATT-008
+schemas_source:
+- Sale
+- SaleLine
+- SaleTotals
+- PaymentAllocation
+- CashRegister
+- CashSession
+- CashClosing
+error_model:
+  standard: rfc7807
+  domain_errors:
+  - code: SALE_SOURCE_NOT_ACCEPTED
+    maps_to_rule: RN-001
+  - code: CASH_SESSION_REQUIRED
+    maps_to_rule: RN-002
+  - code: PAYMENT_EXCEEDS_OUTSTANDING_BALANCE
+    maps_to_rule: RN-003
+  - code: CASH_VARIANCE_REASON_REQUIRED
+    maps_to_rule: RN-004
+  - code: BILLING_BOUNDARY_VIOLATION
+    maps_to_rule: RN-005
+  - code: SALE_TERMINAL_STATE_IMMUTABLE
+    maps_to_rule: RN-006
+```

@@ -7,7 +7,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.Localiz
 /**
  * Diagnostic Service Catalog entry (BCM-SVC-001), a sellable and orderable catalog entry
  * composed of tests and panels. Modeled in
- * bcm-svc-001-diagnostic-service-catalog/business-model.yaml (ENT-SVC-001).
+ * bcm-svc-001-diagnostic-service-catalog/business-model.md (ENT-SVC-001).
  */
 public record DiagnosticService(
         String serviceId,

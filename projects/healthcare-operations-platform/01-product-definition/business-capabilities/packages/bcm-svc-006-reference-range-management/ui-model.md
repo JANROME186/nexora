@@ -1,0 +1,83 @@
+---
+id: HOP-UI-BCM-SVC-006
+format: markdown_structured_payload
+type: ui-model
+name: Reference Range Management UI Model
+version: 0.1.0
+status: modeled
+---
+
+# Reference Range Management Ui Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-UI-BCM-SVC-006
+  type: ui-model
+  name: Reference Range Management UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-006
+  target_surface: employee_portal
+surfaces:
+  employee_portal:
+    status: required
+    generatable: true
+  doctor_portal:
+    status: read_only_later
+    generatable: deferred
+  patient_portal:
+    status: not_applicable
+    generatable: not_required
+screens:
+- id: SCR-SVC-006-01
+  name: Reference Range List
+  route: /catalog/reference-ranges
+  type: list
+  scopes:
+  - catalog.range.read
+  components:
+  - DataTable
+  - AnalyteFilter
+  - StatusFilter
+  - EffectiveDateFilter
+  generatable: true
+- id: SCR-SVC-006-02
+  name: Reference Range Editor
+  route: /catalog/reference-ranges/{rangeId}
+  type: form
+  scopes:
+  - catalog.range.write
+  components:
+  - RangeDetailForm
+  - SegmentMatrixEditor
+  - ThresholdEditor
+  - EffectiveDatePicker
+  generatable: true
+- id: SCR-SVC-006-03
+  name: Publish Reference Range Dialog
+  route: /catalog/reference-ranges/{rangeId}/publish
+  type: confirmation
+  scopes:
+  - catalog.range.publish
+  components:
+  - ThresholdConsistencySummary
+  - SegmentOverlapSummary
+  - AnalyteEligibilitySummary
+  generatable: false
+  custom_reason: Displays clinical threshold and overlap validation results.
+states:
+- draft
+- published
+- deprecated
+- retired
+localization:
+  languages:
+  - en
+  - es
+  default: es
+```

@@ -16,7 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 /**
  * Populates the SLF4J {@link MDC} with {@code tenantId}, {@code userId} and {@code traceId} for
  * every request so every log line carries operational context (BCM-PLT-006, closes the
- * metrics-logs-traces-validation-runbook.yaml and tenant-impact-triage-runbook.yaml known gap on
+ * metrics-logs-traces-validation-runbook.md and tenant-impact-triage-runbook.md known gap on
  * MDC context, COM-MOD-012-BE-001). Runs ahead of {@code HopAuthorizationInterceptor} so context
  * is available even for rejected (401/403) and unmapped (health/actuator) requests.
  *

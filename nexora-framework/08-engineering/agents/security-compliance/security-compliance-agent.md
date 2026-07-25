@@ -15,8 +15,8 @@ Review or generate security and compliance artifacts for Nexora in a provider-ag
 
 ## Inputs
 
-- PROJECT_MANIFEST.yaml.
-- SOURCE_OF_TRUTH.yaml.
+- PROJECT_MANIFEST.md.
+- SOURCE_OF_TRUTH.md.
 - Security baseline.
 - Authorization model.
 - Privacy architecture.

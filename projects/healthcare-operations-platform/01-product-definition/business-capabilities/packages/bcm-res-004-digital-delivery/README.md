@@ -27,19 +27,19 @@ BCM-PLT-003, keeping delivery decoupled from any specific provider.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | ResultDeliveryTicket aggregate and DeliveryAuthorizationCheck value object |
-| `business-rules.yaml` | Numbered rules RN-001..RN-008 |
-| `processes.yaml` | Authorize delivery, view result, withhold on amendment |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Patient/doctor portal released-results list and detail |
-| `mobile-model.yaml` | Mobile scope (result_view_required — this module's owner of that requirement) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | ResultDeliveryTicket aggregate and DeliveryAuthorizationCheck value object |
+| `business-rules.md` | Numbered rules RN-001..RN-008 |
+| `processes.md` | Authorize delivery, view result, withhold on amendment |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Patient/doctor portal released-results list and detail |
+| `mobile-model.md` | Mobile scope (result_view_required — this module's owner of that requirement) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, UI, tests, QA |
 
 ## Key rules modeled
 
@@ -52,7 +52,7 @@ BCM-PLT-003, keeping delivery decoupled from any specific provider.
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers the multi-recipient authorization check, the
 amendment withhold/reauthorize workflow, view-state recording and the
 read-only architecture boundary.

@@ -1,0 +1,116 @@
+---
+id: TD-BE-010
+format: markdown_structured_payload
+type: technical-debt-item
+name: Diagnostic order cancellation override uses order-status as a proxy for downstream
+  sample/processing state
+version: 2.0.0
+status: closed
+---
+
+# Diagnostic Order Cancellation Override Uses Order Status As A Proxy For Downstream Sample/Processing State
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: TD-BE-010
+  type: technical-debt-item
+  name: Diagnostic order cancellation override uses order-status as a proxy for downstream
+    sample/processing state
+  version: 2.0.0
+  status: closed
+  created_date: 2026-07-15
+  closed_date: 2026-07-18
+source:
+  discovered_during_backlog_item: MVP-MOD-004-BE-002
+  module: MVP-MOD-004 Front Desk and Care Delivery
+  evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-002-validation.md
+classification:
+  category: capability_scope_boundary
+  affected_area: diagnostic_order_cancellation_downstream_state_check
+  affected_components:
+  - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/frontdeskcaredelivery/diagnosticordermanagement/application/DiagnosticOrderManagementService.java
+  - 01-product-definition/business-capabilities/packages/bcm-lab-001-diagnostic-order-management/business-rules.md
+  risk_level: medium
+  blocking: false
+  reason_non_blocking: 'BCM-LAB-001 RN-007 requires an explicit override reason when
+    cancelling an order that already has collected samples or in-progress laboratory
+    work. The Sample aggregate does not exist yet (it is modeled by MVP-MOD-006 Laboratory
+    Workflow, not yet built), so there is no real sample/processing-state signal to
+    check. Order status (accepted, in_progress) is used as the closest enforceable
+    proxy: an order that has left simple front-desk intake requires a written overrideJustification
+    of at least 15 characters to cancel. This gives every accepted-or-later cancellation
+    a deliberate second step and an audit trail, which is a safe compensating control
+    until the real sample-state check can be modeled.
+
+    '
+current_state:
+  issue: 'DiagnosticOrderManagementService.cancel(orderId, reasonCode, overrideJustification)
+    branches on DiagnosticOrder.status() (accepted or in_progress) rather than on
+    whether a Sample has actually been collected or laboratory work has actually started.
+    This means an accepted order with no real downstream activity yet still requires
+    the override justification (over-strict), while a future in_progress order state
+    that genuinely has no collected sample would also require it (a false positive,
+    though currently unreachable since MVP-MOD-004 does not populate in_progress orders).
+    There is no false negative: no code path today can have real sample/processing
+    state without the order already being accepted or later.
+
+    '
+  compensating_control:
+  - Every cancellation of an accepted or in_progress order requires a written overrideJustification
+    of at least 15 characters, recorded on the audit event (OrderCancelled, clinicallyEngaged=true,
+    overrideProvided=true).
+  - A draft or priced order (never handed to the lab) cancels with a plain reason
+    code, matching the actual risk profile.
+target_state:
+  preferred_open_source_tooling: []
+  expected_integration_points:
+  - MVP-MOD-006 Laboratory Workflow Sample aggregate (AGG-008, modeled by BCM-LAB-002;
+    collection/processing state source)
+  - frontdeskcaredelivery/diagnosticordermanagement/application/DiagnosticOrderManagementService.java
+    cancel() (replace the order-status tier with a real Sample-state read, likely
+    through a new SampleDirectory cross-module read port mirroring DoctorDirectory/PatientDirectory)
+modeling_precondition_status:
+  satisfied_by: MVP-MOD-006-DEF
+  satisfied_note: MVP-MOD-006-DEF modeled the Sample aggregate (AGG-008) with a real
+    SampleStatus value (collected, labeled, in_transit, received, rejected, in_process,
+    disposed) in 01-product-definition/business-capabilities/packages/bcm-lab-002-sample-collection/business-model.md.
+    This satisfies the "expected MVP-MOD-006 Sample aggregate" precondition recorded
+    in this debt item's remediation trigger; the code-level fix (replacing the DiagnosticOrder.status()
+    proxy with a real cross-module read of Sample.status) is unblocked and can proceed
+    once the Sample aggregate is compiled in MVP-MOD-006-BE-001 and a read port is
+    implemented in MVP-MOD-006-BE-002. The debt item remains open until that code
+    change lands.
+remediation:
+  strategy: closed_by_MVP_MOD_007_CLOSEOUT_sample_read_port_wired_into_diagnosticordermanagement
+  recommended_trigger:
+  - MVP-MOD-006 Laboratory Workflow capability package modeling (satisfied by MVP-MOD-006-DEF)
+    and its Sample aggregate compilation (MVP-MOD-006-BE-001) plus a cross-module
+    read port (MVP-MOD-006-BE-002).
+  acceptance_criteria:
+  - cancel() checks real collected-sample / in-progress-work state via a SampleDirectory-style
+    read port instead of DiagnosticOrder.status() as a proxy.
+  - The order-status tier introduced by MVP-MOD-004-BE-002 is either replaced or kept
+    only as a fallback for orders with no linked sample record.
+  - No regression in existing cancellation tests (draft/priced simple cancel, accepted/in_progress
+    override-required cancel).
+  closure_evidence:
+    backlog_item: MVP-MOD-007-CLOSEOUT
+    evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.md
+    change_summary: frontdeskcaredelivery's Spring Modulith allowedDependencies was
+      extended to consume laboratoryworkflow::sample-read-port (already implemented
+      by OrderSamplesService since MVP-MOD-006-BE-002). DiagnosticOrderManagementService.cancel()
+      now calls SampleReadPort#hasActiveSampleForOrder(orderId, tenantId) as the primary
+      clinically-engaged trigger; the original order-status tier (accepted/in_progress)
+      is retained only as a fallback for orders that have not yet linked a sample
+      record, so no existing compensating control is lost.
+    test_evidence: Added FrontDeskCareDeliveryApiTest.diagnosticOrderCancellationRequiresOverrideOnceARealSampleIsCollectedRegardlessOfOrderStatus,
+      which collects a real Sample against a "priced" (not yet accepted) order and
+      confirms cancel is rejected without an override justification and accepted with
+      one -- proving the order-status tier alone no longer gates this decision. All
+      19 FrontDeskCareDeliveryApiTest cases and the PlatformFoundationModulithTest
+      module-boundary check pass with the new allowedDependencies entry.
+```

@@ -21,7 +21,7 @@ import com.nexora.hop.platformfoundation.marketplaceentitlements.packagecatalog.
 import com.nexora.hop.platformfoundation.marketplaceentitlements.packagecatalog.domain.MarketplacePackage;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.packagecatalog.domain.PackageVersion;
 
-/** Rendered controller for bcm-plt-011/openapi-source.yaml {@code /packages} and {@code /packages/{packageId}/versions/{version}}. */
+/** Rendered controller for bcm-plt-011/openapi-source.md {@code /packages} and {@code /packages/{packageId}/versions/{version}}. */
 @RestController
 @RequestMapping("/api/marketplace/packages")
 class PackageCatalogController {

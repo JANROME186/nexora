@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Rendered controller for bcm-inv-001-product-catalog/openapi-source.yaml (InventoryItem resource). */
+/** Rendered controller for bcm-inv-001-product-catalog/openapi-source.md (InventoryItem resource). */
 @RestController
 @RequestMapping("/api/inventory/catalog")
 class InventoryItemController {

@@ -1,0 +1,54 @@
+---
+id: HOP-EVT-BCM-QLT-001
+format: markdown_structured_payload
+type: events
+name: Internal Quality Controls Events
+version: 0.1.0
+status: modeled
+---
+
+# Internal Quality Controls Events
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-EVT-BCM-QLT-001
+  type: events
+  name: Internal Quality Controls Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-001
+domain_events:
+- name: QualityControlRunRecorded
+  description: An internal QC run was evaluated and an acceptance decision was set.
+  payload:
+  - qcRunId
+  - testDefinitionId
+  - ruleEvaluation
+  - acceptanceDecision
+  audit: true
+- name: QualityControlOverrideRecorded
+  description: An out_of_control or warning acceptance decision was overridden by
+    a supervisor with a documented reason.
+  payload:
+  - qcRunId
+  - overriddenBy
+  audit: true
+integration_events:
+  published:
+  - name: QualityControlRunRecorded
+    description: Signals BCM-LAB-008 Technical Validation of the internal QC status
+      associated with a batch of patient results.
+    consumers:
+    - laboratory-results
+  consumed:
+  - name: ConsumptionRecorded
+    description: Read-only signal from BCM-INV-007 identifying the control-material
+      lot consumed for this run.
+    source: inventory-procurement
+published_language: []
+```

@@ -11,6 +11,6 @@
 7. Define allowed commands.
 8. Define primary domain events.
 9. Define forbidden external mutations.
-10. Update `aggregate-catalog.yaml`.
+10. Update `aggregate-catalog.md`.
 11. Run Aggregate Validator.
 12. Update Knowledge Graph.

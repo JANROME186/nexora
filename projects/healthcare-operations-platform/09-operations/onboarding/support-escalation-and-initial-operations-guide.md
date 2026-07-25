@@ -57,5 +57,58 @@ During the first 30 days post-go-live:
 ## Complete Operational & Release Governance Specifications
 
 For detailed specifications on L1/L2/L3 support, escalation matrix, SLAs/SLOs, incident management, problem management/RCA, change management/CAB, release governance & readiness, rollback/hotfix, and handoff procedures, refer to the master index:
-- [governance-index.yaml](file:///c:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora/projects/healthcare-operations-platform/09-operations/governance/governance-index.yaml)
+- [governance-index.md](file:///c:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora/projects/healthcare-operations-platform/09-operations/governance/governance-index.md)
 - [README.md](file:///c:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora/projects/healthcare-operations-platform/09-operations/governance/README.md)
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-ONB-GUIDE-008
+  type: support-escalation-operations-specification
+  name: HOP Support, Escalation and Initial Operations Specification
+  version: 1.0.0
+  status: approved
+  human_readable: support-escalation-and-initial-operations-guide.md
+  machine_readable: support-escalation-and-initial-operations-guide.md
+  backlog_item: COM-MOD-016-DOC-001
+support_tiers:
+- id: L1
+  name: Customer Helpdesk
+- id: L2
+  name: HOP Operational Support Engineering
+- id: L3
+  name: HOP Core Product Engineering
+sla_matrix:
+  P1_critical:
+    response_time_minutes: 15
+    resolution_time_hours: 2
+  P2_high:
+    response_time_minutes: 60
+    resolution_time_hours: 8
+  P3_medium:
+    response_time_minutes: 240
+    resolution_time_hours: 48
+  P4_low:
+    response_time_minutes: 1440
+    resolution_time_hours: next_release
+health_probes:
+  liveness: GET /actuator/health/liveness
+  readiness: GET /actuator/health/readiness
+  prometheus_metrics: GET /actuator/prometheus
+hypercare_duration_days: 30
+governance_integration:
+  master_governance_index: ../governance/governance-index.md
+  support_model_spec: ../governance/support-model-and-escalation-matrix.md
+  sla_slo_spec: ../governance/operational-slas-and-slos.md
+  release_governance_spec: ../governance/release-governance-and-readiness.md
+  ops_backlog_item: COM-MOD-016-OPS-001
+traceability:
+  capabilities:
+  - BCM-PLT-006
+  - BCM-PLT-007
+  open_source_first: true
+  agent_agnostic: true
+```

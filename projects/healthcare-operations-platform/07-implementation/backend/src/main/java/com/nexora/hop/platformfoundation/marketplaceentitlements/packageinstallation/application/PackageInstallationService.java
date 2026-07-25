@@ -25,10 +25,10 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 /**
  * Compiles the generatable outputs of BCM-PLT-011's packageinstallation capability (AGG-033
  * PackageInstallation): install, activate, suspend, uninstall, upgrade and rollback
- * (installation-model.yaml, RN-MKT-002, INV-MKT-004). The {@code requested}/{@code
- * compatibility_pending}/{@code approved} intermediate states named by installation-model.yaml
+ * (installation-model.md, RN-MKT-002, INV-MKT-004). The {@code requested}/{@code
+ * compatibility_pending}/{@code approved} intermediate states named by installation-model.md
  * are collapsed into a single deterministic {@link #installPackage} command for BE-001 (no
- * separate approve/compatibility-check endpoint is exposed by openapi-source.yaml).
+ * separate approve/compatibility-check endpoint is exposed by openapi-source.md).
  */
 @Service
 public class PackageInstallationService {
@@ -133,7 +133,7 @@ public class PackageInstallationService {
         return suspended;
     }
 
-    /** installation-model.yaml invariant: uninstall preserves audit, billing and entitlement history (soft-disable). */
+    /** installation-model.md invariant: uninstall preserves audit, billing and entitlement history (soft-disable). */
     public PackageInstallation uninstallPackage(String tenantId, String installationId, String actorId) {
         PackageInstallation current = requireOwnedInstallation(tenantId, installationId);
         if (current.isTerminal()) {

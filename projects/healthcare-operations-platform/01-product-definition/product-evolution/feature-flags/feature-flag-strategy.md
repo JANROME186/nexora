@@ -1,7 +1,7 @@
 # Feature Flag Strategy
 
-**Artifact ID:** FFS-001  
-**Status:** Draft  
+**Artifact ID:** FFS-001
+**Status:** Draft
 **Version:** 0.22.0
 
 ## Purpose
@@ -52,3 +52,45 @@ Every feature flag must have:
 ## Cleanup Policy
 
 Temporary flags must not become permanent technical debt. Every temporary flag must have a removal plan.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: FFS-001
+name: Feature Flag Strategy
+type: feature-flag-strategy
+version: 0.22.0
+status: draft
+evaluation_dimensions:
+- environment
+- tenant
+- laboratory
+- branch
+- country
+- plan
+- role
+- user
+- deviceCapability
+- appVersion
+- browserCapability
+- aiProviderAvailability
+flag_types:
+- release
+- experiment
+- operational
+- permission
+- compatibility
+- ai
+required_metadata:
+- owner
+- purpose
+- creationDate
+- reviewDate
+- rollbackStrategy
+- defaultValue
+- targetingRules
+- auditTrail
+cleanup_policy: Temporary flags require a removal plan.
+```

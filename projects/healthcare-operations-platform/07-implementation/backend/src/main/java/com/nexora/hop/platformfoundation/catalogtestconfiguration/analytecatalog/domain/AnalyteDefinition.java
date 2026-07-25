@@ -6,7 +6,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.Localiz
 
 /**
  * An atomic measurable component of a diagnostic test (BCM-SVC-004).
- * Modeled in bcm-svc-004-analyte-catalog/business-model.yaml (ENT-ANL-001).
+ * Modeled in bcm-svc-004-analyte-catalog/business-model.md (ENT-ANL-001).
  */
 public record AnalyteDefinition(
         String analyteId,

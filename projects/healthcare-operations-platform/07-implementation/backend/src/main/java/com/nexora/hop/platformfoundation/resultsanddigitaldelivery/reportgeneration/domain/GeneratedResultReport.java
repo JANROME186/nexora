@@ -7,7 +7,7 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.TenantId;
 import java.util.UUID;
 
 public class GeneratedResultReport {
-    
+
     private UUID reportId;
     private ResultId resultId;
     private TenantId tenantId;

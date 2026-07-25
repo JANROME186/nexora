@@ -2,7 +2,7 @@ package com.nexora.hop.platformfoundation.laboratoryworkflow.orderssamples.domai
 
 /**
  * Sample lifecycle status (AGG-008, BCM-LAB-002).
- * Source model: bcm-lab-002-sample-collection/business-model.yaml VO-COL-008.
+ * Source model: bcm-lab-002-sample-collection/business-model.md VO-COL-008.
  */
 public enum SampleStatus {
     collected,

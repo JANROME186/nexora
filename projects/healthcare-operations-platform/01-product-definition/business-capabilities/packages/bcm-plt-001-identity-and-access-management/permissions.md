@@ -1,0 +1,97 @@
+---
+id: HOP-PERM-BCM-PLT-001
+format: markdown_structured_payload
+type: permissions
+name: Identity and Access Management Permission Model
+version: 1.1.0
+status: modeled
+---
+
+# Identity And Access Management Permission Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PERM-BCM-PLT-001
+  type: permissions
+  name: Identity and Access Management Permission Model
+  version: 1.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-001
+roles:
+- code: ADMIN
+  description: Full platform administrative access.
+  permissions:
+  - all_27_screens
+  - PORTAL_PATIENT_ACCESS
+  - PORTAL_DOCTOR_ACCESS
+  - platform.iam.manage.tenant
+- code: FRONT_DESK
+  description: Employee front desk agent.
+  permissions:
+  - SCREEN_PATIENTS
+  - SCREEN_RECEPTION
+  - SCREEN_DIAGNOSTIC_ORDERS
+  - clinical.patient.read.branch
+  - clinical.order.create.branch
+- code: PATIENT
+  description: Patient access role.
+  permissions:
+  - PORTAL_PATIENT_ACCESS
+  - patient.profile.read.self
+  - patient.results.read.self
+- code: REFERRING_DOCTOR
+  description: Referring physician access role.
+  permissions:
+  - PORTAL_DOCTOR_ACCESS
+  - doctor.results.read.referred
+- code: OPERATIONS_ENGINEER
+  description: SaaS operations engineer role.
+  permissions:
+  - platform.operations.read.all
+  - platform.ops.execute.maintenance
+permissions:
+- code: SCREEN_USERS
+  description: Access user account administration.
+  scope: internal
+  action_scope: platform.users.read.tenant
+- code: SCREEN_ROLE_ASSIGNMENTS
+  description: Manage user-role mappings.
+  scope: internal
+  action_scope: platform.roles.manage.tenant
+- code: PORTAL_PATIENT_ACCESS
+  description: Access the patient self-service portal.
+  scope: portal
+  action_scope: patient.portal.access.self
+- code: PORTAL_DOCTOR_ACCESS
+  description: Access the doctor referring physician portal.
+  scope: portal
+  action_scope: doctor.portal.access.referred
+fine_grained_grammar:
+  format: '{domain}.{resource}.{action}.{scope}'
+  examples:
+  - clinical.results.validate.tenant
+  - cashsales.sale.cancel.branch
+  - platform.tenant.suspend.global
+policies:
+- id: POL-IAM-001
+  name: Deny by Default
+  description: Access is rejected unless a user account holds the specific required
+    permission.
+- id: POL-IAM-002
+  name: Tenant Isolation
+  description: Session context restricts request execution to the user's logged-in
+    tenant ID.
+- id: POL-IAM-003
+  name: Support Sandbox
+  description: Assisted sessions are locked out of clinical and financial actions
+    by default.
+- id: POL-IAM-004
+  name: Action-Level Scope Authorization
+  description: Verifies domain.resource.action.scope permissions for API execution
+    (addressing TD-IAM-002).
+```

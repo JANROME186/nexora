@@ -1,0 +1,69 @@
+---
+id: HOP-RULES-BCM-ATT-008
+format: markdown_structured_payload
+type: business-rules
+name: Billing Request Management Business Rules
+version: 0.1.0
+status: modeled
+---
+
+# Billing Request Management Business Rules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-RULES-BCM-ATT-008
+  type: business-rules
+  name: Billing Request Management Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-008
+rules:
+- id: RN-001
+  statement: A billing request must reference a Sale owned by BCM-ATT-005.
+  applies_to: InvoiceRequest
+  enforcement_point: createBillingRequest
+  severity: critical
+  audit_required: true
+  test_refs:
+  - TST-BILL-001
+- id: RN-002
+  statement: Fiscal profile data must be captured as an immutable snapshot at request
+    time.
+  applies_to: FiscalProfileSnapshot
+  enforcement_point: createBillingRequest
+  severity: critical
+  audit_required: true
+  test_refs:
+  - TST-BILL-002
+- id: RN-003
+  statement: Country-specific invoice issuance must be performed only through a configured
+    billing adapter.
+  applies_to: InvoiceRequest
+  enforcement_point: submitBillingRequest
+  severity: critical
+  audit_required: true
+  test_refs:
+  - TST-BILL-003
+- id: RN-004
+  statement: Failed billing requests may be retried only while the request is not
+    terminal and adapter idempotency key is preserved.
+  applies_to: InvoiceRequest
+  enforcement_point: retryBillingRequest
+  severity: high
+  audit_required: true
+  test_refs:
+  - TST-BILL-004
+- id: RN-005
+  statement: Issued or cancelled billing requests are terminal and cannot be resubmitted.
+  applies_to: InvoiceRequest
+  enforcement_point: submitBillingRequest
+  severity: high
+  audit_required: true
+  test_refs:
+  - TST-BILL-005
+```

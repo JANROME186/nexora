@@ -1,0 +1,118 @@
+---
+id: HOP-CAP-PKG-BCM-QLT-006
+format: markdown_structured_payload
+type: capability-package
+name: CAPA Management Capability Package
+version: 0.1.0
+status: modeled
+---
+
+# Capa Management Capability Package
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-CAP-PKG-BCM-QLT-006
+  type: capability-package
+  name: CAPA Management Capability Package
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.md
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-23
+  roadmap_group: COM-MOD-013
+  execution_flow_stage: model
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.md
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.md
+capability:
+  id: BCM-QLT-006
+  name:
+    en: CAPA Management
+    es: Gestión CAPA (Acciones Correctivas y Preventivas)
+  domain: DOM-09 Quality
+  priority: High
+  roadmap: MVP3
+  dependency_profile: quality_compliance
+  bounded_context: external-quality-compliance
+  primary_aggregate: CapaInvestigation (AGG-021)
+  process_ref: not_yet_defined_in_HRP-001
+scope:
+  summary: 'Provides end-to-end management of Corrective Action and Preventive Action
+    (CAPA) investigations. Supports structured root cause analysis (RCA) using 5-Whys
+    or Ishikawa methodologies, action plan formulation, multi-level approval workflows,
+    execution tracking, and mandatory post-implementation effectiveness verification.
+    Integrates event-driven triggers from clinical/operational quality signals (e.g.,
+    EQA failures, internal QC out-of-control, audit findings, critical result escalations,
+    or customer complaints).
+
+    '
+  in_scope:
+  - CAPA investigation lifecycle state machine (draft -> investigating -> action_plan_pending
+    -> in_execution -> verification_pending -> closed).
+  - Structured Root Cause Analysis (RCA) recording.
+  - Corrective and preventive action item assignment, target due dates, and completion
+    evidence attachment via BCM-PLT-008.
+  - Multi-role authorization (initiator, investigator, quality approver, effectiveness
+    verifier).
+  - Event-driven ingestion of quality signals from BCM-QLT-001, BCM-QLT-002, BCM-QLT-007,
+    BCM-RES-006, and BCM-PLT-007.
+  out_of_scope:
+  - Internal daily QC run execution (BCM-QLT-001).
+  - External EQA survey result scoring (BCM-QLT-002).
+  - Audit scheduling and finding entry (BCM-QLT-007).
+roadmap:
+  module: COM-MOD-013
+  release: REL-003
+  package_status: module_closed
+  next_backlog_item: none (module closed; see COM-MOD-016-DEF for the next roadmap
+    module)
+  paused_functional_backlog_item: null
+dependencies:
+  required_capabilities:
+  - BCM-ORG-001
+  - BCM-PLT-001
+  - BCM-PLT-007
+  - BCM-PLT-008
+  optional_capabilities:
+  - BCM-QLT-001
+  - BCM-QLT-002
+  - BCM-QLT-007
+  - BCM-RES-006
+  - BCM-PLT-009
+  downstream_capabilities:
+  - BCM-QLT-007
+  - BCM-PLT-008
+  upstream_contexts:
+  - external-quality-compliance
+  - audit-compliance
+  - document-management
+  - identity-access
+product_surfaces:
+  backend: required
+  employee_portal: required
+  patient_portal: not_required
+  doctor_portal: not_required
+  mobile_app: not_required
+required_artifacts:
+- capability-package.md
+- business-model.md
+- business-rules.md
+- processes.md
+- events.md
+- openapi-source.md
+- permissions.md
+- ui-model.md
+- mobile-model.md
+- test-model.md
+- observability-model.md
+- generation-plan.md
+- traceability.md
+- README.md
+```

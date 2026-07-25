@@ -1,0 +1,64 @@
+---
+id: HOP-OBS-BCM-LAB-009
+format: markdown_structured_payload
+type: observability-model
+name: Medical Validation Observability Model
+version: 0.1.0
+status: modeled
+---
+
+# Medical Validation Observability Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-OBS-BCM-LAB-009
+  type: observability-model
+  name: Medical Validation Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-009
+  depends_on_capability: BCM-PLT-006
+logs:
+- event: result_medically_validated
+  level: info
+  fields:
+  - resultId
+  - actorId
+  correlation_id: resultId
+- event: medical_validation_credential_check_failed
+  level: warn
+  fields:
+  - resultId
+  - actorId
+  correlation_id: resultId
+metrics:
+- name: result_medically_validated_total
+  type: counter
+  labels:
+  - tenantId
+  - laboratoryId
+- name: medical_validation_duration_ms
+  type: histogram
+  labels:
+  - tenantId
+  - laboratoryId
+traces:
+- span: PerformMedicalValidation
+  child_spans:
+  - RunLicensedAuthorityCheck
+  - RecordClinicalInterpretationNote
+audit_events:
+- ResultMedicallyValidated
+alerts:
+- name: MedicalValidationBacklogGrowing
+  condition: pending_medical_validation worklist size exceeds threshold
+  severity: warning
+- name: UnverifiedCredentialValidationAttempt
+  condition: medical_validation_credential_check_failed rate exceeds zero
+  severity: critical
+```

@@ -35,6 +35,6 @@ Same 14-artifact structure as every COM-MOD-010 package.
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers the Westgard rule engine, the override authorization
 path and the cross-capability control-material validation.

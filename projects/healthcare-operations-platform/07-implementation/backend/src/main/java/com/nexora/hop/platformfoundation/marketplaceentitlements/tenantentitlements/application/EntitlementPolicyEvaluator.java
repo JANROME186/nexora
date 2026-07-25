@@ -14,7 +14,7 @@ import com.nexora.hop.platformfoundation.marketplaceentitlements.tenantentitleme
 /**
  * Central entitlement policy evaluator (RN-MKT-005: entitlement checks must be centralized and
  * cannot be hard-coded in controllers, UI components or mobile views). Compiles the
- * {@code tenant_status}-adjacent {@code entitlement} step of entitlement-policy.yaml's
+ * {@code tenant_status}-adjacent {@code entitlement} step of entitlement-policy.md's
  * {@code evaluation_order}: an active, non-expired {@link TenantEntitlement} for
  * {@code (tenantId, packageId)} is required (RN-MKT-002, INV-MKT-002). The remaining
  * evaluation_order steps (package_status, license_status, compatibility_status beyond

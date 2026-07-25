@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * Deny-by-default mapping from role code to the {@link PermissionCode} screens that role may
  * access, per the IAM permission model
- * (enterprise-product-foundation-standard.yaml {@code mandatory_foundations.iam_permission_model}).
+ * (enterprise-product-foundation-standard.md {@code mandatory_foundations.iam_permission_model}).
  * <p>
  * Any role code not present in this catalog resolves to an empty permission set rather than
  * throwing — deny-by-default, not fail-by-default. This is a baseline mapping of plausible HOP

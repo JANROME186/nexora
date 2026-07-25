@@ -23,7 +23,7 @@ Each capability is mapped to:
 
 The machine-readable source is:
 
-`01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
+`01-product-definition/business-capabilities/bcm-002/capability-dependency-map.md`
 
 ## Dependency Profiles
 
@@ -94,3 +94,1806 @@ Agents must not:
 - Country-specific tax connectors must remain country-pack adapters under billing capabilities.
 - Imaging requires a separate readiness track because DICOM/PACS adds infrastructure and integration constraints.
 - AI use cases remain overlays until privacy, audit, cost and human-in-the-loop controls are approved for the target workflow.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: BCM-002
+  type: capability-dependency-map
+  name: Healthcare Operations Platform Capability Dependency Map
+  version: 1.0.0
+  status: draft
+  owner: Product Architecture Team
+  source_of_truth: 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.md
+  depends_on:
+  - BCM-001
+  - CTX-MAP-001
+  - AGG-CATALOG-001
+  generated_artifacts:
+  - 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.md
+  - 04-generated/diagrams/product/capability-dependency-map.mmd
+principles:
+- Dependencies express product and implementation sequencing, not runtime coupling.
+- Capabilities must depend on published language, APIs, events or read models, never
+  on another context persistence model.
+- MVP1 must produce a usable diagnostic laboratory operation before optional imaging,
+  advanced quality and advanced AI modules.
+- AI capabilities are optional overlays unless explicitly promoted by product governance.
+- Migration and integration capabilities must pass through anti-corruption layers.
+product_areas:
+  public_website:
+    description: Public discovery, patient-facing entry points and lightweight lead
+      capture.
+  employee_portal:
+    description: Core internal operations for reception, laboratory, billing, administration
+      and management.
+  doctor_portal:
+    description: Referring physician access to patients, orders and results.
+  patient_portal:
+    description: Patient self-service access to appointments, documents, payments
+      and results.
+  mobile_apps:
+    description: Mobile experiences for patients, doctors and selected operational
+      staff workflows.
+  platform_core:
+    description: Cross-cutting platform services needed by all portals and modules.
+dependency_profiles:
+  foundation:
+    required_capabilities: []
+    optional_capabilities: []
+    upstream_dependencies: []
+    downstream_dependency_role: Provides identity, organization, configuration or
+      audit primitives.
+    affected_portals:
+    - employee_portal
+    affected_mobile_apps: []
+    integration_requirements: []
+    migration_relevance: high
+  master_data:
+    required_capabilities:
+    - BCM-ORG-001
+    - BCM-ORG-002
+    - BCM-ORG-003
+    - BCM-PLT-001
+    - BCM-PLT-007
+    optional_capabilities:
+    - BCM-PLT-002
+    - BCM-PLT-006
+    upstream_dependencies:
+    - organization-management
+    - identity-access
+    - audit-compliance
+    downstream_dependency_role: Provides canonical operational records consumed by
+      orders, billing, results and portals.
+    affected_portals:
+    - employee_portal
+    affected_mobile_apps: []
+    integration_requirements: []
+    migration_relevance: high
+  catalog:
+    required_capabilities:
+    - BCM-ORG-001
+    - BCM-ORG-002
+    - BCM-ORG-003
+    - BCM-PLT-001
+    - BCM-PLT-007
+    optional_capabilities:
+    - BCM-INV-001
+    - BCM-INV-002
+    - BCM-QLT-004
+    upstream_dependencies:
+    - organization-management
+    - identity-access
+    - audit-compliance
+    downstream_dependency_role: Defines diagnostic services, prices, samples, analytes
+      and operational requirements.
+    affected_portals:
+    - employee_portal
+    - public_website
+    - patient_portal
+    - doctor_portal
+    affected_mobile_apps:
+    - patient_app
+    - doctor_app
+    integration_requirements:
+    - openapi
+    migration_relevance: high
+  care_delivery:
+    required_capabilities:
+    - BCM-PER-001
+    - BCM-PER-002
+    - BCM-PER-003
+    - BCM-SVC-001
+    - BCM-SVC-002
+    - BCM-SVC-009
+    - BCM-PLT-001
+    - BCM-PLT-007
+    optional_capabilities:
+    - BCM-ATT-006
+    - BCM-PLT-003
+    - BCM-PLT-008
+    upstream_dependencies:
+    - patient-management
+    - medical-staff
+    - catalog-test-configuration
+    - identity-access
+    - audit-compliance
+    downstream_dependency_role: Creates operational demand for orders, samples, cash,
+      billing and results.
+    affected_portals:
+    - employee_portal
+    - patient_portal
+    - doctor_portal
+    affected_mobile_apps:
+    - patient_app
+    - doctor_app
+    integration_requirements:
+    - openapi
+    - webhooks
+    migration_relevance: high
+  clinical_operations:
+    required_capabilities:
+    - BCM-ATT-002
+    - BCM-ATT-003
+    - BCM-LAB-001
+    - BCM-SVC-002
+    - BCM-SVC-004
+    - BCM-SVC-006
+    - BCM-SVC-007
+    - BCM-PLT-001
+    - BCM-PLT-007
+    optional_capabilities:
+    - BCM-LAB-004
+    - BCM-INV-007
+    - BCM-QLT-001
+    - BCM-PLT-004
+    upstream_dependencies:
+    - orders-samples
+    - catalog-test-configuration
+    - patient-management
+    - medical-staff
+    - identity-access
+    downstream_dependency_role: Produces samples, processing state and validated clinical
+      signals.
+    affected_portals:
+    - employee_portal
+    - doctor_portal
+    - patient_portal
+    affected_mobile_apps:
+    - patient_app
+    - staff_app
+    integration_requirements:
+    - astm
+    - hl7
+    - openapi
+    migration_relevance: high
+  results_delivery:
+    required_capabilities:
+    - BCM-LAB-006
+    - BCM-LAB-008
+    - BCM-LAB-009
+    - BCM-LAB-010
+    - BCM-SVC-004
+    - BCM-SVC-006
+    - BCM-PLT-001
+    - BCM-PLT-007
+    - BCM-PLT-008
+    optional_capabilities:
+    - BCM-RES-003
+    - BCM-PLT-003
+    - BCM-AI-005
+    upstream_dependencies:
+    - laboratory-results
+    - orders-samples
+    - catalog-test-configuration
+    - notifications
+    - document-management
+    downstream_dependency_role: Publishes released diagnostic results to patient and
+      doctor channels.
+    affected_portals:
+    - employee_portal
+    - patient_portal
+    - doctor_portal
+    affected_mobile_apps:
+    - patient_app
+    - doctor_app
+    integration_requirements:
+    - openapi
+    - webhooks
+    - pdf
+    migration_relevance: high
+  revenue_cycle:
+    required_capabilities:
+    - BCM-ATT-005
+    - BCM-ATT-008
+    - BCM-SVC-009
+    - BCM-PER-002
+    - BCM-PLT-001
+    - BCM-PLT-007
+    optional_capabilities:
+    - BCM-PER-004
+    - BCM-PER-005
+    - BCM-PLT-008
+    upstream_dependencies:
+    - cash-sales
+    - billing-tax
+    - orders-samples
+    - patient-management
+    downstream_dependency_role: Collects payments, requests invoices and produces
+      fiscal records.
+    affected_portals:
+    - employee_portal
+    - patient_portal
+    affected_mobile_apps:
+    - patient_app
+    integration_requirements:
+    - openapi
+    - country-pack-tax-adapter
+    migration_relevance: high
+  inventory_quality:
+    required_capabilities:
+    - BCM-SVC-002
+    - BCM-SVC-007
+    - BCM-ORG-003
+    - BCM-PLT-001
+    - BCM-PLT-007
+    optional_capabilities:
+    - BCM-PLT-009
+    - BCM-AI-001
+    upstream_dependencies:
+    - inventory-procurement
+    - catalog-test-configuration
+    - organization-management
+    downstream_dependency_role: Supports reagent availability, equipment readiness
+      and quality traceability.
+    affected_portals:
+    - employee_portal
+    affected_mobile_apps:
+    - staff_app
+    integration_requirements:
+    - openapi
+    migration_relevance: medium
+  imaging:
+    required_capabilities:
+    - BCM-PER-002
+    - BCM-PER-003
+    - BCM-LAB-001
+    - BCM-PLT-001
+    - BCM-PLT-007
+    - BCM-PLT-004
+    optional_capabilities:
+    - BCM-AI-002
+    - BCM-AI-003
+    - BCM-PLT-008
+    upstream_dependencies:
+    - imaging-operations
+    - orders-samples
+    - patient-management
+    - medical-staff
+    - integration-interoperability
+    downstream_dependency_role: Extends diagnostic operations into imaging studies,
+      DICOM/PACS and radiology reports.
+    affected_portals:
+    - employee_portal
+    - patient_portal
+    - doctor_portal
+    affected_mobile_apps:
+    - patient_app
+    - doctor_app
+    integration_requirements:
+    - dicom
+    - pacs
+    - hl7
+    - openapi
+    migration_relevance: medium
+  platform_extension:
+    required_capabilities:
+    - BCM-PLT-001
+    - BCM-PLT-006
+    - BCM-PLT-007
+    optional_capabilities:
+    - BCM-PLT-004
+    - BCM-PLT-005
+    - BCM-PLT-009
+    upstream_dependencies:
+    - identity-access
+    - audit-compliance
+    - observability
+    downstream_dependency_role: Adds cross-cutting operational, integration, workflow
+      and extensibility services.
+    affected_portals:
+    - employee_portal
+    - patient_portal
+    - doctor_portal
+    - public_website
+    affected_mobile_apps:
+    - patient_app
+    - doctor_app
+    - staff_app
+    integration_requirements:
+    - openapi
+    - webhooks
+    - eventing
+    migration_relevance: medium
+  marketplace_entitlements:
+    required_capabilities:
+    - BCM-ORG-001
+    - BCM-PLT-001
+    - BCM-PLT-002
+    - BCM-PLT-006
+    - BCM-PLT-007
+    optional_capabilities:
+    - BCM-PLT-003
+    - BCM-PLT-004
+    - BCM-PLT-005
+    - BCM-PLT-009
+    - BCM-PLT-010
+    upstream_dependencies:
+    - tenant-management
+    - identity-access
+    - platform-configuration
+    - audit-compliance
+    - observability
+    downstream_dependency_role: Publishes, sells, entitles, installs, activates and
+      governs optional product packages for tenants.
+    affected_portals:
+    - employee_portal
+    - public_website
+    affected_mobile_apps: []
+    integration_requirements:
+    - openapi
+    - billing-provider-adapter
+    - entitlement-events
+    - webhooks
+    migration_relevance: medium
+  data_ingestion_migration:
+    required_capabilities:
+    - BCM-ORG-001
+    - BCM-ORG-002
+    - BCM-ORG-003
+    - BCM-PLT-001
+    - BCM-PLT-007
+    optional_capabilities:
+    - BCM-PLT-005
+    - BCM-PLT-006
+    - BCM-PLT-008
+    upstream_dependencies:
+    - organization-management
+    - identity-access
+    - audit-compliance
+    - observability
+    downstream_dependency_role: Imports legacy customer data through simple open formats,
+      validation, reconciliation and anti-corruption mappings before domain mutation.
+    affected_portals:
+    - employee_portal
+    affected_mobile_apps: []
+    integration_requirements:
+    - csv
+    - xlsx
+    - json
+    - ndjson
+    - zip
+    - openapi
+    migration_relevance: critical
+  ai_overlay:
+    required_capabilities:
+    - BCM-PLT-001
+    - BCM-PLT-006
+    - BCM-PLT-007
+    - BCM-PLT-004
+    optional_capabilities:
+    - BCM-RES-001
+    - BCM-LAB-009
+    - BCM-PLT-008
+    upstream_dependencies:
+    - ai-platform
+    - integration-interoperability
+    - audit-compliance
+    downstream_dependency_role: Provides assistant and automation use cases through
+      provider-agnostic AI abstractions.
+    affected_portals:
+    - employee_portal
+    - patient_portal
+    - doctor_portal
+    affected_mobile_apps:
+    - patient_app
+    - doctor_app
+    integration_requirements:
+    - llm-gateway
+    - rag
+    - openapi
+    - audit-events
+    migration_relevance: low
+capabilities:
+- id: BCM-ORG-001
+  name: Tenant Management
+  profile: foundation
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - organization-management
+  - identity-access
+  related_aggregates:
+  - Laboratory
+  - Branch
+  - UserAccount
+  downstream_dependencies:
+  - BCM-ORG-002
+  - BCM-ORG-003
+  - BCM-PLT-001
+  - BCM-PLT-002
+  ai_opportunities:
+  - tenant-configuration-assistant
+- id: BCM-ORG-002
+  name: Laboratory Management
+  profile: foundation
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - organization-management
+  related_aggregates:
+  - Laboratory
+  downstream_dependencies:
+  - BCM-ORG-003
+  - BCM-PER-002
+  - BCM-SVC-001
+  - BCM-LAB-001
+  ai_opportunities:
+  - laboratory-setup-checklist
+- id: BCM-ORG-003
+  name: Branch Management
+  profile: foundation
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - organization-management
+  related_aggregates:
+  - Branch
+  downstream_dependencies:
+  - BCM-ATT-001
+  - BCM-ATT-003
+  - BCM-ATT-005
+  - BCM-LAB-002
+  ai_opportunities:
+  - branch-readiness-review
+- id: BCM-ORG-004
+  name: Department Management
+  profile: foundation
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - organization-management
+  related_aggregates:
+  - Branch
+  downstream_dependencies:
+  - BCM-ORG-006
+  - BCM-QLT-004
+  ai_opportunities:
+  - department-workload-analysis
+- id: BCM-ORG-005
+  name: Position Management
+  profile: foundation
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - organization-management
+  - identity-access
+  related_aggregates:
+  - UserAccount
+  downstream_dependencies:
+  - BCM-ORG-006
+  - BCM-PLT-001
+  ai_opportunities:
+  - role-template-suggestion
+- id: BCM-ORG-006
+  name: Employee Management
+  profile: master_data
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - organization-management
+  - identity-access
+  related_aggregates:
+  - UserAccount
+  downstream_dependencies:
+  - BCM-PLT-001
+  - BCM-ATT-003
+  - BCM-LAB-008
+  - BCM-LAB-009
+  ai_opportunities:
+  - staff-onboarding-assistant
+- id: BCM-ORG-007
+  name: Schedule Management
+  profile: foundation
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - organization-management
+  related_aggregates:
+  - Branch
+  downstream_dependencies:
+  - BCM-ATT-001
+  - BCM-IMG-001
+  ai_opportunities:
+  - schedule-optimization
+- id: BCM-ORG-008
+  name: Organizational Configuration
+  profile: foundation
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - organization-management
+  related_aggregates:
+  - Laboratory
+  - Branch
+  downstream_dependencies:
+  - BCM-PLT-002
+  - BCM-SVC-001
+  - BCM-ATT-003
+  ai_opportunities:
+  - configuration-gap-analysis
+- id: BCM-PER-001
+  name: Person Management
+  profile: master_data
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - patient-management
+  - medical-staff
+  related_aggregates:
+  - Patient
+  - Doctor
+  downstream_dependencies:
+  - BCM-PER-002
+  - BCM-PER-003
+  - BCM-PER-004
+  ai_opportunities:
+  - duplicate-person-detection
+- id: BCM-PER-002
+  name: Patient Management
+  profile: master_data
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - patient-management
+  related_aggregates:
+  - Patient
+  downstream_dependencies:
+  - BCM-ATT-002
+  - BCM-LAB-001
+  - BCM-RES-004
+  - BCM-IMG-003
+  ai_opportunities:
+  - duplicate-patient-detection
+  - missing-data-assistant
+- id: BCM-PER-003
+  name: Doctor Management
+  profile: master_data
+  mvp_phase: MVP1
+  product_area: doctor_portal
+  related_bounded_contexts:
+  - medical-staff
+  related_aggregates:
+  - Doctor
+  downstream_dependencies:
+  - BCM-LAB-001
+  - BCM-RES-004
+  - BCM-IMG-007
+  ai_opportunities:
+  - referring-doctor-segmentation
+- id: BCM-PER-004
+  name: Company Management
+  profile: master_data
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - patient-management
+  - billing-tax
+  related_aggregates:
+  - Patient
+  - Invoice
+  downstream_dependencies:
+  - BCM-PER-005
+  - BCM-ATT-008
+  ai_opportunities:
+  - payer-profile-assistant
+- id: BCM-PER-005
+  name: Agreement Management
+  profile: master_data
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - billing-tax
+  - cash-sales
+  related_aggregates:
+  - Sale
+  - Invoice
+  downstream_dependencies:
+  - BCM-SVC-009
+  - BCM-ATT-006
+  - BCM-ATT-008
+  ai_opportunities:
+  - agreement-leakage-detection
+- id: BCM-PER-006
+  name: Supplier Management
+  profile: master_data
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - inventory-procurement
+  related_aggregates:
+  - Supplier
+  - InventoryItem
+  downstream_dependencies:
+  - BCM-INV-004
+  - BCM-INV-005
+  ai_opportunities:
+  - supplier-risk-summary
+- id: BCM-PER-007
+  name: Contact Management
+  profile: master_data
+  mvp_phase: MVP2
+  product_area: platform_core
+  related_bounded_contexts:
+  - patient-management
+  - notifications
+  related_aggregates:
+  - Patient
+  - Doctor
+  - Supplier
+  downstream_dependencies:
+  - BCM-PLT-003
+  - BCM-RES-007
+  ai_opportunities:
+  - contact-data-normalization
+- id: BCM-SVC-001
+  name: Diagnostic Service Catalog
+  profile: catalog
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - catalog-test-configuration
+  related_aggregates:
+  - TestDefinition
+  downstream_dependencies:
+  - BCM-SVC-002
+  - BCM-SVC-003
+  - BCM-ATT-006
+  ai_opportunities:
+  - service-catalog-enrichment
+- id: BCM-SVC-002
+  name: Test Catalog
+  profile: catalog
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - catalog-test-configuration
+  related_aggregates:
+  - TestDefinition
+  downstream_dependencies:
+  - BCM-LAB-001
+  - BCM-LAB-006
+  - BCM-RES-001
+  ai_opportunities:
+  - test-definition-drafting
+- id: BCM-SVC-003
+  name: Panel Catalog
+  profile: catalog
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - catalog-test-configuration
+  related_aggregates:
+  - TestDefinition
+  downstream_dependencies:
+  - BCM-LAB-001
+  - BCM-ATT-006
+  ai_opportunities:
+  - panel-composition-suggestion
+- id: BCM-SVC-004
+  name: Analyte Catalog
+  profile: catalog
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - catalog-test-configuration
+  - laboratory-results
+  related_aggregates:
+  - TestDefinition
+  - LaboratoryResult
+  downstream_dependencies:
+  - BCM-LAB-006
+  - BCM-RES-001
+  - BCM-RES-006
+  ai_opportunities:
+  - analyte-normalization
+- id: BCM-SVC-005
+  name: Patient Preparation Management
+  profile: catalog
+  mvp_phase: MVP1
+  product_area: patient_portal
+  related_bounded_contexts:
+  - catalog-test-configuration
+  related_aggregates:
+  - TestDefinition
+  downstream_dependencies:
+  - BCM-ATT-001
+  - BCM-LAB-002
+  - BCM-PLT-003
+  ai_opportunities:
+  - preparation-instruction-simplification
+- id: BCM-SVC-006
+  name: Reference Range Management
+  profile: catalog
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - catalog-test-configuration
+  - laboratory-results
+  related_aggregates:
+  - TestDefinition
+  - LaboratoryResult
+  downstream_dependencies:
+  - BCM-LAB-008
+  - BCM-LAB-009
+  - BCM-RES-006
+  ai_opportunities:
+  - range-change-impact-analysis
+- id: BCM-SVC-007
+  name: Sample Catalog
+  profile: catalog
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - catalog-test-configuration
+  - orders-samples
+  related_aggregates:
+  - TestDefinition
+  - Sample
+  downstream_dependencies:
+  - BCM-LAB-002
+  - BCM-LAB-003
+  - BCM-LAB-005
+  ai_opportunities:
+  - sample-requirement-review
+- id: BCM-SVC-008
+  name: Container Catalog
+  profile: catalog
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - catalog-test-configuration
+  - inventory-procurement
+  related_aggregates:
+  - TestDefinition
+  - InventoryItem
+  downstream_dependencies:
+  - BCM-LAB-002
+  - BCM-INV-001
+  ai_opportunities:
+  - container-substitution-suggestion
+- id: BCM-SVC-009
+  name: Price List Management
+  profile: catalog
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - catalog-test-configuration
+  - cash-sales
+  related_aggregates:
+  - TestDefinition
+  - Sale
+  downstream_dependencies:
+  - BCM-ATT-005
+  - BCM-ATT-006
+  - BCM-ATT-008
+  ai_opportunities:
+  - price-list-anomaly-detection
+- id: BCM-ATT-001
+  name: Appointment Scheduling
+  profile: care_delivery
+  mvp_phase: MVP1
+  product_area: patient_portal
+  related_bounded_contexts:
+  - orders-samples
+  - organization-management
+  related_aggregates:
+  - DiagnosticOrder
+  - Branch
+  downstream_dependencies:
+  - BCM-ATT-003
+  - BCM-LAB-001
+  ai_opportunities:
+  - appointment-slot-suggestion
+- id: BCM-ATT-002
+  name: Patient Registration
+  profile: care_delivery
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - patient-management
+  related_aggregates:
+  - Patient
+  downstream_dependencies:
+  - BCM-ATT-003
+  - BCM-LAB-001
+  - BCM-ATT-005
+  ai_opportunities:
+  - registration-data-completion
+- id: BCM-ATT-003
+  name: Reception Management
+  profile: care_delivery
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - orders-samples
+  - patient-management
+  related_aggregates:
+  - DiagnosticOrder
+  - Patient
+  downstream_dependencies:
+  - BCM-ATT-004
+  - BCM-ATT-005
+  - BCM-LAB-002
+  ai_opportunities:
+  - reception-queue-prioritization
+- id: BCM-ATT-004
+  name: Admission Management
+  profile: care_delivery
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - orders-samples
+  related_aggregates:
+  - DiagnosticOrder
+  downstream_dependencies:
+  - BCM-LAB-001
+  - BCM-LAB-002
+  ai_opportunities:
+  - admission-completeness-check
+- id: BCM-ATT-005
+  name: Cashier Operations
+  profile: revenue_cycle
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - cash-sales
+  related_aggregates:
+  - Sale
+  - CashRegister
+  downstream_dependencies:
+  - BCM-ATT-008
+  - BCM-RES-004
+  ai_opportunities:
+  - cash-variance-explanation
+- id: BCM-ATT-006
+  name: Quotation Management
+  profile: care_delivery
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - cash-sales
+  - catalog-test-configuration
+  related_aggregates:
+  - Sale
+  - TestDefinition
+  downstream_dependencies:
+  - BCM-ATT-005
+  - BCM-LAB-001
+  ai_opportunities:
+  - quotation-assistant
+- id: BCM-ATT-007
+  name: Promotion Management
+  profile: revenue_cycle
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - cash-sales
+  related_aggregates:
+  - Sale
+  downstream_dependencies:
+  - BCM-ATT-005
+  - BCM-SVC-009
+  ai_opportunities:
+  - promotion-effectiveness-analysis
+- id: BCM-ATT-008
+  name: Billing Request Management
+  profile: revenue_cycle
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - billing-tax
+  - cash-sales
+  related_aggregates:
+  - Invoice
+  - Sale
+  downstream_dependencies:
+  - BCM-RES-004
+  ai_opportunities:
+  - billing-request-validation
+- id: BCM-LAB-001
+  name: Diagnostic Order Management
+  profile: clinical_operations
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - orders-samples
+  related_aggregates:
+  - DiagnosticOrder
+  downstream_dependencies:
+  - BCM-LAB-002
+  - BCM-LAB-006
+  - BCM-RES-001
+  ai_opportunities:
+  - order-completeness-check
+- id: BCM-LAB-002
+  name: Sample Collection
+  profile: clinical_operations
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - orders-samples
+  related_aggregates:
+  - Sample
+  downstream_dependencies:
+  - BCM-LAB-003
+  - BCM-LAB-005
+  - BCM-LAB-006
+  ai_opportunities:
+  - collection-guidance-assistant
+- id: BCM-LAB-003
+  name: Sample Labeling
+  profile: clinical_operations
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - orders-samples
+  related_aggregates:
+  - Sample
+  downstream_dependencies:
+  - BCM-LAB-005
+  ai_opportunities:
+  - label-error-detection
+- id: BCM-LAB-004
+  name: Sample Transport
+  profile: clinical_operations
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - orders-samples
+  related_aggregates:
+  - Sample
+  downstream_dependencies:
+  - BCM-LAB-005
+  ai_opportunities:
+  - route-risk-detection
+- id: BCM-LAB-005
+  name: Sample Reception
+  profile: clinical_operations
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - orders-samples
+  related_aggregates:
+  - Sample
+  downstream_dependencies:
+  - BCM-LAB-006
+  ai_opportunities:
+  - sample-rejection-assistant
+- id: BCM-LAB-006
+  name: Laboratory Processing
+  profile: clinical_operations
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - laboratory-results
+  - orders-samples
+  related_aggregates:
+  - LaboratoryResult
+  - Sample
+  downstream_dependencies:
+  - BCM-LAB-008
+  - BCM-RES-001
+  ai_opportunities:
+  - processing-exception-summary
+- id: BCM-LAB-007
+  name: Quality Control
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - laboratory-results
+  - inventory-procurement
+  related_aggregates:
+  - LaboratoryResult
+  - InventoryItem
+  downstream_dependencies:
+  - BCM-LAB-008
+  ai_opportunities:
+  - qc-drift-detection
+- id: BCM-LAB-008
+  name: Technical Validation
+  profile: clinical_operations
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - laboratory-results
+  related_aggregates:
+  - LaboratoryResult
+  downstream_dependencies:
+  - BCM-LAB-009
+  - BCM-RES-006
+  ai_opportunities:
+  - technical-validation-assistant
+- id: BCM-LAB-009
+  name: Medical Validation
+  profile: clinical_operations
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - laboratory-results
+  - medical-staff
+  related_aggregates:
+  - LaboratoryResult
+  - Doctor
+  downstream_dependencies:
+  - BCM-LAB-010
+  - BCM-RES-001
+  ai_opportunities:
+  - clinical-validation-summary
+- id: BCM-LAB-010
+  name: Result Release
+  profile: results_delivery
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - laboratory-results
+  related_aggregates:
+  - LaboratoryResult
+  downstream_dependencies:
+  - BCM-RES-002
+  - BCM-RES-004
+  - BCM-RES-007
+  ai_opportunities:
+  - release-readiness-check
+- id: BCM-IMG-001
+  name: Imaging Appointment Scheduling
+  profile: imaging
+  mvp_phase: MVP2
+  product_area: patient_portal
+  related_bounded_contexts:
+  - imaging-operations
+  - organization-management
+  related_aggregates:
+  - ImagingStudy
+  - Branch
+  downstream_dependencies:
+  - BCM-IMG-002
+  - BCM-IMG-003
+  ai_opportunities:
+  - imaging-slot-suggestion
+- id: BCM-IMG-002
+  name: Imaging Reception
+  profile: imaging
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - imaging-operations
+  related_aggregates:
+  - ImagingStudy
+  downstream_dependencies:
+  - BCM-IMG-003
+  ai_opportunities:
+  - imaging-reception-checklist
+- id: BCM-IMG-003
+  name: Imaging Study Management
+  profile: imaging
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - imaging-operations
+  related_aggregates:
+  - ImagingStudy
+  downstream_dependencies:
+  - BCM-IMG-004
+  - BCM-IMG-006
+  ai_opportunities:
+  - study-worklist-prioritization
+- id: BCM-IMG-004
+  name: DICOM Integration
+  profile: imaging
+  mvp_phase: MVP3
+  product_area: platform_core
+  related_bounded_contexts:
+  - imaging-operations
+  - integration-interoperability
+  related_aggregates:
+  - ImagingStudy
+  downstream_dependencies:
+  - BCM-IMG-005
+  ai_opportunities:
+  - dicom-metadata-normalization
+- id: BCM-IMG-005
+  name: PACS Integration
+  profile: imaging
+  mvp_phase: MVP3
+  product_area: platform_core
+  related_bounded_contexts:
+  - imaging-operations
+  - integration-interoperability
+  related_aggregates:
+  - ImagingStudy
+  downstream_dependencies:
+  - BCM-IMG-008
+  ai_opportunities:
+  - pacs-routing-assistant
+- id: BCM-IMG-006
+  name: Medical Dictation
+  profile: imaging
+  mvp_phase: MVP3
+  product_area: employee_portal
+  related_bounded_contexts:
+  - imaging-operations
+  - ai-platform
+  related_aggregates:
+  - ImagingStudy
+  downstream_dependencies:
+  - BCM-IMG-007
+  ai_opportunities:
+  - dictation-transcription
+- id: BCM-IMG-007
+  name: Radiology Signature
+  profile: imaging
+  mvp_phase: MVP3
+  product_area: employee_portal
+  related_bounded_contexts:
+  - imaging-operations
+  - medical-staff
+  related_aggregates:
+  - ImagingStudy
+  - Doctor
+  downstream_dependencies:
+  - BCM-IMG-008
+  ai_opportunities:
+  - radiology-report-quality-check
+- id: BCM-IMG-008
+  name: Imaging Study Delivery
+  profile: imaging
+  mvp_phase: MVP3
+  product_area: patient_portal
+  related_bounded_contexts:
+  - imaging-operations
+  - document-management
+  related_aggregates:
+  - ImagingStudy
+  downstream_dependencies: []
+  ai_opportunities:
+  - imaging-result-summary
+- id: BCM-RES-001
+  name: Result Management
+  profile: results_delivery
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - laboratory-results
+  related_aggregates:
+  - LaboratoryResult
+  downstream_dependencies:
+  - BCM-RES-002
+  - BCM-RES-004
+  - BCM-RES-006
+  ai_opportunities:
+  - result-outlier-detection
+- id: BCM-RES-002
+  name: PDF Report Generation
+  profile: results_delivery
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - laboratory-results
+  - document-management
+  related_aggregates:
+  - LaboratoryResult
+  downstream_dependencies:
+  - BCM-RES-004
+  ai_opportunities:
+  - report-template-check
+- id: BCM-RES-003
+  name: Electronic Signature
+  profile: results_delivery
+  mvp_phase: MVP2
+  product_area: platform_core
+  related_bounded_contexts:
+  - laboratory-results
+  - identity-access
+  related_aggregates:
+  - LaboratoryResult
+  - UserAccount
+  - Doctor
+  downstream_dependencies:
+  - BCM-RES-004
+  ai_opportunities:
+  - signature-policy-review
+- id: BCM-RES-004
+  name: Digital Delivery
+  profile: results_delivery
+  mvp_phase: MVP1
+  product_area: patient_portal
+  related_bounded_contexts:
+  - laboratory-results
+  - notifications
+  related_aggregates:
+  - LaboratoryResult
+  downstream_dependencies:
+  - BCM-RES-005
+  - BCM-RES-007
+  ai_opportunities:
+  - delivery-channel-recommendation
+- id: BCM-RES-005
+  name: Result History
+  profile: results_delivery
+  mvp_phase: MVP1
+  product_area: patient_portal
+  related_bounded_contexts:
+  - laboratory-results
+  related_aggregates:
+  - LaboratoryResult
+  - Patient
+  downstream_dependencies:
+  - BCM-AI-005
+  - BCM-AI-006
+  ai_opportunities:
+  - longitudinal-result-summary
+- id: BCM-RES-006
+  name: Critical Results
+  profile: results_delivery
+  mvp_phase: MVP1
+  product_area: employee_portal
+  related_bounded_contexts:
+  - laboratory-results
+  - notifications
+  related_aggregates:
+  - LaboratoryResult
+  downstream_dependencies:
+  - BCM-RES-007
+  ai_opportunities:
+  - critical-result-triage
+- id: BCM-RES-007
+  name: Result Notifications
+  profile: results_delivery
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - notifications
+  - laboratory-results
+  related_aggregates:
+  - LaboratoryResult
+  downstream_dependencies: []
+  ai_opportunities:
+  - notification-content-assistant
+- id: BCM-INV-001
+  name: Product Catalog
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - inventory-procurement
+  related_aggregates:
+  - InventoryItem
+  downstream_dependencies:
+  - BCM-INV-002
+  - BCM-INV-004
+  ai_opportunities:
+  - product-catalog-normalization
+- id: BCM-INV-002
+  name: Reagent Management
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - inventory-procurement
+  - catalog-test-configuration
+  related_aggregates:
+  - InventoryItem
+  - TestDefinition
+  downstream_dependencies:
+  - BCM-INV-007
+  - BCM-LAB-007
+  ai_opportunities:
+  - reagent-shortage-prediction
+- id: BCM-INV-003
+  name: Lot Management
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - inventory-procurement
+  related_aggregates:
+  - InventoryItem
+  downstream_dependencies:
+  - BCM-INV-005
+  - BCM-INV-006
+  - BCM-INV-007
+  ai_opportunities:
+  - lot-expiration-risk
+- id: BCM-INV-004
+  name: Procurement Management
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - inventory-procurement
+  related_aggregates:
+  - InventoryItem
+  - Supplier
+  downstream_dependencies:
+  - BCM-INV-005
+  ai_opportunities:
+  - purchase-recommendation
+- id: BCM-INV-005
+  name: Stock Entries
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - inventory-procurement
+  related_aggregates:
+  - InventoryItem
+  downstream_dependencies:
+  - BCM-INV-003
+  - BCM-INV-007
+  ai_opportunities:
+  - receiving-anomaly-detection
+- id: BCM-INV-006
+  name: Stock Exits
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - inventory-procurement
+  related_aggregates:
+  - InventoryItem
+  downstream_dependencies:
+  - BCM-INV-007
+  - BCM-INV-009
+  ai_opportunities:
+  - stock-exit-reason-assistant
+- id: BCM-INV-007
+  name: Consumption Tracking
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - inventory-procurement
+  - laboratory-results
+  related_aggregates:
+  - InventoryItem
+  - LaboratoryResult
+  downstream_dependencies:
+  - BCM-QLT-001
+  ai_opportunities:
+  - consumption-anomaly-detection
+- id: BCM-INV-008
+  name: Inventory Adjustments
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - inventory-procurement
+  related_aggregates:
+  - InventoryItem
+  downstream_dependencies:
+  - BCM-PLT-007
+  ai_opportunities:
+  - adjustment-risk-review
+- id: BCM-INV-009
+  name: Waste Management
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - inventory-procurement
+  related_aggregates:
+  - InventoryItem
+  downstream_dependencies:
+  - BCM-QLT-007
+  ai_opportunities:
+  - waste-root-cause-summary
+- id: BCM-QLT-001
+  name: Internal Quality Controls
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - laboratory-results
+  - inventory-procurement
+  related_aggregates:
+  - LaboratoryResult
+  - InventoryItem
+  downstream_dependencies:
+  - BCM-LAB-008
+  ai_opportunities:
+  - internal-qc-trend-analysis
+- id: BCM-QLT-002
+  name: External Quality Controls
+  profile: inventory_quality
+  mvp_phase: MVP3
+  product_area: employee_portal
+  related_bounded_contexts:
+  - laboratory-results
+  related_aggregates:
+  - LaboratoryResult
+  downstream_dependencies:
+  - BCM-QLT-007
+  ai_opportunities:
+  - external-qc-comparison
+- id: BCM-QLT-003
+  name: Calibration Management
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - inventory-procurement
+  - laboratory-results
+  related_aggregates:
+  - InventoryItem
+  - LaboratoryResult
+  downstream_dependencies:
+  - BCM-LAB-006
+  - BCM-QLT-004
+  ai_opportunities:
+  - calibration-due-prediction
+- id: BCM-QLT-004
+  name: Equipment Management
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - inventory-procurement
+  related_aggregates:
+  - InventoryItem
+  downstream_dependencies:
+  - BCM-QLT-003
+  - BCM-QLT-005
+  - BCM-LAB-006
+  ai_opportunities:
+  - equipment-utilization-insight
+- id: BCM-QLT-005
+  name: Maintenance Management
+  profile: inventory_quality
+  mvp_phase: MVP2
+  product_area: employee_portal
+  related_bounded_contexts:
+  - inventory-procurement
+  related_aggregates:
+  - InventoryItem
+  downstream_dependencies:
+  - BCM-QLT-007
+  ai_opportunities:
+  - maintenance-planning-assistant
+- id: BCM-QLT-006
+  name: CAPA Management
+  profile: inventory_quality
+  mvp_phase: MVP3
+  product_area: employee_portal
+  related_bounded_contexts:
+  - audit-compliance
+  related_aggregates: []
+  downstream_dependencies:
+  - BCM-QLT-007
+  ai_opportunities:
+  - capa-root-cause-assistant
+- id: BCM-QLT-007
+  name: Audit Management
+  profile: inventory_quality
+  mvp_phase: MVP3
+  product_area: employee_portal
+  related_bounded_contexts:
+  - audit-compliance
+  related_aggregates: []
+  downstream_dependencies: []
+  ai_opportunities:
+  - audit-evidence-collector
+- id: BCM-PLT-001
+  name: Identity and Access Management
+  profile: foundation
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - identity-access
+  related_aggregates:
+  - UserAccount
+  downstream_dependencies:
+  - all-protected-capabilities
+  ai_opportunities:
+  - permission-risk-review
+- id: BCM-PLT-002
+  name: Platform Configuration
+  profile: platform_extension
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - organization-management
+  related_aggregates:
+  - Laboratory
+  - Branch
+  downstream_dependencies:
+  - BCM-SVC-001
+  - BCM-ATT-003
+  - BCM-RES-002
+  ai_opportunities:
+  - configuration-assistant
+- id: BCM-PLT-003
+  name: Notification Management
+  profile: platform_extension
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - notifications
+  related_aggregates: []
+  downstream_dependencies:
+  - BCM-RES-007
+  - BCM-SVC-005
+  - BCM-ATT-001
+  ai_opportunities:
+  - notification-template-assistant
+- id: BCM-PLT-004
+  name: Integration Management
+  profile: platform_extension
+  mvp_phase: MVP2
+  product_area: platform_core
+  related_bounded_contexts:
+  - integration-interoperability
+  related_aggregates: []
+  downstream_dependencies:
+  - BCM-IMG-004
+  - BCM-AI-007
+  - BCM-LAB-006
+  ai_opportunities:
+  - integration-mapping-assistant
+- id: BCM-PLT-005
+  name: API Management
+  profile: platform_extension
+  mvp_phase: MVP2
+  product_area: platform_core
+  related_bounded_contexts:
+  - integration-interoperability
+  related_aggregates: []
+  downstream_dependencies:
+  - public-api-consumers
+  - partner-integrations
+  ai_opportunities:
+  - api-change-impact-analysis
+- id: BCM-PLT-006
+  name: Observability
+  profile: foundation
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - observability
+  related_aggregates: []
+  downstream_dependencies:
+  - all-runtime-capabilities
+  ai_opportunities:
+  - incident-summary-assistant
+- id: BCM-PLT-007
+  name: Audit Trail
+  profile: foundation
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - audit-compliance
+  related_aggregates: []
+  downstream_dependencies:
+  - all-regulated-capabilities
+  ai_opportunities:
+  - audit-anomaly-detection
+- id: BCM-PLT-008
+  name: Document Management
+  profile: platform_extension
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - document-management
+  related_aggregates:
+  - Patient
+  - LaboratoryResult
+  - Invoice
+  - ImagingStudy
+  downstream_dependencies:
+  - BCM-RES-002
+  - BCM-RES-004
+  - BCM-ATT-008
+  ai_opportunities:
+  - document-classification
+- id: BCM-PLT-009
+  name: Workflow Engine
+  profile: platform_extension
+  mvp_phase: MVP2
+  product_area: platform_core
+  related_bounded_contexts:
+  - workflow
+  related_aggregates: []
+  downstream_dependencies:
+  - BCM-LAB-008
+  - BCM-LAB-009
+  - BCM-QLT-006
+  ai_opportunities:
+  - workflow-bottleneck-analysis
+- id: BCM-PLT-010
+  name: Open Data Ingestion and Migration
+  profile: data_ingestion_migration
+  mvp_phase: MVP1
+  product_area: platform_core
+  related_bounded_contexts:
+  - data-migration-portability
+  - integration-interoperability
+  - audit-compliance
+  related_aggregates:
+  - MigrationJob
+  - ImportBatch
+  - ImportValidationReport
+  downstream_dependencies:
+  - BCM-PER-001
+  - BCM-PER-002
+  - BCM-PER-003
+  - BCM-SVC-001
+  - BCM-SVC-002
+  - BCM-SVC-009
+  - BCM-LAB-001
+  - BCM-RES-001
+  ai_opportunities:
+  - field-mapping-assistant
+  - import-error-explanation
+  - data-quality-summary
+- id: BCM-PLT-011
+  name: Product Marketplace and Entitlements
+  profile: marketplace_entitlements
+  mvp_phase: MVP2
+  product_area: platform_core
+  related_bounded_contexts:
+  - product-marketplace
+  - identity-access
+  - platform-configuration
+  - billing-tax
+  - audit-compliance
+  - observability
+  related_aggregates:
+  - MarketplacePackage
+  - CommercialOffer
+  - LicensePlan
+  - TenantEntitlement
+  - PackageInstallation
+  downstream_dependencies:
+  - COM-MOD-017
+  - optional-commercial-packages
+  - country-packs
+  - ai-overlays
+  - imaging-packages
+  - integration-adapters
+  ai_opportunities:
+  - package-readiness-review
+  - entitlement-impact-analysis
+  - customer-package-recommendation
+- id: BCM-AI-001
+  name: Administrative Assistant
+  profile: ai_overlay
+  mvp_phase: MVP3
+  product_area: employee_portal
+  related_bounded_contexts:
+  - ai-platform
+  related_aggregates: []
+  downstream_dependencies: []
+  ai_opportunities:
+  - administrative-assistant
+- id: BCM-AI-002
+  name: Clinical Assistant
+  profile: ai_overlay
+  mvp_phase: MVP3
+  product_area: employee_portal
+  related_bounded_contexts:
+  - ai-platform
+  - laboratory-results
+  related_aggregates:
+  - LaboratoryResult
+  downstream_dependencies: []
+  ai_opportunities:
+  - clinical-assistant
+- id: BCM-AI-003
+  name: Doctor Assistant
+  profile: ai_overlay
+  mvp_phase: MVP3
+  product_area: doctor_portal
+  related_bounded_contexts:
+  - ai-platform
+  - medical-staff
+  related_aggregates:
+  - Doctor
+  - LaboratoryResult
+  downstream_dependencies: []
+  ai_opportunities:
+  - doctor-assistant
+- id: BCM-AI-004
+  name: Intelligent OCR
+  profile: ai_overlay
+  mvp_phase: MVP2
+  product_area: platform_core
+  related_bounded_contexts:
+  - ai-platform
+  - document-management
+  related_aggregates:
+  - Patient
+  - Invoice
+  downstream_dependencies:
+  - BCM-AI-001
+  ai_opportunities:
+  - ocr-extraction
+- id: BCM-AI-005
+  name: Clinical Summary
+  profile: ai_overlay
+  mvp_phase: MVP3
+  product_area: doctor_portal
+  related_bounded_contexts:
+  - ai-platform
+  - laboratory-results
+  related_aggregates:
+  - LaboratoryResult
+  - Patient
+  downstream_dependencies:
+  - BCM-AI-002
+  - BCM-AI-003
+  ai_opportunities:
+  - clinical-summary
+- id: BCM-AI-006
+  name: Semantic Search
+  profile: ai_overlay
+  mvp_phase: MVP3
+  product_area: platform_core
+  related_bounded_contexts:
+  - ai-platform
+  related_aggregates: []
+  downstream_dependencies:
+  - BCM-AI-007
+  ai_opportunities:
+  - semantic-search
+- id: BCM-AI-007
+  name: RAG Engine
+  profile: ai_overlay
+  mvp_phase: MVP3
+  product_area: platform_core
+  related_bounded_contexts:
+  - ai-platform
+  related_aggregates: []
+  downstream_dependencies:
+  - BCM-AI-001
+  - BCM-AI-002
+  - BCM-AI-003
+  ai_opportunities:
+  - rag-grounding
+- id: BCM-AI-008
+  name: Specialized Agents
+  profile: ai_overlay
+  mvp_phase: MVP3
+  product_area: platform_core
+  related_bounded_contexts:
+  - ai-platform
+  related_aggregates: []
+  downstream_dependencies:
+  - BCM-AI-001
+  - BCM-AI-002
+  - BCM-AI-003
+  ai_opportunities:
+  - specialized-agent-orchestration
+coverage:
+  expected_capability_source: BCM-001
+  expected_capability_count: 92
+  mapped_capability_count: 92
+  open_items:
+  - BCM-001 has no explicit capability for tax authority connector variants; keep
+    them as country-pack adapters under Billing Request Management.
+  - Imaging is intentionally sequenced after laboratory MVP because DICOM/PACS requires
+    separate operational readiness.
+```

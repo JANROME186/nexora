@@ -2,7 +2,7 @@ package com.nexora.hop.platformfoundation.catalogtestconfiguration.diagnosticser
 
 /**
  * Reference from a diagnostic service to a composing test or panel.
- * Modeled in bcm-svc-001-diagnostic-service-catalog/business-model.yaml (ENT-SVC-003).
+ * Modeled in bcm-svc-001-diagnostic-service-catalog/business-model.md (ENT-SVC-003).
  */
 public record ServiceComponentLink(
         String linkId,

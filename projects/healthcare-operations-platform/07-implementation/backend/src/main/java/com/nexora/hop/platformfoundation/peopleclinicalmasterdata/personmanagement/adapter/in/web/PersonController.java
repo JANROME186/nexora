@@ -25,7 +25,7 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanageme
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.domain.PersonSearchEntry;
 
 /**
- * Rendered controller for {@code bcm-per-001-person-management/openapi-source.yaml} (base path
+ * Rendered controller for {@code bcm-per-001-person-management/openapi-source.md} (base path
  * /api/people/persons).
  */
 @RestController

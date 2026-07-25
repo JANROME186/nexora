@@ -29,10 +29,41 @@ def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8") if path.exists() else ""
 
 
+def extract_structured_payload(text: str) -> str:
+    payload_start = text.find("<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->")
+    if payload_start != -1:
+        text = text[payload_start:]
+    marker = "```yaml\n"
+    start = text.find(marker)
+    if start != -1:
+        start += len(marker)
+        end = text.find("\n```", start)
+        if end != -1:
+            return text[start:end]
+    if text.startswith("---\n"):
+        end = text.find("\n---\n", 4)
+        if end != -1:
+            return text[4:end]
+    return text
+
+
+def migrated_path(path: Path) -> Path:
+    if path.suffix in {".yaml", ".yml"}:
+        candidate = path.with_suffix(".md")
+        if candidate.exists():
+            return candidate
+    if path.suffix == ".md":
+        legacy = path.with_suffix(".yaml")
+        if legacy.exists():
+            return legacy
+    return path
+
+
 def read_yaml(path: Path) -> dict:
+    path = migrated_path(path)
     if not path.exists():
         return {}
-    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    data = yaml.safe_load(extract_structured_payload(path.read_text(encoding="utf-8")))
     return data if isinstance(data, dict) else {}
 
 
@@ -169,13 +200,13 @@ def find_backlog_item_status(data: object, task_id: str) -> str | None:
 
 
 def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git: bool) -> dict:
-    project_state = read_yaml(root / PROJECT_PATH / "PROJECT_STATE.yaml")
-    product_backlog = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml")
-    execution_prompts = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml")
-    source_of_truth = read_yaml(root / PROJECT_PATH / "SOURCE_OF_TRUTH.yaml")
+    project_state = read_yaml(root / PROJECT_PATH / "PROJECT_STATE.md")
+    product_backlog = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md")
+    execution_prompts = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md")
+    source_of_truth = read_yaml(root / PROJECT_PATH / "SOURCE_OF_TRUTH.md")
 
-    qa_path = project_file(root, f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.yaml")
-    security_path = project_file(root, f"08-qa/security-quality/{task_id}/security-quality-evidence.yaml")
+    qa_path = project_file(root, f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md")
+    security_path = project_file(root, f"08-qa/security-quality/{task_id}/security-quality-evidence.md")
     handoff_path = project_file(root, f"08-qa/handoffs/{task_id}-summary.md")
     prompt_text = read_text(prompt_path)
     qa = read_yaml(qa_path)
@@ -218,8 +249,8 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
 
     source_values = set((source_of_truth.get("sources") or {}).values()) if isinstance(source_of_truth.get("sources"), dict) else set()
     for relative in (
-        f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.yaml",
-        f"08-qa/security-quality/{task_id}/security-quality-evidence.yaml",
+        f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md",
+        f"08-qa/security-quality/{task_id}/security-quality-evidence.md",
         f"08-qa/handoffs/{task_id}-summary.md",
     ):
         if relative not in source_values:
@@ -272,9 +303,9 @@ PROJECT: {PROJECT_PATH}
 {finding_lines}
 
 ## 3. Acciones Obligatorias
-- Sincronizar `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml` y `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml`.
-- Confirmar que QA Evidence, Security Evidence y handoff de `{task_id}` existan, estén validados y estén referenciados en `SOURCE_OF_TRUTH.yaml`.
-- Ejecutar parseo YAML del proyecto, sweep de punteros obsoletos y `git diff --check`.
+- Sincronizar `PROJECT_STATE.md`, `SOURCE_OF_TRUTH.md`, `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md` y `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md`.
+- Confirmar que QA Evidence, Security Evidence y handoff de `{task_id}` existan, estén validados y estén referenciados en `SOURCE_OF_TRUTH.md`.
+- Ejecutar parseo de Markdown/frontmatter estructurado, sweep de punteros obsoletos y `git diff --check`.
 - Si no hay bloqueantes, hacer commit y dejar `git status --short` limpio.
 
 ## 4. Criterios de Cierre
@@ -289,7 +320,6 @@ PROJECT: {PROJECT_PATH}
 def write_outputs(root: Path, task_id: str, context: dict, review: dict) -> tuple[Path, Path | None]:
     out_dir = root / PROJECT_PATH / "08-qa/backlog-validations"
     out_dir.mkdir(parents=True, exist_ok=True)
-    report_yaml = out_dir / f"{task_id}-closure-validation.yaml"
     report_md = out_dir / f"{task_id}-closure-validation.md"
     decision = "incomplete" if context["hard_findings"] else "closed"
     report = {
@@ -302,12 +332,18 @@ def write_outputs(root: Path, task_id: str, context: dict, review: dict) -> tupl
         "context": context,
         "ollama_review": review,
     }
-    report_yaml.write_text(yaml.safe_dump(report, sort_keys=False, allow_unicode=True), encoding="utf-8")
     report_md.write_text(
+        "---\n"
+        + yaml.safe_dump(report["artifact"], sort_keys=False, allow_unicode=True).strip()
+        + "\n---\n\n"
         f"# {task_id} Closure Validation\n\n"
         f"Status: `{decision}`\n\n"
         f"Hard findings: `{len(context['hard_findings'])}`\n\n"
-        f"Ollama summary: {review.get('summary', '')}\n",
+        f"Ollama summary: {review.get('summary', '')}\n\n"
+        "## Structured Payload\n\n"
+        "```yaml\n"
+        + yaml.safe_dump(report, sort_keys=False, allow_unicode=True)
+        + "```\n",
         encoding="utf-8",
         newline="\n",
     )

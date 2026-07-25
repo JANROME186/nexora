@@ -3,7 +3,7 @@ package com.nexora.hop.platformfoundation.platformconfiguration.domain;
 import java.time.Instant;
 import java.util.List;
 
-/** BCM-PLT-002 {@code FeatureFlag} entity (business-model.yaml). */
+/** BCM-PLT-002 {@code FeatureFlag} entity (business-model.md). */
 public record FeatureFlag(
         String flagKey,
         boolean enabledByDefault,

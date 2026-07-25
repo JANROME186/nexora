@@ -6,8 +6,8 @@ Create or extend a Nexora product capability while keeping it compatible with li
 
 ## Steps
 
-1. Read `PROJECT_MANIFEST.yaml`.
-2. Read `SOURCE_OF_TRUTH.yaml`.
+1. Read `PROJECT_MANIFEST.md`.
+2. Read `SOURCE_OF_TRUTH.md`.
 3. Identify related business capability.
 4. Define lifecycle state.
 5. Define licensing impact.

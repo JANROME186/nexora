@@ -21,7 +21,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.Localiz
 import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 
 /**
- * Compiles generatable outputs from bcm-svc-003-panel-catalog/generation-plan.yaml and implements
+ * Compiles generatable outputs from bcm-svc-003-panel-catalog/generation-plan.md and implements
  * the custom rules CUS-SVC-003-01..03 (member publication validation, immutable versioning and the
  * published snapshot) delivered by MVP-MOD-002-BE-002.
  */

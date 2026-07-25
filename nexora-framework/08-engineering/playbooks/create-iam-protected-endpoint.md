@@ -1,7 +1,7 @@
 # Playbook: Create IAM-Protected Endpoint
 
-1. Read `PROJECT_MANIFEST.yaml`.
-2. Read `SOURCE_OF_TRUTH.yaml`.
+1. Read `PROJECT_MANIFEST.md`.
+2. Read `SOURCE_OF_TRUTH.md`.
 3. Identify the capability and operation.
 4. Define or update the OpenAPI contract.
 5. Assign permission code using `resource.action.scope` convention.

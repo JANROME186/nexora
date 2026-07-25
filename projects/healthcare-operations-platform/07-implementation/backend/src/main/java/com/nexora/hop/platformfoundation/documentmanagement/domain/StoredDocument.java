@@ -7,7 +7,7 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.TenantId;
 import java.util.UUID;
 
 public class StoredDocument {
-    
+
     private UUID documentId;
     private TenantId tenantId;
     private LaboratoryId laboratoryId;
@@ -44,7 +44,7 @@ public class StoredDocument {
             StorageReference storageReference,
             RetentionPolicy retentionPolicy,
             AuditMetadata audit) {
-        
+
         this.documentId = documentId;
         this.tenantId = tenantId;
         this.laboratoryId = laboratoryId;

@@ -1,0 +1,114 @@
+---
+id: HOP-CAP-PKG-BCM-PER-002
+format: markdown_structured_payload
+type: capability-package
+name: Patient Management Capability Package
+version: 0.1.0
+status: modeled
+---
+
+# Patient Management Capability Package
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-CAP-PKG-BCM-PER-002
+  type: capability-package
+  name: Patient Management Capability Package
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.md
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-09
+  roadmap_group: COM-MOD-009
+  execution_flow_stage: model
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.md
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.md
+capability:
+  id: BCM-PER-002
+  name:
+    en: Patient Management
+    es: Gestión de Pacientes
+  domain: DOM-02 People
+  priority: Critical
+  roadmap: MVP1
+  dependency_profile: master_data
+  bounded_context: patient-management
+  primary_aggregate: Patient
+  aggregate_ref: AGG-001
+scope:
+  summary: 'Owns the Patient aggregate lifecycle including identity, contact, address,
+    emergency contact, representative relationships, consents and documents. Produces
+    the authoritative PatientSnapshot published language consumed by orders, laboratory,
+    results, imaging and billing contexts. Governs the patient portal profile editing,
+    account settings, representative management, and consents.
+
+    '
+  in_scope:
+  - Patient registration, update and deactivation.
+  - Patient representative relationship management.
+  - Patient consent recording and revocation.
+  - Patient document attachment and expiration tracking.
+  - Patient merge within the patient-management context.
+  - Publication of PatientSnapshot and PatientEligibilityStatus.
+  - Patient portal self-profile updates and security configurations.
+  out_of_scope:
+  - Registration workflow orchestration (BCM-ATT-002).
+  - Doctor master data (BCM-PER-003).
+  - Person shared concepts and duplicate detection (BCM-PER-001).
+  - Portal identity provisioning (handled by BCM-PLT-001).
+roadmap:
+  module: COM-MOD-009
+  release: REL-002
+  package_status: modeled
+  next_backlog_item: COM-MOD-009-BE-001
+dependencies:
+  required_capabilities:
+  - BCM-PER-001
+  - BCM-ORG-001
+  - BCM-ORG-002
+  - BCM-ORG-003
+  - BCM-PLT-001
+  - BCM-PLT-007
+  optional_capabilities:
+  - BCM-PLT-003
+  - BCM-PLT-008
+  downstream_capabilities:
+  - BCM-ATT-002
+  - BCM-ATT-003
+  - BCM-LAB-001
+  - BCM-RES-004
+  - BCM-IMG-003
+  upstream_contexts:
+  - identity-access
+  - organization-management
+  - audit-compliance
+product_surfaces:
+  backend: required
+  employee_portal: required
+  patient_portal: required
+  doctor_portal: not_required
+  mobile_app: required
+required_artifacts:
+- capability-package.md
+- business-model.md
+- business-rules.md
+- processes.md
+- events.md
+- openapi-source.md
+- permissions.md
+- ui-model.md
+- mobile-model.md
+- test-model.md
+- observability-model.md
+- generation-plan.md
+- traceability.md
+- README.md
+```

@@ -4,7 +4,7 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 
 /**
  * Root aggregate of AGG-033 PackageInstallation (BCM-PLT-011). Tenant installation lifecycle,
- * activation and rollback evidence (installation-model.yaml). {@code rollbackCheckpointVersion}
+ * activation and rollback evidence (installation-model.md). {@code rollbackCheckpointVersion}
  * models {@code RollbackCheckpoint}: INV-MKT-004 requires it to be set before activation whenever
  * rollback is supported, and {@link #rollbackPackage} requires it non-null.
  */

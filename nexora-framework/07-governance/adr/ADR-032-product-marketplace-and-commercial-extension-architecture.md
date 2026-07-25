@@ -1,7 +1,7 @@
 # ADR-032 — Product Marketplace and Commercial Extension Architecture
 
-**Status:** Approved  
-**Date:** 2026-07-08  
+**Status:** Approved
+**Date:** 2026-07-08
 **Owner:** Nexora Product Architecture
 
 ## Context

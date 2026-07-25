@@ -12,7 +12,7 @@ Begin with:
 
 - `00-start-here/README.md`
 - `00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md`
-- `00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml`
+- `00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md`
 
 The short sequence is:
 
@@ -45,28 +45,28 @@ It defines:
 
 ## Core Entry Points
 
-- `00-start-here/docs/vision/NEXORA_FINAL_VISION.yaml`
-- `00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml`
-- `02-standards/standards/project-folder-standard.yaml`
-- `02-standards/standards/documentation-standard.yaml`
-- `02-standards/standards/agent-agnostic-standard.yaml`
-- `02-standards/standards/model-driven-product-engineering-standard.yaml`
-- `02-standards/standards/capability-package-standard.yaml`
-- `02-standards/standards/open-data-ingestion-standard.yaml`
-- `02-standards/standards/product-marketplace-standard.yaml`
-- `02-standards/standards/business-requirement-versioning-standard.yaml`
-- `02-standards/standards/open-source-first-security-quality-standard.yaml`
-- `02-standards/standards/local-toolchain-inventory-standard.yaml`
-- `02-standards/standards/integrated-local-solution-runbook-standard.yaml`
-- `02-standards/standards/framework-feedback-continuous-improvement-standard.yaml`
-- `03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
-- `04-recipes/recipes/agent-to-mvp-recipe.yaml`
-- `05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
-- `05-prompts/prompts/auxiliary-development-prompts.yaml`
-- `05-prompts/prompts/security-quality-gate-prompts.yaml`
-- `05-prompts/prompts/integrated-local-runbook-prompts.yaml`
-- `05-prompts/prompts/framework-feedback-prompts.yaml`
-- `07-governance/framework-improvement-backlog/framework-improvement-backlog.yaml`
+- `00-start-here/docs/vision/NEXORA_FINAL_VISION.md`
+- `00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md`
+- `02-standards/standards/project-folder-standard.md`
+- `02-standards/standards/documentation-standard.md`
+- `02-standards/standards/agent-agnostic-standard.md`
+- `02-standards/standards/model-driven-product-engineering-standard.md`
+- `02-standards/standards/capability-package-standard.md`
+- `02-standards/standards/open-data-ingestion-standard.md`
+- `02-standards/standards/product-marketplace-standard.md`
+- `02-standards/standards/business-requirement-versioning-standard.md`
+- `02-standards/standards/open-source-first-security-quality-standard.md`
+- `02-standards/standards/local-toolchain-inventory-standard.md`
+- `02-standards/standards/integrated-local-solution-runbook-standard.md`
+- `02-standards/standards/framework-feedback-continuous-improvement-standard.md`
+- `03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`
+- `04-recipes/recipes/agent-to-mvp-recipe.md`
+- `05-prompts/prompts/generic-project-lifecycle-prompts.md`
+- `05-prompts/prompts/auxiliary-development-prompts.md`
+- `05-prompts/prompts/security-quality-gate-prompts.md`
+- `05-prompts/prompts/integrated-local-runbook-prompts.md`
+- `05-prompts/prompts/framework-feedback-prompts.md`
+- `07-governance/framework-improvement-backlog/framework-improvement-backlog.md`
 - `06-templates/templates/project-template/`
 
 ## Execution Logic
@@ -75,7 +75,7 @@ For any project under `projects/<project-slug>/`:
 
 1. Confirm `BUSINESS_REQUIREMENT.md` exists.
 2. Resolve the latest business requirement version using the business requirement versioning standard.
-3. Load the framework sequence from `00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml`.
+3. Load the framework sequence from `00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md`.
 4. Apply the orchestration workflow.
 5. If analysis is incomplete, apply the Agent-to-MVP recipe.
 6. If the business requirement changed, generate an impact assessment before modifying derived artifacts.
@@ -104,13 +104,13 @@ other reusable framework improvements, agents must create project-local feedback
 Nexora.
 
 Every project with runnable implementation must maintain an integrated local solution runbook at
-`09-operations/runbooks/local-solution-runbook.yaml` and
+`09-operations/runbooks/local-solution-runbook.md` and
 `09-operations/runbooks/local-solution-runbook.md`. Component READMEs may explain individual
 services, but the integrated runbook is the reviewer-facing path for starting infrastructure,
 backend, web surfaces, mobile validation, smoke checks, quality gates and shutdown steps.
 
 Every project with a selected technology stack must also maintain a local toolchain inventory at
-`03-architecture/technology-architecture/local-toolchain-inventory.yaml` or the equivalent
+`03-architecture/technology-architecture/local-toolchain-inventory.md` or the equivalent
 architecture folder used by the project template. Agents must load this inventory before running
 build, test, quality, security or local runtime commands, and update it or register technical debt
 when required tools are stale or missing.
@@ -127,4 +127,4 @@ Every project must start from a high-level business requirement in:
 
 `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
 
-`PROJECT_BRIEF.md` and `PROJECT_BRIEF.yaml` structure that requirement into a product and MVP analysis context.
+`PROJECT_BRIEF.md` and `PROJECT_BRIEF.md` structure that requirement into a product and MVP analysis context.

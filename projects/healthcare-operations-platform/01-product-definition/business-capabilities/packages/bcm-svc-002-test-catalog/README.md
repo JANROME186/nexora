@@ -21,21 +21,21 @@ atomic orderable clinical definition consumed by orders, processing and results.
 ## Package contents
 
 Standard 14-artifact capability package per the Business Capability Package Standard:
-`capability-package.yaml`, `business-model.yaml`, `business-rules.yaml`,
-`processes.yaml`, `events.yaml`, `openapi-source.yaml`, `permissions.yaml`,
-`ui-model.yaml`, `mobile-model.yaml`, `test-model.yaml`, `observability-model.yaml`,
-`generation-plan.yaml`, `traceability.yaml`, `README.md`.
+`capability-package.md`, `business-model.md`, `business-rules.md`,
+`processes.md`, `events.md`, `openapi-source.md`, `permissions.md`,
+`ui-model.md`, `mobile-model.md`, `test-model.md`, `observability-model.md`,
+`generation-plan.md`, `traceability.md`, `README.md`.
 
 ## COM-MOD-011 reuse
 
 The published-catalog read surface (`getPublishedTestSnapshot` plus a new `listPublishedTests`
 projection) is reused, unauthenticated and rate-limited, by the COM-MOD-011 Public Website and
 Digital Growth module. No new capability package, aggregate or schema was created for this
-reuse; see `traceability.yaml`'s `cross_module_reuse` entry.
+reuse; see `traceability.md`'s `cross_module_reuse` entry.
 
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are declared
-as generated outputs in `generation-plan.yaml`. Custom rules (publication validation,
+as generated outputs in `generation-plan.md`. Custom rules (publication validation,
 immutable versioning, analyte publication checks, snapshot projection) are implemented
 manually in later backlog items.

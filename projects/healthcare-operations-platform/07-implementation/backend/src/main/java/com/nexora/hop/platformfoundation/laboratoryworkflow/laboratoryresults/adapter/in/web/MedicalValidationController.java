@@ -48,7 +48,7 @@ class MedicalValidationController {
             @Valid @RequestBody MedicalValidateRequest request) {
         // Licensed-authority verification and AI-exclusion enforcement (CUS-LPR-009-01)
         // are implemented in the service.
-        com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.application.MedicalValidateCommand command = 
+        com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.application.MedicalValidateCommand command =
              new com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.application.MedicalValidateCommand(
                      resultId, request.tenantId(), request.actorId(), request.licenseIdentifier()
              );

@@ -23,7 +23,7 @@ import com.nexora.hop.platformfoundation.platformconfiguration.domain.PlatformCo
 @Service
 public class PlatformConfigurationService {
 
-    /** business-model.yaml invariant: "Config keys must follow standard namespace formatting". */
+    /** business-model.md invariant: "Config keys must follow standard namespace formatting". */
     private static final Pattern NAMESPACE_KEY = Pattern.compile("^[a-z][a-z0-9]*(\\.[a-z0-9_]+)+$");
     private static final int MIN_ROLLOUT_PERCENTAGE = 0;
     private static final int MAX_ROLLOUT_PERCENTAGE = 100;
@@ -52,7 +52,7 @@ public class PlatformConfigurationService {
 
     /**
      * BCM-PLT-002 {@code evaluateFeatureFlags}: deterministic per-tenant evaluation of every known
-     * flag. business-model.yaml invariant: "Feature flag evaluation must default to false if
+     * flag. business-model.md invariant: "Feature flag evaluation must default to false if
      * targeting rules fail" — an evaluation is never allowed to throw; missing tenant context or an
      * unmatched targeting rule both resolve to {@code false}.
      */

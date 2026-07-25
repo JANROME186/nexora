@@ -1,6 +1,6 @@
 # MVP-MOD-003-BE-001 — People and Clinical Master Data Backend Compilation Validation
 
-Machine-readable evidence: [MVP-MOD-003-BE-001-validation.yaml](MVP-MOD-003-BE-001-validation.yaml)
+Machine-readable evidence: [MVP-MOD-003-BE-001-validation.md](MVP-MOD-003-BE-001-validation.md)
 
 ## Scope
 
@@ -8,7 +8,7 @@ Backlog item `MVP-MOD-003-BE-001` compiles the backend outputs for the People an
 Data bounded contexts (`patient-management` and `medical-staff`) from the four modeled MVP-MOD-003
 capability packages (BCM-PER-001, BCM-PER-002, BCM-PER-003, BCM-ATT-002). Business requirement
 version analyzed: `v0.68.0` (no impact assessment required — matches `last_analyzed_version` in
-`BUSINESS_REQUIREMENT_INDEX.yaml`).
+`BUSINESS_REQUIREMENT_INDEX.md`).
 
 ## What was compiled
 
@@ -27,11 +27,11 @@ version analyzed: `v0.68.0` (no impact assessment required — matches `last_ana
   contexts to consume `PatientSnapshot` and `DoctorSnapshot` without depending on aggregate
   types (BCM-PER-002 RN-003 / BCM-PER-003 RN-003 boundary policy).
 - A new Postgres schema `people` (`db/people-and-clinical-master-data/schema.sql`, 8 tables),
-  wired into `application-local.yml`.
-- Only the business rules marked `generatable: true` in each capability's `business-rules.yaml`
+  wired into `application-local.properties`.
+- Only the business rules marked `generatable: true` in each capability's `business-rules.md`
   are enforced (uniqueness checks, required-field checks, tenant existence, natural-key
   normalization, deceased-terminal guard, retired-terminal guard, audit envelope).
-- Every operation marked `generatable: false` in `openapi-source.yaml` (patient merge,
+- Every operation marked `generatable: false` in `openapi-source.md` (patient merge,
   representative revocation, consent revocation, doctor suspension, credential verification,
   credential revocation, portal access preparation, registration commit, index rebuild and merge
   coordination) is implemented as an explicit hook: it throws
@@ -65,3 +65,224 @@ employee portal UI (MVP-MOD-003-FE-001), mobile app and the formal QA validation
 
 `MVP-MOD-003-BE-001` is **closed**. Next backlog item: `MVP-MOD-003-BE-002` (implement duplicate
 detection and portal identity custom rules).
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-QA-MVP-MOD-003-BE-001-001
+  type: qa-validation-evidence
+  name: MVP-MOD-003-BE-001 People and Clinical Master Data Backend Compilation Validation
+  version: 1.0.0
+  status: passed
+  human_readable: MVP-MOD-003-BE-001-validation.md
+  machine_readable: MVP-MOD-003-BE-001-validation.md
+  created_date: 2026-07-09
+  owner: Nexora Product Architecture Team
+scope:
+  backlog_item: MVP-MOD-003-BE-001
+  module: MVP-MOD-003 People and Clinical Master Data
+  release: REL-001
+  execution_flow_stage: compile
+  business_requirement_version: v0.68.0
+  impact_assessment_required: false
+  bounded_contexts:
+  - patient-management
+  - medical-staff
+  implementation_root: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/peopleclinicalmasterdata/
+capabilities_compiled:
+- capability_id: BCM-PER-001
+  name: Person Management
+  package: personmanagement
+  role: shared_projection_and_duplicate_detection
+  entities:
+  - PersonNaturalKey
+  - PersonSearchEntry
+  - PersonDuplicateCandidate
+  base_path: /api/people/persons
+- capability_id: BCM-PER-002
+  name: Patient Management
+  package: patientmanagement
+  aggregate: AGG-001 Patient
+  entities:
+  - Patient
+  - PatientRepresentative
+  - PatientConsent
+  - PatientDocument
+  - PatientEmergencyContact
+  - PatientSnapshot
+  base_path: /api/people/patients
+- capability_id: BCM-PER-003
+  name: Doctor Management
+  package: doctormanagement
+  aggregate: AGG-005 Doctor
+  entities:
+  - Doctor
+  - ProfessionalCredential
+  - SpecialtyAssignment
+  - DoctorSnapshot
+  base_path: /api/people/doctors
+- capability_id: BCM-ATT-002
+  name: Patient Registration
+  package: patientregistration
+  role: process_orchestration_over_patient_aggregate
+  entities:
+  - PatientRegistrationRequest
+  base_path: /api/care-delivery/patient-registrations
+generated_outputs:
+  backend:
+  - Spring Modulith application module peopleclinicalmasterdata (package-info.java,
+    allowedDependencies organizationmanagement, auditcompliance)
+  - Domain records and repository ports for every aggregate and process record
+  - Application services enforcing only the business rules marked generatable true
+  - REST controllers rendered from each capability's openapi-source.md (4 controllers
+    total covering persons, patients, doctors and patient registrations)
+  - In-memory adapters (profile "!local") and JDBC adapters (profile "local") per
+    repository port
+  - Cross-module directory ports PatientDirectory and DoctorDirectory exposed for
+    downstream consumers to read snapshots without depending on aggregate types (RN-003
+    boundary)
+  - db/people-and-clinical-master-data/schema.sql (new "people" Postgres schema, 8
+    tables)
+  - Shared exception/validation infrastructure (PeopleEntityNotFoundException, InvalidPeopleCommandException,
+    PeopleConflictException, PeopleCustomRuleNotImplementedException mapped to HTTP
+    501, PeopleExceptionHandler, PeopleValidation)
+  - Shared value objects PersonName, PersonDocument, PersonContact, PersonAddress
+    reused across capabilities
+  tests:
+  - PeopleClinicalMasterDataApiTest (8 tests covering the generatable happy paths
+    plus HTTP 501 hook coverage for every deferred custom rule)
+  - PeopleClinicalMasterDataContractTest (asserts every openapi-source.md operation
+    across the 4 capability packages resolves to a registered Spring MVC route)
+  - PeopleClinicalMasterDataLocalDatabaseTest (validates the JDBC adapters against
+    a real Postgres instance using db/people-and-clinical-master-data/schema.sql;
+    assertion also covers that stored normalized natural-key fields honour BCM-PER-001
+    RN-001)
+custom_rule_hooks_deferred_to_be_002:
+- capability: BCM-PER-001
+  rules:
+  - RN-002
+  - RN-003
+  - RN-004
+  - RN-007
+  operations:
+  - rebuildPersonSearchIndex
+  - initiatePersonMergeCoordination
+  - getPersonMergeCoordination
+  - detectPersonDuplicates (basic normalized-key matching is compiled; tenant-configurable
+    weighted confidence scoring is deferred)
+- capability: BCM-PER-002
+  rules:
+  - RN-002
+  - RN-005
+  - RN-006
+  - RN-007
+  operations:
+  - mergePatient
+  - revokePatientRepresentative
+  - revokePatientConsent
+  - registerPatient (duplicate-detection orchestration is deferred; the register command
+    itself remains functional so downstream flows can compile)
+- capability: BCM-PER-003
+  rules:
+  - RN-002
+  - RN-004
+  - RN-005
+  - RN-006
+  - RN-007
+  operations:
+  - suspendDoctor
+  - preparePortalAccess
+  - verifyDoctorCredential
+  - revokeDoctorCredential
+  - registerDoctor (duplicate-detection orchestration is deferred; the register command
+    itself remains functional so downstream flows can compile)
+- capability: BCM-ATT-002
+  rules:
+  - RN-001
+  - RN-002
+  - RN-003
+  - RN-005
+  - RN-006
+  - RN-008
+  operations:
+  - commitPatientRegistration
+model_gaps_identified: []
+out_of_scope_confirmed:
+- Complex custom rules (duplicate detection with tenant-configurable weighted confidence,
+  portal identity linking, credential expiration cascade, patient merge cascade, consent
+  revocation history) - reserved for MVP-MOD-003-BE-002.
+- Employee portal UI (MVP-MOD-003-FE-001).
+- Mobile app.
+- Formal QA validation backlog item MVP-MOD-003-QA-001.
+validations:
+- id: VAL-001
+  name: Backend compiles
+  method: mvn --settings .mvn/settings.xml compile
+  working_directory: 07-implementation/backend
+  result: passed
+- id: VAL-002
+  name: Backend test suite passes without a local database
+  method: mvn --settings .mvn/settings.xml test
+  working_directory: 07-implementation/backend
+  result: passed
+  detail: 47 tests run, 0 failures, 0 errors, 5 skipped (local-db tests skipped without
+    a running Postgres).
+- id: VAL-003
+  name: Backend test suite passes against real Postgres
+  method: docker compose -f compose.local.json up -d postgres; mvn --settings .mvn/settings.xml
+    test -Dhop.local-db-tests=true
+  working_directory: 07-implementation
+  result: passed
+  detail: 52 tests run, 0 failures, 0 errors, 0 skipped. Validates db/people-and-clinical-master-data/schema.sql
+    and the People JDBC adapters against a real Postgres 16 instance.
+- id: VAL-004
+  name: Spring Modulith module boundaries remain valid
+  method: PlatformFoundationModulithTest (ApplicationModules.of(PlatformFoundationApplication.class).verify())
+  result: passed
+  detail: peopleclinicalmasterdata module declares allowedDependencies [organizationmanagement,
+    auditcompliance] and no boundary violations were reported.
+- id: VAL-005
+  name: OpenAPI/contract coverage
+  method: PeopleClinicalMasterDataContractTest cross-checks every operation in all
+    4 openapi-source.md files against registered Spring MVC routes.
+  result: passed
+- id: VAL-006
+  name: Custom rule hooks are explicit and return 501
+  method: PeopleClinicalMasterDataApiTest asserts merge/suspend/portal-access/verify/revoke
+    /commit endpoints respond 501 with ruleId and backlogItem=MVP-MOD-003-BE-002.
+  result: passed
+- id: VAL-007
+  name: YAML repository files remain parseable
+  method: YAML parse of all modified YAML files (schema.sql is not YAML; PROJECT_STATE.md,
+    SOURCE_OF_TRUTH.md and this evidence file parsed without errors).
+  result: passed
+- id: VAL-008
+  name: Agent-agnostic scan
+  method: Reviewed all created Java, YAML and SQL artifacts for named-agent, assistant,
+    model-vendor or platform-runtime requirements.
+  result: passed
+  detail: 0 matches for named-agent, vendor-runtime or cloud-specific requirements
+    in the artifacts introduced by this backlog item.
+- id: VAL-009
+  name: Security quality gate
+  method: See 08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.md.
+  result: passed
+blocking_gaps: []
+readiness:
+  mvp_mod_003_be_001_status: closed
+  ready_for_next_backlog_item: MVP-MOD-003-BE-002
+  next_backlog_item_name: Implement duplicate detection and portal identity custom
+    rules
+  rationale: 'All four People and Clinical Master Data capabilities compile with generatable
+    CRUD flows, persistence (in-memory and JDBC), REST controllers, audit integration
+    and tenant scoping. Aggregate ownership boundaries (AGG-001 Patient owned by patient-management,
+    AGG-005 Doctor owned by medical-staff) are enforced through package-level isolation
+    and cross-module directory ports. Every custom business rule reserved for MVP-MOD-003-BE-002
+    is an explicit, testable hook (PeopleCustomRuleNotImplementedException, HTTP 501).
+    No model gaps were identified in the four capability packages during compilation.
+
+    '
+```

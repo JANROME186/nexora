@@ -1,0 +1,36 @@
+---
+id: HOP-MOB-BCM-SVC-001
+format: markdown_structured_payload
+type: mobile-model
+name: Diagnostic Service Catalog Mobile Model
+version: 0.1.0
+status: not_required
+---
+
+# Diagnostic Service Catalog Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-SVC-001
+  type: mobile-model
+  name: Diagnostic Service Catalog Mobile Model
+  version: 0.1.0
+  status: not_required
+  classification: editable_model
+  capability: BCM-SVC-001
+mobile_scope:
+  status: not_required
+  rationale: 'MVP-MOD-002 declares mobile_app not_required for the Diagnostic Catalog.
+    Catalog authoring is an employee_portal activity. Read-only catalog exposure for
+    mobile is deferred until patient and doctor channel modules.
+
+    '
+  deferred_to:
+  - COM-MOD-009 Patient and Doctor Portals
+  flows: []
+  offline_expectations: none
+```

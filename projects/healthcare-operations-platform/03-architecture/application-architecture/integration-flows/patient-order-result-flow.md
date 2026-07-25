@@ -1,7 +1,7 @@
 # Patient → Order → Sample → Result Application Flow
 
-**ID:** APP-FLOW-001  
-**Estado:** Draft  
+**ID:** APP-FLOW-001
+**Estado:** Draft
 **Versión:** 0.17.0
 
 ## Flujo lógico

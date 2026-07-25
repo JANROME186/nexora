@@ -1,0 +1,70 @@
+---
+id: HOP-EVT-BCM-SVC-001
+format: markdown_structured_payload
+type: events
+name: Diagnostic Service Catalog Events
+version: 0.1.0
+status: modeled
+---
+
+# Diagnostic Service Catalog Events
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-EVT-BCM-SVC-001
+  type: events
+  name: Diagnostic Service Catalog Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-001
+  aggregate: TestDefinition
+domain_events:
+- name: DiagnosticServiceCreated
+  description: A diagnostic service draft was created.
+  payload:
+  - serviceId
+  - tenantId
+  - laboratoryId
+  - code
+  - version
+  audit: true
+- name: DiagnosticServicePublished
+  description: A diagnostic service version was published and frozen.
+  payload:
+  - serviceId
+  - version
+  - publishedAt
+  - publishedBy
+  audit: true
+- name: DiagnosticServiceDeprecated
+  description: A diagnostic service was deprecated.
+  payload:
+  - serviceId
+  - version
+  - deprecatedAt
+  audit: true
+integration_events:
+  published:
+  - name: PublishedServiceCatalogUpdated
+    description: Signals downstream consumers that the published service snapshot
+      changed.
+    consumers:
+    - orders-samples
+    - cash-sales
+    - public_website
+  consumed:
+  - name: TestDefinitionPublished
+    source: BCM-SVC-002
+    description: Used to validate service component publication eligibility.
+  - name: PanelDefinitionPublished
+    source: BCM-SVC-003
+    description: Used to validate panel component publication eligibility.
+published_language:
+- TestDefinition
+- PublishedServiceSnapshot
+```

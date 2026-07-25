@@ -1,7 +1,7 @@
 # Webhook Strategy
 
-**Artifact ID:** IIA-WHK-001  
-**Version:** 0.20.0  
+**Artifact ID:** IIA-WHK-001
+**Version:** 0.20.0
 
 ## Purpose
 

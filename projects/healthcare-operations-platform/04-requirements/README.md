@@ -10,7 +10,7 @@ This requirements package defines the initial complete requirements baseline for
 
 ## Contents
 
-- `requirements-manifest.yaml`
+- `requirements-manifest.md`
 - `srs/healthcare-operations-platform-srs.md`
 - `functional/functional-requirements-catalog.md`
 - `non-functional/non-functional-requirements.md`

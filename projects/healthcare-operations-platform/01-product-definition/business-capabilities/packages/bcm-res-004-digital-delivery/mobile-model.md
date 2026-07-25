@@ -1,0 +1,56 @@
+---
+id: HOP-MOB-BCM-RES-004
+format: markdown_structured_payload
+type: mobile-model
+name: Digital Delivery Mobile Model
+version: 0.1.0
+status: modeled
+---
+
+# Digital Delivery Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-RES-004
+  type: mobile-model
+  name: Digital Delivery Mobile Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-004
+mobile_scope:
+  status: result_view_required
+  rationale: 'MVP-MOD-007 declares mobile_app as result_view_required at the module
+    level. This capability is the module''s owner of that requirement: patients (and,
+    where applicable, referring doctors) must be able to view their own released results
+    and download the attached report from the mobile app, subject to the same DeliveryAuthorizationCheck
+    enforced on the patient/doctor portals.
+
+    '
+  target_app: patient_app
+  flows:
+  - id: MOB-DLV-004-01
+    name: List my released results
+    route: results
+    scopes:
+    - delivery.view
+    generatable: true
+  - id: MOB-DLV-004-02
+    name: View released result detail and download report
+    route: results/:deliveryTicketId
+    scopes:
+    - delivery.view
+    generatable: false
+    custom_reason: Triggers RecordResultViewed and re-verifies authorization before
+      rendering, mirroring the portal detail screen.
+  offline_expectations: 'A previously viewed result summary may be cached read-only
+    for offline display; report download and any RecordResultViewed transition require
+    connectivity and are never queued offline, since view-state auditing must be recorded
+    at the moment of access.
+
+    '
+```

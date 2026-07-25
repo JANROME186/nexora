@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * Value object mirroring {@code manifest.yaml} per the HOP Open Data Ingestion Standard
- * (NXF-ODI-STD-001) and open-data-ingestion-contract.yaml. Every field here is a required
+ * (NXF-ODI-STD-001) and open-data-ingestion-contract.md. Every field here is a required
  * manifest field per the contract; a package that cannot provide all of them is rejected before
  * parsing continues (RN-001, INV-MIG-001).
  */

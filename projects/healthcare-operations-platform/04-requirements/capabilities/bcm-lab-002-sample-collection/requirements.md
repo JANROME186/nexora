@@ -137,3 +137,215 @@ As a manager, I want to view indicators for Sample Collection so that I can make
 - Scenario: required fields and business rules are validated.
 - Scenario: the action is auditable.
 - Scenario: the UI provides clear feedback and supports localization.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: REQ-BCM-LAB-002
+  type: capability-requirements
+  name: Sample Collection Requirements
+  version: 1.0.0
+  status: approved
+  owner: Product Requirements Team
+  source_of_truth: 04-requirements/capabilities/bcm-lab-002-sample-collection/requirements.md
+  depends_on:
+  - BCM-LAB-002
+  - BCM-001
+capability:
+  domain_id: DOM-05
+  domain_name: Clinical Operations
+  id: BCM-LAB-002
+  name_en: Sample Collection
+  name_es: Toma de Muestras
+  priority: Critical
+  roadmap: MVP1
+actors:
+- Sample Collector
+- Laboratory Technician
+- Clinical Validator
+- Medical Director
+portals:
+- employee_portal
+mobile: supported_when_operationally_required
+related_aggregates:
+- DiagnosticOrder
+- Sample
+- SampleTransport
+- ProcessingBatch
+- Validation
+primary_events:
+- DiagnosticOrderCreated
+- SampleCollected
+- SampleReceived
+- ResultValidationRequested
+requirements:
+- id: FR-LAB-002-001
+  type: functional
+  capability: BCM-LAB-002
+  domain: DOM-05
+  statement: The platform shall support traceable execution of toma de muestras from
+    diagnostic order to result lifecycle.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-002-002
+  type: functional
+  capability: BCM-LAB-002
+  domain: DOM-05
+  statement: The platform shall enforce sample, test, branch and user authorization
+    rules before allowing toma de muestras.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-002-003
+  type: functional
+  capability: BCM-LAB-002
+  domain: DOM-05
+  statement: The platform shall record timestamps, responsible users, exceptions and
+    status transitions for toma de muestras.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-002-004
+  type: functional
+  capability: BCM-LAB-002
+  domain: DOM-05
+  statement: The platform shall support barcode/label-driven workflows where operationally
+    required.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-002-005
+  type: functional
+  capability: BCM-LAB-002
+  domain: DOM-05
+  statement: The platform shall publish domain events for downstream results, billing,
+    inventory, quality and notification processes.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+user_stories:
+- id: US-LAB-002-001
+  capability: BCM-LAB-002
+  title: Manage Sample Collection
+  story: As an authorized user, I want to manage Sample Collection so that the organization
+    can operate this capability consistently.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+- id: US-LAB-002-002
+  capability: BCM-LAB-002
+  title: Search Sample Collection
+  story: As an authorized user, I want to search and filter Sample Collection so that
+    I can find records quickly.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+- id: US-LAB-002-003
+  capability: BCM-LAB-002
+  title: Audit Sample Collection
+  story: As a supervisor, I want to review the audit history of Sample Collection
+    so that I can verify accountability and compliance.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+- id: US-LAB-002-004
+  capability: BCM-LAB-002
+  title: Configure Sample Collection
+  story: As an administrator, I want to configure Sample Collection according to laboratory
+    and branch rules so that the workflow fits operational needs.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+- id: US-LAB-002-005
+  capability: BCM-LAB-002
+  title: Report Sample Collection
+  story: As a manager, I want to view indicators for Sample Collection so that I can
+    make operational decisions.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+non_functional_requirements:
+- Must support internationalization for visible labels, validation messages and notifications.
+- Must record audit metadata for create, update, delete, approve, cancel and release
+  actions.
+- Must enforce tenant, laboratory and branch isolation.
+- Must expose contract-first API behavior when external or frontend integration is
+  required.
+- Must support accessibility and low-resource device constraints where user-facing.
+definition_of_ready:
+- Capability exists in BCM-001.
+- Owning domain and bounded context are identified.
+- Actors and portals are identified.
+- Functional requirements are approved.
+- Traceability to aggregates and events is present.
+definition_of_done:
+- OpenAPI contracts generated or updated.
+- Backend use cases implemented.
+- Frontend/mobile interactions implemented if applicable.
+- Unit, integration and contract tests pass.
+- Audit, security and observability requirements verified.
+```

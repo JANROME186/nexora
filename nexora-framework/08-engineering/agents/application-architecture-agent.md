@@ -1,7 +1,7 @@
 # Application Architecture Agent
 
-**ID:** AGENT-APP-ARCH-001  
-**Estado:** Draft  
+**ID:** AGENT-APP-ARCH-001
+**Estado:** Draft
 **Versión:** 0.17.0
 
 ## Objetivo
@@ -10,8 +10,8 @@ Diseñar, validar y mantener la arquitectura de aplicaciones de Nexora usando ca
 
 ## Entradas
 
-- `PROJECT_MANIFEST.yaml`
-- `SOURCE_OF_TRUTH.yaml`
+- `PROJECT_MANIFEST.md`
+- `SOURCE_OF_TRUTH.md`
 - `business/capabilities/**`
 - `domains/**`
 - `contracts/openapi/**`

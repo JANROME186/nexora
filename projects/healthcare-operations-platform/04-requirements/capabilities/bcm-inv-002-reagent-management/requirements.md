@@ -136,3 +136,213 @@ As a manager, I want to view indicators for Reagent Management so that I can mak
 - Scenario: required fields and business rules are validated.
 - Scenario: the action is auditable.
 - Scenario: the UI provides clear feedback and supports localization.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: REQ-BCM-INV-002
+  type: capability-requirements
+  name: Reagent Management Requirements
+  version: 1.0.0
+  status: approved
+  owner: Product Requirements Team
+  source_of_truth: 04-requirements/capabilities/bcm-inv-002-reagent-management/requirements.md
+  depends_on:
+  - BCM-INV-002
+  - BCM-001
+capability:
+  domain_id: DOM-08
+  domain_name: Inventory
+  id: BCM-INV-002
+  name_en: Reagent Management
+  name_es: Reactivos
+  priority: Critical
+  roadmap: MVP2
+actors:
+- Inventory Manager
+- Purchasing Officer
+- Laboratory Technician
+portals:
+- employee_portal
+mobile: supported_when_operationally_required
+related_aggregates:
+- InventoryItem
+- StockLot
+- PurchaseOrder
+- StockMovement
+- WasteRecord
+primary_events:
+- StockReceived
+- StockConsumed
+- StockExpired
+requirements:
+- id: FR-INV-002-001
+  type: functional
+  capability: BCM-INV-002
+  domain: DOM-08
+  statement: The platform shall manage reactivos with branch-level stock control,
+    lot traceability and expiration handling.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-002-002
+  type: functional
+  capability: BCM-INV-002
+  domain: DOM-08
+  statement: The platform shall prevent the use of expired, inactive or blocked inventory
+    items in clinical operations.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-002-003
+  type: functional
+  capability: BCM-INV-002
+  domain: DOM-08
+  statement: The platform shall record stock movements, responsible users and business
+    justification for reactivos.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-002-004
+  type: functional
+  capability: BCM-INV-002
+  domain: DOM-08
+  statement: The platform shall support alerts and reporting for low stock, expiration
+    and consumption trends.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-002-005
+  type: functional
+  capability: BCM-INV-002
+  domain: DOM-08
+  statement: The platform shall relate Reagent Management to diagnostic services and
+    quality workflows when applicable.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+user_stories:
+- id: US-INV-002-001
+  capability: BCM-INV-002
+  title: Manage Reagent Management
+  story: As an authorized user, I want to manage Reagent Management so that the organization
+    can operate this capability consistently.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+- id: US-INV-002-002
+  capability: BCM-INV-002
+  title: Search Reagent Management
+  story: As an authorized user, I want to search and filter Reagent Management so
+    that I can find records quickly.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+- id: US-INV-002-003
+  capability: BCM-INV-002
+  title: Audit Reagent Management
+  story: As a supervisor, I want to review the audit history of Reagent Management
+    so that I can verify accountability and compliance.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+- id: US-INV-002-004
+  capability: BCM-INV-002
+  title: Configure Reagent Management
+  story: As an administrator, I want to configure Reagent Management according to
+    laboratory and branch rules so that the workflow fits operational needs.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+- id: US-INV-002-005
+  capability: BCM-INV-002
+  title: Report Reagent Management
+  story: As a manager, I want to view indicators for Reagent Management so that I
+    can make operational decisions.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+non_functional_requirements:
+- Must support internationalization for visible labels, validation messages and notifications.
+- Must record audit metadata for create, update, delete, approve, cancel and release
+  actions.
+- Must enforce tenant, laboratory and branch isolation.
+- Must expose contract-first API behavior when external or frontend integration is
+  required.
+- Must support accessibility and low-resource device constraints where user-facing.
+definition_of_ready:
+- Capability exists in BCM-001.
+- Owning domain and bounded context are identified.
+- Actors and portals are identified.
+- Functional requirements are approved.
+- Traceability to aggregates and events is present.
+definition_of_done:
+- OpenAPI contracts generated or updated.
+- Backend use cases implemented.
+- Frontend/mobile interactions implemented if applicable.
+- Unit, integration and contract tests pass.
+- Audit, security and observability requirements verified.
+```

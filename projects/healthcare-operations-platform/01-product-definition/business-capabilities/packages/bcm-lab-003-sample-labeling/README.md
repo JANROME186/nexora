@@ -27,24 +27,24 @@ MVP-MOD-004.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | LabelPrintJob process record and mismatch-check value object |
-| `business-rules.yaml` | Numbered rules RN-001..RN-006 |
-| `processes.yaml` | Print, confirm and reprint specimen label |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee portal label action panel |
-| `mobile-model.yaml` | Mobile scope (not_required; deferred to BCM-LAB-002) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | LabelPrintJob process record and mismatch-check value object |
+| `business-rules.md` | Numbered rules RN-001..RN-006 |
+| `processes.md` | Print, confirm and reprint specimen label |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee portal label action panel |
+| `mobile-model.md` | Mobile scope (not_required; deferred to BCM-LAB-002) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, UI, tests, QA |
 
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers the label-print precondition check, mismatch
 detection, the delegated aggregate-boundary rule and relabeling override
 capture.

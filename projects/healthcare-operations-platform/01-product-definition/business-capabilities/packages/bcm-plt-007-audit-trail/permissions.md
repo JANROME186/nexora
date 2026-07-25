@@ -1,0 +1,41 @@
+---
+id: HOP-PRM-BCM-PLT-007
+format: markdown_structured_payload
+type: permissions
+name: Audit Trail Permissions
+version: 1.1.0
+status: modeled
+---
+
+# Audit Trail Permissions
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PRM-BCM-PLT-007
+  type: permissions
+  name: Audit Trail Permissions
+  version: 1.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-007
+permissions:
+- code: audit.trail.search
+  name:
+    en: Search Audit Trail
+    es: Buscar en Bitácora de Auditoría
+  description: Grants permission to search, filter, and view append-only audit events.
+  actions:
+  - searchAuditEvents
+- code: audit.trail.export
+  name:
+    en: Export Compliance Audit Evidence
+    es: Exportar Evidencia para Auditoría de Cumplimiento
+  description: Grants permission to generate and download compliance audit trail exports
+    for external auditors.
+  actions:
+  - exportAuditEvents
+```

@@ -1,0 +1,31 @@
+---
+id: HOP-MOB-BCM-ORG-003
+format: markdown_structured_payload
+type: mobile-model
+name: Branch Management Mobile Model
+version: 1.0.0
+---
+
+# Branch Management Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-ORG-003
+  type: mobile-model
+  name: Branch Management Mobile Model
+  version: 1.0.0
+views:
+- id: MOB-BRN-001
+  name: BranchSelectorScreen
+  surface: mobile_app
+  scope: read_only_info
+  description: Allows patients and staff to discover physical branch locations, view
+    operating schedules, and check address details.
+offline_support:
+  read_cached: true
+  mutation_allowed: false
+```

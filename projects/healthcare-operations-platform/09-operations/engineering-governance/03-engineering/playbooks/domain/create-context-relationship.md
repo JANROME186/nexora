@@ -9,7 +9,7 @@
 5. Define published language.
 6. Define allowed commands, queries or events.
 7. Define forbidden operations.
-8. Update `context-map.yaml`.
+8. Update `context-map.md`.
 9. Regenerate diagrams.
 10. Run Context Map Validator.
 11. Update Knowledge Graph.

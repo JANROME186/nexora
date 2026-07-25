@@ -1,6 +1,6 @@
 package com.nexora.hop.platformfoundation.marketplaceentitlements.tenantentitlements.domain;
 
-/** Outcome of an entitlement policy evaluation (entitlement-policy.yaml {@code decision_outputs}). */
+/** Outcome of an entitlement policy evaluation (entitlement-policy.md {@code decision_outputs}). */
 public record EntitlementDecision(String decision, String reason) {
 
     public static final String ALLOWED = "allowed";

@@ -1,0 +1,60 @@
+---
+id: HOP-EVT-BCM-LAB-008
+format: markdown_structured_payload
+type: events
+name: Technical Validation Events
+version: 0.1.0
+status: modeled
+---
+
+# Technical Validation Events
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-EVT-BCM-LAB-008
+  type: events
+  name: Technical Validation Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-008
+domain_events:
+- name: ResultTechnicallyValidated
+  description: A result passed technical/analytical acceptance review.
+  payload:
+  - resultId
+  - actorId
+  - validatedAt
+  audit: true
+- name: ResultFlaggedCritical
+  description: A result exceeded a critical threshold and requires expedited notification.
+  payload:
+  - resultId
+  - actorId
+  - criticalReason
+  - flaggedAt
+  audit: true
+integration_events:
+  published:
+  - name: ResultTechnicallyValidated
+    description: Signals medical validation that the result is ready for clinical
+      review.
+    consumers:
+    - laboratory-results
+  - name: ResultFlaggedCritical
+    description: Signals notification management to create a traceable critical-result
+      alert; consumed later for delivery evidence in MVP-MOD-007.
+    consumers:
+    - laboratory-results
+    - notifications
+  consumed:
+  - name: ResultSubmittedForValidation
+    source: BCM-LAB-006
+published_language:
+- ResultTechnicallyValidated
+- ResultFlaggedCritical
+```

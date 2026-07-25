@@ -1,0 +1,61 @@
+---
+id: HOP-EVT-BCM-RES-005
+format: markdown_structured_payload
+type: events
+name: Result History Events
+version: 0.1.0
+status: modeled
+---
+
+# Result History Events
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-EVT-BCM-RES-005
+  type: events
+  name: Result History Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-005
+domain_events:
+- name: ResultHistoryEntryProjected
+  description: A new authorized result entry was added to a patient's history projection.
+  payload:
+  - historyEntryId
+  - patientId
+  - resultId
+  - analyteName
+  - trendIndicator
+  audit: false
+- name: ResultHistoryViewed
+  description: A patient or referring doctor viewed their result history.
+  payload:
+  - patientId
+  - actorId
+  - actorType
+  audit: true
+- name: ResultHistoryEntryUpdated
+  description: An existing history entry was updated after an amendment was re-authorized.
+  payload:
+  - historyEntryId
+  - resultId
+  audit: true
+integration_events:
+  published:
+  - name: ResultHistoryViewed
+    description: Signals audit-compliance of history access.
+    consumers:
+    - audit-compliance
+  consumed:
+  - name: ResultDeliveryAuthorized
+    source: BCM-RES-004
+  - name: ResultDeliveryWithheld
+    source: BCM-RES-004
+published_language:
+- ResultHistoryViewed
+```

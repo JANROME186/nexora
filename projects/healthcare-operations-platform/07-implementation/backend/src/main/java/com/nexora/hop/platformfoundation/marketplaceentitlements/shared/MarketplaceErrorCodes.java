@@ -2,12 +2,12 @@ package com.nexora.hop.platformfoundation.marketplaceentitlements.shared;
 
 /**
  * Canonical structured error codes for BCM-PLT-011 Product Marketplace and Entitlements, matching
- * {@code openapi-source.yaml error_model.standard_errors} plus the additional not-found/conflict
+ * {@code openapi-source.md error_model.standard_errors} plus the additional not-found/conflict
  * codes every capability needs, mirroring {@code IntegrationErrorCodes}.
  */
 public final class MarketplaceErrorCodes {
 
-    // openapi-source.yaml error_model.standard_errors
+    // openapi-source.md error_model.standard_errors
     public static final String PACKAGE_NOT_FOUND = "PACKAGE_NOT_FOUND";
     public static final String OFFER_NOT_AVAILABLE = "OFFER_NOT_AVAILABLE";
     public static final String ENTITLEMENT_REQUIRED = "ENTITLEMENT_REQUIRED";

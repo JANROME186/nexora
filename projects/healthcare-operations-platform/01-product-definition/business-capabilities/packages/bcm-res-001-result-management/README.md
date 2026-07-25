@@ -27,19 +27,19 @@ delivery and critical-result handling build upon.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | ResultSearchIndexEntry read projection and access-audit entry |
-| `business-rules.yaml` | Numbered rules RN-001..RN-005 |
-| `processes.yaml` | Projection rebuild, search/worklist query |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee portal search/worklist and detail screens |
-| `mobile-model.yaml` | Mobile scope (not_required; internal-only surface) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | ResultSearchIndexEntry read projection and access-audit entry |
+| `business-rules.md` | Numbered rules RN-001..RN-005 |
+| `processes.md` | Projection rebuild, search/worklist query |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee portal search/worklist and detail screens |
+| `mobile-model.md` | Mobile scope (not_required; internal-only surface) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, UI, tests, QA |
 
 ## Key rules modeled
 
@@ -51,7 +51,7 @@ delivery and critical-result handling build upon.
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers the event-sourced projection rebuild, row-level scope
 filtering, mandatory access-audit append and the read-only architecture
 boundary.

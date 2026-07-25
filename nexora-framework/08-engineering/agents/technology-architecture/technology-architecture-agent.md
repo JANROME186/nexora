@@ -15,8 +15,8 @@ Mantener la arquitectura tecnológica de Nexora portable, agnóstica de proveedo
 ## Entradas
 
 - `CONSTITUTION.md`
-- `PROJECT_MANIFEST.yaml`
-- `technology-architecture/technology-architecture.yaml`
+- `PROJECT_MANIFEST.md`
+- `technology-architecture/technology-architecture.md`
 - `platform-engineering/`
 - `application-architecture/`
 - `data-architecture/`

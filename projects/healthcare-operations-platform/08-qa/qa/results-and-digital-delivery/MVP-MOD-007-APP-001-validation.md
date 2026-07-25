@@ -1,5 +1,5 @@
 ---
-machine_readable: MVP-MOD-007-APP-001-validation.yaml
+machine_readable: MVP-MOD-007-APP-001-validation.md
 ---
 
 # QA Validation Evidence: MVP-MOD-007-APP-001
@@ -21,3 +21,38 @@ This document serves as the human-readable companion to the validation of `MVP-M
 
 ## Notes
 - The initial implementations for mobile views and notifications have been completed, verified with high coverage, and are fully aligned with the architectural specifications.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: MVP-MOD-007-APP-001-validation
+  type: validation-evidence
+  name: Mobile Result View and Notification Baseline Validation
+  version: 1.0.0
+  status: approved
+  human_readable: MVP-MOD-007-APP-001-validation.md
+context:
+  module: MVP-MOD-007 Results and Digital Delivery
+  backlog_item: MVP-MOD-007-APP-001
+evidence:
+  coverage:
+    tool: vitest
+    line_coverage_percentage: 98.87
+    threshold_met: true
+  quality:
+    tool: eslint, prettier, jscpd, tsc
+    passed: true
+  security:
+    tool: npm audit
+    vulnerabilities_found: 0
+    passed: true
+  technical_debt:
+    resolved:
+    - TD-STACK-004
+    - TD-FE-007
+validation_date: '2026-07-18'
+validated_by: autonomous_implementation_agent
+```

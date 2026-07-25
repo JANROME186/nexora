@@ -1,0 +1,119 @@
+---
+id: HOP-TRACE-BCM-INV-006
+format: markdown_structured_payload
+type: traceability
+name: Stock Exits Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Stock Exits Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-INV-006
+  type: traceability
+  name: Stock Exits Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-006
+traces:
+  capability_map:
+    bcm_001: BCM-INV-006
+    domain: DOM-08 Inventory
+  dependency_map:
+    bcm_002_profile: inventory_quality
+    required_capabilities:
+    - BCM-INV-001
+    - BCM-INV-003
+    - BCM-SVC-002
+    - BCM-SVC-007
+    - BCM-ORG-003
+    - BCM-PLT-001
+    - BCM-PLT-007
+    downstream_capabilities:
+    - BCM-INV-007
+    - BCM-INV-009
+  domain_foundation:
+    bounded_context: inventory-procurement
+    aggregate_reference: AGG-013 InventoryItem (owned by BCM-INV-001; stockSummary
+      decrease delegated to this capability via ApplyStockExit)
+    context_relationships:
+    - REL-CTX-007
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-003
+    - VO-ID-004
+    - VO-007
+  brm_alignment: []
+  hrp_alignment:
+  - process: not_yet_defined_in_HRP-001
+    capability_role: Self-contained processes.md; tracked as a non-blocking documentation
+      gap.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-SXT-006-01
+  - rule: RN-002
+    tests:
+    - TST-SXT-006-02
+  - rule: RN-003
+    tests:
+    - TST-SXT-006-03
+  - rule: RN-004
+    tests:
+    - TST-SXT-006-04
+  - rule: RN-005
+    tests:
+    - TST-SXT-006-05
+  processes_to_commands:
+  - process: PRC-SXT-006-01
+    commands:
+    - ApplyStockExit
+  api_to_permissions:
+  - operation: applyStockExit
+    scope: inventory.exits.manage
+  - operation: listStockExits
+    scope: inventory.exits.read
+  events_to_audit:
+  - event: StockExited
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-SXT-006-01
+    operations:
+    - applyStockExit
+    - listStockExits
+  consumed_by_capabilities:
+  - capability: BCM-INV-009
+    relationship: Expired-lot events inform when a return-to-supplier exit is no longer
+      viable and disposal applies instead.
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-DEF-validation.md
+  compilation_evidence:
+    backend_implementation: ../../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/inventoryquality/stockexits/
+    schema: ../../../../../07-implementation/backend/src/main/resources/db/inventory-and-internal-quality/schema.sql
+    qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-001-validation.md
+    security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-010-BE-001/security-quality-evidence.md
+    notes: applyStockExit and listStockExits compiled. Delegated Apply* decrement
+      of both InventoryItem.stockSummary.onHandQuantity and StockLot.remainingQuantity
+      with a real-time lot-eligibility and remaining-quantity guard (RN-001/RN-004).
+      Inter-branch transfers require a destinationBranchId (RN-002).
+  backlog_items:
+    definition: COM-MOD-010-DEF
+    definition_status: closed
+    compilation: COM-MOD-010-BE-001
+    compilation_status: closed
+    custom_rules: COM-MOD-010-BE-001
+    custom_rules_status: closed
+    ui: COM-MOD-010-FE-001
+    ui_status: closed
+    validation: COM-MOD-010-QA-001
+    validation_status: closed
+    closeout: COM-MOD-010-CLOSEOUT
+    closeout_status: closed
+```

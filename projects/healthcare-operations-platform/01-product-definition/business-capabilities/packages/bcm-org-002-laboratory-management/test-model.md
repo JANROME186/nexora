@@ -1,0 +1,48 @@
+---
+id: HOP-TST-BCM-ORG-002
+format: markdown_structured_payload
+type: test-model
+name: Laboratory Management Test Model
+version: 1.0.0
+---
+
+# Laboratory Management Test Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TST-BCM-ORG-002
+  type: test-model
+  name: Laboratory Management Test Model
+  version: 1.0.0
+test_cases:
+- id: TEST-LAB-001
+  name: Validate laboratory code uniqueness under tenant
+  type: unit
+  target_rule: RN-LAB-001
+  expected_result: Registration fails with 409 Conflict if code already exists under
+    tenant.
+- id: TEST-LAB-002
+  name: Validate sanitary license required for laboratory activation
+  type: integration
+  target_rule: RN-LAB-002
+  expected_result: Activation fails if sanitary license is expired or missing.
+- id: TEST-LAB-003
+  name: Validate clinical director assignment
+  type: integration
+  target_rule: RN-LAB-003
+  expected_result: Clinical director assignment verifies professional license credentials.
+- id: TEST-LAB-004
+  name: Validate sanitary license expiration warning scheduler
+  type: unit
+  target_rule: RN-LAB-004
+  expected_result: Warning alert generated when license expires within 30 days.
+- id: TEST-LAB-005
+  name: Validate status suspension propagation to child branches
+  type: contract
+  target_rule: RN-LAB-005
+  expected_result: Suspending a laboratory sets operational pause across child branches.
+```

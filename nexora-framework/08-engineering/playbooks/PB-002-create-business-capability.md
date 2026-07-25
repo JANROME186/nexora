@@ -15,15 +15,15 @@ Create a new business capability and connect it to the Product Knowledge Graph.
 ## Steps
 
 1. Read `CONSTITUTION.md`.
-2. Read `PROJECT_MANIFEST.yaml`.
+2. Read `PROJECT_MANIFEST.md`.
 3. Read `business/architecture/value-chain.md`.
 4. Identify the value stream where the capability participates.
 5. Create or update `business/capabilities/business-capability-model.md`.
 6. Create the capability file under `business/capabilities/<capability-name>.md`.
 7. Define objectives, roles, processes, rules, events and metrics.
 8. Create traceability entries under `business/traceability/`.
-9. Update `KNOWLEDGE_INDEX.yaml`.
-10. Update `PROJECT_STATE.yaml`.
+9. Update `KNOWLEDGE_INDEX.md`.
+10. Update `PROJECT_STATE.md`.
 11. Add changelog entry.
 
 ## Quality Gates

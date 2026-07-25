@@ -1,0 +1,137 @@
+---
+id: HOP-TRACE-BCM-INV-003
+format: markdown_structured_payload
+type: traceability
+name: Lot Management Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Lot Management Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-INV-003
+  type: traceability
+  name: Lot Management Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-003
+traces:
+  capability_map:
+    bcm_001: BCM-INV-003
+    domain: DOM-08 Inventory
+  dependency_map:
+    bcm_002_profile: inventory_quality
+    required_capabilities:
+    - BCM-INV-001
+    - BCM-SVC-002
+    - BCM-SVC-007
+    - BCM-ORG-003
+    - BCM-PLT-001
+    - BCM-PLT-007
+    downstream_capabilities:
+    - BCM-INV-005
+    - BCM-INV-006
+    - BCM-INV-007
+  domain_foundation:
+    bounded_context: inventory-procurement
+    aggregate_reference: AGG-013 InventoryItem (owned by BCM-INV-001; StockLot is
+      a sibling entity owned by this capability)
+    context_relationships:
+    - REL-CTX-007
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-003
+    - VO-007
+  brm_alignment: []
+  hrp_alignment:
+  - process: not_yet_defined_in_HRP-001
+    capability_role: Self-contained processes.md; tracked as a non-blocking documentation
+      gap.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-LOT-003-01
+  - rule: RN-002
+    tests:
+    - TST-LOT-003-02
+  - rule: RN-003
+    tests:
+    - TST-LOT-003-03
+  - rule: RN-004
+    tests:
+    - TST-LOT-003-04
+  - rule: RN-005
+    tests:
+    - TST-LOT-003-05
+  processes_to_commands:
+  - process: PRC-LOT-003-01
+    commands:
+    - RegisterStockLot
+  - process: PRC-LOT-003-02
+    commands:
+    - QuarantineStockLot
+  - process: PRC-LOT-003-03
+    commands:
+    - ExpireStockLot
+  api_to_permissions:
+  - operation: registerStockLot
+    scope: inventory.lot.manage
+  - operation: quarantineStockLot
+    scope: inventory.lot.manage
+  events_to_audit:
+  - event: StockLotQuarantined
+    audit_sink: BCM-PLT-007
+  - event: StockLotExpired
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-LOT-003-01
+    operations:
+    - registerStockLot
+    - listStockLots
+    - quarantineStockLot
+  consumed_by_capabilities:
+  - capability: BCM-INV-005
+    relationship: Creates the first StockLot on initial receipt and increases remainingQuantity.
+  - capability: BCM-INV-006
+    relationship: Decreases remainingQuantity on exit.
+  - capability: BCM-INV-007
+    relationship: Decreases remainingQuantity on consumption.
+  - capability: BCM-INV-008
+    relationship: Corrects remainingQuantity on adjustment.
+  - capability: BCM-INV-009
+    relationship: Decreases remainingQuantity and marks disposal on waste.
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-DEF-validation.md
+  compilation_evidence:
+    backend_implementation: ../../../../../07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/inventoryquality/lotmanagement/
+    schema: ../../../../../07-implementation/backend/src/main/resources/db/inventory-and-internal-quality/schema.sql
+    qa_evidence: ../../../../08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-001-validation.md
+    security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-010-BE-001/security-quality-evidence.md
+    notes: registerStockLot, listStockLots, quarantineStockLot and expireStockLot
+      compiled. StockLot aggregate persistence via JdbcStockLotRepository (@Profile("local"))
+      + InMemoryStockLotRepository fallback. Registering a lot bumps InventoryItem.stockSummary.onHandQuantity
+      by the received quantity, keeping stock accounting consistent from receipt onwards.
+      Terminal-state guard (RN-004) rejects transitions on disposed/expired lots;
+      a scheduled expiration sweep remains a future backlog item, tracked only as
+      a naturally-open modeling extension (not a technical-debt item at this stage).
+  backlog_items:
+    definition: COM-MOD-010-DEF
+    definition_status: closed
+    compilation: COM-MOD-010-BE-001
+    compilation_status: closed
+    custom_rules: COM-MOD-010-BE-001
+    custom_rules_status: closed
+    ui: COM-MOD-010-FE-001
+    ui_status: closed
+    validation: COM-MOD-010-QA-001
+    validation_status: closed
+    closeout: COM-MOD-010-CLOSEOUT
+    closeout_status: closed
+```

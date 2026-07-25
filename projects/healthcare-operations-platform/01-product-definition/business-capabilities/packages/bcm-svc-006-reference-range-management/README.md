@@ -28,4 +28,4 @@ Standard 14-artifact capability package per the Business Capability Package Stan
 This capability is clinical-decision sensitive: most enforcement is custom (threshold
 consistency, segment overlap, analyte publication validation, effective-dated versioning
 and effective range resolution). CRUD, DTOs, controllers, repositories, SDKs, Swagger and
-repetitive tests remain generated outputs declared in `generation-plan.yaml`.
+repetitive tests remain generated outputs declared in `generation-plan.md`.

@@ -464,3 +464,7783 @@ Total functional requirements: **450**
 | FR-AI-008-003 | BCM-AI-008 | The platform shall keep AI provider usage behind an abstraction layer. | High | MVP3 |
 | FR-AI-008-004 | BCM-AI-008 | The platform shall log AI requests, generated outputs, confidence metadata and user decisions. | High | MVP3 |
 | FR-AI-008-005 | BCM-AI-008 | The platform shall provide fallback behavior when AI is disabled, unavailable or not licensed. | High | MVP3 |
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: FR-CATALOG-001
+  type: functional-requirements-catalog
+  version: 1.0.0
+  status: approved
+summary:
+  count: 460
+requirements:
+- id: FR-ORG-001-001
+  type: functional
+  capability: BCM-ORG-001
+  domain: DOM-01
+  statement: The platform shall allow authorized administrators to create, update,
+    activate, suspend and audit gestión de tenants.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-001-002
+  type: functional
+  capability: BCM-ORG-001
+  domain: DOM-01
+  statement: The platform shall associate gestión de tenants with the correct tenant,
+    laboratory and branch hierarchy.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-001-003
+  type: functional
+  capability: BCM-ORG-001
+  domain: DOM-01
+  statement: The platform shall enforce role-based and attribute-based permissions
+    for all gestión de tenants operations.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-001-004
+  type: functional
+  capability: BCM-ORG-001
+  domain: DOM-01
+  statement: The platform shall preserve historical changes for gestión de tenants
+    using audit metadata and immutable audit events.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-001-005
+  type: functional
+  capability: BCM-ORG-001
+  domain: DOM-01
+  statement: The platform shall expose Tenant Management capabilities through contract-first
+    APIs and reusable web components.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-002-001
+  type: functional
+  capability: BCM-ORG-002
+  domain: DOM-01
+  statement: The platform shall allow authorized administrators to create, update,
+    activate, suspend and audit gestión de laboratorios.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-002-002
+  type: functional
+  capability: BCM-ORG-002
+  domain: DOM-01
+  statement: The platform shall associate gestión de laboratorios with the correct
+    tenant, laboratory and branch hierarchy.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-002-003
+  type: functional
+  capability: BCM-ORG-002
+  domain: DOM-01
+  statement: The platform shall enforce role-based and attribute-based permissions
+    for all gestión de laboratorios operations.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-002-004
+  type: functional
+  capability: BCM-ORG-002
+  domain: DOM-01
+  statement: The platform shall preserve historical changes for gestión de laboratorios
+    using audit metadata and immutable audit events.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-002-005
+  type: functional
+  capability: BCM-ORG-002
+  domain: DOM-01
+  statement: The platform shall expose Laboratory Management capabilities through
+    contract-first APIs and reusable web components.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-003-001
+  type: functional
+  capability: BCM-ORG-003
+  domain: DOM-01
+  statement: The platform shall allow authorized administrators to create, update,
+    activate, suspend and audit gestión de sucursales.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-003-002
+  type: functional
+  capability: BCM-ORG-003
+  domain: DOM-01
+  statement: The platform shall associate gestión de sucursales with the correct tenant,
+    laboratory and branch hierarchy.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-003-003
+  type: functional
+  capability: BCM-ORG-003
+  domain: DOM-01
+  statement: The platform shall enforce role-based and attribute-based permissions
+    for all gestión de sucursales operations.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-003-004
+  type: functional
+  capability: BCM-ORG-003
+  domain: DOM-01
+  statement: The platform shall preserve historical changes for gestión de sucursales
+    using audit metadata and immutable audit events.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-003-005
+  type: functional
+  capability: BCM-ORG-003
+  domain: DOM-01
+  statement: The platform shall expose Branch Management capabilities through contract-first
+    APIs and reusable web components.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-004-001
+  type: functional
+  capability: BCM-ORG-004
+  domain: DOM-01
+  statement: The platform shall allow authorized administrators to create, update,
+    activate, suspend and audit gestión de departamentos.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-004-002
+  type: functional
+  capability: BCM-ORG-004
+  domain: DOM-01
+  statement: The platform shall associate gestión de departamentos with the correct
+    tenant, laboratory and branch hierarchy.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-004-003
+  type: functional
+  capability: BCM-ORG-004
+  domain: DOM-01
+  statement: The platform shall enforce role-based and attribute-based permissions
+    for all gestión de departamentos operations.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-004-004
+  type: functional
+  capability: BCM-ORG-004
+  domain: DOM-01
+  statement: The platform shall preserve historical changes for gestión de departamentos
+    using audit metadata and immutable audit events.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-004-005
+  type: functional
+  capability: BCM-ORG-004
+  domain: DOM-01
+  statement: The platform shall expose Department Management capabilities through
+    contract-first APIs and reusable web components.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-005-001
+  type: functional
+  capability: BCM-ORG-005
+  domain: DOM-01
+  statement: The platform shall allow authorized administrators to create, update,
+    activate, suspend and audit gestión de puestos.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-005-002
+  type: functional
+  capability: BCM-ORG-005
+  domain: DOM-01
+  statement: The platform shall associate gestión de puestos with the correct tenant,
+    laboratory and branch hierarchy.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-005-003
+  type: functional
+  capability: BCM-ORG-005
+  domain: DOM-01
+  statement: The platform shall enforce role-based and attribute-based permissions
+    for all gestión de puestos operations.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-005-004
+  type: functional
+  capability: BCM-ORG-005
+  domain: DOM-01
+  statement: The platform shall preserve historical changes for gestión de puestos
+    using audit metadata and immutable audit events.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-005-005
+  type: functional
+  capability: BCM-ORG-005
+  domain: DOM-01
+  statement: The platform shall expose Position Management capabilities through contract-first
+    APIs and reusable web components.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-006-001
+  type: functional
+  capability: BCM-ORG-006
+  domain: DOM-01
+  statement: The platform shall allow authorized administrators to create, update,
+    activate, suspend and audit gestión de empleados.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-006-002
+  type: functional
+  capability: BCM-ORG-006
+  domain: DOM-01
+  statement: The platform shall associate gestión de empleados with the correct tenant,
+    laboratory and branch hierarchy.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-006-003
+  type: functional
+  capability: BCM-ORG-006
+  domain: DOM-01
+  statement: The platform shall enforce role-based and attribute-based permissions
+    for all gestión de empleados operations.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-006-004
+  type: functional
+  capability: BCM-ORG-006
+  domain: DOM-01
+  statement: The platform shall preserve historical changes for gestión de empleados
+    using audit metadata and immutable audit events.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-006-005
+  type: functional
+  capability: BCM-ORG-006
+  domain: DOM-01
+  statement: The platform shall expose Employee Management capabilities through contract-first
+    APIs and reusable web components.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-007-001
+  type: functional
+  capability: BCM-ORG-007
+  domain: DOM-01
+  statement: The platform shall allow authorized administrators to create, update,
+    activate, suspend and audit gestión de horarios.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-007-002
+  type: functional
+  capability: BCM-ORG-007
+  domain: DOM-01
+  statement: The platform shall associate gestión de horarios with the correct tenant,
+    laboratory and branch hierarchy.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-007-003
+  type: functional
+  capability: BCM-ORG-007
+  domain: DOM-01
+  statement: The platform shall enforce role-based and attribute-based permissions
+    for all gestión de horarios operations.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-007-004
+  type: functional
+  capability: BCM-ORG-007
+  domain: DOM-01
+  statement: The platform shall preserve historical changes for gestión de horarios
+    using audit metadata and immutable audit events.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-007-005
+  type: functional
+  capability: BCM-ORG-007
+  domain: DOM-01
+  statement: The platform shall expose Schedule Management capabilities through contract-first
+    APIs and reusable web components.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-008-001
+  type: functional
+  capability: BCM-ORG-008
+  domain: DOM-01
+  statement: The platform shall allow authorized administrators to create, update,
+    activate, suspend and audit configuración organizacional.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-008-002
+  type: functional
+  capability: BCM-ORG-008
+  domain: DOM-01
+  statement: The platform shall associate configuración organizacional with the correct
+    tenant, laboratory and branch hierarchy.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-008-003
+  type: functional
+  capability: BCM-ORG-008
+  domain: DOM-01
+  statement: The platform shall enforce role-based and attribute-based permissions
+    for all configuración organizacional operations.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-008-004
+  type: functional
+  capability: BCM-ORG-008
+  domain: DOM-01
+  statement: The platform shall preserve historical changes for configuración organizacional
+    using audit metadata and immutable audit events.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ORG-008-005
+  type: functional
+  capability: BCM-ORG-008
+  domain: DOM-01
+  statement: The platform shall expose Organizational Configuration capabilities through
+    contract-first APIs and reusable web components.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-001-001
+  type: functional
+  capability: BCM-PER-001
+  domain: DOM-02
+  statement: The platform shall manage master data for gestión de personas, avoiding
+    duplicate person records across roles.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-001-002
+  type: functional
+  capability: BCM-PER-001
+  domain: DOM-02
+  statement: The platform shall support search, registration, update, deactivation
+    and audit of gestión de personas.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-001-003
+  type: functional
+  capability: BCM-PER-001
+  domain: DOM-02
+  statement: The platform shall validate identity, contact and demographic data according
+    to country-pack rules when applicable.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-001-004
+  type: functional
+  capability: BCM-PER-001
+  domain: DOM-02
+  statement: The platform shall allow authorized users to link gestión de personas
+    to clinical, administrative and portal workflows.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-001-005
+  type: functional
+  capability: BCM-PER-001
+  domain: DOM-02
+  statement: The platform shall expose privacy-safe views of gestión de personas according
+    to user role, consent and authorization.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-002-001
+  type: functional
+  capability: BCM-PER-002
+  domain: DOM-02
+  statement: The platform shall manage master data for gestión de pacientes, avoiding
+    duplicate person records across roles.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-002-002
+  type: functional
+  capability: BCM-PER-002
+  domain: DOM-02
+  statement: The platform shall support search, registration, update, deactivation
+    and audit of gestión de pacientes.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-002-003
+  type: functional
+  capability: BCM-PER-002
+  domain: DOM-02
+  statement: The platform shall validate identity, contact and demographic data according
+    to country-pack rules when applicable.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-002-004
+  type: functional
+  capability: BCM-PER-002
+  domain: DOM-02
+  statement: The platform shall allow authorized users to link gestión de pacientes
+    to clinical, administrative and portal workflows.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-002-005
+  type: functional
+  capability: BCM-PER-002
+  domain: DOM-02
+  statement: The platform shall expose privacy-safe views of gestión de pacientes
+    according to user role, consent and authorization.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-003-001
+  type: functional
+  capability: BCM-PER-003
+  domain: DOM-02
+  statement: The platform shall manage master data for gestión de médicos, avoiding
+    duplicate person records across roles.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-003-002
+  type: functional
+  capability: BCM-PER-003
+  domain: DOM-02
+  statement: The platform shall support search, registration, update, deactivation
+    and audit of gestión de médicos.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-003-003
+  type: functional
+  capability: BCM-PER-003
+  domain: DOM-02
+  statement: The platform shall validate identity, contact and demographic data according
+    to country-pack rules when applicable.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-003-004
+  type: functional
+  capability: BCM-PER-003
+  domain: DOM-02
+  statement: The platform shall allow authorized users to link gestión de médicos
+    to clinical, administrative and portal workflows.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-003-005
+  type: functional
+  capability: BCM-PER-003
+  domain: DOM-02
+  statement: The platform shall expose privacy-safe views of gestión de médicos according
+    to user role, consent and authorization.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-004-001
+  type: functional
+  capability: BCM-PER-004
+  domain: DOM-02
+  statement: The platform shall manage master data for gestión de empresas, avoiding
+    duplicate person records across roles.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-004-002
+  type: functional
+  capability: BCM-PER-004
+  domain: DOM-02
+  statement: The platform shall support search, registration, update, deactivation
+    and audit of gestión de empresas.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-004-003
+  type: functional
+  capability: BCM-PER-004
+  domain: DOM-02
+  statement: The platform shall validate identity, contact and demographic data according
+    to country-pack rules when applicable.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-004-004
+  type: functional
+  capability: BCM-PER-004
+  domain: DOM-02
+  statement: The platform shall allow authorized users to link gestión de empresas
+    to clinical, administrative and portal workflows.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-004-005
+  type: functional
+  capability: BCM-PER-004
+  domain: DOM-02
+  statement: The platform shall expose privacy-safe views of gestión de empresas according
+    to user role, consent and authorization.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-005-001
+  type: functional
+  capability: BCM-PER-005
+  domain: DOM-02
+  statement: The platform shall manage master data for gestión de convenios, avoiding
+    duplicate person records across roles.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-005-002
+  type: functional
+  capability: BCM-PER-005
+  domain: DOM-02
+  statement: The platform shall support search, registration, update, deactivation
+    and audit of gestión de convenios.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-005-003
+  type: functional
+  capability: BCM-PER-005
+  domain: DOM-02
+  statement: The platform shall validate identity, contact and demographic data according
+    to country-pack rules when applicable.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-005-004
+  type: functional
+  capability: BCM-PER-005
+  domain: DOM-02
+  statement: The platform shall allow authorized users to link gestión de convenios
+    to clinical, administrative and portal workflows.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-005-005
+  type: functional
+  capability: BCM-PER-005
+  domain: DOM-02
+  statement: The platform shall expose privacy-safe views of gestión de convenios
+    according to user role, consent and authorization.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-006-001
+  type: functional
+  capability: BCM-PER-006
+  domain: DOM-02
+  statement: The platform shall manage master data for gestión de proveedores, avoiding
+    duplicate person records across roles.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-006-002
+  type: functional
+  capability: BCM-PER-006
+  domain: DOM-02
+  statement: The platform shall support search, registration, update, deactivation
+    and audit of gestión de proveedores.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-006-003
+  type: functional
+  capability: BCM-PER-006
+  domain: DOM-02
+  statement: The platform shall validate identity, contact and demographic data according
+    to country-pack rules when applicable.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-006-004
+  type: functional
+  capability: BCM-PER-006
+  domain: DOM-02
+  statement: The platform shall allow authorized users to link gestión de proveedores
+    to clinical, administrative and portal workflows.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-006-005
+  type: functional
+  capability: BCM-PER-006
+  domain: DOM-02
+  statement: The platform shall expose privacy-safe views of gestión de proveedores
+    according to user role, consent and authorization.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-007-001
+  type: functional
+  capability: BCM-PER-007
+  domain: DOM-02
+  statement: The platform shall manage master data for gestión de contactos, avoiding
+    duplicate person records across roles.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-007-002
+  type: functional
+  capability: BCM-PER-007
+  domain: DOM-02
+  statement: The platform shall support search, registration, update, deactivation
+    and audit of gestión de contactos.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-007-003
+  type: functional
+  capability: BCM-PER-007
+  domain: DOM-02
+  statement: The platform shall validate identity, contact and demographic data according
+    to country-pack rules when applicable.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-007-004
+  type: functional
+  capability: BCM-PER-007
+  domain: DOM-02
+  statement: The platform shall allow authorized users to link gestión de contactos
+    to clinical, administrative and portal workflows.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PER-007-005
+  type: functional
+  capability: BCM-PER-007
+  domain: DOM-02
+  statement: The platform shall expose privacy-safe views of gestión de contactos
+    according to user role, consent and authorization.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-001-001
+  type: functional
+  capability: BCM-SVC-001
+  domain: DOM-03
+  statement: The platform shall allow authorized users to configure and version catálogo
+    de servicios.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-001-002
+  type: functional
+  capability: BCM-SVC-001
+  domain: DOM-03
+  statement: The platform shall prevent clinical use of incomplete, inactive or deprecated
+    catálogo de servicios.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-001-003
+  type: functional
+  capability: BCM-SVC-001
+  domain: DOM-03
+  statement: The platform shall support effective dates, branch availability and pricing
+    relationships for catálogo de servicios.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-001-004
+  type: functional
+  capability: BCM-SVC-001
+  domain: DOM-03
+  statement: The platform shall track changes to catálogo de servicios and preserve
+    the version used by each diagnostic order.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-001-005
+  type: functional
+  capability: BCM-SVC-001
+  domain: DOM-03
+  statement: The platform shall expose Diagnostic Service Catalog configuration through
+    APIs used by ordering, results, billing and inventory.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-002-001
+  type: functional
+  capability: BCM-SVC-002
+  domain: DOM-03
+  statement: The platform shall allow authorized users to configure and version catálogo
+    de pruebas.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-002-002
+  type: functional
+  capability: BCM-SVC-002
+  domain: DOM-03
+  statement: The platform shall prevent clinical use of incomplete, inactive or deprecated
+    catálogo de pruebas.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-002-003
+  type: functional
+  capability: BCM-SVC-002
+  domain: DOM-03
+  statement: The platform shall support effective dates, branch availability and pricing
+    relationships for catálogo de pruebas.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-002-004
+  type: functional
+  capability: BCM-SVC-002
+  domain: DOM-03
+  statement: The platform shall track changes to catálogo de pruebas and preserve
+    the version used by each diagnostic order.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-002-005
+  type: functional
+  capability: BCM-SVC-002
+  domain: DOM-03
+  statement: The platform shall expose Test Catalog configuration through APIs used
+    by ordering, results, billing and inventory.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-003-001
+  type: functional
+  capability: BCM-SVC-003
+  domain: DOM-03
+  statement: The platform shall allow authorized users to configure and version catálogo
+    de paneles.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-003-002
+  type: functional
+  capability: BCM-SVC-003
+  domain: DOM-03
+  statement: The platform shall prevent clinical use of incomplete, inactive or deprecated
+    catálogo de paneles.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-003-003
+  type: functional
+  capability: BCM-SVC-003
+  domain: DOM-03
+  statement: The platform shall support effective dates, branch availability and pricing
+    relationships for catálogo de paneles.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-003-004
+  type: functional
+  capability: BCM-SVC-003
+  domain: DOM-03
+  statement: The platform shall track changes to catálogo de paneles and preserve
+    the version used by each diagnostic order.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-003-005
+  type: functional
+  capability: BCM-SVC-003
+  domain: DOM-03
+  statement: The platform shall expose Panel Catalog configuration through APIs used
+    by ordering, results, billing and inventory.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-004-001
+  type: functional
+  capability: BCM-SVC-004
+  domain: DOM-03
+  statement: The platform shall allow authorized users to configure and version catálogo
+    de analitos.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-004-002
+  type: functional
+  capability: BCM-SVC-004
+  domain: DOM-03
+  statement: The platform shall prevent clinical use of incomplete, inactive or deprecated
+    catálogo de analitos.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-004-003
+  type: functional
+  capability: BCM-SVC-004
+  domain: DOM-03
+  statement: The platform shall support effective dates, branch availability and pricing
+    relationships for catálogo de analitos.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-004-004
+  type: functional
+  capability: BCM-SVC-004
+  domain: DOM-03
+  statement: The platform shall track changes to catálogo de analitos and preserve
+    the version used by each diagnostic order.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-004-005
+  type: functional
+  capability: BCM-SVC-004
+  domain: DOM-03
+  statement: The platform shall expose Analyte Catalog configuration through APIs
+    used by ordering, results, billing and inventory.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-005-001
+  type: functional
+  capability: BCM-SVC-005
+  domain: DOM-03
+  statement: The platform shall allow authorized users to configure and version preparaciones
+    del paciente.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-005-002
+  type: functional
+  capability: BCM-SVC-005
+  domain: DOM-03
+  statement: The platform shall prevent clinical use of incomplete, inactive or deprecated
+    preparaciones del paciente.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-005-003
+  type: functional
+  capability: BCM-SVC-005
+  domain: DOM-03
+  statement: The platform shall support effective dates, branch availability and pricing
+    relationships for preparaciones del paciente.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-005-004
+  type: functional
+  capability: BCM-SVC-005
+  domain: DOM-03
+  statement: The platform shall track changes to preparaciones del paciente and preserve
+    the version used by each diagnostic order.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-005-005
+  type: functional
+  capability: BCM-SVC-005
+  domain: DOM-03
+  statement: The platform shall expose Patient Preparation Management configuration
+    through APIs used by ordering, results, billing and inventory.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-006-001
+  type: functional
+  capability: BCM-SVC-006
+  domain: DOM-03
+  statement: The platform shall allow authorized users to configure and version valores
+    de referencia.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-006-002
+  type: functional
+  capability: BCM-SVC-006
+  domain: DOM-03
+  statement: The platform shall prevent clinical use of incomplete, inactive or deprecated
+    valores de referencia.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-006-003
+  type: functional
+  capability: BCM-SVC-006
+  domain: DOM-03
+  statement: The platform shall support effective dates, branch availability and pricing
+    relationships for valores de referencia.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-006-004
+  type: functional
+  capability: BCM-SVC-006
+  domain: DOM-03
+  statement: The platform shall track changes to valores de referencia and preserve
+    the version used by each diagnostic order.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-006-005
+  type: functional
+  capability: BCM-SVC-006
+  domain: DOM-03
+  statement: The platform shall expose Reference Range Management configuration through
+    APIs used by ordering, results, billing and inventory.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-007-001
+  type: functional
+  capability: BCM-SVC-007
+  domain: DOM-03
+  statement: The platform shall allow authorized users to configure and version catálogo
+    de muestras.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-007-002
+  type: functional
+  capability: BCM-SVC-007
+  domain: DOM-03
+  statement: The platform shall prevent clinical use of incomplete, inactive or deprecated
+    catálogo de muestras.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-007-003
+  type: functional
+  capability: BCM-SVC-007
+  domain: DOM-03
+  statement: The platform shall support effective dates, branch availability and pricing
+    relationships for catálogo de muestras.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-007-004
+  type: functional
+  capability: BCM-SVC-007
+  domain: DOM-03
+  statement: The platform shall track changes to catálogo de muestras and preserve
+    the version used by each diagnostic order.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-007-005
+  type: functional
+  capability: BCM-SVC-007
+  domain: DOM-03
+  statement: The platform shall expose Sample Catalog configuration through APIs used
+    by ordering, results, billing and inventory.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-008-001
+  type: functional
+  capability: BCM-SVC-008
+  domain: DOM-03
+  statement: The platform shall allow authorized users to configure and version catálogo
+    de contenedores.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-008-002
+  type: functional
+  capability: BCM-SVC-008
+  domain: DOM-03
+  statement: The platform shall prevent clinical use of incomplete, inactive or deprecated
+    catálogo de contenedores.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-008-003
+  type: functional
+  capability: BCM-SVC-008
+  domain: DOM-03
+  statement: The platform shall support effective dates, branch availability and pricing
+    relationships for catálogo de contenedores.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-008-004
+  type: functional
+  capability: BCM-SVC-008
+  domain: DOM-03
+  statement: The platform shall track changes to catálogo de contenedores and preserve
+    the version used by each diagnostic order.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-008-005
+  type: functional
+  capability: BCM-SVC-008
+  domain: DOM-03
+  statement: The platform shall expose Container Catalog configuration through APIs
+    used by ordering, results, billing and inventory.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-009-001
+  type: functional
+  capability: BCM-SVC-009
+  domain: DOM-03
+  statement: The platform shall allow authorized users to configure and version tarifario.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-009-002
+  type: functional
+  capability: BCM-SVC-009
+  domain: DOM-03
+  statement: The platform shall prevent clinical use of incomplete, inactive or deprecated
+    tarifario.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-009-003
+  type: functional
+  capability: BCM-SVC-009
+  domain: DOM-03
+  statement: The platform shall support effective dates, branch availability and pricing
+    relationships for tarifario.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-009-004
+  type: functional
+  capability: BCM-SVC-009
+  domain: DOM-03
+  statement: The platform shall track changes to tarifario and preserve the version
+    used by each diagnostic order.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-009-005
+  type: functional
+  capability: BCM-SVC-009
+  domain: DOM-03
+  statement: The platform shall expose Price List Management configuration through
+    APIs used by ordering, results, billing and inventory.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-001-001
+  type: functional
+  capability: BCM-ATT-001
+  domain: DOM-04
+  statement: The platform shall support end-to-end execution of agenda at branch level.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-001-002
+  type: functional
+  capability: BCM-ATT-001
+  domain: DOM-04
+  statement: The platform shall validate patient, branch, service, user and payment
+    prerequisites before completing agenda.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-001-003
+  type: functional
+  capability: BCM-ATT-001
+  domain: DOM-04
+  statement: The platform shall record operational and financial audit events for
+    agenda.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-001-004
+  type: functional
+  capability: BCM-ATT-001
+  domain: DOM-04
+  statement: The platform shall provide user-friendly web workflows for agenda optimized
+    for reception and cashier operations.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-001-005
+  type: functional
+  capability: BCM-ATT-001
+  domain: DOM-04
+  statement: The platform shall expose Appointment Scheduling status changes to downstream
+    clinical, billing, notification and reporting workflows.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-002-001
+  type: functional
+  capability: BCM-ATT-002
+  domain: DOM-04
+  statement: The platform shall support end-to-end execution of registro de pacientes
+    at branch level.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-002-002
+  type: functional
+  capability: BCM-ATT-002
+  domain: DOM-04
+  statement: The platform shall validate patient, branch, service, user and payment
+    prerequisites before completing registro de pacientes.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-002-003
+  type: functional
+  capability: BCM-ATT-002
+  domain: DOM-04
+  statement: The platform shall record operational and financial audit events for
+    registro de pacientes.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-002-004
+  type: functional
+  capability: BCM-ATT-002
+  domain: DOM-04
+  statement: The platform shall provide user-friendly web workflows for registro de
+    pacientes optimized for reception and cashier operations.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-002-005
+  type: functional
+  capability: BCM-ATT-002
+  domain: DOM-04
+  statement: The platform shall expose Patient Registration status changes to downstream
+    clinical, billing, notification and reporting workflows.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-003-001
+  type: functional
+  capability: BCM-ATT-003
+  domain: DOM-04
+  statement: The platform shall support end-to-end execution of recepción at branch
+    level.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-003-002
+  type: functional
+  capability: BCM-ATT-003
+  domain: DOM-04
+  statement: The platform shall validate patient, branch, service, user and payment
+    prerequisites before completing recepción.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-003-003
+  type: functional
+  capability: BCM-ATT-003
+  domain: DOM-04
+  statement: The platform shall record operational and financial audit events for
+    recepción.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-003-004
+  type: functional
+  capability: BCM-ATT-003
+  domain: DOM-04
+  statement: The platform shall provide user-friendly web workflows for recepción
+    optimized for reception and cashier operations.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-003-005
+  type: functional
+  capability: BCM-ATT-003
+  domain: DOM-04
+  statement: The platform shall expose Reception Management status changes to downstream
+    clinical, billing, notification and reporting workflows.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-004-001
+  type: functional
+  capability: BCM-ATT-004
+  domain: DOM-04
+  statement: The platform shall support end-to-end execution of admisión at branch
+    level.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-004-002
+  type: functional
+  capability: BCM-ATT-004
+  domain: DOM-04
+  statement: The platform shall validate patient, branch, service, user and payment
+    prerequisites before completing admisión.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-004-003
+  type: functional
+  capability: BCM-ATT-004
+  domain: DOM-04
+  statement: The platform shall record operational and financial audit events for
+    admisión.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-004-004
+  type: functional
+  capability: BCM-ATT-004
+  domain: DOM-04
+  statement: The platform shall provide user-friendly web workflows for admisión optimized
+    for reception and cashier operations.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-004-005
+  type: functional
+  capability: BCM-ATT-004
+  domain: DOM-04
+  statement: The platform shall expose Admission Management status changes to downstream
+    clinical, billing, notification and reporting workflows.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-005-001
+  type: functional
+  capability: BCM-ATT-005
+  domain: DOM-04
+  statement: The platform shall support end-to-end execution of caja at branch level.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-005-002
+  type: functional
+  capability: BCM-ATT-005
+  domain: DOM-04
+  statement: The platform shall validate patient, branch, service, user and payment
+    prerequisites before completing caja.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-005-003
+  type: functional
+  capability: BCM-ATT-005
+  domain: DOM-04
+  statement: The platform shall record operational and financial audit events for
+    caja.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-005-004
+  type: functional
+  capability: BCM-ATT-005
+  domain: DOM-04
+  statement: The platform shall provide user-friendly web workflows for caja optimized
+    for reception and cashier operations.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-005-005
+  type: functional
+  capability: BCM-ATT-005
+  domain: DOM-04
+  statement: The platform shall expose Cashier Operations status changes to downstream
+    clinical, billing, notification and reporting workflows.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-006-001
+  type: functional
+  capability: BCM-ATT-006
+  domain: DOM-04
+  statement: The platform shall support end-to-end execution of cotizaciones at branch
+    level.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-006-002
+  type: functional
+  capability: BCM-ATT-006
+  domain: DOM-04
+  statement: The platform shall validate patient, branch, service, user and payment
+    prerequisites before completing cotizaciones.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-006-003
+  type: functional
+  capability: BCM-ATT-006
+  domain: DOM-04
+  statement: The platform shall record operational and financial audit events for
+    cotizaciones.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-006-004
+  type: functional
+  capability: BCM-ATT-006
+  domain: DOM-04
+  statement: The platform shall provide user-friendly web workflows for cotizaciones
+    optimized for reception and cashier operations.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-006-005
+  type: functional
+  capability: BCM-ATT-006
+  domain: DOM-04
+  statement: The platform shall expose Quotation Management status changes to downstream
+    clinical, billing, notification and reporting workflows.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-007-001
+  type: functional
+  capability: BCM-ATT-007
+  domain: DOM-04
+  statement: The platform shall support end-to-end execution of promociones at branch
+    level.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-007-002
+  type: functional
+  capability: BCM-ATT-007
+  domain: DOM-04
+  statement: The platform shall validate patient, branch, service, user and payment
+    prerequisites before completing promociones.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-007-003
+  type: functional
+  capability: BCM-ATT-007
+  domain: DOM-04
+  statement: The platform shall record operational and financial audit events for
+    promociones.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-007-004
+  type: functional
+  capability: BCM-ATT-007
+  domain: DOM-04
+  statement: The platform shall provide user-friendly web workflows for promociones
+    optimized for reception and cashier operations.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-007-005
+  type: functional
+  capability: BCM-ATT-007
+  domain: DOM-04
+  statement: The platform shall expose Promotion Management status changes to downstream
+    clinical, billing, notification and reporting workflows.
+  priority: Medium
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-008-001
+  type: functional
+  capability: BCM-ATT-008
+  domain: DOM-04
+  statement: The platform shall support end-to-end execution of facturación at branch
+    level.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-008-002
+  type: functional
+  capability: BCM-ATT-008
+  domain: DOM-04
+  statement: The platform shall validate patient, branch, service, user and payment
+    prerequisites before completing facturación.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-008-003
+  type: functional
+  capability: BCM-ATT-008
+  domain: DOM-04
+  statement: The platform shall record operational and financial audit events for
+    facturación.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-008-004
+  type: functional
+  capability: BCM-ATT-008
+  domain: DOM-04
+  statement: The platform shall provide user-friendly web workflows for facturación
+    optimized for reception and cashier operations.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-ATT-008-005
+  type: functional
+  capability: BCM-ATT-008
+  domain: DOM-04
+  statement: The platform shall expose Billing Request Management status changes to
+    downstream clinical, billing, notification and reporting workflows.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-001-001
+  type: functional
+  capability: BCM-LAB-001
+  domain: DOM-05
+  statement: The platform shall support traceable execution of gestión de órdenes
+    from diagnostic order to result lifecycle.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-001-002
+  type: functional
+  capability: BCM-LAB-001
+  domain: DOM-05
+  statement: The platform shall enforce sample, test, branch and user authorization
+    rules before allowing gestión de órdenes.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-001-003
+  type: functional
+  capability: BCM-LAB-001
+  domain: DOM-05
+  statement: The platform shall record timestamps, responsible users, exceptions and
+    status transitions for gestión de órdenes.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-001-004
+  type: functional
+  capability: BCM-LAB-001
+  domain: DOM-05
+  statement: The platform shall support barcode/label-driven workflows where operationally
+    required.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-001-005
+  type: functional
+  capability: BCM-LAB-001
+  domain: DOM-05
+  statement: The platform shall publish domain events for downstream results, billing,
+    inventory, quality and notification processes.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-002-001
+  type: functional
+  capability: BCM-LAB-002
+  domain: DOM-05
+  statement: The platform shall support traceable execution of toma de muestras from
+    diagnostic order to result lifecycle.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-002-002
+  type: functional
+  capability: BCM-LAB-002
+  domain: DOM-05
+  statement: The platform shall enforce sample, test, branch and user authorization
+    rules before allowing toma de muestras.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-002-003
+  type: functional
+  capability: BCM-LAB-002
+  domain: DOM-05
+  statement: The platform shall record timestamps, responsible users, exceptions and
+    status transitions for toma de muestras.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-002-004
+  type: functional
+  capability: BCM-LAB-002
+  domain: DOM-05
+  statement: The platform shall support barcode/label-driven workflows where operationally
+    required.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-002-005
+  type: functional
+  capability: BCM-LAB-002
+  domain: DOM-05
+  statement: The platform shall publish domain events for downstream results, billing,
+    inventory, quality and notification processes.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-003-001
+  type: functional
+  capability: BCM-LAB-003
+  domain: DOM-05
+  statement: The platform shall support traceable execution of etiquetado from diagnostic
+    order to result lifecycle.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-003-002
+  type: functional
+  capability: BCM-LAB-003
+  domain: DOM-05
+  statement: The platform shall enforce sample, test, branch and user authorization
+    rules before allowing etiquetado.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-003-003
+  type: functional
+  capability: BCM-LAB-003
+  domain: DOM-05
+  statement: The platform shall record timestamps, responsible users, exceptions and
+    status transitions for etiquetado.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-003-004
+  type: functional
+  capability: BCM-LAB-003
+  domain: DOM-05
+  statement: The platform shall support barcode/label-driven workflows where operationally
+    required.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-003-005
+  type: functional
+  capability: BCM-LAB-003
+  domain: DOM-05
+  statement: The platform shall publish domain events for downstream results, billing,
+    inventory, quality and notification processes.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-004-001
+  type: functional
+  capability: BCM-LAB-004
+  domain: DOM-05
+  statement: The platform shall support traceable execution of transporte from diagnostic
+    order to result lifecycle.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-004-002
+  type: functional
+  capability: BCM-LAB-004
+  domain: DOM-05
+  statement: The platform shall enforce sample, test, branch and user authorization
+    rules before allowing transporte.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-004-003
+  type: functional
+  capability: BCM-LAB-004
+  domain: DOM-05
+  statement: The platform shall record timestamps, responsible users, exceptions and
+    status transitions for transporte.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-004-004
+  type: functional
+  capability: BCM-LAB-004
+  domain: DOM-05
+  statement: The platform shall support barcode/label-driven workflows where operationally
+    required.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-004-005
+  type: functional
+  capability: BCM-LAB-004
+  domain: DOM-05
+  statement: The platform shall publish domain events for downstream results, billing,
+    inventory, quality and notification processes.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-005-001
+  type: functional
+  capability: BCM-LAB-005
+  domain: DOM-05
+  statement: The platform shall support traceable execution of recepción de muestras
+    from diagnostic order to result lifecycle.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-005-002
+  type: functional
+  capability: BCM-LAB-005
+  domain: DOM-05
+  statement: The platform shall enforce sample, test, branch and user authorization
+    rules before allowing recepción de muestras.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-005-003
+  type: functional
+  capability: BCM-LAB-005
+  domain: DOM-05
+  statement: The platform shall record timestamps, responsible users, exceptions and
+    status transitions for recepción de muestras.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-005-004
+  type: functional
+  capability: BCM-LAB-005
+  domain: DOM-05
+  statement: The platform shall support barcode/label-driven workflows where operationally
+    required.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-005-005
+  type: functional
+  capability: BCM-LAB-005
+  domain: DOM-05
+  statement: The platform shall publish domain events for downstream results, billing,
+    inventory, quality and notification processes.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-006-001
+  type: functional
+  capability: BCM-LAB-006
+  domain: DOM-05
+  statement: The platform shall support traceable execution of procesamiento from
+    diagnostic order to result lifecycle.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-006-002
+  type: functional
+  capability: BCM-LAB-006
+  domain: DOM-05
+  statement: The platform shall enforce sample, test, branch and user authorization
+    rules before allowing procesamiento.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-006-003
+  type: functional
+  capability: BCM-LAB-006
+  domain: DOM-05
+  statement: The platform shall record timestamps, responsible users, exceptions and
+    status transitions for procesamiento.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-006-004
+  type: functional
+  capability: BCM-LAB-006
+  domain: DOM-05
+  statement: The platform shall support barcode/label-driven workflows where operationally
+    required.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-006-005
+  type: functional
+  capability: BCM-LAB-006
+  domain: DOM-05
+  statement: The platform shall publish domain events for downstream results, billing,
+    inventory, quality and notification processes.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-007-001
+  type: functional
+  capability: BCM-LAB-007
+  domain: DOM-05
+  statement: The platform shall support traceable execution of control de calidad
+    from diagnostic order to result lifecycle.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-007-002
+  type: functional
+  capability: BCM-LAB-007
+  domain: DOM-05
+  statement: The platform shall enforce sample, test, branch and user authorization
+    rules before allowing control de calidad.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-007-003
+  type: functional
+  capability: BCM-LAB-007
+  domain: DOM-05
+  statement: The platform shall record timestamps, responsible users, exceptions and
+    status transitions for control de calidad.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-007-004
+  type: functional
+  capability: BCM-LAB-007
+  domain: DOM-05
+  statement: The platform shall support barcode/label-driven workflows where operationally
+    required.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-007-005
+  type: functional
+  capability: BCM-LAB-007
+  domain: DOM-05
+  statement: The platform shall publish domain events for downstream results, billing,
+    inventory, quality and notification processes.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-008-001
+  type: functional
+  capability: BCM-LAB-008
+  domain: DOM-05
+  statement: The platform shall support traceable execution of validación técnica
+    from diagnostic order to result lifecycle.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-008-002
+  type: functional
+  capability: BCM-LAB-008
+  domain: DOM-05
+  statement: The platform shall enforce sample, test, branch and user authorization
+    rules before allowing validación técnica.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-008-003
+  type: functional
+  capability: BCM-LAB-008
+  domain: DOM-05
+  statement: The platform shall record timestamps, responsible users, exceptions and
+    status transitions for validación técnica.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-008-004
+  type: functional
+  capability: BCM-LAB-008
+  domain: DOM-05
+  statement: The platform shall support barcode/label-driven workflows where operationally
+    required.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-008-005
+  type: functional
+  capability: BCM-LAB-008
+  domain: DOM-05
+  statement: The platform shall publish domain events for downstream results, billing,
+    inventory, quality and notification processes.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-009-001
+  type: functional
+  capability: BCM-LAB-009
+  domain: DOM-05
+  statement: The platform shall support traceable execution of validación médica from
+    diagnostic order to result lifecycle.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-009-002
+  type: functional
+  capability: BCM-LAB-009
+  domain: DOM-05
+  statement: The platform shall enforce sample, test, branch and user authorization
+    rules before allowing validación médica.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-009-003
+  type: functional
+  capability: BCM-LAB-009
+  domain: DOM-05
+  statement: The platform shall record timestamps, responsible users, exceptions and
+    status transitions for validación médica.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-009-004
+  type: functional
+  capability: BCM-LAB-009
+  domain: DOM-05
+  statement: The platform shall support barcode/label-driven workflows where operationally
+    required.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-009-005
+  type: functional
+  capability: BCM-LAB-009
+  domain: DOM-05
+  statement: The platform shall publish domain events for downstream results, billing,
+    inventory, quality and notification processes.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-010-001
+  type: functional
+  capability: BCM-LAB-010
+  domain: DOM-05
+  statement: The platform shall support traceable execution of liberación de resultados
+    from diagnostic order to result lifecycle.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-010-002
+  type: functional
+  capability: BCM-LAB-010
+  domain: DOM-05
+  statement: The platform shall enforce sample, test, branch and user authorization
+    rules before allowing liberación de resultados.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-010-003
+  type: functional
+  capability: BCM-LAB-010
+  domain: DOM-05
+  statement: The platform shall record timestamps, responsible users, exceptions and
+    status transitions for liberación de resultados.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-010-004
+  type: functional
+  capability: BCM-LAB-010
+  domain: DOM-05
+  statement: The platform shall support barcode/label-driven workflows where operationally
+    required.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-LAB-010-005
+  type: functional
+  capability: BCM-LAB-010
+  domain: DOM-05
+  statement: The platform shall publish domain events for downstream results, billing,
+    inventory, quality and notification processes.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-001-001
+  type: functional
+  capability: BCM-IMG-001
+  domain: DOM-06
+  statement: The platform shall support operational management of agenda de estudios
+    for imaging centers and branches.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-001-002
+  type: functional
+  capability: BCM-IMG-001
+  domain: DOM-06
+  statement: The platform shall preserve the relationship between patient, order,
+    imaging study, DICOM metadata and radiology report.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-001-003
+  type: functional
+  capability: BCM-IMG-001
+  domain: DOM-06
+  statement: The platform shall enforce access controls for imaging records, reports
+    and viewer access.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-001-004
+  type: functional
+  capability: BCM-IMG-001
+  domain: DOM-06
+  statement: The platform shall support status tracking from scheduling to study release.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-001-005
+  type: functional
+  capability: BCM-IMG-001
+  domain: DOM-06
+  statement: The platform shall integrate Imaging Appointment Scheduling workflows
+    with orders, results, patient portal and doctor portal.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-002-001
+  type: functional
+  capability: BCM-IMG-002
+  domain: DOM-06
+  statement: The platform shall support operational management of recepción imagenológica
+    for imaging centers and branches.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-002-002
+  type: functional
+  capability: BCM-IMG-002
+  domain: DOM-06
+  statement: The platform shall preserve the relationship between patient, order,
+    imaging study, DICOM metadata and radiology report.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-002-003
+  type: functional
+  capability: BCM-IMG-002
+  domain: DOM-06
+  statement: The platform shall enforce access controls for imaging records, reports
+    and viewer access.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-002-004
+  type: functional
+  capability: BCM-IMG-002
+  domain: DOM-06
+  statement: The platform shall support status tracking from scheduling to study release.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-002-005
+  type: functional
+  capability: BCM-IMG-002
+  domain: DOM-06
+  statement: The platform shall integrate Imaging Reception workflows with orders,
+    results, patient portal and doctor portal.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-003-001
+  type: functional
+  capability: BCM-IMG-003
+  domain: DOM-06
+  statement: The platform shall support operational management of gestión de estudios
+    for imaging centers and branches.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-003-002
+  type: functional
+  capability: BCM-IMG-003
+  domain: DOM-06
+  statement: The platform shall preserve the relationship between patient, order,
+    imaging study, DICOM metadata and radiology report.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-003-003
+  type: functional
+  capability: BCM-IMG-003
+  domain: DOM-06
+  statement: The platform shall enforce access controls for imaging records, reports
+    and viewer access.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-003-004
+  type: functional
+  capability: BCM-IMG-003
+  domain: DOM-06
+  statement: The platform shall support status tracking from scheduling to study release.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-003-005
+  type: functional
+  capability: BCM-IMG-003
+  domain: DOM-06
+  statement: The platform shall integrate Imaging Study Management workflows with
+    orders, results, patient portal and doctor portal.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-004-001
+  type: functional
+  capability: BCM-IMG-004
+  domain: DOM-06
+  statement: The platform shall support operational management of integración dicom
+    for imaging centers and branches.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-004-002
+  type: functional
+  capability: BCM-IMG-004
+  domain: DOM-06
+  statement: The platform shall preserve the relationship between patient, order,
+    imaging study, DICOM metadata and radiology report.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-004-003
+  type: functional
+  capability: BCM-IMG-004
+  domain: DOM-06
+  statement: The platform shall enforce access controls for imaging records, reports
+    and viewer access.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-004-004
+  type: functional
+  capability: BCM-IMG-004
+  domain: DOM-06
+  statement: The platform shall support status tracking from scheduling to study release.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-004-005
+  type: functional
+  capability: BCM-IMG-004
+  domain: DOM-06
+  statement: The platform shall integrate DICOM Integration workflows with orders,
+    results, patient portal and doctor portal.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-005-001
+  type: functional
+  capability: BCM-IMG-005
+  domain: DOM-06
+  statement: The platform shall support operational management of integración pacs
+    for imaging centers and branches.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-005-002
+  type: functional
+  capability: BCM-IMG-005
+  domain: DOM-06
+  statement: The platform shall preserve the relationship between patient, order,
+    imaging study, DICOM metadata and radiology report.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-005-003
+  type: functional
+  capability: BCM-IMG-005
+  domain: DOM-06
+  statement: The platform shall enforce access controls for imaging records, reports
+    and viewer access.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-005-004
+  type: functional
+  capability: BCM-IMG-005
+  domain: DOM-06
+  statement: The platform shall support status tracking from scheduling to study release.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-005-005
+  type: functional
+  capability: BCM-IMG-005
+  domain: DOM-06
+  statement: The platform shall integrate PACS Integration workflows with orders,
+    results, patient portal and doctor portal.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-006-001
+  type: functional
+  capability: BCM-IMG-006
+  domain: DOM-06
+  statement: The platform shall support operational management of dictado médico for
+    imaging centers and branches.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-006-002
+  type: functional
+  capability: BCM-IMG-006
+  domain: DOM-06
+  statement: The platform shall preserve the relationship between patient, order,
+    imaging study, DICOM metadata and radiology report.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-006-003
+  type: functional
+  capability: BCM-IMG-006
+  domain: DOM-06
+  statement: The platform shall enforce access controls for imaging records, reports
+    and viewer access.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-006-004
+  type: functional
+  capability: BCM-IMG-006
+  domain: DOM-06
+  statement: The platform shall support status tracking from scheduling to study release.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-006-005
+  type: functional
+  capability: BCM-IMG-006
+  domain: DOM-06
+  statement: The platform shall integrate Medical Dictation workflows with orders,
+    results, patient portal and doctor portal.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-007-001
+  type: functional
+  capability: BCM-IMG-007
+  domain: DOM-06
+  statement: The platform shall support operational management of firma radiológica
+    for imaging centers and branches.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-007-002
+  type: functional
+  capability: BCM-IMG-007
+  domain: DOM-06
+  statement: The platform shall preserve the relationship between patient, order,
+    imaging study, DICOM metadata and radiology report.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-007-003
+  type: functional
+  capability: BCM-IMG-007
+  domain: DOM-06
+  statement: The platform shall enforce access controls for imaging records, reports
+    and viewer access.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-007-004
+  type: functional
+  capability: BCM-IMG-007
+  domain: DOM-06
+  statement: The platform shall support status tracking from scheduling to study release.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-007-005
+  type: functional
+  capability: BCM-IMG-007
+  domain: DOM-06
+  statement: The platform shall integrate Radiology Signature workflows with orders,
+    results, patient portal and doctor portal.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-008-001
+  type: functional
+  capability: BCM-IMG-008
+  domain: DOM-06
+  statement: The platform shall support operational management of entrega de estudios
+    for imaging centers and branches.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-008-002
+  type: functional
+  capability: BCM-IMG-008
+  domain: DOM-06
+  statement: The platform shall preserve the relationship between patient, order,
+    imaging study, DICOM metadata and radiology report.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-008-003
+  type: functional
+  capability: BCM-IMG-008
+  domain: DOM-06
+  statement: The platform shall enforce access controls for imaging records, reports
+    and viewer access.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-008-004
+  type: functional
+  capability: BCM-IMG-008
+  domain: DOM-06
+  statement: The platform shall support status tracking from scheduling to study release.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-IMG-008-005
+  type: functional
+  capability: BCM-IMG-008
+  domain: DOM-06
+  statement: The platform shall integrate Imaging Study Delivery workflows with orders,
+    results, patient portal and doctor portal.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-001-001
+  type: functional
+  capability: BCM-RES-001
+  domain: DOM-07
+  statement: The platform shall support secure creation, validation, release and delivery
+    of gestión de resultados.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-001-002
+  type: functional
+  capability: BCM-RES-001
+  domain: DOM-07
+  statement: The platform shall preserve result history, amendments, signatures and
+    delivery evidence.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-001-003
+  type: functional
+  capability: BCM-RES-001
+  domain: DOM-07
+  statement: The platform shall enforce clinical approval and authorization rules
+    before publishing gestión de resultados.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-001-004
+  type: functional
+  capability: BCM-RES-001
+  domain: DOM-07
+  statement: The platform shall detect and route critical result workflows when configured.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-001-005
+  type: functional
+  capability: BCM-RES-001
+  domain: DOM-07
+  statement: The platform shall expose Result Management through patient, doctor and
+    employee portals according to permissions.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-002-001
+  type: functional
+  capability: BCM-RES-002
+  domain: DOM-07
+  statement: The platform shall support secure creation, validation, release and delivery
+    of reportes pdf.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-002-002
+  type: functional
+  capability: BCM-RES-002
+  domain: DOM-07
+  statement: The platform shall preserve result history, amendments, signatures and
+    delivery evidence.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-002-003
+  type: functional
+  capability: BCM-RES-002
+  domain: DOM-07
+  statement: The platform shall enforce clinical approval and authorization rules
+    before publishing reportes pdf.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-002-004
+  type: functional
+  capability: BCM-RES-002
+  domain: DOM-07
+  statement: The platform shall detect and route critical result workflows when configured.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-002-005
+  type: functional
+  capability: BCM-RES-002
+  domain: DOM-07
+  statement: The platform shall expose PDF Report Generation through patient, doctor
+    and employee portals according to permissions.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-003-001
+  type: functional
+  capability: BCM-RES-003
+  domain: DOM-07
+  statement: The platform shall support secure creation, validation, release and delivery
+    of firma electrónica.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-003-002
+  type: functional
+  capability: BCM-RES-003
+  domain: DOM-07
+  statement: The platform shall preserve result history, amendments, signatures and
+    delivery evidence.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-003-003
+  type: functional
+  capability: BCM-RES-003
+  domain: DOM-07
+  statement: The platform shall enforce clinical approval and authorization rules
+    before publishing firma electrónica.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-003-004
+  type: functional
+  capability: BCM-RES-003
+  domain: DOM-07
+  statement: The platform shall detect and route critical result workflows when configured.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-003-005
+  type: functional
+  capability: BCM-RES-003
+  domain: DOM-07
+  statement: The platform shall expose Electronic Signature through patient, doctor
+    and employee portals according to permissions.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-004-001
+  type: functional
+  capability: BCM-RES-004
+  domain: DOM-07
+  statement: The platform shall support secure creation, validation, release and delivery
+    of entrega digital.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-004-002
+  type: functional
+  capability: BCM-RES-004
+  domain: DOM-07
+  statement: The platform shall preserve result history, amendments, signatures and
+    delivery evidence.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-004-003
+  type: functional
+  capability: BCM-RES-004
+  domain: DOM-07
+  statement: The platform shall enforce clinical approval and authorization rules
+    before publishing entrega digital.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-004-004
+  type: functional
+  capability: BCM-RES-004
+  domain: DOM-07
+  statement: The platform shall detect and route critical result workflows when configured.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-004-005
+  type: functional
+  capability: BCM-RES-004
+  domain: DOM-07
+  statement: The platform shall expose Digital Delivery through patient, doctor and
+    employee portals according to permissions.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-005-001
+  type: functional
+  capability: BCM-RES-005
+  domain: DOM-07
+  statement: The platform shall support secure creation, validation, release and delivery
+    of históricos.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-005-002
+  type: functional
+  capability: BCM-RES-005
+  domain: DOM-07
+  statement: The platform shall preserve result history, amendments, signatures and
+    delivery evidence.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-005-003
+  type: functional
+  capability: BCM-RES-005
+  domain: DOM-07
+  statement: The platform shall enforce clinical approval and authorization rules
+    before publishing históricos.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-005-004
+  type: functional
+  capability: BCM-RES-005
+  domain: DOM-07
+  statement: The platform shall detect and route critical result workflows when configured.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-005-005
+  type: functional
+  capability: BCM-RES-005
+  domain: DOM-07
+  statement: The platform shall expose Result History through patient, doctor and
+    employee portals according to permissions.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-006-001
+  type: functional
+  capability: BCM-RES-006
+  domain: DOM-07
+  statement: The platform shall support secure creation, validation, release and delivery
+    of resultados críticos.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-006-002
+  type: functional
+  capability: BCM-RES-006
+  domain: DOM-07
+  statement: The platform shall preserve result history, amendments, signatures and
+    delivery evidence.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-006-003
+  type: functional
+  capability: BCM-RES-006
+  domain: DOM-07
+  statement: The platform shall enforce clinical approval and authorization rules
+    before publishing resultados críticos.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-006-004
+  type: functional
+  capability: BCM-RES-006
+  domain: DOM-07
+  statement: The platform shall detect and route critical result workflows when configured.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-006-005
+  type: functional
+  capability: BCM-RES-006
+  domain: DOM-07
+  statement: The platform shall expose Critical Results through patient, doctor and
+    employee portals according to permissions.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-007-001
+  type: functional
+  capability: BCM-RES-007
+  domain: DOM-07
+  statement: The platform shall support secure creation, validation, release and delivery
+    of notificaciones.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-007-002
+  type: functional
+  capability: BCM-RES-007
+  domain: DOM-07
+  statement: The platform shall preserve result history, amendments, signatures and
+    delivery evidence.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-007-003
+  type: functional
+  capability: BCM-RES-007
+  domain: DOM-07
+  statement: The platform shall enforce clinical approval and authorization rules
+    before publishing notificaciones.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-007-004
+  type: functional
+  capability: BCM-RES-007
+  domain: DOM-07
+  statement: The platform shall detect and route critical result workflows when configured.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-RES-007-005
+  type: functional
+  capability: BCM-RES-007
+  domain: DOM-07
+  statement: The platform shall expose Result Notifications through patient, doctor
+    and employee portals according to permissions.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-001-001
+  type: functional
+  capability: BCM-INV-001
+  domain: DOM-08
+  statement: The platform shall manage catálogo de productos with branch-level stock
+    control, lot traceability and expiration handling.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-001-002
+  type: functional
+  capability: BCM-INV-001
+  domain: DOM-08
+  statement: The platform shall prevent the use of expired, inactive or blocked inventory
+    items in clinical operations.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-001-003
+  type: functional
+  capability: BCM-INV-001
+  domain: DOM-08
+  statement: The platform shall record stock movements, responsible users and business
+    justification for catálogo de productos.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-001-004
+  type: functional
+  capability: BCM-INV-001
+  domain: DOM-08
+  statement: The platform shall support alerts and reporting for low stock, expiration
+    and consumption trends.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-001-005
+  type: functional
+  capability: BCM-INV-001
+  domain: DOM-08
+  statement: The platform shall relate Product Catalog to diagnostic services and
+    quality workflows when applicable.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-002-001
+  type: functional
+  capability: BCM-INV-002
+  domain: DOM-08
+  statement: The platform shall manage reactivos with branch-level stock control,
+    lot traceability and expiration handling.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-002-002
+  type: functional
+  capability: BCM-INV-002
+  domain: DOM-08
+  statement: The platform shall prevent the use of expired, inactive or blocked inventory
+    items in clinical operations.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-002-003
+  type: functional
+  capability: BCM-INV-002
+  domain: DOM-08
+  statement: The platform shall record stock movements, responsible users and business
+    justification for reactivos.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-002-004
+  type: functional
+  capability: BCM-INV-002
+  domain: DOM-08
+  statement: The platform shall support alerts and reporting for low stock, expiration
+    and consumption trends.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-002-005
+  type: functional
+  capability: BCM-INV-002
+  domain: DOM-08
+  statement: The platform shall relate Reagent Management to diagnostic services and
+    quality workflows when applicable.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-003-001
+  type: functional
+  capability: BCM-INV-003
+  domain: DOM-08
+  statement: The platform shall manage lotes with branch-level stock control, lot
+    traceability and expiration handling.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-003-002
+  type: functional
+  capability: BCM-INV-003
+  domain: DOM-08
+  statement: The platform shall prevent the use of expired, inactive or blocked inventory
+    items in clinical operations.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-003-003
+  type: functional
+  capability: BCM-INV-003
+  domain: DOM-08
+  statement: The platform shall record stock movements, responsible users and business
+    justification for lotes.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-003-004
+  type: functional
+  capability: BCM-INV-003
+  domain: DOM-08
+  statement: The platform shall support alerts and reporting for low stock, expiration
+    and consumption trends.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-003-005
+  type: functional
+  capability: BCM-INV-003
+  domain: DOM-08
+  statement: The platform shall relate Lot Management to diagnostic services and quality
+    workflows when applicable.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-004-001
+  type: functional
+  capability: BCM-INV-004
+  domain: DOM-08
+  statement: The platform shall manage compras with branch-level stock control, lot
+    traceability and expiration handling.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-004-002
+  type: functional
+  capability: BCM-INV-004
+  domain: DOM-08
+  statement: The platform shall prevent the use of expired, inactive or blocked inventory
+    items in clinical operations.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-004-003
+  type: functional
+  capability: BCM-INV-004
+  domain: DOM-08
+  statement: The platform shall record stock movements, responsible users and business
+    justification for compras.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-004-004
+  type: functional
+  capability: BCM-INV-004
+  domain: DOM-08
+  statement: The platform shall support alerts and reporting for low stock, expiration
+    and consumption trends.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-004-005
+  type: functional
+  capability: BCM-INV-004
+  domain: DOM-08
+  statement: The platform shall relate Procurement Management to diagnostic services
+    and quality workflows when applicable.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-005-001
+  type: functional
+  capability: BCM-INV-005
+  domain: DOM-08
+  statement: The platform shall manage entradas with branch-level stock control, lot
+    traceability and expiration handling.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-005-002
+  type: functional
+  capability: BCM-INV-005
+  domain: DOM-08
+  statement: The platform shall prevent the use of expired, inactive or blocked inventory
+    items in clinical operations.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-005-003
+  type: functional
+  capability: BCM-INV-005
+  domain: DOM-08
+  statement: The platform shall record stock movements, responsible users and business
+    justification for entradas.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-005-004
+  type: functional
+  capability: BCM-INV-005
+  domain: DOM-08
+  statement: The platform shall support alerts and reporting for low stock, expiration
+    and consumption trends.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-005-005
+  type: functional
+  capability: BCM-INV-005
+  domain: DOM-08
+  statement: The platform shall relate Stock Entries to diagnostic services and quality
+    workflows when applicable.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-006-001
+  type: functional
+  capability: BCM-INV-006
+  domain: DOM-08
+  statement: The platform shall manage salidas with branch-level stock control, lot
+    traceability and expiration handling.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-006-002
+  type: functional
+  capability: BCM-INV-006
+  domain: DOM-08
+  statement: The platform shall prevent the use of expired, inactive or blocked inventory
+    items in clinical operations.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-006-003
+  type: functional
+  capability: BCM-INV-006
+  domain: DOM-08
+  statement: The platform shall record stock movements, responsible users and business
+    justification for salidas.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-006-004
+  type: functional
+  capability: BCM-INV-006
+  domain: DOM-08
+  statement: The platform shall support alerts and reporting for low stock, expiration
+    and consumption trends.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-006-005
+  type: functional
+  capability: BCM-INV-006
+  domain: DOM-08
+  statement: The platform shall relate Stock Exits to diagnostic services and quality
+    workflows when applicable.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-007-001
+  type: functional
+  capability: BCM-INV-007
+  domain: DOM-08
+  statement: The platform shall manage consumos with branch-level stock control, lot
+    traceability and expiration handling.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-007-002
+  type: functional
+  capability: BCM-INV-007
+  domain: DOM-08
+  statement: The platform shall prevent the use of expired, inactive or blocked inventory
+    items in clinical operations.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-007-003
+  type: functional
+  capability: BCM-INV-007
+  domain: DOM-08
+  statement: The platform shall record stock movements, responsible users and business
+    justification for consumos.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-007-004
+  type: functional
+  capability: BCM-INV-007
+  domain: DOM-08
+  statement: The platform shall support alerts and reporting for low stock, expiration
+    and consumption trends.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-007-005
+  type: functional
+  capability: BCM-INV-007
+  domain: DOM-08
+  statement: The platform shall relate Consumption Tracking to diagnostic services
+    and quality workflows when applicable.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-008-001
+  type: functional
+  capability: BCM-INV-008
+  domain: DOM-08
+  statement: The platform shall manage ajustes with branch-level stock control, lot
+    traceability and expiration handling.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-008-002
+  type: functional
+  capability: BCM-INV-008
+  domain: DOM-08
+  statement: The platform shall prevent the use of expired, inactive or blocked inventory
+    items in clinical operations.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-008-003
+  type: functional
+  capability: BCM-INV-008
+  domain: DOM-08
+  statement: The platform shall record stock movements, responsible users and business
+    justification for ajustes.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-008-004
+  type: functional
+  capability: BCM-INV-008
+  domain: DOM-08
+  statement: The platform shall support alerts and reporting for low stock, expiration
+    and consumption trends.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-008-005
+  type: functional
+  capability: BCM-INV-008
+  domain: DOM-08
+  statement: The platform shall relate Inventory Adjustments to diagnostic services
+    and quality workflows when applicable.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-009-001
+  type: functional
+  capability: BCM-INV-009
+  domain: DOM-08
+  statement: The platform shall manage mermas with branch-level stock control, lot
+    traceability and expiration handling.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-009-002
+  type: functional
+  capability: BCM-INV-009
+  domain: DOM-08
+  statement: The platform shall prevent the use of expired, inactive or blocked inventory
+    items in clinical operations.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-009-003
+  type: functional
+  capability: BCM-INV-009
+  domain: DOM-08
+  statement: The platform shall record stock movements, responsible users and business
+    justification for mermas.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-009-004
+  type: functional
+  capability: BCM-INV-009
+  domain: DOM-08
+  statement: The platform shall support alerts and reporting for low stock, expiration
+    and consumption trends.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-INV-009-005
+  type: functional
+  capability: BCM-INV-009
+  domain: DOM-08
+  statement: The platform shall relate Waste Management to diagnostic services and
+    quality workflows when applicable.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-001-001
+  type: functional
+  capability: BCM-QLT-001
+  domain: DOM-09
+  statement: The platform shall support documented execution and traceability of controles
+    internos.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-001-002
+  type: functional
+  capability: BCM-QLT-001
+  domain: DOM-09
+  statement: The platform shall allow authorized users to record observations, evidence,
+    corrective actions and approvals for controles internos.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-001-003
+  type: functional
+  capability: BCM-QLT-001
+  domain: DOM-09
+  statement: The platform shall link controles internos to equipment, tests, branches,
+    users and affected results where applicable.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-001-004
+  type: functional
+  capability: BCM-QLT-001
+  domain: DOM-09
+  statement: The platform shall generate audit-ready evidence and reports for controles
+    internos.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-001-005
+  type: functional
+  capability: BCM-QLT-001
+  domain: DOM-09
+  statement: The platform shall support configurable workflows and notifications for
+    quality exceptions.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-002-001
+  type: functional
+  capability: BCM-QLT-002
+  domain: DOM-09
+  statement: The platform shall support documented execution and traceability of controles
+    externos.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-002-002
+  type: functional
+  capability: BCM-QLT-002
+  domain: DOM-09
+  statement: The platform shall allow authorized users to record observations, evidence,
+    corrective actions and approvals for controles externos.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-002-003
+  type: functional
+  capability: BCM-QLT-002
+  domain: DOM-09
+  statement: The platform shall link controles externos to equipment, tests, branches,
+    users and affected results where applicable.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-002-004
+  type: functional
+  capability: BCM-QLT-002
+  domain: DOM-09
+  statement: The platform shall generate audit-ready evidence and reports for controles
+    externos.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-002-005
+  type: functional
+  capability: BCM-QLT-002
+  domain: DOM-09
+  statement: The platform shall support configurable workflows and notifications for
+    quality exceptions.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-003-001
+  type: functional
+  capability: BCM-QLT-003
+  domain: DOM-09
+  statement: The platform shall support documented execution and traceability of calibraciones.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-003-002
+  type: functional
+  capability: BCM-QLT-003
+  domain: DOM-09
+  statement: The platform shall allow authorized users to record observations, evidence,
+    corrective actions and approvals for calibraciones.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-003-003
+  type: functional
+  capability: BCM-QLT-003
+  domain: DOM-09
+  statement: The platform shall link calibraciones to equipment, tests, branches,
+    users and affected results where applicable.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-003-004
+  type: functional
+  capability: BCM-QLT-003
+  domain: DOM-09
+  statement: The platform shall generate audit-ready evidence and reports for calibraciones.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-003-005
+  type: functional
+  capability: BCM-QLT-003
+  domain: DOM-09
+  statement: The platform shall support configurable workflows and notifications for
+    quality exceptions.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-004-001
+  type: functional
+  capability: BCM-QLT-004
+  domain: DOM-09
+  statement: The platform shall support documented execution and traceability of equipos.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-004-002
+  type: functional
+  capability: BCM-QLT-004
+  domain: DOM-09
+  statement: The platform shall allow authorized users to record observations, evidence,
+    corrective actions and approvals for equipos.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-004-003
+  type: functional
+  capability: BCM-QLT-004
+  domain: DOM-09
+  statement: The platform shall link equipos to equipment, tests, branches, users
+    and affected results where applicable.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-004-004
+  type: functional
+  capability: BCM-QLT-004
+  domain: DOM-09
+  statement: The platform shall generate audit-ready evidence and reports for equipos.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-004-005
+  type: functional
+  capability: BCM-QLT-004
+  domain: DOM-09
+  statement: The platform shall support configurable workflows and notifications for
+    quality exceptions.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-005-001
+  type: functional
+  capability: BCM-QLT-005
+  domain: DOM-09
+  statement: The platform shall support documented execution and traceability of mantenimiento.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-005-002
+  type: functional
+  capability: BCM-QLT-005
+  domain: DOM-09
+  statement: The platform shall allow authorized users to record observations, evidence,
+    corrective actions and approvals for mantenimiento.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-005-003
+  type: functional
+  capability: BCM-QLT-005
+  domain: DOM-09
+  statement: The platform shall link mantenimiento to equipment, tests, branches,
+    users and affected results where applicable.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-005-004
+  type: functional
+  capability: BCM-QLT-005
+  domain: DOM-09
+  statement: The platform shall generate audit-ready evidence and reports for mantenimiento.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-005-005
+  type: functional
+  capability: BCM-QLT-005
+  domain: DOM-09
+  statement: The platform shall support configurable workflows and notifications for
+    quality exceptions.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-006-001
+  type: functional
+  capability: BCM-QLT-006
+  domain: DOM-09
+  statement: The platform shall support documented execution and traceability of capa.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-006-002
+  type: functional
+  capability: BCM-QLT-006
+  domain: DOM-09
+  statement: The platform shall allow authorized users to record observations, evidence,
+    corrective actions and approvals for capa.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-006-003
+  type: functional
+  capability: BCM-QLT-006
+  domain: DOM-09
+  statement: The platform shall link capa to equipment, tests, branches, users and
+    affected results where applicable.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-006-004
+  type: functional
+  capability: BCM-QLT-006
+  domain: DOM-09
+  statement: The platform shall generate audit-ready evidence and reports for capa.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-006-005
+  type: functional
+  capability: BCM-QLT-006
+  domain: DOM-09
+  statement: The platform shall support configurable workflows and notifications for
+    quality exceptions.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-007-001
+  type: functional
+  capability: BCM-QLT-007
+  domain: DOM-09
+  statement: The platform shall support documented execution and traceability of auditorías.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-007-002
+  type: functional
+  capability: BCM-QLT-007
+  domain: DOM-09
+  statement: The platform shall allow authorized users to record observations, evidence,
+    corrective actions and approvals for auditorías.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-007-003
+  type: functional
+  capability: BCM-QLT-007
+  domain: DOM-09
+  statement: The platform shall link auditorías to equipment, tests, branches, users
+    and affected results where applicable.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-007-004
+  type: functional
+  capability: BCM-QLT-007
+  domain: DOM-09
+  statement: The platform shall generate audit-ready evidence and reports for auditorías.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-QLT-007-005
+  type: functional
+  capability: BCM-QLT-007
+  domain: DOM-09
+  statement: The platform shall support configurable workflows and notifications for
+    quality exceptions.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-001-001
+  type: functional
+  capability: BCM-PLT-001
+  domain: DOM-10
+  statement: The platform shall provide secure, auditable and configurable iam as
+    a shared platform capability.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-001-002
+  type: functional
+  capability: BCM-PLT-001
+  domain: DOM-10
+  statement: The platform shall enforce tenant, laboratory and branch isolation for
+    iam.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-001-003
+  type: functional
+  capability: BCM-PLT-001
+  domain: DOM-10
+  statement: The platform shall expose Identity and Access Management through APIs
+    and reusable services without coupling business domains to providers.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-001-004
+  type: functional
+  capability: BCM-PLT-001
+  domain: DOM-10
+  statement: The platform shall support monitoring, auditability and operational reporting
+    for iam.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-001-005
+  type: functional
+  capability: BCM-PLT-001
+  domain: DOM-10
+  statement: The platform shall remain cloud-agnostic, compute-agnostic and on-premise
+    compatible for Identity and Access Management.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-002-001
+  type: functional
+  capability: BCM-PLT-002
+  domain: DOM-10
+  statement: The platform shall provide secure, auditable and configurable configuración
+    as a shared platform capability.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-002-002
+  type: functional
+  capability: BCM-PLT-002
+  domain: DOM-10
+  statement: The platform shall enforce tenant, laboratory and branch isolation for
+    configuración.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-002-003
+  type: functional
+  capability: BCM-PLT-002
+  domain: DOM-10
+  statement: The platform shall expose Platform Configuration through APIs and reusable
+    services without coupling business domains to providers.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-002-004
+  type: functional
+  capability: BCM-PLT-002
+  domain: DOM-10
+  statement: The platform shall support monitoring, auditability and operational reporting
+    for configuración.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-002-005
+  type: functional
+  capability: BCM-PLT-002
+  domain: DOM-10
+  statement: The platform shall remain cloud-agnostic, compute-agnostic and on-premise
+    compatible for Platform Configuration.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-003-001
+  type: functional
+  capability: BCM-PLT-003
+  domain: DOM-10
+  statement: The platform shall provide secure, auditable and configurable notificaciones
+    as a shared platform capability.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-003-002
+  type: functional
+  capability: BCM-PLT-003
+  domain: DOM-10
+  statement: The platform shall enforce tenant, laboratory and branch isolation for
+    notificaciones.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-003-003
+  type: functional
+  capability: BCM-PLT-003
+  domain: DOM-10
+  statement: The platform shall expose Notification Management through APIs and reusable
+    services without coupling business domains to providers.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-003-004
+  type: functional
+  capability: BCM-PLT-003
+  domain: DOM-10
+  statement: The platform shall support monitoring, auditability and operational reporting
+    for notificaciones.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-003-005
+  type: functional
+  capability: BCM-PLT-003
+  domain: DOM-10
+  statement: The platform shall remain cloud-agnostic, compute-agnostic and on-premise
+    compatible for Notification Management.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-004-001
+  type: functional
+  capability: BCM-PLT-004
+  domain: DOM-10
+  statement: The platform shall provide secure, auditable and configurable integraciones
+    as a shared platform capability.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-004-002
+  type: functional
+  capability: BCM-PLT-004
+  domain: DOM-10
+  statement: The platform shall enforce tenant, laboratory and branch isolation for
+    integraciones.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-004-003
+  type: functional
+  capability: BCM-PLT-004
+  domain: DOM-10
+  statement: The platform shall expose Integration Management through APIs and reusable
+    services without coupling business domains to providers.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-004-004
+  type: functional
+  capability: BCM-PLT-004
+  domain: DOM-10
+  statement: The platform shall support monitoring, auditability and operational reporting
+    for integraciones.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-004-005
+  type: functional
+  capability: BCM-PLT-004
+  domain: DOM-10
+  statement: The platform shall remain cloud-agnostic, compute-agnostic and on-premise
+    compatible for Integration Management.
+  priority: Critical
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-005-001
+  type: functional
+  capability: BCM-PLT-005
+  domain: DOM-10
+  statement: The platform shall provide secure, auditable and configurable api management
+    as a shared platform capability.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-005-002
+  type: functional
+  capability: BCM-PLT-005
+  domain: DOM-10
+  statement: The platform shall enforce tenant, laboratory and branch isolation for
+    api management.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-005-003
+  type: functional
+  capability: BCM-PLT-005
+  domain: DOM-10
+  statement: The platform shall expose API Management through APIs and reusable services
+    without coupling business domains to providers.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-005-004
+  type: functional
+  capability: BCM-PLT-005
+  domain: DOM-10
+  statement: The platform shall support monitoring, auditability and operational reporting
+    for api management.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-005-005
+  type: functional
+  capability: BCM-PLT-005
+  domain: DOM-10
+  statement: The platform shall remain cloud-agnostic, compute-agnostic and on-premise
+    compatible for API Management.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-006-001
+  type: functional
+  capability: BCM-PLT-006
+  domain: DOM-10
+  statement: The platform shall provide secure, auditable and configurable observabilidad
+    as a shared platform capability.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-006-002
+  type: functional
+  capability: BCM-PLT-006
+  domain: DOM-10
+  statement: The platform shall enforce tenant, laboratory and branch isolation for
+    observabilidad.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-006-003
+  type: functional
+  capability: BCM-PLT-006
+  domain: DOM-10
+  statement: The platform shall expose Observability through APIs and reusable services
+    without coupling business domains to providers.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-006-004
+  type: functional
+  capability: BCM-PLT-006
+  domain: DOM-10
+  statement: The platform shall support monitoring, auditability and operational reporting
+    for observabilidad.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-006-005
+  type: functional
+  capability: BCM-PLT-006
+  domain: DOM-10
+  statement: The platform shall remain cloud-agnostic, compute-agnostic and on-premise
+    compatible for Observability.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-007-001
+  type: functional
+  capability: BCM-PLT-007
+  domain: DOM-10
+  statement: The platform shall provide secure, auditable and configurable auditoría
+    as a shared platform capability.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-007-002
+  type: functional
+  capability: BCM-PLT-007
+  domain: DOM-10
+  statement: The platform shall enforce tenant, laboratory and branch isolation for
+    auditoría.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-007-003
+  type: functional
+  capability: BCM-PLT-007
+  domain: DOM-10
+  statement: The platform shall expose Audit Trail through APIs and reusable services
+    without coupling business domains to providers.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-007-004
+  type: functional
+  capability: BCM-PLT-007
+  domain: DOM-10
+  statement: The platform shall support monitoring, auditability and operational reporting
+    for auditoría.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-007-005
+  type: functional
+  capability: BCM-PLT-007
+  domain: DOM-10
+  statement: The platform shall remain cloud-agnostic, compute-agnostic and on-premise
+    compatible for Audit Trail.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-008-001
+  type: functional
+  capability: BCM-PLT-008
+  domain: DOM-10
+  statement: The platform shall provide secure, auditable and configurable gestión
+    documental as a shared platform capability.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-008-002
+  type: functional
+  capability: BCM-PLT-008
+  domain: DOM-10
+  statement: The platform shall enforce tenant, laboratory and branch isolation for
+    gestión documental.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-008-003
+  type: functional
+  capability: BCM-PLT-008
+  domain: DOM-10
+  statement: The platform shall expose Document Management through APIs and reusable
+    services without coupling business domains to providers.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-008-004
+  type: functional
+  capability: BCM-PLT-008
+  domain: DOM-10
+  statement: The platform shall support monitoring, auditability and operational reporting
+    for gestión documental.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-008-005
+  type: functional
+  capability: BCM-PLT-008
+  domain: DOM-10
+  statement: The platform shall remain cloud-agnostic, compute-agnostic and on-premise
+    compatible for Document Management.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-009-001
+  type: functional
+  capability: BCM-PLT-009
+  domain: DOM-10
+  statement: The platform shall provide secure, auditable and configurable motor de
+    workflows as a shared platform capability.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-009-002
+  type: functional
+  capability: BCM-PLT-009
+  domain: DOM-10
+  statement: The platform shall enforce tenant, laboratory and branch isolation for
+    motor de workflows.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-009-003
+  type: functional
+  capability: BCM-PLT-009
+  domain: DOM-10
+  statement: The platform shall expose Workflow Engine through APIs and reusable services
+    without coupling business domains to providers.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-009-004
+  type: functional
+  capability: BCM-PLT-009
+  domain: DOM-10
+  statement: The platform shall support monitoring, auditability and operational reporting
+    for motor de workflows.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-009-005
+  type: functional
+  capability: BCM-PLT-009
+  domain: DOM-10
+  statement: The platform shall remain cloud-agnostic, compute-agnostic and on-premise
+    compatible for Workflow Engine.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-001-001
+  type: functional
+  capability: BCM-AI-001
+  domain: DOM-11
+  statement: The platform shall provide asistente administrativo as an AI-assisted
+    capability with human oversight where clinical or administrative risk exists.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-001-002
+  type: functional
+  capability: BCM-AI-001
+  domain: DOM-11
+  statement: The platform shall use privacy-safe context packages and avoid exposing
+    unnecessary sensitive data to AI providers.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-001-003
+  type: functional
+  capability: BCM-AI-001
+  domain: DOM-11
+  statement: The platform shall keep AI provider usage behind an abstraction layer.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-001-004
+  type: functional
+  capability: BCM-AI-001
+  domain: DOM-11
+  statement: The platform shall log AI requests, generated outputs, confidence metadata
+    and user decisions.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-001-005
+  type: functional
+  capability: BCM-AI-001
+  domain: DOM-11
+  statement: The platform shall provide fallback behavior when AI is disabled, unavailable
+    or not licensed.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-002-001
+  type: functional
+  capability: BCM-AI-002
+  domain: DOM-11
+  statement: The platform shall provide asistente clínico as an AI-assisted capability
+    with human oversight where clinical or administrative risk exists.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-002-002
+  type: functional
+  capability: BCM-AI-002
+  domain: DOM-11
+  statement: The platform shall use privacy-safe context packages and avoid exposing
+    unnecessary sensitive data to AI providers.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-002-003
+  type: functional
+  capability: BCM-AI-002
+  domain: DOM-11
+  statement: The platform shall keep AI provider usage behind an abstraction layer.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-002-004
+  type: functional
+  capability: BCM-AI-002
+  domain: DOM-11
+  statement: The platform shall log AI requests, generated outputs, confidence metadata
+    and user decisions.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-002-005
+  type: functional
+  capability: BCM-AI-002
+  domain: DOM-11
+  statement: The platform shall provide fallback behavior when AI is disabled, unavailable
+    or not licensed.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-003-001
+  type: functional
+  capability: BCM-AI-003
+  domain: DOM-11
+  statement: The platform shall provide asistente médico as an AI-assisted capability
+    with human oversight where clinical or administrative risk exists.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-003-002
+  type: functional
+  capability: BCM-AI-003
+  domain: DOM-11
+  statement: The platform shall use privacy-safe context packages and avoid exposing
+    unnecessary sensitive data to AI providers.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-003-003
+  type: functional
+  capability: BCM-AI-003
+  domain: DOM-11
+  statement: The platform shall keep AI provider usage behind an abstraction layer.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-003-004
+  type: functional
+  capability: BCM-AI-003
+  domain: DOM-11
+  statement: The platform shall log AI requests, generated outputs, confidence metadata
+    and user decisions.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-003-005
+  type: functional
+  capability: BCM-AI-003
+  domain: DOM-11
+  statement: The platform shall provide fallback behavior when AI is disabled, unavailable
+    or not licensed.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-004-001
+  type: functional
+  capability: BCM-AI-004
+  domain: DOM-11
+  statement: The platform shall provide ocr inteligente as an AI-assisted capability
+    with human oversight where clinical or administrative risk exists.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-004-002
+  type: functional
+  capability: BCM-AI-004
+  domain: DOM-11
+  statement: The platform shall use privacy-safe context packages and avoid exposing
+    unnecessary sensitive data to AI providers.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-004-003
+  type: functional
+  capability: BCM-AI-004
+  domain: DOM-11
+  statement: The platform shall keep AI provider usage behind an abstraction layer.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-004-004
+  type: functional
+  capability: BCM-AI-004
+  domain: DOM-11
+  statement: The platform shall log AI requests, generated outputs, confidence metadata
+    and user decisions.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-004-005
+  type: functional
+  capability: BCM-AI-004
+  domain: DOM-11
+  statement: The platform shall provide fallback behavior when AI is disabled, unavailable
+    or not licensed.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-005-001
+  type: functional
+  capability: BCM-AI-005
+  domain: DOM-11
+  statement: The platform shall provide resumen clínico as an AI-assisted capability
+    with human oversight where clinical or administrative risk exists.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-005-002
+  type: functional
+  capability: BCM-AI-005
+  domain: DOM-11
+  statement: The platform shall use privacy-safe context packages and avoid exposing
+    unnecessary sensitive data to AI providers.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-005-003
+  type: functional
+  capability: BCM-AI-005
+  domain: DOM-11
+  statement: The platform shall keep AI provider usage behind an abstraction layer.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-005-004
+  type: functional
+  capability: BCM-AI-005
+  domain: DOM-11
+  statement: The platform shall log AI requests, generated outputs, confidence metadata
+    and user decisions.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-005-005
+  type: functional
+  capability: BCM-AI-005
+  domain: DOM-11
+  statement: The platform shall provide fallback behavior when AI is disabled, unavailable
+    or not licensed.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-006-001
+  type: functional
+  capability: BCM-AI-006
+  domain: DOM-11
+  statement: The platform shall provide búsqueda semántica as an AI-assisted capability
+    with human oversight where clinical or administrative risk exists.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-006-002
+  type: functional
+  capability: BCM-AI-006
+  domain: DOM-11
+  statement: The platform shall use privacy-safe context packages and avoid exposing
+    unnecessary sensitive data to AI providers.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-006-003
+  type: functional
+  capability: BCM-AI-006
+  domain: DOM-11
+  statement: The platform shall keep AI provider usage behind an abstraction layer.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-006-004
+  type: functional
+  capability: BCM-AI-006
+  domain: DOM-11
+  statement: The platform shall log AI requests, generated outputs, confidence metadata
+    and user decisions.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-006-005
+  type: functional
+  capability: BCM-AI-006
+  domain: DOM-11
+  statement: The platform shall provide fallback behavior when AI is disabled, unavailable
+    or not licensed.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-007-001
+  type: functional
+  capability: BCM-AI-007
+  domain: DOM-11
+  statement: The platform shall provide motor rag as an AI-assisted capability with
+    human oversight where clinical or administrative risk exists.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-007-002
+  type: functional
+  capability: BCM-AI-007
+  domain: DOM-11
+  statement: The platform shall use privacy-safe context packages and avoid exposing
+    unnecessary sensitive data to AI providers.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-007-003
+  type: functional
+  capability: BCM-AI-007
+  domain: DOM-11
+  statement: The platform shall keep AI provider usage behind an abstraction layer.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-007-004
+  type: functional
+  capability: BCM-AI-007
+  domain: DOM-11
+  statement: The platform shall log AI requests, generated outputs, confidence metadata
+    and user decisions.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-007-005
+  type: functional
+  capability: BCM-AI-007
+  domain: DOM-11
+  statement: The platform shall provide fallback behavior when AI is disabled, unavailable
+    or not licensed.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-PLT-010-001
+  type: functional
+  capability: BCM-PLT-010
+  domain: DOM-10
+  statement: The platform shall ingest customer migration data from simple open formats
+    including CSV, XLSX, JSON, NDJSON and ZIP bundles.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an import package is submitted, when the format is supported, then the platform
+    validates the manifest and file structure before processing.
+  - Given an unsupported or malformed file is submitted, when validation runs, then
+    the platform rejects it with actionable errors.
+  - Given source files contain provider-specific exports, when mappings exist, then
+    the platform normalizes them through anti-corruption mappings.
+- id: FR-PLT-010-002
+  type: functional
+  capability: BCM-PLT-010
+  domain: DOM-10
+  statement: The platform shall perform dry-run validation before any imported data
+    mutates operational domains.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an import batch is uploaded, when dry-run is executed, then validation reports
+    errors, warnings and record counts.
+  - Given blocking validation errors exist, when import execution is requested, then
+    domain mutation is denied.
+  - Given validation passes, when import execution is approved, then records are submitted
+    through domain commands.
+- id: FR-PLT-010-003
+  type: functional
+  capability: BCM-PLT-010
+  domain: DOM-10
+  statement: The platform shall produce reconciliation reports for migrated records,
+    rejected rows and transformed values.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an import completes, when reconciliation is requested, then accepted, rejected
+    and transformed records are visible.
+  - Given source identifiers exist, when records are imported, then source-to-target
+    traceability is retained.
+  - Given a customer reviews migration evidence, when reports are exported, then reports
+    use simple portable formats.
+- id: FR-PLT-010-004
+  type: functional
+  capability: BCM-PLT-010
+  domain: DOM-10
+  statement: The platform shall make migration jobs auditable, retryable and observable
+    without bypassing domain rules.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given a migration job changes state, when the state changes, then an audit event
+    is recorded.
+  - Given retry is requested, when a job is retryable, then only failed or pending
+    work is retried.
+  - Given imported records require domain behavior, when execution occurs, then domain
+    commands enforce business rules.
+- id: FR-PLT-010-005
+  type: functional
+  capability: BCM-PLT-010
+  domain: DOM-10
+  statement: The platform shall define provider-deliverable migration packages that
+    incumbent systems can export without proprietary dependencies.
+  priority: Critical
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given a customer requests migration, when the package specification is shared,
+    then required files and columns are clear.
+  - Given a provider exports data, when the package follows the specification, then
+    HOP can validate it without custom proprietary tooling.
+  - Given optional files are omitted, when validation runs, then the platform reports
+    only relevant missing dependencies.
+- id: FR-PLT-011-001
+  type: functional
+  capability: BCM-PLT-011
+  domain: DOM-10
+  statement: The platform shall maintain a marketplace catalog of versioned product
+    packages with capability, compatibility, pricing, support and security metadata.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given a package is published, when a user views the catalog, then package metadata,
+    version, compatibility, support owner and package type are visible to authorized
+    users.
+  - Given a package is not certified, when publication is requested, then the platform
+    blocks publication and records the reason.
+  - Given a package version is superseded, when the catalog is queried, then compatibility
+    and upgrade guidance remain available.
+- id: FR-PLT-011-002
+  type: functional
+  capability: BCM-PLT-011
+  domain: DOM-10
+  statement: The platform shall model commercial offers, trials, bundles, quotas and
+    billing events through provider-agnostic marketplace boundaries.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given an offer is published, when a customer selects it, then purchase or grant
+    flow is initiated without coupling to a specific billing provider.
+  - Given a trial or bundle has limits, when entitlement is resolved, then the limits
+    are enforced consistently.
+  - Given a billing provider is unavailable, when a purchase event is pending, then
+    the platform keeps product domain state isolated from provider state.
+- id: FR-PLT-011-003
+  type: functional
+  capability: BCM-PLT-011
+  domain: DOM-10
+  statement: The platform shall grant and resolve tenant entitlements separately from
+    IAM permissions and feature flags.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given a tenant has a valid entitlement, when an authorized administrator installs
+    a package, then the entitlement allows installation.
+  - Given a tenant lacks entitlement, when package execution is requested, then the
+    platform denies execution before domain mutation.
+  - Given a user lacks role permission, when entitlement exists, then the platform
+    still denies access through IAM authorization.
+- id: FR-PLT-011-004
+  type: functional
+  capability: BCM-PLT-011
+  domain: DOM-10
+  statement: The platform shall install, activate, suspend, upgrade, roll back, uninstall
+    and retire marketplace packages per tenant with compatibility validation.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given a package has unmet dependencies, when installation is requested, then the
+    platform blocks installation with actionable validation errors.
+  - Given a package is activated, when runtime consumption begins, then feature flags,
+    entitlements, permissions and audit checks are applied.
+  - Given an upgrade fails, when rollback is allowed, then the previous compatible
+    package version is restored or a migration-bound exception is recorded.
+- id: FR-PLT-011-005
+  type: functional
+  capability: BCM-PLT-011
+  domain: DOM-10
+  statement: The platform shall provide audit, observability and support evidence
+    for marketplace package lifecycle, entitlement and consumption events.
+  priority: High
+  roadmap: MVP2
+  acceptance_criteria:
+  - Given a package lifecycle operation occurs, when the operation completes or fails,
+    then an audit event is recorded.
+  - Given package usage is metered, when consumption occurs, then telemetry is emitted
+    without exposing protected health or financial data unnecessarily.
+  - Given support reviews a tenant package issue, when evidence is requested, then
+    installation, entitlement, compatibility and lifecycle history are available.
+- id: FR-AI-008-001
+  type: functional
+  capability: BCM-AI-008
+  domain: DOM-11
+  statement: The platform shall provide agentes especializados as an AI-assisted capability
+    with human oversight where clinical or administrative risk exists.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-008-002
+  type: functional
+  capability: BCM-AI-008
+  domain: DOM-11
+  statement: The platform shall use privacy-safe context packages and avoid exposing
+    unnecessary sensitive data to AI providers.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-008-003
+  type: functional
+  capability: BCM-AI-008
+  domain: DOM-11
+  statement: The platform shall keep AI provider usage behind an abstraction layer.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-008-004
+  type: functional
+  capability: BCM-AI-008
+  domain: DOM-11
+  statement: The platform shall log AI requests, generated outputs, confidence metadata
+    and user decisions.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-AI-008-005
+  type: functional
+  capability: BCM-AI-008
+  domain: DOM-11
+  statement: The platform shall provide fallback behavior when AI is disabled, unavailable
+    or not licensed.
+  priority: High
+  roadmap: MVP3
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+```

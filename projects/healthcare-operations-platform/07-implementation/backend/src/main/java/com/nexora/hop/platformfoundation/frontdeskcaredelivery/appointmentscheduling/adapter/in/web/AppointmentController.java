@@ -23,7 +23,7 @@ import com.nexora.hop.platformfoundation.frontdeskcaredelivery.appointmentschedu
 import com.nexora.hop.platformfoundation.frontdeskcaredelivery.appointmentscheduling.domain.RequestedCatalogItem;
 
 /**
- * Rendered controller for {@code bcm-att-001-appointment-scheduling/openapi-source.yaml} (base
+ * Rendered controller for {@code bcm-att-001-appointment-scheduling/openapi-source.md} (base
  * path /api/care-delivery/appointments).
  */
 @RestController

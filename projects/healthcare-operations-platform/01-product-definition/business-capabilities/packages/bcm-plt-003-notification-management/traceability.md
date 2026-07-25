@@ -1,0 +1,120 @@
+---
+id: HOP-TRACE-BCM-PLT-003
+format: markdown_structured_payload
+type: traceability
+name: Notification Management Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Notification Management Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-PLT-003
+  type: traceability
+  name: Notification Management Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-003
+traces:
+  capability_map:
+    bcm_001: BCM-PLT-003
+    domain: DOM-10 Platform
+  dependency_map:
+    bcm_002_profile: platform_extension
+    required_capabilities:
+    - BCM-PLT-001
+    - BCM-PLT-007
+    downstream_capabilities:
+    - BCM-RES-007
+  domain_foundation:
+    bounded_context: notifications
+    aggregate_reference: 'NotificationRequest (new platform aggregate; no aggregate-catalog
+      entry, consistent with related_aggregates: [] in BCM-002)'
+    context_relationships:
+    - REL-CTX-012
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-007
+  brm_alignment:
+  - rule: BRM-001-R013
+    alignment: This capability is the dispatch mechanism through which BCM-RES-006/007's
+      traceable critical-result notification requirement is fulfilled.
+  - rule: BRM-001-R018
+    alignment: Every queue, dispatch and failure event is audited (RN-006, RN-007).
+  hrp_alignment:
+  - process: HRP-001-P07 Result Report and Digital Delivery
+    capability_role: Notify patient or doctor according to preferences segment of
+      the process.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-NOT-003-01
+  - rule: RN-002
+    tests:
+    - TST-NOT-003-02
+  - rule: RN-003
+    tests:
+    - TST-NOT-003-03
+  - rule: RN-004
+    tests:
+    - TST-NOT-003-04
+  - rule: RN-005
+    tests:
+    - TST-NOT-003-05
+  - rule: RN-006
+    tests:
+    - TST-NOT-003-06
+  - rule: RN-007
+    tests:
+    - TST-NOT-003-07
+  processes_to_commands:
+  - process: PRC-NOT-003-01
+    commands:
+    - SubmitNotificationRequest
+  - process: PRC-NOT-003-02
+    commands:
+    - DispatchNotification
+  - process: PRC-NOT-003-03
+    commands:
+    - FinalizeFailedNotification
+  api_to_permissions:
+  - operation: submitNotificationRequest
+    scope: notification.submit
+  - operation: getNotificationRequest
+    scope: notification.read
+  events_to_audit:
+  - event: NotificationQueued
+    audit_sink: BCM-PLT-007
+  - event: NotificationDispatched
+    audit_sink: BCM-PLT-007
+  - event: NotificationDeliveryFailed
+    audit_sink: BCM-PLT-007
+  ui_to_api: []
+  consumed_by_capabilities:
+  - capability: BCM-RES-007
+    relationship: Submits ResultNotificationRequested-derived NotificationRequest
+      entries for dispatch.
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/results-and-digital-delivery/MVP-MOD-007-DEF-validation.md
+  backlog_items:
+    definition: MVP-MOD-007-DEF
+    com_mod_009_def: COM-MOD-009-DEF
+    definition_status: closed
+    compilation: MVP-MOD-007-BE-001
+    compilation_status: closed
+    custom_rules: MVP-MOD-007-BE-002
+    custom_rules_status: closed
+    ui: MVP-MOD-007-FE-001
+    ui_status: not_applicable
+    validation: MVP-MOD-007-QA-001
+    validation_status: closed
+    closeout: MVP-MOD-007-CLOSEOUT
+    closeout_status: closed
+```

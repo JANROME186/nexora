@@ -1,0 +1,37 @@
+---
+id: HOP-MOB-BCM-SVC-006
+format: markdown_structured_payload
+type: mobile-model
+name: Reference Range Management Mobile Model
+version: 0.1.0
+status: not_required
+---
+
+# Reference Range Management Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-SVC-006
+  type: mobile-model
+  name: Reference Range Management Mobile Model
+  version: 0.1.0
+  status: not_required
+  classification: editable_model
+  capability: BCM-SVC-006
+mobile_scope:
+  status: not_required
+  rationale: 'MVP-MOD-002 declares mobile_app not_required. Reference range authoring
+    is an internal clinical configuration activity. Ranges influence mobile result
+    views only indirectly through result interpretation delivered by later result
+    modules.
+
+    '
+  deferred_to:
+  - MVP-MOD-007 Results and Digital Delivery
+  flows: []
+  offline_expectations: none
+```

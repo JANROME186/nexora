@@ -57,9 +57,9 @@ class TechnicalValidationController {
     ResponseEntity<LaboratoryResult> performTechnicalValidation(
             @PathVariable String resultId,
             @Valid @RequestBody TechnicalValidateRequest request) {
-        // Multi-criterion acceptance check (CUS-LPR-008-01) and Critical-threshold comparison (CUS-LPR-008-02) 
+        // Multi-criterion acceptance check (CUS-LPR-008-01) and Critical-threshold comparison (CUS-LPR-008-02)
         // are implemented in the service.
-        com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.application.TechnicalValidateCommand command = 
+        com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.application.TechnicalValidateCommand command =
              new com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.application.TechnicalValidateCommand(
                      resultId, request.tenantId(), request.actorId(), request.approved()
              );

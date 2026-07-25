@@ -1,0 +1,122 @@
+---
+id: HOP-API-SRC-BCM-SVC-007
+format: markdown_structured_payload
+type: openapi-source
+name: Sample Catalog API Source Model
+version: 0.1.0
+status: modeled
+---
+
+# Sample Catalog Api Source Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-API-SRC-BCM-SVC-007
+  type: openapi-source
+  name: Sample Catalog API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-007
+  note: 'Source contract model. Rendered OpenAPI, controllers, DTOs and SDKs are generated
+    outputs declared in generation-plan.md.
+
+    '
+api:
+  base_path: /api/catalog/samples
+  surface_classification: internal
+  security:
+    scheme: bearer_jwt
+    required_scopes_default:
+    - catalog.sample.read
+resources:
+- name: SampleType
+  operations:
+  - id: listSampleTypes
+    method: GET
+    path: /types
+    scopes:
+    - catalog.sample.read
+    generatable: true
+  - id: createSampleType
+    method: POST
+    path: /types
+    scopes:
+    - catalog.sample.write
+    generatable: true
+  - id: updateSampleType
+    method: PUT
+    path: /types/{sampleTypeId}
+    scopes:
+    - catalog.sample.write
+    generatable: true
+  - id: publishSampleType
+    method: POST
+    path: /types/{sampleTypeId}/publish
+    scopes:
+    - catalog.sample.publish
+    generatable: false
+    custom_reason: 'Publication transition for a sample type. Required so a SampleRequirement
+      can satisfy RN-003 (CATALOG_SAMPLE_TYPE_NOT_PUBLISHED); added in MVP-MOD-002-BE-002
+      to close model gap GAP-BE-002-01 where the sample type lifecycle had a published
+      status and RN-003 but no publication operation.
+
+      '
+- name: SampleRequirement
+  operations:
+  - id: listSampleRequirements
+    method: GET
+    path: /requirements
+    scopes:
+    - catalog.sample.read
+    generatable: true
+  - id: getSampleRequirement
+    method: GET
+    path: /requirements/{requirementId}
+    scopes:
+    - catalog.sample.read
+    generatable: true
+  - id: createSampleRequirement
+    method: POST
+    path: /requirements
+    scopes:
+    - catalog.sample.write
+    generatable: true
+  - id: updateSampleRequirement
+    method: PUT
+    path: /requirements/{requirementId}
+    scopes:
+    - catalog.sample.write
+    generatable: true
+  - id: publishSampleRequirement
+    method: POST
+    path: /requirements/{requirementId}/publish
+    scopes:
+    - catalog.sample.publish
+    generatable: false
+    custom_reason: Publication validation and snapshot freeze are custom rules.
+  - id: getPublishedSampleRequirementSnapshot
+    method: GET
+    path: /requirements/{requirementId}/published-snapshot
+    scopes:
+    - catalog.sample.read
+    generatable: false
+    custom_reason: Returns frozen version-aware snapshot for downstream consumers.
+schemas_source:
+- SampleType
+- SampleRequirement
+- PublishedSampleRequirementSnapshot
+error_model:
+  standard: rfc7807
+  domain_errors:
+  - code: CATALOG_SAMPLE_TYPE_CODE_CONFLICT
+    maps_to_rule: RN-001
+  - code: CATALOG_SAMPLE_VOLUME_INVALID
+    maps_to_rule: RN-002
+  - code: CATALOG_SAMPLE_TYPE_NOT_PUBLISHED
+    maps_to_rule: RN-003
+```

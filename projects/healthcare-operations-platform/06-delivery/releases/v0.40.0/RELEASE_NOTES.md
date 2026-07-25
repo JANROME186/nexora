@@ -15,8 +15,8 @@ This release imports the v0.39.0 agent-ready base into the local Git repository 
 
 ## Updated
 
-- `PROJECT_STATE.yaml`
-- `SOURCE_OF_TRUTH.yaml`
+- `PROJECT_STATE.md`
+- `SOURCE_OF_TRUTH.md`
 - `AGENT_BOOTSTRAP.md`
 - `.ai/AGENT_BOOTSTRAP.md`
 

@@ -1,6 +1,6 @@
 # OpenAPI Contract Scope
 
-The Inventory API is contract-first and must be governed by `05-contracts/contracts/openapi/inventory/inventory.openapi.yaml`.
+The Inventory API is contract-first and must be governed by `05-contracts/contracts/openapi/inventory/inventory.openapi.md`.
 
 ## Initial Resources
 

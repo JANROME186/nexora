@@ -1,0 +1,58 @@
+---
+id: HOP-BUS-MOD-BCM-PLT-009
+format: markdown_structured_payload
+type: business-model
+name: Workflow Engine Business Model
+version: 1.0.0
+---
+
+# Workflow Engine Business Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BUS-MOD-BCM-PLT-009
+  type: business-model
+  name: Workflow Engine Business Model
+  version: 1.0.0
+aggregate:
+  name: WorkflowDefinition
+  bounded_context: platform-operations
+  root_entity: WorkflowDefinitionRoot
+entities:
+- name: WorkflowDefinitionRoot
+  type: root_entity
+  fields:
+    workflow_id: UUID
+    code: String (unique)
+    name: String
+    category: Enum [OPERATIONAL_DEPLOYMENT, BACKUP_RESTORE, TENANT_LIFECYCLE, INCIDENT_RESPONSE]
+    version: Integer
+    is_active: Boolean
+- name: WorkflowExecution
+  type: entity
+  fields:
+    execution_id: UUID
+    workflow_id: UUID
+    tenant_id: UUID
+    current_step: String
+    status: Enum [PENDING, RUNNING, COMPLETED, FAILED, ROLLED_BACK]
+    context_data_json: String
+    started_at: Instant
+    completed_at: Instant
+- name: WorkflowStep
+  type: value_object
+  fields:
+    step_id: String
+    step_name: String
+    action_handler: String
+    retry_count: Integer
+    rollback_handler: String
+invariants:
+- Workflow execution must remain deterministic and idempotent across step retries.
+- Deployment upgrade workflows must possess a defined rollback_handler for every step
+  that mutates state.
+```

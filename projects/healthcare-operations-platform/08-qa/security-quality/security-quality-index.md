@@ -1,0 +1,1312 @@
+---
+id: HOP-SQ-IDX-001
+format: markdown_structured_payload
+type: security-quality-evidence-index
+name: HOP Security Quality Evidence Index
+version: 1.0.0
+status: active
+---
+
+# Hop Security Quality Evidence Index
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-SQ-IDX-001
+  type: security-quality-evidence-index
+  name: HOP Security Quality Evidence Index
+  version: 1.0.0
+  status: active
+  human_readable: README.md
+  machine_readable: security-quality-index.md
+standard:
+  framework_standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+  prompt_playbook: ../../../../nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+purpose: Track security quality evidence generated for code-changing HOP backlog items.
+evidence_path_pattern: 08-qa/security-quality/<backlog-item-id>/
+required_files_per_backlog:
+- security-quality-evidence.md
+- security-quality-evidence.md
+required_checks_when_applicable:
+- tests
+- sast_or_static_analysis
+- dependency_vulnerability_scan
+- secrets_scan
+- coverage
+- dast_for_runnable_web_or_api_surfaces
+- container_or_iac_scan_when_assets_change
+entries:
+- backlog_item: COM-MOD-017-BE-001
+  module: COM-MOD-017 Product Marketplace and Extension Packaging
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-017-BE-001/
+  human_readable: 08-qa/security-quality/COM-MOD-017-BE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-017-BE-001/security-quality-evidence.md
+  checks:
+    tests: passed_442_tests_0_failures_0_errors_0_skipped
+    sast_or_static_analysis: passed_checkstyle_pmd_spotbugs_0_new_module_findings
+    dependency_vulnerability_scan: passed_72_dependencies_0_vulnerabilities
+    secrets_scan: passed
+    coverage: passed_raised_84_25_to_84_53_percent
+    dast_for_runnable_web_or_api_surfaces: not_applicable_deferred_to_COM_MOD_017_QA_001
+    container_or_iac_scan_when_assets_change: not_applicable_no_container_or_iac_assets_changed
+  note: 'Backend compilation for BCM-PLT-011 Product Marketplace and Entitlements:
+    new marketplaceentitlements Spring Modulith module, all 21 openapi-source.md
+    operations functional, 6 new schema tables, 4 new IAM screens/2 roles, 16 i18n
+    keys. Found and fixed 2 real SpotBugs IMPROPER_UNICODE findings in this item''s
+    own new code before closure. Registered TD-BE-018 for deferred custom-rule sophistication.
+    Advanced active backlog to COM-MOD-017-BE-002.'
+- backlog_item: COM-MOD-017-DEF
+  module: COM-MOD-017 Product Marketplace and Extension Packaging
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-017-DEF/
+  human_readable: 08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.md
+  checks:
+    tests: not_applicable_definition_only
+    sast_or_static_analysis: not_applicable_definition_only
+    dependency_vulnerability_scan: not_applicable_no_dependency_changed
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_runnable_surface_changed
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Definition-only marketplace capability package modeling. Created BCM-PLT-011
+    package models, marketplace commercial artifacts and traceability extensions for
+    IAM, configuration, API management, observability, audit and workflow capabilities.
+    Advanced active backlog to COM-MOD-017-BE-001.
+- backlog_item: COM-MOD-016-CLOSEOUT
+  module: COM-MOD-016 Commercial Launch and Customer Enablement
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-016-CLOSEOUT/
+  human_readable: 08-qa/security-quality/COM-MOD-016-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-016-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: passed_via_prior_COM_MOD_016_evidence
+    sast_or_static_analysis: not_applicable_no_code_changed
+    dependency_vulnerability_scan: not_applicable_no_dependency_changed
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_runnable_surface_changed
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Module closeout, registry and documentation synchronization item. COM-MOD-016
+    is module_closed; all 7 capability packages were moved to completed/module_closed
+    and TD-QA-008 remains open non-blocking as project-wide toolchain inventory debt.
+    Advanced active backlog to COM-MOD-017-DEF.
+- backlog_item: COM-MOD-016-QA-001
+  module: COM-MOD-016 Commercial Launch and Customer Enablement
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-016-QA-001/
+  human_readable: 08-qa/security-quality/COM-MOD-016-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-016-QA-001/security-quality-evidence.md
+  checks:
+    tests: not_applicable_validation_only
+    sast_or_static_analysis: not_applicable_validation_only
+    dependency_vulnerability_scan: not_applicable_validation_only
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_runnable_surface
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Commercial readiness validation across COM-MOD-016-DEF/DOC-001/OPS-001/COM-001;
+    found and fixed 4 stale-pointer/registry defects; registered TD-QA-008 (non-blocking);
+    no secrets, PII, vendor lock-in or forbidden execution states found. Advanced
+    active backlog to COM-MOD-016-CLOSEOUT.
+- backlog_item: COM-MOD-016-COM-001
+  module: COM-MOD-016 Commercial Launch and Customer Enablement
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-016-COM-001/
+  human_readable: 08-qa/security-quality/COM-MOD-016-COM-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-016-COM-001/security-quality-evidence.md
+  checks:
+    tests: not_applicable_documentation_only
+    sast_or_static_analysis: not_applicable_documentation_only
+    dependency_vulnerability_scan: not_applicable_documentation_only
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_documentation_only
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Documentation-only backlog item; commercial packages, sales enablement and
+    launch readiness assets created under 06-delivery/commercial-product/; no backend/frontend/mobile
+    code changed.
+- backlog_item: COM-MOD-016-OPS-001
+  module: COM-MOD-016 Commercial Launch and Customer Enablement
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-016-OPS-001/
+  human_readable: 08-qa/security-quality/COM-MOD-016-OPS-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-016-OPS-001/security-quality-evidence.md
+  checks:
+    tests: not_applicable_documentation_only
+    sast_or_static_analysis: not_applicable_documentation_only
+    dependency_vulnerability_scan: not_applicable_documentation_only
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_documentation_only
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Documentation-only backlog item; GOV-SPEC-001 through GOV-SPEC-010 governance
+    specifications created under 09-operations/governance/; no backend/frontend/mobile
+    code changed.
+- backlog_item: COM-MOD-016-DOC-001
+  module: COM-MOD-016 Commercial Launch and Customer Enablement
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-016-DOC-001/
+  human_readable: 08-qa/security-quality/COM-MOD-016-DOC-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-016-DOC-001/security-quality-evidence.md
+  checks:
+    tests: not_applicable_documentation_only
+    sast_or_static_analysis: not_applicable_documentation_only
+    dependency_vulnerability_scan: not_applicable_documentation_only
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_documentation_only
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Documentation-only backlog item; ONB-GUIDE-001 through ONB-GUIDE-008 onboarding
+    guides created under 09-operations/onboarding/; no backend/frontend/mobile code
+    changed.
+- backlog_item: COM-MOD-016-DEF
+  module: COM-MOD-016 Commercial Launch and Customer Enablement
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-016-DEF/
+  human_readable: 08-qa/security-quality/COM-MOD-016-DEF/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-016-DEF/security-quality-evidence.md
+  checks:
+    tests: not_applicable_definition_only
+    sast_or_static_analysis: not_applicable_definition_only
+    dependency_vulnerability_scan: not_applicable_definition_only
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_definition_only
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: 'Definition-only backlog item (7 capability packages: BCM-ORG-001, BCM-ORG-002,
+    BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008); no backend/frontend/mobile
+    code changed.'
+- backlog_item: COM-MOD-013-CLOSEOUT
+  module: COM-MOD-013 Advanced Quality and Compliance
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-013-CLOSEOUT/
+  human_readable: 08-qa/security-quality/COM-MOD-013-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-013-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: passed_via_COM_MOD_013_QA_001
+    sast_or_static_analysis: passed_via_COM_MOD_013_QA_001
+    dependency_vulnerability_scan: passed_via_COM_MOD_013_QA_001
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: passed_in_prior_scans
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Formal module closeout for COM-MOD-013 Advanced Quality and Compliance. All
+    5 capability packages (BCM-QLT-002, BCM-QLT-006, BCM-QLT-007, BCM-PLT-007, BCM-PLT-008)
+    moved to module_closed. Technical debt TD-DB-005 and TD-QA-007 confirmed closed.
+    TD-IAM-004 open with non-blocking justification. All coverage floors preserved
+    with zero regressions. Advanced active backlog to COM-MOD-016-DEF.
+- backlog_item: COM-MOD-013-QA-001
+  module: COM-MOD-013 Advanced Quality and Compliance
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-013-QA-001/
+  human_readable: 08-qa/security-quality/COM-MOD-013-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-013-QA-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed_2_high_and_5_medium_spotbugs_findings_fixed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_above_previous_floor
+    dast_for_runnable_web_or_api_surfaces: passed_after_fixing_1_finding_TD_QA_007
+    container_or_iac_scan_when_assets_change: not_applicable_no_container_or_iac_asset_changed
+  note: 'Integrated validation of COM-MOD-013. Found and closed a major persistence-wiring
+    defect (TD-DB-005: missing schema.sql registration + inverted @Profile wiring
+    caused the backend to silently use in-memory storage instead of PostgreSQL), raising
+    backend coverage from a clean-rebuild 82.57% to 84.24%. Fixed 2 SpotBugs High
+    and 5 Medium findings, 1 hardcoded string (TD-I18N-002) and 1 function-size violation
+    (TD-FE-010). Executed real OWASP ZAP DAST against the running backend (939 URLs)
+    and employee-portal (125 URLs); found and fixed 1 backend defect (TD-QA-007: unhandled
+    500 on a malformed multipart upload, remapped to 400), confirmed by a clean re-scan
+    (0 FAIL-NEW/0 WARN-NEW); raising backend coverage to 84.25%. Registered new debt
+    TD-IAM-004 for a synthetic-tenant-id finding deferred pending a Modulith boundary
+    decision. 0 vulnerabilities across OWASP Dependency-Check, npm audit and Trivy
+    (all severities, backend/employee-portal/repo-wide).'
+- backlog_item: COM-MOD-013-FE-001
+  module: COM-MOD-013 Advanced Quality and Compliance
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-013-FE-001/
+  human_readable: 08-qa/security-quality/COM-MOD-013-FE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-013-FE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed_with_non_blocking_lint_warnings_dispositioned_to_td_fe_010
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: deferred_to_COM_MOD_013_QA_001_integrated_validation
+    container_or_iac_scan_when_assets_change: not_applicable_no_container_or_iac_asset_changed
+  note: Compiled the Advanced Quality and Compliance employee-portal UI. Typecheck,
+    coverage, build, duplication, format, license, npm audit and Trivy passed; employee-portal
+    coverage raised 88.68% -> 89.74%. Lint passed with 0 errors and 51 non-blocking
+    warnings dispositioned under TD-FE-010/TD-I18N-002.
+- backlog_item: COM-MOD-013-DEF
+  module: COM-MOD-013 Advanced Quality and Compliance
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-013-DEF/
+  human_readable: 08-qa/security-quality/COM-MOD-013-DEF/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-013-DEF/security-quality-evidence.md
+  checks:
+    tests: not_applicable_definition_only
+    sast_or_static_analysis: not_applicable_definition_only
+    dependency_vulnerability_scan: not_applicable_definition_only
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_definition_only
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: 'Definition-only backlog item (5 capability packages, 70 files: BCM-QLT-002,
+    BCM-QLT-006, BCM-QLT-007, BCM-PLT-007, BCM-PLT-008); no backend/frontend/mobile
+    code changed.'
+- backlog_item: COM-MOD-012-CLOSEOUT
+  module: COM-MOD-012 Platform Hardening and SaaS Operations
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-012-CLOSEOUT/
+  human_readable: 08-qa/security-quality/COM-MOD-012-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-012-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: passed_via_COM_MOD_012_QA_001
+    sast_or_static_analysis: passed_via_COM_MOD_012_QA_001
+    dependency_vulnerability_scan: passed_via_COM_MOD_012_QA_001
+    secrets_scan: passed_via_COM_MOD_012_QA_001
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: passed_in_prior_zap_scans
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: 'Module closeout and registry update. Documentation/registry-only: confirmed
+    all 8 COM-MOD-012 capability packages module_closed, TD-QA-005/TD-QA-006 closed,
+    and TD-OBS-001/TD-BE-016/TD-BE-017/TD-IAM-003 correctly classified as open and
+    non-blocking. Found and corrected 2 stale registry defects predating this closeout:
+    a stale operational_strategy status: active field across all 8 traceability.md
+    files, and a duplicate active_capability_package_groups block in capability-package-index.md
+    still listing the already-closed COM-MOD-011 as active.'
+- backlog_item: COM-MOD-012-QA-001
+  module: COM-MOD-012 Platform Hardening and SaaS Operations
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-012-QA-001/
+  human_readable: 08-qa/security-quality/COM-MOD-012-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-012-QA-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: passed
+    container_or_iac_scan_when_assets_change: not_applicable_no_container_or_iac_asset_changed
+  note: 'Validated all 8 COM-MOD-012 capabilities live. Found and fixed a real resilience
+    defect (readiness probe not reflecting database connectivity) and, via a dedicated
+    OWASP ZAP DAST pass against the full backend API surface, 2 real defects (TD-QA-005
+    cross-cutting unhandled-500, TD-QA-006 AuthController exception-advice scope gap),
+    both closed same-iteration with regression tests. Final ZAP API rescan: 0 FAIL-NEW,
+    0 WARN-NEW, 118 PASS. Executed a real backup/restore rehearsal. Registered TD-OBS-001
+    for the confirmed-still-open distributed tracing/Grafana-Prometheus-Loki/SLO-SLA-alerting
+    forward pointers.'
+- backlog_item: COM-MOD-012-BE-001
+  module: COM-MOD-012 Platform Hardening and SaaS Operations
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-012-BE-001/
+  human_readable: 08-qa/security-quality/COM-MOD-012-BE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-012-BE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_dedicated_dast_run_this_iteration
+    container_or_iac_scan_when_assets_change: not_applicable_no_container_or_iac_asset_changed
+  note: Compiled BCM-ORG-001 tenant operations, new BCM-PLT-002 platformconfiguration
+    module and BCM-PLT-006 observability extensions (Prometheus, health groups, MDC
+    logging). Materially reduced TD-IAM-002 and TD-DB-004; further reduced TD-I18N-002.
+    Registered TD-BE-016, TD-BE-017 and TD-IAM-003 for honestly-scoped deferred capability
+    extensions.
+- backlog_item: COM-MOD-012-OPS-002
+  module: COM-MOD-012 Platform Hardening and SaaS Operations
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-012-OPS-002/
+  human_readable: 08-qa/security-quality/COM-MOD-012-OPS-002/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-012-OPS-002/security-quality-evidence.md
+  checks:
+    tests: not_applicable_no_code_changed
+    sast_or_static_analysis: not_applicable_no_code_changed
+    dependency_vulnerability_scan: not_applicable_no_dependency_change
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_runtime_surface_changed
+    container_or_iac_scan_when_assets_change: not_applicable_no_executable_container_or_iac_asset_changed
+- backlog_item: COM-MOD-012-OPS-001
+  module: COM-MOD-012 Platform Hardening and SaaS Operations
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-012-OPS-001/
+  human_readable: 08-qa/security-quality/COM-MOD-012-OPS-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-012-OPS-001/security-quality-evidence.md
+  checks:
+    tests: not_applicable_no_code_changed
+    sast_or_static_analysis: not_applicable_no_code_changed
+    dependency_vulnerability_scan: not_applicable_no_dependency_change
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_runtime_surface_changed
+    container_or_iac_scan_when_assets_change: not_applicable_no_executable_container_or_iac_asset_changed
+- backlog_item: HOP-QA-ALIGN-002
+  module: HOP Enterprise Quality Alignment
+  status: passed_with_residual_p1_debt
+  evidence_path: 08-qa/security-quality/HOP-QA-ALIGN-002/
+  human_readable: 08-qa/security-quality/HOP-QA-ALIGN-002/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/HOP-QA-ALIGN-002/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed_with_pmd_residual_debt
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: measured_below_target
+    dast_for_runnable_web_or_api_surfaces: deferred_to_HOP_QA_ALIGN_004
+    container_or_iac_scan_when_assets_change: passed
+- backlog_item: HOP-QA-ALIGN-003
+  module: HOP Enterprise Quality Alignment
+  status: passed_with_residual_p1_debt
+  evidence_path: 08-qa/security-quality/HOP-QA-ALIGN-003/
+  human_readable: 08-qa/security-quality/HOP-QA-ALIGN-003/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/HOP-QA-ALIGN-003/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed_with_warnings
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: deferred_to_HOP_QA_ALIGN_004
+    container_or_iac_scan_when_assets_change: not_applicable_for_backlog
+- backlog_item: HOP-QA-ALIGN-004
+  module: HOP Enterprise Quality Alignment
+  status: passed
+  evidence_path: 08-qa/security-quality/HOP-QA-ALIGN-004/
+  human_readable: 08-qa/security-quality/HOP-QA-ALIGN-004/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/HOP-QA-ALIGN-004/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: covered_by_stack_quality_profiles
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: passed
+    container_or_iac_scan_when_assets_change: passed
+- backlog_item: HOP-QA-ALIGN-005
+  module: HOP Enterprise Quality Alignment
+  status: passed
+  evidence_path: 08-qa/security-quality/HOP-QA-ALIGN-005/
+  human_readable: 08-qa/security-quality/HOP-QA-ALIGN-005/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/HOP-QA-ALIGN-005/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: not_applicable_for_backlog
+    dependency_vulnerability_scan: passed
+    secrets_scan: not_applicable_for_backlog
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_for_backlog
+    container_or_iac_scan_when_assets_change: not_applicable_for_backlog
+- backlog_item: HOP-QA-ALIGN-CLOSEOUT
+  module: HOP Enterprise Quality Alignment
+  status: passed
+  evidence_path: 08-qa/security-quality/HOP-QA-ALIGN-CLOSEOUT/
+  human_readable: 08-qa/security-quality/HOP-QA-ALIGN-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/HOP-QA-ALIGN-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: not_applicable_no_code_changed
+    sast_or_static_analysis: not_applicable_no_code_changed
+    dependency_vulnerability_scan: not_applicable_no_code_changed
+    secrets_scan: not_applicable_no_code_changed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_runtime_surface_changed
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+- backlog_item: MVP-MOD-002-FE-001
+  module: MVP-MOD-002 Diagnostic Catalog
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-002-FE-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-002-FE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-002-FE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_for_backlog
+    container_or_iac_scan_when_assets_change: not_applicable_for_backlog
+- backlog_item: MVP-MOD-002-QA-001
+  module: MVP-MOD-002 Diagnostic Catalog
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-002-QA-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed_after_remediation
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: deferred_with_technical_debt
+    container_or_iac_scan_when_assets_change: passed
+- backlog_item: MVP-MOD-002-CLOSEOUT
+  module: MVP-MOD-002 Diagnostic Catalog
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-002-CLOSEOUT/
+  human_readable: 08-qa/security-quality/MVP-MOD-002-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-002-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: deferred_with_technical_debt
+    container_or_iac_scan_when_assets_change: passed
+- backlog_item: MVP-MOD-003-BE-001
+  module: MVP-MOD-003 People and Clinical Master Data
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-003-BE-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: deferred_with_technical_debt
+    container_or_iac_scan_when_assets_change: passed
+- backlog_item: MVP-MOD-003-BE-002
+  module: MVP-MOD-003 People and Clinical Master Data
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-003-BE-002/
+  human_readable: 08-qa/security-quality/MVP-MOD-003-BE-002/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-003-BE-002/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: deferred_with_technical_debt
+    container_or_iac_scan_when_assets_change: passed
+- backlog_item: MVP-MOD-003-FE-001
+  module: MVP-MOD-003 People and Clinical Master Data
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-003-FE-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-003-FE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-003-FE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_for_backlog
+    container_or_iac_scan_when_assets_change: not_applicable_for_backlog
+- backlog_item: MVP-MOD-003-QA-001
+  module: MVP-MOD-003 People and Clinical Master Data
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-003-QA-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-003-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-003-QA-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_for_backlog
+    container_or_iac_scan_when_assets_change: not_applicable_for_backlog
+- backlog_item: MVP-MOD-003-CLOSEOUT
+  module: MVP-MOD-003 People and Clinical Master Data
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-003-CLOSEOUT/
+  human_readable: 08-qa/security-quality/MVP-MOD-003-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-003-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: deferred_with_technical_debt
+    container_or_iac_scan_when_assets_change: passed
+- backlog_item: MVP-MOD-004-BE-001
+  module: MVP-MOD-004 Front Desk and Care Delivery
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-004-BE-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-004-BE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-004-BE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: deferred_with_technical_debt
+    container_or_iac_scan_when_assets_change: passed
+- backlog_item: MVP-MOD-004-BE-002
+  module: MVP-MOD-004 Front Desk and Care Delivery
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-004-BE-002/
+  human_readable: 08-qa/security-quality/MVP-MOD-004-BE-002/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-004-BE-002/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: deferred_with_technical_debt
+    container_or_iac_scan_when_assets_change: passed
+- backlog_item: MVP-MOD-004-FE-001
+  module: MVP-MOD-004 Front Desk and Care Delivery
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-004-FE-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-004-FE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-004-FE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: not_applicable_no_secrets_involved
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: passed_with_disposed_warnings
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+- backlog_item: MVP-MOD-004-QA-001
+  module: MVP-MOD-004 Front Desk and Care Delivery
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-004-QA-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-004-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-004-QA-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_runtime_surface_changed
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+- backlog_item: MVP-MOD-004-CLOSEOUT
+  module: MVP-MOD-004 Front Desk and Care Delivery
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/
+  human_readable: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: covered_by_MVP_MOD_004_FE_001
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+- backlog_item: MVP-MOD-005-BE-001
+  module: MVP-MOD-005 Cashier and Billing Request
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-005-BE-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-005-BE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-005-BE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: deferred_to_MVP_MOD_005_QA_001_integrated_runtime_validation
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+- backlog_item: MVP-MOD-005-BE-002
+  module: MVP-MOD-005 Cashier and Billing Request
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-005-BE-002/
+  human_readable: 08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_no_regression_and_improved
+    dast_for_runnable_web_or_api_surfaces: deferred_to_MVP_MOD_005_QA_001_integrated_runtime_validation
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+- backlog_item: MVP-MOD-005-FE-001
+  module: MVP-MOD-005 Cashier and Billing Request
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-005-FE-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-005-FE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-005-FE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: not_applicable_no_secrets_involved
+    coverage: passed_no_regression_and_reached_80_percent_target
+    dast_for_runnable_web_or_api_surfaces: passed_with_disposed_warnings
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+- backlog_item: MVP-MOD-005-QA-001
+  module: MVP-MOD-005 Cashier and Billing Request
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-005-QA-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-005-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-005-QA-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_no_regression_frontend_improved_backend_unchanged
+    dast_for_runnable_web_or_api_surfaces: passed
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  coverage_correction_note: This entry originally recorded "improved both stacks";
+    corrected during MVP-MOD-005-CLOSEOUT after a clean-rebuild remeasurement found
+    backend coverage was unchanged at 67.47% (the 68.66% figure was an inflated non-clean
+    jacoco.exec artifact).
+- backlog_item: MVP-MOD-005-CLOSEOUT
+  module: MVP-MOD-005 Cashier and Billing Request
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/
+  human_readable: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_no_regression_backend_unchanged_frontend_improved
+    dast_for_runnable_web_or_api_surfaces: covered_by_MVP_MOD_005_QA_001
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+- backlog_item: MVP-MOD-006-DEF
+  module: MVP-MOD-006 Laboratory Workflow
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-006-DEF/
+  human_readable: 08-qa/security-quality/MVP-MOD-006-DEF/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-006-DEF/security-quality-evidence.md
+  checks:
+    tests: not_applicable_no_code_changed
+    sast_or_static_analysis: not_applicable_no_code_changed
+    dependency_vulnerability_scan: not_applicable_no_code_changed
+    secrets_scan: passed
+    coverage: not_applicable_no_code_changed_baselines_unchanged
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_code_changed
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Definition-only backlog item (7 capability packages, 98 files); no backend/frontend/mobile
+    code changed. yaml_parse, agent_agnostic_scan, stale_pointer_sweep and git_whitespace_check
+    passed.
+- backlog_item: MVP-MOD-007-DEF
+  module: MVP-MOD-007 Results and Digital Delivery
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-007-DEF/
+  human_readable: 08-qa/security-quality/MVP-MOD-007-DEF/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-007-DEF/security-quality-evidence.md
+  checks:
+    tests: not_applicable_no_code_changed
+    sast_or_static_analysis: not_applicable_no_code_changed
+    dependency_vulnerability_scan: not_applicable_no_code_changed
+    secrets_scan: passed
+    coverage: not_applicable_no_code_changed_baselines_unchanged
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_code_changed
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Definition-only backlog item (8 capability packages, 112 files); no backend/frontend/mobile
+    code changed. yaml_parse (1 syntax error found and corrected), agent_agnostic_scan,
+    stale_pointer_sweep and git_whitespace_check passed. Preflight also corrected
+    residual stale MVP-MOD-006 metadata across 6 registry files and 7 bcm-lab-* capability
+    packages.
+- backlog_item: MVP-MOD-007-BE-001
+  module: MVP-MOD-007 Results and Digital Delivery
+  status: passed_with_registered_debt
+  evidence_path: 08-qa/security-quality/MVP-MOD-007-BE-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-007-BE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-007-BE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: findings_registered_as_td_be_012
+    dependency_vulnerability_scan: not_executed_in_this_reconciliation
+    secrets_scan: not_applicable_no_secrets_involved
+    coverage: passed_no_regression_backend_improved_below_80_target
+    dast_for_runnable_web_or_api_surfaces: not_applicable_backend_unit_contract_scope
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Backfilled into this index during MVP-MOD-007-FE-001 (the entry existed as
+    evidence files but was missing from this index). 133 tests, 0 failures, 76.77%
+    line coverage. Static-analysis findings registered as TD-BE-012, burned down starting
+    in MVP-MOD-007-BE-002.
+- backlog_item: MVP-MOD-007-BE-002
+  module: MVP-MOD-007 Results and Digital Delivery
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-007-BE-002/
+  human_readable: 08-qa/security-quality/MVP-MOD-007-BE-002/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-007-BE-002/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed_with_tracked_repo_residuals
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_no_regression_backend_improved_below_80_target
+    dast_for_runnable_web_or_api_surfaces: not_applicable_backend_unit_contract_scope
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Corrective backend validation passed with 151 tests, 0 failures, 76.93% line
+    coverage, OWASP Dependency-Check passed and Trivy source-scope scan found 0 pom.xml
+    vulnerabilities.
+- backlog_item: MVP-MOD-007-FE-001
+  module: MVP-MOD-007 Results and Digital Delivery
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-007-FE-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-007-FE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-007-FE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed_frontend_eslint_backend_quality_profile_unavailable_offline
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_no_regression_both_stacks_improved
+    dast_for_runnable_web_or_api_surfaces: not_executed_not_requested_this_backlog
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Closed a real frontend/backend contract gap discovered mid-implementation
+    (missing search, report-generation and notification-history backend adapters)
+    rather than shipping a mismatched frontend. Frontend coverage 82.69% -> 83.98%;
+    backend coverage 76.93% -> 76.99%; both improved with no regression. Trivy found
+    0 vulnerabilities/secrets/misconfigurations. New debt registered as TD-FE-007
+    (pre-existing LaboratoryResult wire-shape mismatch, out of this backlog's scope).
+- backlog_item: MVP-MOD-007-PORTAL-001
+  module: MVP-MOD-007 Results and Digital Delivery
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-007-PORTAL-001/
+  human_readable: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-PORTAL-001-validation.md
+  machine_readable: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-PORTAL-001-validation.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: not_applicable_ui_compilation_only
+    dependency_vulnerability_scan: passed
+    secrets_scan: not_executed_in_this_reconciliation
+    coverage: passed_no_backend_regression
+    dast_for_runnable_web_or_api_surfaces: not_executed_not_requested_this_backlog
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Backfilled into this index during MVP-MOD-007-CLOSEOUT (evidence files existed
+    but the entry was missing). Patient-portal and doctor-portal `npm run quality`
+    passed (1 test each) and `npm audit --audit-level=low` returned 0 vulnerabilities
+    after adding a minimatch override. Backend `mvn -Pquality -Dhop.local-db-tests=true
+    verify` passed with backend coverage 77.92%. No patient-portal/doctor-portal line-coverage
+    percentage was recorded at the time; this gap was found and closed by MVP-MOD-007-CLOSEOUT
+    (TD-FE-008/TD-FE-009).
+- backlog_item: MVP-MOD-007-APP-001
+  module: MVP-MOD-007 Results and Digital Delivery
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-007-APP-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-007-APP-001/MVP-MOD-007-APP-001-quality-report.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-007-APP-001/MVP-MOD-007-APP-001-quality-report.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed_eslint
+    dependency_vulnerability_scan: passed
+    secrets_scan: not_executed_in_this_reconciliation
+    coverage: passed_improved_97_15_to_98_87
+    dast_for_runnable_web_or_api_surfaces: not_applicable_mobile_foundation_no_runtime_api
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Backfilled into this index during MVP-MOD-007-CLOSEOUT (evidence files existed
+    but the entry was missing). Mobile app coverage raised from the 97.15% floor to
+    98.87%. Closed TD-STACK-004 (duplicate Docker-init schema file) and TD-FE-007
+    (LaboratoryResult wire-shape mismatch). 0 vulnerabilities via `npm audit --audit-level=low`.
+- backlog_item: MVP-MOD-007-QA-001
+  module: MVP-MOD-007 Results and Digital Delivery
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-007-QA-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-007-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-007-QA-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: not_executed_backend_test_and_coverage_scope_only
+    dependency_vulnerability_scan: not_executed_in_this_reconciliation
+    secrets_scan: not_executed_in_this_reconciliation
+    coverage: passed_no_regression_and_improved
+    dast_for_runnable_web_or_api_surfaces: not_executed_not_requested_this_backlog
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Closed TD-DB-001 (JDBC repositories for resultsanddigitaldelivery/documentmanagement/
+    notificationmanagement) and TD-QA-004 (GlobalExceptionHandler for malformed query
+    parameters). 210 backend tests, 0 failures, 0 errors. Backend coverage 77.92%
+    -> 78.42% after adding real unit tests for the previously-uncovered GlobalExceptionHandler,
+    four Jdbc*Repository classes, CriticalResultEscalationController and ResultDeliveryController.
+    Employee/patient/doctor portal and mobile surfaces were validated in their own
+    prior backlog items and not re-executed by this one.
+- backlog_item: MVP-MOD-007-CLOSEOUT
+  module: MVP-MOD-007 Results and Digital Delivery
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/
+  human_readable: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed_spotbugs_pmd_pmd_cpd_no_new_findings
+    dependency_vulnerability_scan: passed_owasp_dependency_check_and_npm_audit
+    secrets_scan: passed_trivy_integrated_scan
+    coverage: passed_backend_and_employee_portal_regression_found_and_fixed
+    dast_for_runnable_web_or_api_surfaces: covered_by_MVP_MOD_007_QA_001_and_HOP_QA_ALIGN_004
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Closed TD-BE-010 with a real code change (laboratoryworkflow SampleReadPort
+    wired into DiagnosticOrderManagementService.cancel()). Found and fixed a real
+    employee-portal coverage regression (84.44% -> 84.03%, restored to 85.50%) left
+    uncaught by MVP-MOD-007-PORTAL-001. Measured patient-portal/doctor-portal coverage
+    for the first time (41.93%/40.62%, TD-FE-008/ TD-FE-009 registered). Backend coverage
+    78.42% -> 78.51% (211 tests, 0 failures/errors); mobile re-confirmed at 98.87%.
+    OWASP Dependency-Check and integrated Trivy scan both passed with 0 vulnerabilities/secrets/misconfigurations.
+- backlog_item: MVP-MOD-008-DEF
+  module: MVP-MOD-008 Integration and Migration Readiness
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-008-DEF/
+  human_readable: 08-qa/security-quality/MVP-MOD-008-DEF/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-008-DEF/security-quality-evidence.md
+  checks:
+    tests: not_applicable_no_code_changed
+    sast_or_static_analysis: not_applicable_no_code_changed
+    dependency_vulnerability_scan: not_applicable_no_code_changed
+    secrets_scan: passed
+    coverage: not_applicable_no_code_changed_baselines_unchanged
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_code_changed
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: 'Definition-only backlog item (3 capability packages, 42 files: BCM-PLT-004,
+    BCM-PLT-005, BCM-PLT-010); no backend/frontend/mobile code changed. yaml_parse,
+    agent_agnostic_scan, stale_pointer_sweep, message_externalization_i18n_review
+    and git_whitespace_check passed. Materially reduced TD-STACK-003 and TD-I18N-002
+    via modeling-stage decisions (no code changed).'
+- backlog_item: MVP-MOD-008-BE-001
+  module: MVP-MOD-008 Integration and Migration Readiness
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-008-BE-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-008-BE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-008-BE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: findings_registered_td_be_002
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_internal_admin_only_surface
+    container_or_iac_scan_when_assets_change: not_applicable_no_container_assets_changed
+  note: Backend compilation of BCM-PLT-004/BCM-PLT-005/BCM-PLT-010 (2 new Spring Modulith
+    modules, integrationinteroperability and datamigrationportability). 239 tests,
+    0 failures/errors/skipped. Backend coverage 78.51% -> 80.08%, reaching the stack's
+    80% final-closure target. OWASP Dependency-Check (0 vulnerabilities, including
+    the new commons-csv 1.14.1 dependency) and a repository-root Trivy scan (0 vulnerabilities/secrets/misconfigurations)
+    both passed. PMD (344) and SpotBugs (21) findings registered under TD-BE-002,
+    non-blocking. TD-STACK-003 and TD-I18N-002 further reduced with real implementation;
+    TD-BE-013 registered (xlsx row parsing deferred).
+- backlog_item: MVP-MOD-008-BE-002
+  module: MVP-MOD-008 Integration and Migration Readiness
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-008-BE-002/
+  human_readable: 08-qa/security-quality/MVP-MOD-008-BE-002/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-008-BE-002/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: findings_registered_td_be_002
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_internal_admin_only_surface
+    container_or_iac_scan_when_assets_change: not_applicable_no_container_assets_changed
+  note: Integration retry/dead-letter (CUS-INT-004-04/05), API deprecation-retirement/rate-limit
+    enforcement (CUS-APIM) and migration checkpointed idempotent-resume/incremental-reconciliation
+    (CUS-MIG-010-04/05/06) custom rules. 265 tests, 0 failures/errors/skipped. Backend
+    coverage 80.08% -> 80.49%. OWASP Dependency-Check (0 vulnerabilities, including
+    the new org.apache.poi:poi-ooxml:5.4.1 dependency) and a repository-root Trivy
+    scan (0 vulnerabilities/secrets/misconfigurations) both passed. PMD (354) and
+    SpotBugs (23) findings registered under TD-BE-002, non-blocking. TD-BE-013 closed
+    (debt-first action, real XLSX row parsing); TD-BE-014 and TD-BE-015 registered;
+    TD-I18N-002 further reduced (messageKey field added to every BCM-PLT-004/005/010
+    error response).
+- backlog_item: MVP-MOD-008-FE-001
+  module: MVP-MOD-008 Integration and Migration Readiness
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-008-FE-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-008-FE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-008-FE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed_with_non_blocking_warnings_registered_td_fe_010
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_internal_admin_only_surface
+    container_or_iac_scan_when_assets_change: not_applicable_no_container_assets_changed
+  note: Employee-portal UI for BCM-PLT-004/005/010 integration endpoints/messages,
+    API governance, partner keys, rate limits and migration/import/reconciliation
+    administration. npm run quality passed; 101 tests, 0 failures; employee-portal
+    coverage 85.50% -> 86.47%; npm audit and Trivy reported 0 vulnerabilities. TD-STACK-003
+    and TD-I18N-002 further reduced; TD-FE-010 registered for non-blocking generated
+    admin-screen size/complexity warnings.
+- backlog_item: MVP-MOD-008-QA-001
+  module: MVP-MOD-008 Integration and Migration Readiness
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-008-QA-001/
+  human_readable: 08-qa/security-quality/MVP-MOD-008-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-008-QA-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed_spotbugs_pmd_pmd_cpd_no_new_findings
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: passed_in_prior_zap_scans
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Integrated QA/security validation evidence. Backend verify passed (265 tests,
+    80.49% coverage). Employee portal quality passed (101 tests, 86.47% coverage).
+    OWASP Dependency-Check and npm audit passed with 0 vulnerabilities. Trivy scans
+    passed with 0 findings. YAML validation passed for 896 files. git diff whitespace
+    checks passed clean.
+- backlog_item: MVP-MOD-008-CLOSEOUT
+  module: MVP-MOD-008 Integration and Migration Readiness
+  status: passed
+  evidence_path: 08-qa/security-quality/MVP-MOD-008-CLOSEOUT/
+  human_readable: 08-qa/security-quality/MVP-MOD-008-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/MVP-MOD-008-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: passed_via_MVP_MOD_008_QA_001
+    sast_or_static_analysis: passed_via_MVP_MOD_008_QA_001
+    dependency_vulnerability_scan: passed_via_MVP_MOD_008_QA_001
+    secrets_scan: passed_via_MVP_MOD_008_QA_001
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: passed_in_prior_zap_scans
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Module closeout and registry synchronization. No production/runtime code changed.
+    Backend quality remains at 265 tests and 80.49% coverage; employee-portal quality
+    remains at 101 tests and 86.47% coverage; vulnerability scans remain at 0 findings.
+    The employee-portal coverage floor in technical-debt-index.md was corrected
+    to the latest 86.47% evidence.
+- backlog_item: COM-MOD-009-DEF
+  module: COM-MOD-009 Patient and Doctor Portals
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-009-DEF/
+  human_readable: 08-qa/security-quality/COM-MOD-009-DEF/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-009-DEF/security-quality-evidence.md
+  checks:
+    tests: not_applicable_definition_only
+    sast_or_static_analysis: not_applicable_definition_only
+    dependency_vulnerability_scan: not_applicable_definition_only
+    secrets_scan: not_applicable_definition_only
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_definition_only
+    container_or_iac_scan_when_assets_change: not_applicable_definition_only
+  note: Definition-only backlog item to model capability packages for patient and
+    doctor portal access, authentication, authorization, and support. No implementation/runtime
+    code was changed.
+- backlog_item: COM-MOD-009-BE-001
+  module: COM-MOD-009 Patient and Doctor Portals
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-009-BE-001/
+  human_readable: 08-qa/security-quality/COM-MOD-009-BE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-009-BE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_runnable_surface_defined
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Backend compilation of portal access structures, authorization endpoints,
+    password hashing, and granular permissions. Backend quality verified at 269 tests
+    and no coverage regression.
+- backlog_item: COM-MOD-009-PORTAL-001
+  module: COM-MOD-009 Patient and Doctor Portals
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-009-PORTAL-001/
+  human_readable: 08-qa/security-quality/COM-MOD-009-PORTAL-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-009-PORTAL-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_runnable_surface_defined
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Patient portal commercial workflow compilation. React/TypeScript and Vitest
+    checks passed with 18 tests. Patient portal coverage raised from 41.93% to 89.58%
+    (TD-FE-008 closed).
+- backlog_item: COM-MOD-009-PORTAL-002
+  module: COM-MOD-009 Patient and Doctor Portals
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-009-PORTAL-002/
+  human_readable: 08-qa/security-quality/COM-MOD-009-PORTAL-002/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-009-PORTAL-002/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_runnable_surface_defined
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Doctor portal commercial workflow compilation, rebuilding a stale employee-portal-domain
+    scaffold into a real referring-doctor login flow, permission-filtered dynamic
+    navigation, and Patients/Results/Orders/Notifications views. Added backend least-privilege
+    enforcement (doctorId-filtered orders, ReferringDoctorAuthorizationPort for results
+    history, 3 new interceptor self-access blocks). React/TypeScript and Vitest checks
+    passed with 30 tests; doctor portal coverage raised from 40.62% to 89.86% (TD-FE-009
+    closed). Backend coverage raised from 80.49% to 80.60% (280 tests, 0 failures/errors/skipped).
+    TD-IAM-002 and TD-I18N-002 materially reduced further; TD-FE-011 registered (pre-existing
+    patient-portal lint regression, unrelated to this backlog item).
+- backlog_item: COM-MOD-009-APP-001
+  module: COM-MOD-009 Patient and Doctor Portals
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-009-APP-001/
+  human_readable: 08-qa/security-quality/COM-MOD-009-APP-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-009-APP-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_runnable_mobile_surface
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Patient mobile workflow compilation with PATIENT role permissions, permission-filtered
+    profile/appointments/orders/results/notifications routes, localized es-MX/en-US
+    labels, a patientMobileApi facade and patientMobileWorkflowModel. Mobile quality
+    passed with 12 test files, 40 tests, 0 failures/errors/skipped and 99.21% line
+    coverage; npm audit reported 0 vulnerabilities. TD-I18N-002 and TD-IAM-002 were
+    materially reduced further.
+- backlog_item: COM-MOD-009-QA-001
+  module: COM-MOD-009 Patient and Doctor Portals
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-009-QA-001/
+  human_readable: 08-qa/security-quality/COM-MOD-009-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-009-QA-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: passed_in_prior_zap_scans
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Channel access, privacy and quality validation evidence. All unit and integration
+    tests passed across patient portal, doctor portal, mobile app and backend. Dependency
+    vulnerability checks, Trivy filesystem scans, and git whitespace verification
+    completed with 0 errors. TD-FE-011 closed in patient-portal.
+- backlog_item: COM-MOD-009-CLOSEOUT
+  module: COM-MOD-009 Patient and Doctor Portals
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-009-CLOSEOUT/
+  human_readable: 08-qa/security-quality/COM-MOD-009-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-009-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: passed_in_prior_zap_scans
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Module closeout and registry synchronization. No functional/runtime code changed.
+    Tests, coverage, vulnerability scans, and Trivy filesystem scans verified clean
+    with no regressions.
+- backlog_item: COM-MOD-010-DEF
+  module: COM-MOD-010 Inventory and Internal Quality
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-010-DEF/
+  human_readable: 08-qa/security-quality/COM-MOD-010-DEF/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-010-DEF/security-quality-evidence.md
+  checks:
+    tests: not_applicable_definition_only
+    sast_or_static_analysis: not_applicable_definition_only
+    dependency_vulnerability_scan: not_applicable_definition_only
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_runnable_surface_defined
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Inventory and Internal Quality capability package modeling. Thirteen packages
+    were modeled with the 14 required artifacts each. No implementation code, dependency
+    manifest, runtime component, port, environment variable, startup order, database
+    schema or infrastructure asset changed; executable implementation gates become
+    mandatory in COM-MOD-010-BE-001.
+- backlog_item: COM-MOD-010-BE-001
+  module: COM-MOD-010 Inventory and Internal Quality
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-010-BE-001/
+  human_readable: 08-qa/security-quality/COM-MOD-010-BE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-010-BE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_re_executed_no_new_web_surface_reused_HOP_QA_ALIGN_004
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Compiled BCM-INV-001..009 backend outputs across nine capability packages.
+    308 tests passed with 0 failures/errors/skipped; backend line coverage 80.60%
+    -> 82.94% (no regression); Checkstyle/PMD/SpotBugs+FindSecBugs/Enforcer/duplicate-finder/CycloneDX
+    all passed under -Pquality; Trivy fs (vuln+secret+misconfig) reported 0 findings
+    across all severities; no new dependency was introduced. OWASP Dependency-Check
+    now runs against the local manually-refreshed advisory database, outside agent
+    responsibility, with 0 vulnerabilities in the latest backend scan.
+- backlog_item: COM-MOD-010-BE-002
+  module: COM-MOD-010 Inventory and Internal Quality
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-010-BE-002/
+  human_readable: 08-qa/security-quality/COM-MOD-010-BE-002/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-010-BE-002/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: scheduled_for_COM-MOD-010-QA-001
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Compiled BCM-QLT-001/003/004/005 backend outputs. 312 tests passed with 0
+    failures/errors and 16 skipped; backend line coverage remained at 82.94%; mvn
+    verify passed; OWASP Dependency-Check scanned 65 dependencies with 0 vulnerabilities
+    using the local manual advisory database; Trivy vuln+misconfig reported 0 findings;
+    YAML parse covered 1,583 files; agent-agnostic scan returned 0 findings.
+- backlog_item: COM-MOD-010-FE-001
+  module: COM-MOD-010 Inventory and Internal Quality
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-010-FE-001/
+  human_readable: 08-qa/security-quality/COM-MOD-010-FE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-010-FE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed_with_non_blocking_warnings_registered
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: scheduled_for_COM-MOD-010-QA-001
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Compiled the employee-portal administration UI for all 13 COM-MOD-010 capability
+    packages. 124 tests passed with 0 failures across 48 test files; employee-portal
+    line coverage rose from 86.47% to 87.87%; npm audit and Trivy fs (vuln/secret/misconfig,
+    all severities) reported 0 findings; no new npm dependency was added. This entry
+    was missing from the index and was backfilled during COM-MOD-010-QA-001.
+- backlog_item: COM-MOD-010-QA-001
+  module: COM-MOD-010 Inventory and Internal Quality
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-010-QA-001/
+  human_readable: 08-qa/security-quality/COM-MOD-010-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-010-QA-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed_corrected_and_improved
+    dast_for_runnable_web_or_api_surfaces: passed_in_prior_zap_scans
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Integrated traceability, stock and quality evidence for all 13 COM-MOD-010
+    capability packages. Fixed a stale backlog_items.custom_rules traceability pointer
+    across the 9 BCM-INV-001..009 packages and a stale capability-package-index.md
+    roadmap-group pointer. Found and fixed a real backend coverage gap (81.90% clean-rebuild
+    figure vs. the recorded 82.94% floor, caused by BE-002's 4 new JDBC adapters lacking
+    a local-database test) by adding InventoryQualityControlsLocalDatabaseTest.java;
+    corrected coverage is 83.73%. Employee-portal coverage 88.24% (floor 87.87%).
+    OWASP Dependency-Check (65 dependencies), npm audit and Trivy (all severities)
+    reported 0 vulnerabilities/secrets/misconfigurations. YAML parse covered 1,105
+    files with 0 errors.
+- backlog_item: COM-MOD-010-CLOSEOUT
+  module: COM-MOD-010 Inventory and Internal Quality
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-010-CLOSEOUT/
+  human_readable: 08-qa/security-quality/COM-MOD-010-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-010-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: passed_via_COM_MOD_010_QA_001
+    sast_or_static_analysis: passed_via_COM_MOD_010_QA_001
+    dependency_vulnerability_scan: passed_via_COM_MOD_010_QA_001
+    secrets_scan: passed_via_COM_MOD_010_QA_001
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: passed_in_prior_zap_scans
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: 'Module closeout and registry update. Documentation/registry-only: confirmed
+    all 13 COM-MOD-010 capability packages module_closed and zero open/materially-reduced
+    technical debt attributable to COM-MOD-010. This index entry was missing (the
+    evidence file existed on disk but was never registered here) and was backfilled
+    during COM-MOD-011-DEF.'
+- backlog_item: COM-MOD-011-DEF
+  module: COM-MOD-011 Public Website and Digital Growth
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-011-DEF/
+  human_readable: 08-qa/security-quality/COM-MOD-011-DEF/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-011-DEF/security-quality-evidence.md
+  checks:
+    tests: not_applicable_definition_only
+    sast_or_static_analysis: not_applicable_definition_only
+    dependency_vulnerability_scan: not_applicable_definition_only
+    secrets_scan: passed
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_runnable_surface_defined
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Public Website and Digital Growth capability package models. All 7 module
+    capabilities confirmed reused from already-modeled/compiled capability packages
+    owned by MVP-MOD-002, MVP-MOD-004 and MVP-MOD-008, with zero new capability package,
+    aggregate or schema created. Each package extended with a public_website surface;
+    TD-BE-015 materially reduced; three pre-existing stale roadmap/status pointers
+    and one pre-existing YAML-validity defect found and corrected. No implementation
+    code, dependency manifest, runtime component, port, environment variable, startup
+    order, database schema or infrastructure asset changed; executable implementation
+    gates become mandatory in COM-MOD-011-BE-001.
+- backlog_item: COM-MOD-011-BE-001
+  module: COM-MOD-011 Public Website and Digital Growth
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-011-BE-001/
+  human_readable: 08-qa/security-quality/COM-MOD-011-BE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-011-BE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: passed
+    container_or_iac_scan_when_assets_change: passed
+  note: Backend public web surface compiled (/api/public/**). PublicApiRateLimitInterceptor
+    closes TD-BE-015.
+- backlog_item: COM-MOD-011-WEB-001
+  module: COM-MOD-011 Public Website and Digital Growth
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-011-WEB-001/
+  human_readable: 08-qa/security-quality/COM-MOD-011-WEB-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-011-WEB-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: passed
+    container_or_iac_scan_when_assets_change: passed
+  note: Public website React 19 application compiled with SEO, accessibility and privacy
+    foundations.
+- backlog_item: COM-MOD-011-FE-001
+  module: COM-MOD-011 Public Website and Digital Growth
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-011-FE-001/
+  human_readable: 08-qa/security-quality/COM-MOD-011-FE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-011-FE-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: passed
+    container_or_iac_scan_when_assets_change: passed
+  note: Employee portal administration screens compiled for content review and request
+    triage. TD-UX-002 closed.
+- backlog_item: COM-MOD-011-QA-001
+  module: COM-MOD-011 Public Website and Digital Growth
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-011-QA-001/
+  human_readable: 08-qa/security-quality/COM-MOD-011-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-011-QA-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: passed
+    container_or_iac_scan_when_assets_change: passed
+  note: Integrated QA, SEO, accessibility, privacy and security evidence validated
+    clean. Ready for COM-MOD-011-CLOSEOUT.
+```

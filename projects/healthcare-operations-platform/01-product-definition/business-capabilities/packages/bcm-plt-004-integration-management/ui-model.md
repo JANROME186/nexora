@@ -1,0 +1,79 @@
+---
+id: HOP-UI-BCM-PLT-004
+format: markdown_structured_payload
+type: ui-model
+name: Integration Management UI Model
+version: 0.1.0
+status: modeled
+---
+
+# Integration Management Ui Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-UI-BCM-PLT-004
+  type: ui-model
+  name: Integration Management UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-004
+  target_surface: employee_portal
+surfaces:
+  employee_portal:
+    status: admin_required
+    generatable: partial
+  patient_portal:
+    status: not_required
+    generatable: not_applicable
+  doctor_portal:
+    status: not_required
+    generatable: not_applicable
+screens:
+- id: SCR-INT-004-01
+  name: Integration Endpoints
+  route: /admin/integration/endpoints
+  purpose: List, register and retire IntegrationEndpoint records.
+  components:
+  - DataTable
+  - RegisterEndpointForm
+  - StatusBadge
+  generatable: true
+- id: SCR-INT-004-02
+  name: Integration Message Log
+  route: /admin/integration/messages
+  purpose: Inspect message status per endpoint, review normalization failures and
+    trigger retries within the bounded retry policy.
+  components:
+  - DataTable
+  - MessageDetailPanel
+  - RetryAction
+  generatable: partial
+  custom_reason: Retry action invokes the custom RetryMessage command (RN-004).
+states:
+- registered
+- active
+- suspended
+- retired
+localization:
+  languages:
+  - en
+  - es
+  default: es
+  message_key_namespace: integration.*
+  note: 'New user-facing strings for these screens (labels, status names, error messages)
+    must be registered under the integration.* message-key namespace in the backend
+    MessageSource and frontend locale catalogs established by HOP-ENT-FOUND-001/HOP-QA-ALIGN-005,
+    not hardcoded.
+
+    '
+rationale: 'BCM-PLT-004 is primarily a system-to-system capability; the employee portal
+  surface is administrative only (endpoint registration, message/status visibility,
+  bounded retry) and does not expose any clinical or patient-facing content.
+
+  '
+```

@@ -8,7 +8,7 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PersonN
 
 /**
  * Doctor aggregate root (AGG-005) owned by the {@code medical-staff} bounded context. Modeled by
- * {@code bcm-per-003-doctor-management/business-model.yaml} ENT-DOC-001. Only the medical-staff
+ * {@code bcm-per-003-doctor-management/business-model.md} ENT-DOC-001. Only the medical-staff
  * context may mutate this aggregate; downstream contexts must reference {@link DoctorSnapshot}
  * (BCM-PER-003 RN-003).
  */

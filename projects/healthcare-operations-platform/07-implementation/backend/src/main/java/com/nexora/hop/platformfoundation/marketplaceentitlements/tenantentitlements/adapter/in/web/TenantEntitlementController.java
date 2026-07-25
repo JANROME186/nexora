@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.tenantentitlements.application.TenantEntitlementService;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.tenantentitlements.domain.TenantEntitlement;
 
-/** Rendered controller for bcm-plt-011/openapi-source.yaml {@code /tenants/{tenantId}/entitlements}. */
+/** Rendered controller for bcm-plt-011/openapi-source.md {@code /tenants/{tenantId}/entitlements}. */
 @RestController
 @RequestMapping("/api/marketplace/entitlements/{tenantId}")
 class TenantEntitlementController {

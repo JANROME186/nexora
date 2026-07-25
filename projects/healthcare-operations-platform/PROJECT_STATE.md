@@ -1,0 +1,2690 @@
+---
+id: PROJECT_STATE
+format: markdown_structured_payload
+---
+
+# Project State
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+project: Healthcare Operations Platform
+project_slug: healthcare-operations-platform
+company: Nexora
+repository_version: 1.0.0
+current_phase: NXF-FMT-002 closed. HOP functional development resumes at COM-MOD-017-BE-002
+  using compact Markdown/frontmatter prompts and handoffs.
+architecture_status: Architecture Freeze v1.0
+completed_deliverables:
+- NXF-FMT-001 Frontmatter artifact migration tooling added (Nexora Framework now includes
+  frontmatter-artifact-migration-standard.md/md and frontmatter_migrator.py for
+  local Python/PyYAML deterministic conversion plus optional local Ollama narrative
+  conversion; pilot compact inventory reports stored at 08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md
+  and 08-qa/format-migration/frontmatter-migration-report-nexora-framework.md. Batch
+  0 replaced oversized YAML migration reports with compact Markdown/frontmatter reports;
+  no mass source migration, YAML archive or pointer replacement was applied yet)
+- COM-MOD-017-BE-001 Product Marketplace and Entitlements backend outputs compiled
+  (new marketplaceentitlements Spring Modulith module with packagecatalog, commercialoffers,
+  tenantentitlements, packageinstallation, compatibilityevaluation and billingadapter
+  capabilities; all 21 BCM-PLT-011 openapi-source.md operations functional with
+  no endpoint responding unimplemented; new db/product-marketplace-and-entitlements/schema.sql
+  with 6 tables; 4 new SCREEN_MARKETPLACE_* PermissionCode values and MARKETPLACE_OPERATOR/TENANT_ADMIN
+  roles; 16 marketplace.error.* i18n keys in default/es-MX/en-US catalogs; 60 new
+  tests (per-capability unit tests, a full-lifecycle API test, a real-Postgres local-database
+  test); backend coverage raised from the 84.25% floor to a reproducible 84.53% (442
+  tests, 0 failures/errors/skipped, Docker Compose PostgreSQL 16 up); found and fixed
+  2 real SpotBugs IMPROPER_UNICODE findings in this item's own new code; registered
+  TD-BE-018 for generation-plan.md's custom_implementation_points (entitlement policy
+  evaluator, compatibility evaluation strategy, billing provider adapter boundary,
+  installation rollback orchestration, runtime feature-availability integration),
+  deferred to a future COM-MOD-017-BE-002; evidence at 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-001-validation.md
+  and 08-qa/security-quality/COM-MOD-017-BE-001/security-quality-evidence.md; advanced
+  active backlog to COM-MOD-017-BE-002)
+- NXF-CTX-002 Mandatory open-source-first framework execution stack closed (Python,
+  Ollama, qwen2.5-coder:0.5b, ripgrep and git are now required for local prompt generation
+  and backlog orchestration; generated prompt for COM-MOD-017-BE-001 is reproducible
+  and cached; active functional backlog remains COM-MOD-017-BE-001)
+- NXF-CTX-001 Context efficient execution framework update (Nexora standard, prompt
+  playbook, Python/Ollama orchestrator, HOP toolchain/runbook integration, compact
+  handoffs and TD-FMT-001 migration debt created; active functional backlog remains
+  COM-MOD-017-BE-001)
+- COM-MOD-017-DEF Product Marketplace and Extension Packaging capability package models
+  (BCM-PLT-011 created under capability packages with standard capability artifacts
+  plus marketplace package, manifest, offer, license, entitlement, compatibility,
+  installation, upgrade, security review, support and telemetry models; BCM-PLT-001/002/005/006/007/009
+  traceability extended for marketplace enablement; evidence at 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.md
+  and 08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.md; advanced
+  active backlog to COM-MOD-017-BE-001)
+- COM-MOD-016-CLOSEOUT Commercial Launch and Customer Enablement closeout (all 7 capability
+  packages BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007,
+  BCM-PLT-008 marked module_closed in capability-package-index.md and traceability.md
+  files; TD-QA-008 kept open non-blocking; closeout evidence at 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-CLOSEOUT-validation.md
+  and 08-qa/security-quality/COM-MOD-016-CLOSEOUT/security-quality-evidence.md;
+  advanced active backlog to COM-MOD-017-DEF)
+- COM-MOD-016-QA-001 Commercial readiness validation (validated capability packages,
+  onboarding guides, governance specifications and commercial launch assets for completeness,
+  traceability and consistency; fixed 4 stale-pointer/registry defects; registered
+  TD-QA-008; evidence at 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-QA-001-validation.md
+  and 08-qa/security-quality/COM-MOD-016-QA-001/security-quality-evidence.md)
+- COM-MOD-016-COM-001 Pricing package, sales demo and launch readiness assets (commercial
+  packages Starter/Professional/Enterprise plus expansion packages, capability matrix,
+  pricing model, upgrade/downgrade criteria, sales demo script, demo data checklist,
+  one-pager, buyer personas, value proposition, launch readiness checklist, and customer
+  acceptance/commercial handoff assets created under 06-delivery/commercial-product/)
+- COM-MOD-016-OPS-001 Support, escalation and release governance (GOV-SPEC-001 through
+  GOV-SPEC-010, MD and YAML specification pairs created under 09-operations/governance/
+  covering L1-L3 support model, escalation matrix, SLAs/SLOs, incident management,
+  problem management/RCA, change management/CAB, release governance & readiness, rollback/hotfix
+  governance, implementation-to-ops handoff, customer incident/release communication,
+  and operational acceptance criteria OAC)
+- COM-MOD-016-DOC-001 Customer onboarding and configuration guides (ONB-GUIDE-001
+  through ONB-GUIDE-008, MD and YAML specification pairs created under 09-operations/onboarding/
+  covering customer/tenant onboarding lifecycle, org/lab/branch/user config, RBAC
+  27 permissions, regional localization es-MX/en-US, technical prerequisites, BCM-PLT-010
+  data ingestion, role training/human validation/acceptance, and L1-L3 support SLAs)
+- COM-MOD-016-DEF Commercial Launch and Customer Enablement capability package models
+  (BCM-ORG-001, BCM-ORG-002, BCM-ORG-003, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007, BCM-PLT-008
+  modeled and traced in capability-package-index.md and package registries)
+- COM-MOD-013 Advanced Quality and Compliance closeout (COM-MOD-013-CLOSEOUT; all
+  5 capability packages BCM-QLT-002, BCM-QLT-006, BCM-QLT-007, BCM-PLT-007, BCM-PLT-008
+  marked module_closed; TD-DB-005 and TD-QA-007 closed; TD-IAM-004 open non-blocking;
+  DAST 939 backend / 125 portal URLs clean; all coverage floors preserved; advanced
+  active backlog to COM-MOD-016-DEF)
+- High-Level Business Requirement
+- BCM-001 Business Capability Map
+- BCM-002 Capability Dependency Map
+- HOP-MVP-FWK-001 Agent-Agnostic MVP Implementation Framework
+- ACM-001 Actor Catalog
+- HRP-001 Healthcare Reference Processes
+- BRM-001 Business Rules Catalog
+- MVP-MOD-001 Platform Foundation Definition Package
+- MVP-MOD-001 Backlog Execution Prompt Playbook
+- YAML machine-readable execution artifacts for MVP-MOD-001
+- Vision-aligned MVP development readiness decision
+- Ordered project folder structure
+- Agent-agnostic validation baseline
+- PF-BE-001 Backend project skeleton
+- PF-OPS-001 Local development compose profile
+- PF-BE-002 Tenant, laboratory and branch commands
+- PF-BE-003 User account and role assignment baseline
+- PF-BE-004 Append-only audit event recording
+- PF-FE-001 Employee portal administration screens
+- PF-APP-001 Mobile app foundation
+- PF-QA-001 Smoke and contract tests
+- MVP-MOD-001 Platform Foundation closeout
+- HOP Commercial Product Backlog
+- HOP Commercial Backlog Execution Prompt Playbook
+- Nexora Model Driven Product Engineering Standard
+- Nexora Business Capability Package Standard
+- HOP Business Capability Package Index
+- HOP Open Data Ingestion Contract
+- HOP Product Marketplace and Entitlements Contract
+- HOP Business Requirement Reference Template
+- Business Requirement to YAML Prompt
+- HOP Business Requirement Version Index
+- Nexora Business Requirement Versioning and Impact Standard
+- MVP-MOD-002 Diagnostic Catalog Business Capability Packages (BCM-SVC-001/002/003/004/005/006/007/009)
+- MVP-MOD-002-DEF capability package model validation evidence
+- MVP-MOD-002-BE-001 catalog-test-configuration backend compilation (catalog, tests,
+  panels, analytes, preparations, reference ranges, samples, price lists)
+- MVP-MOD-002-BE-002 catalog custom business rules (publication, immutable versioning/snapshots,
+  preparation assignment, effective-dated overlap prevention and effective-context
+  resolution)
+- Nexora Open Source First Security Quality Standard
+- MVP-MOD-002-FE-001 employee catalog UI outputs and quality gates
+- MVP-MOD-002-QA-001 integrated Diagnostic Catalog validation, dependency remediation
+  and security quality evidence
+- HOP client stack market validation baseline and stack quality toolchain baseline
+- MVP-MOD-002 Diagnostic Catalog closeout (MVP-MOD-002-CLOSEOUT)
+- MVP-MOD-002 official-source stack market refresh and quality toolchain gap disposition
+- PostgreSQL JDBC 42.7.12 security patch applied and revalidated
+- HOP framework feedback index and framework improvement proposal loop initialized
+- HOP integrated local solution runbook
+- MVP-MOD-003 People and Clinical Master Data Business Capability Packages (BCM-PER-001/002/003,
+  BCM-ATT-002)
+- MVP-MOD-003-DEF capability package model validation evidence
+- MVP-MOD-003-BE-001 people-and-clinical-master-data backend compilation (person,
+  patient, doctor and patient-registration generatable outputs plus explicit deferred
+  custom-rule hooks)
+- MVP-MOD-003-BE-002 duplicate detection, natural-key/document-uniqueness matching,
+  tenant-configurable scoring, merge coordination and portal identity custom rules
+  for BCM-PER-001/002/003 and BCM-ATT-002
+- MVP-MOD-003-FE-001 employee portal UI outputs for people search/duplicate resolution,
+  patient registration/snapshot/merge/representative/consent lifecycle and doctor
+  directory/credential/ suspension/portal-access lifecycle
+- MVP-MOD-003-QA-001 integrated validation of capability models, traceability, OpenAPI
+  contracts, BE-002 custom rules, FE-001 UI, QA/security evidence, the local runbook,
+  backlog pointers and executable backend/frontend/security quality gates
+- MVP-MOD-003 People and Clinical Master Data closeout (MVP-MOD-003-CLOSEOUT)
+- MVP-MOD-004 Front Desk and Care Delivery Business Capability Packages (BCM-ATT-001/003/004/006,
+  BCM-LAB-001)
+- MVP-MOD-004-DEF capability package model validation evidence
+- MVP-MOD-004-BE-001 front-desk-care-delivery backend compilation (diagnostic order,
+  appointment, reception, admission and quotation generatable outputs, all endpoints
+  functional with no endpoint responding 501; explicit BE-002 refinement hooks documented
+  in code and QA evidence)
+- MVP-MOD-004-BE-002 front-desk-care-delivery custom rules (referring-doctor eligibility
+  gating, per-line multi-price-list resolution for orders and quotations, tiered order-cancellation
+  override, tenant-configurable appointment branch capacity and no-show grace period,
+  preparation-instruction surfacing, reception queue prioritization, tenant-configurable
+  admission acknowledgement policy and quotation discount policy)
+- HOP-QA-ALIGN-004 all-severity vulnerability, DAST and runtime security evidence
+  (backend and frontend dependency scans, Trivy filesystem/secret/misconfiguration
+  scan, OWASP ZAP baseline and API scans against the running local stack; 2 dependency
+  CVEs and 2 unhandled-500 defects fixed; TD-QA-001 and TD-QA-002 closed; residual
+  findings dispositioned as TD-FE-005/TD-QA-004)
+- HOP-QA-ALIGN-005 message externalization and magic-string remediation baseline (full
+  backend, employee-portal and mobile-app inventory, P0/P1/P2-classified; backend's
+  30 runtime-reachable domain error codes now named Java constants; frontend's repeated
+  validation strings and duplicated confidence thresholds centralized; mobile's repeated
+  validation strings centralized; TD-I18N-001 closed, remaining scope tracked as TD-I18N-002)
+- HOP-QA-ALIGN-CLOSEOUT enterprise quality alignment closeout (all six preceding alignment
+  items validated as closed or closed with correctly dispositioned residual P1 debt;
+  P0 minimum baseline satisfied; technical-debt index 25 entries with 0 blocking;
+  two stale TD-QA-001/ TD-QA-002 status fields corrected to closed; seven P1 residual-debt
+  items given explicit owner/target_backlog/priority; coverage preserved with no regression.
+  Does not mark HOP commercially complete or GA-ready.)
+- MVP-MOD-004-FE-001 front desk worklist and diagnostic order employee-portal UI (Reception
+  Management worklist with walk-in/scheduled intake, identity confirmation, priority
+  and advance-to-admission; Diagnostic Order Management creation/pricing/accept/cancel/complete
+  with immutable patient/doctor/branch/pricing snapshots and the RN-005 tiered cancellation
+  override; debt-first TD-FE-004 materially reduced, coverage 73.04% -> 76.51%; TD-FE-006
+  registered for the deferred Appointment Scheduling/Admission Management/Quotation
+  Management screens; a vanishing-success-banner UX defect found by testing and fixed
+  before closure)
+- MVP-MOD-004-QA-001 order lifecycle and snapshot validation evidence (diagnostic
+  order patient snapshot immutability after source patient profile changes; backend
+  local database tests ran with Docker Compose PostgreSQL and 0 skipped local tests;
+  debt-first TD-BE-003 materially reduced, backend coverage 66.48% -> 66.52%)
+- MVP-MOD-004 Front Desk and Care Delivery closeout (MVP-MOD-004-CLOSEOUT; all module
+  backlog items closed, backend quality profile passed, Docker/PostgreSQL local tests
+  passed with 0 skipped, frontend quality profile passed, backend/frontend dependency
+  scans reported 0 vulnerabilities; not marked commercially complete or GA-ready)
+- MVP-MOD-005 Cashier and Billing Request Business Capability Packages (BCM-ATT-005/008)
+- MVP-MOD-005-DEF capability package model validation evidence
+- MVP-MOD-005-BE-001 cashier and billing request backend compilation (cash sessions,
+  sales, sale lines, payment allocations, billing requests, tax lines, local PostgreSQL
+  schema and backend quality evidence; backend coverage 66.52% -> 66.58%; TD-DEF-001
+  closed; TD-BE-011 registered for public front-desk source ports)
+- MVP-MOD-005-BE-002 billing request adapter custom boundary (provider-agnostic fiscal
+  adapter port, local deterministic adapter, submit/retry/cancel state transitions,
+  idempotency keys, adapter exception snapshots, FrontDeskCareDelivery sale-source
+  named interface, TD-BE-011 closed and backend coverage 66.58% -> 76.39%)
+- MVP-MOD-005-FE-001 cashier and billing request employee-portal UI compilation (Cash
+  Sessions, Sales and Billing Requests screens covering session open/close with variance,
+  sale creation from an accepted order or quotation, payment allocation, sale cancellation,
+  billing request creation from a paid sale, tax lines and submit/retry/cancel against
+  the fiscal adapter boundary; a pre-existing uncommitted draft's Money-typed fields
+  and status literals were corrected against the real backend contract before reuse;
+  TD-FE-004 closed, frontend coverage 76.51% -> 80.57%, reaching the 80% final-closure
+  target)
+- MVP-MOD-005-QA-001 financial audit and reconciliation evidence (integrated validation
+  of cash session open/close and variance handling, sale creation from an accepted
+  order or quotation, payment allocation and its outstanding-balance guard, sale cancellation,
+  billing request creation from a paid sale, tax lines, adapter submit/retry/cancel
+  including simulated failure/retry, audit-event traceability confirmed via a live
+  /api/audit/events query, and Spring Modulith-verified module-boundary purity; OWASP
+  ZAP API scan against the backend OpenAPI surface deferred by MVP-MOD-005-BE-002
+  executed with 0 FAIL/0 WARN/118 PASS; full local stack started, validated and stopped
+  using only runbook-documented commands; TD-BE-001 closed. Its originally reported
+  backend coverage of 68.66% was later found, during MVP-MOD-005-CLOSEOUT, to be inflated
+  by a non-clean multi-run jacoco.exec accumulation; the corrected, reproducible clean-rebuild
+  figure is 76.39% (unchanged from MVP-MOD-005-BE-002). Frontend coverage 80.57% ->
+  82.69%, no regression on either stack.)
+- MVP-MOD-005-CLOSEOUT module closeout and registry update (all 6 module backlog items
+  confirmed closed and traceable; a registry-consistency sweep found and corrected
+  the MVP-MOD-005-QA-001 coverage measurement bug above plus a stale technical-debt-index.md
+  frontend baseline; backend quality profile, dependency-check, integrated Trivy scan
+  and the full frontend quality suite re-executed clean with 0 regressions; capability
+  package index and BCM-ATT-005/BCM-ATT-008 traceability moved to module_closed; HOP
+  explicitly documented as not commercially complete or GA-ready)
+- MVP-MOD-006-DEF Laboratory Workflow capability package models (BCM-LAB-002 Sample
+  Collection, BCM-LAB-003 Sample Labeling, BCM-LAB-005 Sample Reception, BCM-LAB-006
+  Laboratory Processing, BCM-LAB-008 Technical Validation, BCM-LAB-009 Medical Validation,
+  BCM-LAB-010 Result Release; Sample (AGG-008) owned by BCM-LAB-002 with delegated
+  field-level mutation authority for BCM-LAB-003/005; LaboratoryResult (AGG-009) owned
+  by BCM-LAB-006 with delegated field-level mutation authority for BCM-LAB-008/009/010;
+  no code implemented, definition only; TD-BE-010's modeling precondition satisfied,
+  code fix remains pending MVP-MOD-006-BE-002)
+- MVP-MOD-006 Laboratory Workflow fully implemented and closed (MVP-MOD-006-BE-001
+  through MVP-MOD-006-CLOSEOUT; backend coverage 76.39%, frontend coverage 82.69%)
+- MVP-MOD-007-DEF Results and Digital Delivery capability package models (BCM-RES-001
+  Result Management, BCM-RES-002 PDF Report Generation, BCM-RES-004 Digital Delivery,
+  BCM-RES-005 Result History, BCM-RES-006 Critical Results, BCM-RES-007 Result Notifications,
+  BCM-PLT-003 Notification Management, BCM-PLT-008 Document Management; LaboratoryResult/AGG-009
+  read-only end to end, no ownership duplication; GeneratedResultReport, ResultDeliveryTicket,
+  CriticalResultEscalation, ResultNotificationRequest, NotificationRequest and StoredDocument
+  modeled as new, non-duplicating entities; NotificationProviderPort and DocumentStoragePort
+  modeled as provider-agnostic adapter boundaries mirroring FiscalAdapterPort from
+  MVP-MOD-005; no code implemented, definition only)
+- MVP-MOD-007-BE-002 Implement digital delivery, notification and critical result
+  custom rules (BCM-RES-004/006/007 custom rules; TD-BE-012 closed for document-management/results-delivery
+  scope; backend coverage 76.77% -> 76.93%)
+- MVP-MOD-007-FE-001 Employee portal UI for Results and Digital Delivery (Result Search/Detail,
+  Result Reports, Critical Escalations, Result Notifications; closed a real backend
+  contract gap left by BE-001/BE-002 by adding the missing search/report-generation/notification-history
+  adapters end to end; frontend coverage 82.69% -> 83.98%, backend coverage 76.93%
+  -> 76.99%; TD-FE-007 registered for a pre-existing, out-of-scope LaboratoryResult
+  wire-shape mismatch)
+- HOP-ENT-FOUND-001 Enterprise Product Foundation Alignment closed and corrected (localization
+  es-MX/en-US baseline for backend/frontend/mobile with a working employee-portal
+  language switch; a 27-permission IAM catalog with request-time backend authorization
+  enforcement, API/action permission mapping and permission-filtered dynamic navigation
+  in the employee portal; session-management headers for web/mobile; database architecture/data-dictionary/
+  normalization-report/seed-data-catalog deliverables plus country/locale/currency
+  and minimal diagnostic catalog seed data; UX/UI foundation with real CSS design
+  tokens; persistence/ contract-first generation review; TD-BE-009, TD-IAM-001 and
+  TD-APP-002 closed, TD-I18N-002 and TD-IAM-002 materially reduced; backend coverage
+  76.99% -> 77.92%, frontend coverage 83.98% -> 84.44%, mobile coverage measured at
+  97.15%, all with no regression; found and fixed a real stale-duplicate Docker-init
+  schema.sql bug during validation (TD-STACK-004 registered))
+- MVP-MOD-007-PORTAL-001 Compile patient and doctor released result views (permission-filtered,
+  authorized-only released-result access; TD-STACK-004 closed)
+- MVP-MOD-007-APP-001 Compile mobile result view and notification baseline (mobile
+  coverage 97.15% -> 98.87%)
+- MVP-MOD-007-QA-001 Result access, PDF and notification evidence (TD-DB-001 and TD-QA-004
+  closed; backend coverage 77.92% -> 78.42%; 210 backend tests, 0 failures/errors)
+- MVP-MOD-007-CLOSEOUT Module closeout and registry update (closed TD-BE-010 -- diagnostic
+  order cancellation now checks real Sample state via the SampleReadPort cross-module
+  read port instead of order status alone; a real employee-portal coverage regression
+  from 84.44% to 84.03% left uncaught by MVP-MOD-007-PORTAL-001 was found and fixed,
+  reaching 85.50%; patient-portal and doctor-portal line coverage measured for the
+  first time at 41.93% and 40.62%, TD-FE-008/TD-FE-009 registered; backend coverage
+  78.42% -> 78.51%, mobile re-confirmed at 98.87%, no regressions; MVP-MOD-007 acceptance
+  summary re-validated -- PDF report generation, authorized-only released-result access
+  and traceable critical-result notifications)
+- MVP-MOD-008-DEF Integration and Migration Readiness capability package models (BCM-PLT-004
+  Integration Management, BCM-PLT-005 API Management, BCM-PLT-010 Open Data Ingestion
+  and Migration; BCM-PLT-010 correctly reuses AGG-016 MigrationJob and the pre-existing
+  HOP Open Data Ingestion Standard/Contract; BCM-PLT-004's IntegrationEndpoint and
+  BCM-PLT-005's ApiSurfaceRegistration are new, non-duplicating aggregates in the
+  integration-interoperability bounded context; no code implemented, definition only;
+  TD-STACK-003 and TD-I18N-002 materially reduced via modeling-stage decisions)
+- MVP-MOD-008-BE-001 Integration adapter contracts and API governance backend compilation
+  (two new Spring Modulith modules, integrationinteroperability and datamigrationportability;
+  every BCM-PLT-004/BCM-PLT-005/BCM-PLT-010 openapi-source.md operation functional
+  with no endpoint responding unimplemented; real manifest/checksum verification and
+  CSV/JSON/NDJSON/ZIP parsing for migration ingestion; first-class structured `code`
+  error field implemented for the first time in HOP's backend; TD-STACK-003 and TD-I18N-002
+  further reduced with real implementation, TD-BE-013 registered for deferred XLSX
+  parsing; backend coverage 78.51% -> 80.08%, reaching the stack's 80% final-closure
+  target; 239 tests, 0 failures/errors)
+- MVP-MOD-008-BE-002 Integration retry/dead-letter, API deprecation/rate-limit and
+  migration checkpoint custom rules (closed TD-BE-013 as the debt-first action, adding
+  real Apache POI XLSX row parsing; implemented CUS-INT-004-04/05 bounded exponential-backoff
+  retry with a dead-letter transition and a deterministic correlation id propagated
+  across every retry; implemented BCM-PLT-005's RN-003 deprecation-window-elapsed
+  retirement transition and RN-004 rate-limit enforcement via a new PartnerApiKeyRateLimitInterceptor/PartnerApiRateLimiter
+  fixed-window counter, and closed a real RN-005 audit gap in setRateLimitPolicy;
+  implemented CUS-MIG-010-04/05/06 with a new MigrationDomainCommandPort the commit/retry
+  flow uses as its sole interaction point (INV-MIG-003 preserved by construction),
+  real checkpointed idempotent resume that skips already-completed entity categories,
+  and incremental post_import reconciliation reports; added a first-class `messageKey`
+  field alongside `code` on every BCM-PLT-004/005/010 error response, further reducing
+  TD-I18N-002; registered TD-BE-014 (migration domain-command port has no real cross-module
+  wiring yet) and TD-BE-015 (rate-limit enforcement scoped to partner-API-key-bearing
+  requests only); backend coverage 80.08% -> 80.49%; 265 tests, 0 failures/errors/skipped)
+- MVP-MOD-008-FE-001 integration and migration employee-portal administration UI (typed
+  integrationMigrationApi facade for BCM-PLT-004/005/010, dynamic permission-filtered
+  screens for integration endpoints/messages, API governance/partner keys/rate limits
+  and migration jobs/import packages/dry-run/approval/commit/reconciliation; multipart
+  FormData handling fixed; visible labels externalized in es-MX/en-US; npm run quality
+  passed with 101 tests and employee-portal coverage 85.50% -> 86.47%; npm audit and
+  Trivy reported 0 vulnerabilities; TD-STACK-003 and TD-I18N-002 further reduced;
+  TD-FE-010 registered)
+- MVP-MOD-008-QA-001 integration and migration QA/security evidence (backend verify
+  passed with 265 tests and 80.49% coverage; employee-portal quality passed with 101
+  tests and 86.47% coverage; Trivy and npm audit reported 0 vulnerabilities; YAML
+  parse and git diff checks passed; evidence files created under 08-qa)
+- COM-MOD-009-PORTAL-001 patient portal commercial workflow fully implemented (login,
+  profile, appointments, orders, results, notifications, i18n switcher, error states,
+  and secure patient self-access interceptor) with unit test coverage raised from
+  41.93% to 89.58% (TD-FE-008 closed)
+- COM-MOD-009-PORTAL-002 doctor portal commercial workflow fully rebuilt (login, permission-filtered
+  dynamic navigation, referred-patients/results/orders/notifications views, i18n switcher,
+  loading/ empty/error/no-permission/session-expired states) replacing a stale employee-portal-domain
+  scaffold; added backend least-privilege enforcement (doctorId-filtered diagnostic
+  orders, a new ReferringDoctorAuthorizationPort Spring Modulith named interface,
+  3 new interceptor self-access blocks) with unit test coverage raised from 40.62%
+  to 89.86% (TD-FE-009 closed); backend coverage 80.49% -> 80.60% (280 tests, 0 failures/errors/skipped);
+  TD-IAM-002 and TD-I18N-002 materially reduced further; TD-FE-011 registered (pre-existing,
+  unrelated patient-portal lint regression)
+- COM-MOD-009-APP-001 patient mobile workflow compiled (PATIENT role and granular
+  patient mobile permissions, profile/appointments/orders/results/notifications routes,
+  localized es-MX/en-US home and workflow labels, permission-filtered mobile actions,
+  patientMobileApi facade and patientMobileWorkflowModel with loading/ready/empty/forbidden/error
+  states); mobile coverage raised from 98.87% to 99.21%; npm quality and npm audit
+  passed with 0 vulnerabilities; TD-I18N-002 and TD-IAM-002 materially reduced further
+- COM-MOD-010-BE-001 Inventory Product/Reagent/Lot/Stock backend outputs compiled
+  (nine BCM-INV capability packages implemented as a single inventoryquality Spring
+  Modulith module with 27 REST operations across nine hexagonal sub-packages, JDBC
+  + in-memory dual adapters, first-class code+messageKey error envelope, seven new
+  SCREEN_INVENTORY_* PermissionCode values registered in EndpointPermissionRegistry,
+  38 new inventory.error.<code> keys in the es-MX/en-US catalogs further materially
+  reducing TD-I18N-002; one new schema file db/inventory-and-internal-quality/ schema.sql;
+  308 tests passed with 0 failures/errors/skipped; backend line coverage 80.60% ->
+  82.94% with no regression; Trivy fs reported 0 findings across all severities. BCM-QLT-001/003/004/005
+  compiled in COM-MOD-010-BE-002)
+- COM-MOD-010-BE-002 Inventory and Internal Quality equipment/calibration/maintenance/internal-QC
+  backend outputs compiled (four BCM-QLT capability packages added to the existing
+  inventoryquality Spring Modulith module for equipment, calibration, maintenance
+  and internal quality-control REST endpoints/services/domain records/adapters; four
+  new inventory_quality schema tables; four new SCREEN_* PermissionCode values; 16
+  localized inventory.error.<code> keys; 312 backend tests, 0 failures/errors, backend
+  line coverage 82.94%; OWASP Dependency-Check and Trivy 0 findings)
+- COM-MOD-010-FE-001 Inventory and Internal Quality employee-portal UI compiled (11
+  permission-filtered screens covering all 13 COM-MOD-010 capability packages -- inventory
+  catalog, reagent profiles, stock lots, purchase orders, combined stock entries/exits/consumption
+  movements, adjustments, waste disposal, internal quality control runs, calibrations,
+  equipment profile/availability and maintenance events; typed inventoryQualityApi
+  facade over all 27 backend REST operations; full es-MX/en-US externalization; TD-FE-010
+  materially reduced via a new shared DataTable component and small-sub-component
+  decomposition convention applied to all 11 new screens with 0 new lint size/complexity
+  warnings; npm run quality passed with 124 tests, 48 test files, 0 failures, employee-portal
+  coverage 86.47% -> 87.87%; npm audit and Trivy fs (vuln/secret/misconfig, all severities)
+  reported 0 findings)
+- COM-MOD-010-QA-001 integrated traceability, stock and quality evidence (validated
+  end-to-end traceability across all 13 COM-MOD-010 capability packages -- openapi-source.md
+  vs. controllers, permissions.md vs. EndpointPermissionRegistry/RolePermissionCatalog,
+  ui-model.md vs. employee-portal screens, es-MX/en-US i18n key parity; fixed a
+  stale backlog_items.custom_rules traceability pointer across the 9 BCM-INV-001..009
+  traceability.md files (was COM-MOD-010-BE-002/pending, corrected to COM-MOD-010-BE-001/closed)
+  and a stale capability-package-index.md COM-MOD-010 roadmap-group pointer; found
+  and fixed a real backend coverage gap -- a clean rebuild reproducibly measured 81.90%
+  (0 backend source changes since BE-002) because BE-002's 4 new JDBC adapters had
+  no local-database integration test; added InventoryQualityControlsLocalDatabaseTest.java,
+  raising corrected backend coverage to 83.73% (315 tests, 0 failures/errors/skipped);
+  employee-portal coverage confirmed at 88.24% (124 tests/48 files, 0 failures); OWASP
+  Dependency-Check (65 dependencies), npm audit and Trivy fs (all severities) reported
+  0 vulnerabilities/secrets/misconfigurations; YAML parse (1105 files) and agent-agnostic
+  scan passed, git diff --check clean)
+- COM-MOD-010-CLOSEOUT module closeout and registry update (confirmed all 13 COM-MOD-010
+  capability packages -- BCM-INV-001..009, BCM-QLT-001/003/004/005 -- module_closed
+  in capability-package-index.md and their traceability.md files; reviewed technical-debt-index.md
+  and found zero open or materially-reduced debt attributable to COM-MOD-010; documentation/registry-only
+  closeout, no source code touched, so full backend/ frontend/mobile quality suites
+  were not re-executed and coverage figures (backend 83.73%, employee portal 88.24%,
+  mobile 99.21%, patient portal 94.11%, doctor portal 96.28%) are re-affirmed unchanged
+  from COM-MOD-010-QA-001/COM-MOD-009 evidence; executed YAML parse, stale-pointer
+  sweep and git diff --check for this closeout; advanced the active commercial backlog
+  item to COM-MOD-011-DEF)
+- COM-MOD-011-DEF Public Website and Digital Growth capability package models (all
+  7 module capabilities -- BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005 --
+  confirmed reused from already-modeled/compiled capability packages owned by MVP-MOD-002,
+  MVP-MOD-004 and MVP-MOD-008; zero new capability package, aggregate or schema created;
+  each package's product_surfaces, openapi-source.md, ui-model.md, permissions.md
+  and traceability.md extended with a public_website surface realizing pre-existing
+  future_surfaces/deferred_to placeholders; catalog capabilities gained an anonymous
+  public_read scope and a published-only list projection reusing existing Published*Snapshot
+  schemas; BCM-ATT-001/006 gained RN-008/ RN-009 restricting anonymous public requests
+  to a requested/draft-state record from a reused ProspectiveContact, never a confirmed/issued
+  one; BCM-PLT-005 gained RN-007 and a RateLimitPolicy.consumerIdentificationMethod
+  field materially reducing TD-BE-015; found and corrected three pre-existing stale
+  roadmap/status pointers unrelated to this item's own scope in BCM-ATT-001, BCM-ATT-006
+  and BCM-PLT-005; definition-only, no code implemented, coverage unchanged; advanced
+  the active commercial backlog item to COM-MOD-011-BE-001)
+- COM-MOD-011-BE-001 Public Website backend outputs compiled (all 10 public REST operations
+  modeled by COM-MOD-011-DEF -- GET /api/public/catalog/{diagnostic-services,tests,panels,
+  preparations}/published, GET /api/public/catalog/{diagnostic-services,tests,panels,
+  preparations}/{id}/published-snapshot, POST /api/public/care-delivery/appointment-requests
+  (RN-008) and POST /api/public/care-delivery/quotation-requests (RN-009) -- functional
+  and anonymous; a new publicweb Spring Modulith module hosts them, depending only
+  on the new catalogtestconfiguration::catalog-public-read-port and frontdeskcaredelivery::public-intake-port
+  named interfaces; BCM-PLT-005 RN-007 rate-limit enforcement compiled as a new PublicApiRateLimitInterceptor
+  co-located with the partner interceptor, driven by the new RateLimitPolicy.consumerIdentificationMethod
+  field persisted end-to-end with an ADD-COLUMN-IF-NOT-EXISTS schema migration; RN-008
+  extends AppointmentSlot inline with three nullable prospective_contact fields and
+  relaxes patient_id nullability for the public_website channel only, additive DDL;
+  every response DTO strips tenantId/audit/patient- linkage fields so the anonymous
+  public surface never leaks operational identifiers; new public.error.* and public.rate_limit.*
+  i18n key namespaces added in es-MX and en-US (TD-I18N-002 further reduced); closes
+  TD-BE-015 with a real end-to-end test (PublicWebApiTest.publicRateLimitBlocksAnonymousTrafficByIpAddress);
+  found and fixed a pre-existing openapi-source.md vs Spring route gap in BCM-SVC-005
+  (getPublishedPreparationSnapshot had no matching PreparationInstructionController
+  route); backend coverage 83.73% -> 83.96% with 324 tests and 0 failures/errors/skipped
+  (Docker Compose PostgreSQL 16 up); OWASP Dependency-Check 108 deps 0 vulns; Trivy
+  fs vuln/secret/ misconfig 0 findings across all severities)
+- COM-MOD-011-WEB-001 Public website frontend compiled (new 07-implementation/public-website/
+  module, React 19 + TypeScript 5 strict + Vite 6, following patient-portal/doctor-portal
+  conventions -- hand-rolled LocaleContext, plain-fetch httpClient, no state-management
+  library; a new hand-rolled History-API router instead of a router dependency); consumes
+  the anonymous /api/public/** surface from COM-MOD-011-BE-001 -- published catalog
+  discovery for diagnostic services/tests/panels/preparations (BCM-SVC-001/002/003/005,
+  each with a list and detail page sharing CatalogListView/CatalogDetailView chrome)
+  and public appointment/quotation request intake (BCM-ATT-001 RN-008, BCM-ATT-006
+  RN-009) with an explicit client-side cooldown for BCM-PLT-005 RN-007's 429 responses
+  (backend sends no Retry-After header); deployment identity (tenantId/laboratoryId/branch
+  list) is deployment-owned site configuration since COM-MOD-011-DEF modeled no public
+  branch-directory capability; added SEO (per-page metadata, robots.txt, sitemap.xml),
+  accessibility (eslint-plugin-jsx-a11y + automated jest-axe regression check wired
+  into npm run test/quality) and privacy (a /privacy notice page, required consent
+  checkboxes) foundations, materially reducing TD-UX-002 as the reference pattern
+  for a new module (employee-portal itself untouched, so not closed); first coverage
+  baseline for this stack -- 97 tests, 34 files, 0 failures, 98.61% line/statement
+  coverage; ESLint 0 errors/16 non-blocking warnings; jscpd 3.9% duplication; npm
+  audit and Trivy fs (all severities) 0 findings; verified locally via npm run build
+  && vite preview. Docker later became reachable in the same session, enabling full
+  live end-to-end verification against a real backend and Postgres instance for all
+  10 /api/public/** operations; this surfaced and fixed a real pre-existing defect
+  in backend/src/main/resources/db/catalog-test-configuration/schema.sql, whose seed
+  rows used status='PUBLISHED' (uppercase) against the lowercase published domain
+  constant, silently hiding every seeded catalog row from published-only views project-wide.
+  Corrected the 10 seed literals to lowercase; no Java source changed. Backend regression
+  gates re-run clean -- 324 tests/0 failures, coverage unchanged at 83.96%, checkstyle/pmd/spotbugs/duplicate-finder
+  0 new violations, OWASP Dependency-Check 65 deps/0 vulnerabilities, Trivy fs 0 findings)
+- COM-MOD-011-FE-001 Content and request administration screens in employee portal
+  compiled (PublicContentReviewScreen, PublicAppointmentRequestsScreen, PublicQuotationRequestsScreen;
+  fixed QuotationRequest.channel defect; backend coverage 83.99% with 327 tests; employee
+  portal coverage 88.68% with 154 tests; TD-UX-002 closed; Trivy CVE-2026-59889 fixed)
+- COM-MOD-011-QA-001 integrated quality, privacy, SEO, accessibility, and security
+  validation clean across all 7 capability packages (0 vulnerabilities, 0 security
+  findings, 0 test failures, 0 coverage regressions across all 6 stacks)
+- COM-MOD-011-CLOSEOUT module closeout and registry update (confirmed all 7 COM-MOD-011
+  capability packages -- BCM-SVC-001/002/003/005, BCM-ATT-001/006, BCM-PLT-005 --
+  module_closed in capability-package-index.md and their traceability.md files;
+  verified TD-BE-015 and TD-UX-002 closed with zero open or blocking technical debt
+  attributable to COM-MOD-011; documentation/registry-only closeout, no source code
+  touched, coverage figures -- backend 83.99%, employee portal 88.68%, public website
+  98.61%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28% -- re-affirmed
+  unchanged; YAML parse, stale-pointer sweep and git diff --check clean; advanced
+  active commercial backlog item to COM-MOD-012-DEF)
+- COM-MOD-012-DEF Platform Hardening and SaaS Operations capability package models
+  (BCM-ORG-001 Tenant Management, BCM-PLT-001 IAM, BCM-PLT-002 Platform Configuration
+  & Feature Flags, BCM-PLT-005 API Management, BCM-PLT-006 Observability, BCM-PLT-007
+  Audit Trail, BCM-PLT-008 Document Management, BCM-PLT-009 Workflow Engine; 5 new
+  capability packages created, 3 existing extended; standard 14 model artifacts each;
+  TD-DB-004, TD-BE-008, TD-FE-005 and TD-IAM-002 architectural parameters incorporated
+  into source models; definition only, no code implemented)
+- COM-MOD-012-OPS-001 Production deployment and environment strategy (local/dev/qa/staging/prod
+  environment path, deployment units, configuration and secret policy, tenant onboarding,
+  release promotion, rollback and deployment readiness checklist; TD-STACK-001 materially
+  reduced; definition only, no code implemented)
+- COM-MOD-012-OPS-002 Observability, backup, restore and incident runbooks (10 executable
+  runbook pairs under 09-operations/runbooks/ -- observability, health/readiness/liveness,
+  metrics/logs/traces validation, backup, restore, incident response, rollback incident
+  handoff, tenant-impact triage, evidence collection, post-incident review -- each
+  with purpose, prerequisites, applicable environment, executable commands cross-checked
+  against compose.local.json/.env.example/application.properties/AuditComplianceController,
+  success/failure criteria, expected evidence, responsible role, capability traceability
+  and IAM/audit expectations; capability traceability updated for all 8 COM-MOD-012
+  capabilities; TD-DB-004 materially reduced via tenant-impact-triage-runbook.md's
+  mandatory cross-tenant leakage check as an operational compensating control pending
+  native Row Level Security; definition only, no code implemented, coverage unchanged)
+- COM-MOD-012-BE-001 Compile tenant operations, feature flags and operational controls
+  (BCM-ORG-001 provisionTenant extended in place with code/legalName/tradeName/taxId/tier/isolationStrategy,
+  listTenants and updateTenantStatus added, both privileged and audited; new BCM-PLT-002
+  platformconfiguration Spring Modulith module -- getPlatformConfig, evaluateFeatureFlags,
+  updateFeatureFlag, all validated per business-model.md invariants and audited;
+  BCM-PLT-006 observability extensions -- micrometer-registry-prometheus + GET /actuator/prometheus,
+  explicit liveness/readiness health groups, new RequestObservabilityContextFilter
+  populating tenantId/userId/traceId MDC on every log line; closed 5 of 8 named COM-MOD-012-OPS-002
+  runbook known_gaps_and_forward_pointers entries, remaining 3 -- distributed trace
+  export, provisioned observability stack, SLO/SLA alerting -- re-pointed to future
+  items pending infrastructure; BCM-PLT-001/005/007/008/009 extensions deliberately
+  deferred and registered as TD-BE-016/TD-BE-017/TD-IAM-003; real SpotBugs/FindSecBugs
+  SERVLET_HEADER finding on the new MDC filter fixed in code, not suppressed; 362
+  tests/0 failures (up from 360), backend coverage 83.99% -> 84.11%; TD-IAM-002 and
+  TD-DB-004 materially reduced further, TD-I18N-002 further reduced; checkstyle/pmd/spotbugs/duplicate-finder/cyclonedx
+  clean vs baseline, OWASP Dependency-Check 115 deps/0 vulnerabilities, Trivy fs 0
+  findings, YAML parse 1,248 files/0 errors, agent-agnostic scan 0 real hits, git
+  diff --check clean; advanced active commercial backlog item to COM-MOD-012-QA-001)
+- COM-MOD-012-QA-001 Performance, resilience and security evidence (validated all
+  8 COM-MOD-012 capabilities end to end against a running local backend -- tenant
+  provisioning/listing/status transition, platform config, feature flags, Prometheus,
+  health groups, MDC logging, audit events; light local load check (30 sequential
+  + 20 concurrent tenant requests, 0 failures/ races); found and fixed a real resilience
+  defect -- the readiness probe did not reflect database connectivity because management.endpoint.health.group.readiness.include
+  was unset, fixed by scoping the include to application-local.properties, re-verified live
+  via a real docker stop/start of hop-local-postgres (readiness correctly DOWN/503
+  then UP, liveness stays UP throughout); executed a dedicated OWASP ZAP DAST pass
+  against the full backend API surface (deferred by BE-001) that found and this item
+  fixed 2 real defects -- TD-QA-005 (a cross-cutting null-byte/oversized-value unhandled
+  500 across laboratoryworkflow and cashsales, fixed via a narrow SQLState-class-22
+  GlobalExceptionHandler mapping) and TD-QA-006 (AuthController.initiateAssistance
+  returned 500 instead of 404 for a nonexistent assistedUserId, fixed by widening
+  IdentityAccessExceptionHandler's assignableTypes); a ZAP baseline scan against the
+  unchanged employee portal found 0 FAIL-NEW; executed a real backup (pg_dump, SHA-256
+  checksum, pg_restore --list showing 415 TOC entries) and restore rehearsal (isolated
+  database, matching row counts 40=40); confirmed the 3 remaining COM-MOD-012-BE-001
+  infrastructure forward pointers (distributed trace export, provisioned Grafana/Prometheus/Loki,
+  SLO/SLA alerting) still genuinely require infrastructure not available locally and
+  registered them as TD-OBS-001 rather than closing them; 367 tests/0 failures (up
+  from 362), backend coverage 84.11% -> 84.14%; checkstyle/pmd/spotbugs/ duplicate-finder/cyclonedx
+  clean vs baseline, OWASP Dependency-Check 115 deps/0 vulnerabilities, Trivy fs 0
+  findings (backend and repo-wide), YAML parse 1,256 files/0 errors, agent-agnostic
+  scan 0 real hits, git diff --check clean; advanced active commercial backlog item
+  to COM-MOD-012-CLOSEOUT)
+- ? COM-MOD-013-FE-001 is closed. Advanced Quality and Compliance employee portal
+    UI compiled (ExternalQualityControlsScreen, CapaManagementScreen, AuditManagementScreen,
+    ComplianceEvidenceScreen, QualityEventIntakeScreen; thin typed externalQualityComplianceApi
+    facade; IAM permissions, SCREEN_TO_PERMISSION, QUALITY_MANAGER role; complete
+    es-MX and en-US i18n catalogs; TD-I18N-002 debt-first AuditEventsScreen retrofit).
+    Validation gates executed clean
+  : npm run typecheck, npm run test:coverage (187 tests, 60 files, 0 failures, employee-portal
+    line coverage 88.68% -> 89.74%), npm run build, npm run duplication, npm run format:check,
+    npm run license:check, npm run audit:all (0 vulnerabilities), and Trivy fs vuln/secret/misconfig
+    all severities (0 findings). npm run lint passed with 0 errors and 51 non-blocking
+    warnings; warnings are dispositioned as residual TD-FE-010/TD-I18N-002 follow-up,
+    not closure blockers. Ready for COM-MOD-013-QA-001.
+- COM-MOD-013-QA-001 is closed. Integrated validation found and closed a major persistence-wiring
+  defect (TD-DB-005) -- application-local.properties never registered db/external-quality-and-compliance/schema.sql,
+  compounded by an inverted @Profile on the 4 externalqualitycompliance JDBC/in-memory
+  repository pairs (real JDBC classes were @Profile("!local & !test") instead of the
+  codebase's @Profile("local") convention), so the module silently persisted External
+  Quality Control, CAPA, Audit Management and Quality Event Intake data in memory
+  only, never to PostgreSQL. Fixed both root causes; re-ran the pre-existing ExternalQualityComplianceLocalDatabaseTest
+  live against real PostgreSQL (passed). Backend coverage rose from a clean-rebuild
+  82.57% to 84.24% at that point (381 tests, 0 failures/errors/skipped), above the
+  previously recorded 84.14% floor. Also fixed 2 SpotBugs High findings (DM_DEFAULT_ENCODING,
+  NM_SAME_SIMPLE_NAME_AS_SUPERCLASS), 5 Medium CT_CONSTRUCTOR_THROW findings, 1 hardcoded
+  i18n string and 1 TD-FE-010 function-size violation in ComplianceEvidenceScreen.tsx
+  (employee-portal coverage 89.74% -> 89.75%, 187 tests, 60 files, lint warnings 51
+  -> 50). A required follow-up real OWASP ZAP DAST pass against the running backend
+  (939 URLs) and employee-portal (125 URLs) found and fixed one further backend defect
+  -- TD-QA-007, an unhandled 500 on a malformed/abruptly-truncated multipart upload
+  to POST /api/documents, remapped to 400 -- confirmed by a clean re-scan (0 FAIL-NEW/0
+  WARN-NEW), raising backend coverage to 84.25% (382 tests). The portal baseline scan
+  found 0 FAIL-NEW and 6 WARN-NEW, all matching the already-known TD-FE-005 or dev-server-only
+  artifacts. Registered new debt TD-IAM-004 (synthetic tenant id in 5 controllers,
+  deferred pending a Spring Modulith module-boundary decision; deny-by-default authorization
+  itself unaffected). OWASP Dependency-Check (72 deps), npm audit and Trivy (backend/employee-portal/repo-wide,
+  all severities) reported 0 vulnerabilities/secrets/misconfigurations. Ready for
+  COM-MOD-013-CLOSEOUT.
+next_deliverables:
+- Resume COM-MOD-017-BE-002 with compact generated prompts and NXF-FMT-002 handoff
+  evidence
+- Keep TD-FMT-001 as non-blocking gradual migration debt and convert YAML artifacts
+  when touched
+- Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
+- Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
+- Use BUSINESS_REQUIREMENT.md as the reference intake template for future Nexora projects
+- Resolve latest BUSINESS_REQUIREMENT version before HOP analysis or development
+- Generate impact assessment when HOP business requirement changes
+- Maintain integrated local solution runbook during every runtime, port, environment,
+  startup or validation change
+- Do not mark HOP commercially complete or GA-ready while any technical debt remains
+  open
+- Raise backend, frontend and mobile/app coverage to at least 80% before final project
+  closure
+- Preserve each stack's previous measured coverage as the minimum allowed baseline
+  for subsequent iterations
+- Compile generated outputs and implement custom rules in dependency order
+development_readiness:
+  status: ready
+  ready_to_start_module: COM-MOD-017
+  in_progress_module: COM-MOD-017
+  next_backlog_item: COM-MOD-017-BE-002
+  agent_agnostic_ready: true
+  business_requirement_ready: true
+  agent_yaml_execution_artifacts_ready: true
+  generic_development_prompt_ready: true
+  auxiliary_development_prompts_ready: true
+  mvp_development_start_approved: true
+  commercial_product_backlog_ready: true
+  mdpe_standard_ready: true
+  capability_package_standard_ready: true
+  open_data_ingestion_contract_ready: true
+  open_data_ingestion_standard_ready: true
+  product_marketplace_standard_ready: true
+  product_marketplace_contract_ready: true
+  business_requirement_template_ready: true
+  business_requirement_to_yaml_prompt_ready: true
+  business_requirement_versioning_ready: true
+  open_source_first_security_quality_ready: true
+  context_efficient_execution_ready: true
+  frontmatter_artifact_migration_ready: true
+  frontmatter_migration_pilot_report: 08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md
+  local_orchestrator_prompt_generation_ready: validated_with_ollama_primary_qwen2_5_coder_0_5b
+  required_framework_execution_stack: python_ollama_qwen2_5_coder_0_5b_ripgrep_git
+  memory_handoff_required: true
+  lightweight_task_format_transition_required: true
+  enterprise_product_foundation_standard_ready: true
+  enterprise_product_foundation_alignment_required: true
+  enterprise_product_foundation_alignment_status: closed
+  enterprise_product_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.md
+  enterprise_product_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
+  paused_functional_backlog_item: null
+  security_quality_gate_prompts_ready: true
+  technology_debt_backlog_ready: true
+  client_stack_market_validation_ready: true
+  stack_quality_toolchain_baseline_ready: true
+  pending_quality_gates:
+    frontend_typecheck_and_test: passed_for_mvp_mod_006
+    backend_coverage: passed_for_mvp_mod_006
+  enterprise_quality_alignment_required: true
+  enterprise_quality_alignment_status: closed
+  quality_alignment_gap_analysis: 08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.md
+  quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.md
+  quality_alignment_closeout_evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-CLOSEOUT.md
+  blocked_functional_backlog_item: null
+  framework_feedback_ready: true
+  integrated_local_solution_runbook_ready: true
+  local_solution_runbook: 09-operations/runbooks/local-solution-runbook.md
+  local_solution_runbook_human_readable: 09-operations/runbooks/local-solution-runbook.md
+  framework_feedback_index: 08-qa/framework-feedback/framework-feedback-index.md
+  latest_business_requirement_version: v0.68.0
+  business_requirement_impact_status: not_required
+  technical_debt_index: 08-qa/technical-debt/technical-debt-index.md
+  technology_debt_policy: initial_stack_is_baseline_not_permanent_constraint
+  final_project_closure_requires_no_open_technical_debt: true
+  coverage_policy:
+    target_line_coverage_percent: 80
+    previous_iteration_coverage_is_hard_floor: true
+    below_80_minimum_relevant_iteration_improvement_percentage_points: 3
+    below_80_preferred_relevant_iteration_improvement_percentage_points: 5
+    final_project_closure_requires_target: true
+    current_stack_baselines:
+      backend_java_maven:
+        current_line_coverage_percent: 84.53
+        source_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 84.53
+        final_closure_target_percent: 80
+        tracked_by: TD-BE-003
+        correction_note: 'COM-MOD-013-QA-001 found the 84.14% figure below was itself
+          not reproducible from a clean rebuild (measured 82.57%) -- the same jacoco/wiring-inflation
+          pattern seen before in MVP-MOD-005-QA-001 and COM-MOD-010-QA-001. Root cause
+          this time was different: application-local.properties never registered db/external-quality-and-compliance/schema.sql,
+          compounded by an inverted @Profile on 4 externalqualitycompliance JDBC/in-memory
+          repository pairs, so the module''s real JDBC code was dead/unreachable (0%
+          covered) and all its data was silently stored in memory only, never PostgreSQL
+          (registered and closed as TD-DB-005). Fixed both root causes, raising the
+          corrected, reproducible clean-rebuild figure to 84.24% (381 tests, 0 failures/errors/skipped).
+          A required follow-up real OWASP ZAP DAST pass against the running backend
+          found and fixed one further defect, TD-QA-007 (unhandled 500 on a malformed
+          multipart upload, remapped to 400), adding one regression test and raising
+          it to 84.25% (382 tests, 0 failures/errors/skipped); future backend iterations
+          must not regress below 84.25%. This block had drifted out of sync with the
+          authoritative running baseline maintained in 08-qa/technical-debt/technical-debt-index.md
+          (still showing 83.99% from COM-MOD-011-FE-001 despite COM-MOD-011-BE-001,
+          COM-MOD-012-BE-001 and COM-MOD-012-QA-001 each having since raised it, most
+          recently to 84.14%); corrected here as part of this item''s stale-pointer
+          sweep. The chain of intermediate raises follows below. MVP-MOD-005-QA-001
+          originally reported 68.66% from a non-clean multi-run jacoco.exec accumulation;
+          corrected to the reproducible clean-rebuild figure during MVP-MOD-005-CLOSEOUT.
+          MVP-MOD-007-FE-001 subsequently raised the floor from 76.93% to 76.99%.
+          HOP-ENT-FOUND-001 corrective closure raised it again to 77.92%. MVP-MOD-007-QA-001
+          raised it to 78.42%. MVP-MOD-007-CLOSEOUT''s TD-BE-010 fix added a real
+          unit test for the new SampleReadPort-backed cancellation branch, raising
+          it to 78.51%. MVP-MOD-008-BE-001 raised it further to 80.08% (239 tests,
+          0 failures/errors), reaching the final 80% target for this stack. MVP-MOD-008-BE-002
+          raised it further to 80.49% (265 tests, 0 failures/errors/skipped). COM-MOD-009-PORTAL-002
+          raised it further to 80.60% (280 tests, 0 failures/errors/skipped). COM-MOD-010-BE-001
+          raised it further to 82.94% (308 tests, 0 failures/errors/skipped). COM-MOD-010-QA-001
+          found the 82.94% figure was itself not reproducible from a clean rebuild
+          (a clean `mvn ... clean verify` measured 81.90% twice, with 0 backend source
+          changes since BE-002) -- the same jacoco.exec measurement-inflation pattern
+          as MVP-MOD-005-QA-001 above; root cause was BE-002''s 4 new JDBC adapters
+          (quality-control/calibration/equipment/maintenance) having no local-database
+          integration test. Fixed with a new InventoryQualityControlsLocalDatabaseTest.java,
+          raising the corrected, reproducible clean-rebuild figure to 83.73% (315
+          tests, 0 failures/errors/skipped). COM-MOD-011-BE-001 raised it to 83.96%
+          (324 tests). COM-MOD-011-FE-001 raised it to 83.99% (327 tests). COM-MOD-012-BE-001
+          raised it to 84.11% (362 tests). COM-MOD-012-QA-001 fixed 2 real defects
+          found by its own DAST run (TD-QA-005, TD-QA-006) plus a resilience regression
+          test, raising it to 84.14% (367 tests, 0 failures/errors/skipped). COM-MOD-013-QA-001
+          raised it to 84.25% (382 tests). COM-MOD-017-BE-001 compiled the new marketplaceentitlements
+          Spring Modulith module for BCM-PLT-011 (6 capabilities, all 21 openapi-source.md
+          operations, 60 new tests), raising it to a reproducible clean-rebuild 84.53%
+          (442 tests, 0 failures/errors/skipped, Docker Compose PostgreSQL 16 up);
+          registered TD-BE-018 for deferred custom-rule sophistication; future backend
+          iterations must not regress below 84.53%.'
+      frontend_typescript_web:
+        current_line_coverage_percent: 89.75
+        source_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 89.75
+        final_closure_target_percent: 80
+        tracked_by: TD-FE-004 (closed; final-closure target reached; COM-MOD-013-QA-001
+          fixed a hardcoded string and a function-size violation in ComplianceEvidenceScreen.tsx,
+          raising it from 89.74% to 89.75% (187 tests, 60 files, 0 failures); raised
+          to 83.98% by MVP-MOD-007-FE-001, then to 84.44% by HOP-ENT-FOUND-001 corrective
+          closure. MVP-MOD-007- CLOSEOUT found and fixed a real regression to 84.03%
+          left uncaught by MVP-MOD-007- PORTAL-001, raising it to 85.50%. MVP-MOD-008-FE-001
+          raised it to 86.47%. COM-MOD-010-FE-001 raised it further to 87.87% (124
+          tests, 48 test files, 0 failures). COM-MOD-010-QA-001 re-confirmed 88.24%
+          with the same 124 tests/48 files (no source file was touched by this validation-only
+          backlog item; the small delta from 87.87% reflects re-measurement, not a
+          regression).)
+      mobile_typescript_foundation:
+        current_line_coverage_percent: 99.21
+        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 99.21
+        final_closure_target_percent: 80
+        tracked_by: TD-APP-002 (closed; MVP-MOD-007-APP-001 raised coverage from 97.15%
+          to 98.87%; MVP-MOD-007-CLOSEOUT re-confirmed 98.87% with no regression;
+          COM-MOD-009-APP-001 raised the mobile floor to 99.21% with 40 tests and
+          0 failures)
+      patient_portal_typescript_web:
+        current_line_coverage_percent: 94.11
+        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-QA-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 94.11
+        final_closure_target_percent: 80
+        tracked_by: TD-FE-008 (closed)
+      doctor_portal_typescript_web:
+        current_line_coverage_percent: 96.28
+        source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-QA-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 96.28
+        final_closure_target_percent: 80
+        tracked_by: TD-FE-009 (closed)
+      public_website_typescript_web:
+        current_line_coverage_percent: 98.61
+        source_evidence: 08-qa/qa/public-website-and-digital-growth/COM-MOD-011-WEB-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 98
+        final_closure_target_percent: 80
+        tracked_by: first-ever measurement, established by COM-MOD-011-WEB-001 (97
+          tests, 34 files, 0 failures; 93.15% branch and 87.70% function coverage
+          also recorded)
+  client_stack_market_validation: 03-architecture/technology-architecture/client-stack-market-validation.md
+  stack_quality_toolchain_baseline: 03-architecture/technology-architecture/stack-quality-toolchain-baseline.md
+  blocking_definition_gaps: []
+project_structure:
+  status: ordered
+  root_folder_rule: numbered_folders_only
+  implementation_folder: 07-implementation
+  delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
+implementation_progress:
+  current_module: COM-MOD-017
+  current_backlog_item: COM-MOD-017-BE-002
+  paused_functional_module: null
+  paused_functional_backlog_item: null
+  completed_backlog_items:
+  - PF-BE-001
+  - PF-OPS-001
+  - PF-BE-002
+  - PF-BE-003
+  - PF-BE-004
+  - PF-FE-001
+  - PF-APP-001
+  - PF-QA-001
+  - MVP-MOD-001-CLOSEOUT
+  - MVP-MOD-002-DEF
+  - MVP-MOD-002-BE-001
+  - MVP-MOD-002-BE-002
+  - MVP-MOD-002-FE-001
+  - MVP-MOD-002-QA-001
+  - MVP-MOD-002-CLOSEOUT
+  - MVP-MOD-003-DEF
+  - MVP-MOD-003-BE-001
+  - MVP-MOD-003-BE-002
+  - MVP-MOD-003-FE-001
+  - MVP-MOD-003-QA-001
+  - MVP-MOD-003-CLOSEOUT
+  - MVP-MOD-004-DEF
+  - MVP-MOD-004-BE-001
+  - MVP-MOD-004-BE-002
+  - HOP-QA-ALIGN-001
+  - HOP-QA-ALIGN-002
+  - HOP-QA-ALIGN-003
+  - HOP-QA-ALIGN-006
+  - HOP-QA-ALIGN-004
+  - HOP-QA-ALIGN-005
+  - HOP-QA-ALIGN-CLOSEOUT
+  - MVP-MOD-004-FE-001
+  - MVP-MOD-004-QA-001
+  - MVP-MOD-004-CLOSEOUT
+  - MVP-MOD-005-DEF
+  - MVP-MOD-005-BE-001
+  - MVP-MOD-005-BE-002
+  - MVP-MOD-005-FE-001
+  - MVP-MOD-005-QA-001
+  - MVP-MOD-005-CLOSEOUT
+  - MVP-MOD-006-DEF
+  - MVP-MOD-006-BE-001
+  - MVP-MOD-006-BE-002
+  - MVP-MOD-006-FE-001
+  - MVP-MOD-006-QA-001
+  - MVP-MOD-006-CLOSEOUT
+  - MVP-MOD-007-DEF
+  - MVP-MOD-007-BE-001
+  - MVP-MOD-007-BE-002
+  - MVP-MOD-007-FE-001
+  - HOP-ENT-FOUND-001
+  - MVP-MOD-007-PORTAL-001
+  - MVP-MOD-007-APP-001
+  - MVP-MOD-007-QA-001
+  - MVP-MOD-007-CLOSEOUT
+  - MVP-MOD-008-DEF
+  - MVP-MOD-008-BE-001
+  - MVP-MOD-008-BE-002
+  - MVP-MOD-008-FE-001
+  - MVP-MOD-008-QA-001
+  - MVP-MOD-008-CLOSEOUT
+  - COM-MOD-009-DEF
+  - COM-MOD-009-BE-001
+  - COM-MOD-009-PORTAL-001
+  - COM-MOD-009-PORTAL-002
+  - COM-MOD-009-APP-001
+  - COM-MOD-009-QA-001
+  - COM-MOD-009-CLOSEOUT
+  - COM-MOD-010-DEF
+  - COM-MOD-010-BE-001
+  - COM-MOD-010-BE-002
+  - COM-MOD-010-FE-001
+  - COM-MOD-010-QA-001
+  - COM-MOD-010-CLOSEOUT
+  - COM-MOD-011-DEF
+  - COM-MOD-011-BE-001
+  - COM-MOD-011-WEB-001
+  - COM-MOD-011-FE-001
+  - COM-MOD-011-QA-001
+  - COM-MOD-011-CLOSEOUT
+  - COM-MOD-012-DEF
+  - COM-MOD-012-OPS-001
+  - COM-MOD-012-OPS-002
+  - COM-MOD-012-BE-001
+  - COM-MOD-012-QA-001
+  - COM-MOD-012-CLOSEOUT
+  - COM-MOD-013-DEF
+  - COM-MOD-013-BE-001
+  - COM-MOD-013-FE-001
+  - COM-MOD-013-QA-001
+  - COM-MOD-013-CLOSEOUT
+  - COM-MOD-016-DEF
+  - COM-MOD-016-DOC-001
+  - COM-MOD-016-OPS-001
+  - COM-MOD-016-COM-001
+  - COM-MOD-016-QA-001
+  - COM-MOD-016-CLOSEOUT
+  - COM-MOD-017-DEF
+  - COM-MOD-017-BE-001
+  - NXF-FMT-002
+  in_progress_backlog_items: []
+  pending_backlog_items: []
+  latest_validation:
+    backlog_item_id: COM-MOD-013-QA-001
+    command: Integrated validation of COM-MOD-013; found and closed a major persistence-wiring
+      defect (TD-DB-005) -- application-local.properties never registered db/external-quality-and-compliance/schema.sql,
+      compounded by an inverted @Profile on the 4 externalqualitycompliance JDBC/in-memory
+      repository pairs, so the module silently persisted External Quality Control,
+      CAPA, Audit Management and Quality Event Intake data in memory only, never to
+      PostgreSQL. Fixed both root causes and re-verified live against real PostgreSQL.
+      Also fixed 2 SpotBugs High and 5 Medium findings, 1 hardcoded i18n string and
+      1 TD-FE-010 function-size violation. Executed real OWASP ZAP DAST against the
+      running backend (939 URLs) and employee-portal (125 URLs); found and fixed 1
+      further backend defect (TD-QA-007, unhandled 500 on a malformed multipart upload),
+      confirmed by a clean re-scan. Registered new debt TD-IAM-004.
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: 382
+    tests_run_backend_status: passed
+    tests_run_frontend: 187
+    tests_run_frontend_status: passed
+    test_files_frontend: 60
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 84.25
+    previous_line_coverage_baseline_backend_percent: 84.14
+    line_coverage_frontend_percent: 89.75
+    previous_line_coverage_baseline_frontend_percent: 89.74
+    coverage_regression: false
+    additional_checks:
+    - Repository YAML parse passed across all HOP YAML files (1263 files, 0 errors).
+    - Stale-pointer sweep found and corrected implementation_progress.completed_backlog_items
+      missing COM-MOD-013-FE-001, a missing capability_package_progress.COM-MOD-013
+      block, and a capability-package-index.md active_capability_package_groups
+      entry still pointing at COM-MOD-013-BE-001 instead of the latest closed backlog
+      item.
+    - Evidence-state sweep found no blocked, failed, not_executed, passed_with_execution_limitation,
+      closed_with_execution_limitation or unresolved vulnerability markers in any
+      COM-MOD-013 evidence.
+    - Agent-agnostic scan and secrets scan passed clean for all files touched by this
+      item. git diff --check reported 0 whitespace errors.
+    - 'DAST (OWASP ZAP) executed for real against the running backend and employee-portal
+      (both runnable surfaces), not left not_applicable: zap-api-scan.py against 939
+      backend URLs found and this item fixed TD-QA-007; re-scan confirmed 0 FAIL-NEW/0
+      WARN-NEW. zap-baseline.py with the Ajax Spider against 125 employee-portal URLs
+      found 0 FAIL-NEW, 6 WARN-NEW all dispositioned to the existing TD-FE-005 or
+      dev-server-only artifacts.'
+  previous_validation_com_mod_013_be_001:
+    backlog_item_id: COM-MOD-013-BE-001
+    command: Compiled backend outputs for External Quality Control (BCM-QLT-002),
+      CAPA Management (BCM-QLT-006), Audit Management (BCM-QLT-007), Audit Trail Export
+      (BCM-PLT-007), Document Management (BCM-PLT-008), and Quality Event Intake;
+      resolved TD-BE-016.
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: 381
+    tests_run_backend_status: passed_unchanged_not_touched
+    tests_run_frontend: not_applicable_documentation_only
+    tests_run_frontend_status: not_applicable_documentation_only
+    test_files_frontend: not_applicable_documentation_only
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 84.14
+    previous_line_coverage_baseline_backend_percent: 84.14
+    line_coverage_frontend_percent: 88.68
+    previous_line_coverage_baseline_frontend_percent: 88.68
+    coverage_regression: false
+  previous_validation_com_mod_012_qa_001:
+    backlog_item_id: COM-MOD-012-QA-001
+    command: 'Validated all 8 COM-MOD-012 capabilities end to end against a running
+      local backend (tenant provisioning/listing/status transition, platform config,
+      feature flags, Prometheus, health groups, MDC logging, audit events). Light
+      local load check: 30 sequential GET requests (avg 12.1ms) and 20 concurrent
+      tenant provisions (342ms total, 0 failures, 0 duplicate-code races). Found and
+      fixed a real resilience defect: application-local.properties''s readiness probe group
+      did not include the db HealthIndicator, so it stayed UP with PostgreSQL stopped;
+      fixed by adding management.endpoint.health.group.readiness.include: readinessState,db
+      (scoped to application-local.properties only, since the same include in the base application.properties
+      breaks context startup for profiles with no DataSource bean); re-verified live
+      via a real docker stop/start of hop-local-postgres. Executed a dedicated OWASP
+      ZAP API scan (full /v3/api-docs, 353 URLs, deferred by BE-001) that found and
+      this item fixed 2 real defects: TD-QA-005 (a null byte or oversized string value
+      reaching JDBC caused an unhandled 500 on 6 laboratoryworkflow worklist endpoints
+      plus POST /api/revenue/cashier/sessions; fixed via a narrow GlobalExceptionHandler
+      mapping keyed on SQLState class 22, leaving real 23xxx constraint conflicts
+      unregressed) and TD-QA-006 (POST /api/auth/assistance returned 500 instead of
+      404 for a nonexistent assistedUserId because IdentityAccessExceptionHandler''s
+      advice was scoped to only IdentityAccessController; fixed by widening it to
+      also cover AuthController). A ZAP baseline scan against the unchanged employee
+      portal found 0 FAIL-NEW (4 WARN-NEW, all matching the already-registered TD-FE-005).
+      Executed a real backup (pg_dump, SHA-256 checksum, pg_restore --list showing
+      415 TOC entries) and restore rehearsal (isolated hop_restore_verify database,
+      matching row counts 40=40). Reviewed the 3 remaining COM-MOD-012-BE-001 infrastructure
+      forward pointers (distributed trace export, provisioned Grafana/Prometheus/Loki,
+      SLO/SLA alerting): confirmed the local OTel Collector container is running and
+      reachable but the backend has no tracing dependency wired to it; registered
+      TD-OBS-001 rather than closing them without real infrastructure. mvn -Pquality
+      "-Dhop.local-db-tests=true" clean verify plus checkstyle/pmd/spotbugs/duplicate-finder/
+      cyclonedx: BUILD SUCCESS, 367 tests/0 failures/errors/skipped (up from 362).'
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: 367
+    tests_run_backend_status: passed
+    tests_run_frontend: not_applicable_backend_only
+    tests_run_frontend_status: not_applicable_backend_only
+    test_files_frontend: not_applicable_backend_only
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 84.14
+    previous_line_coverage_baseline_backend_percent: 84.11
+    line_coverage_frontend_percent: 88.68
+    previous_line_coverage_baseline_frontend_percent: 88.68
+    coverage_regression: false
+    additional_checks:
+    - Repository YAML parse passed across 1,256 HOP YAML files and root state files.
+    - Agent-agnostic scan found 308 matches (broader scan than prior iterations, covering
+      more file extensions), all confirmed CSS cursor pseudo-property matches or documentation
+      of the scan pattern itself; 0 real hits. Secrets scan (Trivy) 0 findings across
+      backend and the full repository.
+    - 'OWASP ZAP API scan against the full backend OpenAPI surface: 0 FAIL-NEW, 0
+      SQLi/XSS/RCE/path-traversal/SSRF findings, 2 real defects found and fixed same-iteration
+      (TD-QA-005, TD-QA-006). OWASP ZAP baseline scan against the employee portal:
+      0 FAIL-NEW.'
+    - Stale-pointer sweep found and corrected a stale coverage_policy.current_stack_baselines
+      entry in this file (still showing 83.99% from COM-MOD-011-FE-001), 4 runbook
+      forward pointers referencing the now-closed COM-MOD-012-BE-001 for BCM-PLT-009
+      workflow automation (re-pointed to TD-BE-017), and updated capability-package-index.md's
+      COM-MOD-012 roadmap-group entry (still showing package_status modeled and backlog_item
+      COM-MOD-012-DEF). git diff --check reported 0 whitespace errors.
+  previous_validation_com_mod_012_be_001:
+    backlog_item_id: COM-MOD-012-BE-001
+    command: 'Compiled BCM-ORG-001 tenant operations (provisionTenant extended in
+      place with code/legalName/tradeName/taxId/tier/isolationStrategy; listTenants
+      and updateTenantStatus added, both privileged and audited via the existing BCM-PLT-007
+      AuditRecorder), a new BCM-PLT-002 platformconfiguration Spring Modulith module
+      (getPlatformConfig, evaluateFeatureFlags, updateFeatureFlag, validated per business-model.md
+      invariants), and BCM-PLT-006 observability extensions (micrometer-registry-prometheus
+      dependency + GET /actuator/prometheus, explicit liveness/readiness health groups,
+      a new RequestObservabilityContextFilter populating tenantId/userId/traceId MDC
+      on every log line). Closed 5 of 8 named COM-MOD-012-OPS-002 runbook known_gaps_and_forward_pointers
+      entries; the remaining 3 (distributed trace export, a provisioned Grafana/Prometheus/Loki
+      stack, SLO/SLA alerting) require infrastructure not yet provisioned and were
+      re-pointed to future items. BCM-PLT-001/005/007/008/009 extensions were deliberately
+      deferred (not exposed by any operation this item needed to compile) and registered
+      as TD-BE-016/TD-BE-017/TD-IAM-003 rather than built speculatively. A backward-compatible
+      ProvisionTenantRequest.name fallback plus an auto-derived tenant code kept roughly
+      20 pre-existing module test fixtures working unchanged against the richer Tenant
+      model. A real SpotBugs/FindSecBugs SERVLET_HEADER finding on the new MDC filter
+      was fixed in code (control-character stripping, strict W3C traceparent validation),
+      not suppressed. mvn -Pquality clean verify -Dhop.local-db-tests=true plus checkstyle/pmd/spotbugs/duplicate-finder/cyclonedx:
+      BUILD SUCCESS, 362 tests/0 failures/errors/skipped (up from 360). Reviewed technical-debt-index.md;
+      materially reduced TD-IAM-002 and TD-DB-004 further, further reduced TD-I18N-002.
+      Updated capability traceability for BCM-ORG-001/BCM-PLT-002/BCM-PLT-006. OWASP
+      Dependency-Check (115 deps, 0 vulnerabilities), Trivy fs scan (0 vulns/secrets/misconfigs),
+      YAML parse (1,248 files, 0 errors), agent-agnostic scan (0 real hits), stale-pointer
+      sweep and git diff --check all clean.'
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: 362
+    tests_run_backend_status: passed
+    tests_run_frontend: not_applicable_backend_only
+    tests_run_frontend_status: not_applicable_backend_only
+    test_files_frontend: not_applicable_backend_only
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 84.11
+    previous_line_coverage_baseline_backend_percent: 83.99
+    line_coverage_frontend_percent: 88.68
+    previous_line_coverage_baseline_frontend_percent: 88.68
+    coverage_regression: false
+    additional_checks:
+    - Repository YAML parse passed across 1,248 HOP YAML files and root state files.
+    - Agent-agnostic scan found 70 matches, all confirmed documentation/CSS false
+      positives; 0 real hits. Secrets scan (Trivy) 0 findings.
+    - Stale-pointer sweep confirmed live backlog pointers advanced to COM-MOD-012-QA-001;
+      0 remaining references to the removed CreateTenantCommand type. git diff --check
+      reported 0 whitespace errors.
+  previous_validation_com_mod_012_ops_002:
+    backlog_item_id: COM-MOD-012-OPS-002
+    command: Authored 10 executable runbook pairs (observability, health/readiness/liveness,
+      metrics/logs/traces validation, backup, restore, incident response, rollback
+      incident handoff, tenant-impact triage, evidence collection, post-incident review)
+      plus an index README under 09-operations/runbooks/, built on production-deployment-strategy.md.
+      Every runbook's local-executable commands were cross-checked against 07-implementation/compose.local.json,
+      .env.example, backend/src/main/resources/application.properties and AuditComplianceController's
+      real /api/audit mapping rather than assumed; gaps found (no Prometheus metrics
+      endpoint, no trace exporter, no shared-environment infrastructure) are documented
+      as known_gaps_and_forward_pointers in each affected runbook rather than silently
+      marked passed. Reviewed technical-debt-index.md and materially reduced TD-DB-004
+      via tenant-impact-triage-runbook.md's mandatory cross-tenant leakage check.
+      Updated capability traceability for all 8 COM-MOD-012 capabilities. Definition-only
+      operations backlog; no code, runtime, port or dependency changed. Clean YAML,
+      agent-agnostic scan, secret scan, stale-pointer sweep and git diff --check.
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: not_applicable_no_code_changed
+    tests_run_backend_status: not_applicable_no_code_changed
+    tests_run_frontend: not_applicable_no_code_changed
+    tests_run_frontend_status: not_applicable_no_code_changed
+    test_files_frontend: not_applicable_no_code_changed
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 83.99
+    previous_line_coverage_baseline_backend_percent: 83.99
+    line_coverage_frontend_percent: 88.68
+    previous_line_coverage_baseline_frontend_percent: 88.68
+    coverage_regression: false
+    additional_checks:
+    - Repository YAML parse passed across HOP YAML files and root state files.
+    - Agent-agnostic and secret scans found no real findings in the changed operational
+      artifacts.
+    - Stale-pointer sweep confirmed live backlog pointers advanced to COM-MOD-012-BE-001.
+      git diff --check reported 0 whitespace errors.
+  previous_validation_com_mod_012_ops_001:
+    backlog_item_id: COM-MOD-012-OPS-001
+    command: Defined the COM-MOD-012 production deployment and environment strategy
+      under 09-operations/deployment, including local/dev/qa/staging/prod environment
+      path, deployment units, configuration and secret policy, tenant onboarding,
+      release promotion, rollback and deployment readiness checklist. TD-STACK-001
+      materially reduced. Definition-only operations backlog; no code, runtime, port
+      or dependency changed. Clean YAML, agent-agnostic scan, secret scan, stale-pointer
+      sweep and git diff --check.
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: not_applicable_no_code_changed
+    tests_run_backend_status: not_applicable_no_code_changed
+    tests_run_frontend: not_applicable_no_code_changed
+    tests_run_frontend_status: not_applicable_no_code_changed
+    test_files_frontend: not_applicable_no_code_changed
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 83.99
+    previous_line_coverage_baseline_backend_percent: 83.99
+    line_coverage_frontend_percent: 88.68
+    previous_line_coverage_baseline_frontend_percent: 88.68
+    coverage_regression: false
+    additional_checks:
+    - Repository YAML parse passed across HOP YAML files and root state files.
+    - Agent-agnostic and secret scans found no real findings in the changed operational
+      artifacts.
+    - Stale-pointer sweep confirmed live backlog pointers advanced to COM-MOD-012-OPS-002.
+      git diff --check reported 0 whitespace errors.
+  previous_validation_com_mod_011_web_001:
+    backlog_item_id: COM-MOD-011-WEB-001
+    command: 'Compiled the public website frontend at 07-implementation/public-website/
+      (React 19 + TypeScript 5 strict + Vite 6) consuming the anonymous /api/public/**
+      surface from COM-MOD-011-BE-001: published catalog discovery (BCM-SVC-001/002/003/005)
+      and public appointment/quotation request intake (BCM-ATT-001 RN-008, BCM-ATT-006
+      RN-009) with explicit 429 rate-limit cooldown handling (BCM-PLT-005 RN-007).
+      Executed npm run build (tsc -b, strict mode), npm run test:coverage, npm run
+      lint, npm run duplication, npm run format:check, npm run license:check, npm
+      audit, trivy fs (vuln/secret/misconfig, all severities), repository-wide YAML
+      parse, agent-agnostic scan and git diff --check. Verified locally with npm run
+      build && npm run preview.'
+    working_directory: projects/healthcare-operations-platform/07-implementation/public-website
+    status: passed
+    tests_run_backend: 324
+    tests_run_backend_status: unchanged_not_touched
+    tests_run_frontend: 97
+    tests_run_frontend_status: passed
+    test_files_frontend: 34
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 83.96
+    previous_line_coverage_baseline_backend_percent: 83.96
+    line_coverage_frontend_percent: 98.61
+    previous_line_coverage_baseline_frontend_percent: not_previously_measured
+    coverage_regression: false
+    additional_checks:
+    - Materially reduced TD-UX-002 (documented responsive breakpoints in styles.css
+      and an automated jest-axe accessibility check wired into npm run test/quality
+      plus eslint-plugin-jsx-a11y in npm run lint) as the reference pattern for a
+      new module; employee-portal itself was not touched, so the debt is not closed.
+    - 'Established the first coverage baseline for the public-website stack: 98.61%
+      line/statement, 93.15% branch, 87.70% function coverage.'
+    - Fixed a repository-wide gap where the shared duplication npm script pattern
+      was missing jscpd's required positional path argument and silently scanning
+      0 files across every portal; public-website's script now passes src explicitly
+      and measured 3.9% duplication.
+    - 'npm audit and Trivy fs (vuln/secret/misconfig, all severities) reported 0 findings.
+      Agent-agnostic scan reported 1 false positive (CSS cursor: property) and 0 real
+      hits. git diff --check reported 0 whitespace errors. Live backend integration
+      was not exercised this session (no reachable Docker daemon to bring up compose.local.json).'
+  previous_validation_com_mod_011_be_001:
+    backlog_item_id: COM-MOD-011-BE-001
+    command: Compiled the backend public-website surface for BCM-SVC-001/002/003/005,
+      BCM-ATT-001/006 and BCM-PLT-005 into the new publicweb Spring Modulith module,
+      exposed via the new catalog-public-read-port and public-intake-port named interfaces,
+      and enforced anonymous public rate-limiting via a new PublicApiRateLimitInterceptor
+      driven by RateLimitPolicy.consumerIdentificationMethod. Executed mvn -Pquality
+      -Dhop.local-db-tests=true clean verify against a running compose.local.json PostgreSQL
+      16 container, OWASP Dependency-Check, Trivy filesystem scan (vuln/secret/misconfig,
+      all severities), repository-wide YAML parse, agent-agnostic scan and git diff
+      --check.
+    working_directory: projects/healthcare-operations-platform/07-implementation/backend
+    status: passed
+    tests_run_backend: 324
+    tests_run_backend_status: passed
+    tests_run_frontend: 124
+    tests_run_frontend_status: unchanged_not_touched
+    test_files_frontend: 48
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 83.96
+    previous_line_coverage_baseline_backend_percent: 83.73
+    line_coverage_frontend_percent: 88.24
+    previous_line_coverage_baseline_frontend_percent: 88.24
+    coverage_regression: false
+    additional_checks:
+    - Closed TD-BE-015 (rate-limit enforcement scoped to partner-API-key-bearing requests
+      only) with a real end-to-end enforcement test (PublicWebApiTest.publicRateLimitBlocksAnonymousTrafficByIpAddress).
+    - Further reduced TD-I18N-002 by introducing the public.error.* and public.rate_limit.*
+      i18n key namespaces in the shared es-MX, en-US and default backend catalogs.
+    - Found and fixed a pre-existing openapi-source.md versus Spring MVC routing
+      gap in BCM-SVC-005 by registering the missing internal /api/catalog/preparations/{preparationId}/published-snapshot
+      route so the CatalogTestConfigurationContractTest passes end-to-end.
+    - OWASP Dependency-Check reported 108 dependencies scanned and 0 vulnerabilities.
+      Trivy fs (all severities) reported 0 vulnerabilities, 0 secrets and 0 misconfigurations.
+      YAML parse reported 1,156 files parsed with 0 errors. Agent-agnostic scan reported
+      0 real source-code hits. git diff --check reported 0 whitespace errors.
+  previous_validation_com_mod_011_def:
+    backlog_item_id: COM-MOD-011-DEF
+    command: 'Definition-only capability-package modeling; no backend/frontend/mobile
+      source changed. Executed: YAML parse across all HOP project YAML files, a repository-wide
+      stale-pointer sweep for live references to COM-MOD-010-CLOSEOUT/COM-MOD-010-QA-001,
+      and git diff --check. Backend, employee-portal, mobile, patient-portal and doctor-portal
+      quality metrics are re-affirmed unchanged from COM-MOD-010-QA-001/COM-MOD-009
+      evidence, since no source file changed.'
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: 315
+    tests_run_backend_status: unchanged_not_touched
+    tests_run_frontend: 124
+    tests_run_frontend_status: unchanged_not_touched
+    test_files_frontend: 48
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 83.73
+    previous_line_coverage_baseline_backend_percent: 83.73
+    line_coverage_frontend_percent: 88.24
+    previous_line_coverage_baseline_frontend_percent: 88.24
+    coverage_regression: false
+    additional_checks:
+    - Confirmed all 7 COM-MOD-011 capabilities (BCM-SVC-001/002/003/005, BCM-ATT-001/006,
+      BCM-PLT-005) reused from already-modeled/compiled capability packages owned
+      by MVP-MOD-002, MVP-MOD-004 and MVP-MOD-008; zero new capability package, aggregate
+      or schema created; capability-package-index.md gained one active_capability_package_groups
+      entry (COM-MOD-011) referencing the 7 existing package folders with package_status
+      reused_public_surface_added/reused_governance_extended.
+    - Reviewed 08-qa/technical-debt/technical-debt-index.md and materially reduced
+      TD-BE-015 (rate-limit enforcement scoped to partner-API-key-bearing requests
+      only) via a new BCM-PLT-005 RN-007 and RateLimitPolicy.consumerIdentificationMethod
+      field; the runtime enforcement mechanism remains a COM-MOD-011-BE-001 task.
+    - Found and corrected three pre-existing stale roadmap/status pointers in BCM-ATT-001,
+      BCM-ATT-006 and BCM-PLT-005's capability-package.md/traceability.md, unrelated
+      to this item's own scope, discovered while modeling.
+    - Reconciled root and project PROJECT_STATE.md, HOP_COMMERCIAL_PRODUCT_BACKLOG.md,
+      HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md and the local runbook to point
+      the active commercial backlog item at COM-MOD-011-BE-001.
+    - YAML parse and stale-pointer sweep passed for all files touched by this backlog
+      item; git diff --check passed with 0 whitespace errors.
+  previous_validation_com_mod_010_closeout:
+    backlog_item_id: COM-MOD-010-CLOSEOUT
+    command: 'Documentation and registry synchronization only; no backend/frontend/mobile
+      source changed. Executed: YAML parse across all HOP project YAML files, a repository-wide
+      stale-pointer sweep for active/current/next references to COM-MOD-010-QA-001
+      or COM-MOD-010-CLOSEOUT, and git diff --check. Backend, employee-portal, mobile,
+      patient-portal and doctor-portal quality metrics are re-affirmed unchanged from
+      COM-MOD-010-QA-001/COM-MOD-009 evidence below rather than re-executed, since
+      no source file changed since those measurements.'
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: 315
+    tests_run_backend_status: unchanged_not_touched
+    tests_run_frontend: 124
+    tests_run_frontend_status: unchanged_not_touched
+    test_files_frontend: 48
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 83.73
+    previous_line_coverage_baseline_backend_percent: 83.73
+    line_coverage_frontend_percent: 88.24
+    previous_line_coverage_baseline_frontend_percent: 88.24
+    coverage_regression: false
+    additional_checks:
+    - 'Confirmed all 13 COM-MOD-010 capability packages (BCM-INV-001..009, BCM-QLT-001/003/004/005)
+      are module_closed: capability-package-index.md moved the COM-MOD-010 roadmap
+      group to completed_capability_package_groups with package_status: module_closed,
+      and all 13 traceability.md files have backlog_items.closeout_status: closed.'
+    - Reviewed 08-qa/technical-debt/technical-debt-index.md for any entry sourced
+      from a COM-MOD-010 backlog item; found none. COM-MOD-010 introduced zero open
+      or materially-reduced technical debt.
+    - Reconciled PROJECT_STATE.md, SOURCE_OF_TRUTH.md, HOP_COMMERCIAL_PRODUCT_BACKLOG.md,
+      HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md and the local runbook to point
+      the active commercial backlog item at COM-MOD-011-DEF.
+    - YAML parse and stale-pointer sweep passed for all files touched by this closeout;
+      git diff --check passed with 0 whitespace errors.
+  previous_validation_com_mod_010_qa_001:
+    backlog_item_id: COM-MOD-010-QA-001
+    command: mvn -Pquality "-Dhop.local-db-tests=true" clean verify checkstyle:checkstyle
+      pmd:pmd pmd:cpd spotbugs:spotbugs cyclonedx:makeAggregateBom duplicate-finder:check;
+      mvn -Pquality org.owasp:dependency-check-maven:check; npm run quality; npm audit
+      --audit-level=low; trivy fs --scanners vuln,secret,misconfig --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: 315
+    tests_run_frontend: 124
+    test_files_frontend: 48
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 83.73
+    previous_line_coverage_baseline_backend_percent: 82.94
+    line_coverage_frontend_percent: 88.24
+    previous_line_coverage_baseline_frontend_percent: 87.87
+    coverage_regression: false
+    additional_checks:
+    - Validated end-to-end traceability across all 13 COM-MOD-010 capability packages
+      (openapi-source.md vs. controllers, permissions.md vs. EndpointPermissionRegistry/RolePermissionCatalog,
+      ui-model.md vs. employee-portal screens, es-MX/en-US i18n key parity).
+    - Found and corrected a stale backlog_items.custom_rules traceability pointer
+      in the 9 BCM-INV-001..009 traceability.md files (was COM-MOD-010-BE-002/pending;
+      corrected to COM-MOD-010-BE-001/closed, matching where those custom rules were
+      actually implemented) and a stale capability-package-index.md COM-MOD-010
+      roadmap-group pointer.
+    - 'Found a real backend coverage gap: a clean rebuild reproducibly measured 81.90%
+      (0 backend source changes since BE-002) because BE-002''s 4 new JDBC adapters
+      (quality-control/calibration/equipment/maintenance) had no local-database integration
+      test. Fixed with a new InventoryQualityControlsLocalDatabaseTest.java, raising
+      corrected coverage to 83.73% (315 tests, 0 failures/errors/skipped).'
+    - OWASP Dependency-Check scanned 65 dependencies with 0 vulnerabilities using
+      the local advisory database as-is (not refreshed); npm audit and Trivy fs (all
+      severities) reported 0 vulnerabilities/secrets/misconfigurations; YAML parse
+      covered 1105 files with 0 errors; agent-agnostic scan and git diff --check passed.
+  previous_validation_com_mod_010_fe_001:
+    backlog_item_id: COM-MOD-010-FE-001
+    command: npm run quality; npm audit --audit-level=low; trivy fs --scanners vuln,secret,misconfig
+    working_directory: projects/healthcare-operations-platform/07-implementation/employee-portal
+    status: passed
+    tests_run_frontend: 124
+    test_files_frontend: 48
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_frontend_percent: 87.87
+    previous_line_coverage_baseline_percent: 86.47
+    coverage_regression: false
+    additional_checks:
+    - 'Compiled the employee-portal administration UI for all 13 COM-MOD-010 capability
+      packages (BCM-INV-001..009, BCM-QLT-001/003/004/005): 11 permission-filtered
+      screens, a typed inventoryQualityApi facade over all 27 backend REST operations,
+      and full es-MX/en-US externalization.'
+    - Addressed TD-FE-010 (materially reduced) by introducing a shared DataTable component
+      and a small-sub-component decomposition convention, applied to all 11 new screens
+      with 0 new max-lines-per-function/complexity/cognitive-complexity warnings.
+    - Waste disposal (irreversible) is gated behind a ConfirmDialog confirmation step
+      before the request is sent.
+    - npm audit and Trivy fs (vuln/secret/misconfig, all severities) reported 0 findings;
+      no new npm dependency was added.
+  previous_validation_com_mod_010_be_001:
+    backlog_item_id: COM-MOD-010-BE-001
+    command: mvn -Pquality "-Dhop.local-db-tests=true" clean verify; trivy fs --scanners
+      vuln,secret,misconfig
+    working_directory: projects/healthcare-operations-platform/07-implementation/backend
+    status: passed
+    tests_run_backend: 308
+    tests_run_frontend: not_applicable_backend_only_backlog
+    failures: 0
+    errors: 0
+    skipped: 0
+    vulnerabilities: 0
+    line_coverage_backend_percent: 82.94
+    previous_line_coverage_baseline_percent: 80.6
+    coverage_regression: false
+    additional_checks:
+    - Re-enabled @typescript-eslint/no-explicit-any rule in ESLint and refactored
+      all explicit any types in patient-portal (App.tsx, SessionContext.tsx, httpClient.test.ts)
+      to use type-safe interfaces or error casts.
+    - Restored Vitest coverage thresholds to their official floors (89.58% patient-portal,
+      89.86% doctor-portal).
+    - Excluded eslint.config.js from doctor-portal coverage and added matching.test.ts
+      to test confidenceClass, raising doctor-portal Vitest coverage to 96.28%.
+    - Verified that OWASP Dependency-Check (65 backend dependencies), npm audit, and
+      Trivy filesystem scans all report 0 vulnerabilities/secrets/misconfigurations.
+    - Generated all mandatory validation and security quality evidence documents under
+      08-qa.
+  previous_validation_com_mod_009_app_001:
+    backlog_item_id: COM-MOD-009-APP-001
+    command: npm run quality; npm audit --audit-level=low
+    working_directory: projects/healthcare-operations-platform/07-implementation/mobile-app
+    status: passed
+    tests_run_mobile: 40
+    failures: 0
+    errors: 0
+    skipped: 0
+    line_coverage_percent: 99.21
+    previous_line_coverage_floor_percent: 98.87
+    vulnerabilities: 0
+    additional_checks:
+    - Added PATIENT role, granular patient mobile permissions and permission-filtered
+      patient routes for profile, appointments, orders, results and notifications.
+    - Added patientMobileApi and patientMobileWorkflowModel with loading, ready, empty,
+      forbidden and error states while preserving the agent-agnostic FetchLike boundary.
+    - Externalized new and changed mobile labels/messages in es-MX/en-US, materially
+      reducing TD-I18N-002; dynamic role-permission navigation materially reduced
+      TD-IAM-002.
+    - Mobile quality gate passed with 12 test files, 40 tests, 0 failures/errors/skipped,
+      99.21% line coverage, duplicate-code/static-analysis/format checks passed and
+      npm audit reported 0 vulnerabilities.
+  previous_validation_com_mod_009_portal_002:
+    backlog_item_id: COM-MOD-009-PORTAL-002
+    command: npm.cmd run quality (doctor-portal); mvn -Pquality "-Dhop.local-db-tests=true"
+      clean verify (backend)
+    working_directory: projects/healthcare-operations-platform/07-implementation/doctor-portal
+    status: passed
+    tests_run_backend: 280
+    tests_run_frontend: 30
+    failures: 0
+    errors: 0
+    skipped_backend: 0
+    skipped_frontend: 0
+    additional_checks:
+    - Rebuilt doctor-portal SessionContext/permissions.ts for the REFERRING_DOCTOR
+      domain, replacing a stale employee-portal-domain scaffold and a role-code mismatch
+      ("DOCTOR" vs the backend's actual REFERRING_DOCTOR) that would have denied every
+      protected call.
+    - 'Added real backend least-privilege enforcement: DiagnosticOrderController doctorId
+      query filter, a new ReferringDoctorAuthorizationPort Spring Modulith named interface
+      consumed by resultsanddigitaldelivery, and 3 new HopAuthorizationInterceptor
+      REFERRING_DOCTOR self-access blocks (orders, results history, notifications).'
+    - Doctor-portal coverage raised from 40.62% to 89.86% (TD-FE-009 closed); backend
+      coverage raised from 80.49% to 80.60% with no regression.
+    - OWASP Dependency-Check (65 backend dependencies), npm audit (doctor-portal)
+      and Trivy filesystem scans (both stacks) all reported 0 vulnerabilities/secrets/misconfigurations.
+  previous_validation_com_mod_009_portal_001:
+    backlog_item_id: COM-MOD-009-PORTAL-001
+    command: npm.cmd run test:coverage
+    working_directory: projects/healthcare-operations-platform/07-implementation/patient-portal
+    status: passed
+    tests_run_backend: 269
+    tests_run_frontend: 18
+    failures: 0
+    errors: 0
+    skipped_backend: 0
+    skipped_frontend: 0
+    additional_checks:
+    - Verified HL7, ASTM, FHIR connection adapters, exponential-backoff retries, dead-letter
+      routing, and SHA-256 correlation ID propagation.
+    - Verified API governance surfaces, deprecation window scheduling, partner key
+      issuance, and rate limiting interceptors.
+    - Verified ingestion file parsing (CSV, JSON, NDJSON, ZIP, XLSX), dry-run validations,
+      checkpointed imports, and reconciliation reports.
+    - Checked traceability of openapi-source.md vs controllers, ui-model.md vs
+      screens, and permissions mapping. Checked observability logging of administrative
+      actions.
+  previous_validation_mvp_mod_008_fe_001:
+    backlog_item_id: MVP-MOD-008-FE-001
+    command: 'Employee portal `npm run quality` passed in 07-implementation/employee-portal:
+      101 tests, 0 failures, line coverage 86.47%, up from the 85.50% floor. `npm
+      run audit:all` passed with 0 vulnerabilities. Trivy filesystem scan over employee
+      portal passed with 0 vulnerabilities and no secrets. YAML parse passed for 893
+      files. Agent-agnostic scan over touched source/test files passed. `git diff
+      --check` passed with CRLF normalization warnings only and no whitespace errors.
+
+      '
+    working_directory: projects/healthcare-operations-platform/07-implementation/employee-portal
+    status: passed
+    tests_run_frontend: 101
+    failures: 0
+    errors: 0
+    skipped_frontend: 0
+    additional_checks:
+    - Added typed integrationMigrationApi facade for BCM-PLT-004/005/010 endpoints,
+      including JSON commands and multipart migration package upload.
+    - Added IntegrationEndpointsScreen, ApiManagementScreen and MigrationJobsScreen
+      with permission-filtered navigation and es-MX/en-US labels.
+    - Added API/client/screen/navigation tests and updated ADMIN navigation tests
+      from 27 to 30 permission-filtered tabs.
+    - TD-STACK-003 further reduced with a generated-client-shaped facade but remains
+      open until a rendered OpenAPI document can be used for an actual OpenAPI Generator
+      client replacement.
+    - TD-I18N-002 reduced through full externalization of new visible labels/messages;
+      TD-FE-010 registered for non-blocking generated admin-screen size/complexity
+      warnings.
+    - Backend (80.49%), mobile (98.87%), patient portal (41.93%) and doctor portal
+      (40.62%) were unchanged and not touched by this backlog item.
+  previous_validation_mvp_mod_008_be_002:
+    backlog_item_id: MVP-MOD-008-BE-002
+    command: 'Backend `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` passed
+      in 07-implementation/backend: 265 tests, 0 failures, 0 errors, 0 skipped; JaCoCo
+      line coverage 80.49%, up from the 80.08% floor. `mvn -Pquality org.owasp:dependency-check-maven:check`
+      passed with 0 vulnerabilities (including the new org.apache.poi:poi-ooxml:5.4.1
+      dependency). `trivy fs --scanners vuln,secret,misconfig .` passed with 0 vulnerabilities/secrets/
+      misconfigurations. `git diff --check` passed with 0 whitespace errors.
+
+      '
+    working_directory: projects/healthcare-operations-platform/07-implementation/backend
+    status: passed
+    tests_run_backend: 265
+    failures: 0
+    errors: 0
+    skipped_backend: 0
+  previous_validation_mvp_mod_008_be_001:
+    backlog_item_id: MVP-MOD-008-BE-001
+    command: 'Backend `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` passed
+      in 07-implementation/backend: 239 tests, 0 failures, 0 errors, 0 skipped; JaCoCo
+      line coverage 80.08%, reaching the 80% final-closure target (up from the 78.51%
+      floor). `mvn -Pquality org.owasp:dependency-check-maven:check` passed with 0
+      vulnerabilities (including the new commons-csv 1.14.1 dependency). `trivy fs
+      --scanners vuln,secret,misconfig .` passed with 0 vulnerabilities/secrets/misconfigurations.
+      `git diff --check` passed with 0 whitespace errors.
+
+      '
+    working_directory: projects/healthcare-operations-platform/07-implementation/backend
+    status: passed
+    tests_run_backend: 239
+    failures: 0
+    errors: 0
+    skipped_backend: 0
+    additional_checks:
+    - Compiled backend outputs for BCM-PLT-004 Integration Management, BCM-PLT-005
+      API Management and BCM-PLT-010 Open Data Ingestion and Migration into two new
+      Spring Modulith modules (integrationinteroperability, datamigrationportability),
+      verified by PlatformFoundationModulithTest. Every openapi-source.md operation
+      across all three capabilities is functional; no endpoint responds unimplemented.
+      Explicit MVP-MOD-008-BE-002 refinement hooks (bounded retry/dead-letter, deprecation/rate-limit
+      governance, real domain-command execution and checkpointed retry) are documented
+      in code Javadoc, traceability.md and QA/security evidence, matching the MVP-MOD-004-BE-001
+      precedent.
+    - Registered EndpointPermissionRegistry rules and PermissionCode values for all
+      3 new base paths (/api/platform/integration, /api/platform/api-management, /api/platform/migration);
+      unmapped paths are otherwise silently allowed by HopAuthorizationInterceptor,
+      so this was verified deliberately.
+    - Materially reduced TD-STACK-003 (extended the openapi-source.md-to-controller
+      compensating control; deliberately deferred introducing OpenAPI-Generator tooling
+      for only 3 of 18 modules) and TD-I18N-002 (implemented the first-class `code`
+      error field modeled by MVP-MOD-008-DEF for the first time in HOP's backend)
+      with real code, not modeling-only decisions. Registered TD-BE-013 for the one
+      real scope gap found during implementation (XLSX row-level parsing deferred;
+      Apache POI's dependency footprint judged disproportionate to near-term provider
+      demand).
+    - Backend coverage improved from 78.51% to 80.08%, reaching the stack's 80% final-closure
+      target for the first time in the project; employee portal (85.50%), mobile (98.87%),
+      patient portal (41.93%) and doctor portal (40.62%) unchanged and not regressed
+      (this backlog item did not touch those stacks).
+  previous_validation_mvp_mod_008_def:
+    backlog_item_id: MVP-MOD-008-DEF
+    command: 'Definition-only backlog item: no build/test/coverage command applies.
+      Modeled the full 14-artifact capability package set for BCM-PLT-004 Integration
+      Management, BCM-PLT-005 API Management and BCM-PLT-010 Open Data Ingestion and
+      Migration (42 artifacts). YAML parse passed on all 51 new/touched files; `git
+      diff --check` passed with 0 whitespace errors; agent-agnostic scan passed with
+      0 matches; stale-pointer sweep passed. Materially reduced TD-STACK-003 and TD-I18N-002
+      via modeling-stage decisions (no code changed).
+
+      '
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_backend: 211
+    tests_run_employee_portal: 89
+    tests_run_patient_portal: 1
+    tests_run_doctor_portal: 1
+    tests_run_mobile: 31
+    failures: 0
+    errors: 0
+    skipped_backend: 0
+    additional_checks:
+    - 'Modeled 3 capability packages for MVP-MOD-008 Integration and Migration Readiness:
+      BCM-PLT-004 Integration Management (owns new IntegrationEndpoint aggregate;
+      models IntegrationAdapterPort mirroring the FiscalAdapterPort/NotificationProviderPort/
+      DocumentStoragePort pattern), BCM-PLT-005 API Management (owns new ApiSurfaceRegistration
+      aggregate; governs public/internal/partner classification, partner API keys
+      and rate limits), and BCM-PLT-010 Open Data Ingestion and Migration (owns AGG-016
+      MigrationJob per aggregate-catalog.md; implements the pre-existing HOP Open
+      Data Ingestion Standard and Contract without redefinition).'
+    - 'Confirmed no duplicate or competing aggregate: integration-interoperability
+      had no prior aggregate; BCM-PLT-004/BCM-PLT-005 each own a distinct new aggregate
+      within that bounded context. BCM-PLT-010''s ImportBatch/ImportValidationReport
+      are documented as the same conceptual entities aggregate-catalog.md''s AGG-016
+      calls SourceDataset/ValidationReport, using the exact names capability-dependency-map.md''s
+      related_aggregates list uses for BCM-PLT-010.'
+    - Materially reduced TD-STACK-003 (no OpenAPI-Generator client/server generation)
+      by designating BCM-PLT-005 as the concrete pilot target for a generated TypeScript
+      client, scheduled for MVP-MOD-008-FE-001, and TD-I18N-002 (structured error
+      codes / full i18n adoption) by modeling a first-class `code` error field and
+      reserved message-key namespaces for the first three externally/system-facing
+      HOP capabilities, hitting that item's own recommended trigger for the first
+      time. Neither reduction implements code.
+    - No code was implemented in this backlog item; backend coverage remains 78.51%,
+      employee portal 85.50%, mobile 98.87%, patient portal 41.93% and doctor portal
+      40.62%, all unchanged and not regressed.
+  previous_validation_mvp_mod_007_closeout:
+    backlog_item_id: MVP-MOD-007-CLOSEOUT
+    command: 'Backend `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` passed
+      in 07-implementation/backend: 211 tests, 0 failures, 0 errors, 0 skipped; JaCoCo
+      line coverage 78.51%, at or above the 78.42% floor. Employee portal `npm run
+      quality` and `npm audit --audit-level=low` passed in 07-implementation/employee-portal:
+      89 tests, coverage 85.50%, 0 vulnerabilities. Patient portal and doctor portal
+      `npm run quality` and `npm audit --audit-level=low` passed with 0 vulnerabilities
+      each (coverage 41.93% and 40.62%, first measurement). Mobile app `npm run quality`
+      and `npm audit --audit-level=low` passed in 07-implementation/mobile-app: 31
+      tests, coverage 98.87%, 0 vulnerabilities. `git diff --check` passed with 0
+      whitespace errors.
+
+      '
+    working_directory: projects/healthcare-operations-platform/07-implementation
+    status: passed
+    tests_run_backend: 211
+    tests_run_employee_portal: 89
+    tests_run_patient_portal: 1
+    tests_run_doctor_portal: 1
+    tests_run_mobile: 31
+    failures: 0
+    errors: 0
+    skipped_backend: 0
+    additional_checks:
+    - 'Closed TD-BE-010: DiagnosticOrderManagementService.cancel() now consults the
+      laboratoryworkflow SampleReadPort (implemented by OrderSamplesService since
+      MVP-MOD-006-BE-002) to check real collected-sample state instead of relying
+      solely on order status as a proxy. frontdeskcaredelivery''s Spring Modulith
+      allowedDependencies was extended to laboratoryworkflow::sample-read-port; the
+      Modulith boundary test and all 19 FrontDeskCareDeliveryApiTest cases (including
+      a new test proving the real-sample trigger) pass.'
+    - 'Found and fixed a real employee-portal coverage regression: MVP-MOD-007-PORTAL-001
+      had expanded laboratoryOperationsApi.ts and laboratoryResultMapper.ts without
+      a dedicated unit test, silently dropping coverage from the 84.44% floor to 84.03%.
+      Added src/test/laboratoryOperationsApi.test.ts mirroring the existing cashSalesApi.test.ts/
+      frontDeskApi.test.ts pattern, restoring coverage to 85.50%.'
+    - Measured patient-portal and doctor-portal line coverage for the first time (41.93%
+      and 40.62%); MVP-MOD-007-PORTAL-001 had closed these stacks with only an application
+      smoke test and never recorded a coverage percentage. Registered TD-FE-008 and
+      TD-FE-009 to track and raise these toward the 80% target without blocking this
+      closeout, consistent with how TD-FE-004/TD-APP-002 were opened for employee-portal/mobile
+      at their own inception.
+    - Re-confirmed mobile app coverage at 98.87% (31 tests) with no code changes,
+      correcting the stale 97.15% figure that technical-debt-index.md and this file
+      had not yet synced from MVP-MOD-007-APP-001's own evidence.
+    - 'Re-validated the MVP-MOD-007 acceptance summary: ResultReportServiceTest (4
+      tests) confirms PDF report generation for released results; CriticalResultEscalationServiceTest
+      (5 tests) and ResultNotificationServiceTest/NotificationManagementServiceTest
+      (3 tests each) confirm traceable critical-result notification workflows; MVP-MOD-007-PORTAL-001''s
+      permission- filtered, authorized-only released-result access for patients and
+      doctors was re-confirmed by re-running its recorded evidence rather than re-derived
+      from scratch.'
+  previous_validation_mvp_mod_007_qa_001:
+    backlog_item_id: MVP-MOD-007-QA-001
+    command: 'Backend `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` passed
+      in 07-implementation/backend: 210 tests, 0 failures, 0 errors, 0 skipped; JaCoCo
+      line coverage 78.42%, at or above the 77.92% floor. `git diff --check` passed
+      with 0 whitespace errors.
+
+      '
+    working_directory: projects/healthcare-operations-platform/07-implementation/backend
+    status: passed
+    tests_run_frontend: 86
+    tests_run_mobile: 17
+    tests_run_backend: 190
+    failures: 0
+    errors: 0
+    skipped_backend: 0
+    additional_checks:
+    - Established the es-MX/en-US enterprise localization baseline (backend Spring
+      MessageSource, frontend/mobile locale-keyed catalogs with a working employee-portal
+      language switch), a 27-permission IAM catalog with request-time backend authorization
+      enforcement, API/action permission mapping, permission-filtered dynamic navigation,
+      session headers, database architecture/dictionary/normalization/seed deliverables
+      plus country/locale/currency and diagnostic catalog reference seed data, a UX/UI
+      design-token baseline, and a persistence/ contract-first generation review (JPA
+      and OpenAPI Generator evaluated and deferred).
+    - Closed TD-BE-009, TD-IAM-001 and TD-APP-002; materially reduced TD-I18N-002
+      and TD-IAM-002; remaining productization gaps stay registered instead of being
+      left undocumented.
+    - Backend line coverage improved to 77.92%, frontend to 84.44%, and mobile coverage
+      was established at 97.15%; all applicable stacks improved or established a baseline
+      with no regression.
+    - 'Found and fixed two real defects during validation: a coverage-measurement
+      methodology gap (local-database tests must be enabled to exercise Jdbc repositories)
+      and a genuinely stale, manually-duplicated Docker-init copy of platform-foundation/schema.sql
+      that caused two local-database integration tests to fail against a live Postgres
+      instance until resynced (registered as TD-STACK-004).'
+  previous_validation_mvp_mod_007_fe_001:
+    backlog_item_id: MVP-MOD-007-FE-001
+    command: 'Frontend quality suite passed via `npm run quality` (typecheck, lint,
+      test:coverage, build, duplication, format:check, license:check) in 07-implementation/employee-portal;
+      backend `mvn -o test` passed in 07-implementation/backend; `trivy fs --scanners
+      vuln,secret,misconfig` passed at the repository root.
+
+      '
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run_frontend: 79
+    tests_run_backend: 156
+    failures: 0
+    errors: 0
+    skipped_backend: 9
+    additional_checks:
+    - 'Discovered and closed a real frontend/backend contract gap left by MVP-MOD-007-BE-001/
+      BE-002: no REST adapter existed for result search-by-status (BCM-RES-001), report
+      history/ regenerate (BCM-RES-002) or notification history (BCM-RES-007). Built
+      the missing repository/service/controller layers end to end rather than shipping
+      a mismatched frontend.'
+    - Fixed a Spring Modulith module-boundary violation exposed by wiring DocumentManagementService
+      into the new ResultReportService (documentmanagement lacked NamedInterfaces
+      despite already being an allowed dependency).
+    - Frontend line coverage improved from the 82.69% floor to 83.98%; backend line
+      coverage improved from the 76.93% floor to 76.99%; both stacks improved with
+      no regression.
+    - Registered TD-FE-007 for a pre-existing, out-of-scope LaboratoryResult wire-shape
+      mismatch between the employee-portal FE type and the real BCM-LAB-006 backend
+      record, worked around locally via response normalization in resultsDeliveryApi.ts.
+  historical_latest_validation_superseded:
+    backlog_item_id: MVP-MOD-007-BE-002
+    command: 'Backend quality lifecycle with local database tests passed via `mvn
+      --settings .mvn/settings.xml -Pquality "-Dhop.local-db-tests=true" verify`;
+      151 tests run, 0 failures, 0 errors, 0 skipped. JaCoCo backend line coverage
+      improved from 76.77% to 76.93%. Technical debt TD-BE-012 has been burned down
+      for document-management and results-delivery scope.
+
+      '
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run: 151
+    failures: 0
+    errors: 0
+    skipped: 0
+    additional_checks:
+    - Remediated path traversal vulnerabilities and SpotBugs CT_CONSTRUCTOR_THROW
+      issues in LocalFilesystemDocumentAdapter before implementing business rules,
+      resolving TD-BE-012.
+    - Implemented and validated all custom rules under BCM-RES-004 Digital Delivery,
+      BCM-RES-006 Critical Results, BCM-RES-007 Result Notifications, BCM-PLT-003
+      Notification Management, and BCM-PLT-008 Document Management.
+    - Verified Spring Modulith module boundary correctness by defining and referencing
+      NamedInterfaces.
+    - 'Corrective static-analysis validation passed: Spotless targeted check passed;
+      PMD/CPD/SpotBugs/ Duplicate Finder build succeeded with remaining historical
+      repo-wide findings outside this backlog scope; OWASP Dependency-Check passed;
+      Trivy source-scope scan passed with 0 pom.xml vulnerabilities.'
+  historical_backlog_item_superseded_before_that:
+    backlog_item_id: MVP-MOD-007-BE-001
+    command: 'Backend quality lifecycle with local database tests passed via `mvn
+      --settings .mvn/settings.xml -Pquality "-Dhop.local-db-tests=true" verify`;
+      133 tests run, 0 failures, 0 errors, 0 skipped. JaCoCo backend line coverage
+      improved from 76.39% to 76.77%. Repo-wide static analysis findings were registered
+      as TD-BE-012 for next-iteration burn-down.
+
+      '
+    working_directory: projects/healthcare-operations-platform
+    status: passed
+    tests_run: 133
+    failures: 0
+    errors: 0
+    skipped: 0
+    additional_checks:
+    - 'Preflight found and corrected residual stale metadata from MVP-MOD-006''s closure:
+      root and project active_module/current_module/ready_to_start_module/in_progress_module
+      still named MVP-MOD-006; completed_backlog_items had duplicated/misplaced MVP-MOD-007-DEF
+      entries and was missing MVP-MOD-006-BE-001/FE-001; next_deliverables incorrectly
+      described MVP-MOD-007-DEF as backend compilation; project SOURCE_OF_TRUTH.md
+      had a garbled "MVP-MOD-007-DEF is closed" phrase; HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md''s
+      next_backlog_item still pointed at MVP-MOD-006/backend; HOP_COMMERCIAL_PRODUCT_BACKLOG.md''s
+      completed_module still named MVP-MOD-005; all 7 bcm-lab-* capability packages
+      still carried next_backlog_item: MVP-MOD-006-BE-001 and pending backlog-item
+      statuses. All corrected in this pass before modeling began.'
+    - 'Modeled 8 capability packages for MVP-MOD-007 Results and Digital Delivery:
+      BCM-RES-001 Result Management (read-only facade over LaboratoryResult), BCM-RES-002
+      PDF Report Generation (owns GeneratedResultReport), BCM-RES-004 Digital Delivery
+      (owns ResultDeliveryTicket), BCM-RES-005 Result History (owns PatientResultHistoryView),
+      BCM-RES-006 Critical Results (owns CriticalResultEscalation), BCM-RES-007 Result
+      Notifications (owns ResultNotificationRequest), BCM-PLT-003 Notification Management
+      (owns NotificationRequest, NotificationProviderPort), BCM-PLT-008 Document Management
+      (owns StoredDocument, DocumentStoragePort), each with the full 14-artifact set.'
+    - LaboratoryResult (AGG-009, owned by BCM-LAB-006) is read-only end to end across
+      all 8 packages; no package duplicates its ownership. New entities (GeneratedResultReport,
+      ResultDeliveryTicket, CriticalResultEscalation, ResultNotificationRequest, NotificationRequest,
+      StoredDocument, PatientResultHistoryView/ResultSearchIndexEntry read projections)
+      satisfy the "no duplicate ownership; use snapshots/events/read models" rule.
+    - NotificationProviderPort (BCM-PLT-003) and DocumentStoragePort (BCM-PLT-008)
+      are modeled as provider-agnostic adapter boundaries, mirroring the FiscalAdapterPort
+      pattern established in MVP-MOD-005-BE-002.
+    - Confirmed canonical capability names against BCM-001 and dependency profiles/aggregate
+      references against BCM-002 and the domain foundation; no invented names. Recorded
+      a non-blocking traceability observation that context-map.md does not yet formalize
+      a document-management bounded-context relationship (architecture-map changes
+      require an ADR, out of scope for a definition-only backlog item).
+    - Advanced every active/current/next pointer to MVP-MOD-007-BE-002; confirmed
+      via repository-wide grep that no live registry still names MVP-MOD-006-* as
+      active/current/next pointer (only immutable historical evidence retains it).
+    - 'HOP remains explicitly not commercially complete or GA-ready: no code was implemented
+      in this backlog item, backend coverage remains 76.39% and frontend 82.69%, both
+      unchanged.'
+module_closeout:
+  MVP-MOD-007:
+    status: completed
+    readiness: ready_for_next_module
+    closeout_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.md
+    closeout_evidence_md: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.md
+    security_quality_evidence: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/security-quality-evidence.md
+    security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/security-quality-evidence.md
+    technical_debt_registered:
+    - TD-BE-010 (closed by MVP-MOD-007-CLOSEOUT)
+    - TD-FE-008 (opened by MVP-MOD-007-CLOSEOUT)
+    - TD-FE-009 (opened by MVP-MOD-007-CLOSEOUT)
+    known_boundaries:
+    - Backend coverage (78.51%) remains below the 80% final-closure target, tracked
+      by TD-BE-003.
+    - Employee portal coverage (85.50%) and mobile coverage (98.87%) meet the 80%
+      target for those stacks but must not regress.
+    - Patient-portal (41.93%) and doctor-portal (40.62%) coverage were measured for
+      the first time and remain below the 80% target, tracked by TD-FE-008/TD-FE-009;
+      their functional surface expansion is planned under COM-MOD-009.
+    - HOP is not commercially complete or GA-ready; MVP-MOD-008 and later releases
+      remain planned.
+  MVP-MOD-006:
+    status: completed
+    readiness: ready_for_next_module
+  MVP-MOD-001:
+    status: implemented
+    readiness: ready_for_functional_validation
+    closeout_evidence: 08-qa/qa/platform-foundation/MVP-MOD-001-closeout.md
+    known_boundaries:
+    - Production identity provider integration remains outside MVP-MOD-001.
+    - Native mobile UI binding remains outside MVP-MOD-001.
+    - Enterprise modules beyond Platform Foundation remain outside MVP-MOD-001.
+  MVP-MOD-002:
+    status: completed
+    readiness: ready_for_functional_validation
+    closeout_evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-CLOSEOUT.md
+    closeout_evidence_md: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-CLOSEOUT.md
+    security_quality_evidence: 08-qa/security-quality/MVP-MOD-002-CLOSEOUT/security-quality-evidence.md
+    stack_market_refresh_completed: true
+    immediate_stack_change: PostgreSQL JDBC 42.7.11 -> 42.7.12 security patch
+    technical_debt_registered:
+    - TD-BE-002
+    - TD-BE-003
+    - TD-BE-004
+    - TD-STACK-001
+    known_boundaries:
+    - Patient and doctor portal catalog views remain later read-only scope.
+    - Mobile app surface is not required for the Diagnostic Catalog module.
+    - Release-readiness supply-chain gates (SBOM, license, DAST) remain tracked technical
+      debt.
+  MVP-MOD-003:
+    status: completed
+    readiness: ready_for_functional_validation
+    closeout_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-CLOSEOUT.md
+    closeout_evidence_md: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-CLOSEOUT.md
+    security_quality_evidence: 08-qa/security-quality/MVP-MOD-003-CLOSEOUT/security-quality-evidence.md
+    technical_debt_registered:
+    - TD-BE-005
+    - TD-BE-006
+    - TD-BE-007
+    - TD-BE-008
+    - TD-FE-002
+    known_boundaries:
+    - Patient and doctor self-service portal account linking remains later scope.
+    - Mobile patient profile surfaces remain later scope.
+    - Additional patient/doctor editor, document and specialty UI surfaces remain
+      tracked technical debt.
+  MVP-MOD-004:
+    status: completed
+    readiness: ready_for_next_module
+    closeout_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-CLOSEOUT.md
+    closeout_evidence_md: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-CLOSEOUT.md
+    security_quality_evidence: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/security-quality-evidence.md
+    security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/security-quality-evidence.md
+    technical_debt_registered:
+    - TD-BE-009
+    - TD-BE-010
+    - TD-FE-005
+    - TD-FE-006
+    known_boundaries:
+    - Appointment Scheduling, Admission Management and Quotation Management employee-portal
+      screens remain tracked by TD-FE-006.
+    - Production CSP, COEP and cache-control headers remain tracked by TD-FE-005.
+    - Final HOP product closure still requires all technical debt closed and all applicable
+      stack coverage at or above 80%.
+  MVP-MOD-005:
+    status: completed
+    readiness: ready_for_next_module
+    closeout_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.md
+    closeout_evidence_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.md
+    security_quality_evidence: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.md
+    security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.md
+    technical_debt_registered:
+    - TD-DEF-001 (closed by MVP-MOD-005-BE-001)
+    - TD-BE-011 (closed by MVP-MOD-005-BE-002)
+    - TD-FE-004 (closed by MVP-MOD-005-FE-001)
+    - TD-BE-001 (closed by MVP-MOD-005-QA-001)
+    coverage_measurement_correction: MVP-MOD-005-QA-001 originally reported backend
+      line coverage at 68.66%; a clean-rebuild remeasurement during MVP-MOD-005-CLOSEOUT
+      found the accurate figure is 76.39% (unchanged from MVP-MOD-005-BE-002), caused
+      by a non-clean multi-run jacoco.exec accumulation. Corrected across all referencing
+      registries.
+    known_boundaries:
+    - Backend coverage (76.39%) remains below the 80% final-closure target, tracked
+      by TD-BE-003.
+    - Frontend coverage (82.69%) meets the 80% target for this stack but must not
+      regress.
+    - 14 technical-debt items remain open project-wide, none scoped to MVP-MOD-005;
+      final HOP product closure still requires all technical debt closed and all applicable
+      stacks at or above 80% coverage.
+    - HOP is not commercially complete or GA-ready; MVP-MOD-006, MVP-MOD-007 and MVP-MOD-008
+      remain planned within REL-001 alone.
+commercial_product_progress:
+  status: active
+  backlog: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
+  quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.md
+  enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.md
+  execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
+  current_iteration: COM-MOD-017
+  active_module: Product Marketplace and Extension Packaging
+  active_backlog_item: COM-MOD-017-BE-002
+  quality_alignment_module_status: closed
+  enterprise_foundation_alignment_status: closed
+  enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
+  paused_functional_module: null
+  paused_functional_backlog_item: null
+  primary_development_unit: business_capability_package
+  capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.md
+  capability_package_progress:
+    COM-MOD-017:
+      name: Product Marketplace and Extension Packaging
+      package_status: compiled
+      backlog_item: COM-MOD-017-BE-001
+      backlog_item_status: closed
+      next_backlog_item: COM-MOD-017-BE-002
+      execution_flow_stage: ready_for_custom_rules
+      capabilities:
+      - capability: BCM-PLT-011
+        package_status: compiled
+      - capability: BCM-PLT-001
+        package_status: reused_marketplace_entitlement_guard
+      - capability: BCM-PLT-002
+        package_status: reused_marketplace_configuration
+      - capability: BCM-PLT-005
+        package_status: reused_marketplace_api_boundary
+      - capability: BCM-PLT-006
+        package_status: reused_marketplace_observability
+      - capability: BCM-PLT-007
+        package_status: reused_marketplace_audit
+      - capability: BCM-PLT-009
+        package_status: reused_marketplace_lifecycle_workflows
+      new_capability_packages_created: 1
+      new_aggregates_or_schemas_created: 4
+      bounded_contexts:
+      - marketplace-entitlements
+      - identity-access
+      - platform-operations
+      - integration-interoperability
+      - audit-compliance
+      qa_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.md
+      security_quality_evidence: 08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.md
+    COM-MOD-016:
+      name: Commercial Launch and Customer Enablement
+      package_status: module_closed
+      backlog_item: COM-MOD-016-CLOSEOUT
+      backlog_item_status: closed
+      execution_flow_stage: released
+      capabilities:
+      - capability: BCM-ORG-001
+        package_status: module_closed
+      - capability: BCM-ORG-002
+        package_status: module_closed
+      - capability: BCM-ORG-003
+        package_status: module_closed
+      - capability: BCM-PLT-002
+        package_status: module_closed
+      - capability: BCM-PLT-006
+        package_status: module_closed
+      - capability: BCM-PLT-007
+        package_status: module_closed
+      - capability: BCM-PLT-008
+        package_status: module_closed
+      new_capability_packages_created: 0
+      new_aggregates_or_schemas_created: 0
+      bounded_contexts:
+      - organization-management
+      - platform-operations
+      - audit-compliance
+      - document-management
+      qa_evidence: 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-QA-001-validation.md
+      qa_evidence_md: 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-QA-001-validation.md
+      closeout_evidence: 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-CLOSEOUT-validation.md
+      closeout_evidence_md: 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-CLOSEOUT-validation.md
+      security_quality_evidence_closeout: 08-qa/security-quality/COM-MOD-016-CLOSEOUT/security-quality-evidence.md
+      security_quality_evidence_closeout_md: 08-qa/security-quality/COM-MOD-016-CLOSEOUT/security-quality-evidence.md
+      technical_debt_closed: []
+      technical_debt_materially_reduced: []
+      technical_debt_registered_open_non_blocking:
+      - TD-QA-008
+      ready_for_compilation: true
+      backend_compilation_completed: not_applicable_documentation_registry_module
+      ready_for_custom_rule_implementation: true
+      ready_for_ui_compilation: not_applicable_no_new_ui_surface
+      module_validated: true
+      ready_for_closeout: true
+      module_closed: true
+    COM-MOD-012:
+      name: Platform Hardening and SaaS Operations
+      package_status: module_closed
+      backlog_item: COM-MOD-012-CLOSEOUT
+      backlog_item_status: closed
+      execution_flow_stage: released
+      capabilities:
+      - capability: BCM-ORG-001
+        package_status: compiled
+      - capability: BCM-PLT-001
+        package_status: extended_saas_iam_controls
+      - capability: BCM-PLT-002
+        package_status: compiled
+      - capability: BCM-PLT-005
+        package_status: extended_api_hardening
+      - capability: BCM-PLT-006
+        package_status: compiled
+      - capability: BCM-PLT-007
+        package_status: modeled
+      - capability: BCM-PLT-008
+        package_status: extended_operational_docs
+      - capability: BCM-PLT-009
+        package_status: modeled
+      new_capability_packages_created: 1
+      new_aggregates_or_schemas_created: 1
+      bounded_contexts:
+      - organization-management
+      - identity-access
+      - platform-operations
+      - integration-interoperability
+      - audit-compliance
+      - document-management
+      qa_evidence: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-CLOSEOUT-validation.md
+      qa_evidence_md: 08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-CLOSEOUT-validation.md
+      technical_debt_closed:
+      - TD-QA-005
+      - TD-QA-006
+      technical_debt_materially_reduced:
+      - TD-STACK-001
+      - TD-I18N-002
+      - TD-IAM-002
+      - TD-DB-004
+      technical_debt_registered_open_non_blocking:
+      - TD-OBS-001
+      - TD-BE-016
+      - TD-BE-017
+      - TD-IAM-003
+      stale_pointers_corrected:
+      - operational_strategy status: active -> closed in all 8 COM-MOD-012 traceability.md
+          files
+      - duplicate active_capability_package_groups block in capability-package-index.md
+        still listing COM-MOD-011 as active (removed)
+      ready_for_compilation: true
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
+      ready_for_ui_compilation: not_applicable_no_new_ui_surface
+      ready_for_module_validation: true
+      module_validated: true
+      ready_for_closeout: true
+      module_closed: true
+    COM-MOD-013:
+      name: Advanced Quality and Compliance
+      package_status: module_closed
+      backlog_item: COM-MOD-013-CLOSEOUT
+      backlog_item_status: closed
+      execution_flow_stage: released
+      capabilities:
+      - capability: BCM-QLT-002
+        package_status: module_closed
+      - capability: BCM-QLT-006
+        package_status: module_closed
+      - capability: BCM-QLT-007
+        package_status: module_closed
+      - capability: BCM-PLT-007
+        package_status: module_closed
+      - capability: BCM-PLT-008
+        package_status: module_closed
+      new_capability_packages_created: 3
+      new_aggregates_or_schemas_created: 4
+      bounded_contexts:
+      - external-quality-compliance
+      - audit-compliance
+      - document-management
+      qa_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.md
+      qa_evidence_md: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.md
+      closeout_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-CLOSEOUT-validation.md
+      closeout_evidence_md: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-CLOSEOUT-validation.md
+      security_quality_evidence_closeout: 08-qa/security-quality/COM-MOD-013-CLOSEOUT/security-quality-evidence.md
+      security_quality_evidence_closeout_md: 08-qa/security-quality/COM-MOD-013-CLOSEOUT/security-quality-evidence.md
+      technical_debt_closed:
+      - TD-DB-005
+      - TD-QA-007
+      technical_debt_materially_reduced:
+      - TD-I18N-002
+      - TD-FE-010
+      technical_debt_registered_open_non_blocking:
+      - TD-IAM-004
+      ready_for_compilation: true
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
+      ready_for_ui_compilation: true
+      ui_compilation_completed: true
+      ready_for_module_validation: true
+      module_validated: true
+      ready_for_closeout: true
+      module_closed: true
+    COM-MOD-011:
+      name: Public Website and Digital Growth
+      package_status: module_closed
+      backlog_item: COM-MOD-011-CLOSEOUT
+      backlog_item_status: closed
+      execution_flow_stage: released
+      packages_reused:
+      - capability: BCM-SVC-001
+        owning_roadmap_group: MVP-MOD-002
+      - capability: BCM-SVC-002
+        owning_roadmap_group: MVP-MOD-002
+      - capability: BCM-SVC-003
+        owning_roadmap_group: MVP-MOD-002
+      - capability: BCM-SVC-005
+        owning_roadmap_group: MVP-MOD-002
+      - capability: BCM-ATT-001
+        owning_roadmap_group: MVP-MOD-004
+      - capability: BCM-ATT-006
+        owning_roadmap_group: MVP-MOD-004
+      - capability: BCM-PLT-005
+        owning_roadmap_group: MVP-MOD-008
+      new_capability_packages_created: 0
+      new_aggregates_or_schemas_created: 0
+      bounded_contexts:
+      - catalog-test-configuration
+      - orders-samples
+      - cash-sales
+      - integration-interoperability
+      qa_evidence: 08-qa/qa/public-website-and-digital-growth/COM-MOD-011-CLOSEOUT-validation.md
+      qa_evidence_md: 08-qa/qa/public-website-and-digital-growth/COM-MOD-011-CLOSEOUT-validation.md
+      technical_debt_materially_reduced:
+      - TD-BE-015
+      - TD-UX-002
+      stale_pointers_corrected:
+      - BCM-ATT-001 capability-package.md/traceability.md
+      - BCM-ATT-006 capability-package.md/traceability.md
+      - BCM-PLT-005 capability-package.md/traceability.md
+      ready_for_compilation: true
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
+      ready_for_ui_compilation: true
+      employee_portal_ui_compiled: true
+      ready_for_module_validation: true
+      module_validated: true
+      ready_for_closeout: true
+      module_closed: true
+    COM-MOD-010:
+      name: Inventory and Internal Quality
+      package_status: module_closed
+      backlog_item: COM-MOD-010-CLOSEOUT
+      backlog_item_status: closed
+      execution_flow_stage: released
+      packages_modeled:
+      - BCM-INV-001
+      - BCM-INV-002
+      - BCM-INV-003
+      - BCM-INV-004
+      - BCM-INV-005
+      - BCM-INV-006
+      - BCM-INV-007
+      - BCM-INV-008
+      - BCM-INV-009
+      - BCM-QLT-001
+      - BCM-QLT-003
+      - BCM-QLT-004
+      - BCM-QLT-005
+      artifacts_per_package: 14
+      bounded_contexts:
+      - inventory-procurement
+      - internal-quality
+      aggregate_ownership:
+      - aggregate: AGG-013 InventoryItem
+        owner: BCM-INV-001
+        delegated_field_authority:
+          BCM-INV-002: reagentProfile
+          BCM-INV-003: lotProfile
+          BCM-INV-005: stockEntrySummary
+          BCM-INV-006: stockExitSummary
+          BCM-INV-007: consumptionSummary
+          BCM-INV-008: adjustmentSummary
+          BCM-INV-009: wasteSummary
+          BCM-QLT-003: calibrationRecord
+          BCM-QLT-004: equipmentProfile
+          BCM-QLT-005: maintenanceRecord
+      - aggregate: AGG-014 Supplier
+        owner: BCM-PER-006 Supplier Management (not yet modeled)
+        relationship: read/reference only from procurement records
+      - aggregate: AGG-015 InternalQualityControl
+        owner: BCM-QLT-001
+      qa_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-DEF-validation.md
+      qa_evidence_md: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-DEF-validation.md
+      qa_evidence_be_001: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-001-validation.md
+      qa_evidence_be_001_md: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-001-validation.md
+      security_quality_evidence: 08-qa/security-quality/COM-MOD-010-DEF/security-quality-evidence.md
+      security_quality_evidence_md: 08-qa/security-quality/COM-MOD-010-DEF/security-quality-evidence.md
+      security_quality_evidence_be_001: 08-qa/security-quality/COM-MOD-010-BE-001/security-quality-evidence.md
+      security_quality_evidence_be_001_md: 08-qa/security-quality/COM-MOD-010-BE-001/security-quality-evidence.md
+      qa_evidence_be_002: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-002-validation.md
+      qa_evidence_be_002_md: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-BE-002-validation.md
+      security_quality_evidence_be_002: 08-qa/security-quality/COM-MOD-010-BE-002/security-quality-evidence.md
+      security_quality_evidence_be_002_md: 08-qa/security-quality/COM-MOD-010-BE-002/security-quality-evidence.md
+      qa_evidence_fe_001: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-FE-001-validation.md
+      qa_evidence_fe_001_md: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-FE-001-validation.md
+      security_quality_evidence_fe_001: 08-qa/security-quality/COM-MOD-010-FE-001/security-quality-evidence.md
+      security_quality_evidence_fe_001_md: 08-qa/security-quality/COM-MOD-010-FE-001/security-quality-evidence.md
+      qa_evidence_qa_001: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-QA-001-validation.md
+      qa_evidence_qa_001_md: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-QA-001-validation.md
+      security_quality_evidence_qa_001: 08-qa/security-quality/COM-MOD-010-QA-001/security-quality-evidence.md
+      security_quality_evidence_qa_001_md: 08-qa/security-quality/COM-MOD-010-QA-001/security-quality-evidence.md
+      closeout_evidence: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-CLOSEOUT-validation.md
+      closeout_evidence_md: 08-qa/qa/inventory-and-internal-quality/COM-MOD-010-CLOSEOUT-validation.md
+      security_quality_evidence_closeout: 08-qa/security-quality/COM-MOD-010-CLOSEOUT/security-quality-evidence.md
+      security_quality_evidence_closeout_md: 08-qa/security-quality/COM-MOD-010-CLOSEOUT/security-quality-evidence.md
+      backend_be_001_implementation_root: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/inventoryquality/
+      backend_be_001_schema: 07-implementation/backend/src/main/resources/db/inventory-and-internal-quality/schema.sql
+      employee_portal_fe_001_implementation: 07-implementation/employee-portal/src/api/inventoryQualityApi.ts,
+        07-implementation/employee-portal/src/components/screens/InventoryCatalogScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/InventoryReagentsScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/InventoryLotsScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/InventoryProcurementScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/InventoryStockMovementsScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/InventoryAdjustmentsScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/InventoryWasteScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/InternalQualityControlsScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/CalibrationsScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/EquipmentScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/MaintenanceScreen.tsx
+      ready_for_compilation: true
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
+      ready_for_ui_compilation: true
+      employee_portal_ui_compiled: true
+      ready_for_module_validation: true
+      module_validated: true
+      ready_for_closeout: true
+      module_closed: true
+    COM-MOD-009:
+      name: Patient and Doctor Portals
+      package_status: module_closed
+      backlog_item: COM-MOD-009-CLOSEOUT
+      backlog_item_status: closed
+      execution_flow_stage: released
+      packages_modeled:
+      - BCM-PLT-001
+      artifacts_per_package: 14
+      bounded_contexts:
+      - identity-access
+      qa_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-DEF-validation.md
+      qa_evidence_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-DEF-validation.md
+      security_quality_evidence: 08-qa/security-quality/COM-MOD-009-DEF/security-quality-evidence.md
+      security_quality_evidence_md: 08-qa/security-quality/COM-MOD-009-DEF/security-quality-evidence.md
+      qa_evidence_be_001: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-BE-001-validation.md
+      qa_evidence_be_001_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-BE-001-validation.md
+      security_quality_evidence_be_001: 08-qa/security-quality/COM-MOD-009-BE-001/security-quality-evidence.md
+      security_quality_evidence_be_001_md: 08-qa/security-quality/COM-MOD-009-BE-001/security-quality-evidence.md
+      qa_evidence_portal_001: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-001-validation.md
+      qa_evidence_portal_001_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-001-validation.md
+      security_quality_evidence_portal_001: 08-qa/security-quality/COM-MOD-009-PORTAL-001/security-quality-evidence.md
+      security_quality_evidence_portal_001_md: 08-qa/security-quality/COM-MOD-009-PORTAL-001/security-quality-evidence.md
+      qa_evidence_portal_002: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.md
+      qa_evidence_portal_002_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.md
+      security_quality_evidence_portal_002: 08-qa/security-quality/COM-MOD-009-PORTAL-002/security-quality-evidence.md
+      security_quality_evidence_portal_002_md: 08-qa/security-quality/COM-MOD-009-PORTAL-002/security-quality-evidence.md
+      qa_evidence_app_001: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.md
+      qa_evidence_app_001_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.md
+      security_quality_evidence_app_001: 08-qa/security-quality/COM-MOD-009-APP-001/security-quality-evidence.md
+      security_quality_evidence_app_001_md: 08-qa/security-quality/COM-MOD-009-APP-001/security-quality-evidence.md
+      qa_evidence_qa_001: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-QA-001-validation.md
+      qa_evidence_qa_001_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-QA-001-validation.md
+      security_quality_evidence_qa_001: 08-qa/security-quality/COM-MOD-009-QA-001/security-quality-evidence.md
+      security_quality_evidence_qa_001_md: 08-qa/security-quality/COM-MOD-009-QA-001/security-quality-evidence.md
+      closeout_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-CLOSEOUT.md
+      closeout_evidence_md: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-CLOSEOUT.md
+      closeout_security_quality_evidence: 08-qa/security-quality/COM-MOD-009-CLOSEOUT/security-quality-evidence.md
+      closeout_security_quality_evidence_md: 08-qa/security-quality/COM-MOD-009-CLOSEOUT/security-quality-evidence.md
+      ready_for_compilation: true
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
+      patient_portal_workflow_completed: true
+      doctor_portal_workflow_completed: true
+      ready_for_mobile_workflow: true
+      mobile_workflow_completed: true
+      ready_for_channel_access_privacy_validation: true
+      channel_access_privacy_validated: true
+    MVP-MOD-008:
+      name: Integration and Migration Readiness
+      package_status: module_closed
+      backlog_item: MVP-MOD-008-CLOSEOUT
+      backlog_item_status: closed
+      execution_flow_stage: released
+      packages_modeled:
+      - BCM-PLT-004
+      - BCM-PLT-005
+      - BCM-PLT-010
+      artifacts_per_package: 14
+      bounded_contexts:
+      - integration-interoperability
+      - data-migration-portability
+      aggregate_ownership:
+      - aggregate: IntegrationEndpoint (new)
+        owner: BCM-PLT-004
+      - aggregate: ApiSurfaceRegistration (new)
+        owner: BCM-PLT-005
+      - aggregate: AGG-016 MigrationJob
+        owner: BCM-PLT-010
+      qa_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.md
+      qa_evidence_md: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-DEF-validation.md
+      security_quality_evidence: 08-qa/security-quality/MVP-MOD-008-DEF/security-quality-evidence.md
+      security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-008-DEF/security-quality-evidence.md
+      be_001_qa_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-001-validation.md
+      be_001_qa_evidence_md: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-001-validation.md
+      be_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-008-BE-001/security-quality-evidence.md
+      be_001_security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-008-BE-001/security-quality-evidence.md
+      be_002_qa_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.md
+      be_002_qa_evidence_md: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-BE-002-validation.md
+      be_002_security_quality_evidence: 08-qa/security-quality/MVP-MOD-008-BE-002/security-quality-evidence.md
+      be_002_security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-008-BE-002/security-quality-evidence.md
+      fe_001_qa_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-FE-001-validation.md
+      fe_001_qa_evidence_md: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-FE-001-validation.md
+      fe_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-008-FE-001/security-quality-evidence.md
+      fe_001_security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-008-FE-001/security-quality-evidence.md
+      qa_001_qa_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.md
+      qa_001_qa_evidence_md: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-QA-001-validation.md
+      qa_001_security_quality_evidence: 08-qa/security-quality/MVP-MOD-008-QA-001/security-quality-evidence.md
+      qa_001_security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-008-QA-001/security-quality-evidence.md
+      closeout_evidence: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-CLOSEOUT-validation.md
+      closeout_evidence_md: 08-qa/qa/integration-and-migration-readiness/MVP-MOD-008-CLOSEOUT-validation.md
+      closeout_security_quality_evidence: 08-qa/security-quality/MVP-MOD-008-CLOSEOUT/security-quality-evidence.md
+      closeout_security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-008-CLOSEOUT/security-quality-evidence.md
+      backend_implementation:
+        integration_management: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/integrationinteroperability/integrationmanagement/
+        api_management: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/integrationinteroperability/apimanagement/
+        migration_management: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/datamigrationportability/migrationmanagement/
+      ready_for_compilation: true
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
+      custom_rules_implemented: true
+      ready_for_ui_compilation: true
+      employee_portal_ui_compiled: true
+      ready_for_module_validation: true
+      module_validated: true
+      ready_for_closeout: true
+      module_closed: true
+    MVP-MOD-007:
+      name: Results and Digital Delivery
+      package_status: module_closed
+      backlog_item: MVP-MOD-007-CLOSEOUT
+      backlog_item_status: closed
+      execution_flow_stage: released
+      packages_modeled:
+      - BCM-RES-001
+      - BCM-RES-002
+      - BCM-RES-004
+      - BCM-RES-005
+      - BCM-RES-006
+      - BCM-RES-007
+      - BCM-PLT-003
+      - BCM-PLT-008
+      artifacts_per_package: 14
+      bounded_contexts:
+      - laboratory-results
+      - notifications
+      - document-management
+      aggregate_ownership:
+      - aggregate: AGG-009 LaboratoryResult
+        owner: BCM-LAB-006 (MVP-MOD-006; read-only in this module)
+        consumers:
+        - BCM-RES-001
+        - BCM-RES-002
+        - BCM-RES-004
+        - BCM-RES-005
+        - BCM-RES-006
+        - BCM-RES-007
+      - aggregate: GeneratedResultReport
+        owner: BCM-RES-002
+      - aggregate: ResultDeliveryTicket
+        owner: BCM-RES-004
+      - aggregate: CriticalResultEscalation
+        owner: BCM-RES-006
+      - aggregate: ResultNotificationRequest
+        owner: BCM-RES-007
+      - aggregate: NotificationRequest
+        owner: BCM-PLT-003
+      - aggregate: StoredDocument
+        owner: BCM-PLT-008
+      qa_evidence_be_002: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-002-validation.md
+      qa_evidence_be_002_md: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-BE-002-validation.md
+      security_quality_evidence_be_002: 08-qa/security-quality/MVP-MOD-007-BE-002/security-quality-evidence.md
+      security_quality_evidence_be_002_md: 08-qa/security-quality/MVP-MOD-007-BE-002/security-quality-evidence.md
+      qa_evidence_fe_001: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-FE-001-validation.md
+      qa_evidence_fe_001_md: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-FE-001-validation.md
+      security_quality_evidence_fe_001: 08-qa/security-quality/MVP-MOD-007-FE-001/security-quality-evidence.md
+      security_quality_evidence_fe_001_md: 08-qa/security-quality/MVP-MOD-007-FE-001/security-quality-evidence.md
+      qa_evidence_qa_001: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-QA-001-validation.md
+      qa_evidence_qa_001_md: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-QA-001-validation.md
+      security_quality_evidence_qa_001: 08-qa/security-quality/MVP-MOD-007-QA-001/security-quality-evidence.md
+      security_quality_evidence_qa_001_md: 08-qa/security-quality/MVP-MOD-007-QA-001/security-quality-evidence.md
+      qa_evidence_portal_001: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-PORTAL-001-validation.md
+      qa_evidence_portal_001_md: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-PORTAL-001-validation.md
+      qa_evidence_app_001: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-APP-001-validation.md
+      qa_evidence_app_001_md: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-APP-001-validation.md
+      closeout_evidence: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.md
+      closeout_evidence_md: 08-qa/qa/results-and-digital-delivery/MVP-MOD-007-CLOSEOUT-validation.md
+      security_quality_evidence_closeout: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/security-quality-evidence.md
+      security_quality_evidence_closeout_md: 08-qa/security-quality/MVP-MOD-007-CLOSEOUT/security-quality-evidence.md
+      employee_portal_implementation: 07-implementation/employee-portal/src/components/screens/ResultSearchScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/ResultReportsScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/CriticalEscalationsScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/ResultNotificationsScreen.tsx
+      ready_for_compilation: true
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
+      custom_rules_implemented: true
+      ready_for_ui_compilation: true
+      employee_portal_ui_compiled: true
+      patient_doctor_portal_ui_compiled: true
+      mobile_ui_compiled: true
+      ready_for_module_validation: true
+      module_validated: true
+      ready_for_closeout: true
+      module_closed: true
+    MVP-MOD-006:
+      name: Laboratory Workflow
+      package_status: module_closed
+      backlog_item: MVP-MOD-006-CLOSEOUT
+      backlog_item_status: closed
+      execution_flow_stage: released
+      packages_modeled:
+      - BCM-LAB-002
+      - BCM-LAB-003
+      - BCM-LAB-005
+      - BCM-LAB-006
+      - BCM-LAB-008
+      - BCM-LAB-009
+      - BCM-LAB-010
+      artifacts_per_package: 14
+      bounded_contexts:
+      - orders-samples
+      - laboratory-results
+      aggregate_ownership:
+      - aggregate: AGG-008 Sample
+        owner: BCM-LAB-002
+        delegated_mutators:
+        - BCM-LAB-003
+        - BCM-LAB-005
+      - aggregate: AGG-009 LaboratoryResult
+        owner: BCM-LAB-006
+        delegated_mutators:
+        - BCM-LAB-008
+        - BCM-LAB-009
+        - BCM-LAB-010
+      qa_evidence: 08-qa/qa/laboratory-workflow/MVP-MOD-006-DEF-validation.md
+      qa_evidence_md: 08-qa/qa/laboratory-workflow/MVP-MOD-006-DEF-validation.md
+      security_quality_evidence: 08-qa/security-quality/MVP-MOD-006-DEF/security-quality-evidence.md
+      security_quality_evidence_md: 08-qa/security-quality/MVP-MOD-006-DEF/security-quality-evidence.md
+      closeout_evidence: 08-qa/qa/laboratory-workflow/MVP-MOD-006-CLOSEOUT.md
+      ready_for_compilation: true
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
+      custom_rules_implemented: true
+      ready_for_ui_compilation: true
+      employee_portal_ui_compiled: true
+      ready_for_module_validation: true
+      module_validated: true
+      ready_for_closeout: true
+      module_closed: true
+    MVP-MOD-005:
+      name: Cashier and Billing Request
+      package_status: module_closed
+      backlog_item: MVP-MOD-005-CLOSEOUT
+      backlog_item_status: closed
+      execution_flow_stage: released
+      packages_modeled:
+      - BCM-ATT-005
+      - BCM-ATT-008
+      artifacts_per_package: 14
+      bounded_contexts:
+      - cash-sales
+      - billing-tax
+      backend_bounded_context_root: cashsales
+      backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/cashsales/
+      backend_schema: 07-implementation/backend/src/main/resources/db/cash-sales/schema.sql
+      employee_portal_implementation: 07-implementation/employee-portal/src/components/screens/CashSessionsScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/SalesScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/BillingRequestsScreen.tsx
+      qa_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-DEF-validation.md
+      qa_evidence_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-DEF-validation.md
+      qa_evidence_be_001: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.md
+      qa_evidence_be_001_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.md
+      security_quality_evidence_be_001: 08-qa/security-quality/MVP-MOD-005-BE-001/security-quality-evidence.md
+      security_quality_evidence_be_001_md: 08-qa/security-quality/MVP-MOD-005-BE-001/security-quality-evidence.md
+      qa_evidence_be_002: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-002-validation.md
+      qa_evidence_be_002_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-002-validation.md
+      security_quality_evidence_be_002: 08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.md
+      security_quality_evidence_be_002_md: 08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.md
+      qa_evidence_fe_001: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-FE-001-validation.md
+      qa_evidence_fe_001_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-FE-001-validation.md
+      security_quality_evidence_fe_001: 08-qa/security-quality/MVP-MOD-005-FE-001/security-quality-evidence.md
+      security_quality_evidence_fe_001_md: 08-qa/security-quality/MVP-MOD-005-FE-001/security-quality-evidence.md
+      qa_evidence_qa_001: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.md
+      qa_evidence_qa_001_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-QA-001-validation.md
+      security_quality_evidence_qa_001: 08-qa/security-quality/MVP-MOD-005-QA-001/security-quality-evidence.md
+      security_quality_evidence_qa_001_md: 08-qa/security-quality/MVP-MOD-005-QA-001/security-quality-evidence.md
+      closeout_evidence: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.md
+      closeout_evidence_md: 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-CLOSEOUT.md
+      security_quality_evidence_closeout: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.md
+      security_quality_evidence_closeout_md: 08-qa/security-quality/MVP-MOD-005-CLOSEOUT/security-quality-evidence.md
+      ready_for_compilation: true
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
+      custom_rules_implemented: true
+      ready_for_ui_compilation: true
+      employee_portal_ui_compiled: true
+      ready_for_module_validation: true
+      module_validated: true
+      ready_for_closeout: true
+      module_closed: true
+    MVP-MOD-004:
+      name: Front Desk and Care Delivery
+      package_status: module_closed
+      backlog_item: MVP-MOD-004-CLOSEOUT
+      backlog_item_status: closed
+      execution_flow_stage: released
+      packages_modeled:
+      - BCM-ATT-001
+      - BCM-ATT-003
+      - BCM-ATT-004
+      - BCM-ATT-006
+      - BCM-LAB-001
+      artifacts_per_package: 14
+      bounded_contexts:
+      - orders-samples
+      - cash-sales
+      backend_bounded_context_root: frontdeskcaredelivery
+      backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/frontdeskcaredelivery/
+      backend_schema: 07-implementation/backend/src/main/resources/db/front-desk-care-delivery/schema.sql
+      qa_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.md
+      qa_evidence_md: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.md
+      qa_evidence_be_001: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-001-validation.md
+      qa_evidence_be_001_md: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-001-validation.md
+      security_quality_evidence_be_001: 08-qa/security-quality/MVP-MOD-004-BE-001/security-quality-evidence.md
+      security_quality_evidence_be_001_md: 08-qa/security-quality/MVP-MOD-004-BE-001/security-quality-evidence.md
+      qa_evidence_be_002: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-002-validation.md
+      qa_evidence_be_002_md: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-002-validation.md
+      security_quality_evidence_be_002: 08-qa/security-quality/MVP-MOD-004-BE-002/security-quality-evidence.md
+      security_quality_evidence_be_002_md: 08-qa/security-quality/MVP-MOD-004-BE-002/security-quality-evidence.md
+      qa_evidence_fe_001: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-FE-001-validation.md
+      qa_evidence_fe_001_md: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-FE-001-validation.md
+      security_quality_evidence_fe_001: 08-qa/security-quality/MVP-MOD-004-FE-001/security-quality-evidence.md
+      security_quality_evidence_fe_001_md: 08-qa/security-quality/MVP-MOD-004-FE-001/security-quality-evidence.md
+      qa_evidence_qa_001: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-QA-001-validation.md
+      qa_evidence_qa_001_md: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-QA-001-validation.md
+      security_quality_evidence_qa_001: 08-qa/security-quality/MVP-MOD-004-QA-001/security-quality-evidence.md
+      security_quality_evidence_qa_001_md: 08-qa/security-quality/MVP-MOD-004-QA-001/security-quality-evidence.md
+      closeout_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-CLOSEOUT.md
+      closeout_evidence_md: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-CLOSEOUT.md
+      security_quality_evidence_closeout: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/security-quality-evidence.md
+      security_quality_evidence_closeout_md: 08-qa/security-quality/MVP-MOD-004-CLOSEOUT/security-quality-evidence.md
+      ready_for_compilation: true
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
+      custom_rules_implemented: true
+      ready_for_ui_compilation: true
+      employee_portal_ui_compiled: true
+      ready_for_module_validation: true
+      module_validated: true
+      ready_for_closeout: true
+      module_closed: true
+    MVP-MOD-003:
+      name: People and Clinical Master Data
+      package_status: module_closed
+      backlog_item: MVP-MOD-003-CLOSEOUT
+      backlog_item_status: closed
+      execution_flow_stage: released
+      packages_modeled:
+      - BCM-PER-001
+      - BCM-PER-002
+      - BCM-PER-003
+      - BCM-ATT-002
+      artifacts_per_package: 14
+      bounded_contexts:
+      - patient-management
+      - medical-staff
+      backend_bounded_context_root: peopleclinicalmasterdata
+      backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/peopleclinicalmasterdata/
+      backend_schema: 07-implementation/backend/src/main/resources/db/people-and-clinical-master-data/schema.sql
+      qa_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
+      qa_evidence_md: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
+      qa_evidence_be_001: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.md
+      qa_evidence_be_001_md: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.md
+      security_quality_evidence_be_001: 08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.md
+      security_quality_evidence_be_001_md: 08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.md
+      qa_evidence_be_002: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-002-validation.md
+      qa_evidence_be_002_md: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-002-validation.md
+      security_quality_evidence_be_002: 08-qa/security-quality/MVP-MOD-003-BE-002/security-quality-evidence.md
+      security_quality_evidence_be_002_md: 08-qa/security-quality/MVP-MOD-003-BE-002/security-quality-evidence.md
+      qa_evidence_fe_001: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-FE-001-validation.md
+      qa_evidence_fe_001_md: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-FE-001-validation.md
+      security_quality_evidence_fe_001: 08-qa/security-quality/MVP-MOD-003-FE-001/security-quality-evidence.md
+      security_quality_evidence_fe_001_md: 08-qa/security-quality/MVP-MOD-003-FE-001/security-quality-evidence.md
+      qa_evidence_qa_001: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-QA-001-validation.md
+      qa_evidence_qa_001_md: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-QA-001-validation.md
+      security_quality_evidence_qa_001: 08-qa/security-quality/MVP-MOD-003-QA-001/security-quality-evidence.md
+      security_quality_evidence_qa_001_md: 08-qa/security-quality/MVP-MOD-003-QA-001/security-quality-evidence.md
+      closeout_evidence: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-CLOSEOUT.md
+      closeout_evidence_md: 08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-CLOSEOUT.md
+      security_quality_evidence_closeout: 08-qa/security-quality/MVP-MOD-003-CLOSEOUT/security-quality-evidence.md
+      security_quality_evidence_closeout_md: 08-qa/security-quality/MVP-MOD-003-CLOSEOUT/security-quality-evidence.md
+      employee_portal_implementation: 07-implementation/employee-portal/src/components/screens/PersonSearchScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/PatientsScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/DoctorsScreen.tsx,
+        07-implementation/employee-portal/src/components/screens/PatientRegistrationsScreen.tsx
+      ready_for_compilation: true
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
+      custom_rules_implemented: true
+      ready_for_ui_compilation: true
+      people_management_ui_compiled: true
+      ready_for_module_validation: true
+      module_validated: true
+      ready_for_closeout: true
+      module_closed: true
+    MVP-MOD-002:
+      name: Diagnostic Catalog
+      package_status: module_closed
+      backlog_item: MVP-MOD-002-CLOSEOUT
+      backlog_item_status: closed
+      execution_flow_stage: released
+      packages_modeled:
+      - BCM-SVC-001
+      - BCM-SVC-002
+      - BCM-SVC-003
+      - BCM-SVC-004
+      - BCM-SVC-005
+      - BCM-SVC-006
+      - BCM-SVC-007
+      - BCM-SVC-009
+      artifacts_per_package: 14
+      backend_bounded_context: catalog-test-configuration
+      backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/catalogtestconfiguration/
+      qa_evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-DEF-validation.md
+      qa_evidence_be_001: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-BE-001-validation.md
+      qa_evidence_be_002: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-BE-002-validation.md
+      qa_evidence_fe_001: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-FE-001-validation.md
+      qa_evidence_qa_001: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-QA-001-validation.md
+      closeout_evidence: 08-qa/qa/catalog-test-configuration/MVP-MOD-002-CLOSEOUT.md
+      security_quality_evidence_fe_001: 08-qa/security-quality/MVP-MOD-002-FE-001/security-quality-evidence.md
+      security_quality_evidence_qa_001: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.md
+      security_quality_evidence_closeout: 08-qa/security-quality/MVP-MOD-002-CLOSEOUT/security-quality-evidence.md
+      ready_for_compilation: true
+      ready_for_custom_rule_implementation: true
+      custom_rules_implemented: true
+      ready_for_ui_compilation: true
+      employee_catalog_ui_compiled: true
+      ready_for_module_validation: true
+      module_validated: true
+      dependency_hardening_applied: true
+      ready_for_closeout: true
+      module_closed: true
+  execution_flow:
+  - model
+  - compile
+  - implement_rules
+  - validate
+  - release
+  ga_gates_defined:
+  - GA-001
+  - GA-002
+  - GA-003
+  - GA-004
+  - GA-005
+  - GA-006
+```

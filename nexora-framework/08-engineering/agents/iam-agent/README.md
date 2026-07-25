@@ -13,8 +13,8 @@ The IAM Agent creates, reviews and validates artifacts for CAP-003 Identity, Acc
 
 ## Required Inputs
 
-- `PROJECT_MANIFEST.yaml`
-- `SOURCE_OF_TRUTH.yaml`
-- `capability-library/CAP-003-identity-access-workforce-management/capability.yaml`
-- `contracts/openapi/iam/iam.openapi.yaml`
+- `PROJECT_MANIFEST.md`
+- `SOURCE_OF_TRUTH.md`
+- `capability-library/CAP-003-identity-access-workforce-management/capability.md`
+- `contracts/openapi/iam/iam.openapi.md`
 - `security-compliance/authorization/`

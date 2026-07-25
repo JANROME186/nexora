@@ -1,0 +1,130 @@
+---
+id: HOP-TR-BCM-PLT-001
+format: markdown_structured_payload
+type: traceability
+name: Identity and Access Management Traceability Matrix
+version: 1.1.0
+status: validated
+---
+
+# Identity And Access Management Traceability Matrix
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TR-BCM-PLT-001
+  type: traceability
+  name: Identity and Access Management Traceability Matrix
+  version: 1.1.0
+  status: validated
+  classification: editable_model
+  capability: BCM-PLT-001
+bcm_alignment:
+  capability_id: BCM-PLT-001
+  domain_id: DOM-10
+  priority: Critical
+  roadmap: MVP1
+brm_alignment:
+  rules:
+  - id: BRM-001-R018
+    ref: RN-002, RN-003, RN-004, RN-007, RN-008
+    description: Audit logging of all access and session modifications.
+hrp_alignment:
+  processes:
+  - id: HRP-001-P01
+    description: Platform Foundation Setup & Access Management.
+api_alignment:
+  endpoints:
+  - path: /api/auth/login
+    operation: loginUser
+    rules:
+    - RN-001
+    - RN-002
+    - RN-007
+  - path: /api/auth/logout
+    operation: logoutUser
+    rules:
+    - RN-003
+  - path: /api/auth/assistance
+    operation: initiateAssistance
+    rules:
+    - RN-004
+test_alignment:
+  tests:
+  - id: TS-IAM-001
+    rule_ref: RN-001
+  - id: TS-IAM-002
+    rule_ref: RN-002
+  - id: TS-IAM-003
+    rule_ref: RN-003
+  - id: TS-IAM-004
+    rule_ref: RN-004
+  - id: TS-IAM-005
+    rule_ref: RN-005
+  - id: TS-IAM-006
+    rule_ref: RN-006
+  - id: TS-IAM-007
+    rule_ref: RN-007
+  - id: TS-IAM-008
+    rule_ref: RN-008
+security_privacy:
+  controls:
+  - BCrypt password hashing.
+  - Rate limiting / lockouts after 5 consecutive failures.
+  - Support assistance login constraints (cannot signature, audited).
+  - Session context-based tenant isolation.
+  - Multi-Factor Authentication (MFA) enforcement for operational/admin roles.
+  - Action-level permission scope grammar (`domain.resource.action.scope` addressing
+    TD-IAM-002).
+backlog_items:
+  definition: COM-MOD-009-DEF
+  definition_status: closed
+  compilation: COM-MOD-009-BE-001
+  compilation_status: closed
+  patient_portal: COM-MOD-009-PORTAL-001
+  patient_portal_status: closed
+  doctor_portal: COM-MOD-009-PORTAL-002
+  doctor_portal_status: closed
+  mobile_app: COM-MOD-009-APP-001
+  mobile_app_status: closed
+  validation: COM-MOD-009-QA-001
+  validation_status: closed
+  closeout: COM-MOD-009-CLOSEOUT
+  closeout_status: closed
+  saas_hardening: COM-MOD-012-DEF
+  saas_hardening_status: closed
+  operational_strategy: COM-MOD-012-OPS-002
+  operational_strategy_status: closed
+  saas_hardening_validation: COM-MOD-012-QA-001
+  saas_hardening_validation_status: validated
+operational_strategy:
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-OPS-002-validation.md
+  contribution: Privileged operational access, least-privilege release approval and
+    deployment audit actors (COM-MOD-012-OPS-001). COM-MOD-012-OPS-002 adds the required_permissions
+    and minimum_role gates (platform:backup:execute, platform:restore:execute, platform:rollback:execute,
+    platform:incident:manage, platform:tenant:read, platform:incident:review) enforced
+    across every new operational runbook.
+validation:
+  backlog_item: COM-MOD-012-QA-001
+  status: validated
+  evidence: ../../../../08-qa/qa/platform-hardening-and-saas-operations/COM-MOD-012-QA-001-validation.md
+  contribution: Confirmed the new SCREEN_PLATFORM_CONFIGURATION EndpointPermissionRegistry
+    entries (/api/platform/config, /api/platform/feature-flags) compiled by COM-MOD-012-BE-001
+    are reachable and deny-by-default per RolePermissionCatalog. Local runtime testing
+    used the project's pre-existing local-fixture ADMIN authentication bypass (hop.security.local-fixture-enabled,
+    unchanged, closed by TD-IAM-001); no new authentication bypass was introduced.
+    BCM-PLT-001 MFA, service-account credentials and the domain.resource.action.scope
+    permission grammar remain not implemented (TD-IAM-003, confirmed still open).
+marketplace_enablement:
+  backlog_item: COM-MOD-017-DEF
+  status: modeled
+  contribution: Provides deny-by-default role and permission checks for marketplace
+    package administration, tenant entitlement administration, package installation
+    actions and entitlement-aware runtime feature access. Purchase or installation
+    never bypasses IAM.
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.md
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.md
+```

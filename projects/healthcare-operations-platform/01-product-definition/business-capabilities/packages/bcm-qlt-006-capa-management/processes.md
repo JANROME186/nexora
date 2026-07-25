@@ -1,0 +1,80 @@
+---
+id: HOP-PRC-BCM-QLT-006
+format: markdown_structured_payload
+type: processes
+name: CAPA Management Processes
+version: 0.1.0
+status: modeled
+---
+
+# Capa Management Processes
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PRC-BCM-QLT-006
+  type: processes
+  name: CAPA Management Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-006
+processes:
+- id: PRC-CAP-001
+  name: Initiate CAPA Investigation
+  description: Open a new CAPA investigation manually or automatically via quality
+    event trigger.
+  steps:
+  - step_number: 1
+    name: Capture Incident Context
+    actor: System / Quality Manager
+    action: Enter incident title, source category, source reference ID, and target
+      completion date.
+  - step_number: 2
+    name: Assign Investigator
+    actor: Quality Manager
+    action: Assign responsible investigator and set status to 'investigating'.
+- id: PRC-CAP-002
+  name: Conduct Root Cause Analysis & Plan Actions
+  description: Document RCA and construct action plan items.
+  steps:
+  - step_number: 1
+    name: Perform RCA
+    actor: Investigator
+    action: Conduct 5-Whys or Ishikawa analysis, recording root cause summary.
+  - step_number: 2
+    name: Add Action Items
+    actor: Investigator
+    action: Add corrective/preventive items with assignees and due dates. Advance
+      to 'action_plan_pending'.
+- id: PRC-CAP-003
+  name: Approve Action Plan & Execute
+  description: Review and approve action plan, then execute items.
+  steps:
+  - step_number: 1
+    name: Quality Approval
+    actor: Quality Approver
+    action: Review RCA and action items. Approve plan to move status to 'in_execution'.
+  - step_number: 2
+    name: Complete Action Items
+    actor: Action Assignees
+    action: Complete action items and attach evidence files (BCM-PLT-008). Once all
+      done, transition to 'verification_pending'.
+- id: PRC-CAP-004
+  name: Verify Effectiveness & Close CAPA
+  description: Evaluate post-implementation effectiveness and close investigation.
+  steps:
+  - step_number: 1
+    name: Assess Effectiveness
+    actor: Quality Verifier
+    action: Review operational metrics after observation period. Assign effectiveness
+      rating.
+  - step_number: 2
+    name: Close Investigation
+    actor: Quality Manager
+    action: Provide closure notes and transition status to 'closed'. Emit CapaClosed
+      domain event.
+```

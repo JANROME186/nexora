@@ -30,3 +30,412 @@ This document prevents ambiguity about who owns and mutates business state.
 ## Mutation Rule
 
 A bounded context may not directly mutate an aggregate owned by another bounded context.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: AGG-CATALOG-001
+  type: aggregate-catalog
+  name: Nexora Aggregate Catalog
+  version: 1.0.0
+  status: approved
+  owner: Architecture Domain Team
+  source_of_truth: 02-domain-definition/domain-foundation/aggregates/aggregate-catalog.md
+  generated_artifacts:
+  - 04-generated/markdown/domain/aggregate-catalog.md
+  dependencies:
+  - BC-CATALOG-001
+  - CTX-MAP-001
+  - SHK-001
+principles:
+- Every aggregate root has exactly one owning bounded context.
+- Only the owning bounded context may mutate its aggregate state.
+- Other contexts may reference external aggregates only by ID, snapshot, event or
+  query model.
+- Aggregates publish domain events for relevant state changes.
+- Aggregate boundaries must protect business invariants.
+- Read models are projections and are never aggregate owners.
+aggregates:
+- id: AGG-001
+  name: Patient
+  bounded_context: patient-management
+  domain: clinical
+  identifier: PatientId
+  owns:
+  - PatientProfile
+  - PatientContact
+  - PatientConsent
+  - PatientDocument
+  - PatientEmergencyContact
+  references:
+  - TenantId
+  - LaboratoryId
+  - BranchId
+  primary_events:
+  - PatientRegistered
+  - PatientUpdated
+  - PatientMerged
+  - PatientDeactivated
+  - PatientConsentRecorded
+  forbidden_mutators:
+  - orders-samples
+  - billing-tax
+  - cash-sales
+  - imaging-operations
+  - ai-platform
+  - data-migration-portability
+- id: AGG-002
+  name: Laboratory
+  bounded_context: organization-management
+  domain: identity
+  identifier: LaboratoryId
+  owns:
+  - LaboratoryProfile
+  - LaboratorySettings
+  - LaboratoryLicense
+  references:
+  - TenantId
+  primary_events:
+  - LaboratoryCreated
+  - LaboratoryUpdated
+  - LaboratorySuspended
+  forbidden_mutators:
+  - clinical-contexts
+  - billing-tax
+  - ai-platform
+- id: AGG-003
+  name: Branch
+  bounded_context: organization-management
+  domain: identity
+  identifier: BranchId
+  owns:
+  - BranchProfile
+  - BranchSchedule
+  - BranchServiceCatalog
+  - BranchOperationalStatus
+  references:
+  - TenantId
+  - LaboratoryId
+  primary_events:
+  - BranchCreated
+  - BranchUpdated
+  - BranchActivated
+  - BranchSuspended
+  forbidden_mutators:
+  - clinical-contexts
+  - billing-tax
+  - cash-sales
+- id: AGG-004
+  name: UserAccount
+  bounded_context: identity-access
+  domain: identity
+  identifier: UserId
+  owns:
+  - Credentials
+  - UserStatus
+  - AssignedRoles
+  - AccessPolicies
+  references:
+  - TenantId
+  - LaboratoryId
+  - BranchId
+  primary_events:
+  - UserCreated
+  - UserActivated
+  - UserLocked
+  - RoleAssigned
+  - PermissionGranted
+  forbidden_mutators:
+  - clinical-contexts
+  - billing-tax
+  - ai-platform
+- id: AGG-005
+  name: Doctor
+  bounded_context: medical-staff
+  domain: clinical
+  identifier: DoctorId
+  owns:
+  - DoctorProfile
+  - ProfessionalCredentials
+  - DoctorPortalAccess
+  - SpecialtyAssignments
+  references:
+  - TenantId
+  - LaboratoryId
+  - BranchId
+  primary_events:
+  - DoctorRegistered
+  - DoctorCredentialVerified
+  - DoctorPortalEnabled
+  - DoctorSuspended
+  forbidden_mutators:
+  - orders-samples
+  - billing-tax
+  - ai-platform
+- id: AGG-006
+  name: TestDefinition
+  bounded_context: catalog-test-configuration
+  domain: clinical
+  identifier: TestDefinitionId
+  owns:
+  - AnalyteDefinition
+  - ReferenceRange
+  - SampleRequirement
+  - PreparationInstruction
+  - ResultTemplate
+  references:
+  - TenantId
+  - LaboratoryId
+  primary_events:
+  - TestDefinitionCreated
+  - ReferenceRangeUpdated
+  - TestDefinitionPublished
+  - TestDefinitionDeprecated
+  forbidden_mutators:
+  - orders-samples
+  - laboratory-results
+  - billing-tax
+  - inventory-procurement
+- id: AGG-007
+  name: DiagnosticOrder
+  bounded_context: orders-samples
+  domain: clinical
+  identifier: OrderId
+  owns:
+  - OrderLine
+  - OrderStatus
+  - OrderPricingSnapshot
+  - OrderClinicalNotes
+  references:
+  - PatientId
+  - DoctorId
+  - BranchId
+  - TestDefinitionId
+  primary_events:
+  - DiagnosticOrderCreated
+  - OrderPriced
+  - OrderAccepted
+  - OrderCancelled
+  - OrderCompleted
+  forbidden_mutators:
+  - cash-sales
+  - billing-tax
+  - laboratory-results
+  - imaging-operations
+  - ai-platform
+- id: AGG-008
+  name: Sample
+  bounded_context: orders-samples
+  domain: clinical
+  identifier: SampleId
+  owns:
+  - SampleStatus
+  - SampleContainer
+  - SampleCollectionData
+  - SampleRejectionReason
+  references:
+  - OrderId
+  - PatientId
+  - BranchId
+  - UserId
+  primary_events:
+  - SampleCollected
+  - SampleReceived
+  - SampleRejected
+  - SampleDisposed
+  forbidden_mutators:
+  - laboratory-results
+  - inventory-procurement
+  - billing-tax
+- id: AGG-009
+  name: LaboratoryResult
+  bounded_context: laboratory-results
+  domain: clinical
+  identifier: ResultId
+  owns:
+  - ResultValue
+  - ResultInterpretation
+  - ResultValidation
+  - ResultAmendment
+  - ResultReport
+  references:
+  - OrderId
+  - SampleId
+  - PatientId
+  - DoctorId
+  - TestDefinitionId
+  primary_events:
+  - ResultCaptured
+  - ResultFlaggedCritical
+  - ResultValidated
+  - ResultReleased
+  - ResultAmended
+  forbidden_mutators:
+  - orders-samples
+  - billing-tax
+  - cash-sales
+  - patient-management
+  - ai-platform
+- id: AGG-010
+  name: Sale
+  bounded_context: cash-sales
+  domain: business
+  identifier: SaleId
+  owns:
+  - SaleLine
+  - DiscountApplication
+  - PaymentAllocation
+  - CancellationRecord
+  references:
+  - OrderId
+  - PatientId
+  - BranchId
+  - UserId
+  primary_events:
+  - SaleCreated
+  - PaymentRegistered
+  - SaleCancelled
+  - RefundApproved
+  forbidden_mutators:
+  - billing-tax
+  - orders-samples
+  - inventory-procurement
+- id: AGG-011
+  name: CashRegister
+  bounded_context: cash-sales
+  domain: business
+  identifier: CashRegisterId
+  owns:
+  - CashSession
+  - CashMovement
+  - CashClosing
+  references:
+  - BranchId
+  - UserId
+  primary_events:
+  - CashSessionOpened
+  - CashMovementRegistered
+  - CashSessionClosed
+  - CashVarianceDetected
+  forbidden_mutators:
+  - billing-tax
+  - orders-samples
+- id: AGG-012
+  name: Invoice
+  bounded_context: billing-tax
+  domain: business
+  identifier: InvoiceId
+  owns:
+  - FiscalProfileSnapshot
+  - TaxLine
+  - InvoiceStatus
+  - FiscalCancellation
+  references:
+  - SaleId
+  - PatientId
+  - BranchId
+  - CountryPackId
+  primary_events:
+  - InvoiceRequested
+  - InvoiceIssued
+  - InvoiceCancelled
+  - InvoiceDeliveryRequested
+  forbidden_mutators:
+  - cash-sales
+  - orders-samples
+  - patient-management
+- id: AGG-013
+  name: InventoryItem
+  bounded_context: inventory-procurement
+  domain: business
+  identifier: InventoryItemId
+  owns:
+  - StockLevel
+  - StockLot
+  - ExpirationData
+  - StorageCondition
+  references:
+  - BranchId
+  - SupplierId
+  - TestDefinitionId
+  primary_events:
+  - InventoryItemCreated
+  - StockReceived
+  - StockConsumed
+  - StockAdjusted
+  - StockExpired
+  forbidden_mutators:
+  - orders-samples
+  - laboratory-results
+  - cash-sales
+- id: AGG-014
+  name: Supplier
+  bounded_context: inventory-procurement
+  domain: business
+  identifier: SupplierId
+  owns:
+  - SupplierProfile
+  - SupplierContact
+  - SupplierTerms
+  references:
+  - TenantId
+  - LaboratoryId
+  primary_events:
+  - SupplierRegistered
+  - SupplierUpdated
+  - SupplierSuspended
+  forbidden_mutators:
+  - billing-tax
+  - cash-sales
+- id: AGG-015
+  name: ImagingStudy
+  bounded_context: imaging-operations
+  domain: clinical
+  identifier: ImagingStudyId
+  owns:
+  - ImagingSchedule
+  - ModalityMetadata
+  - DicomStudyReference
+  - RadiologyReport
+  - ImagingRelease
+  references:
+  - OrderId
+  - PatientId
+  - DoctorId
+  - BranchId
+  primary_events:
+  - ImagingStudyScheduled
+  - DicomStudyReceived
+  - RadiologyReportSigned
+  - ImagingStudyReleased
+  forbidden_mutators:
+  - orders-samples
+  - billing-tax
+  - ai-platform
+- id: AGG-016
+  name: MigrationJob
+  bounded_context: data-migration-portability
+  domain: platform
+  identifier: MigrationJobId
+  owns:
+  - SourceDataset
+  - MappingTemplate
+  - ValidationReport
+  - ReconciliationReport
+  - ImportExecution
+  references:
+  - TenantId
+  - LaboratoryId
+  - UserId
+  primary_events:
+  - MigrationJobCreated
+  - MappingCompleted
+  - MigrationValidated
+  - MigrationExecuted
+  - MigrationReconciled
+  forbidden_mutators:
+  - core-domain-aggregates-directly
+```

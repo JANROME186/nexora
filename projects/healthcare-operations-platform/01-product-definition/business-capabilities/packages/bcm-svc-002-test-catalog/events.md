@@ -1,0 +1,69 @@
+---
+id: HOP-EVT-BCM-SVC-002
+format: markdown_structured_payload
+type: events
+name: Test Catalog Events
+version: 0.1.0
+status: modeled
+---
+
+# Test Catalog Events
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-EVT-BCM-SVC-002
+  type: events
+  name: Test Catalog Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-002
+  aggregate: TestDefinition
+domain_events:
+- name: TestDefinitionCreated
+  description: A test definition draft was created.
+  payload:
+  - testDefinitionId
+  - tenantId
+  - laboratoryId
+  - code
+  - version
+  audit: true
+- name: TestDefinitionPublished
+  description: A test definition version was published and frozen.
+  payload:
+  - testDefinitionId
+  - version
+  - publishedAt
+  - publishedBy
+  audit: true
+- name: TestDefinitionDeprecated
+  description: A test definition was deprecated.
+  payload:
+  - testDefinitionId
+  - version
+  - deprecatedAt
+  audit: true
+integration_events:
+  published:
+  - name: TestDefinitionPublished
+    description: Published language consumed by orders, processing and results.
+    consumers:
+    - orders-samples
+    - laboratory-results
+    - BCM-SVC-001
+    - BCM-SVC-003
+  consumed:
+  - name: AnalyteDefinitionPublished
+    source: BCM-SVC-004
+  - name: SampleRequirementPublished
+    source: BCM-SVC-007
+published_language:
+- TestDefinition
+- SampleRequirement
+- PreparationInstruction
+```

@@ -41,7 +41,7 @@ public class ResultNotificationService {
             LaboratoryResultsRepository laboratoryResultsRepository,
             ResultDeliveryTicketRepository resultDeliveryTicketRepository,
             FrontDeskSaleSourcePort saleSourcePort) {
-        
+
         this.repository = repository;
         this.notificationManagementService = notificationManagementService;
         this.laboratoryResultsRepository = laboratoryResultsRepository;

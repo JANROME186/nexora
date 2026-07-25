@@ -1,9 +1,9 @@
 # Playbook: Create AI Capability
 
-1. Leer `PROJECT_MANIFEST.yaml`.
+1. Leer `PROJECT_MANIFEST.md`.
 2. Identificar la capacidad de negocio afectada.
 3. Definir el caso de uso de IA y su nivel de riesgo.
-4. Registrar la capacidad en `ai-platform/capabilities/ai-capability-registry.yaml`.
+4. Registrar la capacidad en `ai-platform/capabilities/ai-capability-registry.md`.
 5. Definir fallback sin IA.
 6. Definir datos requeridos y política de minimización.
 7. Definir proveedor abstracto, nunca proveedor directo.

@@ -5,12 +5,12 @@ import org.springframework.stereotype.Service;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.compatibilityevaluation.domain.CompatibilityDecision;
 
 /**
- * Stateless compatibility evaluation strategy (compatibility.yaml). Compiles the generatable
+ * Stateless compatibility evaluation strategy (compatibility.md). Compiles the generatable
  * {@code evaluateCompatibility} output with a basic {@code platform_version} major/minor
  * comparison; the full multi-dimension strategy (api_contract_version, database_schema_version,
  * dependency_capability_versions, tenant_region, language/currency support, regulatory_profile,
  * feature_flags) is the explicit custom_implementation_point deferred to a future BE-002
- * (TD-BE-018), per generation-plan.yaml.
+ * (TD-BE-018), per generation-plan.md.
  */
 @Service
 public class CompatibilityEvaluator {

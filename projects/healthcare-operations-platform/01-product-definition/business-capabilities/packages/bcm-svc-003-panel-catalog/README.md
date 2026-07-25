@@ -27,11 +27,11 @@ Standard 14-artifact capability package per the Business Capability Package Stan
 The published-catalog read surface (`getPublishedPanelSnapshot` plus a new `listPublishedPanels`
 projection) is reused, unauthenticated and rate-limited, by the COM-MOD-011 Public Website and
 Digital Growth module. No new capability package, aggregate or schema was created for this
-reuse; see `traceability.yaml`'s `cross_module_reuse` entry.
+reuse; see `traceability.md`'s `cross_module_reuse` entry.
 
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are generated
-outputs declared in `generation-plan.yaml`. Custom rules (member publication validation,
+outputs declared in `generation-plan.md`. Custom rules (member publication validation,
 immutable versioning, published snapshot projection) are implemented in later backlog
 items.

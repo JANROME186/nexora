@@ -1,0 +1,58 @@
+---
+id: HOP-PERM-BCM-RES-005
+format: markdown_structured_payload
+type: permissions
+name: Result History Permissions
+version: 0.1.0
+status: modeled
+---
+
+# Result History Permissions
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PERM-BCM-RES-005
+  type: permissions
+  name: Result History Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-005
+  depends_on_capability: BCM-PLT-001
+scopes:
+- code: history.view
+  description: View one's own (or represented, or referred) chronological result history.
+roles:
+- role: patient
+  grants:
+  - history.view
+- role: patient-representative
+  grants:
+  - history.view
+- role: referring-doctor
+  grants:
+  - history.view
+- role: tenant-administrator
+  grants:
+  - history.view
+access_policies:
+- id: POL-RHS-005-01
+  statement: A patient may view only their own history; a representative only represented
+    patients'; a referring doctor only referred patients'.
+  enforcement: recipient_scope_policy
+- id: POL-RHS-005-02
+  statement: This capability never mutates LaboratoryResult or Patient.
+  enforcement: read_only_boundary_policy
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+  - event: ResultHistoryViewed
+    fields:
+    - patientId
+    - actorId
+    - actorType
+```

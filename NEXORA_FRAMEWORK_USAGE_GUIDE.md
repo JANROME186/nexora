@@ -20,15 +20,15 @@ El flujo completo es:
 El framework incluye un playbook de prompts reutilizable para cualquier proyecto:
 
 - `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md`
-- `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md`
 - `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md`
-- `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md`
 - `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md`
-- `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md`
 - `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md`
-- `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md`
 - `nexora-framework/05-prompts/prompts/framework-feedback-prompts.md`
-- `nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml`
+- `nexora-framework/05-prompts/prompts/framework-feedback-prompts.md`
 
 La version YAML es la fuente operativa para agentes. La version Markdown es para lectura humana.
 
@@ -63,7 +63,7 @@ Validate projects/<project-slug>/ against the Nexora framework and report whethe
 Prompt minimo de desarrollo:
 
 ```text
-Develop the MVP for projects/<project-slug>/ using its PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml and ordered module package.
+Develop the MVP for projects/<project-slug>/ using its PROJECT_STATE.md, SOURCE_OF_TRUTH.md and ordered module package.
 ```
 
 En los tres casos, reemplazar `<project-slug>` por la carpeta real del proyecto.
@@ -87,9 +87,9 @@ Archivos importantes:
 - `AGENT_BOOTSTRAP.md`
 - `README.md`
 - `NEXORA_FRAMEWORK_USAGE_GUIDE.md`
-- `SOURCE_OF_TRUTH.yaml`
-- `PROJECT_STATE.yaml`
-- `PROJECT_MANIFEST.yaml`
+- `SOURCE_OF_TRUTH.md`
+- `PROJECT_STATE.md`
+- `PROJECT_MANIFEST.md`
 - `CHANGELOG.md`
 
 No se deben colocar definiciones especificas de un proyecto en la raiz.
@@ -101,23 +101,23 @@ No se deben colocar definiciones especificas de un proyecto en la raiz.
 Archivos importantes:
 
 - `nexora-framework/README.md`
-- `nexora-framework/02-standards/standards/project-folder-standard.yaml`
-- `nexora-framework/02-standards/standards/documentation-standard.yaml`
-- `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
-- `nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml`
-- `nexora-framework/02-standards/standards/capability-package-standard.yaml`
-- `nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
-- `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
-- `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
-- `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
-- `nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml`
-- `nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml`
-- `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
-- `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
-- `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
-- `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
-- `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml`
-- `nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml`
+- `nexora-framework/02-standards/standards/project-folder-standard.md`
+- `nexora-framework/02-standards/standards/documentation-standard.md`
+- `nexora-framework/02-standards/standards/agent-agnostic-standard.md`
+- `nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md`
+- `nexora-framework/02-standards/standards/capability-package-standard.md`
+- `nexora-framework/02-standards/standards/open-data-ingestion-standard.md`
+- `nexora-framework/02-standards/standards/product-marketplace-standard.md`
+- `nexora-framework/02-standards/standards/business-requirement-versioning-standard.md`
+- `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md`
+- `nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md`
+- `nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.md`
+- `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`
+- `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`
+- `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md`
+- `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md`
+- `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md`
+- `nexora-framework/05-prompts/prompts/framework-feedback-prompts.md`
 - `nexora-framework/06-templates/templates/project-template/`
 
 Todo agente debe cargar el framework antes de analizar o implementar un proyecto.
@@ -134,9 +134,9 @@ Archivos requeridos en la raiz de cada proyecto:
 
 - `BUSINESS_REQUIREMENT.md`
 - `PROJECT_BRIEF.md`
-- `PROJECT_BRIEF.yaml`
-- `SOURCE_OF_TRUTH.yaml`
-- `PROJECT_STATE.yaml`
+- `PROJECT_BRIEF.md`
+- `SOURCE_OF_TRUTH.md`
+- `PROJECT_STATE.md`
 - `README.md`
 
 Regla de formato:
@@ -144,7 +144,7 @@ Regla de formato:
 - Los archivos `.md` son para lectura, revision y explicacion humana.
 - Los archivos `.yaml` son para consumo operativo de agentes y automatizacion.
 - Todo artefacto que un agente deba ejecutar o seguir debe tener version YAML cuando aplique.
-- `BUSINESS_REQUIREMENT.md` siempre lo provee el solicitante; si existe `BUSINESS_REQUIREMENT.yaml`, es un indice estructurado derivado, no un reemplazo del requerimiento original.
+- `BUSINESS_REQUIREMENT.md` siempre lo provee el solicitante; si existe `BUSINESS_REQUIREMENT.md`, es un indice estructurado derivado, no un reemplazo del requerimiento original.
 
 Carpetas requeridas por proyecto:
 
@@ -233,10 +233,10 @@ Usar esta instruccion al iniciar el agente de analisis:
 ```text
 Lee AGENT_BOOTSTRAP.md.
 Lee NEXORA_FRAMEWORK_USAGE_GUIDE.md.
-Lee SOURCE_OF_TRUTH.yaml y PROJECT_STATE.yaml.
+Lee SOURCE_OF_TRUTH.md y PROJECT_STATE.md.
 Carga el framework Nexora desde nexora-framework/.
-Aplica nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml.
-Aplica nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml.
+Aplica nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md.
+Aplica nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md.
 
 Proyecto objetivo:
 projects/<project-slug>/
@@ -244,7 +244,7 @@ projects/<project-slug>/
 Archivo inicial:
 projects/<project-slug>/BUSINESS_REQUIREMENT.md
 
-Tu objetivo es analizar el proyecto, completar todas las definiciones faltantes, crear el framework de MVP, crear el primer paquete de modulo y dejar PROJECT_STATE.yaml sin bloqueos de definicion.
+Tu objetivo es analizar el proyecto, completar todas las definiciones faltantes, crear el framework de MVP, crear el primer paquete de modulo y dejar PROJECT_STATE.md sin bloqueos de definicion.
 
 No implementes codigo de aplicacion.
 No dependas del historial de conversacion.
@@ -260,31 +260,31 @@ El agente de analisis debe cargar estos archivos en este orden:
 
 1. `AGENT_BOOTSTRAP.md`
 2. `NEXORA_FRAMEWORK_USAGE_GUIDE.md`
-3. `SOURCE_OF_TRUTH.yaml`
-4. `PROJECT_STATE.yaml`
+3. `SOURCE_OF_TRUTH.md`
+4. `PROJECT_STATE.md`
 5. `nexora-framework/README.md`
-6. `nexora-framework/02-standards/standards/project-folder-standard.yaml`
-7. `nexora-framework/02-standards/standards/documentation-standard.yaml`
-8. `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
-9. `nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml`
-10. `nexora-framework/02-standards/standards/capability-package-standard.yaml`
-11. `nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml`
-12. `nexora-framework/02-standards/standards/product-marketplace-standard.yaml`
-13. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
-14. `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
-15. `nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml`
-16. `nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml`
-17. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml`
-18. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
-19. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
-20. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
-21. `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml`
-22. `nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml`
-23. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
+6. `nexora-framework/02-standards/standards/project-folder-standard.md`
+7. `nexora-framework/02-standards/standards/documentation-standard.md`
+8. `nexora-framework/02-standards/standards/agent-agnostic-standard.md`
+9. `nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md`
+10. `nexora-framework/02-standards/standards/capability-package-standard.md`
+11. `nexora-framework/02-standards/standards/open-data-ingestion-standard.md`
+12. `nexora-framework/02-standards/standards/product-marketplace-standard.md`
+13. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.md`
+14. `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md`
+15. `nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md`
+16. `nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.md`
+17. `nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md`
+18. `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`
+19. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md`
+20. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md`
+21. `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md`
+22. `nexora-framework/05-prompts/prompts/framework-feedback-prompts.md`
+23. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.md`, si existe
 24. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
-25. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`, si existe
+25. `projects/<project-slug>/SOURCE_OF_TRUTH.md`, si existe
 26. `projects/<project-slug>/PROJECT_BRIEF.md`, si existe
-27. `projects/<project-slug>/PROJECT_STATE.yaml`, si existe
+27. `projects/<project-slug>/PROJECT_STATE.md`, si existe
 
 Si faltan archivos de control del proyecto, el agente debe crearlos usando el template del framework.
 
@@ -292,13 +292,13 @@ Si falta `BUSINESS_REQUIREMENT.md`, el analisis queda bloqueado. El agente no de
 
 En ese caso, el agente debe detenerse y responder que necesita que el solicitante proporcione `projects/<project-slug>/BUSINESS_REQUIREMENT.md`.
 
-Si existe `00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, el agente debe usar la version actual declarada en ese indice. Si la version actual cambio desde el ultimo analisis, debe generar un analisis de impacto antes de modificar artefactos derivados o codigo.
+Si existe `00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.md`, el agente debe usar la version actual declarada en ese indice. Si la version actual cambio desde el ultimo analisis, debe generar un analisis de impacto antes de modificar artefactos derivados o codigo.
 
 ## Etapa 4: Que Debe Generar el Agente de Analisis
 
 El agente de analisis debe completar la carpeta del proyecto hasta que pueda entregarse a agentes especializados de desarrollo.
 
-Los nombres exactos pueden variar si `SOURCE_OF_TRUTH.yaml` documenta la variacion, pero las categorias de definicion son obligatorias.
+Los nombres exactos pueden variar si `SOURCE_OF_TRUTH.md` documenta la variacion, pero las categorias de definicion son obligatorias.
 
 ### Archivos de Control del Proyecto
 
@@ -306,8 +306,8 @@ Salidas requeridas:
 
 - `BUSINESS_REQUIREMENT.md` proporcionado por el solicitante
 - `PROJECT_BRIEF.md`
-- `SOURCE_OF_TRUTH.yaml`
-- `PROJECT_STATE.yaml`
+- `SOURCE_OF_TRUTH.md`
+- `PROJECT_STATE.md`
 - `README.md`
 - `ORDERED_DEVELOPMENT_GUIDE.md`
 
@@ -315,8 +315,8 @@ Proposito:
 
 - `BUSINESS_REQUIREMENT.md` explica la necesidad de negocio y actua como materia prima externa del framework.
 - `PROJECT_BRIEF.md` estructura esa necesidad en contexto de producto.
-- `SOURCE_OF_TRUTH.yaml` enumera los artefactos autoritativos.
-- `PROJECT_STATE.yaml` declara readiness y bloqueos.
+- `SOURCE_OF_TRUTH.md` enumera los artefactos autoritativos.
+- `PROJECT_STATE.md` declara readiness y bloqueos.
 - `ORDERED_DEVELOPMENT_GUIDE.md` indica a futuros agentes como cargar y trabajar incrementalmente.
 
 ### Definicion de Producto
@@ -460,7 +460,7 @@ Salidas esperadas:
 - Notas de runtime.
 - Expectativas de observabilidad y runbooks.
 - Runbook local integrado en `09-operations/runbooks/local-solution-runbook.md`.
-- Version YAML operativa en `09-operations/runbooks/local-solution-runbook.yaml`.
+- Version YAML operativa en `09-operations/runbooks/local-solution-runbook.md`.
 
 ### Artefactos Generados
 
@@ -480,7 +480,7 @@ Cuando el agente de analisis diga que el proyecto esta listo, validar antes de i
 
 Abrir:
 
-`projects/<project-slug>/PROJECT_STATE.yaml`
+`projects/<project-slug>/PROJECT_STATE.md`
 
 Debe contener:
 
@@ -503,7 +503,7 @@ Si `blocking_definition_gaps` no esta vacio, la implementacion no debe iniciar.
 
 Abrir:
 
-`projects/<project-slug>/SOURCE_OF_TRUTH.yaml`
+`projects/<project-slug>/SOURCE_OF_TRUTH.md`
 
 Debe listar artefactos autoritativos para:
 
@@ -519,22 +519,22 @@ Debe listar artefactos autoritativos para:
 - Framework MVP.
 - Primer paquete de modulo.
 
-Si un artefacto es suficientemente importante para que un agente de implementacion lo cargue, debe estar listado en `SOURCE_OF_TRUTH.yaml`.
+Si un artefacto es suficientemente importante para que un agente de implementacion lo cargue, debe estar listado en `SOURCE_OF_TRUTH.md`.
 
 ### Paquete del Primer Modulo
 
 El primer modulo MVP debe incluir:
 
-- `module-definition.yaml`
+- `module-definition.md`
 - `domain-model.md`
-- `api-contract.openapi.yaml`
+- `api-contract.openapi.md`
 - `database-migration-plan.md`
 - `ui-screen-map.md`
 - `security-and-audit-rules.md`
 - `test-plan.md`
-- `traceability.yaml`
+- `traceability.md`
 
-La ruta del paquete debe estar documentada en `PROJECT_STATE.yaml`.
+La ruta del paquete debe estar documentada en `PROJECT_STATE.md`.
 
 ### Trazabilidad Requerida
 
@@ -557,7 +557,7 @@ El proyecto no debe requerir un agente de IA, asistente de codigo, proveedor de 
 
 Usar el estandar:
 
-`nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
+`nexora-framework/02-standards/standards/agent-agnostic-standard.md`
 
 Expectativa:
 
@@ -575,7 +575,7 @@ La raiz esperada del proyecto contiene:
 - Carpetas numeradas.
 - `99-legacy/` solo para material archivado.
 
-Si un artefacto nuevo no encaja, debe ir dentro de la carpeta numerada mas cercana y se debe actualizar `SOURCE_OF_TRUTH.yaml`.
+Si un artefacto nuevo no encaja, debe ir dentro de la carpeta numerada mas cercana y se debe actualizar `SOURCE_OF_TRUTH.md`.
 
 ## Etapa 6: Que Debe Reportar el Agente al Finalizar Analisis
 
@@ -605,9 +605,9 @@ Paquete del modulo:
 projects/<project-slug>/06-delivery/mvp/modules/MVP-MOD-001-platform-foundation/
 
 Validado:
-- PROJECT_STATE.yaml tiene development_readiness.status: ready.
+- PROJECT_STATE.md tiene development_readiness.status: ready.
 - blocking_definition_gaps esta vacio.
-- SOURCE_OF_TRUTH.yaml lista artefactos autoritativos.
+- SOURCE_OF_TRUTH.md lista artefactos autoritativos.
 - El primer paquete de modulo incluye definicion, modelo de dominio, contrato API, plan de base de datos, mapa UI, reglas de seguridad, plan de pruebas y trazabilidad.
 - Validacion agent-agnostic aprobada.
 
@@ -629,8 +629,8 @@ Usar esta instruccion:
 ```text
 Lee AGENT_BOOTSTRAP.md.
 Lee NEXORA_FRAMEWORK_USAGE_GUIDE.md.
-Lee SOURCE_OF_TRUTH.yaml y PROJECT_STATE.yaml.
-Carga SOURCE_OF_TRUTH.yaml y PROJECT_STATE.yaml del proyecto objetivo.
+Lee SOURCE_OF_TRUTH.md y PROJECT_STATE.md.
+Carga SOURCE_OF_TRUTH.md y PROJECT_STATE.md del proyecto objetivo.
 Resuelve la version vigente de BUSINESS_REQUIREMENT usando el indice del proyecto si existe.
 
 Proyecto objetivo:
@@ -639,14 +639,14 @@ projects/<project-slug>/
 Modulo objetivo:
 <module-id>
 
-Inicia desde el paquete de modulo documentado en PROJECT_STATE.yaml y SOURCE_OF_TRUTH.yaml.
+Inicia desde el paquete de modulo documentado en PROJECT_STATE.md y SOURCE_OF_TRUTH.md.
 
 No redisenes el producto.
 No omitas el paquete de definicion del modulo.
 No infieras requerimientos desde el historial de conversacion.
 No implementes si hay una version nueva de BUSINESS_REQUIREMENT sin analisis de impacto resuelto.
 Implementa solo el slice del modulo seleccionado.
-Actualiza pruebas, trazabilidad y PROJECT_STATE.yaml despues de avances significativos.
+Actualiza pruebas, trazabilidad y PROJECT_STATE.md despues de avances significativos.
 Preserva limites agent-agnostic, provider-agnostic y cloud-agnostic salvo que los artefactos fuente indiquen lo contrario.
 ```
 
@@ -658,31 +658,31 @@ El agente de desarrollo debe cargar:
 
 1. `AGENT_BOOTSTRAP.md`
 2. `NEXORA_FRAMEWORK_USAGE_GUIDE.md`
-3. `SOURCE_OF_TRUTH.yaml`
-4. `PROJECT_STATE.yaml`
-5. `nexora-framework/02-standards/standards/agent-agnostic-standard.yaml`
-6. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml`
-7. `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml`
-8. `nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml`
-9. `nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml`
-10. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml`
-11. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml`
-12. `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml`
-13. `nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml`
-14. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`, si existe
+3. `SOURCE_OF_TRUTH.md`
+4. `PROJECT_STATE.md`
+5. `nexora-framework/02-standards/standards/agent-agnostic-standard.md`
+6. `nexora-framework/02-standards/standards/business-requirement-versioning-standard.md`
+7. `nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md`
+8. `nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md`
+9. `nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.md`
+10. `nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md`
+11. `nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md`
+12. `nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md`
+13. `nexora-framework/05-prompts/prompts/framework-feedback-prompts.md`
+14. `projects/<project-slug>/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.md`, si existe
 15. `projects/<project-slug>/BUSINESS_REQUIREMENT.md`
 16. `projects/<project-slug>/PROJECT_BRIEF.md`
-17. `projects/<project-slug>/SOURCE_OF_TRUTH.yaml`
-18. `projects/<project-slug>/PROJECT_STATE.yaml`
+17. `projects/<project-slug>/SOURCE_OF_TRUTH.md`
+18. `projects/<project-slug>/PROJECT_STATE.md`
 19. `projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.md`
-20. `module-definition.yaml` del modulo objetivo
+20. `module-definition.md` del modulo objetivo
 21. `domain-model.md` del modulo objetivo
-22. `api-contract.openapi.yaml` del modulo objetivo
+22. `api-contract.openapi.md` del modulo objetivo
 23. `database-migration-plan.md` del modulo objetivo
 24. `ui-screen-map.md` del modulo objetivo
 25. `security-and-audit-rules.md` del modulo objetivo
 26. `test-plan.md` del modulo objetivo
-27. `traceability.yaml` del modulo objetivo
+27. `traceability.md` del modulo objetivo
 
 El agente tambien debe cargar cualquier artefacto de producto, dominio, arquitectura, contrato o QA referenciado por el paquete del modulo.
 
@@ -725,7 +725,7 @@ Si hay aprendizaje util, debe crear un item en:
 
 y actualizar:
 
-`projects/<project-slug>/08-qa/framework-feedback/framework-feedback-index.yaml`
+`projects/<project-slug>/08-qa/framework-feedback/framework-feedback-index.md`
 
 Si el aprendizaje aplica a varios proyectos o al framework en general, el agente puede crear una propuesta en:
 
@@ -741,7 +741,7 @@ Cada proyecto con componentes ejecutables debe tener una guia unica para revisio
 
 La version YAML correspondiente es:
 
-`projects/<project-slug>/09-operations/runbooks/local-solution-runbook.yaml`
+`projects/<project-slug>/09-operations/runbooks/local-solution-runbook.md`
 
 Esta guia debe indicar, paso a paso y en orden de dependencias:
 
@@ -784,10 +784,10 @@ Para Healthcare Operations Platform, el primer objetivo de desarrollo es:
 Si un agente encuentra una definicion faltante o contradictoria durante implementacion:
 
 1. Detener el slice de implementacion afectado.
-2. Registrar el gap en `PROJECT_STATE.yaml`.
+2. Registrar el gap en `PROJECT_STATE.md`.
 3. Actualizar el artefacto fuente correspondiente.
 4. Agregar o actualizar un ADR si cambia arquitectura.
-5. Actualizar `SOURCE_OF_TRUTH.yaml` si se crea un nuevo artefacto autoritativo.
+5. Actualizar `SOURCE_OF_TRUTH.md` si se crea un nuevo artefacto autoritativo.
 6. Reanudar implementacion solo cuando el modulo vuelva a estar listo.
 
 No ocultar gaps de definicion dentro del codigo.
@@ -817,8 +817,8 @@ Readiness de analisis:
 - `BUSINESS_REQUIREMENT.md` existe, fue proporcionado por el solicitante y tiene contenido suficiente.
 - `PROJECT_BRIEF.md` estructura el requerimiento.
 - La carpeta del proyecto sigue el estandar.
-- `SOURCE_OF_TRUTH.yaml` existe.
-- `PROJECT_STATE.yaml` existe.
+- `SOURCE_OF_TRUTH.md` existe.
+- `PROJECT_STATE.md` existe.
 - Existe definicion de producto.
 - Existe mapa de capacidades.
 - Existe mapa de dependencias de capacidades.
@@ -828,7 +828,7 @@ Readiness de analisis:
 - Existe framework MVP.
 - Existe primer paquete de modulo.
 - Existe runbook local integrado en `09-operations/runbooks/local-solution-runbook.md`.
-- Existe version YAML del runbook local integrado en `09-operations/runbooks/local-solution-runbook.yaml`.
+- Existe version YAML del runbook local integrado en `09-operations/runbooks/local-solution-runbook.md`.
 - Existe trazabilidad.
 - `blocking_definition_gaps` esta vacio.
 
@@ -852,7 +852,7 @@ git status --short
 ```
 
 ```powershell
-python -c "import pathlib,yaml; files=['SOURCE_OF_TRUTH.yaml','PROJECT_STATE.yaml','PROJECT_MANIFEST.yaml']; [yaml.safe_load(pathlib.Path(f).read_text()) for f in files]; print('YAML OK')"
+python -c "import pathlib,yaml; files=['SOURCE_OF_TRUTH.md','PROJECT_STATE.md','PROJECT_MANIFEST.md']; [yaml.safe_load(pathlib.Path(f).read_text()) for f in files]; print('YAML OK')"
 ```
 
 Tambien se debe ejecutar una auditoria textual del repositorio para detectar nombres conocidos de agentes, asistentes, proveedores de modelos y runtimes de plataforma.

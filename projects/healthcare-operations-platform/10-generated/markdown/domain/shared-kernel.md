@@ -1,6 +1,6 @@
 # Generated Shared Kernel Summary
 
-> Generated from `02-domain-definition/domain-foundation/shared-kernel/shared-kernel.yaml`.
+> Generated from `02-domain-definition/domain-foundation/shared-kernel/shared-kernel.md`.
 > Do not edit manually.
 
 ## Shared Identifiers

@@ -1,0 +1,93 @@
+---
+id: HOP-OBS-BCM-PLT-003
+format: markdown_structured_payload
+type: observability-model
+name: Notification Management Observability Model
+version: 0.1.0
+status: modeled
+---
+
+# Notification Management Observability Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-OBS-BCM-PLT-003
+  type: observability-model
+  name: Notification Management Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-003
+  depends_on_capability: BCM-PLT-006
+logs:
+- event: notification_queued
+  level: info
+  fields:
+  - notificationRequestId
+  - requestingCapability
+  - channel
+  correlation_id: notificationRequestId
+- event: notification_dispatched
+  level: info
+  fields:
+  - notificationRequestId
+  - channel
+  - attemptNumber
+  correlation_id: notificationRequestId
+- event: notification_delivery_failed
+  level: error
+  fields:
+  - notificationRequestId
+  - channel
+  - attemptNumber
+  correlation_id: notificationRequestId
+- event: notification_suppressed_by_preference
+  level: info
+  fields:
+  - notificationRequestId
+  - channel
+  correlation_id: notificationRequestId
+metrics:
+- name: notification_dispatched_total
+  type: counter
+  labels:
+  - tenantId
+  - channel
+  - requestingCapability
+- name: notification_delivery_failed_total
+  type: counter
+  labels:
+  - tenantId
+  - channel
+- name: notification_suppressed_total
+  type: counter
+  labels:
+  - tenantId
+  - channel
+- name: notification_dispatch_duration_ms
+  type: histogram
+  labels:
+  - tenantId
+  - channel
+traces:
+- span: DispatchNotification
+  child_spans:
+  - CheckRecipientPreference
+  - InvokeNotificationProviderPort
+  - RecordDeliveryAttempt
+audit_events:
+- NotificationQueued
+- NotificationDispatched
+- NotificationDeliveryFailed
+alerts:
+- name: NotificationDeliveryFailureRateHigh
+  condition: notification_delivery_failed_total rate exceeds threshold
+  severity: critical
+- name: NotificationProviderAdapterUnavailable
+  condition: NotificationProviderPort operations fail rate exceeds threshold
+  severity: critical
+```

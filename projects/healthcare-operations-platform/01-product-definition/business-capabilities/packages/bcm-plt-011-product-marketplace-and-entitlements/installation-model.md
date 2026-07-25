@@ -1,0 +1,49 @@
+---
+id: HOP-MKT-INSTALL-BCM-PLT-011
+format: markdown_structured_payload
+type: installation-model
+name: Marketplace Installation Model
+version: 1.0.0
+status: modeled
+---
+
+# Marketplace Installation Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MKT-INSTALL-BCM-PLT-011
+  type: installation-model
+  name: Marketplace Installation Model
+  version: 1.0.0
+  status: modeled
+installation_lifecycle:
+  states:
+  - requested
+  - compatibility_pending
+  - approved
+  - installing
+  - installed
+  - activating
+  - active
+  - suspended
+  - uninstalling
+  - uninstalled
+  - failed
+  commands:
+  - requestInstallation
+  - approveInstallation
+  - runCompatibilityCheck
+  - installPackage
+  - activatePackage
+  - suspendPackage
+  - resumePackage
+  - uninstallPackage
+  invariants:
+  - Installation requires active tenant, compatible package and valid entitlement.
+  - Activation requires all install steps complete and audit event persisted.
+  - Uninstall preserves audit, billing and entitlement history.
+```

@@ -1,0 +1,115 @@
+---
+id: HOP-TRACE-BCM-QLT-007
+format: markdown_structured_payload
+type: traceability
+name: Audit Management Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Audit Management Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-QLT-007
+  type: traceability
+  name: Audit Management Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-007
+traces:
+  capability_map:
+    bcm_001: BCM-QLT-007
+    domain: DOM-09 Quality
+  dependency_map:
+    bcm_002_profile: quality_compliance
+    required_capabilities:
+    - BCM-ORG-001
+    - BCM-PLT-001
+    - BCM-PLT-007
+    - BCM-PLT-008
+    downstream_capabilities:
+    - BCM-QLT-006
+    - BCM-PLT-008
+  domain_foundation:
+    bounded_context: external-quality-compliance
+    aggregate_reference: AuditSchedule (AGG-022)
+  rules_to_tests:
+  - rule: RN-AUD-001
+    tests:
+    - TST-AUD-001
+  - rule: RN-AUD-002
+    tests:
+    - TST-AUD-002
+  - rule: RN-AUD-003
+    tests:
+    - TST-AUD-003
+  processes_to_commands:
+  - process: PRC-AUD-001
+    commands:
+    - createAuditSchedule
+  - process: PRC-AUD-002
+    commands:
+    - recordAuditFinding
+  - process: PRC-AUD-003
+    commands:
+    - closeAuditSchedule
+  api_to_permissions:
+  - operation: listAuditSchedules
+    scope: quality.audit.read
+  - operation: getAuditSchedule
+    scope: quality.audit.read
+  - operation: createAuditSchedule
+    scope: quality.audit.manage
+  - operation: closeAuditSchedule
+    scope: quality.audit.manage
+  - operation: recordAuditFinding
+    scope: quality.audit.execute
+  events_to_audit:
+  - event: AuditScheduled
+    audit_sink: BCM-PLT-007
+  - event: AuditFindingRecorded
+    audit_sink: BCM-PLT-007
+  - event: AuditClosed
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-AUD-001
+    operations:
+    - listAuditSchedules
+    - createAuditSchedule
+  - screen: SCR-AUD-002
+    operations:
+    - getAuditSchedule
+    - recordAuditFinding
+    - closeAuditSchedule
+  backlog_items:
+    definition: COM-MOD-013-DEF
+    definition_status: closed
+    compilation: COM-MOD-013-BE-001
+    compilation_status: closed
+    frontend_compilation: COM-MOD-013-FE-001
+    frontend_compilation_status: closed
+    validation: COM-MOD-013-QA-001
+    validation_status: closed
+    closeout: COM-MOD-013-CLOSEOUT
+    closeout_status: closed
+    history:
+    - backlog_item: COM-MOD-013-CLOSEOUT
+      status: closed
+      note: Module closeout complete. Package status moved to module_closed.
+    - backlog_item: COM-MOD-013-QA-001
+      status: closed
+      note: 'Traceability re-validated: openapi-source.md operations match AuditManagementController,
+        permissions.md matches EndpointPermissionRegistry, ui-model.md matches
+        AuditManagementScreen. TD-BE-016''s audit-trail export closure re-confirmed
+        unchanged.'
+    - backlog_item: COM-MOD-013-FE-001
+      status: closed
+      note: AuditManagementScreen compiled with IAM, i18n, tests and security-quality
+        evidence.
+```

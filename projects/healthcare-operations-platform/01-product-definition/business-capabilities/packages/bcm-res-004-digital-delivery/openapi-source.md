@@ -1,0 +1,74 @@
+---
+id: HOP-API-SRC-BCM-RES-004
+format: markdown_structured_payload
+type: openapi-source
+name: Digital Delivery API Source Model
+version: 0.1.0
+status: modeled
+---
+
+# Digital Delivery Api Source Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-API-SRC-BCM-RES-004
+  type: openapi-source
+  name: Digital Delivery API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-004
+  note: 'Source contract model. The rendered OpenAPI document, controllers, DTOs and
+    SDKs are generated outputs declared in generation-plan.md.
+
+    '
+api:
+  base_path: /api/results/delivery
+  surface_classification: partner
+  security:
+    scheme: bearer_jwt
+    required_scopes_default:
+    - delivery.view
+resources:
+- name: ResultDeliveryTicket
+  operations:
+  - id: listMyDeliveredResults
+    method: GET
+    path: /
+    scopes:
+    - delivery.view
+    generatable: false
+    custom_reason: Recipient-scoped authorization filtering (self, represented patient
+      or referred patient).
+  - id: getDeliveredResult
+    method: GET
+    path: /{deliveryTicketId}
+    scopes:
+    - delivery.view
+    generatable: false
+    custom_reason: Authorization re-check and view-state recording on every open.
+schemas_source:
+- ResultDeliveryTicket
+- DeliveryAuthorizationCheck
+error_model:
+  standard: rfc7807
+  domain_errors:
+  - code: DELIVERY_RESULT_NOT_RELEASED
+    maps_to_rule: RN-001
+  - code: DELIVERY_PATIENT_OWNERSHIP_MISMATCH
+    maps_to_rule: RN-002
+  - code: DELIVERY_REPRESENTATIVE_AUTHORIZATION_INVALID
+    maps_to_rule: RN-003
+  - code: DELIVERY_DOCTOR_REFERRAL_MISMATCH
+    maps_to_rule: RN-004
+  - code: DELIVERY_WITHHELD_PENDING_REAUTHORIZATION
+    maps_to_rule: RN-005
+  - code: DELIVERY_BOUNDARY_VIOLATION
+    maps_to_rule: RN-006
+  - code: DELIVERY_SCOPE_MISMATCH
+    maps_to_rule: RN-008
+```

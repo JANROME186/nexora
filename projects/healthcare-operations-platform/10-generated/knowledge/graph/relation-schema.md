@@ -1,0 +1,42 @@
+---
+id: relation-schema
+format: markdown_structured_payload
+---
+
+# Relation Schema
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+relation_schema:
+  required:
+  - id
+  - from
+  - to
+  - type
+  fields:
+    id: string
+    from: node_id
+    to: node_id
+    type:
+      values:
+      - belongs_to
+      - depends_on
+      - implements
+      - implemented_by
+      - exposes
+      - validates
+      - consumes
+      - produces
+      - triggers
+      - governed_by
+      - tested_by
+      - displayed_by
+      - documented_by
+      - secured_by
+      - observed_by
+      - impacts
+    description: string
+```

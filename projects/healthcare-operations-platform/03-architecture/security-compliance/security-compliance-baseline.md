@@ -65,3 +65,44 @@ For MVP 1, the platform must include:
 - Transport encryption.
 - Secrets outside source code.
 - OpenAPI security schemes.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: SEC-ARCH-001
+name: Security and Compliance Baseline
+version: 0.19.0
+status: Draft
+owner: Security Architecture
+artifact_type: security_architecture
+principles:
+- Security by Design
+- Privacy by Design
+- Zero Trust
+- Least Privilege
+- Defense in Depth
+- Tenant Isolation by Default
+- Auditability by Default
+- Encryption by Default
+- Regulatory Adaptability
+- Human Oversight for Clinical AI
+mvp_baseline:
+  authentication: required
+  authorization: required
+  tenant_isolation: required
+  audit_trail: required
+  openapi_security: required
+  secrets_outside_code: required
+  transport_encryption: required
+country_pack_strategy:
+  core_is_regulation_agnostic: true
+  country_specific_rules_in_country_packs: true
+related_artifacts:
+- IAM-ARCH-001
+- AUTHZ-ARCH-001
+- AUD-ARCH-001
+- PRIV-ARCH-001
+- REG-ARCH-001
+```

@@ -1,0 +1,97 @@
+---
+id: HOP-BR-BCM-SVC-007
+format: markdown_structured_payload
+type: business-rules
+name: Sample Catalog Business Rules
+version: 0.1.0
+status: modeled
+---
+
+# Sample Catalog Business Rules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BR-BCM-SVC-007
+  type: business-rules
+  name: Sample Catalog Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-007
+  rule_id_pattern: RN-###
+rules:
+- id: RN-001
+  statement: A sample type must have a unique code within its laboratory scope.
+  applies_to: SampleType
+  enforcement_point: command:CreateSampleType, command:UpdateSampleType
+  severity: high
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-SVC-007-01
+- id: RN-002
+  statement: Minimum volume must be greater than zero when specified.
+  applies_to: SampleRequirement
+  enforcement_point: command:CreateSampleRequirement, command:UpdateSampleRequirement
+  severity: medium
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-SVC-007-02
+- id: RN-003
+  statement: A sample requirement can only be published against a published sample
+    type.
+  applies_to: SampleRequirement
+  enforcement_point: command:PublishSampleRequirement
+  severity: high
+  audit_required: true
+  generatable: false
+  custom_reason: Cross-entity sample type publication validation.
+  test_refs:
+  - TST-SVC-007-03
+- id: RN-004
+  statement: A published sample requirement version is immutable; edits create a new
+    draft version.
+  applies_to: SampleRequirement
+  enforcement_point: command:UpdateSampleRequirement
+  severity: high
+  audit_required: true
+  generatable: false
+  custom_reason: Snapshot copy and version increment logic.
+  test_refs:
+  - TST-SVC-007-04
+- id: RN-005
+  statement: Storage temperature must be declared for frozen-sensitive matrices before
+    publication.
+  applies_to: SampleRequirement
+  enforcement_point: command:PublishSampleRequirement
+  severity: medium
+  audit_required: true
+  generatable: false
+  custom_reason: Matrix-specific handling decision logic.
+  test_refs:
+  - TST-SVC-007-05
+- id: RN-006
+  statement: Only users with catalog authoring permission may create, update or publish
+    sample catalog entries.
+  applies_to: SampleType
+  enforcement_point: authorization:catalog.sample.write
+  severity: critical
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-SVC-007-06
+enforcement_summary:
+  generatable_rules:
+  - RN-001
+  - RN-002
+  - RN-006
+  custom_implementation_rules:
+  - RN-003
+  - RN-004
+  - RN-005
+```

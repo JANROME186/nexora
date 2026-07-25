@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * Shared exception mapping for the nine BCM-INV controllers compiled in COM-MOD-010-BE-001.
  * Every response carries a first-class {@code code} field (RFC7807-inspired, per each
- * capability's {@code openapi-source.yaml error_model}) plus a {@code messageKey}
+ * capability's {@code openapi-source.md error_model}) plus a {@code messageKey}
  * ({@code inventory.error.<code, lowercase>}) so a client can resolve a localized message
  * independently of the always-English {@code message} field. Mirrors the convention adopted by
  * BCM-PLT-004/005/010, further reducing TD-I18N-002.

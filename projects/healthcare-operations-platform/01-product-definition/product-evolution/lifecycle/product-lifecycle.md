@@ -1,7 +1,7 @@
 # Product Lifecycle Model
 
-**Artifact ID:** PLC-001  
-**Status:** Draft  
+**Artifact ID:** PLC-001
+**Status:** Draft
 **Version:** 0.22.0
 
 ## Lifecycle States
@@ -43,4 +43,36 @@ lifecycle:
   removedIn: null
   replacement: null
   supportPolicy: active
+```
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: PLC-001
+name: Product Lifecycle Model
+type: lifecycle-model
+version: 0.22.0
+status: draft
+states:
+- idea
+- discovery
+- analysis
+- architecture
+- design
+- build
+- alpha
+- beta
+- ga
+- maintenance
+- deprecated
+- removed
+governance_rules:
+- No artifact may move to Build without approved business capability, domain impact
+  and API/data impact assessment.
+- No public API may move to GA without versioning and deprecation policy.
+- No feature may move to GA without feature flag and rollback strategy.
+- No AI feature may move to Beta without clinical guardrails and privacy review.
+- No country pack may move to GA without regulatory owner approval.
 ```

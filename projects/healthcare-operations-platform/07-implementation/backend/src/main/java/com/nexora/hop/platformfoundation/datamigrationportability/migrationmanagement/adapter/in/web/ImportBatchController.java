@@ -15,7 +15,7 @@ import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanag
 import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanagement.domain.ImportValidationReport;
 import com.nexora.hop.platformfoundation.datamigrationportability.migrationmanagement.domain.MigrationJob;
 
-/** Rendered controller for bcm-plt-010-open-data-ingestion-and-migration/openapi-source.yaml (DryRun/Commit resources). */
+/** Rendered controller for bcm-plt-010-open-data-ingestion-and-migration/openapi-source.md (DryRun/Commit resources). */
 @RestController
 @RequestMapping("/api/platform/migration/import-batches")
 class ImportBatchController {

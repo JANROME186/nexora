@@ -1,0 +1,52 @@
+---
+id: CAP-006
+format: markdown_structured_payload
+name: Orders, Appointments & Sample Collection
+version: 0.28.0
+status: draft
+---
+
+# Orders, Appointments & Sample Collection
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: CAP-006
+node_type: business_capability
+name: Orders, Appointments & Sample Collection
+version: 0.28.0
+status: draft
+relationships:
+  depends_on:
+  - CAP-001
+  - CAP-002
+  - CAP-003
+  - CAP-004
+  - CAP-005
+  exposes_apis:
+  - API-ORDERS-001
+  - API-APPOINTMENTS-001
+  - API-SAMPLES-001
+  owns_domain:
+  - DOM-006-DIAGNOSTIC-ORDER
+  - DOM-006-SAMPLE
+  emits_events:
+  - EV-006-APPOINTMENT-SCHEDULED
+  - EV-006-DIAGNOSTIC-ORDER-CONFIRMED
+  - EV-006-SAMPLE-COLLECTED
+  - EV-006-SAMPLE-REJECTED
+  uses_rules:
+  - BR-006-001
+  - BR-006-006
+  - BR-006-009
+impact_analysis:
+  if_changed:
+  - orders_api
+  - appointments_api
+  - samples_api
+  - cashier_billing
+  - laboratory_operations
+  - results_management
+```

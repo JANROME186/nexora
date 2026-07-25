@@ -1,0 +1,73 @@
+---
+id: HOP-PROC-BCM-RES-001
+format: markdown_structured_payload
+type: processes
+name: Result Management Processes
+version: 0.1.0
+status: modeled
+---
+
+# Result Management Processes
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PROC-BCM-RES-001
+  type: processes
+  name: Result Management Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-001
+actors:
+- id: laboratory-technician
+  actor_ref: ACT-007
+  name: Laboratory Technician
+  source: ACM-001
+- id: technical-validator
+  actor_ref: ACT-008
+  name: Technical Validator
+  source: ACM-001
+- id: medical-validator
+  actor_ref: ACT-009
+  name: Medical Validator
+  source: ACM-001
+processes:
+- id: PRC-RMG-001-01
+  name: Rebuild result search index entry
+  actor: system
+  trigger: A LaboratoryResult domain event is published by BCM-LAB-006/008/009/010.
+  commands:
+  - none (event-driven projection update only)
+  preconditions:
+  - Event is a recognized LaboratoryResult domain event.
+  steps:
+  - Locate or create the ResultSearchIndexEntry for the resultId.
+  - Apply the event's fields to the projection.
+  - Increment projectionVersion.
+  outcome: ResultSearchIndexEntryUpdated
+  rules:
+  - RN-002
+- id: PRC-RMG-001-02
+  name: Search or view results worklist
+  actor: laboratory-technician
+  trigger: Internal staff needs to locate a result by patient, order, sample, status
+    or analyte.
+  commands:
+  - none (query only)
+  preconditions:
+  - Actor holds result.search or result.read.
+  steps:
+  - Apply role- and laboratory-scoped row-level filter.
+  - Execute search against ResultSearchIndexEntry.
+  - Append a ResultAccessAuditEntry for the query.
+  outcome: ResultSearchExecuted
+  rules:
+  - RN-003
+  - RN-004
+  - RN-005
+commands: []
+```

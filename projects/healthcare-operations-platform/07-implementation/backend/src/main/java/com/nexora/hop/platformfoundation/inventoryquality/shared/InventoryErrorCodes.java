@@ -2,7 +2,7 @@ package com.nexora.hop.platformfoundation.inventoryquality.shared;
 
 /**
  * Canonical structured error codes for the nine BCM-INV capability packages compiled in
- * COM-MOD-010-BE-001, matching each capability's {@code openapi-source.yaml} {@code
+ * COM-MOD-010-BE-001, matching each capability's {@code openapi-source.md} {@code
  * error_model.domain_errors} exactly. Continues the first-class {@code code}+{@code messageKey}
  * error-envelope convention established by BCM-PLT-004/005/010 (MVP-MOD-008), further reducing
  * TD-I18N-002.

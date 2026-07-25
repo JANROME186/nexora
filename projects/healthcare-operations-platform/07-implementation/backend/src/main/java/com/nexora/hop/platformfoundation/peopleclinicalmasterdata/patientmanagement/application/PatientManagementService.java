@@ -34,7 +34,7 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PersonD
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PersonName;
 
 /**
- * Compiles the generatable outputs of {@code bcm-per-002-patient-management/generation-plan.yaml}
+ * Compiles the generatable outputs of {@code bcm-per-002-patient-management/generation-plan.md}
  * (MVP-MOD-003-BE-001) and implements its custom rules (MVP-MOD-003-BE-002): RN-002 (duplicate
  * detection integration at registration), RN-005 (patient merge with snapshot archival and
  * downstream reference rewiring), RN-006 (representative active-window enforcement on revocation)

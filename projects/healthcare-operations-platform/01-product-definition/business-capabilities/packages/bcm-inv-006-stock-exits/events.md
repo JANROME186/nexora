@@ -1,0 +1,43 @@
+---
+id: HOP-EVT-BCM-INV-006
+format: markdown_structured_payload
+type: events
+name: Stock Exits Events
+version: 0.1.0
+status: modeled
+---
+
+# Stock Exits Events
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-EVT-BCM-INV-006
+  type: events
+  name: Stock Exits Events
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-006
+domain_events:
+- name: StockExited
+  description: A stock exit decreased on-hand quantity for an InventoryItem/StockLot.
+  payload:
+  - stockExitId
+  - inventoryItemId
+  - stockLotId
+  - quantity
+  - exitReason
+  audit: true
+integration_events:
+  published:
+  - name: StockExited
+    description: Available for future cross-branch stock-transfer reconciliation.
+    consumers:
+    - inventory-procurement
+  consumed: []
+published_language: []
+```

@@ -22,7 +22,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.testcatalog.ap
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.testcatalog.application.UpdateTestDefinitionCommand;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.testcatalog.domain.TestDefinition;
 
-/** Rendered controller for bcm-svc-002-test-catalog/openapi-source.yaml (base path /api/catalog/tests). */
+/** Rendered controller for bcm-svc-002-test-catalog/openapi-source.md (base path /api/catalog/tests). */
 @RestController
 @RequestMapping("/api/catalog/tests")
 class TestDefinitionController {

@@ -52,3 +52,48 @@ X-Tenant-ID: CLINICA-SAN-JOSE
   "dateFormat": "DD/MM/YYYY"
 }
 ```
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-ONB-GUIDE-004
+  type: regional-localization-config-specification
+  name: HOP Regional Localization and Currency Configuration Specification
+  version: 1.0.0
+  status: approved
+  human_readable: regional-localization-and-currency-config-guide.md
+  machine_readable: regional-localization-and-currency-config-guide.md
+  backlog_item: COM-MOD-016-DOC-001
+supported_locales:
+- id: es-MX
+  name: Spanish (Mexico)
+  default_currency: MXN
+  date_format: DD/MM/YYYY
+  timezone: America/Mexico_City
+- id: en-US
+  name: English (United States)
+  default_currency: USD
+  date_format: MM/DD/YYYY
+  timezone: America/New_York
+currency_standard:
+  iso_standard: ISO 4217
+  supported_codes:
+  - MXN
+  - USD
+  precision: 2_decimal_places
+  data_type: Money_object_amount_and_currency
+i18n_envelope:
+  required_fields:
+  - code
+  - messageKey
+  - message
+  - timestamp
+traceability:
+  capabilities:
+  - BCM-PLT-002
+  open_source_first: true
+  agent_agnostic: true
+```

@@ -12,7 +12,7 @@ Use this playbook before changing any approved or review-status node.
 ## Steps
 
 1. Identify the target node ID.
-2. Open `KNOWLEDGE_INDEX.yaml`.
+2. Open `KNOWLEDGE_INDEX.md`.
 3. Find capability-specific index if available.
 4. Load direct relations from `knowledge/relations/`.
 5. Load downstream artifacts.

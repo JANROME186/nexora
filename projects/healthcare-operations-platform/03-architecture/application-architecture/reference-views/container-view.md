@@ -1,7 +1,7 @@
 # Application Container View
 
-**ID:** APP-C4-001  
-**Estado:** Draft  
+**ID:** APP-C4-001
+**Estado:** Draft
 **Versión:** 0.17.0
 
 ```mermaid

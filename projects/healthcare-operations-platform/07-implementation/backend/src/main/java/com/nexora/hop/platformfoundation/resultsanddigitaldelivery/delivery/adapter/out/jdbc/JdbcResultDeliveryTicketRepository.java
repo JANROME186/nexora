@@ -22,7 +22,7 @@ public class JdbcResultDeliveryTicketRepository implements ResultDeliveryTicketR
 
     // Stub implementation to satisfy technical debt TD-DB-001 for now.
     // Complete mapping will be implemented when non-local durability is required.
-    
+
     public ResultDeliveryTicket save(ResultDeliveryTicket entity) {
         throw new UnsupportedOperationException("JDBC implementation pending full field mapping");
     }
@@ -34,7 +34,7 @@ public class JdbcResultDeliveryTicketRepository implements ResultDeliveryTicketR
     public Optional<ResultDeliveryTicket> findByPatientId(PatientId id) {
         return Optional.empty();
     }
-    
+
     public List<ResultDeliveryTicket> findByResultId(ResultId resultId) {
         return List.of();
     }

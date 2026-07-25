@@ -1,0 +1,43 @@
+---
+id: HOP-GEN-BCM-PLT-008
+format: markdown_structured_payload
+type: generation-plan
+name: Document Management Generation Plan
+version: 1.2.0
+status: modeled
+---
+
+# Document Management Generation Plan
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-GEN-BCM-PLT-008
+  type: generation-plan
+  name: Document Management Generation Plan
+  version: 1.2.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-008
+targets:
+  backend:
+    module_name: documentmanagement
+    package_path: com.nexora.hop.platformfoundation.documentmanagement
+    artifacts:
+    - entity: StoredDocumentEntity
+    - repository: StoredDocumentRepository
+    - service: DocumentManagementService
+    - controller: DocumentManagementController
+  frontend:
+    surface: employee_portal
+    api_facade: src/api/documentManagementApi.ts
+    screen_components:
+    - src/components/screens/DocumentLibraryScreen.tsx
+    - src/components/screens/DocumentRetentionScreen.tsx
+  schema:
+    migration_file: db/document-management/schema.sql
+    table_name: stored_documents
+```

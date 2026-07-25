@@ -59,3 +59,40 @@ Authorization must consider:
 ## Critical rule
 
 Hiding a button in the UI is never sufficient authorization. Every protected operation must be enforced in backend use cases.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: AUTHZ-ARCH-001
+name: Authorization Model
+version: 0.19.0
+status: Draft
+models:
+- RBAC
+- ABAC
+permission_convention: domain.resource.action.scope
+enforcement_points:
+- api_gateway
+- backend_use_case
+- frontend_visibility
+- mobile_visibility
+- reports
+- exports
+- ai_assistant
+hierarchy:
+- laboratory
+- branch
+- department
+- position
+- role
+- user
+critical_rules:
+- ui_visibility_is_not_authorization
+- backend_must_enforce_every_protected_operation
+examples:
+- patient.record.create.branch
+- result.report.validate.branch
+- billing.invoice.cancel.branch
+```

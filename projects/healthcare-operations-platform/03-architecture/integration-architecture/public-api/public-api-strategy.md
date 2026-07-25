@@ -1,7 +1,7 @@
 # Public API Strategy
 
-**Artifact ID:** IIA-API-001  
-**Version:** 0.20.0  
+**Artifact ID:** IIA-API-001
+**Version:** 0.20.0
 
 ## Purpose
 

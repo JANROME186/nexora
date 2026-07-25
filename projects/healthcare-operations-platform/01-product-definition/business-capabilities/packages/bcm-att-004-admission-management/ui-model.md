@@ -1,0 +1,84 @@
+---
+id: HOP-UI-BCM-ATT-004
+format: markdown_structured_payload
+type: ui-model
+name: Admission Management UI Model
+version: 0.1.0
+status: modeled
+---
+
+# Admission Management Ui Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-UI-BCM-ATT-004
+  type: ui-model
+  name: Admission Management UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-004
+  target_surface: employee_portal
+surfaces:
+  employee_portal:
+    status: required
+    generatable: true
+  patient_portal:
+    status: not_required
+    generatable: not_applicable
+  doctor_portal:
+    status: not_required
+    generatable: not_applicable
+screens:
+- id: SCR-ADM-004-01
+  name: Admission Intake
+  route: /admissions/{visitId}/new
+  type: wizard
+  scopes:
+  - admission.manage
+  components:
+  - DoctorPicker
+  - CatalogItemSelector
+  - PreparationAcknowledgementPanel
+  - ClinicalNotesForm
+  - ConsentConfirmationPanel
+  generatable: false
+  custom_reason: Combines published-catalog validation, consent and sample-requirement
+    acknowledgement before order commit.
+- id: SCR-ADM-004-02
+  name: Admission Request List
+  route: /admissions
+  type: list
+  scopes:
+  - admission.read
+  components:
+  - DataTable
+  - StatusFilter
+  - BranchFilter
+  generatable: true
+- id: SCR-ADM-004-03
+  name: Admission Request Detail
+  route: /admissions/{admissionId}
+  type: detail
+  scopes:
+  - admission.read
+  components:
+  - AdmissionSummary
+  - CreatedOrderLink
+  - AuditTraceLink
+  generatable: true
+states:
+- draft
+- ready_for_order
+- order_created
+- rejected
+localization:
+  languages:
+  - en
+  - es
+  default: es
+```

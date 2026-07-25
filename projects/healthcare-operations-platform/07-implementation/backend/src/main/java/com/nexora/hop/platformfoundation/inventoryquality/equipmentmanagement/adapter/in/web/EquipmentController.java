@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Rendered controller for bcm-qlt-004-equipment-management/openapi-source.yaml. */
+/** Rendered controller for bcm-qlt-004-equipment-management/openapi-source.md. */
 @RestController
 @RequestMapping("/api/quality/equipment")
 class EquipmentController {

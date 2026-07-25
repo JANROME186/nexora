@@ -2,7 +2,6 @@ package com.nexora.hop.platformfoundation.catalogtestconfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import org.yaml.snakeyaml.Yaml;
 
 /**
  * Confirms every generatable operation declared in each Diagnostic Catalog capability's
- * openapi-source.yaml (the source contract model per the capability-package-standard) is
+ * openapi-source.md (the source contract model per the capability-package-standard) is
  * reachable as a registered Spring MVC route in the compiled catalog-test-configuration module.
  * This is the MVP-MOD-002-BE-001 equivalent of PlatformFoundationApiContractTest, pointed at the
  * capability packages instead of a rendered module OpenAPI document (no MVP-MOD-002 module
@@ -71,7 +70,7 @@ class CatalogTestConfigurationContractTest {
             }
         }
 
-        assertThat(missing).as("Operations declared in openapi-source.yaml but not registered as Spring routes").isEmpty();
+        assertThat(missing).as("Operations declared in openapi-source.md but not registered as Spring routes").isEmpty();
     }
 
     private Set<String> registeredRoutes() {
@@ -98,10 +97,24 @@ class CatalogTestConfigurationContractTest {
     private static Map<String, Object> loadOpenApiSource(String packageName) throws Exception {
         Path source = Path.of(
                 "..", "..", "01-product-definition", "business-capabilities", "packages", packageName,
-                "openapi-source.yaml");
-        try (InputStream inputStream = Files.newInputStream(source)) {
-            return map(new Yaml().load(inputStream));
+                "openapi-source.md");
+        return map(new Yaml().load(extractStructuredPayload(Files.readString(source))));
+    }
+
+    private static String extractStructuredPayload(String markdown) {
+        String payloadMarker = "<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->";
+        int payloadStart = markdown.indexOf(payloadMarker);
+        if (payloadStart >= 0) {
+            markdown = markdown.substring(payloadStart);
         }
+        String marker = "```yaml\n";
+        int start = markdown.indexOf(marker);
+        if (start < 0) {
+            return markdown;
+        }
+        start += marker.length();
+        int end = markdown.indexOf("\n```", start);
+        return end < 0 ? markdown.substring(start) : markdown.substring(start, end);
     }
 
     @SuppressWarnings("unchecked")

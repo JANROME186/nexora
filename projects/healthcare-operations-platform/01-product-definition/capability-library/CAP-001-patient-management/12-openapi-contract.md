@@ -2,7 +2,7 @@
 
 ## Contract location
 
-`05-contracts/contracts/openapi/patients/patients.openapi.yaml`
+`05-contracts/contracts/openapi/patients/patients.openapi.md`
 
 ## API principles
 

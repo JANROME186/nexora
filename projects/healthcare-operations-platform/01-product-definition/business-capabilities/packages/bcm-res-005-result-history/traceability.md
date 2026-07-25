@@ -1,0 +1,127 @@
+---
+id: HOP-TRACE-BCM-RES-005
+format: markdown_structured_payload
+type: traceability
+name: Result History Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Result History Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-RES-005
+  type: traceability
+  name: Result History Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-005
+traces:
+  capability_map:
+    bcm_001: BCM-RES-005
+    domain: DOM-07 Results
+  dependency_map:
+    bcm_002_profile: results_delivery
+    required_capabilities:
+    - BCM-RES-001
+    - BCM-RES-004
+    - BCM-PER-002
+    - BCM-PLT-001
+    - BCM-PLT-007
+    downstream_capabilities:
+    - BCM-AI-005
+    - BCM-AI-006
+  domain_foundation:
+    bounded_context: laboratory-results
+    aggregate_reference: PatientResultHistoryView (new read projection); AGG-009 LaboratoryResult
+      and AGG-001 Patient read-only
+    context_relationships:
+    - REL-CTX-002
+    - REL-CTX-004
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-005
+    - VO-ID-009
+  brm_alignment:
+  - rule: BRM-001-R014
+    alignment: History entries are projected only from authorized, released deliveries
+      (RN-001).
+  - rule: BRM-001-R018
+    alignment: Every history view is audited (RN-006).
+  hrp_alignment:
+  - process: HRP-001-P07 Result Report and Digital Delivery
+    capability_role: Display released result history segment of the process, extending
+      the single-result view with chronological/trend context.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-RHS-005-01
+  - rule: RN-002
+    tests:
+    - TST-RHS-005-02
+  - rule: RN-003
+    tests:
+    - TST-RHS-005-03
+  - rule: RN-004
+    tests:
+    - TST-RHS-005-04
+  - rule: RN-005
+    tests:
+    - TST-RHS-005-05
+  - rule: RN-006
+    tests:
+    - TST-RHS-005-06
+  processes_to_commands:
+  - process: PRC-RHS-005-02
+    commands: []
+  api_to_permissions:
+  - operation: getResultHistory
+    scope: history.view
+  events_to_audit:
+  - event: ResultHistoryViewed
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-RHS-005-01
+    operations:
+    - getResultHistory
+  consumed_by_capabilities:
+  - capability: BCM-AI-005
+    relationship: Future read-only trend-analysis assistant consumer (never a writer),
+      out of MVP-MOD-007 scope.
+  - capability: BCM-AI-006
+    relationship: Future read-only trend-analysis assistant consumer (never a writer),
+      out of MVP-MOD-007 scope.
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/results-and-digital-delivery/MVP-MOD-007-DEF-validation.md
+  backlog_items:
+    definition: MVP-MOD-007-DEF
+    com_mod_009_def: COM-MOD-009-DEF
+    definition_status: closed
+    compilation: MVP-MOD-007-BE-001
+    compilation_status: closed
+    custom_rules: MVP-MOD-007-BE-002
+    custom_rules_status: closed
+    ui: MVP-MOD-007-PORTAL-001
+    ui_status: closed
+    validation: MVP-MOD-007-QA-001
+    validation_status: closed
+    closeout: MVP-MOD-007-CLOSEOUT
+    closeout_status: closed
+  post_closeout_debt_remediation:
+  - backlog_item: COM-MOD-009-PORTAL-002
+    change: ResultHistoryController/ResultHistoryService gained optional tenantId/callerRoleCode/
+      callerId query parameters. When callerRoleCode is REFERRING_DOCTOR, ResultHistoryService
+      now verifies via frontdeskcaredelivery's new ReferringDoctorAuthorizationPort
+      that the calling doctor has actually referred the requested patient before returning
+      history; an unreferred patient now receives a 403 (ResultHistoryAccessDeniedException,
+      error code DELIVERY_DOCTOR_REFERRAL_MISMATCH) instead of silently succeeding.
+      Patient self-access (path patientId == authenticated userId, enforced by HopAuthorizationInterceptor)
+      is unchanged.
+    evidence: ../../../../08-qa/qa/patient-and-doctor-portals/COM-MOD-009-PORTAL-002-validation.md
+```

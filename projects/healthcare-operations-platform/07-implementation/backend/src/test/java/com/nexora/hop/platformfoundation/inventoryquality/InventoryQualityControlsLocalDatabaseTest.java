@@ -25,7 +25,7 @@ import tools.jackson.databind.ObjectMapper;
 /**
  * PostgreSQL-backed integration test for the BCM-QLT-001/003/004/005 capabilities added by
  * COM-MOD-010-BE-002. Executed only when {@code -Dhop.local-db-tests=true} is set (typically
- * together with a running {@code compose.local.yml}). Mirrors
+ * together with a running {@code compose.local.json}). Mirrors
  * {@code InventoryQualityLocalDatabaseTest} (which only exercised BCM-INV-001..009) so the four
  * quality-capability JDBC adapters (internal quality controls, calibration, equipment,
  * maintenance) get exercised end-to-end against a real PostgreSQL database.

@@ -1,0 +1,93 @@
+---
+id: HOP-UI-BCM-ATT-006
+format: markdown_structured_payload
+type: ui-model
+name: Quotation Management UI Model
+version: 0.2.0
+status: modeled
+---
+
+# Quotation Management Ui Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-UI-BCM-ATT-006
+  type: ui-model
+  name: Quotation Management UI Model
+  version: 0.2.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-006
+  target_surface: employee_portal
+surfaces:
+  employee_portal:
+    status: required
+    generatable: true
+  public_website:
+    status: required
+    generatable: not_applicable
+    note: Public website pages are a COM-MOD-011-WEB-001 delivery concern, not an
+      employee-portal screen. This capability only exposes the anonymous startQuotation
+      intake operation (openapi-source.md public_surface, RN-009) consumed by that
+      public page.
+  patient_portal:
+    status: not_required
+    generatable: not_applicable
+  doctor_portal:
+    status: not_required
+    generatable: not_applicable
+screens:
+- id: SCR-QUO-006-01
+  name: Quotation Builder
+  route: /quotations/new
+  type: wizard
+  scopes:
+  - quotation.manage
+  components:
+  - PatientOrProspectPicker
+  - CatalogItemSelector
+  - PricingSummaryPanel
+  - DiscountApplicationForm
+  generatable: false
+  custom_reason: Combines published-catalog validation, pricing preview and tenant
+    discount policy enforcement.
+- id: SCR-QUO-006-02
+  name: Quotation List
+  route: /quotations
+  type: list
+  scopes:
+  - quotation.read
+  components:
+  - DataTable
+  - StatusFilter
+  - BranchFilter
+  generatable: true
+- id: SCR-QUO-006-03
+  name: Quotation Detail
+  route: /quotations/{quotationId}
+  type: detail
+  scopes:
+  - quotation.read
+  components:
+  - QuotationSummary
+  - PricingSnapshotPanel
+  - ConvertToOrderButton
+  - AuditTraceLink
+  generatable: true
+states:
+- draft
+- issued
+- accepted
+- expired
+- converted
+- cancelled
+localization:
+  languages:
+  - en
+  - es
+  default: es
+```

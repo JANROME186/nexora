@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nexora.hop.platformfoundation.integrationinteroperability.apimanagement.application.ApiManagementService;
 import com.nexora.hop.platformfoundation.integrationinteroperability.apimanagement.domain.ApiSurfaceRegistration;
 
-/** Rendered controller for bcm-plt-005-api-management/openapi-source.yaml (ApiSurfaceRegistration resource). */
+/** Rendered controller for bcm-plt-005-api-management/openapi-source.md (ApiSurfaceRegistration resource). */
 @RestController
 @RequestMapping("/api/platform/api-management/operations")
 class ApiSurfaceController {

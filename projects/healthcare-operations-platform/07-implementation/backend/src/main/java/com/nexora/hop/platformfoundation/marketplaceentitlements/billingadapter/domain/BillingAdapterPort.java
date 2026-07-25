@@ -1,7 +1,7 @@
 package com.nexora.hop.platformfoundation.marketplaceentitlements.billingadapter.domain;
 
 /**
- * Provider-agnostic outbound port (package-manifest.yaml/commercial-offer.yaml OFFER-004) mirroring
+ * Provider-agnostic outbound port (package-manifest.md/commercial-offer.md OFFER-004) mirroring
  * {@code FiscalAdapterPort}, {@code NotificationProviderPort}, {@code DocumentStoragePort} and
  * {@code IntegrationAdapterPort}. Implementations must be replaceable with a real billing provider
  * integration (e.g. Stripe, a payment gateway) without any domain or application code change.

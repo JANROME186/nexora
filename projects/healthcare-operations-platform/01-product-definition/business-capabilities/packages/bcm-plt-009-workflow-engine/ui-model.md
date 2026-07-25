@@ -1,0 +1,31 @@
+---
+id: HOP-UI-BCM-PLT-009
+format: markdown_structured_payload
+type: ui-model
+name: Workflow Engine UI Model
+version: 1.0.0
+---
+
+# Workflow Engine Ui Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-UI-BCM-PLT-009
+  type: ui-model
+  name: Workflow Engine UI Model
+  version: 1.0.0
+screens:
+- id: SCR-WFK-001
+  name: Operations Workflow Console
+  surface: employee_portal / operations_console
+  route: /admin/workflows
+  components:
+  - WorkflowExecutionTable
+  - TriggerWorkflowModal
+  - StepExecutionDiagram
+  - EmergencyRollbackButton
+```

@@ -42,7 +42,7 @@ import com.nexora.hop.platformfoundation.laboratoryworkflow.shared.LabWorkflowEr
  * <p>Does not mutate Sample, Patient, Doctor, DiagnosticOrder, Sale or Invoice aggregates.
  *
  * <p>Custom validation rules for captureResult and submitForValidation are extension points
- * deferred to MVP-MOD-006-BE-002 (see generation-plan.yaml CUS-LPR-006-*).
+ * deferred to MVP-MOD-006-BE-002 (see generation-plan.md CUS-LPR-006-*).
  * Technical/medical validation and result release custom rules also remain in BE-002.
  */
 @Service
@@ -97,7 +97,7 @@ public class LaboratoryResultsService {
         if (!"received".equals(status) && !"in_process".equals(status)) {
             throw new LabWorkflowConflictException("CUS-LPR-006-02: Sample must be received or in_process to capture results. Current status: " + status);
         }
-        
+
         // CUS-LPR-006-03: Device-message boundary enforcement
         if (captureSource == CaptureSource.device_message && (command.deviceReference() == null || command.deviceReference().isBlank())) {
             throw new LabWorkflowConflictException("CUS-LPR-006-03: Device reference is required for device messages.");
@@ -187,13 +187,13 @@ public class LaboratoryResultsService {
                     LabWorkflowErrorCodes.RESULT_BOUNDARY_VIOLATION
                             + ": Result must be in captured status to submit for validation.");
         }
-        
+
         // CUS-LPR-006-04: Unresolved-incident reliability judgment
         boolean hasUnresolvedIncident = !existing.processingIncidents().isEmpty();
         if (hasUnresolvedIncident) {
             throw new LabWorkflowConflictException("CUS-LPR-006-04: Cannot submit for validation with unresolved incidents.");
         }
-        
+
         Instant now = Instant.now(clock);
 
         LaboratoryResult updated = new LaboratoryResult(
@@ -222,7 +222,7 @@ public class LaboratoryResultsService {
         if (existing.status() != ResultStatus.pending_technical_validation) {
             throw new LabWorkflowConflictException("Result must be in pending_technical_validation status.");
         }
-        
+
         // CUS-LPR-008-01: Multi-criterion acceptance check
         // CUS-LPR-008-02: Critical-threshold comparison
         com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.domain.CriticalResultFlag criticalFlag = existing.criticalFlag();
@@ -263,7 +263,7 @@ public class LaboratoryResultsService {
         if (existing.status() != ResultStatus.technically_validated) {
             throw new LabWorkflowConflictException("Result must be technically_validated to be medically validated.");
         }
-        
+
         // CUS-LPR-009-01: Licensed-authority verification
         if (license.length() < 3) {
             throw new LabWorkflowConflictException("CUS-LPR-009-01: Invalid license identifier format.");
@@ -294,12 +294,12 @@ public class LaboratoryResultsService {
         String actorId = requiredText(command.actorId(), "Actor id is required.");
 
         LaboratoryResult existing = loadResult(resultId, tenantId);
-        
+
         // CUS-LPR-010-01: Eligibility check spanning medical validation and sample status
         if (existing.status() != ResultStatus.medically_validated) {
             throw new LabWorkflowConflictException("CUS-LPR-010-01: Result must be medically_validated to be released.");
         }
-        
+
         Instant now = Instant.now(clock);
         ResultReleaseRecord release = new ResultReleaseRecord(actorId, now);
 
@@ -392,7 +392,7 @@ public class LaboratoryResultsService {
 
     public LaboratoryResult flagCriticalResult(String resultId, String tenantId, String actorId, String criticalReason) {
         LaboratoryResult existing = loadResult(resultId, tenantId);
-        
+
         CriticalResultFlag flag = new CriticalResultFlag(actorId, Instant.now(clock), criticalReason);
         LaboratoryResult updated = new LaboratoryResult(
                 existing.resultId(), existing.tenantId(), existing.laboratoryId(),
@@ -403,14 +403,14 @@ public class LaboratoryResultsService {
                 flag, existing.medicalValidation(),
                 existing.releaseRecord(), existing.amendments(),
                 existing.status(), existing.createdAt(), Instant.now(clock));
-        
+
         LaboratoryResult saved = repository.save(updated);
         auditRecorder.recordSystemEvent(tenantId, "ResultFlaggedCritical", "LaboratoryResult", resultId,
                 "{\"actor\":\"" + actorId + "\", \"reason\":\"" + criticalReason + "\"}");
-        
+
         eventPublisher.publishEvent(new ResultFlaggedCriticalEvent(
                 resultId, tenantId, existing.laboratoryId(), criticalReason));
-        
+
         return saved;
     }
 }

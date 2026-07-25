@@ -3,11 +3,11 @@
 Status: complete. Backlog item: `HOP-QA-ALIGN-005` — Establish message externalization and
 magic-string remediation baseline.
 
-Machine-readable companion: `HOP-QA-ALIGN-005-message-externalization-inventory.yaml`.
+Machine-readable companion: `HOP-QA-ALIGN-005-message-externalization-inventory.md`.
 
 ## Scope and closure rule
 
-Per `open-source-first-security-quality-standard.yaml`'s `message_externalization_policy`, only
+Per `open-source-first-security-quality-standard.md`'s `message_externalization_policy`, only
 new/changed content since the previous quality-alignment iteration must be externalized or
 formally dispositioned as debt — a full retroactive product-wide refactor is not required. No
 prior HOP-QA-ALIGN item performed this inventory, so this baseline covers the full current
@@ -23,7 +23,7 @@ safe, and formal technical debt for what requires larger work.
 
 ## P0 / P1 / P2 classification
 
-Per `HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.yaml`, "message externalization and magic-string
+Per `HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.md`, "message externalization and magic-string
 inventory" is explicitly listed under `must_be_brought_to_p0_now`.
 
 | Priority | Meaning here | Disposition |
@@ -36,7 +36,7 @@ inventory" is explicitly listed under `must_be_brought_to_p0_now`.
 
 Method: grep across `07-implementation/backend/src/main/java` for string-literal throws,
 `STATUS_` constants and numeric literals in `frontdeskcaredelivery`, cross-referenced against
-`error_model.domain_errors` in each owning capability package's `openapi-source.yaml`
+`error_model.domain_errors` in each owning capability package's `openapi-source.md`
 (`bcm-lab-001-diagnostic-order-management`, `bcm-att-001-appointment-scheduling`,
 `bcm-att-003-reception-management`, `bcm-att-004-admission-management`,
 `bcm-att-006-quotation-management`).
@@ -73,7 +73,7 @@ The framework's `message_externalization_policy.backend_expectations` calls for 
 codes and a message-catalog/resource-bundle approach. HOP already has the raw material for both,
 mechanically derived from the model:
 
-1. **Today (this backlog item):** every capability package's `openapi-source.yaml` already models
+1. **Today (this backlog item):** every capability package's `openapi-source.md` already models
    `error_model.domain_errors` with a `code` and `maps_to_rule`. A new
    `FrontDeskErrorCodes` constants class
    (`frontdeskcaredelivery/shared/FrontDeskErrorCodes.java`) makes the 30 runtime-reachable codes
@@ -197,3 +197,289 @@ all passed.
 
 Message externalization and magic-string remediation baseline: **established**. Ready for
 `HOP-QA-ALIGN-CLOSEOUT`. `MVP-MOD-004-FE-001` remains paused pending that item.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-QA-ALIGN-005-INVENTORY
+  type: message-externalization-inventory
+  name: Message Externalization and Magic-String Inventory
+  version: 1.0.0
+  status: complete
+  created_date: 2026-07-16
+  human_readable: HOP-QA-ALIGN-005-message-externalization-inventory.md
+  machine_readable: HOP-QA-ALIGN-005-message-externalization-inventory.md
+  policy: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+  prioritization_framework: HOP-ENGINEERING-EXCELLENCE-PRIORITIZATION.md
+backlog_item:
+  id: HOP-QA-ALIGN-005
+  name: Establish message externalization and magic-string remediation baseline
+scope:
+  components:
+  - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/frontdeskcaredelivery
+  - 07-implementation/employee-portal/src
+  - 07-implementation/mobile-app/src
+  closure_rule: Per the framework's message_externalization_policy.closure_rule, only
+    new/changed content since the previous quality-alignment iteration must be externalized
+    or formally dispositioned as debt. A full retroactive product-wide refactor is
+    explicitly not required; this inventory nonetheless covers the full current surface
+    (not just deltas) because no prior HOP-QA-ALIGN item performed this inventory,
+    so there is no smaller delta to scope to.
+backend:
+  method: Grep across 07-implementation/backend/src/main/java for string-literal throws,
+    STATUS_ constants and numeric literals in the frontdeskcaredelivery module (the
+    only module with an informal coded-message convention already in place), cross-referenced
+    against error_model.domain_errors in each of the five owning capability packages'
+    openapi-source.md.
+  domain_error_codes:
+    total_modeled_in_openapi_source: 33
+    with_runtime_throw_site: 30
+    without_runtime_throw_site: 3
+    without_runtime_throw_site_reason: RN-004/RN-005-class *_SCOPE_MISMATCH and *_BOUNDARY_VIOLATION
+      codes are enforced generically by cross-cutting authorization logic, not a per-service
+      throw site; no code change needed.
+    packages:
+    - package: bcm-lab-001-diagnostic-order-management
+      codes:
+      - ORDER_DOCTOR_NOT_ELIGIBLE
+      - ORDER_NO_LINES
+      - ORDER_PRICING_SNAPSHOT_REQUIRED
+      - ORDER_TERMINAL_STATE_IMMUTABLE
+      - ORDER_CANCELLATION_OVERRIDE_REQUIRED
+      - ORDER_CATALOG_ITEM_NOT_PUBLISHED
+      service: DiagnosticOrderManagementService.java
+      throw_sites: 8
+    - package: bcm-att-001-appointment-scheduling
+      codes:
+      - APPOINTMENT_BRANCH_NOT_ACTIVE
+      - APPOINTMENT_WINDOW_OVERLAP
+      - APPOINTMENT_BRANCH_CAPACITY_EXCEEDED
+      - APPOINTMENT_CATALOG_ITEM_NOT_PUBLISHED
+      - APPOINTMENT_NO_SHOW_GRACE_PERIOD_ACTIVE
+      service: AppointmentSchedulingService.java
+      throw_sites: 6
+    - package: bcm-att-003-reception-management
+      codes:
+      - RECEPTION_IDENTITY_NOT_CONFIRMED
+      - RECEPTION_APPOINTMENT_NOT_CHECKED_IN
+      service: ReceptionManagementService.java
+      throw_sites: 2
+    - package: bcm-att-004-admission-management
+      codes:
+      - ADMISSION_IDENTITY_NOT_CONFIRMED
+      - ADMISSION_CATALOG_INCOMPLETE
+      - ADMISSION_CONSENT_OR_SAMPLE_ACK_MISSING
+      service: AdmissionManagementService.java
+      throw_sites: 5
+    - package: bcm-att-006-quotation-management
+      codes:
+      - QUOTATION_CATALOG_ITEM_NOT_PUBLISHED
+      - QUOTATION_PRICING_SNAPSHOT_REQUIRED
+      - QUOTATION_DISCOUNT_POLICY_EXCEEDED
+      - QUOTATION_EXPIRED
+      - QUOTATION_TERMINAL_STATE_IMMUTABLE
+      service: QuotationManagementService.java
+      throw_sites: 7
+  api_error_response_shape_inconsistency:
+    finding: '5 distinct *ApiErrorResponse record shapes exist (one per exception
+      handler), none with a dedicated `code` field: CatalogApiErrorResponse and PeopleApiErrorResponse
+      carry (status, message, ruleId, backlogItem, occurredAt); FrontDeskApiErrorResponse,
+      IdentityAccessExceptionHandler''s ApiErrorResponse and OrganizationManagementExceptionHandler''s
+      ApiErrorResponse carry only (status, message, occurredAt).'
+    priority: P1
+    disposition: tracked_by_TD-I18N-002
+    reason_not_fixed_now: Adding a code field is an OpenAPI response-contract change
+      across 5 capability packages; too large to qualify as this backlog's "small
+      and safe" remediation bar.
+  status_constants:
+    finding: 74 STATUS_ constants already centralized as named Java constants on their
+      owning domain records (e.g. DiagnosticOrder.STATUS_ACCEPTED) across all modules.
+    priority: P2
+    disposition: existing_strength_no_action_needed
+  configurable_business_values:
+    finding: Tenant-configurable thresholds (branch daily appointment capacity, no-show
+      grace days, required admission acknowledgements, standard/override max discount
+      percentage) already resolve through FrontDeskPolicyStore / TenantPeoplePolicyStore
+      rather than hardcoded constants.
+    priority: P2
+    disposition: existing_strength_no_action_needed
+  masking_and_config_debt_review:
+    td_be_008_reviewed: true
+    td_be_008_impacted_by_this_backlog_item: false
+    note: TD-BE-008 (read-model masking not tenant-configurable) is unrelated to message
+      externalization; no change made in this backlog item.
+frontend_employee_portal:
+  method: Full read of all 25 non-test .ts/.tsx files under employee-portal/src (5,020
+    lines, no sampling), grep-verified for literal-occurrence counts.
+  categories:
+    user_visible_text:
+      count_distinct: ~130
+      priority: P1
+      disposition: majority_remains_inline_tracked_by_TD-I18N-002
+      note: single-occurrence headings, button labels, field hints; no i18n library
+        installed.
+    validation_error_messages:
+      count_distinct: 34
+      repeated_3_plus_times:
+      - literal: Select a doctor first.
+        occurrences: 5
+        file: components/screens/DoctorsScreen.tsx
+      - literal: Select a patient first.
+        occurrences: 5
+        file: components/screens/PatientsScreen.tsx
+      repeated_2_times:
+      - literal: Unexpected error. Please try again.
+        occurrences: 2
+        files:
+        - state/useAsyncAction.ts
+        - components/screens/PatientRegistrationsScreen.tsx
+      priority: P0
+      disposition: remediated_this_backlog_item
+      remediation: Centralized in employee-portal/src/i18n/messages.ts (MESSAGES.selectDoctorFirst,
+        MESSAGES.selectPatientFirst, MESSAGES.unexpectedError); all 12 call sites
+        updated.
+    status_labels:
+      finding: AsyncStatus ("idle"|"loading"|"success"|"error") was independently
+        declared 3 times (state/useAsyncAction.ts, components/common/StatusBanner.tsx,
+        a local CommitPhase alias in PatientRegistrationsScreen.tsx). CatalogStatus,
+        UserStatus and PatientRegistrationOutcome unions exist in api/types.ts but
+        several entity status fields (Tenant.status, Doctor.status/portalStatus, PatientRepresentative.status,
+        ProfessionalCredential.verificationStatus) remain plain `string`, compared
+        via raw string literals.
+      priority: P0_for_the_triple_declaration_P1_for_the_untyped_fields
+      disposition: triple_declaration_remediated_this_backlog_item_untyped_fields_tracked_by_TD-I18N-002
+      remediation: StatusBanner and PatientRegistrationsScreen now import the single
+        exported AsyncStatus type from state/useAsyncAction.ts instead of redeclaring
+        the union.
+    routes_and_navigation:
+      finding: No client-side router; a ScreenKey union in AppShell.tsx drives tab
+        switching (already a closed, compile-time-checked set). 6 distinct API base-path
+        string literals.
+      priority: P2
+      disposition: existing_strength_no_action_needed
+    permissions_and_scope:
+      finding: AccessScopeType union ("platform"|"tenant"|"laboratory"|"branch") is
+        a closed, compile-time-checked set. roleCode on the Role Assignments screen
+        is a free-text operator input with no client-side allowlist (opaque strings
+        from user input, not a fixed magic-value set to externalize).
+      priority: P2
+      disposition: existing_strength_no_action_needed
+    api_query_keys:
+      finding: No data-fetching/cache library is present (plain useState); "keys"
+        are only URLSearchParams parameter names (laboratoryId, tenantId, personKind,
+        familyName, givenName, birthDate, subjectId), each used consistently against
+        its matching backend query parameter.
+      priority: P2
+      disposition: existing_strength_no_action_needed
+    repeated_magic_strings_and_numbers:
+      count_3_plus: 8
+      highlighted:
+      - literal: 0.85 / 0.5 duplicate-match confidence thresholds + confidenceClass()
+        occurrences: 2
+        files:
+        - components/screens/PersonSearchScreen.tsx
+        - components/screens/PatientRegistrationsScreen.tsx
+        priority: P0
+        disposition: remediated_this_backlog_item
+        remediation: Centralized in employee-portal/src/i18n/matching.ts (DUPLICATE_MATCH_CONFIDENCE_HIGH,
+          DUPLICATE_MATCH_CONFIDENCE_MEDIUM, confidenceClass); both screens now import
+          the shared function.
+      - literal: '"national_id" / "passport" / "other" document-type defaults'
+        occurrences: 9+
+        priority: P2
+        disposition: tracked_by_TD-I18N-002
+      - literal: response.status === 204
+        occurrences: 2 (cross-app, employee-portal httpClient.ts and mobile-app platformFoundationApi.ts)
+        priority: P2
+        disposition: tracked_by_TD-I18N-002
+    configurable_business_values:
+      count_clusters: 7
+      highlighted:
+      - finding: HTTP 409 + string match `.includes("MATCH_RESOLUTION_REQUIRED")`
+          coupling UI logic to a backend error-message substring instead of a structured
+          code.
+        file: components/screens/PatientRegistrationsScreen.tsx:172
+        priority: P1
+        disposition: tracked_by_TD-I18N-002_blocked_on_backend_code_field
+      - finding: Diagnostic catalog create-handler business defaults hardcoded (serviceType
+          "laboratory", resultType "numeric", measurementUnit "mg/dL", currency "MXN",
+          decimalPrecision 2, reference-range normalHigh/criticalHigh).
+        file: components/screens/DiagnosticCatalogScreen.tsx
+        priority: P2
+        disposition: tracked_by_TD-I18N-002_defer_until_multi_unit_or_multi_currency_need
+mobile_app:
+  method: Full read of all 8 non-test .ts files under mobile-app/src (398 lines).
+  categories:
+    user_visible_text:
+      count_distinct: 9
+      priority: P2
+      disposition: centralized_this_backlog_item
+      remediation: mobile-app/src/i18n/messages.ts (title/greeting/scope templates
+        and HomeAction.label values reviewed; no renderable UI layer exists yet so
+        no further remediation applies).
+    validation_error_messages:
+      count_distinct: 6
+      priority: P0
+      disposition: remediated_this_backlog_item
+      remediation: Centralized in mobile-app/src/i18n/messages.ts (MESSAGES.tenantIdRequired,
+        userIdRequired, displayNameRequired, emailRequired, emailInvalid, sessionRequired);
+        both call sites (auth/localAuth.ts, mobileApp.ts) updated.
+    status_labels:
+      finding: UserResponse.status and AccessScope.type unions duplicate employee-portal's
+        UserStatus/AccessScopeType verbatim; no shared package exists between the
+        two apps.
+      priority: P2
+      disposition: tracked_by_TD-I18N-002_defer_until_a_shared_package_is_introduced
+    routes_and_navigation:
+      finding: MobileRoute union (7 values) already a closed, compile-time-checked
+        set.
+      priority: P2
+      disposition: existing_strength_no_action_needed
+    repeated_magic_strings_and_numbers:
+      finding: No literal repeats 3+ times within mobile-app alone; the tree is too
+        small.
+      priority: P2
+      disposition: no_action_needed
+    configurable_business_values:
+      finding: None found; mobile-app is presently data-shape and navigation-state
+        scaffolding.
+      priority: P2
+      disposition: no_action_needed
+immediate_remediation_summary:
+  backend:
+    files_changed: 6
+    new_files:
+    - 07-implementation/backend/.../frontdeskcaredelivery/shared/FrontDeskErrorCodes.java
+    throw_sites_updated: 30
+    behavior_preserving: true
+    verification: mvn test — 77 tests, 0 failures, 0 errors, 7 skipped (unchanged
+      from before this backlog item); line coverage 66.48% (>= 65.82% floor).
+  frontend_employee_portal:
+    new_files:
+    - 07-implementation/employee-portal/src/i18n/messages.ts
+    - 07-implementation/employee-portal/src/i18n/matching.ts
+    files_changed: 6
+    verification: npm run quality — typecheck, lint, 18/18 tests, build, duplication,
+      format, license all passed; line coverage 73.04% (>= 72.89% floor); npm audit
+      0 vulnerabilities.
+  mobile_app:
+    new_files:
+    - 07-implementation/mobile-app/src/i18n/messages.ts
+    files_changed: 2
+    verification: npm run quality — typecheck, lint, 8/8 tests, duplication, format
+      all passed.
+technical_debt:
+  closed:
+  - TD-I18N-001
+  newly_registered:
+  - TD-I18N-002
+  reviewed_unchanged:
+  - TD-BE-008
+  - TD-FE-002
+readiness:
+  message_externalization_baseline_status: established
+  ready_for_next_backlog_item: HOP-QA-ALIGN-CLOSEOUT
+```

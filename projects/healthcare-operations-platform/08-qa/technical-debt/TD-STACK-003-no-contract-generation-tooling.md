@@ -1,0 +1,100 @@
+---
+id: TD-STACK-003
+format: markdown_structured_payload
+type: technical-debt-item
+name: No OpenAPI-Generator-based client/server generation; contracts and hand-written
+  controllers/clients are kept in sync by convention and manual review
+version: 1.2.0
+status: materially_reduced
+---
+
+# No Openapi Generator Based Client/Server Generation; Contracts And Hand Written Controllers/Clients Are Kept In Sync By Convention And Manual Review
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: TD-STACK-003
+  type: technical-debt-item
+  name: No OpenAPI-Generator-based client/server generation; contracts and hand-written
+    controllers/clients are kept in sync by convention and manual review
+  version: 1.2.0
+  status: materially_reduced
+  created_date: 2026-07-17
+  updated_date: 2026-07-18
+  materially_reduced_by_backlog_item: MVP-MOD-008-DEF
+  compensating_control_extended_by_backlog_item: MVP-MOD-008-BE-001
+compensating_control_extension_evidence: 'MVP-MOD-008-BE-001 evaluated introducing
+  openapi-generator-maven-plugin for the three new integration/API-management/migration
+  modules and deliberately deferred it: the repository''s other 15 modules are all
+  hand-written by convention with no generator tooling, and introducing generator
+  output for only 3 of 18 modules would fragment the codebase''s persistence/contract
+  style rather than reduce this debt item''s actual scope (repo-wide generator adoption).
+  Instead, BE-001 tightened the existing compensating control: every new controller
+  (IntegrationEndpointController, IntegrationMessageController, ApiSurfaceController,
+  PartnerApiKeyController, RateLimitPolicyController, MigrationJobController, ImportBatchController)
+  is a direct, checked 1:1 rendering of its capability''s openapi-source.md operations
+  list (verified operation-by-operation during implementation), with Javadoc stating
+  the source contract per the existing convention. The concrete pilot commitment below
+  (BCM-PLT-005 TypeScript client, MVP-MOD-008-FE-001) is unchanged and remains the
+  actual generator adoption decision point.
+
+  '
+material_reduction_evidence: 'MVP-MOD-008-DEF modeled BCM-PLT-005 (API Management),
+  the capability that governs HOP''s partner/public API consumer surface. Its generation-plan.md
+  concretely designates itself as the pilot target for this item''s own acceptance
+  criterion ("a pilot TypeScript client generated from one capability''s openapi-source.md
+  is evaluated against the equivalent hand-written client"), scheduled for MVP-MOD-008-FE-001
+  rather than left as an unscheduled aspiration. This is a modeling-stage decision,
+  not code generation: no client was actually generated in this definition-only backlog
+  item; the acceptance criterion remains open until MVP-MOD-008-FE-001 executes the
+  pilot.
+
+  '
+source:
+  discovered_during_backlog_item: HOP-ENT-FOUND-001
+  module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
+  evidence: 03-architecture/technology-architecture/persistence-and-contract-generation-review.md
+classification:
+  category: technology_evolution_modernization_option
+  affected_area: contract_first_generation
+  affected_components:
+  - 01-product-definition/business-capabilities/packages/*/openapi-source.md
+  - 07-implementation/employee-portal/src/api/*Api.ts
+  risk_level: medium
+  urgency: low
+  blocking: false
+  reason_non_blocking: No drift was found between openapi-source.md contracts and
+    hand-written controllers/clients during this iteration's spot check; risk is about
+    future drift as the number of capability packages grows, not a current defect.
+current_state:
+  issue: 34 capability packages each have a hand-authored openapi-source.md; controllers
+    and employee-portal API clients are hand-written to match by convention, not generated.
+  compensating_control:
+  - Each controller's Javadoc states which contract it renders, aiding manual review.
+  - SpringDoc exposes a live, runtime-accurate OpenAPI document usable for drift detection.
+target_state:
+  preferred_open_source_tooling:
+  - OpenAPI Generator (TypeScript client generation first; server-side generation
+    considered later given its larger blast radius across already-closed modules).
+  expected_integration_points:
+  - 07-implementation/employee-portal/src/api/*Api.ts (candidate for generated-client
+    replacement).
+remediation:
+  strategy: evaluate_typescript_client_generation_for_employee_portal_first
+  owner: platform_and_frontend_teams
+  estimated_effort: medium
+  estimated_cost_impact: low
+  target_backlog: MVP-MOD-008-FE-001
+  dependencies_or_prerequisites: []
+  incremental_remediation_triggers:
+  - A new capability package's frontend client is next authored.
+  - Detected contract drift between openapi-source.md and an actual controller/client.
+  acceptance_criteria:
+  - A pilot TypeScript client generated from one capability's openapi-source.md
+    is evaluated against the equivalent hand-written client for correctness and developer
+    experience.
+  owner_or_responsible_role: platform_and_frontend_teams
+```

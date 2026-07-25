@@ -25,7 +25,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.samplecatalog.
 
 /**
  * Rendered controller for the SampleRequirement resource of
- * bcm-svc-007-sample-catalog/openapi-source.yaml (base path /api/catalog/samples/requirements).
+ * bcm-svc-007-sample-catalog/openapi-source.md (base path /api/catalog/samples/requirements).
  */
 @RestController
 @RequestMapping("/api/catalog/samples/requirements")

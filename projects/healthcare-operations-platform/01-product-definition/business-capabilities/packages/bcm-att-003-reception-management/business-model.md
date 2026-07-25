@@ -1,0 +1,134 @@
+---
+id: HOP-BM-BCM-ATT-003
+format: markdown_structured_payload
+type: business-model
+name: Reception Management Business Model
+version: 0.1.0
+status: modeled
+---
+
+# Reception Management Business Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BM-BCM-ATT-003
+  type: business-model
+  name: Reception Management Business Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-003
+  bounded_context: orders-samples
+  primary_aggregate: DiagnosticOrder
+  model_kind: operational_process_over_master_data
+entities:
+- id: ENT-REC-001
+  name: ReceptionVisit
+  is_aggregate_root: false
+  described_as: process_record
+  owned_by_aggregate: DiagnosticOrder
+  description: Front-desk visit record used to confirm identity and queue the patient
+    for admission.
+  fields:
+  - name: visitId
+    type: uuid
+    required: true
+    identifier: true
+  - name: tenantId
+    type: TenantId
+    required: true
+  - name: laboratoryId
+    type: LaboratoryId
+    required: true
+  - name: branchId
+    type: BranchId
+    required: true
+  - name: patientId
+    type: PatientId
+    required: true
+  - name: linkedAppointmentId
+    type: uuid
+    required: false
+  - name: intakeChannel
+    type: enum
+    values:
+    - walk_in
+    - scheduled
+    required: true
+  - name: identityConfirmed
+    type: boolean
+    required: true
+    default: false
+  - name: identityConfirmationMethod
+    type: enum
+    values:
+    - document_check
+    - portal_handoff
+    - representative_verification
+    required: false
+  - name: queueStatus
+    type: enum
+    values:
+    - waiting
+    - called
+    - in_admission
+    - completed
+    - abandoned
+    required: true
+  - name: priority
+    type: enum
+    values:
+    - normal
+    - priority
+    - urgent
+    required: true
+    default: normal
+  - name: audit
+    type: AuditMetadata
+    required: true
+value_objects:
+- id: VO-REC-001
+  name: QueuePosition
+  description: Computed queue ordering used for the reception worklist display.
+  fields:
+  - name: position
+    type: integer
+    required: true
+  - name: estimatedWaitMinutes
+    type: integer
+    required: false
+process_orchestration:
+- id: ORC-REC-001
+  name: Reception to admission handoff
+  depends_on:
+  - BCM-PER-002 patient identity confirmation
+  - BCM-ATT-001 appointment check-in (optional)
+  outcome:
+  - ReceptionVisitReadyForAdmission
+invariants:
+- id: INV-REC-001
+  statement: A reception visit cannot advance to in_admission status without identityConfirmed
+    being true.
+- id: INV-REC-002
+  statement: A reception visit linked to an appointment must reference an appointment
+    that is in checked_in status.
+- id: INV-REC-003
+  statement: Reception must not mutate Patient aggregate state; identity confirmation
+    is a read-only verification against BCM-PER-002.
+external_references:
+- shared_kernel:
+  - VO-ID-001 TenantId
+  - VO-ID-002 LaboratoryId
+  - VO-ID-003 BranchId
+  - VO-ID-005 PatientId
+  - VO-007 AuditMetadata
+- capabilities:
+  - BCM-PER-002 Patient aggregate (identity confirmation source)
+  - BCM-ATT-001 AppointmentSlot (optional linkage)
+  - BCM-ATT-004 Admission Management (handoff target)
+  - BCM-LAB-001 DiagnosticOrder aggregate commands (eventual order owner)
+```

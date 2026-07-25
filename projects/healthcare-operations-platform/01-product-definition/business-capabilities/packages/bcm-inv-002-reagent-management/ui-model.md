@@ -1,0 +1,65 @@
+---
+id: HOP-UI-BCM-INV-002
+format: markdown_structured_payload
+type: ui-model
+name: Reagent Management UI Model
+version: 0.1.0
+status: modeled
+---
+
+# Reagent Management Ui Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-UI-BCM-INV-002
+  type: ui-model
+  name: Reagent Management UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-002
+  target_surface: employee_portal
+surfaces:
+  employee_portal:
+    status: required
+    generatable: partial
+  patient_portal:
+    status: not_required
+    generatable: not_applicable
+  doctor_portal:
+    status: not_required
+    generatable: not_applicable
+screens:
+- id: SCR-RGT-002-01
+  name: Reagent Profile Panel
+  route: /admin/inventory/items/{inventoryItemId}/reagent-profile
+  purpose: Assign or review the reagent category, test linkage and consumption ratio
+    for an eligible InventoryItem.
+  components:
+  - ReagentProfileForm
+  - TestDefinitionPicker
+  generatable: partial
+  custom_reason: Assignment invokes the custom AssignReagentProfile command (RN-001,
+    RN-003).
+states:
+- unassigned
+- assigned
+localization:
+  languages:
+  - en
+  - es
+  default: es
+  message_key_namespace: inventory.reagent.*
+  note: 'New user-facing strings must be registered under the inventory.reagent.*
+    message-key namespace, not hardcoded.
+
+    '
+rationale: 'Reagent classification is an internal catalog-governance task performed
+  from the employee portal only.
+
+  '
+```

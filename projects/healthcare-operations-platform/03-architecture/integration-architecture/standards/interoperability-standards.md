@@ -1,7 +1,7 @@
 # Interoperability Standards
 
-**Artifact ID:** IIA-STD-001  
-**Version:** 0.20.0  
+**Artifact ID:** IIA-STD-001
+**Version:** 0.20.0
 
 ## Standards Baseline
 

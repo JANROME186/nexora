@@ -11,6 +11,6 @@ public interface NotificationRequestRepository {
     Optional<NotificationRequest> findById(UUID notificationId);
 
     List<NotificationRequest> findByRecipientId(String recipientId);
-    
+
     List<NotificationRequest> findAll();
 }

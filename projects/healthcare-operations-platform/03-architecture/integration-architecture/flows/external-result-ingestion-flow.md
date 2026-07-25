@@ -1,7 +1,7 @@
 # External Result Ingestion Flow
 
-**Artifact ID:** IIA-FLOW-001  
-**Version:** 0.20.0  
+**Artifact ID:** IIA-FLOW-001
+**Version:** 0.20.0
 
 ## Flow
 

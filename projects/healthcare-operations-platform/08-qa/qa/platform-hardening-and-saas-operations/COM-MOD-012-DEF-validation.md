@@ -22,3 +22,45 @@
 - Mobile App: `99.21%`
 - Patient Portal: `94.11%`
 - Doctor Portal: `96.28%`
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-QA-COM-MOD-012-DEF-001
+  type: qa-validation-evidence
+  name: Platform Hardening Capability Models QA Evidence
+  version: 1.0.0
+  backlog_item: COM-MOD-012-DEF
+  module: COM-MOD-012 Platform Hardening and SaaS Operations
+  status: passed
+  date: 2026-07-22
+summary:
+  capability_packages_modeled: 8
+  new_capability_packages: 5 (BCM-ORG-001, BCM-PLT-002, BCM-PLT-006, BCM-PLT-007,
+    BCM-PLT-009)
+  extended_capability_packages: 3 (BCM-PLT-001, BCM-PLT-005, BCM-PLT-008)
+  yaml_parse_check: passed
+  stale_pointer_sweep: passed
+  agent_agnostic_scan: passed
+  secret_scan: passed
+  git_diff_check: clean
+coverage_preservation:
+  backend_java_maven: 83.99% (floor preserved)
+  employee_portal_typescript_web: 88.68% (floor preserved)
+  public_website_typescript_web: 98.61% (floor preserved)
+  mobile_typescript_foundation: 99.21% (floor preserved)
+  patient_portal_typescript_web: 94.11% (floor preserved)
+  doctor_portal_typescript_web: 96.28% (floor preserved)
+technical_debt_disposition:
+  note: 'Definition-only backlog item. Architectural specifications and models were
+    established for: - TD-DB-004 (PostgreSQL Row-Level Security parameters modeled
+    in BCM-ORG-001) - TD-BE-008 (Dynamic PII data masking policy overrides modeled
+    in BCM-PLT-002) - TD-FE-005 (Edge security headers CORS/CSP/HSTS modeled in BCM-PLT-005)
+    - TD-IAM-002 (Action-level scope grammar domain.resource.action.scope modeled
+    in BCM-PLT-001)
+
+    '
+```

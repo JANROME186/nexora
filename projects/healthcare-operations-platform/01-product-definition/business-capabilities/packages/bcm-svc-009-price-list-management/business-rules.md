@@ -1,0 +1,109 @@
+---
+id: HOP-BR-BCM-SVC-009
+format: markdown_structured_payload
+type: business-rules
+name: Price List Management Business Rules
+version: 0.1.0
+status: modeled
+---
+
+# Price List Management Business Rules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BR-BCM-SVC-009
+  type: business-rules
+  name: Price List Management Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-SVC-009
+  rule_id_pattern: RN-###
+rules:
+- id: RN-001
+  statement: A price list must have a unique code within its laboratory scope.
+  applies_to: PriceList
+  enforcement_point: command:CreatePriceList, command:UpdatePriceList
+  severity: high
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-SVC-009-01
+- id: RN-002
+  statement: A price entry amount must be non-negative and use the price list currency.
+  applies_to: PriceEntry
+  enforcement_point: command:AddPriceEntry, command:UpdatePriceEntry
+  severity: high
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-SVC-009-02
+- id: RN-003
+  statement: A price list can only be published if all referenced catalog items are
+    published.
+  applies_to: PriceList
+  enforcement_point: command:PublishPriceList
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Cross-aggregate catalog item publication validation.
+  test_refs:
+  - TST-SVC-009-03
+- id: RN-004
+  statement: A published price list version is immutable; changes create a new effective-dated
+    version.
+  applies_to: PriceList
+  enforcement_point: command:UpdatePriceList
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Effective-dated versioning and snapshot freeze; financial audit requirement.
+  test_refs:
+  - TST-SVC-009-04
+- id: RN-005
+  statement: Overlapping effective-dated price lists for the same scope and currency
+    are not allowed.
+  applies_to: PriceList
+  enforcement_point: command:PublishPriceList
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Effective-date overlap detection across scope and currency.
+  test_refs:
+  - TST-SVC-009-05
+- id: RN-006
+  statement: Pricing at sale time must resolve the price list version effective at
+    the sale date.
+  applies_to: PriceList
+  enforcement_point: query:EffectivePriceSnapshot
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Effective-date resolution logic for downstream pricing.
+  test_refs:
+  - TST-SVC-009-06
+- id: RN-007
+  statement: Only users with price authoring permission may create, update or publish
+    price lists.
+  applies_to: PriceList
+  enforcement_point: authorization:catalog.price.write
+  severity: critical
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-SVC-009-07
+enforcement_summary:
+  generatable_rules:
+  - RN-001
+  - RN-002
+  - RN-007
+  custom_implementation_rules:
+  - RN-003
+  - RN-004
+  - RN-005
+  - RN-006
+```

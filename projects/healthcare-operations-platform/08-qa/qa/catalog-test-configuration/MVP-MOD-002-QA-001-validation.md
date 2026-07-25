@@ -28,7 +28,7 @@ Validated implementation surfaces:
 
 - Backend bounded context: `catalog-test-configuration`
 - Employee portal screen: Diagnostic Catalog administration
-- Local PostgreSQL runtime from `07-implementation/compose.local.yml`
+- Local PostgreSQL runtime from `07-implementation/compose.local.json`
 - Local API profile: `local`
 
 ## Dependency Remediation
@@ -87,3 +87,162 @@ affected runtime, quality or backend test infrastructure is touched.
 - MVP-MOD-002-QA-001: closed.
 - Blocking gaps: none.
 - Next backlog item: MVP-MOD-002-CLOSEOUT.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-QA-MVP-MOD-002-QA-001-001
+  type: qa-validation-evidence
+  name: MVP-MOD-002-QA-001 Diagnostic Catalog Integrated Validation
+  version: 1.0.0
+  status: passed
+  human_readable: MVP-MOD-002-QA-001-validation.md
+  machine_readable: MVP-MOD-002-QA-001-validation.md
+  created_date: 2026-07-09
+  owner: Nexora Product Architecture Team
+scope:
+  backlog_item: MVP-MOD-002-QA-001
+  module: MVP-MOD-002 Diagnostic Catalog
+  release: REL-001
+  execution_flow_stage: validate
+  business_requirement_version: v0.68.0
+  impact_assessment_required: false
+  objective: Validate generated outputs, backend rules, contracts, employee portal
+    UI and security quality evidence for the Diagnostic Catalog capability group.
+change_detection:
+  last_analyzed_business_requirement_version: v0.68.0
+  current_business_requirement_version: v0.68.0
+  impact_pending: false
+validated_scope:
+  capability_packages:
+  - BCM-SVC-001
+  - BCM-SVC-002
+  - BCM-SVC-003
+  - BCM-SVC-004
+  - BCM-SVC-005
+  - BCM-SVC-006
+  - BCM-SVC-007
+  - BCM-SVC-009
+  backend_bounded_context: catalog-test-configuration
+  frontend_surface: employee-portal diagnostic catalog screen
+  local_runtime:
+    database: PostgreSQL 16 through 07-implementation/compose.local.json
+    api_profile: local
+    frontend_dev_server: http://127.0.0.1:5173/
+dependency_remediation:
+  required: true
+  trigger: Initial Trivy filesystem scan found HIGH and CRITICAL dependency vulnerabilities
+    in the backend Maven dependency graph.
+  changed_file: 07-implementation/backend/pom.xml
+  applied_versions:
+    spring_boot_parent: 3.5.14
+    spring_modulith: 1.4.5
+    jackson_bom: 2.21.4
+    tomcat: 10.1.55
+    postgresql_jdbc: 42.7.11
+  result: Final Trivy filesystem scan passed with 0 HIGH or CRITICAL findings for
+    backend/pom.xml and employee-portal/package-lock.json.
+validations:
+- id: VAL-001
+  name: Backend unit and contract tests
+  method: mvn --settings .mvn/settings.xml test
+  working_directory: 07-implementation/backend
+  result: passed
+  detail: 42 tests run, 0 failures, 0 errors, 5 skipped.
+- id: VAL-002
+  name: Backend tests against real PostgreSQL
+  method: mvn --settings .mvn/settings.xml test "-Dhop.local-db-tests=true"
+  working_directory: 07-implementation/backend
+  result: passed
+  detail: 42 tests run, 0 failures, 0 errors, 0 skipped.
+- id: VAL-003
+  name: Employee portal static analysis
+  method: npm run typecheck
+  working_directory: 07-implementation/employee-portal
+  result: passed
+- id: VAL-004
+  name: Employee portal coverage gate
+  method: npm run test:coverage
+  working_directory: 07-implementation/employee-portal
+  result: passed
+  detail: 5 test files passed, 8 tests passed; 68.7% lines/statements, 85.83% branches,
+    35.43% functions.
+- id: VAL-005
+  name: Employee portal production build
+  method: npm run build
+  working_directory: 07-implementation/employee-portal
+  result: passed
+- id: VAL-006
+  name: Employee portal dependency audit
+  method: npm audit --audit-level=high
+  working_directory: 07-implementation/employee-portal
+  result: passed
+  detail: found 0 vulnerabilities.
+- id: VAL-007
+  name: Integrated API health smoke
+  method: HTTP GET /actuator/health and /api/platform/health against local Spring
+    Boot runtime
+  working_directory: 07-implementation/backend
+  result: passed
+  detail: Both endpoints returned UP after the dependency remediation.
+- id: VAL-008
+  name: Integrated Diagnostic Catalog smoke
+  method: Create tenant, laboratory and diagnostic service; list service; publish
+    service through local API.
+  working_directory: 07-implementation/backend
+  result: passed
+  evidence:
+    tenant_id: 814317ae-f6de-42cb-b11e-6189157a2c54
+    laboratory_id: c78bcb3e-6b33-4f89-9060-d17ede5084bf
+    service_id: 1a9e1620-b59e-4f58-bbd7-b0fa1f99bce2
+    listed_count: 1
+    published_status: published
+    code: QA-SVC-1783603890008
+- id: VAL-009
+  name: Filesystem vulnerability, secret and misconfiguration scan
+  method: trivy fs --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --exit-code
+    1 --no-progress .
+  working_directory: 07-implementation
+  result: passed_after_remediation
+  detail: Initial backend scan failed with 25 HIGH/CRITICAL dependency findings; final
+    scan passed with 0 HIGH/CRITICAL findings.
+- id: VAL-010
+  name: DAST readiness check
+  method: Tool availability check plus manual integrated HTTP smoke
+  working_directory: 07-implementation
+  result: passed_with_technical_debt
+  detail: OWASP ZAP CLI was not available locally; manual HTTP smoke passed and DAST
+    automation debt TD-QA-001 was registered.
+quality_evidence:
+  security_quality_evidence: 08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.md
+  security_quality_index: 08-qa/security-quality/security-quality-index.md
+  technical_debt_index: 08-qa/technical-debt/technical-debt-index.md
+technical_debt_registered:
+- id: TD-QA-001
+  title: Automate DAST baseline scans for runnable web and API surfaces
+  blocking: false
+- id: TD-QA-002
+  title: Upgrade Trivy scanner version in local and CI quality toolchain
+  blocking: false
+- id: TD-BE-001
+  title: Configure Mockito Java agent for future JDK test compatibility
+  blocking: false
+documented_boundaries:
+- DAST was not fully automated because OWASP ZAP was not available in the local toolchain
+  during this validation.
+- Current employee portal coverage thresholds remain an incremental baseline and must
+  increase as additional workflows receive focused tests.
+- The Mockito dynamic agent warning is non-blocking today, but has been registered
+  as backend test infrastructure debt.
+blocking_gaps: []
+readiness:
+  mvp_mod_002_qa_001_status: closed
+  ready_for_next_backlog_item: MVP-MOD-002-CLOSEOUT
+  next_backlog_item_name: Close out MVP-MOD-002 Diagnostic Catalog package group
+  rationale: Diagnostic Catalog backend, UI, contracts, runtime smoke and open-source
+    security quality gates passed after dependency remediation; no blocking gaps remain
+    for module closeout.
+```

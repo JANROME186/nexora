@@ -1,0 +1,108 @@
+---
+id: HOP-BM-BCM-QLT-005
+format: markdown_structured_payload
+type: business-model
+name: Maintenance Management Business Model
+version: 0.1.0
+status: modeled
+---
+
+# Maintenance Management Business Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BM-BCM-QLT-005
+  type: business-model
+  name: Maintenance Management Business Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-005
+  bounded_context: inventory-procurement
+  primary_aggregate: InventoryItem (AGG-013, owned by BCM-INV-001)
+  model_kind: operational_process_over_shared_aggregate
+entities:
+- id: ENT-MNT-001
+  name: MaintenanceEvent
+  is_aggregate_root: false
+  described_as: process_record
+  owned_by_aggregate: InventoryItem
+  description: Append-only maintenance record for an equipment-type InventoryItem.
+  fields:
+  - name: maintenanceEventId
+    type: uuid
+    required: true
+    identifier: true
+  - name: inventoryItemId
+    type: InventoryItemId
+    required: true
+  - name: tenantId
+    type: TenantId
+    required: true
+  - name: branchId
+    type: BranchId
+    required: true
+  - name: maintenanceType
+    type: enum
+    values:
+    - preventive
+    - corrective
+    required: true
+  - name: performedBy
+    type: UserId
+    required: false
+    description: Null when performed by an external technician; externalTechnicianRef
+      is used instead.
+  - name: externalTechnicianRef
+    type: string
+    required: false
+  - name: description
+    type: string
+    required: true
+  - name: startedAt
+    type: datetime
+    required: true
+  - name: completedAt
+    type: datetime
+    required: false
+  - name: downtimeMinutes
+    type: integer
+    required: false
+  - name: nextScheduledAt
+    type: datetime
+    required: false
+  - name: audit
+    type: AuditMetadata
+    required: true
+value_objects: []
+invariants:
+- id: INV-MNT-001
+  statement: A MaintenanceEvent may only target an InventoryItem whose itemType is
+    equipment.
+- id: INV-MNT-002
+  statement: Starting a maintenance event must publish MaintenanceScheduled; completing
+    it must publish MaintenanceCompleted. This capability never writes InventoryItem.equipmentProfile
+    itself.
+- id: INV-MNT-003
+  statement: Confirming a MaintenanceEvent is the only trigger allowed to append to
+    InventoryItem.maintenanceRecord; this capability never mutates any other InventoryItem
+    field.
+- id: INV-MNT-004
+  statement: completedAt, when present, must be after startedAt.
+external_references:
+- shared_kernel:
+  - VO-ID-001 TenantId
+  - VO-ID-003 BranchId
+  - VO-ID-004 UserId
+  - VO-007 AuditMetadata
+- capabilities:
+  - BCM-INV-001 InventoryItem aggregate (delegated mutation target for maintenanceRecord)
+  - BCM-QLT-004 Equipment Management (consumes MaintenanceScheduled/MaintenanceCompleted
+    to transition availabilityStatus)
+  - BCM-QLT-007 Audit Management (future downstream consumer for maintenance-history
+    audits; not part of COM-MOD-010's roadmap group)
+```

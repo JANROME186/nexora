@@ -2,9 +2,9 @@
 
 ## Contract Tests
 
-- Validate `POST /orders` against `orders.openapi.yaml`.
-- Validate `POST /appointments` against `appointments.openapi.yaml`.
-- Validate `POST /samples/{sampleId}/collect` against `samples.openapi.yaml`.
+- Validate `POST /orders` against `orders.openapi.md`.
+- Validate `POST /appointments` against `appointments.openapi.md`.
+- Validate `POST /samples/{sampleId}/collect` against `samples.openapi.md`.
 - Validate error schema consistency.
 
 ## Domain Tests

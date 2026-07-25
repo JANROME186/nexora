@@ -25,7 +25,7 @@ import tools.jackson.databind.ObjectMapper;
 /**
  * PostgreSQL-backed integration test for the inventory-and-internal-quality module. Executed only
  * when {@code -Dhop.local-db-tests=true} is set (typically together with a running
- * {@code compose.local.yml}). Mirrors {@code IntegrationInteroperabilityLocalDatabaseTest} so the
+ * {@code compose.local.json}). Mirrors {@code IntegrationInteroperabilityLocalDatabaseTest} so the
  * JDBC adapters (BCM-INV-001..009) get exercised end-to-end against a real PostgreSQL database.
  */
 @ActiveProfiles("local")

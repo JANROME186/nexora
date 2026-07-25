@@ -13,7 +13,7 @@
 - QA validation and security-quality evidence for MVP-MOD-003-BE-001.
 
 ### Changed
-- Updated HOP `PROJECT_STATE.yaml`, root `PROJECT_STATE.yaml`, HOP `SOURCE_OF_TRUTH.yaml`, HOP
+- Updated HOP `PROJECT_STATE.md`, root `PROJECT_STATE.md`, HOP `SOURCE_OF_TRUTH.md`, HOP
   security-quality index and capability-package traceability files (BCM-PER-001/002/003,
   BCM-ATT-002) to reflect that MVP-MOD-003-BE-001 is closed and MVP-MOD-003-BE-002 is next.
 - Updated the HOP integrated local runbook with a People and Clinical Master Data smoke check.
@@ -47,7 +47,7 @@
 
 ### Changed
 - Redesigned HOP `BUSINESS_REQUIREMENT.md` as a clearer business-facing requirement and future-project intake template.
-- Updated `BUSINESS_REQUIREMENT.yaml` to reflect the current HOP state, including MDPE, 92 capabilities, open data ingestion and product marketplace.
+- Updated `BUSINESS_REQUIREMENT.md` to reflect the current HOP state, including MDPE, 92 capabilities, open data ingestion and product marketplace.
 
 ## [0.67.0] - 2026-07-08
 
@@ -269,7 +269,7 @@
 ### Added
 - Added YAML machine-readable counterparts for Healthcare Operations Platform agent execution artifacts.
 - Added structured YAML files for project brief, ordered development guide, backlog execution playbook and MVP-MOD-001 implementation package documents.
-- Added `BUSINESS_REQUIREMENT.yaml` as a structured index derived from requester-supplied `BUSINESS_REQUIREMENT.md`.
+- Added `BUSINESS_REQUIREMENT.md` as a structured index derived from requester-supplied `BUSINESS_REQUIREMENT.md`.
 
 ### Changed
 - Updated source-of-truth registries and module definition to prefer YAML for agent execution while preserving Markdown for human readability.
@@ -351,7 +351,7 @@
 ### Changed
 - Moved Healthcare Operations Platform artifacts into `projects/healthcare-operations-platform/`.
 - Moved reusable/company/framework assets into `nexora-framework/`.
-- Rewrote root `README.md`, `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, `PROJECT_MANIFEST.yaml`, `KNOWLEDGE_INDEX.yaml` and bootstraps for the multi-project structure.
+- Rewrote root `README.md`, `PROJECT_STATE.md`, `SOURCE_OF_TRUTH.md`, `PROJECT_MANIFEST.md`, `KNOWLEDGE_INDEX.md` and bootstraps for the multi-project structure.
 
 ## [0.41.0] - 2026-07-07
 
@@ -379,8 +379,8 @@
 - Added capability dependency validator guidance and generated Mermaid dependency view.
 
 ### Changed
-- Updated `PROJECT_STATE.yaml` to v0.40.0.
-- Updated `SOURCE_OF_TRUTH.yaml` with BCM-002 and HOP MVP framework sources.
+- Updated `PROJECT_STATE.md` to v0.40.0.
+- Updated `SOURCE_OF_TRUTH.md` with BCM-002 and HOP MVP framework sources.
 - Updated root and `.ai` agent bootstrap files so the next task starts at ACM-001.
 
 ## [0.39.0] - 2026-07-07

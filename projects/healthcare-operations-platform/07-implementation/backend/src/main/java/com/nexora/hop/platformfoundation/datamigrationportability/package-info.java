@@ -1,7 +1,7 @@
 /**
  * Data Migration Portability bounded context, compiled from MVP-MOD-008 Integration and Migration
  * Readiness capability packages. Hosts the MigrationJob aggregate (BCM-PLT-010, AGG-016 per
- * aggregate-catalog.yaml), implementing the pre-existing HOP Open Data Ingestion Standard and
+ * aggregate-catalog.md), implementing the pre-existing HOP Open Data Ingestion Standard and
  * Contract without redefinition. Never writes directly to a business aggregate's storage
  * (INV-MIG-003); {@code ImportExecution.domainCommandsInvoked} may only reference existing domain
  * commands, and real cross-module command invocation is explicit MVP-MOD-008-BE-002 scope. Reuses

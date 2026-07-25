@@ -1,0 +1,79 @@
+---
+id: HOP-API-SRC-BCM-QLT-001
+format: markdown_structured_payload
+type: openapi-source
+name: Internal Quality Controls API Source Model
+version: 0.1.0
+status: modeled
+---
+
+# Internal Quality Controls Api Source Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-API-SRC-BCM-QLT-001
+  type: openapi-source
+  name: Internal Quality Controls API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-001
+api:
+  base_path: /api/quality/internal-controls
+  surface_classification: internal
+  security:
+    scheme: bearer_jwt
+    required_scopes_default:
+    - quality.internalcontrol.manage
+    - quality.internalcontrol.read
+resources:
+- name: QualityControlRun
+  operations:
+  - id: recordQualityControlRun
+    method: POST
+    path: /
+    scopes:
+    - quality.internalcontrol.manage
+    generatable: false
+    custom_reason: Westgard-style statistical multi-rule evaluation.
+  - id: overrideAcceptanceDecision
+    method: POST
+    path: /{qcRunId}/override
+    scopes:
+    - quality.internalcontrol.manage
+    generatable: false
+    custom_reason: Supervisor-scoped authorization and mandatory audited override
+      reason.
+  - id: listQualityControlRuns
+    method: GET
+    path: /
+    scopes:
+    - quality.internalcontrol.read
+    generatable: true
+  - id: getQualityControlRun
+    method: GET
+    path: /{qcRunId}
+    scopes:
+    - quality.internalcontrol.read
+    generatable: true
+schemas_source:
+- QualityControlRun
+- ExpectedRange
+error_model:
+  standard: rfc7807
+  code_field: 'Every error response carries a first-class `code` string field, consistent
+    with the COM-MOD-010 module convention.
+
+    '
+  domain_errors:
+  - code: QC_CONTROL_MATERIAL_LOT_INELIGIBLE
+    maps_to_rule: RN-004
+  - code: QC_OVERRIDE_NOT_AUTHORIZED
+    maps_to_rule: RN-003
+  - code: QC_SCOPE_MISMATCH
+    maps_to_rule: RN-005
+```

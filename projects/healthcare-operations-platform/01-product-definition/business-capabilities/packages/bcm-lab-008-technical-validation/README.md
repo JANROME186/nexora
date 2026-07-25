@@ -26,19 +26,19 @@ Never captures results, performs medical validation or releases results.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | TechnicalValidationWorklistEntry process record and acceptance/critical-threshold check value objects |
-| `business-rules.yaml` | Numbered rules RN-001..RN-007 |
-| `processes.yaml` | Perform technical validation, flag critical result |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee portal validation worklist and review panel |
-| `mobile-model.yaml` | Mobile scope (not_required) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | TechnicalValidationWorklistEntry process record and acceptance/critical-threshold check value objects |
+| `business-rules.md` | Numbered rules RN-001..RN-007 |
+| `processes.md` | Perform technical validation, flag critical result |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee portal validation worklist and review panel |
+| `mobile-model.md` | Mobile scope (not_required) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, UI, tests, QA |
 
 ## Clinical rules modeled
 
@@ -50,7 +50,7 @@ Never captures results, performs medical validation or releases results.
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers the acceptance-check evaluation, segregation-of-duties
 enforcement, critical-threshold comparison, the notification hook and the
 aggregate boundary rule.

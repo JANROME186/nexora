@@ -24,7 +24,7 @@ import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 
 /**
- * Compiles the generatable outputs of bcm-plt-005-api-management/generation-plan.yaml (operation
+ * Compiles the generatable outputs of bcm-plt-005-api-management/generation-plan.md (operation
  * listing, partner-key revocation/listing, rate-limit policy configuration, PRC-APIM-005-01/-02)
  * and implements the CUS-APIM-005 custom rules: classification/publish-gating (RN-001,
  * INV-APIM-001), partner-key scope/tenant validation at issuance (RN-002, INV-APIM-002),

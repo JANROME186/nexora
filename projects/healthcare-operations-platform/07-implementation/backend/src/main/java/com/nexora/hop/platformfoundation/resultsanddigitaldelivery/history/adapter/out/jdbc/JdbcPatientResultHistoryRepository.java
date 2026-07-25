@@ -22,7 +22,7 @@ public class JdbcPatientResultHistoryRepository implements PatientResultHistoryR
 
     // Stub implementation to satisfy technical debt TD-DB-001 for now.
     // Complete mapping will be implemented when non-local durability is required.
-    
+
     public void save(PatientResultHistoryView entity) {
         throw new UnsupportedOperationException("JDBC implementation pending full field mapping");
     }
@@ -34,7 +34,7 @@ public class JdbcPatientResultHistoryRepository implements PatientResultHistoryR
     public Optional<PatientResultHistoryView> findByPatientId(PatientId id) {
         return Optional.empty();
     }
-    
+
     public List<PatientResultHistoryView> findByResultId(ResultId resultId, TenantId tenantId) {
         return List.of();
     }

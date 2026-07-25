@@ -7,9 +7,9 @@ Generate and validate artifacts for CAP-005 Catalog & Test Configuration Managem
 ## Inputs
 
 - `business/capabilities/catalog-test-configuration-management/README.md`
-- `business/capabilities/catalog-test-configuration-management/capability.yaml`
-- `contracts/openapi/catalogs/catalogs.openapi.yaml`
-- `contracts/openapi/test-configuration/test-configuration.openapi.yaml`
+- `business/capabilities/catalog-test-configuration-management/capability.md`
+- `contracts/openapi/catalogs/catalogs.openapi.md`
+- `contracts/openapi/test-configuration/test-configuration.openapi.md`
 - `database/entities/catalog-test-configuration/README.md`
 - Security/IAM permission conventions.
 

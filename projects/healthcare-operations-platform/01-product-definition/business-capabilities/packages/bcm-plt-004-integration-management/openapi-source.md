@@ -1,0 +1,110 @@
+---
+id: HOP-API-SRC-BCM-PLT-004
+format: markdown_structured_payload
+type: openapi-source
+name: Integration Management API Source Model
+version: 0.1.0
+status: modeled
+---
+
+# Integration Management Api Source Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-API-SRC-BCM-PLT-004
+  type: openapi-source
+  name: Integration Management API Source Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-004
+  note: 'Source contract model. The rendered OpenAPI document, controllers, DTOs and
+    SDKs are generated outputs declared in generation-plan.md. This is a system-to-system
+    internal API; no employee/patient/doctor portal calls it directly, though the
+    employee portal reads endpoint and message status for administration (BCM-PLT-004
+    UI model).
+
+    '
+api:
+  base_path: /api/platform/integration
+  surface_classification: internal
+  security:
+    scheme: bearer_jwt
+    required_scopes_default:
+    - integration.endpoint.manage
+    - integration.message.read
+resources:
+- name: IntegrationEndpoint
+  operations:
+  - id: registerIntegrationEndpoint
+    method: POST
+    path: /endpoints
+    scopes:
+    - integration.endpoint.manage
+    generatable: true
+  - id: listIntegrationEndpoints
+    method: GET
+    path: /endpoints
+    scopes:
+    - integration.message.read
+    generatable: true
+  - id: retireIntegrationEndpoint
+    method: POST
+    path: /endpoints/{endpointId}/retire
+    scopes:
+    - integration.endpoint.manage
+    generatable: true
+- name: IntegrationMessageRecord
+  operations:
+  - id: receiveMessage
+    method: POST
+    path: /endpoints/{endpointId}/messages
+    scopes:
+    - integration.endpoint.manage
+    generatable: false
+    custom_reason: Idempotency-key deduplication and delegated normalization via IntegrationAdapterPort.
+  - id: getMessage
+    method: GET
+    path: /messages/{messageId}
+    scopes:
+    - integration.message.read
+    generatable: true
+  - id: retryMessage
+    method: POST
+    path: /messages/{messageId}/retry
+    scopes:
+    - integration.endpoint.manage
+    generatable: false
+    custom_reason: Bounded backoff/retry-limit policy.
+schemas_source:
+- IntegrationEndpoint
+- IntegrationMessageRecord
+- ExternalMessageEnvelope
+- NormalizedClinicalMessage
+- IntegrationAcknowledgement
+error_model:
+  standard: rfc7807
+  code_field: 'Every error response carries a first-class, independently parseable
+    `code` string field (not only a human-readable message), since this is an external/system-facing
+    API consumed by integration partners and devices. This is modeled from inception
+    per TD-I18N-002''s recommended trigger ("a structured-error-code API consumer
+    needs `code` as a first-class response field"), which BCM-PLT-004/BCM-PLT-005
+    are the first HOP capabilities to concretely hit.
+
+    '
+  domain_errors:
+  - code: INTEGRATION_RAW_PAYLOAD_BYPASS_ATTEMPTED
+    maps_to_rule: RN-001
+  - code: INTEGRATION_NORMALIZATION_FAILED
+    maps_to_rule: RN-002
+  - code: INTEGRATION_DUPLICATE_MESSAGE_ID
+    maps_to_rule: RN-003
+  - code: INTEGRATION_RETRY_LIMIT_EXCEEDED
+    maps_to_rule: RN-004
+  - code: INTEGRATION_SCOPE_MISMATCH
+    maps_to_rule: RN-006
+```

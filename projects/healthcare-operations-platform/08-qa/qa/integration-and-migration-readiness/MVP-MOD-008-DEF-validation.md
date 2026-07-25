@@ -27,17 +27,17 @@ generation-plan, traceability, README) — 42 artifacts total.
   `FiscalAdapterPort`/`DocumentStoragePort`/`NotificationProviderPort` pattern,
   normalizing external HL7/ASTM/FHIR/DICOM messages into canonical
   `NormalizedClinicalMessage` records before any domain module reads them,
-  reusing `context-map.yaml` REL-CTX-011's published-language types exactly.
+  reusing `context-map.md` REL-CTX-011's published-language types exactly.
 - **BCM-PLT-005** governs API classification (public/internal/partner),
   partner API key issuance/revocation and rate-limit policy, without
   implementing any classified operation's own business logic.
 - **BCM-PLT-010** implements the pre-existing Open Data Ingestion Standard
   (NXF-ODI-STD-001) and HOP Open Data Ingestion Contract (HOP-ODI-001)
   directly — no new ingestion format or manifest schema was invented. It
-  correctly maps onto `aggregate-catalog.yaml`'s AGG-016 `MigrationJob`, using
+  correctly maps onto `aggregate-catalog.md`'s AGG-016 `MigrationJob`, using
   `ImportBatch`/`ImportValidationReport` names from
-  `capability-dependency-map.yaml`'s `related_aggregates` list for the same
-  conceptual sub-entities `aggregate-catalog.yaml` calls `SourceDataset`/
+  `capability-dependency-map.md`'s `related_aggregates` list for the same
+  conceptual sub-entities `aggregate-catalog.md` calls `SourceDataset`/
   `ValidationReport`.
 
 ## Validations
@@ -66,7 +66,7 @@ were genuinely addressable at the modeling stage and were **materially
 reduced** (not closed — no code was written):
 
 - **TD-STACK-003** (no OpenAPI-Generator client/server generation): BCM-PLT-005's
-  generation-plan.yaml now designates itself as the concrete pilot target for
+  generation-plan.md now designates itself as the concrete pilot target for
   a generated TypeScript client, scheduled for MVP-MOD-008-FE-001.
 - **TD-I18N-002** (structured error codes / full i18n adoption): its own
   recommended trigger — a structured-error-code API consumer — is hit for the
@@ -84,3 +84,289 @@ item's own evidence text, not implementation claims.
 - HOP commercially complete / GA-ready: **No** — unchanged
 - Coverage baselines unchanged and not regressed: backend 78.51%, employee
   portal 85.50%, mobile 98.87%, patient portal 41.93%, doctor portal 40.62%.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-QA-MVP-MOD-008-DEF-001
+  type: qa-validation-evidence
+  name: MVP-MOD-008-DEF Integration and Migration Readiness Capability Package Validation
+  version: 1.0.0
+  status: passed
+  human_readable: MVP-MOD-008-DEF-validation.md
+  machine_readable: MVP-MOD-008-DEF-validation.md
+  created_date: 2026-07-18
+  owner: Nexora Product Architecture Team
+scope:
+  backlog_item: MVP-MOD-008-DEF
+  module: MVP-MOD-008 Integration and Migration Readiness
+  release: REL-001
+  execution_flow_stage: model
+  business_requirement_version: v0.68.0
+  impact_assessment_required: false
+  code_implemented: false
+preflight:
+  purpose: 'Before modeling, confirmed no residual stale metadata remained from MVP-MOD-007-CLOSEOUT
+    (already found clean at closure) and reviewed 08-qa/technical-debt/technical-debt-index.md
+    per the debt-first review requirement, per explicit backlog instructions.
+
+    '
+  corrections_applied: []
+  stale_pointer_sweep_after_preflight:
+    method: Repository-wide review for MVP-MOD-007 as active_module/in_progress_module/
+      ready_to_start_module/current_module and MVP-MOD-007-* as next_backlog_item/
+      active_backlog_item/current_backlog_item before modeling began.
+    result: passed
+    detail: All live registries already correctly named MVP-MOD-008/MVP-MOD-008-DEF
+      as the active module/backlog item at the start of this backlog item, consistent
+      with MVP-MOD-007-CLOSEOUT's own closure updates; no stale MVP-MOD-007 pointer
+      required correction.
+capabilities_validated:
+- capability_id: BCM-PLT-004
+  package_folder: 01-product-definition/business-capabilities/packages/bcm-plt-004-integration-management/
+  required_artifacts_present: true
+  artifact_count: 14
+  bounded_context: integration-interoperability
+  primary_aggregate_reference: IntegrationEndpoint (new platform aggregate owned by
+    this capability)
+- capability_id: BCM-PLT-005
+  package_folder: 01-product-definition/business-capabilities/packages/bcm-plt-005-api-management/
+  required_artifacts_present: true
+  artifact_count: 14
+  bounded_context: integration-interoperability
+  primary_aggregate_reference: ApiSurfaceRegistration (new platform aggregate owned
+    by this capability)
+- capability_id: BCM-PLT-010
+  package_folder: 01-product-definition/business-capabilities/packages/bcm-plt-010-open-data-ingestion-and-migration/
+  required_artifacts_present: true
+  artifact_count: 14
+  bounded_context: data-migration-portability
+  primary_aggregate_reference: AGG-016 MigrationJob (owner)
+validations:
+- id: VAL-001
+  name: Required artifact completeness
+  method: Verify each package contains the 14 required capability package artifacts.
+  result: passed
+  detail: 3 packages x 14 artifacts = 42 artifacts present.
+- id: VAL-002
+  name: YAML syntax validation
+  method: Parse all created and modified YAML files and fail on syntax errors.
+  result: passed
+  detail: All 42 new package YAML files (13 per package x 3 packages) parsed without
+    errors, plus updated capability-package-index.md, root and project PROJECT_STATE.md/SOURCE_OF_TRUTH.md,
+    both commercial backlog/execution-prompt files, and TD-STACK-003/TD-I18N-002/technical-debt-index.md.
+- id: VAL-003
+  name: Capability map traceability
+  method: Confirm every package traces to a BCM-001 capability in DOM-10 (Platform)
+    with the exact canonical name.
+  result: passed
+  detail: BCM-PLT-004 Integration Management, BCM-PLT-005 API Management and BCM-PLT-010
+    Open Data Ingestion and Migration confirmed under DOM-10 Platform against business-capability-map.md.
+    No invented names.
+- id: VAL-004
+  name: Dependency map traceability
+  method: Confirm every package declares the correct BCM-002 dependency profile and
+    required/downstream capabilities.
+  result: passed
+  detail: BCM-PLT-004/BCM-PLT-005 declare dependency_profile platform_extension with
+    required capabilities BCM-PLT-001/BCM-PLT-006/BCM-PLT-007, matching capability-dependency-map.md.
+    BCM-PLT-010 declares dependency_profile data_ingestion_migration with required
+    capabilities BCM-ORG-001/BCM-ORG-002/BCM-ORG-003/BCM-PLT-001/BCM-PLT-007 and optional
+    BCM-PLT-005/BCM-PLT-006/BCM-PLT-008, matching capability-dependency-map.md's
+    data_ingestion_migration profile exactly.
+- id: VAL-005
+  name: No duplicate aggregate ownership; correct aggregate-catalog correspondence
+  method: Confirm no package invents a competing aggregate for a bounded context that
+    already has one, and that BCM-PLT-010's entity names correspond correctly to aggregate-catalog.md
+    AGG-016.
+  result: passed
+  detail: integration-interoperability had no prior aggregate in aggregate-catalog.md;
+    BCM-PLT-004's IntegrationEndpoint and BCM-PLT-005's ApiSurfaceRegistration are
+    new, non-competing aggregates within the same bounded context (inbound message
+    side vs. outbound API-governance side), each documented as such in traceability.md.
+    BCM-PLT-010's MigrationJob is explicitly AGG-016; its owned ImportBatch/ImportValidationReport
+    are documented in traceability.md as the same conceptual entities aggregate-catalog.md
+    names SourceDataset/ValidationReport, using the exact names capability-dependency-map.md's
+    related_aggregates list uses for BCM-PLT-010, not a duplicate or competing aggregate.
+- id: VAL-006
+  name: Business rule format compliance
+  method: Confirm rules follow RN-### format with required fields.
+  result: passed
+  detail: All 18 rules (6 per package x 3 packages) include id, statement, applies_to,
+    enforcement_point, severity, audit_required, test_refs.
+- id: VAL-007
+  name: Generation plan separation
+  method: Confirm generation-plan separates generated outputs from custom implementation
+    points.
+  result: passed
+  detail: Each of the 3 packages declares generated_outputs, custom_implementation_points
+    and do_not_write_manually.
+- id: VAL-008
+  name: MDPE manual authoring compliance
+  method: Confirm no CRUD, DTO, controller, repository, SDK, Swagger or repetitive
+    tests were authored as implementation.
+  result: passed
+  detail: Repetitive artifacts declared as generated outputs only; no implementation
+    code created during MVP-MOD-008-DEF.
+- id: VAL-009
+  name: API surface classification
+  method: Confirm every openapi-source declares surface classification and per-operation
+    generatable flags.
+  result: passed
+  detail: Internal classification for all three packages' own governance/administrative
+    operations (BCM-PLT-004 endpoint/message management, BCM-PLT-005 classification/partner-key
+    management, BCM-PLT-010 migration job management); BCM-PLT-005 additionally governs
+    the classification metadata that other capabilities' public/partner-facing operations
+    will declare.
+- id: VAL-010
+  name: Permissions and audit coverage
+  method: Confirm each package declares scopes, roles, access policies and audit obligations
+    to BCM-PLT-007.
+  result: passed
+- id: VAL-011
+  name: UI and mobile surface classification
+  method: Confirm ui-model and mobile-model declare surface status per module product
+    surfaces.
+  result: passed
+  detail: 'employee_portal admin_required for all three packages, matching MVP-MOD-008''s
+    module-level product_surfaces; patient_portal not_required for all three; doctor_portal
+    not_required for BCM-PLT-004/BCM-PLT-010 and partner_api_later for BCM-PLT-005
+    (matching the module''s doctor_portal: partner_api_later exactly); mobile_app
+    not_required for all three, explicitly documented rather than left blank.'
+- id: VAL-012
+  name: Registered path existence
+  method: Confirm all package folders and index references resolve to existing files.
+  result: passed
+- id: VAL-013
+  name: Agent-agnostic scan
+  method: Scan created artifacts for named-agent, assistant, model-vendor or platform-runtime
+    requirements.
+  result: passed
+  detail: No named-agent or vendor-runtime dependency found in package artifacts.
+- id: VAL-014
+  name: Provider-agnostic adapter pattern compliance
+  method: Confirm BCM-PLT-004's IntegrationAdapterPort mirrors the FiscalAdapterPort/NotificationProviderPort/DocumentStoragePort
+    pattern, and BCM-PLT-010 correctly reuses DocumentStoragePort rather than duplicating
+    a storage port.
+  result: passed
+  detail: IntegrationAdapterPort declares a local_deterministic_passthrough_adapter
+    default with an explicit note that open-source protocol-specific adapters may
+    be added later without changing the port. BCM-PLT-010's ImportPackageStoragePort
+    explicitly reuses BCM-PLT-008's DocumentStoragePort contract rather than defining
+    a competing storage boundary.
+- id: VAL-015
+  name: Integration and migration readiness acceptance-summary compliance
+  method: Confirm the 5 MVP-MOD-008 acceptance-summary items are modeled somewhere
+    in the 3 packages.
+  result: passed
+  detail: '(1) External messages normalized before reaching domain modules: BCM-PLT-004
+    RN-001, INV-INT-001. (2) Imports use simple provider-deliverable formats (CSV,
+    XLSX, JSON, NDJSON, ZIP): BCM-PLT-010 business-model.md MigrationManifest, openapi-source.md.
+    (3) Imports validate before mutation and produce actionable reconciliation reports:
+    BCM-PLT-010 RN-002, RN-005, ReconciliationReport entity. (4) Migration jobs are
+    auditable, retryable and never bypass domain commands: BCM-PLT-010 RN-003, RN-004,
+    RN-005. (5) Public, internal and partner APIs are classified and governed: BCM-PLT-005
+    RN-001, RN-002, RN-003, RN-004.'
+- id: VAL-016
+  name: HRP alignment
+  method: Confirm alignment with HRP-001-P08 Migration and Integration Dry Run.
+  result: passed
+  detail: All three packages' traceability.md declare their segment of HRP-001-P08
+    (receive/normalize/ acknowledge for BCM-PLT-004; partner/public API governance
+    for BCM-PLT-005; receive/map/ dry-run/approve/execute/retry for BCM-PLT-010),
+    matching the process's primary_actors (ACT-001, ACT-002, ACT-014) and required_events
+    (MigrationJobCreated, MigrationValidated, IntegrationAcknowledgement) exactly.
+- id: VAL-017
+  name: BRM alignment
+  method: Confirm alignment with BRM-001-R016 (integration adapters cannot bypass
+    validation) and BRM-001-R018 (audit records are append-only).
+  result: passed
+  detail: BCM-PLT-004 aligns BRM-001-R016 via RN-001/RN-002; BCM-PLT-010 aligns BRM-001-R016
+    via RN-001/RN-002/RN-003; all three packages align BRM-001-R018 via their respective
+    RN-005 (or RN-005 architecture_boundary) audit rules.
+- id: VAL-018
+  name: Open Data Ingestion Standard and HOP contract compliance
+  method: Confirm BCM-PLT-010 implements NXF-ODI-STD-001 and reuses the existing HOP-ODI-001
+    contract and requirements.md rather than redefining ingestion formats or the
+    manifest schema.
+  result: passed
+  detail: capability-package.md declares implements_contract and implements_requirements
+    pointers to the existing open-data-ingestion-contract.md and requirements.md
+    (both pre-existing, approved artifacts); business-model.md's MigrationManifest
+    fields match the standard's required_manifest fields exactly; no new or conflicting
+    ingestion format/manifest schema was introduced.
+- id: VAL-019
+  name: Architecture-map governance boundary compliance
+  method: Confirm observations that context-map.md/aggregate-catalog.md already
+    cover the relevant bounded contexts and published language (REL-CTX-010, REL-CTX-011,
+    AGG-016) were recorded as traceability confirmations rather than requiring any
+    architecture-map edit.
+  result: passed
+  detail: traceability.md for all three packages documents that context-map.md
+    already declares the relevant anti-corruption-layer relationships and published-language
+    types; no context-map.md or aggregate-catalog.md edit was made, consistent
+    with the rule that architecture changes require an ADR.
+blocking_gaps: []
+non_blocking_observations:
+- id: OBS-001
+  description: BCM-PLT-004's protocol-specific parsing library selection (e.g. an
+    open-source HL7v2 parser, HAPI FHIR) and BCM-PLT-010's specific CSV/XLSX/JSON/NDJSON/ZIP
+    parsing library selection are recorded as custom implementation points in generation-plan.md
+    (CUS-INT-004-06, CUS-MIG-010-01) rather than decided in this definition-only backlog
+    item.
+  disposition: tracked_as_documented_package_boundary
+  reference: n/a (stack-decision scope boundary for MVP-MOD-008-BE-001, not a modeling
+    defect)
+- id: OBS-002
+  description: ACM-001 actor-catalog.md does not yet define dedicated "Implementation
+    Specialist" or "Data Migration Lead" actor ids named in requirements.md's actors
+    list for BCM-PLT-010; processes.md reuses the closest existing internal_staff
+    actors (ACT-001, ACT-002) and documents this substitution explicitly.
+  disposition: tracked_as_documented_package_boundary
+  reference: n/a (actor-catalog extension is a separate governance action, not a defect)
+debt_first_review:
+  applicable: true
+  rationale: 'This is a definition-only backlog item with no code changes, so no code-changing
+    debt item could be remediated with actual code. The technical-debt-index.md
+    review requirement was honored more than in prior definition-only backlog items:
+    two open technical-debt items were genuinely reasonably addressable at the modeling
+    stage and were materially reduced. TD-STACK-003 (no OpenAPI-Generator client/server
+    generation) had its acceptance criterion given a concrete, scheduled pilot target
+    (BCM-PLT-005''s generation-plan.md, for MVP-MOD-008-FE-001) rather than remaining
+    an unscheduled aspiration. TD-I18N-002 (structured error codes / full i18n adoption)
+    had its own recommended_trigger ("a structured-error-code API consumer needs `code`
+    as a first-class response field") concretely hit for the first time by these three
+    externally/system-facing capabilities, which model that field and reserve message-key
+    namespaces from inception. Neither reduction implements code; both are genuine
+    forward modeling-stage decisions, honestly scoped as such in each debt item''s
+    own evidence text.'
+  debt_items_materially_reduced:
+  - TD-STACK-003
+  - TD-I18N-002
+readiness:
+  mvp_mod_008_def_status: closed
+  ready_for_next_backlog_item: MVP-MOD-008-BE-001
+  next_backlog_item_name: Compile integration adapter contracts and API governance
+    outputs
+  hop_commercially_complete: false
+  hop_ga_ready: false
+  rationale: 'All three Integration and Migration Readiness capability packages are
+    modeled with the full required artifact set, traceable to BCM-001, BCM-002, domain
+    foundation, business rules catalog, healthcare reference processes, permissions,
+    events, APIs, UI, tests and observability, with generated versus custom implementation
+    separated in generation plans. BCM-PLT-010 correctly reuses AGG-016 MigrationJob
+    and the existing HOP Open Data Ingestion Contract/Standard without redefinition.
+    No package invents a duplicate or competing aggregate. No blocking gaps remain;
+    two non-blocking scope observations are tracked. Two open technical-debt items
+    (TD-STACK-003, TD-I18N-002) were materially reduced through concrete, honestly-scoped
+    modeling-stage decisions rather than left untouched. No code was implemented in
+    this backlog item; backend coverage remains 78.51%, employee-portal 85.50%, mobile
+    98.87%, patient-portal 41.93% and doctor-portal 40.62%, all unchanged and not
+    regressed. HOP is not commercially complete or GA-ready; MVP-MOD-008-BE-001 through
+    MVP-MOD-008-CLOSEOUT and all REL-002/003/004 modules remain planned.
+
+    '
+```

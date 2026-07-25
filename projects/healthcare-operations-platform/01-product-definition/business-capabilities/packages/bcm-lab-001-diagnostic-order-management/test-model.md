@@ -1,0 +1,88 @@
+---
+id: HOP-TEST-BCM-LAB-001
+format: markdown_structured_payload
+type: test-model
+name: Diagnostic Order Management Test Model
+version: 0.1.0
+status: modeled
+---
+
+# Diagnostic Order Management Test Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TEST-BCM-LAB-001
+  type: test-model
+  name: Diagnostic Order Management Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-001
+test_cases:
+- id: TST-ORD-001-01
+  type: acceptance
+  validates_rule: RN-001
+  statement: Creating an order without a resolvable patient snapshot is rejected.
+  generatable: false
+- id: TST-ORD-001-02
+  type: acceptance
+  validates_rule: RN-002
+  statement: Adding an order line for an unpublished or deprecated catalog item is
+    rejected.
+  generatable: false
+- id: TST-ORD-001-03
+  type: acceptance
+  validates_rule: RN-003
+  statement: Accepting an order without a pricing snapshot is rejected.
+  generatable: false
+- id: TST-ORD-001-04
+  type: architecture
+  validates_rule: RN-004
+  statement: No other capability module writes DiagnosticOrder persistence directly.
+  generatable: false
+- id: TST-ORD-001-05
+  type: contract
+  validates_rule: RN-005
+  statement: Unauthorized or out-of-scope actors cannot create or manage an order.
+  generatable: true
+- id: TST-ORD-001-06
+  type: acceptance
+  validates_rule: RN-006
+  statement: A cancelled order cannot be re-priced or re-accepted.
+  generatable: false
+- id: TST-ORD-001-07
+  type: acceptance
+  validates_rule: RN-007
+  statement: Cancelling an order with in-progress laboratory work requires an override
+    justification.
+  generatable: false
+- id: TST-ORD-001-08
+  type: unit
+  validates_rule: RN-008
+  statement: DiagnosticOrderCreated and OrderAccepted events carry actor, branch,
+    intake channel and snapshot versions.
+  generatable: true
+- id: TST-ORD-001-09
+  type: acceptance
+  validates_rule: RN-009
+  statement: Pricing or accepting an order with zero order lines is rejected.
+  generatable: true
+test_layers:
+- contract_tests
+- unit_tests
+- acceptance_tests
+- architecture_tests
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests:
+  - TST-ORD-001-01
+  - TST-ORD-001-02
+  - TST-ORD-001-03
+  - TST-ORD-001-04
+  - TST-ORD-001-06
+  - TST-ORD-001-07
+```

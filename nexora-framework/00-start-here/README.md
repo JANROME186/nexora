@@ -4,10 +4,10 @@ This folder is the first stop for humans and agents using the Nexora Framework.
 
 Read in this order:
 
-1. `FRAMEWORK_EXECUTION_SEQUENCE.yaml`
+1. `FRAMEWORK_EXECUTION_SEQUENCE.md`
 2. `FRAMEWORK_EXECUTION_SEQUENCE.md`
-3. `docs/vision/NEXORA_FINAL_VISION.yaml`
-4. `docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml`
+3. `docs/vision/NEXORA_FINAL_VISION.md`
+4. `docs/vision/NEXORA_STRATEGIC_HANDOFF.md`
 
 Use this folder to understand:
 

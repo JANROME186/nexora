@@ -1,0 +1,130 @@
+---
+id: HOP-TRACE-BCM-LAB-008
+format: markdown_structured_payload
+type: traceability
+name: Technical Validation Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Technical Validation Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-LAB-008
+  type: traceability
+  name: Technical Validation Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-008
+traces:
+  capability_map:
+    bcm_001: BCM-LAB-008
+    domain: DOM-05 Clinical Operations
+  dependency_map:
+    bcm_002_profile: clinical_operations
+    required_capabilities:
+    - BCM-LAB-006
+    - BCM-SVC-006
+    - BCM-PLT-001
+    - BCM-PLT-007
+    downstream_capabilities:
+    - BCM-LAB-009
+  domain_foundation:
+    bounded_context: laboratory-results
+    aggregate_reference: AGG-009 LaboratoryResult (owned by BCM-LAB-006)
+    context_relationships:
+    - REL-CTX-004
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-002
+    - VO-ID-004
+    - VO-ID-009
+    - VO-007
+  brm_alignment:
+  - rule: BRM-001-R013
+    alignment: Flagging a critical result creates a traceable notification or escalation
+      record (RN-004).
+  - rule: BRM-001-R017
+    alignment: Only an authorized human validator performs technical validation; AI
+      is excluded from this command (RN-002, RN-005).
+  - rule: BRM-001-R018
+    alignment: Validation and critical-flag events are audited (RN-006, RN-007).
+  hrp_alignment:
+  - process: HRP-001-P06 Result Validation and Release
+    capability_role: Perform technical validation and flag critical result segment
+      of the result lifecycle process.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-TVL-008-01
+  - rule: RN-002
+    tests:
+    - TST-TVL-008-02
+  - rule: RN-003
+    tests:
+    - TST-TVL-008-03
+  - rule: RN-004
+    tests:
+    - TST-TVL-008-04
+  - rule: RN-005
+    tests:
+    - TST-TVL-008-05
+  - rule: RN-006
+    tests:
+    - TST-TVL-008-06
+  - rule: RN-007
+    tests:
+    - TST-TVL-008-07
+  processes_to_commands:
+  - process: PRC-TVL-008-01
+    commands:
+    - PerformTechnicalValidation
+  - process: PRC-TVL-008-02
+    commands:
+    - FlagCriticalResult
+  api_to_permissions:
+  - operation: performTechnicalValidation
+    scope: result.manage
+  - operation: flagCriticalResult
+    scope: result.manage
+  - operation: listTechnicalValidationWorklist
+    scope: result.manage
+  events_to_audit:
+  - event: ResultTechnicallyValidated
+    audit_sink: BCM-PLT-007
+  - event: ResultFlaggedCritical
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-TVL-008-01
+    operations:
+    - listTechnicalValidationWorklist
+  - screen: SCR-TVL-008-02
+    operations:
+    - performTechnicalValidation
+    - flagCriticalResult
+  consumed_by_capabilities:
+  - capability: BCM-LAB-009
+    relationship: Medical validation reads the technically validated result and invokes
+      PerformMedicalValidation.
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/laboratory-workflow/MVP-MOD-006-DEF-validation.md
+  backlog_items:
+    definition: MVP-MOD-006-DEF
+    definition_status: modeled
+    compilation: MVP-MOD-006-BE-001
+    compilation_status: closed
+    custom_rules: MVP-MOD-006-BE-002
+    custom_rules_status: closed
+    ui: MVP-MOD-006-FE-001
+    ui_status: closed
+    validation: MVP-MOD-006-QA-001
+    validation_status: closed
+    closeout: MVP-MOD-006-CLOSEOUT
+    closeout_status: closed
+```

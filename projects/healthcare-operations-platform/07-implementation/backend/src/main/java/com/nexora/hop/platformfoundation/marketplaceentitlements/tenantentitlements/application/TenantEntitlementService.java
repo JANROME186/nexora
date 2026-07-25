@@ -20,7 +20,7 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 
 /**
  * Compiles the generatable outputs of BCM-PLT-011's tenantentitlements capability (AGG-032
- * TenantEntitlement): grant, list and revoke (RN-MKT-002, entitlement-policy.yaml
+ * TenantEntitlement): grant, list and revoke (RN-MKT-002, entitlement-policy.md
  * {@code runtime_guards}).
  */
 @Service

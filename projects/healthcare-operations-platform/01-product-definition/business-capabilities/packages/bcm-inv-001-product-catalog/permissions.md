@@ -1,0 +1,67 @@
+---
+id: HOP-PERM-BCM-INV-001
+format: markdown_structured_payload
+type: permissions
+name: Product Catalog Permissions
+version: 0.1.0
+status: modeled
+---
+
+# Product Catalog Permissions
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PERM-BCM-INV-001
+  type: permissions
+  name: Product Catalog Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-001
+  depends_on_capability: BCM-PLT-001
+scopes:
+- code: inventory.catalog.manage
+  description: Create, update and discontinue InventoryItem records.
+- code: inventory.catalog.read
+  description: Read inventory item catalog data.
+roles:
+- role: tenant-administrator
+  grants:
+  - inventory.catalog.manage
+  - inventory.catalog.read
+- role: catalog-manager
+  grants:
+  - inventory.catalog.manage
+  - inventory.catalog.read
+- role: branch-administrator
+  grants:
+  - inventory.catalog.manage
+  - inventory.catalog.read
+- role: laboratory-technician
+  grants:
+  - inventory.catalog.read
+access_policies:
+- id: POL-CAT-001-01
+  statement: Product catalog commands are scoped to the calling actor's tenant, laboratory
+    and branch.
+  enforcement: row_level_tenant_laboratory_branch_filter
+- id: POL-CAT-001-02
+  statement: Core identity fields (itemCode, itemName, itemType, classification, unitOfMeasure,
+    status) may only be written by this capability's own commands.
+  enforcement: field_level_delegation_boundary
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+  - event: InventoryItemRegistered
+    fields:
+    - inventoryItemId
+    - itemType
+    - classification
+  - event: InventoryItemDiscontinued
+    fields:
+    - inventoryItemId
+```

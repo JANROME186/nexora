@@ -2,7 +2,7 @@ package com.nexora.hop.platformfoundation.datamigrationportability.shared;
 
 /**
  * Canonical structured error codes for BCM-PLT-010 Open Data Ingestion and Migration, matching
- * {@code openapi-source.yaml error_model.domain_errors} exactly.
+ * {@code openapi-source.md error_model.domain_errors} exactly.
  */
 public final class MigrationErrorCodes {
 

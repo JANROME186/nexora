@@ -7,7 +7,7 @@ Validate that bounded context relationships are explicit, allowed and traceable.
 ## Validation Rules
 
 ### CTX-VAL-001
-Every cross-context dependency must exist in `context-map.yaml`.
+Every cross-context dependency must exist in `context-map.md`.
 
 ### CTX-VAL-002
 Every relationship must declare:

@@ -1,0 +1,40 @@
+---
+id: HOP-MOB-BCM-ATT-005
+format: markdown_structured_payload
+type: mobile-model
+name: Cashier Operations Mobile Model
+version: 0.1.0
+status: modeled
+---
+
+# Cashier Operations Mobile Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-MOB-BCM-ATT-005
+  type: mobile-model
+  name: Cashier Operations Mobile Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-005
+mobile_app:
+  status: payment_receipt_later
+  rationale: 'MVP-MOD-005 requires employee-portal cashier execution. Patient mobile
+    payment receipt access is useful for commercial rollout but is not required to
+    compile the cashier backend or employee UI.
+
+    '
+  future_screens:
+  - id: MOB-CASH-001
+    name: Payment receipt detail
+    actor: patient
+    depends_on: patient_portal_payment_history
+offline_support:
+  required_now: false
+  future_consideration: receipt_cache_only
+```

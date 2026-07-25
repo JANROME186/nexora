@@ -1,0 +1,79 @@
+---
+id: HOP-TEST-BCM-RES-002
+format: markdown_structured_payload
+type: test-model
+name: PDF Report Generation Test Model
+version: 0.1.0
+status: modeled
+---
+
+# Pdf Report Generation Test Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TEST-BCM-RES-002
+  type: test-model
+  name: PDF Report Generation Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-002
+test_cases:
+- id: TST-RPT-002-01
+  type: acceptance
+  validates_rule: RN-001
+  statement: Generating a report against a non-released result is rejected.
+  generatable: false
+- id: TST-RPT-002-02
+  type: unit
+  validates_rule: RN-002
+  statement: A generated report always carries a unique identifier, a sequential version
+    and a content hash.
+  generatable: false
+- id: TST-RPT-002-03
+  type: acceptance
+  validates_rule: RN-003
+  statement: Amending a released result produces a new report version and marks the
+    prior one superseded, never edited.
+  generatable: false
+- id: TST-RPT-002-04
+  type: acceptance
+  validates_rule: RN-004
+  statement: Serving a report with a mismatched content hash is blocked and raises
+    a critical alert.
+  generatable: false
+- id: TST-RPT-002-05
+  type: architecture
+  validates_rule: RN-005
+  statement: This capability never issues a command against LaboratoryResult, Sample,
+    Patient or Doctor.
+  generatable: false
+- id: TST-RPT-002-06
+  type: contract
+  validates_rule: RN-006
+  statement: Unauthorized or out-of-scope actors cannot generate or read a report.
+  generatable: true
+- id: TST-RPT-002-07
+  type: unit
+  validates_rule: RN-007
+  statement: ReportGenerated carries the triggering actor or system, result reference
+    and report version.
+  generatable: true
+test_layers:
+- contract_tests
+- unit_tests
+- acceptance_tests
+- architecture_tests
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests:
+  - TST-RPT-002-01
+  - TST-RPT-002-02
+  - TST-RPT-002-03
+  - TST-RPT-002-04
+  - TST-RPT-002-05
+```

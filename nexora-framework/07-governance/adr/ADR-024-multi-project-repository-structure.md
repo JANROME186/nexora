@@ -16,7 +16,7 @@ Adopt a multi-project repository structure:
 
 - `nexora-framework/` contains reusable Nexora standards, recipes, templates, schemas, governance and agent guidance.
 - `projects/` contains self-contained product or solution folders.
-- Each project must include its own `PROJECT_BRIEF.md`, `PROJECT_STATE.yaml` and `SOURCE_OF_TRUTH.yaml`.
+- Each project must include its own `PROJECT_BRIEF.md`, `PROJECT_STATE.md` and `SOURCE_OF_TRUTH.md`.
 - Project-specific artifacts must not be placed at repository root.
 
 ## Consequences
@@ -31,6 +31,6 @@ Root-level state describes the repository and framework, not the product impleme
 
 ## Related Artifacts
 
-- `nexora-framework/02-standards/standards/project-folder-standard.yaml`
-- `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml`
+- `nexora-framework/02-standards/standards/project-folder-standard.md`
+- `nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md`
 - `projects/healthcare-operations-platform/PROJECT_BRIEF.md`

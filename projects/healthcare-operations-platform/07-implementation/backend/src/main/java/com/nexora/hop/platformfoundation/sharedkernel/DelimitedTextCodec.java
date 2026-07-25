@@ -15,9 +15,9 @@ import java.util.Map;
 public final class DelimitedTextCodec {
 
     /** ASCII record separator (0x1E): delimits list/map entries. */
-    private static final String ENTRY_DELIMITER = "";
+    private static final String ENTRY_DELIMITER = "\u001E";
     /** ASCII unit separator (0x1F): delimits a map entry's key from its value. */
-    private static final String KEY_VALUE_DELIMITER = "";
+    private static final String KEY_VALUE_DELIMITER = "\u001F";
 
     private DelimitedTextCodec() {
     }

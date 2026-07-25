@@ -65,7 +65,7 @@ public class CriticalResultEscalationService {
         CriticalResultEscalation escalation = repository.findById(escalationId)
                 .orElseThrow(() -> new IllegalArgumentException("Escalation not found"));
 
-        if (escalation.getStatus() == CriticalResultEscalation.Status.CLOSED || 
+        if (escalation.getStatus() == CriticalResultEscalation.Status.CLOSED ||
             escalation.getStatus() == CriticalResultEscalation.Status.ACKNOWLEDGED) {
             return escalation;
         }

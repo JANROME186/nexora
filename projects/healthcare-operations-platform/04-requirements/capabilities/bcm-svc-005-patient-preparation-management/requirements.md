@@ -138,3 +138,215 @@ As a manager, I want to view indicators for Patient Preparation Management so th
 - Scenario: required fields and business rules are validated.
 - Scenario: the action is auditable.
 - Scenario: the UI provides clear feedback and supports localization.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: REQ-BCM-SVC-005
+  type: capability-requirements
+  name: Patient Preparation Management Requirements
+  version: 1.0.0
+  status: approved
+  owner: Product Requirements Team
+  source_of_truth: 04-requirements/capabilities/bcm-svc-005-patient-preparation-management/requirements.md
+  depends_on:
+  - BCM-SVC-005
+  - BCM-001
+capability:
+  domain_id: DOM-03
+  domain_name: Diagnostic Services
+  id: BCM-SVC-005
+  name_en: Patient Preparation Management
+  name_es: Preparaciones del Paciente
+  priority: High
+  roadmap: MVP1
+actors:
+- Laboratory Administrator
+- Catalog Manager
+- Clinical Supervisor
+portals:
+- employee_portal
+- public_website
+mobile: supported_when_operationally_required
+related_aggregates:
+- DiagnosticService
+- TestDefinition
+- PanelDefinition
+- AnalyteDefinition
+- ReferenceRange
+- PriceList
+primary_events:
+- TestDefinitionPublished
+- ReferenceRangeUpdated
+- PriceListActivated
+requirements:
+- id: FR-SVC-005-001
+  type: functional
+  capability: BCM-SVC-005
+  domain: DOM-03
+  statement: The platform shall allow authorized users to configure and version preparaciones
+    del paciente.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-005-002
+  type: functional
+  capability: BCM-SVC-005
+  domain: DOM-03
+  statement: The platform shall prevent clinical use of incomplete, inactive or deprecated
+    preparaciones del paciente.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-005-003
+  type: functional
+  capability: BCM-SVC-005
+  domain: DOM-03
+  statement: The platform shall support effective dates, branch availability and pricing
+    relationships for preparaciones del paciente.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-005-004
+  type: functional
+  capability: BCM-SVC-005
+  domain: DOM-03
+  statement: The platform shall track changes to preparaciones del paciente and preserve
+    the version used by each diagnostic order.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+- id: FR-SVC-005-005
+  type: functional
+  capability: BCM-SVC-005
+  domain: DOM-03
+  statement: The platform shall expose Patient Preparation Management configuration
+    through APIs used by ordering, results, billing and inventory.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - Given an authorized user, when the action is performed, then the platform validates
+    permissions before executing it.
+  - Given valid input data, when the transaction is submitted, then the platform persists
+    the change and records audit metadata.
+  - Given invalid or incomplete data, when the transaction is submitted, then the
+    platform rejects it with a standardized error response.
+  - Given a successful state change, when the transaction is completed, then the platform
+    publishes or records the corresponding domain event when applicable.
+user_stories:
+- id: US-SVC-005-001
+  capability: BCM-SVC-005
+  title: Manage Patient Preparation Management
+  story: As an authorized user, I want to manage Patient Preparation Management so
+    that the organization can operate this capability consistently.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+- id: US-SVC-005-002
+  capability: BCM-SVC-005
+  title: Search Patient Preparation Management
+  story: As an authorized user, I want to search and filter Patient Preparation Management
+    so that I can find records quickly.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+- id: US-SVC-005-003
+  capability: BCM-SVC-005
+  title: Audit Patient Preparation Management
+  story: As a supervisor, I want to review the audit history of Patient Preparation
+    Management so that I can verify accountability and compliance.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+- id: US-SVC-005-004
+  capability: BCM-SVC-005
+  title: Configure Patient Preparation Management
+  story: As an administrator, I want to configure Patient Preparation Management according
+    to laboratory and branch rules so that the workflow fits operational needs.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+- id: US-SVC-005-005
+  capability: BCM-SVC-005
+  title: Report Patient Preparation Management
+  story: As a manager, I want to view indicators for Patient Preparation Management
+    so that I can make operational decisions.
+  priority: High
+  roadmap: MVP1
+  acceptance_criteria:
+  - 'Scenario: authorized access is allowed and unauthorized access is denied.'
+  - 'Scenario: required fields and business rules are validated.'
+  - 'Scenario: the action is auditable.'
+  - 'Scenario: the UI provides clear feedback and supports localization.'
+non_functional_requirements:
+- Must support internationalization for visible labels, validation messages and notifications.
+- Must record audit metadata for create, update, delete, approve, cancel and release
+  actions.
+- Must enforce tenant, laboratory and branch isolation.
+- Must expose contract-first API behavior when external or frontend integration is
+  required.
+- Must support accessibility and low-resource device constraints where user-facing.
+definition_of_ready:
+- Capability exists in BCM-001.
+- Owning domain and bounded context are identified.
+- Actors and portals are identified.
+- Functional requirements are approved.
+- Traceability to aggregates and events is present.
+definition_of_done:
+- OpenAPI contracts generated or updated.
+- Backend use cases implemented.
+- Frontend/mobile interactions implemented if applicable.
+- Unit, integration and contract tests pass.
+- Audit, security and observability requirements verified.
+```

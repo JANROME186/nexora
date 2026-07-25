@@ -1,0 +1,94 @@
+---
+id: HOP-PERM-BCM-ATT-001
+format: markdown_structured_payload
+type: permissions
+name: Appointment Scheduling Permissions
+version: 0.2.0
+status: modeled
+---
+
+# Appointment Scheduling Permissions
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PERM-BCM-ATT-001
+  type: permissions
+  name: Appointment Scheduling Permissions
+  version: 0.2.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-ATT-001
+  depends_on_capability: BCM-PLT-001
+scopes:
+- code: appointment.manage
+  description: Request, confirm, check in, cancel or mark no-show for an appointment.
+- code: appointment.read
+  description: Read appointment history for audit and review.
+- code: appointment.request.public
+  description: Anonymous, rate-limited creation of a requested-state AppointmentSlot
+    from a ProspectiveContact via the COM-MOD-011 public website. Cannot confirm,
+    check in, cancel or read other appointments.
+roles:
+- role: receptionist
+  grants:
+  - appointment.manage
+  - appointment.read
+- role: branch-administrator
+  grants:
+  - appointment.manage
+  - appointment.read
+- role: tenant-administrator
+  grants:
+  - appointment.read
+- role: public-website-visitor
+  grants:
+  - appointment.request.public
+  authentication: anonymous
+  governed_by: BCM-PLT-005 RateLimitPolicy (classification=public)
+access_policies:
+- id: POL-APT-001-01
+  statement: Appointment commands are scoped to the actor's tenant, laboratory and
+    branch.
+  enforcement: row_level_tenant_laboratory_branch_filter
+- id: POL-APT-001-02
+  statement: Converting an appointment into an order must delegate to BCM-LAB-001
+    aggregate commands.
+  enforcement: cross_capability_delegation_policy
+- id: POL-APT-001-03
+  statement: Public, anonymous appointment requests (RN-008) can only create a requested-state
+    slot for the website's own tenant/branch context; they can never confirm, check
+    in or read appointments belonging to others.
+  enforcement: status_and_scope_restricted_public_write
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+  - event: AppointmentRequested
+    fields:
+    - appointmentId
+    - actorId
+    - branchId
+    - channel
+  - event: AppointmentConfirmed
+    fields:
+    - appointmentId
+    - actorId
+    - branchId
+  - event: AppointmentCheckedIn
+    fields:
+    - appointmentId
+    - actorId
+    - branchId
+  - event: AppointmentCancelled
+    fields:
+    - appointmentId
+    - actorId
+    - reasonCode
+  - event: AppointmentNoShowMarked
+    fields:
+    - appointmentId
+    - branchId
+```

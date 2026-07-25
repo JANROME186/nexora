@@ -5,7 +5,7 @@ This folder stores backlog-level evidence for the Nexora Open Source First Secur
 Each code-changing backlog item must create:
 
 ```text
-08-qa/security-quality/<backlog-item-id>/security-quality-evidence.yaml
+08-qa/security-quality/<backlog-item-id>/security-quality-evidence.md
 08-qa/security-quality/<backlog-item-id>/security-quality-evidence.md
 ```
 

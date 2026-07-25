@@ -27,24 +27,24 @@ never persists order state itself.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | AdmissionRequest process entity and catalog-selection value object |
-| `business-rules.yaml` | Numbered rules RN-001..RN-007 |
-| `processes.yaml` | Start, mark ready, commit, reject |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee portal intake wizard, list, detail |
-| `mobile-model.yaml` | Mobile scope (not_required, front-desk only) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | AdmissionRequest process entity and catalog-selection value object |
+| `business-rules.md` | Numbered rules RN-001..RN-007 |
+| `processes.md` | Start, mark ready, commit, reject |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee portal intake wizard, list, detail |
+| `mobile-model.md` | Mobile scope (not_required, front-desk only) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, UI, tests, QA |
 
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers the reception precondition check, published-catalog
 completeness validation, tenant-configurable consent/sample-acknowledgement
 gating, the cross-capability commit delegation to BCM-LAB-001 and the

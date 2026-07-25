@@ -22,3 +22,244 @@ El catálogo de Bounded Contexts define los límites oficiales del dominio de Ne
 ## Regla central
 
 Un Aggregate Root solo puede ser propiedad de un Bounded Context. Los demás contextos deben integrarse mediante eventos, contratos publicados, queries autorizadas o Anti-Corruption Layers.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: DOMAIN-BOUNDED-CONTEXT-CATALOG-001
+type: bounded-context-catalog
+owner: Domain Architecture
+status: approved
+version: 0.34.0
+source_of_truth: 02-domain-definition/domains/bounded-contexts.md
+contexts:
+- id: BC-CLINICAL
+  name: Clinical Operations
+  domain_type: core
+  owner: Clinical Domain Team
+  purpose: Gestionar el ciclo clínico diagnóstico desde paciente, orden, muestra,
+    resultado e imagenología.
+  capabilities:
+  - CAP-001
+  - CAP-006
+  - CAP-007
+  - CAP-011
+  aggregates:
+  - Patient
+  - DiagnosticOrder
+  - Sample
+  - LaboratoryResult
+  - ImagingStudy
+  - DiagnosticReport
+  published_language:
+  - PatientRegistered
+  - DiagnosticOrderCreated
+  - SampleCollected
+  - ResultValidated
+  - ReportReleased
+- id: BC-ORGANIZATION
+  name: Organization & Tenant Management
+  domain_type: core
+  owner: Identity Domain Team
+  purpose: Gestionar laboratorios, sucursales, organigramas, empleados y configuración
+    tenant.
+  capabilities:
+  - CAP-002
+  aggregates:
+  - Laboratory
+  - Branch
+  - Department
+  - Position
+  - Employee
+  published_language:
+  - LaboratoryCreated
+  - BranchActivated
+  - EmployeeAssignedToBranch
+- id: BC-IAM
+  name: Identity & Access Management
+  domain_type: supporting
+  owner: Security Domain Team
+  purpose: Gestionar usuarios, roles, permisos, sesiones, autenticación y autorización.
+  capabilities:
+  - CAP-003
+  aggregates:
+  - UserAccount
+  - Role
+  - PermissionSet
+  - AccessPolicy
+  - Session
+  published_language:
+  - UserCreated
+  - RoleAssigned
+  - PermissionGranted
+  - AccessRevoked
+- id: BC-MEDICAL-NETWORK
+  name: Medical Network
+  domain_type: supporting
+  owner: Clinical Relations Team
+  purpose: Gestionar médicos internos, externos, referidores y acceso a resultados.
+  capabilities:
+  - CAP-004
+  aggregates:
+  - Physician
+  - MedicalCredential
+  - ReferralAgreement
+  published_language:
+  - PhysicianRegistered
+  - PhysicianPortalAccessGranted
+- id: BC-CATALOGS
+  name: Catalog & Test Configuration
+  domain_type: core
+  owner: Clinical Configuration Team
+  purpose: Gestionar estudios, pruebas, paneles, analitos, valores de referencia y
+    catálogos maestros.
+  capabilities:
+  - CAP-005
+  aggregates:
+  - TestCatalog
+  - TestDefinition
+  - Analyte
+  - ReferenceRange
+  - Panel
+  published_language:
+  - TestDefinitionPublished
+  - ReferenceRangeUpdated
+  - CatalogVersionReleased
+- id: BC-REVENUE
+  name: Revenue Operations
+  domain_type: supporting
+  owner: Finance Domain Team
+  purpose: Gestionar ventas, caja, pagos, descuentos, cortes, facturación y cumplimiento
+    fiscal.
+  capabilities:
+  - CAP-008
+  - CAP-009
+  aggregates:
+  - Sale
+  - Payment
+  - CashRegister
+  - CashClosing
+  - Invoice
+  - TaxProfile
+  published_language:
+  - PaymentReceived
+  - SaleCancelled
+  - CashClosingApproved
+  - InvoiceIssued
+- id: BC-SUPPLY
+  name: Supply & Inventory
+  domain_type: supporting
+  owner: Operations Domain Team
+  purpose: Gestionar proveedores, inventario, lotes, compras, recepciones, consumos
+    y caducidades.
+  capabilities:
+  - CAP-010
+  aggregates:
+  - Supplier
+  - InventoryItem
+  - StockLot
+  - PurchaseOrder
+  - GoodsReceipt
+  - StockMovement
+  published_language:
+  - StockReceived
+  - StockConsumed
+  - LotExpired
+  - ReorderSuggested
+- id: BC-INTEGRATION
+  name: Integration & Interoperability
+  domain_type: platform
+  owner: Platform Integration Team
+  purpose: Gestionar conectores, interfaces, APIs públicas, webhooks, HL7, ASTM, FHIR,
+    DICOM y SFTP.
+  capabilities:
+  - INTEGRATION
+  aggregates:
+  - Connector
+  - IntegrationEndpoint
+  - WebhookSubscription
+  - DeviceInterface
+  published_language:
+  - ExternalMessageReceived
+  - ConnectorActivated
+  - WebhookDelivered
+- id: BC-MIGRATION
+  name: Data Migration & Portability
+  domain_type: platform
+  owner: Data Platform Team
+  purpose: Gestionar ingesta, exportación, validación, mapeo, transformación y reconciliación
+    de datos para migraciones.
+  capabilities:
+  - CAP-012
+  aggregates:
+  - MigrationProject
+  - ImportJob
+  - ExportJob
+  - MappingTemplate
+  - ValidationReport
+  - ReconciliationReport
+  published_language:
+  - ImportJobStarted
+  - MappingTemplateApproved
+  - ImportValidationFailed
+  - ImportCompleted
+  - ExportPackageGenerated
+- id: BC-AI
+  name: AI Platform
+  domain_type: platform
+  owner: AI Platform Team
+  purpose: Gestionar capacidades de IA, proveedores, prompts compilados, contexto,
+    guardrails, RAG y agentes.
+  capabilities:
+  - AI
+  aggregates:
+  - AICapability
+  - AIProvider
+  - AgentContextPackage
+  - GuardrailPolicy
+  published_language:
+  - AIInsightGenerated
+  - AIActionSuggested
+  - AIReviewRequired
+- id: BC-WORKFLOW
+  name: Workflow & Automation
+  domain_type: platform
+  owner: Automation Platform Team
+  purpose: Orquestar procesos, estados, tareas, aprobaciones, notificaciones y automatizaciones
+    configurables.
+  capabilities:
+  - WORKFLOW
+  aggregates:
+  - WorkflowDefinition
+  - WorkflowInstance
+  - Task
+  - AutomationRule
+  published_language:
+  - WorkflowStarted
+  - TaskAssigned
+  - WorkflowCompleted
+- id: BC-AUDIT
+  name: Audit & Compliance
+  domain_type: platform
+  owner: Security & Compliance Team
+  purpose: Registrar auditoría, trazabilidad clínica, evidencia, retención, cumplimiento
+    y eventos regulatorios.
+  capabilities:
+  - AUDIT
+  aggregates:
+  - AuditTrail
+  - ComplianceEvidence
+  - RetentionPolicy
+  published_language:
+  - AuditEntryRecorded
+  - RetentionPolicyApplied
+loading_rules:
+- Los agentes deben cargar primero este catálogo antes de cualquier capability.
+- Un aggregate solo puede tener un bounded context propietario.
+- Otros contextos solo pueden referenciar aggregates externos mediante eventos, queries
+  o ACL.
+- Migration Domain no escribe directamente al core; debe publicar eventos o usar comandos
+  aprobados.
+```

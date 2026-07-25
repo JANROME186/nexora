@@ -1,0 +1,56 @@
+---
+id: HOP-GEN-BCM-PLT-011
+format: markdown_structured_payload
+type: generation-plan
+name: Product Marketplace and Entitlements Generation Plan
+version: 1.0.0
+status: modeled
+backlog_item: COM-MOD-017-DEF
+---
+
+# Product Marketplace And Entitlements Generation Plan
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-GEN-BCM-PLT-011
+  type: generation-plan
+  name: Product Marketplace and Entitlements Generation Plan
+  version: 1.0.0
+  status: modeled
+  backlog_item: COM-MOD-017-DEF
+generated_outputs:
+  backend:
+  - MarketplacePackage aggregate skeleton
+  - CommercialOffer aggregate skeleton
+  - TenantEntitlement aggregate skeleton
+  - PackageInstallation aggregate skeleton
+  - Marketplace REST controllers from openapi-source.md
+  - Repository ports and adapters
+  - Audit event mappings
+  employee_portal:
+  - Marketplace administration screens
+  - Tenant entitlement management screens
+  - Package installation lifecycle screens
+  public_website:
+  - Public marketplace listing and package discovery surface
+  portal_and_mobile:
+  - Entitlement-aware feature availability checks
+  contracts:
+  - OpenAPI rendered contract
+  - Client SDK generation targets
+  tests:
+  - Contract tests
+  - Entitlement enforcement tests
+  - Lifecycle command tests
+custom_implementation_points:
+- Central entitlement policy evaluator
+- Billing provider adapter boundary
+- Compatibility evaluation strategy
+- Installation rollback orchestration
+- Runtime feature availability integration with IAM and menu generation
+next_backlog_item: COM-MOD-017-BE-001
+```

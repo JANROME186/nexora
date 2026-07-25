@@ -1,0 +1,88 @@
+---
+id: HOP-GEN-BCM-LAB-005
+format: markdown_structured_payload
+type: generation-plan
+name: Sample Reception Generation Plan
+version: 0.1.0
+status: modeled
+---
+
+# Sample Reception Generation Plan
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-GEN-BCM-LAB-005
+  type: generation-plan
+  name: Sample Reception Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-005
+  compiler_strategy: model_to_platform
+generated_outputs:
+  backend:
+  - CRUD scaffolding for ReceptionWorklistEntry read paths
+  - DTOs for ReceptionWorklistEntry, ReceptionConditionCheck and DisposalRecord
+  - Controllers for generatable operations (worklist)
+  - Repository interfaces and persistence adapters
+  - Event consumers for SpecimenLabelAssigned
+  - API adapters
+  frontend:
+  - Employee portal reception worklist (SCR-RCP-005-01)
+  - Routes and Client SDK usage
+  contracts:
+  - Rendered OpenAPI document from openapi-source.md
+  - Typed SDK
+  - Swagger documentation
+  tests:
+  - Repetitive unit tests for RN-006 and RN-007
+  - Contract tests for authorization
+  operations:
+  - Metric and log wiring from observability-model.md
+  - Dashboard skeleton
+  - Alert definitions
+custom_implementation_points:
+- id: CUS-RCP-005-01
+  description: Unlabeled-sample rejection guard before reception (RN-001).
+  maps_to_backlog: MVP-MOD-006-BE-002
+- id: CUS-RCP-005-02
+  description: Multi-criterion ReceptionConditionCheck evaluation (RN-002).
+  maps_to_backlog: MVP-MOD-006-BE-002
+- id: CUS-RCP-005-03
+  description: Terminal-state guard for rejected samples (RN-003).
+  maps_to_backlog: MVP-MOD-006-BE-002
+- id: CUS-RCP-005-04
+  description: Evidence-preserving disposal recording (RN-004).
+  maps_to_backlog: MVP-MOD-006-BE-002
+- id: CUS-RCP-005-05
+  description: Delegated aggregate boundary enforcement so this capability writes
+    only its own field set (RN-005).
+  maps_to_backlog: MVP-MOD-006-BE-002
+- id: CUS-RCP-005-06
+  description: Reception form UI with condition checklist and receive/reject branching.
+  maps_to_backlog: MVP-MOD-006-FE-001
+do_not_write_manually:
+- CRUD scaffolding
+- DTOs
+- Controllers
+- Repositories
+- Swagger documentation
+- SDKs
+- Repetitive documentation
+- Repetitive test cases
+provenance:
+  source_models:
+  - business-model.md
+  - business-rules.md
+  - processes.md
+  - events.md
+  - openapi-source.md
+  - ui-model.md
+  - permissions.md
+  - observability-model.md
+  generation_metadata_required: true
+```

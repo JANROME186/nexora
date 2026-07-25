@@ -3,7 +3,7 @@
 Backlog item: `MVP-MOD-005-FE-001` — Compile cashier and billing request UI outputs. Status:
 **passed**.
 
-Machine-readable companion: `MVP-MOD-005-FE-001-validation.yaml`.
+Machine-readable companion: `MVP-MOD-005-FE-001-validation.md`.
 
 ## Scope
 
@@ -32,7 +32,7 @@ before any screen was built on top of them.
 
 ## Debt-first action
 
-Reviewed `08-qa/technical-debt/technical-debt-index.yaml`. Selected **`TD-FE-004`** and **closed
+Reviewed `08-qa/technical-debt/technical-debt-index.md`. Selected **`TD-FE-004`** and **closed
 it**: employee-portal line coverage rose from **76.51% to 80.57%**, reaching the 80% final-closure
 target rather than merely reducing the gap. Achieved by shipping the new screens and API client
 with matching tests from the start, plus extracting a shared `money.ts` formatting helper to keep
@@ -123,3 +123,409 @@ found and fixed in `MVP-MOD-004-FE-001`.
 
 `MVP-MOD-005-FE-001` status: **closed**. Ready for next backlog item: **`MVP-MOD-005-QA-001`** —
 Financial audit and reconciliation evidence.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-QA-MVP-MOD-005-FE-001-001
+  type: qa-validation-evidence
+  name: MVP-MOD-005-FE-001 Cashier and Billing Request Employee Portal UI Validation
+  version: 1.0.0
+  status: passed
+  human_readable: MVP-MOD-005-FE-001-validation.md
+  machine_readable: MVP-MOD-005-FE-001-validation.md
+  created_date: 2026-07-16
+  owner: Nexora Product Architecture Team
+scope:
+  backlog_item: MVP-MOD-005-FE-001
+  module: MVP-MOD-005 Cashier and Billing Request
+  release: REL-001
+  execution_flow_stage: compile_ui
+  business_requirement_version: v0.68.0
+  impact_assessment_required: false
+  implementation_root: 07-implementation/employee-portal/
+  predecessor_evidence:
+  - 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.md
+  - 08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-002-validation.md
+  - 08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.md
+  objective: 'Compile the employee portal UI outputs for the already-implemented Cashier
+    and Billing Request backend capabilities named explicitly by the backlog''s acceptance
+    summary: cash session open/ close with variance handling (Cashier Operations,
+    BCM-ATT-005), sale creation from an accepted diagnostic order or quotation with
+    payment allocation and sale cancellation (Cashier Operations, BCM-ATT-005), and
+    billing request creation from a paid sale with tax lines, submit/retry/cancel
+    against the provider-agnostic fiscal adapter boundary (Billing Request Management,
+    BCM-ATT-008).
+
+    '
+pre_existing_work_in_progress_found: 'This backlog item started with an uncommitted,
+  partially built CashSessionsScreen.tsx, cashSalesApi.ts and a types.ts extension
+  already present in the working tree from a prior session. That work was reviewed
+  against the actual backend contract (CashierOperationsController, BillingRequestController
+  and their domain records/services) before being reused: the prior types.ts draft
+  modeled Money-typed fields (openingAmount, countedAmount, sale totals, payment amounts)
+  as flat number+currency pairs and used incorrect field names and status literals
+  (for example SaleTotals.subtotal/taxTotal/total/paidTotal/outstandingBalance instead
+  of the backend''s subtotalAmount/discountAmount/totalAmount/paidAmount/outstandingAmount,
+  and Sale.status "open" instead of the backend''s "payable"). All cashier/billing
+  types were corrected to match the backend''s Sale, SaleTotals, SaleLine, PaymentAllocation,
+  CashSession, InvoiceRequest, TaxLine and FiscalProfileSnapshot records field-for-field
+  before any screen was built on top of them, so the UI would not silently break against
+  the real API. cashSalesApi.ts''s endpoint paths were already correct and only needed
+  a CancelSaleRequest type import instead of an ad-hoc inline type.
+
+  '
+debt_first_action:
+  reviewed: 08-qa/technical-debt/technical-debt-index.md
+  candidates_considered:
+  - TD-FE-003
+  - TD-FE-004
+  - TD-I18N-002
+  selected: TD-FE-004
+  action_taken: 'Raised employee portal line coverage from 76.51 percent to 80.57
+    percent, closing TD-FE-004 (the 80 percent final-closure target for this stack)
+    rather than merely reducing it. Achieved by building CashSessionsScreen.tsx, SalesScreen.tsx,
+    BillingRequestsScreen.tsx and cashSalesApi.ts with matching test coverage from
+    the start (cashSalesApi.test.ts 100 percent statements; CashSessionsScreen.tsx
+    94.26 percent; SalesScreen.tsx 98.06 percent; BillingRequestsScreen.tsx 95.19
+    percent) plus a shared money.ts formatting utility extracted to keep jscpd duplication
+    at 0 findings across four now-identical formatMoney call sites.
+
+    '
+  other_candidates_reviewed_not_selected: 'TD-FE-003 (ESLint complexity/duplicate-string
+    warnings on pre-existing screens) was reviewed; fixing it would touch unrelated
+    screens outside this backlog item''s scope. TD-I18N-002 (backend error `code`
+    field and full i18n-library adoption) requires a backend contract change and a
+    new frontend dependency, both out of scope for a UI-compilation backlog item.
+
+    '
+  new_debt_registered: none. No new frontend gap was identified during this backlog
+    item beyond the already-tracked TD-FE-003 and TD-I18N-002.
+implemented_outputs:
+- id: FE-001
+  path: 07-implementation/employee-portal/src/api/types.ts
+  description: TypeScript DTOs for BCM-ATT-005 (CashSession, Sale, SaleTotals, SaleLine,
+    PaymentAllocation and their request types) and BCM-ATT-008 (InvoiceRequest, FiscalProfileSnapshot,
+    TaxLine, CreateBillingRequestRequest), corrected to match the backend domain records
+    field-for-field, including reusing the existing shared Money type.
+- id: FE-002
+  path: 07-implementation/employee-portal/src/api/money.ts
+  description: New shared formatMoney(money?) helper extracted from the pre-existing
+    per-screen duplicate in DiagnosticOrdersScreen.tsx so the three new screens do
+    not each carry their own copy of the same four-line function.
+- id: FE-003
+  path: 07-implementation/employee-portal/src/api/cashSalesApi.ts
+  description: Cashier Operations and Billing Request API client covering /api/revenue/cashier/sessions,
+    /api/revenue/cashier/sales and /api/revenue/billing-requests, matching CashierOperationsController
+    and BillingRequestController request/response records.
+- id: FE-004
+  path: 07-implementation/employee-portal/src/components/screens/CashSessionsScreen.tsx
+  description: SCR-CASH-001 - cash session console. Open session, list sessions by
+    tenant, session detail (opening/expected/counted/variance amounts), close session
+    with counted amount and RN-004 variance reason, gated by a confirmation dialog.
+- id: FE-005
+  path: 07-implementation/employee-portal/src/components/screens/SalesScreen.tsx
+  description: SCR-CASH-002/SCR-CASH-003 - sale worklist and payment registration.
+    Create a sale from an accepted diagnostic order or quotation, list sales, sale
+    detail with totals/ outstanding balance/payment status, sale lines, payment history,
+    payment registration and sale cancellation (confirmation-gated), plus a billing-request
+    hint once a sale reaches paid.
+- id: FE-006
+  path: 07-implementation/employee-portal/src/components/screens/BillingRequestsScreen.tsx
+  description: SCR-BILL-001/002/003 - billing request worklist, fiscal profile capture
+    and adapter response detail. Create a billing request from a paid sale, list requests,
+    tax lines, and submit/retry/cancel against the fiscal adapter boundary, each confirmation-gated.
+- id: FE-007
+  path: 07-implementation/employee-portal/src/components/layout/AppShell.tsx
+  description: Three new navigation tabs added (Cash Sessions, Sales, Billing Requests).
+- id: FE-008
+  path: 07-implementation/employee-portal/src/App.tsx
+  description: New screens wired into the screen router.
+- id: FE-009
+  path: 07-implementation/employee-portal/src/i18n/messages.ts
+  description: selectCashSessionFirst, selectSaleFirst and selectBillingRequestFirst
+    added to the shared message catalog, each reused across every action on its screen
+    requiring a selected row, per the framework's message-externalization policy.
+- id: FE-010
+  path: 07-implementation/employee-portal/src/components/screens/DiagnosticOrdersScreen.tsx
+  description: Local formatMoney duplicate removed in favor of the new shared api/money.ts
+    helper; no behavior change.
+- id: FE-011
+  path: 07-implementation/employee-portal/src/test/cashSalesApi.test.ts
+  description: API-client contract coverage for every cash session, sale and billing
+    request call, including URL encoding and default empty POST bodies.
+- id: FE-012
+  path: 07-implementation/employee-portal/src/test/CashSessionsScreen.test.tsx
+  description: UI tests for opening and closing a session with a matching counted
+    amount, and the explicit 409 CASH_VARIANCE_REASON_REQUIRED business-conflict message
+    when counted amount differs from expected without a variance reason.
+- id: FE-013
+  path: 07-implementation/employee-portal/src/test/SalesScreen.test.tsx
+  description: UI tests for creating a sale from an accepted diagnostic order, registering
+    a full payment through to paid status with the billing-request hint, the explicit
+    409 PAYMENT_EXCEEDS_OUTSTANDING_BALANCE business conflict, and cancelling a payable
+    sale.
+- id: FE-014
+  path: 07-implementation/employee-portal/src/test/BillingRequestsScreen.test.tsx
+  description: UI tests for creating a billing request, submitting it through an adapter
+    failure, retrying to issued status, and the explicit 409 BILLING_SALE_REQUIRED
+    business conflict when creating a billing request for an unpaid sale.
+- id: FE-015
+  path: 07-implementation/employee-portal/src/test/AppSmoke.test.tsx
+  description: Extended to navigate to and assert the three new tabs render.
+capability_coverage:
+- capability: BCM-ATT-005
+  name: Cashier Operations
+  screens_delivered:
+  - SCR-CASH-001 Cash session console (open, close, view variance)
+  - SCR-CASH-002 Sale worklist (create from order/quotation, view sale)
+  - SCR-CASH-003 Payment registration (register payment, cancel sale, request billing)
+  endpoints_used:
+  - GET /api/revenue/cashier/sessions
+  - GET /api/revenue/cashier/sessions/{sessionId}
+  - POST /api/revenue/cashier/sessions
+  - POST /api/revenue/cashier/sessions/{sessionId}/close
+  - GET /api/revenue/cashier/sales
+  - GET /api/revenue/cashier/sales/{saleId}
+  - GET /api/revenue/cashier/sales/{saleId}/lines
+  - GET /api/revenue/cashier/sales/{saleId}/payments
+  - POST /api/revenue/cashier/sales
+  - POST /api/revenue/cashier/sales/{saleId}/payments
+  - POST /api/revenue/cashier/sales/{saleId}/cancel
+  sale_creation_sources: 'Source selector offers diagnostic_order and quotation, matching
+    Sale.SOURCE_DIAGNOSTIC_ORDER and Sale.SOURCE_QUOTATION exactly; sale lines and
+    totals are populated synchronously by the backend at creation time and rendered
+    immediately after create.
+
+    '
+  totals_outstanding_and_status_display: 'Sale detail renders subtotalAmount, discountAmount,
+    totalAmount, paidAmount and outstandingAmount (all Money), plus the sale status
+    badge (payable/partially_paid/paid/ cancelled/refunded) and cancellationReason
+    when present.
+
+    '
+- capability: BCM-ATT-008
+  name: Billing Request Management
+  screens_delivered:
+  - SCR-BILL-001 Billing request worklist (create request, view request, retry failed)
+  - SCR-BILL-002 Fiscal profile capture (submit request)
+  - SCR-BILL-003 Adapter response detail (cancel request, retry request)
+  endpoints_used:
+  - GET /api/revenue/billing-requests
+  - GET /api/revenue/billing-requests/{invoiceRequestId}
+  - GET /api/revenue/billing-requests/{invoiceRequestId}/tax-lines
+  - POST /api/revenue/billing-requests
+  - POST /api/revenue/billing-requests/{invoiceRequestId}/submit
+  - POST /api/revenue/billing-requests/{invoiceRequestId}/retry
+  - POST /api/revenue/billing-requests/{invoiceRequestId}/cancel
+  tax_lines_rendered: taxCode, taxRate, baseAmount and taxAmount for every tax line
+    of the selected billing request.
+  lifecycle_actions_gated_by_status: 'Submit only shown in status "requested"; retry
+    only shown in status "submitted" or "failed" (matching BillingRequestManagementService''s
+    own transition guards); cancel hidden once status is terminal ("issued" or "cancelled").
+    Every action is confirmation-gated.
+
+    '
+  business_error_handling:
+  - BILLING_SALE_REQUIRED (409) surfaced verbatim from the backend when creating a
+    billing request for a sale that is not yet paid.
+  - PAYMENT_EXCEEDS_OUTSTANDING_BALANCE (409) surfaced verbatim from the backend when
+    a registered payment would exceed the sale's outstanding balance.
+  - CASH_VARIANCE_REASON_REQUIRED (409) surfaced verbatim from the backend when closing
+    a cash session with a counted amount that differs from the expected amount without
+    a variance reason.
+  - Adapter failures (BILLING_ADAPTER_TRANSIENT_ERROR/BILLING_ADAPTER_TERMINAL_ERROR)
+    do not throw; the backend returns a 200 response with status "failed" and an adapterResponseSnapshot,
+    which the detail view renders in a <pre> block and which unlocks the Retry action
+    per the failed-state retry policy.
+ux_states_delivered:
+  loading: useAsyncAction's "loading" status disables the triggering control and shows
+    "Working on it..." via StatusBanner, for every one of the 13 new async actions
+    (list/open/close for cash sessions; list/create/lines/payments/pay/cancel for
+    sales; list/create/submit/retry/cancel for billing requests).
+  empty: '"No cash sessions exist yet for this tenant.", "No sales exist yet for this
+    tenant.", "This sale has no lines.", "No payments have been registered for this
+    sale." and "No billing requests exist yet for this tenant." shown after a successful
+    load returns zero rows.'
+  error: StatusBanner renders ApiError.message (including the CashSalesErrorCodes-prefixed
+    business conflicts) or the shared MESSAGES.unexpectedError fallback for non-ApiError
+    failures, consistent with every other employee-portal screen.
+  confirmation: 'ConfirmDialog gates every destructive or financial action with no
+    undo path: closing a cash session, cancelling a sale, and submitting/retrying/cancelling
+    a billing request.'
+  success: A dedicated success message per action (Cash session opened./closed., Sale
+    created./cancelled., Payment registered., Billing request created./submitted./retried./cancelled.),
+    each rendered outside any status-gated control so the message stays visible after
+    the status transition it reports on (per the vanishing-success-banner lesson from
+    MVP-MOD-004-FE-001).
+backend_conflict_handling_and_normalization: 'No frontend-side error re-authoring
+  or normalization was added. Every CashSalesErrorCodes-prefixed "CODE: prose" message
+  (SALE_SOURCE_NOT_ACCEPTED, CASH_SESSION_REQUIRED, PAYMENT_EXCEEDS_OUTSTANDING_BALANCE,
+  CASH_VARIANCE_REASON_REQUIRED, SALE_TERMINAL_STATE_IMMUTABLE, BILLING_SALE_REQUIRED,
+  BILLING_REQUEST_INVALID_STATE_TRANSITION) is rendered as-is via the shared StatusBanner/ApiError.message
+  mechanism already used by every other employee-portal screen; the backend remains
+  the single source of truth for that prose (HOP-QA-ALIGN-005 baseline).
+
+  '
+behavior_preservation_evidence: 'DiagnosticOrdersScreen.tsx''s only change was removing
+  its local formatMoney duplicate in favor of the new shared api/money.ts helper (byte-identical
+  rendering behavior; the extracted function body is unchanged). All 30 pre-existing
+  tests continued passing unchanged; 9 new tests were added across 3 new screen test
+  files and 1 new API test file.
+
+  '
+validation_commands:
+- id: typecheck
+  working_directory: 07-implementation/employee-portal
+  command: npm run typecheck
+  result: passed
+- id: lint
+  working_directory: 07-implementation/employee-portal
+  command: npm run lint
+  result: passed
+  detail: 0 errors, 17 warnings (all max-lines-per-function/complexity/cognitive-complexity
+    on screen components, the same pre-existing warning class every screen in this
+    codebase already carries, tracked collectively by TD-FE-003). An initial draft
+    used the "void" operator to mark 2-3 intentionally-unawaited async calls (linesAction.run,
+    paymentsAction.run, taxLinesAction.run); sonarjs/void-use flagged these as 3 errors,
+    so the calls were changed to plain unawaited invocations (matching the pre-existing
+    PersonSearchScreen.tsx `onClick={() => rebuildAction.run()}` pattern already accepted
+    by this codebase's lint configuration) before this evidence was recorded.
+- id: test_coverage
+  working_directory: 07-implementation/employee-portal
+  command: npm run test:coverage
+  result: passed
+  detail: 17 test files, 33 tests, 0 failures (up from 13 files/24 tests before this
+    backlog item).
+  line_coverage_percent: 80.57
+  previous_iteration_minimum_line_coverage_percent: 76.51
+  regression: false
+  final_closure_target_percent: 80
+  final_closure_target_met: true
+- id: build
+  working_directory: 07-implementation/employee-portal
+  command: npm run build
+  result: passed
+- id: duplication
+  working_directory: 07-implementation/employee-portal
+  command: npm run duplication
+  result: passed
+  detail: jscpd reports 0 findings (the shared api/money.ts extraction kept the four
+    formatMoney call sites from tripping the 5-percent project threshold).
+- id: format_check
+  working_directory: 07-implementation/employee-portal
+  command: npm run format:check
+  result: passed
+  detail: An initial draft of 5 files (cashSalesApi.ts, BillingRequestsScreen.tsx,
+    CashSessionsScreen.tsx, SalesScreen.tsx, SalesScreen.test.tsx) had minor Prettier
+    formatting deviations, auto-fixed with `prettier --write` on those 5 files before
+    this evidence was recorded; re-run confirmed 0 remaining issues.
+- id: license_check
+  working_directory: 07-implementation/employee-portal
+  command: npm run license:check
+  result: passed
+  detail: 5 MIT, 1 UNLICENSED (unchanged from the pre-existing baseline; no new dependency
+    added).
+- id: npm_audit
+  working_directory: 07-implementation/employee-portal
+  command: npm audit --audit-level=low
+  result: passed
+  vulnerabilities: 0
+- id: git_diff_check
+  command: git diff --check
+  result: passed
+  detail: 0 whitespace errors across every hand-authored source, test, documentation
+    and registry file touched by this backlog item. The two generated OWASP ZAP report
+    artifacts (zap-employee-portal.html, zap-employee-portal.json) contain trailing-whitespace
+    lines produced by the ZAP tool itself, identical in kind to the already-committed
+    MVP-MOD-004-FE-001 ZAP report artifacts; these are opaque third-party scan output,
+    not hand-authored content, and were not edited to preserve the evidence's authenticity
+    as an unmodified scan record.
+- id: zap_baseline
+  working_directory: 08-qa/security-quality/MVP-MOD-005-FE-001
+  command: docker run --rm --add-host=host.docker.internal:host-gateway -v "<repo>/projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-005-FE-001:/zap/wrk"
+    ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://host.docker.internal:5173
+    -r zap-employee-portal.html -J zap-employee-portal.json -m 2
+  result: passed_with_disposed_warnings
+  detail: 0 FAIL, 4 WARN, 63 PASS, identical warning set to MVP-MOD-004-FE-001's baseline
+    (CSP/COEP/cache-control tracked by TD-FE-005; Modern Web Application is informational
+    SPA detection). The employee-portal dev server was started locally for this scan
+    and stopped immediately afterward; the backend was not required for this passive
+    baseline scan of the SPA shell and its static asset routes.
+- id: backend_unchanged_confirmation
+  result: passed
+  detail: git status confirms no file under 07-implementation/backend was touched
+    by this backlog item; the pre-existing backend evidence (MVP-MOD-005-BE-002, 67.47%
+    line coverage) remains authoritative and unregressed.
+bounded_context_and_aggregate_ownership: 'No aggregate ownership changed. No OpenAPI
+  contract for BCM-ATT-005 or BCM-ATT-008 changed; cashSalesApi.ts and the new types
+  are a pure client-side projection of the existing CashierOperationsController and
+  BillingRequestController request/response records, verified field-for-field against
+  the backend source before implementation.
+
+  '
+model_gaps_identified: []
+out_of_scope_confirmed:
+- Backend `code` field and full frontend i18n-library adoption (TD-I18N-002, pre-existing,
+  unrelated to this backlog item's scope).
+- ESLint complexity/duplicate-string cleanup on pre-existing unrelated screens (TD-FE-003,
+  pre-existing, unrelated to this backlog item).
+- Mobile coverage baseline establishment (TD-APP-002, pre-existing, unrelated to this
+  backlog item).
+validations:
+- id: VAL-001
+  name: YAML repository files remain parseable
+  method: Full-project YAML parse (framework and project trees) including this evidence
+    file, its security-quality companion and every technical-debt file touched by
+    this backlog item.
+  result: passed
+- id: VAL-002
+  name: Agent-agnostic scan
+  method: Content grep of every file touched by this backlog item for claude|anthropic|copilot|cursor|chatgpt|openai|gemini|codex|windsurf|aider
+    (case-insensitive).
+  result: passed
+  detail: '0 forbidden matches (one incidental "cursor: pointer" CSS property match
+    in styles.css confirmed as a false positive, not a vendor reference).'
+- id: VAL-003
+  name: Stale pointer scan
+  method: Repository-wide grep for MVP-MOD-005-FE-001 as next_backlog_item/active_backlog_item/
+    current_backlog_item before and after this backlog item's closure.
+  result: passed
+- id: VAL-004
+  name: No prohibited execution-limitation statuses
+  method: Grepped this evidence file, its security-quality companion and every registry
+    file touched by this backlog item for passed_with_execution_limitation, closed_with_execution_limitation
+    and not_executed on any mandatory gate.
+  result: passed
+  detail: 0 matches as an actual field value.
+- id: VAL-005
+  name: git diff --check
+  method: git diff --check across every file touched by this backlog item.
+  result: passed
+  detail: 0 whitespace errors in hand-authored files. The 2 generated OWASP ZAP report
+    artifacts carry tool-generated trailing whitespace identical to the already-committed
+    MVP-MOD-004-FE-001 ZAP reports and were left unmodified to preserve scan authenticity.
+blocking_gaps: []
+readiness:
+  mvp_mod_005_fe_001_status: closed
+  ready_for_next_backlog_item: MVP-MOD-005-QA-001
+  next_backlog_item_name: Financial audit and reconciliation evidence
+  rationale: 'All three screens the backlog objective names explicitly (cash session
+    console, sale worklist/ payment registration, billing request worklist/fiscal
+    profile/adapter response) are implemented, tested and wired into the employee
+    portal, covering session open/close with variance, sale creation from an accepted
+    order or quotation, payment allocation, sale cancellation, billing request creation
+    from a paid sale, tax lines, and submit/retry/cancel against the fiscal adapter
+    boundary. Pre-existing uncommitted work-in-progress was corrected against the
+    real backend contract rather than shipped as-is with mismatched types. Debt-first
+    action taken (TD-FE-004 closed, 76.51% -> 80.57%, no regression); no new debt
+    was introduced. Every mandatory frontend gate, including a DAST baseline scan
+    against the running dev server, executed and passed with 0 errors; the backend
+    stack is unchanged and unregressed. No mandatory gate was left not_executed, passed_with_execution_limitation
+    or closed_with_execution_limitation.
+
+    '
+```

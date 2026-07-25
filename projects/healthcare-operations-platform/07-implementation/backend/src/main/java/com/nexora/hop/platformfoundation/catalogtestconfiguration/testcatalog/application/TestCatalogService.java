@@ -25,7 +25,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.testcatalog.do
 import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 
 /**
- * Compiles generatable outputs from bcm-svc-002-test-catalog/generation-plan.yaml and implements
+ * Compiles generatable outputs from bcm-svc-002-test-catalog/generation-plan.md and implements
  * the custom rules CUS-SVC-002-01..04 (publication cross-validation of analytes and sample
  * requirements, immutable versioning and the published snapshot) delivered by MVP-MOD-002-BE-002.
  */

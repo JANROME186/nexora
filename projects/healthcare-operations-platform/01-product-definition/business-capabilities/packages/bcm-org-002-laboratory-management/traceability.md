@@ -1,0 +1,82 @@
+---
+id: HOP-TRC-BCM-ORG-002
+format: markdown_structured_payload
+type: traceability
+name: Laboratory Management Traceability Matrix
+version: 1.0.0
+---
+
+# Laboratory Management Traceability Matrix
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRC-BCM-ORG-002
+  type: traceability
+  name: Laboratory Management Traceability Matrix
+  version: 1.0.0
+capability_id: BCM-ORG-002
+roadmap_group: COM-MOD-016
+mappings:
+- requirement: Commercial Launch Laboratory Management & Onboarding
+  rules:
+  - RN-LAB-001
+  - RN-LAB-002
+  - RN-LAB-003
+  - RN-LAB-004
+  - RN-LAB-005
+  processes:
+  - PROC-LAB-001
+  - PROC-LAB-002
+  - PROC-LAB-003
+  events:
+  - LaboratoryRegisteredEvent
+  - LaboratorySanitaryLicenseUpdatedEvent
+  - LaboratoryStatusChangedEvent
+  api_endpoints:
+  - /api/platform/laboratories
+  - /api/platform/laboratories/{laboratoryId}
+  - /api/platform/laboratories/{laboratoryId}/status
+  - /api/platform/laboratories/{laboratoryId}/license
+  permissions:
+  - laboratory:create
+  - laboratory:read
+  - laboratory:update
+  - laboratory:manage_license
+  - laboratory:update_status
+  tests:
+  - TEST-LAB-001
+  - TEST-LAB-002
+  - TEST-LAB-003
+  - TEST-LAB-004
+  - TEST-LAB-005
+modeling:
+  backlog_item: COM-MOD-016-DEF
+  status: modeled
+  qa_evidence: ../../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.md
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-016-DEF/security-quality-evidence.md
+commercial_enablement:
+  backlog_item: COM-MOD-016-CLOSEOUT
+  status: module_closed
+  closeout_evidence: ../../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-CLOSEOUT-validation.md
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-016-CLOSEOUT/security-quality-evidence.md
+  validation:
+    backlog_item: COM-MOD-016-QA-001
+    status: validated
+    qa_evidence: ../../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-QA-001-validation.md
+    security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-016-QA-001/security-quality-evidence.md
+  governance_specifications: ../../../../09-operations/governance/governance-index.md
+  commercial_launch_assets: ../../../../06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
+  history:
+  - backlog_item: COM-MOD-016-COM-001
+    status: closed
+    qa_evidence: ../../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-COM-001-validation.md
+    security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-016-COM-001/security-quality-evidence.md
+  - backlog_item: COM-MOD-016-OPS-001
+    status: closed
+    qa_evidence: ../../../../08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-OPS-001-validation.md
+    security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-016-OPS-001/security-quality-evidence.md
+```

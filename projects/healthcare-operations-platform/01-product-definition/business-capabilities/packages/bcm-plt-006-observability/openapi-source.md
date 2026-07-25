@@ -1,0 +1,45 @@
+---
+id: openapi-source
+format: markdown_structured_payload
+---
+
+# Openapi Source
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+openapi: 3.0.3
+info:
+  title: Observability & Health Probes API
+  version: 1.0.0
+  description: OpenAPI source specification for service health checks and metrics
+    scraper endpoint.
+paths:
+  /actuator/health/liveness:
+    get:
+      summary: Liveness health probe
+      operationId: getLiveness
+      responses:
+        '200':
+          description: Service is live
+        '503':
+          description: Service unhealthy
+  /actuator/health/readiness:
+    get:
+      summary: Readiness health probe
+      operationId: getReadiness
+      responses:
+        '200':
+          description: Service ready for traffic
+        '503':
+          description: Service not ready
+  /actuator/prometheus:
+    get:
+      summary: Prometheus metrics endpoint
+      operationId: getPrometheusMetrics
+      responses:
+        '200':
+          description: Prometheus metrics output
+```

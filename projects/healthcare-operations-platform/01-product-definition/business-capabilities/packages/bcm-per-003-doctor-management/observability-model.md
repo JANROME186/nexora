@@ -1,0 +1,110 @@
+---
+id: HOP-OBS-BCM-PER-003
+format: markdown_structured_payload
+type: observability-model
+name: Doctor Management Observability Model
+version: 0.1.0
+status: modeled
+---
+
+# Doctor Management Observability Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-OBS-BCM-PER-003
+  type: observability-model
+  name: Doctor Management Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PER-003
+  depends_on_capability: BCM-PLT-006
+logs:
+- event: doctor_registered
+  level: info
+  fields:
+  - doctorId
+  - tenantId
+  - actorId
+- event: doctor_updated
+  level: info
+  fields:
+  - doctorId
+  - changedFields
+  - actorId
+- event: doctor_credential_verified
+  level: info
+  fields:
+  - doctorId
+  - credentialId
+  - actorId
+- event: doctor_credential_expired
+  level: warn
+  fields:
+  - doctorId
+  - credentialId
+- event: doctor_suspended
+  level: warn
+  fields:
+  - doctorId
+  - actorId
+  - reasonCode
+- event: doctor_command_rejected
+  level: warn
+  fields:
+  - doctorId
+  - commandName
+  - reasonCode
+metrics:
+- name: doctor_registration_total
+  type: counter
+  labels:
+  - tenantId
+  - outcome
+- name: doctor_credential_verification_total
+  type: counter
+  labels:
+  - tenantId
+  - outcome
+- name: doctor_active_total
+  type: gauge
+  labels:
+  - tenantId
+  - doctorType
+- name: doctor_command_latency_ms
+  type: histogram
+  labels:
+  - tenantId
+  - commandName
+traces:
+- span: RegisterDoctor
+  child_spans:
+  - InvokeDuplicateDetection
+  - PersistDoctor
+  - PublishDoctorRegistered
+- span: VerifyProfessionalCredential
+  child_spans:
+  - ValidateCredential
+  - CascadeActivationState
+  - PublishDoctorCredentialVerified
+audit_events:
+- DoctorRegistered
+- DoctorUpdated
+- DoctorCredentialAttached
+- DoctorCredentialVerified
+- DoctorCredentialRevoked
+- DoctorSuspended
+- DoctorRetired
+- DoctorPortalAccessPrepared
+alerts:
+- name: HighDoctorCommandRejectionRate
+  condition: doctor_command_rejected rate exceeds threshold
+  severity: warning
+- name: DoctorCredentialExpirationSpike
+  condition: doctor_credential_expired rate exceeds threshold
+  severity: warning
+```

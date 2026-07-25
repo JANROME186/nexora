@@ -8,7 +8,7 @@ Current status:
 - Backend skeleton is located in `backend/`.
 - Employee portal administration web app is located in `employee-portal/`.
 - Mobile app foundation is located in `mobile-app/`.
-- Local runtime profile is located in `compose.local.yml`.
+- Local runtime profile is located in `compose.local.json`.
 
 Implementation order:
 
@@ -38,13 +38,13 @@ copy .env.example .env
 Start local dependencies:
 
 ```bash
-docker compose --env-file .env -f compose.local.yml up -d
+docker compose --env-file .env -f compose.local.json up -d
 ```
 
 Check local dependencies:
 
 ```bash
-docker compose --env-file .env -f compose.local.yml ps
+docker compose --env-file .env -f compose.local.json ps
 ```
 
 Run the backend against local PostgreSQL:
@@ -57,11 +57,11 @@ mvn --settings .mvn/settings.xml spring-boot:run -Dspring-boot.run.profiles=loca
 Stop local dependencies:
 
 ```bash
-docker compose --env-file .env -f compose.local.yml down
+docker compose --env-file .env -f compose.local.json down
 ```
 
 Remove local dependency data:
 
 ```bash
-docker compose --env-file .env -f compose.local.yml down -v
+docker compose --env-file .env -f compose.local.json down -v
 ```

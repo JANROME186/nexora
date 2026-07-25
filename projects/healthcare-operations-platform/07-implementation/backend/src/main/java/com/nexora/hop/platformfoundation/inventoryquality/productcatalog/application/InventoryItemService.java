@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Compiles the generatable outputs of bcm-inv-001-product-catalog/generation-plan.yaml
+ * Compiles the generatable outputs of bcm-inv-001-product-catalog/generation-plan.md
  * (createInventoryItem, listInventoryItems, getInventoryItem, updateInventoryItem) plus the
  * BCM-INV-001 custom-implementation points that COM-MOD-010-BE-001 covers:
  *

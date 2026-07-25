@@ -1,0 +1,56 @@
+---
+id: FWI-GOV-002
+format: markdown_structured_payload
+type: framework-improvement-item
+name: Context-efficient format migration for legacy YAML execution artifacts
+version: 1.0.0
+status: closed_for_execution_gradual_migration_remaining
+---
+
+# Context Efficient Format Migration For Legacy Yaml Execution Artifacts
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: FWI-GOV-002
+  type: framework-improvement-item
+  name: Context-efficient format migration for legacy YAML execution artifacts
+  version: 1.0.0
+  status: closed_for_execution_gradual_migration_remaining
+  created_date: 2026-07-24
+source:
+  source_feedback_ids:
+  - user-request-2026-07-24-token-optimized-context-execution
+  related_standard: ../../../02-standards/standards/context-efficient-execution-standard.md
+  related_hop_debt: ../../../../projects/healthcare-operations-platform/08-qa/technical-debt/TD-FMT-001-yaml-monolith-to-frontmatter-transition.md
+classification:
+  affected_framework_area: documentation_format_and_prompt_execution
+  priority: P1_high
+  expected_impact: Reduces commercial LLM token usage and stale-context risk by migrating
+    large task/state YAML artifacts into lightweight Markdown frontmatter handoffs
+    or compact TOML/Markdown tables.
+proposal:
+  scope:
+  - inventory legacy YAML execution/state artifacts
+  - classify artifacts as keep, split, frontmatter-wrap or migrate-to-TOML
+  - validate optional Ollama-assisted conversion
+  - update templates so new projects start with lightweight handoffs
+  acceptance_criteria:
+  - Migration standard approved in nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md.
+  - Local migration tool implemented in nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py.
+  - Pilot inventory generated for HOP at projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md.
+  - No authoritative automation artifact is removed without replacement validation.
+implementation:
+  implemented_date: 2026-07-24
+  tooling_status: compact_reporting_and_prompt_handoff_ready
+  mass_migration_status: gradual_when_artifacts_are_touched
+  commercial_tokens_used: false
+  local_processing:
+    deterministic: Python and PyYAML
+    narrative: Python plus local Ollama using the official Python ollama package
+  closed_backlog_item: NXF-FMT-002
+  resumed_functional_backlog_item: COM-MOD-017-BE-002
+```

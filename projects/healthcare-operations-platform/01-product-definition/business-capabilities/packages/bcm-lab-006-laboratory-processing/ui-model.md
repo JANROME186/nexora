@@ -1,0 +1,87 @@
+---
+id: HOP-UI-BCM-LAB-006
+format: markdown_structured_payload
+type: ui-model
+name: Laboratory Processing UI Model
+version: 0.1.0
+status: modeled
+---
+
+# Laboratory Processing Ui Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-UI-BCM-LAB-006
+  type: ui-model
+  name: Laboratory Processing UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-006
+  target_surface: employee_portal
+surfaces:
+  employee_portal:
+    status: required
+    generatable: true
+  patient_portal:
+    status: status_later
+    generatable: not_applicable
+  doctor_portal:
+    status: status_later
+    generatable: not_applicable
+screens:
+- id: SCR-LPR-006-01
+  name: Processing Worklist
+  route: /results/processing-worklist
+  type: list
+  scopes:
+  - result.capture
+  components:
+  - DataTable
+  - BranchFilter
+  - AnalyteFilter
+  generatable: true
+- id: SCR-LPR-006-02
+  name: Capture Result
+  route: /results/capture/{sampleId}
+  type: form
+  scopes:
+  - result.capture
+  components:
+  - AnalyteSnapshotPanel
+  - ReferenceRangePanel
+  - ResultValueEntryForm
+  - ProcessingIncidentDialog
+  generatable: false
+  custom_reason: Combines snapshot display, plausibility feedback and incident capture.
+- id: SCR-LPR-006-03
+  name: Result Detail
+  route: /results/{resultId}
+  type: detail
+  scopes:
+  - result.read
+  components:
+  - ResultSummary
+  - SnapshotDetailPanel
+  - ProcessingIncidentTimeline
+  - ResultStatusTimeline
+  - AuditTraceLink
+  generatable: true
+states:
+- captured
+- pending_technical_validation
+- technically_validated
+- pending_medical_validation
+- medically_validated
+- released
+- amended
+localization:
+  languages:
+  - en
+  - es
+  default: es
+```

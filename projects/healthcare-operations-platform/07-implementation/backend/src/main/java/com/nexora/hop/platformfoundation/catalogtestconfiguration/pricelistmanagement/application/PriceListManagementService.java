@@ -28,7 +28,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.Money;
 import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 
 /**
- * Compiles generatable outputs from bcm-svc-009-price-list-management/generation-plan.yaml and
+ * Compiles generatable outputs from bcm-svc-009-price-list-management/generation-plan.md and
  * implements the custom rules CUS-SVC-009-01..04 (draft-only editing, entry-gated publication with
  * effective-date overlap detection, and effective-dated price resolution) delivered by
  * MVP-MOD-002-BE-002.

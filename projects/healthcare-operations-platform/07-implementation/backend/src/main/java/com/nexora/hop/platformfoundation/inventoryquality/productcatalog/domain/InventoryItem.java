@@ -4,7 +4,7 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 
 /**
  * AGG-013 InventoryItem — the single shared aggregate for the entire COM-MOD-010 Inventory and
- * Internal Quality module (business-model.yaml ENT-CAT-001). Owned by BCM-INV-001 Product
+ * Internal Quality module (business-model.md ENT-CAT-001). Owned by BCM-INV-001 Product
  * Catalog; sibling capabilities hold delegated field-level mutation authority through their own
  * commands.
  */

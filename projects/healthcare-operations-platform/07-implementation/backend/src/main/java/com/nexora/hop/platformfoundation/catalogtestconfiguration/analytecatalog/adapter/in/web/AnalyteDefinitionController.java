@@ -26,7 +26,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.analytecatalog
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.analytecatalog.domain.AnalyteDefinition;
 import com.nexora.hop.platformfoundation.catalogtestconfiguration.analytecatalog.domain.AnalyteResultConstraint;
 
-/** Rendered controller for bcm-svc-004-analyte-catalog/openapi-source.yaml (base path /api/catalog/analytes). */
+/** Rendered controller for bcm-svc-004-analyte-catalog/openapi-source.md (base path /api/catalog/analytes). */
 @RestController
 @RequestMapping("/api/catalog/analytes")
 class AnalyteDefinitionController {

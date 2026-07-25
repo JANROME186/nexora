@@ -1,7 +1,7 @@
 # Integration Patterns
 
-**Artifact ID:** IIA-PAT-001  
-**Version:** 0.20.0  
+**Artifact ID:** IIA-PAT-001
+**Version:** 0.20.0
 
 ## Primary Patterns
 

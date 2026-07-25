@@ -1,7 +1,7 @@
 # Product Evolution Agent
 
-**Agent ID:** AGT-011  
-**Status:** Draft  
+**Agent ID:** AGT-011
+**Status:** Draft
 **Version:** 0.22.0
 
 ## Mission
@@ -11,12 +11,12 @@ Ensure that new Nexora capabilities evolve through controlled lifecycle, licensi
 ## Inputs
 
 - `product-evolution/product-evolution-baseline.md`
-- `product-evolution/lifecycle/product-lifecycle.yaml`
-- `product-evolution/licensing/licensing-engine.yaml`
-- `product-evolution/feature-flags/feature-flag-strategy.yaml`
-- `product-evolution/compatibility/version-compatibility-matrix.yaml`
-- `SOURCE_OF_TRUTH.yaml`
-- `PROJECT_STATE.yaml`
+- `product-evolution/lifecycle/product-lifecycle.md`
+- `product-evolution/licensing/licensing-engine.md`
+- `product-evolution/feature-flags/feature-flag-strategy.md`
+- `product-evolution/compatibility/version-compatibility-matrix.md`
+- `SOURCE_OF_TRUTH.md`
+- `PROJECT_STATE.md`
 
 ## Responsibilities
 

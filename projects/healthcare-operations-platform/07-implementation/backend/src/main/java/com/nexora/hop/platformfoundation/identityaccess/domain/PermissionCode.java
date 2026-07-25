@@ -2,7 +2,7 @@ package com.nexora.hop.platformfoundation.identityaccess.domain;
 
 /**
  * Coarse-grained "screen access" permission baseline for the IAM permission model
- * (enterprise-product-foundation-standard.yaml {@code mandatory_foundations.iam_permission_model}).
+ * (enterprise-product-foundation-standard.md {@code mandatory_foundations.iam_permission_model}).
  * <p>
  * Each value maps 1:1 to an employee-portal AppShell screen: holding the permission means the
  * user's role(s) may access that screen. This is intentionally coarse — finer per-action

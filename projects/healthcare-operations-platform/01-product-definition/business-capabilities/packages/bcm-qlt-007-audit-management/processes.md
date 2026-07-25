@@ -1,0 +1,70 @@
+---
+id: HOP-PRC-BCM-QLT-007
+format: markdown_structured_payload
+type: processes
+name: Audit Management Processes
+version: 0.1.0
+status: modeled
+---
+
+# Audit Management Processes
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PRC-BCM-QLT-007
+  type: processes
+  name: Audit Management Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-007
+processes:
+- id: PRC-AUD-001
+  name: Schedule Audit
+  description: Plan an internal or external audit round.
+  steps:
+  - step_number: 1
+    name: Define Audit Plan
+    actor: Quality Manager
+    action: Enter audit title, category, standard reference, lead auditor ID, and
+      planned dates.
+  - step_number: 2
+    name: Confirm Schedule
+    actor: System
+    action: Validate lead auditor qualification and save AuditSchedule in 'planned'
+      status.
+- id: PRC-AUD-002
+  name: Execute Audit & Log Findings
+  description: Conduct audit checklist and record non-conformity findings.
+  steps:
+  - step_number: 1
+    name: Start Execution
+    actor: Lead Auditor
+    action: Transition status to 'in_progress' and record actual start time.
+  - step_number: 2
+    name: Record Findings
+    actor: Auditor
+    action: Log findings with severity (critical, major, minor, opportunity) and attach
+      evidence references.
+  - step_number: 3
+    name: Auto-Trigger CAPA
+    actor: System
+    action: Automatically create CAPA (BCM-QLT-006) for critical/major non-conformities.
+- id: PRC-AUD-003
+  name: Publish Audit Report & Close
+  description: Compile summary report and close audit cycle.
+  steps:
+  - step_number: 1
+    name: Generate & Store Report
+    actor: Lead Auditor
+    action: Publish summary report document to Document Management (BCM-PLT-008).
+  - step_number: 2
+    name: Close Audit
+    actor: Quality Manager
+    action: Verify that all critical CAPA links are active and transition status to
+      'closed'. Emit AuditClosed domain event.
+```

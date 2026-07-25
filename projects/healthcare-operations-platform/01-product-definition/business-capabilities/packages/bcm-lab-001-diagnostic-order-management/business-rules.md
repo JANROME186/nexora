@@ -1,0 +1,155 @@
+---
+id: HOP-BR-BCM-LAB-001
+format: markdown_structured_payload
+type: business-rules
+name: Diagnostic Order Management Business Rules
+version: 0.1.0
+status: modeled
+---
+
+# Diagnostic Order Management Business Rules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BR-BCM-LAB-001
+  type: business-rules
+  name: Diagnostic Order Management Business Rules
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-001
+  rule_id_pattern: RN-###
+rules:
+- id: RN-001
+  statement: An order must capture immutable PatientSnapshot, BranchSnapshot and,
+    when a referring doctor exists, DoctorSnapshot at creation time; the order must
+    never resolve these fields by live lookup. A referring doctor must also be eligible
+    (active, at least one verified credential, not suspended) at creation time, not
+    merely exist.
+  applies_to: DiagnosticOrder
+  enforcement_point: command:CreateDiagnosticOrder
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Snapshot capture must copy versioned fields from BCM-PER-002, BCM-PER-003
+    and BCM-ORG-003 at a single consistent point in time; doctor eligibility requires
+    the DoctorDirectory.isEligibleAsReferringDoctor cross-capability read.
+  test_refs:
+  - TST-ORD-001-01
+- id: RN-002
+  statement: An order line may reference only a CatalogSnapshot taken from a currently
+    published TestDefinition or panel version; draft, deprecated or unpublished items
+    are rejected.
+  applies_to: OrderLine
+  enforcement_point: command:CreateDiagnosticOrder, command:AddOrderLine
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Requires cross-capability validation against BCM-SVC-001/002/003
+    publication state.
+  test_refs:
+  - TST-ORD-001-02
+- id: RN-003
+  statement: An order cannot transition from draft to accepted without a captured
+    OrderPricingSnapshot referencing a published price list; each order line is priced
+    from its own independently resolved price list, since a multi-service order may
+    span catalog items only priced in different lists.
+  applies_to: DiagnosticOrder
+  enforcement_point: command:PriceDiagnosticOrder, command:AcceptDiagnosticOrder
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Pricing snapshot must be sourced from BCM-SVC-009 and validated for
+    currency and effective-dated coverage; multi-price-list resolution requires one
+    price-list lookup per order line rather than one for the whole order.
+  test_refs:
+  - TST-ORD-001-03
+- id: RN-004
+  statement: DiagnosticOrder state may be mutated only by this capability's commands;
+    no other capability, including Reception, Admission, Appointment or Quotation,
+    may write order state directly.
+  applies_to: DiagnosticOrder
+  enforcement_point: architecture_boundary
+  severity: critical
+  audit_required: true
+  generatable: false
+  custom_reason: Cross-capability boundary enforcement mirrors the aggregate ownership
+    rule already applied to BCM-PER-002.
+  test_refs:
+  - TST-ORD-001-04
+- id: RN-005
+  statement: Order commands must execute within the actor's tenant, laboratory and
+    branch scope.
+  applies_to: DiagnosticOrder
+  enforcement_point: authorization:order.create, authorization:order.manage
+  severity: critical
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-ORD-001-05
+- id: RN-006
+  statement: A cancelled or completed order is immutable; corrections after that point
+    require an explicit amendment event, never in-place mutation.
+  applies_to: DiagnosticOrder
+  enforcement_point: command:CancelDiagnosticOrder, command:CompleteDiagnosticOrder
+  severity: high
+  audit_required: true
+  generatable: false
+  custom_reason: Requires explicit terminal-state guard and amendment event modeling.
+  test_refs:
+  - TST-ORD-001-06
+- id: RN-007
+  statement: Cancelling an accepted order that already has collected samples or in-progress
+    laboratory work requires an explicit override reason and downstream notification.
+  applies_to: DiagnosticOrder
+  enforcement_point: command:CancelDiagnosticOrder
+  severity: high
+  audit_required: true
+  generatable: false
+  custom_reason: 'The full check requires cross-capability state against the Sample
+    aggregate, which does not exist until MVP-MOD-006 (Laboratory Workflow); until
+    then, order status (accepted or in-progress) is used as the closest enforceable
+    proxy for "already has collected samples or in-progress laboratory work", requiring
+    a written overrideJustification of at least 15 characters. The full sample/processing-state
+    check is tracked as TD-BE-010.
+
+    '
+  test_refs:
+  - TST-ORD-001-07
+- id: RN-008
+  statement: Order domain events must include actor identity, branch, intake channel
+    and snapshot version references.
+  applies_to: DiagnosticOrder
+  enforcement_point: event:DiagnosticOrderCreated, event:OrderAccepted
+  severity: high
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-ORD-001-08
+- id: RN-009
+  statement: An order must contain at least one order line before it can be priced
+    or accepted.
+  applies_to: DiagnosticOrder
+  enforcement_point: command:PriceDiagnosticOrder
+  severity: high
+  audit_required: true
+  generatable: true
+  test_refs:
+  - TST-ORD-001-09
+enforcement_summary:
+  generatable_rules:
+  - RN-005
+  - RN-008
+  - RN-009
+  custom_implementation_rules:
+  - RN-001
+  - RN-002
+  - RN-003
+  - RN-004
+  - RN-006
+  - RN-007
+```

@@ -1,0 +1,60 @@
+---
+id: HOP-TEST-BCM-INV-002
+format: markdown_structured_payload
+type: test-model
+name: Reagent Management Test Model
+version: 0.1.0
+status: modeled
+---
+
+# Reagent Management Test Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TEST-BCM-INV-002
+  type: test-model
+  name: Reagent Management Test Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-002
+test_cases:
+- id: TST-RGT-002-01
+  type: acceptance
+  validates_rule: RN-001
+  statement: Assigning a reagent profile to an InventoryItem with itemType equipment
+    is rejected.
+  generatable: false
+- id: TST-RGT-002-02
+  type: contract
+  validates_rule: RN-002
+  statement: Assigning a reagent profile with consumptionUnitRatio of zero or negative
+    is rejected.
+  generatable: true
+- id: TST-RGT-002-03
+  type: architecture
+  validates_rule: RN-003
+  statement: No code path outside this capability writes InventoryItem.reagentProfile
+    directly.
+  generatable: false
+- id: TST-RGT-002-04
+  type: contract
+  validates_rule: RN-004
+  statement: A caller outside the item's tenant/laboratory/branch scope cannot assign
+    or read its reagent profile.
+  generatable: true
+test_layers:
+- contract_tests
+- unit_tests
+- acceptance_tests
+- architecture_tests
+generation_policy:
+  repetitive_tests: generated
+  custom_rule_tests:
+  - TST-RGT-002-01
+  - TST-RGT-002-03
+```

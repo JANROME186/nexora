@@ -1,0 +1,132 @@
+---
+id: HOP-TRACE-BCM-LAB-010
+format: markdown_structured_payload
+type: traceability
+name: Result Release Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Result Release Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-LAB-010
+  type: traceability
+  name: Result Release Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-010
+traces:
+  capability_map:
+    bcm_001: BCM-LAB-010
+    domain: DOM-05 Clinical Operations
+  dependency_map:
+    bcm_002_profile: clinical_operations
+    required_capabilities:
+    - BCM-LAB-009
+    - BCM-PLT-001
+    - BCM-PLT-007
+    downstream_capabilities:
+    - BCM-RES-001
+    - BCM-RES-002
+  domain_foundation:
+    bounded_context: laboratory-results
+    aggregate_reference: AGG-009 LaboratoryResult (owned by BCM-LAB-006)
+    context_relationships:
+    - REL-CTX-004
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-002
+    - VO-ID-006
+    - VO-ID-009
+    - VO-007
+  brm_alignment:
+  - rule: BRM-001-R010
+    alignment: A result whose linked sample was rejected cannot be released (RN-002).
+  - rule: BRM-001-R018
+    alignment: Release and amendment are audited, append-only events; released values
+      are never edited in place (RN-003, RN-007).
+  hrp_alignment:
+  - process: HRP-001-P06 Result Validation and Release
+    capability_role: Release result and amendment segment of the result lifecycle
+      process.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-RLS-010-01
+  - rule: RN-002
+    tests:
+    - TST-RLS-010-02
+  - rule: RN-003
+    tests:
+    - TST-RLS-010-03
+  - rule: RN-004
+    tests:
+    - TST-RLS-010-04
+  - rule: RN-005
+    tests:
+    - TST-RLS-010-05
+  - rule: RN-006
+    tests:
+    - TST-RLS-010-06
+  - rule: RN-007
+    tests:
+    - TST-RLS-010-07
+  processes_to_commands:
+  - process: PRC-RLS-010-01
+    commands:
+    - ReleaseResult
+  - process: PRC-RLS-010-02
+    commands:
+    - AmendResult
+  api_to_permissions:
+  - operation: releaseResult
+    scope: result.manage
+  - operation: amendResult
+    scope: result.manage
+  - operation: listReleaseWorklist
+    scope: result.manage
+  events_to_audit:
+  - event: ResultReleased
+    audit_sink: BCM-PLT-007
+  - event: ResultAmended
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-RLS-010-01
+    operations:
+    - listReleaseWorklist
+  - screen: SCR-RLS-010-02
+    operations:
+    - releaseResult
+  - screen: SCR-RLS-010-03
+    operations:
+    - amendResult
+  consumed_by_capabilities:
+  - capability: BCM-RES-001
+    relationship: Report generation (MVP-MOD-007) consumes ResultReleased and ResultAmended
+      to generate and re-generate PDF reports.
+  - capability: BCM-RES-002
+    relationship: Digital delivery (MVP-MOD-007) consumes ResultReleased to notify
+      and deliver to authorized patient/doctor channels.
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/laboratory-workflow/MVP-MOD-006-DEF-validation.md
+  backlog_items:
+    definition: MVP-MOD-006-DEF
+    definition_status: modeled
+    compilation: MVP-MOD-006-BE-001
+    compilation_status: closed
+    custom_rules: MVP-MOD-006-BE-002
+    custom_rules_status: closed
+    ui: MVP-MOD-006-FE-001
+    ui_status: closed
+    validation: MVP-MOD-006-QA-001
+    validation_status: closed
+    closeout: MVP-MOD-006-CLOSEOUT
+    closeout_status: closed
+```

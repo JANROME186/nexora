@@ -56,7 +56,7 @@ def should_skip(path: Path) -> bool:
         return True
     if path.name.endswith(".bak"):
         return True
-    if path.name in {"SOURCE_OF_TRUTH.yaml", "PROJECT_STATE.yaml"}:
+    if path.name in {"SOURCE_OF_TRUTH.md", "PROJECT_STATE.md"}:
         return True
     return False
 

@@ -1,7 +1,7 @@
 # Integration Architecture Agent
 
-**Agent ID:** AGT-INT-001  
-**Version:** 0.20.0  
+**Agent ID:** AGT-INT-001
+**Version:** 0.20.0
 
 ## Objective
 
@@ -9,8 +9,8 @@ Design, validate and evolve integrations, connectors, protocol adapters, public 
 
 ## Inputs
 
-- `PROJECT_MANIFEST.yaml`
-- `SOURCE_OF_TRUTH.yaml`
+- `PROJECT_MANIFEST.md`
+- `SOURCE_OF_TRUTH.md`
 - `integration-architecture/`
 - `contracts/openapi/`
 - `business/capabilities/`

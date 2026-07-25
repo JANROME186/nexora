@@ -1,7 +1,7 @@
 # PB-004 - Create Application Service
 
-**ID:** PB-004  
-**Estado:** Draft  
+**ID:** PB-004
+**Estado:** Draft
 **Versión:** 0.17.0
 
 ## Objetivo
@@ -10,12 +10,12 @@ Crear o modificar un servicio de aplicación sin romper DDD, contratos OpenAPI n
 
 ## Pasos
 
-1. Leer `PROJECT_MANIFEST.yaml`.
+1. Leer `PROJECT_MANIFEST.md`.
 2. Identificar la capacidad de negocio relacionada.
 3. Identificar dominio DDD y agregados afectados.
 4. Validar historias de usuario y reglas de negocio.
 5. Validar o crear contrato OpenAPI.
-6. Registrar servicio en `application-architecture/services/application-services-map.yaml`.
+6. Registrar servicio en `application-architecture/services/application-services-map.md`.
 7. Definir casos de uso y comandos/queries.
 8. Definir eventos publicados o consumidos.
 9. Definir permisos requeridos.

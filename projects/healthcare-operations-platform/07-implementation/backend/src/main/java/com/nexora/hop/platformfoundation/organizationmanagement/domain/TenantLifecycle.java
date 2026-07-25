@@ -3,7 +3,7 @@ package com.nexora.hop.platformfoundation.organizationmanagement.domain;
 import java.util.Set;
 
 /**
- * BCM-ORG-001 {@code TenantRoot} enumerations (business-model.yaml): the tenant provisioning
+ * BCM-ORG-001 {@code TenantRoot} enumerations (business-model.md): the tenant provisioning
  * lifecycle, subscription tier and data-isolation strategy. Kept as validated string constants
  * (see {@link Tenant}) instead of Java enums so the JDBC/in-memory adapters persist and compare
  * them the same way every other status field in this module already does.

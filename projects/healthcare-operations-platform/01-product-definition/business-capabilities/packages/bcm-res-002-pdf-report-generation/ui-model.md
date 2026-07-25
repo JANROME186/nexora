@@ -1,0 +1,69 @@
+---
+id: HOP-UI-BCM-RES-002
+format: markdown_structured_payload
+type: ui-model
+name: PDF Report Generation UI Model
+version: 0.1.0
+status: modeled
+---
+
+# Pdf Report Generation Ui Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-UI-BCM-RES-002
+  type: ui-model
+  name: PDF Report Generation UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-002
+  target_surface: employee_portal
+surfaces:
+  employee_portal:
+    status: required
+    generatable: true
+  patient_portal:
+    status: not_required
+    generatable: not_applicable
+  doctor_portal:
+    status: not_required
+    generatable: not_applicable
+screens:
+- id: SCR-RPT-002-01
+  name: Result Report History
+  route: /results/{resultId}/reports
+  type: list
+  scopes:
+  - report.read
+  components:
+  - ReportVersionList
+  - IntegrityStatusBadge
+  generatable: true
+- id: SCR-RPT-002-02
+  name: Regenerate Report
+  route: /results/{resultId}/reports/regenerate
+  type: action_panel
+  scopes:
+  - report.generate
+  components:
+  - RegenerateReportButton
+  - GenerationStatusIndicator
+  generatable: false
+  custom_reason: Enforces release-state precondition and triggers the delegated storage
+    pipeline.
+states:
+- pending
+- generated
+- generation_failed
+- superseded
+localization:
+  languages:
+  - en
+  - es
+  default: es
+```

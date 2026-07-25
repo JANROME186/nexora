@@ -48,7 +48,7 @@ class ResultReleaseController {
             @Valid @RequestBody ReleaseResultRequest request) {
         // Eligibility check spanning medical validation and sample status (CUS-LPR-010-01)
         // is implemented in the service.
-        com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.application.ReleaseResultCommand command = 
+        com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.application.ReleaseResultCommand command =
              new com.nexora.hop.platformfoundation.laboratoryworkflow.laboratoryresults.application.ReleaseResultCommand(
                      resultId, request.tenantId(), request.actorId()
              );

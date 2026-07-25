@@ -1,6 +1,6 @@
 # Generated Aggregate Catalog
 
-> Generated from `02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml`.
+> Generated from `02-domain-definition/domain-foundation/aggregates/aggregate-catalog.md`.
 > Do not edit manually.
 
 ## Aggregate Roots

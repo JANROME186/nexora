@@ -1,0 +1,58 @@
+---
+id: HOP-PROC-BCM-LAB-009
+format: markdown_structured_payload
+type: processes
+name: Medical Validation Processes
+version: 0.1.0
+status: modeled
+---
+
+# Medical Validation Processes
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PROC-BCM-LAB-009
+  type: processes
+  name: Medical Validation Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-009
+actors:
+- id: medical-validator
+  actor_ref: ACT-009
+  name: Medical Validator
+  source: ACM-001
+processes:
+- id: PRC-MVL-009-01
+  name: Perform medical validation
+  actor: medical-validator
+  trigger: A result has been technically validated and appears on the medical validation
+    worklist.
+  commands:
+  - PerformMedicalValidation
+  preconditions:
+  - Result is in technically_validated status.
+  - Actor holds result.manage as medical-validator with a verified credential.
+  steps:
+  - Run LicensedAuthorityCheck against the actor's current credential state.
+  - Review clinical interpretation and optionally attach a ClinicalInterpretationNote.
+  - Record MedicalValidationRecord and transition result to medically_validated.
+  - Publish ResultMedicallyValidated.
+  outcome: ResultMedicallyValidated
+  rules:
+  - RN-001
+  - RN-002
+  - RN-003
+  - RN-005
+  - RN-006
+commands:
+- name: PerformMedicalValidation
+  generatable: false
+  custom_reason: Technical-validation precondition check, licensed-authority verification
+    and AI-exclusion enforcement.
+```

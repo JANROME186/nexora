@@ -1,0 +1,42 @@
+---
+id: HOP-GEN-BCM-ORG-003
+format: markdown_structured_payload
+type: generation-plan
+name: Branch Management Generation Plan
+version: 1.0.0
+---
+
+# Branch Management Generation Plan
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-GEN-BCM-ORG-003
+  type: generation-plan
+  name: Branch Management Generation Plan
+  version: 1.0.0
+strategy:
+  backend_scaffolding: generated
+  frontend_scaffolding: generated
+  custom_rules: hand_coded
+generated_outputs:
+  backend:
+  - Branch REST Controller endpoints
+  - Branch DTOs and mappers
+  - Spring Data / JDBC repository scaffolding
+  - Branch domain entity skeletons
+  frontend:
+  - Branch management React screens
+  - API client facade methods
+  contracts:
+  - OpenAPI rendered specification
+  tests:
+  - Scaffolding CRUD unit tests
+  - OpenAPI contract tests
+custom_implementation_points:
+- Parent laboratory status dependency check during activation (RN-BRN-003).
+- Tenant tier branch quota evaluation logic (RN-BRN-004).
+```

@@ -1,0 +1,100 @@
+---
+id: TD-FE-006
+format: markdown_structured_payload
+type: technical-debt-item
+name: Employee portal is missing dedicated Appointment Scheduling, Admission Management
+  and Quotation Management UI
+version: 1.0.0
+status: open
+---
+
+# Employee Portal Is Missing Dedicated Appointment Scheduling, Admission Management And Quotation Management Ui
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: TD-FE-006
+  type: technical-debt-item
+  name: Employee portal is missing dedicated Appointment Scheduling, Admission Management
+    and Quotation Management UI
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-16
+source:
+  discovered_during_backlog_item: MVP-MOD-004-FE-001
+  module: MVP-MOD-004 Front Desk and Care Delivery
+  evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-FE-001-validation.md
+classification:
+  category: ui_completeness
+  affected_area: employee_portal_front_desk_care_delivery_screens
+  affected_components:
+  - 07-implementation/employee-portal/src/api/frontDeskApi.ts
+  - 07-implementation/employee-portal/src/components/screens/ReceptionScreen.tsx
+  - 07-implementation/employee-portal/src/components/screens/DiagnosticOrdersScreen.tsx
+  risk_level: low
+  blocking: false
+  reason_non_blocking: 'MVP-MOD-004-FE-001 delivered the two screens the backlog objective
+    and acceptance summary name explicitly — the front desk worklist (Reception Management)
+    and diagnostic order creation/ lifecycle (Diagnostic Order Management), covering
+    both walk-in and scheduled intake via the order''s intakeChannel selector. Appointment
+    Scheduling, Admission Management and Quotation Management are fully implemented,
+    tested backend capabilities (MVP-MOD-004-BE-001/BE-002) with no employee-portal
+    client or screen yet; administrators with API access are not blocked, only the
+    portal convenience is missing. Registering this now (rather than leaving it undocumented)
+    mirrors the disposition TD-FE-002 used for the equivalent gap after MVP-MOD-003-FE-001.
+
+    '
+current_state:
+  issue: '07-implementation/employee-portal/src/api/frontDeskApi.ts only exports client
+    functions for BCM-ATT-003 (Reception Management) and BCM-LAB-001 (Diagnostic Order
+    Management). BCM-ATT-001 (Appointment Scheduling: request/confirm/check-in/cancel/no-show,
+    6 endpoints), BCM-ATT-004 (Admission Management: start/mark-ready/commit/reject,
+    4 endpoints) and BCM-ATT-006 (Quotation Management: start/issue/accept/convert/cancel/expire,
+    6 endpoints) have no employee-portal client function and therefore no screen or
+    AppShell tab.
+
+    '
+  compensating_control:
+  - Every operation in this list is reachable and already covered by backend contract/API
+    tests (MVP-MOD-004-BE-001/BE-002 QA evidence), so administrators with direct API
+    access are not blocked; only the employee-portal UI convenience is missing.
+  - Reception Management's visit-start flow already supports linking a walk-in visit
+    to an appointment id captured out-of-band, so front-desk check-in is not blocked
+    by the missing Appointment Scheduling screen.
+target_state:
+  preferred_open_source_tooling:
+  - No new tooling required; extend frontDeskApi.ts with the 16 missing client functions
+    and add AppointmentsScreen.tsx, AdmissionsScreen.tsx and QuotationsScreen.tsx
+    following the same useAsyncAction/StatusBanner/ConfirmDialog/i18n patterns already
+    used by ReceptionScreen.tsx and DiagnosticOrdersScreen.tsx.
+  expected_integration_points:
+  - 07-implementation/employee-portal/src/api/frontDeskApi.ts
+  - 07-implementation/employee-portal/src/components/screens/AppointmentsScreen.tsx
+    (SCR-APT-001-01/02/03)
+  - 07-implementation/employee-portal/src/components/screens/AdmissionsScreen.tsx
+    (SCR-ADM-004-01/02/03)
+  - 07-implementation/employee-portal/src/components/screens/QuotationsScreen.tsx
+    (SCR-QUO-006-01/02/03)
+  - 07-implementation/employee-portal/src/components/layout/AppShell.tsx (3 new ScreenKey
+    tabs)
+remediation:
+  strategy: gradual_when_a_future_ui_backlog_item_covers_scheduling_admission_or_quotation_workflows
+  owner: frontend_platform_team
+  target_backlog: mvp_mod_004_follow_up_ui_backlog_item_not_yet_scheduled
+  priority: P2
+  recommended_trigger:
+  - A future MVP-MOD-004 follow-up UI backlog item, or a subsequent module requiring
+    appointment scheduling, admission intake or quotation workflows from the portal.
+  acceptance_criteria:
+  - frontDeskApi.ts exports a function for every Appointment Scheduling, Admission
+    Management and Quotation Management operation declared in the 3 capability packages'
+    openapi-source.md files.
+  - AppointmentsScreen.tsx, AdmissionsScreen.tsx and QuotationsScreen.tsx exist with
+    loading/ error/empty/confirmation/success states consistent with the rest of the
+    module, and are wired into AppShell.tsx.
+  - Admission's commit-to-order and Quotation's convert-to-order flows are exercised
+    end to end from the portal, not only via direct API calls.
+```

@@ -1,0 +1,91 @@
+---
+id: TD-FE-005
+format: markdown_structured_payload
+type: technical-debt-item
+name: Employee portal production security and cache headers deferred to the production
+  hosting layer
+version: 1.0.0
+status: open
+---
+
+# Employee Portal Production Security And Cache Headers Deferred To The Production Hosting Layer
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: TD-FE-005
+  type: technical-debt-item
+  name: Employee portal production security and cache headers deferred to the production
+    hosting layer
+  version: 1.0.0
+  status: open
+  created_date: 2026-07-16
+source:
+  discovered_during_backlog_item: HOP-QA-ALIGN-004
+  module: HOP Enterprise Quality Alignment
+  evidence: 08-qa/security-quality/HOP-QA-ALIGN-004/zap-employee-portal.json
+classification:
+  category: security_hardening
+  affected_area: employee_portal_response_headers
+  affected_components:
+  - 07-implementation/employee-portal/vite.config.ts
+  risk_level: medium
+  blocking: false
+  reason_non_blocking: 'Both findings require content the dev server cannot safely
+    serve without breaking local development, and neither is exploitable through the
+    HOP employee portal today: a source scan confirms no dangerouslySetInnerHTML,
+    innerHTML or eval() usage in src/, so there is no known DOM-XSS sink a CSP would
+    need to contain. Accepted as risk for local/dev scope only; must be closed before
+    any production deployment of the employee portal exists.
+
+    '
+current_state:
+  issue: 'OWASP ZAP baseline scans (HOP-QA-ALIGN-004 and MVP-MOD-004-FE-001) flag
+    response headers as missing or deferred on the Vite dev server: Content-Security-Policy
+    (CSP, rule 10038), Cross-Origin-Embedder-Policy (COEP, rule 90004) and cache-control
+    hardening for local dev assets (Storable but Non-Cacheable Content, rule 10049).
+    X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy,
+    Cross-Origin-Opener-Policy and Cross-Origin-Resource-Policy were added via a dev-server
+    middleware in vite.config.ts and now pass. CSP and COEP were intentionally left
+    unset in dev: Vite''s HMR relies on eval()-based module transforms and same-origin
+    module fetches without CORP headers, which a production-strength CSP (no unsafe-eval)
+    or COEP(require-corp) would break; a permissive dev-only policy would satisfy
+    the scanner without reflecting real production intent. Cache policy must be finalized
+    in the production static-file host rather than inferred from Vite dev behavior.
+
+    '
+  compensating_control:
+  - Source code contains no dangerouslySetInnerHTML/innerHTML/eval() usage (verified
+    by grep across employee-portal/src during HOP-QA-ALIGN-004).
+  - X-Frame-Options DENY already mitigates the clickjacking risk CSP's frame-ancestors
+    would otherwise cover.
+  - The employee portal is not deployed to any production or shared environment yet;
+    only the local Vite dev server is reachable, and only from localhost.
+target_state:
+  preferred_open_source_tooling:
+  - A production build (vite build) served by a real static-file host or reverse proxy
+    (nginx, a CDN edge, or an equivalent open-source option) that sets CSP and COEP
+    as deployment-layer configuration, not application code.
+  expected_integration_points:
+  - Production hosting/deployment configuration for the employee portal (does not
+    exist yet; no MVP-MOD backlog item has defined it).
+  - A follow-up quality-alignment or release-readiness backlog item once that hosting
+    layer is chosen.
+remediation:
+  strategy: gradual_before_first_production_deployment_of_employee_portal
+  owner: frontend_platform_team
+  target_backlog: production_hosting_and_deployment_backlog_item_not_yet_scheduled
+  expiration: must_be_resolved_before_employee_portal_first_production_deployment
+  recommended_trigger:
+  - The backlog item that defines the employee portal's production hosting/deployment
+    target.
+  acceptance_criteria:
+  - Production hosting configuration sets a CSP without unsafe-eval, a COEP appropriate
+    to the production build (which does not need eval-based HMR), and explicit cache-control
+    policy for HTML, static assets, robots.txt and sitemap.xml.
+  - OWASP ZAP baseline scan against the production build reports 0 WARN for CSP, COEP
+    and cache-control response-header findings.
+```

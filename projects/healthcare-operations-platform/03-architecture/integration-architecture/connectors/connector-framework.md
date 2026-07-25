@@ -1,7 +1,7 @@
 # Connector Framework
 
-**Artifact ID:** IIA-CONN-001  
-**Version:** 0.20.0  
+**Artifact ID:** IIA-CONN-001
+**Version:** 0.20.0
 
 ## Purpose
 

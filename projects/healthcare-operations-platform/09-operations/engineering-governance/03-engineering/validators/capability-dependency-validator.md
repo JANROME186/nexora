@@ -6,10 +6,10 @@ Validate BCM-002 before an agent uses it to create implementation work.
 
 ## Inputs
 
-- `01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml`
-- `01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
-- `02-domain-definition/domain-foundation/context-map/context-map.yaml`
-- `02-domain-definition/domain-foundation/aggregates/aggregate-catalog.yaml`
+- `01-product-definition/business-capabilities/bcm-001/business-capability-map.md`
+- `01-product-definition/business-capabilities/bcm-002/capability-dependency-map.md`
+- `02-domain-definition/domain-foundation/context-map/context-map.md`
+- `02-domain-definition/domain-foundation/aggregates/aggregate-catalog.md`
 
 ## Required Checks
 

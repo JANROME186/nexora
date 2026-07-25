@@ -1,0 +1,68 @@
+---
+id: HOP-UI-BCM-INV-004
+format: markdown_structured_payload
+type: ui-model
+name: Procurement Management UI Model
+version: 0.1.0
+status: modeled
+---
+
+# Procurement Management Ui Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-UI-BCM-INV-004
+  type: ui-model
+  name: Procurement Management UI Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-004
+  target_surface: employee_portal
+surfaces:
+  employee_portal:
+    status: required
+    generatable: partial
+  patient_portal:
+    status: not_required
+    generatable: not_applicable
+  doctor_portal:
+    status: not_required
+    generatable: not_applicable
+screens:
+- id: SCR-PUR-004-01
+  name: Purchase Orders
+  route: /admin/inventory/purchase-orders
+  purpose: Create, submit, approve, cancel and track receipt of purchase orders.
+  components:
+  - DataTable
+  - PurchaseOrderForm
+  - LineItemEditor
+  - StatusBadge
+  generatable: partial
+  custom_reason: Submission and receipt invoke custom cross-capability commands (RN-001,
+    RN-002).
+states:
+- draft
+- submitted
+- approved
+- partially_received
+- received
+- cancelled
+localization:
+  languages:
+  - en
+  - es
+  default: es
+  message_key_namespace: inventory.procurement.*
+  note: New user-facing strings must be registered under the inventory.procurement.*
+    message-key namespace, not hardcoded.
+rationale: 'Procurement is an internal purchasing back-office task performed from
+  the employee portal only.
+
+  '
+```

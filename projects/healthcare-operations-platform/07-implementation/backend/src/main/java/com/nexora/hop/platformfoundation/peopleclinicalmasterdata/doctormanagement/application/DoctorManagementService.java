@@ -33,7 +33,7 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PersonD
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PersonName;
 
 /**
- * Compiles the generatable outputs of {@code bcm-per-003-doctor-management/generation-plan.yaml}
+ * Compiles the generatable outputs of {@code bcm-per-003-doctor-management/generation-plan.md}
  * (MVP-MOD-003-BE-001) and implements its custom rules (MVP-MOD-003-BE-002): RN-002 (duplicate
  * detection integration), RN-004/RN-006 (referring-doctor eligibility requiring an active status
  * and at least one verified, non-expired medical license), RN-005 (credential revocation cascade)

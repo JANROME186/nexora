@@ -1,9 +1,9 @@
 # Integration & Interoperability Architecture Baseline
 
-**Artifact ID:** IIA-BASE-001  
-**Status:** Approved  
-**Version:** 0.20.0  
-**Owner:** Enterprise Architecture  
+**Artifact ID:** IIA-BASE-001
+**Status:** Approved
+**Version:** 0.20.0
+**Owner:** Enterprise Architecture
 
 ## Principle
 
@@ -105,3 +105,68 @@ Every integration must expose:
 - Processing duration.
 - Error category.
 - Final disposition.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: IIA-BASE-001
+name: Integration & Interoperability Architecture Baseline
+version: 0.20.0
+status: Approved
+owner: Enterprise Architecture
+principle: Interoperability through adapters, contracts and events
+layers:
+- external_system
+- protocol_adapter
+- integration_gateway
+- canonical_message_model
+- application_service
+- domain_model
+- domain_event
+supportedFamilies:
+  healthcareMessaging:
+    standards:
+    - HL7v2
+    - FHIR
+    strategy: adapter_canonical_model
+  laboratoryDevices:
+    standards:
+    - ASTM
+    - Serial
+    - TCPIP
+    - CSV
+    strategy: device_connector_framework
+  imaging:
+    standards:
+    - DICOM
+    - PACS
+    - RIS
+    strategy: imaging_gateway
+  publicApis:
+    standards:
+    - REST
+    - OpenAPI
+    strategy: contract_first
+  webhooks:
+    standards:
+    - HTTPS
+    - JSON
+    strategy: signed_versioned_events
+  fileExchange:
+    standards:
+    - SFTP
+    - CSV
+    - XML
+    - JSON
+    strategy: managed_import_export
+rules:
+- no_external_protocol_in_domain
+- openapi_before_public_api_implementation
+- signed_versioned_webhooks
+- device_traceability_retry_reconciliation
+- telemetry_required
+- connector_metadata_required
+- country_connectors_outside_core
+```

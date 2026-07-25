@@ -21,7 +21,7 @@ import com.nexora.hop.platformfoundation.marketplaceentitlements.commercialoffer
 import com.nexora.hop.platformfoundation.marketplaceentitlements.commercialoffers.domain.CommercialOffer;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.tenantentitlements.domain.TenantEntitlement;
 
-/** Rendered controller for bcm-plt-011/openapi-source.yaml {@code /offers}. */
+/** Rendered controller for bcm-plt-011/openapi-source.md {@code /offers}. */
 @RestController
 @RequestMapping("/api/marketplace/offers")
 class CommercialOfferController {

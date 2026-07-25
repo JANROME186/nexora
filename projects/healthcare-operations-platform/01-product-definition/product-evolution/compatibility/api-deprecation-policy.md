@@ -1,7 +1,7 @@
 # API Compatibility and Deprecation Policy
 
-**Artifact ID:** ADP-001  
-**Status:** Draft  
+**Artifact ID:** ADP-001
+**Status:** Draft
 **Version:** 0.22.0
 
 ## Purpose

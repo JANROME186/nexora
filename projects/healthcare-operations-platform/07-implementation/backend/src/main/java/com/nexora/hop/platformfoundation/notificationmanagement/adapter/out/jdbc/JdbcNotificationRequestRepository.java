@@ -22,7 +22,7 @@ public class JdbcNotificationRequestRepository implements NotificationRequestRep
 
     // Stub implementation to satisfy technical debt TD-DB-001 for now.
     // Complete mapping will be implemented when non-local durability is required.
-    
+
     public NotificationRequest save(NotificationRequest entity) {
         throw new UnsupportedOperationException("JDBC implementation pending full field mapping");
     }
@@ -34,15 +34,15 @@ public class JdbcNotificationRequestRepository implements NotificationRequestRep
     public Optional<NotificationRequest> findByPatientId(PatientId id) {
         return Optional.empty();
     }
-    
+
     public List<NotificationRequest> findByResultId(ResultId resultId, TenantId tenantId) {
         return List.of();
     }
-    
+
     public List<NotificationRequest> findAll() {
         return List.of();
     }
-    
+
     public List<NotificationRequest> findByRecipientId(String recipientId) {
         return List.of();
     }

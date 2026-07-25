@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nexora.hop.platformfoundation.integrationinteroperability.apimanagement.application.ApiManagementService;
 import com.nexora.hop.platformfoundation.integrationinteroperability.apimanagement.domain.RateLimitPolicy;
 
-/** Rendered controller for bcm-plt-005-api-management/openapi-source.yaml (RateLimitPolicy resource). */
+/** Rendered controller for bcm-plt-005-api-management/openapi-source.md (RateLimitPolicy resource). */
 @RestController
 @RequestMapping("/api/platform/api-management/rate-limit-policies")
 class RateLimitPolicyController {

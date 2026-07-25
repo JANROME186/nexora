@@ -1,0 +1,93 @@
+---
+id: HOP-GEN-BCM-PLT-010
+format: markdown_structured_payload
+type: generation-plan
+name: Open Data Ingestion and Migration Generation Plan
+version: 0.1.0
+status: modeled
+---
+
+# Open Data Ingestion And Migration Generation Plan
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-GEN-BCM-PLT-010
+  type: generation-plan
+  name: Open Data Ingestion and Migration Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-010
+  compiler_strategy: model_to_platform
+generated_outputs:
+  backend:
+  - DTOs for MigrationJob, ImportBatch, MappingTemplate, ImportValidationReport, ReconciliationReport,
+    ImportExecution
+  - Repository interfaces and persistence adapters for migration metadata
+  - API adapters for createMigrationJob, getMigrationJob, listMigrationJobs, getDryRunReport,
+    approveImport, getReconciliationReport
+  frontend:
+  - Migration Jobs screen shell (upload form wired separately)
+  - Dry-Run Validation Review screen shell (approve action wired separately)
+  - Reconciliation Report screen shell (retry action wired separately)
+  contracts:
+  - Rendered OpenAPI document from openapi-source.md
+  - Typed SDK
+  - Swagger documentation
+  tests:
+  - Repetitive unit tests for RN-006
+  - Contract tests for authorization
+  operations:
+  - Metric and log wiring from observability-model.md
+  - Dashboard skeleton
+  - Alert definitions
+custom_implementation_points:
+- id: CUS-MIG-010-01
+  description: Manifest and checksum verification per the Open Data Ingestion Standard,
+    using open-source-first parsing libraries (e.g. Apache Commons CSV, Apache POI
+    for XLSX, Jackson for JSON/NDJSON, java.util.zip for ZIP bundles) (RN-001).
+  maps_to_backlog: MVP-MOD-008-BE-001
+- id: CUS-MIG-010-02
+  description: Anti-corruption field-mapping engine (MappingTemplate application)
+    (RN-001, part of PRC-MIG-010-02).
+  maps_to_backlog: MVP-MOD-008-BE-001
+- id: CUS-MIG-010-03
+  description: Multi-category dry-run validation (structural, required-field, data-type,
+    referential-integrity, duplicate, business-rule, privacy) without mutation (RN-002).
+  maps_to_backlog: MVP-MOD-008-BE-001
+- id: CUS-MIG-010-04
+  description: Import execution delegated exclusively to existing domain commands,
+    with per-command checkpoint recording (RN-003).
+  maps_to_backlog: MVP-MOD-008-BE-002
+- id: CUS-MIG-010-05
+  description: Checkpoint-based idempotent retry (RN-004).
+  maps_to_backlog: MVP-MOD-008-BE-002
+- id: CUS-MIG-010-06
+  description: Reconciliation aggregation and audit wiring across all migration job
+    steps (RN-005).
+  maps_to_backlog: MVP-MOD-008-BE-002
+do_not_write_manually:
+- CRUD scaffolding
+- DTOs
+- Controllers
+- Repositories
+- Swagger documentation
+- SDKs
+- Repetitive documentation
+- Repetitive test cases
+provenance:
+  source_models:
+  - business-model.md
+  - business-rules.md
+  - processes.md
+  - events.md
+  - openapi-source.md
+  - ui-model.md
+  - permissions.md
+  - observability-model.md
+  generation_metadata_required: true
+```

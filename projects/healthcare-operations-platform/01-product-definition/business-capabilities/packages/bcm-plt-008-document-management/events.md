@@ -1,0 +1,68 @@
+---
+id: HOP-EVT-BCM-PLT-008
+format: markdown_structured_payload
+type: events
+name: Document Management Domain Events
+version: 1.2.0
+status: modeled
+---
+
+# Document Management Domain Events
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-EVT-BCM-PLT-008
+  type: events
+  name: Document Management Domain Events
+  version: 1.2.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-008
+events:
+- id: EVT-DOC-001
+  name: DocumentStored
+  description: Emitted when a document is uploaded and saved.
+  payload:
+  - name: documentId
+    type: uuid
+  - name: tenantId
+    type: string
+  - name: ownerCapability
+    type: string
+  - name: contentHash
+    type: string
+  - name: sizeBytes
+    type: integer
+  - name: storedAt
+    type: datetime
+- id: EVT-DOC-002
+  name: LegalHoldApplied
+  description: Emitted when a document is placed on or removed from legal hold.
+  payload:
+  - name: documentId
+    type: uuid
+  - name: tenantId
+    type: string
+  - name: legalHold
+    type: boolean
+  - name: updatedBy
+    type: string
+  - name: updatedAt
+    type: datetime
+- id: EVT-DOC-003
+  name: ComplianceEvidencePackageCreated
+  description: Emitted when a bundle of compliance evidence documents is generated.
+  payload:
+  - name: packageId
+    type: uuid
+  - name: tenantId
+    type: string
+  - name: documentCount
+    type: integer
+  - name: generatedAt
+    type: datetime
+```

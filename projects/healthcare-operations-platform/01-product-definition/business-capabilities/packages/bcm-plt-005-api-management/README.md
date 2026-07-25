@@ -20,25 +20,25 @@ public, internal or partner; partner API key issuance, scoping and
 revocation; rate-limit policy per consumer; and deprecation/versioning
 governance for breaking changes. This capability never implements the
 business behavior of a classified operation — that stays with its owning
-capability's own `openapi-source.yaml`.
+capability's own `openapi-source.md`.
 
 ## Package contents
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | ApiSurfaceRegistration aggregate, PartnerApiKey, RateLimitPolicy |
-| `business-rules.yaml` | Numbered rules RN-001..RN-007 |
-| `processes.yaml` | Classify, issue/revoke partner key, schedule deprecation |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee-portal admin screens (classification, partner keys) |
-| `mobile-model.yaml` | Mobile scope (not_required) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | ApiSurfaceRegistration aggregate, PartnerApiKey, RateLimitPolicy |
+| `business-rules.md` | Numbered rules RN-001..RN-007 |
+| `processes.md` | Classify, issue/revoke partner key, schedule deprecation |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee-portal admin screens (classification, partner keys) |
+| `mobile-model.md` | Mobile scope (not_required) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, tests, QA |
 
 ## Key rules modeled
 
@@ -50,19 +50,19 @@ capability's own `openapi-source.yaml`.
 
 ## Architecture note
 
-`context-map.yaml` REL-CTX-011 already declares `integration-interoperability`
+`context-map.md` REL-CTX-011 already declares `integration-interoperability`
 as an anti-corruption-layer bounded context. BCM-PLT-005 governs the
 outbound/API-consumer side of that same bounded context while BCM-PLT-004
-governs the inbound message side; no new bounded context or context-map.yaml
+governs the inbound message side; no new bounded context or context-map.md
 entry was required.
 
 ## Technical debt alignment
 
 - **TD-STACK-003** (no OpenAPI-Generator client/server generation): this
-  capability's `generation-plan.yaml` designates itself as the concrete pilot
+  capability's `generation-plan.md` designates itself as the concrete pilot
   target for a generated TypeScript client, since it governs the
   partner-consumer surface that most needs a generated, versioned SDK.
-- **TD-I18N-002** (structured error codes): `openapi-source.yaml` models a
+- **TD-I18N-002** (structured error codes): `openapi-source.md` models a
   first-class `code` field on every error from inception, matching the debt
   item's own acceptance criterion for a structured-error-code API consumer.
 - **TD-BE-015** (rate-limit enforcement scoped to partner-API-key-bearing
@@ -78,14 +78,14 @@ entry was required.
 This capability has no public-facing screen or endpoint of its own. It governs the
 `classification=public` `ApiSurfaceRegistration` entries and public-tier `RateLimitPolicy` that
 BCM-SVC-001/002/003/005 and BCM-ATT-001/006 register for their new public_surface operations
-under COM-MOD-011. No new capability package or aggregate was created; see `traceability.yaml`'s
+under COM-MOD-011. No new capability package or aggregate was created; see `traceability.md`'s
 `cross_module_reuse` entry, which also records COM-MOD-011-DEF's correction of stale
 MVP-MOD-008/COM-MOD-009 status pointers found in this package during modeling.
 
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers classification/publish-gating, partner-key
 authorization, deprecation governance, rate-limit enforcement and audit
 wiring.

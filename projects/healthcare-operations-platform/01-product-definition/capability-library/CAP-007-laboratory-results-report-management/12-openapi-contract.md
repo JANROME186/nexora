@@ -2,7 +2,7 @@
 
 Primary contract path:
 
-`05-contracts/contracts/openapi/results/results-api.yaml`
+`05-contracts/contracts/openapi/results/results-api.md`
 
 ## Main Resources
 - `/v1/results/orders`

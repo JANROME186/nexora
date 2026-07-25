@@ -12,7 +12,7 @@ import java.util.List;
  * and {@code status} for reception-stage transitions.
  * No other capability or bounded context may write Sample persistence directly (INV-COL-003).
  *
- * <p>Invariants from business-model.yaml:
+ * <p>Invariants from business-model.md:
  * <ul>
  *   <li>INV-COL-001: Must always reference a valid order line with patient and requirement snapshots.</li>
  *   <li>INV-COL-002: Cannot exist without at least one chain-of-custody event (collected appended at creation).</li>

@@ -11,7 +11,7 @@ The current active business requirement remains at the project root:
 The version index is:
 
 ```text
-BUSINESS_REQUIREMENT_INDEX.yaml
+BUSINESS_REQUIREMENT_INDEX.md
 ```
 
 Agents must resolve the latest business requirement version through the index before analysis, validation, planning or development.

@@ -1,0 +1,65 @@
+---
+id: HOP-PERM-BCM-QLT-004
+format: markdown_structured_payload
+type: permissions
+name: Equipment Management Permissions
+version: 0.1.0
+status: modeled
+---
+
+# Equipment Management Permissions
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PERM-BCM-QLT-004
+  type: permissions
+  name: Equipment Management Permissions
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-QLT-004
+  depends_on_capability: BCM-PLT-001
+scopes:
+- code: quality.equipment.manage
+  description: Set an equipment profile and change availability status.
+- code: quality.equipment.read
+  description: Read equipment profile and availability data.
+roles:
+- role: tenant-administrator
+  grants:
+  - quality.equipment.manage
+  - quality.equipment.read
+- role: branch-administrator
+  grants:
+  - quality.equipment.manage
+  - quality.equipment.read
+- role: laboratory-technician
+  grants:
+  - quality.equipment.read
+access_policies:
+- id: POL-EQP-004-01
+  statement: Equipment management commands are scoped to the calling actor's tenant,
+    laboratory and branch.
+  enforcement: row_level_tenant_laboratory_branch_filter
+- id: POL-EQP-004-02
+  statement: equipmentProfile may only be written by this capability; no direct persistence
+    access.
+  enforcement: field_level_delegation_boundary
+audit_obligations:
+  audit_sink: BCM-PLT-007
+  events:
+  - event: EquipmentProfileSet
+    fields:
+    - inventoryItemId
+    - assetTag
+  - event: EquipmentAvailabilityChanged
+    fields:
+    - inventoryItemId
+    - previousStatus
+    - newStatus
+    - reasonCode
+```

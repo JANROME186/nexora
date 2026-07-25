@@ -20,9 +20,9 @@ Este documento es la materia prima del proyecto. En proyectos futuros, el solici
 
 Este archivo debe ser leído primero por personas de negocio, producto y arquitectura.
 
-Después, un agente puede transformarlo en `BUSINESS_REQUIREMENT.yaml` usando el prompt definido en:
+Después, un agente puede transformarlo en `BUSINESS_REQUIREMENT.md` usando el prompt definido en:
 
-`04-requirements/prompts/business-requirement-to-yaml-prompt.yaml`
+`04-requirements/prompts/business-requirement-to-yaml-prompt.md`
 
 Reglas de uso:
 
@@ -335,7 +335,7 @@ El producto comercial debe incluir:
 
 El backlog comercial vigente está en:
 
-`06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
+`06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md`
 
 ## 14. Marketplace y Extensibilidad Comercial
 
@@ -625,11 +625,11 @@ Uso esperado:
 
 1. El solicitante escribe o actualiza `BUSINESS_REQUIREMENT.md`.
 2. El agente carga el prompt.
-3. El agente transforma el documento en `BUSINESS_REQUIREMENT.yaml`.
+3. El agente transforma el documento en `BUSINESS_REQUIREMENT.md`.
 4. El agente no inventa datos faltantes.
 5. El agente marca aclaraciones.
 6. El agente valida que el YAML sea legible por otros agentes.
-7. El agente actualiza `SOURCE_OF_TRUTH.yaml` si corresponde.
+7. El agente actualiza `SOURCE_OF_TRUTH.md` si corresponde.
 
 ## 27. Versionado del Requerimiento de Negocio
 
@@ -637,12 +637,12 @@ El negocio puede incrementar o modificar este requerimiento con nuevas versiones
 
 La versión vigente debe resolverse mediante:
 
-`00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`
+`00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.md`
 
 Reglas:
 
 - `BUSINESS_REQUIREMENT.md` en la raíz del proyecto representa el requerimiento vigente para lectura humana.
-- `BUSINESS_REQUIREMENT.yaml` representa el índice estructurado derivado de la versión vigente.
+- `BUSINESS_REQUIREMENT.md` representa el índice estructurado derivado de la versión vigente.
 - El índice de versiones declara cuál versión debe usar el agente.
 - Si el negocio modifica el requerimiento, el agente debe comparar la versión vigente contra la versión anterior.
 - Antes de modificar artefactos derivados o código, el agente debe generar un análisis de impacto.
@@ -657,24 +657,24 @@ Los análisis de impacto deben guardarse en:
 
 Artefactos principales:
 
-- `BUSINESS_REQUIREMENT.yaml`
-- `00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.yaml`
+- `BUSINESS_REQUIREMENT.md`
+- `00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.md`
 - `PROJECT_BRIEF.md`
-- `PROJECT_BRIEF.yaml`
-- `SOURCE_OF_TRUTH.yaml`
-- `PROJECT_STATE.yaml`
+- `PROJECT_BRIEF.md`
+- `SOURCE_OF_TRUTH.md`
+- `PROJECT_STATE.md`
 - `ORDERED_DEVELOPMENT_GUIDE.md`
-- `01-product-definition/business-capabilities/bcm-001/business-capability-map.yaml`
-- `01-product-definition/business-capabilities/bcm-002/capability-dependency-map.yaml`
-- `01-product-definition/business-capabilities/packages/capability-package-index.yaml`
-- `02-domain-definition/actors/acm-001/actor-catalog.yaml`
-- `02-domain-definition/business-rules/brm-001/business-rules-catalog.yaml`
-- `02-domain-definition/domain-foundation/context-map/context-map.yaml`
-- `04-requirements/requirements-manifest.yaml`
-- `05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.yaml`
-- `05-contracts/marketplace/product-marketplace/product-marketplace-contract.yaml`
-- `06-delivery/mvp/healthcare-operations-platform-mvp-framework.yaml`
-- `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.yaml`
+- `01-product-definition/business-capabilities/bcm-001/business-capability-map.md`
+- `01-product-definition/business-capabilities/bcm-002/capability-dependency-map.md`
+- `01-product-definition/business-capabilities/packages/capability-package-index.md`
+- `02-domain-definition/actors/acm-001/actor-catalog.md`
+- `02-domain-definition/business-rules/brm-001/business-rules-catalog.md`
+- `02-domain-definition/domain-foundation/context-map/context-map.md`
+- `04-requirements/requirements-manifest.md`
+- `05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md`
+- `05-contracts/marketplace/product-marketplace/product-marketplace-contract.md`
+- `06-delivery/mvp/healthcare-operations-platform-mvp-framework.md`
+- `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md`
 
 ## 29. Declaración Final
 
@@ -683,3 +683,447 @@ Healthcare Operations Platform debe convertirse en un producto comercial, extens
 El objetivo no es construir pantallas aisladas ni CRUDs sueltos.
 
 El objetivo es construir capacidades de negocio completas, trazables, versionables y comercializables, de forma que Nexora pueda repetir este método en futuros productos.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BR-001
+  type: business-requirement-structured-index
+  name: Healthcare Operations Platform Business Requirement
+  version: 2.0.0
+  status: approved
+  human_readable: BUSINESS_REQUIREMENT.md
+  machine_readable: BUSINESS_REQUIREMENT.md
+  source_rule: derived_from_requester_supplied_business_requirement
+  derivation_prompt: 04-requirements/prompts/business-requirement-to-yaml-prompt.md
+input_governance:
+  requester_supplied_source: BUSINESS_REQUIREMENT.md
+  agent_may_generate_source: false
+  agent_may_replace_source: false
+  exception_note: This HOP version was curated as the reference template for future
+    Nexora projects.
+  missing_source_behavior: stop_and_request_business_requirement
+  yaml_role: Structured machine-readable index of the requester-supplied requirement.
+  transformation_rules:
+  - Preserve business intent.
+  - Do not invent missing business facts.
+  - Mark missing information as requires_clarification.
+  - Keep Markdown as human source and YAML as agent index.
+  versioning:
+    index: 00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.md
+    current_version: v0.68.0
+    latest_version_must_be_resolved_before_analysis: true
+    impact_assessment_required_when_changed: true
+project:
+  name: Healthcare Operations Platform
+  short_name: HOP
+  commercial_name: Nexora Healthcare Operations Platform
+  company: Nexora
+  product_type:
+  - SaaS platform
+  - Deployable enterprise software
+  - Diagnostic healthcare operations platform
+  - Model-driven commercial product
+  initial_domain_focus:
+  - Clinical laboratories
+  - Imaging centers
+  - Multi-branch diagnostic organizations
+executive_summary:
+  summary: HOP is a healthcare operations product for diagnostic organizations, covering
+    the end-to-end operating spine from organization setup to secure result delivery.
+  strategic_intent:
+  - Become Nexora's first commercial healthcare product.
+  - Serve as the reference project template for future Nexora products.
+  - Demonstrate Model Driven Product Engineering with agent-agnostic development.
+  - Enable commercial extensibility through marketplace-ready packages.
+business_context:
+  summary: Diagnostic healthcare organizations frequently operate with fragmented
+    systems, manual handoffs, weak traceability and difficult migrations.
+  drivers:
+  - Operational standardization across tenants, laboratories and branches.
+  - Traceable clinical, administrative and financial workflows.
+  - Secure digital access for patients, doctors and employees.
+  - Controlled integration and migration boundaries.
+  - Commercial extension model for future functionality.
+business_opportunity:
+  summary: Build a commercial diagnostic healthcare platform and a reusable Nexora
+    product-engineering reference.
+  outcomes:
+  - Replace fragmented legacy tools with a unified operating model.
+  - Create a product that can be sold, deployed, supported and extended.
+  - Provide a repeatable framework for future projects.
+  - Allow optional capabilities to be packaged, entitled, installed and consumed.
+problem_statement:
+  pains:
+  - Duplicated patient data.
+  - Weak traceability between appointments, orders, payments, samples, results and
+    delivery.
+  - Hard-to-govern diagnostic catalogs and price lists.
+  - Manual branch-specific operational practices.
+  - Integrations that bypass validation.
+  - Risky legacy migrations.
+  - Limited audit evidence.
+  - Limited commercial extensibility.
+user_need:
+  summary: Users need a secure, auditable, interoperable and extensible platform for
+    diagnostic operations.
+  needs_by_group:
+    administrators:
+    - Configure tenants, laboratories, branches, users, roles, permissions and settings.
+    reception:
+    - Register patients, manage appointments, create orders and coordinate intake.
+    cashier:
+    - Manage payments, cash sessions, sales and billing requests.
+    laboratory:
+    - Collect, label, receive, process and validate samples and results.
+    patients_and_doctors:
+    - Access authorized released results through secure digital channels.
+    commercial_operators:
+    - Add, package and activate optional capabilities without product forks.
+actors:
+  internal:
+  - Platform Administrator
+  - Tenant Administrator
+  - Laboratory Administrator
+  - Branch Administrator
+  - Catalog Manager
+  - Receptionist
+  - Cashier
+  - Sample Collector
+  - Laboratory Technician
+  - Technical Validator
+  - Medical Validator
+  - Operational Supervisor
+  - Support Analyst
+  external:
+  - Patient
+  - Patient Representative
+  - Referring Doctor
+  - Company or Agreement
+  - Supplier
+  - Integration Partner
+  - Fiscal or Regulatory Adapter
+  systems:
+  - Laboratory Device
+  - Legacy System
+  - Fiscal System
+  - Notification System
+  - Payment System
+  - Marketplace or Billing Provider
+product_scope:
+  core_capabilities:
+  - Organization management
+  - Person, patient and doctor management
+  - Diagnostic service catalog
+  - Appointment, reception, admission and order intake
+  - Cashier and billing request
+  - Sample collection, labeling, reception and processing
+  - Technical validation
+  - Medical validation
+  - Result release and digital delivery
+  - Document and notification management
+  - Identity and access management
+  - Audit trail
+  - Integration management
+  - Open data ingestion and migration
+  - Product marketplace and entitlements
+  expansion_capabilities:
+  - Inventory
+  - Quality
+  - Equipment
+  - Imaging
+  - DICOM
+  - PACS
+  - AI overlays
+  - Country packs
+  - Integration adapters
+  - Workflow templates
+business_capability_map:
+  source: 01-product-definition/business-capabilities/bcm-001/business-capability-map.md
+  domains: 11
+  capabilities: 92
+  functional_requirements: 460
+  user_stories: 460
+  primary_development_unit: Business Capability Package
+  principle: Develop business capabilities, not isolated modules or CRUD screens.
+engineering_model:
+  model: Model Driven Product Engineering
+  source_of_truth_rule: Editable models are the durable source of truth.
+  execution_flow:
+  - model
+  - compile
+  - implement_rules
+  - validate
+  - release
+  do_not_write_manually:
+  - Repetitive CRUD
+  - Repetitive DTOs
+  - Repetitive controllers
+  - Repetitive repositories
+  - Derived Swagger
+  - Derived SDKs
+  - Duplicate models
+  - Repetitive tests
+  write_carefully:
+  - Business model
+  - Business rules
+  - Processes
+  - Domain decisions
+  - OpenAPI source contracts
+  - Non-generatable rules
+  - External adapters
+  - Generator templates
+  - ADRs
+mvp:
+  objective: Prove the executable diagnostic laboratory operating spine.
+  status:
+    completed:
+    - MVP-MOD-001 Platform Foundation
+    next:
+    - MVP-MOD-002-DEF Diagnostic Catalog Business Capability Packages
+  modules:
+  - id: MVP-MOD-001
+    name: Platform Foundation
+    purpose: Establish tenant, laboratory, branch, identity, permissions, audit and
+      observability.
+  - id: MVP-MOD-002
+    name: Diagnostic Catalog
+    purpose: Configure diagnostic services, tests, panels, analytes, samples, reference
+      ranges, preparation and prices.
+  - id: MVP-MOD-003
+    name: People and Clinical Master Data
+    purpose: Manage patients, doctors and person records.
+  - id: MVP-MOD-004
+    name: Front Desk and Care Delivery
+    purpose: Manage appointments, reception, admission, quotations and orders.
+  - id: MVP-MOD-005
+    name: Cashier and Billing Request
+    purpose: Manage payments, cash sessions, sales and billing requests.
+  - id: MVP-MOD-006
+    name: Laboratory Workflow
+    purpose: Manage sample lifecycle, processing and validation.
+  - id: MVP-MOD-007
+    name: Results and Digital Delivery
+    purpose: Generate reports and deliver released results through authorized channels.
+  - id: MVP-MOD-008
+    name: Integration and Migration Readiness
+    purpose: Govern APIs, adapters, open data ingestion, validation and reconciliation.
+commercial_product:
+  objective: Evolve HOP from MVP to a sellable, supportable and extensible product.
+  backlog: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
+  required_outcomes:
+  - Patient and doctor portals
+  - Mobile app foundation
+  - Inventory and internal quality
+  - Public website and digital growth
+  - Platform hardening and SaaS operations
+  - Advanced quality and compliance
+  - Customer enablement
+  - Product marketplace and extension packaging
+  - Imaging package
+  - AI overlay package
+marketplace:
+  required: true
+  capability: BCM-PLT-011
+  contract: 05-contracts/marketplace/product-marketplace/product-marketplace-contract.md
+  required_behaviors:
+  - Package catalog
+  - Commercial offers
+  - Trials
+  - Bundles
+  - License plans
+  - Tenant entitlements
+  - Tenant installation
+  - Activation
+  - Suspension
+  - Upgrade
+  - Rollback
+  - Uninstall
+  - Retirement
+  - Audit
+  - Observability
+  guardrails:
+  - Purchase does not grant IAM permission by itself.
+  - Entitlement, IAM, audit and business rules must all be evaluated.
+  - Packages cannot weaken clinical, financial, fiscal or privacy controls.
+  - Billing and payment providers remain replaceable adapters.
+open_data_ingestion:
+  required: true
+  capability: BCM-PLT-010
+  contract: 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md
+  formats:
+  - CSV
+  - XLSX
+  - JSON
+  - NDJSON
+  - ZIP with manifest
+  required_behaviors:
+  - Import package
+  - Manifest
+  - Dry run
+  - Validation
+  - Reconciliation
+  - Error report
+  - Source-to-target traceability
+  - Audit
+  - Retry
+  - Domain-command execution
+business_rules:
+  critical:
+  - Protected actions require authenticated actors.
+  - Access must be scoped by tenant, laboratory, branch and role.
+  - Patients are master data.
+  - Orders use patient, catalog and price snapshots.
+  - Only published catalog items can be ordered.
+  - Payments require active cashier sessions.
+  - Fiscal billing goes through country-pack adapters.
+  - Samples must trace to order, patient, branch, collector and collection time.
+  - Technical validation precedes medical validation unless explicitly waived.
+  - Medical validation is required before external result release.
+  - Critical results require traceable notification or escalation.
+  - External integrations and migrations pass through anti-corruption layers.
+  - AI cannot validate, release, amend or diagnose clinical results.
+  - Audit events are append-only.
+data_privacy_audit:
+  protected_data:
+  - Personal data
+  - Clinical data
+  - Results
+  - Result history
+  - Payments
+  - Fiscal information
+  - Documents
+  - Users and permissions
+  - Audit evidence
+  expectations:
+  - Minimum necessary access
+  - Immutable audit evidence
+  - Correction through additional events
+  - Secure portal access
+  - Authorization for released result access
+  - Protected migration staging
+integrations:
+  expected:
+  - Laboratory devices
+  - Fiscal systems
+  - Payment systems
+  - Notification systems
+  - Public APIs
+  - Webhooks
+  - Legacy systems
+  - Marketplace or billing providers
+  rules:
+  - Translate external protocols before domain entry.
+  - Do not mutate another bounded context aggregate directly.
+  - Keep adapters replaceable.
+  - Make errors observable and auditable.
+digital_channels:
+  required:
+  - Employee portal
+  - Patient portal
+  - Doctor portal
+  - Public website
+  - Mobile app
+  - Operations console
+ai:
+  required_for_core: false
+  allowed:
+  - Administrative assistance
+  - Supervised clinical summaries
+  - OCR
+  - Semantic search
+  - RAG
+  - Operational recommendations
+  - Migration error explanation
+  prohibited:
+  - Autonomous diagnosis
+  - Clinical validation
+  - Result release
+  - Result amendment
+  - Privacy bypass
+  - Operational dependency for core continuity
+constraints:
+- Agent agnostic
+- Cloud agnostic
+- Provider agnostic
+- Repository artifacts are source of truth
+- Chat history is not source of truth
+- Code lives under 07-implementation
+- Architecture changes require ADR
+- Generated artifacts are not edited as primary source
+out_of_scope_initial:
+- Full PACS
+- Full DICOM
+- Advanced radiology dictation
+- Advanced radiology signature
+- Full inventory
+- Full procurement
+- Full CAPA
+- External quality programs
+- Specific fiscal connectors
+- Specific device connectors
+- Advanced marketplace UI
+- Mandatory advanced AI
+success_criteria:
+- Organization, branch, user and permission setup works.
+- Diagnostic catalog can be configured and governed.
+- Patients and doctors can be managed.
+- Orders, payments, samples, results and delivery are traceable.
+- Patients and doctors access only authorized released results.
+- Integrations and migrations are governed.
+- Marketplace packages can be entitled and installed.
+- Critical events are auditable.
+- Agents can continue development from repository artifacts only.
+requires_clarification:
+- Initial commercial country.
+- Country-specific fiscal rules.
+- First customer laboratory type.
+- Expected operational volume.
+- Priority notification channels.
+- Mandatory first-client integrations.
+- Initial commercial packages.
+- Pricing model.
+- Preferred deployment strategy.
+- Country-specific regulatory requirements.
+future_project_template:
+  required_sections:
+  - Purpose
+  - Executive summary
+  - Business context
+  - Business opportunity
+  - Problem statement
+  - User need
+  - Users and actors
+  - Product scope
+  - Business capabilities
+  - MVP expectation
+  - Commercial product expectation
+  - Extensibility or marketplace
+  - Migration and ingestion
+  - Critical rules
+  - Data, privacy and audit
+  - Integrations
+  - Digital channels
+  - AI and automation
+  - Constraints
+  - Out of scope
+  - Success criteria
+  - Clarifications
+  - Business requirement versioning
+downstream_source_artifacts:
+- PROJECT_BRIEF.md
+- SOURCE_OF_TRUTH.md
+- PROJECT_STATE.md
+- ORDERED_DEVELOPMENT_GUIDE.md
+- 01-product-definition/business-capabilities/bcm-001/business-capability-map.md
+- 01-product-definition/business-capabilities/bcm-002/capability-dependency-map.md
+- 01-product-definition/business-capabilities/packages/capability-package-index.md
+- 04-requirements/requirements-manifest.md
+- 05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md
+- 05-contracts/marketplace/product-marketplace/product-marketplace-contract.md
+- 06-delivery/mvp/healthcare-operations-platform-mvp-framework.md
+- 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
+```

@@ -14,7 +14,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
  * Exposes a Spring {@link MessageSource} backed by the {@code classpath:i18n/messages} resource
  * bundle family ({@code messages.properties}, {@code messages_es_MX.properties},
  * {@code messages_en_US.properties}). es-MX is the platform default/fallback locale, per
- * {@code enterprise-product-foundation-standard.yaml}'s
+ * {@code enterprise-product-foundation-standard.md}'s
  * {@code mandatory_foundations.localization_and_i18n} section
  * ({@code required_base_locales: [es-MX, en-US]}, {@code default_locale: es-MX}).
  */

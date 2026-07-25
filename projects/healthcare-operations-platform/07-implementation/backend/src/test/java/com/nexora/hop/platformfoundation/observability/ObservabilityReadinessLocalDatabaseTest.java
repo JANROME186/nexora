@@ -15,11 +15,11 @@ import org.springframework.test.web.servlet.MockMvc;
 /**
  * COM-MOD-012-QA-001 resilience finding: the standard Spring Boot readiness probe group only
  * includes {@code readinessState} by default, so it stays UP even when the database is
- * unreachable. application-local.yml now also includes {@code db} in the readiness group so an
+ * unreachable. application-local.properties now also includes {@code db} in the readiness group so an
  * orchestrator stops routing traffic to a pod whose database connection is down; this test
  * confirms that group configuration resolves and reports UP against the real local Postgres
  * datasource (it previously failed application context startup with "Health contributor 'db'
- * ... does not exist" when the same include was placed in the base application.yml, which has no
+ * ... does not exist" when the same include was placed in the base application.properties, which has no
  * datasource bean in non-local profiles).
  */
 @ActiveProfiles("local")

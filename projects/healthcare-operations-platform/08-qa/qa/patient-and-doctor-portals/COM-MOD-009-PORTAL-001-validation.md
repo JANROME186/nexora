@@ -42,3 +42,70 @@ Implemented the Patient Portal commercial workflow, which connects to the backen
 - Next backlog item: **COM-MOD-009-PORTAL-002** (Compile doctor portal commercial workflow)
 - HOP commercially complete / GA-ready: **No**
 - Coverage baselines: backend 80.49%, employee portal 86.47%, mobile 98.87%, patient portal 89.58%, doctor portal 40.62%.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: COM-MOD-009-PORTAL-001-VALIDATION
+  type: qa-validation-evidence
+  backlog_item: COM-MOD-009-PORTAL-001
+  status: passed
+  created_date: 2026-07-19
+  standard: ../../../../nexora-framework/02-standards/standards/capability-package-standard.md
+scope_note: 'COM-MOD-009-PORTAL-001 is a patient portal commercial workflow compilation
+  backlog item: it implements a real patient login flow against the backend auth endpoints,
+  authenticated session context parsing, a dynamic permission-aware dashboard shell,
+  views for profile, results history, appointments, diagnostic orders, and notifications,
+  full es-MX/en-US localization, and a backend-enforced secure patient self-access
+  interceptor. Patient portal unit tests passed successfully (18 tests) raising line
+  coverage from the 41.93% floor to 89.58% (TD-FE-008 closed).
+
+  '
+validations:
+- id: VAL-001
+  name: Patient Portal Real Login Flow
+  description: Implemented real credentials verification against /api/auth/login and
+    parsed local session tokens.
+  status: passed
+- id: VAL-002
+  name: Dynamic Dashboard Navigation and Shell
+  description: Dynamic menu rendered by permissions, matching es-MX/en-US and including
+    a logout button.
+  status: passed
+- id: VAL-003
+  name: Patient Profile, Results, Appointments, Orders, and Notifications Views
+  description: Patient master data, history, and status views rendered correctly with
+    mock/stub fallbacks on network or permission gaps.
+  status: passed
+- id: VAL-004
+  name: Backend Self-Access Restriction
+  description: Enhanced HopAuthorizationInterceptor to restrict patients to their
+    own profile and results history records.
+  status: passed
+- id: VAL-005
+  name: Test Coverage Target Reached
+  description: Unit test suite expanded to 18 tests, raising statement/line coverage
+    to 89.58%, satisfying the 80% closure target and closing TD-FE-008.
+  status: passed
+results:
+  tests:
+    total: 18
+    failed: 0
+    errors: 0
+    detail: All patient-portal unit and integration tests passed.
+  agent_agnostic_scan:
+    pattern: vendor-specific agent/runtime references
+    matches_found: 0
+    detail: No named-agent or vendor-runtime dependency found in any new or touched
+      artifact.
+  secrets_scan:
+    pattern: password|secret|api[_-]?key|private[_-]?key|token\s*[:=]
+    matches_found: 0
+    detail: Verified no secrets are stored in code or configurations.
+readiness:
+  status: passed
+  ready_for_next_backlog_item: COM-MOD-009-PORTAL-002
+```

@@ -1,7 +1,7 @@
 # ADR-006 - Application Architecture as Enterprise Layer
 
-**Estado:** Approved  
-**Fecha:** 2026-07-07  
+**Estado:** Approved
+**Fecha:** 2026-07-07
 **Versión:** 0.17.0
 
 ## Contexto

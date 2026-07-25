@@ -47,3 +47,48 @@ This checklist establishes the infrastructure, software runtime, system resource
 - [ ] CORS policies configured to allow authorized portal origins only.
 - [ ] Network firewall rules restricting database port `5432` to internal container network.
 - [ ] Automated backup routine verified via `pg_dump` test dry-run.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-ONB-GUIDE-005
+  type: technical-prerequisites-specification
+  name: HOP Technical Prerequisites Checklist Specification
+  version: 1.0.0
+  status: approved
+  human_readable: technical-prerequisites-checklist.md
+  machine_readable: technical-prerequisites-checklist.md
+  backlog_item: COM-MOD-016-DOC-001
+stack_requirements:
+  container_engine: Docker 24.0+ / Compose v2.20+
+  database: PostgreSQL 16.0+
+  backend_jdk: OpenJDK 21 LTS
+  frontend_node: Node.js 20.x LTS
+minimum_hardware:
+  cpu_cores: 4
+  ram_gb: 8
+  storage_gb: 50
+default_ports:
+  backend: 8080
+  employee_portal: 3000
+  public_website: 3001
+  patient_portal: 3002
+  doctor_portal: 3003
+  postgresql: 5432
+verification_checks:
+- docker_engine_ready
+- postgresql_16_ready
+- database_schemas_initialized
+- tls_certificates_valid
+- cors_policies_enforced
+- firewall_port_5432_restricted
+- backup_routine_verified
+traceability:
+  capabilities:
+  - BCM-PLT-006
+  open_source_first: true
+  agent_agnostic: true
+```

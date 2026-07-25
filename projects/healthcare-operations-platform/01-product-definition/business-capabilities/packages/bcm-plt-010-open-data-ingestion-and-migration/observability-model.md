@@ -1,0 +1,108 @@
+---
+id: HOP-OBS-BCM-PLT-010
+format: markdown_structured_payload
+type: observability-model
+name: Open Data Ingestion and Migration Observability Model
+version: 0.1.0
+status: modeled
+---
+
+# Open Data Ingestion And Migration Observability Model
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-OBS-BCM-PLT-010
+  type: observability-model
+  name: Open Data Ingestion and Migration Observability Model
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-010
+  depends_on_capability: BCM-PLT-006
+logs:
+- event: migration_job_created
+  level: info
+  fields:
+  - migrationJobId
+  - sourceSystemName
+  correlation_id: migrationJobId
+- event: import_package_received
+  level: info
+  fields:
+  - migrationJobId
+  - importBatchId
+  - entityCounts
+  correlation_id: importBatchId
+- event: import_dry_run_validated
+  level: info
+  fields:
+  - importBatchId
+  - reportId
+  - passed
+  correlation_id: importBatchId
+- event: migration_executed
+  level: info
+  fields:
+  - migrationJobId
+  - executionId
+  - status
+  correlation_id: migrationJobId
+- event: import_reconciled
+  level: info
+  fields:
+  - migrationJobId
+  - reconciliationReportId
+  correlation_id: migrationJobId
+metrics:
+- name: migration_jobs_created_total
+  type: counter
+  labels:
+  - tenantId
+- name: import_batches_received_total
+  type: counter
+  labels:
+  - tenantId
+  - sourceSystemName
+- name: import_dry_run_failures_total
+  type: counter
+  labels:
+  - tenantId
+- name: migration_records_imported_total
+  type: counter
+  labels:
+  - tenantId
+  - entityType
+- name: migration_records_rejected_total
+  type: counter
+  labels:
+  - tenantId
+  - entityType
+- name: migration_execution_duration_ms
+  type: histogram
+  labels:
+  - tenantId
+traces:
+- span: ExecuteImport
+  child_spans:
+  - InvokeDomainCommand
+  - UpdateReconciliationReport
+- span: RetryImportExecution
+  child_spans:
+  - ResumeFromCheckpoint
+audit_events:
+- MigrationJobCreated
+- ImportDryRunValidated
+- MigrationExecuted
+- ImportReconciled
+alerts:
+- name: MigrationDryRunFailureRateHigh
+  condition: import_dry_run_failures_total rate exceeds threshold
+  severity: high
+- name: MigrationExecutionStalled
+  condition: an ImportExecution remains in_progress beyond the configured timeout
+  severity: critical
+```

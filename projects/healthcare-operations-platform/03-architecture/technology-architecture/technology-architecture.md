@@ -99,3 +99,98 @@ flowchart TD
 - La configuración debe inyectarse por variables de entorno, archivos de configuración o secretos, nunca estar codificada.
 - Todo servicio debe exponer health checks y métricas básicas.
 - Todo despliegue debe contar con logs estructurados y trazas distribuidas cuando aplique.
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+id: TECH-ARCH-001
+artifact_type: technology_architecture
+name: Nexora Technology Architecture
+version: 0.18.0
+status: draft
+owner: Architecture
+principles:
+- anywhere_first
+- cloud_agnostic
+- platform_agnostic
+- compute_agnostic
+- local_development_first
+- container_native
+- open_standards_first
+runtime:
+  packaging: oci_containers
+  local_orchestration: docker_compose
+  team_orchestration: docker_swarm
+  enterprise_orchestration: kubernetes
+  cloud_mode: provider_agnostic
+supported_profiles:
+- local
+- team
+- on_premise
+- enterprise_kubernetes
+- saas_cloud
+infrastructure_abstractions:
+  identity_provider:
+    standard: oidc_oauth2
+    implementations:
+    - keycloak
+    - authentik
+    - okta
+    - entra_id
+    - cognito
+  object_storage:
+    standard: s3_compatible_api
+    implementations:
+    - minio
+    - aws_s3
+    - gcs
+    - azure_blob
+    - ceph
+  messaging:
+    standard: async_message_bus
+    implementations:
+    - rabbitmq
+    - nats
+    - kafka
+    - sqs
+    - azure_service_bus
+  cache:
+    standard: redis_compatible
+    implementations:
+    - redis
+    - valkey
+    - dragonfly
+  observability:
+    standard: opentelemetry
+    implementations:
+    - jaeger
+    - prometheus
+    - grafana
+    - tempo
+    - loki
+    - datadog
+    - new_relic
+  api_gateway:
+    standard: http_reverse_proxy_gateway
+    implementations:
+    - traefik
+    - kong
+    - apisix
+    - envoy
+    - nginx
+constraints:
+- domain_must_not_import_cloud_sdks
+- infrastructure_adapters_must_be_replaceable
+- all_services_must_have_health_checks
+- all_services_must_emit_structured_logs
+- local_environment_must_not_require_cloud_credentials
+relations:
+  governed_by:
+  - ADR-007
+  supports:
+  - APP-ARCH-001
+  - DATA-ARCH-001
+  - NMM-001
+```

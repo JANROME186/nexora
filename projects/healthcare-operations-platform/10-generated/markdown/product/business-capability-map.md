@@ -160,4 +160,4 @@
 | BCM-AI-008 | Agentes Especializados | Specialized Agents | High | MVP3 |
 
 
-> Generated from `business-capability-map.yaml`. Do not edit manually.
+> Generated from `business-capability-map.md`. Do not edit manually.

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Rendered controller for bcm-inv-003-lot-management/openapi-source.yaml. */
+/** Rendered controller for bcm-inv-003-lot-management/openapi-source.md. */
 @RestController
 @RequestMapping("/api/inventory/lots")
 class StockLotController {

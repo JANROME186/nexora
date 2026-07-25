@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nexora.hop.platformfoundation.integrationinteroperability.apimanagement.application.ApiManagementService;
 import com.nexora.hop.platformfoundation.integrationinteroperability.apimanagement.domain.PartnerApiKey;
 
-/** Rendered controller for bcm-plt-005-api-management/openapi-source.yaml (PartnerApiKey resource). */
+/** Rendered controller for bcm-plt-005-api-management/openapi-source.md (PartnerApiKey resource). */
 @RestController
 @RequestMapping("/api/platform/api-management/partner-keys")
 class PartnerApiKeyController {

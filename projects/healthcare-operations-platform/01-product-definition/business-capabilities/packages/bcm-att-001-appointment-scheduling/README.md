@@ -27,33 +27,33 @@ Management (BCM-ATT-004) can create the order through BCM-LAB-001.
 
 | Artifact | Purpose |
 | --- | --- |
-| `capability-package.yaml` | Package identity, scope, dependencies, surfaces |
-| `business-model.yaml` | AppointmentSlot process entity and catalog/preparation value objects |
-| `business-rules.yaml` | Numbered rules RN-001..RN-008 |
-| `processes.yaml` | Request, confirm, check in, cancel and no-show |
-| `events.yaml` | Domain and integration events |
-| `openapi-source.yaml` | API source model for contract generation |
-| `permissions.yaml` | Scopes, roles, policies, audit obligations |
-| `ui-model.yaml` | Employee portal scheduler, calendar and detail |
-| `mobile-model.yaml` | Mobile scope (check_in_later, deferred to COM-MOD-009) |
-| `test-model.yaml` | Test cases mapped to rules |
-| `observability-model.yaml` | Logs, metrics, traces, alerts |
-| `generation-plan.yaml` | Generated outputs vs custom implementation |
-| `traceability.yaml` | Links to BCM, domain, rules, APIs, UI, tests, QA |
+| `capability-package.md` | Package identity, scope, dependencies, surfaces |
+| `business-model.md` | AppointmentSlot process entity and catalog/preparation value objects |
+| `business-rules.md` | Numbered rules RN-001..RN-008 |
+| `processes.md` | Request, confirm, check in, cancel and no-show |
+| `events.md` | Domain and integration events |
+| `openapi-source.md` | API source model for contract generation |
+| `permissions.md` | Scopes, roles, policies, audit obligations |
+| `ui-model.md` | Employee portal scheduler, calendar and detail |
+| `mobile-model.md` | Mobile scope (check_in_later, deferred to COM-MOD-009) |
+| `test-model.md` | Test cases mapped to rules |
+| `observability-model.md` | Logs, metrics, traces, alerts |
+| `generation-plan.md` | Generated outputs vs custom implementation |
+| `traceability.md` | Links to BCM, domain, rules, APIs, UI, tests, QA |
 
 ## COM-MOD-011 reuse
 
 The existing `requestAppointment` operation is reused, anonymously and rate-limited, by the
 COM-MOD-011 Public Website and Digital Growth module (RN-008): a public request creates a
 requested-state slot from a ProspectiveContact only, never a confirmed booking. No new
-capability package, aggregate or schema was created; see `traceability.yaml`'s
+capability package, aggregate or schema was created; see `traceability.md`'s
 `cross_module_reuse` entry. That entry also records COM-MOD-011-DEF's correction of stale
 COM-MOD-009/MVP-MOD-004 status pointers found in this package during modeling.
 
 ## MDPE note
 
 CRUD, DTOs, controllers, repositories, SDKs, Swagger and repetitive tests are
-declared as generated outputs in `generation-plan.yaml`. Custom
+declared as generated outputs in `generation-plan.md`. Custom
 implementation covers branch operational-status validation, appointment
 overlap detection, published-catalog validation, order-creation handoff,
 no-show grace-period policy and the scheduler wizard UI.

@@ -1,0 +1,129 @@
+---
+id: HOP-CAP-PKG-BCM-LAB-001
+format: markdown_structured_payload
+type: capability-package
+name: Diagnostic Order Management Capability Package
+version: 0.1.0
+status: modeled
+---
+
+# Diagnostic Order Management Capability Package
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-CAP-PKG-BCM-LAB-001
+  type: capability-package
+  name: Diagnostic Order Management Capability Package
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  human_readable: README.md
+  machine_readable: capability-package.md
+  owner: Nexora Product Architecture Team
+  created_date: 2026-07-15
+  roadmap_group: MVP-MOD-004
+  execution_flow_stage: model
+standard:
+  capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.md
+  mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  agent_agnostic_standard: ../../../../../../nexora-framework/02-standards/standards/agent-agnostic-standard.md
+capability:
+  id: BCM-LAB-001
+  name:
+    en: Diagnostic Order Management
+    es: Gestión de Órdenes
+  domain: DOM-05 Clinical Operations
+  priority: Critical
+  roadmap: MVP1
+  dependency_profile: clinical_operations
+  bounded_context: orders-samples
+  primary_aggregate: DiagnosticOrder
+  aggregate_ref: AGG-007
+  process_ref: HRP-001-P03
+scope:
+  summary: 'Owns the DiagnosticOrder aggregate end to end: creation, pricing, acceptance,
+    cancellation and completion. Every order line, clinical note and price is captured
+    as an immutable snapshot of patient, doctor, branch, catalog and price-list state
+    at order time, so that downstream reception, admission, cashier, sample collection
+    and result modules never depend on live master-data mutation. Appointment Scheduling,
+    Reception Management, Admission Management and Quotation Management orchestrate
+    around this capability and delegate the actual order mutation to its commands,
+    the same pattern already used by BCM-ATT-002 around BCM-PER-002.
+
+    '
+  in_scope:
+  - DiagnosticOrder aggregate lifecycle (create, price, accept, cancel, complete).
+  - Immutable PatientSnapshot, DoctorSnapshot, BranchSnapshot, CatalogSnapshot and
+    PriceSnapshot capture at order time.
+  - Order line composition from published catalog items (tests and panels).
+  - Order pricing snapshot derived from a published price list.
+  - Order clinical notes capture.
+  - Domain events consumed by sample collection, cashier and results modules.
+  out_of_scope:
+  - Patient and doctor master data ownership (BCM-PER-002, BCM-PER-003).
+  - Catalog and price list definition and publication (BCM-SVC-001/002/003/009).
+  - Appointment slot management (BCM-ATT-001).
+  - Front-desk check-in and admission orchestration (BCM-ATT-003, BCM-ATT-004).
+  - Sample collection and laboratory processing (BCM-LAB-002, BCM-LAB-006, MVP-MOD-006).
+  - Cash, payment and billing request handling (BCM-ATT-005, BCM-ATT-008, MVP-MOD-005).
+roadmap:
+  module: MVP-MOD-004
+  release: REL-001
+  package_status: modeled
+  next_backlog_item: MVP-MOD-004-BE-001
+dependencies:
+  required_capabilities:
+  - BCM-PER-002
+  - BCM-PER-003
+  - BCM-ORG-003
+  - BCM-SVC-001
+  - BCM-SVC-002
+  - BCM-SVC-009
+  - BCM-PLT-001
+  - BCM-PLT-007
+  optional_capabilities:
+  - BCM-ATT-001
+  - BCM-ATT-003
+  - BCM-ATT-004
+  - BCM-ATT-006
+  - BCM-SVC-006
+  - BCM-SVC-007
+  downstream_capabilities:
+  - BCM-LAB-002
+  - BCM-LAB-006
+  - BCM-RES-001
+  - BCM-ATT-005
+  - BCM-ATT-008
+  upstream_contexts:
+  - patient-management
+  - medical-staff
+  - organization-management
+  - catalog-test-configuration
+  - identity-access
+  - audit-compliance
+product_surfaces:
+  backend: required
+  employee_portal: required
+  patient_portal: not_required_yet
+  doctor_portal: order_request_later
+  mobile_app: not_required
+required_artifacts:
+- capability-package.md
+- business-model.md
+- business-rules.md
+- processes.md
+- events.md
+- openapi-source.md
+- permissions.md
+- ui-model.md
+- mobile-model.md
+- test-model.md
+- observability-model.md
+- generation-plan.md
+- traceability.md
+- README.md
+```

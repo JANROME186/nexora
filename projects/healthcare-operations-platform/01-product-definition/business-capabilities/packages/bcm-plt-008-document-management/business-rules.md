@@ -1,0 +1,65 @@
+---
+id: HOP-BR-BCM-PLT-008
+format: markdown_structured_payload
+type: business-rules
+name: Document Management Business Rules
+version: 1.2.0
+status: modeled
+---
+
+# Document Management Business Rules
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-BR-BCM-PLT-008
+  type: business-rules
+  name: Document Management Business Rules
+  version: 1.2.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-PLT-008
+rules:
+- id: RN-DOC-001
+  name: SHA-256 Hash Verification on Retrieval
+  description: Verification fails if calculated SHA-256 hash does not match stored
+    contentHash.
+  enforcement: synchronous
+  error_code: DOCUMENT_HASH_MISMATCH
+  message:
+    en: Document integrity verification failed due to content hash mismatch.
+    es: Falló la verificación de integridad del documento por discrepancia de hash.
+- id: RN-DOC-002
+  name: Legal Hold Disposal Lock
+  description: Setting legalHold=true prevents document status transition to pending_disposal
+    or disposed.
+  enforcement: synchronous
+  error_code: DOCUMENT_LEGAL_HOLD_LOCKED
+  message:
+    en: Document cannot be deleted or marked for disposal while under legal hold.
+    es: El documento no puede ser eliminado ni marcado para disposición mientras esté
+      bajo retención legal.
+- id: RN-DOC-003
+  name: Regulatory Retention Minimum Duration
+  description: Documents classified as clinical_report, eqa_certificate, or audit_report
+    must enforce a minimum 5-year retention period.
+  enforcement: synchronous
+  error_code: DOCUMENT_RETENTION_PERIOD_TOO_SHORT
+  message:
+    en: Regulatory documents require a minimum retention period of 5 years.
+    es: Los documentos regulatorios requieren un periodo mínimo de retención de 5
+      años.
+- id: RN-DOC-004
+  name: Compliance Tagging Authorization
+  description: Updating compliance tags or applying legal hold requires document.retention.manage
+    permission.
+  enforcement: synchronous
+  error_code: DOCUMENT_TAGGING_UNAUTHORIZED
+  message:
+    en: User lacks permission to update document compliance metadata or legal hold.
+    es: El usuario no cuenta con la autorización requerida para actualizar metadatos
+      de cumplimiento o retención legal.
+```

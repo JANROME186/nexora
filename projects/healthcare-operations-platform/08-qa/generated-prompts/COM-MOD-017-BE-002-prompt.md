@@ -15,7 +15,7 @@ ORCHESTRATION: ollama_primary_deterministic_prompt
 
 ## 2. Contexto Inmediato (Punteros)
 - Handoff previo: `08-qa/handoffs/NXF-FMT-002-summary.md`
-- Prompts y estado: inspeccionar `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml` y `PROJECT_STATE.yaml` bajo demanda.
+- Prompts y estado: inspeccionar `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md` y `PROJECT_STATE.md` bajo demanda.
 - Contexto principal: `01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/`
 
 ## 3. Entregables
@@ -23,7 +23,7 @@ ORCHESTRATION: ollama_primary_deterministic_prompt
 - QA Evidence: `08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-002-validation.md/yaml`
 - Security Evidence: `08-qa/security-quality/COM-MOD-017-BE-002/security-quality-evidence.md/yaml`
 - Transición: crear `08-qa/handoffs/COM-MOD-017-BE-002-summary.md`.
-- Actualizar `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, backlog/prompts, runbook e índices aplicables.
+- Actualizar `PROJECT_STATE.md`, `SOURCE_OF_TRUTH.md`, backlog/prompts, runbook e índices aplicables.
 
 ## 4. Criterios de Cierre
 - Gates obligatorios ejecutados; YAML/MD parseables; `git diff --check` limpio.

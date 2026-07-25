@@ -6,7 +6,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.Localiz
 
 /**
  * A catalog of biological sample kinds (BCM-SVC-007).
- * Modeled in bcm-svc-007-sample-catalog/business-model.yaml (ENT-SMP-001).
+ * Modeled in bcm-svc-007-sample-catalog/business-model.md (ENT-SMP-001).
  */
 public record SampleType(
         String sampleTypeId,

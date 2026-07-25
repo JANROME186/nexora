@@ -6,7 +6,7 @@ import com.nexora.hop.platformfoundation.catalogtestconfiguration.shared.Localiz
 
 /**
  * A clinical grouping of tests ordered together (BCM-SVC-003).
- * Modeled in bcm-svc-003-panel-catalog/business-model.yaml (ENT-PNL-001).
+ * Modeled in bcm-svc-003-panel-catalog/business-model.md (ENT-PNL-001).
  */
 public record PanelDefinition(
         String panelId,

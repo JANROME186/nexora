@@ -1,0 +1,149 @@
+---
+id: HOP-TRACE-BCM-RES-004
+format: markdown_structured_payload
+type: traceability
+name: Digital Delivery Traceability
+version: 0.1.0
+status: modeled
+---
+
+# Digital Delivery Traceability
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-TRACE-BCM-RES-004
+  type: traceability
+  name: Digital Delivery Traceability
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-RES-004
+traces:
+  capability_map:
+    bcm_001: BCM-RES-004
+    domain: DOM-07 Results
+  dependency_map:
+    bcm_002_profile: results_delivery
+    required_capabilities:
+    - BCM-LAB-010
+    - BCM-RES-001
+    - BCM-RES-002
+    - BCM-PER-002
+    - BCM-PER-003
+    - BCM-PLT-001
+    - BCM-PLT-007
+    downstream_capabilities:
+    - BCM-RES-005
+    - BCM-RES-007
+  domain_foundation:
+    bounded_context: laboratory-results
+    aggregate_reference: ResultDeliveryTicket (new entity owned by this capability);
+      AGG-009 LaboratoryResult read-only
+    context_relationships:
+    - REL-CTX-002
+    - REL-CTX-004
+    - REL-CTX-012
+    shared_kernel_refs:
+    - VO-ID-001
+    - VO-ID-002
+    - VO-ID-005
+    - VO-ID-006
+    - VO-ID-009
+    - VO-007
+  brm_alignment:
+  - rule: BRM-001-R012
+    alignment: Delivery is authorized only for released results (RN-001).
+  - rule: BRM-001-R014
+    alignment: External portals show only released, authorization-matched results
+      (RN-001, RN-002, RN-004).
+  - rule: BRM-001-R015
+    alignment: Patient representative access requires active, verified authorization
+      (RN-003).
+  - rule: BRM-001-R018
+    alignment: Delivery authorization, view and withhold events are audited (RN-007,
+      RN-008).
+  hrp_alignment:
+  - process: HRP-001-P07 Result Report and Digital Delivery
+    capability_role: Notify patient/doctor, display released result and record delivery
+      status segment of the process.
+  rules_to_tests:
+  - rule: RN-001
+    tests:
+    - TST-DLV-004-01
+  - rule: RN-002
+    tests:
+    - TST-DLV-004-02
+  - rule: RN-003
+    tests:
+    - TST-DLV-004-03
+  - rule: RN-004
+    tests:
+    - TST-DLV-004-04
+  - rule: RN-005
+    tests:
+    - TST-DLV-004-05
+  - rule: RN-006
+    tests:
+    - TST-DLV-004-06
+  - rule: RN-007
+    tests:
+    - TST-DLV-004-07
+  - rule: RN-008
+    tests:
+    - TST-DLV-004-08
+  processes_to_commands:
+  - process: PRC-DLV-004-01
+    commands:
+    - AuthorizeResultDelivery
+  - process: PRC-DLV-004-02
+    commands:
+    - RecordResultViewed
+  - process: PRC-DLV-004-03
+    commands:
+    - WithholdResultDelivery
+  api_to_permissions:
+  - operation: listMyDeliveredResults
+    scope: delivery.view
+  - operation: getDeliveredResult
+    scope: delivery.view
+  events_to_audit:
+  - event: ResultDeliveryAuthorized
+    audit_sink: BCM-PLT-007
+  - event: ResultViewed
+    audit_sink: BCM-PLT-007
+  - event: ResultDeliveryWithheld
+    audit_sink: BCM-PLT-007
+  ui_to_api:
+  - screen: SCR-DLV-004-01
+    operations:
+    - listMyDeliveredResults
+  - screen: SCR-DLV-004-02
+    operations:
+    - getDeliveredResult
+  consumed_by_capabilities:
+  - capability: BCM-RES-005
+    relationship: Result history aggregates multiple ResultDeliveryTicket/released
+      results for a patient over time.
+  - capability: BCM-RES-007
+    relationship: Result notifications dispatch is triggered by ResultDeliveryAuthorized.
+  generated_outputs_ref: generation-plan.md
+  qa_evidence: ../../../../08-qa/qa/results-and-digital-delivery/MVP-MOD-007-DEF-validation.md
+  backlog_items:
+    definition: MVP-MOD-007-DEF
+    com_mod_009_def: COM-MOD-009-DEF
+    definition_status: closed
+    compilation: MVP-MOD-007-BE-001
+    compilation_status: closed
+    custom_rules: MVP-MOD-007-BE-002
+    custom_rules_status: closed
+    ui: MVP-MOD-007-PORTAL-001
+    ui_status: closed
+    validation: MVP-MOD-007-QA-001
+    validation_status: closed
+    closeout: MVP-MOD-007-CLOSEOUT
+    closeout_status: closed
+```

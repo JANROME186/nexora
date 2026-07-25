@@ -1,0 +1,96 @@
+---
+id: HOP-PROC-BCM-INV-003
+format: markdown_structured_payload
+type: processes
+name: Lot Management Processes
+version: 0.1.0
+status: modeled
+---
+
+# Lot Management Processes
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-PROC-BCM-INV-003
+  type: processes
+  name: Lot Management Processes
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-INV-003
+actors:
+- id: laboratory-technician
+  actor_ref: ACT-007
+  name: Laboratory Technician
+  source: ACM-001
+  note: 'ACM-001 does not yet define a dedicated "Inventory Clerk" actor; this capability
+    reuses Laboratory Technician for bench-level lot handling (the closest existing
+    role), documented as a non-blocking substitution.
+
+    '
+- id: branch-administrator
+  actor_ref: ACT-003
+  name: Branch Administrator
+  source: ACM-001
+processes:
+- id: PRC-LOT-003-01
+  name: Register stock lot
+  actor: laboratory-technician
+  trigger: A new physical batch of an InventoryItem is received (in coordination with
+    BCM-INV-005).
+  commands:
+  - RegisterStockLot
+  preconditions:
+  - InventoryItem exists and is active.
+  - lotNumber and expirationDate are supplied.
+  steps:
+  - Create StockLot with status active and zero remainingQuantity, awaiting the receipt
+    quantity.
+  - Publish StockLotRegistered.
+  outcome: StockLotRegistered
+  rules:
+  - RN-001
+  - RN-005
+- id: PRC-LOT-003-02
+  name: Quarantine or release stock lot
+  actor: branch-administrator
+  trigger: A quality concern requires a lot to be held or released.
+  commands:
+  - QuarantineStockLot
+  preconditions:
+  - StockLot exists and is not disposed.
+  steps:
+  - Transition status between active and quarantined.
+  - Publish StockLotQuarantined or StockLotReleased.
+  outcome: StockLotQuarantined
+  rules:
+  - RN-004
+  - RN-005
+- id: PRC-LOT-003-03
+  name: Expire stock lot
+  actor: laboratory-technician
+  trigger: Scheduled expiration sweep finds expirationDate has passed.
+  commands:
+  - ExpireStockLot
+  preconditions:
+  - StockLot status is active or quarantined.
+  steps:
+  - Transition status to expired.
+  - Publish StockLotExpired.
+  outcome: StockLotExpired
+  rules:
+  - RN-002
+commands:
+- name: RegisterStockLot
+  generatable: true
+- name: QuarantineStockLot
+  generatable: true
+- name: ExpireStockLot
+  generatable: false
+  custom_reason: Driven by a scheduled evaluation against the current date, not a
+    single request-time command.
+```

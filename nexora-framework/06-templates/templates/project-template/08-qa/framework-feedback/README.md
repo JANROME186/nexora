@@ -9,7 +9,7 @@ validation gaps or automation opportunities.
 Project-local index:
 
 ```text
-framework-feedback-index.yaml
+framework-feedback-index.md
 ```
 
 Framework feedback is not project technical debt. Project technical debt remains under:

@@ -15,13 +15,13 @@ After that, every prompt references only the project folder. The agent must read
 The machine-readable version of this playbook is:
 
 ```text
-nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
+nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
 ```
 
 Auxiliary development prompts are available at:
 
 ```text
-nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
+nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
 ```
 
 Auxiliary prompts help with module kickoff, backlog slices, backend, web, mobile, QA and closeout. They do not replace the generic lifecycle prompts.
@@ -29,25 +29,25 @@ Auxiliary prompts help with module kickoff, backlog slices, backend, web, mobile
 Business requirement version and impact prompts are available at:
 
 ```text
-nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
+nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
 ```
 
 Security quality gate prompts are available at:
 
 ```text
-nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
+nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
 ```
 
 Framework feedback prompts are available at:
 
 ```text
-nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml
+nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
 ```
 
 Integrated local solution runbook prompts are available at:
 
 ```text
-nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml
+nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
 ```
 
 ## Rules
@@ -82,22 +82,22 @@ projects/<project-slug>/BUSINESS_REQUIREMENT.md
 
 Load and follow:
 - AGENT_BOOTSTRAP.md
-- SOURCE_OF_TRUTH.yaml
-- PROJECT_STATE.yaml
+- SOURCE_OF_TRUTH.md
+- PROJECT_STATE.md
 - NEXORA_FRAMEWORK_USAGE_GUIDE.md
 - nexora-framework/README.md
-- nexora-framework/02-standards/standards/project-folder-standard.yaml
-- nexora-framework/02-standards/standards/documentation-standard.yaml
-- nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
-- nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
-- nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
-- nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
-- nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
-- nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
-- nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
-- nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
-- nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml
-- nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml
+- nexora-framework/02-standards/standards/project-folder-standard.md
+- nexora-framework/02-standards/standards/documentation-standard.md
+- nexora-framework/02-standards/standards/agent-agnostic-standard.md
+- nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+- nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+- nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
+- nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
+- nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
+- nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
+- nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+- nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+- nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
 
 Rules:
 - Do not generate or replace BUSINESS_REQUIREMENT.md.
@@ -117,13 +117,13 @@ Analyze the business requirement and complete the target project folder with all
 
 Required project-level outputs:
 - PROJECT_BRIEF.md
-- PROJECT_BRIEF.yaml
-- SOURCE_OF_TRUTH.yaml
-- PROJECT_STATE.yaml
+- PROJECT_BRIEF.md
+- SOURCE_OF_TRUTH.md
+- PROJECT_STATE.md
 - README.md
 - ORDERED_DEVELOPMENT_GUIDE.md
-- ORDERED_DEVELOPMENT_GUIDE.yaml
-- BUSINESS_REQUIREMENT.yaml derived from the latest BUSINESS_REQUIREMENT.md
+- ORDERED_DEVELOPMENT_GUIDE.md
+- BUSINESS_REQUIREMENT.md derived from the latest BUSINESS_REQUIREMENT.md
 - Business requirement impact assessment when the source requirement changed
 
 Required definition outputs:
@@ -143,31 +143,31 @@ Required definition outputs:
 - Integrated local solution runbook.
 
 Required first module package:
-- module-definition.yaml
+- module-definition.md
 - domain-model.md
-- domain-model.yaml
-- api-contract.openapi.yaml
+- domain-model.md
+- api-contract.openapi.md
 - database-migration-plan.md
-- database-migration-plan.yaml
+- database-migration-plan.md
 - ui-screen-map.md
-- ui-screen-map.yaml
+- ui-screen-map.md
 - security-and-audit-rules.md
-- security-and-audit-rules.yaml
+- security-and-audit-rules.md
 - test-plan.md
-- test-plan.yaml
-- traceability.yaml
+- test-plan.md
+- traceability.md
 
 Readiness requirement:
-PROJECT_STATE.yaml must show:
+PROJECT_STATE.md must show:
 development_readiness.status: ready
 development_readiness.blocking_definition_gaps: []
 development_readiness.ready_to_start_module: <first-module-id>
 
 Before finishing:
 - Validate all YAML files parse correctly.
-- Validate BUSINESS_REQUIREMENT.yaml is derived from the latest resolved business requirement.
+- Validate BUSINESS_REQUIREMENT.md is derived from the latest resolved business requirement.
 - Validate business requirement impact assessment exists when the business source changed.
-- Validate SOURCE_OF_TRUTH.yaml lists the authoritative project artifacts.
+- Validate SOURCE_OF_TRUTH.md lists the authoritative project artifacts.
 - Validate the first module package has all required files.
 - Validate the integrated local solution runbook exists.
 - Validate no agent-specific or provider-specific dependency was introduced.
@@ -190,33 +190,33 @@ projects/<project-slug>/
 
 Load and follow:
 - AGENT_BOOTSTRAP.md
-- SOURCE_OF_TRUTH.yaml
-- PROJECT_STATE.yaml
+- SOURCE_OF_TRUTH.md
+- PROJECT_STATE.md
 - NEXORA_FRAMEWORK_USAGE_GUIDE.md
-- nexora-framework/02-standards/standards/project-folder-standard.yaml
-- nexora-framework/02-standards/standards/documentation-standard.yaml
-- nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
-- nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
-- nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
-- nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
-- nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
-- nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
-- nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
-- nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml
-- nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml
-- projects/<project-slug>/SOURCE_OF_TRUTH.yaml
-- projects/<project-slug>/PROJECT_STATE.yaml
+- nexora-framework/02-standards/standards/project-folder-standard.md
+- nexora-framework/02-standards/standards/documentation-standard.md
+- nexora-framework/02-standards/standards/agent-agnostic-standard.md
+- nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+- nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+- nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
+- nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
+- nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
+- nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+- nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+- nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
+- projects/<project-slug>/SOURCE_OF_TRUTH.md
+- projects/<project-slug>/PROJECT_STATE.md
 
 Validate:
 - BUSINESS_REQUIREMENT.md exists and is requester-supplied source material.
 - The latest BUSINESS_REQUIREMENT version was resolved according to the framework standard.
-- BUSINESS_REQUIREMENT.yaml reflects the latest resolved BUSINESS_REQUIREMENT.md.
+- BUSINESS_REQUIREMENT.md reflects the latest resolved BUSINESS_REQUIREMENT.md.
 - A business requirement impact assessment exists if the requirement changed since the last analyzed version.
 - BUSINESS_REQUIREMENT.md was not replaced by generated content.
-- PROJECT_BRIEF.md and PROJECT_BRIEF.yaml exist.
-- SOURCE_OF_TRUTH.yaml lists all authoritative artifacts.
-- PROJECT_STATE.yaml has no blocking definition gaps.
-- ORDERED_DEVELOPMENT_GUIDE.md and ORDERED_DEVELOPMENT_GUIDE.yaml exist.
+- PROJECT_BRIEF.md and PROJECT_BRIEF.md exist.
+- SOURCE_OF_TRUTH.md lists all authoritative artifacts.
+- PROJECT_STATE.md has no blocking definition gaps.
+- ORDERED_DEVELOPMENT_GUIDE.md and ORDERED_DEVELOPMENT_GUIDE.md exist.
 - Project root follows the numbered folder standard.
 - Agent-executable artifacts have YAML machine-readable versions.
 - Human-facing artifacts have Markdown companions when applicable.
@@ -231,13 +231,13 @@ Validate:
 - All YAML files in the repository parse successfully.
 
 If the project passes:
-- Update PROJECT_STATE.yaml only if needed to reflect validated readiness.
+- Update PROJECT_STATE.md only if needed to reflect validated readiness.
 - Commit the validation milestone if files changed.
 - Report readiness as approved.
 
 If the project fails:
 - Do not mark it ready.
-- Update PROJECT_STATE.yaml with concrete blocking_definition_gaps.
+- Update PROJECT_STATE.md with concrete blocking_definition_gaps.
 - Report each blocker with file path and expected correction.
 - Capture framework feedback if validation exposed reusable framework gaps, ambiguity, missing templates or automation opportunities.
 
@@ -257,40 +257,40 @@ projects/<project-slug>/
 
 Load and follow:
 - AGENT_BOOTSTRAP.md
-- SOURCE_OF_TRUTH.yaml
-- PROJECT_STATE.yaml
+- SOURCE_OF_TRUTH.md
+- PROJECT_STATE.md
 - NEXORA_FRAMEWORK_USAGE_GUIDE.md
-- nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
-- nexora-framework/02-standards/standards/documentation-standard.yaml
-- nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
-- nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
-- nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
-- nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
-- nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
-- nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
-- nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml
-- nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml
-- projects/<project-slug>/SOURCE_OF_TRUTH.yaml
-- projects/<project-slug>/PROJECT_STATE.yaml
-- projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.yaml
+- nexora-framework/02-standards/standards/agent-agnostic-standard.md
+- nexora-framework/02-standards/standards/documentation-standard.md
+- nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+- nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+- nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
+- nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
+- nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+- nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
+- nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+- nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
+- projects/<project-slug>/SOURCE_OF_TRUTH.md
+- projects/<project-slug>/PROJECT_STATE.md
+- projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.md
 
 Determine the first module from:
-projects/<project-slug>/PROJECT_STATE.yaml
+projects/<project-slug>/PROJECT_STATE.md
 
 Then load the module package path from:
-projects/<project-slug>/SOURCE_OF_TRUTH.yaml
+projects/<project-slug>/SOURCE_OF_TRUTH.md
 
 If the target project has a project-specific backlog execution playbook, load it after the module package and use it to identify the first pending backlog item.
 
 Required module package files:
-- module-definition.yaml
-- domain-model.yaml
-- api-contract.openapi.yaml
-- database-migration-plan.yaml
-- ui-screen-map.yaml
-- security-and-audit-rules.yaml
-- test-plan.yaml
-- traceability.yaml
+- module-definition.md
+- domain-model.md
+- api-contract.openapi.md
+- database-migration-plan.md
+- ui-screen-map.md
+- security-and-audit-rules.md
+- test-plan.md
+- traceability.md
 
 Rules:
 - Do not redesign the product.
@@ -298,33 +298,33 @@ Rules:
 - Resolve the latest business requirement version before implementation.
 - Stop if a newer business requirement version exists and its impact assessment is missing or unresolved.
 - Do not implement outside the selected module unless the module definition requires it.
-- Place code under projects/<project-slug>/07-implementation/ unless SOURCE_OF_TRUTH.yaml defines another implementation boundary.
+- Place code under projects/<project-slug>/07-implementation/ unless SOURCE_OF_TRUTH.md defines another implementation boundary.
 - Implement one backlog item or module slice at a time.
 - Keep backend, web, mobile, infrastructure and tests aligned with the module package.
 - Preserve bounded contexts, business rules, security rules, audit rules and contracts.
 - Prefer open source frameworks and tooling; do not introduce a mandatory proprietary dependency without an exception ADR.
 - For any code-changing slice, address at least one open technical-debt item before feature work, then run applicable executable security quality gates and write evidence under 08-qa/security-quality/<backlog-item-id>/. Include best practices, standards, duplicate code, complexity, OWASP/secure code, all-severity vulnerability scans and message externalization/i18n. Document not-applicable gates with a reason. Do not close work with mandatory gates marked not executed or limited.
 - Do not claim done, finished, closed or ready for the next backlog until the verifiable backlog closure checklist has passed.
-- Update or explicitly confirm `09-operations/runbooks/local-solution-runbook.yaml` and `.md` when runtime, startup or validation behavior changes.
+- Update or explicitly confirm `09-operations/runbooks/local-solution-runbook.md` and `.md` when runtime, startup or validation behavior changes.
 - Update tests and traceability when implementation changes behavior.
-- Update PROJECT_STATE.yaml after verified progress.
+- Update PROJECT_STATE.md after verified progress.
 - Stop and record a blocking gap if definitions are missing or contradictory.
-- Auxiliary prompts may help implement a selected slice, but they must not override this prompt, SOURCE_OF_TRUTH.yaml, PROJECT_STATE.yaml or the module package.
+- Auxiliary prompts may help implement a selected slice, but they must not override this prompt, SOURCE_OF_TRUTH.md, PROJECT_STATE.md or the module package.
 
 Required development flow:
-1. Confirm PROJECT_STATE.yaml shows development_readiness.status: ready.
+1. Confirm PROJECT_STATE.md shows development_readiness.status: ready.
 2. Resolve latest BUSINESS_REQUIREMENT version.
 3. Confirm no unresolved business requirement impact assessment blocks implementation.
 4. Confirm blocking_definition_gaps is empty.
 5. Confirm the selected module package is complete.
 6. Create or update implementation assets under 07-implementation/.
-7. Review 08-qa/technical-debt/technical-debt-index.yaml and resolve or materially reduce at least one open technical-debt item before feature work, unless no open debt exists.
+7. Review 08-qa/technical-debt/technical-debt-index.md and resolve or materially reduce at least one open technical-debt item before feature work, unless no open debt exists.
 8. Implement the first pending backlog item or module slice.
 9. Externalize new or changed user-visible text, validation copy, error prose, status labels, error codes and repeated magic values through stack-appropriate message catalogs, constants, configuration or policy providers.
-10. Add or update tests according to test-plan.yaml.
+10. Add or update tests according to test-plan.md.
 11. Validate locally using the project runbook and stack baseline.
 12. Run applicable security quality gates, including best practices, standards, duplicated code, complexity, OWASP/secure-code checks, dependency vulnerabilities across all severities, secrets, coverage, message externalization/i18n and DAST where applicable. If a mandatory gate cannot run because the environment lacks Maven, Java, Node, npm, native packages, Docker, database services or network access, attempt remediation or request approval. If still unavailable, mark the backlog `blocked_by_environment` or `ready_for_external_validation`, keep `next_backlog_item` unchanged and stop.
-13. Update PROJECT_STATE.yaml, traceability, security quality evidence, implementation README files and the integrated local solution runbook.
+13. Update PROJECT_STATE.md, traceability, security quality evidence, implementation README files and the integrated local solution runbook.
 14. Capture framework feedback if execution exposed reusable framework gaps, ambiguity, missing templates or automation opportunities.
 15. Run the verifiable backlog closure audit: parse project YAML, sweep stale backlog pointers, sweep evidence for limited/unexecuted/blocked gate states, run `git diff --check`, confirm evidence numbers match command output, confirm coverage did not regress, and confirm project state, source of truth, prompts, indexes, runbooks and traceability agree.
 16. Commit the implementation milestone when the closure audit passes and commits are allowed.
@@ -381,5 +381,696 @@ Validate projects/<project-slug>/ against the Nexora framework and report whethe
 Development:
 
 ```text
-Develop the MVP for projects/<project-slug>/ using its PROJECT_STATE.yaml, SOURCE_OF_TRUTH.yaml and ordered module package.
+Develop the MVP for projects/<project-slug>/ using its PROJECT_STATE.md, SOURCE_OF_TRUTH.md and ordered module package.
+```
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: NXF-PROMPTS-001
+  type: generic-project-lifecycle-prompts
+  name: Nexora Generic Project Lifecycle Prompts
+  version: 1.0.0
+  status: approved
+  human_readable: generic-project-lifecycle-prompts.md
+  machine_readable: generic-project-lifecycle-prompts.md
+  owner: Nexora Engineering
+purpose: Provide reusable, agent-agnostic prompts for analysis, validation and MVP
+  development of any project under projects/.
+prompt_hierarchy:
+  role: This file defines the primary generic prompts for the project lifecycle.
+  primary_prompts:
+  - PROMPT-BR-RESOLVE-001
+  - PROMPT-BR-IMPACT-001
+  - PROMPT-ANALYZE-001
+  - PROMPT-VALIDATE-001
+  - PROMPT-DEVELOP-001
+  auxiliary_prompt_playbooks:
+  - nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
+  - nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+  - nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
+  - nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+  - nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
+  - target_project/06-delivery/mvp/*backlog*execution*.yaml
+  precedence_rule: Auxiliary prompts may refine execution but must not contradict
+    this file, the project source of truth or the target module package.
+usage_model:
+  required_user_input:
+  - target_project_folder
+  target_project_folder_format: projects/<project-slug>/
+  required_project_input:
+  - BUSINESS_REQUIREMENT.md
+  input_rule: BUSINESS_REQUIREMENT.md must be supplied by the requester before analysis
+    starts, and the latest version must be resolved before derived artifacts are used.
+  execution_rule: The agent must reference only the target project folder and repository
+    framework files, not previous chat context.
+  output_rule: Agent-executable outputs must include YAML machine-readable files and
+    Markdown human-readable companions when applicable.
+shared_rules:
+- Do not generate or replace BUSINESS_REQUIREMENT.md.
+- Stop if the target project folder does not contain BUSINESS_REQUIREMENT.md.
+- Resolve the latest BUSINESS_REQUIREMENT version before analysis, validation, planning
+  or development.
+- If BUSINESS_REQUIREMENT.md changed since the last analyzed version, generate an
+  impact assessment before modifying derived artifacts or implementation.
+- Load the Nexora framework before modifying the project.
+- Keep all project-specific artifacts inside the target project folder.
+- Do not create unnumbered project-root folders outside the project folder standard.
+- Prefer YAML files for agent execution and Markdown files for human readability.
+- Preserve agent-agnostic, provider-agnostic and cloud-agnostic definitions unless
+  the business requirement explicitly requires otherwise.
+- Prefer open source, self-hostable and standards-based technologies unless an approved
+  ADR documents an exception.
+- Code-changing work must resolve or materially reduce at least one open technical-debt
+  item before feature implementation, unless no open technical debt exists.
+- Code-changing work must produce security quality evidence with applicable tests,
+  best-practice and coding-standard checks, duplicate-code checks, complexity checks,
+  SAST/static analysis, OWASP or equivalent secure-code checks, dependency vulnerability
+  checks across all severities, secrets scan, coverage, message externalization/i18n
+  review and DAST when runnable surfaces exist.
+- Code-changing work must comply with the enterprise product foundation standard: es-MX/en-US
+    localization, IAM permission mapping, dynamic role/permission menus, login/session
+    context, product database deliverables, UX/UI design-system usage, stack-appropriate
+    code documentation, decoupled persistence, OpenAPI/contract-first generation review
+    and stack market review.
+- When a stack remains below 80 percent line coverage, each relevant code-changing
+  iteration must target a 3 to 5 percentage point improvement. Smaller improvements
+  require explicit justification, maximum meaningful in-scope tests and immediate
+  coverage debt assigned to the next relevant backlog.
+- Code-changing work must update or explicitly confirm the integrated local solution
+  runbook when runtime components, ports, environment variables, startup order or
+  validation commands change.
+- Execution learning that can improve the Nexora framework must be captured under
+  08-qa/framework-feedback/ and may propose central framework backlog items without
+  implementing them.
+- Commit coherent milestones when repository changes are made.
+prompts:
+  analysis_and_mvp_definition:
+    id: PROMPT-ANALYZE-001
+    name: Analyze project and generate MVP-ready definitions
+    when_to_use: Use after a requester places BUSINESS_REQUIREMENT.md inside projects/<project-slug>/.
+    prompt: 'Apply the Nexora framework to the target project folder and leave it
+      ready for MVP development.
+
+
+      Target project folder:
+
+      projects/<project-slug>/
+
+
+      Required starting input:
+
+      projects/<project-slug>/BUSINESS_REQUIREMENT.md
+
+
+      Load and follow:
+
+      - AGENT_BOOTSTRAP.md
+
+      - SOURCE_OF_TRUTH.md
+
+      - PROJECT_STATE.md
+
+      - NEXORA_FRAMEWORK_USAGE_GUIDE.md
+
+      - nexora-framework/README.md
+
+      - nexora-framework/02-standards/standards/project-folder-standard.md
+
+      - nexora-framework/02-standards/standards/documentation-standard.md
+
+      - nexora-framework/02-standards/standards/agent-agnostic-standard.md
+
+      - nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+
+      - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+
+      - nexora-framework/02-standards/standards/enterprise-product-foundation-standard.md
+
+      - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
+
+      - nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
+
+      - nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
+
+      - nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
+
+      - nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+
+      - nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
+
+      - nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+
+
+      Rules:
+
+      - Do not generate or replace BUSINESS_REQUIREMENT.md.
+
+      - If BUSINESS_REQUIREMENT.md is missing, stop and report that the requester
+      must provide it.
+
+      - Resolve the latest business requirement version before generating or updating
+      derived artifacts.
+
+      - If the latest requirement changed, create a business requirement impact assessment
+      first.
+
+      - Do not implement application code.
+
+      - Do not depend on previous chat context.
+
+      - Keep all project-specific artifacts inside projects/<project-slug>/.
+
+      - Generate Markdown for human readability and YAML for agent execution.
+
+      - Prefer YAML as the machine-readable source for agent handoff.
+
+      - Preserve agent-agnostic, provider-agnostic and cloud-agnostic definitions
+      unless BUSINESS_REQUIREMENT.md explicitly requires otherwise.
+
+      - Prefer open source technology choices and document any proprietary exception
+      by ADR.
+
+
+      Required result:
+
+      Analyze the business requirement and complete the target project folder with
+      all definitions required for MVP development.
+
+
+      Required project-level outputs:
+
+      - PROJECT_BRIEF.md
+
+      - PROJECT_BRIEF.md
+
+      - SOURCE_OF_TRUTH.md
+
+      - PROJECT_STATE.md
+
+      - README.md
+
+      - ORDERED_DEVELOPMENT_GUIDE.md
+
+      - ORDERED_DEVELOPMENT_GUIDE.md
+
+      - BUSINESS_REQUIREMENT.md derived from the latest BUSINESS_REQUIREMENT.md
+
+      - Business requirement impact assessment when the source requirement changed
+
+
+      Required definition outputs:
+
+      - Product definition.
+
+      - Business capability map.
+
+      - Capability dependency map.
+
+      - Domain foundation.
+
+      - Actor catalog.
+
+      - Reference processes.
+
+      - Business rules catalog.
+
+      - Architecture baseline.
+
+      - Integrated local solution runbook.
+
+      - Requirements and UX definitions.
+
+      - API, event and adapter contracts.
+
+      - MVP framework.
+
+      - Ordered MVP modules.
+
+      - First implementation-ready module package.
+
+
+      Required first module package:
+
+      - module-definition.md
+
+      - domain-model.md
+
+      - domain-model.md
+
+      - api-contract.openapi.md
+
+      - database-migration-plan.md
+
+      - database-migration-plan.md
+
+      - ui-screen-map.md
+
+      - ui-screen-map.md
+
+      - security-and-audit-rules.md
+
+      - security-and-audit-rules.md
+
+      - test-plan.md
+
+      - test-plan.md
+
+      - traceability.md
+
+
+      Readiness requirement:
+
+      PROJECT_STATE.md must show:
+
+      development_readiness.status: ready
+
+      development_readiness.blocking_definition_gaps: []
+
+      development_readiness.ready_to_start_module: <first-module-id>
+
+
+      Before finishing:
+
+      - Validate all YAML files parse correctly.
+
+      - Validate BUSINESS_REQUIREMENT.md is derived from the latest resolved business
+      requirement.
+
+      - Validate business requirement impact assessment exists when the business source
+      changed.
+
+      - Validate SOURCE_OF_TRUTH.md lists the authoritative project artifacts.
+
+      - Validate the first module package has all required files.
+
+      - Validate the integrated local solution runbook exists.
+
+      - Validate no agent-specific or provider-specific dependency was introduced.
+
+      - Commit the completed definition milestone.
+
+      - Capture framework feedback if the analysis exposed reusable framework gaps,
+      ambiguity, missing templates or automation opportunities.
+
+
+      Final response:
+
+      Report the project slug, first MVP module, module package path, readiness status,
+      validations executed and commit hash.
+
+      '
+  framework_compliance_validation:
+    id: PROMPT-VALIDATE-001
+    name: Validate project compliance with the Nexora framework
+    when_to_use: Use after the analysis prompt completes or before starting development.
+    prompt: 'Validate that the target project complies with the Nexora framework and
+      is ready for MVP development.
+
+
+      Target project folder:
+
+      projects/<project-slug>/
+
+
+      Load and follow:
+
+      - AGENT_BOOTSTRAP.md
+
+      - SOURCE_OF_TRUTH.md
+
+      - PROJECT_STATE.md
+
+      - NEXORA_FRAMEWORK_USAGE_GUIDE.md
+
+      - nexora-framework/02-standards/standards/project-folder-standard.md
+
+      - nexora-framework/02-standards/standards/documentation-standard.md
+
+      - nexora-framework/02-standards/standards/agent-agnostic-standard.md
+
+      - nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+
+      - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+
+      - nexora-framework/02-standards/standards/enterprise-product-foundation-standard.md
+
+      - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
+
+      - nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
+
+      - nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
+
+      - nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+
+      - nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
+
+      - nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+
+      - projects/<project-slug>/SOURCE_OF_TRUTH.md
+
+      - projects/<project-slug>/PROJECT_STATE.md
+
+
+      Validate:
+
+      - BUSINESS_REQUIREMENT.md exists and is requester-supplied source material.
+
+      - The latest BUSINESS_REQUIREMENT version was resolved according to the framework
+      standard.
+
+      - BUSINESS_REQUIREMENT.md reflects the latest resolved BUSINESS_REQUIREMENT.md.
+
+      - A business requirement impact assessment exists if the requirement changed
+      since the last analyzed version.
+
+      - BUSINESS_REQUIREMENT.md was not replaced by generated content.
+
+      - PROJECT_BRIEF.md and PROJECT_BRIEF.md exist.
+
+      - SOURCE_OF_TRUTH.md lists all authoritative artifacts.
+
+      - PROJECT_STATE.md has no blocking definition gaps.
+
+      - ORDERED_DEVELOPMENT_GUIDE.md and ORDERED_DEVELOPMENT_GUIDE.md exist.
+
+      - Project root follows the numbered folder standard.
+
+      - Agent-executable artifacts have YAML machine-readable versions.
+
+      - Human-facing artifacts have Markdown companions when applicable.
+
+      - Product, domain, architecture, requirements, contracts, delivery, QA and operations
+      definitions exist.
+
+      - The MVP framework identifies ordered modules.
+
+      - The first module package exists and contains all required Markdown/YAML/contract/traceability
+      files.
+
+      - Traceability connects business requirement, capabilities, actors, rules, contracts,
+      UI/workflows and tests.
+
+      - No mandatory agent, provider, model, cloud or platform dependency was introduced
+      unless explicitly required by BUSINESS_REQUIREMENT.md.
+
+      - Open-source-first technology selection is documented or proprietary exceptions
+      have ADRs.
+
+      - Security quality gate expectations exist for code-changing backlog items.
+
+      - Enterprise product foundation expectations exist for localization, IAM permissions,
+      dynamic menus, login/session, database product deliverables, UX/UI, code documentation,
+      persistence and contract-first APIs.
+
+      - Integrated local solution runbook exists and gives human reviewers one startup
+      and validation path.
+
+      - All YAML files in the repository parse successfully.
+
+
+      If the project passes:
+
+      - Update PROJECT_STATE.md only if needed to reflect validated readiness.
+
+      - Commit the validation milestone if files changed.
+
+      - Report readiness as approved.
+
+
+      If the project fails:
+
+      - Do not mark it ready.
+
+      - Update PROJECT_STATE.md with concrete blocking_definition_gaps.
+
+      - Report each blocker with file path and expected correction.
+
+      - Capture framework feedback if validation exposed reusable framework gaps,
+      ambiguity, missing templates or automation opportunities.
+
+
+      Final response:
+
+      Provide a concise compliance report with pass/fail status, blockers, validations
+      executed and commit hash if a commit was made.
+
+      '
+  mvp_development:
+    id: PROMPT-DEVELOP-001
+    name: Develop MVP from the prepared project folder
+    when_to_use: Use only after validation confirms the target project is ready for
+      MVP development.
+    prompt: 'Implement the MVP for the target project using only the definitions inside
+      the project folder and the Nexora framework.
+
+
+      Target project folder:
+
+      projects/<project-slug>/
+
+
+      Load and follow:
+
+      - AGENT_BOOTSTRAP.md
+
+      - SOURCE_OF_TRUTH.md
+
+      - PROJECT_STATE.md
+
+      - NEXORA_FRAMEWORK_USAGE_GUIDE.md
+
+      - nexora-framework/02-standards/standards/agent-agnostic-standard.md
+
+      - nexora-framework/02-standards/standards/documentation-standard.md
+
+      - nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+
+      - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+
+      - nexora-framework/02-standards/standards/enterprise-product-foundation-standard.md
+
+      - nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
+
+      - nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
+
+      - nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+
+      - nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
+
+      - nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
+
+      - nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+
+      - projects/<project-slug>/SOURCE_OF_TRUTH.md
+
+      - projects/<project-slug>/PROJECT_STATE.md
+
+      - projects/<project-slug>/ORDERED_DEVELOPMENT_GUIDE.md
+
+
+      Determine the first module from:
+
+      projects/<project-slug>/PROJECT_STATE.md
+
+
+      Then load the module package path from:
+
+      projects/<project-slug>/SOURCE_OF_TRUTH.md
+
+
+      If the target project has a project-specific backlog execution playbook, load
+      it after the module package and use it to identify the first pending backlog
+      item.
+
+
+      Required module package files:
+
+      - module-definition.md
+
+      - domain-model.md
+
+      - api-contract.openapi.md
+
+      - database-migration-plan.md
+
+      - ui-screen-map.md
+
+      - security-and-audit-rules.md
+
+      - test-plan.md
+
+      - traceability.md
+
+
+      Rules:
+
+      - Do not redesign the product.
+
+      - Do not modify BUSINESS_REQUIREMENT.md.
+
+      - Resolve the latest business requirement version before implementation.
+
+      - Stop if a newer business requirement version exists and its impact assessment
+      is missing or unresolved.
+
+      - Do not implement outside the selected module unless the module definition
+      requires it.
+
+      - Place code under projects/<project-slug>/07-implementation/ unless SOURCE_OF_TRUTH.md
+      defines another implementation boundary.
+
+      - Implement one backlog item or module slice at a time.
+
+      - Keep backend, web, mobile, infrastructure and tests aligned with the module
+      package.
+
+      - Preserve bounded contexts, business rules, security rules, audit rules and
+      contracts.
+
+      - Prefer open source frameworks and tooling; do not introduce a mandatory proprietary
+      dependency without an exception ADR.
+
+      - For any code-changing slice, run applicable executable security quality gates
+      and write evidence under 08-qa/security-quality/<backlog-item-id>/. Document
+      not-applicable gates with a reason. Do not close work with mandatory gates marked
+      not_executed or limited.
+
+      - For any code-changing slice, enforce enterprise foundations: no new hard-coded
+      user-visible text; every feature, action, menu item and API operation is tied
+      to permissions; menus and actions are dynamic by authenticated role and permission;
+      login/session context is used instead of static users; database changes update
+      dictionary, normalization and seed deliverables; UI follows design-system artifacts;
+      public/shared contracts are documented; persistence remains decoupled; and API
+      work is OpenAPI/contract-first where applicable.
+
+      - Do not claim done, finished, closed or ready for the next backlog until the
+      verifiable backlog closure checklist has passed.
+
+      - Update or explicitly confirm 09-operations/runbooks/local-solution-runbook.md
+      and .md when runtime, startup or validation behavior changes.
+
+      - Update tests and traceability when implementation changes behavior.
+
+      - Update PROJECT_STATE.md after verified progress.
+
+      - Stop and record a blocking gap if definitions are missing or contradictory.
+
+      - Auxiliary prompts may help implement a selected slice, but they must not override
+      this prompt, SOURCE_OF_TRUTH.md, PROJECT_STATE.md or the module package.
+
+
+      Required development flow:
+
+      1. Confirm PROJECT_STATE.md shows development_readiness.status: ready.
+
+      2. Resolve latest BUSINESS_REQUIREMENT version.
+
+      3. Confirm no unresolved business requirement impact assessment blocks implementation.
+
+      4. Confirm blocking_definition_gaps is empty.
+
+      5. Confirm the selected module package is complete.
+
+      6. Create or update implementation assets under 07-implementation/.
+
+      7. Review 08-qa/technical-debt/technical-debt-index.md and resolve or materially
+      reduce at least one open technical-debt item before feature work, unless no
+      open debt exists.
+
+      8. Implement the first pending backlog item or module slice.
+
+      9. Externalize new or changed user-visible text, validation copy, error prose,
+      status labels, error codes and repeated magic values through stack-appropriate
+      message catalogs, constants, configuration or policy providers.
+
+      10. Map every new or changed feature, screen, menu item, API operation and sensitive
+      action to IAM permissions and enforce dynamic authorization in backend and client
+      navigation/action surfaces.
+
+      11. Use authenticated session context; do not hard-code a production user, role,
+      tenant or actor.
+
+      12. Add or update database product deliverables, UX/UI design-system artifacts,
+      code documentation, persistence architecture decisions and OpenAPI/contract-first
+      generation evidence when the slice touches those concerns.
+
+      13. Add or update tests according to test-plan.md.
+
+      14. Validate locally using the project runbook and stack baseline.
+
+      15. Run applicable security quality gates, including best practices, standards,
+      duplicated code, complexity, OWASP/secure-code checks, dependency vulnerabilities
+      across all severities, secrets, coverage, message externalization/i18n and DAST
+      where applicable. If a mandatory gate cannot run because the environment lacks
+      Maven, Java, Node, npm, native packages, Docker, database services or network
+      access, attempt remediation or request approval. If still unavailable, mark
+      the backlog blocked_by_environment or ready_for_external_validation, keep next_backlog_item
+      unchanged and stop.
+
+      16. If a changed stack is below 80 percent line coverage, target a 3 to 5 percentage
+      point improvement; document and justify any smaller improvement with immediate
+      coverage debt.
+
+      17. Update PROJECT_STATE.md, traceability, security quality evidence, implementation
+      README files and the integrated local solution runbook.
+
+      18. Capture framework feedback if execution exposed reusable framework gaps,
+      ambiguity, missing templates or automation opportunities.
+
+      19. Run the verifiable backlog closure audit before changing status to closed:
+      parse all project YAML outside dependency/build folders; sweep active/current/next
+      backlog pointers for stale ids; sweep evidence and registries for not_executed,
+      failed, passed_with_execution_limitation, closed_with_execution_limitation and
+      blocked mandatory-gate states; run git diff --check; confirm evidence numbers
+      match command output; confirm coverage did not decrease below the previous baseline;
+      and confirm PROJECT_STATE.md, SOURCE_OF_TRUTH.md, prompt files, indexes,
+      runbooks and traceability agree on the next backlog item.
+
+      20. Commit the implementation milestone when the closure audit passes and commits
+      are allowed.
+
+      21. Confirm git status --short is clean after commit.
+
+
+      Final response:
+
+      Report implemented slice, files changed, validation commands executed, closure-audit
+      result, remaining backlog, known gaps, commit hash and post-commit git status.
+      If any mandatory closure-audit item failed or did not run, do not say the backlog
+      is complete.
+
+      '
+minimal_user_prompts:
+  resolve_business_requirement: Resolve the latest BUSINESS_REQUIREMENT version for
+    projects/<project-slug>/ and report whether derived YAML or impact assessment
+    is required.
+  business_requirement_impact: Analyze the impact of the latest BUSINESS_REQUIREMENT
+    change for projects/<project-slug>/ and estimate impacted components, effort,
+    time and cost.
+  security_quality_gate: 'Run the open-source-first security quality gate for the
+    selected backlog item in projects/<project-slug>/ and write evidence under 08-qa/security-quality/.
+    Include debt-first execution, best practices, standards, duplicate code, complexity,
+    OWASP/secure-code, all-severity vulnerability scans, message externalization/i18n,
+    enterprise product foundation checks, IAM permission/menu/session validation,
+    database/UX/persistence/contract-first review and DAST where applicable. If a
+    changed stack is below 80 percent coverage, target a 3 to 5 point improvement
+    or justify and register immediate coverage debt. Do not close or advance the backlog
+    when mandatory executable gates are not_executed or limited by the environment.
+    Finish with the verifiable backlog closure audit: YAML parse, stale-pointer sweep,
+    evidence-state sweep, git diff --check, commit hash and clean git status.'
+  integrated_local_runbook: Update or validate the integrated local solution runbook
+    for projects/<project-slug>/ so a reviewer can start and validate the complete
+    local solution from 09-operations/runbooks/.
+  framework_feedback: Capture framework feedback for the completed execution in projects/<project-slug>/
+    and propose central framework improvement backlog items when reusable.
+  analysis: Apply the Nexora framework to projects/<project-slug>/ and generate all
+    MVP-ready definitions from BUSINESS_REQUIREMENT.md.
+  validation: Validate projects/<project-slug>/ against the Nexora framework and report
+    whether it is ready for MVP development.
+  development: Develop the MVP for projects/<project-slug>/ using its PROJECT_STATE.md,
+    SOURCE_OF_TRUTH.md and ordered module package.
 ```

@@ -2,7 +2,7 @@
 
 Contrato inicial ubicado en:
 
-`contracts/billing/openapi.yaml`
+`contracts/billing/openapi.md`
 
 ## Endpoints MVP
 

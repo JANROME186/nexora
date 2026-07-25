@@ -1,0 +1,92 @@
+---
+id: HOP-GEN-BCM-LAB-002
+format: markdown_structured_payload
+type: generation-plan
+name: Sample Collection Generation Plan
+version: 0.1.0
+status: modeled
+---
+
+# Sample Collection Generation Plan
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+artifact:
+  id: HOP-GEN-BCM-LAB-002
+  type: generation-plan
+  name: Sample Collection Generation Plan
+  version: 0.1.0
+  status: modeled
+  classification: editable_model
+  capability: BCM-LAB-002
+  compiler_strategy: model_to_platform
+generated_outputs:
+  backend:
+  - CRUD scaffolding for Sample read paths
+  - DTOs for Sample, PatientIdentitySnapshot, SampleRequirementSnapshot, SampleCollectionData,
+    SampleRejectionReason and ChainOfCustodyEvent
+  - Controllers for generatable operations (worklist, get)
+  - Repository interfaces and persistence adapters
+  - Event consumers for OrderAccepted and SampleRequirementPublished
+  - API adapters
+  frontend:
+  - Employee portal collection worklist and sample detail (SCR-COL-002-01, SCR-COL-002-03)
+  - Routes and Client SDK usage
+  contracts:
+  - Rendered OpenAPI document from openapi-source.md
+  - Typed SDK
+  - Swagger documentation
+  tests:
+  - Repetitive unit tests for RN-007 and RN-008
+  - Contract tests for authorization
+  operations:
+  - Metric and log wiring from observability-model.md
+  - Dashboard skeleton
+  - Alert definitions
+custom_implementation_points:
+- id: CUS-COL-002-01
+  description: Multi-source snapshot capture (patient identity, sample requirement)
+    at collection (RN-002).
+  maps_to_backlog: MVP-MOD-006-BE-002
+- id: CUS-COL-002-02
+  description: Order-line acceptance validation before collection (RN-001).
+  maps_to_backlog: MVP-MOD-006-BE-002
+- id: CUS-COL-002-03
+  description: Chain-of-custody atomic append on every state transition (RN-004).
+  maps_to_backlog: MVP-MOD-006-BE-002
+- id: CUS-COL-002-04
+  description: Structured rejection-at-collection reason capture and terminal-state
+    guard (RN-005).
+  maps_to_backlog: MVP-MOD-006-BE-002
+- id: CUS-COL-002-05
+  description: Cross-capability aggregate boundary enforcement so only BCM-LAB-002/003/005
+    mutate Sample (RN-006).
+  maps_to_backlog: MVP-MOD-006-BE-002
+- id: CUS-COL-002-06
+  description: Collection form UI combining snapshot display, requirement display
+    and rejection capture.
+  maps_to_backlog: MVP-MOD-006-FE-001
+do_not_write_manually:
+- CRUD scaffolding
+- DTOs
+- Controllers
+- Repositories
+- Swagger documentation
+- SDKs
+- Repetitive documentation
+- Repetitive test cases
+provenance:
+  source_models:
+  - business-model.md
+  - business-rules.md
+  - processes.md
+  - events.md
+  - openapi-source.md
+  - ui-model.md
+  - permissions.md
+  - observability-model.md
+  generation_metadata_required: true
+```
