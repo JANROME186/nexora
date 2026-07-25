@@ -68,13 +68,20 @@ Quality gates, security checks, coverage floors, stale-pointer sweeps and clean 
 
 ## Backlog Closure Validation
 
-After an execution agent claims completion, the framework must run the local closure validator:
+After an execution agent claims completion, the framework must run the local closure validator
+through the compact tool reference `tool: backlog_closure_validator`.
 
-```powershell
-python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py `
-  --root C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora `
-  --prompt projects/healthcare-operations-platform/08-qa/generated-prompts/<TASK_ID>-prompt.md
+Generated prompts must reference only:
+
+```text
+tool: backlog_closure_validator
+task_id: <TASK_ID>
+prompt_ref: projects/healthcare-operations-platform/08-qa/generated-prompts/<TASK_ID>-prompt.md
 ```
+
+The full executable invocation is owned by
+`nexora-framework/08-engineering/agents/context-orchestrator/tool-registry.md` and must not be
+repeated in every generated prompt.
 
 The validator first applies deterministic repository checks: expected evidence files, evidence
 status, project state, product backlog status, execution prompt transition, source-of-truth
@@ -235,6 +242,8 @@ local_context_processing:
       is incomplete.
 backlog_closure_validation:
   required_after_agent_claims_completion: true
+  compact_tool_reference: backlog_closure_validator
+  tool_registry: nexora-framework/08-engineering/agents/context-orchestrator/tool-registry.md
   local_validator: nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
   model_runtime: ollama
   required_model: qwen2.5-coder:0.5b
@@ -306,6 +315,6 @@ closure_rules:
   debt instead of silently ignoring it.
 - Generated prompt files must be stable across repeated executions while the canonical
   context hash is unchanged.
-- After an execution agent claims completion, run the backlog closure validator before
-  accepting the item as closed.
+- After an execution agent claims completion, run `tool: backlog_closure_validator`
+  before accepting the item as closed.
 ```

@@ -41,7 +41,18 @@ The output must remain agent agnostic. It should point to files and commands ins
 
 Every generated backlog prompt includes a mandatory post-commit closure validation rule. After an
 execution agent finishes the implementation, evidence and registry synchronization, the agent must
-commit the completed work first and then run the local validator against the generated prompt:
+commit the completed work first and then run `tool: backlog_closure_validator` from
+`tool-registry.md` against the generated prompt.
+
+Tool reference used in compact prompts:
+
+```text
+tool: backlog_closure_validator
+task_id: <TASK_ID>
+prompt_ref: projects/healthcare-operations-platform/08-qa/generated-prompts/<TASK_ID>-prompt.md
+```
+
+The tool registry owns the full invocation template:
 
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py `

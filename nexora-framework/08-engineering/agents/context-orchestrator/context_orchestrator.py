@@ -544,8 +544,7 @@ ORCHESTRATION: {orchestration_mode}
 ## 4. Criterios de Cierre
 - Gates obligatorios ejecutados; Markdown/frontmatter parseable; `git diff --check` limpio.
 - Commit: `{profile['commit_suggestion']}`.
-- Después del commit, ejecutar validación estricta de cierre:
-  `python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py --root . --task-id {task_id} --prompt {DEFAULT_PROMPT_OUTPUT_DIR}/{task_id}-prompt.md`
+- Después del commit, ejecutar `tool: backlog_closure_validator` con `task_id: {task_id}` y `prompt_ref: {DEFAULT_PROMPT_OUTPUT_DIR}/{task_id}-prompt.md`.
 - El validador debe terminar con código 0, reportar `status: closed`, `Hard findings: 0` y generar evidencia en `08-qa/backlog-validations/{task_id}-closure-validation.md`.
 - Si el validador genera `{task_id}-closure-fix-prompt.md` o reporta inconsistencias, no declarar cierre; reportar los hallazgos, corregirlos y repetir commit + validación estricta.
 - `git status --short` limpio después del commit y de la validación final.
