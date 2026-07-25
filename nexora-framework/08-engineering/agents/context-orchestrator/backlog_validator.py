@@ -12,6 +12,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import subprocess
 import urllib.error
 import urllib.request
@@ -21,6 +22,8 @@ import yaml
 
 
 PROJECT_PATH = "projects/healthcare-operations-platform"
+ACTIVE_PROMPT_DIR = f"{PROJECT_PATH}/08-qa/generated-prompts/active_prompt"
+HISTORY_PROMPT_DIR = f"{PROJECT_PATH}/08-qa/generated-prompts/history_prompt"
 DEFAULT_MODEL = "qwen2.5-coder:0.5b"
 DEFAULT_TIMEOUT_SECONDS = 300
 
@@ -105,6 +108,31 @@ def git_head(root: Path) -> str:
         check=False,
     )
     return result.stdout.strip()
+
+
+def git_commit(root: Path, message: str, paths: list[Path]) -> str | None:
+    relative_paths = [str(path.relative_to(root)).replace("\\", "/") for path in paths if path.exists()]
+    if relative_paths:
+        subprocess.run(["git", "add", "--", *relative_paths], cwd=root, text=True, check=True)
+    deleted_paths = [str(path.relative_to(root)).replace("\\", "/") for path in paths if not path.exists()]
+    if deleted_paths:
+        subprocess.run(["git", "add", "--", *deleted_paths], cwd=root, text=True, check=True)
+    if not git_status(root):
+        return None
+    subprocess.run(["git", "commit", "-m", message], cwd=root, text=True, check=True)
+    return git_head(root)
+
+
+def active_prompt_path(root: Path) -> Path:
+    active_dir = root / ACTIVE_PROMPT_DIR
+    prompts = sorted(path for path in active_dir.glob("*.md") if path.is_file())
+    if len(prompts) != 1:
+        found = ", ".join(path.name for path in prompts) if prompts else "none"
+        raise SystemExit(
+            "Expected exactly one active prompt in active_prompt/. "
+            f"Found {len(prompts)}: {found}."
+        )
+    return prompts[0]
 
 
 def ollama_models() -> list[str]:
@@ -358,17 +386,28 @@ def write_outputs(root: Path, task_id: str, context: dict, review: dict) -> tupl
     return report_md, prompt_path
 
 
+def archive_closed_prompt(root: Path, prompt_path: Path) -> Path:
+    history_dir = root / HISTORY_PROMPT_DIR
+    history_dir.mkdir(parents=True, exist_ok=True)
+    archived_path = history_dir / prompt_path.name
+    if archived_path.exists():
+        archived_path.unlink()
+    shutil.move(str(prompt_path), str(archived_path))
+    return archived_path
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate closure for a generated Nexora backlog prompt.")
     parser.add_argument("--root", default=os.getcwd(), help="Repository root path.")
     parser.add_argument("--task-id", default=None, help="Backlog task id. Inferred from prompt when omitted.")
-    parser.add_argument("--prompt", default=None, help="Generated prompt path. Defaults to active COM-MOD prompt if task id is inferred.")
+    parser.add_argument("--prompt", default=None, help="Generated prompt path. Defaults to the only prompt in active_prompt/.")
     parser.add_argument("--ollama-model", default=DEFAULT_MODEL, help="Required local Ollama model.")
     parser.add_argument("--no-require-clean-git", action="store_true", help="Diagnostic mode only: do not fail closure because the worktree is dirty.")
+    parser.add_argument("--no-auto-commit", action="store_true", help="Validate only. Do not archive the active prompt or commit closure evidence.")
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
-    prompt_path = Path(args.prompt).resolve() if args.prompt else root / PROJECT_PATH / "08-qa/generated-prompts/COM-MOD-017-BE-001-prompt.md"
+    prompt_path = Path(args.prompt).resolve() if args.prompt else active_prompt_path(root)
     prompt_text = read_text(prompt_path)
     task_id = args.task_id or parse_task_id_from_prompt(prompt_text)
     if not task_id:
@@ -380,6 +419,15 @@ def main() -> int:
     print(report_path.resolve())
     if prompt_fix_path:
         print(prompt_fix_path.resolve())
+    if not context["hard_findings"] and not args.no_auto_commit and not args.no_require_clean_git:
+        archived_prompt_path = archive_closed_prompt(root, prompt_path)
+        commit_hash = git_commit(
+            root,
+            f"test(hop): validate {task_id} closure",
+            [report_path, prompt_path, archived_prompt_path],
+        )
+        if commit_hash:
+            print(f"closure_commit={commit_hash}")
     return 0 if not context["hard_findings"] else 2
 
 

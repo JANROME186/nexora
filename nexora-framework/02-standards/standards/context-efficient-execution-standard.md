@@ -75,13 +75,12 @@ Generated prompts must reference only:
 
 ```text
 tool: backlog_closure_validator
-task_id: <TASK_ID>
-prompt_ref: projects/healthcare-operations-platform/08-qa/generated-prompts/<TASK_ID>-prompt.md
 ```
 
-The full executable invocation is owned by
+The full executable invocation and active/history prompt folder contract are owned by
 `nexora-framework/08-engineering/agents/context-orchestrator/tool-registry.md` and must not be
-repeated in every generated prompt.
+repeated in every generated prompt. The validator reads the only prompt present in `active_prompt/`
+and moves it to `history_prompt/` only when closure is valid.
 
 The validator first applies deterministic repository checks: expected evidence files, evidence
 status, project state, product backlog status, execution prompt transition, source-of-truth
@@ -244,6 +243,8 @@ backlog_closure_validation:
   required_after_agent_claims_completion: true
   compact_tool_reference: backlog_closure_validator
   tool_registry: nexora-framework/08-engineering/agents/context-orchestrator/tool-registry.md
+  active_prompt_folder: projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt
+  history_prompt_folder: projects/healthcare-operations-platform/08-qa/generated-prompts/history_prompt
   local_validator: nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
   model_runtime: ollama
   required_model: qwen2.5-coder:0.5b
@@ -267,6 +268,8 @@ backlog_closure_validation:
   - If the backlog is incomplete, generate a compact closure-fix prompt with only
     the missing work.
   - Do not advance the next backlog pointer until the validator reports closed.
+  - Read the active prompt from active_prompt without task-specific parameters.
+  - Move the prompt to history_prompt only after a successful strict validation.
   - Validation reports must be persisted under the project 08-qa/backlog-validations
     folder.
   - Closure-fix prompts must be persisted under the project 08-qa/generated-prompts

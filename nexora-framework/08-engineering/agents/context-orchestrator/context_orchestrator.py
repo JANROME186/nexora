@@ -43,9 +43,12 @@ DEFAULT_HOP_BACKLOG_FILE = (
 DEFAULT_PROJECT_PATH = "projects/healthcare-operations-platform"
 DEFAULT_HANDOFF_DIR = "projects/healthcare-operations-platform/08-qa/handoffs"
 DEFAULT_PROMPT_OUTPUT_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts"
+DEFAULT_ACTIVE_PROMPT_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt"
+DEFAULT_HISTORY_PROMPT_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts/history_prompt"
 DEFAULT_ORCHESTRATION_CACHE_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts/cache"
 DEFAULT_OLLAMA_MODEL = "qwen2.5-coder:0.5b"
 DEFAULT_OLLAMA_TIMEOUT_SECONDS = 300
+PROMPT_RENDERER_VERSION = "active-history-prompt-v1"
 
 
 def extract_structured_payload(text: str) -> str:
@@ -480,9 +483,21 @@ def ollama_plan(context: dict, model: str, allow_fallback: bool) -> tuple[dict, 
 
 
 def cache_paths(root: Path, task_id: str) -> tuple[Path, Path]:
-    prompt_path = root / DEFAULT_PROMPT_OUTPUT_DIR / f"{task_id}-prompt.md"
+    prompt_path = root / DEFAULT_ACTIVE_PROMPT_DIR / f"{task_id}-prompt.md"
     cache_path = root / DEFAULT_ORCHESTRATION_CACHE_DIR / f"{task_id}-prompt-cache.json"
     return prompt_path, cache_path
+
+
+def archive_other_active_prompts(root: Path, active_prompt_path: Path) -> None:
+    active_dir = root / DEFAULT_ACTIVE_PROMPT_DIR
+    history_dir = root / DEFAULT_HISTORY_PROMPT_DIR
+    if not active_dir.exists():
+        return
+    history_dir.mkdir(parents=True, exist_ok=True)
+    for prompt_path in active_dir.glob("*.md"):
+        if prompt_path.resolve() == active_prompt_path.resolve():
+            continue
+        shutil.move(str(prompt_path), str(history_dir / prompt_path.name))
 
 
 def read_cached_prompt(cache_path: Path, context_hash: str) -> str | None:
@@ -494,6 +509,8 @@ def read_cached_prompt(cache_path: Path, context_hash: str) -> str | None:
         return None
     if cache.get("context_hash") != context_hash:
         return None
+    if cache.get("renderer_version") != PROMPT_RENDERER_VERSION:
+        return None
     prompt = cache.get("prompt")
     return prompt if isinstance(prompt, str) else None
 
@@ -504,6 +521,7 @@ def write_cache(cache_path: Path, context_hash: str, prompt: str, mode: str) -> 
         "context_hash": context_hash,
         "prompt_hash": sha256_text(prompt),
         "orchestration_mode": mode,
+        "renderer_version": PROMPT_RENDERER_VERSION,
         "prompt": prompt,
     }
     cache_path.write_text(json.dumps(cache, ensure_ascii=True, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -544,7 +562,7 @@ ORCHESTRATION: {orchestration_mode}
 ## 4. Criterios de Cierre
 - Gates obligatorios ejecutados; Markdown/frontmatter parseable; `git diff --check` limpio.
 - Commit: `{profile['commit_suggestion']}`.
-- Después del commit, ejecutar `tool: backlog_closure_validator` con `task_id: {task_id}` y `prompt_ref: {DEFAULT_PROMPT_OUTPUT_DIR}/{task_id}-prompt.md`.
+- Después del commit, ejecutar `tool: backlog_closure_validator`; la herramienta toma el prompt desde `active_prompt/` sin parámetros.
 - El validador debe terminar con código 0, reportar `status: closed`, `Hard findings: 0` y generar evidencia en `08-qa/backlog-validations/{task_id}-closure-validation.md`.
 - Si el validador genera `{task_id}-closure-fix-prompt.md` o reporta inconsistencias, no declarar cierre; reportar los hallazgos, corregirlos y repetir commit + validación estricta.
 - `git status --short` limpio después del commit y de la validación final.
@@ -560,7 +578,7 @@ def main() -> int:
     parser.add_argument("--ollama-model", default=DEFAULT_OLLAMA_MODEL, help="Required local Ollama model.")
     parser.add_argument("--allow-deterministic-fallback", action="store_true", help="Allow Python deterministic fallback when Ollama/model is unavailable. Intended only for bootstrap diagnostics.")
     parser.add_argument("--refresh", action="store_true", help="Regenerate the prompt even when the context hash matches the cache.")
-    parser.add_argument("--output", default=None, help="Output file for the synthetic prompt. Defaults to the HOP generated-prompts folder.")
+    parser.add_argument("--output", default=None, help="Output file for the synthetic prompt. Defaults to the HOP active_prompt folder.")
     parser.add_argument("--stdout", action="store_true", help="Print the prompt content instead of only the output path.")
     parser.add_argument(
         "--paths",
@@ -620,6 +638,8 @@ def main() -> int:
         write_cache(cache_path, context_hash, final, orchestration_mode)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    if args.output is None:
+        archive_other_active_prompts(root, output_path)
     output_path.write_text(final, encoding="utf-8", newline="\n")
 
     if args.stdout:

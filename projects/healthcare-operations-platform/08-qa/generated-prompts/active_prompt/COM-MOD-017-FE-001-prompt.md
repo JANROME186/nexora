@@ -26,7 +26,7 @@ ORCHESTRATION: ollama_primary
 ## 4. Criterios de Cierre
 - Gates obligatorios ejecutados; Markdown/frontmatter parseable; `git diff --check` limpio.
 - Commit: `feat(hop): compile marketplace administration UI`.
-- Después del commit, ejecutar `tool: backlog_closure_validator` con `task_id: COM-MOD-017-FE-001` y `prompt_ref: projects/healthcare-operations-platform/08-qa/generated-prompts/COM-MOD-017-FE-001-prompt.md`.
+- Después del commit, ejecutar `tool: backlog_closure_validator`; la herramienta toma el prompt desde `active_prompt/` sin parámetros.
 - El validador debe terminar con código 0, reportar `status: closed`, `Hard findings: 0` y generar evidencia en `08-qa/backlog-validations/COM-MOD-017-FE-001-closure-validation.md`.
 - Si el validador genera `COM-MOD-017-FE-001-closure-fix-prompt.md` o reporta inconsistencias, no declarar cierre; reportar los hallazgos, corregirlos y repetir commit + validación estricta.
 - `git status --short` limpio después del commit y de la validación final.

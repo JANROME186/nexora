@@ -11,7 +11,10 @@ python nexora-framework/08-engineering/agents/context-orchestrator/context_orche
 By default, the script infers the active HOP backlog, validates the required Ollama model and writes
 a deterministic prompt file to:
 
-`projects/healthcare-operations-platform/08-qa/generated-prompts/<TASK_ID>-prompt.md`
+`projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt/<TASK_ID>-prompt.md`
+
+The `active_prompt/` folder is the execution inbox and must contain exactly one operative prompt.
+When a new prompt is generated, older active prompts are moved to `history_prompt/`.
 
 Example:
 
@@ -42,22 +45,19 @@ The output must remain agent agnostic. It should point to files and commands ins
 Every generated backlog prompt includes a mandatory post-commit closure validation rule. After an
 execution agent finishes the implementation, evidence and registry synchronization, the agent must
 commit the completed work first and then run `tool: backlog_closure_validator` from
-`tool-registry.md` against the generated prompt.
+`tool-registry.md`. The tool reads the only prompt present in `active_prompt/`; no task id or prompt
+path parameters are required in the normal flow.
 
 Tool reference used in compact prompts:
 
 ```text
 tool: backlog_closure_validator
-task_id: <TASK_ID>
-prompt_ref: projects/healthcare-operations-platform/08-qa/generated-prompts/<TASK_ID>-prompt.md
 ```
 
 The tool registry owns the full invocation template:
 
 ```powershell
-python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py `
-  --root C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora `
-  --prompt projects/healthcare-operations-platform/08-qa/generated-prompts/COM-MOD-017-BE-001-prompt.md
+python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
 ```
 
 The validator uses deterministic repository checks first and Ollama as the mandatory local
@@ -68,10 +68,11 @@ backlog is incomplete, it writes a compact correction prompt to:
 
 Closure is valid only when the strict validator exits with code `0`, the report status is `closed`,
 hard findings are `0`, the closure validation evidence exists under
-`projects/healthcare-operations-platform/08-qa/backlog-validations/`, and `git status --short` is
-clean after the validation evidence is committed when applicable. If the validator reports stale
-pointers, missing evidence, dirty worktree, or generates a closure-fix prompt, the agent must report
-the inconsistencies, correct them, commit the corrections and run the strict validator again.
+`projects/healthcare-operations-platform/08-qa/backlog-validations/`, the active prompt is moved to
+`history_prompt/`, the validation evidence is committed automatically, and `git status --short` is
+clean. If the validator reports stale pointers, missing evidence, dirty worktree, or generates a
+closure-fix prompt, the agent must report the inconsistencies, correct them, commit the corrections
+and run the strict validator again.
 
 ## Frontmatter Migration
 
