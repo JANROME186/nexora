@@ -1,6 +1,6 @@
 # COM-MOD-017-FE-001 Security and Quality Evidence
 
-**Status**: passed · **Captured on**: 2026-07-25
+**Status**: validated · **Backlog Item**: COM-MOD-017-FE-001 · **Captured on**: 2026-07-25
 
 ---
 
@@ -74,7 +74,8 @@ artifact:
   type: security-quality-evidence
   name: COM-MOD-017-FE-001 Security and Quality Evidence
   version: 1.0.0
-  status: passed
+  status: validated
+  backlog_item: COM-MOD-017-FE-001
   captured_on: 2026-07-25
 scope: 'Employee portal (07-implementation/employee-portal/) Product Marketplace and
   Entitlements administration screens (BCM-PLT-011): package catalog admin, commercial
