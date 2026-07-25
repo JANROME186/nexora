@@ -47,8 +47,8 @@ mappings:
   api_endpoints:
   - /api/marketplace/packages
   - /api/marketplace/offers
-  - /api/marketplace/tenants/{tenantId}/entitlements
-  - /api/marketplace/tenants/{tenantId}/installations
+  - /api/marketplace/entitlements/{tenantId}
+  - /api/marketplace/installations/{tenantId}
   permissions:
   - marketplace.package:publish
   - marketplace.offer:accept
@@ -109,6 +109,22 @@ ui:
     genuinely gated on real tenant entitlement runtime state loaded from TenantEntitlementController
     (mirroring the backend's TenantEntitlement.isEffectivelyActive), not a fabricated
     cross-capability relationship.
+validation:
+  backlog_item: COM-MOD-017-QA-001
+  status: closed
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-QA-001-validation.md
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-QA-001/security-quality-evidence.md
+  notes: Ran 4 traceability sweeps (openapi-source.md vs. the 6 marketplace controllers,
+    IAM permissions across PermissionCode.java/RolePermissionCatalog.java/EndpointPermissionRegistry.java/permissions.ts,
+    ui-model.md vs. the 4 employee-portal screens, es-MX/en-US i18n key parity).
+    Found and corrected 3 real doc-vs-implementation drifts -- openapi-source.md documented
+    10 operations under a /tenants/{tenantId}/... path never actually used by the
+    shipped, tested routes plus 1 undocumented getPackage endpoint; permissions.md/ui-model.md
+    documented an unimplemented 15-code fine-grained permission model while the shipped
+    system correctly uses the platform's coarse 4-code SCREEN_MARKETPLACE_* model
+    (TD-IAM-002 pattern). i18n key parity was clean. Debt-first action -- closed TD-BE-018
+    (all 5 of 5 named custom_implementation_points now closed via the TD-BE-019 chain
+    closed by COM-MOD-017-FE-001).
 backlog_items:
   definition: COM-MOD-017-DEF
   definition_status: closed
@@ -119,6 +135,6 @@ backlog_items:
   ui: COM-MOD-017-FE-001
   ui_status: closed
   validation: COM-MOD-017-QA-001
-  validation_status: pending
+  validation_status: closed
   closeout: COM-MOD-017-CLOSEOUT
 ```

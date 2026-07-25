@@ -3,7 +3,7 @@ id: HOP-API-BCM-PLT-011
 format: markdown_structured_payload
 type: openapi-source
 name: Product Marketplace and Entitlements API Source
-version: 1.0.0
+version: 1.0.1
 status: modeled
 backlog_item: COM-MOD-017-DEF
 ---
@@ -29,6 +29,9 @@ resources:
   - listPublishedPackages
   - submitPackage
   - publishPackage
+- path: /packages/{packageId}
+  operations:
+  - getPackage
 - path: /packages/{packageId}/versions/{version}
   operations:
   - getPackageVersion
@@ -39,19 +42,19 @@ resources:
   - listOffers
   - publishOffer
   - acceptOffer
-- path: /tenants/{tenantId}/entitlements
+- path: /entitlements/{tenantId}
   operations:
   - listTenantEntitlements
   - grantEntitlement
   - revokeEntitlement
-- path: /tenants/{tenantId}/installations
+- path: /installations/{tenantId}
   operations:
   - listInstallations
   - installPackage
   - activatePackage
   - suspendPackage
   - uninstallPackage
-- path: /tenants/{tenantId}/installations/{installationId}/upgrade
+- path: /installations/{tenantId}/{installationId}/upgrade
   operations:
   - upgradePackage
   - rollbackPackage

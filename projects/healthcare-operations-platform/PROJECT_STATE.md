@@ -14,9 +14,33 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-017-FE-001 closed. Active backlog item is COM-MOD-017-QA-001.
+current_phase: COM-MOD-017-QA-001 closed. Active backlog item is COM-MOD-017-CLOSEOUT.
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
+- COM-MOD-017-QA-001 Integrated marketplace validation (4 traceability sweeps run --
+  openapi-source.md vs. the 6 marketplace controllers, IAM permissions across PermissionCode.java/RolePermissionCatalog.java/EndpointPermissionRegistry.java/permissions.ts,
+  ui-model.md vs. the 4 employee-portal screens, and es-MX/en-US i18n key parity; i18n
+  was clean (109 keys, full parity), backend/frontend IAM layers were fully consistent
+  (4 SCREEN_MARKETPLACE_* codes, 6/6 controllers registered); found and fixed 3 real
+  doc-vs-implementation drifts in capability-package model documents -- openapi-source.md
+  documented 10 operations under a /tenants/{tenantId}/... path never actually used
+  by the shipped, tested routes plus 1 undocumented getPackage endpoint, corrected
+  the doc rather than changing a working tested contract; permissions.md/ui-model.md
+  documented an unimplemented 15-code fine-grained permission model while the shipped
+  system correctly uses the platform's coarse 4-code SCREEN_MARKETPLACE_* model (TD-IAM-002
+  pattern), documented the enforced reality instead of reimplementing out-of-scope
+  enforcement; completed ui-model.md's purpose/required_permissions text, which under-described
+  3 of 4 screens. Debt-first action -- closed TD-BE-018 (all 5 of 5 named custom_implementation_points
+  now closed via the TD-BE-019 chain closed by COM-MOD-017-FE-001); TD-FE-012 re-confirmed
+  still open/non-blocking (no non-breaking fix exists). Backend -- mvn -Pquality "-Dhop.local-db-tests=true"
+  clean verify passed 484 tests/0 failures/errors/skipped, coverage 84.65% (floor 84.65%,
+  no regression, no backend source changed); checkstyle/PMD/SpotBugs/CPD/duplicate-finder
+  reproduced the same pre-existing baseline with 0 new findings and 0 marketplace-attributable
+  checkstyle/SpotBugs findings; OWASP Dependency-Check 72 dependencies/0 vulnerabilities.
+  Employee portal -- npm run quality passed 224 tests/65 files/0 failures, coverage 90.68%
+  (floor 89.75%, no regression), lint 0 errors/55 warnings unchanged from FE-001; npm
+  audit --omit=dev 0 vulnerabilities (TD-FE-012 unchanged). Trivy fs (vuln/secret/misconfig,
+  all severities) 0 findings; advanced active backlog to COM-MOD-017-CLOSEOUT)
 - COM-MOD-017-FE-001 Marketplace administration and package installation UI outputs
   compiled (4 new employee-portal screens -- MarketplacePackagesScreen, MarketplaceOffersScreen,
   MarketplaceEntitlementsScreen, MarketplaceInstallationsScreen -- covering BCM-PLT-011's
@@ -658,7 +682,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-017
   in_progress_module: COM-MOD-017
-  next_backlog_item: COM-MOD-017-QA-001
+  next_backlog_item: COM-MOD-017-CLOSEOUT
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -1990,7 +2014,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   current_iteration: COM-MOD-017
   active_module: Product Marketplace and Extension Packaging
-  active_backlog_item: COM-MOD-017-QA-001
+  active_backlog_item: COM-MOD-017-CLOSEOUT
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
@@ -2002,10 +2026,10 @@ commercial_product_progress:
     COM-MOD-017:
       name: Product Marketplace and Extension Packaging
       package_status: ui_compiled
-      backlog_item: COM-MOD-017-FE-001
+      backlog_item: COM-MOD-017-QA-001
       backlog_item_status: closed
-      next_backlog_item: COM-MOD-017-QA-001
-      execution_flow_stage: ready_for_integrated_validation
+      next_backlog_item: COM-MOD-017-CLOSEOUT
+      execution_flow_stage: ready_for_closeout
       capabilities:
       - capability: BCM-PLT-011
         package_status: ui_compiled
@@ -2029,8 +2053,8 @@ commercial_product_progress:
       - platform-operations
       - integration-interoperability
       - audit-compliance
-      qa_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.md
-      security_quality_evidence: 08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.md
+      qa_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-QA-001-validation.md
+      security_quality_evidence: 08-qa/security-quality/COM-MOD-017-QA-001/security-quality-evidence.md
     COM-MOD-016:
       name: Commercial Launch and Customer Enablement
       package_status: module_closed

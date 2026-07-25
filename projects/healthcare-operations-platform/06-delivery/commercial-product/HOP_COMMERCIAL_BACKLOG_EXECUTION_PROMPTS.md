@@ -768,20 +768,19 @@ validation_commands:
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product
     backlog and execution prompts, and commit only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-017-FE-001
+    backlog_item_id: COM-MOD-017-QA-001
     status: closed
-    summary: Compiled 4 new marketplace employee-portal screens (MarketplacePackagesScreen,
-      MarketplaceOffersScreen, MarketplaceEntitlementsScreen, MarketplaceInstallationsScreen)
-      covering BCM-PLT-011's full ui-model.md employee_portal.screens scope, a typed
-      marketplaceApi.ts facade over the 4 marketplace controllers, and IAM/menu wiring
-      (permissions.ts/AppShell.tsx/App.tsx, MARKETPLACE_OPERATOR/TENANT_ADMIN roles
-      mirroring RolePermissionCatalog.java). Closed TD-BE-019 for real as the debt-first
-      action -- MarketplaceInstallationsScreen's install control is genuinely gated
-      on real tenant entitlement runtime state (mirroring the backend's TenantEntitlement.isEffectivelyActive),
-      not a fabricated relationship. npm run quality passed (224 tests, 65 test files,
-      0 failures; employee-portal line coverage 89.75% -> 90.68%). npm audit found
-      17 pre-existing high-severity devDependency-only advisories unrelated to this
-      item's diff; a non-breaking npm audit fix reduced it to 10 (production dependencies
-      0 vulnerabilities), registered as new debt TD-FE-012. Trivy fs scan reported
-      0 findings.
+    summary: Integrated marketplace validation. Ran 4 traceability sweeps (openapi-source.md
+      vs. the 6 marketplace controllers, IAM permissions across PermissionCode.java/RolePermissionCatalog.java/EndpointPermissionRegistry.java/permissions.ts,
+      ui-model.md vs. the 4 employee-portal screens, es-MX/en-US i18n key parity);
+      found and fixed 3 real doc-vs-implementation drifts (openapi-source.md path
+      mismatches plus 1 undocumented endpoint; permissions.md/ui-model.md documented
+      an unimplemented 15-code fine-grained permission model while the shipped system
+      correctly uses the platform's coarse 4-code SCREEN_MARKETPLACE_* model, TD-IAM-002
+      pattern). i18n was clean (109 keys, full parity). Debt-first action -- closed TD-BE-018
+      (all 5 of 5 named custom_implementation_points now closed via the TD-BE-019
+      chain closed by COM-MOD-017-FE-001); TD-FE-012 re-confirmed still open/non-blocking.
+      Backend -- 484 tests/0 failures/errors/skipped, 84.65% coverage (no regression),
+      72 dependencies/0 vulnerabilities. Employee portal -- 224 tests/65 files/0 failures,
+      90.68% coverage (no regression). Trivy fs 0 findings.
 ```

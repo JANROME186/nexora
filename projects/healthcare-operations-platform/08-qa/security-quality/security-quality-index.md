@@ -39,6 +39,25 @@ required_checks_when_applicable:
 - dast_for_runnable_web_or_api_surfaces
 - container_or_iac_scan_when_assets_change
 entries:
+- backlog_item: COM-MOD-017-QA-001
+  module: COM-MOD-017 Product Marketplace and Extension Packaging
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-017-QA-001/
+  human_readable: 08-qa/security-quality/COM-MOD-017-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-017-QA-001/security-quality-evidence.md
+  checks:
+    tests: passed_484_backend_tests_224_employee_portal_tests_0_failures
+    sast_or_static_analysis: passed_checkstyle_pmd_spotbugs_0_new_findings_0_marketplace_attributable
+    dependency_vulnerability_scan: passed_72_backend_dependencies_0_vulnerabilities_npm_audit_omit_dev_0_vulnerabilities
+    secrets_scan: passed
+    coverage: passed_backend_84_65_percent_employee_portal_90_68_percent_no_regression
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_new_runnable_surface_validation_only_item
+    container_or_iac_scan_when_assets_change: not_applicable_no_container_or_iac_assets_changed
+  note: 'Integrated marketplace validation. 4 traceability sweeps found and fixed
+    3 real doc-vs-implementation drifts in capability-package model documents (openapi-source.md
+    path mismatches plus 1 undocumented endpoint; permissions.md/ui-model.md documented
+    an unimplemented fine-grained permission model) -- no production source changed.
+    Closed TD-BE-018 as the debt-first action. Advanced active backlog to COM-MOD-017-CLOSEOUT.'
 - backlog_item: COM-MOD-017-BE-001
   module: COM-MOD-017 Product Marketplace and Extension Packaging
   status: passed

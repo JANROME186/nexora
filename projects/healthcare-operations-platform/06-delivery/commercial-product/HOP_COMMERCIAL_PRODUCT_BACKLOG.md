@@ -237,23 +237,22 @@ product:
     completed_module: COM-MOD-016 (COM-MOD-016-CLOSEOUT closed)
     completed_status: closed
     active_module: COM-MOD-017
-    active_backlog_item: COM-MOD-017-QA-001
-    active_module_progress: COM-MOD-017-FE-001 Compile marketplace administration
-      and package installation UI outputs is closed. 4 new marketplace employee-portal
-      screens (MarketplacePackagesScreen, MarketplaceOffersScreen, MarketplaceEntitlementsScreen,
-      MarketplaceInstallationsScreen) were compiled covering BCM-PLT-011's full ui-model.md
-      employee_portal.screens scope, with a new typed marketplaceApi.ts facade over
-      the 4 marketplace controllers and IAM/menu wiring (permissions.ts/AppShell.tsx/App.tsx,
-      MARKETPLACE_OPERATOR/TENANT_ADMIN roles mirroring RolePermissionCatalog.java).
-      TD-BE-019 was closed for real as the debt-first action -- MarketplaceInstallationsScreen's
-      install control is genuinely gated on real tenant entitlement runtime state
-      (mirroring the backend's TenantEntitlement.isEffectivelyActive), not a fabricated
-      relationship. npm run quality passed (224 tests, 65 test files, 0 failures;
-      employee-portal line coverage raised from 89.75% to 90.68%). npm audit found
-      17 pre-existing high-severity devDependency-only advisories unrelated to this
-      item's diff; a non-breaking npm audit fix reduced it to 10 (production dependencies
-      0 vulnerabilities), registered as new debt TD-FE-012. Active backlog item advanced
-      to COM-MOD-017-QA-001.
+    active_backlog_item: COM-MOD-017-CLOSEOUT
+    active_module_progress: COM-MOD-017-QA-001 Integrated marketplace validation is
+      closed. 4 traceability sweeps run (REST contract vs. controllers, IAM permissions
+      across 4 layers, ui-model.md vs. the 4 employee-portal screens, i18n key parity);
+      3 real doc-vs-implementation drifts found and corrected in capability-package
+      model documents (openapi-source.md path mismatches plus 1 undocumented endpoint;
+      permissions.md/ui-model.md documented an unimplemented 15-code fine-grained
+      permission model while the shipped system correctly uses the platform's coarse
+      4-code SCREEN_MARKETPLACE_* model, TD-IAM-002 pattern); i18n key parity was
+      clean (109 keys, full es-MX/en-US parity). Debt-first action -- closed TD-BE-018 (all
+      5 of 5 named custom_implementation_points now closed via the TD-BE-019 chain
+      closed by COM-MOD-017-FE-001); TD-FE-012 re-confirmed still open/non-blocking
+      (no non-breaking fix available). Backend -- 484 tests, 0 failures/errors/skipped,
+      84.65% coverage (no regression), 72 dependencies/0 vulnerabilities (OWASP Dependency-Check).
+      Employee portal -- 224 tests/65 files/0 failures, 90.68% coverage (no regression).
+      Trivy fs 0 findings. Active backlog item advanced to COM-MOD-017-CLOSEOUT.
     paused_backlog_item: null
     pause_reason: null
 source_inputs:
@@ -1414,7 +1413,11 @@ modules:
   - id: COM-MOD-017-QA-001
     name: Validate purchase, entitlement, installation, activation, upgrade, rollback
       and retirement evidence
-    status: active
+    status: closed
+    evidence:
+      qa: ../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-QA-001-validation.md
+      security_quality: ../../08-qa/security-quality/COM-MOD-017-QA-001/security-quality-evidence.md
+      handoff: ../../08-qa/handoffs/COM-MOD-017-QA-001-summary.md
   - id: COM-MOD-017-CLOSEOUT
     name: Marketplace readiness closeout and registry update
   acceptance_summary:

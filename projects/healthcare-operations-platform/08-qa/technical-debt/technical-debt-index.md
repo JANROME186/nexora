@@ -810,13 +810,13 @@ entries:
 - id: TD-BE-018
   title: Marketplace entitlement policy, compatibility strategy, billing adapter and
     installation rollback orchestration are basic implementations only
-  status: materially_reduced
+  status: closed
   risk_level: low
   blocking: false
   source_backlog_item: COM-MOD-017-BE-001
   affected_area: marketplace_entitlements_custom_implementation_points
   file: 08-qa/technical-debt/TD-BE-018-marketplace-entitlement-policy-and-billing-adapter-basic-only.md
-  remediation_strategy: closed_by_COM_MOD_017_BE_002_except_iam_menu_wiring_repointed_to_TD_BE_019
+  remediation_strategy: closed_by_COM_MOD_017_BE_002_plus_COM_MOD_017_FE_001_TD_BE_019_closure_confirmed_by_COM_MOD_017_QA_001
 - id: TD-BE-019
   title: Marketplace runtime feature-availability is not wired into IAM permission
     evaluation or employee-portal menu generation

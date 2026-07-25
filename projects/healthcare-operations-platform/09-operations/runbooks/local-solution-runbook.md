@@ -22,13 +22,13 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-017-BE-002`.
+Current active backlog item: `COM-MOD-017-CLOSEOUT`.
 
-Latest update: `COM-MOD-017-BE-001` is closed. Product Marketplace and Extension Packaging backend outputs are compiled: a new `marketplaceentitlements` Spring Modulith module (`packagecatalog`, `commercialoffers`, `tenantentitlements`, `packageinstallation`, `compatibilityevaluation`, `billingadapter`) hosts all 21 `BCM-PLT-011` `openapi-source.md` operations. A new `db/product-marketplace-and-entitlements/schema.sql` (6 tables) was added and registered in `application-local.properties`; no port, environment variable, Docker service or startup-order changed. Backend coverage was raised from 84.25% to a reproducible 84.53% (442 tests, 0 failures/errors/skipped, Docker Compose PostgreSQL 16 up); `TD-BE-018` was registered for the deferred custom-rule sophistication, and the next active backlog item is `COM-MOD-017-BE-002`.
+Latest update: `COM-MOD-017-QA-001` is closed. Integrated marketplace validation ran 4 traceability sweeps (`openapi-source.md` vs. the 6 marketplace controllers, IAM permissions across `PermissionCode.java`/`RolePermissionCatalog.java`/`EndpointPermissionRegistry.java`/`permissions.ts`, `ui-model.md` vs. the 4 employee-portal screens, es-MX/en-US i18n key parity) and found/fixed 3 real doc-vs-implementation drifts in capability-package model documents only (`openapi-source.md` path mismatches plus 1 undocumented `getPackage` endpoint; `permissions.md`/`ui-model.md` documented an unimplemented 15-code fine-grained permission model while the shipped system correctly uses the platform's coarse 4-code `SCREEN_MARKETPLACE_*` model, `TD-IAM-002` pattern) -- no production Java or TypeScript source changed, no port, environment variable, Docker service or startup-order changed. Debt-first: closed `TD-BE-018` (all 5 of 5 named custom_implementation_points now closed via the `TD-BE-019` chain closed by `COM-MOD-017-FE-001`); `TD-FE-012` re-confirmed still open/non-blocking. Backend regression gates re-run clean -- `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` (484 tests, 0 failures/errors/skipped, coverage unchanged at 84.65%), checkstyle/PMD/SpotBugs/duplicate-finder reproduced the same pre-existing baseline with 0 new findings, OWASP Dependency-Check (72 dependencies, 0 vulnerabilities). Employee-portal `npm run quality` re-run clean (224 tests, 65 files, 0 failures, coverage unchanged at 90.68%). Trivy fs 0 findings. Next active backlog item is `COM-MOD-017-CLOSEOUT`.
 
-Previous update: `COM-MOD-017-DEF` closed Product Marketplace and Extension Packaging modeling: `BCM-PLT-011 Product Marketplace and Entitlements` was created with standard capability artifacts plus marketplace package, manifest, offer, license, entitlement, compatibility, installation, upgrade, security review, support and telemetry models. The reused platform capabilities `BCM-PLT-001/002/005/006/007/009` now include marketplace enablement traceability. All 6 coverage floors were preserved. No runtime component, port, environment variable, database schema, Docker service, dependency or startup-order changed.
+Previous update: `COM-MOD-017-FE-001` is closed. Compiled the 4 marketplace employee-portal screens (`MarketplacePackagesScreen`, `MarketplaceOffersScreen`, `MarketplaceEntitlementsScreen`, `MarketplaceInstallationsScreen`) covering `BCM-PLT-011`'s full `ui-model.md` `employee_portal.screens` scope, a typed `marketplaceApi.ts` facade over the 4 marketplace controllers, and IAM/menu wiring (`permissions.ts`/`AppShell.tsx`/`App.tsx`, `MARKETPLACE_OPERATOR`/`TENANT_ADMIN` roles). Closed `TD-BE-019` for real -- the install control is genuinely gated on real tenant entitlement runtime state. `npm run quality` passed (224 tests, 65 files, 0 failures; employee-portal coverage 89.75% -> 90.68%); registered `TD-FE-012` (10 residual npm audit devDependency-only findings). No runtime component, port, environment variable, database schema, Docker service or startup-order changed.
 
-Earlier update: `COM-MOD-016-CLOSEOUT` is closed. Commercial Launch and Customer Enablement is formally `module_closed`: all 7 capability packages are marked `module_closed` in `capability-package-index.md` and their `traceability.md` files, `PROJECT_STATE.md` now includes `capability_package_progress.COM-MOD-016`, `TD-QA-008` remains open non-blocking as project-wide toolchain inventory debt, all 6 coverage floors were preserved, and the next active backlog item is `COM-MOD-017-DEF`. No runtime component, port, environment variable, database schema, Docker service or startup-order changed.
+Earlier update: `COM-MOD-017-BE-002` is closed. Closed 4 of `TD-BE-018`'s 5 custom_implementation_points (entitlement policy evaluator, compatibility evaluation, billing adapter retry/idempotency, installation rollback audit trail); the 5th was repointed to `TD-BE-019`. Found and fixed a real pre-existing infrastructure defect (`TD-BE-020`): `application.properties` unconditionally excluded `DataSourceAutoConfiguration` for every profile, silently breaking every local-profile JDBC adapter repo-wide. Backend coverage raised to a reproducible 84.65% (484 tests, 0 failures/errors/skipped, Docker Compose PostgreSQL 16 up).
 
 Previous update: `COM-MOD-016-QA-001` is closed. Commercial readiness validation confirmed COM-MOD-016-DEF/DOC-001/OPS-001/COM-001 (**COM-MOD-016 Commercial Launch and Customer Enablement**) are complete, consistent and traceable. Found and fixed 4 stale-pointer/registry defects (`capability-package-index.md` + 7 `traceability.md` `commercial_enablement` blocks, `PROJECT_STATE.md` `completed_backlog_items`, `SOURCE_OF_TRUTH.md` missing `sources:` keys). Registered `TD-QA-008` (open, non-blocking). No secrets, PII, vendor lock-in or forbidden execution-status markers found. Preserved all 6 stack coverage floors. Full repository sweeps (YAML parse, stale pointers, evidence state, agent-agnostic, secrets, git diff check) passed clean. Next active backlog item: `COM-MOD-016-CLOSEOUT`.
 
@@ -714,7 +714,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-017-BE-002
+  current_active_backlog_item: COM-MOD-017-CLOSEOUT
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.md
@@ -722,21 +722,20 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.md
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
   latest_runbook_update:
-    backlog_item: COM-MOD-017-BE-001
+    backlog_item: COM-MOD-017-QA-001
     status: closed
-    next_active_backlog_item: COM-MOD-017-BE-002
-    runtime_change: Added a new database schema db/product-marketplace-and-entitlements/schema.sql
-      (6 tables, marketplace_entitlements schema), registered in application-local.properties's
-      spring.sql.init.schema-locations. No port, environment variable, Docker service,
-      dependency or startup-order change.
-    validation_summary: 'Compiled BCM-PLT-011 Product Marketplace and Entitlements
-      backend outputs: a new marketplaceentitlements Spring Modulith module (packagecatalog,
-      commercialoffers, tenantentitlements, packageinstallation, compatibilityevaluation,
-      billingadapter), all 21 openapi-source.md operations functional, 4 new IAM
-      screens/2 roles, 16 i18n keys, 60 new tests. Backend coverage raised from 84.25%
-      to a reproducible 84.53% (442 tests, 0 failures/errors/skipped, Docker Compose
-      PostgreSQL 16 up). Registered TD-BE-018 for deferred custom-rule sophistication
-      and advanced active backlog to COM-MOD-017-BE-002.'
+    next_active_backlog_item: COM-MOD-017-CLOSEOUT
+    runtime_change: None. Validation-only item; 6 capability-package model documents
+      corrected to match the already-shipped, already-tested implementation. No
+      port, environment variable, Docker service, dependency or startup-order change.
+    validation_summary: 'Integrated marketplace validation: 4 traceability sweeps
+      run (openapi-source.md vs. controllers, IAM permissions across 4 layers, ui-model.md
+      vs. screens, i18n key parity); found and fixed 3 real doc-vs-implementation
+      drifts (openapi-source.md path mismatches plus 1 undocumented endpoint; permissions.md/ui-model.md
+      documented an unimplemented fine-grained permission model). Closed TD-BE-018
+      as the debt-first action. Backend 484 tests/0 failures, coverage unchanged
+      at 84.65%; employee portal 224 tests/65 files/0 failures, coverage unchanged
+      at 90.68%; Trivy fs 0 findings. Advanced active backlog to COM-MOD-017-CLOSEOUT.'
   previous_runbook_update_nxf_ctx_002:
     backlog_item: NXF-CTX-002
     status: closed

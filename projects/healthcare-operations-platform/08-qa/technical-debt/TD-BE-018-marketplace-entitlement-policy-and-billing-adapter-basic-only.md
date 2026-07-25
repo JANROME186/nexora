@@ -4,8 +4,8 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: Marketplace entitlement policy, compatibility strategy, billing adapter and
   installation rollback orchestration are basic implementations only
-version: 2.0.0
-status: materially_reduced
+version: 3.0.0
+status: closed
 ---
 
 # Marketplace Entitlement Policy, Compatibility Strategy, Billing Adapter And Installation Rollback Orchestration Are Basic Implementations Only
@@ -20,10 +20,10 @@ artifact:
   type: technical-debt-item
   name: Marketplace entitlement policy, compatibility strategy, billing adapter and
     installation rollback orchestration are basic implementations only
-  version: 2.0.0
-  status: materially_reduced
+  version: 3.0.0
+  status: closed
   created_date: 2026-07-24
-  updated_date: 2026-07-24
+  updated_date: 2026-07-25
 source:
   discovered_during_backlog_item: COM-MOD-017-BE-001
   module: COM-MOD-017 Product Marketplace and Extension Packaging
@@ -40,11 +40,10 @@ classification:
   urgency: low
   blocking: false
   reason_non_blocking: Every BCM-PLT-011 openapi-source.md operation is functional
-    end to end with no endpoint responding unimplemented; four of the five named
-    custom_implementation_points are now materially implemented (see remediation.acceptance_criteria
-    below), and the fifth's remaining scope requires employee-portal screens that do
-    not exist yet (a COM-MOD-017-FE-001-scale deliverable, tracked separately as
-    TD-BE-019), not a marketplace backend gap.
+    end to end with no endpoint responding unimplemented; all five named
+    custom_implementation_points are now closed (see remediation.acceptance_criteria
+    below) -- the fifth was closed for real by COM-MOD-017-FE-001 via its follow-up
+    item TD-BE-019, which COM-MOD-017-QA-001 confirmed closed on re-inspection.
 current_state:
   issue: 'COM-MOD-017-BE-002 closed four of the five gaps this item named. EntitlementPolicyEvaluator
     now implements the full entitlement-policy.md evaluation_order (tenant_status,
@@ -77,9 +76,9 @@ target_state:
     a basic generated boundary and BE-002 delivered the mature custom-rule implementation.
     Achieved for 4 of 5 named points.
 remediation:
-  strategy: closed_by_COM_MOD_017_BE_002_except_iam_menu_wiring_repointed_to_TD_BE_019
+  strategy: closed_by_COM_MOD_017_BE_002_plus_COM_MOD_017_FE_001_TD_BE_019_closure_confirmed_by_COM_MOD_017_QA_001
   owner: backend_team
-  estimated_effort: none_remaining_for_this_item
+  estimated_effort: none_remaining
   estimated_cost_impact: low
   target_backlog: COM-MOD-017-BE-002
   dependencies_or_prerequisites:
@@ -97,6 +96,19 @@ remediation:
     status: closed
   - id: A runtime feature-availability check gates at least one IAM permission or
       employee-portal menu decision.
-    status: open
+    status: closed
     repointed_to: TD-BE-019
+    closure_note: TD-BE-019 closed by COM-MOD-017-FE-001 (marketplace ScreenKey/permission
+      navigation wiring plus the entitlement-gated install control in MarketplaceInstallationsScreen);
+      COM-MOD-017-QA-001 re-verified TD-BE-019's evidence and confirmed both of its
+      acceptance criteria hold.
+closure:
+  status: closed
+  closed_by_backlog_item: COM-MOD-017-QA-001
+  closed_date: 2026-07-25
+  mechanism: All 5 of the 5 originally named custom_implementation_points are closed.
+    The first 4 were closed directly by COM-MOD-017-BE-002. The 5th was repointed
+    to TD-BE-019 rather than forced, and TD-BE-019 was subsequently closed for real
+    by COM-MOD-017-FE-001. This item's own status had not yet been synced to reflect
+    that chained closure; COM-MOD-017-QA-001 corrected it as its debt-first action.
 ```
