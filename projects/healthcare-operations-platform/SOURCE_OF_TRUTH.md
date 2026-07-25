@@ -28,6 +28,9 @@ sources:
   project_brief: PROJECT_BRIEF.md
   project_brief_yaml: PROJECT_BRIEF.md
   project_state: PROJECT_STATE.md
+  qa_evidence_com_mod_014_be_001: 08-qa/qa/imaging-operations/COM-MOD-014-BE-001-validation.md
+  security_quality_evidence_com_mod_014_be_001: 08-qa/security-quality/COM-MOD-014-BE-001/security-quality-evidence.md
+  handoff_com_mod_014_be_001: 08-qa/handoffs/COM-MOD-014-BE-001-summary.md
   ordered_development_guide: ORDERED_DEVELOPMENT_GUIDE.md
   ordered_development_guide_yaml: ORDERED_DEVELOPMENT_GUIDE.md
   agent_agnostic_standard: ../../nexora-framework/02-standards/standards/agent-agnostic-standard.md

@@ -1227,6 +1227,7 @@ modules:
     status: closed
   - id: COM-MOD-014-BE-001
     name: Compile imaging workflow outputs
+    status: closed
   - id: COM-MOD-014-INT-001
     name: Implement DICOM and PACS adapter custom boundaries
   - id: COM-MOD-014-FE-001

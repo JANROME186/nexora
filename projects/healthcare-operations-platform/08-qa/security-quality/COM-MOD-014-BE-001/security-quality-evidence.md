@@ -4,7 +4,7 @@ format: markdown_structured_payload
 type: security-quality-evidence
 name: COM-MOD-014-BE-001 Security Quality Evidence
 version: 1.0.0
-status: closed
+status: validated
 backlog_item: COM-MOD-014-BE-001
 module: COM-MOD-014
 created_date: 2026-07-25
@@ -22,7 +22,7 @@ artifact:
   type: security-quality-evidence
   name: COM-MOD-014-BE-001 Security Quality Evidence
   version: 1.0.0
-  status: closed
+  status: validated
   backlog_item: COM-MOD-014-BE-001
 security_checks:
   sast_spotbugs:

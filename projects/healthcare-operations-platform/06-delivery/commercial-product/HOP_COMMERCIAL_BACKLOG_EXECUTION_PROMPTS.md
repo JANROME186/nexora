@@ -735,9 +735,9 @@ validation_commands:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
   module_id: COM-MOD-014
-  backlog_item_id: COM-MOD-014-DEF
-  name: Imaging Operations capability package models
-  expected_folder: 01-product-definition/business-capabilities/packages/
+  backlog_item_id: COM-MOD-014-INT-001
+  name: Implement DICOM and PACS adapter custom boundaries
+  expected_folder: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/imagingoperations/
   required_debt_first_action: none
   coverage_floor:
     backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.65
@@ -748,22 +748,17 @@ validation_commands:
     public_website_typescript_web_line_coverage_percent: 98.61
     final_target_percent: 80
   mandatory_execution_notes:
-  - Resume functional work only from the compact generated prompt and COM-MOD-017-CLOSEOUT
+  - Resume functional work only from the compact generated prompt and COM-MOD-014-BE-001
     handoff; do not preload broad YAML registries.
-  - Model BCM-IMG-001 through BCM-IMG-008 capability packages (imaging appointment,
-    reception, study management, DICOM/PACS integration, dictation, signature and
-    delivery) per the standard capability package template; definition-only, no
-    code implemented.
   - Keep execution agent-agnostic and preserve the open-source-first stack and quality
     gates.
-  - Address or reduce at least one applicable technical-debt item before feature work
-    if one is found applicable during modeling.
+  - Address or reduce at least one applicable technical-debt item before feature work.
   - Preserve backend coverage at or above 84.65% and employee-portal coverage at or
     above 90.68%; keep final project target at 80% or higher.
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product
     backlog and execution prompts, and commit only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-014-DEF
+    backlog_item_id: COM-MOD-014-BE-001
     status: closed
-    summary: Modeled 8 capability packages (BCM-IMG-001 through BCM-IMG-008) under 01-product-definition/business-capabilities/packages/. Registered COM-MOD-014 as definition_completed in capability-package-index.md. Materially reduced TD-DEF-002 (appointment capacity planning) by modeling imaging modality/room schedule slots and procedure lead time rules in BCM-IMG-001.
+    summary: Compiled Spring Modulith imagingoperations module with 8 capability sub-packages (BCM-IMG-001 through BCM-IMG-008) and 8 root aggregates (ImagingAppointmentSlot, ImagingReceptionIntake, ImagingStudy, DicomAdapterConfiguration, PacsIntegrationEndpoint, RadiologyDictation, RadiologyReport, ImagingDeliveryPackage). Registered db/imaging-operations/schema.sql (8 tables). Added SCREEN_IMAGING_* permissions to IAM catalogs and mapped endpoints in EndpointPermissionRegistry. Materially reduced TD-DEF-002 and TD-I18N-002.
 ```

@@ -4,7 +4,7 @@ format: markdown_structured_payload
 type: qa-validation
 name: Compile imaging workflow outputs QA Validation Evidence
 version: 1.0.0
-status: closed
+status: validated
 backlog_item: COM-MOD-014-BE-001
 module: COM-MOD-014
 created_date: 2026-07-25
@@ -22,7 +22,7 @@ artifact:
   type: qa-validation
   name: Compile imaging workflow outputs QA Validation Evidence
   version: 1.0.0
-  status: closed
+  status: validated
   backlog_item: COM-MOD-014-BE-001
   module: COM-MOD-014
 gates:

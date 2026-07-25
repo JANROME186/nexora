@@ -15,6 +15,8 @@ project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
 current_phase: COM-MOD-014-BE-001 closed. Active backlog item is COM-MOD-014-INT-001.
+commercial_product_progress:
+  active_backlog_item: COM-MOD-014-INT-001
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
 - COM-MOD-014-BE-001 Compile imaging workflow outputs (compiled Spring Modulith imagingoperations
