@@ -14,6 +14,7 @@ import hashlib
 import json
 import os
 import re
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -229,12 +230,110 @@ def slugify(value: str) -> str:
     return re.sub(r"[^a-zA-Z0-9]+", "-", value.strip("/\\")).strip("-").lower() or "root"
 
 
+def compact_items(items: list[dict[str, str]], limit: int = 20) -> list[dict[str, str]]:
+    return items[:limit]
+
+
+def count_by(items: list[dict[str, str]], key: str) -> dict[str, int]:
+    return dict(sorted(Counter(item.get(key, "unknown") for item in items).items()))
+
+
+def markdown_table(headers: list[str], rows: list[list[Any]]) -> list[str]:
+    lines = ["| " + " | ".join(headers) + " |", "| " + " | ".join("---" for _ in headers) + " |"]
+    for row in rows:
+        lines.append("| " + " | ".join(str(value) for value in row) + " |")
+    return lines
+
+
 def write_report(root: Path, report: dict[str, Any]) -> Path:
     report_dir = root / PROJECT_PATH / "08-qa/format-migration"
     report_dir.mkdir(parents=True, exist_ok=True)
     scope_slug = slugify(str(report.get("mode", {}).get("scope", "root")))
-    report_path = report_dir / f"frontmatter-migration-report-{scope_slug}.yaml"
-    report_path.write_text(yaml.safe_dump(report, sort_keys=False, allow_unicode=True), encoding="utf-8")
+    report_path = report_dir / f"frontmatter-migration-report-{scope_slug}.md"
+    artifact = report["artifact"]
+    mode = report["mode"]
+    counts = report["counts"]
+    inventory = report["inventory"]
+    planned = report["planned"]
+    written = report["written"]
+    collisions = report["collisions"]
+    errors = report["errors"]
+    reference_issues = report["reference_issues"]
+
+    frontmatter = {
+        "id": artifact["id"],
+        "type": artifact["type"],
+        "status": artifact["status"],
+        "scope": mode["scope"],
+        "apply": mode["apply"],
+        "use_ollama": mode["use_ollama"],
+        "archive_source": mode["archive_source"],
+        "update_references": mode["update_references"],
+        "model": mode["model"],
+        "limit": mode["limit"],
+        "candidates": counts["candidates"],
+        "planned": counts["planned"],
+        "written": counts["written"],
+        "collisions": counts["collisions"],
+        "errors": counts["errors"],
+        "reference_issues": counts["reference_issues"],
+    }
+
+    lines: list[str] = [
+        "---",
+        yaml.safe_dump(frontmatter, sort_keys=False, allow_unicode=True).strip(),
+        "---",
+        "",
+        "# Frontmatter Migration Report",
+        "",
+        "## Summary",
+        "",
+    ]
+    lines.extend(
+        markdown_table(
+            ["Scope", "Candidates", "Planned", "Written", "Collisions", "Errors", "Reference Issues"],
+            [
+                [
+                    mode["scope"],
+                    counts["candidates"],
+                    counts["planned"],
+                    counts["written"],
+                    counts["collisions"],
+                    counts["errors"],
+                    counts["reference_issues"],
+                ]
+            ],
+        )
+    )
+    lines.extend(["", "## Strategy Breakdown", ""])
+    lines.extend(markdown_table(["Strategy", "Count"], [[key, value] for key, value in count_by(inventory, "strategy").items()]))
+    lines.extend(["", "## Artifact Type Breakdown", ""])
+    lines.extend(markdown_table(["Kind", "Count"], [[key, value] for key, value in count_by(inventory, "kind").items()]))
+    lines.extend(["", "## Samples", ""])
+    lines.extend(markdown_table(["Source", "Target", "Strategy"], [[item["source"], item["target"], item["strategy"]] for item in compact_items(inventory, 15)]))
+
+    if written:
+        lines.extend(["", "## Written Sample", ""])
+        lines.extend(markdown_table(["Source", "Target", "Mode"], [[item["source"], item["target"], item["mode"]] for item in compact_items(written, 15)]))
+    if collisions:
+        lines.extend(["", "## Collisions", ""])
+        lines.extend(markdown_table(["Source", "Target", "Error"], [[item["source"], item["target"], item["error"]] for item in compact_items(collisions, 20)]))
+    if errors:
+        lines.extend(["", "## Errors", ""])
+        lines.extend(markdown_table(["Source", "Error"], [[item["source"], item["error"]] for item in compact_items(errors, 20)]))
+    if reference_issues:
+        lines.extend(["", "## Reference Issues", ""])
+        lines.extend(f"- {issue}" for issue in reference_issues[:50])
+    lines.extend(
+        [
+            "",
+            "## Context Policy",
+            "",
+            "This report is intentionally compact. Detailed per-file inventories are not emitted by default because they increase downstream model context without improving backlog execution.",
+            "",
+        ]
+    )
+    report_path.write_text("\n".join(lines), encoding="utf-8", newline="\n")
     return report_path
 
 

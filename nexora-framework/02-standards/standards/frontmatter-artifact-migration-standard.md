@@ -50,6 +50,10 @@ is required. Use `--combine-existing` when a YAML file already has an existing M
 and both contents must be preserved. Use `--archive-source` only after validation confirms
 references are safe.
 
-The tool writes its report to:
+The tool writes compact Markdown/frontmatter reports to scope-specific files, for example:
 
-`projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-report.yaml`
+`projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md`
+
+Migration reports must not include full per-file inventories by default. They must include only
+counts, strategy/type breakdowns, bounded samples, errors and reference issues. Detailed inventories
+may be generated only as temporary local diagnostics and must not become official project evidence.

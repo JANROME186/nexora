@@ -68,9 +68,15 @@ tooling:
     - llama3.2:3b
 
   validation:
-  required:
+    required:
     - migration_report
     - yaml_parse
     - reference_sweep
     - git_diff_check
     - pilot_manual_review_before_mass_apply
+  report_policy:
+    official_report_format: markdown_with_yaml_frontmatter
+    official_report_path_pattern: projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-report-<scope>.md
+    full_inventory_in_official_report_allowed: false
+    max_sample_rows_per_section: 20
+    detailed_inventory_allowed_only_as_temporary_local_diagnostic: true

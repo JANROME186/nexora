@@ -48,8 +48,8 @@ sources:
   hop_nxf_fmt_002_prompt: projects/healthcare-operations-platform/08-qa/generated-prompts/NXF-FMT-002-prompt.md
   hop_nxf_fmt_002_prompt_cache: projects/healthcare-operations-platform/08-qa/generated-prompts/cache/NXF-FMT-002-prompt-cache.json
   hop_nxf_fmt_002_validation: projects/healthcare-operations-platform/08-qa/format-migration/NXF-FMT-002-validation.md
-  hop_frontmatter_migration_report_hop: projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.yaml
-  hop_frontmatter_migration_report_framework: projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-report-nexora-framework.yaml
+  hop_frontmatter_migration_report_hop: projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md
+  hop_frontmatter_migration_report_framework: projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-report-nexora-framework.md
   hop_local_toolchain_inventory: projects/healthcare-operations-platform/03-architecture/technology-architecture/local-toolchain-inventory.yaml
   integrated_local_solution_runbook_standard: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml
   integrated_local_solution_runbook_standard_md: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md

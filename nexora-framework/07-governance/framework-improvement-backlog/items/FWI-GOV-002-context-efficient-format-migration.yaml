@@ -28,7 +28,7 @@ proposal:
   acceptance_criteria:
     - Migration standard approved in nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.yaml.
     - Local migration tool implemented in nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py.
-    - Pilot inventory generated for HOP at projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-report.yaml.
+    - Pilot inventory generated for HOP at projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md.
     - No authoritative automation artifact is removed without replacement validation.
 
 implementation:

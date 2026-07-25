@@ -8,8 +8,9 @@ completed_deliverables:
   - NXF-FMT-001 Frontmatter artifact migration tooling added (Nexora Framework now includes
     frontmatter-artifact-migration-standard.yaml/md and frontmatter_migrator.py for local
     Python/PyYAML deterministic conversion plus optional local Ollama narrative conversion; pilot
-    inventory reports stored at 08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.yaml
-    and 08-qa/format-migration/frontmatter-migration-report-nexora-framework.yaml; no mass
+    compact inventory reports stored at 08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md
+    and 08-qa/format-migration/frontmatter-migration-report-nexora-framework.md. Batch 0 replaced
+    oversized YAML migration reports with compact Markdown/frontmatter reports; no mass
     source migration, YAML archive or pointer replacement was applied yet)
   - COM-MOD-017-BE-001 Product Marketplace and Entitlements backend outputs compiled (new marketplaceentitlements
     Spring Modulith module with packagecatalog, commercialoffers, tenantentitlements, packageinstallation,
@@ -513,7 +514,7 @@ development_readiness:
   open_source_first_security_quality_ready: true
   context_efficient_execution_ready: true
   frontmatter_artifact_migration_ready: true
-  frontmatter_migration_pilot_report: 08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.yaml
+  frontmatter_migration_pilot_report: 08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md
   local_orchestrator_prompt_generation_ready: validated_with_ollama_primary_qwen2_5_coder_0_5b
   required_framework_execution_stack: python_ollama_qwen2_5_coder_0_5b_ripgrep_git
   memory_handoff_required: true

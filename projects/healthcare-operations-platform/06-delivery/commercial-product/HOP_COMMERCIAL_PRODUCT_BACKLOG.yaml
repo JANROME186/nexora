@@ -1116,8 +1116,8 @@ modules:
         name: Framework and HOP frontmatter optimization before functional backlog resumes
         status: active
         evidence:
-          hop_inventory: ../../08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.yaml
-          framework_inventory: ../../08-qa/format-migration/frontmatter-migration-report-nexora-framework.yaml
+          hop_inventory: ../../08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md
+          framework_inventory: ../../08-qa/format-migration/frontmatter-migration-report-nexora-framework.md
       - id: COM-MOD-017-FE-001
         name: Compile marketplace administration and package installation UI outputs
       - id: COM-MOD-017-WEB-001

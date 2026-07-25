@@ -58,5 +58,5 @@ remediation:
   latest_evidence:
     backlog_item: NXF-FMT-002
     status: active_blocking
-    hop_inventory: ../format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.yaml
-    framework_inventory: ../format-migration/frontmatter-migration-report-nexora-framework.yaml
+    hop_inventory: ../format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md
+    framework_inventory: ../format-migration/frontmatter-migration-report-nexora-framework.md
