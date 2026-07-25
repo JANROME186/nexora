@@ -1,17 +1,17 @@
 ---
 id: COM-MOD-014-INT-001-closure-validation
 type: backlog-closure-validation
-status: incomplete
+status: closed
 model: qwen2.5-coder:0.5b
 ---
 
 # COM-MOD-014-INT-001 Closure Validation
 
-Status: `incomplete`
+Status: `closed`
 
-Hard findings: `1`
+Hard findings: `0`
 
-Ollama summary: The security evidence must be status validated and match the backlog item.
+Ollama summary: No hay riesgos o acciones disponibles para la tarea COM-MOD-014-INT-001.
 
 ## Structured Payload
 
@@ -19,7 +19,7 @@ Ollama summary: The security evidence must be status validated and match the bac
 artifact:
   id: COM-MOD-014-INT-001-closure-validation
   type: backlog-closure-validation
-  status: incomplete
+  status: closed
   model: qwen2.5-coder:0.5b
 context:
   task_id: COM-MOD-014-INT-001
@@ -28,7 +28,7 @@ context:
   qa_evidence_exists: true
   qa_status: validated
   security_evidence_exists: true
-  security_status: null
+  security_status: validated
   handoff_exists: true
   project_state_active_backlog_item: COM-MOD-014-FE-001
   project_state_next_backlog_item: null
@@ -37,14 +37,11 @@ context:
   execution_prompt_previous_backlog_item: COM-MOD-014-INT-001
   execution_prompt_previous_status: closed
   source_of_truth_checked: true
-  git_head: 6790f6d
+  git_head: b9d7bc9
   git_clean: true
-  hard_findings:
-  - id: security_evidence_not_validated
-    severity: P0
-    detail: Security evidence must be status validated and match backlog_item.
+  hard_findings: []
 ollama_review:
-  summary: The security evidence must be status validated and match the backlog item.
+  summary: No hay riesgos o acciones disponibles para la tarea COM-MOD-014-INT-001.
   top_risks: []
   required_actions: []
 ```
