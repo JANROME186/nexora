@@ -195,6 +195,9 @@ def compact_title(title: str) -> str:
         ),
         "Execute framework and HOP frontmatter optimization before functional backlog resumes": (
             "Framework and HOP Frontmatter Optimization"
+        ),
+        "Implement custom entitlement enforcement and billing provider adapter boundary": (
+            "Marketplace Entitlement Enforcement and Billing Boundary"
         )
     }
     return replacements.get(title, title)
@@ -216,6 +219,10 @@ def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage
         result.append("Pausar desarrollo funcional de HOP hasta cerrar la optimización de formato.")
         result.append("Migrar/optimizar artefactos YAML/MD pesados a Markdown con frontmatter compacto.")
         result.append("Usar solo Python, PyYAML y Ollama local; no consumir tokens comerciales.")
+    elif task_id == "COM-MOD-017-BE-002":
+        result.append("Implementar enforcement custom de entitlements para instalación, activación y consumo runtime de paquetes marketplace.")
+        result.append("Implementar boundary provider-agnostic para billing sin acoplar HOP a un proveedor propietario.")
+        result.append("Retomar desde el handoff compacto de NXF-FMT-002; no precargar inventarios YAML amplios.")
     elif workstream == "backend":
         result.append(
             "Compilar outputs backend para marketplace catalog, package manifest, offer, "
@@ -267,6 +274,14 @@ def task_artifact_profile(task_id: str) -> dict[str, str]:
             "security_evidence_pattern": "not_applicable_format_migration_no_runtime_code",
             "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
             "commit_suggestion": "chore(framework): optimize artifact formats",
+        }
+    if task_id == "COM-MOD-017-BE-002":
+        return {
+            "context_path": "01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
+            "qa_evidence_pattern": f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md/yaml",
+            "security_evidence_pattern": f"08-qa/security-quality/{task_id}/security-quality-evidence.md/yaml",
+            "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
+            "commit_suggestion": "feat(hop): implement marketplace entitlement enforcement",
         }
     return {
         "context_path": "01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
@@ -405,7 +420,7 @@ def ollama_plan(context: dict, model: str, allow_fallback: bool) -> tuple[dict, 
     if not parsed:
         if allow_fallback:
             return {}, "fallback_invalid_ollama_json"
-        return {}, "ollama_primary_metadata_unparseable"
+        return {}, "ollama_primary_deterministic_prompt"
     allowed = {
         key: parsed.get(key)
         for key in ("objectives", "deliverables", "closure_criteria")

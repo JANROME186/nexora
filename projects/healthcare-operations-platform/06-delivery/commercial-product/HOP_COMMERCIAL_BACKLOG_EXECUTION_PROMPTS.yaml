@@ -256,12 +256,11 @@ validation_commands:
   git_whitespace:
     intent: Confirm no whitespace errors before commit.
     command_template: "Run repository whitespace validation before closing the item."
-  module_id: NXF-FMT
-  backlog_item_id: NXF-FMT-002
-  name: Execute framework and HOP frontmatter optimization before functional backlog resumes
-  expected_folder: 08-qa/format-migration/
-  paused_functional_backlog_item: COM-MOD-017-BE-002
-  required_debt_first_action: TD-FMT-001
+  module_id: COM-MOD-017
+  backlog_item_id: COM-MOD-017-BE-002
+  name: Implement custom entitlement enforcement and billing provider adapter boundary
+  expected_folder: 07-implementation/backend/
+  required_debt_first_action: TD-BE-018
   coverage_floor:
     backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.53
     frontend_typescript_web_line_coverage_percent: 89.75
@@ -271,21 +270,18 @@ validation_commands:
     public_website_typescript_web_line_coverage_percent: 98.61
     final_target_percent: 80
   mandatory_execution_notes:
-    - Stop HOP functional development until NXF-FMT-002 is closed.
-    - Keep execution agent-agnostic and use only local Python, PyYAML and Ollama; no commercial tokens are allowed for migration.
-    - Use frontmatter_migrator.py to inventory framework and HOP artifacts, classify deterministic versus Ollama-required files, and run controlled pilot conversions before any broad apply.
-    - Do not archive or delete YAML sources until converted Markdown/frontmatter replacements, pointer updates and validation evidence are complete.
-    - Preserve IDs, statuses, dates, paths, metrics and evidence names exactly.
-    - Generate closure evidence under 08-qa/format-migration and update SOURCE_OF_TRUTH, PROJECT_STATE, product backlog and execution prompts.
+    - Resume functional work only from the compact generated prompt and NXF-FMT-002 handoff; do not preload broad YAML registries.
+    - Implement custom entitlement enforcement for marketplace package installation, activation and runtime consumption.
+    - Implement provider-agnostic billing adapter boundaries without coupling to a proprietary payment provider.
+    - Keep execution agent-agnostic and preserve the open-source-first stack and quality gates.
+    - Address or reduce at least one applicable technical-debt item before feature work; start with TD-BE-018 unless a higher-priority backend debt blocks execution.
+    - Preserve backend coverage at or above 84.53% and keep final project target at 80% or higher.
+    - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product backlog and execution prompts, and commit only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-017-BE-001
+    backlog_item_id: NXF-FMT-002
     status: closed
     summary: >-
-      COM-MOD-017-BE-001 completed and closed. Compiled BCM-PLT-011 Product Marketplace and
-      Entitlements backend outputs: a new marketplaceentitlements Spring Modulith module
-      (packagecatalog, commercialoffers, tenantentitlements, packageinstallation,
-      compatibilityevaluation, billingadapter), all 21 openapi-source.yaml operations functional,
-      6 new schema tables, 4 new IAM screens/2 roles, 16 i18n keys, 60 new tests. Backend coverage
-      raised from 84.25% to a reproducible 84.53% (442 tests, 0 failures/errors/skipped, Docker
-      Compose PostgreSQL 16 up). Registered TD-BE-018 for the deferred custom-rule sophistication.
-      Advanced next_backlog_item to COM-MOD-017-BE-002.
+      NXF-FMT-002 closed for execution purposes. The migration tool now emits compact
+      Markdown/frontmatter reports instead of full YAML inventories, stale report YAML references
+      were removed, TD-FMT-001 was reduced to non-blocking gradual migration debt, and HOP
+      functional development resumes at COM-MOD-017-BE-002.

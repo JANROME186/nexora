@@ -18,8 +18,8 @@ product:
   current_baseline:
     completed_module: COM-MOD-016 (COM-MOD-016-CLOSEOUT closed)
     completed_status: closed
-    active_module: NXF-FMT
-    active_backlog_item: NXF-FMT-002
+    active_module: COM-MOD-017
+    active_backlog_item: COM-MOD-017-BE-002
     active_module_progress: >-
       COM-MOD-017-BE-001 Product Marketplace and Extension Packaging backend outputs are closed.
       The marketplaceentitlements Spring Modulith module was compiled for BCM-PLT-011 (packagecatalog,
@@ -27,11 +27,11 @@ product:
       billingadapter), all 21 openapi-source.yaml operations are functional, and backend coverage
       was raised from 84.25% to a reproducible 84.53% (442 tests, 0 failures/errors/skipped).
       TD-BE-018 was registered non-blocking for deferred custom-rule sophistication, and TD-QA-008
-      remains open non-blocking as project-wide toolchain inventory debt. Functional development is
-      now paused before COM-MOD-017-BE-002 to prioritize NXF-FMT-002 frontmatter optimization and
-      reduce commercial model token consumption.
-    paused_backlog_item: COM-MOD-017-BE-002
-    pause_reason: stop_the_line_format_migration_for_commercial_token_optimization
+      remains open non-blocking as project-wide toolchain inventory debt. NXF-FMT-002 frontmatter
+      optimization is closed for execution purposes; functional development resumes at
+      COM-MOD-017-BE-002 using compact generated prompts and handoffs.
+    paused_backlog_item: null
+    pause_reason: null
 
 source_inputs:
   framework:
@@ -1111,13 +1111,16 @@ modules:
           security_quality: ../../08-qa/security-quality/COM-MOD-017-BE-001/security-quality-evidence.yaml
       - id: COM-MOD-017-BE-002
         name: Implement custom entitlement enforcement and billing provider adapter boundary
-        status: paused_by_NXF-FMT-002
+        status: active
       - id: NXF-FMT-002
         name: Framework and HOP frontmatter optimization before functional backlog resumes
-        status: active
+        status: closed
         evidence:
           hop_inventory: ../../08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md
           framework_inventory: ../../08-qa/format-migration/frontmatter-migration-report-nexora-framework.md
+          validation: ../../08-qa/format-migration/NXF-FMT-002-validation.md
+          migration_plan: ../../08-qa/format-migration/frontmatter-migration-plan.md
+          handoff: ../../08-qa/handoffs/NXF-FMT-002-summary.md
       - id: COM-MOD-017-FE-001
         name: Compile marketplace administration and package installation UI outputs
       - id: COM-MOD-017-WEB-001

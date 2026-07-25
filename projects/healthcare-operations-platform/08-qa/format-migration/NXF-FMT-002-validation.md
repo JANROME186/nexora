@@ -1,6 +1,6 @@
 ---
 id: NXF-FMT-002-validation
-status: active_batch_0_completed
+status: closed
 backlog_item: NXF-FMT-002
 paused_functional_backlog_item: COM-MOD-017-BE-002
 created_date: 2026-07-24
@@ -20,7 +20,7 @@ for commercial-token reduction.
 
 ## Status
 
-The migration is active. Batch 0 is complete: the migration tool no longer emits full YAML
+The migration is closed for execution purposes. The migration tool no longer emits full YAML
 inventories as official evidence, and the previous heavy YAML reports were replaced by compact
 Markdown/frontmatter reports.
 
@@ -34,5 +34,14 @@ Markdown/frontmatter reports.
 | Framework report size | ~3 KB, replacing the previous ~107 KB YAML report |
 | Official YAML report references | Removed |
 
-No mass conversion, source archive or authoritative pointer replacement has been applied yet. The
-next execution must process controlled batches using local Python/PyYAML and Ollama only.
+## Migration Plan
+
+The remaining YAML artifacts are classified in `08-qa/format-migration/frontmatter-migration-plan.md`.
+Authoritative automation registries remain YAML until a dedicated compatibility backlog migrates
+their readers. Agents must use generated compact prompts/handoffs as the active execution surface
+and must not preload broad YAML registries.
+
+## Closure
+
+`TD-FMT-001` is reduced from blocking to non-blocking gradual migration debt. Functional HOP
+development may resume at `COM-MOD-017-BE-002`.

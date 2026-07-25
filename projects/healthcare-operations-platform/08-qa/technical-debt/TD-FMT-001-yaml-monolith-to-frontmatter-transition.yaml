@@ -3,7 +3,7 @@ artifact:
   type: technical-debt-item
   name: Transition monolithic YAML task/state artifacts to Markdown frontmatter handoffs
   version: 1.0.0
-  status: open
+  status: reduced_non_blocking
   created_date: 2026-07-24
   updated_date: 2026-07-24
 
@@ -16,11 +16,11 @@ classification:
   category: documentation_format_migration
   affected_area: framework_and_hop_execution_artifacts
   risk_level: high
-  blocking: true
+  blocking: false
 
 current_state:
   issue: >-
-    HOP and Nexora Framework contain many large YAML execution/state artifacts created before the
+    HOP and Nexora Framework still contain YAML execution/state artifacts created before the
     context-efficient execution standard. These remain valid, but they are expensive for commercial
     agents to preload and can cause stale-pointer drift when agents read broad registries instead
     of compact handoffs.
@@ -31,8 +31,9 @@ current_state:
     - capability package indexes
     - QA/security evidence indexes
   compensating_control: >-
-    Existing YAML remains supported. New backlog handoffs must use compact Markdown with minimal
-    frontmatter, and agents must use lazy loading plus targeted rg/read operations.
+    Existing authoritative YAML remains supported for automation only. Agent-facing backlog
+    execution must start from compact Markdown/frontmatter prompts and handoffs, and agents must use
+    lazy loading plus targeted rg/read operations for any remaining registries.
 
 target_state:
   preferred_formats:
@@ -45,7 +46,7 @@ target_state:
       replacement has validation evidence.
 
 remediation:
-  strategy: stop_the_line_before_functional_hop_development_resumes
+  strategy: gradual_migration_during_normal_backlog_execution
   recommended_trigger:
     - next prompt framework update
     - next module closeout
@@ -57,6 +58,8 @@ remediation:
     - Optional Ollama-assisted conversion is validated locally or explicitly marked unavailable without blocking execution.
   latest_evidence:
     backlog_item: NXF-FMT-002
-    status: active_blocking
+    status: reduced_non_blocking
     hop_inventory: ../format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md
     framework_inventory: ../format-migration/frontmatter-migration-report-nexora-framework.md
+    migration_plan: ../format-migration/frontmatter-migration-plan.md
+    closeout_handoff: ../handoffs/NXF-FMT-002-summary.md
