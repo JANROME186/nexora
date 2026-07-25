@@ -154,6 +154,8 @@ def compact_lines(text: str, task_id: str, root: Path, limit: int = 8) -> list[s
 
 
 def infer_workstream(task_id: str) -> str:
+    if task_id.startswith("NXF-FMT"):
+        return "format_migration"
     if "-BE-" in task_id:
         return "backend"
     if "-FE-" in task_id or "-WEB-" in task_id or "-PORTAL-" in task_id:
@@ -190,6 +192,9 @@ def compact_title(title: str) -> str:
     replacements = {
         "Compile marketplace catalog, offer, entitlement and installation backend outputs": (
             "Marketplace & Entitlements Backend Compilation"
+        ),
+        "Execute framework and HOP frontmatter optimization before functional backlog resumes": (
+            "Framework and HOP Frontmatter Optimization"
         )
     }
     return replacements.get(title, title)
@@ -207,7 +212,11 @@ def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage
     coverage = relevant_coverage_floor(coverage_floor, task_id)
     result: list[str] = []
 
-    if workstream == "backend":
+    if workstream == "format_migration":
+        result.append("Pausar desarrollo funcional de HOP hasta cerrar la optimización de formato.")
+        result.append("Migrar/optimizar artefactos YAML/MD pesados a Markdown con frontmatter compacto.")
+        result.append("Usar solo Python, PyYAML y Ollama local; no consumir tokens comerciales.")
+    elif workstream == "backend":
         result.append(
             "Compilar outputs backend para marketplace catalog, package manifest, offer, "
             "license plan, entitlement, installation y billing-adapter."
@@ -216,13 +225,17 @@ def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage
         result.append(f"Atender el backlog activo: {title}.")
 
     result.append("Mantener ejecución agent-agnostic, sin dependencias propietarias de agentes o runtimes.")
-    if coverage:
+    if workstream == "format_migration":
+        result.append("Cerrar o reducir TD-FMT-001 como deuda bloqueante de formato antes de reanudar HOP.")
+    elif coverage:
         result.append(f"Preservar piso de cobertura {coverage}.")
     elif coverage_floor.get("final_target_percent") is not None:
         result.append(f"Preservar o mejorar cobertura; objetivo final >= {coverage_floor['final_target_percent']}%.")
-    result.append("Revisar deuda técnica abierta y reducir al menos 1 item aplicable antes del feature work.")
+    if workstream != "format_migration":
+        result.append("Revisar deuda técnica abierta y reducir al menos 1 item aplicable antes del feature work.")
 
     gate_by_workstream = {
+        "format_migration": "Ejecutar inventario, piloto, conversión por lotes, validación de referencias, parseo YAML y git diff --check.",
         "backend": "Ejecutar gates backend obligatorios: Maven, Java, Docker/BD local, SAST, dependencias, cobertura y scans de seguridad.",
         "frontend": "Ejecutar gates frontend obligatorios: typecheck, tests/cobertura, build, SAST, dependencias, i18n y scans de seguridad.",
         "mobile": "Ejecutar gates app/mobile obligatorios: typecheck, tests/cobertura, build, SAST, dependencias, i18n y scans de seguridad.",
@@ -234,17 +247,34 @@ def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage
     return result
 
 
-def context_pointer_block(summary_ref: str | None) -> list[str]:
+def context_pointer_block(task_id: str, summary_ref: str | None) -> list[str]:
     pointers: list[str] = []
-    if summary_ref:
+    if summary_ref and not task_id.startswith("NXF-FMT"):
         pointers.append(f"Handoff previo: `{project_relative(summary_ref)}`")
     pointers.extend(
         [
-            "Modelos base: `01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/`",
             "Prompts y estado: inspeccionar `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml` y `PROJECT_STATE.yaml` bajo demanda.",
         ]
     )
     return pointers
+
+
+def task_artifact_profile(task_id: str) -> dict[str, str]:
+    if task_id.startswith("NXF-FMT"):
+        return {
+            "context_path": "../../nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.yaml",
+            "qa_evidence_pattern": f"08-qa/format-migration/{task_id}-validation.md",
+            "security_evidence_pattern": "not_applicable_format_migration_no_runtime_code",
+            "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
+            "commit_suggestion": "chore(framework): optimize artifact formats",
+        }
+    return {
+        "context_path": "01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
+        "qa_evidence_pattern": f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md/yaml",
+        "security_evidence_pattern": f"08-qa/security-quality/{task_id}/security-quality-evidence.md/yaml",
+        "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
+        "commit_suggestion": "feat(hop): compile marketplace backend outputs",
+    }
 
 
 def canonical_json(data: object) -> str:
@@ -281,6 +311,7 @@ def build_canonical_context(
     mandatory_notes: list[str],
     coverage_floor: dict,
 ) -> dict:
+    profile = task_artifact_profile(task_id)
     return {
         "root": root.as_posix(),
         "project": DEFAULT_PROJECT_PATH,
@@ -288,15 +319,15 @@ def build_canonical_context(
         "title": title,
         "summary_ref": summary_ref,
         "mandatory_notes": compact_mandatory_notes(task_id, title, mandatory_notes, coverage_floor),
-        "context_lines": context_pointer_block(summary_ref),
+        "context_lines": context_pointer_block(task_id, summary_ref),
         "coverage_floor": relevant_coverage_floor(coverage_floor, task_id),
         "workstream": infer_workstream(task_id),
-        "base_models_path": "01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
+        "context_path": profile["context_path"],
         "operational_prompt_path": "06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.yaml",
-        "qa_evidence_pattern": f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md/yaml",
-        "security_evidence_pattern": f"08-qa/security-quality/{task_id}/security-quality-evidence.md/yaml",
-        "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
-        "commit_suggestion": "feat(hop): compile marketplace backend outputs",
+        "qa_evidence_pattern": profile["qa_evidence_pattern"],
+        "security_evidence_pattern": profile["security_evidence_pattern"],
+        "handoff_path": profile["handoff_path"],
+        "commit_suggestion": profile["commit_suggestion"],
     }
 
 
@@ -423,7 +454,9 @@ def build_prompt(
     coverage_floor: dict,
     orchestration_mode: str = "ollama_primary",
 ) -> str:
-    pointer_block = "\n".join(f"- {line}" for line in context_pointer_block(summary_ref))
+    profile = task_artifact_profile(task_id)
+    pointer_block = "\n".join(f"- {line}" for line in context_pointer_block(task_id, summary_ref))
+    pointer_block = f"{pointer_block}\n- Contexto principal: `{profile['context_path']}`"
     notes_block = "\n".join(f"- {note}" for note in compact_mandatory_notes(task_id, title, mandatory_notes, coverage_floor))
     return f"""# TASK: {task_id} - {title}
 ROOT: {root.as_posix()}
@@ -437,15 +470,15 @@ ORCHESTRATION: {orchestration_mode}
 {pointer_block}
 
 ## 3. Entregables
-- Cambios {infer_workstream(task_id)} y tests asociados.
-- QA Evidence: `08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.[md|yaml]`
-- Security Evidence: `08-qa/security-quality/{task_id}/security-quality-evidence.[md|yaml]`
-- Transición: crear `08-qa/handoffs/{task_id}-summary.md`.
+- Cambios {infer_workstream(task_id)} y validaciones asociadas.
+- QA Evidence: `{profile['qa_evidence_pattern']}`
+- Security Evidence: `{profile['security_evidence_pattern']}`
+- Transición: crear `{profile['handoff_path']}`.
 - Actualizar `PROJECT_STATE.yaml`, `SOURCE_OF_TRUTH.yaml`, backlog/prompts, runbook e índices aplicables.
 
 ## 4. Criterios de Cierre
 - Gates obligatorios ejecutados; YAML/MD parseables; `git diff --check` limpio.
-- Commit: `feat(hop): compile marketplace backend outputs`.
+- Commit: `{profile['commit_suggestion']}`.
 - `git status --short` limpio si no hay bloqueantes.
 """
 

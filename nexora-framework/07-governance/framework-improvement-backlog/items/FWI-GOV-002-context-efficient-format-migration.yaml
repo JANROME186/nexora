@@ -3,7 +3,7 @@ artifact:
   type: framework-improvement-item
   name: Context-efficient format migration for legacy YAML execution artifacts
   version: 1.0.0
-  status: implemented_tooling_pilot_ready
+  status: active_stop_the_line_migration
   created_date: 2026-07-24
 
 source:
@@ -34,8 +34,10 @@ proposal:
 implementation:
   implemented_date: 2026-07-24
   tooling_status: pilot_ready
-  mass_migration_status: pending_manual_pilot_review
+  mass_migration_status: active_before_hop_functional_development_resumes
   commercial_tokens_used: false
   local_processing:
     deterministic: Python and PyYAML
     narrative: Python plus local Ollama using the official Python ollama package
+  active_backlog_item: NXF-FMT-002
+  paused_functional_backlog_item: COM-MOD-017-BE-002

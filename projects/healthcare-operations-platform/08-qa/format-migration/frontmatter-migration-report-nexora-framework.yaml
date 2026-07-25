@@ -1,0 +1,1842 @@
+artifact:
+  id: NXF-FMT-MIGRATION-REPORT
+  type: frontmatter-migration-report
+  status: completed
+mode:
+  apply: false
+  use_ollama: false
+  archive_source: false
+  update_references: false
+  model: qwen2.5-coder:0.5b
+  scope: nexora-framework
+  limit: null
+counts:
+  candidates: 205
+  planned: 198
+  written: 0
+  collisions: 0
+  errors: 0
+  reference_issues: 0
+inventory:
+- source: nexora-framework/00-start-here/docs/README.md
+  target: nexora-framework/00-start-here/docs/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md
+  target: nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.yaml
+  target: nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md
+  target: nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml
+  target: nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md
+  target: nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml
+  target: nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/00-start-here/README.md
+  target: nexora-framework/00-start-here/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/01-enterprise/company/company-profile.yaml
+  target: nexora-framework/01-enterprise/company/company-profile.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/01-enterprise/company/README.md
+  target: nexora-framework/01-enterprise/company/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/01-enterprise/README.md
+  target: nexora-framework/01-enterprise/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/README.md
+  target: nexora-framework/02-standards/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/agent-agnostic-standard.md
+  target: nexora-framework/02-standards/standards/agent-agnostic-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+  target: nexora-framework/02-standards/standards/agent-agnostic-standard.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+  target: nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
+  target: nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+  kind: narrative_or_large_yaml
+  strategy: ollama
+  reason: large or narrative yaml
+- source: nexora-framework/02-standards/standards/capability-package-standard.md
+  target: nexora-framework/02-standards/standards/capability-package-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/capability-package-standard.yaml
+  target: nexora-framework/02-standards/standards/capability-package-standard.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/02-standards/standards/context-efficient-execution-standard.md
+  target: nexora-framework/02-standards/standards/context-efficient-execution-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/context-efficient-execution-standard.yaml
+  target: nexora-framework/02-standards/standards/context-efficient-execution-standard.md
+  kind: narrative_or_large_yaml
+  strategy: ollama
+  reason: large or narrative yaml
+- source: nexora-framework/02-standards/standards/documentation-standard.md
+  target: nexora-framework/02-standards/standards/documentation-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/documentation-standard.yaml
+  target: nexora-framework/02-standards/standards/documentation-standard.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/02-standards/standards/engineering-excellence-prioritization-standard.md
+  target: nexora-framework/02-standards/standards/engineering-excellence-prioritization-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/engineering-excellence-prioritization-standard.yaml
+  target: nexora-framework/02-standards/standards/engineering-excellence-prioritization-standard.md
+  kind: narrative_or_large_yaml
+  strategy: ollama
+  reason: large or narrative yaml
+- source: nexora-framework/02-standards/standards/enterprise-product-foundation-standard.md
+  target: nexora-framework/02-standards/standards/enterprise-product-foundation-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/enterprise-product-foundation-standard.yaml
+  target: nexora-framework/02-standards/standards/enterprise-product-foundation-standard.md
+  kind: narrative_or_large_yaml
+  strategy: ollama
+  reason: large or narrative yaml
+- source: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.md
+  target: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
+  target: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.md
+  kind: narrative_or_large_yaml
+  strategy: ollama
+  reason: large or narrative yaml
+- source: nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md
+  target: nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.yaml
+  target: nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md
+  target: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml
+  target: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md
+  kind: runbook
+  strategy: deterministic
+  reason: structured runbook yaml
+- source: nexora-framework/02-standards/standards/local-toolchain-inventory-standard.md
+  target: nexora-framework/02-standards/standards/local-toolchain-inventory-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/local-toolchain-inventory-standard.yaml
+  target: nexora-framework/02-standards/standards/local-toolchain-inventory-standard.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  target: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+  target: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/02-standards/standards/open-data-ingestion-standard.md
+  target: nexora-framework/02-standards/standards/open-data-ingestion-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml
+  target: nexora-framework/02-standards/standards/open-data-ingestion-standard.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+  target: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  target: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+  kind: qa_evidence
+  strategy: deterministic
+  reason: structured QA/security evidence yaml
+- source: nexora-framework/02-standards/standards/product-marketplace-standard.md
+  target: nexora-framework/02-standards/standards/product-marketplace-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/product-marketplace-standard.yaml
+  target: nexora-framework/02-standards/standards/product-marketplace-standard.md
+  kind: narrative_or_large_yaml
+  strategy: ollama
+  reason: large or narrative yaml
+- source: nexora-framework/02-standards/standards/project-folder-standard.md
+  target: nexora-framework/02-standards/standards/project-folder-standard.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/02-standards/standards/project-folder-standard.yaml
+  target: nexora-framework/02-standards/standards/project-folder-standard.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
+  target: nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
+  target: nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
+  kind: narrative_or_large_yaml
+  strategy: ollama
+  reason: large or narrative yaml
+- source: nexora-framework/03-orchestration/project-orchestration/README.md
+  target: nexora-framework/03-orchestration/project-orchestration/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/03-orchestration/README.md
+  target: nexora-framework/03-orchestration/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/04-recipes/README.md
+  target: nexora-framework/04-recipes/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
+  target: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
+  target: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
+  kind: narrative_or_large_yaml
+  strategy: ollama
+  reason: large or narrative yaml
+- source: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
+  target: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
+  kind: narrative_or_large_yaml
+  strategy: ollama
+  reason: large or narrative yaml
+- source: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
+  target: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.md
+  target: nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.md
+  kind: backlog
+  strategy: deterministic
+  reason: structured backlog yaml
+- source: nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+  target: nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
+  target: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
+  kind: narrative_or_large_yaml
+  strategy: ollama
+  reason: large or narrative yaml
+- source: nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
+  target: nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
+  kind: runbook
+  strategy: deterministic
+  reason: structured runbook yaml
+- source: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+  target: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+  kind: qa_evidence
+  strategy: deterministic
+  reason: structured QA/security evidence yaml
+- source: nexora-framework/05-prompts/README.md
+  target: nexora-framework/05-prompts/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/README.md
+  target: nexora-framework/06-templates/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/adr-template.md
+  target: nexora-framework/06-templates/templates/adr-template.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/business-rule-template.md
+  target: nexora-framework/06-templates/templates/business-rule-template.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/domain-event-template.md
+  target: nexora-framework/06-templates/templates/domain-event-template.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/openapi-template.yaml
+  target: nexora-framework/06-templates/templates/openapi-template.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/06-templates/templates/playbook-template.md
+  target: nexora-framework/06-templates/templates/playbook-template.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/00-intake/README.md
+  target: nexora-framework/06-templates/templates/project-template/00-intake/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/01-product-definition/README.md
+  target: nexora-framework/06-templates/templates/project-template/01-product-definition/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/02-domain-definition/README.md
+  target: nexora-framework/06-templates/templates/project-template/02-domain-definition/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/03-architecture/client-stack-market-validation.yaml
+  target: nexora-framework/06-templates/templates/project-template/03-architecture/client-stack-market-validation.md
+  kind: qa_evidence
+  strategy: deterministic
+  reason: structured QA/security evidence yaml
+- source: nexora-framework/06-templates/templates/project-template/03-architecture/local-toolchain-inventory.md
+  target: nexora-framework/06-templates/templates/project-template/03-architecture/local-toolchain-inventory.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/03-architecture/local-toolchain-inventory.yaml
+  target: nexora-framework/06-templates/templates/project-template/03-architecture/local-toolchain-inventory.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/06-templates/templates/project-template/03-architecture/README.md
+  target: nexora-framework/06-templates/templates/project-template/03-architecture/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/03-architecture/stack-quality-toolchain-baseline.yaml
+  target: nexora-framework/06-templates/templates/project-template/03-architecture/stack-quality-toolchain-baseline.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/06-templates/templates/project-template/04-requirements/README.md
+  target: nexora-framework/06-templates/templates/project-template/04-requirements/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/05-contracts/README.md
+  target: nexora-framework/06-templates/templates/project-template/05-contracts/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/06-delivery/README.md
+  target: nexora-framework/06-templates/templates/project-template/06-delivery/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/07-implementation/README.md
+  target: nexora-framework/06-templates/templates/project-template/07-implementation/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/08-qa/framework-feedback/framework-feedback-index.yaml
+  target: nexora-framework/06-templates/templates/project-template/08-qa/framework-feedback/framework-feedback-index.md
+  kind: qa_evidence
+  strategy: deterministic
+  reason: structured QA/security evidence yaml
+- source: nexora-framework/06-templates/templates/project-template/08-qa/framework-feedback/README.md
+  target: nexora-framework/06-templates/templates/project-template/08-qa/framework-feedback/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/08-qa/README.md
+  target: nexora-framework/06-templates/templates/project-template/08-qa/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/08-qa/technical-debt/README.md
+  target: nexora-framework/06-templates/templates/project-template/08-qa/technical-debt/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/08-qa/technical-debt/technical-debt-index.yaml
+  target: nexora-framework/06-templates/templates/project-template/08-qa/technical-debt/technical-debt-index.md
+  kind: qa_evidence
+  strategy: deterministic
+  reason: structured QA/security evidence yaml
+- source: nexora-framework/06-templates/templates/project-template/09-operations/README.md
+  target: nexora-framework/06-templates/templates/project-template/09-operations/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/09-operations/runbooks/local-solution-runbook.md
+  target: nexora-framework/06-templates/templates/project-template/09-operations/runbooks/local-solution-runbook.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/09-operations/runbooks/local-solution-runbook.yaml
+  target: nexora-framework/06-templates/templates/project-template/09-operations/runbooks/local-solution-runbook.md
+  kind: runbook
+  strategy: deterministic
+  reason: structured runbook yaml
+- source: nexora-framework/06-templates/templates/project-template/10-generated/README.md
+  target: nexora-framework/06-templates/templates/project-template/10-generated/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/99-legacy/README.md
+  target: nexora-framework/06-templates/templates/project-template/99-legacy/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/PROJECT_BRIEF.md
+  target: nexora-framework/06-templates/templates/project-template/PROJECT_BRIEF.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/project-template/PROJECT_BRIEF.yaml
+  target: nexora-framework/06-templates/templates/project-template/PROJECT_BRIEF.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/06-templates/templates/project-template/README.md
+  target: nexora-framework/06-templates/templates/project-template/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/README.md
+  target: nexora-framework/06-templates/templates/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/rfc-template.md
+  target: nexora-framework/06-templates/templates/rfc-template.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/06-templates/templates/user-story-template.md
+  target: nexora-framework/06-templates/templates/user-story-template.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-001-specification-driven-development.md
+  target: nexora-framework/07-governance/adr/ADR-001-specification-driven-development.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-002-agent-agnostic-engineering.md
+  target: nexora-framework/07-governance/adr/ADR-002-agent-agnostic-engineering.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-003-anywhere-first.md
+  target: nexora-framework/07-governance/adr/ADR-003-anywhere-first.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-004-human-and-machine-readable-specification.md
+  target: nexora-framework/07-governance/adr/ADR-004-human-and-machine-readable-specification.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-005-enterprise-data-architecture.md
+  target: nexora-framework/07-governance/adr/ADR-005-enterprise-data-architecture.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-006-application-architecture-as-enterprise-layer.md
+  target: nexora-framework/07-governance/adr/ADR-006-application-architecture-as-enterprise-layer.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-007-technology-architecture-and-anywhere-first.md
+  target: nexora-framework/07-governance/adr/ADR-007-technology-architecture-and-anywhere-first.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-008-security-compliance-architecture.md
+  target: nexora-framework/07-governance/adr/ADR-008-security-compliance-architecture.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-009-integration-interoperability-through-adapters.md
+  target: nexora-framework/07-governance/adr/ADR-009-integration-interoperability-through-adapters.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-010-ai-platform-provider-agnostic.md
+  target: nexora-framework/07-governance/adr/ADR-010-ai-platform-provider-agnostic.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-011-product-evolution-and-saas-business-architecture.md
+  target: nexora-framework/07-governance/adr/ADR-011-product-evolution-and-saas-business-architecture.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-012-nexora-capability-library.md
+  target: nexora-framework/07-governance/adr/ADR-012-nexora-capability-library.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-013-organization-branch-as-foundational-capability.md
+  target: nexora-framework/07-governance/adr/ADR-013-organization-branch-as-foundational-capability.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-014-identity-access-workforce-management.md
+  target: nexora-framework/07-governance/adr/ADR-014-identity-access-workforce-management.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-015-medical-staff-as-clinical-traceability-capability.md
+  target: nexora-framework/07-governance/adr/ADR-015-medical-staff-as-clinical-traceability-capability.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-016-catalog-test-configuration-as-configuration-engine.md
+  target: nexora-framework/07-governance/adr/ADR-016-catalog-test-configuration-as-configuration-engine.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-017-capability-orders-appointments-sample-collection.md
+  target: nexora-framework/07-governance/adr/ADR-017-capability-orders-appointments-sample-collection.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-018-results-report-management-capability.md
+  target: nexora-framework/07-governance/adr/ADR-018-results-report-management-capability.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-019-cash-sales-cash-closing-capability.md
+  target: nexora-framework/07-governance/adr/ADR-019-cash-sales-cash-closing-capability.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-020-billing-tax-compliance-as-country-pack-capability.md
+  target: nexora-framework/07-governance/adr/ADR-020-billing-tax-compliance-as-country-pack-capability.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-021-inventory-as-immutable-stock-ledger.md
+  target: nexora-framework/07-governance/adr/ADR-021-inventory-as-immutable-stock-ledger.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-022-imaging-dicom-pacs-as-core-diagnostic-capability.md
+  target: nexora-framework/07-governance/adr/ADR-022-imaging-dicom-pacs-as-core-diagnostic-capability.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-023-nexora-architecture-refactoring-domain-foundation.md
+  target: nexora-framework/07-governance/adr/ADR-023-nexora-architecture-refactoring-domain-foundation.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-024-multi-project-repository-structure.md
+  target: nexora-framework/07-governance/adr/ADR-024-multi-project-repository-structure.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-031-model-driven-product-engineering-and-capability-packages.md
+  target: nexora-framework/07-governance/adr/ADR-031-model-driven-product-engineering-and-capability-packages.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/ADR-032-product-marketplace-and-commercial-extension-architecture.md
+  target: nexora-framework/07-governance/adr/ADR-032-product-marketplace-and-commercial-extension-architecture.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/adr/README.md
+  target: nexora-framework/07-governance/adr/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/framework-improvement-backlog/framework-improvement-backlog.yaml
+  target: nexora-framework/07-governance/framework-improvement-backlog/framework-improvement-backlog.md
+  kind: backlog
+  strategy: deterministic
+  reason: structured backlog yaml
+- source: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-001-framework-feedback-loop.yaml
+  target: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-001-framework-feedback-loop.md
+  kind: backlog
+  strategy: deterministic
+  reason: structured backlog yaml
+- source: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-002-context-efficient-format-migration.yaml
+  target: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-002-context-efficient-format-migration.md
+  kind: backlog
+  strategy: deterministic
+  reason: structured backlog yaml
+- source: nexora-framework/07-governance/framework-improvement-backlog/README.md
+  target: nexora-framework/07-governance/framework-improvement-backlog/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/manifests/README.md
+  target: nexora-framework/07-governance/manifests/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/README.md
+  target: nexora-framework/07-governance/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/releases/v0.13.0.md
+  target: nexora-framework/07-governance/releases/v0.13.0.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/releases/v0.14.0.md
+  target: nexora-framework/07-governance/releases/v0.14.0.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/releases/v0.15.0.md
+  target: nexora-framework/07-governance/releases/v0.15.0.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/releases/v0.16.0.md
+  target: nexora-framework/07-governance/releases/v0.16.0.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/releases/v0.17.0.md
+  target: nexora-framework/07-governance/releases/v0.17.0.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/releases/v0.22.0.md
+  target: nexora-framework/07-governance/releases/v0.22.0.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/rfc/README.md
+  target: nexora-framework/07-governance/rfc/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/rfc/RFC-001-nexora-meta-model.md
+  target: nexora-framework/07-governance/rfc/RFC-001-nexora-meta-model.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/roadmap/README.md
+  target: nexora-framework/07-governance/roadmap/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/07-governance/roadmap/release-notes-v0.12.0.md
+  target: nexora-framework/07-governance/roadmap/release-notes-v0.12.0.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/agent-registry.yaml
+  target: nexora-framework/08-engineering/agents/agent-registry.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/08-engineering/agents/ai-platform-agent/README.md
+  target: nexora-framework/08-engineering/agents/ai-platform-agent/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/application-architecture-agent.md
+  target: nexora-framework/08-engineering/agents/application-architecture-agent.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/business-architecture-agent.md
+  target: nexora-framework/08-engineering/agents/business-architecture-agent.md
+  kind: markdown
+  strategy: skip
+  reason: already compact frontmatter markdown
+- source: nexora-framework/08-engineering/agents/capability-agents/billing-invoicing-tax-compliance/README.md
+  target: nexora-framework/08-engineering/agents/capability-agents/billing-invoicing-tax-compliance/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/capability-agents/imaging-operations-dicom-pacs-management/README.md
+  target: nexora-framework/08-engineering/agents/capability-agents/imaging-operations-dicom-pacs-management/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/capability-agents/inventory-capability-agent.md
+  target: nexora-framework/08-engineering/agents/capability-agents/inventory-capability-agent.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/capability-agents/orders-appointments-sample-collection/README.md
+  target: nexora-framework/08-engineering/agents/capability-agents/orders-appointments-sample-collection/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/capability-agents/results-management-agent.md
+  target: nexora-framework/08-engineering/agents/capability-agents/results-management-agent.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/capability-library-agent/README.md
+  target: nexora-framework/08-engineering/agents/capability-library-agent/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/cash-management-agent/README.md
+  target: nexora-framework/08-engineering/agents/cash-management-agent/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/catalog-configuration-agent/README.md
+  target: nexora-framework/08-engineering/agents/catalog-configuration-agent/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/context-orchestrator/README.md
+  target: nexora-framework/08-engineering/agents/context-orchestrator/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/data-architecture-agent.md
+  target: nexora-framework/08-engineering/agents/data-architecture-agent.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/data-stewardship-agent.md
+  target: nexora-framework/08-engineering/agents/data-stewardship-agent.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/iam-agent/README.md
+  target: nexora-framework/08-engineering/agents/iam-agent/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/integration-architecture/integration-architecture-agent.md
+  target: nexora-framework/08-engineering/agents/integration-architecture/integration-architecture-agent.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/master-agent.md
+  target: nexora-framework/08-engineering/agents/master-agent.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/medical-staff-agent/README.md
+  target: nexora-framework/08-engineering/agents/medical-staff-agent/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/meta-model-agent.md
+  target: nexora-framework/08-engineering/agents/meta-model-agent.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/product-evolution-agent.md
+  target: nexora-framework/08-engineering/agents/product-evolution-agent.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/README.md
+  target: nexora-framework/08-engineering/agents/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/agents/security-compliance/security-compliance-agent.md
+  target: nexora-framework/08-engineering/agents/security-compliance/security-compliance-agent.md
+  kind: markdown
+  strategy: skip
+  reason: already compact frontmatter markdown
+- source: nexora-framework/08-engineering/agents/technology-architecture/technology-architecture-agent.md
+  target: nexora-framework/08-engineering/agents/technology-architecture/technology-architecture-agent.md
+  kind: markdown
+  strategy: skip
+  reason: already compact frontmatter markdown
+- source: nexora-framework/08-engineering/ai/README.md
+  target: nexora-framework/08-engineering/ai/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/devops/README.md
+  target: nexora-framework/08-engineering/devops/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/engineering/README.md
+  target: nexora-framework/08-engineering/engineering/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/platform-engineering/README.md
+  target: nexora-framework/08-engineering/platform-engineering/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/add-api-endpoint.md
+  target: nexora-framework/08-engineering/playbooks/add-api-endpoint.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/ai-platform/create-ai-capability.md
+  target: nexora-framework/08-engineering/playbooks/ai-platform/create-ai-capability.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/capabilities/CAP-008/build-cash-capability.md
+  target: nexora-framework/08-engineering/playbooks/capabilities/CAP-008/build-cash-capability.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/capabilities/CAP-010/build-inventory-capability.md
+  target: nexora-framework/08-engineering/playbooks/capabilities/CAP-010/build-inventory-capability.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/capabilities/CAP-011/create-or-update-imaging-capability.md
+  target: nexora-framework/08-engineering/playbooks/capabilities/CAP-011/create-or-update-imaging-capability.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/capabilities/create-result-workflow.md
+  target: nexora-framework/08-engineering/playbooks/capabilities/create-result-workflow.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/capabilities/orders-appointments-sample-collection/README.md
+  target: nexora-framework/08-engineering/playbooks/capabilities/orders-appointments-sample-collection/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/catalog-configuration/README.md
+  target: nexora-framework/08-engineering/playbooks/catalog-configuration/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/create-business-capability.md
+  target: nexora-framework/08-engineering/playbooks/create-business-capability.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/create-iam-protected-endpoint.md
+  target: nexora-framework/08-engineering/playbooks/create-iam-protected-endpoint.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/create-medical-staff-feature.md
+  target: nexora-framework/08-engineering/playbooks/create-medical-staff-feature.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/create-new-capability.md
+  target: nexora-framework/08-engineering/playbooks/create-new-capability.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/integration-architecture/create-new-connector.md
+  target: nexora-framework/08-engineering/playbooks/integration-architecture/create-new-connector.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/PB-001-change-impact-analysis.md
+  target: nexora-framework/08-engineering/playbooks/PB-001-change-impact-analysis.md
+  kind: markdown
+  strategy: skip
+  reason: already compact frontmatter markdown
+- source: nexora-framework/08-engineering/playbooks/PB-002-create-business-capability.md
+  target: nexora-framework/08-engineering/playbooks/PB-002-create-business-capability.md
+  kind: markdown
+  strategy: skip
+  reason: already compact frontmatter markdown
+- source: nexora-framework/08-engineering/playbooks/PB-003-create-dual-format-artifact.md
+  target: nexora-framework/08-engineering/playbooks/PB-003-create-dual-format-artifact.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/PB-004-create-application-service.md
+  target: nexora-framework/08-engineering/playbooks/PB-004-create-application-service.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/product-evolution/PB-006-create-product-capability.md
+  target: nexora-framework/08-engineering/playbooks/product-evolution/PB-006-create-product-capability.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/README.md
+  target: nexora-framework/08-engineering/playbooks/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/playbooks/security-compliance/create-security-controls-for-module.md
+  target: nexora-framework/08-engineering/playbooks/security-compliance/create-security-controls-for-module.md
+  kind: markdown
+  strategy: skip
+  reason: already compact frontmatter markdown
+- source: nexora-framework/08-engineering/playbooks/technology-architecture/PB-005-create-technology-component.md
+  target: nexora-framework/08-engineering/playbooks/technology-architecture/PB-005-create-technology-component.md
+  kind: markdown
+  strategy: skip
+  reason: already compact frontmatter markdown
+- source: nexora-framework/08-engineering/README.md
+  target: nexora-framework/08-engineering/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/08-engineering/security/README.md
+  target: nexora-framework/08-engineering/security/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/09-specifications/meta-model/artifact-type-catalog.yaml
+  target: nexora-framework/09-specifications/meta-model/artifact-type-catalog.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/09-specifications/meta-model/generators/README.md
+  target: nexora-framework/09-specifications/meta-model/generators/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/09-specifications/meta-model/mappings/source-to-artifact-map.yaml
+  target: nexora-framework/09-specifications/meta-model/mappings/source-to-artifact-map.md
+  kind: structured_yaml
+  strategy: deterministic
+  reason: small structured yaml
+- source: nexora-framework/09-specifications/meta-model/README.md
+  target: nexora-framework/09-specifications/meta-model/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/09-specifications/meta-model/validators/README.md
+  target: nexora-framework/09-specifications/meta-model/validators/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/09-specifications/README.md
+  target: nexora-framework/09-specifications/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/09-specifications/schemas/README.md
+  target: nexora-framework/09-specifications/schemas/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/09-specifications/specifications/README.md
+  target: nexora-framework/09-specifications/specifications/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/10-examples/examples/README.md
+  target: nexora-framework/10-examples/examples/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/10-examples/README.md
+  target: nexora-framework/10-examples/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+- source: nexora-framework/README.md
+  target: nexora-framework/README.md
+  kind: markdown
+  strategy: ollama
+  reason: free-form markdown narrative
+planned:
+- source: nexora-framework/00-start-here/docs/README.md
+  target: nexora-framework/00-start-here/docs/README.md
+  mode: planned_ollama_not_executed
+  sha256: e412983e812e4ec719861f69c7bed3292fc18692919d9598d5ba70e73c8a66a6
+- source: nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md
+  target: nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md
+  mode: planned_ollama_not_executed
+  sha256: d84b7dd00a838b8a3ac4ea441ffa0fbc33de7640fe2ba107c9c1d08199cb2f70
+- source: nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.yaml
+  target: nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md
+  mode: deterministic
+  sha256: 19c0a86991b3523f3f2844f900338aafc2a29d9e7d753eecf69defd55a960c09
+- source: nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md
+  target: nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md
+  mode: planned_ollama_not_executed
+  sha256: d90775e32052a1de78a2d604b97b3678be158aa8189e849dedbe87ea8478152c
+- source: nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.yaml
+  target: nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md
+  mode: deterministic
+  sha256: b11aa54609f91da60feb9c9be4e09280b2645e14f878fc5c87f0ebb7a6ff3251
+- source: nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md
+  target: nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md
+  mode: planned_ollama_not_executed
+  sha256: 705503f3961ce60ceabce55ce0fd7c90335277cb143e5c47fa46492fe7ac8297
+- source: nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.yaml
+  target: nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md
+  mode: deterministic
+  sha256: 96e60c2f165826806ba86e83c46f13e583352ce35068f02b8351c97c1ffcd354
+- source: nexora-framework/00-start-here/README.md
+  target: nexora-framework/00-start-here/README.md
+  mode: planned_ollama_not_executed
+  sha256: 572e7868466fd43711d9619348429b5341f44353beae4bcff5b2cb07e771d79d
+- source: nexora-framework/01-enterprise/company/company-profile.yaml
+  target: nexora-framework/01-enterprise/company/company-profile.md
+  mode: deterministic
+  sha256: 9a59bb35f7c18ec675615a996ed09aa833fe96224e686e17d422a5a12a6636c3
+- source: nexora-framework/01-enterprise/company/README.md
+  target: nexora-framework/01-enterprise/company/README.md
+  mode: planned_ollama_not_executed
+  sha256: f73271a76688b8fb1bf28a5c44c7b2e11365f25423abf0c8bae6e186193359bd
+- source: nexora-framework/01-enterprise/README.md
+  target: nexora-framework/01-enterprise/README.md
+  mode: planned_ollama_not_executed
+  sha256: 3122628a74da700e3c573af0e1d4e5e90cd042aa924bbe480ac6b5c5c010bcec
+- source: nexora-framework/02-standards/README.md
+  target: nexora-framework/02-standards/README.md
+  mode: planned_ollama_not_executed
+  sha256: df6efeb3ec5b5806de13c9c5af935e80ff95e4d3308c230cd777208c50fc6856
+- source: nexora-framework/02-standards/standards/agent-agnostic-standard.md
+  target: nexora-framework/02-standards/standards/agent-agnostic-standard.md
+  mode: planned_ollama_not_executed
+  sha256: bf45aa3c1a0acd2c2327da432506f3319f632a4731d1b4823bb87cf1c334cff0
+- source: nexora-framework/02-standards/standards/agent-agnostic-standard.yaml
+  target: nexora-framework/02-standards/standards/agent-agnostic-standard.md
+  mode: deterministic
+  sha256: f3efad946e5935e5f43fde9badc93e2e47eaa48ca4435e5974f867568b645411
+- source: nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+  target: nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 41112ac8f3a055537eb5e21b040d0bce623e257c1a234dd78b7e048826a2a350
+- source: nexora-framework/02-standards/standards/business-requirement-versioning-standard.yaml
+  target: nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 5036596df31c716a983be0865adfe9c1fd76e28f7e84fa41beb49ba3fd0ba20a
+- source: nexora-framework/02-standards/standards/capability-package-standard.md
+  target: nexora-framework/02-standards/standards/capability-package-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 0017546e51ad4ddd168b23f15cadfddde9846f3057c379d2746da3fcd7885655
+- source: nexora-framework/02-standards/standards/capability-package-standard.yaml
+  target: nexora-framework/02-standards/standards/capability-package-standard.md
+  mode: deterministic
+  sha256: d0b810a13ea26c3371508637613a0e9ce3846ed4aebfea0b5ce5e0bafff9433c
+- source: nexora-framework/02-standards/standards/context-efficient-execution-standard.md
+  target: nexora-framework/02-standards/standards/context-efficient-execution-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 74fabb46391e22a884125bcf906a1db547174a129b56167c05778fb03d11899a
+- source: nexora-framework/02-standards/standards/context-efficient-execution-standard.yaml
+  target: nexora-framework/02-standards/standards/context-efficient-execution-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 6ad90a31adf85212aff0b581595b77c10b2a255fd52384ca5bc0732453ee9f9f
+- source: nexora-framework/02-standards/standards/documentation-standard.md
+  target: nexora-framework/02-standards/standards/documentation-standard.md
+  mode: planned_ollama_not_executed
+  sha256: e413a984099407893273f92ab470025240e35bcbf72a73af3e201baa8f867f12
+- source: nexora-framework/02-standards/standards/documentation-standard.yaml
+  target: nexora-framework/02-standards/standards/documentation-standard.md
+  mode: deterministic
+  sha256: bf98a48b440c8d68f681cfcb5cb3c962d845684f0a01a0f25575d8428ab5e1b8
+- source: nexora-framework/02-standards/standards/engineering-excellence-prioritization-standard.md
+  target: nexora-framework/02-standards/standards/engineering-excellence-prioritization-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 2096f781755be94bea2ab1ec44a439a56e4e5f60da893381e4b2997a1aae8a74
+- source: nexora-framework/02-standards/standards/engineering-excellence-prioritization-standard.yaml
+  target: nexora-framework/02-standards/standards/engineering-excellence-prioritization-standard.md
+  mode: planned_ollama_not_executed
+  sha256: c021bcc46abc9e754164a08cb512b8f320b8c9aa41e0bf77bc2b8799a9b533ef
+- source: nexora-framework/02-standards/standards/enterprise-product-foundation-standard.md
+  target: nexora-framework/02-standards/standards/enterprise-product-foundation-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 0acdaff2b6a89f14849c88e87712f77b05f58366a20f5cf9c84b935e10807522
+- source: nexora-framework/02-standards/standards/enterprise-product-foundation-standard.yaml
+  target: nexora-framework/02-standards/standards/enterprise-product-foundation-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 02e815824d40e4df2ce6c1391d3b38a48fb43e90e131d213ccdf26f168179023
+- source: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.md
+  target: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 3a7f5ead3ad832850dc61217c38520c3a1318d3769039b63025eba559dab6353
+- source: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.yaml
+  target: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.md
+  mode: planned_ollama_not_executed
+  sha256: ace1a8dfd19c5088acf27d50cccebd5b43cc26c79ae0db99a1af9913e41fb3df
+- source: nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md
+  target: nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 63831c44e55a1709c4b6349180b9517e4393fd52bae6e8d51135b6e95ee738bf
+- source: nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.yaml
+  target: nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md
+  mode: deterministic
+  sha256: 1e6c70faed6b1052ade95f2df561405726225caf0c0006cf148213e4e3d9b9c4
+- source: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md
+  target: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md
+  mode: planned_ollama_not_executed
+  sha256: c235264db23dfa0cc3e55b1710499d324ce30f2a40774a7fdc5a35a82a9090bd
+- source: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.yaml
+  target: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md
+  mode: deterministic
+  sha256: 5444f2370d06f9caa243bfdd986872d6343630d306b450304575abedcfc71606
+- source: nexora-framework/02-standards/standards/local-toolchain-inventory-standard.md
+  target: nexora-framework/02-standards/standards/local-toolchain-inventory-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 78e6b7d3020c01f71463d690573404e6b2cb29a0214ba4cbfb032fae2dfc4a5c
+- source: nexora-framework/02-standards/standards/local-toolchain-inventory-standard.yaml
+  target: nexora-framework/02-standards/standards/local-toolchain-inventory-standard.md
+  mode: deterministic
+  sha256: a1a2a2e59209ecb268231a7eb9deb220bfea13cbb5582ea684172c4a03e29be9
+- source: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  target: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 5eb9b7904f11ee624a51cfa8025d521be7205121eff6b3e75a099072262f7571
+- source: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.yaml
+  target: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
+  mode: deterministic
+  sha256: 656540bf3f0655179f04fc493f63b53094aa98879c7836d427068e0d5a69d959
+- source: nexora-framework/02-standards/standards/open-data-ingestion-standard.md
+  target: nexora-framework/02-standards/standards/open-data-ingestion-standard.md
+  mode: planned_ollama_not_executed
+  sha256: f101f300f6a29ce3cd49280dc7329467ef413081048f18fec39eb1b99f43653f
+- source: nexora-framework/02-standards/standards/open-data-ingestion-standard.yaml
+  target: nexora-framework/02-standards/standards/open-data-ingestion-standard.md
+  mode: deterministic
+  sha256: 30de768d2ee49065998a0a2ce009b1bf8696149d4171ef319c18f74b934b1d7b
+- source: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+  target: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 00a237de1eba7353d7348f1ddb038c0e5f5c5e4507400ba4f6b5dc8d4451c515
+- source: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.yaml
+  target: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
+  mode: deterministic
+  sha256: ba61a2fd07a6d142ee22b46dd49ba248f4ed51e097ffdccb13498ca1e3f3667c
+- source: nexora-framework/02-standards/standards/product-marketplace-standard.md
+  target: nexora-framework/02-standards/standards/product-marketplace-standard.md
+  mode: planned_ollama_not_executed
+  sha256: ea7ded185fad8da775f3ac96189269efe44e344005237da28920c18927ed28f3
+- source: nexora-framework/02-standards/standards/product-marketplace-standard.yaml
+  target: nexora-framework/02-standards/standards/product-marketplace-standard.md
+  mode: planned_ollama_not_executed
+  sha256: afd043c93bfd972bc239b926aa224d3c33b5151f651defbc8a32c1b6c03a2ba3
+- source: nexora-framework/02-standards/standards/project-folder-standard.md
+  target: nexora-framework/02-standards/standards/project-folder-standard.md
+  mode: planned_ollama_not_executed
+  sha256: 3a68acc055e5dc2787253382d2241611662801862774d322c952e75c5b3b4bf3
+- source: nexora-framework/02-standards/standards/project-folder-standard.yaml
+  target: nexora-framework/02-standards/standards/project-folder-standard.md
+  mode: deterministic
+  sha256: 006e458f93ea68a380429f3345d12e0af53962d91584ed1c790b1da3d9e3fb9a
+- source: nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
+  target: nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
+  mode: planned_ollama_not_executed
+  sha256: faa2c1c5938a63535c36e9348fb95f5f132c985b8888b658f7e930d7b30ecbe5
+- source: nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.yaml
+  target: nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
+  mode: planned_ollama_not_executed
+  sha256: e244571f416a4334c9b2fcb7fff1086bc20125cddce100f639056d627fe13901
+- source: nexora-framework/03-orchestration/project-orchestration/README.md
+  target: nexora-framework/03-orchestration/project-orchestration/README.md
+  mode: planned_ollama_not_executed
+  sha256: e217c2d2b1c5f9490f322be65005dd5bbdc0a323fc386ab7067d5036f23c53a0
+- source: nexora-framework/03-orchestration/README.md
+  target: nexora-framework/03-orchestration/README.md
+  mode: planned_ollama_not_executed
+  sha256: c10569c21313c778c1635438e8aa22aad41193f161ffb158bbd3ec9d552fd2cd
+- source: nexora-framework/04-recipes/README.md
+  target: nexora-framework/04-recipes/README.md
+  mode: planned_ollama_not_executed
+  sha256: 72ae88bfcea28c22f113c3a2679a049eae945cbaf66c2b2d25fb25e9187fb963
+- source: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
+  target: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
+  mode: planned_ollama_not_executed
+  sha256: 9772423dda80d3ce26be4ea29b5c49655b53e799f44a6b043bf79e69cb267c06
+- source: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.yaml
+  target: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
+  mode: planned_ollama_not_executed
+  sha256: 7a928d71e17b759e04711ab79df0bccc402a47e51a4b96ff44669a35dfdfb92a
+- source: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
+  target: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
+  mode: planned_ollama_not_executed
+  sha256: 607c96bbb5fcd439c102a0d9d713ed13044473f831e01b100293f49efd90a9f6
+- source: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
+  mode: planned_ollama_not_executed
+  sha256: 7ad7c83bddd26d35f78c71bc2812f7aace4a7cff87eb80b3eeb7a57b0486949a
+- source: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
+  target: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
+  mode: planned_ollama_not_executed
+  sha256: 3d074faba911ba1f713b45181a3a231b3a4d2386b70f60a43a1d6b0e12718ca5
+- source: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
+  mode: deterministic
+  sha256: 025f7772a062112d21e1b66bfe7d0c3dbf4b10c4dfa4850f3e6fb05d62527891
+- source: nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.md
+  target: nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.md
+  mode: planned_ollama_not_executed
+  sha256: 0c05e39c715e8ef3576b0e7832b6197d616e7decbf278fe33617ca2ee1e255b3
+- source: nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.md
+  mode: deterministic
+  sha256: 3c9dea2712538426eb58d2c86cc089bee8d85c144cca166c26a3220c5acb26c0
+- source: nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+  target: nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+  mode: planned_ollama_not_executed
+  sha256: 3aa5cac723d1e891244f66c77458feea7d6e55b7857dd0f4803373a87012b2be
+- source: nexora-framework/05-prompts/prompts/framework-feedback-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
+  mode: deterministic
+  sha256: 5b0a699c1f3f18113e3f5fcfcd9a52a906c63283978f6f7426efbb2c7e7bcc8e
+- source: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
+  target: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
+  mode: planned_ollama_not_executed
+  sha256: c14e7e98feb6aea05f81cf5d8de3a0f30cdb1e21c84b4118f9f61e30889edafc
+- source: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
+  mode: planned_ollama_not_executed
+  sha256: 0d8ed4784a8fb5124b0c163b0bb6e4aa09c95673d61c9ef83765e5e4446ede26
+- source: nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
+  target: nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
+  mode: planned_ollama_not_executed
+  sha256: dfb17f091dc11ce279453fbecfdf22a3288c20050aca46e72dc4515cff38922f
+- source: nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
+  mode: deterministic
+  sha256: 4dd835a31afa6b99ad4f7f8dc0633b0aa95c4db8021feafac6f71cbb3c666432
+- source: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+  target: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+  mode: planned_ollama_not_executed
+  sha256: f9237e39d9b038e2018de7f2edabb56d2edbf9bc96c6b538a6b2362158b0dc6e
+- source: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.yaml
+  target: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
+  mode: deterministic
+  sha256: 0d3930a772277e2663780e220f0de66e8d8e51932ba6fbea7528f6fefa31b6b7
+- source: nexora-framework/05-prompts/README.md
+  target: nexora-framework/05-prompts/README.md
+  mode: planned_ollama_not_executed
+  sha256: b0f407673a44ea78ca71fa0f41341abbc8ba47b82f096d120c05d8e2add4b20b
+- source: nexora-framework/06-templates/README.md
+  target: nexora-framework/06-templates/README.md
+  mode: planned_ollama_not_executed
+  sha256: d333cbbf780ef5521c9de1bb0181a8dde2b06b18a56332ac9070f8a69ab5690e
+- source: nexora-framework/06-templates/templates/adr-template.md
+  target: nexora-framework/06-templates/templates/adr-template.md
+  mode: planned_ollama_not_executed
+  sha256: d609d02876037e2f73dd806c882bad880cd612f30fe61851b63daf862601263d
+- source: nexora-framework/06-templates/templates/business-rule-template.md
+  target: nexora-framework/06-templates/templates/business-rule-template.md
+  mode: planned_ollama_not_executed
+  sha256: 3344f0adbc27e821bc1a3d5e72dd248fe438e9b7150215381392f854e6ad393b
+- source: nexora-framework/06-templates/templates/domain-event-template.md
+  target: nexora-framework/06-templates/templates/domain-event-template.md
+  mode: planned_ollama_not_executed
+  sha256: c5b9a95fdc0c6d8f770c6b125ef758a8c6218b7f6477f20899c894ed46425ade
+- source: nexora-framework/06-templates/templates/openapi-template.yaml
+  target: nexora-framework/06-templates/templates/openapi-template.md
+  mode: deterministic
+  sha256: cb9ab5db98ae43685f69bc5623399eb362767cd98a50f1d14b451fb404ffbe90
+- source: nexora-framework/06-templates/templates/playbook-template.md
+  target: nexora-framework/06-templates/templates/playbook-template.md
+  mode: planned_ollama_not_executed
+  sha256: ab59bbe9252e416b64d95c00b26f41e0ee0459f486867e3c53f79651dba51470
+- source: nexora-framework/06-templates/templates/project-template/00-intake/README.md
+  target: nexora-framework/06-templates/templates/project-template/00-intake/README.md
+  mode: planned_ollama_not_executed
+  sha256: 0954d5a894227b6ae791dff238e82cd87fd232350344388f1049e5a13a600937
+- source: nexora-framework/06-templates/templates/project-template/01-product-definition/README.md
+  target: nexora-framework/06-templates/templates/project-template/01-product-definition/README.md
+  mode: planned_ollama_not_executed
+  sha256: f82da4a8b0dd73856ca69220637ca402c721c89074ae9d98e31393312a36823f
+- source: nexora-framework/06-templates/templates/project-template/02-domain-definition/README.md
+  target: nexora-framework/06-templates/templates/project-template/02-domain-definition/README.md
+  mode: planned_ollama_not_executed
+  sha256: 65cb4622c3b94039d0f588a9528cb7925652f3d56bc96991b0f46873fb0c64a5
+- source: nexora-framework/06-templates/templates/project-template/03-architecture/client-stack-market-validation.yaml
+  target: nexora-framework/06-templates/templates/project-template/03-architecture/client-stack-market-validation.md
+  mode: deterministic
+  sha256: 6f4f75d14a713319bf7eea498cb30faa67ac702575cd0e3beda3c042f2c7bd0e
+- source: nexora-framework/06-templates/templates/project-template/03-architecture/local-toolchain-inventory.md
+  target: nexora-framework/06-templates/templates/project-template/03-architecture/local-toolchain-inventory.md
+  mode: planned_ollama_not_executed
+  sha256: 642801e32e6e4885646dfa6033c38310259ab087cc0f78ef6e89288347129cf7
+- source: nexora-framework/06-templates/templates/project-template/03-architecture/local-toolchain-inventory.yaml
+  target: nexora-framework/06-templates/templates/project-template/03-architecture/local-toolchain-inventory.md
+  mode: deterministic
+  sha256: 1ffa375e728a0995a7fc599fbd4f65fa894e6f167d18d391a6285490faea8c5a
+- source: nexora-framework/06-templates/templates/project-template/03-architecture/README.md
+  target: nexora-framework/06-templates/templates/project-template/03-architecture/README.md
+  mode: planned_ollama_not_executed
+  sha256: df6f5bfea7e0e7f0d73d261250b772ecf9fa4df176dfc456ceabd7889df9b4af
+- source: nexora-framework/06-templates/templates/project-template/03-architecture/stack-quality-toolchain-baseline.yaml
+  target: nexora-framework/06-templates/templates/project-template/03-architecture/stack-quality-toolchain-baseline.md
+  mode: deterministic
+  sha256: 9873261f6952b277b5b3864df10cc489b1f0501a4b3632efeba6d6c5eebac72f
+- source: nexora-framework/06-templates/templates/project-template/04-requirements/README.md
+  target: nexora-framework/06-templates/templates/project-template/04-requirements/README.md
+  mode: planned_ollama_not_executed
+  sha256: 6927b517f3ae757e86f92b1ef8580196c87deea37dc94bf77c6450ce9fab0268
+- source: nexora-framework/06-templates/templates/project-template/05-contracts/README.md
+  target: nexora-framework/06-templates/templates/project-template/05-contracts/README.md
+  mode: planned_ollama_not_executed
+  sha256: f6fd004680813d8f416e46829e7c8396f179574483c20d1615f088c9fa63c564
+- source: nexora-framework/06-templates/templates/project-template/06-delivery/README.md
+  target: nexora-framework/06-templates/templates/project-template/06-delivery/README.md
+  mode: planned_ollama_not_executed
+  sha256: 0deffdb74d5d01eb692c5e50fc418d57554b5ec6535e15c6e19f7c8970369688
+- source: nexora-framework/06-templates/templates/project-template/07-implementation/README.md
+  target: nexora-framework/06-templates/templates/project-template/07-implementation/README.md
+  mode: planned_ollama_not_executed
+  sha256: 82a9cf04d51eed78eceb5794a1a4614b4bd9522870c0a31c119c40dda8810e3d
+- source: nexora-framework/06-templates/templates/project-template/08-qa/framework-feedback/framework-feedback-index.yaml
+  target: nexora-framework/06-templates/templates/project-template/08-qa/framework-feedback/framework-feedback-index.md
+  mode: deterministic
+  sha256: 9123a699cf61b799ca81996ce03bb7ba9067e7b2044e3ed8a126e186d2401ce5
+- source: nexora-framework/06-templates/templates/project-template/08-qa/framework-feedback/README.md
+  target: nexora-framework/06-templates/templates/project-template/08-qa/framework-feedback/README.md
+  mode: planned_ollama_not_executed
+  sha256: 57492f5498d4342a3632cbaa989425a27821aed51f2ebf465023b4e5df013dc2
+- source: nexora-framework/06-templates/templates/project-template/08-qa/README.md
+  target: nexora-framework/06-templates/templates/project-template/08-qa/README.md
+  mode: planned_ollama_not_executed
+  sha256: 06259341263cb4cd22c5b88fb5404d97ff897dae8f0af4b892a7edcb2242bc8e
+- source: nexora-framework/06-templates/templates/project-template/08-qa/technical-debt/README.md
+  target: nexora-framework/06-templates/templates/project-template/08-qa/technical-debt/README.md
+  mode: planned_ollama_not_executed
+  sha256: 5345db350ccdb5358a124868b2dfeeea1cfe8bcf78d86afaaa6d199e23f285fb
+- source: nexora-framework/06-templates/templates/project-template/08-qa/technical-debt/technical-debt-index.yaml
+  target: nexora-framework/06-templates/templates/project-template/08-qa/technical-debt/technical-debt-index.md
+  mode: deterministic
+  sha256: 21d4bf1e8d1d4af910f2ee6f96f071e1eb23684afce4c10269550c82dc698a25
+- source: nexora-framework/06-templates/templates/project-template/09-operations/README.md
+  target: nexora-framework/06-templates/templates/project-template/09-operations/README.md
+  mode: planned_ollama_not_executed
+  sha256: 8b9b6572391acc0810110dc8bd1f45b542881963cfa13dd298acde13f0954be2
+- source: nexora-framework/06-templates/templates/project-template/09-operations/runbooks/local-solution-runbook.md
+  target: nexora-framework/06-templates/templates/project-template/09-operations/runbooks/local-solution-runbook.md
+  mode: planned_ollama_not_executed
+  sha256: 7beaa3989b7911c48693160c24734216117eaee9f031ab05ebd6251698e7a28a
+- source: nexora-framework/06-templates/templates/project-template/09-operations/runbooks/local-solution-runbook.yaml
+  target: nexora-framework/06-templates/templates/project-template/09-operations/runbooks/local-solution-runbook.md
+  mode: deterministic
+  sha256: 4400b7a307300cbe74699624284bd95fc2046578882056a2996e2b2bca2fc5c6
+- source: nexora-framework/06-templates/templates/project-template/10-generated/README.md
+  target: nexora-framework/06-templates/templates/project-template/10-generated/README.md
+  mode: planned_ollama_not_executed
+  sha256: 2286c6c32197b12286e6e0ead1ceded8bde1a7e796f907096e30c152366208ee
+- source: nexora-framework/06-templates/templates/project-template/99-legacy/README.md
+  target: nexora-framework/06-templates/templates/project-template/99-legacy/README.md
+  mode: planned_ollama_not_executed
+  sha256: 32d345341f889d85449f9d055648c77daabf57fd8588f6f443094a9239d322a4
+- source: nexora-framework/06-templates/templates/project-template/PROJECT_BRIEF.md
+  target: nexora-framework/06-templates/templates/project-template/PROJECT_BRIEF.md
+  mode: planned_ollama_not_executed
+  sha256: f597d11e553b64d1453e0e495c84e74ac125874c65f4ece1fb2a328ebad1ae0d
+- source: nexora-framework/06-templates/templates/project-template/PROJECT_BRIEF.yaml
+  target: nexora-framework/06-templates/templates/project-template/PROJECT_BRIEF.md
+  mode: deterministic
+  sha256: bdad72e808fb6bbdb999154725f00315a52a3b65b87202be91d16deae2d3ab13
+- source: nexora-framework/06-templates/templates/project-template/README.md
+  target: nexora-framework/06-templates/templates/project-template/README.md
+  mode: planned_ollama_not_executed
+  sha256: e71ce2942e9c7d06318b6d62acb6adb633552a400ca4a8ce00eea0b026c4e185
+- source: nexora-framework/06-templates/templates/README.md
+  target: nexora-framework/06-templates/templates/README.md
+  mode: planned_ollama_not_executed
+  sha256: b40c8de0b55dd836da6963061afcd3122db2b2f20f6377d55a0fc06e345d2ed8
+- source: nexora-framework/06-templates/templates/rfc-template.md
+  target: nexora-framework/06-templates/templates/rfc-template.md
+  mode: planned_ollama_not_executed
+  sha256: 24993a5fec59ce250ce45b3ffa99c5ebaffc91840922e1bee3fb71ea196db897
+- source: nexora-framework/06-templates/templates/user-story-template.md
+  target: nexora-framework/06-templates/templates/user-story-template.md
+  mode: planned_ollama_not_executed
+  sha256: 8ab99b9f2479d42420d3135591eb2b78c25a540e3e6f9c5ee5a5991b880f71dd
+- source: nexora-framework/07-governance/adr/ADR-001-specification-driven-development.md
+  target: nexora-framework/07-governance/adr/ADR-001-specification-driven-development.md
+  mode: planned_ollama_not_executed
+  sha256: 6205d3ba687fb6f4e3f61849680fec3a6f8a8946d0d836346f2d8834aa16aa2f
+- source: nexora-framework/07-governance/adr/ADR-002-agent-agnostic-engineering.md
+  target: nexora-framework/07-governance/adr/ADR-002-agent-agnostic-engineering.md
+  mode: planned_ollama_not_executed
+  sha256: 4a2fab434ff534bc483882533226283c569bad61448669b6e61f28bb208c9e40
+- source: nexora-framework/07-governance/adr/ADR-003-anywhere-first.md
+  target: nexora-framework/07-governance/adr/ADR-003-anywhere-first.md
+  mode: planned_ollama_not_executed
+  sha256: d154c100c823951cca4d91c08a122d4e9bafdb79e3e22d1a1a3655e658a629f3
+- source: nexora-framework/07-governance/adr/ADR-004-human-and-machine-readable-specification.md
+  target: nexora-framework/07-governance/adr/ADR-004-human-and-machine-readable-specification.md
+  mode: planned_ollama_not_executed
+  sha256: 871a590bbbc457acd8e24b9f2dff81ab55007ba56e3b21ce760430302e03b674
+- source: nexora-framework/07-governance/adr/ADR-005-enterprise-data-architecture.md
+  target: nexora-framework/07-governance/adr/ADR-005-enterprise-data-architecture.md
+  mode: planned_ollama_not_executed
+  sha256: a8d84c86f8a390621bc6d746b4ed090c85473bcdc59c94ce4b57205b1c14b4af
+- source: nexora-framework/07-governance/adr/ADR-006-application-architecture-as-enterprise-layer.md
+  target: nexora-framework/07-governance/adr/ADR-006-application-architecture-as-enterprise-layer.md
+  mode: planned_ollama_not_executed
+  sha256: 381031b4d35f304931d82b665b6465acbd7ae9c7aa232ef9bb3b246434d41260
+- source: nexora-framework/07-governance/adr/ADR-007-technology-architecture-and-anywhere-first.md
+  target: nexora-framework/07-governance/adr/ADR-007-technology-architecture-and-anywhere-first.md
+  mode: planned_ollama_not_executed
+  sha256: 8e3a8a28f8e8a141e241de565a7c510e9f6fad685ea62efd730ab42350a49bff
+- source: nexora-framework/07-governance/adr/ADR-008-security-compliance-architecture.md
+  target: nexora-framework/07-governance/adr/ADR-008-security-compliance-architecture.md
+  mode: planned_ollama_not_executed
+  sha256: 6d0260df5fca16e3dd06efef3c8cd68812ebbd4195177286853fb8da44df016d
+- source: nexora-framework/07-governance/adr/ADR-009-integration-interoperability-through-adapters.md
+  target: nexora-framework/07-governance/adr/ADR-009-integration-interoperability-through-adapters.md
+  mode: planned_ollama_not_executed
+  sha256: b559bb1491aab5a9a8deca7c301912b55fb80a72af8c035998cdda879b8be2a2
+- source: nexora-framework/07-governance/adr/ADR-010-ai-platform-provider-agnostic.md
+  target: nexora-framework/07-governance/adr/ADR-010-ai-platform-provider-agnostic.md
+  mode: planned_ollama_not_executed
+  sha256: 3ba23edd01bfd434e77950d5cd6873e01ac755c7d190640ff495fac8179a8a37
+- source: nexora-framework/07-governance/adr/ADR-011-product-evolution-and-saas-business-architecture.md
+  target: nexora-framework/07-governance/adr/ADR-011-product-evolution-and-saas-business-architecture.md
+  mode: planned_ollama_not_executed
+  sha256: 9ccd22acd8cafdb8c08b1b5f46352ff8a67086cfa75fea6e8724e0069c1a2275
+- source: nexora-framework/07-governance/adr/ADR-012-nexora-capability-library.md
+  target: nexora-framework/07-governance/adr/ADR-012-nexora-capability-library.md
+  mode: planned_ollama_not_executed
+  sha256: 614c4b0b333079da265d312dbd9f1ec339b40dcda4ea15ca7e0f2d612e2772dc
+- source: nexora-framework/07-governance/adr/ADR-013-organization-branch-as-foundational-capability.md
+  target: nexora-framework/07-governance/adr/ADR-013-organization-branch-as-foundational-capability.md
+  mode: planned_ollama_not_executed
+  sha256: bcd8d4963b9096846ce61ac3e28b00a0948b64e0b1aa503fe265ad49aa67a6e8
+- source: nexora-framework/07-governance/adr/ADR-014-identity-access-workforce-management.md
+  target: nexora-framework/07-governance/adr/ADR-014-identity-access-workforce-management.md
+  mode: planned_ollama_not_executed
+  sha256: f2abb917e32949ee34dd95cb9ca1966be94e83d5f2721170eb4462153a9a4728
+- source: nexora-framework/07-governance/adr/ADR-015-medical-staff-as-clinical-traceability-capability.md
+  target: nexora-framework/07-governance/adr/ADR-015-medical-staff-as-clinical-traceability-capability.md
+  mode: planned_ollama_not_executed
+  sha256: a016b13d9864ef5aebddbc284221ad6777e3997358b7f48e16d3e6a1022ae980
+- source: nexora-framework/07-governance/adr/ADR-016-catalog-test-configuration-as-configuration-engine.md
+  target: nexora-framework/07-governance/adr/ADR-016-catalog-test-configuration-as-configuration-engine.md
+  mode: planned_ollama_not_executed
+  sha256: 438b1b84dc40cdb6b8b76976502d8e61d0201b1fecb55f637623dae655a96323
+- source: nexora-framework/07-governance/adr/ADR-017-capability-orders-appointments-sample-collection.md
+  target: nexora-framework/07-governance/adr/ADR-017-capability-orders-appointments-sample-collection.md
+  mode: planned_ollama_not_executed
+  sha256: c0f10d627146c4dd7360bf618a0d7b8d054ac4d8e1b6c665a6131985ffd35bce
+- source: nexora-framework/07-governance/adr/ADR-018-results-report-management-capability.md
+  target: nexora-framework/07-governance/adr/ADR-018-results-report-management-capability.md
+  mode: planned_ollama_not_executed
+  sha256: 485e15ab78be53e1ed9edd4b4e334f8632df5f16ff89a1440b134fc0fdc78785
+- source: nexora-framework/07-governance/adr/ADR-019-cash-sales-cash-closing-capability.md
+  target: nexora-framework/07-governance/adr/ADR-019-cash-sales-cash-closing-capability.md
+  mode: planned_ollama_not_executed
+  sha256: d55de22d0243bcc412bf1128de88ae1665f8562c2fa6f415d0bd307e3e8194ab
+- source: nexora-framework/07-governance/adr/ADR-020-billing-tax-compliance-as-country-pack-capability.md
+  target: nexora-framework/07-governance/adr/ADR-020-billing-tax-compliance-as-country-pack-capability.md
+  mode: planned_ollama_not_executed
+  sha256: f5945a5b9e0fbc7607b77cbaa89bd4c79f407961f989040c0ac5c48484fa950a
+- source: nexora-framework/07-governance/adr/ADR-021-inventory-as-immutable-stock-ledger.md
+  target: nexora-framework/07-governance/adr/ADR-021-inventory-as-immutable-stock-ledger.md
+  mode: planned_ollama_not_executed
+  sha256: 1a57aaf151477782bdcb2f7bedb074dba1210f2da1d5c7529fa14473535d7e1c
+- source: nexora-framework/07-governance/adr/ADR-022-imaging-dicom-pacs-as-core-diagnostic-capability.md
+  target: nexora-framework/07-governance/adr/ADR-022-imaging-dicom-pacs-as-core-diagnostic-capability.md
+  mode: planned_ollama_not_executed
+  sha256: e4ba67b0baeb6a43b93b87c48cfd87627783bb636a8afef666913f9d184db93f
+- source: nexora-framework/07-governance/adr/ADR-023-nexora-architecture-refactoring-domain-foundation.md
+  target: nexora-framework/07-governance/adr/ADR-023-nexora-architecture-refactoring-domain-foundation.md
+  mode: planned_ollama_not_executed
+  sha256: c26deddf3864dc57d480357154d03736b1ec80da089830a7f035476c9f8e93f5
+- source: nexora-framework/07-governance/adr/ADR-024-multi-project-repository-structure.md
+  target: nexora-framework/07-governance/adr/ADR-024-multi-project-repository-structure.md
+  mode: planned_ollama_not_executed
+  sha256: c7dfa6b9169e0f1ca14ca017116c8dbe62d9f88fe727f6746d89df587288e752
+- source: nexora-framework/07-governance/adr/ADR-031-model-driven-product-engineering-and-capability-packages.md
+  target: nexora-framework/07-governance/adr/ADR-031-model-driven-product-engineering-and-capability-packages.md
+  mode: planned_ollama_not_executed
+  sha256: c62e985586e56578bdc8d85403ea3344e6b8da723947d43ff22a8eada704b173
+- source: nexora-framework/07-governance/adr/ADR-032-product-marketplace-and-commercial-extension-architecture.md
+  target: nexora-framework/07-governance/adr/ADR-032-product-marketplace-and-commercial-extension-architecture.md
+  mode: planned_ollama_not_executed
+  sha256: cfaf8584c8c349c34518b8ac5a23df4766d6c5a47ea7b16d5b103d1548fae389
+- source: nexora-framework/07-governance/adr/README.md
+  target: nexora-framework/07-governance/adr/README.md
+  mode: planned_ollama_not_executed
+  sha256: e5f76e4941066d214ee5a88adc5fbd2a2cd7b159f22b989744c9394a7224ee08
+- source: nexora-framework/07-governance/framework-improvement-backlog/framework-improvement-backlog.yaml
+  target: nexora-framework/07-governance/framework-improvement-backlog/framework-improvement-backlog.md
+  mode: deterministic
+  sha256: 78ea73eec84255c3caf39dcb00b19ad4f6709040e87c7146a7b373057dd736d5
+- source: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-001-framework-feedback-loop.yaml
+  target: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-001-framework-feedback-loop.md
+  mode: deterministic
+  sha256: 841477b913c37197dd1ca8fa6780bf6b8eb58450e1432a66909eae148b0177c2
+- source: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-002-context-efficient-format-migration.yaml
+  target: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-002-context-efficient-format-migration.md
+  mode: deterministic
+  sha256: 59aaa77ceb8cdae9385f110328993ee9c87895cd138d9ef76abb543544b05139
+- source: nexora-framework/07-governance/framework-improvement-backlog/README.md
+  target: nexora-framework/07-governance/framework-improvement-backlog/README.md
+  mode: planned_ollama_not_executed
+  sha256: 3e67b9776e31a914209f61d0f88ffadef8269c0d5d31bf08d8a797e4b1d50ab6
+- source: nexora-framework/07-governance/manifests/README.md
+  target: nexora-framework/07-governance/manifests/README.md
+  mode: planned_ollama_not_executed
+  sha256: 22584c9e0941670a6c2efbafeb090ea56476b340e52fcf2312c547a69897d8a4
+- source: nexora-framework/07-governance/README.md
+  target: nexora-framework/07-governance/README.md
+  mode: planned_ollama_not_executed
+  sha256: b869a7ae8621d0695add2361a18fd48b7d89735203a910f5d40cbe3950207bac
+- source: nexora-framework/07-governance/releases/v0.13.0.md
+  target: nexora-framework/07-governance/releases/v0.13.0.md
+  mode: planned_ollama_not_executed
+  sha256: 1d6111a418826cfa5090326944d6fa8597e42f923a27dce16323b39854795e66
+- source: nexora-framework/07-governance/releases/v0.14.0.md
+  target: nexora-framework/07-governance/releases/v0.14.0.md
+  mode: planned_ollama_not_executed
+  sha256: 2af9c7c097fea67643cb10c14e56caaa55b9e12c495f841c906da64671626d13
+- source: nexora-framework/07-governance/releases/v0.15.0.md
+  target: nexora-framework/07-governance/releases/v0.15.0.md
+  mode: planned_ollama_not_executed
+  sha256: ef712bb5753dfa20436c9fccfab85ed2e98d09927b5590de1473bbc7d4014788
+- source: nexora-framework/07-governance/releases/v0.16.0.md
+  target: nexora-framework/07-governance/releases/v0.16.0.md
+  mode: planned_ollama_not_executed
+  sha256: 035e23051d66bfabe6a946ecc81784f13547e3700592080dbea6160c0d17defb
+- source: nexora-framework/07-governance/releases/v0.17.0.md
+  target: nexora-framework/07-governance/releases/v0.17.0.md
+  mode: planned_ollama_not_executed
+  sha256: a9309ddb3bdc9e3c5d686cf5e9d5d8d42fe1acbebdd603ca389988a43ba3b56a
+- source: nexora-framework/07-governance/releases/v0.22.0.md
+  target: nexora-framework/07-governance/releases/v0.22.0.md
+  mode: planned_ollama_not_executed
+  sha256: bbac70741c8321d10f215a5fa065b766e8d77ba1bdcf577e478a491da751b84f
+- source: nexora-framework/07-governance/rfc/README.md
+  target: nexora-framework/07-governance/rfc/README.md
+  mode: planned_ollama_not_executed
+  sha256: 45e65bc9a544e944ef5441c5d5eb10ea6586e660898821d0d26d90283928f347
+- source: nexora-framework/07-governance/rfc/RFC-001-nexora-meta-model.md
+  target: nexora-framework/07-governance/rfc/RFC-001-nexora-meta-model.md
+  mode: planned_ollama_not_executed
+  sha256: 25d32f84880f2775a3b17220d7003f2f702da8f5700b351a9572e1dc742a69e3
+- source: nexora-framework/07-governance/roadmap/README.md
+  target: nexora-framework/07-governance/roadmap/README.md
+  mode: planned_ollama_not_executed
+  sha256: 3389380a999186f0a9411df42de19d3fcf8420592416f6a58bee34493dbc3c10
+- source: nexora-framework/07-governance/roadmap/release-notes-v0.12.0.md
+  target: nexora-framework/07-governance/roadmap/release-notes-v0.12.0.md
+  mode: planned_ollama_not_executed
+  sha256: e5f390a9b6ac65e42d6c3185a631b5d486635e7a4f780d80763214215960f24f
+- source: nexora-framework/08-engineering/agents/agent-registry.yaml
+  target: nexora-framework/08-engineering/agents/agent-registry.md
+  mode: deterministic
+  sha256: 65b051d4da200365ee679ec99e799b62c8e0e23230ec34916bd5d44e6b9e854e
+- source: nexora-framework/08-engineering/agents/ai-platform-agent/README.md
+  target: nexora-framework/08-engineering/agents/ai-platform-agent/README.md
+  mode: planned_ollama_not_executed
+  sha256: 3de6da165ff512694a06aaae9a86c9877aa707b476b58284c55fe12c828851d5
+- source: nexora-framework/08-engineering/agents/application-architecture-agent.md
+  target: nexora-framework/08-engineering/agents/application-architecture-agent.md
+  mode: planned_ollama_not_executed
+  sha256: e82c8543ae6912218df2aa40ab42f557a56dccdb97c71e80bfe2b605c49b64a5
+- source: nexora-framework/08-engineering/agents/capability-agents/billing-invoicing-tax-compliance/README.md
+  target: nexora-framework/08-engineering/agents/capability-agents/billing-invoicing-tax-compliance/README.md
+  mode: planned_ollama_not_executed
+  sha256: f35d87a1e34f4c03868973cb153d160a22504d5aaf68e6c923125b91730b2144
+- source: nexora-framework/08-engineering/agents/capability-agents/imaging-operations-dicom-pacs-management/README.md
+  target: nexora-framework/08-engineering/agents/capability-agents/imaging-operations-dicom-pacs-management/README.md
+  mode: planned_ollama_not_executed
+  sha256: 971ae82846227d24df52db1af237685a4ffd27d3c4dc6b0f7666c0ca8a4eb80a
+- source: nexora-framework/08-engineering/agents/capability-agents/inventory-capability-agent.md
+  target: nexora-framework/08-engineering/agents/capability-agents/inventory-capability-agent.md
+  mode: planned_ollama_not_executed
+  sha256: 7e3f5df8d56caa15f4f9f40b836ac37cd412bba1e7687eccfd30ee51f2c7ba41
+- source: nexora-framework/08-engineering/agents/capability-agents/orders-appointments-sample-collection/README.md
+  target: nexora-framework/08-engineering/agents/capability-agents/orders-appointments-sample-collection/README.md
+  mode: planned_ollama_not_executed
+  sha256: b0574ff2d8b6231db3a329455224913850368e4f0445ea777283b933765945c0
+- source: nexora-framework/08-engineering/agents/capability-agents/results-management-agent.md
+  target: nexora-framework/08-engineering/agents/capability-agents/results-management-agent.md
+  mode: planned_ollama_not_executed
+  sha256: 940d6d3085c0ea33ae4242e25314a048a0a5585d590571e301511d4116162c3f
+- source: nexora-framework/08-engineering/agents/capability-library-agent/README.md
+  target: nexora-framework/08-engineering/agents/capability-library-agent/README.md
+  mode: planned_ollama_not_executed
+  sha256: 4a69f878ca41e6bd3ed9f044181ab5781dbb37ed9c9a9a5cb25ad28731f5be30
+- source: nexora-framework/08-engineering/agents/cash-management-agent/README.md
+  target: nexora-framework/08-engineering/agents/cash-management-agent/README.md
+  mode: planned_ollama_not_executed
+  sha256: 6f5ccdfa59bf0504fd9605a2a3ec0be9a4f52560d4091b834683ebec21db6b24
+- source: nexora-framework/08-engineering/agents/catalog-configuration-agent/README.md
+  target: nexora-framework/08-engineering/agents/catalog-configuration-agent/README.md
+  mode: planned_ollama_not_executed
+  sha256: 16bc7ef9313576302edae4d411e262b1a777fa8b3383c34d5dc89bebb57822ab
+- source: nexora-framework/08-engineering/agents/context-orchestrator/README.md
+  target: nexora-framework/08-engineering/agents/context-orchestrator/README.md
+  mode: planned_ollama_not_executed
+  sha256: 23c2e8cba028fad5fb70150f4fecd29bf4cad4d58a46219150f247661bf3ffc4
+- source: nexora-framework/08-engineering/agents/data-architecture-agent.md
+  target: nexora-framework/08-engineering/agents/data-architecture-agent.md
+  mode: planned_ollama_not_executed
+  sha256: 25f181e3295092ba202463d146d9ccfb690c51c9663bb61f04611ee3827d27c5
+- source: nexora-framework/08-engineering/agents/data-stewardship-agent.md
+  target: nexora-framework/08-engineering/agents/data-stewardship-agent.md
+  mode: planned_ollama_not_executed
+  sha256: 1cd9a08268e96842bbdd8ede57be6cab48a425c771bdfd8f9e1c05c5731a3edc
+- source: nexora-framework/08-engineering/agents/iam-agent/README.md
+  target: nexora-framework/08-engineering/agents/iam-agent/README.md
+  mode: planned_ollama_not_executed
+  sha256: ad4200d62dff2a71b7afbf0d760d2b706471f0504805177eb8669d724df8a0e5
+- source: nexora-framework/08-engineering/agents/integration-architecture/integration-architecture-agent.md
+  target: nexora-framework/08-engineering/agents/integration-architecture/integration-architecture-agent.md
+  mode: planned_ollama_not_executed
+  sha256: b42f6fc60fda15e71eaa4a1e785b0a69fc2906cf37bb30a54b2f76c9ff2e596b
+- source: nexora-framework/08-engineering/agents/master-agent.md
+  target: nexora-framework/08-engineering/agents/master-agent.md
+  mode: planned_ollama_not_executed
+  sha256: 1172255688c2d39b667bf090e7e3116670fb724daaac8dcc367445b5d2526654
+- source: nexora-framework/08-engineering/agents/medical-staff-agent/README.md
+  target: nexora-framework/08-engineering/agents/medical-staff-agent/README.md
+  mode: planned_ollama_not_executed
+  sha256: b19c0035b3cc2b55098fa85506dd5599e38aea576e939e5653feac9c277f6f61
+- source: nexora-framework/08-engineering/agents/meta-model-agent.md
+  target: nexora-framework/08-engineering/agents/meta-model-agent.md
+  mode: planned_ollama_not_executed
+  sha256: 4a2732652d00ee75f13ea53bc75703ebc4acb0133e7d786f2479940749b231a5
+- source: nexora-framework/08-engineering/agents/product-evolution-agent.md
+  target: nexora-framework/08-engineering/agents/product-evolution-agent.md
+  mode: planned_ollama_not_executed
+  sha256: c9738dfbf427996ac6d14f41029c91f1012711c987eaa4c114099a4e22cd1de8
+- source: nexora-framework/08-engineering/agents/README.md
+  target: nexora-framework/08-engineering/agents/README.md
+  mode: planned_ollama_not_executed
+  sha256: 899f8564468cc933244c6e9920cc8ded65c7d34b0e72043af3fb42cd865b466e
+- source: nexora-framework/08-engineering/ai/README.md
+  target: nexora-framework/08-engineering/ai/README.md
+  mode: planned_ollama_not_executed
+  sha256: 16f43e192a5895acb014b3e8f828f546560bfd8cc677a849bb5af0ac7a6450f2
+- source: nexora-framework/08-engineering/devops/README.md
+  target: nexora-framework/08-engineering/devops/README.md
+  mode: planned_ollama_not_executed
+  sha256: ef555b1ea557e8758db2cc3ff23ea92d8057f33b4249a8318f23b67f6420d315
+- source: nexora-framework/08-engineering/engineering/README.md
+  target: nexora-framework/08-engineering/engineering/README.md
+  mode: planned_ollama_not_executed
+  sha256: 4b0ec373da472e76b4bca5018c935e1881cc1247fed0759f2d17547a7b8c49c5
+- source: nexora-framework/08-engineering/platform-engineering/README.md
+  target: nexora-framework/08-engineering/platform-engineering/README.md
+  mode: planned_ollama_not_executed
+  sha256: 64153127c26911e3f5683769d9b78fcd3b288dfd974f7f86f74070120f6892ae
+- source: nexora-framework/08-engineering/playbooks/add-api-endpoint.md
+  target: nexora-framework/08-engineering/playbooks/add-api-endpoint.md
+  mode: planned_ollama_not_executed
+  sha256: aa0ef27347ea78f05c433b763ad0bb7272a9bc460019aa7f2eefa0543777a488
+- source: nexora-framework/08-engineering/playbooks/ai-platform/create-ai-capability.md
+  target: nexora-framework/08-engineering/playbooks/ai-platform/create-ai-capability.md
+  mode: planned_ollama_not_executed
+  sha256: 9743ea47e8bc3a07394184bee6e8bb86391eba344b87f7e5ee6930cb82cac37f
+- source: nexora-framework/08-engineering/playbooks/capabilities/CAP-008/build-cash-capability.md
+  target: nexora-framework/08-engineering/playbooks/capabilities/CAP-008/build-cash-capability.md
+  mode: planned_ollama_not_executed
+  sha256: f8ec01d70c1c8c8ddfe3ab5acaa9b4c82db19267646c13776f179f3dd03e40ca
+- source: nexora-framework/08-engineering/playbooks/capabilities/CAP-010/build-inventory-capability.md
+  target: nexora-framework/08-engineering/playbooks/capabilities/CAP-010/build-inventory-capability.md
+  mode: planned_ollama_not_executed
+  sha256: 180682b7e0bed62d88ec2ddd9873f9747f398377f23cf1a8ea69cfba43b1db80
+- source: nexora-framework/08-engineering/playbooks/capabilities/CAP-011/create-or-update-imaging-capability.md
+  target: nexora-framework/08-engineering/playbooks/capabilities/CAP-011/create-or-update-imaging-capability.md
+  mode: planned_ollama_not_executed
+  sha256: c8609298401da000d66a52536cfde8bff6ceaefa5575d36c2186920ad616fbdf
+- source: nexora-framework/08-engineering/playbooks/capabilities/create-result-workflow.md
+  target: nexora-framework/08-engineering/playbooks/capabilities/create-result-workflow.md
+  mode: planned_ollama_not_executed
+  sha256: fa0b65ffed3815de729d536ee2d56b574c9e251bf04d6b94430416e2155cf586
+- source: nexora-framework/08-engineering/playbooks/capabilities/orders-appointments-sample-collection/README.md
+  target: nexora-framework/08-engineering/playbooks/capabilities/orders-appointments-sample-collection/README.md
+  mode: planned_ollama_not_executed
+  sha256: a1211ea89bf6c076a413bbdd951650bb644f5ef05cad07977341d591a2bef98a
+- source: nexora-framework/08-engineering/playbooks/catalog-configuration/README.md
+  target: nexora-framework/08-engineering/playbooks/catalog-configuration/README.md
+  mode: planned_ollama_not_executed
+  sha256: d619d528c600478ccdfc33e9bdea46486b72652d772989461011cdeb102e7baa
+- source: nexora-framework/08-engineering/playbooks/create-business-capability.md
+  target: nexora-framework/08-engineering/playbooks/create-business-capability.md
+  mode: planned_ollama_not_executed
+  sha256: fe1b55882634498da25f85c30e38ccbad27725ae514755e67261928008b7e605
+- source: nexora-framework/08-engineering/playbooks/create-iam-protected-endpoint.md
+  target: nexora-framework/08-engineering/playbooks/create-iam-protected-endpoint.md
+  mode: planned_ollama_not_executed
+  sha256: d415076667c5de75c0503ed6ea4cc037c7e9348338edf29925c2c9ce241f0c03
+- source: nexora-framework/08-engineering/playbooks/create-medical-staff-feature.md
+  target: nexora-framework/08-engineering/playbooks/create-medical-staff-feature.md
+  mode: planned_ollama_not_executed
+  sha256: 54f95d3f2607175efae05d63440486628b07b032bbbfb2bac8869ffaf3524e1b
+- source: nexora-framework/08-engineering/playbooks/create-new-capability.md
+  target: nexora-framework/08-engineering/playbooks/create-new-capability.md
+  mode: planned_ollama_not_executed
+  sha256: 254831cde0f64fb0819f46c614fa00b5bb212acd280a87d63ab849e37b982857
+- source: nexora-framework/08-engineering/playbooks/integration-architecture/create-new-connector.md
+  target: nexora-framework/08-engineering/playbooks/integration-architecture/create-new-connector.md
+  mode: planned_ollama_not_executed
+  sha256: acf1b181565b2866a4bf46328b2ab65ca9fd765779d8c2f7d3e0940287bc0cea
+- source: nexora-framework/08-engineering/playbooks/PB-003-create-dual-format-artifact.md
+  target: nexora-framework/08-engineering/playbooks/PB-003-create-dual-format-artifact.md
+  mode: planned_ollama_not_executed
+  sha256: 620a6c592cf82ad270270ac9917da7052f8099d8e57f1897b06785530fea8d11
+- source: nexora-framework/08-engineering/playbooks/PB-004-create-application-service.md
+  target: nexora-framework/08-engineering/playbooks/PB-004-create-application-service.md
+  mode: planned_ollama_not_executed
+  sha256: 9a545dc0e74c764e011d48e4fa543feb6b1918684241e2198cbdf048ce1423c2
+- source: nexora-framework/08-engineering/playbooks/product-evolution/PB-006-create-product-capability.md
+  target: nexora-framework/08-engineering/playbooks/product-evolution/PB-006-create-product-capability.md
+  mode: planned_ollama_not_executed
+  sha256: a9ee41b981bed426e575d4b43bd83a359cea72a53ae45d9406957fbb87820b3a
+- source: nexora-framework/08-engineering/playbooks/README.md
+  target: nexora-framework/08-engineering/playbooks/README.md
+  mode: planned_ollama_not_executed
+  sha256: 29e2a596d3bfc31c1e805fa7ff0724b35a2b891f15b958ec20c781eba0bd3a3b
+- source: nexora-framework/08-engineering/README.md
+  target: nexora-framework/08-engineering/README.md
+  mode: planned_ollama_not_executed
+  sha256: 391b28f7d5b457c93e69c0e1941e789de23b87b18f05818000ee5353c38dc5c8
+- source: nexora-framework/08-engineering/security/README.md
+  target: nexora-framework/08-engineering/security/README.md
+  mode: planned_ollama_not_executed
+  sha256: acb1038de34b7968d77732c671416721d486e31cc29e627f3e1b7a862d43e428
+- source: nexora-framework/09-specifications/meta-model/artifact-type-catalog.yaml
+  target: nexora-framework/09-specifications/meta-model/artifact-type-catalog.md
+  mode: deterministic
+  sha256: 1e5d298cb1398540e7114e8dc01ece64aa79c1bdb5c4b6fdc669785aee9504a2
+- source: nexora-framework/09-specifications/meta-model/generators/README.md
+  target: nexora-framework/09-specifications/meta-model/generators/README.md
+  mode: planned_ollama_not_executed
+  sha256: 697c897fa098ba730ed1684be689265714400822d5d0da4983cc6b31adaa8e29
+- source: nexora-framework/09-specifications/meta-model/mappings/source-to-artifact-map.yaml
+  target: nexora-framework/09-specifications/meta-model/mappings/source-to-artifact-map.md
+  mode: deterministic
+  sha256: eda29e9f4897cb9a620baab94c680a57c97fb5366be964c1ea65078059831314
+- source: nexora-framework/09-specifications/meta-model/README.md
+  target: nexora-framework/09-specifications/meta-model/README.md
+  mode: planned_ollama_not_executed
+  sha256: 818b55217818fe95ffd7fe236e228b5dab4898465a1d1da432965065f435e6fe
+- source: nexora-framework/09-specifications/meta-model/validators/README.md
+  target: nexora-framework/09-specifications/meta-model/validators/README.md
+  mode: planned_ollama_not_executed
+  sha256: 6f317e9fcad5c2d202985ee2762362a4f0701eb511023d1785052209553669b6
+- source: nexora-framework/09-specifications/README.md
+  target: nexora-framework/09-specifications/README.md
+  mode: planned_ollama_not_executed
+  sha256: 13bfa73c92dcd792209f624e27c09570b7159fda97822865dc1413d4bbff8418
+- source: nexora-framework/09-specifications/schemas/README.md
+  target: nexora-framework/09-specifications/schemas/README.md
+  mode: planned_ollama_not_executed
+  sha256: dd0133758aee2dbb0a90c46c5f07c53444335aa7069b6c63951b58cbcac809b5
+- source: nexora-framework/09-specifications/specifications/README.md
+  target: nexora-framework/09-specifications/specifications/README.md
+  mode: planned_ollama_not_executed
+  sha256: d02edb49ea6341925e70f9d26c6032508e788cccbf14c11066561e2a55527b8b
+- source: nexora-framework/10-examples/examples/README.md
+  target: nexora-framework/10-examples/examples/README.md
+  mode: planned_ollama_not_executed
+  sha256: 243c26be683dc1b4d24300c624c51448de8cd6ec866e3dd14e7ba3bac991eb18
+- source: nexora-framework/10-examples/README.md
+  target: nexora-framework/10-examples/README.md
+  mode: planned_ollama_not_executed
+  sha256: 14451a74a56f996a8b1d390615dc3f51090b9d2c853f1f261d0b59cdaf9d6d6a
+- source: nexora-framework/README.md
+  target: nexora-framework/README.md
+  mode: planned_ollama_not_executed
+  sha256: 6a82a2b5b2777f80c61a8b340da43d364441d13cd4f37bc7f531b8e395ad623a
+written: []
+collisions: []
+errors: []
+reference_issues: []

@@ -35,7 +35,11 @@ sources:
   generated_backlog_prompt_com_mod_017_be_001: 08-qa/generated-prompts/COM-MOD-017-BE-001-prompt.md
   generated_backlog_prompt_com_mod_017_be_001_cache: 08-qa/generated-prompts/cache/COM-MOD-017-BE-001-prompt-cache.json
   backlog_closure_validation_com_mod_017_be_001: 08-qa/backlog-validations/COM-MOD-017-BE-001-closure-validation.yaml
-  frontmatter_migration_report: 08-qa/format-migration/frontmatter-migration-report.yaml
+  nxf_fmt_002_prompt: 08-qa/generated-prompts/NXF-FMT-002-prompt.md
+  nxf_fmt_002_prompt_cache: 08-qa/generated-prompts/cache/NXF-FMT-002-prompt-cache.json
+  nxf_fmt_002_validation: 08-qa/format-migration/NXF-FMT-002-validation.md
+  frontmatter_migration_report_hop: 08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.yaml
+  frontmatter_migration_report_framework: 08-qa/format-migration/frontmatter-migration-report-nexora-framework.yaml
   context_optimized_backlog_prompts_yaml: ../../nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.yaml
   context_optimized_backlog_prompts_md: ../../nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.md
   enterprise_product_foundation_standard: ../../nexora-framework/02-standards/standards/enterprise-product-foundation-standard.yaml

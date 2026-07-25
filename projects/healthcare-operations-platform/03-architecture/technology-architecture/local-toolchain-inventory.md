@@ -62,7 +62,10 @@ The reproducible prompt generated for `COM-MOD-017-BE-001` is stored at
 
 Frontmatter migration tooling is available through
 `nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py`. The current
-pilot inventory report is stored at `08-qa/format-migration/frontmatter-migration-report.yaml`.
+HOP inventory report is stored at
+`08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.yaml`;
+the framework inventory report is stored at
+`08-qa/format-migration/frontmatter-migration-report-nexora-framework.yaml`.
 
 ## Generic Commands
 

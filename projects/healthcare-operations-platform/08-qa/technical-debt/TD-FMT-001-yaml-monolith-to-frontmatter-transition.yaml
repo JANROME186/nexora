@@ -15,8 +15,8 @@ source:
 classification:
   category: documentation_format_migration
   affected_area: framework_and_hop_execution_artifacts
-  risk_level: medium
-  blocking: false
+  risk_level: high
+  blocking: true
 
 current_state:
   issue: >-
@@ -45,7 +45,7 @@ target_state:
       replacement has validation evidence.
 
 remediation:
-  strategy: gradual_when_execution_artifacts_are_next_touched
+  strategy: stop_the_line_before_functional_hop_development_resumes
   recommended_trigger:
     - next prompt framework update
     - next module closeout
@@ -56,5 +56,7 @@ remediation:
     - A migration plan identifies which legacy YAML artifacts can be replaced, split or frontmatter-wrapped.
     - Optional Ollama-assisted conversion is validated locally or explicitly marked unavailable without blocking execution.
   latest_evidence:
-    backlog_item: NXF-CTX-001
-    status: open_non_blocking
+    backlog_item: NXF-FMT-002
+    status: active_blocking
+    hop_inventory: ../format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.yaml
+    framework_inventory: ../format-migration/frontmatter-migration-report-nexora-framework.yaml

@@ -225,10 +225,15 @@ def validate_references(root: Path, migrated: list[dict[str, str]]) -> list[str]
     return issues
 
 
+def slugify(value: str) -> str:
+    return re.sub(r"[^a-zA-Z0-9]+", "-", value.strip("/\\")).strip("-").lower() or "root"
+
+
 def write_report(root: Path, report: dict[str, Any]) -> Path:
     report_dir = root / PROJECT_PATH / "08-qa/format-migration"
     report_dir.mkdir(parents=True, exist_ok=True)
-    report_path = report_dir / "frontmatter-migration-report.yaml"
+    scope_slug = slugify(str(report.get("mode", {}).get("scope", "root")))
+    report_path = report_dir / f"frontmatter-migration-report-{scope_slug}.yaml"
     report_path.write_text(yaml.safe_dump(report, sort_keys=False, allow_unicode=True), encoding="utf-8")
     return report_path
 
