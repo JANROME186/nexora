@@ -154,6 +154,14 @@ public class OrganizationManagementService implements TenantDirectory, BranchDir
     }
 
     @Override
+    public Optional<String> tenantStatus(String tenantId) {
+        if (!StringUtils.hasText(tenantId)) {
+            return Optional.empty();
+        }
+        return repository.findTenantById(tenantId).map(Tenant::status);
+    }
+
+    @Override
     public Optional<BranchSnapshot> findSnapshot(String branchId) {
         if (!StringUtils.hasText(branchId)) {
             return Optional.empty();

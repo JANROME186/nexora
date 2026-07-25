@@ -7,6 +7,13 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
  * {@link #STATUS_PUBLISHED} unless {@code compatibilityApproved}, {@code securityReviewApproved},
  * {@code supportModelApproved} and {@code telemetryModelApproved} are all {@code true}
  * (RN-MKT-001, RN-MKT-004).
+ *
+ * <p>{@code compatibilityMetadataText} is nullable, delimited declared-compatibility metadata
+ * (mirroring the {@code capabilityMappingsText}/{@code tierCodesText} pattern already used
+ * elsewhere for multi-value fields), parsed by {@code CompatibilityMetadata.parse} and consumed by
+ * {@code CompatibilityEvaluator} for compatibility.md's dimensions beyond {@code platform_version}
+ * (COM-MOD-017-BE-002). A version with no declared metadata is only evaluated on {@code
+ * platform_version}, unchanged from COM-MOD-017-BE-001 behavior.
  */
 public record PackageVersion(
         String versionId,
@@ -17,6 +24,7 @@ public record PackageVersion(
         boolean securityReviewApproved,
         boolean supportModelApproved,
         boolean telemetryModelApproved,
+        String compatibilityMetadataText,
         AuditMetadata audit) {
 
     public static final String STATUS_DRAFT = "draft";

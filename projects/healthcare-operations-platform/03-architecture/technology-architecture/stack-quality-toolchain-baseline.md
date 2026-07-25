@@ -307,11 +307,13 @@ mvp_mod_002_closeout_disposition:
     - Architecture rules - partially covered by Spring Modulith structure verification
       (ArchUnit available transitively).
     - Frontend coverage - Vitest V8 provider (68.7% lines).
+    - Full automated DAST - OWASP ZAP (Docker ghcr.io/zaproxy/zaproxy:stable, zap-baseline.py/zap-api-scan.py)
+      proven locally available and routinely run since HOP-QA-ALIGN-004 (TD-QA-001 closed;
+      see 03-architecture/technology-architecture/local-toolchain-inventory.md for
+      invocation commands).
   not_applicable_now:
     description: Categories deferred with documented reason.
     tools:
-    - Full automated DAST - OWASP ZAP unavailable locally; manual integrated HTTP
-      smoke passed (TD-QA-001).
     - PIT/Pitest mutation testing - reserved for core-domain/high-risk hardening.
     - OpenRewrite - reserved for future modernization or framework migration.
   registered_as_gradual_debt:

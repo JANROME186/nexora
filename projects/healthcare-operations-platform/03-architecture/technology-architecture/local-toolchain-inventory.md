@@ -49,6 +49,7 @@ validation or module closeout. It is not a command history; backlog evidence rem
 | Git | 2.51.0.windows.1 | `C:/Program Files/Git/cmd/git.exe` |
 | Docker | 29.6.1 | `C:/Program Files/Docker/Docker/resources/bin/docker.exe` |
 | Trivy | 0.72.0 | `C:/ProgramData/chocolatey/bin/trivy.exe` |
+| OWASP ZAP | stable | Docker image `ghcr.io/zaproxy/zaproxy:stable` (`zap-baseline.py`, `zap-api-scan.py`); no local install |
 | ripgrep | 15.1.0 | Resolve with `Get-Command rg`; do not depend on named-agent bundled paths |
 | Python | 3.13.7 | `C:/Python313/python.exe` |
 | Python package PyYAML | 6.0.3 | Required for deterministic frontmatter migration |
@@ -275,6 +276,27 @@ tools:
   - trivy fs --scanners vuln,secret,misconfig --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
     --exit-code 1 --timeout 10m .
   status: available
+- id: owasp-zap
+  category: dast_scanner
+  executable_name: docker run ghcr.io/zaproxy/zaproxy:stable
+  path: Docker image ghcr.io/zaproxy/zaproxy:stable (zap-baseline.py, zap-api-scan.py);
+    no local install, pulled/run via Docker on demand
+  version: stable (tracks the ghcr.io/zaproxy/zaproxy:stable tag)
+  required_for:
+  - backend_api_dast_scan
+  - employee_portal_and_public_website_baseline_dast_scan
+  detection_command: docker image inspect ghcr.io/zaproxy/zaproxy:stable
+  version_command: docker run --rm ghcr.io/zaproxy/zaproxy:stable zap-baseline.py --version
+  generic_commands:
+  - docker run --rm --add-host=host.docker.internal:host-gateway -v <repo>/<evidence-dir>:/zap/wrk
+    ghcr.io/zaproxy/zaproxy:stable zap-api-scan.py -t http://host.docker.internal:<backend-port>/v3/api-docs
+  - docker run --rm --add-host=host.docker.internal:host-gateway -v <repo>/<evidence-dir>:/zap/wrk
+    ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://host.docker.internal:<frontend-port>
+  status: available
+  proven_usage:
+  - HOP-QA-ALIGN-004
+  - COM-MOD-012-QA-001 (353 backend URLs)
+  - COM-MOD-013-QA-001 (939 backend URLs, 125 employee-portal URLs)
 - id: ripgrep
   category: search_tool
   executable_name: rg

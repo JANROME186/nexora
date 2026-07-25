@@ -95,7 +95,7 @@ class CommercialOfferServiceTest {
         when(offerRepository.findById("offer-1")).thenReturn(Optional.of(fixtureOffer(CommercialOffer.STATUS_PUBLISHED)));
         TenantEntitlement granted = new TenantEntitlement(
                 "ent-1", "tenant-1", "pkg-1", "offer-1", TenantEntitlement.STATUS_ACTIVE, LocalDateTime.now(), null,
-                null, fixtureAudit());
+                null, null, fixtureAudit());
         when(entitlementService.grantEntitlement("tenant-1", "pkg-1", "offer-1", null, "operator-1"))
                 .thenReturn(granted);
 
@@ -130,7 +130,7 @@ class CommercialOfferServiceTest {
     }
 
     private PackageVersion fixtureVersion(String lifecycleStatus) {
-        return new PackageVersion("ver-1", "pkg-1", "1.0.0", lifecycleStatus, true, true, true, true, fixtureAudit());
+        return new PackageVersion("ver-1", "pkg-1", "1.0.0", lifecycleStatus, true, true, true, true, null, fixtureAudit());
     }
 
     private AuditMetadata fixtureAudit() {

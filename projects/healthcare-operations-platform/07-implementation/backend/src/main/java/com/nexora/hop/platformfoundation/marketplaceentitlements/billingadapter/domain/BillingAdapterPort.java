@@ -19,4 +19,17 @@ public interface BillingAdapterPort {
     BillingAdapterAcknowledgement submitBillingEvent(
             String tenantId, String entitlementId, String eventType, long amountMinorUnits, String currency,
             String providerReference);
+
+    /**
+     * Retries a previously rejected billing event using the same idempotency key, mirroring
+     * {@code FiscalAdapterPort.retry}/{@code IntegrationAdapterPort}'s BE-002 maturation pattern
+     * (COM-MOD-017-BE-002). Implementations must honour {@code idempotencyKey} to prevent duplicate
+     * provider-side charges on retry.
+     *
+     * @throws BillingAdapterException if the retry is rejected or the provider boundary is
+     *         unavailable (canonical error code {@code PROVIDER_ADAPTER_UNAVAILABLE})
+     */
+    BillingAdapterAcknowledgement retrySubmission(
+            String tenantId, String idempotencyKey, String entitlementId, String eventType, long amountMinorUnits,
+            String currency);
 }

@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Clock;
@@ -18,6 +20,8 @@ import org.junit.jupiter.api.Test;
 
 import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.compatibilityevaluation.application.CompatibilityEvaluator;
+import com.nexora.hop.platformfoundation.marketplaceentitlements.packageinstallation.domain.InstallationStep;
+import com.nexora.hop.platformfoundation.marketplaceentitlements.packageinstallation.domain.InstallationStepRepository;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.packageinstallation.domain.PackageInstallation;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.packageinstallation.domain.PackageInstallationRepository;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.shared.MarketplaceConflictException;
@@ -31,6 +35,7 @@ import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 class PackageInstallationServiceTest {
 
     private PackageInstallationRepository repository;
+    private InstallationStepRepository installationStepRepository;
     private EntitlementPolicyEvaluator entitlementPolicyEvaluator;
     private TenantDirectory tenantDirectory;
     private PackageInstallationService service;
@@ -38,6 +43,7 @@ class PackageInstallationServiceTest {
     @BeforeEach
     void setUp() {
         repository = mock(PackageInstallationRepository.class);
+        installationStepRepository = mock(InstallationStepRepository.class);
         entitlementPolicyEvaluator = mock(EntitlementPolicyEvaluator.class);
         tenantDirectory = mock(TenantDirectory.class);
         when(repository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
@@ -46,8 +52,8 @@ class PackageInstallationServiceTest {
                 .thenReturn(new EntitlementDecision(EntitlementDecision.ALLOWED, null));
         Clock clock = Clock.fixed(Instant.parse("2026-01-01T00:00:00Z"), ZoneOffset.UTC);
         service = new PackageInstallationService(
-                repository, entitlementPolicyEvaluator, new CompatibilityEvaluator(), tenantDirectory,
-                mock(AuditRecorder.class), clock);
+                repository, installationStepRepository, entitlementPolicyEvaluator, new CompatibilityEvaluator(),
+                tenantDirectory, mock(AuditRecorder.class), clock);
     }
 
     @Test
@@ -58,6 +64,26 @@ class PackageInstallationServiceTest {
         MarketplaceConflictException exception = assertThrows(MarketplaceConflictException.class, () -> service.installPackage(
                 "tenant-1", "pkg-1", CompatibilityEvaluator.PLATFORM_VERSION, "ent-1", "operator-1"));
         assertThat(exception.code()).isEqualTo(MarketplaceErrorCodes.ENTITLEMENT_REQUIRED);
+    }
+
+    @Test
+    void installPackageRejectsWhenTenantIsInactive() {
+        when(entitlementPolicyEvaluator.evaluate("tenant-1", "pkg-1"))
+                .thenReturn(new EntitlementDecision(EntitlementDecision.DENIED_TENANT_INACTIVE, "tenant suspended"));
+
+        MarketplaceConflictException exception = assertThrows(MarketplaceConflictException.class, () -> service.installPackage(
+                "tenant-1", "pkg-1", CompatibilityEvaluator.PLATFORM_VERSION, "ent-1", "operator-1"));
+        assertThat(exception.code()).isEqualTo(MarketplaceErrorCodes.TENANT_NOT_ACTIVE);
+    }
+
+    @Test
+    void installPackageRejectsWhenPackageIsSuspended() {
+        when(entitlementPolicyEvaluator.evaluate("tenant-1", "pkg-1"))
+                .thenReturn(new EntitlementDecision(EntitlementDecision.DENIED_SUSPENDED_PACKAGE, "package retired"));
+
+        MarketplaceConflictException exception = assertThrows(MarketplaceConflictException.class, () -> service.installPackage(
+                "tenant-1", "pkg-1", CompatibilityEvaluator.PLATFORM_VERSION, "ent-1", "operator-1"));
+        assertThat(exception.code()).isEqualTo(MarketplaceErrorCodes.PACKAGE_SUSPENDED);
     }
 
     @Test
@@ -151,6 +177,32 @@ class PackageInstallationServiceTest {
                 .thenReturn(Optional.of(fixtureInstallation(PackageInstallation.STATUS_ACTIVE, "1.0.0")));
         PackageInstallation rolledBack = service.rollbackPackage("tenant-1", "inst-1", "operator-1");
         assertThat(rolledBack.version()).isEqualTo("1.0.0");
+    }
+
+    @Test
+    void rollbackPackagePrefersTheAuditTrailOverTheCheckpointFieldWhenBothExist() {
+        PackageInstallation current = fixtureInstallation(PackageInstallation.STATUS_ACTIVE, "0.9.0");
+        when(repository.findById("inst-1")).thenReturn(Optional.of(current));
+        AuditMetadata stepAudit = new AuditMetadata("operator-1", LocalDateTime.now(), "operator-1", LocalDateTime.now());
+        when(installationStepRepository.findByInstallationIdOrderByOccurredAt("inst-1")).thenReturn(List.of(
+                new InstallationStep("step-1", "inst-1", "tenant-1", InstallationStep.TYPE_UPGRADE, "1.0.0",
+                        CompatibilityEvaluator.PLATFORM_VERSION, PackageInstallation.STATUS_ACTIVE,
+                        PackageInstallation.STATUS_ACTIVE, "operator-1", LocalDateTime.now())));
+
+        PackageInstallation rolledBack = service.rollbackPackage("tenant-1", "inst-1", "operator-1");
+        assertThat(rolledBack.version()).isEqualTo("1.0.0");
+        assertThat(stepAudit).isNotNull();
+    }
+
+    @Test
+    void installActivateSuspendUninstallUpgradeRollbackEachAppendAnInstallationStep() {
+        service.installPackage("tenant-1", "pkg-1", CompatibilityEvaluator.PLATFORM_VERSION, "ent-1", "operator-1");
+        verify(installationStepRepository, times(1)).save(any());
+
+        when(repository.findById("inst-1"))
+                .thenReturn(Optional.of(fixtureInstallation(PackageInstallation.STATUS_INSTALLED, null)));
+        service.activatePackage("tenant-1", "inst-1", "operator-1");
+        verify(installationStepRepository, times(2)).save(any());
     }
 
     @Test

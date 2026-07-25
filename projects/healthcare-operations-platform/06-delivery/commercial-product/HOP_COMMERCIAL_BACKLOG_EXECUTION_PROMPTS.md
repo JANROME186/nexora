@@ -244,34 +244,34 @@ Expected result:
 
 ## Next Backlog Item
 
-`COM-MOD-017-DEF Marketplace capability package and commercial package models` is closed.
+`COM-MOD-017-BE-002 Implement custom entitlement enforcement and billing provider adapter boundary` is closed.
 Continue with:
 
 - Module: `COM-MOD-017`
-- Backlog item: `COM-MOD-017-BE-001`
-- Previous backlog item: `COM-MOD-017-DEF` (closed)
+- Backlog item: `COM-MOD-017-FE-001`
+- Previous backlog item: `COM-MOD-017-BE-002` (closed)
 - Paused functional backlog item: none
-- Folder: `08-qa/qa/product-marketplace-and-extension-packaging/`
+- Folder: `07-implementation/employee-portal/`
 
 Mandatory setup for this backlog:
 
 - Load `03-architecture/technology-architecture/local-toolchain-inventory.md` before running any build, test, coverage, SAST, dependency, DAST, Docker or database command.
 - Prefer the latest compact handoff in `08-qa/handoffs/` and use targeted `rg`/line reads instead of loading complete historical registries into the prompt.
 - When handing this backlog to another execution agent, generate a compact prompt with `nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py` if local Python is available.
-- At closure, create `08-qa/handoffs/COM-MOD-017-BE-001-summary.md` with `Status`, `Cambios Clave`, `Deuda Técnica Creada` and `Siguiente Paso`.
+- At closure, create `08-qa/handoffs/COM-MOD-017-FE-001-summary.md` with `Status`, `Cambios Clave`, `Deuda Técnica Creada` and `Siguiente Paso`.
 - Reconcile `PROJECT_STATE.md`, `SOURCE_OF_TRUTH.md`, this prompt file, capability traceability files and the local runbook pointers before closure.
-- Preserve coverage floors: backend (84.25%), employee portal (89.75%), public website (98.61%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
+- Preserve coverage floors: backend (84.65%), employee portal (89.75%), public website (98.61%), mobile (99.21%), patient portal (94.11%), and doctor portal (96.28%).
 - Keep the work agent-agnostic; do not introduce named-agent, vendor-agent or runtime-specific dependencies.
-- Before feature work, review `08-qa/technical-debt/technical-debt-index.md` and materially reduce at least one applicable open technical-debt item or record why no relevant debt can be reduced without widening scope.
+- Before feature work, review `08-qa/technical-debt/technical-debt-index.md` and materially reduce at least one applicable open technical-debt item or record why no relevant debt can be reduced without widening scope; **TD-BE-019** (marketplace runtime feature-availability not wired into IAM/employee-portal menu) is explicitly gated on this item's own screens and should be closed here.
 - COM-MOD-017 depends on `MVP-MOD-008`, `COM-MOD-012` and `COM-MOD-016`, all closed.
-- Load `BCM-PLT-011 Product Marketplace and Entitlements` and the marketplace enablement traces for `BCM-PLT-001`, `BCM-PLT-002`, `BCM-PLT-005`, `BCM-PLT-006`, `BCM-PLT-007` and `BCM-PLT-009`.
-- Compile backend generated outputs for marketplace catalog, package manifest, offer, license plan, entitlement, compatibility, installation, activation, update, retirement and billing-adapter boundaries.
-- Run mandatory backend gates with executable evidence: tests, build, coverage, best-practice/standards, duplicate code, complexity, SAST/static analysis, OWASP/secure-code, dependency vulnerabilities across all severities, secrets scan and any applicable DAST for runnable surfaces.
-- Do not advance the backlog if Maven, Java, Docker, database, dependency scan, coverage or static-analysis execution is blocked; request support or keep the item open with exact remediation steps.
+- Load `BCM-PLT-011 Product Marketplace and Entitlements` `ui-model.md` and `permissions.md`.
+- Compile the marketplace administration and package installation lifecycle screens per `ui-model.md`, wiring the existing `SCREEN_MARKETPLACE_PACKAGES/OFFERS/ENTITLEMENTS/INSTALLATIONS` `PermissionCode`s and `MARKETPLACE_OPERATOR`/`TENANT_ADMIN` roles (already registered backend-side since `COM-MOD-017-BE-001`) into `employee-portal/src/state/permissions.ts`, `AppShell.tsx` and `App.tsx`'s `SCREEN_COMPONENTS` map, and close **TD-BE-019** by wiring a real runtime feature-availability check into the new screens' navigation/menu decisions.
+- Run mandatory frontend gates with executable evidence: TypeScript strict check, Vitest coverage, ESLint, npm audit, Trivy fs, production build.
+- Do not advance the backlog if Node, npm, dependency scan, coverage or lint execution is blocked; request support or keep the item open with exact remediation steps.
 
 ### Previous Backlog Item (Closed)
 
-`COM-MOD-017-DEF` - Marketplace capability package and commercial package models. Definition-only closeout: created `BCM-PLT-011 Product Marketplace and Entitlements` with standard capability artifacts plus marketplace package, manifest, offer, license, entitlement, compatibility, installation, upgrade, security review, support and telemetry models. Extended marketplace enablement traceability for `BCM-PLT-001/002/005/006/007/009`. No production code, dependency, database, runtime, container or infrastructure asset changed. Coverage floors were preserved and the active backlog item advanced to `COM-MOD-017-BE-001`.
+`COM-MOD-017-BE-002` - Implement custom entitlement enforcement and billing provider adapter boundary. Closed 4 of TD-BE-018's 5 named custom_implementation_points (entitlement-policy.md's full evaluation_order, all 9 compatibility.md dimensions, billing adapter retry/idempotency, a persisted multi-step installation rollback audit trail); repointed the 5th (IAM/employee-portal menu wiring) to new TD-BE-019, gated on non-existent marketplace employee-portal screens (COM-MOD-017-FE-001 scope). Found and closed a real cross-cutting infrastructure defect (TD-BE-020) that silently broke every local-profile JDBC adapter and LocalDatabaseTest backend-wide since the NXF-FMT-002 YAML-to-properties migration. Also closed the unrelated TD-QA-008. 484 tests, 0 failures/errors/skipped against a fresh Docker Postgres volume; backend coverage raised to 84.65%. Active backlog item advanced to `COM-MOD-017-FE-001`.
 
 <!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
 
@@ -741,12 +741,12 @@ validation_commands:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
   module_id: COM-MOD-017
-  backlog_item_id: COM-MOD-017-BE-002
-  name: Implement custom entitlement enforcement and billing provider adapter boundary
-  expected_folder: 07-implementation/backend/
-  required_debt_first_action: TD-BE-018
+  backlog_item_id: COM-MOD-017-FE-001
+  name: Compile marketplace administration and package installation UI outputs
+  expected_folder: 07-implementation/employee-portal/
+  required_debt_first_action: TD-BE-019
   coverage_floor:
-    backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.53
+    backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.65
     frontend_typescript_web_line_coverage_percent: 89.75
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.11
@@ -754,25 +754,37 @@ validation_commands:
     public_website_typescript_web_line_coverage_percent: 98.61
     final_target_percent: 80
   mandatory_execution_notes:
-  - Resume functional work only from the compact generated prompt and NXF-FMT-002
+  - Resume functional work only from the compact generated prompt and COM-MOD-017-BE-002
     handoff; do not preload broad YAML registries.
-  - Implement custom entitlement enforcement for marketplace package installation,
-    activation and runtime consumption.
-  - Implement provider-agnostic billing adapter boundaries without coupling to a proprietary
-    payment provider.
+  - Compile marketplace administration (packages, offers, entitlements) and package
+    installation lifecycle screens per BCM-PLT-011's ui-model.md, following the existing
+    employee-portal screen/facade/i18n conventions.
+  - Wire the already-registered SCREEN_MARKETPLACE_PACKAGES/OFFERS/ENTITLEMENTS/INSTALLATIONS
+    PermissionCodes and MARKETPLACE_OPERATOR/TENANT_ADMIN roles into permissions.ts,
+    AppShell.tsx and App.tsx's SCREEN_COMPONENTS map.
   - Keep execution agent-agnostic and preserve the open-source-first stack and quality
     gates.
   - Address or reduce at least one applicable technical-debt item before feature work;
-    start with TD-BE-018 unless a higher-priority backend debt blocks execution.
-  - Preserve backend coverage at or above 84.53% and keep final project target at
+    close TD-BE-019 here (it is explicitly gated on this item's own screens existing).
+  - Preserve backend coverage at or above 84.65% (unaffected by frontend-only work)
+    and employee-portal coverage at or above 89.75%; keep final project target at
     80% or higher.
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product
     backlog and execution prompts, and commit only when validation passes.
   previous_backlog_item:
-    backlog_item_id: NXF-FMT-002
+    backlog_item_id: COM-MOD-017-BE-002
     status: closed
-    summary: NXF-FMT-002 closed for execution purposes. The migration tool now emits
-      compact Markdown/frontmatter reports instead of full YAML inventories, stale
-      report YAML references were removed, TD-FMT-001 was reduced to non-blocking
-      gradual migration debt, and HOP functional development resumes at COM-MOD-017-BE-002.
+    summary: Implemented 4 of TD-BE-018's 5 marketplace custom_implementation_points
+      (full entitlement-policy.md evaluation_order via a policy-decision-point design
+      keeping marketplaceentitlements's Spring Modulith graph acyclic, all 9 compatibility.md
+      dimensions, billing adapter retry/idempotency, persisted multi-step installation
+      rollback audit trail); repointed the 5th (IAM/menu wiring) to new TD-BE-019,
+      blocked on non-existent employee-portal marketplace screens (COM-MOD-017-FE-001
+      scope). Found and fixed a real cross-cutting infrastructure defect (TD-BE-020,
+      closed) -- application.properties unconditionally excluded DataSourceAutoConfiguration
+      for every Spring profile including local, silently breaking every local-profile
+      JDBC adapter and LocalDatabaseTest across the entire backend since the NXF-FMT-002
+      YAML-to-properties migration. Also closed the unrelated TD-QA-008. 484 tests,
+      0 failures/errors/skipped against a fresh Docker Postgres volume; backend coverage
+      84.65%.
 ```

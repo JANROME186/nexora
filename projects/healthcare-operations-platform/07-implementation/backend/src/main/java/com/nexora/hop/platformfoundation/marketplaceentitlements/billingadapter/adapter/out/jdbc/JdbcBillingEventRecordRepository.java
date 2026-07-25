@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,7 +21,7 @@ class JdbcBillingEventRecordRepository implements BillingEventRecordRepository {
 
     private static final String SELECT_SQL = """
             select billing_event_id, tenant_id, entitlement_id, event_type, amount_minor_units, currency,
-                   provider_reference, adapter_status, created_by, created_at, updated_by, updated_at
+                   provider_reference, adapter_status, retry_count, created_by, created_at, updated_by, updated_at
             from marketplace_entitlements.billing_event_records
             """;
 
@@ -35,14 +36,16 @@ class JdbcBillingEventRecordRepository implements BillingEventRecordRepository {
         jdbcTemplate.update("""
                 insert into marketplace_entitlements.billing_event_records
                     (billing_event_id, tenant_id, entitlement_id, event_type, amount_minor_units, currency,
-                     provider_reference, adapter_status, created_by, created_at, updated_by, updated_at)
-                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                on conflict (billing_event_id) do nothing
+                     provider_reference, adapter_status, retry_count, created_by, created_at, updated_by, updated_at)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                on conflict (billing_event_id) do update set
+                    adapter_status = excluded.adapter_status, retry_count = excluded.retry_count,
+                    updated_by = excluded.updated_by, updated_at = excluded.updated_at
                 """,
                 record.billingEventId(), record.tenantId(), record.entitlementId(), record.eventType(),
                 record.amountMinorUnits(), record.currency(), record.providerReference(), record.adapterStatus(),
-                record.audit().createdBy(), Timestamp.valueOf(record.audit().createdAt()), record.audit().updatedBy(),
-                Timestamp.valueOf(record.audit().updatedAt()));
+                record.retryCount(), record.audit().createdBy(), Timestamp.valueOf(record.audit().createdAt()),
+                record.audit().updatedBy(), Timestamp.valueOf(record.audit().updatedAt()));
         return record;
     }
 
@@ -50,6 +53,12 @@ class JdbcBillingEventRecordRepository implements BillingEventRecordRepository {
     public List<BillingEventRecord> findByTenantId(String tenantId) {
         return jdbcTemplate.query(SELECT_SQL + " where tenant_id = ?",
                 JdbcBillingEventRecordRepository::map, tenantId);
+    }
+
+    @Override
+    public Optional<BillingEventRecord> findByTenantIdAndProviderReference(String tenantId, String providerReference) {
+        return jdbcTemplate.query(SELECT_SQL + " where tenant_id = ? and provider_reference = ?",
+                JdbcBillingEventRecordRepository::map, tenantId, providerReference).stream().findFirst();
     }
 
     private static BillingEventRecord map(ResultSet resultSet, int rowNumber) throws SQLException {
@@ -62,6 +71,7 @@ class JdbcBillingEventRecordRepository implements BillingEventRecordRepository {
                 resultSet.getString("currency"),
                 resultSet.getString("provider_reference"),
                 resultSet.getString("adapter_status"),
+                resultSet.getInt("retry_count"),
                 new AuditMetadata(
                         resultSet.getString("created_by"), localDateTime(resultSet, "created_at"),
                         resultSet.getString("updated_by"), localDateTime(resultSet, "updated_at")));

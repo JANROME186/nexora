@@ -237,17 +237,23 @@ product:
     completed_module: COM-MOD-016 (COM-MOD-016-CLOSEOUT closed)
     completed_status: closed
     active_module: COM-MOD-017
-    active_backlog_item: COM-MOD-017-BE-002
-    active_module_progress: COM-MOD-017-BE-001 Product Marketplace and Extension Packaging
-      backend outputs are closed. The marketplaceentitlements Spring Modulith module
-      was compiled for BCM-PLT-011 (packagecatalog, commercialoffers, tenantentitlements,
-      packageinstallation, compatibilityevaluation, billingadapter), all 21 openapi-source.md
-      operations are functional, and backend coverage was raised from 84.25% to a
-      reproducible 84.53% (442 tests, 0 failures/errors/skipped). TD-BE-018 was registered
-      non-blocking for deferred custom-rule sophistication, and TD-QA-008 remains
-      open non-blocking as project-wide toolchain inventory debt. NXF-FMT-002 frontmatter
-      optimization is closed for execution purposes; functional development resumes
-      at COM-MOD-017-BE-002 using compact generated prompts and handoffs.
+    active_backlog_item: COM-MOD-017-FE-001
+    active_module_progress: COM-MOD-017-BE-002 Implement custom entitlement enforcement
+      and billing provider adapter boundary is closed. 4 of TD-BE-018's 5 named custom_implementation_points
+      are now implemented -- EntitlementPolicyEvaluator runs the full entitlement-policy.md
+      evaluation_order (via a policy-decision-point design confirmed acyclic by PlatformFoundationModulithTest),
+      CompatibilityEvaluator evaluates all 9 compatibility.md dimensions, the billing
+      adapter boundary gained retry/idempotency (INV-MKT-003 preserved), and installation
+      rollback now derives its target version from a persisted multi-step InstallationStep
+      audit trail. The 5th point (runtime feature-availability into IAM/employee-portal
+      menu) is repointed to new TD-BE-019, gated on marketplace employee-portal screens
+      that do not exist yet (COM-MOD-017-FE-001 scope). A real cross-cutting infrastructure
+      defect (TD-BE-020) -- DataSourceAutoConfiguration silently excluded under the
+      local profile since the NXF-FMT-002 YAML-to-properties migration, breaking every
+      local-profile JDBC adapter and LocalDatabaseTest backend-wide -- was found and
+      fixed. TD-QA-008 (stale ZAP toolchain documentation) was also closed. 484 tests,
+      0 failures/errors/skipped against a fresh Docker Postgres volume; backend coverage
+      raised to 84.65%. Active backlog item advanced to COM-MOD-017-FE-001.
     paused_backlog_item: null
     pause_reason: null
 source_inputs:
@@ -1384,7 +1390,10 @@ modules:
       security_quality: ../../08-qa/security-quality/COM-MOD-017-BE-001/security-quality-evidence.md
   - id: COM-MOD-017-BE-002
     name: Implement custom entitlement enforcement and billing provider adapter boundary
-    status: active
+    status: closed
+    evidence:
+      qa: ../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-002-validation.md
+      security_quality: ../../08-qa/security-quality/COM-MOD-017-BE-002/security-quality-evidence.md
   - id: NXF-FMT-002
     name: Framework and HOP frontmatter optimization before functional backlog resumes
     status: closed

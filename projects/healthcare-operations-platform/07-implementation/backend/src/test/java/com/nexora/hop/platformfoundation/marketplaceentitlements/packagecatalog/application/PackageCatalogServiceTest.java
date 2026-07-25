@@ -153,6 +153,6 @@ class PackageCatalogServiceTest {
     private PackageVersion fixtureVersion(String lifecycleStatus) {
         var audit = new com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata(
                 "operator-1", java.time.LocalDateTime.now(), "operator-1", java.time.LocalDateTime.now());
-        return new PackageVersion("ver-1", "pkg-1", "1.0.0", lifecycleStatus, false, false, false, false, audit);
+        return new PackageVersion("ver-1", "pkg-1", "1.0.0", lifecycleStatus, false, false, false, false, null, audit);
     }
 }

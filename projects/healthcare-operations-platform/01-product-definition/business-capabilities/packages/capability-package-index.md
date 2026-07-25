@@ -48,11 +48,11 @@ do_not_write_manually:
 active_capability_package_groups:
 - roadmap_group: COM-MOD-017
   name: Product Marketplace and Extension Packaging
-  package_status: compiled
-  backlog_item: COM-MOD-017-BE-001
-  next_backlog_item: COM-MOD-017-BE-002
-  qa_evidence: ../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-001-validation.md
-  security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-017-BE-001/security-quality-evidence.md
+  package_status: custom_rules_implemented
+  backlog_item: COM-MOD-017-BE-002
+  next_backlog_item: COM-MOD-017-FE-001
+  qa_evidence: ../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-002-validation.md
+  security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-017-BE-002/security-quality-evidence.md
   capabilities:
   - capability_id: BCM-PLT-011
     package_folder: bcm-plt-011-product-marketplace-and-entitlements/

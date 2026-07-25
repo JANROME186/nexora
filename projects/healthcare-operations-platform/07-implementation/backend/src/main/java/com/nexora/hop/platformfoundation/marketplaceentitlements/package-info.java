@@ -6,19 +6,23 @@
  * {@code commercialoffers} (AGG-031 CommercialOffer), {@code tenantentitlements} (AGG-032
  * TenantEntitlement, including the centralized {@code EntitlementPolicyEvaluator} required by
  * RN-MKT-005), {@code packageinstallation} (AGG-033 PackageInstallation),
- * {@code compatibilityevaluation} (stateless package/platform compatibility decision) and
+ * {@code compatibilityevaluation} (package/platform compatibility decision) and
  * {@code billingadapter} (the provider-agnostic billing event boundary, mirroring
  * FiscalAdapterPort/IntegrationAdapterPort/NotificationProviderPort/DocumentStoragePort).
  *
- * <p>Per generation-plan.md, this backlog item (COM-MOD-017-BE-001) compiles the generatable
- * outputs only: aggregate skeletons, REST controllers rendered from openapi-source.md,
- * repository ports/adapters and audit event mappings, plus a basic implementation of each named
- * custom_implementation_point (entitlement policy evaluator, billing adapter boundary,
- * compatibility evaluation strategy, installation rollback orchestration) sufficient for every
- * endpoint to be functional with no 501 response. Deeper policy sophistication (the full
- * evaluation_order chain in entitlement-policy.md, IAM/feature-flag/clinical-safety/usage-limit
- * gates, a real billing provider adapter, richer compatibility dimensions beyond platform_version)
- * remains explicit deferred scope for a future COM-MOD-017-BE-002, tracked as TD-BE-018.</p>
+ * <p>COM-MOD-017-BE-001 compiled the generatable outputs only: aggregate skeletons, REST
+ * controllers rendered from openapi-source.md, repository ports/adapters, audit event mappings and
+ * a basic implementation of each named custom_implementation_point, sufficient for every endpoint
+ * to be functional with no 501 response, and registered TD-BE-018 for deeper policy sophistication.
+ * COM-MOD-017-BE-002 closes TD-BE-018: {@code EntitlementPolicyEvaluator} now implements the full
+ * entitlement-policy.md {@code evaluation_order} (tenant_status/package_status/license_status/
+ * compatibility_status/iam_permission/feature_flag/clinical_safety_control/usage_limit) — the
+ * {@code iam_permission}/{@code feature_flag} steps take caller-resolved facts rather than pulling
+ * from identityaccess/platformconfiguration directly, keeping this module's Spring Modulith
+ * dependency graph unchanged and acyclic; {@code CompatibilityEvaluator} evaluates all 9
+ * compatibility.md dimensions the same way; {@code billingadapter} gained retry/idempotency; and
+ * {@code packageinstallation} gained a persisted multi-step {@code InstallationStep} audit trail
+ * for rollback orchestration.</p>
  */
 @org.springframework.modulith.ApplicationModule(
         displayName = "Marketplace Entitlements",

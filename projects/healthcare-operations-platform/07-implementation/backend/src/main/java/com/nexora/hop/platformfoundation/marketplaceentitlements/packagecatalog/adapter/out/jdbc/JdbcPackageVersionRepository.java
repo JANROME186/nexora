@@ -22,7 +22,7 @@ class JdbcPackageVersionRepository implements PackageVersionRepository {
     private static final String SELECT_SQL = """
             select version_id, package_id, version, lifecycle_status, compatibility_approved,
                    security_review_approved, support_model_approved, telemetry_model_approved,
-                   created_by, created_at, updated_by, updated_at
+                   compatibility_metadata_text, created_by, created_at, updated_by, updated_at
             from marketplace_entitlements.package_versions
             """;
 
@@ -38,22 +38,23 @@ class JdbcPackageVersionRepository implements PackageVersionRepository {
                 insert into marketplace_entitlements.package_versions
                     (version_id, package_id, version, lifecycle_status, compatibility_approved,
                      security_review_approved, support_model_approved, telemetry_model_approved,
-                     created_by, created_at, updated_by, updated_at)
-                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                     compatibility_metadata_text, created_by, created_at, updated_by, updated_at)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 on conflict (version_id) do update set
                     lifecycle_status = excluded.lifecycle_status,
                     compatibility_approved = excluded.compatibility_approved,
                     security_review_approved = excluded.security_review_approved,
                     support_model_approved = excluded.support_model_approved,
                     telemetry_model_approved = excluded.telemetry_model_approved,
+                    compatibility_metadata_text = excluded.compatibility_metadata_text,
                     updated_by = excluded.updated_by, updated_at = excluded.updated_at
                 """,
                 packageVersion.versionId(), packageVersion.packageId(), packageVersion.version(),
                 packageVersion.lifecycleStatus(), packageVersion.compatibilityApproved(),
                 packageVersion.securityReviewApproved(), packageVersion.supportModelApproved(),
-                packageVersion.telemetryModelApproved(), packageVersion.audit().createdBy(),
-                Timestamp.valueOf(packageVersion.audit().createdAt()), packageVersion.audit().updatedBy(),
-                Timestamp.valueOf(packageVersion.audit().updatedAt()));
+                packageVersion.telemetryModelApproved(), packageVersion.compatibilityMetadataText(),
+                packageVersion.audit().createdBy(), Timestamp.valueOf(packageVersion.audit().createdAt()),
+                packageVersion.audit().updatedBy(), Timestamp.valueOf(packageVersion.audit().updatedAt()));
         return packageVersion;
     }
 
@@ -78,6 +79,7 @@ class JdbcPackageVersionRepository implements PackageVersionRepository {
                 resultSet.getBoolean("security_review_approved"),
                 resultSet.getBoolean("support_model_approved"),
                 resultSet.getBoolean("telemetry_model_approved"),
+                resultSet.getString("compatibility_metadata_text"),
                 new AuditMetadata(
                         resultSet.getString("created_by"), localDateTime(resultSet, "created_at"),
                         resultSet.getString("updated_by"), localDateTime(resultSet, "updated_at")));

@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS marketplace_entitlements.package_versions (
     security_review_approved boolean NOT NULL DEFAULT false,
     support_model_approved boolean NOT NULL DEFAULT false,
     telemetry_model_approved boolean NOT NULL DEFAULT false,
+    compatibility_metadata_text text,
     created_by varchar(80) NOT NULL,
     created_at timestamp with time zone NOT NULL,
     updated_by varchar(80) NOT NULL,
@@ -65,6 +66,7 @@ CREATE TABLE IF NOT EXISTS marketplace_entitlements.tenant_entitlements (
     granted_at timestamp with time zone NOT NULL,
     expires_at timestamp with time zone,
     revoked_reason varchar(500),
+    usage_limit integer,
     created_by varchar(80) NOT NULL,
     created_at timestamp with time zone NOT NULL,
     updated_by varchar(80) NOT NULL,
@@ -91,6 +93,23 @@ CREATE TABLE IF NOT EXISTS marketplace_entitlements.package_installations (
 CREATE INDEX IF NOT EXISTS idx_package_installations_tenant_package
     ON marketplace_entitlements.package_installations (tenant_id, package_id);
 
+-- COM-MOD-017-BE-002: persisted multi-step installation rollback audit trail (TD-BE-018).
+CREATE TABLE IF NOT EXISTS marketplace_entitlements.installation_steps (
+    step_id varchar(36) PRIMARY KEY,
+    installation_id varchar(36) NOT NULL REFERENCES marketplace_entitlements.package_installations (installation_id),
+    tenant_id varchar(36) NOT NULL,
+    step_type varchar(20) NOT NULL,
+    from_version varchar(30),
+    to_version varchar(30),
+    from_status varchar(20),
+    to_status varchar(20),
+    actor_id varchar(80) NOT NULL,
+    occurred_at timestamp with time zone NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_installation_steps_installation
+    ON marketplace_entitlements.installation_steps (installation_id, occurred_at);
+
 CREATE TABLE IF NOT EXISTS marketplace_entitlements.billing_event_records (
     billing_event_id varchar(36) PRIMARY KEY,
     tenant_id varchar(36) NOT NULL,
@@ -100,6 +119,7 @@ CREATE TABLE IF NOT EXISTS marketplace_entitlements.billing_event_records (
     currency varchar(10),
     provider_reference varchar(160),
     adapter_status varchar(20) NOT NULL,
+    retry_count integer NOT NULL DEFAULT 0,
     created_by varchar(80) NOT NULL,
     created_at timestamp with time zone NOT NULL,
     updated_by varchar(80) NOT NULL,
@@ -108,3 +128,7 @@ CREATE TABLE IF NOT EXISTS marketplace_entitlements.billing_event_records (
 
 CREATE INDEX IF NOT EXISTS idx_billing_event_records_tenant
     ON marketplace_entitlements.billing_event_records (tenant_id);
+
+CREATE UNIQUE INDEX IF NOT EXISTS uq_billing_event_records_tenant_provider_reference
+    ON marketplace_entitlements.billing_event_records (tenant_id, provider_reference)
+    WHERE provider_reference IS NOT NULL;

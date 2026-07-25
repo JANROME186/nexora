@@ -103,7 +103,7 @@ public class CommercialOfferService {
             throw new MarketplaceConflictException(
                     "Offer " + offerId + " is not available for acceptance.", MarketplaceErrorCodes.OFFER_NOT_AVAILABLE);
         }
-        CompatibilityDecision decision = compatibilityEvaluator.evaluate(offer.packageVersion());
+        CompatibilityDecision decision = compatibilityEvaluator.evaluate(offer.packageId(), offer.packageVersion());
         if (!decision.allowsInstallation()) {
             throw new MarketplaceConflictException(
                     "Offer " + offerId + " failed compatibility evaluation: " + decision.decision() + ".",

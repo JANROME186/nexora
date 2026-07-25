@@ -81,13 +81,27 @@ compilation:
     endpoint to function; deeper sophistication registered as TD-BE-018 targeting
     a future COM-MOD-017-BE-002. Runtime feature-availability integration with IAM
     and menu generation not yet started (also TD-BE-018).
+custom_rules:
+  backlog_item: COM-MOD-017-BE-002
+  status: closed
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-002-validation.md
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-BE-002/security-quality-evidence.md
+  notes: Closed 4 of TD-BE-018's 5 custom_implementation_points -- EntitlementPolicyEvaluator
+    now runs the full entitlement-policy.md evaluation_order (via a policy-decision-point
+    design keeping the Spring Modulith graph acyclic), CompatibilityEvaluator evaluates
+    all 9 compatibility.md dimensions, the billing adapter gained retry/idempotency
+    (INV-MKT-003 preserved), and installation rollback derives its target version
+    from a persisted multi-step InstallationStep audit trail. TD-BE-018 updated to
+    materially_reduced. The 5th point (runtime feature-availability into IAM/employee-portal
+    menu) is repointed to new TD-BE-019, targeted at COM-MOD-017-FE-001 (needs real
+    employee-portal marketplace screens that do not exist yet).
 backlog_items:
   definition: COM-MOD-017-DEF
   definition_status: closed
   compilation: COM-MOD-017-BE-001
   compilation_status: closed
   custom_rules: COM-MOD-017-BE-002
-  custom_rules_status: pending
+  custom_rules_status: closed
   ui: COM-MOD-017-FE-001
   ui_status: pending
   validation: COM-MOD-017-QA-001

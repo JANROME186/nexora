@@ -800,21 +800,41 @@ entries:
 - id: TD-QA-008
   title: OWASP ZAP local availability is undocumented in the toolchain inventory and
     baseline
-  status: open
+  status: closed
   risk_level: low
   blocking: false
   source_backlog_item: COM-MOD-016-QA-001
   affected_area: local_quality_toolchain_inventory
   file: 08-qa/technical-debt/TD-QA-008-zap-tooling-undocumented-in-inventory.md
-  remediation_strategy: gradual_when_toolchain_inventory_or_baseline_is_next_touched
+  remediation_strategy: closed_by_COM_MOD_017_BE_002_inventory_and_baseline_doc_correction
 - id: TD-BE-018
   title: Marketplace entitlement policy, compatibility strategy, billing adapter and
     installation rollback orchestration are basic implementations only
-  status: open
-  risk_level: medium
+  status: materially_reduced
+  risk_level: low
   blocking: false
   source_backlog_item: COM-MOD-017-BE-001
   affected_area: marketplace_entitlements_custom_implementation_points
   file: 08-qa/technical-debt/TD-BE-018-marketplace-entitlement-policy-and-billing-adapter-basic-only.md
-  remediation_strategy: implement_as_COM_MOD_017_BE_002_custom_rules_backlog_item
+  remediation_strategy: closed_by_COM_MOD_017_BE_002_except_iam_menu_wiring_repointed_to_TD_BE_019
+- id: TD-BE-019
+  title: Marketplace runtime feature-availability is not wired into IAM permission
+    evaluation or employee-portal menu generation
+  status: open
+  risk_level: low
+  blocking: false
+  source_backlog_item: COM-MOD-017-BE-002
+  affected_area: marketplace_entitlements_runtime_feature_availability
+  file: 08-qa/technical-debt/TD-BE-019-marketplace-runtime-feature-availability-not-wired-into-iam-or-menu.md
+  remediation_strategy: gradual_when_COM_MOD_017_FE_001_or_a_real_optional_capability_relationship_is_next_scheduled
+- id: TD-BE-020
+  title: local profile silently had no real datasource because DataSourceAutoConfiguration
+    stayed globally excluded after the YAML-to-properties migration
+  status: closed
+  risk_level: high
+  blocking: false
+  source_backlog_item: COM-MOD-017-BE-002
+  affected_area: local_profile_spring_boot_datasource_autoconfiguration
+  file: 08-qa/technical-debt/TD-BE-020-local-profile-datasource-autoconfiguration-excluded-by-format-migration.md
+  remediation_strategy: closed_by_COM_MOD_017_BE_002_adding_spring.autoconfigure.exclude=_override_to_application-local.properties
 ```

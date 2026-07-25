@@ -537,6 +537,11 @@ sources:
   com_mod_017_be_001_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-017-BE-001/security-quality-evidence.md
   com_mod_017_be_001_handoff_summary: 08-qa/handoffs/COM-MOD-017-BE-001-summary.md
   td_be_018: 08-qa/technical-debt/TD-BE-018-marketplace-entitlement-policy-and-billing-adapter-basic-only.md
+  com_mod_017_be_002_qa_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-002-validation.md
+  com_mod_017_be_002_security_quality_evidence: 08-qa/security-quality/COM-MOD-017-BE-002/security-quality-evidence.md
+  com_mod_017_be_002_handoff_summary: 08-qa/handoffs/COM-MOD-017-BE-002-summary.md
+  td_be_019: 08-qa/technical-debt/TD-BE-019-marketplace-runtime-feature-availability-not-wired-into-iam-or-menu.md
+  td_be_020: 08-qa/technical-debt/TD-BE-020-local-profile-datasource-autoconfiguration-excluded-by-format-migration.md
   nxf_ctx_001_handoff_summary: 08-qa/handoffs/NXF-CTX-001-summary.md
   td_fmt_001: 08-qa/technical-debt/TD-FMT-001-yaml-monolith-to-frontmatter-transition.md
   actor_catalog: 02-domain-definition/actors/acm-001/actor-catalog.md

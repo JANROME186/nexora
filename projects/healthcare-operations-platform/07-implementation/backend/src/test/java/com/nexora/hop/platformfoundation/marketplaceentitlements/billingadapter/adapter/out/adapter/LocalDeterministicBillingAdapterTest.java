@@ -47,4 +47,19 @@ class LocalDeterministicBillingAdapterTest {
                 () -> adapter.submitBillingEvent("tenant-1", "ent-1", "SIMULATE_PROVIDER_DOWN", 100, "USD", null));
         assertThat(exception.canonicalErrorCode()).isEqualTo("PROVIDER_ADAPTER_UNAVAILABLE");
     }
+
+    @Test
+    void retrySubmissionHonoursTheIdempotencyKeyAsTheProviderReference() {
+        BillingAdapterAcknowledgement ack = adapter.retrySubmission(
+                "tenant-1", "ref-123", "ent-1", "subscription_charge", 1999, "USD");
+        assertThat(ack.adapterStatus()).isEqualTo(BillingAdapterAcknowledgement.STATUS_ACCEPTED);
+        assertThat(ack.providerReference()).isEqualTo("ref-123");
+    }
+
+    @Test
+    void retrySubmissionRejectsAMissingIdempotencyKey() {
+        BillingAdapterException exception = assertThrows(BillingAdapterException.class,
+                () -> adapter.retrySubmission("tenant-1", " ", "ent-1", "charge", 100, "USD"));
+        assertThat(exception.canonicalErrorCode()).isEqualTo("MARKETPLACE_COMMAND_INVALID");
+    }
 }

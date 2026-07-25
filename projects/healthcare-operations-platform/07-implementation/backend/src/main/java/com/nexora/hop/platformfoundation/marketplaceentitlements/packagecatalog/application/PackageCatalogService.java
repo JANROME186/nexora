@@ -74,7 +74,7 @@ public class PackageCatalogService {
                 MarketplacePackage.STATUS_SUBMITTED, audit));
         versionRepository.save(new PackageVersion(
                 newId(), created.packageId(), version, PackageVersion.STATUS_DRAFT, false, false, false, false,
-                audit));
+                null, audit));
         auditRecorder.recordSystemEvent(
                 "platform", "MarketplacePackageSubmitted", "MarketplacePackage", created.packageId(),
                 "{\"code\":\"%s\",\"version\":\"%s\"}".formatted(submittedCode, version));
@@ -119,12 +119,28 @@ public class PackageCatalogService {
     public PackageVersion certifyPackageVersion(
             String packageId, String version, boolean compatibilityApproved, boolean securityReviewApproved,
             boolean supportModelApproved, boolean telemetryModelApproved, String actorId) {
+        return certifyPackageVersion(packageId, version, compatibilityApproved, securityReviewApproved,
+                supportModelApproved, telemetryModelApproved, null, actorId);
+    }
+
+    /**
+     * {@code compatibilityMetadataText} is the optional delimited declared-compatibility metadata
+     * consumed by {@code CompatibilityEvaluator} (COM-MOD-017-BE-002); {@code null} leaves any
+     * previously declared metadata unchanged, matching {@code certifyPackageVersion}'s general
+     * pattern of a privileged operator progressively completing a version's certification record.
+     */
+    public PackageVersion certifyPackageVersion(
+            String packageId, String version, boolean compatibilityApproved, boolean securityReviewApproved,
+            boolean supportModelApproved, boolean telemetryModelApproved, String compatibilityMetadataText,
+            String actorId) {
         requirePackage(packageId);
         PackageVersion current = requireVersion(packageId, version);
+        String metadataText = compatibilityMetadataText != null
+                ? compatibilityMetadataText : current.compatibilityMetadataText();
         PackageVersion updated = new PackageVersion(
                 current.versionId(), current.packageId(), current.version(),
                 current.lifecycleStatus(), compatibilityApproved, securityReviewApproved, supportModelApproved,
-                telemetryModelApproved, touched(current.audit(), actorId));
+                telemetryModelApproved, metadataText, touched(current.audit(), actorId));
         if (!updated.isReadyForPublication()) {
             PackageVersion saved = versionRepository.save(updated);
             auditRecorder.recordSystemEvent(
@@ -134,7 +150,7 @@ public class PackageCatalogService {
         }
         PackageVersion certified = versionRepository.save(new PackageVersion(
                 updated.versionId(), updated.packageId(), updated.version(), PackageVersion.STATUS_CERTIFIED,
-                true, true, true, true, updated.audit()));
+                true, true, true, true, metadataText, updated.audit()));
         auditRecorder.recordSystemEvent(
                 "platform", "MarketplacePackageVersionCertified", "PackageVersion", certified.versionId(), "{}");
         return certified;
@@ -154,7 +170,7 @@ public class PackageCatalogService {
         return new PackageVersion(
                 source.versionId(), source.packageId(), source.version(), status, source.compatibilityApproved(),
                 source.securityReviewApproved(), source.supportModelApproved(), source.telemetryModelApproved(),
-                touched(source.audit(), actorId));
+                source.compatibilityMetadataText(), touched(source.audit(), actorId));
     }
 
     private MarketplacePackage requirePackage(String packageId) {

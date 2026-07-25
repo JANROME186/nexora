@@ -27,6 +27,14 @@ public final class MarketplaceErrorCodes {
     public static final String ENTITLEMENT_NOT_FOUND = "ENTITLEMENT_NOT_FOUND";
     public static final String INSTALLATION_NOT_FOUND = "INSTALLATION_NOT_FOUND";
 
+    // COM-MOD-017-BE-002: full entitlement-policy.md evaluation_order decision_outputs
+    public static final String TENANT_NOT_ACTIVE = "TENANT_NOT_ACTIVE";
+    public static final String PACKAGE_SUSPENDED = "PACKAGE_SUSPENDED";
+    public static final String PERMISSION_REQUIRED = "PERMISSION_REQUIRED";
+    public static final String FEATURE_NOT_ENABLED = "FEATURE_NOT_ENABLED";
+    public static final String CLINICAL_SAFETY_ACKNOWLEDGEMENT_REQUIRED = "CLINICAL_SAFETY_ACKNOWLEDGEMENT_REQUIRED";
+    public static final String USAGE_LIMIT_EXCEEDED = "USAGE_LIMIT_EXCEEDED";
+
     private MarketplaceErrorCodes() {
     }
 }

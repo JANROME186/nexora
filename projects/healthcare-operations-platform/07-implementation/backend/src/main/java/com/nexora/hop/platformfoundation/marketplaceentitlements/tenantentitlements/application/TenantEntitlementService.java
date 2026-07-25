@@ -49,17 +49,29 @@ public class TenantEntitlementService {
 
     public TenantEntitlement grantEntitlement(
             String tenantId, String packageId, String offerId, LocalDateTime expiresAt, String actorId) {
+        return grantEntitlement(tenantId, packageId, offerId, expiresAt, null, actorId);
+    }
+
+    /** {@code usageLimit} is nullable (null means unlimited); see entitlement-policy.md {@code usage_limit}. */
+    public TenantEntitlement grantEntitlement(
+            String tenantId, String packageId, String offerId, LocalDateTime expiresAt, Integer usageLimit,
+            String actorId) {
         String tenant = requiredText(tenantId, "Tenant id is required.");
         if (!tenantDirectory.tenantExists(tenant)) {
             throw new MarketplaceEntityNotFoundException("Tenant was not found.", MarketplaceErrorCodes.TENANT_NOT_FOUND);
         }
         String pkg = requiredText(packageId, "Package id is required.");
         String actor = requiredText(actorId, "Actor id is required.");
+        if (usageLimit != null && usageLimit < 0) {
+            throw new InvalidMarketplaceCommandException(
+                    "Usage limit must not be negative.", MarketplaceErrorCodes.MARKETPLACE_COMMAND_INVALID);
+        }
 
         LocalDateTime now = LocalDateTime.now(clock);
         AuditMetadata audit = new AuditMetadata(actor, now, actor, now);
         TenantEntitlement granted = entitlementRepository.save(new TenantEntitlement(
-                newId(), tenant, pkg, offerId, TenantEntitlement.STATUS_ACTIVE, now, expiresAt, null, audit));
+                newId(), tenant, pkg, offerId, TenantEntitlement.STATUS_ACTIVE, now, expiresAt, null, usageLimit,
+                audit));
         auditRecorder.recordSystemEvent(tenant, "TenantEntitlementGranted", "TenantEntitlement",
                 granted.entitlementId(), "{\"packageId\":\"%s\"}".formatted(pkg));
         return granted;
@@ -79,7 +91,8 @@ public class TenantEntitlementService {
         TenantEntitlement revoked = entitlementRepository.save(new TenantEntitlement(
                 current.entitlementId(), current.tenantId(), current.packageId(), current.offerId(),
                 TenantEntitlement.STATUS_REVOKED, current.grantedAt(), current.expiresAt(),
-                requiredText(reason, "Revocation reason is required."), touched(current.audit(), actorId)));
+                requiredText(reason, "Revocation reason is required."), current.usageLimit(),
+                touched(current.audit(), actorId)));
         auditRecorder.recordSystemEvent(current.tenantId(), "TenantEntitlementRevoked", "TenantEntitlement",
                 revoked.entitlementId(), "{\"reason\":\"%s\"}".formatted(revoked.revokedReason()));
         return revoked;

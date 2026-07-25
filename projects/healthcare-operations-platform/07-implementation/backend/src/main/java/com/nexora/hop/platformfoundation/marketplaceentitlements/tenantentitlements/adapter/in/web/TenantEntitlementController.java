@@ -40,7 +40,8 @@ class TenantEntitlementController {
     ResponseEntity<EntitlementResponse> grantEntitlement(
             @PathVariable String tenantId, @Valid @RequestBody GrantEntitlementRequest request) {
         TenantEntitlement granted = service.grantEntitlement(
-                tenantId, request.packageId(), request.offerId(), request.expiresAt(), request.actorId());
+                tenantId, request.packageId(), request.offerId(), request.expiresAt(), request.usageLimit(),
+                request.actorId());
         return ResponseEntity.created(
                         URI.create("/api/marketplace/entitlements/" + tenantId + "/" + granted.entitlementId()))
                 .body(EntitlementResponse.from(granted));
@@ -55,7 +56,8 @@ class TenantEntitlementController {
     }
 
     record GrantEntitlementRequest(
-            @NotBlank String packageId, String offerId, LocalDateTime expiresAt, @NotBlank String actorId) {
+            @NotBlank String packageId, String offerId, LocalDateTime expiresAt, Integer usageLimit,
+            @NotBlank String actorId) {
     }
 
     record RevokeEntitlementRequest(@NotBlank String reason, @NotBlank String actorId) {
@@ -63,13 +65,13 @@ class TenantEntitlementController {
 
     record EntitlementResponse(
             String entitlementId, String tenantId, String packageId, String offerId, String status,
-            Instant grantedAt, Instant expiresAt, String revokedReason) {
+            Instant grantedAt, Instant expiresAt, String revokedReason, Integer usageLimit) {
         static EntitlementResponse from(TenantEntitlement entity) {
             return new EntitlementResponse(
                     entity.entitlementId(), entity.tenantId(), entity.packageId(), entity.offerId(), entity.status(),
                     entity.grantedAt().atZone(ZoneOffset.UTC).toInstant(),
                     entity.expiresAt() == null ? null : entity.expiresAt().atZone(ZoneOffset.UTC).toInstant(),
-                    entity.revokedReason());
+                    entity.revokedReason(), entity.usageLimit());
         }
     }
 }

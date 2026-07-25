@@ -46,4 +46,16 @@ public class LocalDeterministicBillingAdapter implements BillingAdapterPort {
                 : PROVIDER_ID + "-" + UUID.randomUUID();
         return new BillingAdapterAcknowledgement(resolvedReference, BillingAdapterAcknowledgement.STATUS_ACCEPTED, null);
     }
+
+    @Override
+    public BillingAdapterAcknowledgement retrySubmission(
+            String tenantId, String idempotencyKey, String entitlementId, String eventType, long amountMinorUnits,
+            String currency) {
+        if (idempotencyKey == null || idempotencyKey.isBlank()) {
+            throw new BillingAdapterException(
+                    "An idempotency key is required to retry a billing event submission.",
+                    "MARKETPLACE_COMMAND_INVALID");
+        }
+        return submitBillingEvent(tenantId, entitlementId, eventType, amountMinorUnits, currency, idempotencyKey);
+    }
 }

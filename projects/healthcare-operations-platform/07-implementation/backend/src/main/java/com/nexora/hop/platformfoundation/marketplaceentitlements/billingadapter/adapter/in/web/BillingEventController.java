@@ -43,12 +43,12 @@ class BillingEventController {
 
     record BillingEventResponse(
             String billingEventId, String tenantId, String entitlementId, String eventType, long amountMinorUnits,
-            String currency, String providerReference, String adapterStatus, Instant createdAt) {
+            String currency, String providerReference, String adapterStatus, int retryCount, Instant createdAt) {
         static BillingEventResponse from(BillingEventRecord entity) {
             return new BillingEventResponse(
                     entity.billingEventId(), entity.tenantId(), entity.entitlementId(), entity.eventType(),
                     entity.amountMinorUnits(), entity.currency(), entity.providerReference(), entity.adapterStatus(),
-                    entity.audit().createdAt().atZone(ZoneOffset.UTC).toInstant());
+                    entity.retryCount(), entity.audit().createdAt().atZone(ZoneOffset.UTC).toInstant());
         }
     }
 }

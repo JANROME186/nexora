@@ -14,10 +14,33 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: NXF-FMT-002 closed. HOP functional development resumes at COM-MOD-017-BE-002
-  using compact Markdown/frontmatter prompts and handoffs.
+current_phase: COM-MOD-017-BE-002 closed. Active backlog item is COM-MOD-017-FE-001.
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
+- COM-MOD-017-BE-002 Marketplace entitlement enforcement and billing boundary custom
+  rules implemented, closing 4 of TD-BE-018's 5 named custom_implementation_points
+  (EntitlementPolicyEvaluator now runs the full entitlement-policy.md evaluation_order
+  via a policy-decision-point design that keeps marketplaceentitlements''s Spring
+  Modulith dependency graph acyclic, verified by PlatformFoundationModulithTest;
+  CompatibilityEvaluator evaluates all 9 compatibility.md dimensions via a new
+  CompatibilityMetadata delimited-text parser; the billing adapter boundary gained
+  retry/idempotency keyed on providerReference with INV-MKT-003 preserved; packageinstallation
+  gained a persisted multi-step InstallationStep audit trail that rollback now derives
+  its target version from); the 5th point (runtime feature-availability into IAM/employee-portal
+  menu) was investigated, found to require COM-MOD-017-FE-001-scale employee-portal
+  screens that do not exist yet, and honestly repointed to new TD-BE-019 rather than
+  forced into a fabricated or build-breaking fix; TD-BE-018 updated to materially_reduced;
+  found and fixed a real pre-existing infrastructure defect during validation --
+  application.properties unconditionally excluded DataSourceAutoConfiguration for
+  every Spring profile including local (a regression from NXF-FMT-002''s YAML-to-properties
+  migration), silently breaking every local-profile JDBC adapter and LocalDatabaseTest
+  across the entire backend -- fixed and registered/closed as TD-BE-020; also closed
+  the unrelated TD-QA-008 (stale OWASP ZAP toolchain documentation) per task instructions;
+  484 tests, 0 failures/errors/skipped against a fresh Docker Compose PostgreSQL
+  16 volume; backend coverage 84.65% (floor 84.53%, no regression); evidence at
+  08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-BE-002-validation.md
+  and 08-qa/security-quality/COM-MOD-017-BE-002/security-quality-evidence.md; advanced
+  active backlog to COM-MOD-017-FE-001)
 - NXF-FMT-001 Frontmatter artifact migration tooling added (Nexora Framework now includes
   frontmatter-artifact-migration-standard.md/md and frontmatter_migrator.py for
   local Python/PyYAML deterministic conversion plus optional local Ollama narrative
@@ -785,7 +808,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: COM-MOD-017
-  current_backlog_item: COM-MOD-017-BE-002
+  current_backlog_item: COM-MOD-017-FE-001
   paused_functional_module: null
   paused_functional_backlog_item: null
   completed_backlog_items:
@@ -889,9 +912,23 @@ implementation_progress:
   - COM-MOD-017-DEF
   - COM-MOD-017-BE-001
   - NXF-FMT-002
+  - COM-MOD-017-BE-002
   in_progress_backlog_items: []
   pending_backlog_items: []
   latest_validation:
+    backlog_item_id: COM-MOD-017-BE-002
+    command: Implemented 4 of TD-BE-018's 5 marketplace custom_implementation_points
+      (full entitlement-policy.md evaluation_order, all 9 compatibility.md dimensions,
+      billing adapter retry/idempotency, persisted multi-step installation rollback
+      audit trail); repointed the 5th (IAM/menu wiring, blocked on non-existent employee-portal
+      screens) to new TD-BE-019. Found and closed a major cross-cutting infrastructure
+      defect (TD-BE-020) -- application.properties unconditionally excluded DataSourceAutoConfiguration
+      for every Spring profile including local (a NXF-FMT-002 YAML-to-properties migration
+      regression), silently breaking every local-profile JDBC adapter and LocalDatabaseTest
+      across the entire backend, not just marketplace. Fixed and re-verified live
+      against a fresh Docker Postgres volume (484 tests, 0 failures/errors/skipped,
+      84.65% coverage).
+  previous_validation:
     backlog_item_id: COM-MOD-013-QA-001
     command: Integrated validation of COM-MOD-013; found and closed a major persistence-wiring
       defect (TD-DB-005) -- application-local.properties never registered db/external-quality-and-compliance/schema.sql,

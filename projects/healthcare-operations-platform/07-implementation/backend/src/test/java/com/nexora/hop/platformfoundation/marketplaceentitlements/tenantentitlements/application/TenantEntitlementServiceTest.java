@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
+import com.nexora.hop.platformfoundation.marketplaceentitlements.shared.InvalidMarketplaceCommandException;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.shared.MarketplaceConflictException;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.shared.MarketplaceEntityNotFoundException;
 import com.nexora.hop.platformfoundation.marketplaceentitlements.shared.MarketplaceErrorCodes;
@@ -53,6 +54,22 @@ class TenantEntitlementServiceTest {
         TenantEntitlement granted = service.grantEntitlement("tenant-1", "pkg-1", "offer-1", null, "operator-1");
         assertThat(granted.status()).isEqualTo(TenantEntitlement.STATUS_ACTIVE);
         assertThat(granted.offerId()).isEqualTo("offer-1");
+        assertThat(granted.usageLimit()).isNull();
+    }
+
+    @Test
+    void grantEntitlementAcceptsAnOptionalUsageLimit() {
+        when(tenantDirectory.tenantExists("tenant-1")).thenReturn(true);
+        TenantEntitlement granted = service.grantEntitlement("tenant-1", "pkg-1", "offer-1", null, 100, "operator-1");
+        assertThat(granted.usageLimit()).isEqualTo(100);
+    }
+
+    @Test
+    void grantEntitlementRejectsNegativeUsageLimit() {
+        when(tenantDirectory.tenantExists("tenant-1")).thenReturn(true);
+        InvalidMarketplaceCommandException exception = assertThrows(InvalidMarketplaceCommandException.class,
+                () -> service.grantEntitlement("tenant-1", "pkg-1", "offer-1", null, -1, "operator-1"));
+        assertThat(exception.code()).isEqualTo(MarketplaceErrorCodes.MARKETPLACE_COMMAND_INVALID);
     }
 
     @Test
@@ -67,7 +84,7 @@ class TenantEntitlementServiceTest {
     void revokeEntitlementRejectsAlreadyRevoked() {
         TenantEntitlement revoked = new TenantEntitlement(
                 "ent-1", "tenant-1", "pkg-1", null, TenantEntitlement.STATUS_REVOKED, LocalDateTime.now(), null,
-                "prior reason", fixtureAudit());
+                "prior reason", null, fixtureAudit());
         when(repository.findById("ent-1")).thenReturn(Optional.of(revoked));
         MarketplaceConflictException exception = assertThrows(MarketplaceConflictException.class,
                 () -> service.revokeEntitlement("tenant-1", "ent-1", "again", "operator-1"));
@@ -85,7 +102,7 @@ class TenantEntitlementServiceTest {
     private TenantEntitlement fixtureEntitlement(String tenantId) {
         return new TenantEntitlement(
                 "ent-1", tenantId, "pkg-1", null, TenantEntitlement.STATUS_ACTIVE, LocalDateTime.now(), null, null,
-                fixtureAudit());
+                null, fixtureAudit());
     }
 
     private AuditMetadata fixtureAudit() {

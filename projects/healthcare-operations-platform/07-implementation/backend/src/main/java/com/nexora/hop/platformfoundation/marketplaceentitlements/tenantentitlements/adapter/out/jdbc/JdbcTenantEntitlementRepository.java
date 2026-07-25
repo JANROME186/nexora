@@ -21,7 +21,7 @@ class JdbcTenantEntitlementRepository implements TenantEntitlementRepository {
 
     private static final String SELECT_SQL = """
             select entitlement_id, tenant_id, package_id, offer_id, status, granted_at, expires_at,
-                   revoked_reason, created_by, created_at, updated_by, updated_at
+                   revoked_reason, usage_limit, created_by, created_at, updated_by, updated_at
             from marketplace_entitlements.tenant_entitlements
             """;
 
@@ -36,17 +36,17 @@ class JdbcTenantEntitlementRepository implements TenantEntitlementRepository {
         jdbcTemplate.update("""
                 insert into marketplace_entitlements.tenant_entitlements
                     (entitlement_id, tenant_id, package_id, offer_id, status, granted_at, expires_at,
-                     revoked_reason, created_by, created_at, updated_by, updated_at)
-                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                     revoked_reason, usage_limit, created_by, created_at, updated_by, updated_at)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 on conflict (entitlement_id) do update set
                     status = excluded.status, expires_at = excluded.expires_at,
-                    revoked_reason = excluded.revoked_reason,
+                    revoked_reason = excluded.revoked_reason, usage_limit = excluded.usage_limit,
                     updated_by = excluded.updated_by, updated_at = excluded.updated_at
                 """,
                 entitlement.entitlementId(), entitlement.tenantId(), entitlement.packageId(), entitlement.offerId(),
                 entitlement.status(), Timestamp.valueOf(entitlement.grantedAt()),
                 entitlement.expiresAt() == null ? null : Timestamp.valueOf(entitlement.expiresAt()),
-                entitlement.revokedReason(), entitlement.audit().createdBy(),
+                entitlement.revokedReason(), entitlement.usageLimit(), entitlement.audit().createdBy(),
                 Timestamp.valueOf(entitlement.audit().createdAt()), entitlement.audit().updatedBy(),
                 Timestamp.valueOf(entitlement.audit().updatedAt()));
         return entitlement;
@@ -79,6 +79,7 @@ class JdbcTenantEntitlementRepository implements TenantEntitlementRepository {
                 localDateTime(resultSet, "granted_at"),
                 resultSet.getTimestamp("expires_at") == null ? null : localDateTime(resultSet, "expires_at"),
                 resultSet.getString("revoked_reason"),
+                (Integer) resultSet.getObject("usage_limit"),
                 new AuditMetadata(
                         resultSet.getString("created_by"), localDateTime(resultSet, "created_at"),
                         resultSet.getString("updated_by"), localDateTime(resultSet, "updated_at")));

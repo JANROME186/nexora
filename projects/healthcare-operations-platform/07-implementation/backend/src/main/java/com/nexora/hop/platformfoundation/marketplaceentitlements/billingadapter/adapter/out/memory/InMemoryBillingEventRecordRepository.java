@@ -2,6 +2,7 @@ package com.nexora.hop.platformfoundation.marketplaceentitlements.billingadapter
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.context.annotation.Profile;
@@ -25,5 +26,13 @@ class InMemoryBillingEventRecordRepository implements BillingEventRecordReposito
     @Override
     public List<BillingEventRecord> findByTenantId(String tenantId) {
         return records.values().stream().filter(candidate -> candidate.tenantId().equals(tenantId)).toList();
+    }
+
+    @Override
+    public Optional<BillingEventRecord> findByTenantIdAndProviderReference(String tenantId, String providerReference) {
+        return records.values().stream()
+                .filter(candidate -> candidate.tenantId().equals(tenantId)
+                        && candidate.providerReference() != null && candidate.providerReference().equals(providerReference))
+                .findFirst();
     }
 }

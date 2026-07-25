@@ -70,7 +70,8 @@ class PackageCatalogController {
             @Valid @RequestBody CertifyVersionRequest request) {
         return ResponseEntity.ok(PackageVersionResponse.from(service.certifyPackageVersion(
                 packageId, version, request.compatibilityApproved(), request.securityReviewApproved(),
-                request.supportModelApproved(), request.telemetryModelApproved(), request.actorId())));
+                request.supportModelApproved(), request.telemetryModelApproved(), request.compatibilityMetadataText(),
+                request.actorId())));
     }
 
     @PostMapping("/{packageId}/versions/{version}/retire")
@@ -91,7 +92,7 @@ class PackageCatalogController {
 
     record CertifyVersionRequest(
             boolean compatibilityApproved, boolean securityReviewApproved, boolean supportModelApproved,
-            boolean telemetryModelApproved, @NotBlank String actorId) {
+            boolean telemetryModelApproved, String compatibilityMetadataText, @NotBlank String actorId) {
     }
 
     record ActorRequest(@NotBlank String actorId) {
@@ -111,12 +112,12 @@ class PackageCatalogController {
     record PackageVersionResponse(
             String versionId, String packageId, String version, String lifecycleStatus,
             boolean compatibilityApproved, boolean securityReviewApproved, boolean supportModelApproved,
-            boolean telemetryModelApproved) {
+            boolean telemetryModelApproved, String compatibilityMetadataText) {
         static PackageVersionResponse from(PackageVersion entity) {
             return new PackageVersionResponse(
                     entity.versionId(), entity.packageId(), entity.version(), entity.lifecycleStatus(),
                     entity.compatibilityApproved(), entity.securityReviewApproved(), entity.supportModelApproved(),
-                    entity.telemetryModelApproved());
+                    entity.telemetryModelApproved(), entity.compatibilityMetadataText());
         }
     }
 }
