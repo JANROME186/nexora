@@ -324,12 +324,21 @@ def task_artifact_profile(task_id: str) -> dict[str, str]:
             "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
             "commit_suggestion": "feat(hop): implement marketplace entitlement enforcement",
         }
+    workstream = infer_workstream(task_id)
+    commit_by_workstream = {
+        "backend": "feat(hop): compile marketplace backend outputs",
+        "frontend": "feat(hop): compile marketplace administration UI",
+        "mobile": "feat(hop): compile marketplace mobile surfaces",
+        "quality": "test(hop): validate marketplace backlog closure",
+        "definition": "docs(hop): refine marketplace package definitions",
+        "format_migration": "chore(framework): optimize artifact formats",
+    }
     return {
         "context_path": "01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/",
         "qa_evidence_pattern": f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md",
         "security_evidence_pattern": f"08-qa/security-quality/{task_id}/security-quality-evidence.md",
         "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
-        "commit_suggestion": "feat(hop): compile marketplace backend outputs",
+        "commit_suggestion": commit_by_workstream.get(workstream, "chore(hop): close marketplace backlog item"),
     }
 
 
@@ -535,7 +544,11 @@ ORCHESTRATION: {orchestration_mode}
 ## 4. Criterios de Cierre
 - Gates obligatorios ejecutados; Markdown/frontmatter parseable; `git diff --check` limpio.
 - Commit: `{profile['commit_suggestion']}`.
-- `git status --short` limpio si no hay bloqueantes.
+- Después del commit, ejecutar validación estricta de cierre:
+  `python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py --root . --task-id {task_id} --prompt {DEFAULT_PROMPT_OUTPUT_DIR}/{task_id}-prompt.md`
+- El validador debe terminar con código 0, reportar `status: closed`, `Hard findings: 0` y generar evidencia en `08-qa/backlog-validations/{task_id}-closure-validation.md`.
+- Si el validador genera `{task_id}-closure-fix-prompt.md` o reporta inconsistencias, no declarar cierre; reportar los hallazgos, corregirlos y repetir commit + validación estricta.
+- `git status --short` limpio después del commit y de la validación final.
 """
 
 

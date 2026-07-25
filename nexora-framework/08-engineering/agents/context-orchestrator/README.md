@@ -39,8 +39,9 @@ The output must remain agent agnostic. It should point to files and commands ins
 
 ## Backlog Closure Validation
 
-After an execution agent claims a backlog is complete, run the local validator against the generated
-prompt:
+Every generated backlog prompt includes a mandatory post-commit closure validation rule. After an
+execution agent finishes the implementation, evidence and registry synchronization, the agent must
+commit the completed work first and then run the local validator against the generated prompt:
 
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py `
@@ -53,6 +54,13 @@ summarizer. Ollama does not decide closure; P0/P1 deterministic findings are aut
 backlog is incomplete, it writes a compact correction prompt to:
 
 `projects/healthcare-operations-platform/08-qa/generated-prompts/<TASK_ID>-closure-fix-prompt.md`
+
+Closure is valid only when the strict validator exits with code `0`, the report status is `closed`,
+hard findings are `0`, the closure validation evidence exists under
+`projects/healthcare-operations-platform/08-qa/backlog-validations/`, and `git status --short` is
+clean after the validation evidence is committed when applicable. If the validator reports stale
+pointers, missing evidence, dirty worktree, or generates a closure-fix prompt, the agent must report
+the inconsistencies, correct them, commit the corrections and run the strict validator again.
 
 ## Frontmatter Migration
 
