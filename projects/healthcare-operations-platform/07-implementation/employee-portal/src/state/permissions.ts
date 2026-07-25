@@ -61,7 +61,15 @@ export type ScreenKey =
   | "marketplace-packages"
   | "marketplace-offers"
   | "marketplace-entitlements"
-  | "marketplace-installations";
+  | "marketplace-installations"
+  | "imaging-appointments"
+  | "imaging-reception"
+  | "imaging-studies"
+  | "imaging-dicom"
+  | "imaging-pacs"
+  | "imaging-dictation"
+  | "imaging-reports"
+  | "imaging-delivery";
 
 export type PermissionCode =
   | "SCREEN_TENANTS"
@@ -116,7 +124,15 @@ export type PermissionCode =
   | "SCREEN_MARKETPLACE_PACKAGES"
   | "SCREEN_MARKETPLACE_OFFERS"
   | "SCREEN_MARKETPLACE_ENTITLEMENTS"
-  | "SCREEN_MARKETPLACE_INSTALLATIONS";
+  | "SCREEN_MARKETPLACE_INSTALLATIONS"
+  | "SCREEN_IMAGING_APPOINTMENTS"
+  | "SCREEN_IMAGING_RECEPTION"
+  | "SCREEN_IMAGING_STUDIES"
+  | "SCREEN_IMAGING_DICOM"
+  | "SCREEN_IMAGING_PACS"
+  | "SCREEN_IMAGING_DICTATION"
+  | "SCREEN_IMAGING_REPORTS"
+  | "SCREEN_IMAGING_DELIVERY";
 
 export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   tenants: "SCREEN_TENANTS",
@@ -172,6 +188,14 @@ export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   "marketplace-offers": "SCREEN_MARKETPLACE_OFFERS",
   "marketplace-entitlements": "SCREEN_MARKETPLACE_ENTITLEMENTS",
   "marketplace-installations": "SCREEN_MARKETPLACE_INSTALLATIONS",
+  "imaging-appointments": "SCREEN_IMAGING_APPOINTMENTS",
+  "imaging-reception": "SCREEN_IMAGING_RECEPTION",
+  "imaging-studies": "SCREEN_IMAGING_STUDIES",
+  "imaging-dicom": "SCREEN_IMAGING_DICOM",
+  "imaging-pacs": "SCREEN_IMAGING_PACS",
+  "imaging-dictation": "SCREEN_IMAGING_DICTATION",
+  "imaging-reports": "SCREEN_IMAGING_REPORTS",
+  "imaging-delivery": "SCREEN_IMAGING_DELIVERY",
 };
 
 /** Every permission code, derived from `SCREEN_TO_PERMISSION` so the two never drift apart. */
@@ -207,6 +231,8 @@ export const ROLE_PERMISSION_CATALOG: Record<RoleCode, readonly PermissionCode[]
     "SCREEN_PUBLIC_CONTENT_REVIEW",
     "SCREEN_PUBLIC_APPOINTMENT_REQUESTS",
     "SCREEN_PUBLIC_QUOTATION_REQUESTS",
+    "SCREEN_IMAGING_APPOINTMENTS",
+    "SCREEN_IMAGING_RECEPTION",
   ],
   CASHIER: ["SCREEN_CASH_SESSIONS", "SCREEN_SALES", "SCREEN_BILLING_REQUESTS"],
   LAB_TECHNICIAN: [
@@ -215,8 +241,18 @@ export const ROLE_PERMISSION_CATALOG: Record<RoleCode, readonly PermissionCode[]
     "SCREEN_SAMPLE_RECEPTION",
     "SCREEN_LABORATORY_PROCESSING",
     "SCREEN_TECHNICAL_VALIDATION",
+    "SCREEN_IMAGING_STUDIES",
+    "SCREEN_IMAGING_DICOM",
+    "SCREEN_IMAGING_PACS",
   ],
-  MEDICAL_REVIEWER: ["SCREEN_MEDICAL_VALIDATION", "SCREEN_RESULT_RELEASE", "SCREEN_RESULT_SEARCH"],
+  MEDICAL_REVIEWER: [
+    "SCREEN_MEDICAL_VALIDATION",
+    "SCREEN_RESULT_RELEASE",
+    "SCREEN_RESULT_SEARCH",
+    "SCREEN_IMAGING_DICTATION",
+    "SCREEN_IMAGING_REPORTS",
+    "SCREEN_IMAGING_DELIVERY",
+  ],
   RESULTS_COORDINATOR: [
     "SCREEN_RESULT_SEARCH",
     "SCREEN_RESULT_REPORTS",

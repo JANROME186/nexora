@@ -10,9 +10,9 @@ The machine-readable source is `HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md`.
 
 Use this playbook after `MVP-MOD-001 Platform Foundation` to continue HOP toward a commercial product. It tells an agent how to select the next backlog item, generate capability package models, validate them, compile generated outputs, implement custom rule points and close each capability group.
 
-Current next backlog item: `COM-MOD-014-FE-001` - Compile imaging operations UI outputs.
+Current next backlog item: `COM-MOD-014-QA-001` - Validate end-to-end imaging operations workflow evidence.
 
-Previous backlog item: `COM-MOD-014-INT-001` is closed. Implemented DICOM and PACS custom integration boundaries (`DicomGatewayPort`, `PacsBridgePort`, `DicomGatewayAdapter`, `PacsBridgeAdapter`, `DicomIntegrationController`, `PacsIntegrationController`). Materially reduced `TD-I18N-002`.
+Previous backlog item: `COM-MOD-014-FE-001` is closed. Compiled employee-portal administration screens and typed API facade for all 8 Imaging Operations capabilities (BCM-IMG-001..008). Registered 8 `SCREEN_IMAGING_*` permissions, created `imagingOperationsApi.ts`, externalized i18n catalogs in `es-MX`/`en-US`, materially reduced `TD-I18N-002` and `TD-FE-010`. Passed typecheck, lint, 244 unit tests, coverage >= 90.68%, build, 0 audit vulnerabilities.
 
 
 ## MDPE Rule

@@ -14,11 +14,12 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-014-INT-001 closed. Active backlog item is COM-MOD-014-FE-001.
+current_phase: COM-MOD-014-FE-001 closed. Active backlog item is COM-MOD-014-QA-001.
 commercial_product_progress:
-  active_backlog_item: COM-MOD-014-FE-001
+  active_backlog_item: COM-MOD-014-QA-001
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
+- COM-MOD-014-FE-001 Compile imaging operations UI outputs (created 8 employee-portal administration screens ImagingAppointmentsScreen, ImagingReceptionScreen, ImagingStudiesScreen, ImagingDicomScreen, ImagingPacsScreen, ImagingDictationScreen, ImagingReportsScreen, ImagingDeliveryScreen for BCM-IMG-001..008; registered 8 SCREEN_IMAGING_* permissions in permissions.ts; created typed API facade imagingOperationsApi.ts; added localized tab labels and imagingOperations i18n catalogs in es-MX.ts and en-US.ts; materially reduced TD-I18N-002 and TD-FE-010; unit tests 244/244 passed, coverage >= 90.68%, typecheck zero errors, lint zero errors in new code, build clean, 0 audit vulnerabilities; QA evidence 08-qa/qa/imaging-operations/COM-MOD-014-FE-001-validation.md, security evidence 08-qa/security-quality/COM-MOD-014-FE-001/security-quality-evidence.md, handoff 08-qa/handoffs/COM-MOD-014-FE-001-summary.md)
 - COM-MOD-014-INT-001 Implement DICOM and PACS adapter custom boundaries (expanded DicomGatewayPort and PacsBridgePort with DICOM C-FIND MWL worklist query, C-MOVE study transfer, DICOM header metadata validation, QIDO-RS search, WADO-RS retrieve URL, and STOW-RS web store payload; implemented out-adapters DicomGatewayAdapter and PacsBridgeAdapter; added REST endpoints to DicomIntegrationController and PacsIntegrationController; materially reduced TD-I18N-002 with 3 new imaging.error.* integration error codes; QA evidence 08-qa/qa/imaging-operations/COM-MOD-014-INT-001-validation.md, security evidence 08-qa/security-quality/COM-MOD-014-INT-001/security-quality-evidence.md, handoff 08-qa/handoffs/COM-MOD-014-INT-001-summary.md)
 - COM-MOD-014-BE-001 Compile imaging workflow outputs (compiled Spring Modulith imagingoperations
   module with 8 capability sub-packages BCM-IMG-001 through BCM-IMG-008; registered db/imaging-operations/schema.sql

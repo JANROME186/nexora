@@ -53,6 +53,14 @@ import { MarketplacePackagesScreen } from "./components/screens/MarketplacePacka
 import { MarketplaceOffersScreen } from "./components/screens/MarketplaceOffersScreen";
 import { MarketplaceEntitlementsScreen } from "./components/screens/MarketplaceEntitlementsScreen";
 import { MarketplaceInstallationsScreen } from "./components/screens/MarketplaceInstallationsScreen";
+import { ImagingAppointmentsScreen } from "./components/screens/ImagingAppointmentsScreen";
+import { ImagingReceptionScreen } from "./components/screens/ImagingReceptionScreen";
+import { ImagingStudiesScreen } from "./components/screens/ImagingStudiesScreen";
+import { ImagingDicomScreen } from "./components/screens/ImagingDicomScreen";
+import { ImagingPacsScreen } from "./components/screens/ImagingPacsScreen";
+import { ImagingDictationScreen } from "./components/screens/ImagingDictationScreen";
+import { ImagingReportsScreen } from "./components/screens/ImagingReportsScreen";
+import { ImagingDeliveryScreen } from "./components/screens/ImagingDeliveryScreen";
 import { AdminScopeProvider } from "./state/AdminScopeContext";
 import { SessionProvider } from "./state/SessionContext";
 import { LocaleProvider } from "./i18n/LocaleContext";
@@ -111,6 +119,14 @@ const SCREEN_COMPONENTS = {
   "marketplace-offers": MarketplaceOffersScreen,
   "marketplace-entitlements": MarketplaceEntitlementsScreen,
   "marketplace-installations": MarketplaceInstallationsScreen,
+  "imaging-appointments": ImagingAppointmentsScreen,
+  "imaging-reception": ImagingReceptionScreen,
+  "imaging-studies": ImagingStudiesScreen,
+  "imaging-dicom": ImagingDicomScreen,
+  "imaging-pacs": ImagingPacsScreen,
+  "imaging-dictation": ImagingDictationScreen,
+  "imaging-reports": ImagingReportsScreen,
+  "imaging-delivery": ImagingDeliveryScreen,
 } as const satisfies Record<ScreenKey, () => JSX.Element>;
 
 function renderScreen(screen: ScreenKey) {

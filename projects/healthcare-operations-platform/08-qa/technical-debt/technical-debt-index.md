@@ -476,7 +476,8 @@ entries:
     further_reduced_by_COM_MOD_013_FE_001_AuditEventsScreen_hardcoded_string_retrofit_and_advancedQualityCompliance_i18n_namespaces;
     further_reduced_by_COM_MOD_013_QA_001_ComplianceEvidenceScreen_hardcoded_status_column_header_retrofit;
     further_reduced_by_COM_MOD_014_BE_001_imaging_operations_error_i18n_namespaces;
-    further_reduced_by_COM_MOD_014_INT_001_dicom_and_pacs_integration_error_i18n_namespaces
+    further_reduced_by_COM_MOD_014_INT_001_dicom_and_pacs_integration_error_i18n_namespaces;
+    further_reduced_by_COM_MOD_014_FE_001_imaging_operations_ui_i18n_namespaces
 - id: TD-FE-006
   title: Employee portal is missing dedicated Appointment Scheduling, Admission Management
     and Quotation Management UI

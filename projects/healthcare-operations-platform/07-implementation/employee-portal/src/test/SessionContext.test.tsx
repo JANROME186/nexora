@@ -32,11 +32,11 @@ describe("SessionContext permission-filtered navigation", () => {
     window.localStorage.clear();
   });
 
-  it("shows all 53 tabs for the default ADMIN local-dev fixture session", () => {
+  it("shows all 61 tabs for the default ADMIN local-dev fixture session", () => {
     render(<Harness roleCodes={["ADMIN"]} />);
 
     const nav = screen.getByRole("navigation", { name: "Pantallas de administración" });
-    expect(within(nav).getAllByRole("button")).toHaveLength(53);
+    expect(within(nav).getAllByRole("button")).toHaveLength(61);
   });
 
   it("renders only FRONT_DESK-permitted tabs and hides Tenants when the role changes", async () => {
@@ -53,7 +53,9 @@ describe("SessionContext permission-filtered navigation", () => {
     expect(within(nav).getByRole("button", { name: "Contenido Público" })).toBeInTheDocument();
     expect(within(nav).getByRole("button", { name: "Citas Públicas" })).toBeInTheDocument();
     expect(within(nav).getByRole("button", { name: "Cotizaciones Públicas" })).toBeInTheDocument();
-    expect(within(nav).getAllByRole("button")).toHaveLength(10);
+    expect(within(nav).getByRole("button", { name: "Citas de Imagen" })).toBeInTheDocument();
+    expect(within(nav).getByRole("button", { name: "Recepción de Imagen" })).toBeInTheDocument();
+    expect(within(nav).getAllByRole("button")).toHaveLength(12);
   });
 
   it("persists session headers used by backend request authorization", async () => {
