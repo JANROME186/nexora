@@ -48,7 +48,7 @@ DEFAULT_HISTORY_PROMPT_DIR = "projects/healthcare-operations-platform/08-qa/gene
 DEFAULT_ORCHESTRATION_CACHE_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts/cache"
 DEFAULT_OLLAMA_MODEL = "qwen2.5-coder:0.5b"
 DEFAULT_OLLAMA_TIMEOUT_SECONDS = 300
-PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v1"
+PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v2"
 
 
 def extract_structured_payload(text: str) -> str:
@@ -275,11 +275,13 @@ def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage
         result.append("Implementar enforcement custom de entitlements para instalación, activación y consumo runtime de paquetes marketplace.")
         result.append("Implementar boundary provider-agnostic para billing sin acoplar HOP a un proveedor propietario.")
         result.append("Retomar desde el handoff compacto de NXF-FMT-002; no precargar inventarios amplios.")
-    elif workstream == "backend":
+    elif task_id == "COM-MOD-017-BE-001":
         result.append(
             "Compilar outputs backend para marketplace catalog, package manifest, offer, "
             "license plan, entitlement, installation y billing-adapter."
         )
+    elif workstream == "backend":
+        result.append(f"Compilar outputs backend para el backlog activo: {title}.")
     else:
         result.append(f"Atender el backlog activo: {title}.")
 
