@@ -2047,7 +2047,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   current_iteration: COM-MOD-014
   active_module: Imaging Operations
-  active_backlog_item: COM-MOD-014-BE-001
+  active_backlog_item: COM-MOD-014-INT-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
@@ -2058,11 +2058,11 @@ commercial_product_progress:
   capability_package_progress:
     COM-MOD-014:
       name: Imaging Operations
-      package_status: definition_completed
-      backlog_item: COM-MOD-014-DEF
+      package_status: backend_compiled
+      backlog_item: COM-MOD-014-BE-001
       backlog_item_status: closed
-      next_backlog_item: COM-MOD-014-BE-001
-      execution_flow_stage: model
+      next_backlog_item: COM-MOD-014-INT-001
+      execution_flow_stage: compile
       capabilities:
       - capability: BCM-IMG-001
         package_status: modeled

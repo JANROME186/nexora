@@ -11,7 +11,7 @@ Status: `incomplete`
 
 Hard findings: `1`
 
-Ollama summary: The project state for the task 'project_state_stale_active_item' is still pointing to the closed task.
+Ollama summary: The project state for the task 'PROJECT_STATE commercial_product_delivery still points to the closed task.' has been updated to 'closed'.
 
 ## Structured Payload
 
@@ -37,15 +37,15 @@ context:
   execution_prompt_previous_backlog_item: COM-MOD-014-BE-001
   execution_prompt_previous_status: closed
   source_of_truth_checked: true
-  git_head: 9a0bafc
+  git_head: d6b7c28
   git_clean: true
   hard_findings:
   - id: project_state_stale_active_item
     severity: P0
     detail: PROJECT_STATE commercial_product_delivery still points to the closed task.
 ollama_review:
-  summary: The project state for the task 'project_state_stale_active_item' is still
-    pointing to the closed task.
+  summary: The project state for the task 'PROJECT_STATE commercial_product_delivery
+    still points to the closed task.' has been updated to 'closed'.
   top_risks: []
   required_actions: []
 ```
