@@ -14,9 +14,29 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-017-BE-002 closed. Active backlog item is COM-MOD-017-FE-001.
+current_phase: COM-MOD-017-FE-001 closed. Active backlog item is COM-MOD-017-QA-001.
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
+- COM-MOD-017-FE-001 Marketplace administration and package installation UI outputs
+  compiled (4 new employee-portal screens -- MarketplacePackagesScreen, MarketplaceOffersScreen,
+  MarketplaceEntitlementsScreen, MarketplaceInstallationsScreen -- covering BCM-PLT-011's
+  full employee_portal.screens ui-model.md scope -- package catalog admin/publish/certify/retire,
+  commercial offer publish/accept, tenant entitlement grant/revoke and package installation
+  install/activate/suspend/uninstall/upgrade/rollback; new typed marketplaceApi.ts facade
+  over PackageCatalogController/CommercialOfferController/TenantEntitlementController/PackageInstallationController;
+  permissions.ts/AppShell.tsx/App.tsx wired with the 4 new ScreenKeys/PermissionCodes and
+  MARKETPLACE_OPERATOR/TENANT_ADMIN roles mirroring the backend RolePermissionCatalog.java
+  exactly; complete es-MX/en-US marketplace i18n catalogs. Closed TD-BE-019 for real as
+  the debt-first action -- MarketplaceInstallationsScreen's "Install package" control is
+  genuinely gated on real tenant entitlement runtime state (marketplaceApi.listTenantEntitlements,
+  active/non-expired check mirroring the backend's TenantEntitlement.isEffectivelyActive),
+  not a fabricated relationship. npm run quality passed (224 tests, 65 test files, 0
+  failures; employee-portal line coverage 89.75% -> 90.68%, no regression); npm audit
+  found 17 pre-existing high-severity devDependency-only advisories unrelated to this
+  item's diff, non-breaking `npm audit fix` reduced it to 10 (all requiring a breaking
+  eslint-plugin-jsx-a11y downgrade out of this item's scope; production dependencies
+  0 vulnerabilities), registered as new debt TD-FE-012; Trivy fs (vuln/secret/misconfig,
+  all severities) reported 0 findings; advanced active backlog to COM-MOD-017-QA-001)
 - COM-MOD-017-BE-002 Marketplace entitlement enforcement and billing boundary custom
   rules implemented, closing 4 of TD-BE-018's 5 named custom_implementation_points
   (EntitlementPolicyEvaluator now runs the full entitlement-policy.md evaluation_order
@@ -616,8 +636,8 @@ completed_deliverables:
   all severities) reported 0 vulnerabilities/secrets/misconfigurations. Ready for
   COM-MOD-013-CLOSEOUT.
 next_deliverables:
-- Resume COM-MOD-017-FE-001 with compact generated prompts and COM-MOD-017-BE-002 handoff
-  evidence
+- Resume COM-MOD-017-QA-001 (integrated marketplace validation) with compact generated
+  prompts and COM-MOD-017-FE-001 handoff evidence
 - Keep TD-FMT-001 as non-blocking gradual migration debt and convert YAML artifacts
   when touched
 - Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
@@ -638,7 +658,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-017
   in_progress_module: COM-MOD-017
-  next_backlog_item: COM-MOD-017-FE-001
+  next_backlog_item: COM-MOD-017-QA-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -754,9 +774,9 @@ development_readiness:
           registered TD-BE-018 for deferred custom-rule sophistication; future backend
           iterations must not regress below 84.53%.'
       frontend_typescript_web:
-        current_line_coverage_percent: 89.75
-        source_evidence: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.md
-        next_iteration_minimum_line_coverage_percent: 89.75
+        current_line_coverage_percent: 90.68
+        source_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-FE-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 90.68
         final_closure_target_percent: 80
         tracked_by: TD-FE-004 (closed; final-closure target reached; COM-MOD-013-QA-001
           fixed a hardcoded string and a function-size violation in ComplianceEvidenceScreen.tsx,
@@ -768,7 +788,13 @@ development_readiness:
           tests, 48 test files, 0 failures). COM-MOD-010-QA-001 re-confirmed 88.24%
           with the same 124 tests/48 files (no source file was touched by this validation-only
           backlog item; the small delta from 87.87% reflects re-measurement, not a
-          regression).)
+          regression). COM-MOD-017-FE-001 compiled 4 new marketplace administration
+          screens (MarketplacePackagesScreen, MarketplaceOffersScreen, MarketplaceEntitlementsScreen,
+          MarketplaceInstallationsScreen), a typed marketplaceApi.ts facade and TD-BE-019's
+          entitlement-gated install control (52 new tests across 5 new test files),
+          raising it to 90.68% (224 tests, 65 test files, 0 failures); future frontend
+          iterations must not regress below 90.68% (repo-tracked floor was 89.75%,
+          preserved with no regression).)
       mobile_typescript_foundation:
         current_line_coverage_percent: 99.21
         source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.md
@@ -808,7 +834,7 @@ project_structure:
   delivery_package_folder: 06-delivery/mvp/modules/MVP-MOD-001-platform-foundation
 implementation_progress:
   current_module: COM-MOD-017
-  current_backlog_item: COM-MOD-017-FE-001
+  current_backlog_item: COM-MOD-017-QA-001
   paused_functional_module: null
   paused_functional_backlog_item: null
   completed_backlog_items:
@@ -913,21 +939,25 @@ implementation_progress:
   - COM-MOD-017-BE-001
   - NXF-FMT-002
   - COM-MOD-017-BE-002
+  - COM-MOD-017-FE-001
   in_progress_backlog_items: []
   pending_backlog_items: []
   latest_validation:
-    backlog_item_id: COM-MOD-017-BE-002
-    command: Implemented 4 of TD-BE-018's 5 marketplace custom_implementation_points
-      (full entitlement-policy.md evaluation_order, all 9 compatibility.md dimensions,
-      billing adapter retry/idempotency, persisted multi-step installation rollback
-      audit trail); repointed the 5th (IAM/menu wiring, blocked on non-existent employee-portal
-      screens) to new TD-BE-019. Found and closed a major cross-cutting infrastructure
-      defect (TD-BE-020) -- application.properties unconditionally excluded DataSourceAutoConfiguration
-      for every Spring profile including local (a NXF-FMT-002 YAML-to-properties migration
-      regression), silently breaking every local-profile JDBC adapter and LocalDatabaseTest
-      across the entire backend, not just marketplace. Fixed and re-verified live
-      against a fresh Docker Postgres volume (484 tests, 0 failures/errors/skipped,
-      84.65% coverage).
+    backlog_item_id: COM-MOD-017-FE-001
+    command: Compiled 4 new marketplace administration employee-portal screens (MarketplacePackagesScreen,
+      MarketplaceOffersScreen, MarketplaceEntitlementsScreen, MarketplaceInstallationsScreen)
+      covering BCM-PLT-011's full employee_portal.screens ui-model.md scope, a typed
+      marketplaceApi.ts facade over the 4 marketplace controllers, and IAM/menu wiring
+      (permissions.ts/AppShell.tsx/App.tsx, MARKETPLACE_OPERATOR/TENANT_ADMIN roles mirroring
+      RolePermissionCatalog.java). Closed TD-BE-019 for real as the debt-first action --
+      MarketplaceInstallationsScreen's install control is genuinely gated on real tenant
+      entitlement runtime state loaded from TenantEntitlementController (active/non-expired
+      check mirroring the backend's TenantEntitlement.isEffectivelyActive), not a fabricated
+      relationship. npm run quality passed (224 tests, 65 test files, 0 failures; employee-portal
+      line coverage 89.75% -> 90.68%). npm audit found 17 pre-existing high-severity
+      devDependency-only advisories unrelated to this item's diff; non-breaking `npm
+      audit fix` reduced it to 10 (production dependencies 0 vulnerabilities), registered
+      as new debt TD-FE-012. Trivy fs scan reported 0 findings.
   previous_validation:
     backlog_item_id: COM-MOD-013-QA-001
     command: Integrated validation of COM-MOD-013; found and closed a major persistence-wiring

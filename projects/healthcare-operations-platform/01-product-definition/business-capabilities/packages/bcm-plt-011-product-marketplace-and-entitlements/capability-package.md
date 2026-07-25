@@ -67,7 +67,7 @@ roadmap:
   module: COM-MOD-017
   release: REL-003
   package_status: modeled
-  next_backlog_item: COM-MOD-017-BE-001
+  next_backlog_item: COM-MOD-017-QA-001
 dependencies:
   required_capabilities:
   - BCM-PLT-001

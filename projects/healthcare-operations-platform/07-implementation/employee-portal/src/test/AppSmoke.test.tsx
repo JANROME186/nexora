@@ -206,12 +206,31 @@ describe("Employee portal app smoke", () => {
     ).toBeInTheDocument();
   });
 
+  it("navigates to Product Marketplace and Entitlements screens (COM-MOD-017)", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole("button", { name: "Catálogo de Marketplace" }));
+    expect(
+      screen.getByRole("heading", { name: "Catálogo de Paquetes de Marketplace" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Ofertas Comerciales" }));
+    expect(screen.getByRole("heading", { name: "Ofertas Comerciales" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Derechos de Tenant" }));
+    expect(screen.getByRole("heading", { name: "Derechos de Tenant" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Instalaciones de Paquetes" }));
+    expect(screen.getByRole("heading", { name: "Instalaciones de Paquetes" })).toBeInTheDocument();
+  });
+
   it("only renders tabs the current session has permission for", () => {
     render(<App />);
 
     // The local dev fixture session defaults to ADMIN, which is granted every screen
-    // permission, so all 49 navigation tabs remain visible (44 prior + 5 COM-MOD-013).
+    // permission, so all 53 navigation tabs remain visible (44 prior + 5 COM-MOD-013 + 4 COM-MOD-017).
     const nav = screen.getByRole("navigation", { name: "Pantallas de administración" });
-    expect(within(nav).getAllByRole("button")).toHaveLength(49);
+    expect(within(nav).getAllByRole("button")).toHaveLength(53);
   });
 });

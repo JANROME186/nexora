@@ -2133,3 +2133,146 @@ export interface LinkQualityEventRequest {
   linkedInvestigationId: string;
   linkedInvestigationType: string;
 }
+
+// -- Product Marketplace and Entitlements (COM-MOD-017-FE-001: BCM-PLT-011) -----------------
+// PackageCatalogController /api/marketplace/packages, CommercialOfferController /api/marketplace/offers,
+// TenantEntitlementController /api/marketplace/entitlements/{tenantId}, PackageInstallationController
+// /api/marketplace/installations/{tenantId}. Field names copied verbatim from the backend
+// controller record definitions (not tenant-scoped for packages/offers; tenant-scoped for
+// entitlements/installations).
+
+export interface MarketplacePackageRecord {
+  packageId: string;
+  code: string;
+  name: string;
+  category: string;
+  capabilityMappings: string[];
+  status: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface SubmitPackageRequest {
+  code: string;
+  name: string;
+  category: string;
+  capabilityMappings: string[];
+  initialVersion: string;
+  actorId: string;
+}
+
+export interface PublishPackageRequest {
+  version: string;
+  actorId: string;
+}
+
+export interface CertifyVersionRequest {
+  compatibilityApproved: boolean;
+  securityReviewApproved: boolean;
+  supportModelApproved: boolean;
+  telemetryModelApproved: boolean;
+  compatibilityMetadataText?: string;
+  actorId: string;
+}
+
+export interface MarketplaceActorRequest {
+  actorId: string;
+}
+
+export interface PackageVersionRecord {
+  versionId: string;
+  packageId: string;
+  version: string;
+  lifecycleStatus: string;
+  compatibilityApproved: boolean;
+  securityReviewApproved: boolean;
+  supportModelApproved: boolean;
+  telemetryModelApproved: boolean;
+  compatibilityMetadataText?: string;
+}
+
+export interface CommercialOffer {
+  offerId: string;
+  packageId: string;
+  packageVersion: string;
+  offerCode: string;
+  offerType: string;
+  lifecycleStatus: string;
+  tierCodes: string[];
+  trialPeriodDays?: number;
+  effectiveVersion: number;
+}
+
+export interface PublishOfferRequest {
+  packageId: string;
+  packageVersion: string;
+  offerCode: string;
+  offerType: string;
+  tierCodes?: string[];
+  trialPeriodDays?: number;
+  billingEventRulesSummary?: string;
+  actorId: string;
+}
+
+export interface AcceptOfferRequest {
+  tenantId: string;
+  actorId: string;
+}
+
+export interface AcceptOfferResult {
+  offerId: string;
+  tenantId: string;
+  entitlementId: string;
+  grantedAt: string;
+}
+
+export type TenantEntitlementStatus = "active" | "revoked" | "expired" | string;
+
+export interface TenantEntitlement {
+  entitlementId: string;
+  tenantId: string;
+  packageId: string;
+  offerId?: string;
+  status: TenantEntitlementStatus;
+  grantedAt: string;
+  expiresAt?: string;
+  revokedReason?: string;
+  usageLimit?: number;
+}
+
+export interface GrantEntitlementRequest {
+  packageId: string;
+  offerId?: string;
+  expiresAt?: string;
+  usageLimit?: number;
+  actorId: string;
+}
+
+export interface RevokeEntitlementRequest {
+  reason: string;
+  actorId: string;
+}
+
+export interface PackageInstallation {
+  installationId: string;
+  tenantId: string;
+  packageId: string;
+  entitlementId?: string;
+  version: string;
+  lifecycleStatus: string;
+  rollbackCheckpointVersion?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface InstallPackageRequest {
+  packageId: string;
+  version: string;
+  entitlementId?: string;
+  actorId: string;
+}
+
+export interface UpgradePackageRequest {
+  targetVersion: string;
+  actorId: string;
+}

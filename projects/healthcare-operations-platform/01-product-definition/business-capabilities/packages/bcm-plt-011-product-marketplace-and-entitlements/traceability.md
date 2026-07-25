@@ -95,6 +95,20 @@ custom_rules:
     materially_reduced. The 5th point (runtime feature-availability into IAM/employee-portal
     menu) is repointed to new TD-BE-019, targeted at COM-MOD-017-FE-001 (needs real
     employee-portal marketplace screens that do not exist yet).
+ui:
+  backlog_item: COM-MOD-017-FE-001
+  status: closed
+  qa_evidence: ../../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-FE-001-validation.md
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-017-FE-001/security-quality-evidence.md
+  notes: Compiled all 4 employee_portal.screens from ui-model.md as real screens --
+    MarketplacePackagesScreen, MarketplaceOffersScreen, MarketplaceEntitlementsScreen,
+    MarketplaceInstallationsScreen -- with a typed marketplaceApi.ts facade over the
+    4 marketplace controllers and IAM/menu wiring (permissions.ts/AppShell.tsx/App.tsx,
+    MARKETPLACE_OPERATOR/TENANT_ADMIN roles mirroring RolePermissionCatalog.java exactly).
+    Closed TD-BE-019 for real -- MarketplaceInstallationsScreen's install control is
+    genuinely gated on real tenant entitlement runtime state loaded from TenantEntitlementController
+    (mirroring the backend's TenantEntitlement.isEffectivelyActive), not a fabricated
+    cross-capability relationship.
 backlog_items:
   definition: COM-MOD-017-DEF
   definition_status: closed
@@ -103,7 +117,7 @@ backlog_items:
   custom_rules: COM-MOD-017-BE-002
   custom_rules_status: closed
   ui: COM-MOD-017-FE-001
-  ui_status: pending
+  ui_status: closed
   validation: COM-MOD-017-QA-001
   validation_status: pending
   closeout: COM-MOD-017-CLOSEOUT

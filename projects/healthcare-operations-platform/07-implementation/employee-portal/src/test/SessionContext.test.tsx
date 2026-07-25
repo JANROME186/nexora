@@ -32,11 +32,11 @@ describe("SessionContext permission-filtered navigation", () => {
     window.localStorage.clear();
   });
 
-  it("shows all 49 tabs for the default ADMIN local-dev fixture session", () => {
+  it("shows all 53 tabs for the default ADMIN local-dev fixture session", () => {
     render(<Harness roleCodes={["ADMIN"]} />);
 
     const nav = screen.getByRole("navigation", { name: "Pantallas de administración" });
-    expect(within(nav).getAllByRole("button")).toHaveLength(49);
+    expect(within(nav).getAllByRole("button")).toHaveLength(53);
   });
 
   it("renders only FRONT_DESK-permitted tabs and hides Tenants when the role changes", async () => {

@@ -5,7 +5,7 @@ type: technical-debt-item
 name: Marketplace runtime feature-availability is not wired into IAM permission evaluation
   or employee-portal menu generation
 version: 1.0.0
-status: open
+status: closed
 ---
 
 # Marketplace Runtime Feature-Availability Is Not Wired Into IAM Permission Evaluation Or Employee-Portal Menu Generation
@@ -21,7 +21,7 @@ artifact:
   name: Marketplace runtime feature-availability is not wired into IAM permission
     evaluation or employee-portal menu generation
   version: 1.0.0
-  status: open
+  status: closed
   created_date: 2026-07-24
 source:
   discovered_during_backlog_item: COM-MOD-017-BE-002
@@ -84,4 +84,32 @@ remediation:
     once real screens exist.
   - At least one IAM permission or employee-portal menu decision is genuinely gated
     by marketplace entitlement/installation runtime state.
+closure:
+  status: closed
+  closed_by_backlog_item: COM-MOD-017-FE-001
+  closed_date: 2026-07-25
+  mechanism: 'Both acceptance criteria closed for real. (1) `MarketplacePackagesScreen`,
+    `MarketplaceOffersScreen`, `MarketplaceEntitlementsScreen` and `MarketplaceInstallationsScreen`
+    were built and wired into `employee-portal/src/state/permissions.ts` (4 new
+    `ScreenKey`/`PermissionCode`/`SCREEN_TO_PERMISSION` entries plus `MARKETPLACE_OPERATOR`/`TENANT_ADMIN`
+    `RoleCode` entries mirroring the backend `RolePermissionCatalog.java` exactly),
+    `AppShell.tsx` (`SCREEN_TAB_LABEL_KEYS`) and `App.tsx` (`SCREEN_COMPONENTS`),
+    using the same permission-filtered dynamic navigation mechanism every other
+    employee-portal screen already uses -- unauthorized roles never see the tabs.
+    (2) `MarketplaceInstallationsScreen.tsx`''s "Install package" control is genuinely
+    gated on real marketplace entitlement runtime state: before enabling install
+    for a typed `packageId`, the screen loads the tenant''s real entitlements via
+    `marketplaceApi.listTenantEntitlements` (a real backend call to `TenantEntitlementController`)
+    and the `isPackageEntitled` helper only allows install when an entitlement for
+    that exact `packageId` is effectively active (status `active` and, if set,
+    `expiresAt` in the future -- mirroring the backend''s own `TenantEntitlement.isEffectivelyActive`).
+    Otherwise the control is disabled and a localized explanatory status is shown.
+    This is a real UI decision gated on real entitlement/installation runtime state
+    from the real backend endpoint, not a fabricated cross-capability relationship
+    to an unrelated screen -- exactly the boundary this item''s `quality_goal` required.'
+  verification: 'MarketplaceInstallationsScreen.test.tsx and a dedicated isPackageEntitled
+    unit-test block assert both directions: install allowed when an active,
+    non-expired entitlement exists for the typed packageId, and disabled with the
+    localized notEntitled status shown otherwise (revoked, expired, or no matching
+    entitlement).'
 ```

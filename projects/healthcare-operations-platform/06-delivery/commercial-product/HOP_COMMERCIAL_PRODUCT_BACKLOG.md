@@ -237,23 +237,23 @@ product:
     completed_module: COM-MOD-016 (COM-MOD-016-CLOSEOUT closed)
     completed_status: closed
     active_module: COM-MOD-017
-    active_backlog_item: COM-MOD-017-FE-001
-    active_module_progress: COM-MOD-017-BE-002 Implement custom entitlement enforcement
-      and billing provider adapter boundary is closed. 4 of TD-BE-018's 5 named custom_implementation_points
-      are now implemented -- EntitlementPolicyEvaluator runs the full entitlement-policy.md
-      evaluation_order (via a policy-decision-point design confirmed acyclic by PlatformFoundationModulithTest),
-      CompatibilityEvaluator evaluates all 9 compatibility.md dimensions, the billing
-      adapter boundary gained retry/idempotency (INV-MKT-003 preserved), and installation
-      rollback now derives its target version from a persisted multi-step InstallationStep
-      audit trail. The 5th point (runtime feature-availability into IAM/employee-portal
-      menu) is repointed to new TD-BE-019, gated on marketplace employee-portal screens
-      that do not exist yet (COM-MOD-017-FE-001 scope). A real cross-cutting infrastructure
-      defect (TD-BE-020) -- DataSourceAutoConfiguration silently excluded under the
-      local profile since the NXF-FMT-002 YAML-to-properties migration, breaking every
-      local-profile JDBC adapter and LocalDatabaseTest backend-wide -- was found and
-      fixed. TD-QA-008 (stale ZAP toolchain documentation) was also closed. 484 tests,
-      0 failures/errors/skipped against a fresh Docker Postgres volume; backend coverage
-      raised to 84.65%. Active backlog item advanced to COM-MOD-017-FE-001.
+    active_backlog_item: COM-MOD-017-QA-001
+    active_module_progress: COM-MOD-017-FE-001 Compile marketplace administration
+      and package installation UI outputs is closed. 4 new marketplace employee-portal
+      screens (MarketplacePackagesScreen, MarketplaceOffersScreen, MarketplaceEntitlementsScreen,
+      MarketplaceInstallationsScreen) were compiled covering BCM-PLT-011's full ui-model.md
+      employee_portal.screens scope, with a new typed marketplaceApi.ts facade over
+      the 4 marketplace controllers and IAM/menu wiring (permissions.ts/AppShell.tsx/App.tsx,
+      MARKETPLACE_OPERATOR/TENANT_ADMIN roles mirroring RolePermissionCatalog.java).
+      TD-BE-019 was closed for real as the debt-first action -- MarketplaceInstallationsScreen's
+      install control is genuinely gated on real tenant entitlement runtime state
+      (mirroring the backend's TenantEntitlement.isEffectivelyActive), not a fabricated
+      relationship. npm run quality passed (224 tests, 65 test files, 0 failures;
+      employee-portal line coverage raised from 89.75% to 90.68%). npm audit found
+      17 pre-existing high-severity devDependency-only advisories unrelated to this
+      item's diff; a non-breaking npm audit fix reduced it to 10 (production dependencies
+      0 vulnerabilities), registered as new debt TD-FE-012. Active backlog item advanced
+      to COM-MOD-017-QA-001.
     paused_backlog_item: null
     pause_reason: null
 source_inputs:
@@ -1405,11 +1405,16 @@ modules:
       handoff: ../../08-qa/handoffs/NXF-FMT-002-summary.md
   - id: COM-MOD-017-FE-001
     name: Compile marketplace administration and package installation UI outputs
+    status: closed
+    evidence:
+      qa: ../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-FE-001-validation.md
+      security_quality: ../../08-qa/security-quality/COM-MOD-017-FE-001/security-quality-evidence.md
   - id: COM-MOD-017-WEB-001
     name: Compile public marketplace listing and package discovery surfaces
   - id: COM-MOD-017-QA-001
     name: Validate purchase, entitlement, installation, activation, upgrade, rollback
       and retirement evidence
+    status: active
   - id: COM-MOD-017-CLOSEOUT
     name: Marketplace readiness closeout and registry update
   acceptance_summary:

@@ -57,7 +57,11 @@ export type ScreenKey =
   | "capa-management"
   | "audit-management"
   | "compliance-evidence"
-  | "quality-event-intake";
+  | "quality-event-intake"
+  | "marketplace-packages"
+  | "marketplace-offers"
+  | "marketplace-entitlements"
+  | "marketplace-installations";
 
 export type PermissionCode =
   | "SCREEN_TENANTS"
@@ -108,7 +112,11 @@ export type PermissionCode =
   | "SCREEN_CAPA_MANAGEMENT"
   | "SCREEN_AUDIT_MANAGEMENT"
   | "SCREEN_COMPLIANCE_EVIDENCE"
-  | "SCREEN_QUALITY_EVENT_INTAKE";
+  | "SCREEN_QUALITY_EVENT_INTAKE"
+  | "SCREEN_MARKETPLACE_PACKAGES"
+  | "SCREEN_MARKETPLACE_OFFERS"
+  | "SCREEN_MARKETPLACE_ENTITLEMENTS"
+  | "SCREEN_MARKETPLACE_INSTALLATIONS";
 
 export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   tenants: "SCREEN_TENANTS",
@@ -160,6 +168,10 @@ export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   "audit-management": "SCREEN_AUDIT_MANAGEMENT",
   "compliance-evidence": "SCREEN_COMPLIANCE_EVIDENCE",
   "quality-event-intake": "SCREEN_QUALITY_EVENT_INTAKE",
+  "marketplace-packages": "SCREEN_MARKETPLACE_PACKAGES",
+  "marketplace-offers": "SCREEN_MARKETPLACE_OFFERS",
+  "marketplace-entitlements": "SCREEN_MARKETPLACE_ENTITLEMENTS",
+  "marketplace-installations": "SCREEN_MARKETPLACE_INSTALLATIONS",
 };
 
 /** Every permission code, derived from `SCREEN_TO_PERMISSION` so the two never drift apart. */
@@ -172,7 +184,9 @@ export type RoleCode =
   | "LAB_TECHNICIAN"
   | "MEDICAL_REVIEWER"
   | "RESULTS_COORDINATOR"
-  | "QUALITY_MANAGER";
+  | "QUALITY_MANAGER"
+  | "MARKETPLACE_OPERATOR"
+  | "TENANT_ADMIN";
 
 /**
  * Mirrors the backend's `identityaccess/domain/RolePermissionCatalog.java` role -> permission
@@ -216,6 +230,12 @@ export const ROLE_PERMISSION_CATALOG: Record<RoleCode, readonly PermissionCode[]
     "SCREEN_COMPLIANCE_EVIDENCE",
     "SCREEN_QUALITY_EVENT_INTAKE",
     "SCREEN_AUDIT_EVENTS",
+  ],
+  MARKETPLACE_OPERATOR: ["SCREEN_MARKETPLACE_PACKAGES", "SCREEN_MARKETPLACE_OFFERS"],
+  TENANT_ADMIN: [
+    "SCREEN_MARKETPLACE_OFFERS",
+    "SCREEN_MARKETPLACE_ENTITLEMENTS",
+    "SCREEN_MARKETPLACE_INSTALLATIONS",
   ],
 };
 

@@ -56,6 +56,10 @@ const SCREEN_TAB_LABEL_KEYS = {
   "audit-management": "auditManagement",
   "compliance-evidence": "complianceEvidence",
   "quality-event-intake": "qualityEventIntake",
+  "marketplace-packages": "marketplacePackages",
+  "marketplace-offers": "marketplaceOffers",
+  "marketplace-entitlements": "marketplaceEntitlements",
+  "marketplace-installations": "marketplaceInstallations",
 } as const satisfies Record<ScreenKey, string>;
 
 interface ScreenTab {

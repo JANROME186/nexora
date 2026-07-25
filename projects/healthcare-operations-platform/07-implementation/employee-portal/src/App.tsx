@@ -49,6 +49,10 @@ import { CapaManagementScreen } from "./components/screens/CapaManagementScreen"
 import { AuditManagementScreen } from "./components/screens/AuditManagementScreen";
 import { ComplianceEvidenceScreen } from "./components/screens/ComplianceEvidenceScreen";
 import { QualityEventIntakeScreen } from "./components/screens/QualityEventIntakeScreen";
+import { MarketplacePackagesScreen } from "./components/screens/MarketplacePackagesScreen";
+import { MarketplaceOffersScreen } from "./components/screens/MarketplaceOffersScreen";
+import { MarketplaceEntitlementsScreen } from "./components/screens/MarketplaceEntitlementsScreen";
+import { MarketplaceInstallationsScreen } from "./components/screens/MarketplaceInstallationsScreen";
 import { AdminScopeProvider } from "./state/AdminScopeContext";
 import { SessionProvider } from "./state/SessionContext";
 import { LocaleProvider } from "./i18n/LocaleContext";
@@ -103,6 +107,10 @@ const SCREEN_COMPONENTS = {
   "audit-management": AuditManagementScreen,
   "compliance-evidence": ComplianceEvidenceScreen,
   "quality-event-intake": QualityEventIntakeScreen,
+  "marketplace-packages": MarketplacePackagesScreen,
+  "marketplace-offers": MarketplaceOffersScreen,
+  "marketplace-entitlements": MarketplaceEntitlementsScreen,
+  "marketplace-installations": MarketplaceInstallationsScreen,
 } as const satisfies Record<ScreenKey, () => JSX.Element>;
 
 function renderScreen(screen: ScreenKey) {

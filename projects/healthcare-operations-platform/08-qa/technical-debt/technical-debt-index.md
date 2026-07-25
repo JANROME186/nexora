@@ -820,13 +820,13 @@ entries:
 - id: TD-BE-019
   title: Marketplace runtime feature-availability is not wired into IAM permission
     evaluation or employee-portal menu generation
-  status: open
+  status: closed
   risk_level: low
   blocking: false
   source_backlog_item: COM-MOD-017-BE-002
   affected_area: marketplace_entitlements_runtime_feature_availability
   file: 08-qa/technical-debt/TD-BE-019-marketplace-runtime-feature-availability-not-wired-into-iam-or-menu.md
-  remediation_strategy: gradual_when_COM_MOD_017_FE_001_or_a_real_optional_capability_relationship_is_next_scheduled
+  remediation_strategy: closed_by_COM_MOD_017_FE_001_marketplace_screen_iam_wiring_plus_entitlement_gated_install_control
 - id: TD-BE-020
   title: local profile silently had no real datasource because DataSourceAutoConfiguration
     stayed globally excluded after the YAML-to-properties migration
@@ -837,4 +837,14 @@ entries:
   affected_area: local_profile_spring_boot_datasource_autoconfiguration
   file: 08-qa/technical-debt/TD-BE-020-local-profile-datasource-autoconfiguration-excluded-by-format-migration.md
   remediation_strategy: closed_by_COM_MOD_017_BE_002_adding_spring.autoconfigure.exclude=_override_to_application-local.properties
+- id: TD-FE-012
+  title: employee-portal npm audit reports 10 high-severity findings confined to
+    transitive devDependencies, requiring a breaking-change fix
+  status: open
+  risk_level: low
+  blocking: false
+  source_backlog_item: COM-MOD-017-FE-001
+  affected_area: employee_portal_npm_audit_gate
+  file: 08-qa/technical-debt/TD-FE-012-employee-portal-npm-audit-devdependency-high-severity-findings.md
+  remediation_strategy: gradual_when_a_dedicated_devdependency_maintenance_backlog_item_is_scheduled
 ```
