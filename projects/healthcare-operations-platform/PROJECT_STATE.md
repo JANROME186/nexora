@@ -2123,6 +2123,33 @@ commercial_product_progress:
       technical_debt_registered_open_non_blocking:
       - TD-FE-012
       - TD-WEB-001
+    COM-MOD-014:
+      name: Imaging Operations
+      package_status: active
+      backlog_item: COM-MOD-014-INT-001
+      backlog_item_status: in_progress
+      execution_flow_stage: implementation
+      capabilities:
+      - capability: BCM-IMG-001
+        package_status: compiled
+      - capability: BCM-IMG-002
+        package_status: compiled
+      - capability: BCM-IMG-003
+        package_status: compiled
+      - capability: BCM-IMG-004
+        package_status: compiled
+      - capability: BCM-IMG-005
+        package_status: compiled
+      - capability: BCM-IMG-006
+        package_status: compiled
+      - capability: BCM-IMG-007
+        package_status: compiled
+      - capability: BCM-IMG-008
+        package_status: compiled
+      qa_evidence_be_001: 08-qa/qa/imaging-operations/COM-MOD-014-BE-001-validation.md
+      security_quality_evidence_be_001: 08-qa/security-quality/COM-MOD-014-BE-001/security-quality-evidence.md
+      ready_for_compilation: true
+      backend_compilation_completed: true
     COM-MOD-016:
       name: Commercial Launch and Customer Enablement
       package_status: module_closed
