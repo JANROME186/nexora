@@ -1,6 +1,6 @@
 # COM-MOD-017-CLOSEOUT Security Quality Evidence
 
-Status: `passed`
+Status: `validated`
 
 This closeout is a documentation and registry synchronization backlog item. It introduces no new
 runtime dependency, proprietary platform dependency, or vendor-specific agent/runtime dependency;
@@ -51,7 +51,7 @@ artifact:
   id: COM-MOD-017-CLOSEOUT-SECURITY-QUALITY
   type: security-quality-evidence
   backlog_item: COM-MOD-017-CLOSEOUT
-  status: passed
+  status: validated
   created_date: 2026-07-25
   standard: ../../../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
 open_source_first:

@@ -24,7 +24,8 @@ artifact:
   type: module-closeout-evidence
   name: COM-MOD-017 Product Marketplace and Extension Packaging Closeout Validation
   version: 1.0.0
-  status: passed
+  status: validated
+  backlog_item: COM-MOD-017-CLOSEOUT
   human_readable: COM-MOD-017-CLOSEOUT-validation.md
   machine_readable: COM-MOD-017-CLOSEOUT-validation.md
   created_date: 2026-07-25
