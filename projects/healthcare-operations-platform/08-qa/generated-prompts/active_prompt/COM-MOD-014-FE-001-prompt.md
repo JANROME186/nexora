@@ -11,7 +11,7 @@ ORCHESTRATION: ollama_primary
 - No avanzar punteros si un gate obligatorio queda bloqueado o sin evidencia.
 
 ## 2. Contexto Inmediato (Punteros)
-- Handoff previo: `08-qa/handoffs/COM-MOD-014-FE-001-summary.md`
+- Handoff previo: `08-qa/handoffs/COM-MOD-014-INT-001-summary.md`
 - Prompts y estado: inspeccionar `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md` y `PROJECT_STATE.md` bajo demanda.
 - Contexto principal: `01-product-definition/business-capabilities/packages/`
 
@@ -30,4 +30,4 @@ ORCHESTRATION: ollama_primary
 - Si el validador genera `COM-MOD-014-FE-001-closure-fix-prompt.md` o reporta inconsistencias, no declarar cierre; reportar los hallazgos, corregirlos y repetir commit + validación estricta.
 - `git status --short` limpio después del commit y de la validación final.
 
-<!-- ollama_plan_hash: 0a260291260ec050a7993d32d794972f439e9eaa96833595ca3d63a1678368f4 -->
+<!-- ollama_plan_hash: abd91a26c43907187104ae9d43483daf4262fb618f4a663acaa194b4161a7d2c -->

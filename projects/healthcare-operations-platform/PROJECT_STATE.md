@@ -2049,7 +2049,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   current_iteration: COM-MOD-014
   active_module: Imaging Operations
-  active_backlog_item: COM-MOD-014-FE-001
+  active_backlog_item: COM-MOD-014-QA-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
@@ -2060,12 +2060,12 @@ commercial_product_progress:
   capability_package_progress:
     COM-MOD-014:
       name: Imaging Operations
-      package_status: backend_compiled
-      backlog_item: COM-MOD-014-INT-001
+      package_status: ui_compiled
+      backlog_item: COM-MOD-014-FE-001
       backlog_item_status: closed
-      next_backlog_item: COM-MOD-014-FE-001
+      next_backlog_item: COM-MOD-014-QA-001
 
-      execution_flow_stage: compile
+      execution_flow_stage: validate
       capabilities:
       - capability: BCM-IMG-001
         package_status: modeled
@@ -2129,9 +2129,9 @@ commercial_product_progress:
     COM-MOD-014:
       name: Imaging Operations
       package_status: active
-      backlog_item: COM-MOD-014-FE-001
+      backlog_item: COM-MOD-014-QA-001
       backlog_item_status: ready_for_execution
-      execution_flow_stage: implementation
+      execution_flow_stage: validation
       capabilities:
       - capability: BCM-IMG-001
         package_status: compiled
@@ -2153,8 +2153,11 @@ commercial_product_progress:
       security_quality_evidence_be_001: 08-qa/security-quality/COM-MOD-014-BE-001/security-quality-evidence.md
       qa_evidence_int_001: 08-qa/qa/imaging-operations/COM-MOD-014-INT-001-validation.md
       security_quality_evidence_int_001: 08-qa/security-quality/COM-MOD-014-INT-001/security-quality-evidence.md
+      qa_evidence_fe_001: 08-qa/qa/imaging-operations/COM-MOD-014-FE-001-validation.md
+      security_quality_evidence_fe_001: 08-qa/security-quality/COM-MOD-014-FE-001/security-quality-evidence.md
       ready_for_compilation: true
       backend_compilation_completed: true
+      frontend_compilation_completed: true
 
     COM-MOD-016:
       name: Commercial Launch and Customer Enablement

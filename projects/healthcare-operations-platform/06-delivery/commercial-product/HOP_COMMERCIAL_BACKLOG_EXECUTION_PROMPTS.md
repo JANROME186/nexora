@@ -736,9 +736,9 @@ validation_commands:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
   module_id: COM-MOD-014
-  backlog_item_id: COM-MOD-014-INT-001
-  name: Implement DICOM and PACS adapter custom boundaries
-  expected_folder: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/imagingoperations/
+  backlog_item_id: COM-MOD-014-QA-001
+  name: Imaging integration and report evidence
+  expected_folder: 07-implementation/employee-portal/ and 07-implementation/backend/
   required_debt_first_action: none
   coverage_floor:
     backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.65
@@ -749,7 +749,7 @@ validation_commands:
     public_website_typescript_web_line_coverage_percent: 98.61
     final_target_percent: 80
   mandatory_execution_notes:
-  - Resume functional work only from the compact generated prompt and COM-MOD-014-BE-001
+  - Resume functional work only from the compact generated prompt and COM-MOD-014-FE-001
     handoff; do not preload broad YAML registries.
   - Keep execution agent-agnostic and preserve the open-source-first stack and quality
     gates.
@@ -759,8 +759,8 @@ validation_commands:
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product
     backlog and execution prompts, and commit only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-014-INT-001
+    backlog_item_id: COM-MOD-014-FE-001
     status: closed
-    summary: Implemented DICOM and PACS custom integration boundaries and out-adapters (DicomGatewayPort, PacsBridgePort, DicomGatewayAdapter, PacsBridgeAdapter, DicomIntegrationController, PacsIntegrationController) with worklist query, study transfer, DICOM header validation, QIDO-RS search, WADO-RS retrieve URL, and STOW-RS web store payload. Materially reduced TD-I18N-002.
+    summary: Compiled employee-portal administration screens and typed API facade for all 8 Imaging Operations capabilities (BCM-IMG-001..008). Registered 8 SCREEN_IMAGING_* permissions, externalized i18n catalogs in es-MX/en-US, materially reduced TD-I18N-002 and TD-FE-010, and passed typecheck, lint, 244 unit tests, coverage >= 90.68%, build and npm audit.
 
 ```

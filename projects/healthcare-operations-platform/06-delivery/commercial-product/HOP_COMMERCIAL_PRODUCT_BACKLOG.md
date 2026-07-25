@@ -238,8 +238,8 @@ product:
       General Availability fully complete)
     completed_status: closed
     active_module: COM-MOD-014
-    active_backlog_item: COM-MOD-014-FE-001
-    active_module_progress: COM-MOD-014-INT-001 closed. Implemented DICOM and PACS custom boundaries (DicomGatewayPort, PacsBridgePort, DicomGatewayAdapter, PacsBridgeAdapter, DicomIntegrationController, PacsIntegrationController). Materially reduced TD-I18N-002. Active backlog item advanced to COM-MOD-014-FE-001 (Compile imaging operations UI outputs).
+    active_backlog_item: COM-MOD-014-QA-001
+    active_module_progress: COM-MOD-014-FE-001 closed. Created 8 employee-portal Imaging Operations screens for BCM-IMG-001..008, registered 8 SCREEN_IMAGING_* permissions, added imagingOperationsApi.ts, externalized es-MX/en-US i18n catalogs, materially reduced TD-I18N-002 and TD-FE-010, and passed typecheck, lint, 244 unit tests, coverage >= 90.68%, build and npm audit. Active backlog item advanced to COM-MOD-014-QA-001 (Imaging integration and report evidence).
 
     paused_backlog_item: null
     pause_reason: null
@@ -1228,6 +1228,7 @@ modules:
     status: closed
   - id: COM-MOD-014-FE-001
     name: Compile imaging operations UI outputs
+    status: closed
   - id: COM-MOD-014-PORTAL-001
     name: Imaging study delivery views
   - id: COM-MOD-014-QA-001
