@@ -39,6 +39,21 @@ required_checks_when_applicable:
 - dast_for_runnable_web_or_api_surfaces
 - container_or_iac_scan_when_assets_change
 entries:
+- backlog_item: COM-MOD-014-DEF
+  module: COM-MOD-014 Imaging Operations
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-014-DEF/
+  human_readable: 08-qa/security-quality/COM-MOD-014-DEF/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-014-DEF/security-quality-evidence.md
+  checks:
+    tests: not_applicable_definition_only
+    sast_or_static_analysis: not_applicable_definition_only
+    dependency_vulnerability_scan: not_applicable_definition_only
+    secrets_scan: passed
+    coverage: not_applicable_definition_only_baselines_unchanged
+    dast_for_runnable_web_or_api_surfaces: not_applicable_definition_only
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: 'Definition-only backlog item (8 capability packages: BCM-IMG-001 through BCM-IMG-008). No code changed. yaml_parse, agent_agnostic_scan, secrets_scan, and git_whitespace_check passed clean.'
 - backlog_item: COM-MOD-017-CLOSEOUT
   module: COM-MOD-017 Product Marketplace and Extension Packaging
   status: passed

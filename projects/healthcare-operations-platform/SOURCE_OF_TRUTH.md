@@ -217,6 +217,11 @@ sources:
   com_mod_013_qa_001_qa_evidence_yaml: 08-qa/qa/advanced-quality-and-compliance/COM-MOD-013-QA-001-validation.md
   com_mod_013_qa_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-013-QA-001/security-quality-evidence.md
   com_mod_013_qa_001_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-013-QA-001/security-quality-evidence.md
+  com_mod_014_def_qa_evidence: 08-qa/qa/imaging-operations/COM-MOD-014-DEF-validation.md
+  com_mod_014_def_qa_evidence_yaml: 08-qa/qa/imaging-operations/COM-MOD-014-DEF-validation.md
+  com_mod_014_def_security_quality_evidence: 08-qa/security-quality/COM-MOD-014-DEF/security-quality-evidence.md
+  com_mod_014_def_security_quality_evidence_yaml: 08-qa/security-quality/COM-MOD-014-DEF/security-quality-evidence.md
+  com_mod_014_def_handoff: 08-qa/handoffs/COM-MOD-014-DEF-summary.md
   com_mod_016_def_qa_evidence: 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.md
   com_mod_016_def_qa_evidence_yaml: 08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-DEF-validation.md
   com_mod_016_def_security_quality_evidence: 08-qa/security-quality/COM-MOD-016-DEF/security-quality-evidence.md

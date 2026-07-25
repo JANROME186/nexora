@@ -358,13 +358,13 @@ entries:
 - id: TD-DEF-002
   title: Appointment capacity planning against detailed branch schedules is deferred
     to BCM-ORG-007
-  status: open
+  status: materially_reduced
   risk_level: low
   blocking: false
   source_backlog_item: MVP-MOD-004-DEF
   affected_area: appointment_scheduling_capacity_validation
   file: 08-qa/technical-debt/TD-DEF-002-appointment-capacity-planning-deferred.md
-  remediation_strategy: gradual_when_bcm_org_007_schedule_management_is_modeled
+  remediation_strategy: materially_reduced_by_COM_MOD_014_DEF_imaging_modality_slot_and_procedure_room_schedule_models; gradual_until_BCM_ORG_007
 - id: TD-BE-009
   title: Branch snapshot version is a fixed placeholder, not a real optimistic-concurrency
     counter

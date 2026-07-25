@@ -238,23 +238,13 @@ product:
       General Availability fully complete)
     completed_status: closed
     active_module: COM-MOD-014
-    active_backlog_item: COM-MOD-014-DEF
-    active_module_progress: COM-MOD-017-CLOSEOUT closed COM-MOD-017 Product Marketplace
-      and Extension Packaging. Marked BCM-PLT-011 module_closed in capability-package.md
-      and capability-package-index.md (moved from active_capability_package_groups
-      to completed_capability_package_groups); added a closeout section to traceability.md.
-      Documentation and registry-only closeout -- no source changed; backend (484
-      tests, 84.65%) and employee-portal (224 tests/65 files, 90.68%) figures re-affirmed
-      unchanged from COM-MOD-017-QA-001. Confirmed TD-BE-018/TD-BE-019/TD-BE-020
-      closed; TD-FE-012 re-confirmed open/non-blocking. Found and corrected two
-      stale technical-debt-index.md coverage baselines (backend_java_maven 84.53%
-      -> 84.65%, frontend_typescript_web 89.75% -> 90.68%) never synced from prior
-      evidence. Found and registered new debt TD-WEB-001 -- ui-model.md's PUBLIC_MARKETPLACE_LISTING
-      public_website surface was modeled but never compiled (COM-MOD-017-WEB-001
-      never scheduled); non-blocking, outward discovery surface only. Active backlog
-      item advanced to COM-MOD-014-DEF (Imaging Operations capability package models;
-      dependencies MVP-MOD-003, MVP-MOD-004, MVP-MOD-007, MVP-MOD-008 and COM-MOD-012
-      all closed).
+    active_backlog_item: COM-MOD-014-BE-001
+    active_module_progress: COM-MOD-014-DEF closed. Modeled 8 capability packages
+      (BCM-IMG-001 through BCM-IMG-008) under 01-product-definition/business-capabilities/packages/.
+      Registered COM-MOD-014 as definition_completed in capability-package-index.md.
+      Materially reduced TD-DEF-002 by modeling imaging modality concurrency, procedure
+      room schedules and study preparation rules in BCM-IMG-001. Active backlog item
+      advanced to COM-MOD-014-BE-001 (Compile imaging workflow outputs).
     paused_backlog_item: null
     pause_reason: null
 source_inputs:
@@ -1233,6 +1223,7 @@ modules:
   backlog_items:
   - id: COM-MOD-014-DEF
     name: Capability package models
+    status: closed
   - id: COM-MOD-014-BE-001
     name: Compile imaging workflow outputs
   - id: COM-MOD-014-INT-001

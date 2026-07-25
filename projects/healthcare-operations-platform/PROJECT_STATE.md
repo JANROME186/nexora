@@ -14,9 +14,15 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-017-CLOSEOUT closed. Active backlog item is COM-MOD-014-DEF.
+current_phase: COM-MOD-014-DEF closed. Active backlog item is COM-MOD-014-BE-001.
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
+- COM-MOD-014-DEF Capability package models for Imaging Operations (modeled 8 capability
+  packages BCM-IMG-001 through BCM-IMG-008 under 01-product-definition/business-capabilities/packages/;
+  registered COM-MOD-014 as definition_completed in capability-package-index.md;
+  materially reduced TD-DEF-002 appointment capacity planning; QA evidence 08-qa/qa/imaging-operations/COM-MOD-014-DEF-validation.md,
+  security evidence 08-qa/security-quality/COM-MOD-014-DEF/security-quality-evidence.md,
+  handoff 08-qa/handoffs/COM-MOD-014-DEF-summary.md)
 - COM-MOD-017-CLOSEOUT Module closeout and registry update (BCM-PLT-011 marked
   module_closed in capability-package-index.md -- moved from active_capability_package_groups
   to completed_capability_package_groups -- and in its own traceability.md; the
@@ -2033,7 +2039,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   current_iteration: COM-MOD-014
   active_module: Imaging Operations
-  active_backlog_item: COM-MOD-014-DEF
+  active_backlog_item: COM-MOD-014-BE-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
@@ -2042,6 +2048,30 @@ commercial_product_progress:
   primary_development_unit: business_capability_package
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.md
   capability_package_progress:
+    COM-MOD-014:
+      name: Imaging Operations
+      package_status: definition_completed
+      backlog_item: COM-MOD-014-DEF
+      backlog_item_status: closed
+      next_backlog_item: COM-MOD-014-BE-001
+      execution_flow_stage: model
+      capabilities:
+      - capability: BCM-IMG-001
+        package_status: modeled
+      - capability: BCM-IMG-002
+        package_status: modeled
+      - capability: BCM-IMG-003
+        package_status: modeled
+      - capability: BCM-IMG-004
+        package_status: modeled
+      - capability: BCM-IMG-005
+        package_status: modeled
+      - capability: BCM-IMG-006
+        package_status: modeled
+      - capability: BCM-IMG-007
+        package_status: modeled
+      - capability: BCM-IMG-008
+        package_status: modeled
     COM-MOD-017:
       name: Product Marketplace and Extension Packaging
       package_status: module_closed

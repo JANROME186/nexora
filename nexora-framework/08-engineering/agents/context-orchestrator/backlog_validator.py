@@ -233,10 +233,21 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
     execution_prompts = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md")
     source_of_truth = read_yaml(root / PROJECT_PATH / "SOURCE_OF_TRUTH.md")
 
-    qa_path = project_file(root, f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md")
+    prompt_text = read_text(prompt_path)
+    qa_rel = None
+    qa_match = re.search(r"- QA Evidence:\s*`?([^\n`]+)`?", prompt_text)
+    if qa_match:
+        qa_rel = qa_match.group(1).strip()
+    if not qa_rel:
+        candidates = list((root / PROJECT_PATH / "08-qa/qa").glob(f"**/{task_id}-validation.md"))
+        if candidates:
+            qa_rel = str(candidates[0].relative_to(root / PROJECT_PATH)).replace("\\", "/")
+        else:
+            qa_rel = f"08-qa/qa/imaging-operations/{task_id}-validation.md"
+
+    qa_path = project_file(root, qa_rel)
     security_path = project_file(root, f"08-qa/security-quality/{task_id}/security-quality-evidence.md")
     handoff_path = project_file(root, f"08-qa/handoffs/{task_id}-summary.md")
-    prompt_text = read_text(prompt_path)
     qa = read_yaml(qa_path)
     security = read_yaml(security_path)
 
@@ -277,7 +288,7 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
 
     source_values = set((source_of_truth.get("sources") or {}).values()) if isinstance(source_of_truth.get("sources"), dict) else set()
     for relative in (
-        f"08-qa/qa/product-marketplace-and-extension-packaging/{task_id}-validation.md",
+        qa_rel,
         f"08-qa/security-quality/{task_id}/security-quality-evidence.md",
         f"08-qa/handoffs/{task_id}-summary.md",
     ):

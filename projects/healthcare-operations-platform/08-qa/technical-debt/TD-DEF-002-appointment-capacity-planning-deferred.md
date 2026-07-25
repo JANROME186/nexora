@@ -23,19 +23,20 @@ artifact:
   version: 1.1.0
   status: open
   created_date: 2026-07-15
-  updated_date: 2026-07-15
+  updated_date: 2026-07-25
 source:
   discovered_during_backlog_item: MVP-MOD-004-DEF
   module: MVP-MOD-004 Front Desk and Care Delivery
   evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-DEF-validation.md
-  partial_remediation_backlog_item: MVP-MOD-004-BE-002
-  partial_remediation_evidence: 08-qa/qa/front-desk-care-delivery/MVP-MOD-004-BE-002-validation.md
+  partial_remediation_backlog_item: COM-MOD-014-DEF
+  partial_remediation_evidence: 08-qa/qa/imaging-operations/COM-MOD-014-DEF-validation.md
 classification:
   category: capability_scope_boundary
   affected_area: appointment_scheduling_capacity_validation
   affected_components:
   - 01-product-definition/business-capabilities/packages/bcm-att-001-appointment-scheduling/business-model.md
   - 01-product-definition/business-capabilities/packages/bcm-att-001-appointment-scheduling/business-rules.md
+  - 01-product-definition/business-capabilities/packages/bcm-img-001-imaging-appointment-scheduling/business-model.md
   risk_level: low
   blocking: false
   reason_non_blocking: 'BCM-ATT-001 RN-001 and RN-002 validate branch operational
@@ -49,15 +50,12 @@ classification:
 current_state:
   issue: 'MVP-MOD-004-BE-002 added a simple, tenant-configurable daily branch appointment
     capacity check (FrontDeskPolicyStore.branchDailyAppointmentCapacityFor, default
-    200/day) enforced in AppointmentSchedulingService.confirm(), which counts overlapping
-    confirmed/checked-in slots at the branch and blocks confirmation once the tenant''s
-    daily ceiling is reached (APPOINTMENT_BRANCH_CAPACITY_EXCEEDED). This closes the
-    "no capacity check at all" gap, but it is still a flat daily count, not real capacity
-    planning: it does not model staff schedules, equipment slots, per-service concurrency
-    limits, or time-of-day granularity (AppointmentSlot remains date-only). Two different
-    patients can still be confirmed into windows that exceed practical staffing or
-    equipment capacity within the same day as long as the tenant''s daily ceiling
-    has not been reached.
+    200/day) enforced in AppointmentSchedulingService.confirm(). COM-MOD-014-DEF
+    further expanded capacity modeling for diagnostic imaging in BCM-IMG-001 by introducing
+    ImagingModalitySlot and ProcedureRoomSchedule aggregate entities, modality concurrency
+    ceilings, DICOM study preparation lead times, and room allocation constraints. This
+    materially reduces the unconstrained scheduling risk for imaging operations while
+    full BCM-ORG-007 schedule management remains planned for MVP2.
 
     '
   compensating_control:

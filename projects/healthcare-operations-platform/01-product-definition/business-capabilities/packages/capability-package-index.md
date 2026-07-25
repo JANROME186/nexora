@@ -45,7 +45,63 @@ do_not_write_manually:
 - Repetitive documentation
 - Duplicate models
 - Repetitive test cases
-active_capability_package_groups: []
+active_capability_package_groups:
+- roadmap_group: COM-MOD-014
+  name: Imaging Operations
+  package_status: definition_completed
+  backlog_item: COM-MOD-014-DEF
+  qa_evidence: ../../../08-qa/qa/imaging-operations/COM-MOD-014-DEF-validation.md
+  security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-014-DEF/security-quality-evidence.md
+  definition_evidence: ../../../08-qa/qa/imaging-operations/COM-MOD-014-DEF-validation.md
+  capabilities:
+  - capability_id: BCM-IMG-001
+    package_folder: bcm-img-001-imaging-appointment-scheduling/
+    package_status: modeled
+    bounded_context: imaging-operations
+    primary_aggregate: ImagingAppointmentSlot (AGG-031)
+    mobile_scope: not_required
+  - capability_id: BCM-IMG-002
+    package_folder: bcm-img-002-imaging-reception/
+    package_status: modeled
+    bounded_context: imaging-operations
+    primary_aggregate: ImagingReceptionIntake (AGG-032)
+    mobile_scope: not_required
+  - capability_id: BCM-IMG-003
+    package_folder: bcm-img-003-imaging-study-management/
+    package_status: modeled
+    bounded_context: imaging-operations
+    primary_aggregate: ImagingStudy (AGG-033)
+    mobile_scope: not_required
+  - capability_id: BCM-IMG-004
+    package_folder: bcm-img-004-dicom-integration/
+    package_status: modeled
+    bounded_context: imaging-adapters
+    primary_aggregate: DicomAdapterConfiguration (AGG-034)
+    mobile_scope: not_required
+  - capability_id: BCM-IMG-005
+    package_folder: bcm-img-005-pacs-integration/
+    package_status: modeled
+    bounded_context: imaging-adapters
+    primary_aggregate: PacsIntegrationEndpoint (AGG-035)
+    mobile_scope: not_required
+  - capability_id: BCM-IMG-006
+    package_folder: bcm-img-006-medical-dictation/
+    package_status: modeled
+    bounded_context: radiology-reporting
+    primary_aggregate: RadiologyDictation (AGG-036)
+    mobile_scope: not_required
+  - capability_id: BCM-IMG-007
+    package_folder: bcm-img-007-radiology-signature/
+    package_status: modeled
+    bounded_context: radiology-reporting
+    primary_aggregate: RadiologyReport (AGG-037)
+    mobile_scope: not_required
+  - capability_id: BCM-IMG-008
+    package_folder: bcm-img-008-imaging-study-delivery/
+    package_status: modeled
+    bounded_context: radiology-delivery
+    primary_aggregate: ImagingDeliveryPackage (AGG-038)
+    mobile_scope: result_view_required
 completed_capability_package_groups:
 - roadmap_group: COM-MOD-017
   name: Product Marketplace and Extension Packaging

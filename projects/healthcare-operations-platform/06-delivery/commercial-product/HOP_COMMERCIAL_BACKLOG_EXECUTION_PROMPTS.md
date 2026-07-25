@@ -10,13 +10,9 @@ The machine-readable source is `HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md`.
 
 Use this playbook after `MVP-MOD-001 Platform Foundation` to continue HOP toward a commercial product. It tells an agent how to select the next backlog item, generate capability package models, validate them, compile generated outputs, implement custom rule points and close each capability group.
 
-Current next backlog item: `COM-MOD-013-QA-001` - Compliance workflow and evidence retention validation.
+Current next backlog item: `COM-MOD-014-BE-001` - Compile imaging workflow outputs.
 
-Previous backlog item: `COM-MOD-013-FE-001` is closed. It compiled the Advanced Quality and
-Compliance employee-portal UI, raised employee-portal line coverage from 88.68% to 89.74%, and
-passed typecheck, coverage, build, duplication, formatting, license, npm audit and Trivy gates.
-`TD-I18N-002` was materially reduced, while residual non-blocking lint warnings remain
-dispositioned under `TD-FE-010`/`TD-I18N-002`.
+Previous backlog item: `COM-MOD-014-DEF` is closed. Modeled 8 capability packages (BCM-IMG-001 through BCM-IMG-008) under `01-product-definition/business-capabilities/packages/`. Registered `COM-MOD-014` as `definition_completed` in `capability-package-index.md`. Materially reduced `TD-DEF-002` (appointment capacity planning) by modeling imaging modality/room schedule slots and procedure lead time rules in `BCM-IMG-001`.
 
 ## MDPE Rule
 
@@ -767,18 +763,7 @@ validation_commands:
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product
     backlog and execution prompts, and commit only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-017-CLOSEOUT
+    backlog_item_id: COM-MOD-014-DEF
     status: closed
-    summary: Marketplace readiness closeout and registry update. Marked BCM-PLT-011
-      module_closed in capability-package.md and capability-package-index.md (moved
-      from active_capability_package_groups to completed_capability_package_groups);
-      added a closeout section to traceability.md. Documentation and registry-only
-      closeout -- no source changed; backend (484 tests, 84.65%) and employee-portal
-      (224 tests/65 files, 90.68%) figures re-affirmed unchanged. Confirmed TD-BE-018/TD-BE-019/TD-BE-020
-      closed; TD-FE-012 re-confirmed open/non-blocking. Corrected two stale technical-debt-index.md
-      coverage baselines never synced from prior evidence. Registered new debt TD-WEB-001
-      for the modeled-but-uncompiled PUBLIC_MARKETPLACE_LISTING public_website surface
-      (COM-MOD-017-WEB-001 never scheduled), non-blocking. REL-003 Commercial General
-      Availability is now fully complete (COM-MOD-013, COM-MOD-016 and COM-MOD-017
-      all module_closed).
+    summary: Modeled 8 capability packages (BCM-IMG-001 through BCM-IMG-008) under 01-product-definition/business-capabilities/packages/. Registered COM-MOD-014 as definition_completed in capability-package-index.md. Materially reduced TD-DEF-002 (appointment capacity planning) by modeling imaging modality/room schedule slots and procedure lead time rules in BCM-IMG-001.
 ```

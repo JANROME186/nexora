@@ -22,9 +22,11 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-014-DEF`.
+Current active backlog item: `COM-MOD-014-BE-001`.
 
-Latest update: `COM-MOD-017-CLOSEOUT` is closed. Module `COM-MOD-017 Product Marketplace and Extension Packaging` is `module_closed`. Marked `BCM-PLT-011` `module_closed` in `capability-package.md` and `capability-package-index.md` (moved from `active_capability_package_groups` to `completed_capability_package_groups`); added a `closeout:` section to `traceability.md`. Documentation and registry-only closeout -- no source changed; backend (484 tests, 84.65%) and employee-portal (224 tests/65 files, 90.68%) figures re-affirmed unchanged from `COM-MOD-017-QA-001`. Confirmed `TD-BE-018`/`TD-BE-019`/`TD-BE-020` closed; `TD-FE-012` re-confirmed open/non-blocking. Found and corrected two stale `technical-debt-index.md` coverage baselines (`backend_java_maven` 84.53% -> 84.65%, `frontend_typescript_web` 89.75% -> 90.68%) never synced from prior evidence. Found and registered new debt `TD-WEB-001` -- `ui-model.md`'s `PUBLIC_MARKETPLACE_LISTING` public_website surface was modeled but never compiled (`COM-MOD-017-WEB-001` never scheduled); non-blocking, outward discovery surface only. REL-003 Commercial General Availability is now fully complete (`COM-MOD-013`, `COM-MOD-016` and `COM-MOD-017` all `module_closed`). Next active backlog item is `COM-MOD-014-DEF` (Imaging Operations capability package models).
+Latest update: `COM-MOD-014-DEF` is closed. Modeled 8 business capability packages under `01-product-definition/business-capabilities/packages/` (`BCM-IMG-001` through `BCM-IMG-008`). Registered `COM-MOD-014` as `definition_completed` in `capability-package-index.md`. Materially reduced `TD-DEF-002` (appointment capacity planning) by modeling imaging modality/room schedule slots and procedure lead time rules in `BCM-IMG-001`. QA evidence: `08-qa/qa/imaging-operations/COM-MOD-014-DEF-validation.md`, security quality evidence: `08-qa/security-quality/COM-MOD-014-DEF/security-quality-evidence.md`, handoff: `08-qa/handoffs/COM-MOD-014-DEF-summary.md`. Next active backlog item: `COM-MOD-014-BE-001` (Compile imaging workflow outputs).
+
+Previous update: `COM-MOD-017-CLOSEOUT` is closed. Module `COM-MOD-017 Product Marketplace and Extension Packaging` is `module_closed`. Marked `BCM-PLT-011` `module_closed` in `capability-package.md` and `capability-package-index.md` (moved from `active_capability_package_groups` to `completed_capability_package_groups`); added a `closeout:` section to `traceability.md`. Documentation and registry-only closeout -- no source changed; backend (484 tests, 84.65%) and employee-portal (224 tests/65 files, 90.68%) figures re-affirmed unchanged from `COM-MOD-017-QA-001`. Confirmed `TD-BE-018`/`TD-BE-019`/`TD-BE-020` closed; `TD-FE-012` re-confirmed open/non-blocking. Found and corrected two stale `technical-debt-index.md` coverage baselines (`backend_java_maven` 84.53% -> 84.65%, `frontend_typescript_web` 89.75% -> 90.68%) never synced from prior evidence. Found and registered new debt `TD-WEB-001` -- `ui-model.md`'s `PUBLIC_MARKETPLACE_LISTING` public_website surface was modeled but never compiled (`COM-MOD-017-WEB-001` never scheduled); non-blocking, outward discovery surface only. REL-003 Commercial General Availability is now fully complete (`COM-MOD-013`, `COM-MOD-016` and `COM-MOD-017` all `module_closed`).
 
 Previous update: `COM-MOD-017-QA-001` is closed. Integrated marketplace validation ran 4 traceability sweeps (`openapi-source.md` vs. the 6 marketplace controllers, IAM permissions across `PermissionCode.java`/`RolePermissionCatalog.java`/`EndpointPermissionRegistry.java`/`permissions.ts`, `ui-model.md` vs. the 4 employee-portal screens, es-MX/en-US i18n key parity) and found/fixed 3 real doc-vs-implementation drifts in capability-package model documents only (`openapi-source.md` path mismatches plus 1 undocumented `getPackage` endpoint; `permissions.md`/`ui-model.md` documented an unimplemented 15-code fine-grained permission model while the shipped system correctly uses the platform's coarse 4-code `SCREEN_MARKETPLACE_*` model, `TD-IAM-002` pattern) -- no production Java or TypeScript source changed, no port, environment variable, Docker service or startup-order changed. Debt-first: closed `TD-BE-018` (all 5 of 5 named custom_implementation_points now closed via the `TD-BE-019` chain closed by `COM-MOD-017-FE-001`); `TD-FE-012` re-confirmed still open/non-blocking. Backend regression gates re-run clean -- `mvn -Pquality "-Dhop.local-db-tests=true" clean verify` (484 tests, 0 failures/errors/skipped, coverage unchanged at 84.65%), checkstyle/PMD/SpotBugs/duplicate-finder reproduced the same pre-existing baseline with 0 new findings, OWASP Dependency-Check (72 dependencies, 0 vulnerabilities). Employee-portal `npm run quality` re-run clean (224 tests, 65 files, 0 failures, coverage unchanged at 90.68%). Trivy fs 0 findings. Next active backlog item is `COM-MOD-017-CLOSEOUT`.
 
@@ -716,7 +718,7 @@ artifact:
 project:
   name: Healthcare Operations Platform
   slug: healthcare-operations-platform
-  current_active_backlog_item: COM-MOD-014-DEF
+  current_active_backlog_item: COM-MOD-014-BE-001
   paused_functional_backlog_item: null
   quality_alignment_backlog_status: closed
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.md
@@ -724,9 +726,9 @@ project:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.md
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
   latest_runbook_update:
-    backlog_item: COM-MOD-017-CLOSEOUT
+    backlog_item: COM-MOD-014-DEF
     status: closed
-    next_active_backlog_item: COM-MOD-014-DEF
+    next_active_backlog_item: COM-MOD-014-BE-001
     runtime_change: None. Documentation and registry-only closeout; no application
       source, runtime configuration, dependency, database schema, Docker service
       or UI surface changed.
