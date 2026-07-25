@@ -3,6 +3,9 @@ package com.nexora.hop.platformfoundation.imagingoperations.pacsintegration.appl
 import com.nexora.hop.platformfoundation.imagingoperations.pacsintegration.domain.PacsIntegrationEndpoint;
 import com.nexora.hop.platformfoundation.imagingoperations.pacsintegration.domain.PacsIntegrationEndpointRepository;
 import com.nexora.hop.platformfoundation.imagingoperations.pacsintegration.port.PacsBridgePort;
+import com.nexora.hop.platformfoundation.imagingoperations.pacsintegration.port.PacsQidoSearchResult;
+import com.nexora.hop.platformfoundation.imagingoperations.pacsintegration.port.PacsStowStoreResult;
+import com.nexora.hop.platformfoundation.imagingoperations.pacsintegration.port.PacsWadoRetrieveResponse;
 import com.nexora.hop.platformfoundation.imagingoperations.shared.ImagingErrorCode;
 import com.nexora.hop.platformfoundation.imagingoperations.shared.ImagingNotFoundException;
 import java.time.Instant;
@@ -50,5 +53,20 @@ public class PacsIntegrationService {
     public String queryStudy(String tenantId, String endpointId, String accessionNumber) {
         PacsIntegrationEndpoint endpoint = getEndpoint(tenantId, endpointId);
         return pacsBridgePort.queryStudyInstances(endpoint.pacsNodeId(), accessionNumber);
+    }
+
+    public List<PacsQidoSearchResult> qidoSearchStudies(String tenantId, String endpointId, String patientId, String modality) {
+        PacsIntegrationEndpoint endpoint = getEndpoint(tenantId, endpointId);
+        return pacsBridgePort.qidoSearchStudies(endpoint.pacsNodeId(), patientId, modality);
+    }
+
+    public PacsWadoRetrieveResponse getWadoRetrieveUrl(String tenantId, String endpointId, String studyInstanceUid, String seriesInstanceUid, String objectUid) {
+        PacsIntegrationEndpoint endpoint = getEndpoint(tenantId, endpointId);
+        return pacsBridgePort.getWadoRetrieveUrl(endpoint.pacsNodeId(), studyInstanceUid, seriesInstanceUid, objectUid);
+    }
+
+    public PacsStowStoreResult storeWebInstances(String tenantId, String endpointId, String studyInstanceUid, String contentType, byte[] dicomPayload) {
+        PacsIntegrationEndpoint endpoint = getEndpoint(tenantId, endpointId);
+        return pacsBridgePort.storeWebInstances(endpoint.pacsNodeId(), studyInstanceUid, contentType, dicomPayload);
     }
 }

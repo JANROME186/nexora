@@ -238,14 +238,9 @@ product:
       General Availability fully complete)
     completed_status: closed
     active_module: COM-MOD-014
-    active_backlog_item: COM-MOD-014-INT-001
-    active_module_progress: COM-MOD-014-BE-001 closed. Compiled Spring Modulith imagingoperations
-      module with 8 capability sub-packages (BCM-IMG-001 through BCM-IMG-008) and 8 root aggregates
-      (ImagingAppointmentSlot, ImagingReceptionIntake, ImagingStudy, DicomAdapterConfiguration,
-      PacsIntegrationEndpoint, RadiologyDictation, RadiologyReport, ImagingDeliveryPackage).
-      Registered db/imaging-operations/schema.sql (8 tables). Added SCREEN_IMAGING_* permissions
-      to IAM catalogs. Materially reduced TD-DEF-002 and TD-I18N-002. Active backlog item
-      advanced to COM-MOD-014-INT-001 (Compile imaging external integration & DICOM/PACS adapter boundaries).
+    active_backlog_item: COM-MOD-014-FE-001
+    active_module_progress: COM-MOD-014-INT-001 closed. Implemented DICOM and PACS custom boundaries (DicomGatewayPort, PacsBridgePort, DicomGatewayAdapter, PacsBridgeAdapter, DicomIntegrationController, PacsIntegrationController). Materially reduced TD-I18N-002. Active backlog item advanced to COM-MOD-014-FE-001 (Compile imaging operations UI outputs).
+
     paused_backlog_item: null
     pause_reason: null
 source_inputs:
@@ -1230,6 +1225,7 @@ modules:
     status: closed
   - id: COM-MOD-014-INT-001
     name: Implement DICOM and PACS adapter custom boundaries
+    status: closed
   - id: COM-MOD-014-FE-001
     name: Compile imaging operations UI outputs
   - id: COM-MOD-014-PORTAL-001

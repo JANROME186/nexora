@@ -23,7 +23,8 @@ artifact:
   version: 2.3.0
   status: materially_reduced
   created_date: 2026-07-16
-  updated_date: 2026-07-19
+  updated_date: 2026-07-25
+
   materially_reduced_by_backlog_item: HOP-ENT-FOUND-001
   further_materially_reduced_by_backlog_item: COM-MOD-009-PORTAL-002
 com_mod_009_portal_002_reduction_evidence: 'COM-MOD-009-PORTAL-002 replaced the doctor-portal''s

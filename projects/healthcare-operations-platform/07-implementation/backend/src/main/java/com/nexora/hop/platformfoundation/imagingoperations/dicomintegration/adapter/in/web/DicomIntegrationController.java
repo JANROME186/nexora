@@ -2,6 +2,9 @@ package com.nexora.hop.platformfoundation.imagingoperations.dicomintegration.ada
 
 import com.nexora.hop.platformfoundation.imagingoperations.dicomintegration.application.DicomIntegrationService;
 import com.nexora.hop.platformfoundation.imagingoperations.dicomintegration.domain.DicomAdapterConfiguration;
+import com.nexora.hop.platformfoundation.imagingoperations.dicomintegration.port.DicomTransferResult;
+import com.nexora.hop.platformfoundation.imagingoperations.dicomintegration.port.DicomValidationResult;
+import com.nexora.hop.platformfoundation.imagingoperations.dicomintegration.port.DicomWorklistEntry;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -65,10 +69,53 @@ public class DicomIntegrationController {
         return ResponseEntity.ok(Map.of("result", result));
     }
 
+    @GetMapping("/api/v1/imaging/dicom-configs/{configurationId}/worklist")
+    public ResponseEntity<List<DicomWorklistEntry>> queryWorklist(
+            @RequestHeader("X-Tenant-Id") String tenantId,
+            @PathVariable String configurationId,
+            @RequestParam(required = false) String patientId,
+            @RequestParam(required = false) String modality) {
+        List<DicomWorklistEntry> worklist = service.queryWorklist(tenantId, configurationId, patientId, modality);
+        return ResponseEntity.ok(worklist);
+    }
+
+    @PostMapping("/api/v1/imaging/dicom-configs/{configurationId}/transfer")
+    public ResponseEntity<DicomTransferResult> requestTransfer(
+            @RequestHeader("X-Tenant-Id") String tenantId,
+            @PathVariable String configurationId,
+            @RequestBody DicomTransferApiRequest request) {
+        DicomTransferResult result = service.requestStudyTransfer(
+                tenantId, configurationId, request.studyInstanceUid(), request.destinationAeTitle()
+        );
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/api/v1/imaging/dicom-configs/{configurationId}/validate-header")
+    public ResponseEntity<DicomValidationResult> validateHeader(
+            @RequestHeader("X-Tenant-Id") String tenantId,
+            @PathVariable String configurationId,
+            @RequestBody DicomValidateHeaderApiRequest request) {
+        DicomValidationResult result = service.validateDatasetHeader(
+                tenantId, configurationId, request.patientId(), request.studyInstanceUid(), request.modality()
+        );
+        return ResponseEntity.ok(result);
+    }
+
     public record RegisterDicomConfigRequest(
             String aeTitle,
             String host,
             int port,
             String modalityType
+    ) {}
+
+    public record DicomTransferApiRequest(
+            String studyInstanceUid,
+            String destinationAeTitle
+    ) {}
+
+    public record DicomValidateHeaderApiRequest(
+            String patientId,
+            String studyInstanceUid,
+            String modality
     ) {}
 }

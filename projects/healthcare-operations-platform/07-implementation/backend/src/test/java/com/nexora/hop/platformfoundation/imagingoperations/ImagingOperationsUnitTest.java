@@ -211,6 +211,21 @@ class ImagingOperationsUnitTest {
 
         ResponseEntity<Map<String, String>> echoResp = dicomController.echoCEcho(tenantId, config.configurationId());
         assertThat(echoResp.getBody().get("result")).contains("C-ECHO SUCCESS");
+
+        var worklistResp = dicomController.queryWorklist(tenantId, config.configurationId(), "PAT-100", "CT");
+        assertThat(worklistResp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(worklistResp.getBody()).hasSize(1);
+        assertThat(worklistResp.getBody().get(0).modality()).isEqualTo("CT");
+
+        var transferReq = new DicomIntegrationController.DicomTransferApiRequest("1.2.840.10008.1.1", "VIEWER_AE");
+        var transferResp = dicomController.requestTransfer(tenantId, config.configurationId(), transferReq);
+        assertThat(transferResp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(transferResp.getBody().status()).isEqualTo("COMPLETED");
+
+        var validateReq = new DicomIntegrationController.DicomValidateHeaderApiRequest("PAT-100", "1.2.840.10008.1.1", "CT");
+        var validateResp = dicomController.validateHeader(tenantId, config.configurationId(), validateReq);
+        assertThat(validateResp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(validateResp.getBody().valid()).isTrue();
     }
 
     @Test
@@ -228,7 +243,22 @@ class ImagingOperationsUnitTest {
 
         ResponseEntity<Map<String, String>> queryResp = pacsController.queryPacs(tenantId, endpoint.endpointId(), "ACC-2026-001");
         assertThat(queryResp.getBody().get("result")).contains("PACS_QUERY_OK");
+
+        var qidoResp = pacsController.qidoSearch(tenantId, endpoint.endpointId(), "PAT-200", "MR");
+        assertThat(qidoResp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(qidoResp.getBody()).hasSize(1);
+        assertThat(qidoResp.getBody().get(0).modality()).isEqualTo("MR");
+
+        var wadoResp = pacsController.getWadoUrl(tenantId, endpoint.endpointId(), "1.3.12.2.1107.5.2.32.35177.1", "1.3.12.2.1107.5.2.32.35177.1.1", "1.3.12.2.1107.5.2.32.35177.1.1.1");
+        assertThat(wadoResp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(wadoResp.getBody().retrieveUrl()).contains("pacs.nexora.local/wado");
+
+        var stowReq = new PacsIntegrationController.PacsStowStoreApiRequest("1.3.12.2.1107.5.2.32.35177.2", "application/dicom", "ZHVtbXkgZGF0YQ==");
+        var stowResp = pacsController.stowStore(tenantId, endpoint.endpointId(), stowReq);
+        assertThat(stowResp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(stowResp.getBody().status()).isEqualTo("STORED");
     }
+
 
     @Test
     void testMedicalDictationWorkflow() {

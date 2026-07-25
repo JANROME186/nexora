@@ -10,9 +10,10 @@ The machine-readable source is `HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md`.
 
 Use this playbook after `MVP-MOD-001 Platform Foundation` to continue HOP toward a commercial product. It tells an agent how to select the next backlog item, generate capability package models, validate them, compile generated outputs, implement custom rule points and close each capability group.
 
-Current next backlog item: `COM-MOD-014-INT-001` - Compile imaging external integration & DICOM/PACS adapter boundaries.
+Current next backlog item: `COM-MOD-014-FE-001` - Compile imaging operations UI outputs.
 
-Previous backlog item: `COM-MOD-014-BE-001` is closed. Compiled Spring Modulith `imagingoperations` module with 8 capability sub-packages (BCM-IMG-001 through BCM-IMG-008) and 8 root aggregates (`ImagingAppointmentSlot`, `ImagingReceptionIntake`, `ImagingStudy`, `DicomAdapterConfiguration`, `PacsIntegrationEndpoint`, `RadiologyDictation`, `RadiologyReport`, `ImagingDeliveryPackage`). Registered `db/imaging-operations/schema.sql` (8 tables). Added `SCREEN_IMAGING_*` permissions to IAM catalogs and mapped endpoints in `EndpointPermissionRegistry`. Materially reduced `TD-DEF-002` (procedure room schedule concurrency checks) and `TD-I18N-002` (`imaging.error.*` message codes).
+Previous backlog item: `COM-MOD-014-INT-001` is closed. Implemented DICOM and PACS custom integration boundaries (`DicomGatewayPort`, `PacsBridgePort`, `DicomGatewayAdapter`, `PacsBridgeAdapter`, `DicomIntegrationController`, `PacsIntegrationController`). Materially reduced `TD-I18N-002`.
+
 
 ## MDPE Rule
 
@@ -758,7 +759,8 @@ validation_commands:
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product
     backlog and execution prompts, and commit only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-014-BE-001
+    backlog_item_id: COM-MOD-014-INT-001
     status: closed
-    summary: Compiled Spring Modulith imagingoperations module with 8 capability sub-packages (BCM-IMG-001 through BCM-IMG-008) and 8 root aggregates (ImagingAppointmentSlot, ImagingReceptionIntake, ImagingStudy, DicomAdapterConfiguration, PacsIntegrationEndpoint, RadiologyDictation, RadiologyReport, ImagingDeliveryPackage). Registered db/imaging-operations/schema.sql (8 tables). Added SCREEN_IMAGING_* permissions to IAM catalogs and mapped endpoints in EndpointPermissionRegistry. Materially reduced TD-DEF-002 and TD-I18N-002.
+    summary: Implemented DICOM and PACS custom integration boundaries and out-adapters (DicomGatewayPort, PacsBridgePort, DicomGatewayAdapter, PacsBridgeAdapter, DicomIntegrationController, PacsIntegrationController) with worklist query, study transfer, DICOM header validation, QIDO-RS search, WADO-RS retrieve URL, and STOW-RS web store payload. Materially reduced TD-I18N-002.
+
 ```

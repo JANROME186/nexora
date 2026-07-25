@@ -3,6 +3,9 @@ package com.nexora.hop.platformfoundation.imagingoperations.dicomintegration.app
 import com.nexora.hop.platformfoundation.imagingoperations.dicomintegration.domain.DicomAdapterConfiguration;
 import com.nexora.hop.platformfoundation.imagingoperations.dicomintegration.domain.DicomAdapterConfigurationRepository;
 import com.nexora.hop.platformfoundation.imagingoperations.dicomintegration.port.DicomGatewayPort;
+import com.nexora.hop.platformfoundation.imagingoperations.dicomintegration.port.DicomTransferResult;
+import com.nexora.hop.platformfoundation.imagingoperations.dicomintegration.port.DicomValidationResult;
+import com.nexora.hop.platformfoundation.imagingoperations.dicomintegration.port.DicomWorklistEntry;
 import com.nexora.hop.platformfoundation.imagingoperations.shared.ImagingErrorCode;
 import com.nexora.hop.platformfoundation.imagingoperations.shared.ImagingNotFoundException;
 import java.time.Instant;
@@ -51,5 +54,20 @@ public class DicomIntegrationService {
     public String testCEcho(String tenantId, String configurationId) {
         DicomAdapterConfiguration config = getConfiguration(tenantId, configurationId);
         return dicomGatewayPort.echoCEcho(config.aeTitle());
+    }
+
+    public List<DicomWorklistEntry> queryWorklist(String tenantId, String configurationId, String patientId, String modality) {
+        DicomAdapterConfiguration config = getConfiguration(tenantId, configurationId);
+        return dicomGatewayPort.queryWorklist(config.aeTitle(), patientId, modality);
+    }
+
+    public DicomTransferResult requestStudyTransfer(String tenantId, String configurationId, String studyInstanceUid, String destinationAeTitle) {
+        DicomAdapterConfiguration config = getConfiguration(tenantId, configurationId);
+        return dicomGatewayPort.requestStudyTransfer(config.aeTitle(), studyInstanceUid, destinationAeTitle);
+    }
+
+    public DicomValidationResult validateDatasetHeader(String tenantId, String configurationId, String patientId, String studyInstanceUid, String modality) {
+        DicomAdapterConfiguration config = getConfiguration(tenantId, configurationId);
+        return dicomGatewayPort.validateDatasetHeader(config.aeTitle(), patientId, studyInstanceUid, modality);
     }
 }

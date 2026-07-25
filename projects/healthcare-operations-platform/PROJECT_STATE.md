@@ -14,11 +14,12 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-014-BE-001 closed. Active backlog item is COM-MOD-014-INT-001.
+current_phase: COM-MOD-014-INT-001 closed. Active backlog item is COM-MOD-014-FE-001.
 commercial_product_progress:
-  active_backlog_item: COM-MOD-014-INT-001
+  active_backlog_item: COM-MOD-014-FE-001
 architecture_status: Architecture Freeze v1.0
 completed_deliverables:
+- COM-MOD-014-INT-001 Implement DICOM and PACS adapter custom boundaries (expanded DicomGatewayPort and PacsBridgePort with DICOM C-FIND MWL worklist query, C-MOVE study transfer, DICOM header metadata validation, QIDO-RS search, WADO-RS retrieve URL, and STOW-RS web store payload; implemented out-adapters DicomGatewayAdapter and PacsBridgeAdapter; added REST endpoints to DicomIntegrationController and PacsIntegrationController; materially reduced TD-I18N-002 with 3 new imaging.error.* integration error codes; QA evidence 08-qa/qa/imaging-operations/COM-MOD-014-INT-001-validation.md, security evidence 08-qa/security-quality/COM-MOD-014-INT-001/security-quality-evidence.md, handoff 08-qa/handoffs/COM-MOD-014-INT-001-summary.md)
 - COM-MOD-014-BE-001 Compile imaging workflow outputs (compiled Spring Modulith imagingoperations
   module with 8 capability sub-packages BCM-IMG-001 through BCM-IMG-008; registered db/imaging-operations/schema.sql
   8 tables; added SCREEN_IMAGING_* permissions to PermissionCode, RolePermissionCatalog and EndpointPermissionRegistry;
@@ -2047,7 +2048,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   current_iteration: COM-MOD-014
   active_module: Imaging Operations
-  active_backlog_item: COM-MOD-014-INT-001
+  active_backlog_item: COM-MOD-014-FE-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
@@ -2059,9 +2060,10 @@ commercial_product_progress:
     COM-MOD-014:
       name: Imaging Operations
       package_status: backend_compiled
-      backlog_item: COM-MOD-014-BE-001
+      backlog_item: COM-MOD-014-INT-001
       backlog_item_status: closed
-      next_backlog_item: COM-MOD-014-INT-001
+      next_backlog_item: COM-MOD-014-FE-001
+
       execution_flow_stage: compile
       capabilities:
       - capability: BCM-IMG-001
@@ -2126,8 +2128,8 @@ commercial_product_progress:
     COM-MOD-014:
       name: Imaging Operations
       package_status: active
-      backlog_item: COM-MOD-014-INT-001
-      backlog_item_status: in_progress
+      backlog_item: COM-MOD-014-FE-001
+      backlog_item_status: ready_for_execution
       execution_flow_stage: implementation
       capabilities:
       - capability: BCM-IMG-001
@@ -2148,8 +2150,11 @@ commercial_product_progress:
         package_status: compiled
       qa_evidence_be_001: 08-qa/qa/imaging-operations/COM-MOD-014-BE-001-validation.md
       security_quality_evidence_be_001: 08-qa/security-quality/COM-MOD-014-BE-001/security-quality-evidence.md
+      qa_evidence_int_001: 08-qa/qa/imaging-operations/COM-MOD-014-INT-001-validation.md
+      security_quality_evidence_int_001: 08-qa/security-quality/COM-MOD-014-INT-001/security-quality-evidence.md
       ready_for_compilation: true
       backend_compilation_completed: true
+
     COM-MOD-016:
       name: Commercial Launch and Customer Enablement
       package_status: module_closed
