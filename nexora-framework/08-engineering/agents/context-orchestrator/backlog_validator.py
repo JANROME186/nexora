@@ -355,7 +355,7 @@ def write_outputs(root: Path, task_id: str, context: dict, review: dict) -> tupl
         stale_prompt = root / PROJECT_PATH / "08-qa/generated-prompts" / f"{task_id}-closure-fix-prompt.md"
         if stale_prompt.exists():
             stale_prompt.unlink()
-    return report_yaml, prompt_path
+    return report_md, prompt_path
 
 
 def main() -> int:

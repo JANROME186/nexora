@@ -616,7 +616,7 @@ completed_deliverables:
   all severities) reported 0 vulnerabilities/secrets/misconfigurations. Ready for
   COM-MOD-013-CLOSEOUT.
 next_deliverables:
-- Resume COM-MOD-017-BE-002 with compact generated prompts and NXF-FMT-002 handoff
+- Resume COM-MOD-017-FE-001 with compact generated prompts and COM-MOD-017-BE-002 handoff
   evidence
 - Keep TD-FMT-001 as non-blocking gradual migration debt and convert YAML artifacts
   when touched
@@ -638,7 +638,7 @@ development_readiness:
   status: ready
   ready_to_start_module: COM-MOD-017
   in_progress_module: COM-MOD-017
-  next_backlog_item: COM-MOD-017-BE-002
+  next_backlog_item: COM-MOD-017-FE-001
   agent_agnostic_ready: true
   business_requirement_ready: true
   agent_yaml_execution_artifacts_ready: true
@@ -1960,7 +1960,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   current_iteration: COM-MOD-017
   active_module: Product Marketplace and Extension Packaging
-  active_backlog_item: COM-MOD-017-BE-002
+  active_backlog_item: COM-MOD-017-FE-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
@@ -1972,10 +1972,10 @@ commercial_product_progress:
     COM-MOD-017:
       name: Product Marketplace and Extension Packaging
       package_status: compiled
-      backlog_item: COM-MOD-017-BE-001
+      backlog_item: COM-MOD-017-BE-002
       backlog_item_status: closed
-      next_backlog_item: COM-MOD-017-BE-002
-      execution_flow_stage: ready_for_custom_rules
+      next_backlog_item: COM-MOD-017-FE-001
+      execution_flow_stage: ready_for_frontend_compilation
       capabilities:
       - capability: BCM-PLT-011
         package_status: compiled
