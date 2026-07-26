@@ -58,7 +58,7 @@ target_state:
     real business process for it to orchestrate; register it as debt and implement
     it together with that process instead.
 remediation:
-  strategy: gradual_dedicated_backlog_item_once_a_real_orchestration_target_exists
+  strategy: materially_reduced_by_COM_MOD_015_BE_001_then_gradual_dedicated_backlog_item_for_generic_workflow_engine
   owner: backend_team
   estimated_effort: large
   estimated_cost_impact: medium
@@ -71,4 +71,9 @@ remediation:
     insert).
   - listWorkflowExecutions and rollbackWorkflow operate against that real process's
     execution state.
+progress:
+- date: 2026-07-26
+  backlog_item: COM-MOD-015-BE-001
+  result: materially_reduced
+  note: AI assistant orchestration introduced a real provider-neutral process target with persisted state, human review and audit records. The generic BCM-PLT-009 workflow-engine API remains open for broader operational automation.
 ```

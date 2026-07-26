@@ -40,3 +40,7 @@ These runbooks are executable today against the local Docker Compose stack
 (`07-implementation/compose.local.json`). Several steps document a target posture for `dev`, `qa`,
 `staging` and `prod` that depends on infrastructure not yet provisioned; each runbook lists its own
 `known_gaps_and_forward_pointers`.
+
+## AI overlay
+
+- `ai-overlay-assistant-review-runbook.md` — human-review procedure for AI assistant draft, review and audit-record backend outputs delivered by `COM-MOD-015-BE-001`.

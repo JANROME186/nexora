@@ -263,7 +263,8 @@ public class EndpointPermissionRegistry {
               readWrite(
                   "/api/v1/imaging/delivery-packages",
                   PermissionCode.SCREEN_IMAGING_DELIVERY,
-                  "BCM-IMG-008"))
+                  "BCM-IMG-008"),
+              readWrite("/api/ai", PermissionCode.SCREEN_AI_ASSISTANT, "BCM-AI-001"))
           .stream()
           .sorted(Comparator.comparingInt((PathRule rule) -> rule.pathPrefix().length()).reversed())
           .toList();

@@ -39,6 +39,21 @@ required_checks_when_applicable:
 - dast_for_runnable_web_or_api_surfaces
 - container_or_iac_scan_when_assets_change
 entries:
+- backlog_item: COM-MOD-015-BE-001
+  module: COM-MOD-015 AI Overlay
+  status: passed_with_documented_environment_limitations
+  evidence_path: 08-qa/security-quality/COM-MOD-015-BE-001/
+  human_readable: 08-qa/security-quality/COM-MOD-015-BE-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-015-BE-001/security-quality-evidence.md
+  checks:
+    tests: passed_505_backend_tests_0_failures_0_errors_31_skipped_standard_and_ai_overlay_local_db_2_passed_0_skipped
+    sast_or_static_analysis: passed_maven_checkstyle_pmd_cpd_spotbugs_dependency_check_with_0_ai_overlay_spotbugs_and_0_dependency_vulns
+    dependency_vulnerability_scan: passed_owasp_dependency_check_0_vulnerabilities
+    secrets_scan: passed_trivy_ai_overlay_scope_0_findings
+    coverage: documented_backend_jacoco_70_29_percent_baseline_drift
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_external_web_runtime_started
+    container_or_iac_scan_when_assets_change: not_applicable_no_container_or_iac_asset_changed
+  note: Backend AI assistant orchestration, policy and audit outputs compiled. Docker API access was unavailable on the host, but local PostgreSQL profile tests passed. Semgrep unavailable locally; Maven SpotBugs/FindSecBugs, PMD, CPD, Checkstyle reports and Trivy scoped offline scans were executed.
 - backlog_item: COM-MOD-015-DEF
   module: COM-MOD-015 AI Overlay
   status: passed

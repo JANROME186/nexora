@@ -20,13 +20,10 @@ artifact:
 current_baseline:
   completed_module: COM-MOD-017 (COM-MOD-017-CLOSEOUT closed; REL-003 Commercial General Availability fully complete)
   completed_status: closed
-  active_module: COM-MOD-014
-  active_backlog_item: COM-MOD-014-CLOSEOUT
-  active_module_progress: COM-MOD-014-QA-001 closed. Validated Imaging Operations end-to-end evidence across backend and employee
-    portal, fixed the DICOM hardcoded-IP lint finding, corrected ImagingReportsScreen JSX markup, expanded imaging screen
-    coverage to 249/249 passing tests, confirmed backend tests 497/497 passing with 29 skipped local-db tests, employee-portal
-    coverage 90.85% overall / 90.87% screens, build clean, production audit clean and quality evidence validated. Active backlog
-    item advanced to COM-MOD-014-CLOSEOUT.
+  active_module: COM-MOD-015
+  active_backlog_item: COM-MOD-015-BE-002
+  active_module_progress: COM-MOD-015-BE-001 closed. Compiled AI Overlay backend assistant orchestration, human-review policy,
+    audit outputs and local PostgreSQL persistence. Active backlog item advanced to COM-MOD-015-BE-002.
   paused_backlog_item: null
   pause_reason: null
 release_plan:

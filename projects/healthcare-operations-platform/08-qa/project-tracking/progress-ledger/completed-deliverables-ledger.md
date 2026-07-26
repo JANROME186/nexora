@@ -14,9 +14,16 @@ artifact:
 
 ```yaml
 project: Healthcare Operations Platform
-total_completed_deliverables: 129
+total_completed_deliverables: 130
 payload_hash: '277579999803'
 completed_deliverables:
+- COM-MOD-015-BE-001 AI Overlay backend outputs compiled (created provider-neutral aioverlay Spring Modulith module for
+  assistant draft orchestration, safety policy enforcement, human review and audit-record listing; added local deterministic
+  AiDraftGeneratorPort adapter with no proprietary model/runtime dependency; persisted ai_overlay.ai_interactions in local
+  PostgreSQL profile; registered SCREEN_AI_ASSISTANT for /api/ai; added i18n messages and focused API/service/local DB tests;
+  materially reduced TD-BE-017 by introducing a real orchestration/audit target and reduced test temp-path fragility in
+  LocalFilesystemDocumentAdapterTest; QA evidence 08-qa/qa/ai-overlay/COM-MOD-015-BE-001-validation.md, security evidence
+  08-qa/security-quality/COM-MOD-015-BE-001/security-quality-evidence.md, handoff 08-qa/handoffs/COM-MOD-015-BE-001-summary.md)
 - COM-MOD-015-DEF Capability package models for AI Overlay (modeled 8 provider-neutral capability packages BCM-AI-001 through
   BCM-AI-008 under 01-product-definition/business-capabilities/packages/ with the standard 14 artifacts each; registered COM-MOD-015
   as definition_completed in capability-package-index.md; all AI outputs are advisory, attributable, source-cited, auditable

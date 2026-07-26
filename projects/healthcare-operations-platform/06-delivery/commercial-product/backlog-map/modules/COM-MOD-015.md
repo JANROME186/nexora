@@ -46,10 +46,10 @@ backlog_items:
   status: closed
 - id: COM-MOD-015-BE-001
   name: Compile AI orchestration, policy and audit outputs
-  status: next
+  status: closed
 - id: COM-MOD-015-BE-002
   name: Implement OCR, summary, search and retrieval custom rules
-  status: planned
+  status: next
 - id: COM-MOD-015-FE-001
   name: Compile assistant and review UI outputs
   status: planned

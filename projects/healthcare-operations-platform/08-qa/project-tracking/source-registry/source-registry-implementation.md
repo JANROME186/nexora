@@ -14,8 +14,10 @@ artifact:
 
 ```yaml
 group: implementation
-entry_count: 54
+entry_count: 56
 sources:
+  com_mod_015_be_001_backend_ai_overlay: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/aioverlay/
+  com_mod_015_be_001_schema: 07-implementation/backend/src/main/resources/db/ai-overlay/schema.sql
   com_mod_010_be_001_backend_implementation: 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/inventoryquality/
   com_mod_010_be_001_schema: 07-implementation/backend/src/main/resources/db/inventory-and-internal-quality/schema.sql
   com_mod_010_fe_001_employee_portal_api: 07-implementation/employee-portal/src/api/inventoryQualityApi.ts

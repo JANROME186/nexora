@@ -39,6 +39,9 @@ sources:
   com_mod_015_def_qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-DEF-validation.md
   com_mod_015_def_security_quality_evidence: 08-qa/security-quality/COM-MOD-015-DEF/security-quality-evidence.md
   com_mod_015_def_handoff: 08-qa/handoffs/COM-MOD-015-DEF-summary.md
+  com_mod_015_be_001_qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-BE-001-validation.md
+  com_mod_015_be_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-015-BE-001/security-quality-evidence.md
+  com_mod_015_be_001_handoff: 08-qa/handoffs/COM-MOD-015-BE-001-summary.md
 source_registry:
   core:
     path: 08-qa/project-tracking/source-registry/source-registry-core.md
@@ -50,16 +53,16 @@ source_registry:
     payload_hash: 3a0201cf1027
   qa:
     path: 08-qa/project-tracking/source-registry/source-registry-qa.md
-    entries: 426
-    payload_hash: 92cd33ef1159
+    entries: 429
+    payload_hash: d98f15eb46b7
   definition:
     path: 08-qa/project-tracking/source-registry/source-registry-definition.md
     entries: 84
     payload_hash: 9c6c695c092c
   implementation:
     path: 08-qa/project-tracking/source-registry/source-registry-implementation.md
-    entries: 54
-    payload_hash: 437d8d8dcaca
+    entries: 56
+    payload_hash: 89629ee0980f
   delivery:
     path: 08-qa/project-tracking/source-registry/source-registry-delivery.md
     entries: 33

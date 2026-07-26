@@ -3,17 +3,24 @@ package com.nexora.hop.platformfoundation.documentmanagement.adapter.out;
 import com.nexora.hop.platformfoundation.documentmanagement.domain.DocumentManagementException;
 import com.nexora.hop.platformfoundation.documentmanagement.domain.StorageReference;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class LocalFilesystemDocumentAdapterTest {
 
-    @TempDir
     Path tempDir;
+
+    @BeforeEach
+    void createWorkspaceTempDir() throws IOException {
+        tempDir = Path.of("target", "test-documents", UUID.randomUUID().toString());
+        Files.createDirectories(tempDir);
+    }
 
     @Test
     void shouldPutAndGetDocumentSuccessfully() throws IOException {

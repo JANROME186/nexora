@@ -31,16 +31,16 @@ groups:
     payload_hash: 3a0201cf1027
   qa:
     path: 08-qa/project-tracking/source-registry/source-registry-qa.md
-    entries: 426
-    payload_hash: 92cd33ef1159
+    entries: 429
+    payload_hash: d98f15eb46b7
   definition:
     path: 08-qa/project-tracking/source-registry/source-registry-definition.md
     entries: 84
     payload_hash: 9c6c695c092c
   implementation:
     path: 08-qa/project-tracking/source-registry/source-registry-implementation.md
-    entries: 54
-    payload_hash: 437d8d8dcaca
+    entries: 56
+    payload_hash: 89629ee0980f
   delivery:
     path: 08-qa/project-tracking/source-registry/source-registry-delivery.md
     entries: 33

@@ -33,4 +33,14 @@ class EndpointPermissionRegistryTest {
     assertThat(rule.get().action()).isEqualTo(AccessAction.READ);
     assertThat(rule.get().capability()).isEqualTo("BCM-REV-003");
   }
+
+  @Test
+  void resolvesAiOverlayEndpointToAssistantPermission() {
+    var rule = registry.resolve("POST", "/api/ai/assistant/sessions");
+
+    assertThat(rule).isPresent();
+    assertThat(rule.get().permission()).isEqualTo(PermissionCode.SCREEN_AI_ASSISTANT);
+    assertThat(rule.get().action()).isEqualTo(AccessAction.CREATE);
+    assertThat(rule.get().capability()).isEqualTo("BCM-AI-001");
+  }
 }

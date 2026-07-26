@@ -21,7 +21,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   current_iteration: COM-MOD-015
   active_module: AI Overlay
-  active_backlog_item: COM-MOD-015-BE-001
+  active_backlog_item: COM-MOD-015-BE-002
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
@@ -33,10 +33,10 @@ commercial_product_progress:
     COM-MOD-015:
       name: AI Overlay
       package_status: definition_completed
-      backlog_item: COM-MOD-015-DEF
+      backlog_item: COM-MOD-015-BE-001
       backlog_item_status: closed
-      next_backlog_item: COM-MOD-015-BE-001
-      execution_flow_stage: model_completed
+      next_backlog_item: COM-MOD-015-BE-002
+      execution_flow_stage: backend_compiled
       capabilities:
       - capability: BCM-AI-001
         package_status: definition_completed
@@ -65,14 +65,15 @@ commercial_product_progress:
       - ai-governance
       - ai-platform-integration
       - ai-audit-evaluation
-      qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-DEF-validation.md
-      security_quality_evidence: 08-qa/security-quality/COM-MOD-015-DEF/security-quality-evidence.md
-      handoff: 08-qa/handoffs/COM-MOD-015-DEF-summary.md
+      qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-BE-001-validation.md
+      security_quality_evidence: 08-qa/security-quality/COM-MOD-015-BE-001/security-quality-evidence.md
+      handoff: 08-qa/handoffs/COM-MOD-015-BE-001-summary.md
       technical_debt_materially_reduced:
       - TD-FMT-001
+      - TD-BE-017
       ready_for_compilation: true
-      backend_compilation_completed: false
-      ready_for_custom_rule_implementation: false
+      backend_compilation_completed: true
+      ready_for_custom_rule_implementation: true
       ready_for_ui_compilation: false
       module_validated: false
       module_closed: false

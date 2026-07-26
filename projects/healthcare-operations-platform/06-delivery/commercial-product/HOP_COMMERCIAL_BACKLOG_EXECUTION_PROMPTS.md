@@ -89,8 +89,8 @@ validation_commands:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
   module_id: COM-MOD-015
-  backlog_item_id: COM-MOD-015-BE-001
-  name: Compile AI orchestration, policy and audit outputs
+  backlog_item_id: COM-MOD-015-BE-002
+  name: Implement OCR, summary, search and retrieval custom rules
   expected_folder: 01-product-definition/business-capabilities/packages/
   required_debt_first_action: none
   coverage_floor:
@@ -111,7 +111,7 @@ validation_commands:
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product backlog and execution prompts, and commit
     only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-015-DEF
+    backlog_item_id: COM-MOD-015-BE-001
     status: closed
-    summary: Closed COM-MOD-015-DEF. Modeled 8 AI Overlay capability packages BCM-AI-001 through BCM-AI-008 with 112 structured definition artifacts; all models are provider-neutral, human-review controlled and prohibit autonomous clinical validation. Materially reduced TD-FMT-001.
+    summary: Closed COM-MOD-015-BE-001. Compiled provider-neutral AI assistant backend orchestration, safety policy, human review and audit outputs; added local PostgreSQL persistence and reduced TD-BE-017.
 ```

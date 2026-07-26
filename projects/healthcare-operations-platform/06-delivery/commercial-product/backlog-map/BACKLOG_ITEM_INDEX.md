@@ -466,12 +466,12 @@ items:
   path: 06-delivery/commercial-product/backlog-map/items/COM-MOD-015-DEF.md
 - id: COM-MOD-015-BE-001
   name: Compile AI orchestration, policy and audit outputs
-  status: next
+  status: closed
   module_id: COM-MOD-015
   path: 06-delivery/commercial-product/backlog-map/items/COM-MOD-015-BE-001.md
 - id: COM-MOD-015-BE-002
   name: Implement OCR, summary, search and retrieval custom rules
-  status: planned
+  status: next
   module_id: COM-MOD-015
   path: 06-delivery/commercial-product/backlog-map/items/COM-MOD-015-BE-002.md
 - id: COM-MOD-015-FE-001
