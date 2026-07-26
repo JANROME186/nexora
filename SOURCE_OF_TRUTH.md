@@ -1,12 +1,12 @@
 ---
-id: NEXORA-SOT-001
-format: markdown_structured_payload
-type: repository-source-of-truth-registry
-version: 1.0.0
-status: approved
+artifact:
+  id: NEXORA-SOT-001
+  type: repository-source-of-truth-index
+  status: active
+  optimization: atomic_context
 ---
 
-# Nexora Sot 001
+# Repository Source Of Truth
 
 <!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
 
@@ -23,269 +23,20 @@ sources:
   framework_usage_guide: NEXORA_FRAMEWORK_USAGE_GUIDE.md
   repository_state: PROJECT_STATE.md
   agent_bootstrap: AGENT_BOOTSTRAP.md
-  agent_agnostic_standard: nexora-framework/02-standards/standards/agent-agnostic-standard.md
-  project_orchestration_workflow: nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
-  company_profile: nexora-framework/01-enterprise/company/company-profile.md
   framework_readme: nexora-framework/README.md
   framework_execution_sequence: nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md
-  framework_execution_sequence_yaml: nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md
-  final_vision: nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md
-  final_vision_yaml: nexora-framework/00-start-here/docs/vision/NEXORA_FINAL_VISION.md
-  strategic_handoff: nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md
-  strategic_handoff_yaml: nexora-framework/00-start-here/docs/vision/NEXORA_STRATEGIC_HANDOFF.md
-  project_folder_standard: nexora-framework/02-standards/standards/project-folder-standard.md
-  documentation_standard: nexora-framework/02-standards/standards/documentation-standard.md
-  model_driven_product_engineering_standard: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
-  model_driven_product_engineering_standard_md: nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
-  capability_package_standard: nexora-framework/02-standards/standards/capability-package-standard.md
-  capability_package_standard_md: nexora-framework/02-standards/standards/capability-package-standard.md
-  open_data_ingestion_standard: nexora-framework/02-standards/standards/open-data-ingestion-standard.md
-  open_data_ingestion_standard_md: nexora-framework/02-standards/standards/open-data-ingestion-standard.md
-  product_marketplace_standard: nexora-framework/02-standards/standards/product-marketplace-standard.md
-  product_marketplace_standard_md: nexora-framework/02-standards/standards/product-marketplace-standard.md
-  business_requirement_versioning_standard: nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
-  business_requirement_versioning_standard_md: nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
-  open_source_first_security_quality_standard: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
-  open_source_first_security_quality_standard_md: nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
   context_efficient_execution_standard: nexora-framework/02-standards/standards/context-efficient-execution-standard.md
-  context_efficient_execution_standard_md: nexora-framework/02-standards/standards/context-efficient-execution-standard.md
-  frontmatter_artifact_migration_standard: nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md
-  frontmatter_artifact_migration_standard_md: nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md
   context_orchestrator_python: nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py
   backlog_closure_validator_python: nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
-  frontmatter_migrator_python: nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py
-  context_orchestrator_python_requirements: nexora-framework/08-engineering/agents/context-orchestrator/requirements.txt
-  context_orchestrator_runbook: nexora-framework/08-engineering/agents/context-orchestrator/README.md
-  hop_nxf_ctx_002_handoff: projects/healthcare-operations-platform/08-qa/handoffs/NXF-CTX-002-summary.md
-  hop_com_mod_017_be_001_generated_prompt: projects/healthcare-operations-platform/08-qa/generated-prompts/COM-MOD-017-BE-001-prompt.md
-  hop_com_mod_017_be_001_generated_prompt_cache: projects/healthcare-operations-platform/08-qa/generated-prompts/cache/COM-MOD-017-BE-001-prompt-cache.json
-  hop_com_mod_017_be_001_closure_validation: projects/healthcare-operations-platform/08-qa/backlog-validations/COM-MOD-017-BE-001-closure-validation.md
-  hop_nxf_fmt_002_prompt: projects/healthcare-operations-platform/08-qa/generated-prompts/NXF-FMT-002-prompt.md
-  hop_nxf_fmt_002_prompt_cache: projects/healthcare-operations-platform/08-qa/generated-prompts/cache/NXF-FMT-002-prompt-cache.json
-  hop_nxf_fmt_002_validation: projects/healthcare-operations-platform/08-qa/format-migration/NXF-FMT-002-validation.md
-  hop_nxf_fmt_002_migration_plan: projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-plan.md
-  hop_nxf_fmt_002_handoff: projects/healthcare-operations-platform/08-qa/handoffs/NXF-FMT-002-summary.md
-  hop_frontmatter_migration_report_hop: projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md
-  hop_frontmatter_migration_report_framework: projects/healthcare-operations-platform/08-qa/format-migration/frontmatter-migration-report-nexora-framework.md
-  hop_com_mod_017_be_002_generated_prompt: projects/healthcare-operations-platform/08-qa/generated-prompts/COM-MOD-017-BE-002-prompt.md
-  hop_com_mod_017_be_002_generated_prompt_cache: projects/healthcare-operations-platform/08-qa/generated-prompts/cache/COM-MOD-017-BE-002-prompt-cache.json
-  hop_local_toolchain_inventory: projects/healthcare-operations-platform/03-architecture/technology-architecture/local-toolchain-inventory.md
-  integrated_local_solution_runbook_standard: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md
-  integrated_local_solution_runbook_standard_md: nexora-framework/02-standards/standards/integrated-local-solution-runbook-standard.md
-  framework_feedback_continuous_improvement_standard: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.md
-  framework_feedback_continuous_improvement_standard_md: nexora-framework/02-standards/standards/framework-feedback-continuous-improvement-standard.md
-  model_driven_product_engineering_adr: nexora-framework/07-governance/adr/ADR-031-model-driven-product-engineering-and-capability-packages.md
-  product_marketplace_adr: nexora-framework/07-governance/adr/ADR-032-product-marketplace-and-commercial-extension-architecture.md
-  agent_to_mvp_recipe: nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
-  generic_project_lifecycle_prompts: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
-  generic_project_lifecycle_prompts_yaml: nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
-  auxiliary_development_prompts: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
-  auxiliary_development_prompts_yaml: nexora-framework/05-prompts/prompts/auxiliary-development-prompts.md
-  business_requirement_impact_prompts: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
-  business_requirement_impact_prompts_yaml: nexora-framework/05-prompts/prompts/business-requirement-impact-prompts.md
-  security_quality_gate_prompts: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
-  security_quality_gate_prompts_yaml: nexora-framework/05-prompts/prompts/security-quality-gate-prompts.md
-  context_optimized_backlog_prompts: nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.md
-  context_optimized_backlog_prompts_yaml: nexora-framework/05-prompts/prompts/context-optimized-backlog-prompts.md
-  integrated_local_runbook_prompts: nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
-  integrated_local_runbook_prompts_yaml: nexora-framework/05-prompts/prompts/integrated-local-runbook-prompts.md
-  framework_feedback_prompts: nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
-  framework_feedback_prompts_yaml: nexora-framework/05-prompts/prompts/framework-feedback-prompts.md
-  framework_improvement_backlog: nexora-framework/07-governance/framework-improvement-backlog/framework-improvement-backlog.md
-  framework_improvement_backlog_readme: nexora-framework/07-governance/framework-improvement-backlog/README.md
-  framework_improvement_fwi_gov_001: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-001-framework-feedback-loop.md
-  framework_improvement_fwi_gov_002: nexora-framework/07-governance/framework-improvement-backlog/items/FWI-GOV-002-context-efficient-format-migration.md
-  multi_project_structure_adr: nexora-framework/07-governance/adr/ADR-024-multi-project-repository-structure.md
-  project_template: nexora-framework/06-templates/templates/project-template/
-  project_template_local_solution_runbook: nexora-framework/06-templates/templates/project-template/09-operations/runbooks/local-solution-runbook.md
-  project_template_local_solution_runbook_yaml: nexora-framework/06-templates/templates/project-template/09-operations/runbooks/local-solution-runbook.md
-  projects_index: projects/README.md
-  healthcare_operations_platform: projects/healthcare-operations-platform/
-  hop_project_brief: projects/healthcare-operations-platform/PROJECT_BRIEF.md
-  hop_project_brief_yaml: projects/healthcare-operations-platform/PROJECT_BRIEF.md
-  hop_business_requirement: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md
-  hop_business_requirement_yaml: projects/healthcare-operations-platform/BUSINESS_REQUIREMENT.md
-  hop_business_requirement_index: projects/healthcare-operations-platform/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.md
-  hop_business_requirement_index_md: projects/healthcare-operations-platform/00-intake/business-requirements/BUSINESS_REQUIREMENT_INDEX.md
-  hop_business_requirement_to_yaml_prompt: projects/healthcare-operations-platform/04-requirements/prompts/business-requirement-to-yaml-prompt.md
-  hop_business_requirement_to_yaml_prompt_yaml: projects/healthcare-operations-platform/04-requirements/prompts/business-requirement-to-yaml-prompt.md
-  hop_ordered_development_guide: projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md
-  hop_ordered_development_guide_yaml: projects/healthcare-operations-platform/ORDERED_DEVELOPMENT_GUIDE.md
-  hop_mvp_backlog_execution_prompts: projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md
-  hop_mvp_backlog_execution_prompts_yaml: projects/healthcare-operations-platform/06-delivery/mvp/MVP_BACKLOG_EXECUTION_PROMPTS.md
-  hop_mvp_development_readiness_decision: projects/healthcare-operations-platform/06-delivery/mvp/MVP_DEVELOPMENT_READINESS_DECISION.md
-  hop_mvp_development_readiness_decision_yaml: projects/healthcare-operations-platform/06-delivery/mvp/MVP_DEVELOPMENT_READINESS_DECISION.md
-  hop_commercial_product_backlog: projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
-  hop_commercial_product_backlog_yaml: projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
-  hop_commercial_backlog_execution_prompts: projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
-  hop_commercial_backlog_execution_prompts_yaml: projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
-  hop_commercial_module_folder_index_yaml: projects/healthcare-operations-platform/06-delivery/commercial-product/modules/module-folder-index.md
-  hop_capability_package_index: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/capability-package-index.md
-  hop_capability_packages_root: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/
-  hop_mvp_mod_003_pkg_bcm_per_001: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-per-001-person-management/
-  hop_mvp_mod_003_pkg_bcm_per_002: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-per-002-patient-management/
-  hop_mvp_mod_003_pkg_bcm_per_003: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-per-003-doctor-management/
-  hop_mvp_mod_003_pkg_bcm_att_002: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-att-002-patient-registration/
-  hop_mvp_mod_003_def_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
-  hop_mvp_mod_003_def_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-DEF-validation.md
-  hop_mvp_mod_003_be_001_backend_implementation: projects/healthcare-operations-platform/07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/peopleclinicalmasterdata/
-  hop_mvp_mod_003_be_001_schema: projects/healthcare-operations-platform/07-implementation/backend/src/main/resources/db/people-and-clinical-master-data/schema.sql
-  hop_mvp_mod_003_be_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.md
-  hop_mvp_mod_003_be_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/people-and-clinical-master-data/MVP-MOD-003-BE-001-validation.md
-  hop_mvp_mod_003_be_001_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.md
-  hop_mvp_mod_003_be_001_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-003-BE-001/security-quality-evidence.md
-  hop_mvp_mod_005_be_001_backend_implementation: projects/healthcare-operations-platform/07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/cashsales/
-  hop_mvp_mod_005_be_001_schema: projects/healthcare-operations-platform/07-implementation/backend/src/main/resources/db/cash-sales/schema.sql
-  hop_mvp_mod_005_be_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.md
-  hop_mvp_mod_005_be_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-001-validation.md
-  hop_mvp_mod_005_be_001_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-005-BE-001/security-quality-evidence.md
-  hop_mvp_mod_005_be_001_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-005-BE-001/security-quality-evidence.md
-  hop_mvp_mod_005_be_002_backend_implementation: projects/healthcare-operations-platform/07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/cashsales/
-  hop_mvp_mod_005_be_002_frontdesk_sale_source_port: projects/healthcare-operations-platform/07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/frontdeskcaredelivery/application/FrontDeskSaleSourcePort.java
-  hop_mvp_mod_005_be_002_fiscal_adapter_port: projects/healthcare-operations-platform/07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/cashsales/billingrequestmanagement/domain/FiscalAdapterPort.java
-  hop_mvp_mod_005_be_002_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-002-validation.md
-  hop_mvp_mod_005_be_002_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/cashier-and-billing-request/MVP-MOD-005-BE-002-validation.md
-  hop_mvp_mod_005_be_002_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.md
-  hop_mvp_mod_005_be_002_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-005-BE-002/security-quality-evidence.md
-  hop_open_data_ingestion_contract: projects/healthcare-operations-platform/05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md
-  hop_open_data_ingestion_contract_yaml: projects/healthcare-operations-platform/05-contracts/import-export/open-data-ingestion/open-data-ingestion-contract.md
-  hop_open_data_ingestion_requirements: projects/healthcare-operations-platform/04-requirements/capabilities/bcm-plt-010-open-data-ingestion-and-migration/requirements.md
-  hop_product_marketplace_contract: projects/healthcare-operations-platform/05-contracts/marketplace/product-marketplace/product-marketplace-contract.md
-  hop_product_marketplace_contract_yaml: projects/healthcare-operations-platform/05-contracts/marketplace/product-marketplace/product-marketplace-contract.md
-  hop_product_marketplace_requirements: projects/healthcare-operations-platform/04-requirements/capabilities/bcm-plt-011-product-marketplace-and-entitlements/requirements.md
-  hop_com_mod_017_pkg_bcm_plt_011: projects/healthcare-operations-platform/01-product-definition/business-capabilities/packages/bcm-plt-011-product-marketplace-and-entitlements/
-  hop_com_mod_017_def_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.md
-  hop_com_mod_017_def_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-DEF-validation.md
-  hop_com_mod_017_def_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.md
-  hop_com_mod_017_def_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/COM-MOD-017-DEF/security-quality-evidence.md
-  hop_project_state: projects/healthcare-operations-platform/PROJECT_STATE.md
-  hop_source_of_truth: projects/healthcare-operations-platform/SOURCE_OF_TRUTH.md
-  hop_mvp_mod_001_backend_implementation: projects/healthcare-operations-platform/07-implementation/backend/
-  hop_mvp_mod_001_frontend_implementation: projects/healthcare-operations-platform/07-implementation/employee-portal/
-  hop_mvp_mod_001_mobile_implementation: projects/healthcare-operations-platform/07-implementation/mobile-app/
-  hop_mvp_mod_001_local_runtime_compose: projects/healthcare-operations-platform/07-implementation/compose.local.json
-  hop_mvp_mod_001_local_runtime_env_example: projects/healthcare-operations-platform/07-implementation/.env.example
-  hop_mvp_mod_001_pf_be_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-001-backend-skeleton.md
-  hop_mvp_mod_001_pf_be_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-001-backend-skeleton.md
-  hop_mvp_mod_001_pf_ops_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-OPS-001-local-runtime.md
-  hop_mvp_mod_001_pf_ops_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-OPS-001-local-runtime.md
-  hop_mvp_mod_001_pf_be_002_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-002-organization-commands.md
-  hop_mvp_mod_001_pf_be_002_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-002-organization-commands.md
-  hop_mvp_mod_001_pf_be_003_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-003-identity-access.md
-  hop_mvp_mod_001_pf_be_003_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-003-identity-access.md
-  hop_mvp_mod_001_pf_be_004_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-004-audit-event-recording.md
-  hop_mvp_mod_001_pf_be_004_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-BE-004-audit-event-recording.md
-  hop_mvp_mod_001_pf_fe_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-FE-001-employee-portal-administration.md
-  hop_mvp_mod_001_pf_fe_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-FE-001-employee-portal-administration.md
-  hop_mvp_mod_001_pf_app_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-APP-001-mobile-app-foundation.md
-  hop_mvp_mod_001_pf_app_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-APP-001-mobile-app-foundation.md
-  hop_mvp_mod_001_pf_qa_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-QA-001-smoke-and-contract-tests.md
-  hop_mvp_mod_001_pf_qa_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/PF-QA-001-smoke-and-contract-tests.md
-  hop_mvp_mod_001_closeout_evidence: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/MVP-MOD-001-closeout.md
-  hop_mvp_mod_001_closeout_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/platform-foundation/MVP-MOD-001-closeout.md
-  hop_security_quality_evidence_root: projects/healthcare-operations-platform/08-qa/security-quality/
-  hop_security_quality_evidence_index: projects/healthcare-operations-platform/08-qa/security-quality/security-quality-index.md
-  hop_technical_debt_index: projects/healthcare-operations-platform/08-qa/technical-debt/technical-debt-index.md
-  hop_technical_debt_td_fmt_001: projects/healthcare-operations-platform/08-qa/technical-debt/TD-FMT-001-yaml-monolith-to-frontmatter-transition.md
-  hop_com_mod_017_def_handoff_summary: projects/healthcare-operations-platform/08-qa/handoffs/COM-MOD-017-DEF-summary.md
-  hop_nxf_ctx_001_handoff_summary: projects/healthcare-operations-platform/08-qa/handoffs/NXF-CTX-001-summary.md
-  hop_mvp_mod_002_qa_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/catalog-test-configuration/MVP-MOD-002-QA-001-validation.md
-  hop_mvp_mod_002_qa_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/catalog-test-configuration/MVP-MOD-002-QA-001-validation.md
-  hop_mvp_mod_002_qa_001_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.md
-  hop_mvp_mod_002_qa_001_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-002-QA-001/security-quality-evidence.md
-  hop_mvp_mod_002_closeout_evidence: projects/healthcare-operations-platform/08-qa/qa/catalog-test-configuration/MVP-MOD-002-CLOSEOUT.md
-  hop_mvp_mod_002_closeout_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/catalog-test-configuration/MVP-MOD-002-CLOSEOUT.md
-  hop_mvp_mod_002_closeout_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-002-CLOSEOUT/security-quality-evidence.md
-  hop_mvp_mod_002_closeout_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/MVP-MOD-002-CLOSEOUT/security-quality-evidence.md
-  hop_technical_debt_td_qa_001: projects/healthcare-operations-platform/08-qa/technical-debt/TD-QA-001-dast-automation.md
-  hop_technical_debt_td_qa_002: projects/healthcare-operations-platform/08-qa/technical-debt/TD-QA-002-trivy-tool-upgrade.md
-  hop_technical_debt_td_be_001: projects/healthcare-operations-platform/08-qa/technical-debt/TD-BE-001-mockito-java-agent.md
-  hop_technical_debt_td_be_002: projects/healthcare-operations-platform/08-qa/technical-debt/TD-BE-002-backend-static-analysis-toolchain.md
-  hop_technical_debt_td_be_003: projects/healthcare-operations-platform/08-qa/technical-debt/TD-BE-003-backend-coverage-gate.md
-  hop_technical_debt_td_be_004: projects/healthcare-operations-platform/08-qa/technical-debt/TD-BE-004-release-supply-chain-gates.md
-  hop_technical_debt_td_stack_001: projects/healthcare-operations-platform/08-qa/technical-debt/TD-STACK-001-stack-modernization-roadmap.md
-  hop_framework_feedback_index: projects/healthcare-operations-platform/08-qa/framework-feedback/framework-feedback-index.md
-  hop_framework_feedback_fwf_hop_001: projects/healthcare-operations-platform/08-qa/framework-feedback/FWF-HOP-001-framework-feedback-loop.md
-  hop_client_stack_market_validation: projects/healthcare-operations-platform/03-architecture/technology-architecture/client-stack-market-validation.md
-  hop_stack_quality_toolchain_baseline: projects/healthcare-operations-platform/03-architecture/technology-architecture/stack-quality-toolchain-baseline.md
-  hop_local_solution_runbook: projects/healthcare-operations-platform/09-operations/runbooks/local-solution-runbook.md
-  hop_local_solution_runbook_yaml: projects/healthcare-operations-platform/09-operations/runbooks/local-solution-runbook.md
-  hop_com_mod_016_ops_001_qa_evidence: projects/healthcare-operations-platform/08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-OPS-001-validation.md
-  hop_com_mod_016_ops_001_qa_evidence_yaml: projects/healthcare-operations-platform/08-qa/qa/commercial-launch-and-customer-enablement/COM-MOD-016-OPS-001-validation.md
-  hop_com_mod_016_ops_001_security_quality_evidence: projects/healthcare-operations-platform/08-qa/security-quality/COM-MOD-016-OPS-001/security-quality-evidence.md
-  hop_com_mod_016_ops_001_security_quality_evidence_yaml: projects/healthcare-operations-platform/08-qa/security-quality/COM-MOD-016-OPS-001/security-quality-evidence.md
-  hop_operational_governance_index: projects/healthcare-operations-platform/09-operations/governance/governance-index.md
-  hop_operational_governance_readme: projects/healthcare-operations-platform/09-operations/governance/README.md
-rules:
-- Nexora is the company and repository-level framework owner.
-- Nexora final vision and strategic handoff define company-level intent and must remain
-  agent agnostic.
-- Agents must start framework loading from nexora-framework/00-start-here/FRAMEWORK_EXECUTION_SEQUENCE.md.
-- Every solution lives under projects/<project-slug>/.
-- Each project owns human-readable Markdown and machine-readable YAML for agent-executable
-  project artifacts.
-- Project-specific artifacts must not be added directly at repository root.
-- Agents must load the Nexora framework first, then the target project source of truth.
-- Agents and users must use NEXORA_FRAMEWORK_USAGE_GUIDE.md as the human-facing operating
-  guide for analysis and development handoff.
-- Agents must scan projects/ and validate project analysis status before implementation.
-- Agents must use nexora-framework/05-prompts/prompts/generic-project-lifecycle-prompts.md
-  when a user requests generic analysis, validation or MVP development for a project
-  folder.
-- Auxiliary prompts must support, not override, the generic lifecycle prompts and
-  project source artifacts.
-- Agents must stop analysis when BUSINESS_REQUIREMENT.md is missing because it is
-  requester-supplied source material.
-- HOP BUSINESS_REQUIREMENT.md is the reference business intake template for subsequent
-  Nexora projects.
-- BUSINESS_REQUIREMENT.md must be derived from BUSINESS_REQUIREMENT.md using a documented
-  transformation prompt.
-- Agents must resolve the latest BUSINESS_REQUIREMENT version before analysis, validation,
-  planning or development.
-- Business requirement changes must produce impact, effort, timeline and cost assessment
-  before changing derived artifacts or implementation.
-- Agent-executable project artifacts must prefer YAML machine-readable files; Markdown
-  remains the human-readable companion.
-- Agents must not require agent-specific files, prompts, runtime features or vendor
-  configuration.
-- HOP commercial product development must follow projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
-  after MVP-MOD-001.
-- Nexora follows Model Driven Product Engineering; editable models are the durable
-  source of truth.
-- HOP development must deliver Business Capability Packages as the primary development
-  unit.
-- Modules are roadmap groupings and must not replace capability packages as source
-  of truth.
-- Nexora projects that require migration must apply the Open Data Ingestion Standard.
-- HOP migration must support simple open ingestion formats that incumbent providers
-  can reasonably export.
-- Nexora products that require commercial extensibility must apply the Product Marketplace
-  Standard.
-- HOP optional commercial capabilities must use marketplace packages, tenant entitlements
-  and package installation models.
-- Nexora projects must apply open-source-first technology selection before introducing
-  new mandatory technologies.
-- Requester-proposed or existing project stacks must be validated against current
-  stable or LTS open source market practice before implementation and during iterative
-  quality gates.
-- Projects must define a stack-specific open source quality toolchain baseline and
-  revisit it during backlog work, module closeout and release readiness.
-- Code-changing backlog items must produce security quality evidence with applicable
-  open source tests, SAST/static analysis, dependency vulnerability checks, secrets
-  scan, coverage and DAST when runnable surfaces exist.
-- Projects with runnable implementation must maintain an integrated local solution
-  runbook under 09-operations/runbooks/ for human startup, validation and shutdown
-  review.
-- Agents must update or explicitly confirm the integrated local solution runbook whenever
-  runtime components, ports, environment variables, startup order or validation commands
-  change.
-- Technology, framework, dependency and quality reviews must not be permanently constrained
-  by the initial project stack; agents must register non-blocking modernization findings
-  as technical debt and remediate gradually when affected components are touched.
-- Agents must capture reusable framework feedback under project 08-qa/framework-feedback/
-  and may propose central framework improvement backlog items without implementing
-  them.
-- Nexora owns triage, priority and implementation of central framework improvement
-  backlog items.
-- Generated artifacts must not be edited manually.
+  context_atomic_artifact_standard: nexora-framework/02-standards/standards/context-atomic-artifact-standard.md
+  framework_managed_artifact_optimizer_python: nexora-framework/08-engineering/agents/context-orchestrator/framework_managed_artifact_optimizer.py
+  repository_source_registry_index: nexora-framework/08-engineering/repository-tracking/source-registry/REPOSITORY_SOURCE_REGISTRY_INDEX.md
+source_registry:
+  core:
+    path: nexora-framework/08-engineering/repository-tracking/source-registry/repository-source-registry-core.md
+    entries: 197
+    payload_hash: c4088f93b1ed
+context_policy:
+  load_shards_on_demand: true
+  do_not_preload_full_repository_registry: true
 ```

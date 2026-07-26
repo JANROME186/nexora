@@ -24,6 +24,7 @@ Current Python tools:
 - `nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py`
 - `nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py`
 - `nexora-framework/08-engineering/agents/context-orchestrator/zero_yaml_migrator.py`
+- `nexora-framework/08-engineering/agents/context-orchestrator/framework_managed_artifact_optimizer.py`
 
 New framework automation must be added under `nexora-framework/` and committed. If a script needs
 local-only inputs, read them from environment variables, provider CLI configuration or ignored
@@ -196,6 +197,15 @@ Run closure validation after the backlog work is committed:
 python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
 ```
 
+Compact framework-managed project tracking artifacts when root state/backlog/prompt files grow:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/framework_managed_artifact_optimizer.py
+```
+
+Use `--seed-from-git-head` only for the initial migration from a committed large baseline or to
+recover atomic records from the last committed source.
+
 ## Operator Responsibilities
 
 - Keep Python framework tools committed under `nexora-framework/`.
@@ -245,4 +255,5 @@ versioned_python_programs:
 - nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
 - nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py
 - nexora-framework/08-engineering/agents/context-orchestrator/zero_yaml_migrator.py
+- nexora-framework/08-engineering/agents/context-orchestrator/framework_managed_artifact_optimizer.py
 ```

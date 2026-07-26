@@ -22,6 +22,30 @@ Framework setup reference:
 
 `nexora-framework/08-engineering/agents/context-orchestrator/runtime-configuration-runbook.md`
 
+## Context Loading Policy
+
+HOP uses compact framework-managed indexes plus atomic records. Agents must not load the complete
+project history, source registry, all backlog records or all auxiliary prompts by default.
+
+Load first:
+
+- `PROJECT_STATE.md`
+- `SOURCE_OF_TRUTH.md`
+- `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md`
+- `06-delivery/commercial-product/backlog-map/MASTER_BACKLOG_PLAN.md`
+- the active item record under `06-delivery/commercial-product/backlog-map/items/`
+- the previous handoff referenced by the active prompt
+
+Load on demand only:
+
+- source registry shards under `08-qa/project-tracking/source-registry/`
+- historical progress ledgers under `08-qa/project-tracking/progress-ledger/`
+- module records under `06-delivery/commercial-product/backlog-map/modules/`
+- auxiliary prompts under `06-delivery/commercial-product/prompt-library/`
+
+If root tracking files grow because an agent appended long history or repeated rules, run
+`tool: framework_managed_artifact_optimizer` before generating the next prompt.
+
 ## Required Flow
 
 1. Generate or refresh the active prompt:
@@ -142,6 +166,16 @@ required_tools:
 - context_orchestrator
 - commercial_agent_router
 - backlog_closure_validator
+- framework_managed_artifact_optimizer
+context_loading_policy:
+  compact_root_indexes_required: true
+  master_plan: 06-delivery/commercial-product/backlog-map/MASTER_BACKLOG_PLAN.md
+  active_item_records: 06-delivery/commercial-product/backlog-map/items/
+  progress_ledgers: 08-qa/project-tracking/progress-ledger/
+  source_registry_shards: 08-qa/project-tracking/source-registry/
+  auxiliary_prompt_library: 06-delivery/commercial-product/prompt-library/
+  preload_full_history: prohibited
+  preload_all_backlog_items: prohibited
 runtime_state:
   quota_tracker: .nexora/runtime/quota_tracker.json
   task_ingestion_file: .agent_next_task.md

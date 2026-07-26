@@ -1,0 +1,130 @@
+---
+artifact:
+  id: NEXORA-REPO-PROGRESS-LEDGER
+  type: repository-progress-ledger
+  status: active
+  optimization: atomic_context
+---
+
+# Repository Progress Ledger
+
+<!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
+
+## Structured Payload
+
+```yaml
+projects:
+- slug: healthcare-operations-platform
+  name: Healthcare Operations Platform
+  path: projects/healthcare-operations-platform/
+  status: commercial_product_development_active
+  active_module: COM-MOD-017
+  active_backlog_item: COM-MOD-017-CLOSEOUT
+  last_format_migration_module: NXF-FMT
+  last_format_migration_backlog_item: NXF-FMT-002
+  completed_backlog_items:
+  - PF-BE-001
+  - PF-OPS-001
+  - PF-BE-002
+  - PF-BE-003
+  - PF-BE-004
+  - PF-FE-001
+  - PF-APP-001
+  - PF-QA-001
+  - MVP-MOD-001-CLOSEOUT
+  - MVP-MOD-002-DEF
+  - MVP-MOD-002-BE-001
+  - MVP-MOD-002-BE-002
+  - MVP-MOD-002-FE-001
+  - MVP-MOD-002-QA-001
+  - MVP-MOD-002-CLOSEOUT
+  - MVP-MOD-003-DEF
+  - MVP-MOD-003-BE-001
+  - MVP-MOD-003-BE-002
+  - MVP-MOD-003-FE-001
+  - MVP-MOD-003-QA-001
+  - MVP-MOD-003-CLOSEOUT
+  - MVP-MOD-004-DEF
+  - MVP-MOD-004-BE-001
+  - MVP-MOD-004-BE-002
+  - HOP-QA-ALIGN-001
+  - HOP-QA-ALIGN-002
+  - HOP-QA-ALIGN-003
+  - HOP-QA-ALIGN-006
+  - HOP-QA-ALIGN-004
+  - HOP-QA-ALIGN-005
+  - HOP-QA-ALIGN-CLOSEOUT
+  - MVP-MOD-004-FE-001
+  - MVP-MOD-004-QA-001
+  - MVP-MOD-004-CLOSEOUT
+  - MVP-MOD-005-DEF
+  - MVP-MOD-005-BE-001
+  - MVP-MOD-005-BE-002
+  - MVP-MOD-005-FE-001
+  - MVP-MOD-005-QA-001
+  - MVP-MOD-005-CLOSEOUT
+  - MVP-MOD-006-DEF
+  - MVP-MOD-006-BE-001
+  - MVP-MOD-006-BE-002
+  - MVP-MOD-006-FE-001
+  - MVP-MOD-006-QA-001
+  - MVP-MOD-006-CLOSEOUT
+  - MVP-MOD-007-DEF
+  - MVP-MOD-007-BE-001
+  - MVP-MOD-007-BE-002
+  - MVP-MOD-007-FE-001
+  - HOP-ENT-FOUND-001
+  - MVP-MOD-007-PORTAL-001
+  - MVP-MOD-007-APP-001
+  - MVP-MOD-007-QA-001
+  - MVP-MOD-007-CLOSEOUT
+  - MVP-MOD-008-DEF
+  - MVP-MOD-008-BE-001
+  - MVP-MOD-008-BE-002
+  - MVP-MOD-008-FE-001
+  - MVP-MOD-008-QA-001
+  - MVP-MOD-008-CLOSEOUT
+  - COM-MOD-009-DEF
+  - COM-MOD-009-BE-001
+  - COM-MOD-009-PORTAL-001
+  - COM-MOD-009-PORTAL-002
+  - COM-MOD-009-APP-001
+  - COM-MOD-009-QA-001
+  - COM-MOD-009-CLOSEOUT
+  - COM-MOD-010-DEF
+  - COM-MOD-010-BE-001
+  - COM-MOD-010-BE-002
+  - COM-MOD-010-FE-001
+  - COM-MOD-010-QA-001
+  - COM-MOD-010-CLOSEOUT
+  - COM-MOD-011-DEF
+  - COM-MOD-011-BE-001
+  - COM-MOD-011-WEB-001
+  - COM-MOD-011-FE-001
+  - COM-MOD-011-QA-001
+  - COM-MOD-011-CLOSEOUT
+  - COM-MOD-012-DEF
+  - COM-MOD-012-OPS-001
+  - COM-MOD-012-OPS-002
+  - COM-MOD-012-BE-001
+  - COM-MOD-012-QA-001
+  - COM-MOD-012-CLOSEOUT
+  - COM-MOD-013-DEF
+  - COM-MOD-013-BE-001
+  - COM-MOD-013-FE-001
+  - COM-MOD-013-QA-001
+  - COM-MOD-013-CLOSEOUT
+  - COM-MOD-016-DEF
+  - COM-MOD-016-DOC-001
+  - COM-MOD-016-OPS-001
+  - COM-MOD-016-COM-001
+  - COM-MOD-016-QA-001
+  - COM-MOD-016-CLOSEOUT
+  - COM-MOD-017-DEF
+  - COM-MOD-017-BE-001
+  - NXF-FMT-002
+  - COM-MOD-017-BE-002
+  - COM-MOD-017-FE-001
+  - COM-MOD-017-QA-001
+  structure: ordered_numbered_folders
+```

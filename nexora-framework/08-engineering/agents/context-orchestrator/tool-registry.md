@@ -140,3 +140,38 @@ Closure retry policy:
 - A retry must not weaken or edit this tool definition or the closure validator.
 - If the strict validator still fails after 3 attempts, stop and report the remaining findings,
   the corrections already made, and the technical rationale for why closure might be acceptable.
+
+## Tool: framework_managed_artifact_optimizer
+
+Purpose: compact framework-managed HOP tracking, backlog and prompt files into small root indexes
+plus atomic records that are loaded on demand.
+
+Tool id: `framework_managed_artifact_optimizer`
+
+Runtime: Python
+
+Script: `nexora-framework/08-engineering/agents/context-orchestrator/framework_managed_artifact_optimizer.py`
+
+Invocation template:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/framework_managed_artifact_optimizer.py
+```
+
+First migration or recovery from the current committed large baseline:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/framework_managed_artifact_optimizer.py --seed-from-git-head
+```
+
+Managed outputs:
+
+- compact `PROJECT_STATE.md`;
+- compact `SOURCE_OF_TRUTH.md`;
+- compact `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md`;
+- compact `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md`;
+- atomic backlog records under `06-delivery/commercial-product/backlog-map/`;
+- atomic prompt records under `06-delivery/commercial-product/prompt-library/`;
+- progress/source ledgers under `08-qa/project-tracking/`.
+
+Agents must not paste ledger contents back into root files. Root files must stay as indexes.

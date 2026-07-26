@@ -242,6 +242,12 @@ def find_backlog_item_status(data: object, task_id: str) -> str | None:
     return None
 
 
+def find_backlog_item_status_from_index(root: Path, task_id: str) -> str | None:
+    index_path = root / PROJECT_PATH / "06-delivery/commercial-product/backlog-map/BACKLOG_ITEM_INDEX.md"
+    index_data = read_yaml(index_path)
+    return find_backlog_item_status(index_data, task_id)
+
+
 def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git: bool) -> dict:
     project_state = read_yaml(root / PROJECT_PATH / "PROJECT_STATE.md")
     product_backlog = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md")
@@ -270,6 +276,8 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
     project_state_next = nested_get(project_state, "delivery_readiness", "next_backlog_item")
     product_baseline_active = nested_get(product_backlog, "product", "current_baseline", "active_backlog_item")
     product_backlog_status = find_backlog_item_status(product_backlog, task_id)
+    if product_backlog_status is None:
+        product_backlog_status = find_backlog_item_status_from_index(root, task_id)
     execution_previous = nested_get(execution_prompts, "validation_commands", "previous_backlog_item", "backlog_item_id")
     execution_previous_status = nested_get(execution_prompts, "validation_commands", "previous_backlog_item", "status")
 

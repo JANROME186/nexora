@@ -1,9 +1,12 @@
 ---
-id: PROJECT_STATE
-format: markdown_structured_payload
+artifact:
+  id: PROJECT_STATE
+  type: repository-state-index
+  status: active
+  optimization: atomic_context
 ---
 
-# Project State
+# Repository Project State
 
 <!-- NEXORA_STRUCTURED_PAYLOAD_V1 -->
 
@@ -12,9 +15,8 @@ format: markdown_structured_payload
 ```yaml
 repository: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-017-QA-001 closed. Functional HOP development resumes at COM-MOD-017-CLOSEOUT
-  with compact Markdown/frontmatter prompts and handoffs as the agent-facing execution
-  surface.
+current_phase: COM-MOD-017-QA-001 closed. Functional HOP development resumes at COM-MOD-017-CLOSEOUT with compact Markdown/frontmatter
+  prompts and handoffs as the agent-facing execution surface.
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -22,24 +24,8 @@ framework:
   path: nexora-framework/
   status: ready
   usage_guide: NEXORA_FRAMEWORK_USAGE_GUIDE.md
-  standards:
-  - nexora-framework/02-standards/standards/project-folder-standard.md
-  - nexora-framework/02-standards/standards/documentation-standard.md
-  - nexora-framework/02-standards/standards/agent-agnostic-standard.md
-  - nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
-  - nexora-framework/02-standards/standards/capability-package-standard.md
-  - nexora-framework/02-standards/standards/open-data-ingestion-standard.md
-  - nexora-framework/02-standards/standards/product-marketplace-standard.md
-  - nexora-framework/02-standards/standards/business-requirement-versioning-standard.md
-  - nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
-  - nexora-framework/02-standards/standards/context-efficient-execution-standard.md
-  - nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md
-  - nexora-framework/02-standards/standards/stack-market-and-toolchain-quality-standard.yaml
-  - nexora-framework/02-standards/standards/framework-feedback-proposal-standard.yaml
-  orchestration:
-  - nexora-framework/03-orchestration/project-orchestration/project-analysis-and-mvp-workflow.md
-  recipe:
-  - nexora-framework/04-recipes/recipes/agent-to-mvp-recipe.md
+  standards_index: nexora-framework/02-standards/standards/
+  context_atomic_artifact_standard: nexora-framework/02-standards/standards/context-atomic-artifact-standard.md
 projects:
 - slug: healthcare-operations-platform
   name: Healthcare Operations Platform
@@ -47,170 +33,9 @@ projects:
   status: commercial_product_development_active
   active_module: COM-MOD-017
   active_backlog_item: COM-MOD-017-CLOSEOUT
-  last_format_migration_module: NXF-FMT
-  last_format_migration_backlog_item: NXF-FMT-002
-  completed_backlog_items:
-  - PF-BE-001
-  - PF-OPS-001
-  - PF-BE-002
-  - PF-BE-003
-  - PF-BE-004
-  - PF-FE-001
-  - PF-APP-001
-  - PF-QA-001
-  - MVP-MOD-001-CLOSEOUT
-  - MVP-MOD-002-DEF
-  - MVP-MOD-002-BE-001
-  - MVP-MOD-002-BE-002
-  - MVP-MOD-002-FE-001
-  - MVP-MOD-002-QA-001
-  - MVP-MOD-002-CLOSEOUT
-  - MVP-MOD-003-DEF
-  - MVP-MOD-003-BE-001
-  - MVP-MOD-003-BE-002
-  - MVP-MOD-003-FE-001
-  - MVP-MOD-003-QA-001
-  - MVP-MOD-003-CLOSEOUT
-  - MVP-MOD-004-DEF
-  - MVP-MOD-004-BE-001
-  - MVP-MOD-004-BE-002
-  - HOP-QA-ALIGN-001
-  - HOP-QA-ALIGN-002
-  - HOP-QA-ALIGN-003
-  - HOP-QA-ALIGN-006
-  - HOP-QA-ALIGN-004
-  - HOP-QA-ALIGN-005
-  - HOP-QA-ALIGN-CLOSEOUT
-  - MVP-MOD-004-FE-001
-  - MVP-MOD-004-QA-001
-  - MVP-MOD-004-CLOSEOUT
-  - MVP-MOD-005-DEF
-  - MVP-MOD-005-BE-001
-  - MVP-MOD-005-BE-002
-  - MVP-MOD-005-FE-001
-  - MVP-MOD-005-QA-001
-  - MVP-MOD-005-CLOSEOUT
-  - MVP-MOD-006-DEF
-  - MVP-MOD-006-BE-001
-  - MVP-MOD-006-BE-002
-  - MVP-MOD-006-FE-001
-  - MVP-MOD-006-QA-001
-  - MVP-MOD-006-CLOSEOUT
-  - MVP-MOD-007-DEF
-  - MVP-MOD-007-BE-001
-  - MVP-MOD-007-BE-002
-  - MVP-MOD-007-FE-001
-  - HOP-ENT-FOUND-001
-  - MVP-MOD-007-PORTAL-001
-  - MVP-MOD-007-APP-001
-  - MVP-MOD-007-QA-001
-  - MVP-MOD-007-CLOSEOUT
-  - MVP-MOD-008-DEF
-  - MVP-MOD-008-BE-001
-  - MVP-MOD-008-BE-002
-  - MVP-MOD-008-FE-001
-  - MVP-MOD-008-QA-001
-  - MVP-MOD-008-CLOSEOUT
-  - COM-MOD-009-DEF
-  - COM-MOD-009-BE-001
-  - COM-MOD-009-PORTAL-001
-  - COM-MOD-009-PORTAL-002
-  - COM-MOD-009-APP-001
-  - COM-MOD-009-QA-001
-  - COM-MOD-009-CLOSEOUT
-  - COM-MOD-010-DEF
-  - COM-MOD-010-BE-001
-  - COM-MOD-010-BE-002
-  - COM-MOD-010-FE-001
-  - COM-MOD-010-QA-001
-  - COM-MOD-010-CLOSEOUT
-  - COM-MOD-011-DEF
-  - COM-MOD-011-BE-001
-  - COM-MOD-011-WEB-001
-  - COM-MOD-011-FE-001
-  - COM-MOD-011-QA-001
-  - COM-MOD-011-CLOSEOUT
-  - COM-MOD-012-DEF
-  - COM-MOD-012-OPS-001
-  - COM-MOD-012-OPS-002
-  - COM-MOD-012-BE-001
-  - COM-MOD-012-QA-001
-  - COM-MOD-012-CLOSEOUT
-  - COM-MOD-013-DEF
-  - COM-MOD-013-BE-001
-  - COM-MOD-013-FE-001
-  - COM-MOD-013-QA-001
-  - COM-MOD-013-CLOSEOUT
-  - COM-MOD-016-DEF
-  - COM-MOD-016-DOC-001
-  - COM-MOD-016-OPS-001
-  - COM-MOD-016-COM-001
-  - COM-MOD-016-QA-001
-  - COM-MOD-016-CLOSEOUT
-  - COM-MOD-017-DEF
-  - COM-MOD-017-BE-001
-  - NXF-FMT-002
-  - COM-MOD-017-BE-002
-  - COM-MOD-017-FE-001
-  - COM-MOD-017-QA-001
-  structure: ordered_numbered_folders
-next_deliverables:
-- Resume COM-MOD-017-CLOSEOUT using compact generated prompts and COM-MOD-017-QA-001 handoff
-  evidence
-- Keep TD-FMT-001 as non-blocking gradual migration debt and convert YAML artifacts
-  when touched
-- Use context-efficient prompt orchestration and compact handoff summaries for future
-  backlog delegation
-- Preserve BCM-PLT-010 Open Data Ingestion and Migration for MVP-MOD-008
-- Preserve BCM-PLT-011 Product Marketplace and Entitlements for COM-MOD-017
-- Use HOP Business Requirement as the reference template for future project intake
-- Resolve latest BUSINESS_REQUIREMENT version before analysis, planning or development
-- Generate business requirement impact assessment when requester changes scope
-- Continue HOP capability packages in commercial backlog dependency order
-- Use Nexora Agent-to-MVP Recipe for any new project under projects/
-- Apply open-source-first technology selection and security quality gates to code-changing
-  backlog items
-- Validate requester-proposed stacks against current stable or LTS open source market
-  practice
-- Define stack-specific quality toolchain baselines and route non-blocking gaps to
-  technical debt
-- Maintain integrated local solution runbooks for human review and validation of full
-  local solutions
-- Capture framework feedback from project execution and route reusable improvements
-  to the Nexora framework improvement backlog
-agent_entrypoint: AGENT_BOOTSTRAP.md
-development_readiness:
-  status: ready
-  repository_structure_ready: true
-  agent_agnostic_ready: true
-  project_orchestration_ready: true
-  framework_execution_sequence_ready: true
-  framework_usage_guide_ready: true
-  requester_business_requirement_required: true
-  agent_yaml_execution_artifacts_ready: true
-  generic_project_lifecycle_prompts_ready: true
-  auxiliary_development_prompts_ready: true
-  vision_handoff_ready: true
-  mvp_development_start_approved: true
-  commercial_product_backlog_ready: true
-  mdpe_standard_ready: true
-  capability_package_standard_ready: true
-  open_data_ingestion_contract_ready: true
-  open_data_ingestion_standard_ready: true
-  product_marketplace_standard_ready: true
-  product_marketplace_contract_ready: true
-  business_requirement_template_ready: true
-  business_requirement_to_yaml_prompt_ready: true
-  business_requirement_versioning_standard_ready: true
-  business_requirement_impact_prompt_ready: true
-  open_source_first_security_quality_standard_ready: true
-  security_quality_gate_prompts_ready: true
-  technology_evolution_review_ready: true
-  technical_debt_backlog_standard_ready: true
-  client_stack_market_validation_standard_ready: true
-  stack_quality_toolchain_baseline_ready: true
-  integrated_local_solution_runbook_standard_ready: true
-  framework_feedback_continuous_improvement_ready: true
-  framework_improvement_backlog_ready: true
-  blocking_definition_gaps: []
+  completed_backlog_items_count: 103
+  project_state_ref: projects/healthcare-operations-platform/PROJECT_STATE.md
+atomic_references:
+  repository_progress_ledger: nexora-framework/08-engineering/repository-tracking/repository-progress-ledger.md
+  repository_source_registry_index: nexora-framework/08-engineering/repository-tracking/source-registry/REPOSITORY_SOURCE_REGISTRY_INDEX.md
 ```

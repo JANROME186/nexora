@@ -40,6 +40,14 @@ DEFAULT_HOP_BACKLOG_FILE = (
     "projects/healthcare-operations-platform/06-delivery/commercial-product/"
     "HOP_COMMERCIAL_PRODUCT_BACKLOG.md"
 )
+DEFAULT_HOP_MASTER_BACKLOG_FILE = (
+    "projects/healthcare-operations-platform/06-delivery/commercial-product/"
+    "backlog-map/MASTER_BACKLOG_PLAN.md"
+)
+DEFAULT_HOP_BACKLOG_ITEM_INDEX_FILE = (
+    "projects/healthcare-operations-platform/06-delivery/commercial-product/"
+    "backlog-map/BACKLOG_ITEM_INDEX.md"
+)
 DEFAULT_PROJECT_PATH = "projects/healthcare-operations-platform"
 DEFAULT_HANDOFF_DIR = "projects/healthcare-operations-platform/08-qa/handoffs"
 DEFAULT_PROMPT_OUTPUT_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts"
@@ -103,7 +111,12 @@ def read_yaml_compat(path: Path) -> dict:
 def infer_active_task(root: Path) -> tuple[str, str, list[str], str | None, dict]:
     prompt_data = read_yaml(root / DEFAULT_HOP_PROMPT_FILE)
     backlog_data = read_yaml(root / DEFAULT_HOP_BACKLOG_FILE)
-    baseline = ((backlog_data.get("product") or {}).get("current_baseline") or {})
+    master_backlog_data = read_yaml(root / DEFAULT_HOP_MASTER_BACKLOG_FILE)
+    item_index_data = read_yaml(root / DEFAULT_HOP_BACKLOG_ITEM_INDEX_FILE)
+    baseline = (
+        ((backlog_data.get("product") or {}).get("current_baseline") or {})
+        or (master_backlog_data.get("current_baseline") or {})
+    )
     baseline_task_id = baseline.get("active_backlog_item")
     active_block = prompt_data
     validation_commands = prompt_data.get("validation_commands")
@@ -129,12 +142,22 @@ def infer_active_task(root: Path) -> tuple[str, str, list[str], str | None, dict
 
     if task_id and title:
         if baseline_task_id and str(task_id) == str(baseline_task_id):
-            title = find_backlog_title(backlog_data, str(task_id)) or title
+            title = (
+                find_backlog_title(backlog_data, str(task_id))
+                or find_backlog_title(master_backlog_data, str(task_id))
+                or find_backlog_title(item_index_data, str(task_id))
+                or title
+            )
         return str(task_id), str(title), stringify_notes(notes), summary_ref, coverage_floor if isinstance(coverage_floor, dict) else {}
 
     title = "Active HOP backlog item"
     if task_id:
-        title = find_backlog_title(backlog_data, str(task_id)) or title
+        title = (
+            find_backlog_title(backlog_data, str(task_id))
+            or find_backlog_title(master_backlog_data, str(task_id))
+            or find_backlog_title(item_index_data, str(task_id))
+            or title
+        )
     if not task_id:
         raise SystemExit("Cannot infer active backlog item. Provide --task-id and --title.")
     return str(task_id), title, [], summary_ref, {}
@@ -688,6 +711,8 @@ def main() -> int:
             "projects/healthcare-operations-platform/PROJECT_STATE.md",
             "projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md",
             "projects/healthcare-operations-platform/06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md",
+            "projects/healthcare-operations-platform/06-delivery/commercial-product/backlog-map/MASTER_BACKLOG_PLAN.md",
+            "projects/healthcare-operations-platform/06-delivery/commercial-product/backlog-map/BACKLOG_ITEM_INDEX.md",
         ],
         help="Relative files to inspect with ripgrep.",
     )

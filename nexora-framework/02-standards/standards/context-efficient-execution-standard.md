@@ -56,6 +56,11 @@ When a task belongs to a project folder, the generated prompt must declare `PROJ
 `ROOT`. All pointers and deliverables inside that project must then use project-relative paths
 instead of repeating the full project prefix.
 
+Framework-managed tracking artifacts must follow the Context Atomic Artifact Standard. Root files
+such as `PROJECT_STATE.md`, `SOURCE_OF_TRUTH.md`, product backlog indexes and execution prompt
+indexes must stay compact and point to atomic records. Agents must load the master plan and only the
+active or impacted records on demand.
+
 ## Format Policy
 
 New task and handoff artifacts should use Markdown with minimal YAML frontmatter. Compact inventories or configuration may use TOML or Markdown tables.
@@ -214,6 +219,7 @@ principles:
   execution_flow_parameter_required: true
   default_execution_flow: manual
   manual_ide_handoff_preferred_when_cli_unavailable: true
+  context_atomic_artifacts_required: true
 runtime_configuration:
   runbook: nexora-framework/08-engineering/agents/context-orchestrator/runtime-configuration-runbook.md
   env_template: nexora-framework/08-engineering/agents/context-orchestrator/.env.example
@@ -258,6 +264,7 @@ local_orchestrator:
   - route subscription/local execution through the local runtime router when needed
   - generate manual IDE handoff prompts by default when CLI execution is unavailable or not requested
   - generate CLI prompts only when the operator intentionally selects CLI execution
+  - keep framework-managed tracking files compact by using atomic records and lazy loading
   - end each backlog item with handoff, commit, validation and session exit
   prohibited_responsibilities:
   - replace mandatory quality gates
@@ -343,6 +350,11 @@ mandatory_framework_stack:
       drift.
     - Treat missing Ollama model as a prerequisite failure unless an explicit diagnostic
       fallback flag is used.
+  managed_artifact_optimizer:
+    tool_reference: framework_managed_artifact_optimizer
+    script: nexora-framework/08-engineering/agents/context-orchestrator/framework_managed_artifact_optimizer.py
+    root_indexes_must_remain_compact: true
+    atomic_records_loaded_on_demand: true
 format_policy:
   new_task_inputs:
     preferred_format: markdown_with_yaml_frontmatter
