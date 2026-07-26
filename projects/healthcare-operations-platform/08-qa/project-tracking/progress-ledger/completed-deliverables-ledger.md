@@ -14,9 +14,19 @@ artifact:
 
 ```yaml
 project: Healthcare Operations Platform
-total_completed_deliverables: 130
+total_completed_deliverables: 131
 payload_hash: '277579999803'
 completed_deliverables:
+- COM-MOD-015-BE-002 OCR, summary, search and retrieval custom rules compiled (added AiOverlayCapability
+  and AiOverlayCapabilityRuleEngine to platformfoundation.aioverlay, enforcing BCM-AI-002..005's guardrails --
+  source context scoping per capability and mandatory citations -- on top of the BCM-AI-001 assistant
+  orchestration; output stays human-review-required and no new REST surface or IAM permission entry was
+  needed since /api/ai already covers it; synced TD-BE-017's stale status field and the technical-debt-index.md
+  backend_java_maven coverage baseline (never synced since COM-MOD-017-CLOSEOUT through the COM-MOD-014
+  backend expansion, now 70.14%); registered TD-BE-021 for the deliberately-not-compiled dedicated
+  per-capability REST paths; QA evidence 08-qa/qa/ai-overlay/COM-MOD-015-BE-002-validation.md, security
+  evidence 08-qa/security-quality/COM-MOD-015-BE-002/security-quality-evidence.md, handoff
+  08-qa/handoffs/COM-MOD-015-BE-002-summary.md)
 - COM-MOD-015-BE-001 AI Overlay backend outputs compiled (created provider-neutral aioverlay Spring Modulith module for
   assistant draft orchestration, safety policy enforcement, human review and audit-record listing; added local deterministic
   AiDraftGeneratorPort adapter with no proprietary model/runtime dependency; persisted ai_overlay.ai_interactions in local

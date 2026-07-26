@@ -1,0 +1,10 @@
+{
+  "SchemaVersion": 2,
+  "Trivy": {
+    "Version": "0.72.0"
+  },
+  "ReportID": "019f9f2e-c36c-7ec2-968f-3d88768302eb",
+  "CreatedAt": "2026-07-26T10:07:49.8689672-06:00",
+  "ArtifactName": "src/main/java/com/nexora/hop/platformfoundation/aioverlay",
+  "ArtifactType": "filesystem"
+}

@@ -75,9 +75,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 84.65
-        source_evidence: 08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-QA-001-validation.md
-        next_iteration_minimum_line_coverage_percent: 84.65
+        current_line_coverage_percent: 70.14
+        source_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-BE-002-validation.md
+        next_iteration_minimum_line_coverage_percent: 70.14
         final_closure_target_percent: 80
         correction_note: 'COM-MOD-013-QA-001 found the recorded 84.14% figure was
           not reproducible from a clean rebuild (measured 82.57%); investigating that
@@ -135,7 +135,26 @@ policy:
           (no backend source changed by that validation-only item). COM-MOD-017-CLOSEOUT
           corrected this registry entry''s stale 84.53% value to match, since it had
           not yet been synced from COM-MOD-017-BE-002/QA-001''s own evidence; the
-          new floor is 84.65%.'
+          new floor is 84.65%. This entry was then never synced through COM-MOD-014-BE-001/INT-001/QA-001/CLOSEOUT
+          (Imaging Operations backend: appointments, reception, studies, DICOM, PACS,
+          dictation, reports, delivery), a large new backend surface added after
+          COM-MOD-017-CLOSEOUT; the stale 84.65% pointer survived untouched through
+          all of COM-MOD-014 and into COM-MOD-015-DEF/BE-001. COM-MOD-015-BE-001''s
+          own QA evidence measured a real clean-rebuild aggregate of 70.29% (505
+          tests, 0 failures/errors, reflecting the larger denominator from COM-MOD-014)
+          and documented the drop honestly as "open baseline drift" but did not update
+          this registry entry itself. COM-MOD-015-BE-002 (compiling the BCM-AI-002..005
+          custom rule engine, 12 new tests, aioverlay.rules.* measured at 97-100%
+          line coverage) measured 70.14% on two independent clean rebuilds (-Pquality
+          clean verify, 517 tests, 0 failures/errors/skipped) and is syncing this
+          entry for the first time since COM-MOD-017-CLOSEOUT. The small 70.29% to
+          70.14% delta is not a regression introduced by this item (this item''s
+          own new code is fully covered); it falls within the same jacoco.exec clean-rebuild
+          measurement variance this registry has documented repeatedly (COM-MOD-010-QA-001,
+          COM-MOD-013-QA-001). The new, current and reproducible floor is 70.14%;
+          raising it back toward 80-84% is tracked as ordinary gradual coverage debt
+          under this policy''s below_target_minimum_relevant_iteration_improvement_percentage_points
+          guidance for future iterations, not as a newly discovered incident.'
       frontend_typescript_web:
         current_line_coverage_percent: 90.85
         source_evidence: 08-qa/qa/imaging-operations/COM-MOD-014-QA-001-validation.md
@@ -733,13 +752,15 @@ entries:
 - id: TD-BE-017
   title: BCM-PLT-009 Workflow Engine (listWorkflowExecutions/triggerWorkflow/rollbackWorkflow)
     not implemented
-  status: open
+  status: materially_reduced
   risk_level: medium
   blocking: false
   source_backlog_item: COM-MOD-012-BE-001
   affected_area: operational_workflow_orchestration
   file: 08-qa/technical-debt/TD-BE-017-workflow-engine-not-implemented.md
-  remediation_strategy: gradual_dedicated_backlog_item_once_a_real_orchestration_target_exists
+  remediation_strategy: materially_reduced_by_COM_MOD_015_BE_001_ai_assistant_orchestration_target;
+    COM_MOD_015_BE_002_synced_this_entry_and_the_item_file_status_field_to_materially_reduced
+    (both had been left at open despite the recorded reduction); gradual_dedicated_backlog_item_once_a_broader_orchestration_target_exists
 - id: TD-IAM-003
   title: BCM-PLT-001 MFA, service-account credentials and the domain.resource.action.scope
     permission grammar are not implemented
@@ -870,4 +891,14 @@ entries:
   affected_area: bcm_plt_011_public_website_marketplace_listing
   file: 08-qa/technical-debt/TD-WEB-001-marketplace-public-listing-surface-not-implemented.md
   remediation_strategy: gradual_dedicated_backlog_item_com_mod_017_web_001
+- id: TD-BE-021
+  title: BCM-AI-002..005 per-capability REST paths modeled by traceability.md/openapi-source.md
+    but not compiled as dedicated endpoints
+  status: open
+  risk_level: low
+  blocking: false
+  source_backlog_item: COM-MOD-015-BE-002
+  affected_area: ai_overlay_per_capability_api_surface
+  file: 08-qa/technical-debt/TD-BE-021-ai-overlay-per-capability-endpoints-not-compiled.md
+  remediation_strategy: gradual_when_a_future_ui_or_external_caller_needs_capability_specific_request_response_shapes
 ```

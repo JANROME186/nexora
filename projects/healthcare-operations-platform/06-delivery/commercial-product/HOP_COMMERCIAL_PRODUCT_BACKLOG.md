@@ -33,8 +33,8 @@ product:
     completed_module: COM-MOD-014 (COM-MOD-014-CLOSEOUT closed; Imaging Operations module fully closed)
     completed_status: closed
     active_module: COM-MOD-015
-    active_backlog_item: COM-MOD-015-BE-002
-    active_module_progress: COM-MOD-015-BE-001 closed. Backend AI assistant orchestration, policy, audit and local persistence compiled. Active backlog item advanced to COM-MOD-015-BE-002.
+    active_backlog_item: COM-MOD-015-FE-001
+    active_module_progress: COM-MOD-015-BE-002 closed. OCR/summary/search/retrieval custom rule engine (BCM-AI-002..005) compiled and wired into the assistant orchestration. Active backlog item advanced to COM-MOD-015-FE-001.
     paused_backlog_item: null
     pause_reason: null
 mdpe_policy:
@@ -71,8 +71,8 @@ backlog_master_plan: 06-delivery/commercial-product/backlog-map/MASTER_BACKLOG_P
 backlog_item_index: 06-delivery/commercial-product/backlog-map/BACKLOG_ITEM_INDEX.md
 definition_of_ready_done: 06-delivery/commercial-product/backlog-map/DEFINITION_OF_READY_DONE.md
 active_item:
-  id: COM-MOD-015-BE-002
-  name: Implement OCR, summary, search and retrieval custom rules
+  id: COM-MOD-015-FE-001
+  name: Compile assistant and review UI outputs
   status: next
   module_id: COM-MOD-015
   module_name: AI Overlay

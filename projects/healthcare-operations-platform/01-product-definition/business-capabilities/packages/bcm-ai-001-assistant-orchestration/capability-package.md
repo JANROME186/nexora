@@ -57,7 +57,7 @@ roadmap:
   module: COM-MOD-015
   release: REL-004
   package_status: definition_completed
-  next_backlog_item: COM-MOD-015-BE-001
+  next_backlog_item: COM-MOD-015-FE-001
 dependencies:
   required_capabilities:
   - BCM-PLT-001

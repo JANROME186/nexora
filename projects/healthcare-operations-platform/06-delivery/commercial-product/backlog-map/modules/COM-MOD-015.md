@@ -49,10 +49,10 @@ backlog_items:
   status: closed
 - id: COM-MOD-015-BE-002
   name: Implement OCR, summary, search and retrieval custom rules
-  status: next
+  status: closed
 - id: COM-MOD-015-FE-001
   name: Compile assistant and review UI outputs
-  status: planned
+  status: next
 - id: COM-MOD-015-QA-001
   name: Safety, explainability and human-control evidence
   status: planned

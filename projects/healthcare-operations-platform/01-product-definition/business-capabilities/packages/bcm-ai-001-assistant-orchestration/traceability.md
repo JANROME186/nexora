@@ -50,9 +50,9 @@ backlog_items:
   definition: COM-MOD-015-DEF
   definition_status: closed
   compilation: COM-MOD-015-BE-001
-  compilation_status: planned
+  compilation_status: closed
   custom_rules: COM-MOD-015-BE-002
-  custom_rules_status: planned
+  custom_rules_status: closed
   ui: COM-MOD-015-FE-001
   ui_status: planned
   validation: COM-MOD-015-QA-001

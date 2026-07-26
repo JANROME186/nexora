@@ -5,7 +5,7 @@ type: technical-debt-item
 name: BCM-PLT-009 Workflow Engine (listWorkflowExecutions/triggerWorkflow/rollbackWorkflow)
   not implemented
 version: 1.0.0
-status: open
+status: materially_reduced
 ---
 
 # Bcm Plt 009 Workflow Engine (Listworkflowexecutions/Triggerworkflow/Rollbackworkflow) Not Implemented
@@ -21,7 +21,7 @@ artifact:
   name: BCM-PLT-009 Workflow Engine (listWorkflowExecutions/triggerWorkflow/rollbackWorkflow)
     not implemented
   version: 1.0.0
-  status: open
+  status: materially_reduced
   created_date: 2026-07-23
 source:
   discovered_during_backlog_item: COM-MOD-012-BE-001
@@ -76,4 +76,14 @@ progress:
   backlog_item: COM-MOD-015-BE-001
   result: materially_reduced
   note: AI assistant orchestration introduced a real provider-neutral process target with persisted state, human review and audit records. The generic BCM-PLT-009 workflow-engine API remains open for broader operational automation.
+- date: 2026-07-26
+  backlog_item: COM-MOD-015-BE-002
+  result: status_field_synced
+  note: This item's own status field was left at "open" by COM-MOD-015-BE-001 even
+    though remediation.strategy and the prior progress entry already recorded
+    materially_reduced; corrected the artifact.status and top-level status fields
+    (here and in technical-debt-index.md) to materially_reduced so the record is
+    internally consistent. No further functional reduction in this backlog item;
+    the generic BCM-PLT-009 workflow-engine API remains open for a future dedicated
+    operations-automation backlog item.
 ```

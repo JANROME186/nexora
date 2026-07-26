@@ -70,6 +70,46 @@ class AiOverlayApiTest {
                 .andExpect(jsonPath("$.code").value("AI_POLICY_BLOCKED"));
     }
 
+    @Test
+    void ocrDocumentIntakeAcceptsAnAllowedSourceContextType() throws Exception {
+        JsonNode created = postDraft("tenant-ai-3", "clinician-1", """
+                {"purpose":"ocr_document_intake","sourceContextType":"referral","sourceContextId":"ref-1",
+                 "prompt":"Extract referral fields for operator confirmation."}
+                """);
+
+        assertThat(created.get("reviewStatus").asText()).isEqualTo("human_review_required");
+        assertThat(created.get("citations").get(0).asText()).isEqualTo("referral:ref-1");
+    }
+
+    @Test
+    void ocrDocumentIntakeRejectsASourceContextTypeOutsideItsScope() throws Exception {
+        mockMvc.perform(post("/api/ai/assistant/sessions")
+                        .header("X-Tenant-Id", "tenant-ai-4")
+                        .header("X-User-Id", "clinician-1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"purpose":"ocr_document_intake","sourceContextType":"email","sourceContextId":"email-1",
+                                 "prompt":"Extract fields from this inbound email."}
+                                """))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("AI_SOURCE_CONTEXT_NOT_ALLOWED"));
+    }
+
+    @Test
+    void semanticSearchAndRetrievalGroundingAcceptTheirDeclaredSourceContextTypes() throws Exception {
+        JsonNode search = postDraft("tenant-ai-5", "clinician-1", """
+                {"purpose":"semantic_search","sourceContextType":"document","sourceContextId":"doc-1",
+                 "prompt":"Search prior cases for related findings."}
+                """);
+        assertThat(search.get("citations").get(0).asText()).isEqualTo("document:doc-1");
+
+        JsonNode grounding = postDraft("tenant-ai-5", "clinician-1", """
+                {"purpose":"retrieval_grounding","sourceContextType":"knowledge_base","sourceContextId":"kb-1",
+                 "prompt":"Ground this summary against the referenced knowledge base entries."}
+                """);
+        assertThat(grounding.get("citations").get(0).asText()).isEqualTo("knowledge_base:kb-1");
+    }
+
     private JsonNode postDraft(String tenantId, String actorId, String body) throws Exception {
         MvcResult result = mockMvc.perform(post("/api/ai/assistant/sessions")
                         .header("X-Tenant-Id", tenantId)

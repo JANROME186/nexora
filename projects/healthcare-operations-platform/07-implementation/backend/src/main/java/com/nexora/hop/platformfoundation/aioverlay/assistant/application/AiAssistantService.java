@@ -3,6 +3,7 @@ package com.nexora.hop.platformfoundation.aioverlay.assistant.application;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.nexora.hop.platformfoundation.aioverlay.assistant.domain.AiDraftGeneratorPort;
 import com.nexora.hop.platformfoundation.aioverlay.assistant.domain.AiInteraction;
 import com.nexora.hop.platformfoundation.aioverlay.assistant.domain.AiInteractionRepository;
+import com.nexora.hop.platformfoundation.aioverlay.rules.application.AiOverlayCapabilityRuleEngine;
+import com.nexora.hop.platformfoundation.aioverlay.rules.domain.AiOverlayCapability;
 import com.nexora.hop.platformfoundation.aioverlay.shared.AiOverlayErrorCode;
 import com.nexora.hop.platformfoundation.aioverlay.shared.AiOverlayException;
 import com.nexora.hop.platformfoundation.aioverlay.shared.AiOverlayNotFoundException;
@@ -25,20 +28,23 @@ public class AiAssistantService {
     private final AiInteractionRepository repository;
     private final AiDraftGeneratorPort draftGenerator;
     private final AuditRecorder auditRecorder;
+    private final AiOverlayCapabilityRuleEngine capabilityRuleEngine;
     private final Clock clock;
 
     @Autowired
     public AiAssistantService(
-            AiInteractionRepository repository, AiDraftGeneratorPort draftGenerator, AuditRecorder auditRecorder) {
-        this(repository, draftGenerator, auditRecorder, Clock.systemUTC());
+            AiInteractionRepository repository, AiDraftGeneratorPort draftGenerator, AuditRecorder auditRecorder,
+            AiOverlayCapabilityRuleEngine capabilityRuleEngine) {
+        this(repository, draftGenerator, auditRecorder, capabilityRuleEngine, Clock.systemUTC());
     }
 
     public AiAssistantService(
             AiInteractionRepository repository, AiDraftGeneratorPort draftGenerator,
-            AuditRecorder auditRecorder, Clock clock) {
+            AuditRecorder auditRecorder, AiOverlayCapabilityRuleEngine capabilityRuleEngine, Clock clock) {
         this.repository = repository;
         this.draftGenerator = draftGenerator;
         this.auditRecorder = auditRecorder;
+        this.capabilityRuleEngine = capabilityRuleEngine;
         this.clock = clock;
     }
 
@@ -52,9 +58,13 @@ public class AiAssistantService {
         String contextId = requiredText(sourceContextId, "Source context id is required.");
         String userPrompt = requiredText(prompt, "Prompt is required.");
         enforcePolicy(userPrompt);
+        Optional<AiOverlayCapability> capability = AiOverlayCapability.fromPurpose(requestedPurpose);
+        capability.ifPresent(value -> capabilityRuleEngine.validateRequest(value, contextType));
 
         AiDraftGeneratorPort.AiDraft draft = draftGenerator.generate(
                 requestedPurpose, contextType, contextId, userPrompt);
+        capability.ifPresent(
+                value -> capabilityRuleEngine.validateDraft(value, draft.citations(), AiInteraction.REVIEW_REQUIRED));
         LocalDateTime now = LocalDateTime.now(clock);
         AiInteraction created = repository.save(new AiInteraction(
                 UUID.randomUUID().toString(), tenant, actor, requestedPurpose, contextType, contextId,

@@ -49,9 +49,9 @@ active_capability_package_groups:
 - roadmap_group: COM-MOD-015
   name: AI Overlay
   package_status: definition_completed
-  backlog_item: COM-MOD-015-DEF
-  qa_evidence: ../../../08-qa/qa/ai-overlay/COM-MOD-015-DEF-validation.md
-  security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-015-DEF/security-quality-evidence.md
+  backlog_item: COM-MOD-015-BE-002
+  qa_evidence: ../../../08-qa/qa/ai-overlay/COM-MOD-015-BE-002-validation.md
+  security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-015-BE-002/security-quality-evidence.md
   capabilities:
   - capability_id: BCM-AI-001
     package_folder: bcm-ai-001-assistant-orchestration/

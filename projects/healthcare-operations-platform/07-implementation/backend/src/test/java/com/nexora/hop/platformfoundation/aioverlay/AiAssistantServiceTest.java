@@ -13,6 +13,7 @@ import com.nexora.hop.platformfoundation.aioverlay.assistant.application.AiAssis
 import com.nexora.hop.platformfoundation.aioverlay.assistant.domain.AiDraftGeneratorPort;
 import com.nexora.hop.platformfoundation.aioverlay.assistant.domain.AiInteraction;
 import com.nexora.hop.platformfoundation.aioverlay.assistant.domain.AiInteractionRepository;
+import com.nexora.hop.platformfoundation.aioverlay.rules.application.AiOverlayCapabilityRuleEngine;
 import com.nexora.hop.platformfoundation.aioverlay.shared.AiOverlayException;
 import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
 
@@ -22,7 +23,9 @@ class AiAssistantServiceTest {
     private final AuditRecorder auditRecorder = (tenantId, action, subjectType, subjectId, metadataJson) -> {};
     private final AiDraftGeneratorPort generator = (purpose, sourceContextType, sourceContextId, prompt) ->
             new AiDraftGeneratorPort.AiDraft("draft text", java.util.List.of("result:123"), "medium", "port", "model");
-    private final AiAssistantService service = new AiAssistantService(repository, generator, auditRecorder);
+    private final AiOverlayCapabilityRuleEngine capabilityRuleEngine = new AiOverlayCapabilityRuleEngine();
+    private final AiAssistantService service =
+            new AiAssistantService(repository, generator, auditRecorder, capabilityRuleEngine);
 
     @Test
     void createdDraftRequiresHumanReviewAndKeepsProviderReplaceable() {
