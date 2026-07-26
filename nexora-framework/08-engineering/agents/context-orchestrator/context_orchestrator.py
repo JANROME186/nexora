@@ -18,6 +18,7 @@ import shutil
 import subprocess
 import urllib.error
 import urllib.request
+from datetime import datetime
 from pathlib import Path
 
 import yaml
@@ -56,6 +57,7 @@ DEFAULT_HISTORY_PROMPT_DIR = "projects/healthcare-operations-platform/08-qa/gene
 DEFAULT_ORCHESTRATION_CACHE_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts/cache"
 DEFAULT_OLLAMA_MODEL = "qwen2.5-coder:0.5b"
 DEFAULT_OLLAMA_TIMEOUT_SECONDS = 300
+DEFAULT_ORCHESTRATOR_LOG = os.environ.get("NEXORA_ORCHESTRATOR_LOG", ".nexora/runtime/orchestrator-events.jsonl")
 PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v6"
 EXECUTION_FLOWS = ("manual", "cli")
 
@@ -420,6 +422,20 @@ def sha256_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+def log_event(root: Path, event: str, **fields: object) -> None:
+    log_path = root / DEFAULT_ORCHESTRATOR_LOG
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "at": datetime.now().isoformat(timespec="seconds"),
+        "tool": "context_orchestrator",
+        "event": event,
+        **fields,
+    }
+    with log_path.open("a", encoding="utf-8", newline="\n") as stream:
+        stream.write(json.dumps(payload, ensure_ascii=False, sort_keys=True) + "\n")
+    print(f"[nexora-orchestrator] {event}: {json.dumps(fields, ensure_ascii=False, sort_keys=True)}", flush=True)
+
+
 def default_execution_flow() -> str:
     value = os.environ.get("NEXORA_EXECUTION_FLOW", "manual").strip().lower()
     return value if value in EXECUTION_FLOWS else "manual"
@@ -719,6 +735,7 @@ def main() -> int:
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
+    log_event(root, "orchestrator_start", execution_flow=args.execution_flow, refresh=args.refresh)
     inferred_task_id, inferred_title, mandatory_notes, inferred_summary_ref, coverage_floor = infer_active_task(root)
     task_id = args.task_id or inferred_task_id
     title = compact_title(args.title or inferred_title)
@@ -736,12 +753,14 @@ def main() -> int:
         args.execution_flow,
     )
     context_hash = sha256_text(canonical_json(canonical_context))
+    log_event(root, "canonical_context_built", task_id=task_id, context_hash=context_hash, execution_flow=args.execution_flow)
     default_output_path, cache_path = cache_paths(root, task_id)
     output_path = Path(args.output) if args.output else default_output_path
     cached_prompt = None if args.refresh else read_cached_prompt(cache_path, context_hash)
 
     if cached_prompt is not None:
         final = cached_prompt
+        log_event(root, "prompt_cache_hit", task_id=task_id, cache_path=str(cache_path))
     else:
         ollama_metadata, orchestration_mode = ollama_plan(
             canonical_context,
@@ -762,11 +781,13 @@ def main() -> int:
         if ollama_metadata:
             final = final.rstrip() + "\n\n<!-- ollama_plan_hash: " + sha256_text(canonical_json(ollama_metadata)) + " -->\n"
         write_cache(cache_path, context_hash, final, orchestration_mode)
+        log_event(root, "prompt_generated", task_id=task_id, orchestration_mode=orchestration_mode, cache_path=str(cache_path))
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     if args.output is None:
         archive_other_active_prompts(root, output_path)
     output_path.write_text(final, encoding="utf-8", newline="\n")
+    log_event(root, "prompt_written", task_id=task_id, output_path=str(output_path.resolve()))
 
     if args.stdout:
         print(final)

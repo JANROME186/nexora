@@ -33,7 +33,9 @@ DEFAULT_STATE_PATH = os.environ.get("NEXORA_QUOTA_TRACKER", ".nexora/runtime/quo
 DEFAULT_OLLAMA_MODEL = os.environ.get("NEXORA_OLLAMA_MODEL", "qwen2.5-coder:0.5b")
 DEFAULT_AGENT_TASK_FILE = os.environ.get("NEXORA_AGENT_TASK_FILE", ".agent_next_task.md")
 DEFAULT_AGENT_RESULT_FILE = os.environ.get("NEXORA_AGENT_RESULT_FILE", ".agent_task_summary.md")
+DEFAULT_ORCHESTRATOR_LOG = os.environ.get("NEXORA_ORCHESTRATOR_LOG", ".nexora/runtime/orchestrator-events.jsonl")
 DEFAULT_TIMEOUT_SECONDS = 600
+DEFAULT_HEARTBEAT_SECONDS = 30
 
 
 DEFAULT_PROVIDERS: dict[str, dict[str, Any]] = {
@@ -134,6 +136,22 @@ class RouteDecision:
     complexity: str
     execution_flow: str
     reason: str
+
+
+def log_event(root: Path, event: str, **fields: Any) -> None:
+    log_path = root / DEFAULT_ORCHESTRATOR_LOG
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "at": datetime.now().isoformat(timespec="seconds"),
+        "tool": "commercial_agent_router",
+        "event": event,
+        **fields,
+    }
+    line = json.dumps(payload, ensure_ascii=False, sort_keys=True)
+    log_path.write_text("", encoding="utf-8") if not log_path.exists() else None
+    with log_path.open("a", encoding="utf-8", newline="\n") as stream:
+        stream.write(line + "\n")
+    print(f"[nexora-router] {event}: {json.dumps(fields, ensure_ascii=False, sort_keys=True)}", flush=True)
 
 
 def read_text(path: Path) -> str:
@@ -355,15 +373,46 @@ def subprocess_command(command: str, args: list[str]) -> list[str]:
     return [resolved, *args]
 
 
-def call_cli(prompt: str, command: str, args: list[str]) -> str:
-    result = subprocess.run(
-        subprocess_command(command, [*args, prompt]),
+def run_logged_subprocess(root: Path, provider_id: str, command: str, args: list[str], input_text: str | None = None) -> subprocess.CompletedProcess[str]:
+    started = datetime.now()
+    resolved = subprocess_command(command, args)
+    log_event(root, "provider_process_start", provider=provider_id, command=resolved[0], args=resolved[1:])
+    process = subprocess.Popen(
+        resolved,
+        stdin=subprocess.PIPE if input_text is not None else None,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
         text=True,
-        capture_output=True,
         encoding="utf-8",
-        check=False,
-        timeout=DEFAULT_TIMEOUT_SECONDS,
     )
+    if input_text is not None and process.stdin:
+        process.stdin.write(input_text)
+        process.stdin.close()
+
+    while process.poll() is None:
+        elapsed = int((datetime.now() - started).total_seconds())
+        if elapsed and elapsed % DEFAULT_HEARTBEAT_SECONDS == 0:
+            log_event(root, "provider_process_waiting", provider=provider_id, elapsed_seconds=elapsed)
+        try:
+            process.wait(timeout=1)
+        except subprocess.TimeoutExpired:
+            pass
+        if elapsed > DEFAULT_TIMEOUT_SECONDS:
+            process.kill()
+            stdout = process.stdout.read() if process.stdout else ""
+            stderr = process.stderr.read() if process.stderr else ""
+            log_event(root, "provider_process_timeout", provider=provider_id, elapsed_seconds=elapsed)
+            return subprocess.CompletedProcess(resolved, 124, stdout, stderr)
+
+    stdout = process.stdout.read() if process.stdout else ""
+    stderr = process.stderr.read() if process.stderr else ""
+    elapsed = int((datetime.now() - started).total_seconds())
+    log_event(root, "provider_process_end", provider=provider_id, returncode=process.returncode, elapsed_seconds=elapsed)
+    return subprocess.CompletedProcess(resolved, process.returncode or 0, stdout, stderr)
+
+
+def call_cli(root: Path, provider_id: str, prompt: str, command: str, args: list[str]) -> str:
+    result = run_logged_subprocess(root, provider_id, command, [*args, prompt])
     combined = f"{result.stdout}\n{result.stderr}".lower()
     if result.returncode != 0 and ("429" in combined or "rate" in combined or "quota" in combined):
         raise ProviderRateLimited(combined)
@@ -385,6 +434,7 @@ def call_task_ingestion(root: Path, prompt: str, provider: dict[str, Any]) -> st
         f"{prompt.rstrip()}\n"
     )
     task_path.write_text(task_body, encoding="utf-8", newline="\n")
+    log_event(root, "task_ingestion_written", task_file=task_path.as_posix(), result_file=result_path.as_posix())
     return f"task_ingestion_written={task_path.as_posix()}\nexpected_summary={result_path.as_posix()}\n"
 
 
@@ -403,15 +453,7 @@ def call_codex_cli(root: Path, prompt: str, provider: dict[str, Any]) -> str:
         str(result_path),
         "-",
     ]
-    result = subprocess.run(
-        subprocess_command(command, args),
-        input=prompt,
-        text=True,
-        capture_output=True,
-        encoding="utf-8",
-        check=False,
-        timeout=DEFAULT_TIMEOUT_SECONDS,
-    )
+    result = run_logged_subprocess(root, "codex_cli", command, args, input_text=prompt)
     combined = f"{result.stdout}\n{result.stderr}".lower()
     if result.returncode != 0 and ("429" in combined or "rate" in combined or "quota" in combined):
         raise ProviderRateLimited(combined)
@@ -420,29 +462,33 @@ def call_codex_cli(root: Path, prompt: str, provider: dict[str, Any]) -> str:
     return result_path.read_text(encoding="utf-8") if result_path.exists() else result.stdout
 
 
-def execute_provider(prompt: str, decision: RouteDecision, state: dict[str, Any]) -> str:
+def execute_provider(root: Path, prompt: str, decision: RouteDecision, state: dict[str, Any]) -> str:
     provider = (state.get("providers") or {}).get(decision.provider) or {}
     runtime = decision.runtime
     if runtime == "ollama":
+        log_event(root, "ollama_call_start", provider=decision.provider, model=decision.model)
         return call_ollama(prompt, decision.model)
     if runtime == "claude_cli":
-        return call_cli(prompt, str(provider.get("command") or "claude"), list(provider.get("args") or ["-p"]))
+        return call_cli(root, decision.provider, prompt, str(provider.get("command") or "claude"), list(provider.get("args") or ["-p"]))
     if runtime == "github_copilot_cli":
         return call_cli(
+            root,
+            decision.provider,
             prompt,
             str(provider.get("command") or "gh"),
             list(provider.get("args") or ["copilot", "-p", "--allow-all-tools", "--allow-all-paths", "--stream", "off", "-s"]),
         )
     if runtime == "gemini_cli":
         return call_cli(
+            root,
+            decision.provider,
             prompt,
             str(provider.get("command") or "gemini"),
             list(provider.get("args") or ["-p", "--skip-trust", "--approval-mode", "plan", "--output-format", "text"]),
         )
     if runtime == "kiro_ide_cli":
-        return call_cli(prompt, str(provider.get("command") or "kiro"), list(provider.get("args") or ["chat", "--mode", "agent"]))
+        return call_cli(root, decision.provider, prompt, str(provider.get("command") or "kiro"), list(provider.get("args") or ["chat", "--mode", "agent"]))
     if runtime == "task_ingestion":
-        root = Path(os.environ.get("NEXORA_ROOT", os.getcwd())).resolve()
         return call_task_ingestion(root, prompt, provider)
     if runtime == "codex_cli":
         root = Path(os.environ.get("NEXORA_ROOT", os.getcwd())).resolve()
@@ -451,6 +497,7 @@ def execute_provider(prompt: str, decision: RouteDecision, state: dict[str, Any]
 
 
 def route_and_execute(
+    root: Path,
     prompt: str,
     state: dict[str, Any],
     complexity: str,
@@ -469,15 +516,21 @@ def route_and_execute(
         if not execute:
             return decision, None
         try:
-            output = execute_provider(prompt, decision, state)
+            log_event(root, "provider_selected", **decision.__dict__)
+            output = execute_provider(root, prompt, decision, state)
             record_event(state, {"type": "provider_success", "provider": decision.provider, "complexity": complexity})
+            log_event(root, "provider_success", provider=decision.provider, complexity=complexity)
             return decision, output
         except ProviderRateLimited:
             attempted.append(decision.provider)
             block_provider(state, decision.provider, block_hours)
+            log_event(root, "provider_rate_limited", provider=decision.provider, block_hours=block_hours)
             provider_override = None
             if decision.provider == "ollama_local":
                 raise
+        except ProviderUnavailable as exc:
+            log_event(root, "provider_unavailable", provider=decision.provider, detail=str(exc))
+            raise
 
 
 def main() -> int:
@@ -498,6 +551,7 @@ def main() -> int:
     os.environ["NEXORA_ROOT"] = str(root)
     state_path = (root / args.state).resolve()
     state = load_state(state_path)
+    log_event(root, "router_start", state_path=str(state_path), execute=args.execute, forced_provider=args.provider)
     if args.init_state:
         save_state(state_path, state)
         print(state_path)
@@ -513,7 +567,8 @@ def main() -> int:
     task_id = infer_task_id(prompt)
     execution_flow = infer_execution_flow(prompt)
     complexity = infer_complexity(task_id, prompt) if args.complexity == "auto" else args.complexity
-    decision, output = route_and_execute(prompt, state, complexity, execution_flow, args.provider, args.execute, args.block_hours)
+    log_event(root, "prompt_loaded", prompt_path=str(prompt_path), task_id=task_id, execution_flow=execution_flow, complexity=complexity)
+    decision, output = route_and_execute(root, prompt, state, complexity, execution_flow, args.provider, args.execute, args.block_hours)
     save_state(state_path, state)
 
     print(json.dumps(decision.__dict__, ensure_ascii=False, sort_keys=True))

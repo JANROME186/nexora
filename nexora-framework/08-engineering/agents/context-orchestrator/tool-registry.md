@@ -29,6 +29,9 @@ Default active prompt folder:
 Local quota state:
 `.nexora/runtime/quota_tracker.json`
 
+Local orchestration trace:
+`.nexora/runtime/orchestrator-events.jsonl`
+
 Invocation template:
 
 ```powershell
@@ -46,6 +49,8 @@ Default behavior:
 - Run in dry-run mode unless `--execute` is explicitly provided.
 - Use Ollama local as the mandatory fallback provider.
 - Persist quota/rate-limit state locally outside git.
+- Append JSONL trace events to `.nexora/runtime/orchestrator-events.jsonl`.
+- Emit console heartbeat events every 30 seconds while a CLI provider is still running.
 
 Execution template:
 
@@ -175,3 +180,20 @@ Managed outputs:
 - progress/source ledgers under `08-qa/project-tracking/`.
 
 Agents must not paste ledger contents back into root files. Root files must stay as indexes.
+
+## Tool: orchestrator_execution_log
+
+Purpose: follow the local orchestrator/router execution trace without waiting blindly for a final
+CLI response.
+
+Tool id: `orchestrator_execution_log`
+
+Runtime: PowerShell
+
+Invocation template:
+
+```powershell
+Get-Content .nexora/runtime/orchestrator-events.jsonl -Wait -Tail 30
+```
+
+The log is local runtime state and must not be committed.

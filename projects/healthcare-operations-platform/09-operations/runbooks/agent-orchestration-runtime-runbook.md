@@ -77,7 +77,16 @@ or filesystem task ingestion:
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py --execute
 ```
 
-4. Complete the backlog item, create the handoff, commit, run closure validation and exit:
+4. Follow the execution trace while the CLI/IDE route is running:
+
+```powershell
+Get-Content .nexora/runtime/orchestrator-events.jsonl -Wait -Tail 30
+```
+
+The trace must show prompt loading, provider selection, provider process start, heartbeat while the
+provider is still running and provider process end or the exact failure reason.
+
+5. Complete the backlog item, create the handoff, commit, run closure validation and exit:
 
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
@@ -178,6 +187,7 @@ context_loading_policy:
   preload_all_backlog_items: prohibited
 runtime_state:
   quota_tracker: .nexora/runtime/quota_tracker.json
+  orchestration_trace: .nexora/runtime/orchestrator-events.jsonl
   task_ingestion_file: .agent_next_task.md
   task_result_file: .agent_task_summary.md
   committed: false

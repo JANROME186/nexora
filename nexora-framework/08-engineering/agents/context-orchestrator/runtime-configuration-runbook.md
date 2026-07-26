@@ -76,6 +76,7 @@ Required or recommended Nexora variables:
 | `NEXORA_PROJECT_PATH` | Project folder under `projects/`. |
 | `NEXORA_ACTIVE_PROMPT_DIR` | Active prompt inbox used by router and validator. |
 | `NEXORA_QUOTA_TRACKER` | Local ignored quota tracker path. |
+| `NEXORA_ORCHESTRATOR_LOG` | Local ignored JSONL execution trace for prompt generation and routing. |
 | `NEXORA_OLLAMA_MODEL` | Default local Ollama model. |
 | `NEXORA_EXECUTION_FLOW` | Default prompt execution flow: `manual` or `cli`. |
 | `NEXORA_AGENT_TASK_FILE` | Ignored task ingestion file written for local IDE agents. |
@@ -94,6 +95,7 @@ $env:NEXORA_ROOT="C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora"
 $env:NEXORA_PROJECT_PATH="projects/healthcare-operations-platform"
 $env:NEXORA_ACTIVE_PROMPT_DIR="projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt"
 $env:NEXORA_QUOTA_TRACKER=".nexora/runtime/quota_tracker.json"
+$env:NEXORA_ORCHESTRATOR_LOG=".nexora/runtime/orchestrator-events.jsonl"
 $env:NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
 $env:NEXORA_EXECUTION_FLOW="manual"
 $env:NEXORA_AGENT_TASK_FILE=".agent_next_task.md"
@@ -128,6 +130,7 @@ export NEXORA_ROOT="/path/to/nexora"
 export NEXORA_PROJECT_PATH="projects/healthcare-operations-platform"
 export NEXORA_ACTIVE_PROMPT_DIR="projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt"
 export NEXORA_QUOTA_TRACKER=".nexora/runtime/quota_tracker.json"
+export NEXORA_ORCHESTRATOR_LOG=".nexora/runtime/orchestrator-events.jsonl"
 export NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
 export NEXORA_EXECUTION_FLOW="manual"
 export NEXORA_AGENT_TASK_FILE=".agent_next_task.md"
@@ -176,6 +179,16 @@ Check routing without invoking external runtimes:
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py
 ```
+
+Follow orchestrator/router execution live in PowerShell:
+
+```powershell
+Get-Content .nexora/runtime/orchestrator-events.jsonl -Wait -Tail 30
+```
+
+The log is JSONL and local-only. It records prompt generation, cache hits, prompt writes, router
+startup, prompt loading, provider selection, provider process start/end, heartbeat events during
+long CLI execution, timeout, rate-limit and unavailable-provider events.
 
 Write the active prompt into the local IDE task-ingestion file:
 
@@ -245,6 +258,7 @@ environment_variables:
 - NEXORA_PROJECT_PATH
 - NEXORA_ACTIVE_PROMPT_DIR
 - NEXORA_QUOTA_TRACKER
+- NEXORA_ORCHESTRATOR_LOG
 - NEXORA_OLLAMA_MODEL
 - NEXORA_EXECUTION_FLOW
 - NEXORA_AGENT_TASK_FILE
