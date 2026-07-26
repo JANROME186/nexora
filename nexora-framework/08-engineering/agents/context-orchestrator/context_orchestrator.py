@@ -48,7 +48,7 @@ DEFAULT_HISTORY_PROMPT_DIR = "projects/healthcare-operations-platform/08-qa/gene
 DEFAULT_ORCHESTRATION_CACHE_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts/cache"
 DEFAULT_OLLAMA_MODEL = "qwen2.5-coder:0.5b"
 DEFAULT_OLLAMA_TIMEOUT_SECONDS = 300
-PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v4"
+PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v5"
 
 
 def extract_structured_payload(text: str) -> str:
@@ -483,6 +483,8 @@ def ollama_plan(context: dict, model: str, allow_fallback: bool) -> tuple[dict, 
             "IDIOMA UNIFICADO: produce all generated prompt content in Spanish only. "
             "VALIDADOR PROTEGIDO: execution agents must not modify backlog_validator.py or "
             "tool-registry.md to close product backlog work. "
+            "SESION CORTA: no spawn commercial subagents for file exploration; use local tools, "
+            "Ollama, and the commercial_agent_router tool when commercial execution is required. "
             "Return only this JSON object shape with short arrays and no markdown: "
             "{\"objectives\":[],\"deliverables\":[],\"closure_criteria\":[]}. "
             "Use the provided canonical context. Do not invent files. Do not add vendor-agent "
@@ -611,6 +613,8 @@ ORCHESTRATION: {orchestration_mode}
 ## 4. Criterios de Cierre
 - Gates obligatorios ejecutados; Markdown/frontmatter parseable; `git diff --check` limpio.
 - Commit: `{profile['commit_suggestion']}`.
+- No lanzar subagentes comerciales para exploración, lectura masiva, QA documental o formateo; usar herramientas locales/Ollama y `tool: commercial_agent_router` si se requiere routing comercial.
+- Finalizar con protocolo handoff & exit: no pedir ni iniciar el siguiente backlog en el mismo chat/sesión.
 - Después del commit, ejecutar `tool: backlog_closure_validator`; la herramienta toma el prompt desde `active_prompt/` sin parámetros.
 - El validador debe terminar con código 0, reportar `status: closed`, `Hard findings: 0` y generar evidencia en `08-qa/backlog-validations/{task_id}-closure-validation.md`.
 - No modificar `backlog_validator.py` ni `tool-registry.md` para cerrar el backlog; son controles protegidos.

@@ -7,10 +7,18 @@ The base stack is Python 3.11+, Ollama local service, at least one approved open
 model, `ripgrep` and `git`. The bootstrap default model is `qwen2.5-coder:0.5b`;
 `qwen2.5-coder:3b`, `llama3.2:3b` and `qwen2.5-coder:7b` are also approved.
 
-Ollama is now the primary local orchestrator. The final prompt is rendered by Python from a
-canonical context so repeated runs remain stable. If the canonical context hash has not changed,
-the cached prompt is reused. If Ollama or the required model is missing, framework bootstrap is
-incomplete unless the operator explicitly runs a diagnostic fallback.
+Ollama is now the primary local orchestrator and Python is the mandatory execution coordinator.
+The final prompt is rendered by Python from a canonical context so repeated runs remain stable. If
+the canonical context hash has not changed, the cached prompt is reused. If Ollama or the required
+model is missing, framework bootstrap is incomplete unless the operator explicitly runs a diagnostic
+fallback.
+
+Commercial model usage must be stateless, short-lived and routed by the local Python orchestrator.
+The framework must not rely on long interactive chats, web sessions with accumulated history, or
+commercial subagents for mechanical exploration. When commercial execution is needed, the prompt
+must be routed through `tool: commercial_agent_router`, which chooses between Ollama, OpenAI SDK,
+Google GenAI SDK, Anthropic SDK or Claude Code CLI according to complexity, provider availability,
+quota windows and local rate-limit state.
 
 ## Required Flow
 
@@ -23,6 +31,7 @@ incomplete unless the operator explicitly runs a diagnostic fallback.
 7. Reuse the cached prompt while the context hash is unchanged.
 8. Send the compact prompt to the execution agent.
 9. At closure, write `<TASK_ID>-summary.md` with `Status`, `Cambios Clave`, `Deuda Técnica Creada` and `Siguiente Paso`.
+10. Exit the execution session. Do not request or begin the next backlog item in the same long chat.
 
 The renderer must deduplicate grep/search output before writing the final prompt. Repeated lines
 that only confirm the same task id, pointer or state must collapse into one file reference. The
@@ -65,6 +74,35 @@ PROJECT: [RUTA_PROYECTO]
 ```
 
 Quality gates, security checks, coverage floors, stale-pointer sweeps and clean git status remain mandatory. Token optimization never justifies skipping validation.
+
+## Dynamic Runtime Routing
+
+The local runtime router is the standard gateway for commercial model execution:
+
+```text
+tool: commercial_agent_router
+```
+
+The router reads the active prompt, infers task complexity, selects a runtime and persists quota
+state in `.nexora/runtime/quota_tracker.json`. This file is local runtime state and must not be
+committed. API keys must never be stored in repository files.
+
+Routing strategy:
+
+- Low complexity: documentation, QA evidence, formatting, pointer sweeps and format migration use
+  Ollama/local tools first.
+- Medium complexity: frontend, mobile, integration adapters, refactors and tests may use Gemini
+  Flash, GPT-4o mini or Ollama depending on configured quota.
+- High complexity: backend core, architecture, security-sensitive changes and database design may
+  use Claude Sonnet, Claude Code CLI or GPT-4o when enabled.
+- Short rolling-window quotas should be consumed during active work before fixed monthly reserves.
+- Month-end drain may prioritize monthly providers when actual usage is below the target burn rate.
+- HTTP 429 or quota-exceeded errors must pause the provider in the local tracker and retry with the
+  next available provider.
+
+Execution agents must not spawn commercial subagents for broad inspection, search, formatting or
+QA/documentary work. Use `rg`, targeted reads, Python scripts and Ollama local first. A commercial
+agent call should receive only the active optimized prompt and finish with handoff & exit.
 
 ## Backlog Closure Validation
 
@@ -128,6 +166,9 @@ principles:
   no_named_agent_dependency_allowed: true
   lazy_loading_required: true
   memory_handoff_required: true
+  short_lived_sessions_required: true
+  commercial_subagent_spawning_restricted: true
+  python_runtime_router_required: true
 local_orchestrator:
   preferred_runtime: python
   required_model_runtime: ollama
@@ -146,11 +187,62 @@ local_orchestrator:
   - produce a compact memory handoff after task closure
   - persist generated prompts in a deterministic file path
   - reuse prompt cache when the canonical context hash has not changed
+  - route commercial execution through the local runtime router when needed
+  - end each backlog item with handoff, commit, validation and session exit
   prohibited_responsibilities:
   - replace mandatory quality gates
   - skip executable validation
   - require a specific cloud agent or proprietary runtime
   - hide blockers or unresolved debt
+  - keep commercial sessions alive across backlog items
+  - spawn commercial subagents for mechanical file exploration
+runtime_routing:
+  compact_tool_reference: commercial_agent_router
+  local_router: nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py
+  local_state_file: .nexora/runtime/quota_tracker.json
+  local_state_committed: false
+  credentials_source: environment_variables_or_provider_cli_configuration
+  provider_strategy:
+  - id: ollama_local
+    tier: low
+    runtime: ollama
+    role: mandatory_default_and_fallback
+  - id: gemini_flash
+    tier: medium
+    runtime: google_genai_sdk
+    role: low_cost_review_documentation_and_medium_complexity
+  - id: openai_gpt4o_mini
+    tier: medium
+    runtime: openai_sdk
+    role: low_cost_refactor_tests_and_structured_tasks
+  - id: openai_gpt4o
+    tier: high
+    runtime: openai_sdk
+    role: complex_general_implementation
+  - id: anthropic_sonnet
+    tier: high
+    runtime: anthropic_sdk
+    role: architecture_and_complex_coding
+  - id: claude_code_cli
+    tier: high
+    runtime: cli_subprocess
+    role: focused_filesystem_and_git_operations_when_operator_enabled
+  routing_rules:
+  - "Commercial calls must be stateless and based on the active optimized prompt only."
+  - "Use Ollama/local scripts for file exploration, formatting, QA evidence and pointer sweeps."
+  - "Use commercial providers only when complexity or implementation risk justifies the cost."
+  - "Pause providers that return 429 or quota-exceeded errors and retry the next available provider."
+  - "Prefer short rolling-window quota during active work before consuming monthly reserves."
+  - "Apply month-end drain when monthly usage is below the target burn rate."
+session_policy:
+  max_backlog_items_per_chat: 1
+  compact_or_restart_after_messages: 15
+  handoff_and_exit_required: true
+  next_backlog_same_chat: prohibited
+  background_marathon_sessions: prohibited
+  commercial_subagents:
+    default_policy: prohibited_for_mechanical_work
+    allowed_only_when: explicitly_justified_for_parallel_expert_review
 mandatory_framework_stack:
   runtime:
   - python_3_11_or_newer

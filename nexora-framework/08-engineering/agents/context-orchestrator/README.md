@@ -40,6 +40,46 @@ executions stable while still using Ollama as the primary local orchestration so
 
 The output must remain agent agnostic. It should point to files and commands instead of pasting complete artifacts into the commercial prompt.
 
+## Commercial Agent Runtime Routing
+
+Nexora execution is centralized through Python to avoid long interactive commercial chats and large
+context windows. The normal flow is:
+
+1. Generate the active compact prompt with `context_orchestrator.py`.
+2. Route the prompt with `tool: commercial_agent_router`.
+3. Execute focused work only when a commercial runtime is explicitly enabled.
+4. Write the handoff summary, commit, validate closure and exit the session.
+
+Tool reference:
+
+```text
+tool: commercial_agent_router
+```
+
+The tool registry owns the invocation template:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py
+```
+
+By default the router runs in dry-run mode and selects a provider without invoking commercial APIs.
+Use `--execute` only when the operator intentionally wants Python to call the selected runtime. The
+mandatory fallback is local Ollama. Optional commercial routes are OpenAI SDK, Google GenAI SDK,
+Anthropic SDK and Claude Code CLI. Install optional SDKs with:
+
+```powershell
+python -m pip install -r nexora-framework/08-engineering/agents/context-orchestrator/commercial-agent-requirements.txt
+```
+
+The local quota tracker is written to `.nexora/runtime/quota_tracker.json`, which is ignored by git.
+It stores rate-limit pauses, monthly usage counters and recent routing events. It must never contain
+API keys; credentials are read only from environment variables or provider CLI configuration.
+
+Execution agents must not create commercial subagents for broad file reading, project exploration,
+formatting, QA evidence drafting or stale-pointer sweeps. Those tasks must use local shell, Python,
+ripgrep, deterministic scripts and Ollama first. Commercial model calls should be stateless,
+focused, short-lived and based on the active optimized prompt only.
+
 ## Backlog Closure Validation
 
 Every generated backlog prompt includes a mandatory post-commit closure validation rule. After an

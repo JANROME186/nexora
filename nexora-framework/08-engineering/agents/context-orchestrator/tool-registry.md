@@ -3,6 +3,56 @@
 This registry defines compact local tool references used by generated prompts. Prompts should
 reference the tool id instead of repeating full commands or task-specific paths.
 
+## Tool: commercial_agent_router
+
+Purpose: route one optimized active backlog prompt through the most efficient available runtime
+without keeping long commercial chat sessions alive.
+
+Tool id: `commercial_agent_router`
+
+Runtime: Python
+
+Script: `nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py`
+
+Default active prompt folder:
+`projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt/`
+
+Local quota state:
+`.nexora/runtime/quota_tracker.json`
+
+Invocation template:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py
+```
+
+Default behavior:
+
+- Read the only prompt file present in `active_prompt/`.
+- Infer task id and complexity from the compact prompt.
+- Select the best enabled provider by complexity, quota window, month-end drain and block state.
+- Run in dry-run mode unless `--execute` is explicitly provided.
+- Use Ollama local as the mandatory fallback provider.
+- Persist quota/rate-limit state locally outside git.
+
+Execution template:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py --execute
+```
+
+Supported runtimes:
+
+- `ollama_local` through the local Ollama HTTP API.
+- `openai_gpt4o` and `openai_gpt4o_mini` through the official OpenAI Python SDK.
+- `gemini_flash` through the official Google GenAI Python SDK.
+- `anthropic_sonnet` through the official Anthropic Python SDK.
+- `claude_code_cli` through the local Claude Code CLI subprocess.
+
+Execution agents must not spawn commercial subagents for file exploration, broad search, formatting
+or QA evidence generation. Those tasks must use local shell/Python/Ollama first. Commercial routing
+is reserved for focused implementation, architecture or review work with a compact active prompt.
+
 ## Tool: backlog_closure_validator
 
 Purpose: validate whether a generated backlog prompt was fully and correctly closed after the
