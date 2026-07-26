@@ -449,6 +449,8 @@ def run_logged_subprocess(root: Path, provider_id: str, command: str, args: list
 
 def call_cli(root: Path, provider_id: str, prompt: str, command: str, args: list[str]) -> str:
     result = run_logged_subprocess(root, provider_id, command, [*args, prompt])
+    if result.returncode == 124:
+        raise ProviderUnavailable(f"{provider_id} timed out")
     combined = f"{result.stdout}\n{result.stderr}".lower()
     if result.returncode != 0 and ("429" in combined or "rate" in combined or "quota" in combined):
         raise ProviderRateLimited(combined)
@@ -490,6 +492,8 @@ def call_codex_cli(root: Path, prompt: str, provider: dict[str, Any]) -> str:
         "-",
     ]
     result = run_logged_subprocess(root, "codex_cli", command, args, input_text=prompt)
+    if result.returncode == 124:
+        raise ProviderUnavailable("codex_cli timed out")
     combined = f"{result.stdout}\n{result.stderr}".lower()
     if result.returncode != 0 and ("429" in combined or "rate" in combined or "quota" in combined):
         raise ProviderRateLimited(combined)
@@ -567,6 +571,8 @@ def route_and_execute(
         except ProviderUnavailable as exc:
             log_event(root, "provider_unavailable", provider=decision.provider, detail=str(exc))
             attempted.append(decision.provider)
+            if forced_provider:
+                raise
             if decision.provider not in {"ollama_local", "filesystem_task_ingestion"}:
                 block_provider(state, decision.provider, min(block_hours, 1))
                 provider_override = None
