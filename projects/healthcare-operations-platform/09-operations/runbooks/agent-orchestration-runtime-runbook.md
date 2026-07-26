@@ -96,12 +96,22 @@ Get-Content .nexora/runtime/orchestrator-events.jsonl -Wait -Tail 30
 The trace must show prompt loading, provider selection, provider process start, heartbeat while the
 provider is still running and provider process end or the exact failure reason.
 
-For audit runs, the operator may lower the provider timeout without editing source code:
+For the first automatic execution of a large backlog, keep generous time windows and follow the
+trace instead of waiting silently. This first observed run must determine whether failures are caused
+by provider login, quota, repository state, toolchain issues or actual backlog errors.
 
 ```powershell
-$env:NEXORA_PROVIDER_TIMEOUT_SECONDS="180"
+$env:NEXORA_PREFLIGHT_TIMEOUT_SECONDS="300"
+$env:NEXORA_PROVIDER_TIMEOUT_SECONDS="14400"
 $env:NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
 ```
+
+`NEXORA_PROVIDER_TIMEOUT_SECONDS=14400` allows up to 4 hours for the selected provider process.
+Heartbeat events include elapsed time, remaining timeout and stdout/stderr byte counters, so the
+operator can see whether the process is still producing output.
+
+For short audit reruns after the first baseline is known, the operator may lower the provider
+timeout without editing source code.
 
 6. Complete the backlog item, create the handoff, commit, run closure validation and exit:
 

@@ -37,7 +37,7 @@ DEFAULT_AGENT_RESULT_FILE = os.environ.get("NEXORA_AGENT_RESULT_FILE", ".agent_t
 DEFAULT_ORCHESTRATOR_LOG = os.environ.get("NEXORA_ORCHESTRATOR_LOG", ".nexora/runtime/orchestrator-events.jsonl")
 DEFAULT_PREFLIGHT_CERT = os.environ.get("NEXORA_CLI_PREFLIGHT_CERT", ".nexora/runtime/agent-cli-preflight.json")
 DEFAULT_PREFLIGHT_MAX_AGE_MINUTES = int(os.environ.get("NEXORA_CLI_PREFLIGHT_MAX_AGE_MINUTES", "240"))
-DEFAULT_TIMEOUT_SECONDS = int(os.environ.get("NEXORA_PROVIDER_TIMEOUT_SECONDS", "600"))
+DEFAULT_TIMEOUT_SECONDS = int(os.environ.get("NEXORA_PROVIDER_TIMEOUT_SECONDS", "14400"))
 DEFAULT_HEARTBEAT_SECONDS = int(os.environ.get("NEXORA_PROVIDER_HEARTBEAT_SECONDS", "30"))
 
 
@@ -432,7 +432,15 @@ def kill_process_tree(process: subprocess.Popen[str]) -> None:
 def run_logged_subprocess(root: Path, provider_id: str, command: str, args: list[str], input_text: str | None = None) -> subprocess.CompletedProcess[str]:
     started = datetime.now()
     resolved = subprocess_command(command, args)
-    log_event(root, "provider_process_start", provider=provider_id, command=resolved[0], args=resolved[1:])
+    log_event(
+        root,
+        "provider_process_start",
+        provider=provider_id,
+        command=resolved[0],
+        args=resolved[1:],
+        timeout_seconds=DEFAULT_TIMEOUT_SECONDS,
+        heartbeat_seconds=DEFAULT_HEARTBEAT_SECONDS,
+    )
     with tempfile.TemporaryDirectory(prefix="nexora-router-") as tmp:
         stdout_path = Path(tmp) / "stdout.txt"
         stderr_path = Path(tmp) / "stderr.txt"
@@ -457,7 +465,15 @@ def run_logged_subprocess(root: Path, provider_id: str, command: str, args: list
                 elapsed = int((datetime.now() - started).total_seconds())
                 if elapsed >= last_heartbeat + DEFAULT_HEARTBEAT_SECONDS:
                     last_heartbeat = elapsed
-                    log_event(root, "provider_process_waiting", provider=provider_id, elapsed_seconds=elapsed)
+                    log_event(
+                        root,
+                        "provider_process_waiting",
+                        provider=provider_id,
+                        elapsed_seconds=elapsed,
+                        remaining_timeout_seconds=max(DEFAULT_TIMEOUT_SECONDS - elapsed, 0),
+                        stdout_bytes=stdout_path.stat().st_size if stdout_path.exists() else 0,
+                        stderr_bytes=stderr_path.stat().st_size if stderr_path.exists() else 0,
+                    )
                 if elapsed >= DEFAULT_TIMEOUT_SECONDS:
                     timed_out = True
                     kill_process_tree(process)
@@ -482,9 +498,25 @@ def run_logged_subprocess(root: Path, provider_id: str, command: str, args: list
             stderr = stderr_path.read_text(encoding="utf-8", errors="replace")
     elapsed = int((datetime.now() - started).total_seconds())
     if timed_out:
-        log_event(root, "provider_process_timeout", provider=provider_id, elapsed_seconds=elapsed)
+        log_event(
+            root,
+            "provider_process_timeout",
+            provider=provider_id,
+            elapsed_seconds=elapsed,
+            timeout_seconds=DEFAULT_TIMEOUT_SECONDS,
+            stdout_bytes=len(stdout.encode("utf-8")),
+            stderr_bytes=len(stderr.encode("utf-8")),
+        )
     else:
-        log_event(root, "provider_process_end", provider=provider_id, returncode=returncode, elapsed_seconds=elapsed)
+        log_event(
+            root,
+            "provider_process_end",
+            provider=provider_id,
+            returncode=returncode,
+            elapsed_seconds=elapsed,
+            stdout_bytes=len(stdout.encode("utf-8")),
+            stderr_bytes=len(stderr.encode("utf-8")),
+        )
     return subprocess.CompletedProcess(resolved, returncode, stdout, stderr)
 
 

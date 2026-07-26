@@ -51,6 +51,9 @@ Default behavior:
 - Persist quota/rate-limit state locally outside git.
 - Append JSONL trace events to `.nexora/runtime/orchestrator-events.jsonl`.
 - Emit console heartbeat events every 30 seconds while a CLI provider is still running.
+- For first observed automation runs, allow generous provider timeouts and use heartbeat telemetry
+  (`elapsed_seconds`, `remaining_timeout_seconds`, `stdout_bytes`, `stderr_bytes`) to diagnose
+  whether a process is active, silent or blocked.
 - Refuse headless CLI execution unless `tool: agent_cli_preflight` produced a fresh ready
   certificate for the selected provider.
 
@@ -104,6 +107,14 @@ Invocation template:
 
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py --provider all
+```
+
+Recommended first-run timing:
+
+```powershell
+$env:NEXORA_PREFLIGHT_TIMEOUT_SECONDS="300"
+$env:NEXORA_PROVIDER_TIMEOUT_SECONDS="14400"
+$env:NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
 ```
 
 Provider-specific invocation:

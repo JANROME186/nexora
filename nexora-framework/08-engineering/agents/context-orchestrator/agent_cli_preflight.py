@@ -18,7 +18,7 @@ from typing import Any
 
 DEFAULT_CERTIFICATE = os.environ.get("NEXORA_CLI_PREFLIGHT_CERT", ".nexora/runtime/agent-cli-preflight.json")
 DEFAULT_LOG = os.environ.get("NEXORA_ORCHESTRATOR_LOG", ".nexora/runtime/orchestrator-events.jsonl")
-DEFAULT_TIMEOUT_SECONDS = int(os.environ.get("NEXORA_PREFLIGHT_TIMEOUT_SECONDS", "60"))
+DEFAULT_TIMEOUT_SECONDS = int(os.environ.get("NEXORA_PREFLIGHT_TIMEOUT_SECONDS", "300"))
 DEFAULT_OLLAMA_MODEL = os.environ.get("NEXORA_OLLAMA_MODEL", "qwen2.5-coder:0.5b")
 
 PROVIDERS: dict[str, dict[str, Any]] = {

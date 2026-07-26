@@ -104,8 +104,8 @@ $env:NEXORA_QUOTA_TRACKER=".nexora/runtime/quota_tracker.json"
 $env:NEXORA_ORCHESTRATOR_LOG=".nexora/runtime/orchestrator-events.jsonl"
 $env:NEXORA_CLI_PREFLIGHT_CERT=".nexora/runtime/agent-cli-preflight.json"
 $env:NEXORA_CLI_PREFLIGHT_MAX_AGE_MINUTES="240"
-$env:NEXORA_PREFLIGHT_TIMEOUT_SECONDS="60"
-$env:NEXORA_PROVIDER_TIMEOUT_SECONDS="600"
+$env:NEXORA_PREFLIGHT_TIMEOUT_SECONDS="300"
+$env:NEXORA_PROVIDER_TIMEOUT_SECONDS="14400"
 $env:NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
 $env:NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
 $env:NEXORA_EXECUTION_FLOW="manual"
@@ -144,8 +144,8 @@ export NEXORA_QUOTA_TRACKER=".nexora/runtime/quota_tracker.json"
 export NEXORA_ORCHESTRATOR_LOG=".nexora/runtime/orchestrator-events.jsonl"
 export NEXORA_CLI_PREFLIGHT_CERT=".nexora/runtime/agent-cli-preflight.json"
 export NEXORA_CLI_PREFLIGHT_MAX_AGE_MINUTES="240"
-export NEXORA_PREFLIGHT_TIMEOUT_SECONDS="60"
-export NEXORA_PROVIDER_TIMEOUT_SECONDS="600"
+export NEXORA_PREFLIGHT_TIMEOUT_SECONDS="300"
+export NEXORA_PROVIDER_TIMEOUT_SECONDS="14400"
 export NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
 export NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
 export NEXORA_EXECUTION_FLOW="manual"
@@ -213,6 +213,26 @@ execution when the certificate is missing, stale or marks the selected provider 
 preflight reports `operator_login_required`, `quota_or_rate_limit`, `timeout`, `missing_binary` or
 `ide_handoff_only`, resolve that issue before running the backlog.
 
+## First Observed Automation Run
+
+For the first automatic execution of a large backlog, use generous time windows and monitor the
+trace continuously. The objective is to identify real provider, authentication, quota, repository or
+tool failures, not to fail the run because the unknown baseline duration was underestimated.
+
+Recommended first-run values:
+
+```powershell
+$env:NEXORA_PREFLIGHT_TIMEOUT_SECONDS="300"
+$env:NEXORA_PROVIDER_TIMEOUT_SECONDS="14400"
+$env:NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
+```
+
+These values allow up to 5 minutes per preflight command and up to 4 hours for the selected provider
+process. During execution, the router emits heartbeat events with elapsed time, remaining timeout
+and stdout/stderr byte counters. If the counters move, the process is producing output. If they do
+not move for a long period, keep watching the provider terminal/session and use the eventual error
+or timeout evidence to classify the failure.
+
 Follow orchestrator/router execution live in PowerShell:
 
 ```powershell
@@ -221,7 +241,7 @@ Get-Content .nexora/runtime/orchestrator-events.jsonl -Wait -Tail 30
 
 The log is JSONL and local-only. It records prompt generation, cache hits, prompt writes, router
 startup, prompt loading, provider selection, provider process start/end, heartbeat events during
-long CLI execution, timeout, rate-limit and unavailable-provider events.
+long CLI execution, stdout/stderr byte counters, timeout, rate-limit and unavailable-provider events.
 
 Write the active prompt into the local IDE task-ingestion file:
 
