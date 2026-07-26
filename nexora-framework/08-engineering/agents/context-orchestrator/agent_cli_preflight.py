@@ -322,7 +322,10 @@ def main() -> int:
     not_ready = [provider_id for provider_id, result in merged_providers.items() if not result.get("ready")]
     log_event(root, "preflight_end", certificate=str(cert_path), ready=ready, not_ready=not_ready)
     print(json.dumps({"certificate": str(cert_path), "ready": ready, "not_ready": not_ready}, ensure_ascii=False, sort_keys=True))
-    return 0 if ready or args.provider != "all" else 1
+    requested_not_ready = [provider_id for provider_id in provider_ids if not merged_providers.get(provider_id, {}).get("ready")]
+    if args.provider != "all":
+        return 1 if requested_not_ready else 0
+    return 0 if ready else 1
 
 
 if __name__ == "__main__":

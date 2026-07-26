@@ -29,6 +29,7 @@ sources:
   context_orchestrator_python: nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py
   backlog_closure_validator_python: nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
   context_atomic_artifact_standard: nexora-framework/02-standards/standards/context-atomic-artifact-standard.md
+  agent_cli_preflight_python: nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py
   framework_managed_artifact_optimizer_python: nexora-framework/08-engineering/agents/context-orchestrator/framework_managed_artifact_optimizer.py
   repository_source_registry_index: nexora-framework/08-engineering/repository-tracking/source-registry/REPOSITORY_SOURCE_REGISTRY_INDEX.md
 source_registry:

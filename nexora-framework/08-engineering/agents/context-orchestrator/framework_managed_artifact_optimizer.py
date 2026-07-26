@@ -237,6 +237,7 @@ def compact_source_of_truth(root: Path, sot: dict[str, Any], active_task: str) -
             "capability_package_index",
             "context_orchestrator_python",
             "agent_runtime_router_python",
+            "agent_cli_preflight_python",
             "backlog_closure_validator_python",
             "framework_managed_artifact_optimizer_python",
             "context_orchestrator_tool_registry",
@@ -244,6 +245,10 @@ def compact_source_of_truth(root: Path, sot: dict[str, Any], active_task: str) -
             "context_atomic_artifact_standard",
         }
     }
+    compact_sources.setdefault(
+        "agent_cli_preflight_python",
+        "../../nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py",
+    )
     compact_sources.setdefault(
         "framework_managed_artifact_optimizer_python",
         "../../nexora-framework/08-engineering/agents/context-orchestrator/framework_managed_artifact_optimizer.py",
@@ -501,10 +506,12 @@ def compact_repository_indexes(root: Path, seed_from_git_head: bool) -> None:
             "framework_execution_sequence",
             "context_efficient_execution_standard",
             "context_orchestrator_python",
+            "agent_cli_preflight_python",
             "backlog_closure_validator_python",
         }
     }
     compact_sources["context_atomic_artifact_standard"] = "nexora-framework/02-standards/standards/context-atomic-artifact-standard.md"
+    compact_sources["agent_cli_preflight_python"] = "nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py"
     compact_sources["framework_managed_artifact_optimizer_python"] = "nexora-framework/08-engineering/agents/context-orchestrator/framework_managed_artifact_optimizer.py"
     compact_sources["repository_source_registry_index"] = (root_registry_dir / "REPOSITORY_SOURCE_REGISTRY_INDEX.md").as_posix()
     write(

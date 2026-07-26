@@ -31,6 +31,7 @@ sources:
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.md
   framework_managed_artifact_optimizer_python: ../../nexora-framework/08-engineering/agents/context-orchestrator/framework_managed_artifact_optimizer.py
   context_atomic_artifact_standard: ../../nexora-framework/02-standards/standards/context-atomic-artifact-standard.md
+  agent_cli_preflight_python: ../../nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py
   source_registry_index: 08-qa/project-tracking/source-registry/SOURCE_REGISTRY_INDEX.md
   com_mod_014_closeout_qa_evidence: 08-qa/qa/imaging-operations/COM-MOD-014-CLOSEOUT-validation.md
   com_mod_014_closeout_security_quality_evidence: 08-qa/security-quality/COM-MOD-014-CLOSEOUT/security-quality-evidence.md
