@@ -56,6 +56,7 @@ Supported runtimes:
 - `filesystem_task_ingestion` through ignored local files `.agent_next_task.md` and
   `.agent_task_summary.md`.
 - `claude_code_cli` through the local Claude Code CLI subprocess and the operator's local login.
+- `codex_cli` through local `codex exec` and the operator's ChatGPT/Codex CLI login.
 - `github_copilot_cli` through local `gh`/Copilot CLI configuration and the operator's subscription.
 
 API-key SDK providers are not part of the default Nexora routing path. A paid API-key route requires

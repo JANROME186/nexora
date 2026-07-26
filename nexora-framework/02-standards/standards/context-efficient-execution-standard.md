@@ -119,7 +119,8 @@ Routing strategy:
 - Medium complexity: frontend, mobile, integration adapters, refactors and tests may use
   subscription-backed CLI, filesystem task ingestion or Ollama.
 - High complexity: backend core, architecture, security-sensitive changes and database design may
-  use Claude Code CLI, GitHub Copilot CLI, filesystem task ingestion or Ollama when enabled.
+  use Claude Code CLI, Codex CLI, GitHub Copilot CLI, filesystem task ingestion or Ollama when
+  enabled.
 - Subscription window quotas may be consumed during active work when the operator has enabled the
   CLI/IDE route.
 - HTTP 429 or quota-exceeded errors must pause the provider in the local tracker and retry with the
@@ -266,6 +267,10 @@ runtime_routing:
     tier: high
     runtime: cli_subprocess
     role: focused_subscription_cli_execution_when_operator_enabled
+  - id: codex_cli
+    tier: high
+    runtime: cli_subprocess
+    role: focused_chatgpt_subscription_cli_execution_when_operator_enabled
   - id: github_copilot_cli
     tier: high
     runtime: cli_subprocess

@@ -101,6 +101,8 @@ Optional subscription-backed CLI login checks:
 
 ```powershell
 claude --version
+codex --version
+codex login status
 gh auth status
 gh extension list
 ```
@@ -130,6 +132,8 @@ Optional subscription-backed CLI login checks:
 
 ```bash
 claude --version
+codex --version
+codex login status
 gh auth status
 gh extension list
 ```

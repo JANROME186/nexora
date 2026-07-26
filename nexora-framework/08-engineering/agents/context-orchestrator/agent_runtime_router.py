@@ -67,6 +67,17 @@ DEFAULT_PROVIDERS: dict[str, dict[str, Any]] = {
         "is_blocked_until": None,
         "priority": 15,
     },
+    "codex_cli": {
+        "tier": "high",
+        "runtime": "codex_cli",
+        "model": "codex-chatgpt-subscription",
+        "command": "codex",
+        "enabled": False,
+        "window_reset_hours": 3,
+        "is_blocked_until": None,
+        "priority": 18,
+        "result_file": DEFAULT_AGENT_RESULT_FILE,
+    },
     "github_copilot_cli": {
         "tier": "high",
         "runtime": "github_copilot_cli",
@@ -199,7 +210,7 @@ def configured(provider: dict[str, Any]) -> bool:
     runtime = provider.get("runtime")
     if runtime == "ollama":
         return True
-    if runtime in {"claude_cli", "github_copilot_cli"}:
+    if runtime in {"claude_cli", "github_copilot_cli", "codex_cli"}:
         return shutil.which(str(provider.get("command") or "claude")) is not None
     if runtime == "task_ingestion":
         task_file = Path(str(provider.get("task_file") or DEFAULT_AGENT_TASK_FILE))
@@ -209,9 +220,9 @@ def configured(provider: dict[str, Any]) -> bool:
 
 def candidate_ids(complexity: str) -> list[str]:
     if complexity == "high":
-        return ["claude_code_cli", "github_copilot_cli", "filesystem_task_ingestion", "ollama_local"]
+        return ["claude_code_cli", "codex_cli", "github_copilot_cli", "filesystem_task_ingestion", "ollama_local"]
     if complexity == "medium":
-        return ["github_copilot_cli", "filesystem_task_ingestion", "ollama_local"]
+        return ["codex_cli", "github_copilot_cli", "filesystem_task_ingestion", "ollama_local"]
     return ["ollama_local", "filesystem_task_ingestion"]
 
 
@@ -328,6 +339,39 @@ def call_task_ingestion(root: Path, prompt: str, provider: dict[str, Any]) -> st
     return f"task_ingestion_written={task_path.as_posix()}\nexpected_summary={result_path.as_posix()}\n"
 
 
+def call_codex_cli(root: Path, prompt: str, provider: dict[str, Any]) -> str:
+    command = str(provider.get("command") or "codex")
+    result_file = str(provider.get("result_file") or DEFAULT_AGENT_RESULT_FILE)
+    result_path = root / result_file
+    result_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = [
+        command,
+        "exec",
+        "--cd",
+        str(root),
+        "--sandbox",
+        "workspace-write",
+        "--output-last-message",
+        str(result_path),
+        "-",
+    ]
+    result = subprocess.run(
+        cmd,
+        input=prompt,
+        text=True,
+        capture_output=True,
+        encoding="utf-8",
+        check=False,
+        timeout=DEFAULT_TIMEOUT_SECONDS,
+    )
+    combined = f"{result.stdout}\n{result.stderr}".lower()
+    if result.returncode != 0 and ("429" in combined or "rate" in combined or "quota" in combined):
+        raise ProviderRateLimited(combined)
+    if result.returncode != 0:
+        raise ProviderUnavailable(result.stderr.strip() or f"{command} exited {result.returncode}")
+    return result_path.read_text(encoding="utf-8") if result_path.exists() else result.stdout
+
+
 def execute_provider(prompt: str, decision: RouteDecision, state: dict[str, Any]) -> str:
     provider = (state.get("providers") or {}).get(decision.provider) or {}
     runtime = decision.runtime
@@ -340,6 +384,9 @@ def execute_provider(prompt: str, decision: RouteDecision, state: dict[str, Any]
     if runtime == "task_ingestion":
         root = Path(os.environ.get("NEXORA_ROOT", os.getcwd())).resolve()
         return call_task_ingestion(root, prompt, provider)
+    if runtime == "codex_cli":
+        root = Path(os.environ.get("NEXORA_ROOT", os.getcwd())).resolve()
+        return call_codex_cli(root, prompt, provider)
     raise ProviderUnavailable(f"Unsupported runtime: {runtime}")
 
 

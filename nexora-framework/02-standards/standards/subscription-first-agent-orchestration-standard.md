@@ -20,6 +20,7 @@ API-key providers that charge by token are not part of the default framework exe
 2. Use Ollama and approved open source local models for prompt compression, planning and validation.
 3. Use subscription-backed local CLIs when explicitly enabled by the operator, for example:
    - Claude Code CLI through local `claude` login.
+   - Codex CLI through local `codex login` and the operator's ChatGPT/Codex subscription.
    - GitHub Copilot CLI through local `gh auth login` and Copilot subscription.
 4. Use filesystem task ingestion for IDE agents such as Cursor, Windsurf, VS Code agent extensions
    or other tools that consume a task file with the operator's existing flat-rate subscription.
@@ -61,6 +62,7 @@ policy:
   api_key_token_consumption_default_allowed: false
   ollama_required: true
   subscription_cli_allowed: true
+  codex_cli_allowed: true
   filesystem_task_ingestion_allowed: true
   ide_subscription_agents_allowed: true
   paid_api_key_exception_requires_adr: true

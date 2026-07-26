@@ -87,7 +87,7 @@ python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime
 By default the router runs in dry-run mode and selects a provider without invoking an external
 runtime. Use `--execute` only when the operator intentionally wants Python to execute the selected
 local/subscription route. The mandatory fallback is local Ollama. Optional routes are local CLI
-sessions, such as Claude Code CLI or GitHub Copilot CLI, and filesystem task ingestion for IDE
+sessions, such as Claude Code CLI, Codex CLI or GitHub Copilot CLI, and filesystem task ingestion for IDE
 agents.
 
 The local quota tracker is written to `.nexora/runtime/quota_tracker.json`, which is ignored by git.
