@@ -30,4 +30,6 @@ coverage/
 
 # Nexora local runtime state
 .nexora/runtime/
+.nexora/cache/
+.nexora/secrets/
 

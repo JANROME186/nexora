@@ -20,6 +20,10 @@ must be routed through `tool: commercial_agent_router`, which chooses between Ol
 Google GenAI SDK, Anthropic SDK or Claude Code CLI according to complexity, provider availability,
 quota windows and local rate-limit state.
 
+All Python programs used by the framework must be committed under `nexora-framework/`. Local values
+that depend on the workstation, operator or provider account must be supplied through environment
+variables or ignored Nexora runtime folders. Secrets and quota state must never be committed.
+
 ## Required Flow
 
 1. Read the active backlog pointer.
@@ -74,6 +78,24 @@ PROJECT: [RUTA_PROYECTO]
 ```
 
 Quality gates, security checks, coverage floors, stale-pointer sweeps and clean git status remain mandatory. Token optimization never justifies skipping validation.
+
+## Runtime Configuration Policy
+
+The framework runtime configuration is documented in:
+
+`nexora-framework/08-engineering/agents/context-orchestrator/runtime-configuration-runbook.md`
+
+Rules:
+
+- Python framework tools must live in the repository under `nexora-framework/`.
+- Environment-specific values must be provided through OS environment variables or ignored runtime
+  files.
+- `.nexora/runtime/`, `.nexora/cache/` and `.nexora/secrets/` are local-only paths.
+- `.env` and `.env.*` files are local-only; `.env.example` templates may be committed.
+- API keys must use environment variables such as `OPENAI_API_KEY`, `GEMINI_API_KEY` and
+  `ANTHROPIC_API_KEY`.
+- Nexora path/model overrides must use `NEXORA_ROOT`, `NEXORA_PROJECT_PATH`,
+  `NEXORA_ACTIVE_PROMPT_DIR`, `NEXORA_QUOTA_TRACKER` and `NEXORA_OLLAMA_MODEL`.
 
 ## Dynamic Runtime Routing
 
@@ -169,6 +191,32 @@ principles:
   short_lived_sessions_required: true
   commercial_subagent_spawning_restricted: true
   python_runtime_router_required: true
+  framework_python_programs_committed_required: true
+  local_runtime_state_excluded_from_git: true
+runtime_configuration:
+  runbook: nexora-framework/08-engineering/agents/context-orchestrator/runtime-configuration-runbook.md
+  env_template: nexora-framework/08-engineering/agents/context-orchestrator/.env.example
+  framework_python_program_location: nexora-framework/
+  local_only_paths:
+  - .nexora/runtime/
+  - .nexora/cache/
+  - .nexora/secrets/
+  - .env
+  - .env.*
+  committed_templates_allowed:
+  - .env.example
+  - '**/.env.example'
+  path_environment_variables:
+  - NEXORA_ROOT
+  - NEXORA_PROJECT_PATH
+  - NEXORA_ACTIVE_PROMPT_DIR
+  - NEXORA_QUOTA_TRACKER
+  model_environment_variables:
+  - NEXORA_OLLAMA_MODEL
+  provider_environment_variables:
+  - OPENAI_API_KEY
+  - GEMINI_API_KEY
+  - ANTHROPIC_API_KEY
 local_orchestrator:
   preferred_runtime: python
   required_model_runtime: ollama

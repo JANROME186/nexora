@@ -23,10 +23,13 @@ from pathlib import Path
 from typing import Any
 
 
-PROJECT_PATH = "projects/healthcare-operations-platform"
-ACTIVE_PROMPT_DIR = f"{PROJECT_PATH}/08-qa/generated-prompts/active_prompt"
-DEFAULT_STATE_PATH = ".nexora/runtime/quota_tracker.json"
-DEFAULT_OLLAMA_MODEL = "qwen2.5-coder:0.5b"
+PROJECT_PATH = os.environ.get("NEXORA_PROJECT_PATH", "projects/healthcare-operations-platform")
+ACTIVE_PROMPT_DIR = os.environ.get(
+    "NEXORA_ACTIVE_PROMPT_DIR",
+    f"{PROJECT_PATH}/08-qa/generated-prompts/active_prompt",
+)
+DEFAULT_STATE_PATH = os.environ.get("NEXORA_QUOTA_TRACKER", ".nexora/runtime/quota_tracker.json")
+DEFAULT_OLLAMA_MODEL = os.environ.get("NEXORA_OLLAMA_MODEL", "qwen2.5-coder:0.5b")
 DEFAULT_TIMEOUT_SECONDS = 600
 
 
@@ -395,7 +398,7 @@ def route_and_execute(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Route an optimized Nexora prompt to the best available runtime.")
-    parser.add_argument("--root", default=os.getcwd(), help="Repository root.")
+    parser.add_argument("--root", default=os.environ.get("NEXORA_ROOT", os.getcwd()), help="Repository root.")
     parser.add_argument("--prompt", default=None, help="Prompt file. Defaults to the only active prompt.")
     parser.add_argument("--state", default=DEFAULT_STATE_PATH, help="Local quota tracker path.")
     parser.add_argument("--complexity", choices=["auto", "low", "medium", "high"], default="auto")

@@ -40,6 +40,23 @@ executions stable while still using Ollama as the primary local orchestration so
 
 The output must remain agent agnostic. It should point to files and commands instead of pasting complete artifacts into the commercial prompt.
 
+## Runtime Configuration
+
+All Python programs used by this orchestrator are versioned in this repository. Local runtime state,
+provider credentials, quotas and workstation-specific paths must be configured through environment
+variables or ignored paths, never by editing committed source files.
+
+Configuration runbook:
+
+`nexora-framework/08-engineering/agents/context-orchestrator/runtime-configuration-runbook.md`
+
+Environment template:
+
+`nexora-framework/08-engineering/agents/context-orchestrator/.env.example`
+
+Supported local-only paths are `.nexora/runtime/`, `.nexora/cache/`, `.nexora/secrets/` and local
+`.env` files. They are intentionally excluded from git.
+
 ## Commercial Agent Runtime Routing
 
 Nexora execution is centralized through Python to avoid long interactive commercial chats and large

@@ -12,6 +12,15 @@ artifact:
 HOP backlog execution must use the Nexora Python orchestrator as the control plane. The objective is
 to avoid long commercial chats, large accumulated context and uncontrolled commercial subagents.
 
+All framework Python programs are executed from the repository under `nexora-framework/`. HOP must
+not depend on private local scripts outside git. Workstation-specific paths, provider credentials,
+quota state and local caches must be configured through environment variables or ignored Nexora
+runtime folders.
+
+Framework setup reference:
+
+`nexora-framework/08-engineering/agents/context-orchestrator/runtime-configuration-runbook.md`
+
 ## Required Flow
 
 1. Generate or refresh the active prompt:
@@ -54,6 +63,17 @@ python nexora-framework/08-engineering/agents/context-orchestrator/backlog_valid
 
 The local router manages provider selection and quota state in `.nexora/runtime/quota_tracker.json`.
 That file is ignored by git and must not contain secrets.
+
+Supported environment variables:
+
+- `NEXORA_ROOT`
+- `NEXORA_PROJECT_PATH`
+- `NEXORA_ACTIVE_PROMPT_DIR`
+- `NEXORA_QUOTA_TRACKER`
+- `NEXORA_OLLAMA_MODEL`
+- `OPENAI_API_KEY`
+- `GEMINI_API_KEY`
+- `ANTHROPIC_API_KEY`
 
 Runtime guidance:
 
@@ -102,6 +122,14 @@ required_tools:
 runtime_state:
   quota_tracker: .nexora/runtime/quota_tracker.json
   committed: false
+configuration:
+  framework_runtime_runbook: nexora-framework/08-engineering/agents/context-orchestrator/runtime-configuration-runbook.md
+  framework_python_programs_must_be_versioned: true
+  secrets_from_environment_only: true
+  local_runtime_paths_excluded_from_git:
+  - .nexora/runtime/
+  - .nexora/cache/
+  - .nexora/secrets/
 session_policy:
   max_backlog_items_per_session: 1
   compact_or_restart_after_messages: 15

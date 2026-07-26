@@ -3,6 +3,14 @@
 This registry defines compact local tool references used by generated prompts. Prompts should
 reference the tool id instead of repeating full commands or task-specific paths.
 
+Runtime configuration:
+
+- All framework Python programs must be versioned under `nexora-framework/`.
+- Workstation paths, secrets, provider credentials, local quota state and caches must use
+  environment variables or ignored local paths.
+- Configuration runbook:
+  `nexora-framework/08-engineering/agents/context-orchestrator/runtime-configuration-runbook.md`
+
 ## Tool: commercial_agent_router
 
 Purpose: route one optimized active backlog prompt through the most efficient available runtime
