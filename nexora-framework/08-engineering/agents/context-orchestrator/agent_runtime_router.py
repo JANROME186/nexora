@@ -61,7 +61,7 @@ DEFAULT_PROVIDERS: dict[str, dict[str, Any]] = {
         "runtime": "claude_cli",
         "model": "claude-code-subscription",
         "command": "claude",
-        "args": ["-p"],
+        "args": ["-p", "--permission-mode", "dontAsk"],
         "enabled": False,
         "window_reset_hours": 3,
         "is_blocked_until": None,
