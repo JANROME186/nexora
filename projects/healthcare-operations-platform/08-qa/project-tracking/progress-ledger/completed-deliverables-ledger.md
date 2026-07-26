@@ -14,9 +14,15 @@ artifact:
 
 ```yaml
 project: Healthcare Operations Platform
-total_completed_deliverables: 128
+total_completed_deliverables: 129
 payload_hash: '277579999803'
 completed_deliverables:
+- COM-MOD-015-DEF Capability package models for AI Overlay (modeled 8 provider-neutral capability packages BCM-AI-001 through
+  BCM-AI-008 under 01-product-definition/business-capabilities/packages/ with the standard 14 artifacts each; registered COM-MOD-015
+  as definition_completed in capability-package-index.md; all AI outputs are advisory, attributable, source-cited, auditable
+  and human-review controlled with autonomous clinical validation explicitly prohibited; materially reduced TD-FMT-001 through
+  compact Markdown/frontmatter handoff and evidence; QA evidence 08-qa/qa/ai-overlay/COM-MOD-015-DEF-validation.md, security
+  evidence 08-qa/security-quality/COM-MOD-015-DEF/security-quality-evidence.md, handoff 08-qa/handoffs/COM-MOD-015-DEF-summary.md)
 - COM-MOD-014-CLOSEOUT Module closeout and registry update (BCM-IMG-001 through BCM-IMG-008 marked module_closed in capability-package-index.md -- moved from active_capability_package_groups to completed_capability_package_groups -- and in their capability-package.md files and BCM-IMG-001 traceability.md; documentation and registry-only closeout -- no source changed, coverage re-affirmed unchanged: backend 84.65%, employee portal 90.85% overall / 90.87% screens, public website 98.61%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%; synced technical-debt-index.md frontend line coverage baseline to 90.85%; recorded material reductions for TD-DEF-002, TD-I18N-002, TD-FE-010; QA evidence 08-qa/qa/imaging-operations/COM-MOD-014-CLOSEOUT-validation.md, security evidence 08-qa/security-quality/COM-MOD-014-CLOSEOUT/security-quality-evidence.md, handoff 08-qa/handoffs/COM-MOD-014-CLOSEOUT-summary.md)
 - COM-MOD-014-QA-001 Imaging integration and report evidence QA validation (validated end-to-end quality assurance gates for
   all 8 BCM-IMG-* sub-packages across backend and frontend; resolved sonarjs/no-hardcoded-ip lint error in ImagingDicomScreen.tsx;

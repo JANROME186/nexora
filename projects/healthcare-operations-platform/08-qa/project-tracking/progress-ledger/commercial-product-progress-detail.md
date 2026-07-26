@@ -21,7 +21,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   current_iteration: COM-MOD-015
   active_module: AI Overlay
-  active_backlog_item: COM-MOD-015-DEF
+  active_backlog_item: COM-MOD-015-BE-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
@@ -30,6 +30,52 @@ commercial_product_progress:
   primary_development_unit: business_capability_package
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.md
   capability_package_progress:
+    COM-MOD-015:
+      name: AI Overlay
+      package_status: definition_completed
+      backlog_item: COM-MOD-015-DEF
+      backlog_item_status: closed
+      next_backlog_item: COM-MOD-015-BE-001
+      execution_flow_stage: model_completed
+      capabilities:
+      - capability: BCM-AI-001
+        package_status: definition_completed
+      - capability: BCM-AI-002
+        package_status: definition_completed
+      - capability: BCM-AI-003
+        package_status: definition_completed
+      - capability: BCM-AI-004
+        package_status: definition_completed
+      - capability: BCM-AI-005
+        package_status: definition_completed
+      - capability: BCM-AI-006
+        package_status: definition_completed
+      - capability: BCM-AI-007
+        package_status: definition_completed
+      - capability: BCM-AI-008
+        package_status: definition_completed
+      new_capability_packages_created: 8
+      new_aggregates_or_schemas_created: 8 modeled_aggregates_no_schema_yet
+      bounded_contexts:
+      - ai-overlay
+      - ai-document-intake
+      - ai-clinical-review
+      - ai-search
+      - ai-retrieval
+      - ai-governance
+      - ai-platform-integration
+      - ai-audit-evaluation
+      qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-DEF-validation.md
+      security_quality_evidence: 08-qa/security-quality/COM-MOD-015-DEF/security-quality-evidence.md
+      handoff: 08-qa/handoffs/COM-MOD-015-DEF-summary.md
+      technical_debt_materially_reduced:
+      - TD-FMT-001
+      ready_for_compilation: true
+      backend_compilation_completed: false
+      ready_for_custom_rule_implementation: false
+      ready_for_ui_compilation: false
+      module_validated: false
+      module_closed: false
     COM-MOD-014:
       name: Imaging Operations
       package_status: module_closed

@@ -17,7 +17,7 @@ id: COM-MOD-015
 name: AI Overlay
 release: REL-004
 priority: 140
-status: planned
+status: active
 source: mvp_framework_future_module
 objective: Add assistant, OCR, summary, semantic search and retrieval capabilities with strict clinical guardrails.
 depends_on:
@@ -43,16 +43,22 @@ product_surfaces:
 backlog_items:
 - id: COM-MOD-015-DEF
   name: Capability package models
+  status: closed
 - id: COM-MOD-015-BE-001
   name: Compile AI orchestration, policy and audit outputs
+  status: next
 - id: COM-MOD-015-BE-002
   name: Implement OCR, summary, search and retrieval custom rules
+  status: planned
 - id: COM-MOD-015-FE-001
   name: Compile assistant and review UI outputs
+  status: planned
 - id: COM-MOD-015-QA-001
   name: Safety, explainability and human-control evidence
+  status: planned
 - id: COM-MOD-015-CLOSEOUT
   name: Module closeout and registry update
+  status: planned
 acceptance_summary:
 - AI capabilities assist administrative and clinical workflows without autonomous clinical validation.
 - All AI outputs are attributable, reviewable and auditable.

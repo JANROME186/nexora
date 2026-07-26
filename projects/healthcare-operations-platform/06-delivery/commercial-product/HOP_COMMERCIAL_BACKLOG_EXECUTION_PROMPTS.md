@@ -89,8 +89,8 @@ validation_commands:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
   module_id: COM-MOD-015
-  backlog_item_id: COM-MOD-015-DEF
-  name: Capability package models for AI Overlay
+  backlog_item_id: COM-MOD-015-BE-001
+  name: Compile AI orchestration, policy and audit outputs
   expected_folder: 01-product-definition/business-capabilities/packages/
   required_debt_first_action: none
   coverage_floor:
@@ -111,9 +111,7 @@ validation_commands:
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product backlog and execution prompts, and commit
     only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-014-CLOSEOUT
+    backlog_item_id: COM-MOD-015-DEF
     status: closed
-    summary: Formally closed COM-MOD-014 Imaging Operations. Marked BCM-IMG-001 through BCM-IMG-008 module_closed in capability-package-index.md
-      and package files. Re-affirmed coverage floors (backend 84.65%, employee-portal 90.85% overall / 90.87% screens, public website
-      98.61%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%). Materially reduced TD-DEF-002, TD-I18N-002, TD-FE-010.
+    summary: Closed COM-MOD-015-DEF. Modeled 8 AI Overlay capability packages BCM-AI-001 through BCM-AI-008 with 112 structured definition artifacts; all models are provider-neutral, human-review controlled and prohibit autonomous clinical validation. Materially reduced TD-FMT-001.
 ```

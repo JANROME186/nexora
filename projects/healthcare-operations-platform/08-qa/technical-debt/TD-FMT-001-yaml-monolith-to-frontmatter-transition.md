@@ -4,7 +4,7 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: Transition monolithic YAML task/state artifacts to Markdown frontmatter handoffs
 version: 1.0.0
-status: reduced_non_blocking
+status: materially_reduced
 ---
 
 # Transition Monolithic Yaml Task/State Artifacts To Markdown Frontmatter Handoffs
@@ -19,9 +19,9 @@ artifact:
   type: technical-debt-item
   name: Transition monolithic YAML task/state artifacts to Markdown frontmatter handoffs
   version: 1.0.0
-  status: reduced_non_blocking
+  status: materially_reduced
   created_date: 2026-07-24
-  updated_date: 2026-07-24
+  updated_date: 2026-07-26
 source:
   discovered_during_backlog_item: NXF-CTX-001
   module: Nexora Framework Context Efficient Execution update
@@ -69,10 +69,13 @@ remediation:
   - Optional Ollama-assisted conversion is validated locally or explicitly marked
     unavailable without blocking execution.
   latest_evidence:
-    backlog_item: NXF-FMT-002
-    status: reduced_non_blocking
+    backlog_item: COM-MOD-015-DEF
+    status: materially_reduced
     hop_inventory: ../format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md
     framework_inventory: ../format-migration/frontmatter-migration-report-nexora-framework.md
     migration_plan: ../format-migration/frontmatter-migration-plan.md
-    closeout_handoff: ../handoffs/NXF-FMT-002-summary.md
+    closeout_handoff: ../handoffs/COM-MOD-015-DEF-summary.md
+    note: COM-MOD-015-DEF kept the active backlog transition in compact Markdown/frontmatter
+      evidence and handoff artifacts and avoided creating new monolithic YAML execution
+      artifacts while updating atomic backlog and progress records.
 ```

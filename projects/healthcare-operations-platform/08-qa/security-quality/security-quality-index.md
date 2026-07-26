@@ -39,6 +39,24 @@ required_checks_when_applicable:
 - dast_for_runnable_web_or_api_surfaces
 - container_or_iac_scan_when_assets_change
 entries:
+- backlog_item: COM-MOD-015-DEF
+  module: COM-MOD-015 AI Overlay
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-015-DEF/
+  human_readable: 08-qa/security-quality/COM-MOD-015-DEF/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-015-DEF/security-quality-evidence.md
+  checks:
+    tests: not_applicable_definition_only
+    sast_or_static_analysis: not_applicable_definition_only
+    dependency_vulnerability_scan: not_applicable_no_dependency_changed
+    secrets_scan: passed
+    coverage: passed_no_code_changed_baselines_unchanged
+    dast_for_runnable_web_or_api_surfaces: not_applicable_definition_only
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Definition-only AI Overlay capability package modeling. Created BCM-AI-001
+    through BCM-AI-008 with provider-neutral, human-review-controlled models; no
+    backend/frontend/mobile source, dependency manifest, runtime configuration or
+    infrastructure asset changed. TD-FMT-001 materially reduced.
 - backlog_item: COM-MOD-014-CLOSEOUT
   module: COM-MOD-014 Imaging Operations
   status: passed

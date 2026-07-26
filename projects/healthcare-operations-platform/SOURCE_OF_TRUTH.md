@@ -36,6 +36,9 @@ sources:
   com_mod_014_closeout_qa_evidence: 08-qa/qa/imaging-operations/COM-MOD-014-CLOSEOUT-validation.md
   com_mod_014_closeout_security_quality_evidence: 08-qa/security-quality/COM-MOD-014-CLOSEOUT/security-quality-evidence.md
   com_mod_014_closeout_handoff: 08-qa/handoffs/COM-MOD-014-CLOSEOUT-summary.md
+  com_mod_015_def_qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-DEF-validation.md
+  com_mod_015_def_security_quality_evidence: 08-qa/security-quality/COM-MOD-015-DEF/security-quality-evidence.md
+  com_mod_015_def_handoff: 08-qa/handoffs/COM-MOD-015-DEF-summary.md
 source_registry:
   core:
     path: 08-qa/project-tracking/source-registry/source-registry-core.md

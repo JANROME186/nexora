@@ -223,13 +223,13 @@ item_path_pattern: 08-qa/technical-debt/<debt-id>-<short-name>.yaml
 entries:
 - id: TD-FMT-001
   title: Transition monolithic YAML task/state artifacts to Markdown frontmatter handoffs
-  status: open
+  status: materially_reduced
   risk_level: medium
   blocking: false
   source_backlog_item: NXF-CTX-001
   affected_area: framework_and_hop_execution_artifacts
   file: 08-qa/technical-debt/TD-FMT-001-yaml-monolith-to-frontmatter-transition.md
-  remediation_strategy: gradual_when_execution_artifacts_are_next_touched
+  remediation_strategy: materially_reduced_by_COM_MOD_015_DEF_compact_frontmatter_handoff_and_evidence_pattern
 - id: TD-QA-001
   title: Automate DAST baseline scans for runnable web and API surfaces
   status: closed
