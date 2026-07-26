@@ -15,7 +15,7 @@ This checklist maps launch readiness against the 9 Commercial Readiness Pillars 
 | CRP-005 | SaaS and Operations Readiness | Verified |
 | CRP-006 | Integration and Migration Readiness | Verified |
 | CRP-007 | Customer Enablement Readiness | Verified |
-| CRP-008 | Expansion Readiness | Planned (COM-MOD-014, COM-MOD-015) |
+| CRP-008 | Expansion Readiness | In Progress (COM-MOD-014 module_closed, COM-MOD-015 active) |
 | CRP-009 | Marketplace Readiness | Verified (COM-MOD-017 module_closed; COM-MOD-017-WEB-001 public listing surface deferred, tracked as TD-WEB-001) |
 
 ## CRP-001: Operational Completeness
@@ -32,7 +32,7 @@ This checklist maps launch readiness against the 9 Commercial Readiness Pillars 
 
 ## CRP-003: Digital Channel Readiness
 
-- [x] Employee portal (90.68% coverage)
+- [x] Employee portal (90.85% coverage)
 - [x] Patient portal (94.11% coverage)
 - [x] Doctor portal (96.28% coverage)
 - [x] Mobile app (99.21% coverage)
@@ -70,8 +70,8 @@ This checklist maps launch readiness against the 9 Commercial Readiness Pillars 
 
 ## CRP-008: Expansion Readiness
 
-- [ ] Imaging Operations (COM-MOD-014) — Planned for REL-004
-- [ ] AI Overlay (COM-MOD-015) — Planned for REL-004
+- [x] Imaging Operations (COM-MOD-014) — module_closed for REL-004
+- [ ] AI Overlay (COM-MOD-015) — Active for REL-004
 - [x] Expansion packages defined in commercial packages
 
 ## CRP-009: Marketplace Readiness
@@ -226,12 +226,12 @@ readiness_pillars:
 - pillar: CRP-008
   name: Expansion Readiness
   checklist:
-  - item: Imaging operations module (COM-MOD-014) is defined in the backlog.
-    evidence: HOP_COMMERCIAL_PRODUCT_BACKLOG.md.
-    status: planned (not yet implemented)
+  - item: Imaging operations module (COM-MOD-014) is module_closed.
+    evidence: 08-qa/qa/imaging-operations/COM-MOD-014-CLOSEOUT-validation.md.
+    status: verified
   - item: AI overlay module (COM-MOD-015) is defined in the backlog.
     evidence: HOP_COMMERCIAL_PRODUCT_BACKLOG.md.
-    status: planned (not yet implemented)
+    status: planned
   - item: Expansion packages are defined in commercial packages.
     evidence: 06-delivery/commercial-product/commercial-packages/hop-commercial-packages.md.
     status: verified

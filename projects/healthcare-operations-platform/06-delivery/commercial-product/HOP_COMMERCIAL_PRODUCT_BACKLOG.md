@@ -30,15 +30,11 @@ product:
   commercial_name: Nexora Healthcare Operations Platform
   company: Nexora
   current_baseline:
-    completed_module: COM-MOD-017 (COM-MOD-017-CLOSEOUT closed; REL-003 Commercial General Availability fully complete)
+    completed_module: COM-MOD-014 (COM-MOD-014-CLOSEOUT closed; Imaging Operations module fully closed)
     completed_status: closed
-    active_module: COM-MOD-014
-    active_backlog_item: COM-MOD-014-CLOSEOUT
-    active_module_progress: COM-MOD-014-QA-001 closed. Validated Imaging Operations end-to-end evidence across backend and
-      employee portal, fixed the DICOM hardcoded-IP lint finding, corrected ImagingReportsScreen JSX markup, expanded imaging
-      screen coverage to 249/249 passing tests, confirmed backend tests 497/497 passing with 29 skipped local-db tests, employee-portal
-      coverage 90.85% overall / 90.87% screens, build clean, production audit clean and quality evidence validated. Active
-      backlog item advanced to COM-MOD-014-CLOSEOUT.
+    active_module: COM-MOD-015
+    active_backlog_item: COM-MOD-015-DEF
+    active_module_progress: COM-MOD-014-CLOSEOUT closed. Formally closed Imaging Operations (BCM-IMG-001 through BCM-IMG-008 marked module_closed). Active backlog item advanced to COM-MOD-015-DEF.
     paused_backlog_item: null
     pause_reason: null
 mdpe_policy:
@@ -75,11 +71,11 @@ backlog_master_plan: 06-delivery/commercial-product/backlog-map/MASTER_BACKLOG_P
 backlog_item_index: 06-delivery/commercial-product/backlog-map/BACKLOG_ITEM_INDEX.md
 definition_of_ready_done: 06-delivery/commercial-product/backlog-map/DEFINITION_OF_READY_DONE.md
 active_item:
-  id: COM-MOD-014-CLOSEOUT
-  name: Module closeout and registry update
+  id: COM-MOD-015-DEF
+  name: Capability package models for AI Overlay
   status: next
-  module_id: COM-MOD-014
-  module_name: Imaging Operations
+  module_id: COM-MOD-015
+  module_name: AI Overlay
   release: REL-004
 modules:
 - id: HOP-QUALITY-ALIGNMENT
@@ -169,13 +165,13 @@ modules:
 - id: COM-MOD-014
   name: Imaging Operations
   release: REL-004
-  status: active
+  status: module_closed
   path: 06-delivery/commercial-product/backlog-map/modules/COM-MOD-014.md
   items: 7
 - id: COM-MOD-015
   name: AI Overlay
   release: REL-004
-  status: planned
+  status: active
   path: 06-delivery/commercial-product/backlog-map/modules/COM-MOD-015.md
   items: 6
 - id: COM-MOD-016

@@ -17,12 +17,12 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-014-QA-001 closed. Active backlog item is COM-MOD-014-CLOSEOUT.
+current_phase: COM-MOD-014-CLOSEOUT closed. Active backlog item is COM-MOD-015-DEF.
 commercial_product_progress:
   status: active
-  current_iteration: COM-MOD-014
-  active_module: Imaging Operations
-  active_backlog_item: COM-MOD-014-CLOSEOUT
+  current_iteration: COM-MOD-015
+  active_module: AI Overlay
+  active_backlog_item: COM-MOD-015-DEF
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   backlog: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.md
@@ -35,32 +35,19 @@ implementation_progress:
   current_module: COM-MOD-017
   progress_percent: null
   last_commit: null
-  completed_backlog_items_count: 102
+  completed_backlog_items_count: 103
   recent_completed_backlog_items:
-  - COM-MOD-012-OPS-002
-  - COM-MOD-012-BE-001
-  - COM-MOD-012-QA-001
-  - COM-MOD-012-CLOSEOUT
-  - COM-MOD-013-DEF
-  - COM-MOD-013-BE-001
-  - COM-MOD-013-FE-001
-  - COM-MOD-013-QA-001
-  - COM-MOD-013-CLOSEOUT
-  - COM-MOD-016-DEF
-  - COM-MOD-016-DOC-001
-  - COM-MOD-016-OPS-001
-  - COM-MOD-016-COM-001
-  - COM-MOD-016-QA-001
-  - COM-MOD-016-CLOSEOUT
-  - COM-MOD-017-DEF
-  - COM-MOD-017-BE-001
-  - NXF-FMT-002
-  - COM-MOD-017-BE-002
-  - COM-MOD-017-FE-001
+  - COM-MOD-014-BE-001
+  - COM-MOD-014-INT-001
+  - COM-MOD-014-FE-001
+  - COM-MOD-014-QA-001
+  - COM-MOD-014-CLOSEOUT
 module_closeout:
   active_ref: 08-qa/project-tracking/progress-ledger/module-closeout-detail.md
   load_on_demand: true
 recent_completed_deliverables_index:
+- id: COM-MOD-014-CLOSEOUT
+  ledger_ref: 08-qa/project-tracking/progress-ledger/completed-deliverables-ledger.md
 - id: COM-MOD-014-QA-001
   ledger_ref: 08-qa/project-tracking/progress-ledger/completed-deliverables-ledger.md
 - id: COM-MOD-014-FE-001

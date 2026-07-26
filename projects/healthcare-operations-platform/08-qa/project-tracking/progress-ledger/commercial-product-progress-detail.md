@@ -19,9 +19,9 @@ commercial_product_progress:
   quality_alignment_backlog: 06-delivery/commercial-product/HOP_QUALITY_ALIGNMENT_BACKLOG.md
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.md
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
-  current_iteration: COM-MOD-014
-  active_module: Imaging Operations
-  active_backlog_item: COM-MOD-014-CLOSEOUT
+  current_iteration: COM-MOD-015
+  active_module: AI Overlay
+  active_backlog_item: COM-MOD-015-DEF
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
@@ -32,28 +32,28 @@ commercial_product_progress:
   capability_package_progress:
     COM-MOD-014:
       name: Imaging Operations
-      package_status: qa_validated
-      backlog_item: COM-MOD-014-QA-001
+      package_status: module_closed
+      backlog_item: COM-MOD-014-CLOSEOUT
       backlog_item_status: closed
-      next_backlog_item: COM-MOD-014-CLOSEOUT
-      execution_flow_stage: closeout
+      next_backlog_item: COM-MOD-015-DEF
+      execution_flow_stage: released
       capabilities:
       - capability: BCM-IMG-001
-        package_status: compiled
+        package_status: module_closed
       - capability: BCM-IMG-002
-        package_status: compiled
+        package_status: module_closed
       - capability: BCM-IMG-003
-        package_status: compiled
+        package_status: module_closed
       - capability: BCM-IMG-004
-        package_status: compiled
+        package_status: module_closed
       - capability: BCM-IMG-005
-        package_status: compiled
+        package_status: module_closed
       - capability: BCM-IMG-006
-        package_status: compiled
+        package_status: module_closed
       - capability: BCM-IMG-007
-        package_status: compiled
+        package_status: module_closed
       - capability: BCM-IMG-008
-        package_status: compiled
+        package_status: module_closed
       qa_evidence_be_001: 08-qa/qa/imaging-operations/COM-MOD-014-BE-001-validation.md
       security_quality_evidence_be_001: 08-qa/security-quality/COM-MOD-014-BE-001/security-quality-evidence.md
       qa_evidence_int_001: 08-qa/qa/imaging-operations/COM-MOD-014-INT-001-validation.md
@@ -63,10 +63,14 @@ commercial_product_progress:
       qa_evidence_qa_001: 08-qa/qa/imaging-operations/COM-MOD-014-QA-001-validation.md
       security_quality_evidence_qa_001: 08-qa/security-quality/COM-MOD-014-QA-001/security-quality-evidence.md
       handoff_qa_001: 08-qa/handoffs/COM-MOD-014-QA-001-summary.md
+      qa_evidence_closeout: 08-qa/qa/imaging-operations/COM-MOD-014-CLOSEOUT-validation.md
+      security_quality_evidence_closeout: 08-qa/security-quality/COM-MOD-014-CLOSEOUT/security-quality-evidence.md
+      handoff_closeout: 08-qa/handoffs/COM-MOD-014-CLOSEOUT-summary.md
       ready_for_compilation: true
       backend_compilation_completed: true
       frontend_compilation_completed: true
       qa_validation_completed: true
+      closeout_completed: true
     COM-MOD-017:
       name: Product Marketplace and Extension Packaging
       package_status: module_closed

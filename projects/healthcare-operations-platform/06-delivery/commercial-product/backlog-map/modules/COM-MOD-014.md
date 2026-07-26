@@ -17,7 +17,7 @@ id: COM-MOD-014
 name: Imaging Operations
 release: REL-004
 priority: 130
-status: active
+status: module_closed
 source: mvp_framework_future_module
 objective: Add imaging appointment, reception, study management, DICOM/PACS integration, dictation, signature and delivery.
 depends_on:
@@ -62,7 +62,7 @@ backlog_items:
   status: closed
 - id: COM-MOD-014-CLOSEOUT
   name: Module closeout and registry update
-  status: next
+  status: closed
 acceptance_summary:
 - Imaging studies can be scheduled, received, managed, interpreted and delivered.
 - DICOM/PACS interactions remain behind replaceable adapters.

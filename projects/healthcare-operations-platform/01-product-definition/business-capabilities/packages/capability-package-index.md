@@ -22,7 +22,7 @@ artifact:
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.md
-  qa_evidence: ../../../08-qa/qa/product-marketplace-and-extension-packaging/COM-MOD-017-CLOSEOUT-validation.md
+  qa_evidence: ../../../08-qa/qa/imaging-operations/COM-MOD-014-CLOSEOUT-validation.md
 policy:
   primary_development_unit: business_capability_package
   roadmap_grouping_allowed: true
@@ -46,63 +46,67 @@ do_not_write_manually:
 - Duplicate models
 - Repetitive test cases
 active_capability_package_groups:
+- roadmap_group: COM-MOD-015
+  name: AI Overlay
+  package_status: planned
+  backlog_item: COM-MOD-015-DEF
+completed_capability_package_groups:
 - roadmap_group: COM-MOD-014
   name: Imaging Operations
-  package_status: definition_completed
-  backlog_item: COM-MOD-014-DEF
-  qa_evidence: ../../../08-qa/qa/imaging-operations/COM-MOD-014-DEF-validation.md
-  security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-014-DEF/security-quality-evidence.md
-  definition_evidence: ../../../08-qa/qa/imaging-operations/COM-MOD-014-DEF-validation.md
+  package_status: module_closed
+  backlog_item: COM-MOD-014-CLOSEOUT
+  qa_evidence: ../../../08-qa/qa/imaging-operations/COM-MOD-014-CLOSEOUT-validation.md
+  closeout_evidence: ../../../08-qa/qa/imaging-operations/COM-MOD-014-CLOSEOUT-validation.md
+  security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-014-CLOSEOUT/security-quality-evidence.md
   capabilities:
   - capability_id: BCM-IMG-001
     package_folder: bcm-img-001-imaging-appointment-scheduling/
-    package_status: modeled
+    package_status: module_closed
     bounded_context: imaging-operations
     primary_aggregate: ImagingAppointmentSlot (AGG-031)
     mobile_scope: not_required
   - capability_id: BCM-IMG-002
     package_folder: bcm-img-002-imaging-reception/
-    package_status: modeled
+    package_status: module_closed
     bounded_context: imaging-operations
     primary_aggregate: ImagingReceptionIntake (AGG-032)
     mobile_scope: not_required
   - capability_id: BCM-IMG-003
     package_folder: bcm-img-003-imaging-study-management/
-    package_status: modeled
+    package_status: module_closed
     bounded_context: imaging-operations
     primary_aggregate: ImagingStudy (AGG-033)
     mobile_scope: not_required
   - capability_id: BCM-IMG-004
     package_folder: bcm-img-004-dicom-integration/
-    package_status: modeled
+    package_status: module_closed
     bounded_context: imaging-adapters
     primary_aggregate: DicomAdapterConfiguration (AGG-034)
     mobile_scope: not_required
   - capability_id: BCM-IMG-005
     package_folder: bcm-img-005-pacs-integration/
-    package_status: modeled
+    package_status: module_closed
     bounded_context: imaging-adapters
     primary_aggregate: PacsIntegrationEndpoint (AGG-035)
     mobile_scope: not_required
   - capability_id: BCM-IMG-006
     package_folder: bcm-img-006-medical-dictation/
-    package_status: modeled
+    package_status: module_closed
     bounded_context: radiology-reporting
     primary_aggregate: RadiologyDictation (AGG-036)
     mobile_scope: not_required
   - capability_id: BCM-IMG-007
     package_folder: bcm-img-007-radiology-signature/
-    package_status: modeled
+    package_status: module_closed
     bounded_context: radiology-reporting
     primary_aggregate: RadiologyReport (AGG-037)
     mobile_scope: not_required
   - capability_id: BCM-IMG-008
     package_folder: bcm-img-008-imaging-study-delivery/
-    package_status: modeled
+    package_status: module_closed
     bounded_context: radiology-delivery
     primary_aggregate: ImagingDeliveryPackage (AGG-038)
     mobile_scope: result_view_required
-completed_capability_package_groups:
 - roadmap_group: COM-MOD-017
   name: Product Marketplace and Extension Packaging
   package_status: module_closed

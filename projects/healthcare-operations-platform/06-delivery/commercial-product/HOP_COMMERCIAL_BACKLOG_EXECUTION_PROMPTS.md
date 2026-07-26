@@ -88,33 +88,32 @@ validation_commands:
   git_whitespace:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
-  module_id: COM-MOD-014
-  backlog_item_id: COM-MOD-014-QA-001
-  name: Imaging integration and report evidence
-  expected_folder: 07-implementation/employee-portal/ and 07-implementation/backend/
+  module_id: COM-MOD-015
+  backlog_item_id: COM-MOD-015-DEF
+  name: Capability package models for AI Overlay
+  expected_folder: 01-product-definition/business-capabilities/packages/
   required_debt_first_action: none
   coverage_floor:
     backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.65
-    frontend_typescript_web_line_coverage_percent: 90.68
+    frontend_typescript_web_line_coverage_percent: 90.85
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.11
     doctor_portal_typescript_web_line_coverage_percent: 96.28
     public_website_typescript_web_line_coverage_percent: 98.61
     final_target_percent: 80
   mandatory_execution_notes:
-  - Resume functional work only from the compact generated prompt and COM-MOD-014-FE-001 handoff; do not preload broad YAML
+  - Resume functional work only from the compact generated prompt and COM-MOD-014-CLOSEOUT handoff; do not preload broad YAML
     registries.
   - Keep execution agent-agnostic and preserve the open-source-first stack and quality gates.
   - Address or reduce at least one applicable technical-debt item before feature work.
-  - Preserve backend coverage at or above 84.65% and employee-portal coverage at or above 90.68%; keep final project target
+  - Preserve backend coverage at or above 84.65% and employee-portal coverage at or above 90.85%; keep final project target
     at 80% or higher.
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product backlog and execution prompts, and commit
     only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-014-QA-001
+    backlog_item_id: COM-MOD-014-CLOSEOUT
     status: closed
-    summary: Validated Imaging Operations integration and report evidence across backend and employee portal, fixed the DICOM
-      hardcoded-IP lint finding, corrected ImagingReportsScreen JSX markup, expanded imaging UI tests to 249/249 passing,
-      confirmed backend tests 497/497 passing with 29 skipped local-db tests, employee-portal coverage 90.85% overall / 90.87%
-      screens, build clean and production audit clean.
+    summary: Formally closed COM-MOD-014 Imaging Operations. Marked BCM-IMG-001 through BCM-IMG-008 module_closed in capability-package-index.md
+      and package files. Re-affirmed coverage floors (backend 84.65%, employee-portal 90.85% overall / 90.87% screens, public website
+      98.61%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%). Materially reduced TD-DEF-002, TD-I18N-002, TD-FE-010.
 ```

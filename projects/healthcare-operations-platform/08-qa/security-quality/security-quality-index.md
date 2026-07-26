@@ -39,6 +39,21 @@ required_checks_when_applicable:
 - dast_for_runnable_web_or_api_surfaces
 - container_or_iac_scan_when_assets_change
 entries:
+- backlog_item: COM-MOD-014-CLOSEOUT
+  module: COM-MOD-014 Imaging Operations
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-014-CLOSEOUT/
+  human_readable: 08-qa/security-quality/COM-MOD-014-CLOSEOUT/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-014-CLOSEOUT/security-quality-evidence.md
+  checks:
+    tests: passed_via_COM_MOD_014_QA_001
+    sast_or_static_analysis: passed_via_COM_MOD_014_QA_001
+    dependency_vulnerability_scan: passed_via_COM_MOD_014_QA_001
+    secrets_scan: passed_via_COM_MOD_014_QA_001
+    coverage: passed_no_regression
+    dast_for_runnable_web_or_api_surfaces: passed_in_prior_scans
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Documentation and registry synchronization closeout item. Formally closed COM-MOD-014 Imaging Operations (BCM-IMG-001 through BCM-IMG-008 marked module_closed). No code changed. markdown_frontmatter_parse, stale_pointer_sweep, agent_agnostic_scan, and git_diff_check passed clean.
 - backlog_item: COM-MOD-014-DEF
   module: COM-MOD-014 Imaging Operations
   status: passed

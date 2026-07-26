@@ -456,12 +456,12 @@ items:
   path: 06-delivery/commercial-product/backlog-map/items/COM-MOD-014-QA-001.md
 - id: COM-MOD-014-CLOSEOUT
   name: Module closeout and registry update
-  status: next
+  status: closed
   module_id: COM-MOD-014
   path: 06-delivery/commercial-product/backlog-map/items/COM-MOD-014-CLOSEOUT.md
 - id: COM-MOD-015-DEF
   name: Capability package models
-  status: planned
+  status: next
   module_id: COM-MOD-015
   path: 06-delivery/commercial-product/backlog-map/items/COM-MOD-015-DEF.md
 - id: COM-MOD-015-BE-001
