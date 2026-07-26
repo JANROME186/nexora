@@ -10,9 +10,9 @@ The machine-readable source is `HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md`.
 
 Use this playbook after `MVP-MOD-001 Platform Foundation` to continue HOP toward a commercial product. It tells an agent how to select the next backlog item, generate capability package models, validate them, compile generated outputs, implement custom rule points and close each capability group.
 
-Current next backlog item: `COM-MOD-014-QA-001` - Validate end-to-end imaging operations workflow evidence.
+Current next backlog item: `COM-MOD-014-CLOSEOUT` - Module closeout and registry update for Imaging Operations.
 
-Previous backlog item: `COM-MOD-014-FE-001` is closed. Compiled employee-portal administration screens and typed API facade for all 8 Imaging Operations capabilities (BCM-IMG-001..008). Registered 8 `SCREEN_IMAGING_*` permissions, created `imagingOperationsApi.ts`, externalized i18n catalogs in `es-MX`/`en-US`, materially reduced `TD-I18N-002` and `TD-FE-010`. Passed typecheck, lint, 244 unit tests, coverage >= 90.68%, build, 0 audit vulnerabilities.
+Previous backlog item: `COM-MOD-014-QA-001` is closed. Validated Imaging Operations integration and report evidence across backend and employee portal, removed the DICOM hardcoded-IP lint finding, corrected ImagingReportsScreen JSX markup, expanded imaging UI coverage to 249/249 passing tests, confirmed backend tests 497/497 passing with 29 skipped local-db tests, employee-portal coverage 90.85% overall / 90.87% screens, build clean and production audit clean.
 
 
 ## MDPE Rule
@@ -759,8 +759,8 @@ validation_commands:
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product
     backlog and execution prompts, and commit only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-014-FE-001
+    backlog_item_id: COM-MOD-014-QA-001
     status: closed
-    summary: Compiled employee-portal administration screens and typed API facade for all 8 Imaging Operations capabilities (BCM-IMG-001..008). Registered 8 SCREEN_IMAGING_* permissions, externalized i18n catalogs in es-MX/en-US, materially reduced TD-I18N-002 and TD-FE-010, and passed typecheck, lint, 244 unit tests, coverage >= 90.68%, build and npm audit.
+    summary: Validated Imaging Operations integration and report evidence across backend and employee portal, fixed the DICOM hardcoded-IP lint finding, corrected ImagingReportsScreen JSX markup, expanded imaging UI tests to 249/249 passing, confirmed backend tests 497/497 passing with 29 skipped local-db tests, employee-portal coverage 90.85% overall / 90.87% screens, build clean and production audit clean.
 
 ```

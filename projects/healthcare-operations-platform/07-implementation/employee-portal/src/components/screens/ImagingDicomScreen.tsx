@@ -33,7 +33,7 @@ function RegisterConfigForm({ onRegistered }: RegisterConfigFormProps) {
   const { scope } = useAdminScope();
 
   const [aeTitle, setAeTitle] = useState("NEXORA_PACS_AE");
-  const [host, setHost] = useState("192.168.1.100");
+  const [host, setHost] = useState("");
   const [port, setPort] = useState(104);
   const [modalityType, setModalityType] = useState("CT");
 
@@ -51,23 +51,17 @@ function RegisterConfigForm({ onRegistered }: RegisterConfigFormProps) {
   return (
     <div className="panel" style={{ marginBottom: "1rem" }}>
       <h3>{labels.registerConfig}</h3>
-      {!scope.tenantId && <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>}
+      {!scope.tenantId && (
+        <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>
+      )}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
         <div>
           <label htmlFor="dicom-ae">{labels.aeTitle}</label>
-          <input
-            id="dicom-ae"
-            value={aeTitle}
-            onChange={(e) => setAeTitle(e.target.value)}
-          />
+          <input id="dicom-ae" value={aeTitle} onChange={(e) => setAeTitle(e.target.value)} />
         </div>
         <div>
           <label htmlFor="dicom-host">{labels.host}</label>
-          <input
-            id="dicom-host"
-            value={host}
-            onChange={(e) => setHost(e.target.value)}
-          />
+          <input id="dicom-host" value={host} onChange={(e) => setHost(e.target.value)} />
         </div>
         <div>
           <label htmlFor="dicom-port">{labels.port}</label>
@@ -91,7 +85,9 @@ function RegisterConfigForm({ onRegistered }: RegisterConfigFormProps) {
         type="button"
         id="dicom-register-btn"
         disabled={status === "loading" || !aeTitle.trim() || !host.trim()}
-        onClick={() => { void run(); }}
+        onClick={() => {
+          void run();
+        }}
         style={{ marginTop: "0.5rem" }}
       >
         {labels.registerConfig}
@@ -123,30 +119,50 @@ export function ImagingDicomScreen() {
   const [valPatientId, setValPatientId] = useState("PAT-1001");
   const [valModality, setValModality] = useState("CT");
 
-  const { status: fetchStatus, errorMessage: fetchError, run: fetchConfigs } = useAsyncAction(async () => {
+  const {
+    status: fetchStatus,
+    errorMessage: fetchError,
+    run: fetchConfigs,
+  } = useAsyncAction(async () => {
     const res = await listDicomConfigs();
     setConfigs(res);
   });
 
-  const { status: echoStatus, errorMessage: echoError, run: runEcho } = useAsyncAction(async () => {
+  const {
+    status: echoStatus,
+    errorMessage: echoError,
+    run: runEcho,
+  } = useAsyncAction(async () => {
     if (!selectedConfig) return;
     const res = await echoCEcho(selectedConfig.id);
     setEchoResultMsg(res.result);
   });
 
-  const { status: wlStatus, errorMessage: wlError, run: runWorklist } = useAsyncAction(async () => {
+  const {
+    status: wlStatus,
+    errorMessage: wlError,
+    run: runWorklist,
+  } = useAsyncAction(async () => {
     if (!selectedConfig) return;
     const res = await queryDicomWorklist(selectedConfig.id);
     setWorklistEntries(res);
   });
 
-  const { status: xferStatus, errorMessage: xferError, run: runTransfer } = useAsyncAction(async () => {
+  const {
+    status: xferStatus,
+    errorMessage: xferError,
+    run: runTransfer,
+  } = useAsyncAction(async () => {
     if (!selectedConfig) return;
     const res = await requestDicomTransfer(selectedConfig.id, studyUid, destAe);
     setTransferResult(res);
   });
 
-  const { status: validateStatus, errorMessage: validateError, run: runValidate } = useAsyncAction(async () => {
+  const {
+    status: validateStatus,
+    errorMessage: validateError,
+    run: runValidate,
+  } = useAsyncAction(async () => {
     if (!selectedConfig) return;
     const res = await validateDicomHeader(selectedConfig.id, valPatientId, studyUid, valModality);
     setValidationResult(res);
@@ -167,12 +183,22 @@ export function ImagingDicomScreen() {
       <p>{labels.description}</p>
       <ScopeIndicator />
 
-      <RegisterConfigForm onRegistered={() => { void fetchConfigs(); }} />
+      <RegisterConfigForm
+        onRegistered={() => {
+          void fetchConfigs();
+        }}
+      />
 
       <div className="panel">
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
           <h3>DICOM Configurations</h3>
-          <button type="button" id="dicom-load-btn" onClick={() => { void fetchConfigs(); }}>
+          <button
+            type="button"
+            id="dicom-load-btn"
+            onClick={() => {
+              void fetchConfigs();
+            }}
+          >
             {shared.load}
           </button>
         </div>
@@ -188,17 +214,38 @@ export function ImagingDicomScreen() {
 
         {selectedConfig && (
           <div style={{ marginTop: "1rem", padding: "0.5rem", border: "1px solid #ccc" }}>
-            <h4>Node Operations: {selectedConfig.aeTitle} ({selectedConfig.host}:{selectedConfig.port})</h4>
-            
+            <h4>
+              Node Operations: {selectedConfig.aeTitle} ({selectedConfig.host}:{selectedConfig.port}
+              )
+            </h4>
+
             <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
-              <button type="button" id="dicom-echo-btn" onClick={() => { void runEcho(); }} disabled={echoStatus === "loading"}>
+              <button
+                type="button"
+                id="dicom-echo-btn"
+                onClick={() => {
+                  void runEcho();
+                }}
+                disabled={echoStatus === "loading"}
+              >
                 {labels.testEcho}
               </button>
-              <button type="button" id="dicom-worklist-btn" onClick={() => { void runWorklist(); }} disabled={wlStatus === "loading"}>
+              <button
+                type="button"
+                id="dicom-worklist-btn"
+                onClick={() => {
+                  void runWorklist();
+                }}
+                disabled={wlStatus === "loading"}
+              >
                 {labels.queryWorklist}
               </button>
             </div>
-            {echoResultMsg && <p><strong>{labels.echoResult}</strong> {echoResultMsg}</p>}
+            {echoResultMsg && (
+              <p>
+                <strong>{labels.echoResult}</strong> {echoResultMsg}
+              </p>
+            )}
             <StatusBanner status={echoStatus} errorMessage={echoError} />
             <StatusBanner status={wlStatus} errorMessage={wlError} />
 
@@ -207,7 +254,9 @@ export function ImagingDicomScreen() {
                 <h5>Worklist Entries ({worklistEntries.length}):</h5>
                 <ul>
                   {worklistEntries.map((e, idx) => (
-                    <li key={idx}>{e.accessionNumber} - {e.patientName} ({e.modality})</li>
+                    <li key={idx}>
+                      {e.accessionNumber} - {e.patientName} ({e.modality})
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -233,15 +282,24 @@ export function ImagingDicomScreen() {
                 <button
                   type="button"
                   id="dicom-transfer-btn"
-                  onClick={() => { void runTransfer(); }}
+                  onClick={() => {
+                    void runTransfer();
+                  }}
                   disabled={xferStatus === "loading"}
                   style={{ marginTop: "0.5rem" }}
                 >
                   {labels.requestTransfer}
                 </button>
-                <StatusBanner status={xferStatus} errorMessage={xferError} successMessage={labels.transferSuccess} />
+                <StatusBanner
+                  status={xferStatus}
+                  errorMessage={xferError}
+                  successMessage={labels.transferSuccess}
+                />
                 {transferResult && (
-                  <p style={{ fontSize: "0.85rem" }}>Transfer ID: {transferResult.transferId} | Transferred: {transferResult.transferredInstances}</p>
+                  <p style={{ fontSize: "0.85rem" }}>
+                    Transfer ID: {transferResult.transferId} | Transferred:{" "}
+                    {transferResult.transferredInstances}
+                  </p>
                 )}
               </div>
 
@@ -262,15 +320,24 @@ export function ImagingDicomScreen() {
                 <button
                   type="button"
                   id="dicom-validate-btn"
-                  onClick={() => { void runValidate(); }}
+                  onClick={() => {
+                    void runValidate();
+                  }}
                   disabled={validateStatus === "loading"}
                   style={{ marginTop: "0.5rem" }}
                 >
                   {labels.validateHeader}
                 </button>
-                <StatusBanner status={validateStatus} errorMessage={validateError} successMessage={labels.validationSuccess} />
+                <StatusBanner
+                  status={validateStatus}
+                  errorMessage={validateError}
+                  successMessage={labels.validationSuccess}
+                />
                 {validationResult && (
-                  <p style={{ fontSize: "0.85rem" }}>Valid: {validationResult.validHeader ? "Yes" : "No"} ({validationResult.validationMessage})</p>
+                  <p style={{ fontSize: "0.85rem" }}>
+                    Valid: {validationResult.validHeader ? "Yes" : "No"} (
+                    {validationResult.validationMessage})
+                  </p>
                 )}
               </div>
             </div>

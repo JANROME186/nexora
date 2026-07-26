@@ -233,25 +233,39 @@ describe("Employee portal app smoke", () => {
     expect(screen.getByRole("heading", { name: "Citas de Imagenología" })).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Recepción de Imagen" }));
-    expect(screen.getByRole("heading", { name: "Recepción e Ingesta de Imagenología" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Recepción e Ingesta de Imagenología" }),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Estudios de Imagen" }));
-    expect(screen.getByRole("heading", { name: "Gestión de Estudios de Imagenología" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Gestión de Estudios de Imagenología" }),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Config. DICOM" }));
-    expect(screen.getByRole("heading", { name: "Configuración e Integración DICOM" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Configuración e Integración DICOM" }),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Endpoints PACS" }));
-    expect(screen.getByRole("heading", { name: "Puente de Integración PACS / WADO / STOW" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Puente de Integración PACS / WADO / STOW" }),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Dictado Médico" }));
-    expect(screen.getByRole("heading", { name: "Dictado Médico y Transcripción" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Dictado Médico y Transcripción" }),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Reportes de Radiología" }));
-    expect(screen.getByRole("heading", { name: "Firma y Emisión de Reportes Radiológicos" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Firma y Emisión de Reportes Radiológicos" }),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Entrega de Estudios" }));
-    expect(screen.getByRole("heading", { name: "Paquetes y Entrega de Estudios" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Paquetes y Entrega de Estudios" }),
+    ).toBeInTheDocument();
   });
 
   it("only renders tabs the current session has permission for", () => {

@@ -156,7 +156,8 @@ export const enUS: MessageCatalog = {
     },
     dicom: {
       heading: "DICOM Integration Baseline",
-      description: "Manage AE titles, test C-ECHO, query Worklist, C-MOVE transfer, and header validation.",
+      description:
+        "Manage AE titles, test C-ECHO, query Worklist, C-MOVE transfer, and header validation.",
       registerConfig: "Register DICOM Node",
       aeTitle: "AE Title",
       host: "Host / IP",

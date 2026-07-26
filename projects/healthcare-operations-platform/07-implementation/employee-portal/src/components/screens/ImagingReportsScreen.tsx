@@ -27,7 +27,9 @@ function CreateReportForm({ onCreated }: CreateReportFormProps) {
   const { scope } = useAdminScope();
 
   const [studyId, setStudyId] = useState("");
-  const [findingsText, setFindingsText] = useState("Multidetector CT of the chest demonstrates normal cardiac size and clear lungs.");
+  const [findingsText, setFindingsText] = useState(
+    "Multidetector CT of the chest demonstrates normal cardiac size and clear lungs.",
+  );
   const [impressionText, setImpressionText] = useState("No acute cardiopulmonary process.");
 
   const { status, errorMessage, run } = useAsyncAction(async () => {
@@ -43,7 +45,9 @@ function CreateReportForm({ onCreated }: CreateReportFormProps) {
   return (
     <div className="panel" style={{ marginBottom: "1rem" }}>
       <h3>{labels.createReport}</h3>
-      {!scope.tenantId && <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>}
+      {!scope.tenantId && (
+        <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>
+      )}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
         <div style={{ gridColumn: "span 2" }}>
           <label htmlFor="rep-study-id">{labels.studyId}</label>
@@ -79,7 +83,9 @@ function CreateReportForm({ onCreated }: CreateReportFormProps) {
         type="button"
         id="rep-create-btn"
         disabled={status === "loading" || !studyId.trim() || !findingsText.trim()}
-        onClick={() => { void run(); }}
+        onClick={() => {
+          void run();
+        }}
         style={{ marginTop: "0.5rem" }}
       >
         {labels.createReport}
@@ -102,13 +108,21 @@ export function ImagingReportsScreen() {
   const [reports, setReports] = useState<RadiologyReport[]>([]);
   const [selectedReport, setSelectedReport] = useState<RadiologyReport | null>(null);
 
-  const { status: fetchStatus, errorMessage: fetchError, run: fetchReports } = useAsyncAction(async () => {
+  const {
+    status: fetchStatus,
+    errorMessage: fetchError,
+    run: fetchReports,
+  } = useAsyncAction(async () => {
     if (!searchStudyId.trim()) return;
     const res = await listRadiologyReportsForStudy(searchStudyId.trim());
     setReports(res);
   });
 
-  const { status: signStatus, errorMessage: signError, run: runSignReport } = useAsyncAction(async () => {
+  const {
+    status: signStatus,
+    errorMessage: signError,
+    run: runSignReport,
+  } = useAsyncAction(async () => {
     if (!selectedReport) return;
     const signed = await signRadiologyReport(selectedReport.id);
     setSelectedReport(signed);
@@ -127,12 +141,14 @@ export function ImagingReportsScreen() {
 
   return (
     <div className="screen-container">
-      `<h2>{labels.heading}</h2>
+      <h2>{labels.heading}</h2>
       <p>{labels.description}</p>
       <ScopeIndicator />
-
-      <CreateReportForm onCreated={() => { if (searchStudyId) void fetchReports(); }} />
-
+      <CreateReportForm
+        onCreated={() => {
+          if (searchStudyId) void fetchReports();
+        }}
+      />
       <div className="panel">
         <h3>{shared.search}</h3>
         <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}>
@@ -146,7 +162,9 @@ export function ImagingReportsScreen() {
             type="button"
             id="rep-fetch-btn"
             disabled={fetchStatus === "loading" || !searchStudyId.trim()}
-            onClick={() => { void fetchReports(); }}
+            onClick={() => {
+              void fetchReports();
+            }}
           >
             {shared.load}
           </button>
@@ -164,16 +182,27 @@ export function ImagingReportsScreen() {
         {selectedReport && (
           <div style={{ marginTop: "1rem", padding: "0.5rem", border: "1px solid #ccc" }}>
             <h4>Report Details: {selectedReport.id}</h4>
-            <p><strong>{labels.findingsText}:</strong> {selectedReport.findingsText}</p>
-            <p><strong>{labels.impressionText}:</strong> {selectedReport.impressionText}</p>
-            <p><strong>Signed:</strong> {selectedReport.signed ? `Yes (by ${selectedReport.signedBy} at ${selectedReport.signedAt})` : "No"}</p>
-            
+            <p>
+              <strong>{labels.findingsText}:</strong> {selectedReport.findingsText}
+            </p>
+            <p>
+              <strong>{labels.impressionText}:</strong> {selectedReport.impressionText}
+            </p>
+            <p>
+              <strong>Signed:</strong>{" "}
+              {selectedReport.signed
+                ? `Yes (by ${selectedReport.signedBy} at ${selectedReport.signedAt})`
+                : "No"}
+            </p>
+
             {!selectedReport.signed && (
               <button
                 type="button"
                 id="rep-sign-btn"
                 disabled={signStatus === "loading"}
-                onClick={() => { void runSignReport(); }}
+                onClick={() => {
+                  void runSignReport();
+                }}
                 style={{ marginTop: "0.5rem" }}
               >
                 {labels.signReport}

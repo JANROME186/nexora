@@ -43,7 +43,9 @@ function CreateDeliveryForm({ onCreated }: CreateDeliveryFormProps) {
   return (
     <div className="panel" style={{ marginBottom: "1rem" }}>
       <h3>{labels.createPackage}</h3>
-      {!scope.tenantId && <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>}
+      {!scope.tenantId && (
+        <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>
+      )}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.5rem" }}>
         <div>
           <label htmlFor="del-study-id">{labels.studyId}</label>
@@ -76,7 +78,9 @@ function CreateDeliveryForm({ onCreated }: CreateDeliveryFormProps) {
         type="button"
         id="del-create-btn"
         disabled={status === "loading" || !studyId.trim() || !patientId.trim()}
-        onClick={() => { void run(); }}
+        onClick={() => {
+          void run();
+        }}
         style={{ marginTop: "0.5rem" }}
       >
         {labels.createPackage}
@@ -99,13 +103,21 @@ export function ImagingDeliveryScreen() {
   const [packages, setPackages] = useState<ImagingDeliveryPackage[]>([]);
   const [selectedPackage, setSelectedPackage] = useState<ImagingDeliveryPackage | null>(null);
 
-  const { status: fetchStatus, errorMessage: fetchError, run: fetchPackages } = useAsyncAction(async () => {
+  const {
+    status: fetchStatus,
+    errorMessage: fetchError,
+    run: fetchPackages,
+  } = useAsyncAction(async () => {
     if (!searchPatientId.trim()) return;
     const res = await listDeliveryPackagesForPatient(searchPatientId.trim());
     setPackages(res);
   });
 
-  const { status: deliverStatus, errorMessage: deliverError, run: runMarkDelivered } = useAsyncAction(async () => {
+  const {
+    status: deliverStatus,
+    errorMessage: deliverError,
+    run: runMarkDelivered,
+  } = useAsyncAction(async () => {
     if (!selectedPackage) return;
     const updated = await markDeliveryPackageDelivered(selectedPackage.id);
     setSelectedPackage(updated);
@@ -128,7 +140,11 @@ export function ImagingDeliveryScreen() {
       <p>{labels.description}</p>
       <ScopeIndicator />
 
-      <CreateDeliveryForm onCreated={() => { if (searchPatientId) void fetchPackages(); }} />
+      <CreateDeliveryForm
+        onCreated={() => {
+          if (searchPatientId) void fetchPackages();
+        }}
+      />
 
       <div className="panel">
         <h3>{shared.search}</h3>
@@ -143,7 +159,9 @@ export function ImagingDeliveryScreen() {
             type="button"
             id="del-fetch-btn"
             disabled={fetchStatus === "loading" || !searchPatientId.trim()}
-            onClick={() => { void fetchPackages(); }}
+            onClick={() => {
+              void fetchPackages();
+            }}
           >
             {shared.load}
           </button>
@@ -161,15 +179,23 @@ export function ImagingDeliveryScreen() {
         {selectedPackage && (
           <div style={{ marginTop: "1rem", padding: "0.5rem", border: "1px solid #ccc" }}>
             <h4>Package Details: {selectedPackage.id}</h4>
-            <p>{labels.studyId}: {selectedPackage.studyId} | {labels.patientId}: {selectedPackage.patientId}</p>
-            <p>{labels.deliveryFormat}: {selectedPackage.deliveryFormat} | {shared.status}: <strong>{selectedPackage.status}</strong></p>
+            <p>
+              {labels.studyId}: {selectedPackage.studyId} | {labels.patientId}:{" "}
+              {selectedPackage.patientId}
+            </p>
+            <p>
+              {labels.deliveryFormat}: {selectedPackage.deliveryFormat} | {shared.status}:{" "}
+              <strong>{selectedPackage.status}</strong>
+            </p>
 
             {selectedPackage.status !== "DELIVERED" && (
               <button
                 type="button"
                 id="del-deliver-btn"
                 disabled={deliverStatus === "loading"}
-                onClick={() => { void runMarkDelivered(); }}
+                onClick={() => {
+                  void runMarkDelivered();
+                }}
                 style={{ marginTop: "0.5rem" }}
               >
                 {labels.markDelivered}

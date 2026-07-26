@@ -1363,4 +1363,21 @@ entries:
     container_or_iac_scan_when_assets_change: passed
   note: Integrated QA, SEO, accessibility, privacy and security evidence validated
     clean. Ready for COM-MOD-011-CLOSEOUT.
+- backlog_item: COM-MOD-014-QA-001
+  module: COM-MOD-014 Imaging Operations
+  status: passed
+  evidence_path: 08-qa/security-quality/COM-MOD-014-QA-001/
+  human_readable: 08-qa/security-quality/COM-MOD-014-QA-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/COM-MOD-014-QA-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: passed
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_no_dast_surface_changed
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: Imaging Operations QA validation closed with backend Maven tests, employee-portal
+    quality gate, npm production audit and evidence validation clean. Ready for
+    COM-MOD-014-CLOSEOUT.
 ```

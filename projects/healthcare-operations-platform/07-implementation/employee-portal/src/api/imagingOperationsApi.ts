@@ -226,7 +226,9 @@ export interface CreateDeliveryPackageRequest {
 }
 
 // BCM-IMG-001: Appointment Scheduling
-export async function scheduleAppointmentSlot(request: ScheduleSlotRequest): Promise<ImagingAppointmentSlot> {
+export async function scheduleAppointmentSlot(
+  request: ScheduleSlotRequest,
+): Promise<ImagingAppointmentSlot> {
   return post<ImagingAppointmentSlot>("/api/v1/imaging/appointments", request);
 }
 
@@ -234,11 +236,18 @@ export async function getAppointmentSlot(slotId: string): Promise<ImagingAppoint
   return get<ImagingAppointmentSlot>(`/api/v1/imaging/appointments/${slotId}`);
 }
 
-export async function listAppointmentSlotsForPatient(patientId: string): Promise<ImagingAppointmentSlot[]> {
-  return get<ImagingAppointmentSlot[]>(`/api/v1/imaging/appointments?patientId=${encodeURIComponent(patientId)}`);
+export async function listAppointmentSlotsForPatient(
+  patientId: string,
+): Promise<ImagingAppointmentSlot[]> {
+  return get<ImagingAppointmentSlot[]>(
+    `/api/v1/imaging/appointments?patientId=${encodeURIComponent(patientId)}`,
+  );
 }
 
-export async function updateAppointmentSlotStatus(slotId: string, status: string): Promise<ImagingAppointmentSlot> {
+export async function updateAppointmentSlotStatus(
+  slotId: string,
+  status: string,
+): Promise<ImagingAppointmentSlot> {
   return put<ImagingAppointmentSlot>(`/api/v1/imaging/appointments/${slotId}/status`, { status });
 }
 
@@ -251,8 +260,12 @@ export async function getReceptionIntake(intakeId: string): Promise<ImagingRecep
   return get<ImagingReceptionIntake>(`/api/v1/imaging/receptions/${intakeId}`);
 }
 
-export async function getReceptionIntakeBySlot(appointmentSlotId: string): Promise<ImagingReceptionIntake> {
-  return get<ImagingReceptionIntake>(`/api/v1/imaging/receptions?appointmentSlotId=${encodeURIComponent(appointmentSlotId)}`);
+export async function getReceptionIntakeBySlot(
+  appointmentSlotId: string,
+): Promise<ImagingReceptionIntake> {
+  return get<ImagingReceptionIntake>(
+    `/api/v1/imaging/receptions?appointmentSlotId=${encodeURIComponent(appointmentSlotId)}`,
+  );
 }
 
 // BCM-IMG-003: Study Management
@@ -268,12 +281,17 @@ export async function listStudiesForPatient(patientId: string): Promise<ImagingS
   return get<ImagingStudy[]>(`/api/v1/imaging/studies?patientId=${encodeURIComponent(patientId)}`);
 }
 
-export async function updateStudyStatus(studyId: string, request: UpdateStudyStatusRequest): Promise<ImagingStudy> {
+export async function updateStudyStatus(
+  studyId: string,
+  request: UpdateStudyStatusRequest,
+): Promise<ImagingStudy> {
   return put<ImagingStudy>(`/api/v1/imaging/studies/${studyId}/status`, request);
 }
 
 // BCM-IMG-004: DICOM Integration
-export async function registerDicomConfig(request: RegisterDicomConfigRequest): Promise<DicomAdapterConfiguration> {
+export async function registerDicomConfig(
+  request: RegisterDicomConfigRequest,
+): Promise<DicomAdapterConfiguration> {
   return post<DicomAdapterConfiguration>("/api/v1/imaging/dicom-configs", request);
 }
 
@@ -289,24 +307,47 @@ export async function echoCEcho(configurationId: string): Promise<{ result: stri
   return post<{ result: string }>(`/api/v1/imaging/dicom-configs/${configurationId}/echo`, {});
 }
 
-export async function queryDicomWorklist(configurationId: string, patientId?: string, modality?: string): Promise<DicomWorklistEntry[]> {
+export async function queryDicomWorklist(
+  configurationId: string,
+  patientId?: string,
+  modality?: string,
+): Promise<DicomWorklistEntry[]> {
   const query = new URLSearchParams();
   if (patientId) query.set("patientId", patientId);
   if (modality) query.set("modality", modality);
   const qStr = query.toString() ? `?${query.toString()}` : "";
-  return get<DicomWorklistEntry[]>(`/api/v1/imaging/dicom-configs/${configurationId}/worklist${qStr}`);
+  return get<DicomWorklistEntry[]>(
+    `/api/v1/imaging/dicom-configs/${configurationId}/worklist${qStr}`,
+  );
 }
 
-export async function requestDicomTransfer(configurationId: string, studyInstanceUid: string, destinationAeTitle: string): Promise<DicomTransferResult> {
-  return post<DicomTransferResult>(`/api/v1/imaging/dicom-configs/${configurationId}/transfer`, { studyInstanceUid, destinationAeTitle });
+export async function requestDicomTransfer(
+  configurationId: string,
+  studyInstanceUid: string,
+  destinationAeTitle: string,
+): Promise<DicomTransferResult> {
+  return post<DicomTransferResult>(`/api/v1/imaging/dicom-configs/${configurationId}/transfer`, {
+    studyInstanceUid,
+    destinationAeTitle,
+  });
 }
 
-export async function validateDicomHeader(configurationId: string, patientId: string, studyInstanceUid: string, modality: string): Promise<DicomValidationResult> {
-  return post<DicomValidationResult>(`/api/v1/imaging/dicom-configs/${configurationId}/validate-header`, { patientId, studyInstanceUid, modality });
+export async function validateDicomHeader(
+  configurationId: string,
+  patientId: string,
+  studyInstanceUid: string,
+  modality: string,
+): Promise<DicomValidationResult> {
+  return post<DicomValidationResult>(
+    `/api/v1/imaging/dicom-configs/${configurationId}/validate-header`,
+    { patientId, studyInstanceUid, modality },
+  );
 }
 
 // BCM-IMG-005: PACS Integration
-export async function registerPacsEndpoint(request: RegisterPacsEndpointRequest): Promise<PacsIntegrationEndpoint> {
+export async function registerPacsEndpoint(
+  request: RegisterPacsEndpointRequest,
+): Promise<PacsIntegrationEndpoint> {
   return post<PacsIntegrationEndpoint>("/api/v1/imaging/pacs-endpoints", request);
 }
 
@@ -318,31 +359,60 @@ export async function listPacsEndpoints(): Promise<PacsIntegrationEndpoint[]> {
   return get<PacsIntegrationEndpoint[]>("/api/v1/imaging/pacs-endpoints");
 }
 
-export async function queryPacsStudy(endpointId: string, accessionNumber: string): Promise<{ result: string }> {
-  return get<{ result: string }>(`/api/v1/imaging/pacs-endpoints/${endpointId}/query?accessionNumber=${encodeURIComponent(accessionNumber)}`);
+export async function queryPacsStudy(
+  endpointId: string,
+  accessionNumber: string,
+): Promise<{ result: string }> {
+  return get<{ result: string }>(
+    `/api/v1/imaging/pacs-endpoints/${endpointId}/query?accessionNumber=${encodeURIComponent(accessionNumber)}`,
+  );
 }
 
-export async function qidoSearchPacsStudies(endpointId: string, patientId?: string, modality?: string): Promise<PacsQidoSearchResult[]> {
+export async function qidoSearchPacsStudies(
+  endpointId: string,
+  patientId?: string,
+  modality?: string,
+): Promise<PacsQidoSearchResult[]> {
   const query = new URLSearchParams();
   if (patientId) query.set("patientId", patientId);
   if (modality) query.set("modality", modality);
   const qStr = query.toString() ? `?${query.toString()}` : "";
-  return get<PacsQidoSearchResult[]>(`/api/v1/imaging/pacs-endpoints/${endpointId}/qido-search${qStr}`);
+  return get<PacsQidoSearchResult[]>(
+    `/api/v1/imaging/pacs-endpoints/${endpointId}/qido-search${qStr}`,
+  );
 }
 
-export async function getPacsWadoUrl(endpointId: string, studyInstanceUid: string, seriesInstanceUid?: string, objectUid?: string): Promise<PacsWadoRetrieveResponse> {
+export async function getPacsWadoUrl(
+  endpointId: string,
+  studyInstanceUid: string,
+  seriesInstanceUid?: string,
+  objectUid?: string,
+): Promise<PacsWadoRetrieveResponse> {
   const query = new URLSearchParams({ studyInstanceUid });
   if (seriesInstanceUid) query.set("seriesInstanceUid", seriesInstanceUid);
   if (objectUid) query.set("objectUid", objectUid);
-  return get<PacsWadoRetrieveResponse>(`/api/v1/imaging/pacs-endpoints/${endpointId}/wado-url?${query.toString()}`);
+  return get<PacsWadoRetrieveResponse>(
+    `/api/v1/imaging/pacs-endpoints/${endpointId}/wado-url?${query.toString()}`,
+  );
 }
 
-export async function stowStorePacs(endpointId: string, studyInstanceUid: string, contentType: string, payloadBase64: string): Promise<PacsStowStoreResult> {
-  return post<PacsStowStoreResult>(`/api/v1/imaging/pacs-endpoints/${endpointId}/stow-store`, { studyInstanceUid, contentType, payloadBase64 });
+export async function stowStorePacs(
+  endpointId: string,
+  studyInstanceUid: string,
+  contentType: string,
+  payloadBase64: string,
+): Promise<PacsStowStoreResult> {
+  return post<PacsStowStoreResult>(`/api/v1/imaging/pacs-endpoints/${endpointId}/stow-store`, {
+    studyInstanceUid,
+    contentType,
+    payloadBase64,
+  });
 }
 
 // BCM-IMG-006: Medical Dictation
-export async function createDictation(request: CreateDictationRequest): Promise<RadiologyDictation> {
+export async function createDictation(
+  request: CreateDictationRequest,
+): Promise<RadiologyDictation> {
   return post<RadiologyDictation>("/api/v1/imaging/dictations", request);
 }
 
@@ -351,11 +421,15 @@ export async function getDictation(dictationId: string): Promise<RadiologyDictat
 }
 
 export async function listDictationsForStudy(studyId: string): Promise<RadiologyDictation[]> {
-  return get<RadiologyDictation[]>(`/api/v1/imaging/dictations?studyId=${encodeURIComponent(studyId)}`);
+  return get<RadiologyDictation[]>(
+    `/api/v1/imaging/dictations?studyId=${encodeURIComponent(studyId)}`,
+  );
 }
 
 // BCM-IMG-007: Radiology Signature
-export async function createRadiologyReport(request: CreateReportRequest): Promise<RadiologyReport> {
+export async function createRadiologyReport(
+  request: CreateReportRequest,
+): Promise<RadiologyReport> {
   return post<RadiologyReport>("/api/v1/imaging/reports", request);
 }
 
@@ -372,7 +446,9 @@ export async function listRadiologyReportsForStudy(studyId: string): Promise<Rad
 }
 
 // BCM-IMG-008: Study Delivery
-export async function createDeliveryPackage(request: CreateDeliveryPackageRequest): Promise<ImagingDeliveryPackage> {
+export async function createDeliveryPackage(
+  request: CreateDeliveryPackageRequest,
+): Promise<ImagingDeliveryPackage> {
   return post<ImagingDeliveryPackage>("/api/v1/imaging/delivery-packages", request);
 }
 
@@ -380,10 +456,16 @@ export async function getDeliveryPackage(packageId: string): Promise<ImagingDeli
   return get<ImagingDeliveryPackage>(`/api/v1/imaging/delivery-packages/${packageId}`);
 }
 
-export async function listDeliveryPackagesForPatient(patientId: string): Promise<ImagingDeliveryPackage[]> {
-  return get<ImagingDeliveryPackage[]>(`/api/v1/imaging/delivery-packages?patientId=${encodeURIComponent(patientId)}`);
+export async function listDeliveryPackagesForPatient(
+  patientId: string,
+): Promise<ImagingDeliveryPackage[]> {
+  return get<ImagingDeliveryPackage[]>(
+    `/api/v1/imaging/delivery-packages?patientId=${encodeURIComponent(patientId)}`,
+  );
 }
 
-export async function markDeliveryPackageDelivered(packageId: string): Promise<ImagingDeliveryPackage> {
+export async function markDeliveryPackageDelivered(
+  packageId: string,
+): Promise<ImagingDeliveryPackage> {
   return put<ImagingDeliveryPackage>(`/api/v1/imaging/delivery-packages/${packageId}/deliver`, {});
 }

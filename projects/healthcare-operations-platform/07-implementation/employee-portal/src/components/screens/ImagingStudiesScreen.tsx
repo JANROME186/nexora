@@ -45,7 +45,9 @@ function CreateStudyForm({ onCreated }: CreateStudyFormProps) {
   return (
     <div className="panel" style={{ marginBottom: "1rem" }}>
       <h3>{labels.createStudy}</h3>
-      {!scope.tenantId && <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>}
+      {!scope.tenantId && (
+        <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>
+      )}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
         <div>
           <label htmlFor="img-study-acc">{labels.accessionNumber}</label>
@@ -85,7 +87,9 @@ function CreateStudyForm({ onCreated }: CreateStudyFormProps) {
         type="button"
         id="img-study-create-btn"
         disabled={status === "loading" || !accessionNumber.trim() || !patientId.trim()}
-        onClick={() => { void run(); }}
+        onClick={() => {
+          void run();
+        }}
         style={{ marginTop: "0.5rem" }}
       >
         {labels.createStudy}
@@ -112,13 +116,21 @@ export function ImagingStudiesScreen() {
   const [instanceCount, setInstanceCount] = useState(120);
   const [newStatus, setNewStatus] = useState("COMPLETED");
 
-  const { status: fetchStatus, errorMessage: fetchError, run: fetchStudies } = useAsyncAction(async () => {
+  const {
+    status: fetchStatus,
+    errorMessage: fetchError,
+    run: fetchStudies,
+  } = useAsyncAction(async () => {
     if (!searchPatientId.trim()) return;
     const res = await listStudiesForPatient(searchPatientId.trim());
     setStudies(res);
   });
 
-  const { status: updateStatusState, errorMessage: updateError, run: runUpdateStudy } = useAsyncAction(async () => {
+  const {
+    status: updateStatusState,
+    errorMessage: updateError,
+    run: runUpdateStudy,
+  } = useAsyncAction(async () => {
     if (!selectedStudy) return;
     const updated = await updateStudyStatus(selectedStudy.id, {
       seriesCount: Number(seriesCount),
@@ -133,7 +145,11 @@ export function ImagingStudiesScreen() {
 
   const columns: DataTableColumn<ImagingStudy>[] = [
     { key: "id", header: "ID", render: (item) => item.id },
-    { key: "accessionNumber", header: labels.accessionNumber, render: (item) => item.accessionNumber },
+    {
+      key: "accessionNumber",
+      header: labels.accessionNumber,
+      render: (item) => item.accessionNumber,
+    },
     { key: "patientId", header: labels.patientId, render: (item) => item.patientId },
     { key: "modality", header: labels.modality, render: (item) => item.modality },
     { key: "seriesCount", header: labels.seriesCount, render: (item) => item.seriesCount },
@@ -147,7 +163,11 @@ export function ImagingStudiesScreen() {
       <p>{labels.description}</p>
       <ScopeIndicator />
 
-      <CreateStudyForm onCreated={() => { if (searchPatientId) void fetchStudies(); }} />
+      <CreateStudyForm
+        onCreated={() => {
+          if (searchPatientId) void fetchStudies();
+        }}
+      />
 
       <div className="panel">
         <h3>{shared.search}</h3>
@@ -162,7 +182,9 @@ export function ImagingStudiesScreen() {
             type="button"
             id="img-fetch-studies-btn"
             disabled={fetchStatus === "loading" || !searchPatientId.trim()}
-            onClick={() => { void fetchStudies(); }}
+            onClick={() => {
+              void fetchStudies();
+            }}
           >
             {shared.load}
           </button>
@@ -184,8 +206,17 @@ export function ImagingStudiesScreen() {
 
         {selectedStudy && (
           <div style={{ marginTop: "1rem", padding: "0.5rem", border: "1px solid #ccc" }}>
-            <h4>Update Study: {selectedStudy.id} ({selectedStudy.accessionNumber})</h4>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.5rem", marginTop: "0.5rem" }}>
+            <h4>
+              Update Study: {selectedStudy.id} ({selectedStudy.accessionNumber})
+            </h4>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                gap: "0.5rem",
+                marginTop: "0.5rem",
+              }}
+            >
               <div>
                 <label htmlFor="img-update-series">{labels.seriesCount}</label>
                 <input
@@ -222,7 +253,9 @@ export function ImagingStudiesScreen() {
               type="button"
               id="img-update-study-btn"
               disabled={updateStatusState === "loading"}
-              onClick={() => { void runUpdateStudy(); }}
+              onClick={() => {
+                void runUpdateStudy();
+              }}
               style={{ marginTop: "0.5rem" }}
             >
               {shared.update}

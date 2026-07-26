@@ -52,7 +52,9 @@ function ScheduleSlotForm({ onScheduled }: ScheduleSlotFormProps) {
   return (
     <div className="panel" style={{ marginBottom: "1rem" }}>
       <h3>{labels.scheduleSlot}</h3>
-      {!scope.tenantId && <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>}
+      {!scope.tenantId && (
+        <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>
+      )}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
         <div>
           <label htmlFor="img-slot-patient">{labels.patientId}</label>
@@ -65,11 +67,7 @@ function ScheduleSlotForm({ onScheduled }: ScheduleSlotFormProps) {
         </div>
         <div>
           <label htmlFor="img-slot-branch">{labels.branchId}</label>
-          <input
-            id="img-slot-branch"
-            value={scope.branchId || "BRANCH-001"}
-            disabled
-          />
+          <input id="img-slot-branch" value={scope.branchId || "BRANCH-001"} disabled />
         </div>
         <div>
           <label htmlFor="img-slot-modality">{labels.modality}</label>
@@ -115,18 +113,16 @@ function ScheduleSlotForm({ onScheduled }: ScheduleSlotFormProps) {
         </div>
         <div>
           <label htmlFor="img-slot-notes">{labels.notes}</label>
-          <input
-            id="img-slot-notes"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-          />
+          <input id="img-slot-notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
         </div>
       </div>
       <button
         type="button"
         id="img-slot-schedule-btn"
         disabled={status === "loading" || !patientId.trim()}
-        onClick={() => { void run(); }}
+        onClick={() => {
+          void run();
+        }}
         style={{ marginTop: "0.5rem" }}
       >
         {labels.scheduleSlot}
@@ -150,13 +146,21 @@ export function ImagingAppointmentsScreen() {
   const [selectedSlot, setSelectedSlot] = useState<ImagingAppointmentSlot | null>(null);
   const [newStatus, setNewStatus] = useState("CONFIRMED");
 
-  const { status: fetchStatus, errorMessage: fetchError, run: fetchSlots } = useAsyncAction(async () => {
+  const {
+    status: fetchStatus,
+    errorMessage: fetchError,
+    run: fetchSlots,
+  } = useAsyncAction(async () => {
     if (!searchPatientId.trim()) return;
     const res = await listAppointmentSlotsForPatient(searchPatientId.trim());
     setSlots(res);
   });
 
-  const { status: updateStatusState, errorMessage: updateError, run: runUpdateStatus } = useAsyncAction(async () => {
+  const {
+    status: updateStatusState,
+    errorMessage: updateError,
+    run: runUpdateStatus,
+  } = useAsyncAction(async () => {
     if (!selectedSlot) return;
     const updated = await updateAppointmentSlotStatus(selectedSlot.id, newStatus);
     setSelectedSlot(updated);
@@ -170,7 +174,11 @@ export function ImagingAppointmentsScreen() {
     { key: "patientId", header: labels.patientId, render: (item) => item.patientId },
     { key: "modality", header: labels.modality, render: (item) => item.modality },
     { key: "procedureCode", header: labels.procedureCode, render: (item) => item.procedureCode },
-    { key: "procedureRoomId", header: labels.procedureRoomId, render: (item) => item.procedureRoomId },
+    {
+      key: "procedureRoomId",
+      header: labels.procedureRoomId,
+      render: (item) => item.procedureRoomId,
+    },
     { key: "startTime", header: labels.startTime, render: (item) => item.startTime },
     { key: "status", header: shared.status, render: (item) => item.status },
   ];
@@ -181,7 +189,11 @@ export function ImagingAppointmentsScreen() {
       <p>{labels.description}</p>
       <ScopeIndicator />
 
-      <ScheduleSlotForm onScheduled={() => { if (searchPatientId) void fetchSlots(); }} />
+      <ScheduleSlotForm
+        onScheduled={() => {
+          if (searchPatientId) void fetchSlots();
+        }}
+      />
 
       <div className="panel">
         <h3>{shared.search}</h3>
@@ -196,7 +208,9 @@ export function ImagingAppointmentsScreen() {
             type="button"
             id="img-fetch-slots-btn"
             disabled={fetchStatus === "loading" || !searchPatientId.trim()}
-            onClick={() => { void fetchSlots(); }}
+            onClick={() => {
+              void fetchSlots();
+            }}
           >
             {shared.load}
           </button>
@@ -213,8 +227,13 @@ export function ImagingAppointmentsScreen() {
 
         {selectedSlot && (
           <div style={{ marginTop: "1rem", padding: "0.5rem", border: "1px solid #ccc" }}>
-            <h4>{labels.updateStatus}: {selectedSlot.id}</h4>
-            <p>{labels.patientId}: {selectedSlot.patientId} | {labels.modality}: {selectedSlot.modality} | {shared.status}: <strong>{selectedSlot.status}</strong></p>
+            <h4>
+              {labels.updateStatus}: {selectedSlot.id}
+            </h4>
+            <p>
+              {labels.patientId}: {selectedSlot.patientId} | {labels.modality}:{" "}
+              {selectedSlot.modality} | {shared.status}: <strong>{selectedSlot.status}</strong>
+            </p>
             <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
               <select
                 id="img-status-select"
@@ -230,7 +249,9 @@ export function ImagingAppointmentsScreen() {
                 type="button"
                 id="img-update-status-btn"
                 disabled={updateStatusState === "loading"}
-                onClick={() => { void runUpdateStatus(); }}
+                onClick={() => {
+                  void runUpdateStatus();
+                }}
               >
                 {shared.update}
               </button>

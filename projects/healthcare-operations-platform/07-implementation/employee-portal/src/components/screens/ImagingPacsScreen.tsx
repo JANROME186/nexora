@@ -49,7 +49,9 @@ function RegisterEndpointForm({ onRegistered }: RegisterEndpointFormProps) {
   return (
     <div className="panel" style={{ marginBottom: "1rem" }}>
       <h3>{labels.registerEndpoint}</h3>
-      {!scope.tenantId && <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>}
+      {!scope.tenantId && (
+        <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>
+      )}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
         <div>
           <label htmlFor="pacs-node-id">{labels.pacsNodeId}</label>
@@ -61,11 +63,7 @@ function RegisterEndpointForm({ onRegistered }: RegisterEndpointFormProps) {
         </div>
         <div>
           <label htmlFor="pacs-base-url">{labels.baseUrl}</label>
-          <input
-            id="pacs-base-url"
-            value={baseUrl}
-            onChange={(e) => setBaseUrl(e.target.value)}
-          />
+          <input id="pacs-base-url" value={baseUrl} onChange={(e) => setBaseUrl(e.target.value)} />
         </div>
         <div>
           <label htmlFor="pacs-protocol">{labels.protocol}</label>
@@ -80,15 +78,14 @@ function RegisterEndpointForm({ onRegistered }: RegisterEndpointFormProps) {
         type="button"
         id="pacs-register-btn"
         disabled={status === "loading" || !pacsNodeId.trim() || !baseUrl.trim()}
-        onClick={() => { void run(); }}
+        onClick={() => {
+          void run();
+        }}
         style={{ marginTop: "0.5rem" }}
       >
         {labels.registerEndpoint}
       </button>
-      <StatusBanner
-        status={status}
-        errorMessage={errorMessage}
-      />
+      <StatusBanner status={status} errorMessage={errorMessage} />
     </div>
   );
 }
@@ -110,32 +107,57 @@ export function ImagingPacsScreen() {
   const [studyUid, setStudyUid] = useState("1.2.840.113619.2.55.3.28311512");
   const [stowPayload, setStowPayload] = useState("SGVsbG8gRElDT00=");
 
-  const { status: fetchStatus, errorMessage: fetchError, run: fetchEndpoints } = useAsyncAction(async () => {
+  const {
+    status: fetchStatus,
+    errorMessage: fetchError,
+    run: fetchEndpoints,
+  } = useAsyncAction(async () => {
     const res = await listPacsEndpoints();
     setEndpoints(res);
   });
 
-  const { status: queryStatus, errorMessage: queryError, run: runQuery } = useAsyncAction(async () => {
+  const {
+    status: queryStatus,
+    errorMessage: queryError,
+    run: runQuery,
+  } = useAsyncAction(async () => {
     if (!selectedEndpoint || !accessionQuery.trim()) return;
     const res = await queryPacsStudy(selectedEndpoint.id, accessionQuery.trim());
     setQueryResultText(res.result);
   });
 
-  const { status: qidoStatus, errorMessage: qidoError, run: runQido } = useAsyncAction(async () => {
+  const {
+    status: qidoStatus,
+    errorMessage: qidoError,
+    run: runQido,
+  } = useAsyncAction(async () => {
     if (!selectedEndpoint) return;
     const res = await qidoSearchPacsStudies(selectedEndpoint.id);
     setQidoResults(res);
   });
 
-  const { status: wadoStatus, errorMessage: wadoError, run: runWado } = useAsyncAction(async () => {
+  const {
+    status: wadoStatus,
+    errorMessage: wadoError,
+    run: runWado,
+  } = useAsyncAction(async () => {
     if (!selectedEndpoint || !studyUid.trim()) return;
     const res = await getPacsWadoUrl(selectedEndpoint.id, studyUid.trim());
     setWadoResult(res);
   });
 
-  const { status: stowStatus, errorMessage: stowError, run: runStow } = useAsyncAction(async () => {
+  const {
+    status: stowStatus,
+    errorMessage: stowError,
+    run: runStow,
+  } = useAsyncAction(async () => {
     if (!selectedEndpoint || !studyUid.trim()) return;
-    const res = await stowStorePacs(selectedEndpoint.id, studyUid.trim(), "application/dicom", stowPayload);
+    const res = await stowStorePacs(
+      selectedEndpoint.id,
+      studyUid.trim(),
+      "application/dicom",
+      stowPayload,
+    );
     setStowResult(res);
   });
 
@@ -153,12 +175,22 @@ export function ImagingPacsScreen() {
       <p>{labels.description}</p>
       <ScopeIndicator />
 
-      <RegisterEndpointForm onRegistered={() => { void fetchEndpoints(); }} />
+      <RegisterEndpointForm
+        onRegistered={() => {
+          void fetchEndpoints();
+        }}
+      />
 
       <div className="panel">
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
           <h3>PACS Integration Endpoints</h3>
-          <button type="button" id="pacs-load-btn" onClick={() => { void fetchEndpoints(); }}>
+          <button
+            type="button"
+            id="pacs-load-btn"
+            onClick={() => {
+              void fetchEndpoints();
+            }}
+          >
             {shared.load}
           </button>
         </div>
@@ -174,24 +206,51 @@ export function ImagingPacsScreen() {
 
         {selectedEndpoint && (
           <div style={{ marginTop: "1rem", padding: "0.5rem", border: "1px solid #ccc" }}>
-            <h4>Endpoint Operations: {selectedEndpoint.pacsNodeId} ({selectedEndpoint.baseUrl})</h4>
+            <h4>
+              Endpoint Operations: {selectedEndpoint.pacsNodeId} ({selectedEndpoint.baseUrl})
+            </h4>
 
-            <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginBottom: "0.5rem" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: "0.5rem",
+                alignItems: "center",
+                marginBottom: "0.5rem",
+              }}
+            >
               <input
                 id="pacs-acc-query"
                 value={accessionQuery}
                 onChange={(e) => setAccessionQuery(e.target.value)}
                 placeholder="Accession #"
               />
-              <button type="button" id="pacs-query-btn" onClick={() => { void runQuery(); }} disabled={queryStatus === "loading"}>
+              <button
+                type="button"
+                id="pacs-query-btn"
+                onClick={() => {
+                  void runQuery();
+                }}
+                disabled={queryStatus === "loading"}
+              >
                 Query Accession
               </button>
-              <button type="button" id="pacs-qido-btn" onClick={() => { void runQido(); }} disabled={qidoStatus === "loading"}>
+              <button
+                type="button"
+                id="pacs-qido-btn"
+                onClick={() => {
+                  void runQido();
+                }}
+                disabled={qidoStatus === "loading"}
+              >
                 {labels.qidoSearch}
               </button>
             </div>
             {queryResultText && <p>Query Result: {queryResultText}</p>}
-            <StatusBanner status={queryStatus} errorMessage={queryError} successMessage={labels.querySuccess} />
+            <StatusBanner
+              status={queryStatus}
+              errorMessage={queryError}
+              successMessage={labels.querySuccess}
+            />
             <StatusBanner status={qidoStatus} errorMessage={qidoError} />
 
             {qidoResults.length > 0 && (
@@ -199,7 +258,9 @@ export function ImagingPacsScreen() {
                 <h5>QIDO-RS Results ({qidoResults.length}):</h5>
                 <ul>
                   {qidoResults.map((r, idx) => (
-                    <li key={idx}>{r.studyInstanceUid} - {r.patientName} ({r.modality})</li>
+                    <li key={idx}>
+                      {r.studyInstanceUid} - {r.patientName} ({r.modality})
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -210,7 +271,9 @@ export function ImagingPacsScreen() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
               <div>
                 <h5>{labels.getWadoUrl}</h5>
-                <label htmlFor="pacs-study-uid">{shared.selectStudyFirst || "Study Instance UID"}</label>
+                <label htmlFor="pacs-study-uid">
+                  {shared.selectStudyFirst || "Study Instance UID"}
+                </label>
                 <input
                   id="pacs-study-uid"
                   value={studyUid}
@@ -219,7 +282,9 @@ export function ImagingPacsScreen() {
                 <button
                   type="button"
                   id="pacs-wado-btn"
-                  onClick={() => { void runWado(); }}
+                  onClick={() => {
+                    void runWado();
+                  }}
                   disabled={wadoStatus === "loading"}
                   style={{ marginTop: "0.5rem" }}
                 >
@@ -227,7 +292,12 @@ export function ImagingPacsScreen() {
                 </button>
                 <StatusBanner status={wadoStatus} errorMessage={wadoError} />
                 {wadoResult && (
-                  <p style={{ fontSize: "0.85rem", wordBreak: "break-all" }}>WADO URL: <a href={wadoResult.wadoUrl} target="_blank" rel="noreferrer">{wadoResult.wadoUrl}</a></p>
+                  <p style={{ fontSize: "0.85rem", wordBreak: "break-all" }}>
+                    WADO URL:{" "}
+                    <a href={wadoResult.wadoUrl} target="_blank" rel="noreferrer">
+                      {wadoResult.wadoUrl}
+                    </a>
+                  </p>
                 )}
               </div>
 
@@ -242,15 +312,23 @@ export function ImagingPacsScreen() {
                 <button
                   type="button"
                   id="pacs-stow-btn"
-                  onClick={() => { void runStow(); }}
+                  onClick={() => {
+                    void runStow();
+                  }}
                   disabled={stowStatus === "loading"}
                   style={{ marginTop: "0.5rem" }}
                 >
                   {labels.stowStore}
                 </button>
-                <StatusBanner status={stowStatus} errorMessage={stowError} successMessage={labels.stowSuccess} />
+                <StatusBanner
+                  status={stowStatus}
+                  errorMessage={stowError}
+                  successMessage={labels.stowSuccess}
+                />
                 {stowResult && (
-                  <p style={{ fontSize: "0.85rem" }}>Stored Instances: {stowResult.storedInstances} ({stowResult.responseMessage})</p>
+                  <p style={{ fontSize: "0.85rem" }}>
+                    Stored Instances: {stowResult.storedInstances} ({stowResult.responseMessage})
+                  </p>
                 )}
               </div>
             </div>

@@ -238,8 +238,8 @@ product:
       General Availability fully complete)
     completed_status: closed
     active_module: COM-MOD-014
-    active_backlog_item: COM-MOD-014-QA-001
-    active_module_progress: COM-MOD-014-FE-001 closed. Created 8 employee-portal Imaging Operations screens for BCM-IMG-001..008, registered 8 SCREEN_IMAGING_* permissions, added imagingOperationsApi.ts, externalized es-MX/en-US i18n catalogs, materially reduced TD-I18N-002 and TD-FE-010, and passed typecheck, lint, 244 unit tests, coverage >= 90.68%, build and npm audit. Active backlog item advanced to COM-MOD-014-QA-001 (Imaging integration and report evidence).
+    active_backlog_item: COM-MOD-014-CLOSEOUT
+    active_module_progress: COM-MOD-014-QA-001 closed. Validated Imaging Operations end-to-end evidence across backend and employee portal, fixed the DICOM hardcoded-IP lint finding, corrected ImagingReportsScreen JSX markup, expanded imaging screen coverage to 249/249 passing tests, confirmed backend tests 497/497 passing with 29 skipped local-db tests, employee-portal coverage 90.85% overall / 90.87% screens, build clean, production audit clean and quality evidence validated. Active backlog item advanced to COM-MOD-014-CLOSEOUT.
 
     paused_backlog_item: null
     pause_reason: null
@@ -1233,8 +1233,10 @@ modules:
     name: Imaging study delivery views
   - id: COM-MOD-014-QA-001
     name: Imaging integration and report evidence
+    status: closed
   - id: COM-MOD-014-CLOSEOUT
     name: Module closeout and registry update
+    status: next
   acceptance_summary:
   - Imaging studies can be scheduled, received, managed, interpreted and delivered.
   - DICOM/PACS interactions remain behind replaceable adapters.

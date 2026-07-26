@@ -43,7 +43,9 @@ function CheckInForm({ onCheckInSuccess }: CheckInFormProps) {
   return (
     <div className="panel" style={{ marginBottom: "1rem" }}>
       <h3>{labels.checkIn}</h3>
-      {!scope.tenantId && <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>}
+      {!scope.tenantId && (
+        <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>
+      )}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
         <div>
           <label htmlFor="img-rec-slot">{labels.slotId}</label>
@@ -85,7 +87,9 @@ function CheckInForm({ onCheckInSuccess }: CheckInFormProps) {
         type="button"
         id="img-rec-checkin-btn"
         disabled={status === "loading" || !appointmentSlotId.trim() || !patientId.trim()}
-        onClick={() => { void run(); }}
+        onClick={() => {
+          void run();
+        }}
         style={{ marginTop: "0.5rem" }}
       >
         {labels.checkIn}
@@ -107,7 +111,11 @@ export function ImagingReceptionScreen() {
   const [querySlotId, setQuerySlotId] = useState("");
   const [currentIntake, setCurrentIntake] = useState<ImagingReceptionIntake | null>(null);
 
-  const { status: fetchStatus, errorMessage: fetchError, run: fetchIntake } = useAsyncAction(async () => {
+  const {
+    status: fetchStatus,
+    errorMessage: fetchError,
+    run: fetchIntake,
+  } = useAsyncAction(async () => {
     if (!querySlotId.trim()) return;
     const intake = await getReceptionIntakeBySlot(querySlotId.trim());
     setCurrentIntake(intake);
@@ -134,7 +142,9 @@ export function ImagingReceptionScreen() {
             type="button"
             id="img-fetch-intake-btn"
             disabled={fetchStatus === "loading" || !querySlotId.trim()}
-            onClick={() => { void fetchIntake(); }}
+            onClick={() => {
+              void fetchIntake();
+            }}
           >
             {shared.load}
           </button>
@@ -144,9 +154,19 @@ export function ImagingReceptionScreen() {
         {currentIntake && (
           <div style={{ marginTop: "1rem", padding: "0.5rem", border: "1px solid #ccc" }}>
             <h4>Intake: {currentIntake.id}</h4>
-            <p>{labels.slotId}: {currentIntake.appointmentSlotId} | {labels.patientId}: {currentIntake.patientId}</p>
-            <p>{labels.preparationVerified}: {currentIntake.preparationVerified ? "Yes" : "No"} | {shared.status}: <strong>{currentIntake.status}</strong></p>
-            {currentIntake.intakeNotes && <p>{labels.intakeNotes}: {currentIntake.intakeNotes}</p>}
+            <p>
+              {labels.slotId}: {currentIntake.appointmentSlotId} | {labels.patientId}:{" "}
+              {currentIntake.patientId}
+            </p>
+            <p>
+              {labels.preparationVerified}: {currentIntake.preparationVerified ? "Yes" : "No"} |{" "}
+              {shared.status}: <strong>{currentIntake.status}</strong>
+            </p>
+            {currentIntake.intakeNotes && (
+              <p>
+                {labels.intakeNotes}: {currentIntake.intakeNotes}
+              </p>
+            )}
           </div>
         )}
       </div>

@@ -26,8 +26,12 @@ function CreateDictationForm({ onCreated }: CreateDictationFormProps) {
   const { scope } = useAdminScope();
 
   const [studyId, setStudyId] = useState("");
-  const [dictationText, setDictationText] = useState("Patient exhibits normal lung parenchyma with no focal opacities.");
-  const [audioReferenceUrl, setAudioReferenceUrl] = useState("https://storage.nexora.com/audio/dictation-1001.mp3");
+  const [dictationText, setDictationText] = useState(
+    "Patient exhibits normal lung parenchyma with no focal opacities.",
+  );
+  const [audioReferenceUrl, setAudioReferenceUrl] = useState(
+    "https://storage.nexora.com/audio/dictation-1001.mp3",
+  );
 
   const { status, errorMessage, run } = useAsyncAction(async () => {
     if (!studyId.trim() || !dictationText.trim()) return;
@@ -42,7 +46,9 @@ function CreateDictationForm({ onCreated }: CreateDictationFormProps) {
   return (
     <div className="panel" style={{ marginBottom: "1rem" }}>
       <h3>{labels.createDictation}</h3>
-      {!scope.tenantId && <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>}
+      {!scope.tenantId && (
+        <p style={{ color: "orange" }}>{t.imagingOperations.shared.tenantRequired}</p>
+      )}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
         <div>
           <label htmlFor="dict-study-id">{labels.studyId}</label>
@@ -76,7 +82,9 @@ function CreateDictationForm({ onCreated }: CreateDictationFormProps) {
         type="button"
         id="dict-create-btn"
         disabled={status === "loading" || !studyId.trim() || !dictationText.trim()}
-        onClick={() => { void run(); }}
+        onClick={() => {
+          void run();
+        }}
         style={{ marginTop: "0.5rem" }}
       >
         {labels.createDictation}
@@ -98,7 +106,11 @@ export function ImagingDictationScreen() {
   const [searchStudyId, setSearchStudyId] = useState("");
   const [dictations, setDictations] = useState<RadiologyDictation[]>([]);
 
-  const { status: fetchStatus, errorMessage: fetchError, run: fetchDictations } = useAsyncAction(async () => {
+  const {
+    status: fetchStatus,
+    errorMessage: fetchError,
+    run: fetchDictations,
+  } = useAsyncAction(async () => {
     if (!searchStudyId.trim()) return;
     const res = await listDictationsForStudy(searchStudyId.trim());
     setDictations(res);
@@ -118,7 +130,11 @@ export function ImagingDictationScreen() {
       <p>{labels.description}</p>
       <ScopeIndicator />
 
-      <CreateDictationForm onCreated={() => { if (searchStudyId) void fetchDictations(); }} />
+      <CreateDictationForm
+        onCreated={() => {
+          if (searchStudyId) void fetchDictations();
+        }}
+      />
 
       <div className="panel">
         <h3>{shared.search}</h3>
@@ -133,7 +149,9 @@ export function ImagingDictationScreen() {
             type="button"
             id="dict-fetch-btn"
             disabled={fetchStatus === "loading" || !searchStudyId.trim()}
-            onClick={() => { void fetchDictations(); }}
+            onClick={() => {
+              void fetchDictations();
+            }}
           >
             {shared.load}
           </button>

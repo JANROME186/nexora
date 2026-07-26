@@ -158,7 +158,8 @@ export const esMX = {
     },
     dicom: {
       heading: "Configuración e Integración DICOM",
-      description: "Administración de AE Titles, test C-ECHO, consultas Worklist, C-MOVE y validación de encabezados.",
+      description:
+        "Administración de AE Titles, test C-ECHO, consultas Worklist, C-MOVE y validación de encabezados.",
       registerConfig: "Registrar Nodo DICOM",
       aeTitle: "AE Title",
       host: "Host / IP",
@@ -198,7 +199,8 @@ export const esMX = {
     },
     reports: {
       heading: "Firma y Emisión de Reportes Radiológicos",
-      description: "Creación de borradores de reporte, hallazgos, impresión diagnóstica y firma electrónica.",
+      description:
+        "Creación de borradores de reporte, hallazgos, impresión diagnóstica y firma electrónica.",
       createReport: "Crear Borrador de Reporte",
       studyId: "ID de Estudio",
       findingsText: "Hallazgos Radiológicos",
@@ -209,7 +211,8 @@ export const esMX = {
     },
     delivery: {
       heading: "Paquetes y Entrega de Estudios",
-      description: "Preparación de paquetes de entrega de imagen (CD, Portal, DICOM/PDF) y confirmación de entrega.",
+      description:
+        "Preparación de paquetes de entrega de imagen (CD, Portal, DICOM/PDF) y confirmación de entrega.",
       createPackage: "Crear Paquete de Entrega",
       studyId: "ID de Estudio",
       patientId: "ID de Paciente",
