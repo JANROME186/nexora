@@ -107,6 +107,8 @@ $env:NEXORA_CLI_PREFLIGHT_MAX_AGE_MINUTES="240"
 $env:NEXORA_PREFLIGHT_TIMEOUT_SECONDS="300"
 $env:NEXORA_PROVIDER_TIMEOUT_SECONDS="14400"
 $env:NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
+$env:NEXORA_ORCHESTRATOR_CLOSURE_ATTEMPTS="3"
+$env:NEXORA_ORCHESTRATOR_CLOSURE_FEEDBACK_FILE=".nexora/runtime/orchestrator-closure-feedback.md"
 $env:NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
 $env:NEXORA_EXECUTION_FLOW="manual"
 $env:NEXORA_AGENT_TASK_FILE=".agent_next_task.md"
@@ -147,6 +149,8 @@ export NEXORA_CLI_PREFLIGHT_MAX_AGE_MINUTES="240"
 export NEXORA_PREFLIGHT_TIMEOUT_SECONDS="300"
 export NEXORA_PROVIDER_TIMEOUT_SECONDS="14400"
 export NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
+export NEXORA_ORCHESTRATOR_CLOSURE_ATTEMPTS="3"
+export NEXORA_ORCHESTRATOR_CLOSURE_FEEDBACK_FILE=".nexora/runtime/orchestrator-closure-feedback.md"
 export NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
 export NEXORA_EXECUTION_FLOW="manual"
 export NEXORA_AGENT_TASK_FILE=".agent_next_task.md"
@@ -243,6 +247,31 @@ The log is JSONL and local-only. It records prompt generation, cache hits, promp
 startup, prompt loading, provider selection, provider process start/end, heartbeat events during
 long CLI execution, stdout/stderr byte counters, timeout, rate-limit and unavailable-provider events.
 
+## Automatic Post-Provider Closure
+
+When `agent_runtime_router.py --execute` completes a headless CLI provider successfully, the router
+must run the closure protocol automatically. The operator should not have to manually rescue normal
+post-backlog inconsistencies such as uncommitted project changes left by the provider.
+
+Closure sequence:
+
+1. Run `backlog_validator.py --no-require-clean-git --no-auto-commit` as a diagnostic gate.
+2. If the diagnostic gate reports hard findings, stop and write operator feedback.
+3. If the diagnostic gate is clean, commit project changes under `projects/healthcare-operations-platform`.
+4. Remove temporary diagnostic validation artifacts.
+5. Run `backlog_validator.py` in strict mode so it archives the active prompt and commits closure evidence.
+6. Repeat up to `NEXORA_ORCHESTRATOR_CLOSURE_ATTEMPTS` times.
+
+Operator feedback is written to:
+
+```powershell
+.nexora/runtime/orchestrator-closure-feedback.md
+```
+
+The feedback file is local runtime state and ignored by git. If closure is blocked, inspect that file
+and the generated closure validation/fix prompt before changing code or asking another agent to
+continue.
+
 Write the active prompt into the local IDE task-ingestion file:
 
 ```powershell
@@ -257,7 +286,8 @@ execution or sandbox constraints, regenerate the active prompt with `--execution
 handoff to the IDE. Do not close a backlog by exception when operator assistance can resolve the
 execution path.
 
-Run closure validation after the backlog work is committed:
+For manual or filesystem task-ingestion flows, run closure validation after the backlog work is
+committed:
 
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py

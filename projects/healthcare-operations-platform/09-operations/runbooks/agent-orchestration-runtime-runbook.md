@@ -104,6 +104,8 @@ by provider login, quota, repository state, toolchain issues or actual backlog e
 $env:NEXORA_PREFLIGHT_TIMEOUT_SECONDS="300"
 $env:NEXORA_PROVIDER_TIMEOUT_SECONDS="14400"
 $env:NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
+$env:NEXORA_ORCHESTRATOR_CLOSURE_ATTEMPTS="3"
+$env:NEXORA_ORCHESTRATOR_CLOSURE_FEEDBACK_FILE=".nexora/runtime/orchestrator-closure-feedback.md"
 ```
 
 `NEXORA_PROVIDER_TIMEOUT_SECONDS=14400` allows up to 4 hours for the selected provider process.
@@ -113,7 +115,18 @@ operator can see whether the process is still producing output.
 For short audit reruns after the first baseline is known, the operator may lower the provider
 timeout without editing source code.
 
-6. Complete the backlog item, create the handoff, commit, run closure validation and exit:
+6. For headless CLI automation, let the router run post-provider closure automatically. It must
+diagnose closure, commit project changes when the diagnostic gate is clean, run strict closure
+validation, archive the active prompt and leave `git status --short` clean.
+
+If the router cannot close the backlog after the configured attempts, inspect:
+
+```powershell
+Get-Content .nexora/runtime/orchestrator-closure-feedback.md
+```
+
+7. For manual/IDE task-ingestion flows only, complete the backlog item, create the handoff, commit,
+run closure validation and exit:
 
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
@@ -147,6 +160,8 @@ Supported environment variables:
 - `NEXORA_EXECUTION_FLOW`
 - `NEXORA_AGENT_TASK_FILE`
 - `NEXORA_AGENT_RESULT_FILE`
+- `NEXORA_ORCHESTRATOR_CLOSURE_ATTEMPTS`
+- `NEXORA_ORCHESTRATOR_CLOSURE_FEEDBACK_FILE`
 
 Runtime guidance:
 

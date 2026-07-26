@@ -26,6 +26,7 @@ from typing import Any
 
 
 PROJECT_PATH = os.environ.get("NEXORA_PROJECT_PATH", "projects/healthcare-operations-platform")
+DEFAULT_ROOT = os.environ.get("NEXORA_ROOT", os.getcwd())
 ACTIVE_PROMPT_DIR = os.environ.get(
     "NEXORA_ACTIVE_PROMPT_DIR",
     f"{PROJECT_PATH}/08-qa/generated-prompts/active_prompt",
@@ -39,6 +40,11 @@ DEFAULT_PREFLIGHT_CERT = os.environ.get("NEXORA_CLI_PREFLIGHT_CERT", ".nexora/ru
 DEFAULT_PREFLIGHT_MAX_AGE_MINUTES = int(os.environ.get("NEXORA_CLI_PREFLIGHT_MAX_AGE_MINUTES", "240"))
 DEFAULT_TIMEOUT_SECONDS = int(os.environ.get("NEXORA_PROVIDER_TIMEOUT_SECONDS", "14400"))
 DEFAULT_HEARTBEAT_SECONDS = int(os.environ.get("NEXORA_PROVIDER_HEARTBEAT_SECONDS", "30"))
+DEFAULT_CLOSURE_ATTEMPTS = int(os.environ.get("NEXORA_ORCHESTRATOR_CLOSURE_ATTEMPTS", "3"))
+DEFAULT_CLOSURE_FEEDBACK_FILE = os.environ.get(
+    "NEXORA_ORCHESTRATOR_CLOSURE_FEEDBACK_FILE",
+    ".nexora/runtime/orchestrator-closure-feedback.md",
+)
 
 
 DEFAULT_PROVIDERS: dict[str, dict[str, Any]] = {
@@ -224,6 +230,182 @@ def active_prompt_path(root: Path) -> Path:
         found = ", ".join(path.name for path in prompts) if prompts else "none"
         raise SystemExit(f"Expected exactly one active prompt. Found {len(prompts)}: {found}.")
     return prompts[0]
+
+
+def project_generated_prompt_file(root: Path, task_id: str, suffix: str) -> Path:
+    return root / PROJECT_PATH / "08-qa/generated-prompts" / f"{task_id}-{suffix}.md"
+
+
+def project_closure_validation_file(root: Path, task_id: str) -> Path:
+    return root / PROJECT_PATH / "08-qa/backlog-validations" / f"{task_id}-closure-validation.md"
+
+
+def git_status(root: Path, paths: list[str] | None = None) -> str:
+    command = ["git", "status", "--short"]
+    if paths:
+        command.extend(["--", *paths])
+    result = subprocess.run(command, cwd=root, text=True, capture_output=True, check=False)
+    return result.stdout.strip()
+
+
+def git_head(root: Path) -> str:
+    result = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=root, text=True, capture_output=True, check=False)
+    return result.stdout.strip()
+
+
+def git_commit_paths(root: Path, message: str, paths: list[str]) -> str | None:
+    if not git_status(root, paths):
+        return None
+    subprocess.run(["git", "add", "-A", "--", *paths], cwd=root, text=True, check=True)
+    if not git_status(root):
+        return None
+    subprocess.run(["git", "commit", "-m", message], cwd=root, text=True, check=True)
+    return git_head(root)
+
+
+def cleanup_closure_diagnostics(root: Path, task_id: str) -> None:
+    for path in (
+        project_closure_validation_file(root, task_id),
+        project_generated_prompt_file(root, task_id, "closure-fix-prompt"),
+    ):
+        if path.exists():
+            path.unlink()
+
+
+def read_closure_status(report_path: Path) -> tuple[str, int]:
+    if not report_path.exists():
+        return "missing", 999
+    text = report_path.read_text(encoding="utf-8", errors="replace")
+    status = "unknown"
+    for line in text.splitlines():
+        if line.startswith("status:"):
+            status = line.split(":", 1)[1].strip()
+            break
+    hard_findings = 999
+    for line in text.splitlines():
+        if line.startswith("Hard findings:"):
+            digits = "".join(char for char in line if char.isdigit())
+            if digits:
+                hard_findings = int(digits)
+            break
+    return status, hard_findings
+
+
+def run_closure_validator(root: Path, diagnostic_only: bool) -> subprocess.CompletedProcess[str]:
+    command = [sys.executable, "nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py"]
+    if diagnostic_only:
+        command.extend(["--no-require-clean-git", "--no-auto-commit"])
+    return subprocess.run(command, cwd=root, text=True, capture_output=True, check=False)
+
+
+def write_closure_feedback(
+    root: Path,
+    task_id: str,
+    attempts: list[dict[str, Any]],
+    final_status: str,
+    final_detail: str,
+) -> Path:
+    feedback_path = root / DEFAULT_CLOSURE_FEEDBACK_FILE
+    feedback_path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "task_id": task_id,
+        "status": final_status,
+        "detail": final_detail,
+        "git_status": git_status(root),
+        "attempts": attempts,
+        "latest_validation": str(project_closure_validation_file(root, task_id).relative_to(root)).replace("\\", "/"),
+        "latest_fix_prompt": str(project_generated_prompt_file(root, task_id, "closure-fix-prompt").relative_to(root)).replace("\\", "/"),
+    }
+    lines = [
+        f"# Orchestrator Closure Feedback - {task_id}",
+        "",
+        f"- Status: `{final_status}`",
+        f"- Detail: {final_detail}",
+        f"- Git status clean: `{not bool(payload['git_status'])}`",
+        f"- Latest validation: `{payload['latest_validation']}`",
+        f"- Latest fix prompt: `{payload['latest_fix_prompt']}`",
+        "",
+        "## Attempts",
+    ]
+    for attempt in attempts:
+        lines.extend(
+            [
+                "",
+                f"- Attempt: `{attempt.get('attempt')}`",
+                f"- Phase: `{attempt.get('phase')}`",
+                f"- Return code: `{attempt.get('returncode')}`",
+                f"- Status: `{attempt.get('status')}`",
+                f"- Hard findings: `{attempt.get('hard_findings')}`",
+                f"- Commit: `{attempt.get('commit') or 'none'}`",
+            ]
+        )
+    lines.extend(["", "## Structured Payload", "", "```json", json.dumps(payload, ensure_ascii=False, indent=2), "```", ""])
+    feedback_path.write_text("\n".join(lines), encoding="utf-8", newline="\n")
+    log_event(root, "closure_feedback_written", task_id=task_id, path=str(feedback_path), status=final_status)
+    return feedback_path
+
+
+def finalize_backlog_closure(root: Path, task_id: str, prompt_path: Path, max_attempts: int) -> bool:
+    attempts: list[dict[str, Any]] = []
+    for attempt_number in range(1, max_attempts + 1):
+        log_event(root, "closure_attempt_start", task_id=task_id, attempt=attempt_number)
+        diagnostic = run_closure_validator(root, diagnostic_only=True)
+        report_path = project_closure_validation_file(root, task_id)
+        diagnostic_status, diagnostic_findings = read_closure_status(report_path)
+        attempts.append(
+            {
+                "attempt": attempt_number,
+                "phase": "diagnostic",
+                "returncode": diagnostic.returncode,
+                "status": diagnostic_status,
+                "hard_findings": diagnostic_findings,
+                "commit": None,
+            }
+        )
+        log_event(
+            root,
+            "closure_diagnostic_end",
+            task_id=task_id,
+            attempt=attempt_number,
+            returncode=diagnostic.returncode,
+            status=diagnostic_status,
+            hard_findings=diagnostic_findings,
+        )
+        if diagnostic_findings:
+            write_closure_feedback(root, task_id, attempts, "blocked", "Diagnostic validator found product or registry hard findings.")
+            return False
+
+        cleanup_closure_diagnostics(root, task_id)
+        commit_hash = git_commit_paths(root, f"feat(hop): complete {task_id} via orchestrator", [PROJECT_PATH])
+        attempts[-1]["commit"] = commit_hash
+        log_event(root, "closure_product_commit", task_id=task_id, attempt=attempt_number, commit=commit_hash)
+
+        validation = run_closure_validator(root, diagnostic_only=False)
+        final_status, final_findings = read_closure_status(report_path)
+        attempts.append(
+            {
+                "attempt": attempt_number,
+                "phase": "strict_validation",
+                "returncode": validation.returncode,
+                "status": final_status,
+                "hard_findings": final_findings,
+                "commit": git_head(root) if validation.returncode == 0 else None,
+            }
+        )
+        log_event(
+            root,
+            "closure_strict_validation_end",
+            task_id=task_id,
+            attempt=attempt_number,
+            returncode=validation.returncode,
+            status=final_status,
+            hard_findings=final_findings,
+        )
+        if validation.returncode == 0 and final_status == "closed" and final_findings == 0:
+            write_closure_feedback(root, task_id, attempts, "closed", "Backlog closed by orchestrator post-provider validation.")
+            return True
+    write_closure_feedback(root, task_id, attempts, "blocked", "Maximum closure attempts reached.")
+    return False
 
 
 def infer_task_id(prompt: str) -> str:
@@ -708,6 +890,8 @@ def main() -> int:
     parser.add_argument("--init-state", action="store_true", help="Create the local quota tracker and exit.")
     parser.add_argument("--record-429", default=None, help="Mark a provider as blocked due to quota/rate limits and exit.")
     parser.add_argument("--block-hours", type=int, default=4, help="Provider pause window after 429/quota errors.")
+    parser.add_argument("--skip-closure", action="store_true", help="Do not run automatic post-provider backlog closure.")
+    parser.add_argument("--closure-attempts", type=int, default=DEFAULT_CLOSURE_ATTEMPTS, help="Automatic closure attempts after provider execution.")
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
@@ -743,6 +927,10 @@ def main() -> int:
             print(output_path)
         else:
             sys.stdout.write(output)
+    if args.execute and output is not None and not args.skip_closure and decision.runtime in HEADLESS_CLI_RUNTIMES:
+        closed = finalize_backlog_closure(root, task_id, prompt_path, max(args.closure_attempts, 1))
+        if not closed:
+            return 3
     return 0
 
 

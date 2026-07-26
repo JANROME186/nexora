@@ -56,6 +56,11 @@ Default behavior:
   whether a process is active, silent or blocked.
 - Refuse headless CLI execution unless `tool: agent_cli_preflight` produced a fresh ready
   certificate for the selected provider.
+- After a successful headless CLI provider execution, run automatic post-provider closure:
+  diagnostic validation, project commit when diagnostic findings are clean, strict closure
+  validation, prompt archival and closure evidence commit.
+- When automatic closure cannot complete after the configured attempts, write operator feedback to
+  `.nexora/runtime/orchestrator-closure-feedback.md` and exit non-zero.
 
 Execution template:
 
@@ -63,6 +68,16 @@ Execution template:
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py --provider all
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py --execute
 ```
+
+Optional closure controls:
+
+```powershell
+$env:NEXORA_ORCHESTRATOR_CLOSURE_ATTEMPTS="3"
+$env:NEXORA_ORCHESTRATOR_CLOSURE_FEEDBACK_FILE=".nexora/runtime/orchestrator-closure-feedback.md"
+```
+
+Use `--skip-closure` only for diagnostic framework development. Product backlog CLI execution must
+leave either a closed backlog or a closure feedback report explaining the remaining blockers.
 
 Supported runtimes:
 
