@@ -86,6 +86,13 @@ Get-Content .nexora/runtime/orchestrator-events.jsonl -Wait -Tail 30
 The trace must show prompt loading, provider selection, provider process start, heartbeat while the
 provider is still running and provider process end or the exact failure reason.
 
+For audit runs, the operator may lower the provider timeout without editing source code:
+
+```powershell
+$env:NEXORA_PROVIDER_TIMEOUT_SECONDS="180"
+$env:NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
+```
+
 5. Complete the backlog item, create the handoff, commit, run closure validation and exit:
 
 ```powershell
@@ -188,6 +195,8 @@ context_loading_policy:
 runtime_state:
   quota_tracker: .nexora/runtime/quota_tracker.json
   orchestration_trace: .nexora/runtime/orchestrator-events.jsonl
+  provider_timeout_seconds_env: NEXORA_PROVIDER_TIMEOUT_SECONDS
+  provider_heartbeat_seconds_env: NEXORA_PROVIDER_HEARTBEAT_SECONDS
   task_ingestion_file: .agent_next_task.md
   task_result_file: .agent_task_summary.md
   committed: false

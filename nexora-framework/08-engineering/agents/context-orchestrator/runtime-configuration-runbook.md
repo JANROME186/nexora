@@ -77,6 +77,8 @@ Required or recommended Nexora variables:
 | `NEXORA_ACTIVE_PROMPT_DIR` | Active prompt inbox used by router and validator. |
 | `NEXORA_QUOTA_TRACKER` | Local ignored quota tracker path. |
 | `NEXORA_ORCHESTRATOR_LOG` | Local ignored JSONL execution trace for prompt generation and routing. |
+| `NEXORA_PROVIDER_TIMEOUT_SECONDS` | Max seconds before the router kills a provider process tree. |
+| `NEXORA_PROVIDER_HEARTBEAT_SECONDS` | Seconds between provider heartbeat trace events. |
 | `NEXORA_OLLAMA_MODEL` | Default local Ollama model. |
 | `NEXORA_EXECUTION_FLOW` | Default prompt execution flow: `manual` or `cli`. |
 | `NEXORA_AGENT_TASK_FILE` | Ignored task ingestion file written for local IDE agents. |
@@ -96,6 +98,8 @@ $env:NEXORA_PROJECT_PATH="projects/healthcare-operations-platform"
 $env:NEXORA_ACTIVE_PROMPT_DIR="projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt"
 $env:NEXORA_QUOTA_TRACKER=".nexora/runtime/quota_tracker.json"
 $env:NEXORA_ORCHESTRATOR_LOG=".nexora/runtime/orchestrator-events.jsonl"
+$env:NEXORA_PROVIDER_TIMEOUT_SECONDS="600"
+$env:NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
 $env:NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
 $env:NEXORA_EXECUTION_FLOW="manual"
 $env:NEXORA_AGENT_TASK_FILE=".agent_next_task.md"
@@ -131,6 +135,8 @@ export NEXORA_PROJECT_PATH="projects/healthcare-operations-platform"
 export NEXORA_ACTIVE_PROMPT_DIR="projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt"
 export NEXORA_QUOTA_TRACKER=".nexora/runtime/quota_tracker.json"
 export NEXORA_ORCHESTRATOR_LOG=".nexora/runtime/orchestrator-events.jsonl"
+export NEXORA_PROVIDER_TIMEOUT_SECONDS="600"
+export NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
 export NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
 export NEXORA_EXECUTION_FLOW="manual"
 export NEXORA_AGENT_TASK_FILE=".agent_next_task.md"
@@ -259,6 +265,8 @@ environment_variables:
 - NEXORA_ACTIVE_PROMPT_DIR
 - NEXORA_QUOTA_TRACKER
 - NEXORA_ORCHESTRATOR_LOG
+- NEXORA_PROVIDER_TIMEOUT_SECONDS
+- NEXORA_PROVIDER_HEARTBEAT_SECONDS
 - NEXORA_OLLAMA_MODEL
 - NEXORA_EXECUTION_FLOW
 - NEXORA_AGENT_TASK_FILE

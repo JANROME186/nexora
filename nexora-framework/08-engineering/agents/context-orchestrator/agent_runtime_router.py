@@ -16,6 +16,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
@@ -34,8 +35,8 @@ DEFAULT_OLLAMA_MODEL = os.environ.get("NEXORA_OLLAMA_MODEL", "qwen2.5-coder:0.5b
 DEFAULT_AGENT_TASK_FILE = os.environ.get("NEXORA_AGENT_TASK_FILE", ".agent_next_task.md")
 DEFAULT_AGENT_RESULT_FILE = os.environ.get("NEXORA_AGENT_RESULT_FILE", ".agent_task_summary.md")
 DEFAULT_ORCHESTRATOR_LOG = os.environ.get("NEXORA_ORCHESTRATOR_LOG", ".nexora/runtime/orchestrator-events.jsonl")
-DEFAULT_TIMEOUT_SECONDS = 600
-DEFAULT_HEARTBEAT_SECONDS = 30
+DEFAULT_TIMEOUT_SECONDS = int(os.environ.get("NEXORA_PROVIDER_TIMEOUT_SECONDS", "600"))
+DEFAULT_HEARTBEAT_SECONDS = int(os.environ.get("NEXORA_PROVIDER_HEARTBEAT_SECONDS", "30"))
 
 
 DEFAULT_PROVIDERS: dict[str, dict[str, Any]] = {
@@ -373,42 +374,75 @@ def subprocess_command(command: str, args: list[str]) -> list[str]:
     return [resolved, *args]
 
 
+def kill_process_tree(process: subprocess.Popen[str]) -> None:
+    if os.name == "nt":
+        subprocess.run(
+            ["taskkill", "/PID", str(process.pid), "/T", "/F"],
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        return
+    process.kill()
+
+
 def run_logged_subprocess(root: Path, provider_id: str, command: str, args: list[str], input_text: str | None = None) -> subprocess.CompletedProcess[str]:
     started = datetime.now()
     resolved = subprocess_command(command, args)
     log_event(root, "provider_process_start", provider=provider_id, command=resolved[0], args=resolved[1:])
-    process = subprocess.Popen(
-        resolved,
-        stdin=subprocess.PIPE if input_text is not None else None,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        encoding="utf-8",
-    )
-    if input_text is not None and process.stdin:
-        process.stdin.write(input_text)
-        process.stdin.close()
+    with tempfile.TemporaryDirectory(prefix="nexora-router-") as tmp:
+        stdout_path = Path(tmp) / "stdout.txt"
+        stderr_path = Path(tmp) / "stderr.txt"
+        with stdout_path.open("w+", encoding="utf-8", newline="\n") as stdout_stream, stderr_path.open(
+            "w+", encoding="utf-8", newline="\n"
+        ) as stderr_stream:
+            process = subprocess.Popen(
+                resolved,
+                stdin=subprocess.PIPE if input_text is not None else None,
+                stdout=stdout_stream,
+                stderr=stderr_stream,
+                text=True,
+                encoding="utf-8",
+            )
+            if input_text is not None and process.stdin:
+                process.stdin.write(input_text)
+                process.stdin.close()
 
-    while process.poll() is None:
-        elapsed = int((datetime.now() - started).total_seconds())
-        if elapsed and elapsed % DEFAULT_HEARTBEAT_SECONDS == 0:
-            log_event(root, "provider_process_waiting", provider=provider_id, elapsed_seconds=elapsed)
-        try:
-            process.wait(timeout=1)
-        except subprocess.TimeoutExpired:
-            pass
-        if elapsed > DEFAULT_TIMEOUT_SECONDS:
-            process.kill()
-            stdout = process.stdout.read() if process.stdout else ""
-            stderr = process.stderr.read() if process.stderr else ""
-            log_event(root, "provider_process_timeout", provider=provider_id, elapsed_seconds=elapsed)
-            return subprocess.CompletedProcess(resolved, 124, stdout, stderr)
+            last_heartbeat = 0
+            timed_out = False
+            while process.poll() is None:
+                elapsed = int((datetime.now() - started).total_seconds())
+                if elapsed >= last_heartbeat + DEFAULT_HEARTBEAT_SECONDS:
+                    last_heartbeat = elapsed
+                    log_event(root, "provider_process_waiting", provider=provider_id, elapsed_seconds=elapsed)
+                if elapsed >= DEFAULT_TIMEOUT_SECONDS:
+                    timed_out = True
+                    kill_process_tree(process)
+                    break
+                try:
+                    process.wait(timeout=1)
+                except subprocess.TimeoutExpired:
+                    pass
 
-    stdout = process.stdout.read() if process.stdout else ""
-    stderr = process.stderr.read() if process.stderr else ""
+            if timed_out:
+                try:
+                    process.wait(timeout=10)
+                except subprocess.TimeoutExpired:
+                    kill_process_tree(process)
+                returncode = 124
+            else:
+                returncode = process.returncode or 0
+
+            stdout_stream.flush()
+            stderr_stream.flush()
+            stdout = stdout_path.read_text(encoding="utf-8", errors="replace")
+            stderr = stderr_path.read_text(encoding="utf-8", errors="replace")
     elapsed = int((datetime.now() - started).total_seconds())
-    log_event(root, "provider_process_end", provider=provider_id, returncode=process.returncode, elapsed_seconds=elapsed)
-    return subprocess.CompletedProcess(resolved, process.returncode or 0, stdout, stderr)
+    if timed_out:
+        log_event(root, "provider_process_timeout", provider=provider_id, elapsed_seconds=elapsed)
+    else:
+        log_event(root, "provider_process_end", provider=provider_id, returncode=returncode, elapsed_seconds=elapsed)
+    return subprocess.CompletedProcess(resolved, returncode, stdout, stderr)
 
 
 def call_cli(root: Path, provider_id: str, prompt: str, command: str, args: list[str]) -> str:
