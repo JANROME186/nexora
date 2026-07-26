@@ -306,9 +306,16 @@ def call_ollama(prompt: str, model: str) -> str:
     return str(body.get("response", ""))
 
 
+def subprocess_command(command: str, args: list[str]) -> list[str]:
+    resolved = shutil.which(command) or command
+    if os.name == "nt" and Path(resolved).suffix.lower() in {".cmd", ".bat"}:
+        return ["cmd", "/c", resolved, *args]
+    return [resolved, *args]
+
+
 def call_cli(prompt: str, command: str, args: list[str]) -> str:
     result = subprocess.run(
-        [command, *args, prompt],
+        subprocess_command(command, [*args, prompt]),
         text=True,
         capture_output=True,
         encoding="utf-8",
@@ -344,8 +351,7 @@ def call_codex_cli(root: Path, prompt: str, provider: dict[str, Any]) -> str:
     result_file = str(provider.get("result_file") or DEFAULT_AGENT_RESULT_FILE)
     result_path = root / result_file
     result_path.parent.mkdir(parents=True, exist_ok=True)
-    cmd = [
-        command,
+    args = [
         "exec",
         "--cd",
         str(root),
@@ -356,7 +362,7 @@ def call_codex_cli(root: Path, prompt: str, provider: dict[str, Any]) -> str:
         "-",
     ]
     result = subprocess.run(
-        cmd,
+        subprocess_command(command, args),
         input=prompt,
         text=True,
         capture_output=True,
