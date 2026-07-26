@@ -18,16 +18,39 @@ API-key providers that charge by token are not part of the default framework exe
 
 1. Use local deterministic tools, Python, shell, git, ripgrep and stack-native quality tools.
 2. Use Ollama and approved open source local models for prompt compression, planning and validation.
-3. Use subscription-backed local CLIs when explicitly enabled by the operator, for example:
+3. Prefer manual IDE handoff when CLI execution is not enabled, not permitted or not stable. The
+   orchestrator must generate the compact prompt with `--execution-flow manual` so the operator can
+   give it to Antigravity, Kiro or another IDE agent without sending large raw repository context to
+   a commercial model.
+4. Use subscription-backed local CLIs only when explicitly enabled by the operator, for example:
    - Claude Code CLI through local `claude` login.
    - Codex CLI through local `codex login` and the operator's ChatGPT/Codex subscription.
    - GitHub Copilot CLI through local `gh auth login` and Copilot subscription.
    - Gemini CLI through local OAuth or enterprise Code Assist eligibility when supported.
    - Kiro IDE CLI through local `kiro chat` when an IDE session is the intended execution surface.
-4. Use filesystem task ingestion for IDE agents such as Cursor, Windsurf, VS Code agent extensions
+5. Use filesystem task ingestion for IDE agents such as Cursor, Windsurf, VS Code agent extensions
    or other tools that consume a task file with the operator's existing flat-rate subscription.
-5. Use paid API-key providers only through a documented ADR exception outside the standard backlog
+6. Use paid API-key providers only through a documented ADR exception outside the standard backlog
    execution path.
+
+## Execution Flow Parameter
+
+The context orchestrator must expose an execution-flow parameter:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py --execution-flow manual
+python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py --execution-flow cli
+```
+
+`manual` is the default and preferred route when the operator will paste the prompt into an IDE
+agent. `cli` is used only when a subscription-backed CLI is available and intentionally enabled.
+The selected flow is part of the prompt cache key to keep regenerated prompts deterministic for the
+same mode and separate across modes.
+
+If `cli` fails because of permissions, quota, missing login, unsupported headless mode or sandbox
+limits, the agent must not mark the backlog blocked or closed by exception. It must regenerate the
+prompt in `manual` mode, report the reason for the switch and let the operator hand the optimized
+prompt to the IDE agent.
 
 ## Filesystem Task Ingestion
 
@@ -63,6 +86,9 @@ artifact:
 policy:
   api_key_token_consumption_default_allowed: false
   ollama_required: true
+  execution_flow_parameter_required: true
+  default_execution_flow: manual
+  manual_ide_handoff_preferred_when_cli_unavailable: true
   subscription_cli_allowed: true
   codex_cli_allowed: true
   gemini_cli_allowed_when_oauth_or_enterprise_eligible: true

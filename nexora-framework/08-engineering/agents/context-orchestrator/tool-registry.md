@@ -39,6 +39,9 @@ Default behavior:
 
 - Read the only prompt file present in `active_prompt/`.
 - Infer task id and complexity from the compact prompt.
+- Respect the prompt `EXECUTION_FLOW`:
+  - `manual` means operator/IDE handoff is preferred and no headless CLI execution is required.
+  - `cli` means a subscription-backed local CLI may be used when enabled and available.
 - Select the best enabled local/subscription provider by complexity, quota window and block state.
 - Run in dry-run mode unless `--execute` is explicitly provided.
 - Use Ollama local as the mandatory fallback provider.
@@ -64,6 +67,12 @@ Supported runtimes:
 
 API-key SDK providers are not part of the default Nexora routing path. A paid API-key route requires
 an ADR exception and must not be introduced by a product execution agent.
+
+When a CLI provider is blocked by missing login, missing binary, quota, permissions, unsupported
+headless execution or sandbox constraints, the operator must regenerate the active prompt with
+`context_orchestrator.py --execution-flow manual` and hand it to the IDE agent. This keeps the
+commercial-token payload optimized by Ollama while avoiding false backlog closures caused by
+execution-surface limits.
 
 Execution agents must not spawn commercial subagents for file exploration, broad search, formatting
 or QA evidence generation. Those tasks must use local shell/Python/Ollama first. Commercial routing

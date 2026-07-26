@@ -2,6 +2,8 @@
 ROOT: C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora
 PROJECT: projects/healthcare-operations-platform
 ORCHESTRATION: ollama_primary
+EXECUTION_FLOW: manual
+CHANNEL: Manual / IDE task handoff
 
 ## 1. Alcance / Objetivos Directos
 - Atender el backlog activo: Module closeout and registry update.
@@ -10,19 +12,25 @@ ORCHESTRATION: ollama_primary
 - Ejecutar gates de cierre, punteros, evidencias, deuda técnica, seguridad, cobertura y estado git.
 - No avanzar punteros si un gate obligatorio queda bloqueado o sin evidencia.
 
-## 2. Contexto Inmediato (Punteros)
+## 2. Flujo de Ejecución
+- Flujo preferente cuando no se permite o no conviene ejecutar CLI desde el orquestador.
+- El operador debe entregar este prompt optimizado al IDE/agente local elegido, por ejemplo Antigravity, Kiro u otro entorno con suscripción existente.
+- El agente de IDE debe trabajar en `ROOT`, usar `PROJECT` como carpeta objetivo, cerrar el backlog, hacer commit si no hay bloqueantes y ejecutar `tool: backlog_closure_validator` después del commit.
+- No invocar CLI comerciales desde este prompt manual; si requiere permisos, login, Docker u otra acción externa, pedir apoyo explícito al operador y continuar cuando quede resuelto.
+
+## 3. Contexto Inmediato (Punteros)
 - Handoff previo: `08-qa/handoffs/COM-MOD-014-QA-001-summary.md`
 - Prompts y estado: inspeccionar `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md` y `PROJECT_STATE.md` bajo demanda.
 - Contexto principal: `01-product-definition/business-capabilities/packages/`
 
-## 3. Entregables
+## 4. Entregables
 - Cambios quality y validaciones asociadas.
 - QA Evidence: `08-qa/qa/imaging-operations/COM-MOD-014-CLOSEOUT-validation.md`
 - Security Evidence: `08-qa/security-quality/COM-MOD-014-CLOSEOUT/security-quality-evidence.md`
 - Transición: crear `08-qa/handoffs/COM-MOD-014-CLOSEOUT-summary.md`.
 - Actualizar `PROJECT_STATE.md`, `SOURCE_OF_TRUTH.md`, backlog/prompts, runbook e índices aplicables.
 
-## 4. Criterios de Cierre
+## 5. Criterios de Cierre
 - Gates obligatorios ejecutados; Markdown/frontmatter parseable; `git diff --check` limpio.
 - Commit: `test(hop): validate imaging operations backlog closure`.
 - No lanzar subagentes comerciales para exploración, lectura masiva, QA documental o formateo; usar herramientas locales/Ollama y `tool: commercial_agent_router` solo para CLI con suscripción local o task ingestion por archivo. No usar API keys por consumo salvo ADR excepcional.

@@ -48,7 +48,8 @@ DEFAULT_HISTORY_PROMPT_DIR = "projects/healthcare-operations-platform/08-qa/gene
 DEFAULT_ORCHESTRATION_CACHE_DIR = "projects/healthcare-operations-platform/08-qa/generated-prompts/cache"
 DEFAULT_OLLAMA_MODEL = "qwen2.5-coder:0.5b"
 DEFAULT_OLLAMA_TIMEOUT_SECONDS = 300
-PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v5"
+PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v6"
+EXECUTION_FLOWS = ("manual", "cli")
 
 
 def extract_structured_payload(text: str) -> str:
@@ -396,6 +397,11 @@ def sha256_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+def default_execution_flow() -> str:
+    value = os.environ.get("NEXORA_EXECUTION_FLOW", "manual").strip().lower()
+    return value if value in EXECUTION_FLOWS else "manual"
+
+
 def parse_json_object(text: str) -> dict:
     try:
         parsed = json.loads(text)
@@ -421,6 +427,7 @@ def build_canonical_context(
     summary_ref: str | None,
     mandatory_notes: list[str],
     coverage_floor: dict,
+    execution_flow: str,
 ) -> dict:
     profile = task_artifact_profile(task_id)
     return {
@@ -428,6 +435,7 @@ def build_canonical_context(
         "project": DEFAULT_PROJECT_PATH,
         "task_id": task_id,
         "title": title,
+        "execution_flow": execution_flow,
         "summary_ref": summary_ref,
         "mandatory_notes": compact_mandatory_notes(task_id, title, mandatory_notes, coverage_floor),
         "context_lines": context_pointer_block(task_id, summary_ref),
@@ -486,6 +494,10 @@ def ollama_plan(context: dict, model: str, allow_fallback: bool) -> tuple[dict, 
             "SESION CORTA: no spawn commercial subagents for file exploration; use local tools, "
             "Ollama, subscription-backed CLI or filesystem task ingestion through "
             "commercial_agent_router when external execution is required. "
+            "FLUJO DE EJECUCION: respect context.execution_flow. For manual, generate an IDE/task "
+            "handoff prompt that the operator can paste into Antigravity, Kiro or another IDE "
+            "agent; do not instruct direct CLI execution. For cli, generate a focused prompt for "
+            "subscription-backed CLI routing and fall back to manual if the provider is unavailable. "
             "Return only this JSON object shape with short arrays and no markdown: "
             "{\"objectives\":[],\"deliverables\":[],\"closure_criteria\":[]}. "
             "Use the provided canonical context. Do not invent files. Do not add vendor-agent "
@@ -587,31 +599,56 @@ def build_prompt(
     summary_ref: str | None,
     mandatory_notes: list[str],
     coverage_floor: dict,
+    execution_flow: str,
     orchestration_mode: str = "ollama_primary",
 ) -> str:
     profile = task_artifact_profile(task_id)
     pointer_block = "\n".join(f"- {line}" for line in context_pointer_block(task_id, summary_ref))
     pointer_block = f"{pointer_block}\n- Contexto principal: `{profile['context_path']}`"
     notes_block = "\n".join(f"- {note}" for note in compact_mandatory_notes(task_id, title, mandatory_notes, coverage_floor))
+    if execution_flow == "cli":
+        channel = "CLI con suscripción local"
+        execution_rules = "\n".join(
+            [
+                "- Ejecutar por `tool: commercial_agent_router` usando un proveedor CLI habilitado por el operador.",
+                "- No usar proveedores deshabilitados, con cuota agotada o que requieran API keys token-billed.",
+                "- Si el CLI no puede ejecutarse por permisos, login, cuota o sandbox, no cerrar el backlog: generar de nuevo este prompt con `--execution-flow manual` y reportar el cambio de flujo.",
+            ]
+        )
+    else:
+        channel = "Manual / IDE task handoff"
+        execution_rules = "\n".join(
+            [
+                "- Flujo preferente cuando no se permite o no conviene ejecutar CLI desde el orquestador.",
+                "- El operador debe entregar este prompt optimizado al IDE/agente local elegido, por ejemplo Antigravity, Kiro u otro entorno con suscripción existente.",
+                "- El agente de IDE debe trabajar en `ROOT`, usar `PROJECT` como carpeta objetivo, cerrar el backlog, hacer commit si no hay bloqueantes y ejecutar `tool: backlog_closure_validator` después del commit.",
+                "- No invocar CLI comerciales desde este prompt manual; si requiere permisos, login, Docker u otra acción externa, pedir apoyo explícito al operador y continuar cuando quede resuelto.",
+            ]
+        )
     return f"""# TASK: {task_id} - {title}
 ROOT: {root.as_posix()}
 PROJECT: {DEFAULT_PROJECT_PATH}
 ORCHESTRATION: {orchestration_mode}
+EXECUTION_FLOW: {execution_flow}
+CHANNEL: {channel}
 
 ## 1. Alcance / Objetivos Directos
 {notes_block}
 
-## 2. Contexto Inmediato (Punteros)
+## 2. Flujo de Ejecución
+{execution_rules}
+
+## 3. Contexto Inmediato (Punteros)
 {pointer_block}
 
-## 3. Entregables
+## 4. Entregables
 - Cambios {infer_workstream(task_id)} y validaciones asociadas.
 - QA Evidence: `{profile['qa_evidence_pattern']}`
 - Security Evidence: `{profile['security_evidence_pattern']}`
 - Transición: crear `{profile['handoff_path']}`.
 - Actualizar `PROJECT_STATE.md`, `SOURCE_OF_TRUTH.md`, backlog/prompts, runbook e índices aplicables.
 
-## 4. Criterios de Cierre
+## 5. Criterios de Cierre
 - Gates obligatorios ejecutados; Markdown/frontmatter parseable; `git diff --check` limpio.
 - Commit: `{profile['commit_suggestion']}`.
 - No lanzar subagentes comerciales para exploración, lectura masiva, QA documental o formateo; usar herramientas locales/Ollama y `tool: commercial_agent_router` solo para CLI con suscripción local o task ingestion por archivo. No usar API keys por consumo salvo ADR excepcional.
@@ -633,6 +670,12 @@ def main() -> int:
     parser.add_argument("--summary-ref", default=None, help="Previous task summary path.")
     parser.add_argument("--ollama-model", default=DEFAULT_OLLAMA_MODEL, help="Required local Ollama model.")
     parser.add_argument("--allow-deterministic-fallback", action="store_true", help="Allow Python deterministic fallback when Ollama/model is unavailable. Intended only for bootstrap diagnostics.")
+    parser.add_argument(
+        "--execution-flow",
+        choices=EXECUTION_FLOWS,
+        default=default_execution_flow(),
+        help="Execution flow for the generated prompt. Use manual for IDE handoff or cli for subscription-backed CLI routing.",
+    )
     parser.add_argument("--refresh", action="store_true", help="Regenerate the prompt even when the context hash matches the cache.")
     parser.add_argument("--output", default=None, help="Output file for the synthetic prompt. Defaults to the HOP active_prompt folder.")
     parser.add_argument("--stdout", action="store_true", help="Print the prompt content instead of only the output path.")
@@ -665,6 +708,7 @@ def main() -> int:
         summary_ref,
         mandatory_notes,
         coverage_floor,
+        args.execution_flow,
     )
     context_hash = sha256_text(canonical_json(canonical_context))
     default_output_path, cache_path = cache_paths(root, task_id)
@@ -687,6 +731,7 @@ def main() -> int:
             summary_ref,
             mandatory_notes,
             coverage_floor,
+            args.execution_flow,
             orchestration_mode,
         )
         if ollama_metadata:

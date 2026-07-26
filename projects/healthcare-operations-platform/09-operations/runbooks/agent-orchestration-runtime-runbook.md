@@ -27,7 +27,17 @@ Framework setup reference:
 1. Generate or refresh the active prompt:
 
 ```powershell
-python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py
+python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py --execution-flow manual
+```
+
+The manual flow is the default HOP route when the backlog will be handed to an IDE agent such as
+Antigravity, Kiro or another subscription-backed IDE. Ollama/Python compresses the prompt first, so
+the commercial IDE receives only the active backlog scope instead of broad repository context.
+
+Use CLI flow only when a local subscription CLI is enabled and the operator intentionally allows it:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py --execution-flow cli
 ```
 
 2. Confirm routing decision without invoking an external runtime:
@@ -74,11 +84,13 @@ Supported environment variables:
 - `NEXORA_ACTIVE_PROMPT_DIR`
 - `NEXORA_QUOTA_TRACKER`
 - `NEXORA_OLLAMA_MODEL`
+- `NEXORA_EXECUTION_FLOW`
 - `NEXORA_AGENT_TASK_FILE`
 - `NEXORA_AGENT_RESULT_FILE`
 
 Runtime guidance:
 
+- Manual/IDE handoff is prioritized when CLI execution is unavailable, not allowed or not stable.
 - Low complexity: Ollama/local only by default.
 - Medium complexity: filesystem task ingestion, Codex CLI, Gemini CLI when OAuth/enterprise
   eligibility is valid, Kiro IDE task handoff, GitHub Copilot CLI or Ollama.
@@ -95,6 +107,12 @@ Provider access must use local CLI/editor login outside the repository:
 - local Kiro IDE session when `kiro_ide_cli` is enabled for IDE task handoff
 - local `gh auth login` and Copilot extension when `github_copilot_cli` is enabled
 - local IDE/editor subscription session when `filesystem_task_ingestion` is used
+
+If a CLI route fails because of permissions, login, quota, missing binary, unsupported headless mode
+or sandbox constraints, HOP must regenerate the active prompt with `--execution-flow manual`. The
+operator then gives that prompt to the IDE agent. The backlog must still close through commit and
+`tool: backlog_closure_validator`; execution limitations must not be used as a substitute for
+closure.
 
 ## Closure Rules
 
@@ -129,6 +147,15 @@ runtime_state:
   task_ingestion_file: .agent_next_task.md
   task_result_file: .agent_task_summary.md
   committed: false
+execution_flows:
+- id: manual
+  default: true
+  channel: IDE task handoff
+  preferred_when: cli_unavailable_or_not_enabled
+- id: cli
+  default: false
+  channel: subscription-backed CLI
+  fallback: manual
 configuration:
   framework_runtime_runbook: nexora-framework/08-engineering/agents/context-orchestrator/runtime-configuration-runbook.md
   subscription_first_standard: nexora-framework/02-standards/standards/subscription-first-agent-orchestration-standard.md

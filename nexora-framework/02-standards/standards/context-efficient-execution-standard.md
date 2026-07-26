@@ -21,6 +21,13 @@ subscription-backed local CLIs and filesystem task ingestion according to comple
 availability, quota windows and local rate-limit state. API-key token-consumption providers are not
 part of the default route.
 
+The orchestrator must support two execution flows. `manual` is the default flow and produces an
+optimized prompt for operator handoff to IDE agents such as Antigravity, Kiro or another
+subscription-backed IDE. `cli` produces a prompt intended for subscription-backed local CLI routing.
+If the CLI path is unavailable because of permissions, login, quota, unsupported headless execution
+or sandbox limits, the workflow must switch back to `manual`; this is a normal route, not a closure
+exception.
+
 All Python programs used by the framework must be committed under `nexora-framework/`. Local values
 that depend on the workstation, operator or provider account must be supplied through environment
 variables or ignored Nexora runtime folders. Secrets and quota state must never be committed.
@@ -31,7 +38,7 @@ variables or ignored Nexora runtime folders. Secrets and quota state must never 
 2. Inspect only relevant lines or sections.
 3. Build and hash the canonical context.
 4. Ask Ollama for deterministic orchestration metadata.
-5. Render a compact prompt with `ROOT` defined once.
+5. Render a compact prompt with `ROOT`, `PROJECT` and `EXECUTION_FLOW` defined once.
 6. Persist the prompt to `08-qa/generated-prompts/<TASK_ID>-prompt.md`.
 7. Reuse the cached prompt while the context hash is unchanged.
 8. Send the compact prompt to the execution agent.
@@ -61,18 +68,23 @@ Existing YAML artifacts remain supported until a controlled migration is complet
 # TASK: [ID_TAREA] - [TITULO]
 ROOT: [RUTA_BASE]
 PROJECT: [RUTA_PROYECTO]
+EXECUTION_FLOW: [manual|cli]
+CHANNEL: [Manual / IDE task handoff|CLI con suscripción local]
 
 ## 1. Alcance / Objetivos Directos
 - [Instrucciones concisas]
 
-## 2. Contexto Inmediato (Punteros)
+## 2. Flujo de Ejecución
+- [Reglas específicas para manual o CLI]
+
+## 3. Contexto Inmediato (Punteros)
 - Ref: [handoff previo o archivo puntual]
 
-## 3. Entregables
+## 4. Entregables
 - [Archivos a crear/modificar]
 - Crear [TASK_ID]-summary.md con Status, Cambios Clave, Deuda Técnica Creada y Siguiente Paso.
 
-## 4. Criterios de Cierre
+## 5. Criterios de Cierre
 - [Status esperado]
 - [Pruebas obligatorias]
 - [Conventional Commit sugerido]
@@ -199,6 +211,9 @@ principles:
   python_runtime_router_required: true
   framework_python_programs_committed_required: true
   local_runtime_state_excluded_from_git: true
+  execution_flow_parameter_required: true
+  default_execution_flow: manual
+  manual_ide_handoff_preferred_when_cli_unavailable: true
 runtime_configuration:
   runbook: nexora-framework/08-engineering/agents/context-orchestrator/runtime-configuration-runbook.md
   env_template: nexora-framework/08-engineering/agents/context-orchestrator/.env.example
@@ -241,6 +256,8 @@ local_orchestrator:
   - persist generated prompts in a deterministic file path
   - reuse prompt cache when the canonical context hash has not changed
   - route subscription/local execution through the local runtime router when needed
+  - generate manual IDE handoff prompts by default when CLI execution is unavailable or not requested
+  - generate CLI prompts only when the operator intentionally selects CLI execution
   - end each backlog item with handoff, commit, validation and session exit
   prohibited_responsibilities:
   - replace mandatory quality gates
@@ -255,6 +272,14 @@ runtime_routing:
   local_state_file: .nexora/runtime/quota_tracker.json
   local_state_committed: false
   credentials_source: local_cli_or_editor_login_outside_repository
+  execution_flows:
+  - id: manual
+    default: true
+    role: optimized_prompt_for_operator_ide_handoff
+  - id: cli
+    default: false
+    role: subscription_backed_cli_execution_when_enabled
+    fallback_when_unavailable: manual
   provider_strategy:
   - id: ollama_local
     tier: low

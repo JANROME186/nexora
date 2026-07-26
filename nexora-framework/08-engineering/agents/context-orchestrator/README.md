@@ -2,7 +2,7 @@
 
 This Python helper generates a compact backlog prompt using lazy loading and Ollama-first local orchestration.
 
-Default usage:
+Default usage generates the preferred manual/IDE handoff prompt:
 
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py
@@ -40,6 +40,32 @@ executions stable while still using Ollama as the primary local orchestration so
 
 The output must remain agent agnostic. It should point to files and commands instead of pasting complete artifacts into the commercial prompt.
 
+## Execution Flows
+
+The orchestrator supports two explicit flows. The default is `manual` because it avoids depending
+on a headless CLI and lets the operator paste the optimized prompt into IDE agents such as
+Antigravity, Kiro or any other subscription-backed IDE.
+
+Manual flow:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py --execution-flow manual --refresh
+```
+
+CLI flow:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py --execution-flow cli --refresh
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py --execute
+```
+
+If a CLI route is blocked by login, quota, sandbox, missing binary or permissions, the operator must
+switch to manual flow and give the generated prompt to the IDE agent. The backlog must not be
+declared closed because of a resolvable CLI limitation.
+
+The selected flow is part of the canonical context hash, so repeated executions with the same flow
+produce stable output and manual/CLI prompts do not overwrite each other's cache state.
+
 ## Runtime Configuration
 
 All Python programs used by this orchestrator are versioned in this repository. Local runtime state,
@@ -64,9 +90,12 @@ context windows and duplicate token-consumption billing. The standard route is l
 first:
 
 1. Generate the active compact prompt with `context_orchestrator.py`.
-2. Route the prompt with `tool: commercial_agent_router`.
-3. Execute focused work with local Ollama, a subscription-backed CLI or filesystem task ingestion.
-4. Write the handoff summary, commit, validate closure and exit the session.
+2. Choose the execution flow explicitly:
+   - `--execution-flow manual` for operator handoff to IDE agents.
+   - `--execution-flow cli` for enabled subscription-backed CLI execution.
+3. Route the prompt with `tool: commercial_agent_router` only when CLI/task-ingestion execution is intentional.
+4. Execute focused work with local Ollama, a subscription-backed CLI or filesystem task ingestion.
+5. Write the handoff summary, commit, validate closure and exit the session.
 
 Framework standard:
 

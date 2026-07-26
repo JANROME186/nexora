@@ -76,6 +76,7 @@ Required or recommended Nexora variables:
 | `NEXORA_ACTIVE_PROMPT_DIR` | Active prompt inbox used by router and validator. |
 | `NEXORA_QUOTA_TRACKER` | Local ignored quota tracker path. |
 | `NEXORA_OLLAMA_MODEL` | Default local Ollama model. |
+| `NEXORA_EXECUTION_FLOW` | Default prompt execution flow: `manual` or `cli`. |
 | `NEXORA_AGENT_TASK_FILE` | Ignored task ingestion file written for local IDE agents. |
 | `NEXORA_AGENT_RESULT_FILE` | Ignored summary file expected from local IDE agents. |
 
@@ -93,6 +94,7 @@ $env:NEXORA_PROJECT_PATH="projects/healthcare-operations-platform"
 $env:NEXORA_ACTIVE_PROMPT_DIR="projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt"
 $env:NEXORA_QUOTA_TRACKER=".nexora/runtime/quota_tracker.json"
 $env:NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
+$env:NEXORA_EXECUTION_FLOW="manual"
 $env:NEXORA_AGENT_TASK_FILE=".agent_next_task.md"
 $env:NEXORA_AGENT_RESULT_FILE=".agent_task_summary.md"
 ```
@@ -126,6 +128,7 @@ export NEXORA_PROJECT_PATH="projects/healthcare-operations-platform"
 export NEXORA_ACTIVE_PROMPT_DIR="projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt"
 export NEXORA_QUOTA_TRACKER=".nexora/runtime/quota_tracker.json"
 export NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
+export NEXORA_EXECUTION_FLOW="manual"
 export NEXORA_AGENT_TASK_FILE=".agent_next_task.md"
 export NEXORA_AGENT_RESULT_FILE=".agent_task_summary.md"
 ```
@@ -153,7 +156,18 @@ python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime
 Generate the active optimized prompt:
 
 ```powershell
-python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py
+python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py --execution-flow manual
+```
+
+The manual flow is the default and preferred route when the operator will paste the optimized prompt
+into an IDE agent such as Antigravity, Kiro or another subscription-backed IDE. It keeps Ollama/Python
+responsible for compression and lets the commercial IDE receive only the compact backlog prompt.
+
+Generate a CLI-oriented prompt only when a local subscription CLI is enabled and the operator wants
+the router to execute it:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py --execution-flow cli
 ```
 
 Check routing without invoking external runtimes:
@@ -170,6 +184,11 @@ python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime
 
 Then ask the local IDE/tool agent, using its own subscription: `Atender tarea activa`. The agent must
 read `.agent_next_task.md`, execute the backlog and write `.agent_task_summary.md`.
+
+If a CLI route is blocked by login, quota, missing binary, permissions, unsupported headless
+execution or sandbox constraints, regenerate the active prompt with `--execution-flow manual` and
+handoff to the IDE. Do not close a backlog by exception when operator assistance can resolve the
+execution path.
 
 Run closure validation after the backlog work is committed:
 
@@ -217,6 +236,7 @@ environment_variables:
 - NEXORA_ACTIVE_PROMPT_DIR
 - NEXORA_QUOTA_TRACKER
 - NEXORA_OLLAMA_MODEL
+- NEXORA_EXECUTION_FLOW
 - NEXORA_AGENT_TASK_FILE
 - NEXORA_AGENT_RESULT_FILE
 versioned_python_programs:

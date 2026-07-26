@@ -132,6 +132,7 @@ class RouteDecision:
     runtime: str
     model: str
     complexity: str
+    execution_flow: str
     reason: str
 
 
@@ -168,6 +169,14 @@ def infer_complexity(task_id: str, prompt: str) -> str:
     if any(word in text for word in ("refactor", "test", "frontend", "mobile", "integracion")):
         return "medium"
     return "low"
+
+
+def infer_execution_flow(prompt: str) -> str:
+    for line in prompt.splitlines():
+        if line.startswith("EXECUTION_FLOW:"):
+            value = line.split(":", 1)[1].strip().lower()
+            return value if value in {"manual", "cli"} else "manual"
+    return os.environ.get("NEXORA_EXECUTION_FLOW", "manual").strip().lower() or "manual"
 
 
 def load_state(path: Path) -> dict[str, Any]:
@@ -242,7 +251,9 @@ def configured(provider: dict[str, Any]) -> bool:
     return False
 
 
-def candidate_ids(complexity: str) -> list[str]:
+def candidate_ids(complexity: str, execution_flow: str) -> list[str]:
+    if execution_flow == "manual":
+        return ["filesystem_task_ingestion", "ollama_local"]
     if complexity == "high":
         return ["claude_code_cli", "codex_cli", "github_copilot_cli", "filesystem_task_ingestion", "ollama_local"]
     if complexity == "medium":
@@ -250,10 +261,15 @@ def candidate_ids(complexity: str) -> list[str]:
     return ["ollama_local", "filesystem_task_ingestion"]
 
 
-def select_provider(state: dict[str, Any], complexity: str, forced_provider: str | None = None) -> RouteDecision:
+def select_provider(
+    state: dict[str, Any],
+    complexity: str,
+    execution_flow: str,
+    forced_provider: str | None = None,
+) -> RouteDecision:
     providers = state.get("providers") or {}
     now = datetime.now()
-    candidates = [forced_provider] if forced_provider else candidate_ids(complexity)
+    candidates = [forced_provider] if forced_provider else candidate_ids(complexity, execution_flow)
     ranked: list[tuple[int, str, dict[str, Any]]] = []
     skipped: list[str] = []
     for provider_id in candidates:
@@ -279,6 +295,7 @@ def select_provider(state: dict[str, Any], complexity: str, forced_provider: str
             runtime=str(provider["runtime"]),
             model=str(provider["model"]),
             complexity=complexity,
+            execution_flow=execution_flow,
             reason="fallback: " + ", ".join(skipped),
         )
     _, provider_id, provider = sorted(ranked, key=lambda item: item[0])[0]
@@ -287,7 +304,8 @@ def select_provider(state: dict[str, Any], complexity: str, forced_provider: str
         runtime=str(provider["runtime"]),
         model=str(provider.get("model") or ""),
         complexity=complexity,
-        reason="selected_by_dynamic_routing",
+        execution_flow=execution_flow,
+        reason=f"selected_by_dynamic_routing:{execution_flow}",
     )
 
 
@@ -436,6 +454,7 @@ def route_and_execute(
     prompt: str,
     state: dict[str, Any],
     complexity: str,
+    execution_flow: str,
     forced_provider: str | None,
     execute: bool,
     block_hours: int,
@@ -443,9 +462,10 @@ def route_and_execute(
     attempted: list[str] = []
     provider_override = forced_provider
     while True:
-        decision = select_provider(state, complexity, provider_override)
+        decision = select_provider(state, complexity, execution_flow, provider_override)
         if decision.provider in attempted:
-            decision = select_provider(state, "low", "ollama_local")
+            fallback_provider = "filesystem_task_ingestion" if execution_flow == "manual" else "ollama_local"
+            decision = select_provider(state, "low", execution_flow, fallback_provider)
         if not execute:
             return decision, None
         try:
@@ -491,8 +511,9 @@ def main() -> int:
     prompt_path = (root / args.prompt).resolve() if args.prompt else active_prompt_path(root)
     prompt = read_text(prompt_path)
     task_id = infer_task_id(prompt)
+    execution_flow = infer_execution_flow(prompt)
     complexity = infer_complexity(task_id, prompt) if args.complexity == "auto" else args.complexity
-    decision, output = route_and_execute(prompt, state, complexity, args.provider, args.execute, args.block_hours)
+    decision, output = route_and_execute(prompt, state, complexity, execution_flow, args.provider, args.execute, args.block_hours)
     save_state(state_path, state)
 
     print(json.dumps(decision.__dict__, ensure_ascii=False, sort_keys=True))
