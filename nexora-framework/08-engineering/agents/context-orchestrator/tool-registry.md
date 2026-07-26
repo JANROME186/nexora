@@ -45,7 +45,8 @@ Default behavior:
 - Respect the prompt `EXECUTION_FLOW`:
   - `manual` means operator/IDE handoff is preferred and no headless CLI execution is required.
   - `cli` means a subscription-backed local CLI may be used when enabled and available.
-- Select the best enabled local/subscription provider by complexity, quota window and block state.
+- Select the best enabled local/subscription provider by complexity, confirmed quota-limit state
+  and rotation policy.
 - Run in dry-run mode unless `--execute` is explicitly provided.
 - Use Ollama local as the mandatory fallback provider.
 - Persist quota/rate-limit state locally outside git.
@@ -53,7 +54,7 @@ Default behavior:
 - Emit console heartbeat events every 30 seconds while a CLI provider is still running.
 - For first observed automation runs, allow generous provider timeouts and use heartbeat telemetry
   (`elapsed_seconds`, `remaining_timeout_seconds`, `stdout_bytes`, `stderr_bytes`) to diagnose
-  whether a process is active, silent or blocked.
+  whether a process is active, silent or waiting.
 - Refuse headless CLI execution unless `tool: agent_cli_preflight` produced a fresh ready
   certificate for the selected provider.
 - Balance provider consumption by penalizing recent successful providers and selecting another
@@ -98,11 +99,12 @@ Supported runtimes:
 API-key SDK providers are not part of the default Nexora routing path. A paid API-key route requires
 an ADR exception and must not be introduced by a product execution agent.
 
-When a CLI provider is blocked by missing login, missing binary, quota, permissions, unsupported
-headless execution or sandbox constraints, the operator must regenerate the active prompt with
-`context_orchestrator.py --execution-flow manual` and hand it to the IDE agent. This keeps the
-commercial-token payload optimized by Ollama while avoiding false backlog closures caused by
-execution-surface limits.
+Only provider responses that explicitly report plan quota/rate limits, such as HTTP 429 or
+quota-exceeded messages, may persist a provider as blocked in local runtime state. Missing login,
+missing binary, permissions, unsupported headless execution, silent process failures or sandbox
+constraints are treated as unavailable for the current run only. When those non-quota issues occur,
+the operator may fix the environment, rerun preflight/router, or regenerate the active prompt with
+`context_orchestrator.py --execution-flow manual` and hand it to the IDE agent.
 
 Execution agents must not spawn commercial subagents for file exploration, broad search, formatting
 or QA evidence generation. Those tasks must use local shell/Python/Ollama first. Commercial routing

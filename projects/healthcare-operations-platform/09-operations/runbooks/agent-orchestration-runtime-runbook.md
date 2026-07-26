@@ -177,6 +177,9 @@ Runtime guidance:
   Ollama.
 - HTTP 429 or quota-exceeded responses pause the provider locally and retry with the next available
   route.
+- Login, permissions, missing binary, unsupported headless execution, silent process failure or
+  sandbox constraints do not persistently block a provider; they only make it unavailable for the
+  current run until the operator fixes the environment and reruns preflight/router.
 
 Provider access must use local CLI/editor login outside the repository:
 
@@ -187,11 +190,12 @@ Provider access must use local CLI/editor login outside the repository:
 - local `gh auth login` and Copilot extension when `github_copilot_cli` is enabled
 - local IDE/editor subscription session when `filesystem_task_ingestion` is used
 
-If a CLI route fails because of permissions, login, quota, missing binary, unsupported headless mode
-or sandbox constraints, HOP must regenerate the active prompt with `--execution-flow manual`. The
-operator then gives that prompt to the IDE agent. The backlog must still close through commit and
-`tool: backlog_closure_validator`; execution limitations must not be used as a substitute for
-closure.
+If a CLI route fails because of permissions, login, missing binary, unsupported headless mode or
+sandbox constraints and the operator cannot fix it immediately, HOP may regenerate the active prompt
+with `--execution-flow manual`. The operator then gives that prompt to the IDE agent. Quota/rate-limit
+responses are the only failures that should pause a provider in local runtime state. The backlog must
+still close through commit and `tool: backlog_closure_validator`; execution limitations must not be
+used as a substitute for closure.
 
 ## Closure Rules
 

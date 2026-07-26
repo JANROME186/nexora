@@ -293,7 +293,8 @@ $env:NEXORA_PROVIDER_ROTATION_PENALTY="50"
 
 For high-complexity CLI prompts, this means a successful `codex_cli` run should normally be followed
 by `claude_code_cli`, another enabled commercial CLI, or a filesystem IDE handoff route when those
-routes are available and not blocked.
+routes are available. A provider is skipped as blocked only when the provider itself reported
+quota/rate-limit exhaustion.
 
 Write the active prompt into the local IDE task-ingestion file:
 
@@ -304,10 +305,10 @@ python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime
 Then ask the local IDE/tool agent, using its own subscription: `Atender tarea activa`. The agent must
 read `.agent_next_task.md`, execute the backlog and write `.agent_task_summary.md`.
 
-If a CLI route is blocked by login, quota, missing binary, permissions, unsupported headless
-execution or sandbox constraints, regenerate the active prompt with `--execution-flow manual` and
-handoff to the IDE. Do not close a backlog by exception when operator assistance can resolve the
-execution path.
+Only quota/rate-limit responses from the provider may persist a provider as blocked. Login,
+permissions, missing binary, unsupported headless execution, silent process failure or sandbox
+constraints are current-run availability problems; fix the environment and rerun preflight/router,
+or regenerate the active prompt with `--execution-flow manual` and hand off to the IDE.
 
 For manual or filesystem task-ingestion flows, run closure validation after the backlog work is
 committed:

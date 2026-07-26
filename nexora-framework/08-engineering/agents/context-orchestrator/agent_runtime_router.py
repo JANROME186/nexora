@@ -482,6 +482,12 @@ def is_blocked(provider: dict[str, Any], now: datetime) -> bool:
     value = provider.get("is_blocked_until")
     if not value:
         return False
+    quota_signal = " ".join(
+        str(provider.get(key) or "").lower()
+        for key in ("blocked_reason", "last_validation_status", "last_validation_reason")
+    )
+    if not any(marker in quota_signal for marker in ("quota", "rate", "429", "limit")):
+        return False
     try:
         blocked_until = datetime.fromisoformat(str(value))
     except ValueError:
@@ -610,7 +616,8 @@ def block_provider(state: dict[str, Any], provider_id: str, hours: int) -> None:
         raise SystemExit(f"Unknown provider: {provider_id}")
     blocked_until = datetime.now() + timedelta(hours=hours)
     provider["is_blocked_until"] = blocked_until.isoformat(timespec="seconds")
-    record_event(state, {"type": "provider_blocked", "provider": provider_id, "hours": hours})
+    provider["blocked_reason"] = "quota_or_rate_limit"
+    record_event(state, {"type": "provider_blocked", "provider": provider_id, "hours": hours, "reason": "quota_or_rate_limit"})
 
 
 def call_ollama(prompt: str, model: str) -> str:
@@ -895,9 +902,8 @@ def route_and_execute(
             attempted.append(decision.provider)
             if forced_provider:
                 raise
+            provider_override = None
             if decision.provider not in {"ollama_local", "filesystem_task_ingestion"}:
-                block_provider(state, decision.provider, min(block_hours, 1))
-                provider_override = None
                 continue
             raise
 
