@@ -18,10 +18,8 @@ API-key providers that charge by token are not part of the default framework exe
 
 1. Use local deterministic tools, Python, shell, git, ripgrep and stack-native quality tools.
 2. Use Ollama and approved open source local models for prompt compression, planning and validation.
-3. Prefer manual IDE handoff when CLI execution is not enabled, not permitted or not stable. The
-   orchestrator must generate the compact prompt with `--execution-flow manual` so the operator can
-   give it to Antigravity, Kiro or another IDE agent without sending large raw repository context to
-   a commercial model.
+3. Prefer automatic fallback across enabled subscription-backed CLIs when a selected CLI is not
+   available for the current run. Manual IDE handoff is used when no automatic route is viable.
 4. Use subscription-backed local CLIs only when explicitly enabled by the operator, for example:
    - Claude Code CLI through local `claude` login.
    - Codex CLI through local `codex login` and the operator's ChatGPT/Codex subscription.
@@ -52,10 +50,11 @@ headless CLI execution when the selected provider does not have a fresh ready ce
 prevents backlog work from starting when a provider is missing, unauthenticated, quota blocked,
 unsupported for headless output or timing out on a tiny smoke prompt.
 
-If `cli` fails because of permissions, quota, missing login, unsupported headless mode or sandbox
-limits, the agent must not mark the backlog blocked or closed by exception. It must regenerate the
-prompt in `manual` mode, report the reason for the switch and let the operator hand the optimized
-prompt to the IDE agent.
+If `cli` fails because of permissions, missing login, unsupported headless mode, silent execution
+blockers or sandbox limits, the router must first try another enabled provider in the same run. The
+provider must be persisted as blocked only when its own response explicitly reports quota, rate
+limit or plan-limit exhaustion. Manual mode is a last-resort handoff when no automatic provider can
+continue.
 
 ## Filesystem Task Ingestion
 

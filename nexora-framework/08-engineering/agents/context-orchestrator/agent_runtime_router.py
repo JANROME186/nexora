@@ -74,7 +74,7 @@ DEFAULT_PROVIDERS: dict[str, dict[str, Any]] = {
         "runtime": "claude_cli",
         "model": "claude-code-subscription",
         "command": "claude",
-        "args": ["-p", "--input-format", "text", "--output-format", "text", "--permission-mode", "dontAsk"],
+        "args": ["-p", "--input-format", "text", "--output-format", "text", "--permission-mode", "bypassPermissions"],
         "enabled": False,
         "window_reset_hours": 3,
         "is_blocked_until": None,
@@ -142,7 +142,7 @@ class ProviderRateLimited(RuntimeError):
 HEADLESS_CLI_RUNTIMES = {"claude_cli", "github_copilot_cli", "codex_cli", "gemini_cli"}
 PROTECTED_PROVIDER_FIELDS: dict[str, dict[str, Any]] = {
     "claude_code_cli": {
-        "args": ["-p", "--input-format", "text", "--output-format", "text", "--permission-mode", "dontAsk"],
+        "args": ["-p", "--input-format", "text", "--output-format", "text", "--permission-mode", "bypassPermissions"],
     },
     "codex_cli": {
         "args": [
@@ -753,6 +753,21 @@ def run_logged_subprocess(root: Path, provider_id: str, command: str, args: list
     return subprocess.CompletedProcess(resolved, returncode, stdout, stderr)
 
 
+def output_indicates_execution_blocker(output: str) -> bool:
+    markers = (
+        "permission denied",
+        "denies every write",
+        "grant write permissions",
+        "switch to manual execution flow",
+        "cannot close it because",
+        "cannot close the backlog",
+        "hard blocker",
+        "write-capable tool",
+        "sandbox permissions",
+    )
+    return any(marker in output for marker in markers)
+
+
 def call_cli(root: Path, provider_id: str, prompt: str, command: str, args: list[str]) -> str:
     result = run_logged_subprocess(root, provider_id, command, [*args, prompt])
     if result.returncode == 124:
@@ -760,6 +775,8 @@ def call_cli(root: Path, provider_id: str, prompt: str, command: str, args: list
     combined = f"{result.stdout}\n{result.stderr}".lower()
     if result.returncode != 0 and ("429" in combined or "rate" in combined or "quota" in combined):
         raise ProviderRateLimited(combined)
+    if output_indicates_execution_blocker(combined):
+        raise ProviderUnavailable(f"{provider_id} reported execution blocker")
     if result.returncode != 0:
         raise ProviderUnavailable(result.stderr.strip() or f"{command} exited {result.returncode}")
     return result.stdout
@@ -772,6 +789,8 @@ def call_cli_stdin(root: Path, provider_id: str, prompt: str, command: str, args
     combined = f"{result.stdout}\n{result.stderr}".lower()
     if result.returncode != 0 and ("429" in combined or "rate" in combined or "quota" in combined):
         raise ProviderRateLimited(combined)
+    if output_indicates_execution_blocker(combined):
+        raise ProviderUnavailable(f"{provider_id} reported execution blocker")
     if result.returncode != 0:
         raise ProviderUnavailable(result.stderr.strip() or f"{command} exited {result.returncode}")
     return result.stdout
@@ -815,6 +834,8 @@ def call_codex_cli(root: Path, prompt: str, provider: dict[str, Any]) -> str:
     combined = f"{result.stdout}\n{result.stderr}".lower()
     if result.returncode != 0 and ("429" in combined or "rate" in combined or "quota" in combined):
         raise ProviderRateLimited(combined)
+    if output_indicates_execution_blocker(combined):
+        raise ProviderUnavailable("codex_cli reported execution blocker")
     if result.returncode != 0:
         raise ProviderUnavailable(result.stderr.strip() or f"{command} exited {result.returncode}")
     return result_path.read_text(encoding="utf-8") if result_path.exists() else result.stdout
@@ -832,7 +853,7 @@ def execute_provider(root: Path, prompt: str, decision: RouteDecision, state: di
             decision.provider,
             prompt,
             str(provider.get("command") or "claude"),
-            list(provider.get("args") or ["-p", "--input-format", "text", "--output-format", "text", "--permission-mode", "dontAsk"]),
+            list(provider.get("args") or ["-p", "--input-format", "text", "--output-format", "text", "--permission-mode", "bypassPermissions"]),
         )
     if runtime == "github_copilot_cli":
         return call_cli(

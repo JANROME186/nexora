@@ -31,7 +31,7 @@ PROVIDERS: dict[str, dict[str, Any]] = {
     "claude_code_cli": {
         "command": "claude",
         "version_args": ["--version"],
-        "smoke_args": ["-p", "--input-format", "text", "--output-format", "text", "--permission-mode", "dontAsk"],
+        "smoke_args": ["-p", "--input-format", "text", "--output-format", "text", "--permission-mode", "bypassPermissions"],
         "smoke_input": "Return exactly NEXORA_PREFLIGHT_OK.",
     },
     "codex_cli": {

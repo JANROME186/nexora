@@ -651,7 +651,7 @@ def build_prompt(
             [
                 "- Ejecutar por `tool: commercial_agent_router` usando un proveedor CLI habilitado por el operador.",
                 "- No usar proveedores deshabilitados, con cuota agotada o que requieran API keys token-billed.",
-                "- Si el CLI no puede ejecutarse por permisos, login, cuota o sandbox, no cerrar el backlog: generar de nuevo este prompt con `--execution-flow manual` y reportar el cambio de flujo.",
+                "- Si el CLI no puede ejecutarse por permisos, login o sandbox, el router debe intentar fallback automático con otro proveedor disponible; usar `--execution-flow manual` solo cuando no exista ruta automática viable.",
             ]
         )
     else:
