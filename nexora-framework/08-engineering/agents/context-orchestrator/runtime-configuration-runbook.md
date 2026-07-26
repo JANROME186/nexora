@@ -109,6 +109,8 @@ $env:NEXORA_PROVIDER_TIMEOUT_SECONDS="14400"
 $env:NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
 $env:NEXORA_ORCHESTRATOR_CLOSURE_ATTEMPTS="3"
 $env:NEXORA_ORCHESTRATOR_CLOSURE_FEEDBACK_FILE=".nexora/runtime/orchestrator-closure-feedback.md"
+$env:NEXORA_PROVIDER_ROTATION_RECENT_SUCCESSES="1"
+$env:NEXORA_PROVIDER_ROTATION_PENALTY="50"
 $env:NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
 $env:NEXORA_EXECUTION_FLOW="manual"
 $env:NEXORA_AGENT_TASK_FILE=".agent_next_task.md"
@@ -151,6 +153,8 @@ export NEXORA_PROVIDER_TIMEOUT_SECONDS="14400"
 export NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
 export NEXORA_ORCHESTRATOR_CLOSURE_ATTEMPTS="3"
 export NEXORA_ORCHESTRATOR_CLOSURE_FEEDBACK_FILE=".nexora/runtime/orchestrator-closure-feedback.md"
+export NEXORA_PROVIDER_ROTATION_RECENT_SUCCESSES="1"
+export NEXORA_PROVIDER_ROTATION_PENALTY="50"
 export NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
 export NEXORA_EXECUTION_FLOW="manual"
 export NEXORA_AGENT_TASK_FILE=".agent_next_task.md"
@@ -271,6 +275,25 @@ Operator feedback is written to:
 The feedback file is local runtime state and ignored by git. If closure is blocked, inspect that file
 and the generated closure validation/fix prompt before changing code or asking another agent to
 continue.
+
+## Provider Consumption Balancing
+
+The router must balance subscription-backed agent usage across backlog executions. After a provider
+success, the next routing decision applies a rotation penalty to the most recent successful
+provider(s). If another enabled and configured provider is available, it will be selected first. If
+no alternative provider is available, the router may reuse the recent provider rather than blocking
+the backlog artificially.
+
+Default rotation settings:
+
+```powershell
+$env:NEXORA_PROVIDER_ROTATION_RECENT_SUCCESSES="1"
+$env:NEXORA_PROVIDER_ROTATION_PENALTY="50"
+```
+
+For high-complexity CLI prompts, this means a successful `codex_cli` run should normally be followed
+by `claude_code_cli`, another enabled commercial CLI, or a filesystem IDE handoff route when those
+routes are available and not blocked.
 
 Write the active prompt into the local IDE task-ingestion file:
 

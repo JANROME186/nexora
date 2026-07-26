@@ -41,6 +41,8 @@ DEFAULT_PREFLIGHT_MAX_AGE_MINUTES = int(os.environ.get("NEXORA_CLI_PREFLIGHT_MAX
 DEFAULT_TIMEOUT_SECONDS = int(os.environ.get("NEXORA_PROVIDER_TIMEOUT_SECONDS", "14400"))
 DEFAULT_HEARTBEAT_SECONDS = int(os.environ.get("NEXORA_PROVIDER_HEARTBEAT_SECONDS", "30"))
 DEFAULT_CLOSURE_ATTEMPTS = int(os.environ.get("NEXORA_ORCHESTRATOR_CLOSURE_ATTEMPTS", "3"))
+DEFAULT_ROTATION_RECENT_SUCCESSES = int(os.environ.get("NEXORA_PROVIDER_ROTATION_RECENT_SUCCESSES", "1"))
+DEFAULT_ROTATION_PENALTY = int(os.environ.get("NEXORA_PROVIDER_ROTATION_PENALTY", "50"))
 DEFAULT_CLOSURE_FEEDBACK_FILE = os.environ.get(
     "NEXORA_ORCHESTRATOR_CLOSURE_FEEDBACK_FILE",
     ".nexora/runtime/orchestrator-closure-feedback.md",
@@ -501,6 +503,24 @@ def monthly_underuse_boost(provider: dict[str, Any], now: datetime) -> int:
     return -25 if used < target else 0
 
 
+def recent_success_penalty(state: dict[str, Any], provider_id: str) -> int:
+    if DEFAULT_ROTATION_RECENT_SUCCESSES <= 0:
+        return 0
+    events = state.get("events") or []
+    if not isinstance(events, list):
+        return 0
+    recent_successes: list[str] = []
+    for event in reversed(events):
+        if not isinstance(event, dict) or event.get("type") != "provider_success":
+            continue
+        provider = str(event.get("provider") or "")
+        if provider:
+            recent_successes.append(provider)
+        if len(recent_successes) >= DEFAULT_ROTATION_RECENT_SUCCESSES:
+            break
+    return DEFAULT_ROTATION_PENALTY if provider_id in recent_successes else 0
+
+
 def configured(provider: dict[str, Any]) -> bool:
     runtime = provider.get("runtime")
     if runtime == "ollama":
@@ -548,7 +568,11 @@ def select_provider(
         if not configured(provider):
             skipped.append(f"{provider_id}:not_configured")
             continue
-        score = int(provider.get("priority") or 100) + monthly_underuse_boost(provider, now)
+        score = (
+            int(provider.get("priority") or 100)
+            + monthly_underuse_boost(provider, now)
+            + recent_success_penalty(state, provider_id)
+        )
         ranked.append((score, provider_id, provider))
     if not ranked and execution_flow == "cli" and complexity == "high" and forced_provider != "ollama_local":
         raise ProviderUnavailable("no enabled subscription-backed CLI provider available: " + ", ".join(skipped))

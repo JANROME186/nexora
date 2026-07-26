@@ -106,6 +106,8 @@ $env:NEXORA_PROVIDER_TIMEOUT_SECONDS="14400"
 $env:NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
 $env:NEXORA_ORCHESTRATOR_CLOSURE_ATTEMPTS="3"
 $env:NEXORA_ORCHESTRATOR_CLOSURE_FEEDBACK_FILE=".nexora/runtime/orchestrator-closure-feedback.md"
+$env:NEXORA_PROVIDER_ROTATION_RECENT_SUCCESSES="1"
+$env:NEXORA_PROVIDER_ROTATION_PENALTY="50"
 ```
 
 `NEXORA_PROVIDER_TIMEOUT_SECONDS=14400` allows up to 4 hours for the selected provider process.
@@ -166,6 +168,8 @@ Supported environment variables:
 Runtime guidance:
 
 - Manual/IDE handoff is prioritized when CLI execution is unavailable, not allowed or not stable.
+- Provider consumption must be balanced. The router penalizes the most recent successful provider
+  and selects another enabled/configured commercial CLI or IDE handoff route when available.
 - Low complexity: Ollama/local only by default.
 - Medium complexity: filesystem task ingestion, Codex CLI, Gemini CLI when OAuth/enterprise
   eligibility is valid, Kiro IDE task handoff, GitHub Copilot CLI or Ollama.

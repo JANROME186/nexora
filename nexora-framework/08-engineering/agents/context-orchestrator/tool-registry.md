@@ -56,6 +56,8 @@ Default behavior:
   whether a process is active, silent or blocked.
 - Refuse headless CLI execution unless `tool: agent_cli_preflight` produced a fresh ready
   certificate for the selected provider.
+- Balance provider consumption by penalizing recent successful providers and selecting another
+  enabled/configured commercial CLI or IDE handoff route when available.
 - After a successful headless CLI provider execution, run automatic post-provider closure:
   diagnostic validation, project commit when diagnostic findings are clean, strict closure
   validation, prompt archival and closure evidence commit.
@@ -74,6 +76,8 @@ Optional closure controls:
 ```powershell
 $env:NEXORA_ORCHESTRATOR_CLOSURE_ATTEMPTS="3"
 $env:NEXORA_ORCHESTRATOR_CLOSURE_FEEDBACK_FILE=".nexora/runtime/orchestrator-closure-feedback.md"
+$env:NEXORA_PROVIDER_ROTATION_RECENT_SUCCESSES="1"
+$env:NEXORA_PROVIDER_ROTATION_PENALTY="50"
 ```
 
 Use `--skip-closure` only for diagnostic framework development. Product backlog CLI execution must
