@@ -182,7 +182,16 @@ def log_event(root: Path, event: str, **fields: Any) -> None:
     log_path.write_text("", encoding="utf-8") if not log_path.exists() else None
     with log_path.open("a", encoding="utf-8", newline="\n") as stream:
         stream.write(line + "\n")
-    print(f"[nexora-router] {event}: {json.dumps(fields, ensure_ascii=False, sort_keys=True)}", flush=True)
+    write_console_output(f"[nexora-router] {event}: {json.dumps(fields, ensure_ascii=False, sort_keys=True)}\n")
+
+
+def write_console_output(output: str) -> None:
+    try:
+        sys.stdout.write(output)
+        sys.stdout.flush()
+    except UnicodeEncodeError:
+        sys.stdout.buffer.write(output.encode("utf-8", errors="replace"))
+        sys.stdout.buffer.flush()
 
 
 def read_text(path: Path) -> str:
@@ -956,7 +965,7 @@ def main() -> int:
             output_path.write_text(output, encoding="utf-8", newline="\n")
             print(output_path)
         else:
-            sys.stdout.write(output)
+            write_console_output(output)
     if args.execute and output is not None and not args.skip_closure and decision.runtime in HEADLESS_CLI_RUNTIMES:
         closed = finalize_backlog_closure(root, task_id, prompt_path, max(args.closure_attempts, 1))
         if not closed:
