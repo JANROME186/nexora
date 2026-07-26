@@ -23,6 +23,7 @@ API-key providers that charge by token are not part of the default framework exe
    - Codex CLI through local `codex login` and the operator's ChatGPT/Codex subscription.
    - GitHub Copilot CLI through local `gh auth login` and Copilot subscription.
    - Gemini CLI through local OAuth or enterprise Code Assist eligibility when supported.
+   - Kiro IDE CLI through local `kiro chat` when an IDE session is the intended execution surface.
 4. Use filesystem task ingestion for IDE agents such as Cursor, Windsurf, VS Code agent extensions
    or other tools that consume a task file with the operator's existing flat-rate subscription.
 5. Use paid API-key providers only through a documented ADR exception outside the standard backlog
@@ -65,6 +66,7 @@ policy:
   subscription_cli_allowed: true
   codex_cli_allowed: true
   gemini_cli_allowed_when_oauth_or_enterprise_eligible: true
+  kiro_ide_cli_allowed_for_ide_task_handoff: true
   filesystem_task_ingestion_allowed: true
   ide_subscription_agents_allowed: true
   paid_api_key_exception_requires_adr: true

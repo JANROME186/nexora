@@ -117,8 +117,8 @@ Routing strategy:
 - Low complexity: documentation, QA evidence, formatting, pointer sweeps and format migration use
   Ollama/local tools first.
 - Medium complexity: frontend, mobile, integration adapters, refactors and tests may use
-  subscription-backed CLI, Gemini CLI when OAuth/enterprise eligibility is valid, filesystem task
-  ingestion or Ollama.
+  subscription-backed CLI, Gemini CLI when OAuth/enterprise eligibility is valid, Kiro IDE task
+  handoff, filesystem task ingestion or Ollama.
 - High complexity: backend core, architecture, security-sensitive changes and database design may
   use Claude Code CLI, Codex CLI, GitHub Copilot CLI, filesystem task ingestion or Ollama when
   enabled.
@@ -280,6 +280,10 @@ runtime_routing:
     tier: medium
     runtime: cli_subprocess
     role: focused_google_oauth_or_enterprise_cli_execution_when_operator_enabled
+  - id: kiro_ide_cli
+    tier: medium
+    runtime: ide_cli_subprocess
+    role: local_ide_task_handoff_when_operator_enabled
   routing_rules:
   - "External calls must be stateless and based on the active optimized prompt only."
   - "Use Ollama/local scripts for file exploration, formatting, QA evidence and pointer sweeps."

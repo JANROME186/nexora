@@ -81,7 +81,7 @@ Runtime guidance:
 
 - Low complexity: Ollama/local only by default.
 - Medium complexity: filesystem task ingestion, Codex CLI, Gemini CLI when OAuth/enterprise
-  eligibility is valid, GitHub Copilot CLI or Ollama.
+  eligibility is valid, Kiro IDE task handoff, GitHub Copilot CLI or Ollama.
 - High complexity: Claude Code CLI, Codex CLI, GitHub Copilot CLI, filesystem task ingestion or
   Ollama.
 - HTTP 429 or quota-exceeded responses pause the provider locally and retry with the next available
@@ -92,6 +92,7 @@ Provider access must use local CLI/editor login outside the repository:
 - local `claude` CLI login/configuration when `claude_code_cli` is enabled
 - local `codex login` ChatGPT session when `codex_cli` is enabled
 - local Gemini OAuth or enterprise Code Assist eligibility when `gemini_cli` is enabled
+- local Kiro IDE session when `kiro_ide_cli` is enabled for IDE task handoff
 - local `gh auth login` and Copilot extension when `github_copilot_cli` is enabled
 - local IDE/editor subscription session when `filesystem_task_ingestion` is used
 

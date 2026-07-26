@@ -101,6 +101,18 @@ DEFAULT_PROVIDERS: dict[str, dict[str, Any]] = {
         "priority": 35,
         "requires_valid_oauth_or_enterprise_license": True,
     },
+    "kiro_ide_cli": {
+        "tier": "medium",
+        "runtime": "kiro_ide_cli",
+        "model": "kiro-ide-subscription",
+        "command": "kiro",
+        "args": ["chat", "--mode", "agent"],
+        "enabled": False,
+        "is_blocked_until": None,
+        "priority": 38,
+        "requires_ide_session": True,
+        "headless_output_supported": False,
+    },
 }
 
 DISALLOWED_API_KEY_RUNTIMES = {"openai_sdk", "google_genai_sdk", "anthropic_sdk"}
@@ -222,7 +234,7 @@ def configured(provider: dict[str, Any]) -> bool:
     runtime = provider.get("runtime")
     if runtime == "ollama":
         return True
-    if runtime in {"claude_cli", "github_copilot_cli", "codex_cli", "gemini_cli"}:
+    if runtime in {"claude_cli", "github_copilot_cli", "codex_cli", "gemini_cli", "kiro_ide_cli"}:
         return shutil.which(str(provider.get("command") or "claude")) is not None
     if runtime == "task_ingestion":
         task_file = Path(str(provider.get("task_file") or DEFAULT_AGENT_TASK_FILE))
@@ -234,7 +246,7 @@ def candidate_ids(complexity: str) -> list[str]:
     if complexity == "high":
         return ["claude_code_cli", "codex_cli", "github_copilot_cli", "filesystem_task_ingestion", "ollama_local"]
     if complexity == "medium":
-        return ["codex_cli", "github_copilot_cli", "gemini_cli", "filesystem_task_ingestion", "ollama_local"]
+        return ["codex_cli", "github_copilot_cli", "gemini_cli", "kiro_ide_cli", "filesystem_task_ingestion", "ollama_local"]
     return ["ollama_local", "filesystem_task_ingestion"]
 
 
@@ -405,6 +417,8 @@ def execute_provider(prompt: str, decision: RouteDecision, state: dict[str, Any]
             str(provider.get("command") or "gemini"),
             list(provider.get("args") or ["-p", "--skip-trust", "--approval-mode", "plan", "--output-format", "text"]),
         )
+    if runtime == "kiro_ide_cli":
+        return call_cli(prompt, str(provider.get("command") or "kiro"), list(provider.get("args") or ["chat", "--mode", "agent"]))
     if runtime == "task_ingestion":
         root = Path(os.environ.get("NEXORA_ROOT", os.getcwd())).resolve()
         return call_task_ingestion(root, prompt, provider)

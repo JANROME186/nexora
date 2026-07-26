@@ -104,6 +104,7 @@ claude --version
 codex --version
 codex login status
 gemini --version
+kiro --version
 gh auth status
 gh extension list
 ```
@@ -136,6 +137,7 @@ claude --version
 codex --version
 codex login status
 gemini --version
+kiro --version
 gh auth status
 gh extension list
 ```

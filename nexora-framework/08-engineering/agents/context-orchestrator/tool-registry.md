@@ -58,6 +58,8 @@ Supported runtimes:
 - `claude_code_cli` through the local Claude Code CLI subprocess and the operator's local login.
 - `codex_cli` through local `codex exec` and the operator's ChatGPT/Codex CLI login.
 - `gemini_cli` through local `gemini -p` when Google OAuth or enterprise Code Assist eligibility is valid.
+- `kiro_ide_cli` through local `kiro chat` as an IDE handoff route; it does not provide
+  deterministic headless output and must not be used as an automatic closure validator.
 - `github_copilot_cli` through local `gh`/Copilot CLI configuration and the operator's subscription.
 
 API-key SDK providers are not part of the default Nexora routing path. A paid API-key route requires
