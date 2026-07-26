@@ -89,6 +89,18 @@ DEFAULT_PROVIDERS: dict[str, dict[str, Any]] = {
         "is_blocked_until": None,
         "priority": 20,
     },
+    "gemini_cli": {
+        "tier": "medium",
+        "runtime": "gemini_cli",
+        "model": "gemini-cli-oauth",
+        "command": "gemini",
+        "args": ["-p", "--skip-trust", "--approval-mode", "plan", "--output-format", "text"],
+        "enabled": False,
+        "window_reset_hours": 3,
+        "is_blocked_until": None,
+        "priority": 35,
+        "requires_valid_oauth_or_enterprise_license": True,
+    },
 }
 
 DISALLOWED_API_KEY_RUNTIMES = {"openai_sdk", "google_genai_sdk", "anthropic_sdk"}
@@ -210,7 +222,7 @@ def configured(provider: dict[str, Any]) -> bool:
     runtime = provider.get("runtime")
     if runtime == "ollama":
         return True
-    if runtime in {"claude_cli", "github_copilot_cli", "codex_cli"}:
+    if runtime in {"claude_cli", "github_copilot_cli", "codex_cli", "gemini_cli"}:
         return shutil.which(str(provider.get("command") or "claude")) is not None
     if runtime == "task_ingestion":
         task_file = Path(str(provider.get("task_file") or DEFAULT_AGENT_TASK_FILE))
@@ -222,7 +234,7 @@ def candidate_ids(complexity: str) -> list[str]:
     if complexity == "high":
         return ["claude_code_cli", "codex_cli", "github_copilot_cli", "filesystem_task_ingestion", "ollama_local"]
     if complexity == "medium":
-        return ["codex_cli", "github_copilot_cli", "filesystem_task_ingestion", "ollama_local"]
+        return ["codex_cli", "github_copilot_cli", "gemini_cli", "filesystem_task_ingestion", "ollama_local"]
     return ["ollama_local", "filesystem_task_ingestion"]
 
 
@@ -387,6 +399,12 @@ def execute_provider(prompt: str, decision: RouteDecision, state: dict[str, Any]
         return call_cli(prompt, str(provider.get("command") or "claude"), list(provider.get("args") or ["-p"]))
     if runtime == "github_copilot_cli":
         return call_cli(prompt, str(provider.get("command") or "gh"), list(provider.get("args") or ["copilot", "explain"]))
+    if runtime == "gemini_cli":
+        return call_cli(
+            prompt,
+            str(provider.get("command") or "gemini"),
+            list(provider.get("args") or ["-p", "--skip-trust", "--approval-mode", "plan", "--output-format", "text"]),
+        )
     if runtime == "task_ingestion":
         root = Path(os.environ.get("NEXORA_ROOT", os.getcwd())).resolve()
         return call_task_ingestion(root, prompt, provider)
