@@ -132,6 +132,23 @@ class ProviderRateLimited(RuntimeError):
 
 
 HEADLESS_CLI_RUNTIMES = {"claude_cli", "github_copilot_cli", "codex_cli", "gemini_cli"}
+PROTECTED_PROVIDER_FIELDS: dict[str, dict[str, Any]] = {
+    "claude_code_cli": {
+        "args": ["-p", "--input-format", "text", "--output-format", "text", "--permission-mode", "dontAsk"],
+    },
+    "codex_cli": {
+        "args": [
+            "exec",
+            "--cd",
+            DEFAULT_ROOT,
+            "--sandbox",
+            "workspace-write",
+            "--output-last-message",
+            DEFAULT_AGENT_RESULT_FILE,
+            "-",
+        ],
+    },
+}
 
 
 @dataclass(frozen=True)
@@ -263,6 +280,9 @@ def normalize_state(state: dict[str, Any]) -> dict[str, Any]:
             continue
         merged = dict(provider)
         merged.update(current)
+        if provider_id in PROTECTED_PROVIDER_FIELDS:
+            for field, value in PROTECTED_PROVIDER_FIELDS[provider_id].items():
+                merged[field] = value
         providers[provider_id] = merged
     if not isinstance(state.get("events"), list):
         state["events"] = []
