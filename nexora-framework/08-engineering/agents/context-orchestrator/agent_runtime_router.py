@@ -83,7 +83,7 @@ DEFAULT_PROVIDERS: dict[str, dict[str, Any]] = {
         "runtime": "github_copilot_cli",
         "model": "github-copilot-subscription",
         "command": "gh",
-        "args": ["copilot", "explain"],
+        "args": ["copilot", "-p", "--allow-all-tools", "--allow-all-paths", "--stream", "off", "-s"],
         "enabled": False,
         "window_reset_hours": 3,
         "is_blocked_until": None,
@@ -410,7 +410,11 @@ def execute_provider(prompt: str, decision: RouteDecision, state: dict[str, Any]
     if runtime == "claude_cli":
         return call_cli(prompt, str(provider.get("command") or "claude"), list(provider.get("args") or ["-p"]))
     if runtime == "github_copilot_cli":
-        return call_cli(prompt, str(provider.get("command") or "gh"), list(provider.get("args") or ["copilot", "explain"]))
+        return call_cli(
+            prompt,
+            str(provider.get("command") or "gh"),
+            list(provider.get("args") or ["copilot", "-p", "--allow-all-tools", "--allow-all-paths", "--stream", "off", "-s"]),
+        )
     if runtime == "gemini_cli":
         return call_cli(
             prompt,
