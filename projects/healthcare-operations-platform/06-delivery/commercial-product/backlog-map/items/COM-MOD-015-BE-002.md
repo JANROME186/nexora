@@ -2,7 +2,7 @@
 artifact:
   id: HOP-BACKLOG-ITEM-COM-MOD-015-BE-002
   type: backlog-item-record
-  status: next
+  status: closed
   optimization: atomic_context
 ---
 
@@ -18,7 +18,7 @@ name: Implement OCR, summary, search and retrieval custom rules
 module_id: COM-MOD-015
 module_name: AI Overlay
 release: REL-004
-status: next
+status: closed
 depends_on:
 - COM-MOD-015-BE-001
 ```
