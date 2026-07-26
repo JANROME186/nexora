@@ -10,12 +10,13 @@ artifact:
 # HOP Agent Orchestration Runtime Runbook
 
 HOP backlog execution must use the Nexora Python orchestrator as the control plane. The objective is
-to avoid long commercial chats, large accumulated context and uncontrolled commercial subagents.
+to avoid long commercial chats, large accumulated context, uncontrolled commercial subagents and
+duplicate token-consumption charges when the operator already pays for IDE/tool subscriptions.
 
 All framework Python programs are executed from the repository under `nexora-framework/`. HOP must
-not depend on private local scripts outside git. Workstation-specific paths, provider credentials,
-quota state and local caches must be configured through environment variables or ignored Nexora
-runtime folders.
+not depend on private local scripts outside git. Workstation-specific paths, local CLI/editor
+sessions, quota state and local caches must be configured through environment variables, CLI login
+or ignored Nexora runtime folders.
 
 Framework setup reference:
 
@@ -29,14 +30,14 @@ Framework setup reference:
 python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py
 ```
 
-2. Confirm routing decision without invoking a commercial provider:
+2. Confirm routing decision without invoking an external runtime:
 
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py
 ```
 
-3. Execute through the router only when the operator intentionally enables provider credentials or
-CLI configuration:
+3. Execute through the router only when the operator intentionally enables local CLI configuration
+or filesystem task ingestion:
 
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py --execute
@@ -57,12 +58,14 @@ python nexora-framework/08-engineering/agents/context-orchestrator/backlog_valid
 - Do not launch commercial subagents for broad file inspection, formatting, pointer sweeps, QA
   evidence drafting or repetitive validation.
 - Use local shell, `rg`, Python scripts and Ollama for mechanical work.
-- Commercial providers should receive only the compact active prompt and focused follow-up context.
+- Subscription-backed CLI/IDE routes should receive only the compact active prompt and focused
+  follow-up context.
 
 ## Provider Routing
 
-The local router manages provider selection and quota state in `.nexora/runtime/quota_tracker.json`.
-That file is ignored by git and must not contain secrets.
+The local router manages provider selection and local rate-limit state in
+`.nexora/runtime/quota_tracker.json`. That file is ignored by git and must not contain secrets,
+web tokens or provider account data.
 
 Supported environment variables:
 
@@ -71,25 +74,22 @@ Supported environment variables:
 - `NEXORA_ACTIVE_PROMPT_DIR`
 - `NEXORA_QUOTA_TRACKER`
 - `NEXORA_OLLAMA_MODEL`
-- `OPENAI_API_KEY`
-- `GEMINI_API_KEY`
-- `ANTHROPIC_API_KEY`
+- `NEXORA_AGENT_TASK_FILE`
+- `NEXORA_AGENT_RESULT_FILE`
 
 Runtime guidance:
 
 - Low complexity: Ollama/local only by default.
-- Medium complexity: Gemini Flash or GPT-4o mini when configured, otherwise Ollama.
-- High complexity: Claude Sonnet, Claude Code CLI or GPT-4o when configured, otherwise the best
-  available fallback.
+- Medium complexity: filesystem task ingestion, GitHub Copilot CLI or Ollama.
+- High complexity: Claude Code CLI, GitHub Copilot CLI, filesystem task ingestion or Ollama.
 - HTTP 429 or quota-exceeded responses pause the provider locally and retry with the next available
   route.
 
-Credentials must be provided by environment variables or provider CLI configuration:
+Provider access must use local CLI/editor login outside the repository:
 
-- `OPENAI_API_KEY`
-- `GEMINI_API_KEY`
-- `ANTHROPIC_API_KEY`
 - local `claude` CLI login/configuration when `claude_code_cli` is enabled
+- local `gh auth login` and Copilot extension when `github_copilot_cli` is enabled
+- local IDE/editor subscription session when `filesystem_task_ingestion` is used
 
 ## Closure Rules
 
@@ -121,15 +121,22 @@ required_tools:
 - backlog_closure_validator
 runtime_state:
   quota_tracker: .nexora/runtime/quota_tracker.json
+  task_ingestion_file: .agent_next_task.md
+  task_result_file: .agent_task_summary.md
   committed: false
 configuration:
   framework_runtime_runbook: nexora-framework/08-engineering/agents/context-orchestrator/runtime-configuration-runbook.md
+  subscription_first_standard: nexora-framework/02-standards/standards/subscription-first-agent-orchestration-standard.md
   framework_python_programs_must_be_versioned: true
   secrets_from_environment_only: true
+  api_key_token_billing_default_allowed: false
+  paid_api_key_exception_requires_adr: true
   local_runtime_paths_excluded_from_git:
   - .nexora/runtime/
   - .nexora/cache/
   - .nexora/secrets/
+  - .agent_next_task.md
+  - .agent_task_summary.md
 session_policy:
   max_backlog_items_per_session: 1
   compact_or_restart_after_messages: 15

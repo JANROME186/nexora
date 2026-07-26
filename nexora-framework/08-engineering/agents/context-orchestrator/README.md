@@ -43,7 +43,7 @@ The output must remain agent agnostic. It should point to files and commands ins
 ## Runtime Configuration
 
 All Python programs used by this orchestrator are versioned in this repository. Local runtime state,
-provider credentials, quotas and workstation-specific paths must be configured through environment
+provider login state, quotas and workstation-specific paths must be configured through environment
 variables or ignored paths, never by editing committed source files.
 
 Configuration runbook:
@@ -57,15 +57,20 @@ Environment template:
 Supported local-only paths are `.nexora/runtime/`, `.nexora/cache/`, `.nexora/secrets/` and local
 `.env` files. They are intentionally excluded from git.
 
-## Commercial Agent Runtime Routing
+## Subscription-First Agent Runtime Routing
 
-Nexora execution is centralized through Python to avoid long interactive commercial chats and large
-context windows. The normal flow is:
+Nexora execution is centralized through Python to avoid long interactive commercial chats, large
+context windows and duplicate token-consumption billing. The standard route is local/subscription
+first:
 
 1. Generate the active compact prompt with `context_orchestrator.py`.
 2. Route the prompt with `tool: commercial_agent_router`.
-3. Execute focused work only when a commercial runtime is explicitly enabled.
+3. Execute focused work with local Ollama, a subscription-backed CLI or filesystem task ingestion.
 4. Write the handoff summary, commit, validate closure and exit the session.
+
+Framework standard:
+
+`nexora-framework/02-standards/standards/subscription-first-agent-orchestration-standard.md`
 
 Tool reference:
 
@@ -79,23 +84,20 @@ The tool registry owns the invocation template:
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py
 ```
 
-By default the router runs in dry-run mode and selects a provider without invoking commercial APIs.
-Use `--execute` only when the operator intentionally wants Python to call the selected runtime. The
-mandatory fallback is local Ollama. Optional commercial routes are OpenAI SDK, Google GenAI SDK,
-Anthropic SDK and Claude Code CLI. Install optional SDKs with:
-
-```powershell
-python -m pip install -r nexora-framework/08-engineering/agents/context-orchestrator/commercial-agent-requirements.txt
-```
+By default the router runs in dry-run mode and selects a provider without invoking an external
+runtime. Use `--execute` only when the operator intentionally wants Python to execute the selected
+local/subscription route. The mandatory fallback is local Ollama. Optional routes are local CLI
+sessions, such as Claude Code CLI or GitHub Copilot CLI, and filesystem task ingestion for IDE
+agents.
 
 The local quota tracker is written to `.nexora/runtime/quota_tracker.json`, which is ignored by git.
-It stores rate-limit pauses, monthly usage counters and recent routing events. It must never contain
-API keys; credentials are read only from environment variables or provider CLI configuration.
+It stores rate-limit pauses and recent routing events. It must never contain API keys, web tokens or
+provider account data; authentication belongs to local CLI/editor login outside the repository.
 
 Execution agents must not create commercial subagents for broad file reading, project exploration,
 formatting, QA evidence drafting or stale-pointer sweeps. Those tasks must use local shell, Python,
-ripgrep, deterministic scripts and Ollama first. Commercial model calls should be stateless,
-focused, short-lived and based on the active optimized prompt only.
+ripgrep, deterministic scripts and Ollama first. Subscription-backed CLI/IDE execution should be
+stateless, focused, short-lived and based on the active optimized prompt only.
 
 ## Backlog Closure Validation
 

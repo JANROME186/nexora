@@ -32,4 +32,6 @@ coverage/
 .nexora/runtime/
 .nexora/cache/
 .nexora/secrets/
+.agent_next_task.md
+.agent_task_summary.md
 

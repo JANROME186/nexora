@@ -484,7 +484,8 @@ def ollama_plan(context: dict, model: str, allow_fallback: bool) -> tuple[dict, 
             "VALIDADOR PROTEGIDO: execution agents must not modify backlog_validator.py or "
             "tool-registry.md to close product backlog work. "
             "SESION CORTA: no spawn commercial subagents for file exploration; use local tools, "
-            "Ollama, and the commercial_agent_router tool when commercial execution is required. "
+            "Ollama, subscription-backed CLI or filesystem task ingestion through "
+            "commercial_agent_router when external execution is required. "
             "Return only this JSON object shape with short arrays and no markdown: "
             "{\"objectives\":[],\"deliverables\":[],\"closure_criteria\":[]}. "
             "Use the provided canonical context. Do not invent files. Do not add vendor-agent "
@@ -613,7 +614,7 @@ ORCHESTRATION: {orchestration_mode}
 ## 4. Criterios de Cierre
 - Gates obligatorios ejecutados; Markdown/frontmatter parseable; `git diff --check` limpio.
 - Commit: `{profile['commit_suggestion']}`.
-- No lanzar subagentes comerciales para exploración, lectura masiva, QA documental o formateo; usar herramientas locales/Ollama y `tool: commercial_agent_router` si se requiere routing comercial.
+- No lanzar subagentes comerciales para exploración, lectura masiva, QA documental o formateo; usar herramientas locales/Ollama y `tool: commercial_agent_router` solo para CLI con suscripción local o task ingestion por archivo. No usar API keys por consumo salvo ADR excepcional.
 - Finalizar con protocolo handoff & exit: no pedir ni iniciar el siguiente backlog en el mismo chat/sesión.
 - Después del commit, ejecutar `tool: backlog_closure_validator`; la herramienta toma el prompt desde `active_prompt/` sin parámetros.
 - El validador debe terminar con código 0, reportar `status: closed`, `Hard findings: 0` y generar evidencia en `08-qa/backlog-validations/{task_id}-closure-validation.md`.

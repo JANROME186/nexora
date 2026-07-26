@@ -52,13 +52,19 @@ sources:
   open_source_first_security_quality_standard: ../../nexora-framework/02-standards/standards/open-source-first-security-quality-standard.md
   context_efficient_execution_standard: ../../nexora-framework/02-standards/standards/context-efficient-execution-standard.md
   context_efficient_execution_standard_md: ../../nexora-framework/02-standards/standards/context-efficient-execution-standard.md
+  subscription_first_agent_orchestration_standard: ../../nexora-framework/02-standards/standards/subscription-first-agent-orchestration-standard.md
+  subscription_first_agent_orchestration_standard_md: ../../nexora-framework/02-standards/standards/subscription-first-agent-orchestration-standard.md
   frontmatter_artifact_migration_standard: ../../nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md
   frontmatter_artifact_migration_standard_md: ../../nexora-framework/02-standards/standards/frontmatter-artifact-migration-standard.md
   context_orchestrator_python: ../../nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py
+  agent_runtime_router_python: ../../nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py
   backlog_closure_validator_python: ../../nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
   frontmatter_migrator_python: ../../nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py
   context_orchestrator_python_requirements: ../../nexora-framework/08-engineering/agents/context-orchestrator/requirements.txt
   context_orchestrator_runbook: ../../nexora-framework/08-engineering/agents/context-orchestrator/README.md
+  context_orchestrator_runtime_configuration_runbook: ../../nexora-framework/08-engineering/agents/context-orchestrator/runtime-configuration-runbook.md
+  context_orchestrator_tool_registry: ../../nexora-framework/08-engineering/agents/context-orchestrator/tool-registry.md
+  hop_agent_orchestration_runtime_runbook: 09-operations/runbooks/agent-orchestration-runtime-runbook.md
   nxf_ctx_002_handoff: 08-qa/handoffs/NXF-CTX-002-summary.md
   generated_backlog_prompt_com_mod_017_be_001: 08-qa/generated-prompts/COM-MOD-017-BE-001-prompt.md
   generated_backlog_prompt_com_mod_017_be_001_cache: 08-qa/generated-prompts/cache/COM-MOD-017-BE-001-prompt-cache.json

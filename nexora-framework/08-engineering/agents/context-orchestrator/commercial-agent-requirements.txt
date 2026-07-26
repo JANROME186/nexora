@@ -1,5 +1,3 @@
-# Optional commercial provider SDKs for agent_runtime_router.py.
-# The mandatory Nexora Framework bootstrap remains Python + Ollama.
-openai>=1.0
-google-genai>=1.0
-anthropic>=0.34
+# Reserved for exceptional commercial SDK dependencies approved by ADR.
+# Normal Nexora routing must use Python + Ollama, subscription-backed local CLIs,
+# or filesystem task ingestion. Do not add API-key SDKs here for standard backlog execution.

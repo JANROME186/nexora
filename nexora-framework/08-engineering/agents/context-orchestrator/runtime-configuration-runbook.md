@@ -44,8 +44,8 @@ Allowed templates:
 - `.env.example`
 - `**/.env.example`
 
-Do not store API keys, tokens, provider account information, private paths with credentials or
-generated quota state in committed files.
+Do not store API keys, tokens, provider account information, private paths with credentials,
+browser/session data or generated quota state in committed files.
 
 ## Required Base Stack
 
@@ -61,11 +61,9 @@ Install framework Python dependencies:
 python -m pip install -r nexora-framework/08-engineering/agents/context-orchestrator/requirements.txt
 ```
 
-Install optional commercial SDKs only when the operator enables commercial routing:
-
-```powershell
-python -m pip install -r nexora-framework/08-engineering/agents/context-orchestrator/commercial-agent-requirements.txt
-```
+Optional execution adapters must use local CLI/editor subscription sessions, not API-key token
+billing. If a paid API-key provider is ever required, it needs an ADR exception and must remain
+outside normal backlog execution.
 
 ## Environment Variables
 
@@ -78,9 +76,8 @@ Required or recommended Nexora variables:
 | `NEXORA_ACTIVE_PROMPT_DIR` | Active prompt inbox used by router and validator. |
 | `NEXORA_QUOTA_TRACKER` | Local ignored quota tracker path. |
 | `NEXORA_OLLAMA_MODEL` | Default local Ollama model. |
-| `OPENAI_API_KEY` | Optional OpenAI SDK credential. |
-| `GEMINI_API_KEY` | Optional Google GenAI SDK credential. |
-| `ANTHROPIC_API_KEY` | Optional Anthropic SDK credential. |
+| `NEXORA_AGENT_TASK_FILE` | Ignored task ingestion file written for local IDE agents. |
+| `NEXORA_AGENT_RESULT_FILE` | Ignored summary file expected from local IDE agents. |
 
 Template file:
 
@@ -96,14 +93,16 @@ $env:NEXORA_PROJECT_PATH="projects/healthcare-operations-platform"
 $env:NEXORA_ACTIVE_PROMPT_DIR="projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt"
 $env:NEXORA_QUOTA_TRACKER=".nexora/runtime/quota_tracker.json"
 $env:NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
+$env:NEXORA_AGENT_TASK_FILE=".agent_next_task.md"
+$env:NEXORA_AGENT_RESULT_FILE=".agent_task_summary.md"
 ```
 
-Optional provider credentials:
+Optional subscription-backed CLI login checks:
 
 ```powershell
-$env:OPENAI_API_KEY="<set-outside-repo>"
-$env:GEMINI_API_KEY="<set-outside-repo>"
-$env:ANTHROPIC_API_KEY="<set-outside-repo>"
+claude --version
+gh auth status
+gh extension list
 ```
 
 Persistent user variables, when desired:
@@ -123,14 +122,16 @@ export NEXORA_PROJECT_PATH="projects/healthcare-operations-platform"
 export NEXORA_ACTIVE_PROMPT_DIR="projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt"
 export NEXORA_QUOTA_TRACKER=".nexora/runtime/quota_tracker.json"
 export NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
+export NEXORA_AGENT_TASK_FILE=".agent_next_task.md"
+export NEXORA_AGENT_RESULT_FILE=".agent_task_summary.md"
 ```
 
-Optional provider credentials:
+Optional subscription-backed CLI login checks:
 
 ```bash
-export OPENAI_API_KEY="<set-outside-repo>"
-export GEMINI_API_KEY="<set-outside-repo>"
-export ANTHROPIC_API_KEY="<set-outside-repo>"
+claude --version
+gh auth status
+gh extension list
 ```
 
 ## Bootstrap Commands
@@ -147,11 +148,20 @@ Generate the active optimized prompt:
 python nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py
 ```
 
-Check routing without invoking commercial providers:
+Check routing without invoking external runtimes:
 
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py
 ```
+
+Write the active prompt into the local IDE task-ingestion file:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py --provider filesystem_task_ingestion --execute
+```
+
+Then ask the local IDE/tool agent, using its own subscription: `Atender tarea activa`. The agent must
+read `.agent_next_task.md`, execute the backlog and write `.agent_task_summary.md`.
 
 Run closure validation after the backlog work is committed:
 
@@ -163,7 +173,8 @@ python nexora-framework/08-engineering/agents/context-orchestrator/backlog_valid
 
 - Keep Python framework tools committed under `nexora-framework/`.
 - Keep secrets, quota trackers and local state outside git.
-- Configure provider credentials through OS environment variables or provider CLI login.
+- Configure provider access through local CLI/editor login. Do not use token-billed API keys in the
+  normal Nexora execution path.
 - Keep Ollama running before generating prompts or validating closures.
 - Never modify framework validators to make a product backlog item pass.
 
@@ -198,9 +209,8 @@ environment_variables:
 - NEXORA_ACTIVE_PROMPT_DIR
 - NEXORA_QUOTA_TRACKER
 - NEXORA_OLLAMA_MODEL
-- OPENAI_API_KEY
-- GEMINI_API_KEY
-- ANTHROPIC_API_KEY
+- NEXORA_AGENT_TASK_FILE
+- NEXORA_AGENT_RESULT_FILE
 versioned_python_programs:
 - nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py
 - nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py

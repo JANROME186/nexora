@@ -6,15 +6,16 @@ reference the tool id instead of repeating full commands or task-specific paths.
 Runtime configuration:
 
 - All framework Python programs must be versioned under `nexora-framework/`.
-- Workstation paths, secrets, provider credentials, local quota state and caches must use
+- Workstation paths, secrets, provider login state, local quota state and caches must use
   environment variables or ignored local paths.
 - Configuration runbook:
   `nexora-framework/08-engineering/agents/context-orchestrator/runtime-configuration-runbook.md`
 
 ## Tool: commercial_agent_router
 
-Purpose: route one optimized active backlog prompt through the most efficient available runtime
-without keeping long commercial chat sessions alive.
+Purpose: route one optimized active backlog prompt through the most efficient local or
+subscription-backed runtime without keeping long commercial chat sessions alive or using API-key
+token billing by default.
 
 Tool id: `commercial_agent_router`
 
@@ -38,7 +39,7 @@ Default behavior:
 
 - Read the only prompt file present in `active_prompt/`.
 - Infer task id and complexity from the compact prompt.
-- Select the best enabled provider by complexity, quota window, month-end drain and block state.
+- Select the best enabled local/subscription provider by complexity, quota window and block state.
 - Run in dry-run mode unless `--execute` is explicitly provided.
 - Use Ollama local as the mandatory fallback provider.
 - Persist quota/rate-limit state locally outside git.
@@ -52,10 +53,13 @@ python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime
 Supported runtimes:
 
 - `ollama_local` through the local Ollama HTTP API.
-- `openai_gpt4o` and `openai_gpt4o_mini` through the official OpenAI Python SDK.
-- `gemini_flash` through the official Google GenAI Python SDK.
-- `anthropic_sonnet` through the official Anthropic Python SDK.
-- `claude_code_cli` through the local Claude Code CLI subprocess.
+- `filesystem_task_ingestion` through ignored local files `.agent_next_task.md` and
+  `.agent_task_summary.md`.
+- `claude_code_cli` through the local Claude Code CLI subprocess and the operator's local login.
+- `github_copilot_cli` through local `gh`/Copilot CLI configuration and the operator's subscription.
+
+API-key SDK providers are not part of the default Nexora routing path. A paid API-key route requires
+an ADR exception and must not be introduced by a product execution agent.
 
 Execution agents must not spawn commercial subagents for file exploration, broad search, formatting
 or QA evidence generation. Those tasks must use local shell/Python/Ollama first. Commercial routing

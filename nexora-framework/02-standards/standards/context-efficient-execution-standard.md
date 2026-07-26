@@ -13,12 +13,13 @@ the canonical context hash has not changed, the cached prompt is reused. If Olla
 model is missing, framework bootstrap is incomplete unless the operator explicitly runs a diagnostic
 fallback.
 
-Commercial model usage must be stateless, short-lived and routed by the local Python orchestrator.
+External agent usage must be stateless, short-lived and routed by the local Python orchestrator.
 The framework must not rely on long interactive chats, web sessions with accumulated history, or
-commercial subagents for mechanical exploration. When commercial execution is needed, the prompt
-must be routed through `tool: commercial_agent_router`, which chooses between Ollama, OpenAI SDK,
-Google GenAI SDK, Anthropic SDK or Claude Code CLI according to complexity, provider availability,
-quota windows and local rate-limit state.
+commercial subagents for mechanical exploration. When execution outside Ollama is needed, the prompt
+must be routed through `tool: commercial_agent_router`, which chooses between Ollama,
+subscription-backed local CLIs and filesystem task ingestion according to complexity, provider
+availability, quota windows and local rate-limit state. API-key token-consumption providers are not
+part of the default route.
 
 All Python programs used by the framework must be committed under `nexora-framework/`. Local values
 that depend on the workstation, operator or provider account must be supplied through environment
@@ -92,39 +93,42 @@ Rules:
   files.
 - `.nexora/runtime/`, `.nexora/cache/` and `.nexora/secrets/` are local-only paths.
 - `.env` and `.env.*` files are local-only; `.env.example` templates may be committed.
-- API keys must use environment variables such as `OPENAI_API_KEY`, `GEMINI_API_KEY` and
-  `ANTHROPIC_API_KEY`.
-- Nexora path/model overrides must use `NEXORA_ROOT`, `NEXORA_PROJECT_PATH`,
-  `NEXORA_ACTIVE_PROMPT_DIR`, `NEXORA_QUOTA_TRACKER` and `NEXORA_OLLAMA_MODEL`.
+- API-key token-consumption providers require an ADR exception and must not be introduced into the
+  standard backlog route.
+- Nexora path/model/task overrides must use `NEXORA_ROOT`, `NEXORA_PROJECT_PATH`,
+  `NEXORA_ACTIVE_PROMPT_DIR`, `NEXORA_QUOTA_TRACKER`, `NEXORA_OLLAMA_MODEL`,
+  `NEXORA_AGENT_TASK_FILE` and `NEXORA_AGENT_RESULT_FILE`.
 
 ## Dynamic Runtime Routing
 
-The local runtime router is the standard gateway for commercial model execution:
+The local runtime router is the standard gateway for local/subscription execution:
 
 ```text
 tool: commercial_agent_router
 ```
 
-The router reads the active prompt, infers task complexity, selects a runtime and persists quota
-state in `.nexora/runtime/quota_tracker.json`. This file is local runtime state and must not be
-committed. API keys must never be stored in repository files.
+The router reads the active prompt, infers task complexity, selects a runtime and persists local
+rate-limit state in `.nexora/runtime/quota_tracker.json`. This file is local runtime state and must
+not be committed. API keys must never be stored in repository files and are not part of the normal
+route.
 
 Routing strategy:
 
 - Low complexity: documentation, QA evidence, formatting, pointer sweeps and format migration use
   Ollama/local tools first.
-- Medium complexity: frontend, mobile, integration adapters, refactors and tests may use Gemini
-  Flash, GPT-4o mini or Ollama depending on configured quota.
+- Medium complexity: frontend, mobile, integration adapters, refactors and tests may use
+  subscription-backed CLI, filesystem task ingestion or Ollama.
 - High complexity: backend core, architecture, security-sensitive changes and database design may
-  use Claude Sonnet, Claude Code CLI or GPT-4o when enabled.
-- Short rolling-window quotas should be consumed during active work before fixed monthly reserves.
-- Month-end drain may prioritize monthly providers when actual usage is below the target burn rate.
+  use Claude Code CLI, GitHub Copilot CLI, filesystem task ingestion or Ollama when enabled.
+- Subscription window quotas may be consumed during active work when the operator has enabled the
+  CLI/IDE route.
 - HTTP 429 or quota-exceeded errors must pause the provider in the local tracker and retry with the
   next available provider.
 
 Execution agents must not spawn commercial subagents for broad inspection, search, formatting or
-QA/documentary work. Use `rg`, targeted reads, Python scripts and Ollama local first. A commercial
-agent call should receive only the active optimized prompt and finish with handoff & exit.
+QA/documentary work. Use `rg`, targeted reads, Python scripts and Ollama local first. A
+subscription-backed CLI/IDE call should receive only the active optimized prompt and finish with
+handoff & exit.
 
 ## Backlog Closure Validation
 
@@ -213,10 +217,9 @@ runtime_configuration:
   - NEXORA_QUOTA_TRACKER
   model_environment_variables:
   - NEXORA_OLLAMA_MODEL
-  provider_environment_variables:
-  - OPENAI_API_KEY
-  - GEMINI_API_KEY
-  - ANTHROPIC_API_KEY
+  task_ingestion_environment_variables:
+  - NEXORA_AGENT_TASK_FILE
+  - NEXORA_AGENT_RESULT_FILE
 local_orchestrator:
   preferred_runtime: python
   required_model_runtime: ollama
@@ -231,11 +234,11 @@ local_orchestrator:
   - read the active backlog pointer
   - inspect only relevant local file slices through ripgrep or targeted reads
   - select the minimum relevant context files
-  - generate a synthetic prompt for the commercial execution agent
+  - generate a synthetic prompt for the execution agent
   - produce a compact memory handoff after task closure
   - persist generated prompts in a deterministic file path
   - reuse prompt cache when the canonical context hash has not changed
-  - route commercial execution through the local runtime router when needed
+  - route subscription/local execution through the local runtime router when needed
   - end each backlog item with handoff, commit, validation and session exit
   prohibited_responsibilities:
   - replace mandatory quality gates
@@ -249,39 +252,29 @@ runtime_routing:
   local_router: nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py
   local_state_file: .nexora/runtime/quota_tracker.json
   local_state_committed: false
-  credentials_source: environment_variables_or_provider_cli_configuration
+  credentials_source: local_cli_or_editor_login_outside_repository
   provider_strategy:
   - id: ollama_local
     tier: low
     runtime: ollama
     role: mandatory_default_and_fallback
-  - id: gemini_flash
+  - id: filesystem_task_ingestion
     tier: medium
-    runtime: google_genai_sdk
-    role: low_cost_review_documentation_and_medium_complexity
-  - id: openai_gpt4o_mini
-    tier: medium
-    runtime: openai_sdk
-    role: low_cost_refactor_tests_and_structured_tasks
-  - id: openai_gpt4o
-    tier: high
-    runtime: openai_sdk
-    role: complex_general_implementation
-  - id: anthropic_sonnet
-    tier: high
-    runtime: anthropic_sdk
-    role: architecture_and_complex_coding
+    runtime: task_ingestion
+    role: handoff_to_local_ide_subscription_agents
   - id: claude_code_cli
     tier: high
     runtime: cli_subprocess
-    role: focused_filesystem_and_git_operations_when_operator_enabled
+    role: focused_subscription_cli_execution_when_operator_enabled
+  - id: github_copilot_cli
+    tier: high
+    runtime: cli_subprocess
+    role: focused_subscription_cli_execution_when_operator_enabled
   routing_rules:
-  - "Commercial calls must be stateless and based on the active optimized prompt only."
+  - "External calls must be stateless and based on the active optimized prompt only."
   - "Use Ollama/local scripts for file exploration, formatting, QA evidence and pointer sweeps."
-  - "Use commercial providers only when complexity or implementation risk justifies the cost."
+  - "Use subscription-backed CLI or IDE routes before any paid API-key exception."
   - "Pause providers that return 429 or quota-exceeded errors and retry the next available provider."
-  - "Prefer short rolling-window quota during active work before consuming monthly reserves."
-  - "Apply month-end drain when monthly usage is below the target burn rate."
 session_policy:
   max_backlog_items_per_chat: 1
   compact_or_restart_after_messages: 15

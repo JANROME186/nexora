@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Route optimized backlog prompts through local or commercial agent runtimes.
+"""Route optimized backlog prompts through local subscription or local agent runtimes.
 
 The router keeps normal Nexora execution stateless and short-lived. Ollama is the mandatory local
-default. Commercial providers are invoked only when explicitly configured and selected by routing
-rules, never by keeping a long interactive chat alive.
+default. External execution must use subscription-backed local CLI sessions or filesystem task
+ingestion. API-key providers are intentionally excluded from the default Nexora route because the
+framework must not create token-consumption cost on top of already-paid IDE/tool subscriptions.
 """
 
 from __future__ import annotations
@@ -30,6 +31,8 @@ ACTIVE_PROMPT_DIR = os.environ.get(
 )
 DEFAULT_STATE_PATH = os.environ.get("NEXORA_QUOTA_TRACKER", ".nexora/runtime/quota_tracker.json")
 DEFAULT_OLLAMA_MODEL = os.environ.get("NEXORA_OLLAMA_MODEL", "qwen2.5-coder:0.5b")
+DEFAULT_AGENT_TASK_FILE = os.environ.get("NEXORA_AGENT_TASK_FILE", ".agent_next_task.md")
+DEFAULT_AGENT_RESULT_FILE = os.environ.get("NEXORA_AGENT_RESULT_FILE", ".agent_task_summary.md")
 DEFAULT_TIMEOUT_SECONDS = 600
 
 
@@ -43,60 +46,41 @@ DEFAULT_PROVIDERS: dict[str, dict[str, Any]] = {
         "is_blocked_until": None,
         "priority": 100,
     },
-    "gemini_flash": {
+    "filesystem_task_ingestion": {
         "tier": "medium",
-        "runtime": "google_genai_sdk",
-        "model": "gemini-2.5-flash",
-        "env_key": "GEMINI_API_KEY",
-        "enabled": False,
-        "monthly_limit_tokens": 10_000_000,
-        "tokens_used_this_month": 0,
-        "monthly_reset_day": 1,
+        "runtime": "task_ingestion",
+        "model": "ide-subscription-file-ingestion",
+        "task_file": DEFAULT_AGENT_TASK_FILE,
+        "result_file": DEFAULT_AGENT_RESULT_FILE,
+        "enabled": True,
         "is_blocked_until": None,
-        "priority": 40,
+        "priority": 30,
     },
-    "openai_gpt4o_mini": {
-        "tier": "medium",
-        "runtime": "openai_sdk",
-        "model": "gpt-4o-mini",
-        "env_key": "OPENAI_API_KEY",
-        "enabled": False,
-        "monthly_limit_tokens": None,
-        "tokens_used_this_month": 0,
-        "is_blocked_until": None,
-        "priority": 50,
-    },
-    "openai_gpt4o": {
+    "claude_code_cli": {
         "tier": "high",
-        "runtime": "openai_sdk",
-        "model": "gpt-4o",
-        "env_key": "OPENAI_API_KEY",
+        "runtime": "claude_cli",
+        "model": "claude-code-subscription",
+        "command": "claude",
+        "args": ["-p"],
+        "enabled": False,
+        "window_reset_hours": 3,
+        "is_blocked_until": None,
+        "priority": 15,
+    },
+    "github_copilot_cli": {
+        "tier": "high",
+        "runtime": "github_copilot_cli",
+        "model": "github-copilot-subscription",
+        "command": "gh",
+        "args": ["copilot", "explain"],
         "enabled": False,
         "window_reset_hours": 3,
         "is_blocked_until": None,
         "priority": 20,
     },
-    "anthropic_sonnet": {
-        "tier": "high",
-        "runtime": "anthropic_sdk",
-        "model": "claude-3-5-sonnet-20241022",
-        "env_key": "ANTHROPIC_API_KEY",
-        "enabled": False,
-        "window_reset_hours": 4,
-        "is_blocked_until": None,
-        "priority": 10,
-    },
-    "claude_code_cli": {
-        "tier": "high",
-        "runtime": "claude_cli",
-        "model": "claude-code",
-        "command": "claude",
-        "enabled": False,
-        "window_reset_hours": 4,
-        "is_blocked_until": None,
-        "priority": 15,
-    },
 }
+
+DISALLOWED_API_KEY_RUNTIMES = {"openai_sdk", "google_genai_sdk", "anthropic_sdk"}
 
 
 class ProviderUnavailable(RuntimeError):
@@ -153,8 +137,32 @@ def infer_complexity(task_id: str, prompt: str) -> str:
 
 def load_state(path: Path) -> dict[str, Any]:
     if path.exists():
-        return json.loads(path.read_text(encoding="utf-8"))
-    return {"providers": DEFAULT_PROVIDERS, "events": []}
+        state = json.loads(path.read_text(encoding="utf-8"))
+    else:
+        state = {"providers": {}, "events": []}
+    return normalize_state(state)
+
+
+def normalize_state(state: dict[str, Any]) -> dict[str, Any]:
+    providers = state.setdefault("providers", {})
+    if not isinstance(providers, dict):
+        providers = {}
+        state["providers"] = providers
+    for provider_id in list(providers):
+        provider = providers.get(provider_id)
+        if isinstance(provider, dict) and provider.get("runtime") in DISALLOWED_API_KEY_RUNTIMES:
+            providers.pop(provider_id, None)
+    for provider_id, provider in DEFAULT_PROVIDERS.items():
+        current = providers.get(provider_id)
+        if not isinstance(current, dict):
+            providers[provider_id] = dict(provider)
+            continue
+        merged = dict(provider)
+        merged.update(current)
+        providers[provider_id] = merged
+    if not isinstance(state.get("events"), list):
+        state["events"] = []
+    return state
 
 
 def save_state(path: Path, state: dict[str, Any]) -> None:
@@ -188,20 +196,23 @@ def monthly_underuse_boost(provider: dict[str, Any], now: datetime) -> int:
 
 
 def configured(provider: dict[str, Any]) -> bool:
-    if provider.get("runtime") == "ollama":
+    runtime = provider.get("runtime")
+    if runtime == "ollama":
         return True
-    if provider.get("runtime") == "claude_cli":
+    if runtime in {"claude_cli", "github_copilot_cli"}:
         return shutil.which(str(provider.get("command") or "claude")) is not None
-    env_key = provider.get("env_key")
-    return bool(env_key and os.environ.get(str(env_key)))
+    if runtime == "task_ingestion":
+        task_file = Path(str(provider.get("task_file") or DEFAULT_AGENT_TASK_FILE))
+        return bool(task_file.name)
+    return False
 
 
 def candidate_ids(complexity: str) -> list[str]:
     if complexity == "high":
-        return ["anthropic_sonnet", "claude_code_cli", "openai_gpt4o", "gemini_flash", "openai_gpt4o_mini", "ollama_local"]
+        return ["claude_code_cli", "github_copilot_cli", "filesystem_task_ingestion", "ollama_local"]
     if complexity == "medium":
-        return ["gemini_flash", "openai_gpt4o_mini", "openai_gpt4o", "ollama_local"]
-    return ["ollama_local", "gemini_flash", "openai_gpt4o_mini"]
+        return ["github_copilot_cli", "filesystem_task_ingestion", "ollama_local"]
+    return ["ollama_local", "filesystem_task_ingestion"]
 
 
 def select_provider(state: dict[str, Any], complexity: str, forced_provider: str | None = None) -> RouteDecision:
@@ -284,60 +295,9 @@ def call_ollama(prompt: str, model: str) -> str:
     return str(body.get("response", ""))
 
 
-def call_openai(prompt: str, model: str) -> str:
-    try:
-        from openai import OpenAI
-    except ImportError as exc:
-        raise ProviderUnavailable("Install openai SDK to use OpenAI providers.") from exc
-    try:
-        response = OpenAI().chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.2,
-        )
-    except Exception as exc:  # SDK-specific exceptions vary by version.
-        if "429" in str(exc) or "rate" in str(exc).lower() or "quota" in str(exc).lower():
-            raise ProviderRateLimited(str(exc)) from exc
-        raise
-    return str(response.choices[0].message.content or "")
-
-
-def call_gemini(prompt: str, model: str) -> str:
-    try:
-        from google import genai
-    except ImportError as exc:
-        raise ProviderUnavailable("Install google-genai SDK to use Gemini providers.") from exc
-    try:
-        response = genai.Client().models.generate_content(model=model, contents=prompt)
-    except Exception as exc:
-        if "429" in str(exc) or "rate" in str(exc).lower() or "quota" in str(exc).lower():
-            raise ProviderRateLimited(str(exc)) from exc
-        raise
-    return str(getattr(response, "text", "") or "")
-
-
-def call_anthropic(prompt: str, model: str) -> str:
-    try:
-        import anthropic
-    except ImportError as exc:
-        raise ProviderUnavailable("Install anthropic SDK to use Anthropic providers.") from exc
-    try:
-        response = anthropic.Anthropic().messages.create(
-            model=model,
-            max_tokens=4000,
-            messages=[{"role": "user", "content": prompt}],
-        )
-    except Exception as exc:
-        if "429" in str(exc) or "rate" in str(exc).lower() or "quota" in str(exc).lower():
-            raise ProviderRateLimited(str(exc)) from exc
-        raise
-    first = response.content[0]
-    return str(getattr(first, "text", first))
-
-
-def call_claude_cli(prompt: str, command: str) -> str:
+def call_cli(prompt: str, command: str, args: list[str]) -> str:
     result = subprocess.run(
-        [command, "-p", prompt],
+        [command, *args, prompt],
         text=True,
         capture_output=True,
         encoding="utf-8",
@@ -352,19 +312,34 @@ def call_claude_cli(prompt: str, command: str) -> str:
     return result.stdout
 
 
+def call_task_ingestion(root: Path, prompt: str, provider: dict[str, Any]) -> str:
+    task_path = root / str(provider.get("task_file") or DEFAULT_AGENT_TASK_FILE)
+    result_path = root / str(provider.get("result_file") or DEFAULT_AGENT_RESULT_FILE)
+    task_path.parent.mkdir(parents=True, exist_ok=True)
+    task_body = (
+        "# Nexora Active Agent Task\n\n"
+        "Lee y atiende esta tarea usando la herramienta local/IDE autenticada con la suscripcion "
+        "del operador. No uses API keys por consumo de tokens. Al finalizar, deja el resumen en:\n\n"
+        f"`{result_path.as_posix()}`\n\n"
+        "## Prompt optimizado\n\n"
+        f"{prompt.rstrip()}\n"
+    )
+    task_path.write_text(task_body, encoding="utf-8", newline="\n")
+    return f"task_ingestion_written={task_path.as_posix()}\nexpected_summary={result_path.as_posix()}\n"
+
+
 def execute_provider(prompt: str, decision: RouteDecision, state: dict[str, Any]) -> str:
     provider = (state.get("providers") or {}).get(decision.provider) or {}
     runtime = decision.runtime
     if runtime == "ollama":
         return call_ollama(prompt, decision.model)
-    if runtime == "openai_sdk":
-        return call_openai(prompt, decision.model)
-    if runtime == "google_genai_sdk":
-        return call_gemini(prompt, decision.model)
-    if runtime == "anthropic_sdk":
-        return call_anthropic(prompt, decision.model)
     if runtime == "claude_cli":
-        return call_claude_cli(prompt, str(provider.get("command") or "claude"))
+        return call_cli(prompt, str(provider.get("command") or "claude"), list(provider.get("args") or ["-p"]))
+    if runtime == "github_copilot_cli":
+        return call_cli(prompt, str(provider.get("command") or "gh"), list(provider.get("args") or ["copilot", "explain"]))
+    if runtime == "task_ingestion":
+        root = Path(os.environ.get("NEXORA_ROOT", os.getcwd())).resolve()
+        return call_task_ingestion(root, prompt, provider)
     raise ProviderUnavailable(f"Unsupported runtime: {runtime}")
 
 
@@ -411,6 +386,7 @@ def main() -> int:
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
+    os.environ["NEXORA_ROOT"] = str(root)
     state_path = (root / args.state).resolve()
     state = load_state(state_path)
     if args.init_state:
