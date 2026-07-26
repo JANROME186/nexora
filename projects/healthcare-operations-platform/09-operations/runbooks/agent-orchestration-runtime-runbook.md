@@ -70,14 +70,24 @@ python nexora-framework/08-engineering/agents/context-orchestrator/context_orche
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py
 ```
 
-3. Execute through the router only when the operator intentionally enables local CLI configuration
+3. Certify local CLI providers before automatic execution:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py --provider all
+```
+
+If preflight does not mark a provider as `ready`, do not start automatic CLI backlog execution with
+that provider. Resolve the reported operator action first, such as login refresh, quota reset, PATH
+fix, unsupported headless mode or timeout diagnosis.
+
+4. Execute through the router only when the operator intentionally enables local CLI configuration
 or filesystem task ingestion:
 
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py --execute
 ```
 
-4. Follow the execution trace while the CLI/IDE route is running:
+5. Follow the execution trace while the CLI/IDE route is running:
 
 ```powershell
 Get-Content .nexora/runtime/orchestrator-events.jsonl -Wait -Tail 30
@@ -93,7 +103,7 @@ $env:NEXORA_PROVIDER_TIMEOUT_SECONDS="180"
 $env:NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
 ```
 
-5. Complete the backlog item, create the handoff, commit, run closure validation and exit:
+6. Complete the backlog item, create the handoff, commit, run closure validation and exit:
 
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
@@ -180,6 +190,7 @@ artifact:
 project: healthcare-operations-platform
 required_tools:
 - context_orchestrator
+- agent_cli_preflight
 - commercial_agent_router
 - backlog_closure_validator
 - framework_managed_artifact_optimizer
@@ -195,6 +206,7 @@ context_loading_policy:
 runtime_state:
   quota_tracker: .nexora/runtime/quota_tracker.json
   orchestration_trace: .nexora/runtime/orchestrator-events.jsonl
+  cli_preflight_certificate: .nexora/runtime/agent-cli-preflight.json
   provider_timeout_seconds_env: NEXORA_PROVIDER_TIMEOUT_SECONDS
   provider_heartbeat_seconds_env: NEXORA_PROVIDER_HEARTBEAT_SECONDS
   task_ingestion_file: .agent_next_task.md

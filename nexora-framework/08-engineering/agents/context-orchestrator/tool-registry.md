@@ -51,10 +51,13 @@ Default behavior:
 - Persist quota/rate-limit state locally outside git.
 - Append JSONL trace events to `.nexora/runtime/orchestrator-events.jsonl`.
 - Emit console heartbeat events every 30 seconds while a CLI provider is still running.
+- Refuse headless CLI execution unless `tool: agent_cli_preflight` produced a fresh ready
+  certificate for the selected provider.
 
 Execution template:
 
 ```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py --provider all
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py --execute
 ```
 
@@ -82,6 +85,46 @@ execution-surface limits.
 Execution agents must not spawn commercial subagents for file exploration, broad search, formatting
 or QA evidence generation. Those tasks must use local shell/Python/Ollama first. Commercial routing
 is reserved for focused implementation, architecture or review work with a compact active prompt.
+
+## Tool: agent_cli_preflight
+
+Purpose: certify that local/subscription CLI providers are installed, authenticated and able to
+answer a tiny headless smoke prompt before the router starts backlog execution.
+
+Tool id: `agent_cli_preflight`
+
+Runtime: Python
+
+Script: `nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py`
+
+Certificate:
+`.nexora/runtime/agent-cli-preflight.json`
+
+Invocation template:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py --provider all
+```
+
+Provider-specific invocation:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py --provider codex_cli
+```
+
+Default behavior:
+
+- Resolve each CLI binary from PATH.
+- Run a version check.
+- Run an auth check when the CLI exposes one.
+- Run a tiny prompt smoke test for headless providers.
+- Mark IDE-only routes, such as Kiro handoff, as not certified for automatic headless execution.
+- Write a local ignored certificate for the router.
+- Append trace events to `.nexora/runtime/orchestrator-events.jsonl`.
+
+The router must not execute a headless CLI provider when the certificate is missing, stale or marks
+that provider as not ready. Operator actions reported by preflight must be resolved before backlog
+execution begins.
 
 ## Tool: backlog_closure_validator
 

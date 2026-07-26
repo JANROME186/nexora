@@ -35,6 +35,8 @@ DEFAULT_OLLAMA_MODEL = os.environ.get("NEXORA_OLLAMA_MODEL", "qwen2.5-coder:0.5b
 DEFAULT_AGENT_TASK_FILE = os.environ.get("NEXORA_AGENT_TASK_FILE", ".agent_next_task.md")
 DEFAULT_AGENT_RESULT_FILE = os.environ.get("NEXORA_AGENT_RESULT_FILE", ".agent_task_summary.md")
 DEFAULT_ORCHESTRATOR_LOG = os.environ.get("NEXORA_ORCHESTRATOR_LOG", ".nexora/runtime/orchestrator-events.jsonl")
+DEFAULT_PREFLIGHT_CERT = os.environ.get("NEXORA_CLI_PREFLIGHT_CERT", ".nexora/runtime/agent-cli-preflight.json")
+DEFAULT_PREFLIGHT_MAX_AGE_MINUTES = int(os.environ.get("NEXORA_CLI_PREFLIGHT_MAX_AGE_MINUTES", "240"))
 DEFAULT_TIMEOUT_SECONDS = int(os.environ.get("NEXORA_PROVIDER_TIMEOUT_SECONDS", "600"))
 DEFAULT_HEARTBEAT_SECONDS = int(os.environ.get("NEXORA_PROVIDER_HEARTBEAT_SECONDS", "30"))
 
@@ -64,7 +66,7 @@ DEFAULT_PROVIDERS: dict[str, dict[str, Any]] = {
         "runtime": "claude_cli",
         "model": "claude-code-subscription",
         "command": "claude",
-        "args": ["-p", "--permission-mode", "dontAsk"],
+        "args": ["-p", "--input-format", "text", "--output-format", "text", "--permission-mode", "dontAsk"],
         "enabled": False,
         "window_reset_hours": 3,
         "is_blocked_until": None,
@@ -86,7 +88,7 @@ DEFAULT_PROVIDERS: dict[str, dict[str, Any]] = {
         "runtime": "github_copilot_cli",
         "model": "github-copilot-subscription",
         "command": "gh",
-        "args": ["copilot", "-p", "--allow-all-tools", "--allow-all-paths", "--stream", "off", "-s"],
+        "args": ["copilot", "--", "--allow-all-tools", "--allow-all-paths", "--stream", "off", "-s", "-p"],
         "enabled": False,
         "window_reset_hours": 3,
         "is_blocked_until": None,
@@ -129,6 +131,9 @@ class ProviderRateLimited(RuntimeError):
     """Provider reported rate limiting or quota exhaustion."""
 
 
+HEADLESS_CLI_RUNTIMES = {"claude_cli", "github_copilot_cli", "codex_cli", "gemini_cli"}
+
+
 @dataclass(frozen=True)
 class RouteDecision:
     provider: str
@@ -157,6 +162,42 @@ def log_event(root: Path, event: str, **fields: Any) -> None:
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8") if path.exists() else ""
+
+
+def read_json(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+        return value if isinstance(value, dict) else {}
+    except json.JSONDecodeError:
+        return {}
+
+
+def parse_iso(value: object) -> datetime | None:
+    if not isinstance(value, str):
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00")).replace(tzinfo=None)
+    except ValueError:
+        return None
+
+
+def preflight_ready(root: Path, provider_id: str) -> tuple[bool, str]:
+    cert_path = root / DEFAULT_PREFLIGHT_CERT
+    cert = read_json(cert_path)
+    generated_at = parse_iso(cert.get("generated_at"))
+    if generated_at is None:
+        return False, f"missing_or_invalid_preflight_certificate:{cert_path.as_posix()}"
+    age_minutes = int((datetime.utcnow() - generated_at).total_seconds() / 60)
+    if age_minutes > DEFAULT_PREFLIGHT_MAX_AGE_MINUTES:
+        return False, f"stale_preflight_certificate:{age_minutes}m>{DEFAULT_PREFLIGHT_MAX_AGE_MINUTES}m"
+    provider = ((cert.get("providers") or {}).get(provider_id) or {}) if isinstance(cert.get("providers"), dict) else {}
+    if not provider.get("ready"):
+        status = provider.get("status") or "not_checked"
+        action = provider.get("operator_action") or "run agent_cli_preflight.py"
+        return False, f"provider_not_preflight_ready:{provider_id}:{status}:{action}"
+    return True, f"preflight_ready:{provider_id}:{age_minutes}m"
 
 
 def active_prompt_path(root: Path) -> Path:
@@ -459,6 +500,18 @@ def call_cli(root: Path, provider_id: str, prompt: str, command: str, args: list
     return result.stdout
 
 
+def call_cli_stdin(root: Path, provider_id: str, prompt: str, command: str, args: list[str]) -> str:
+    result = run_logged_subprocess(root, provider_id, command, args, input_text=prompt)
+    if result.returncode == 124:
+        raise ProviderUnavailable(f"{provider_id} timed out")
+    combined = f"{result.stdout}\n{result.stderr}".lower()
+    if result.returncode != 0 and ("429" in combined or "rate" in combined or "quota" in combined):
+        raise ProviderRateLimited(combined)
+    if result.returncode != 0:
+        raise ProviderUnavailable(result.stderr.strip() or f"{command} exited {result.returncode}")
+    return result.stdout
+
+
 def call_task_ingestion(root: Path, prompt: str, provider: dict[str, Any]) -> str:
     task_path = root / str(provider.get("task_file") or DEFAULT_AGENT_TASK_FILE)
     result_path = root / str(provider.get("result_file") or DEFAULT_AGENT_RESULT_FILE)
@@ -509,14 +562,20 @@ def execute_provider(root: Path, prompt: str, decision: RouteDecision, state: di
         log_event(root, "ollama_call_start", provider=decision.provider, model=decision.model)
         return call_ollama(prompt, decision.model)
     if runtime == "claude_cli":
-        return call_cli(root, decision.provider, prompt, str(provider.get("command") or "claude"), list(provider.get("args") or ["-p"]))
+        return call_cli_stdin(
+            root,
+            decision.provider,
+            prompt,
+            str(provider.get("command") or "claude"),
+            list(provider.get("args") or ["-p", "--input-format", "text", "--output-format", "text", "--permission-mode", "dontAsk"]),
+        )
     if runtime == "github_copilot_cli":
         return call_cli(
             root,
             decision.provider,
             prompt,
             str(provider.get("command") or "gh"),
-            list(provider.get("args") or ["copilot", "-p", "--allow-all-tools", "--allow-all-paths", "--stream", "off", "-s"]),
+            list(provider.get("args") or ["copilot", "--", "--allow-all-tools", "--allow-all-paths", "--stream", "off", "-s", "-p"]),
         )
     if runtime == "gemini_cli":
         return call_cli(
@@ -557,6 +616,11 @@ def route_and_execute(
             return decision, None
         try:
             log_event(root, "provider_selected", **decision.__dict__)
+            if decision.runtime in HEADLESS_CLI_RUNTIMES:
+                ready, detail = preflight_ready(root, decision.provider)
+                log_event(root, "provider_preflight_check", provider=decision.provider, ready=ready, detail=detail)
+                if not ready:
+                    raise ProviderUnavailable(detail)
             output = execute_provider(root, prompt, decision, state)
             record_event(state, {"type": "provider_success", "provider": decision.provider, "complexity": complexity})
             log_event(root, "provider_success", provider=decision.provider, complexity=complexity)

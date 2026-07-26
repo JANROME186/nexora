@@ -21,6 +21,7 @@ Current Python tools:
 
 - `nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py`
 - `nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py`
+- `nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py`
 - `nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py`
 - `nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py`
 - `nexora-framework/08-engineering/agents/context-orchestrator/zero_yaml_migrator.py`
@@ -77,6 +78,9 @@ Required or recommended Nexora variables:
 | `NEXORA_ACTIVE_PROMPT_DIR` | Active prompt inbox used by router and validator. |
 | `NEXORA_QUOTA_TRACKER` | Local ignored quota tracker path. |
 | `NEXORA_ORCHESTRATOR_LOG` | Local ignored JSONL execution trace for prompt generation and routing. |
+| `NEXORA_CLI_PREFLIGHT_CERT` | Local ignored certificate proving CLI providers were validated before execution. |
+| `NEXORA_CLI_PREFLIGHT_MAX_AGE_MINUTES` | Max age for a preflight certificate before router execution rejects it. |
+| `NEXORA_PREFLIGHT_TIMEOUT_SECONDS` | Per-command timeout used by CLI preflight checks. |
 | `NEXORA_PROVIDER_TIMEOUT_SECONDS` | Max seconds before the router kills a provider process tree. |
 | `NEXORA_PROVIDER_HEARTBEAT_SECONDS` | Seconds between provider heartbeat trace events. |
 | `NEXORA_OLLAMA_MODEL` | Default local Ollama model. |
@@ -98,6 +102,9 @@ $env:NEXORA_PROJECT_PATH="projects/healthcare-operations-platform"
 $env:NEXORA_ACTIVE_PROMPT_DIR="projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt"
 $env:NEXORA_QUOTA_TRACKER=".nexora/runtime/quota_tracker.json"
 $env:NEXORA_ORCHESTRATOR_LOG=".nexora/runtime/orchestrator-events.jsonl"
+$env:NEXORA_CLI_PREFLIGHT_CERT=".nexora/runtime/agent-cli-preflight.json"
+$env:NEXORA_CLI_PREFLIGHT_MAX_AGE_MINUTES="240"
+$env:NEXORA_PREFLIGHT_TIMEOUT_SECONDS="60"
 $env:NEXORA_PROVIDER_TIMEOUT_SECONDS="600"
 $env:NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
 $env:NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
@@ -135,6 +142,9 @@ export NEXORA_PROJECT_PATH="projects/healthcare-operations-platform"
 export NEXORA_ACTIVE_PROMPT_DIR="projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt"
 export NEXORA_QUOTA_TRACKER=".nexora/runtime/quota_tracker.json"
 export NEXORA_ORCHESTRATOR_LOG=".nexora/runtime/orchestrator-events.jsonl"
+export NEXORA_CLI_PREFLIGHT_CERT=".nexora/runtime/agent-cli-preflight.json"
+export NEXORA_CLI_PREFLIGHT_MAX_AGE_MINUTES="240"
+export NEXORA_PREFLIGHT_TIMEOUT_SECONDS="60"
 export NEXORA_PROVIDER_TIMEOUT_SECONDS="600"
 export NEXORA_PROVIDER_HEARTBEAT_SECONDS="30"
 export NEXORA_OLLAMA_MODEL="qwen2.5-coder:0.5b"
@@ -185,6 +195,23 @@ Check routing without invoking external runtimes:
 ```powershell
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py
 ```
+
+Certify CLI providers before any automatic CLI execution:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py --provider all
+```
+
+For a specific provider:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py --provider codex_cli
+```
+
+The preflight writes `.nexora/runtime/agent-cli-preflight.json`. The router refuses headless CLI
+execution when the certificate is missing, stale or marks the selected provider as not ready. If the
+preflight reports `operator_login_required`, `quota_or_rate_limit`, `timeout`, `missing_binary` or
+`ide_handoff_only`, resolve that issue before running the backlog.
 
 Follow orchestrator/router execution live in PowerShell:
 
@@ -265,6 +292,9 @@ environment_variables:
 - NEXORA_ACTIVE_PROMPT_DIR
 - NEXORA_QUOTA_TRACKER
 - NEXORA_ORCHESTRATOR_LOG
+- NEXORA_CLI_PREFLIGHT_CERT
+- NEXORA_CLI_PREFLIGHT_MAX_AGE_MINUTES
+- NEXORA_PREFLIGHT_TIMEOUT_SECONDS
 - NEXORA_PROVIDER_TIMEOUT_SECONDS
 - NEXORA_PROVIDER_HEARTBEAT_SECONDS
 - NEXORA_OLLAMA_MODEL
@@ -274,6 +304,7 @@ environment_variables:
 versioned_python_programs:
 - nexora-framework/08-engineering/agents/context-orchestrator/context_orchestrator.py
 - nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py
+- nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py
 - nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
 - nexora-framework/08-engineering/agents/context-orchestrator/frontmatter_migrator.py
 - nexora-framework/08-engineering/agents/context-orchestrator/zero_yaml_migrator.py

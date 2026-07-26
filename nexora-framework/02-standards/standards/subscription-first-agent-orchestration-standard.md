@@ -47,6 +47,11 @@ agent. `cli` is used only when a subscription-backed CLI is available and intent
 The selected flow is part of the prompt cache key to keep regenerated prompts deterministic for the
 same mode and separate across modes.
 
+Before any `cli` execution, Nexora must run `tool: agent_cli_preflight`. The router must refuse
+headless CLI execution when the selected provider does not have a fresh ready certificate. This
+prevents backlog work from starting when a provider is missing, unauthenticated, quota blocked,
+unsupported for headless output or timing out on a tiny smoke prompt.
+
 If `cli` fails because of permissions, quota, missing login, unsupported headless mode or sandbox
 limits, the agent must not mark the backlog blocked or closed by exception. It must regenerate the
 prompt in `manual` mode, report the reason for the switch and let the operator hand the optimized
@@ -89,6 +94,7 @@ policy:
   execution_flow_parameter_required: true
   default_execution_flow: manual
   manual_ide_handoff_preferred_when_cli_unavailable: true
+  cli_preflight_required_before_execution: true
   subscription_cli_allowed: true
   codex_cli_allowed: true
   gemini_cli_allowed_when_oauth_or_enterprise_eligible: true
@@ -98,11 +104,15 @@ policy:
   paid_api_key_exception_requires_adr: true
 default_files:
   active_prompt_dir: projects/<project>/08-qa/generated-prompts/active_prompt/
+  cli_preflight_certificate: .nexora/runtime/agent-cli-preflight.json
   task_ingestion_file: .agent_next_task.md
   task_result_file: .agent_task_summary.md
 operator_controls:
   - NEXORA_AGENT_TASK_FILE
   - NEXORA_AGENT_RESULT_FILE
   - NEXORA_QUOTA_TRACKER
+  - NEXORA_CLI_PREFLIGHT_CERT
+  - NEXORA_CLI_PREFLIGHT_MAX_AGE_MINUTES
+  - NEXORA_PREFLIGHT_TIMEOUT_SECONDS
   - NEXORA_OLLAMA_MODEL
 ```
