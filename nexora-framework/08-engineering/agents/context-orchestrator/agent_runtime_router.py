@@ -307,6 +307,8 @@ def select_provider(
             continue
         score = int(provider.get("priority") or 100) + monthly_underuse_boost(provider, now)
         ranked.append((score, provider_id, provider))
+    if not ranked and execution_flow == "cli" and complexity == "high" and forced_provider != "ollama_local":
+        raise ProviderUnavailable("no enabled subscription-backed CLI provider available: " + ", ".join(skipped))
     if not ranked:
         provider = providers["ollama_local"]
         return RouteDecision(
@@ -564,6 +566,11 @@ def route_and_execute(
                 raise
         except ProviderUnavailable as exc:
             log_event(root, "provider_unavailable", provider=decision.provider, detail=str(exc))
+            attempted.append(decision.provider)
+            if decision.provider not in {"ollama_local", "filesystem_task_ingestion"}:
+                block_provider(state, decision.provider, min(block_hours, 1))
+                provider_override = None
+                continue
             raise
 
 
