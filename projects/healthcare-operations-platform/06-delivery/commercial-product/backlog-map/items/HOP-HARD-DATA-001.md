@@ -2,7 +2,7 @@
 artifact:
   id: HOP-BACKLOG-ITEM-HOP-HARD-DATA-001
   type: backlog-item-record
-  status: active
+  status: closed
   optimization: atomic_context
 ---
 
@@ -15,7 +15,7 @@ artifact:
 ```yaml
 id: HOP-HARD-DATA-001
 name: Database, reference data, localization data and persistence hardening
-status: active
+status: closed
 module_id: HOP-FINAL-HARDENING
 module_name: Final Commercial Hardening and Technical Debt Burn-down
 release: REL-GA

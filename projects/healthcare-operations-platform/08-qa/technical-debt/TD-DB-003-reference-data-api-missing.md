@@ -4,8 +4,8 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: No backend read API exists yet for the new country/locale/currency reference
   tables
-version: 1.0.0
-status: open
+version: 2.0.0
+status: closed
 ---
 
 # No Backend Read Api Exists Yet For The New Country/Locale/Currency Reference Tables
@@ -20,9 +20,10 @@ artifact:
   type: technical-debt-item
   name: No backend read API exists yet for the new country/locale/currency reference
     tables
-  version: 1.0.0
-  status: open
+  version: 2.0.0
+  status: closed
   created_date: 2026-07-17
+  updated_date: 2026-07-26
 source:
   discovered_during_backlog_item: HOP-ENT-FOUND-001
   module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
@@ -59,4 +60,19 @@ remediation:
   - GET endpoints exist returning countries/locales/currencies, covered by unit and
     MockMvc tests.
   owner_or_responsible_role: backend_platform_team
+disposition_history:
+- backlog_item: HOP-HARD-DATA-001
+  date: 2026-07-26
+  disposition: closed
+  reason: 'Implemented the expected_integration_points as designed. New domain.ReferenceDataRepository
+    port with Country/LocaleOption/CurrencyOption records; JdbcReferenceDataRepository
+    (adapter/out/jdbc, @Profile("local")) reading organization.countries/locales/currencies;
+    an InMemoryReferenceDataRepository (@Profile("!local")) seeded with the identical baseline
+    rows for parity; a new ReferenceDataController exposing GET /api/organization/reference-data/countries,
+    /locales and /currencies; and an EndpointPermissionRegistry entry (SCREEN_TENANTS,
+    BCM-ORG-001) so the new endpoint is authorization-enforced like every other controller.
+    Covered by ReferenceDataApiTest (MockMvc, default/in-memory profile) and
+    ReferenceDataLocalDatabaseTest (MockMvc against the real Postgres schema, gated by
+    hop.local-db-tests), plus an EndpointPermissionRegistryTest case. All acceptance criteria
+    met; no residual scope.'
 ```

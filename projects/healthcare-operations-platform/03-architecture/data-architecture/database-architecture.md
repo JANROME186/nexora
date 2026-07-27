@@ -239,32 +239,44 @@ technical_debt_registered:
 - id: TD-DB-002
   title: Diagnostic catalog business tables (test/panel/analyte/service names) are
     not yet translatable (single name column, no es-MX/en-US variants)
-  status: open
+  status: closed
   risk_level: medium
   blocking: false
-  recommended_migration: Add parallel name_es_mx/name_en_us columns (and equivalent
-    for other translatable text fields) to catalog.diagnostic_services, catalog.test_definitions,
-    catalog.panel_definitions, catalog.analyte_definitions, matching the pattern established
-    by organization.countries/locales/currencies in this iteration.
+  closure_note: HOP-HARD-DATA-001 re-audited the schema and found catalog.diagnostic_services/test_definitions/panel_definitions/analyte_definitions
+    have carried parallel name_en/name_es columns end-to-end (schema, LocalizedText domain
+    value object, commands, controllers) since the original MVP-MOD-002-BE-001 compile,
+    predating this item's own creation; the "single name column" premise no longer held. See
+    08-qa/technical-debt/TD-DB-002-catalog-not-translatable.md for full evidence.
   target_backlog: next_catalog_test_configuration_backlog_item
   owner: backend_platform_team
 - id: TD-DB-003
   title: No backend read API exists yet for the new country/locale/currency reference
     tables
-  status: open
+  status: closed
   risk_level: low
   blocking: false
+  closure_note: HOP-HARD-DATA-001 added ReferenceDataRepository/JdbcReferenceDataRepository/ReferenceDataController
+    exposing GET /api/organization/reference-data/countries, /locales and /currencies,
+    covered by MockMvc and real-Postgres tests. See
+    08-qa/technical-debt/TD-DB-003-reference-data-api-missing.md for full evidence.
   target_backlog: whenever_a_screen_or_client_first_needs_country_locale_currency_options
   owner: backend_platform_team
 - id: TD-DB-004
   title: Tenant scoping is enforced by application-level WHERE clauses, not PostgreSQL
     native row-level security policies
-  status: open
+  status: closed
   risk_level: low
   blocking: false
   reason_non_blocking: Every existing JdbcXxxRepository consistently parameterizes
     tenant_id in its queries (spot-checked across multiple modules); native RLS would
     be defense-in-depth, not a correctness fix for a known bug.
+  closure_note: HOP-HARD-DATA-001 implemented native RLS (db/final-hardening/schema.sql)
+    across every table with a tenant_id column, with a TenantSessionDataSource that switches
+    the connection to a least-privilege hop_app role (via SET ROLE) for the duration of an
+    authenticated, non-admin request, and an explicit bypass GUC for the ADMIN role's
+    legitimate cross-tenant operations. Proven functionally by
+    TenantSessionDataSourceLocalDatabaseTest. See
+    08-qa/technical-debt/TD-DB-004-no-native-row-level-security.md for full evidence.
   target_backlog: release_readiness_hardening_backlog_item
   owner: backend_platform_team
 validations:

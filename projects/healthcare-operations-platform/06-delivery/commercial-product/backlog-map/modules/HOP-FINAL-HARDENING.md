@@ -60,7 +60,7 @@ backlog_items:
   - TD-IAM-004
 - id: HOP-HARD-DATA-001
   name: Database, reference data, localization data and persistence hardening
-  status: active
+  status: closed
   mapped_items:
   - TD-DB-002
   - TD-DB-003
@@ -68,7 +68,7 @@ backlog_items:
   - TD-STACK-002
 - id: HOP-HARD-FE-001
   name: Employee portal quality, i18n, UX and missing workflow surfaces
-  status: planned
+  status: active
   mapped_items:
   - TD-FE-002
   - TD-FE-003

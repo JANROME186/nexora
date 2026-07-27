@@ -75,9 +75,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 84.69
-        source_evidence: 08-qa/qa/final-hardening/HOP-HARD-IAM-001-validation.md
-        next_iteration_minimum_line_coverage_percent: 84.69
+        current_line_coverage_percent: 84.77
+        source_evidence: 08-qa/qa/final-hardening/HOP-HARD-DATA-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 84.77
         final_closure_target_percent: 80
         correction_note: 'COM-MOD-013-QA-001 found the recorded 84.14% figure was
           not reproducible from a clean rebuild (measured 82.57%); investigating that
@@ -586,35 +586,34 @@ entries:
 - id: TD-DB-002
   title: Diagnostic catalog business tables are not yet translatable (single name
     column, no es-MX/en-US variants)
-  status: open
+  status: closed
   risk_level: medium
   blocking: false
   source_backlog_item: HOP-ENT-FOUND-001
   affected_area: catalog_test_configuration_localization
   file: 08-qa/technical-debt/TD-DB-002-catalog-not-translatable.md
-  remediation_strategy: gradual_when_catalog_test_configuration_is_next_touched_by_a_code_changing_backlog_item
+  remediation_strategy: closed_by_HOP_HARD_DATA_001_audit_confirmed_name_en_name_es_and_LocalizedText_already_end_to_end_since_MVP_MOD_002_BE_001
 - id: TD-DB-003
   title: No backend read API exists yet for the new country/locale/currency reference
     tables
-  status: open
+  status: closed
   risk_level: low
   blocking: false
   source_backlog_item: HOP-ENT-FOUND-001
   affected_area: reference_data_api
   file: 08-qa/technical-debt/TD-DB-003-reference-data-api-missing.md
-  remediation_strategy: implement_when_a_screen_or_client_first_needs_country_locale_currency_options
+  remediation_strategy: closed_by_HOP_HARD_DATA_001_ReferenceDataController_ReferenceDataRepository_GET_countries_locales_currencies
 - id: TD-DB-004
   title: Tenant scoping is enforced by application-level WHERE clauses, not PostgreSQL
     native row-level security policies
-  status: materially_reduced
+  status: closed
   risk_level: low
   blocking: false
   source_backlog_item: HOP-ENT-FOUND-001
   affected_area: tenant_isolation
   file: 08-qa/technical-debt/TD-DB-004-no-native-row-level-security.md
-  remediation_strategy: materially_reduced_by_COM_MOD_012_OPS_002_tenant_impact_triage_runbook_cross_tenant_leakage_check_
-    as_operational_compensating_control; further_reduced_by_COM_MOD_012_BE_001_Tenant_isolationStrategy_field_persisted_per_tenant_and_
-    updateTenantStatus_suspend_archive_containment_control_TRIAGE-STEP-004B; then_release_readiness_hardening_backlog_item_for_native_RLS
+  remediation_strategy: closed_by_HOP_HARD_DATA_001_native_RLS_via_TenantSessionDataSource_SET_ROLE_hop_app_plus_ADMIN_bypass_GUC_
+    as_defense_in_depth_alongside_existing_application_level_filtering
 - id: TD-UX-001
   title: No shared Button/FormField/DataTable component library; each of the 26 employee-portal
     screens implements its own markup

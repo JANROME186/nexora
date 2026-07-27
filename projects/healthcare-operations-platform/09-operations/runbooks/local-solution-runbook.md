@@ -1662,6 +1662,17 @@ known_limitations:
   vs. the FE's plural fields, no version field). MVP-MOD-007-FE-001 worked around
   this locally for its own screen via response normalization in resultsDeliveryApi.ts;
   tracked as TD-FE-007.
+- HOP-HARD-DATA-001 added native PostgreSQL row-level security (TD-DB-004 closure): `backend/src/main/resources/db/final-hardening/schema.sql`
+  enables RLS on every table with a `tenant_id` column and creates a plain, unprivileged
+  `hop_app` role. This file is deliberately NOT registered in `application-local.properties`'s
+  `spring.sql.init.schema-locations` (Spring's script splitter cannot parse PostgreSQL's `$$`
+  dollar-quoted `DO` blocks); it is applied instead by `FinalHardeningSchemaInitializer`
+  (an `ApplicationRunner`, `@Profile("local")`) directly through JDBC after schema init
+  completes. It is idempotent (re-run on every startup; guarded with `IF NOT EXISTS` checks), so
+  no `docker compose down -v` or manual step is required for an existing local Postgres volume.
+  Operational note: a manual `docker exec ... psql -U hop` session connects as the bootstrap
+  superuser, which always bypasses RLS regardless of policy — to observe tenant-scoped
+  visibility from `psql` directly, run `SET ROLE hop_app;` first in that session.
 - In this sandboxed development environment, Maven runs in --offline mode and the
   backend `-Pquality` profile's spotless/checkstyle/pmd/spotbugs/dependency-check
   plugins are not cached locally, so QA-003 cannot execute here (PluginResolutionException,

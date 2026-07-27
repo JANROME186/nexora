@@ -23,6 +23,10 @@ public class EndpointPermissionRegistry {
                   "BCM-ORG-002"),
               readWrite(
                   "/api/organization/branches", PermissionCode.SCREEN_BRANCHES, "BCM-ORG-003"),
+              readWrite(
+                  "/api/organization/reference-data",
+                  PermissionCode.SCREEN_TENANTS,
+                  "BCM-ORG-001"),
               readWrite("/api/identity/users", PermissionCode.SCREEN_USERS, "BCM-IAM-001"),
               readWrite("/api/identity/service-accounts", PermissionCode.SCREEN_USERS, "BCM-IAM-001"),
               readWrite("/api/audit/events", PermissionCode.SCREEN_AUDIT_EVENTS, "BCM-PLT-006"),

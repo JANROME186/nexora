@@ -4,8 +4,8 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: Diagnostic catalog business tables are not yet translatable (single name column,
   no es-MX/en-US variants)
-version: 1.0.0
-status: open
+version: 2.0.0
+status: closed
 ---
 
 # Diagnostic Catalog Business Tables Are Not Yet Translatable (Single Name Column, No Es Mx/En Us Variants)
@@ -20,9 +20,10 @@ artifact:
   type: technical-debt-item
   name: Diagnostic catalog business tables are not yet translatable (single name column,
     no es-MX/en-US variants)
-  version: 1.0.0
-  status: open
+  version: 2.0.0
+  status: closed
   created_date: 2026-07-17
+  updated_date: 2026-07-26
 source:
   discovered_during_backlog_item: HOP-ENT-FOUND-001
   module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
@@ -71,4 +72,27 @@ remediation:
   - catalog.diagnostic_services/test_definitions/panel_definitions/analyte_definitions
     expose es-MX and en-US name variants.
   owner_or_responsible_role: backend_platform_team
+disposition_history:
+- backlog_item: HOP-HARD-DATA-001
+  date: 2026-07-26
+  disposition: closed
+  reason: 'Re-audited the current schema and code against this item''s own acceptance
+    criteria rather than assuming the original description was still accurate. Every one of
+    the four named tables (catalog.diagnostic_services, test_definitions, panel_definitions,
+    analyte_definitions) has carried parallel name_en/name_es columns since the original
+    MVP-MOD-002-BE-001 compile (git history shows a single commit introducing them, predating
+    this debt item''s own 2026-07-17 creation date under HOP-ENT-FOUND-001); the description''s
+    "single name column" premise no longer (and likely never, for these four tables
+    specifically) held. The bilingual support is end-to-end, not just schema-level: a shared
+    LocalizedText(en, es) domain value object
+    (catalogtestconfiguration/shared/LocalizedText.java) is threaded through every one of the
+    four aggregates'' Create/Update commands, application services and web controllers, and
+    seed data confirms real es-MX/en-US translations (e.g. "Fasting glucose"/"Glucosa en
+    ayuno"), not placeholder duplicates. The acceptance criterion ("expose es-MX and en-US name
+    variants") is therefore objectively already met; no schema migration or code change was
+    required to close it. Residual, explicitly non-blocking naming-convention inconsistency:
+    these columns are named name_en/name_es (generic) rather than the
+    name_es_mx/name_en_us convention organization.countries/locales/currencies use; both encode
+    the same two locales (es-MX, en-US) so this is a cosmetic naming difference, not a
+    functional gap, and is not tracked as further debt.'
 ```

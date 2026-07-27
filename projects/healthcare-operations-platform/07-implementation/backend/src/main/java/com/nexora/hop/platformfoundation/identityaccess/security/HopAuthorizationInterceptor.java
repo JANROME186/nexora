@@ -46,7 +46,12 @@ public class HopAuthorizationInterceptor implements HandlerInterceptor {
       return false;
     }
     AuthenticatedUserContextHolder.set(context.get());
-    CurrentTenantContext.set(context.get().tenantId());
+    // TD-DB-004: ADMIN is the platform-ops role and is expected to act across tenant boundaries
+    // (tenant provisioning, cross-tenant support assistance); everyone else is confined to their
+    // own tenant_id by the native RLS policy set up by TenantSessionDataSource.
+    CurrentTenantContext.set(
+        context.get().tenantId(),
+        context.get().roleCodes().contains(com.nexora.hop.platformfoundation.identityaccess.domain.RolePermissionCatalog.ADMIN));
     boolean allowed =
         authorizationService
             .permissionsForRoles(context.get().roleCodes())

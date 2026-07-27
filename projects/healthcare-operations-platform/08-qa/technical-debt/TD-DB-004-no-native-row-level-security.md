@@ -4,8 +4,8 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: Tenant scoping is enforced by application-level WHERE clauses, not PostgreSQL
   native row-level security policies
-version: 1.1.0
-status: materially_reduced
+version: 2.0.0
+status: closed
 ---
 
 # Tenant Scoping Is Enforced By Application Level Where Clauses, Not Postgresql Native Row Level Security Policies
@@ -20,10 +20,10 @@ artifact:
   type: technical-debt-item
   name: Tenant scoping is enforced by application-level WHERE clauses, not PostgreSQL
     native row-level security policies
-  version: 1.1.0
-  status: materially_reduced
+  version: 2.0.0
+  status: closed
   created_date: 2026-07-17
-  updated_date: 2026-07-22
+  updated_date: 2026-07-26
 source:
   discovered_during_backlog_item: HOP-ENT-FOUND-001
   module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
@@ -82,4 +82,42 @@ disposition_history:
     remains open and is unchanged in scope; TD-IAM-001's dependency is now satisfied,
     so RLS is no longer blocked and can be scheduled as its own backend code-changing
     backlog item.
+- backlog_item: HOP-HARD-DATA-001
+  date: 2026-07-26
+  disposition: closed
+  reason: 'Implemented native PostgreSQL RLS as this item''s own acceptance_criteria specifies:
+    a new db/final-hardening/schema.sql walks information_schema for every base table with a
+    tenant_id column (68 tables at time of writing, across every module, discovered
+    dynamically so future tables are covered automatically) and applies ENABLE/FORCE ROW LEVEL
+    SECURITY plus a tenant_id-matching policy. A new TenantSessionDataSource
+    (application root package) stamps every borrowed connection with the authenticated
+    request''s tenant id (from CurrentTenantContext, already used elsewhere for TD-IAM-004) as
+    Postgres session GUCs. One real-world obstacle required a design decision beyond the
+    original target_state: the local docker-compose Postgres bootstrap user (hop) is a
+    superuser that owns every table, and superusers unconditionally bypass RLS with no override
+    -- Postgres also refuses to ever strip SUPERUSER from the bootstrap role. The fix is a
+    second, unprivileged, non-owner, NOLOGIN role (hop_app) that TenantSessionDataSource
+    switches the connection to via SET ROLE for the duration of any authenticated request (a
+    superuser may SET ROLE to any role without an explicit grant); connections outside a
+    request (schema bootstrapping, background jobs, repository tests using JdbcTemplate
+    directly) are left as hop unchanged. The policy also carries an explicit bypass GUC
+    (app.rls_bypass) set true for the ADMIN role specifically, because the platform''s ADMIN
+    persona legitimately acts across tenant boundaries (tenant provisioning, cross-tenant
+    support assistance) -- confirmed by tracing OrganizationManagementLocalDatabaseTest and
+    CatalogTestConfigurationLocalDatabaseTest, which both provision a tenant and then manage
+    resources under that tenant while authenticated as the fixture ADMIN, whose own session
+    tenant is a different value ("tenant-local"); a strict same-tenant-only policy would have
+    broken that legitimate cross-tenant flow (and, by the identical pattern, essentially every
+    *LocalDatabaseTest suite in the codebase). Proven functionally (not just "applied without
+    SQL error") by TenantSessionDataSourceLocalDatabaseTest: a non-admin session only sees its
+    own tenant''s organization.laboratories rows even with a query that carries no
+    "where tenant_id = ?" predicate at all, while an ADMIN/bypass session still sees rows
+    across tenants. This remains explicit defense-in-depth, per this item''s own acceptance
+    criteria wording ("alongside existing application-level filtering"), not a replacement for
+    it: application-level tenant_id predicates are unchanged and still the primary correctness
+    mechanism; RLS now additionally protects against a repository query that forgets its own
+    tenant_id predicate. Full mvn -Pquality clean verify with -Dhop.local-db-tests=true (real
+    Postgres) passed with no regressions across every existing *LocalDatabaseTest suite,
+    confirming the ADMIN-bypass design does not break any already-established cross-tenant
+    admin flow.'
 ```

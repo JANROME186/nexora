@@ -52,4 +52,14 @@ class EndpointPermissionRegistryTest {
     assertThat(rule.get().permission()).isEqualTo(PermissionCode.SCREEN_USERS);
     assertThat(rule.get().action()).isEqualTo(AccessAction.CREATE);
   }
+
+  @Test
+  void resolvesReferenceDataEndpointToTenantsPermission_TD_DB_003() {
+    var rule = registry.resolve("GET", "/api/organization/reference-data/countries");
+
+    assertThat(rule).isPresent();
+    assertThat(rule.get().permission()).isEqualTo(PermissionCode.SCREEN_TENANTS);
+    assertThat(rule.get().action()).isEqualTo(AccessAction.READ);
+    assertThat(rule.get().capability()).isEqualTo("BCM-ORG-001");
+  }
 }

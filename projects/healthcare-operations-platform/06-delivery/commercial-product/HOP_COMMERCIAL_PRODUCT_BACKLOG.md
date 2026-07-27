@@ -33,8 +33,8 @@ product:
     completed_module: All commercial backlog modules with recorded closeout evidence through COM-MOD-017.
     completed_status: closed
     active_module: HOP-FINAL-HARDENING
-    active_backlog_item: HOP-HARD-DATA-001
-    active_module_progress: HOP-HARD-IAM-001 closed. Final hardening now advances to database, reference data, localization data and persistence controls.
+    active_backlog_item: HOP-HARD-FE-001
+    active_module_progress: HOP-HARD-DATA-001 closed. Final hardening now advances to employee portal quality, i18n, UX and missing workflow surfaces.
     paused_backlog_item: null
     pause_reason: null
 mdpe_policy:
@@ -71,8 +71,8 @@ backlog_master_plan: 06-delivery/commercial-product/backlog-map/MASTER_BACKLOG_P
 backlog_item_index: 06-delivery/commercial-product/backlog-map/BACKLOG_ITEM_INDEX.md
 definition_of_ready_done: 06-delivery/commercial-product/backlog-map/DEFINITION_OF_READY_DONE.md
 active_item:
-  id: HOP-HARD-DATA-001
-  name: Database, reference data, localization data and persistence hardening
+  id: HOP-HARD-FE-001
+  name: Employee portal quality, i18n, UX and missing workflow surfaces
   status: active
   module_id: HOP-FINAL-HARDENING
   module_name: Final Commercial Hardening and Technical Debt Burn-down

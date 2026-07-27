@@ -4,8 +4,8 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: JPA/Hibernate adoption evaluated and deferred; JdbcTemplate-behind-ports remains
   the accepted persistence baseline
-version: 1.0.0
-status: open
+version: 2.0.0
+status: closed
 ---
 
 # Jpa/Hibernate Adoption Evaluated And Deferred; Jdbctemplate Behind Ports Remains The Accepted Persistence Baseline
@@ -20,9 +20,10 @@ artifact:
   type: technical-debt-item
   name: JPA/Hibernate adoption evaluated and deferred; JdbcTemplate-behind-ports remains
     the accepted persistence baseline
-  version: 1.0.0
-  status: open
+  version: 2.0.0
+  status: closed
   created_date: 2026-07-17
+  updated_date: 2026-07-26
 source:
   discovered_during_backlog_item: HOP-ENT-FOUND-001
   module: HOP-ENTERPRISE-FOUNDATION-ALIGNMENT
@@ -62,4 +63,14 @@ remediation:
   - A dedicated ADR exists before any JPA migration begins, given its cross-cutting
     blast radius.
   owner_or_responsible_role: backend_platform_team
+disposition_history:
+- backlog_item: HOP-HARD-DATA-001
+  date: 2026-07-26
+  disposition: closed
+  reason: Produced 03-architecture/technology-architecture/ADR-0001-jpa-hibernate-persistence-deferral.md,
+    a dedicated architecture decision record formalizing persistence-and-contract-generation-review.md's
+    prior evaluation (context, decision, alternatives considered, consequences and a revisit
+    trigger). No JPA migration is underway or planned; the ADR exists ahead of, not only at,
+    any future migration attempt, which is exactly the acceptance criterion. JdbcTemplate-behind-ports
+    remains the accepted baseline.
 ```
