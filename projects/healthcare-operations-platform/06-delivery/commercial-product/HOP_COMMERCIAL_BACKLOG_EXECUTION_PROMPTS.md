@@ -88,11 +88,11 @@ validation_commands:
   git_whitespace:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
-  module_id: null
-  backlog_item_id: null
-  name: No active backlog item
-  expected_folder: null
-  required_debt_first_action: none
+  module_id: HOP-FINAL-HARDENING
+  backlog_item_id: HOP-HARD-BE-001
+  name: Backend quality, persistence and coverage debt burn-down
+  expected_folder: 08-qa/qa/final-hardening
+  required_debt_first_action: close_or_materially_reduce_mapped_backend_debt_before_any_new_feature_work
   coverage_floor:
     backend_java_maven_line_coverage_percent_if_backend_is_touched: 70.16
     frontend_typescript_web_line_coverage_percent: 91.00
@@ -102,10 +102,10 @@ validation_commands:
     public_website_typescript_web_line_coverage_percent: 98.61
     final_target_percent: 80
   mandatory_execution_notes:
-  - No active backlog item is currently selected. Do not generate or execute a backlog prompt until a new backlog item is
-    explicitly activated.
+  - Active backlog item is HOP-HARD-BE-001 under HOP-FINAL-HARDENING. Load only the active item record and mapped debt files
+    needed for this slice.
   - Keep execution agent-agnostic and preserve the open-source-first stack and quality gates.
-  - Address or reduce at least one applicable technical-debt item before feature work.
+  - Address or materially reduce the mapped backend hardening items before any new feature work.
   - Preserve backend coverage at or above 70.16% (COM-MOD-015-QA-001 resynced the backend_java_maven baseline from 70.14%
     after fixing TD-BE-022; raising it back toward 80-84% is ordinary gradual coverage debt, not a newly discovered incident)
     and employee-portal coverage at or above 91.00%; keep final project target at 80% or higher.

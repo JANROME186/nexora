@@ -310,6 +310,9 @@ def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage
             "Compilar outputs backend para marketplace catalog, package manifest, offer, "
             "license plan, entitlement, installation y billing-adapter."
         )
+    elif task_id.startswith("HOP-HARD-"):
+        result.append(f"Atender el slice de hardening activo: {title}.")
+        result.append("Cargar el item activo y cerrar o reducir materialmente todos sus mapped_items; no basta con atender solo uno.")
     elif workstream == "backend":
         result.append(f"Compilar outputs backend para el backlog activo: {title}.")
     elif workstream == "integration":
@@ -324,7 +327,9 @@ def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage
         result.append(f"Preservar piso de cobertura {coverage}.")
     elif coverage_floor.get("final_target_percent") is not None:
         result.append(f"Preservar o mejorar cobertura; objetivo final >= {coverage_floor['final_target_percent']}%.")
-    if workstream != "format_migration":
+    if task_id.startswith("HOP-HARD-"):
+        result.append("Actualizar cada deuda mapeada con evidencia objetiva, estado resultante, riesgo residual y siguiente dueño si no puede cerrarse.")
+    elif workstream != "format_migration":
         result.append("Revisar deuda técnica abierta y reducir al menos 1 item aplicable antes del feature work.")
 
     gate_by_workstream = {
@@ -361,6 +366,23 @@ def task_artifact_profile(task_id: str) -> dict[str, str]:
             "security_evidence_pattern": "not_applicable_format_migration_no_runtime_code",
             "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
             "commit_suggestion": "chore(framework): optimize artifact formats",
+        }
+    if task_id.startswith("HOP-HARD-"):
+        workstream = infer_workstream(task_id)
+        commit_by_workstream = {
+            "backend": "fix(hop): burn down backend hardening debt",
+            "integration": "fix(hop): burn down integration and platform hardening debt",
+            "frontend": "fix(hop): burn down frontend hardening debt",
+            "mobile": "fix(hop): burn down mobile and portal hardening debt",
+            "quality": "test(hop): validate final hardening debt burn-down",
+            "definition": "docs(hop): define final hardening debt burn-down",
+        }
+        return {
+            "context_path": "06-delivery/commercial-product/backlog-map/modules/HOP-FINAL-HARDENING.md",
+            "qa_evidence_pattern": f"08-qa/qa/final-hardening/{task_id}-validation.md",
+            "security_evidence_pattern": f"08-qa/security-quality/{task_id}/security-quality-evidence.md",
+            "handoff_path": f"08-qa/handoffs/{task_id}-summary.md",
+            "commit_suggestion": commit_by_workstream.get(workstream, "fix(hop): burn down final hardening debt"),
         }
     module_id = "-".join(task_id.split("-")[:3]) if task_id.startswith("COM-MOD-") else task_id
     module_profile = {

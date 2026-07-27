@@ -54,6 +54,15 @@ sources:
   com_mod_015_closeout_qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-CLOSEOUT-validation.md
   com_mod_015_closeout_security_quality_evidence: 08-qa/security-quality/COM-MOD-015-CLOSEOUT/security-quality-evidence.md
   com_mod_015_closeout_handoff: 08-qa/handoffs/COM-MOD-015-CLOSEOUT-summary.md
+  hop_final_hardening_module: 06-delivery/commercial-product/backlog-map/modules/HOP-FINAL-HARDENING.md
+  hop_hard_be_001_backlog_item: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-BE-001.md
+  hop_hard_iam_001_backlog_item: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-IAM-001.md
+  hop_hard_data_001_backlog_item: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-DATA-001.md
+  hop_hard_fe_001_backlog_item: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-FE-001.md
+  hop_hard_app_001_backlog_item: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-APP-001.md
+  hop_hard_web_001_backlog_item: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-WEB-001.md
+  hop_hard_int_001_backlog_item: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-INT-001.md
+  hop_hard_qa_001_backlog_item: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-QA-001.md
 source_registry:
   core:
     path: 08-qa/project-tracking/source-registry/source-registry-core.md

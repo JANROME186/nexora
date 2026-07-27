@@ -18,12 +18,11 @@ artifact:
   type: atomic-backlog-master-plan
   status: active
 current_baseline:
-  completed_module: COM-MOD-017 (COM-MOD-017-CLOSEOUT closed; REL-003 Commercial General Availability fully complete)
+  completed_module: COM-MOD-017 (COM-MOD-017-CLOSEOUT closed; commercial modules recorded through marketplace closeout)
   completed_status: closed
-  active_module: COM-MOD-015
-  active_backlog_item: COM-MOD-015-BE-002
-  active_module_progress: COM-MOD-015-BE-001 closed. Compiled AI Overlay backend assistant orchestration, human-review policy,
-    audit outputs and local PostgreSQL persistence. Active backlog item advanced to COM-MOD-015-BE-002.
+  active_module: HOP-FINAL-HARDENING
+  active_backlog_item: HOP-HARD-BE-001
+  active_module_progress: Final hardening backlog activated to burn down 34 remaining commercial-readiness items before product closure.
   paused_backlog_item: null
   pause_reason: null
 release_plan:
@@ -68,12 +67,19 @@ release_plan:
   outcome: HOP is ready to be sold, onboarded, supported and governed as a commercial product.
 - id: REL-004
   name: Expansion Packages
-  status: planned
+  status: completed
   target_readiness: commercial_expansion
   modules:
   - COM-MOD-014
   - COM-MOD-015
   outcome: Imaging operations and AI-assisted overlays can be commercialized as optional product packages.
+- id: REL-GA
+  name: Final Commercial Hardening
+  status: active
+  target_readiness: production_release_candidate
+  modules:
+  - HOP-FINAL-HARDENING
+  outcome: Remaining commercial-readiness gaps and technical debt are closed or formally accepted before product closure.
 module_index:
 - id: HOP-QUALITY-ALIGNMENT
   name: Enterprise Quality Alignment
@@ -90,25 +96,25 @@ module_index:
 - id: MVP-MOD-002
   name: Diagnostic Catalog
   release: REL-001
-  status: next
+  status: module_closed
   path: 06-delivery/commercial-product/backlog-map/modules/MVP-MOD-002.md
   items: 6
 - id: MVP-MOD-003
   name: People and Clinical Master Data
   release: REL-001
-  status: planned
+  status: module_closed
   path: 06-delivery/commercial-product/backlog-map/modules/MVP-MOD-003.md
   items: 6
 - id: MVP-MOD-004
   name: Front Desk and Care Delivery
   release: REL-001
-  status: in_progress
+  status: module_closed
   path: 06-delivery/commercial-product/backlog-map/modules/MVP-MOD-004.md
   items: 6
 - id: MVP-MOD-005
   name: Cashier and Billing Request
   release: REL-001
-  status: in_progress
+  status: module_closed
   path: 06-delivery/commercial-product/backlog-map/modules/MVP-MOD-005.md
   items: 6
 - id: MVP-MOD-006
@@ -126,7 +132,7 @@ module_index:
 - id: MVP-MOD-008
   name: Integration and Migration Readiness
   release: REL-001
-  status: in_progress
+  status: module_closed
   path: 06-delivery/commercial-product/backlog-map/modules/MVP-MOD-008.md
   items: 6
 - id: COM-MOD-009
@@ -162,13 +168,13 @@ module_index:
 - id: COM-MOD-014
   name: Imaging Operations
   release: REL-004
-  status: active
+  status: module_closed
   path: 06-delivery/commercial-product/backlog-map/modules/COM-MOD-014.md
   items: 7
 - id: COM-MOD-015
   name: AI Overlay
   release: REL-004
-  status: planned
+  status: module_closed
   path: 06-delivery/commercial-product/backlog-map/modules/COM-MOD-015.md
   items: 6
 - id: COM-MOD-016
@@ -183,7 +189,13 @@ module_index:
   status: module_closed
   path: 06-delivery/commercial-product/backlog-map/modules/COM-MOD-017.md
   items: 8
-item_count: 109
+- id: HOP-FINAL-HARDENING
+  name: Final Commercial Hardening and Technical Debt Burn-down
+  release: REL-GA
+  status: active
+  path: 06-delivery/commercial-product/backlog-map/modules/HOP-FINAL-HARDENING.md
+  items: 8
+item_count: 117
 item_index_path: 06-delivery/commercial-product/backlog-map/BACKLOG_ITEM_INDEX.md
 load_policy:
   load_master_first: true

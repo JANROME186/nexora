@@ -15,8 +15,7 @@ artifact:
 ```yaml
 repository: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-017-QA-001 closed. Functional HOP development resumes at COM-MOD-017-CLOSEOUT with compact Markdown/frontmatter
-  prompts and handoffs as the agent-facing execution surface.
+current_phase: HOP final commercial hardening activated. The next execution must burn down remaining technical debt and backlog gaps through HOP-HARD-BE-001.
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -30,10 +29,10 @@ projects:
 - slug: healthcare-operations-platform
   name: Healthcare Operations Platform
   path: projects/healthcare-operations-platform/
-  status: commercial_product_development_active
-  active_module: COM-MOD-017
-  active_backlog_item: COM-MOD-017-CLOSEOUT
-  completed_backlog_items_count: 103
+  status: final_hardening_active
+  active_module: HOP-FINAL-HARDENING
+  active_backlog_item: HOP-HARD-BE-001
+  completed_backlog_items_count: 109
   project_state_ref: projects/healthcare-operations-platform/PROJECT_STATE.md
 atomic_references:
   repository_progress_ledger: nexora-framework/08-engineering/repository-tracking/repository-progress-ledger.md

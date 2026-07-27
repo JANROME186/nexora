@@ -32,9 +32,9 @@ product:
   current_baseline:
     completed_module: All commercial backlog modules with recorded closeout evidence through COM-MOD-017.
     completed_status: closed
-    active_module: null
-    active_backlog_item: null
-    active_module_progress: No active functional backlog item. Remaining work must be selected explicitly from validated technical debt, final hardening, or a newly approved backlog item.
+    active_module: HOP-FINAL-HARDENING
+    active_backlog_item: HOP-HARD-BE-001
+    active_module_progress: Final hardening backlog activated to burn down 34 remaining commercial-readiness items before product closure.
     paused_backlog_item: null
     pause_reason: null
 mdpe_policy:
@@ -71,12 +71,12 @@ backlog_master_plan: 06-delivery/commercial-product/backlog-map/MASTER_BACKLOG_P
 backlog_item_index: 06-delivery/commercial-product/backlog-map/BACKLOG_ITEM_INDEX.md
 definition_of_ready_done: 06-delivery/commercial-product/backlog-map/DEFINITION_OF_READY_DONE.md
 active_item:
-  id: null
-  name: null
-  status: none
-  module_id: null
-  module_name: null
-  release: null
+  id: HOP-HARD-BE-001
+  name: Backend quality, persistence and coverage debt burn-down
+  status: active
+  module_id: HOP-FINAL-HARDENING
+  module_name: Final Commercial Hardening and Technical Debt Burn-down
+  release: REL-GA
 modules:
 - id: HOP-QUALITY-ALIGNMENT
   name: Enterprise Quality Alignment
@@ -185,6 +185,12 @@ modules:
   release: REL-003
   status: module_closed
   path: 06-delivery/commercial-product/backlog-map/modules/COM-MOD-017.md
+  items: 8
+- id: HOP-FINAL-HARDENING
+  name: Final Commercial Hardening and Technical Debt Burn-down
+  release: REL-GA
+  status: active
+  path: 06-delivery/commercial-product/backlog-map/modules/HOP-FINAL-HARDENING.md
   items: 8
 context_policy:
   do_not_load_module_records_by_default: true

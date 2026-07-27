@@ -17,22 +17,22 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: No active functional backlog selected. Commercial module closeouts are recorded; next work must be explicitly activated.
+current_phase: Final commercial hardening activated to burn down remaining backlog and technical debt before product closure.
 commercial_product_progress:
   status: active
-  current_iteration: null
-  active_module: null
-  active_backlog_item: null
+  current_iteration: HOP-HARD-BE-001
+  active_module: HOP-FINAL-HARDENING
+  active_backlog_item: HOP-HARD-BE-001
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   backlog: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.md
   detail_ref: 08-qa/project-tracking/progress-ledger/commercial-product-progress-detail.md
 architecture_status: Architecture Freeze v1.0
 implementation_progress:
-  current_backlog_item: null
-  active_backlog_item: null
-  next_backlog_item: null
-  current_module: null
+  current_backlog_item: HOP-HARD-BE-001
+  active_backlog_item: HOP-HARD-BE-001
+  next_backlog_item: HOP-HARD-IAM-001
+  current_module: HOP-FINAL-HARDENING
   progress_percent: null
   last_commit: null
   completed_backlog_items_count: 109

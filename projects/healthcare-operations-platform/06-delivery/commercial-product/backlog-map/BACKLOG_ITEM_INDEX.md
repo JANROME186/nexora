@@ -559,4 +559,44 @@ items:
   status: closed
   module_id: COM-MOD-017
   path: 06-delivery/commercial-product/backlog-map/items/COM-MOD-017-CLOSEOUT.md
+- id: HOP-HARD-BE-001
+  name: Backend quality, persistence and coverage debt burn-down
+  status: active
+  module_id: HOP-FINAL-HARDENING
+  path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-BE-001.md
+- id: HOP-HARD-IAM-001
+  name: Authentication, authorization, session and entitlement runtime hardening
+  status: planned
+  module_id: HOP-FINAL-HARDENING
+  path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-IAM-001.md
+- id: HOP-HARD-DATA-001
+  name: Database, reference data, localization data and persistence hardening
+  status: planned
+  module_id: HOP-FINAL-HARDENING
+  path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-DATA-001.md
+- id: HOP-HARD-FE-001
+  name: Employee portal quality, i18n, UX and missing workflow surfaces
+  status: planned
+  module_id: HOP-FINAL-HARDENING
+  path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-FE-001.md
+- id: HOP-HARD-APP-001
+  name: Mobile, patient portal, doctor portal and imaging delivery hardening
+  status: planned
+  module_id: HOP-FINAL-HARDENING
+  path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-APP-001.md
+- id: HOP-HARD-WEB-001
+  name: Public marketplace discovery surface and website hardening
+  status: planned
+  module_id: HOP-FINAL-HARDENING
+  path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-WEB-001.md
+- id: HOP-HARD-INT-001
+  name: Integration, OpenAPI generation, workflow, migration and observability hardening
+  status: planned
+  module_id: HOP-FINAL-HARDENING
+  path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-INT-001.md
+- id: HOP-HARD-QA-001
+  name: Final quality gates, evidence reconciliation and no-open-debt validation
+  status: planned
+  module_id: HOP-FINAL-HARDENING
+  path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-QA-001.md
 ```
