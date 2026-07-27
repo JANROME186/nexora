@@ -22,7 +22,7 @@ commercial_product_progress:
   status: active
   current_iteration: COM-MOD-015
   active_module: AI Overlay
-  active_backlog_item: COM-MOD-015-CLOSEOUT
+  active_backlog_item: null
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   backlog: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.md

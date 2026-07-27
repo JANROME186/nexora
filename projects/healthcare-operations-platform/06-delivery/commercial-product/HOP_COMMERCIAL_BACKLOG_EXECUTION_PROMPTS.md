@@ -112,12 +112,7 @@ validation_commands:
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product backlog and execution prompts, and commit
     only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-015-QA-001
+    backlog_item_id: COM-MOD-015-CLOSEOUT
     status: closed
-    summary: Closed COM-MOD-015-QA-001. Validated BCM-AI-006's safety, explainability and human-control guardrails --
-      mapped no-autonomous-clinical-validation, source-citations-required, human-override-requires-reason and
-      output-must-not-bypass-IAM-or-audit to distinct tested error codes and audit events; discovered and fixed TD-BE-022
-      (AI_REVIEW_REASON_REQUIRED was dead code and a reviewed session had no immutability guard against a second, silent
-      review), adding AI_REVIEW_ALREADY_RECORDED (409) with i18n entries; added AiOverlayVendorNeutralityTest to
-      statically evidence no proprietary AI SDK dependency; no frontend regression (91.00% coverage, 256 tests unchanged).
+    summary: Closed COM-MOD-015-CLOSEOUT. Formally closed AI Overlay (BCM-AI-001 through BCM-AI-008 marked module_closed in capability-package-index.md, capability-package.md files and traceability.md matrices).
 ```

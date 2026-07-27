@@ -33,7 +33,7 @@ product:
     completed_module: COM-MOD-015 (COM-MOD-015-CLOSEOUT closed; AI Overlay module fully closed)
     completed_status: closed
     active_module: COM-MOD-015
-    active_backlog_item: COM-MOD-015-CLOSEOUT
+    active_backlog_item: null
     active_module_progress: COM-MOD-015-CLOSEOUT closed. Formally closed AI Overlay (BCM-AI-001 through BCM-AI-008 marked module_closed). AI Overlay module fully closed.
     paused_backlog_item: null
     pause_reason: null
