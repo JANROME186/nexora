@@ -152,7 +152,7 @@ acceptance:
   fallback.
 - A recorded human-review decision is now immutable; a second review attempt on
   an already-reviewed session is rejected with AI_REVIEW_ALREADY_RECORDED.
-- Draft generation and review are both explainable: every AiAssistantService
+- Draft generation and review are both explainable, since every AiAssistantService
   action records an AuditRecorder event carrying policyVersion and the
   decision/reviewStatus, retrievable through the tenant audit-records endpoint.
 - No proprietary, token-billed AI provider SDK dependency exists in the backend

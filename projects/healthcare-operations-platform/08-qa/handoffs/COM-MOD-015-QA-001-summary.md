@@ -19,11 +19,11 @@ module: COM-MOD-015 AI Overlay
 completed_scope:
 - Validated BCM-AI-006 (Safety Policy and Human Review) end-to-end, mapping each of its four
   guardrail statements to a distinct, tested error code and audit event instead of a generic
-  fallback: no_autonomous_clinical_validation (AI_POLICY_BLOCKED), source_citations_required
+  fallback, namely no_autonomous_clinical_validation (AI_POLICY_BLOCKED), source_citations_required
   (AI_CITATIONS_REQUIRED), human_override_requires_reason (AI_REVIEW_REASON_REQUIRED, now
   actually wired) and ai_output_must_not_bypass_iam_or_audit (AuditRecorder events on every
   draft generation and review decision).
-- Added a human-control immutability guard: a reviewed AI assistant session (lifecycleStatus
+- Added a human-control immutability guard, so a reviewed AI assistant session (lifecycleStatus
   already archived) can no longer be silently re-reviewed; a second review attempt now returns
   AI_REVIEW_ALREADY_RECORDED (409), protecting the recorded decision as an immutable audit
   record.
