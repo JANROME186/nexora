@@ -73,7 +73,7 @@ definition_of_ready_done: 06-delivery/commercial-product/backlog-map/DEFINITION_
 active_item:
   id: COM-MOD-015-CLOSEOUT
   name: Module closeout and registry update
-  status: next
+  status: closed
   module_id: COM-MOD-015
   module_name: AI Overlay
   release: REL-004

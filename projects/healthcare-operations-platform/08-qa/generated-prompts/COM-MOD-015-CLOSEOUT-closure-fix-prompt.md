@@ -9,9 +9,6 @@ PROJECT: projects/healthcare-operations-platform
 
 ## 2. Hallazgos a Cerrar
 - product_backlog_item_not_closed: Expected closed, found next.
-- product_baseline_stale_active_item: HOP commercial product backlog baseline still points to the closed task.
-- project_state_stale_active_item: PROJECT_STATE commercial_product_delivery still points to the closed task.
-- execution_prompt_previous_not_closed: Execution prompt must carry the validated task as previous_backlog_item closed.
 
 ## 3. Acciones Obligatorias
 - Sincronizar `PROJECT_STATE.md`, `SOURCE_OF_TRUTH.md`, `06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md` y `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md`.
