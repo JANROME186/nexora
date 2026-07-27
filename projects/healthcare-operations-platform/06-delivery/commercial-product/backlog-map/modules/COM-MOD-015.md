@@ -55,19 +55,20 @@ backlog_items:
   status: closed
 - id: COM-MOD-015-QA-001
   name: Safety, explainability and human-control evidence
-  status: next
+  status: closed
 - id: COM-MOD-015-CLOSEOUT
   name: Module closeout and registry update
-  status: planned
+  status: next
 acceptance_summary:
 - AI capabilities assist administrative and clinical workflows without autonomous clinical validation.
 - All AI outputs are attributable, reviewable and auditable.
 - Model providers and runtimes remain replaceable.
 progress_summary:
-  last_completed_backlog_item: COM-MOD-015-FE-001
-  active_backlog_item: COM-MOD-015-QA-001
+  last_completed_backlog_item: COM-MOD-015-QA-001
+  active_backlog_item: COM-MOD-015-CLOSEOUT
   frontend_compilation_completed: true
-  qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-FE-001-validation.md
-  security_quality_evidence: 08-qa/security-quality/COM-MOD-015-FE-001/security-quality-evidence.md
-  handoff: 08-qa/handoffs/COM-MOD-015-FE-001-summary.md
+  module_validated: true
+  qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-QA-001-validation.md
+  security_quality_evidence: 08-qa/security-quality/COM-MOD-015-QA-001/security-quality-evidence.md
+  handoff: 08-qa/handoffs/COM-MOD-015-QA-001-summary.md
 ```

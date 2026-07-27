@@ -87,13 +87,20 @@ public class AiAssistantService {
             throw new AiOverlayException(
                     "Review decision must be accepted or rejected.", AiOverlayErrorCode.AI_COMMAND_INVALID);
         }
-        String reviewReason = requiredText(reason, "Human review reason is required.");
+        String reviewReason = requiredText(
+                reason, "Human review reason is required.", AiOverlayErrorCode.AI_REVIEW_REASON_REQUIRED);
         AiInteraction current = requireSession(tenantId, sessionId);
+        if (AiInteraction.STATUS_ARCHIVED.equals(current.lifecycleStatus())) {
+            throw new AiOverlayException(
+                    "AI assistant review decision is already recorded and cannot be changed.",
+                    AiOverlayErrorCode.AI_REVIEW_ALREADY_RECORDED);
+        }
         AiInteraction reviewed = repository.save(current.withReview(
                 normalizedDecision, reviewer, reviewReason, LocalDateTime.now(clock)));
         auditRecorder.recordSystemEvent(
                 current.tenantId(), "AiAssistantDraftReviewed", "AssistantSession", current.sessionId(),
-                "{\"decision\":\"%s\"}".formatted(normalizedDecision));
+                "{\"decision\":\"%s\",\"reviewerId\":\"%s\",\"policyVersion\":\"%s\"}"
+                        .formatted(normalizedDecision, reviewer, POLICY_VERSION));
         return reviewed;
     }
 
@@ -132,8 +139,12 @@ public class AiAssistantService {
     }
 
     private static String requiredText(String value, String message) {
+        return requiredText(value, message, AiOverlayErrorCode.AI_COMMAND_INVALID);
+    }
+
+    private static String requiredText(String value, String message, AiOverlayErrorCode errorCode) {
         if (value == null || value.isBlank()) {
-            throw new AiOverlayException(message, AiOverlayErrorCode.AI_COMMAND_INVALID);
+            throw new AiOverlayException(message, errorCode);
         }
         return value.strip();
     }

@@ -31,7 +31,7 @@ groups:
     payload_hash: 3a0201cf1027
   qa:
     path: 08-qa/project-tracking/source-registry/source-registry-qa.md
-    entries: 429
+    entries: 432
     payload_hash: d98f15eb46b7
   definition:
     path: 08-qa/project-tracking/source-registry/source-registry-definition.md

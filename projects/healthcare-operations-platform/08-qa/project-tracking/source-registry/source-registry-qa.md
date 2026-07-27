@@ -14,7 +14,7 @@ artifact:
 
 ```yaml
 group: qa
-entry_count: 434
+entry_count: 437
 sources:
   backlog_closure_validation_com_mod_017_be_001: 08-qa/backlog-validations/COM-MOD-017-BE-001-closure-validation.md
   com_mod_009_app_001_qa_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.md
@@ -369,6 +369,8 @@ sources:
   qa_evidence_com_mod_015_be_002: 08-qa/qa/ai-overlay/COM-MOD-015-BE-002-validation.md
   qa_evidence_com_mod_015_fe_001: 08-qa/qa/ai-overlay/COM-MOD-015-FE-001-validation.md
   handoff_com_mod_015_fe_001: 08-qa/handoffs/COM-MOD-015-FE-001-summary.md
+  qa_evidence_com_mod_015_qa_001: 08-qa/qa/ai-overlay/COM-MOD-015-QA-001-validation.md
+  handoff_com_mod_015_qa_001: 08-qa/handoffs/COM-MOD-015-QA-001-summary.md
   qa_evidence_com_mod_015_be_001: 08-qa/qa/ai-overlay/COM-MOD-015-BE-001-validation.md
   qa_evidence_com_mod_014_be_001: 08-qa/qa/imaging-operations/COM-MOD-014-BE-001-validation.md
   qa_evidence_com_mod_014_fe_001: 08-qa/qa/imaging-operations/COM-MOD-014-FE-001-validation.md
@@ -402,6 +404,7 @@ sources:
   quality_alignment_gap_analysis_yaml: 08-qa/qa/quality-alignment/HOP-QUALITY-ALIGNMENT-GAP-ANALYSIS.md
   security_quality_evidence_com_mod_015_be_002: 08-qa/security-quality/COM-MOD-015-BE-002/security-quality-evidence.md
   security_quality_evidence_com_mod_015_fe_001: 08-qa/security-quality/COM-MOD-015-FE-001/security-quality-evidence.md
+  security_quality_evidence_com_mod_015_qa_001: 08-qa/security-quality/COM-MOD-015-QA-001/security-quality-evidence.md
   security_quality_evidence_com_mod_015_be_001: 08-qa/security-quality/COM-MOD-015-BE-001/security-quality-evidence.md
   security_quality_evidence_com_mod_014_be_001: 08-qa/security-quality/COM-MOD-014-BE-001/security-quality-evidence.md
   security_quality_evidence_com_mod_014_fe_001: 08-qa/security-quality/COM-MOD-014-FE-001/security-quality-evidence.md

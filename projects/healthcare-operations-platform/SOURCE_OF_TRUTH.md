@@ -48,6 +48,9 @@ sources:
   com_mod_015_fe_001_qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-FE-001-validation.md
   com_mod_015_fe_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-015-FE-001/security-quality-evidence.md
   com_mod_015_fe_001_handoff: 08-qa/handoffs/COM-MOD-015-FE-001-summary.md
+  com_mod_015_qa_001_qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-QA-001-validation.md
+  com_mod_015_qa_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-015-QA-001/security-quality-evidence.md
+  com_mod_015_qa_001_handoff: 08-qa/handoffs/COM-MOD-015-QA-001-summary.md
 source_registry:
   core:
     path: 08-qa/project-tracking/source-registry/source-registry-core.md
@@ -59,7 +62,7 @@ source_registry:
     payload_hash: 3a0201cf1027
   qa:
     path: 08-qa/project-tracking/source-registry/source-registry-qa.md
-    entries: 431
+    entries: 434
     payload_hash: d98f15eb46b7
   definition:
     path: 08-qa/project-tracking/source-registry/source-registry-definition.md

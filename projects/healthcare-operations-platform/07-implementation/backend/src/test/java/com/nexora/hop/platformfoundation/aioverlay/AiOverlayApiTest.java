@@ -57,6 +57,44 @@ class AiOverlayApiTest {
     }
 
     @Test
+    void rejectedReviewDecisionIsRecordedAndAuditableAndCannotBeChangedAgain() throws Exception {
+        JsonNode created = postDraft("tenant-ai-6", "clinician-1", """
+                {"purpose":"result summary","sourceContextType":"Result","sourceContextId":"res-300",
+                 "prompt":"Summarize the operational follow-up only."}
+                """);
+        String sessionId = created.get("sessionId").asText();
+
+        mockMvc.perform(post("/api/ai/assistant/sessions/{sessionId}/review", sessionId)
+                        .header("X-Tenant-Id", "tenant-ai-6")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"reviewerId":"medical-reviewer-2","decision":"rejected",
+                                 "reason":"Draft omitted a required source citation context."}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.reviewStatus").value("rejected"))
+                .andExpect(jsonPath("$.lifecycleStatus").value("archived"));
+
+        mockMvc.perform(get("/api/ai/assistant/sessions/audit-records")
+                        .header("X-Tenant-Id", "tenant-ai-6"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.sessionId=='" + sessionId + "')].reviewStatus").value("rejected"))
+                .andExpect(jsonPath("$[?(@.sessionId=='" + sessionId + "')].citations").exists())
+                .andExpect(jsonPath("$[?(@.sessionId=='" + sessionId + "')].safetyDecision").exists())
+                .andExpect(jsonPath("$[?(@.sessionId=='" + sessionId + "')].policyVersion").exists());
+
+        mockMvc.perform(post("/api/ai/assistant/sessions/{sessionId}/review", sessionId)
+                        .header("X-Tenant-Id", "tenant-ai-6")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"reviewerId":"medical-reviewer-2","decision":"accepted",
+                                 "reason":"Trying to override the recorded decision."}
+                                """))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("AI_REVIEW_ALREADY_RECORDED"));
+    }
+
+    @Test
     void prohibitedAutonomousClinicalRequestIsRejected() throws Exception {
         mockMvc.perform(post("/api/ai/assistant/sessions")
                         .header("X-Tenant-Id", "tenant-ai-2")

@@ -56,5 +56,5 @@ backlog_items:
   ui: COM-MOD-015-FE-001
   ui_status: planned
   validation: COM-MOD-015-QA-001
-  validation_status: planned
+  validation_status: closed
 ```

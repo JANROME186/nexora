@@ -75,9 +75,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 70.14
-        source_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-BE-002-validation.md
-        next_iteration_minimum_line_coverage_percent: 70.14
+        current_line_coverage_percent: 70.16
+        source_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-QA-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 70.16
         final_closure_target_percent: 80
         correction_note: 'COM-MOD-013-QA-001 found the recorded 84.14% figure was
           not reproducible from a clean rebuild (measured 82.57%); investigating that
@@ -154,7 +154,13 @@ policy:
           COM-MOD-013-QA-001). The new, current and reproducible floor is 70.14%;
           raising it back toward 80-84% is tracked as ordinary gradual coverage debt
           under this policy''s below_target_minimum_relevant_iteration_improvement_percentage_points
-          guidance for future iterations, not as a newly discovered incident.'
+          guidance for future iterations, not as a newly discovered incident.
+          COM-MOD-015-QA-001 (validating BCM-AI-006 safety/explainability/human-control,
+          adding 5 new aioverlay tests including AiOverlayVendorNeutralityTest, and
+          fixing TD-BE-022''s dead error code and missing review-immutability guard)
+          measured 70.16% on a clean -Pquality clean verify rebuild (522 tests, 0
+          failures/errors/skipped); the small increase reflects this item''s own new,
+          fully-covered code. The new floor is 70.16%.'
       frontend_typescript_web:
         current_line_coverage_percent: 91.00
         source_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-FE-001-validation.md
@@ -905,4 +911,14 @@ entries:
   affected_area: ai_overlay_per_capability_api_surface
   file: 08-qa/technical-debt/TD-BE-021-ai-overlay-per-capability-endpoints-not-compiled.md
   remediation_strategy: gradual_when_a_future_ui_or_external_caller_needs_capability_specific_request_response_shapes
+- id: TD-BE-022
+  title: AI Overlay human-review-reason error code was dead code and a reviewed
+    session could be silently re-reviewed
+  status: materially_reduced
+  risk_level: medium
+  blocking: false
+  source_backlog_item: COM-MOD-015-QA-001
+  affected_area: ai_overlay_assistant_review_flow
+  file: 08-qa/technical-debt/TD-BE-022-ai-overlay-review-reason-error-code-and-review-immutability-gap.md
+  remediation_strategy: fixed_in_place_during_discovery
 ```

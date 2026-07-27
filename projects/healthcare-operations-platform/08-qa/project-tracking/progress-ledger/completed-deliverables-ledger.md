@@ -14,9 +14,20 @@ artifact:
 
 ```yaml
 project: Healthcare Operations Platform
-total_completed_deliverables: 132
+total_completed_deliverables: 133
 payload_hash: '277579999803'
 completed_deliverables:
+- COM-MOD-015-QA-001 Safety, explainability and human-control evidence validated (mapped BCM-AI-006's four
+  guardrails -- no autonomous clinical validation, source citations required, human override requires
+  reason, AI output must not bypass IAM or audit -- to distinct tested error codes and audit events;
+  discovered and fixed TD-BE-022 (AI_REVIEW_REASON_REQUIRED was dead code and a reviewed session had no
+  immutability guard against a second, silent review); added AI_REVIEW_ALREADY_RECORDED (409) plus i18n
+  entries; added AiOverlayVendorNeutralityTest to statically evidence no proprietary AI SDK dependency;
+  backend 522 tests / 0 failures / 70.16% line coverage (no regression from the 70.14% floor); frontend
+  256 tests / 69 files / 91.00% line coverage (unchanged, no frontend code touched); QA evidence
+  08-qa/qa/ai-overlay/COM-MOD-015-QA-001-validation.md, security evidence
+  08-qa/security-quality/COM-MOD-015-QA-001/security-quality-evidence.md, handoff
+  08-qa/handoffs/COM-MOD-015-QA-001-summary.md)
 - COM-MOD-015-FE-001 AI assistant and review UI compiled (added the employee-portal AI assistant review screen and typed
   aiOverlayApi client on the generic /api/ai/assistant/sessions backend surface for OCR document intake, result/case
   summaries, semantic search and retrieval grounding; exposed citations, confidence band, model provider/name and policy

@@ -89,12 +89,12 @@ validation_commands:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
   module_id: COM-MOD-015
-  backlog_item_id: COM-MOD-015-QA-001
-  name: Safety, explainability and human-control evidence
+  backlog_item_id: COM-MOD-015-CLOSEOUT
+  name: Module closeout and registry update
   expected_folder: 01-product-definition/business-capabilities/packages/
   required_debt_first_action: none
   coverage_floor:
-    backend_java_maven_line_coverage_percent_if_backend_is_touched: 70.14
+    backend_java_maven_line_coverage_percent_if_backend_is_touched: 70.16
     frontend_typescript_web_line_coverage_percent: 91.00
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.11
@@ -102,22 +102,22 @@ validation_commands:
     public_website_typescript_web_line_coverage_percent: 98.61
     final_target_percent: 80
   mandatory_execution_notes:
-  - Resume functional work only from the compact generated prompt and COM-MOD-015-FE-001 handoff; do not preload broad YAML
+  - Resume functional work only from the compact generated prompt and COM-MOD-015-QA-001 handoff; do not preload broad YAML
     registries.
   - Keep execution agent-agnostic and preserve the open-source-first stack and quality gates.
   - Address or reduce at least one applicable technical-debt item before feature work.
-  - Preserve backend coverage at or above 70.14% (technical-debt-index.md's backend_java_maven baseline was resynced by
-    COM-MOD-015-BE-002 after going unsynced since COM-MOD-017-CLOSEOUT through the COM-MOD-014 backend expansion; raising it
-    back toward 80-84% is ordinary gradual coverage debt, not a newly discovered incident) and employee-portal coverage at
-    or above 91.00%; keep final project target at 80% or higher.
+  - Preserve backend coverage at or above 70.16% (COM-MOD-015-QA-001 resynced the backend_java_maven baseline from 70.14%
+    after fixing TD-BE-022; raising it back toward 80-84% is ordinary gradual coverage debt, not a newly discovered incident)
+    and employee-portal coverage at or above 91.00%; keep final project target at 80% or higher.
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product backlog and execution prompts, and commit
     only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-015-FE-001
+    backlog_item_id: COM-MOD-015-QA-001
     status: closed
-    summary: Closed COM-MOD-015-FE-001. Compiled the employee-portal AI assistant review UI on the generic
-      /api/ai/assistant/sessions endpoint, covering OCR document intake, result/case summaries, semantic search and retrieval
-      grounding purposes with citation visibility, review blocking when citations are absent, audit record review, model/policy
-      metadata, SCREEN_AI_ASSISTANT navigation/i18n and shared session header aliases; materially reduced TD-UX-001 by adopting
-      shared DataTable/StatusBanner/ScopeIndicator patterns.
+    summary: Closed COM-MOD-015-QA-001. Validated BCM-AI-006's safety, explainability and human-control guardrails --
+      mapped no-autonomous-clinical-validation, source-citations-required, human-override-requires-reason and
+      output-must-not-bypass-IAM-or-audit to distinct tested error codes and audit events; discovered and fixed TD-BE-022
+      (AI_REVIEW_REASON_REQUIRED was dead code and a reviewed session had no immutability guard against a second, silent
+      review), adding AI_REVIEW_ALREADY_RECORDED (409) with i18n entries; added AiOverlayVendorNeutralityTest to
+      statically evidence no proprietary AI SDK dependency; no frontend regression (91.00% coverage, 256 tests unchanged).
 ```

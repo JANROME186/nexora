@@ -31,10 +31,16 @@ operator_flow:
   request is rejected with AI_SOURCE_CONTEXT_NOT_ALLOWED when sourceContextType falls outside that
   capability's declared scope, and the draft is rejected with AI_CITATIONS_REQUIRED if it carries no
   citations.
-- Record reviewer decision and reason through /api/ai/assistant/sessions/{sessionId}/review.
+- Record reviewer decision and reason through /api/ai/assistant/sessions/{sessionId}/review; a blank
+  reason is rejected with AI_REVIEW_REASON_REQUIRED.
+- Do not attempt to correct a recorded review decision by calling review again; a session whose
+  decision is already recorded rejects a second review attempt with AI_REVIEW_ALREADY_RECORDED (409).
+  If a reviewer made a mistake, escalate through the tenant audit trail rather than resubmitting.
 - Use /api/ai/assistant/sessions/audit-records for tenant audit trace review.
 controls:
 - AI outputs are advisory only until reviewed.
+- A recorded human-review decision is immutable; it cannot be silently overwritten by a second
+  review call once lifecycleStatus is archived.
 - Employee-portal review is gated behind SCREEN_AI_ASSISTANT and preserves tenant/actor
   context through X-Tenant-Id and X-User-Id request headers.
 - Model provider is replaceable through AiDraftGeneratorPort.

@@ -26,6 +26,7 @@ public class AiOverlayExceptionHandler {
     @ExceptionHandler(AiOverlayException.class)
     ResponseEntity<Map<String, Object>> handleDomainException(AiOverlayException ex, Locale locale) {
         HttpStatus status = ex.getErrorCode() == AiOverlayErrorCode.AI_POLICY_BLOCKED
+                        || ex.getErrorCode() == AiOverlayErrorCode.AI_REVIEW_ALREADY_RECORDED
                 ? HttpStatus.CONFLICT : HttpStatus.BAD_REQUEST;
         return response(ex, locale, status);
     }

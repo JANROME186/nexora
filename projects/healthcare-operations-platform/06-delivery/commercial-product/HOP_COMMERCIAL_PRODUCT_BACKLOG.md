@@ -33,8 +33,8 @@ product:
     completed_module: COM-MOD-014 (COM-MOD-014-CLOSEOUT closed; Imaging Operations module fully closed)
     completed_status: closed
     active_module: COM-MOD-015
-    active_backlog_item: COM-MOD-015-QA-001
-    active_module_progress: COM-MOD-015-FE-001 closed. Employee-portal AI assistant review UI compiled on the generic assistant session endpoint with citations, human review, audit trace, SCREEN_AI_ASSISTANT navigation and i18n. Active backlog item advanced to COM-MOD-015-QA-001.
+    active_backlog_item: COM-MOD-015-CLOSEOUT
+    active_module_progress: COM-MOD-015-QA-001 closed. Validated BCM-AI-006 safety, explainability and human-control guardrails with distinct tested error codes and audit events; fixed TD-BE-022 (dead review-reason error code, missing review-decision immutability guard); added vendor-neutrality static scan. Active backlog item advanced to COM-MOD-015-CLOSEOUT.
     paused_backlog_item: null
     pause_reason: null
 mdpe_policy:
@@ -71,8 +71,8 @@ backlog_master_plan: 06-delivery/commercial-product/backlog-map/MASTER_BACKLOG_P
 backlog_item_index: 06-delivery/commercial-product/backlog-map/BACKLOG_ITEM_INDEX.md
 definition_of_ready_done: 06-delivery/commercial-product/backlog-map/DEFINITION_OF_READY_DONE.md
 active_item:
-  id: COM-MOD-015-QA-001
-  name: Safety, explainability and human-control evidence
+  id: COM-MOD-015-CLOSEOUT
+  name: Module closeout and registry update
   status: next
   module_id: COM-MOD-015
   module_name: AI Overlay
