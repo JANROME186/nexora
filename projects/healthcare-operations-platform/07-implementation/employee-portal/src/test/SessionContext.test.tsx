@@ -32,11 +32,11 @@ describe("SessionContext permission-filtered navigation", () => {
     window.localStorage.clear();
   });
 
-  it("shows all 61 tabs for the default ADMIN local-dev fixture session", () => {
+  it("shows all 62 tabs for the default ADMIN local-dev fixture session", () => {
     render(<Harness roleCodes={["ADMIN"]} />);
 
     const nav = screen.getByRole("navigation", { name: "Pantallas de administración" });
-    expect(within(nav).getAllByRole("button")).toHaveLength(61);
+    expect(within(nav).getAllByRole("button")).toHaveLength(62);
   });
 
   it("renders only FRONT_DESK-permitted tabs and hides Tenants when the role changes", async () => {
@@ -67,6 +67,8 @@ describe("SessionContext permission-filtered navigation", () => {
     expect(readSessionHeaders()).toMatchObject({
       "X-HOP-AUTH-TOKEN": "local-dev-token",
       "X-HOP-USER-ID": "local-dev-fixture-user",
+      "X-User-Id": "local-dev-fixture-user",
+      "X-Tenant-Id": "tenant-local",
       "X-HOP-ROLES": "CASHIER",
     });
   });

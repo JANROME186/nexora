@@ -45,6 +45,9 @@ sources:
   com_mod_015_be_002_qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-BE-002-validation.md
   com_mod_015_be_002_security_quality_evidence: 08-qa/security-quality/COM-MOD-015-BE-002/security-quality-evidence.md
   com_mod_015_be_002_handoff: 08-qa/handoffs/COM-MOD-015-BE-002-summary.md
+  com_mod_015_fe_001_qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-FE-001-validation.md
+  com_mod_015_fe_001_security_quality_evidence: 08-qa/security-quality/COM-MOD-015-FE-001/security-quality-evidence.md
+  com_mod_015_fe_001_handoff: 08-qa/handoffs/COM-MOD-015-FE-001-summary.md
 source_registry:
   core:
     path: 08-qa/project-tracking/source-registry/source-registry-core.md

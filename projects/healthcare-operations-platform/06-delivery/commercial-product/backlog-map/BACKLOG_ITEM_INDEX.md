@@ -476,12 +476,12 @@ items:
   path: 06-delivery/commercial-product/backlog-map/items/COM-MOD-015-BE-002.md
 - id: COM-MOD-015-FE-001
   name: Compile assistant and review UI outputs
-  status: next
+  status: closed
   module_id: COM-MOD-015
   path: 06-delivery/commercial-product/backlog-map/items/COM-MOD-015-FE-001.md
 - id: COM-MOD-015-QA-001
   name: Safety, explainability and human-control evidence
-  status: planned
+  status: next
   module_id: COM-MOD-015
   path: 06-delivery/commercial-product/backlog-map/items/COM-MOD-015-QA-001.md
 - id: COM-MOD-015-CLOSEOUT

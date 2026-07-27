@@ -21,7 +21,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   current_iteration: COM-MOD-015
   active_module: AI Overlay
-  active_backlog_item: COM-MOD-015-BE-002
+  active_backlog_item: COM-MOD-015-QA-001
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
@@ -32,11 +32,11 @@ commercial_product_progress:
   capability_package_progress:
     COM-MOD-015:
       name: AI Overlay
-      package_status: definition_completed
-      backlog_item: COM-MOD-015-BE-001
+      package_status: frontend_compiled
+      backlog_item: COM-MOD-015-FE-001
       backlog_item_status: closed
-      next_backlog_item: COM-MOD-015-BE-002
-      execution_flow_stage: backend_compiled
+      next_backlog_item: COM-MOD-015-QA-001
+      execution_flow_stage: frontend_compiled
       capabilities:
       - capability: BCM-AI-001
         package_status: definition_completed
@@ -65,16 +65,19 @@ commercial_product_progress:
       - ai-governance
       - ai-platform-integration
       - ai-audit-evaluation
-      qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-BE-001-validation.md
-      security_quality_evidence: 08-qa/security-quality/COM-MOD-015-BE-001/security-quality-evidence.md
-      handoff: 08-qa/handoffs/COM-MOD-015-BE-001-summary.md
+      qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-FE-001-validation.md
+      security_quality_evidence: 08-qa/security-quality/COM-MOD-015-FE-001/security-quality-evidence.md
+      handoff: 08-qa/handoffs/COM-MOD-015-FE-001-summary.md
       technical_debt_materially_reduced:
       - TD-FMT-001
       - TD-BE-017
+      - TD-UX-001
       ready_for_compilation: true
       backend_compilation_completed: true
       ready_for_custom_rule_implementation: true
-      ready_for_ui_compilation: false
+      ready_for_ui_compilation: true
+      employee_portal_ui_compiled: true
+      ready_for_module_validation: true
       module_validated: false
       module_closed: false
     COM-MOD-014:

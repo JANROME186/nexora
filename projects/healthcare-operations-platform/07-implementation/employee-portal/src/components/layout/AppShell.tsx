@@ -68,6 +68,7 @@ const SCREEN_TAB_LABEL_KEYS = {
   "imaging-dictation": "imagingDictation",
   "imaging-reports": "imagingReports",
   "imaging-delivery": "imagingDelivery",
+  "ai-assistant-review": "aiAssistantReview",
 } as const satisfies Record<ScreenKey, string>;
 
 interface ScreenTab {

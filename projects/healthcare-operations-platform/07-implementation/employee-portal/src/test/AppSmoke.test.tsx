@@ -266,14 +266,19 @@ describe("Employee portal app smoke", () => {
     expect(
       screen.getByRole("heading", { name: "Paquetes y Entrega de Estudios" }),
     ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Asistente AI" }));
+    expect(
+      screen.getByRole("heading", { name: "Asistente AI y Revisión Humana" }),
+    ).toBeInTheDocument();
   });
 
   it("only renders tabs the current session has permission for", () => {
     render(<App />);
 
     // The local dev fixture session defaults to ADMIN, which is granted every screen
-    // permission, so all 61 navigation tabs remain visible (53 prior + 8 COM-MOD-014).
+    // permission, so all 62 navigation tabs remain visible (61 prior + COM-MOD-015 AI).
     const nav = screen.getByRole("navigation", { name: "Pantallas de administración" });
-    expect(within(nav).getAllByRole("button")).toHaveLength(61);
+    expect(within(nav).getAllByRole("button")).toHaveLength(62);
   });
 });

@@ -5,7 +5,7 @@ type: technical-debt-item
 name: No shared Button/FormField/DataTable component library; each of the 26 employee-portal
   screens implements its own markup
 version: 1.0.0
-status: open
+status: materially_reduced
 ---
 
 # No Shared Button/Formfield/Datatable Component Library; Each Of The 26 Employee Portal Screens Implements Its Own Markup
@@ -21,7 +21,7 @@ artifact:
   name: No shared Button/FormField/DataTable component library; each of the 26 employee-portal
     screens implements its own markup
   version: 1.0.0
-  status: open
+  status: materially_reduced
   created_date: 2026-07-17
 source:
   discovered_during_backlog_item: HOP-ENT-FOUND-001
@@ -38,18 +38,23 @@ classification:
   reason_non_blocking: Functional correctness is unaffected; this is a maintainability/consistency
     improvement opportunity, not a defect.
 current_state:
-  issue: 26 screen components each implement their own form fields, tables and buttons
-    with plain HTML and per-screen CSS classes rather than a shared component library.
+  issue: Legacy screen components still implement many form fields and buttons with
+    plain HTML and per-screen CSS classes, but the original no-shared-table gap has
+    been materially reduced.
   compensating_control:
   - AppShell, ConfirmDialog, ScopeIndicator and StatusBanner are already shared for
     the cross-cutting concerns they cover.
+  - DataTable now exists under 07-implementation/employee-portal/src/components/common/DataTable.tsx
+    and is adopted by newer administration screens, including COM-MOD-015-FE-001's
+    AI assistant review screen.
 target_state:
   preferred_open_source_tooling: []
   expected_integration_points:
-  - New src/components/common/{Button,FormField,DataTable}.tsx shared components,
-    adopted incrementally per screen.
+  - Continue incremental extraction of Button and FormField components while keeping
+    DataTable adoption mandatory for new tabular screens.
 remediation:
-  strategy: gradual_when_a_future_screen_backlog_item_next_touches_multiple_screens
+  strategy: materially_reduced_by_shared_DataTable_StatusBanner_ScopeIndicator_and_COM_MOD_015_FE_001_adoption;
+    continue_Button_FormField_extraction_when_future_screens_are_touched
   owner: frontend_platform_team
   estimated_effort: large (incremental across 26 screens)
   estimated_cost_impact: low
@@ -59,7 +64,13 @@ remediation:
   - A future backlog item touches 3+ screens at once (natural point to extract shared
     markup).
   acceptance_criteria:
-  - At least Button/FormField/DataTable exist as shared components and are adopted
-    by newly touched screens going forward.
+  - DataTable exists as a shared component and is adopted by newly touched tabular
+    screens going forward.
+  - Button/FormField extraction remains open as incremental follow-up.
   owner_or_responsible_role: frontend_platform_team
+  progress_note: COM-MOD-015-FE-001 synced this item from open to materially_reduced
+    before feature work because the employee portal already includes shared DataTable,
+    StatusBanner, ScopeIndicator and ConfirmDialog components. The new AI assistant
+    review UI adopts DataTable/StatusBanner/ScopeIndicator instead of adding another
+    per-screen table implementation.
 ```

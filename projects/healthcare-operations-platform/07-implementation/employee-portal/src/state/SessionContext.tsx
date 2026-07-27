@@ -42,6 +42,8 @@ export function readSessionHeaders(): Record<string, string> {
     "X-HOP-TENANT-ID": session.tenantId,
     "X-HOP-BRANCH-ID": session.branchId,
     "X-HOP-ROLES": session.roleCodes.join(","),
+    "X-User-Id": session.userId,
+    "X-Tenant-Id": session.tenantId,
   };
 }
 

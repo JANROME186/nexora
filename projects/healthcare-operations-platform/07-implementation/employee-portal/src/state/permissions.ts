@@ -69,7 +69,8 @@ export type ScreenKey =
   | "imaging-pacs"
   | "imaging-dictation"
   | "imaging-reports"
-  | "imaging-delivery";
+  | "imaging-delivery"
+  | "ai-assistant-review";
 
 export type PermissionCode =
   | "SCREEN_TENANTS"
@@ -132,7 +133,8 @@ export type PermissionCode =
   | "SCREEN_IMAGING_PACS"
   | "SCREEN_IMAGING_DICTATION"
   | "SCREEN_IMAGING_REPORTS"
-  | "SCREEN_IMAGING_DELIVERY";
+  | "SCREEN_IMAGING_DELIVERY"
+  | "SCREEN_AI_ASSISTANT";
 
 export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   tenants: "SCREEN_TENANTS",
@@ -196,6 +198,7 @@ export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   "imaging-dictation": "SCREEN_IMAGING_DICTATION",
   "imaging-reports": "SCREEN_IMAGING_REPORTS",
   "imaging-delivery": "SCREEN_IMAGING_DELIVERY",
+  "ai-assistant-review": "SCREEN_AI_ASSISTANT",
 };
 
 /** Every permission code, derived from `SCREEN_TO_PERMISSION` so the two never drift apart. */
@@ -258,6 +261,7 @@ export const ROLE_PERMISSION_CATALOG: Record<RoleCode, readonly PermissionCode[]
     "SCREEN_RESULT_REPORTS",
     "SCREEN_CRITICAL_ESCALATIONS",
     "SCREEN_RESULT_NOTIFICATIONS",
+    "SCREEN_AI_ASSISTANT",
   ],
   QUALITY_MANAGER: [
     "SCREEN_EXTERNAL_QUALITY_CONTROLS",

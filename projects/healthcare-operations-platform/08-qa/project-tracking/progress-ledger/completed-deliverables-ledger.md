@@ -14,9 +14,18 @@ artifact:
 
 ```yaml
 project: Healthcare Operations Platform
-total_completed_deliverables: 131
+total_completed_deliverables: 132
 payload_hash: '277579999803'
 completed_deliverables:
+- COM-MOD-015-FE-001 AI assistant and review UI compiled (added the employee-portal AI assistant review screen and typed
+  aiOverlayApi client on the generic /api/ai/assistant/sessions backend surface for OCR document intake, result/case
+  summaries, semantic search and retrieval grounding; exposed citations, confidence band, model provider/name and policy
+  version metadata; blocked human review when citations are absent; enabled audit-record selection; wired SCREEN_AI_ASSISTANT
+  navigation, i18n, tenant/actor header aliases and focused API/screen/session smoke tests; materially reduced TD-UX-001 by
+  adopting shared DataTable, StatusBanner and ScopeIndicator patterns; synced frontend_typescript_web coverage floor to
+  91.00% with 256 tests / 69 test files / 0 failures; QA evidence 08-qa/qa/ai-overlay/COM-MOD-015-FE-001-validation.md,
+  security evidence 08-qa/security-quality/COM-MOD-015-FE-001/security-quality-evidence.md, handoff
+  08-qa/handoffs/COM-MOD-015-FE-001-summary.md)
 - COM-MOD-015-BE-002 OCR, summary, search and retrieval custom rules compiled (added AiOverlayCapability
   and AiOverlayCapabilityRuleEngine to platformfoundation.aioverlay, enforcing BCM-AI-002..005's guardrails --
   source context scoping per capability and mandatory citations -- on top of the BCM-AI-001 assistant

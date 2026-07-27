@@ -156,9 +156,9 @@ policy:
           under this policy''s below_target_minimum_relevant_iteration_improvement_percentage_points
           guidance for future iterations, not as a newly discovered incident.'
       frontend_typescript_web:
-        current_line_coverage_percent: 90.85
-        source_evidence: 08-qa/qa/imaging-operations/COM-MOD-014-QA-001-validation.md
-        next_iteration_minimum_line_coverage_percent: 90.85
+        current_line_coverage_percent: 91.00
+        source_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-FE-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 91.00
         final_closure_target_percent: 80
         correction_note: 'COM-MOD-013-QA-001 fixed a hardcoded string and a function-size
           violation in ComplianceEvidenceScreen.tsx, raising coverage from 89.74%
@@ -186,7 +186,10 @@ policy:
           tests, raising it further to 90.68% (224 tests, 65 test files, 0 failures).
           COM-MOD-014-FE-001/QA-001 added the 8 imaging operations screens plus tests,
           raising it further to 90.85% (249 tests, 68 test files, 0 failures); COM-MOD-014-CLOSEOUT
-          synced this entry to match; the new floor is 90.85%.'
+          synced this entry to match; the new floor is 90.85%. COM-MOD-015-FE-001
+          added the AI assistant review surface and focused API/screen/session smoke
+          tests, raising it further to 91.00% (256 tests, 69 test files, 0 failures);
+          the new floor is 91.00%.'
       mobile_typescript_foundation:
         current_line_coverage_percent: 99.21
         source_evidence: 08-qa/qa/patient-and-doctor-portals/COM-MOD-009-APP-001-validation.md
@@ -602,13 +605,14 @@ entries:
 - id: TD-UX-001
   title: No shared Button/FormField/DataTable component library; each of the 26 employee-portal
     screens implements its own markup
-  status: open
+  status: materially_reduced
   risk_level: low
   blocking: false
   source_backlog_item: HOP-ENT-FOUND-001
   affected_area: employee_portal_component_reuse
   file: 08-qa/technical-debt/TD-UX-001-no-shared-component-library.md
-  remediation_strategy: gradual_when_a_future_screen_backlog_item_next_touches_multiple_screens
+  remediation_strategy: materially_reduced_by_shared_DataTable_StatusBanner_ScopeIndicator_and_COM_MOD_015_FE_001_adoption;
+    continue_Button_FormField_extraction_when_future_screens_are_touched
 - id: TD-UX-002
   title: No formalized responsive breakpoints/layout system; no automated accessibility
     check wired into npm run quality

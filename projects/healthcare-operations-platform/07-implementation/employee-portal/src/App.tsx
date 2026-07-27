@@ -61,6 +61,7 @@ import { ImagingPacsScreen } from "./components/screens/ImagingPacsScreen";
 import { ImagingDictationScreen } from "./components/screens/ImagingDictationScreen";
 import { ImagingReportsScreen } from "./components/screens/ImagingReportsScreen";
 import { ImagingDeliveryScreen } from "./components/screens/ImagingDeliveryScreen";
+import { AiAssistantReviewScreen } from "./components/screens/AiAssistantReviewScreen";
 import { AdminScopeProvider } from "./state/AdminScopeContext";
 import { SessionProvider } from "./state/SessionContext";
 import { LocaleProvider } from "./i18n/LocaleContext";
@@ -127,6 +128,7 @@ const SCREEN_COMPONENTS = {
   "imaging-dictation": ImagingDictationScreen,
   "imaging-reports": ImagingReportsScreen,
   "imaging-delivery": ImagingDeliveryScreen,
+  "ai-assistant-review": AiAssistantReviewScreen,
 } as const satisfies Record<ScreenKey, () => JSX.Element>;
 
 function renderScreen(screen: ScreenKey) {
