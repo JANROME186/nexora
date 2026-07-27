@@ -24,7 +24,7 @@ artifact:
 context:
   task_id: COM-MOD-015-CLOSEOUT
   project: projects/healthcare-operations-platform
-  prompt_path: projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt/COM-MOD-015-CLOSEOUT-prompt.md
+  prompt_path: projects/healthcare-operations-platform/08-qa/generated-prompts/history_prompt/COM-MOD-015-CLOSEOUT-prompt.md
   qa_evidence_exists: true
   qa_status: validated
   security_evidence_exists: true
@@ -34,6 +34,11 @@ context:
   project_state_next_backlog_item: null
   product_backlog_current_baseline_active: null
   product_backlog_item_status: closed
+  product_backlog_module_id: COM-MOD-015
+  progress_ledger_active_backlog_item: null
+  progress_ledger_current_iteration: COM-MOD-015
+  progress_ledger_module_closed: true
+  progress_ledger_package_status: module_closed
   execution_prompt_previous_backlog_item: COM-MOD-015-CLOSEOUT
   execution_prompt_previous_status: closed
   protected_validator_paths:
@@ -41,7 +46,7 @@ context:
   - nexora-framework/08-engineering/agents/context-orchestrator/tool-registry.md
   protected_validator_changes: ''
   source_of_truth_checked: true
-  git_head: dbe781f
+  git_head: dcd8ed5
   git_clean: true
   hard_findings: []
 ollama_review:
