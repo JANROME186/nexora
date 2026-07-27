@@ -88,10 +88,10 @@ validation_commands:
   git_whitespace:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
-  module_id: COM-MOD-015
-  backlog_item_id: COM-MOD-015-CLOSEOUT
-  name: Module closeout and registry update
-  expected_folder: 01-product-definition/business-capabilities/packages/
+  module_id: null
+  backlog_item_id: null
+  name: No active backlog item
+  expected_folder: null
   required_debt_first_action: none
   coverage_floor:
     backend_java_maven_line_coverage_percent_if_backend_is_touched: 70.16
@@ -102,8 +102,8 @@ validation_commands:
     public_website_typescript_web_line_coverage_percent: 98.61
     final_target_percent: 80
   mandatory_execution_notes:
-  - Resume functional work only from the compact generated prompt and COM-MOD-015-QA-001 handoff; do not preload broad YAML
-    registries.
+  - No active backlog item is currently selected. Do not generate or execute a backlog prompt until a new backlog item is
+    explicitly activated.
   - Keep execution agent-agnostic and preserve the open-source-first stack and quality gates.
   - Address or reduce at least one applicable technical-debt item before feature work.
   - Preserve backend coverage at or above 70.16% (COM-MOD-015-QA-001 resynced the backend_java_maven baseline from 70.14%

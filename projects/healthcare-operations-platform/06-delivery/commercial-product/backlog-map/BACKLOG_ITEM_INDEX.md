@@ -56,92 +56,92 @@ items:
   path: 06-delivery/commercial-product/backlog-map/items/HOP-ENT-FOUND-001.md
 - id: MVP-MOD-002-DEF
   name: Capability package models
-  status: planned
+  status: closed
   module_id: MVP-MOD-002
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-002-DEF.md
 - id: MVP-MOD-002-BE-001
   name: Compile catalog backend outputs from capability packages
-  status: planned
+  status: closed
   module_id: MVP-MOD-002
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-002-BE-001.md
 - id: MVP-MOD-002-BE-002
   name: Implement catalog custom business rules
-  status: planned
+  status: closed
   module_id: MVP-MOD-002
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-002-BE-002.md
 - id: MVP-MOD-002-FE-001
   name: Compile employee catalog UI outputs from UI models
-  status: planned
+  status: closed
   module_id: MVP-MOD-002
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-002-FE-001.md
 - id: MVP-MOD-002-QA-001
   name: Validate generated outputs, contracts, rules and smoke evidence
-  status: planned
+  status: closed
   module_id: MVP-MOD-002
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-002-QA-001.md
 - id: MVP-MOD-002-CLOSEOUT
   name: Capability package group closeout and registry update
-  status: planned
+  status: closed
   module_id: MVP-MOD-002
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-002-CLOSEOUT.md
 - id: MVP-MOD-003-DEF
   name: Capability package models
-  status: planned
+  status: closed
   module_id: MVP-MOD-003
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-003-DEF.md
 - id: MVP-MOD-003-BE-001
   name: Compile patient, doctor and person backend outputs
-  status: planned
+  status: closed
   module_id: MVP-MOD-003
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-003-BE-001.md
 - id: MVP-MOD-003-BE-002
   name: Implement duplicate detection and portal identity custom rules
-  status: planned
+  status: closed
   module_id: MVP-MOD-003
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-003-BE-002.md
 - id: MVP-MOD-003-FE-001
   name: Compile patient and doctor management UI outputs
-  status: planned
+  status: closed
   module_id: MVP-MOD-003
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-003-FE-001.md
 - id: MVP-MOD-003-QA-001
   name: Master data validation and privacy evidence
-  status: planned
+  status: closed
   module_id: MVP-MOD-003
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-003-QA-001.md
 - id: MVP-MOD-003-CLOSEOUT
   name: Module closeout and registry update
-  status: planned
+  status: closed
   module_id: MVP-MOD-003
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-003-CLOSEOUT.md
 - id: MVP-MOD-004-DEF
   name: Capability package models
-  status: planned
+  status: closed
   module_id: MVP-MOD-004
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-004-DEF.md
 - id: MVP-MOD-004-BE-001
   name: Compile appointment, reception and order backend outputs
-  status: planned
+  status: closed
   module_id: MVP-MOD-004
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-004-BE-001.md
 - id: MVP-MOD-004-BE-002
   name: Implement quote calculation and order lifecycle custom rules
-  status: planned
+  status: closed
   module_id: MVP-MOD-004
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-004-BE-002.md
 - id: MVP-MOD-004-FE-001
   name: Compile front desk worklist and order creation UI outputs
-  status: planned
+  status: closed
   module_id: MVP-MOD-004
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-004-FE-001.md
 - id: MVP-MOD-004-QA-001
   name: Order lifecycle and snapshot evidence
-  status: planned
+  status: closed
   module_id: MVP-MOD-004
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-004-QA-001.md
 - id: MVP-MOD-004-CLOSEOUT
   name: Module closeout and registry update
-  status: planned
+  status: closed
   module_id: MVP-MOD-004
   path: 06-delivery/commercial-product/backlog-map/items/MVP-MOD-004-CLOSEOUT.md
 - id: MVP-MOD-005-DEF
