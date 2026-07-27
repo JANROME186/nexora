@@ -4,7 +4,7 @@ format: markdown_structured_payload
 type: traceability
 name: Retrieval Knowledge Grounding Traceability Matrix
 version: 1.0.0
-status: modeled
+status: module_closed
 ---
 
 # Retrieval Knowledge Grounding Traceability Matrix
@@ -17,35 +17,41 @@ status: modeled
 artifact:
   id: HOP-TRC-BCM-AI-005
   type: traceability
-  status: modeled
+  status: module_closed
 capability_id: BCM-AI-005
 roadmap_group: COM-MOD-015
 mappings:
   - requirement: AI Overlay
     rules:
-    - AI-RAG-001
-    - AI-RAG-002
-    - AI-RAG-003
+    - AI-GND-001
+    - AI-GND-002
+    - AI-GND-003
     processes:
     - PROC-AI-009
     - PROC-AI-010
     events:
-    - GroundingPackageCreatedEvent
-    - GroundingSourceLinkedEvent
-    - GroundingPackageRetiredEvent
+    - RetrievalPackageBuiltEvent
+    - GroundedEvidenceAttachedEvent
+    - CitationSourceValidatedEvent
     api_endpoints:
     - /api/ai/grounding/packages
-    - /api/ai/grounding/packages/{packageId}/sources
-    - /api/ai/grounding/packages/{packageId}/retire
+    - /api/ai/grounding/packages/{packageId}
+    - /api/ai/grounding/packages/{packageId}/citations
     permissions:
-    - ai.grounding:manage
-    - ai.grounding:use
+    - ai.grounding:build
+    - ai.grounding:attach
     - ai.grounding:audit
 definition:
   backlog_item: COM-MOD-015-DEF
   status: modeled
   qa_evidence: ../../../../08-qa/qa/ai-overlay/COM-MOD-015-DEF-validation.md
   security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-015-DEF/security-quality-evidence.md
+closeout:
+  backlog_item: COM-MOD-015-CLOSEOUT
+  status: closed
+  qa_evidence: ../../../../08-qa/qa/ai-overlay/COM-MOD-015-CLOSEOUT-validation.md
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-015-CLOSEOUT/security-quality-evidence.md
+  notes: Formally closed COM-MOD-015 AI Overlay. Marked BCM-AI-005 module_closed in capability-package.md and capability-package-index.md.
 backlog_items:
   definition: COM-MOD-015-DEF
   definition_status: closed
@@ -54,7 +60,9 @@ backlog_items:
   custom_rules: COM-MOD-015-BE-002
   custom_rules_status: closed
   ui: COM-MOD-015-FE-001
-  ui_status: planned
+  ui_status: closed
   validation: COM-MOD-015-QA-001
   validation_status: closed
+  closeout: COM-MOD-015-CLOSEOUT
+  closeout_status: closed
 ```

@@ -257,7 +257,7 @@ entries:
   source_backlog_item: NXF-CTX-001
   affected_area: framework_and_hop_execution_artifacts
   file: 08-qa/technical-debt/TD-FMT-001-yaml-monolith-to-frontmatter-transition.md
-  remediation_strategy: materially_reduced_by_COM_MOD_015_DEF_compact_frontmatter_handoff_and_evidence_pattern
+  remediation_strategy: materially_reduced_by_COM_MOD_015_CLOSEOUT_compact_frontmatter_handoff_and_evidence_pattern
 - id: TD-QA-001
   title: Automate DAST baseline scans for runnable web and API surfaces
   status: closed

@@ -14,9 +14,10 @@ artifact:
 
 ```yaml
 project: Healthcare Operations Platform
-total_completed_deliverables: 133
+total_completed_deliverables: 134
 payload_hash: '277579999803'
 completed_deliverables:
+- COM-MOD-015-CLOSEOUT Module closeout and registry update (BCM-AI-001 through BCM-AI-008 marked module_closed in capability-package-index.md -- moved from active_capability_package_groups to completed_capability_package_groups -- and in their capability-package.md files and traceability.md matrices; documentation and registry-only closeout -- no source changed, coverage re-affirmed unchanged: backend 70.16%, employee portal 91.00%, public website 98.61%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%; recorded material reductions for TD-FMT-001, TD-BE-017, TD-BE-022, TD-I18N-002, TD-UX-001; QA evidence 08-qa/qa/ai-overlay/COM-MOD-015-CLOSEOUT-validation.md, security evidence 08-qa/security-quality/COM-MOD-015-CLOSEOUT/security-quality-evidence.md, handoff 08-qa/handoffs/COM-MOD-015-CLOSEOUT-summary.md)
 - COM-MOD-015-QA-001 Safety, explainability and human-control evidence validated (mapped BCM-AI-006's four
   guardrails -- no autonomous clinical validation, source citations required, human override requires
   reason, AI output must not bypass IAM or audit -- to distinct tested error codes and audit events;

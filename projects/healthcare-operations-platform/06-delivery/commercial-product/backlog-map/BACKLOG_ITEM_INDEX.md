@@ -486,7 +486,7 @@ items:
   path: 06-delivery/commercial-product/backlog-map/items/COM-MOD-015-QA-001.md
 - id: COM-MOD-015-CLOSEOUT
   name: Module closeout and registry update
-  status: next
+  status: closed
   module_id: COM-MOD-015
   path: 06-delivery/commercial-product/backlog-map/items/COM-MOD-015-CLOSEOUT.md
 - id: COM-MOD-016-DEF

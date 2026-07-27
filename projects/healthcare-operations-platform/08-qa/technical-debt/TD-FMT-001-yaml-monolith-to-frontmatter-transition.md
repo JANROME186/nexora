@@ -69,13 +69,11 @@ remediation:
   - Optional Ollama-assisted conversion is validated locally or explicitly marked
     unavailable without blocking execution.
   latest_evidence:
-    backlog_item: COM-MOD-015-DEF
+    backlog_item: COM-MOD-015-CLOSEOUT
     status: materially_reduced
     hop_inventory: ../format-migration/frontmatter-migration-report-projects-healthcare-operations-platform.md
     framework_inventory: ../format-migration/frontmatter-migration-report-nexora-framework.md
     migration_plan: ../format-migration/frontmatter-migration-plan.md
-    closeout_handoff: ../handoffs/COM-MOD-015-DEF-summary.md
-    note: COM-MOD-015-DEF kept the active backlog transition in compact Markdown/frontmatter
-      evidence and handoff artifacts and avoided creating new monolithic YAML execution
-      artifacts while updating atomic backlog and progress records.
+    closeout_handoff: ../handoffs/COM-MOD-015-CLOSEOUT-summary.md
+    note: COM-MOD-015-CLOSEOUT formally closed AI Overlay using compact Markdown/frontmatter evidence and handoff artifacts, materially reducing TD-FMT-001 across the entire module lifecycle.
 ```

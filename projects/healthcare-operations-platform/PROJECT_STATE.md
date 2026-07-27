@@ -17,7 +17,7 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: COM-MOD-015-QA-001 closed. Active backlog item is COM-MOD-015-CLOSEOUT.
+current_phase: COM-MOD-015-CLOSEOUT closed. Formally closed AI Overlay module (BCM-AI-001 through BCM-AI-008 marked module_closed).
 commercial_product_progress:
   status: active
   current_iteration: COM-MOD-015
@@ -35,8 +35,9 @@ implementation_progress:
   current_module: COM-MOD-015
   progress_percent: null
   last_commit: null
-  completed_backlog_items_count: 108
+  completed_backlog_items_count: 109
   recent_completed_backlog_items:
+  - COM-MOD-015-CLOSEOUT
   - COM-MOD-015-QA-001
   - COM-MOD-015-FE-001
   - COM-MOD-015-BE-002
@@ -49,6 +50,8 @@ module_closeout:
   active_ref: 08-qa/project-tracking/progress-ledger/module-closeout-detail.md
   load_on_demand: true
 recent_completed_deliverables_index:
+- id: COM-MOD-015-CLOSEOUT
+  ledger_ref: 08-qa/project-tracking/progress-ledger/completed-deliverables-ledger.md
 - id: COM-MOD-015-QA-001
   ledger_ref: 08-qa/project-tracking/progress-ledger/completed-deliverables-ledger.md
 - id: COM-MOD-015-BE-002

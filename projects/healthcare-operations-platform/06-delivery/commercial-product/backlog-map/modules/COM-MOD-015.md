@@ -17,7 +17,7 @@ id: COM-MOD-015
 name: AI Overlay
 release: REL-004
 priority: 140
-status: active
+status: module_closed
 source: mvp_framework_future_module
 objective: Add assistant, OCR, summary, semantic search and retrieval capabilities with strict clinical guardrails.
 depends_on:
@@ -58,17 +58,18 @@ backlog_items:
   status: closed
 - id: COM-MOD-015-CLOSEOUT
   name: Module closeout and registry update
-  status: next
+  status: closed
 acceptance_summary:
 - AI capabilities assist administrative and clinical workflows without autonomous clinical validation.
 - All AI outputs are attributable, reviewable and auditable.
 - Model providers and runtimes remain replaceable.
 progress_summary:
-  last_completed_backlog_item: COM-MOD-015-QA-001
-  active_backlog_item: COM-MOD-015-CLOSEOUT
+  last_completed_backlog_item: COM-MOD-015-CLOSEOUT
+  active_backlog_item: null
   frontend_compilation_completed: true
   module_validated: true
-  qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-QA-001-validation.md
-  security_quality_evidence: 08-qa/security-quality/COM-MOD-015-QA-001/security-quality-evidence.md
-  handoff: 08-qa/handoffs/COM-MOD-015-QA-001-summary.md
+  module_closed: true
+  qa_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-CLOSEOUT-validation.md
+  security_quality_evidence: 08-qa/security-quality/COM-MOD-015-CLOSEOUT/security-quality-evidence.md
+  handoff: 08-qa/handoffs/COM-MOD-015-CLOSEOUT-summary.md
 ```

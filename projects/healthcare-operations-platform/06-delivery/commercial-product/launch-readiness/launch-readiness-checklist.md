@@ -15,7 +15,7 @@ This checklist maps launch readiness against the 9 Commercial Readiness Pillars 
 | CRP-005 | SaaS and Operations Readiness | Verified |
 | CRP-006 | Integration and Migration Readiness | Verified |
 | CRP-007 | Customer Enablement Readiness | Verified |
-| CRP-008 | Expansion Readiness | In Progress (COM-MOD-014 module_closed, COM-MOD-015 active) |
+| CRP-008 | Expansion Readiness | Verified (COM-MOD-014 module_closed, COM-MOD-015 module_closed) |
 | CRP-009 | Marketplace Readiness | Verified (COM-MOD-017 module_closed; COM-MOD-017-WEB-001 public listing surface deferred, tracked as TD-WEB-001) |
 
 ## CRP-001: Operational Completeness
@@ -71,7 +71,7 @@ This checklist maps launch readiness against the 9 Commercial Readiness Pillars 
 ## CRP-008: Expansion Readiness
 
 - [x] Imaging Operations (COM-MOD-014) — module_closed for REL-004
-- [ ] AI Overlay (COM-MOD-015) — Active for REL-004
+- [x] AI Overlay (COM-MOD-015) — module_closed for REL-004
 - [x] Expansion packages defined in commercial packages
 
 ## CRP-009: Marketplace Readiness
@@ -82,7 +82,7 @@ This checklist maps launch readiness against the 9 Commercial Readiness Pillars 
 
 ## Overall Assessment
 
-**Conditionally Ready:** 8 of 9 pillars verified. CRP-008 is planned for a future release and does not block initial commercial launch. CRP-009's core marketplace lifecycle (publish, sell, entitle, install, activate, upgrade, retire) is verified; only the outward public-website discovery surface remains deferred (TD-WEB-001, non-blocking).
+**Conditionally Ready:** All 9 pillars verified. CRP-009's core marketplace lifecycle (publish, sell, entitle, install, activate, upgrade, retire) is verified; only the outward public-website discovery surface remains deferred (TD-WEB-001, non-blocking).
 
 > **Note:** HOP cannot be marked GA-ready while any technical debt remains open. Technical debt review is scheduled for COM-MOD-016-QA-001.
 
@@ -229,9 +229,9 @@ readiness_pillars:
   - item: Imaging operations module (COM-MOD-014) is module_closed.
     evidence: 08-qa/qa/imaging-operations/COM-MOD-014-CLOSEOUT-validation.md.
     status: verified
-  - item: AI overlay module (COM-MOD-015) is defined in the backlog.
-    evidence: HOP_COMMERCIAL_PRODUCT_BACKLOG.md.
-    status: planned
+  - item: AI overlay module (COM-MOD-015) is module_closed.
+    evidence: 08-qa/qa/ai-overlay/COM-MOD-015-CLOSEOUT-validation.md.
+    status: verified
   - item: Expansion packages are defined in commercial packages.
     evidence: 06-delivery/commercial-product/commercial-packages/hop-commercial-packages.md.
     status: verified
@@ -260,9 +260,9 @@ overall_launch_readiness_assessment:
   - CRP-005
   - CRP-006
   - CRP-007
+  - CRP-008
   - CRP-009
-  planned_pillars:
-  - CRP-008 (expansion packages pending COM-MOD-014 and COM-MOD-015 implementation)
+  planned_pillars: []
   blocking_items: []
   non_blocking_planned_items:
   - COM-MOD-014 Imaging Operations (REL-004)

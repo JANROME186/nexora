@@ -4,7 +4,7 @@ format: markdown_structured_payload
 type: traceability
 name: Model Provider Integration Traceability Matrix
 version: 1.0.0
-status: modeled
+status: module_closed
 ---
 
 # Model Provider Integration Traceability Matrix
@@ -17,44 +17,52 @@ status: modeled
 artifact:
   id: HOP-TRC-BCM-AI-007
   type: traceability
-  status: modeled
+  status: module_closed
 capability_id: BCM-AI-007
 roadmap_group: COM-MOD-015
 mappings:
   - requirement: AI Overlay
     rules:
-    - AI-PRV-001
-    - AI-PRV-002
-    - AI-PRV-003
+    - AI-PROV-001
+    - AI-PROV-002
+    - AI-PROV-003
     processes:
     - PROC-AI-013
     - PROC-AI-014
     events:
-    - AiProviderProfileRegisteredEvent
-    - AiProviderRoutedEvent
-    - AiProviderHealthChangedEvent
+    - AiProviderRegisteredEvent
+    - AiProviderProfileUpdatedEvent
+    - AiProviderHealthCheckedEvent
     api_endpoints:
     - /api/ai/providers
+    - /api/ai/providers/{providerId}
     - /api/ai/providers/{providerId}/health
-    - /api/ai/providers/routing-policies
     permissions:
-    - ai.provider:configure
-    - ai.provider:route
+    - ai.provider:manage
+    - ai.provider:view
     - ai.provider:audit
 definition:
   backlog_item: COM-MOD-015-DEF
   status: modeled
   qa_evidence: ../../../../08-qa/qa/ai-overlay/COM-MOD-015-DEF-validation.md
   security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-015-DEF/security-quality-evidence.md
+closeout:
+  backlog_item: COM-MOD-015-CLOSEOUT
+  status: closed
+  qa_evidence: ../../../../08-qa/qa/ai-overlay/COM-MOD-015-CLOSEOUT-validation.md
+  security_quality_evidence: ../../../../08-qa/security-quality/COM-MOD-015-CLOSEOUT/security-quality-evidence.md
+  notes: Formally closed COM-MOD-015 AI Overlay. Marked BCM-AI-007 module_closed in capability-package.md and capability-package-index.md.
 backlog_items:
   definition: COM-MOD-015-DEF
   definition_status: closed
   compilation: COM-MOD-015-BE-001
-  compilation_status: planned
+  compilation_status: closed
   custom_rules: COM-MOD-015-BE-002
-  custom_rules_status: planned
+  custom_rules_status: closed
   ui: COM-MOD-015-FE-001
-  ui_status: planned
+  ui_status: closed
   validation: COM-MOD-015-QA-001
   validation_status: closed
+  closeout: COM-MOD-015-CLOSEOUT
+  closeout_status: closed
 ```

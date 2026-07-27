@@ -18,11 +18,11 @@ artifact:
   id: HOP-CAP-PKG-IDX-001
   type: capability-package
   name: HOP Business Capability Package Index
-  version: 2.8.0
+  version: 2.9.0
   status: approved
   human_readable: README.md
   machine_readable: capability-package-index.md
-  qa_evidence: ../../../08-qa/qa/imaging-operations/COM-MOD-014-CLOSEOUT-validation.md
+  qa_evidence: ../../../08-qa/qa/ai-overlay/COM-MOD-015-CLOSEOUT-validation.md
 policy:
   primary_development_unit: business_capability_package
   roadmap_grouping_allowed: true
@@ -45,63 +45,64 @@ do_not_write_manually:
 - Repetitive documentation
 - Duplicate models
 - Repetitive test cases
-active_capability_package_groups:
+active_capability_package_groups: []
+completed_capability_package_groups:
 - roadmap_group: COM-MOD-015
   name: AI Overlay
-  package_status: definition_completed
-  backlog_item: COM-MOD-015-BE-002
-  qa_evidence: ../../../08-qa/qa/ai-overlay/COM-MOD-015-BE-002-validation.md
-  security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-015-BE-002/security-quality-evidence.md
+  package_status: module_closed
+  backlog_item: COM-MOD-015-CLOSEOUT
+  qa_evidence: ../../../08-qa/qa/ai-overlay/COM-MOD-015-CLOSEOUT-validation.md
+  closeout_evidence: ../../../08-qa/qa/ai-overlay/COM-MOD-015-CLOSEOUT-validation.md
+  security_quality_evidence: ../../../08-qa/security-quality/COM-MOD-015-CLOSEOUT/security-quality-evidence.md
   capabilities:
   - capability_id: BCM-AI-001
     package_folder: bcm-ai-001-assistant-orchestration/
-    package_status: definition_completed
+    package_status: module_closed
     bounded_context: ai-overlay
     primary_aggregate: AssistantSession (AGG-039)
     mobile_scope: optional_read_only_assistant_context
   - capability_id: BCM-AI-002
     package_folder: bcm-ai-002-ocr-document-intake/
-    package_status: definition_completed
+    package_status: module_closed
     bounded_context: ai-document-intake
     primary_aggregate: OcrExtractionJob (AGG-040)
     mobile_scope: not_required
   - capability_id: BCM-AI-003
     package_folder: bcm-ai-003-result-and-case-summaries/
-    package_status: definition_completed
+    package_status: module_closed
     bounded_context: ai-clinical-review
     primary_aggregate: AiSummaryRequest (AGG-041)
     mobile_scope: optional_result_summary_view
   - capability_id: BCM-AI-004
     package_folder: bcm-ai-004-semantic-search/
-    package_status: definition_completed
+    package_status: module_closed
     bounded_context: ai-search
     primary_aggregate: SemanticSearchQuery (AGG-042)
     mobile_scope: optional_search_consumer
   - capability_id: BCM-AI-005
     package_folder: bcm-ai-005-retrieval-knowledge-grounding/
-    package_status: definition_completed
+    package_status: module_closed
     bounded_context: ai-retrieval
     primary_aggregate: RetrievalGroundingPackage (AGG-043)
     mobile_scope: not_required
   - capability_id: BCM-AI-006
     package_folder: bcm-ai-006-safety-policy-and-human-review/
-    package_status: definition_completed
+    package_status: module_closed
     bounded_context: ai-governance
     primary_aggregate: AiSafetyDecision (AGG-044)
     mobile_scope: not_required
   - capability_id: BCM-AI-007
     package_folder: bcm-ai-007-model-provider-integration/
-    package_status: definition_completed
+    package_status: module_closed
     bounded_context: ai-platform-integration
     primary_aggregate: AiProviderProfile (AGG-045)
     mobile_scope: not_required
   - capability_id: BCM-AI-008
     package_folder: bcm-ai-008-ai-audit-and-evaluation/
-    package_status: definition_completed
+    package_status: module_closed
     bounded_context: ai-audit-evaluation
     primary_aggregate: AiEvaluationRun (AGG-046)
     mobile_scope: not_required
-completed_capability_package_groups:
 - roadmap_group: COM-MOD-014
   name: Imaging Operations
   package_status: module_closed

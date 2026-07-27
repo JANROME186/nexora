@@ -32,28 +32,28 @@ commercial_product_progress:
   capability_package_progress:
     COM-MOD-015:
       name: AI Overlay
-      package_status: validated
-      backlog_item: COM-MOD-015-QA-001
+      package_status: module_closed
+      backlog_item: COM-MOD-015-CLOSEOUT
       backlog_item_status: closed
-      next_backlog_item: COM-MOD-015-CLOSEOUT
-      execution_flow_stage: validated
+      next_backlog_item: null
+      execution_flow_stage: closeout
       capabilities:
       - capability: BCM-AI-001
-        package_status: definition_completed
+        package_status: module_closed
       - capability: BCM-AI-002
-        package_status: definition_completed
+        package_status: module_closed
       - capability: BCM-AI-003
-        package_status: definition_completed
+        package_status: module_closed
       - capability: BCM-AI-004
-        package_status: definition_completed
+        package_status: module_closed
       - capability: BCM-AI-005
-        package_status: definition_completed
+        package_status: module_closed
       - capability: BCM-AI-006
-        package_status: definition_completed
+        package_status: module_closed
       - capability: BCM-AI-007
-        package_status: definition_completed
+        package_status: module_closed
       - capability: BCM-AI-008
-        package_status: definition_completed
+        package_status: module_closed
       new_capability_packages_created: 8
       new_aggregates_or_schemas_created: 8 modeled_aggregates_no_schema_yet
       bounded_contexts:

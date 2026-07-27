@@ -22,9 +22,11 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-015-BE-001`.
+Current active backlog item: `COM-MOD-015-CLOSEOUT`.
 
-Latest update: `COM-MOD-015-DEF` is closed. Modeled 8 AI Overlay business capability packages under `01-product-definition/business-capabilities/packages/` (`BCM-AI-001` through `BCM-AI-008`) with provider-neutral assistant, OCR, summary, semantic search, retrieval grounding, safety policy, model-provider integration and AI audit/evaluation definitions. Registered `COM-MOD-015` as `definition_completed` in `capability-package-index.md`. Materially reduced `TD-FMT-001` by continuing compact Markdown/frontmatter handoff and evidence artifacts. QA evidence: `08-qa/qa/ai-overlay/COM-MOD-015-DEF-validation.md`, security quality evidence: `08-qa/security-quality/COM-MOD-015-DEF/security-quality-evidence.md`, handoff: `08-qa/handoffs/COM-MOD-015-DEF-summary.md`. Next active backlog item: `COM-MOD-015-BE-001` (Compile AI orchestration, policy and audit outputs).
+Latest update: `COM-MOD-015-CLOSEOUT` is closed. Module `COM-MOD-015 AI Overlay` is `module_closed`; all `BCM-AI-001` through `BCM-AI-008` packages are marked `module_closed` in `capability-package-index.md` and their respective `capability-package.md` files and `traceability.md` matrices. Coverage floors remain backend 70.16%, employee portal 91.00%, public website 98.61%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%. Material reduction recorded for `TD-FMT-001`, `TD-BE-017`, `TD-BE-022`, `TD-I18N-002`, and `TD-UX-001`. QA evidence: `08-qa/qa/ai-overlay/COM-MOD-015-CLOSEOUT-validation.md`, security quality evidence: `08-qa/security-quality/COM-MOD-015-CLOSEOUT/security-quality-evidence.md`, handoff: `08-qa/handoffs/COM-MOD-015-CLOSEOUT-summary.md`.
+
+Previous update: `COM-MOD-015-QA-001` is closed. Safety, explainability and human-control evidence validated across all 8 AI Overlay sub-packages. Fixed TD-BE-022 (dead review-reason error code, missing review-decision immutability guard). Added vendor-neutrality static scan. QA evidence: `08-qa/qa/ai-overlay/COM-MOD-015-QA-001-validation.md`. Next active backlog item: `COM-MOD-015-CLOSEOUT`.
 
 Previous update: `COM-MOD-014-CLOSEOUT` is closed. Module `COM-MOD-014 Imaging Operations` is `module_closed`; all `BCM-IMG-001` through `BCM-IMG-008` packages are marked `module_closed`. Coverage floors remain backend 84.65%, employee-portal 90.85%, public website 98.61%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%.
 

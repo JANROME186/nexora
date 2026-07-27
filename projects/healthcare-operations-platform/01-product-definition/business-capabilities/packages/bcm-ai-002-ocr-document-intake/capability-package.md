@@ -4,7 +4,7 @@ format: markdown_structured_payload
 type: capability-package
 name: OCR Document Intake Capability Package
 version: 1.0.0
-status: modeled
+status: module_closed
 ---
 
 # OCR Document Intake Capability Package
@@ -19,14 +19,14 @@ artifact:
   type: capability-package
   name: OCR Document Intake Capability Package
   version: 1.0.0
-  status: modeled
+  status: module_closed
   classification: editable_model
   human_readable: README.md
   machine_readable: capability-package.md
   owner: Nexora Product Architecture Team
   created_date: 2026-07-26
   roadmap_group: COM-MOD-015
-  execution_flow_stage: model
+  execution_flow_stage: closeout
 standard:
   capability_package_standard: ../../../../../../nexora-framework/02-standards/standards/capability-package-standard.md
   mdpe_standard: ../../../../../../nexora-framework/02-standards/standards/model-driven-product-engineering-standard.md
@@ -56,8 +56,8 @@ scope:
 roadmap:
   module: COM-MOD-015
   release: REL-004
-  package_status: definition_completed
-  next_backlog_item: COM-MOD-015-FE-001
+  package_status: module_closed
+  next_backlog_item: COM-MOD-015-CLOSEOUT
 dependencies:
   required_capabilities:
   - BCM-PLT-001
