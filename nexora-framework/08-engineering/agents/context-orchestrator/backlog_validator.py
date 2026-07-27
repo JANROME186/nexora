@@ -242,10 +242,29 @@ def find_backlog_item_status(data: object, task_id: str) -> str | None:
     return None
 
 
+def find_backlog_item_field(data: object, task_id: str, field: str) -> object | None:
+    stack: list[object] = [data]
+    while stack:
+        current = stack.pop()
+        if isinstance(current, dict):
+            if current.get("id") == task_id:
+                return current.get(field)
+            stack.extend(current.values())
+        elif isinstance(current, list):
+            stack.extend(current)
+    return None
+
+
 def find_backlog_item_status_from_index(root: Path, task_id: str) -> str | None:
     index_path = root / PROJECT_PATH / "06-delivery/commercial-product/backlog-map/BACKLOG_ITEM_INDEX.md"
     index_data = read_yaml(index_path)
     return find_backlog_item_status(index_data, task_id)
+
+
+def find_backlog_item_field_from_index(root: Path, task_id: str, field: str) -> object | None:
+    index_path = root / PROJECT_PATH / "06-delivery/commercial-product/backlog-map/BACKLOG_ITEM_INDEX.md"
+    index_data = read_yaml(index_path)
+    return find_backlog_item_field(index_data, task_id, field)
 
 
 def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git: bool) -> dict:
@@ -253,6 +272,7 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
     product_backlog = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md")
     execution_prompts = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md")
     source_of_truth = read_yaml(root / PROJECT_PATH / "SOURCE_OF_TRUTH.md")
+    progress_detail = read_yaml(root / PROJECT_PATH / "08-qa/project-tracking/progress-ledger/commercial-product-progress-detail.md")
 
     prompt_text = read_text(prompt_path)
     qa_rel = None
@@ -276,10 +296,19 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
     project_state_next = nested_get(project_state, "delivery_readiness", "next_backlog_item")
     product_baseline_active = nested_get(product_backlog, "product", "current_baseline", "active_backlog_item")
     product_backlog_status = find_backlog_item_status(product_backlog, task_id)
+    product_backlog_module_id = find_backlog_item_field(product_backlog, task_id, "module_id")
     if product_backlog_status is None:
         product_backlog_status = find_backlog_item_status_from_index(root, task_id)
+    if product_backlog_module_id is None:
+        product_backlog_module_id = find_backlog_item_field_from_index(root, task_id, "module_id")
     execution_previous = nested_get(execution_prompts, "validation_commands", "previous_backlog_item", "backlog_item_id")
     execution_previous_status = nested_get(execution_prompts, "validation_commands", "previous_backlog_item", "status")
+    module_id = str(product_backlog_module_id) if product_backlog_module_id else None
+    progress_module = nested_get(progress_detail, "commercial_product_progress", "capability_package_progress", module_id) if module_id else None
+    progress_module_closed = nested_get(progress_module, "module_closed") if isinstance(progress_module, dict) else None
+    progress_module_package_status = nested_get(progress_module, "package_status") if isinstance(progress_module, dict) else None
+    progress_active_backlog_item = nested_get(progress_detail, "commercial_product_progress", "active_backlog_item")
+    progress_current_iteration = nested_get(progress_detail, "commercial_product_progress", "current_iteration")
 
     hard_findings: list[dict] = []
     expected_files = {
@@ -308,6 +337,20 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
         hard_findings.append({"id": "project_state_stale_active_item", "severity": "P0", "detail": "PROJECT_STATE commercial_product_delivery still points to the closed task."})
     if execution_previous != task_id or execution_previous_status != "closed":
         hard_findings.append({"id": "execution_prompt_previous_not_closed", "severity": "P0", "detail": "Execution prompt must carry the validated task as previous_backlog_item closed."})
+    if task_id.endswith("-CLOSEOUT"):
+        if module_id is None:
+            hard_findings.append({"id": "closeout_module_id_missing", "severity": "P0", "detail": "Closeout backlog item must expose module_id in product backlog or item index."})
+        elif not isinstance(progress_module, dict):
+            hard_findings.append({"id": "progress_ledger_module_missing", "severity": "P0", "detail": f"Missing {module_id} in commercial-product-progress-detail.md capability_package_progress."})
+        else:
+            if progress_module_closed is not True:
+                hard_findings.append({"id": "progress_ledger_module_not_closed", "severity": "P0", "detail": f"{module_id} module_closed must be true, found {progress_module_closed}."})
+            if progress_module_package_status != "module_closed":
+                hard_findings.append({"id": "progress_ledger_package_status_not_closed", "severity": "P0", "detail": f"{module_id} package_status must be module_closed, found {progress_module_package_status}."})
+        if progress_active_backlog_item == task_id:
+            hard_findings.append({"id": "progress_ledger_stale_active_item", "severity": "P0", "detail": "commercial-product-progress-detail.md still points active_backlog_item to the closed task."})
+        if current_state_active != product_baseline_active:
+            hard_findings.append({"id": "state_backlog_active_pointer_mismatch", "severity": "P0", "detail": f"PROJECT_STATE active {current_state_active} differs from product backlog active {product_baseline_active}."})
 
     protected_validator_changes = git_status_for_paths(root, PROTECTED_VALIDATOR_PATHS)
     if protected_validator_changes:
@@ -349,6 +392,11 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
         "project_state_next_backlog_item": project_state_next,
         "product_backlog_current_baseline_active": product_baseline_active,
         "product_backlog_item_status": product_backlog_status,
+        "product_backlog_module_id": module_id,
+        "progress_ledger_active_backlog_item": progress_active_backlog_item,
+        "progress_ledger_current_iteration": progress_current_iteration,
+        "progress_ledger_module_closed": progress_module_closed,
+        "progress_ledger_package_status": progress_module_package_status,
         "execution_prompt_previous_backlog_item": execution_previous,
         "execution_prompt_previous_status": execution_previous_status,
         "protected_validator_paths": list(PROTECTED_VALIDATOR_PATHS),

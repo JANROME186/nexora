@@ -21,7 +21,7 @@ commercial_product_progress:
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   current_iteration: COM-MOD-015
   active_module: AI Overlay
-  active_backlog_item: COM-MOD-015-CLOSEOUT
+  active_backlog_item: null
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md
@@ -80,7 +80,7 @@ commercial_product_progress:
       employee_portal_ui_compiled: true
       ready_for_module_validation: true
       module_validated: true
-      module_closed: false
+      module_closed: true
     COM-MOD-014:
       name: Imaging Operations
       package_status: module_closed
