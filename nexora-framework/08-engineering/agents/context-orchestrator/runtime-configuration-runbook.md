@@ -296,6 +296,20 @@ by `claude_code_cli`, another enabled commercial CLI, or a filesystem IDE handof
 routes are available. A provider is skipped as blocked only when the provider itself reported
 quota/rate-limit exhaustion.
 
+The operator can override balance for a single run when a specific subscription/agent should be used
+more heavily:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py --provider claude_code_cli
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py --execute --agent claude_code_cli
+```
+
+`--agent` and `--provider` are equivalent. When either is present, the requested provider takes
+priority over automatic selection, priority scores and recent-success balance penalties. If that
+provider is unavailable or quota-limited, the run fails with that provider's reason so the operator
+can decide whether to retry, change provider explicitly or return to automatic routing. When neither
+parameter is present, automatic selection and balancing remain active.
+
 Write the active prompt into the local IDE task-ingestion file:
 
 ```powershell

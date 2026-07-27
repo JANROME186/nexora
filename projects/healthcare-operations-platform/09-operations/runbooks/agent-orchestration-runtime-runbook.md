@@ -170,6 +170,9 @@ Runtime guidance:
 - Manual/IDE handoff is prioritized when CLI execution is unavailable, not allowed or not stable.
 - Provider consumption must be balanced. The router penalizes the most recent successful provider
   and selects another enabled/configured commercial CLI or IDE handoff route when available.
+- If the operator passes `--provider` or `--agent`, that explicit provider/agent takes priority over
+  automatic selection and balance for the current run. Use this when HOP intentionally needs to spend
+  more work on one subscription-backed agent than another.
 - Low complexity: Ollama/local only by default.
 - Medium complexity: filesystem task ingestion, Codex CLI, Gemini CLI when OAuth/enterprise
   eligibility is valid, Kiro IDE task handoff, GitHub Copilot CLI or Ollama.
@@ -180,6 +183,18 @@ Runtime guidance:
 - Login, permissions, missing binary, unsupported headless execution, silent process failure or
   sandbox constraints do not persistently block a provider; they only make it unavailable for the
   current run until the operator fixes the environment and reruns preflight/router.
+
+Explicit provider execution example:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py --provider codex_cli
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py --execute --agent codex_cli
+```
+
+When an explicit provider/agent is requested, the router must not silently switch to another
+provider. If that provider is unavailable, preflight-not-ready or quota-limited, fix the provider or
+rerun with a different explicit provider. Omit `--provider`/`--agent` to return to automatic
+selection and balance.
 
 Provider access must use local CLI/editor login outside the repository:
 

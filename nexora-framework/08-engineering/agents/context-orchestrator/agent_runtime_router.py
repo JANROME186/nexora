@@ -586,6 +586,8 @@ def select_provider(
             + recent_success_penalty(state, provider_id)
         )
         ranked.append((score, provider_id, provider))
+    if forced_provider and not ranked:
+        raise ProviderUnavailable(f"forced provider unavailable: {forced_provider}: " + ", ".join(skipped))
     if not ranked and execution_flow == "cli" and complexity == "high" and forced_provider != "ollama_local":
         raise ProviderUnavailable("no enabled subscription-backed CLI provider available: " + ", ".join(skipped))
     if not ranked:
@@ -605,7 +607,7 @@ def select_provider(
         model=str(provider.get("model") or ""),
         complexity=complexity,
         execution_flow=execution_flow,
-        reason=f"selected_by_dynamic_routing:{execution_flow}",
+        reason=f"forced_provider_override:{execution_flow}" if forced_provider else f"selected_by_dynamic_routing:{execution_flow}",
     )
 
 
@@ -900,6 +902,8 @@ def route_and_execute(
             attempted.append(decision.provider)
             block_provider(state, decision.provider, block_hours)
             log_event(root, "provider_rate_limited", provider=decision.provider, block_hours=block_hours)
+            if forced_provider:
+                raise
             provider_override = None
             if decision.provider == "ollama_local":
                 raise
@@ -920,7 +924,7 @@ def main() -> int:
     parser.add_argument("--prompt", default=None, help="Prompt file. Defaults to the only active prompt.")
     parser.add_argument("--state", default=DEFAULT_STATE_PATH, help="Local quota tracker path.")
     parser.add_argument("--complexity", choices=["auto", "low", "medium", "high"], default="auto")
-    parser.add_argument("--provider", default=None, help="Force provider id from the quota tracker.")
+    parser.add_argument("--provider", "--agent", dest="provider", default=None, help="Force provider/agent id from the quota tracker; bypasses automatic balance selection.")
     parser.add_argument("--execute", action="store_true", help="Invoke the selected provider. Default is dry-run routing only.")
     parser.add_argument("--output", default=None, help="Write provider output to this file when --execute is used.")
     parser.add_argument("--init-state", action="store_true", help="Create the local quota tracker and exit.")

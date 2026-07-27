@@ -47,6 +47,8 @@ Default behavior:
   - `cli` means a subscription-backed local CLI may be used when enabled and available.
 - Select the best enabled local/subscription provider by complexity, confirmed quota-limit state
   and rotation policy.
+- If `--provider` or `--agent` is supplied, use that provider/agent as an explicit operator
+  override. This bypasses automatic selection and rotation balancing for the current run.
 - Run in dry-run mode unless `--execute` is explicitly provided.
 - Use Ollama local as the mandatory fallback provider.
 - Persist quota/rate-limit state locally outside git.
@@ -71,6 +73,18 @@ Execution template:
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py --provider all
 python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py --execute
 ```
+
+Explicit provider/agent override:
+
+```powershell
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_cli_preflight.py --provider claude_code_cli
+python nexora-framework/08-engineering/agents/context-orchestrator/agent_runtime_router.py --execute --agent claude_code_cli
+```
+
+When an explicit provider/agent is requested, the router must not rebalance to another provider for
+that run. If the requested provider is missing, disabled, not configured, preflight-not-ready,
+blocked by quota or returns a rate-limit/quota response, the run fails and reports that provider's
+reason. Without `--provider`/`--agent`, the router uses automatic selection and balance policy.
 
 Optional closure controls:
 
