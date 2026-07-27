@@ -24,6 +24,7 @@ public class EndpointPermissionRegistry {
               readWrite(
                   "/api/organization/branches", PermissionCode.SCREEN_BRANCHES, "BCM-ORG-003"),
               readWrite("/api/identity/users", PermissionCode.SCREEN_USERS, "BCM-IAM-001"),
+              readWrite("/api/identity/service-accounts", PermissionCode.SCREEN_USERS, "BCM-IAM-001"),
               readWrite("/api/audit/events", PermissionCode.SCREEN_AUDIT_EVENTS, "BCM-PLT-006"),
               readWrite("/api/catalog", PermissionCode.SCREEN_DIAGNOSTIC_CATALOG, "BCM-SVC"),
               readWrite("/api/people/persons", PermissionCode.SCREEN_PERSON_SEARCH, "BCM-PER-001"),

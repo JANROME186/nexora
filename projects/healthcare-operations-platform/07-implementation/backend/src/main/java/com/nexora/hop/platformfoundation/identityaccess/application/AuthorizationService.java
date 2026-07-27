@@ -39,4 +39,19 @@ public class AuthorizationService {
         }
         return permissions;
     }
+
+    /**
+     * Union of domain.resource.action.scope grammar grants across all of {@code roleCodes}
+     * (TD-IAM-003).
+     */
+    public Set<String> scopedPermissionsForRoles(Collection<String> roleCodes) {
+        Set<String> permissions = new java.util.HashSet<>();
+        if (roleCodes == null) {
+            return permissions;
+        }
+        for (String roleCode : roleCodes) {
+            permissions.addAll(RolePermissionCatalog.scopedPermissionsFor(roleCode));
+        }
+        return permissions;
+    }
 }

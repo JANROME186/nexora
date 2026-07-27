@@ -4,6 +4,7 @@ import com.nexora.hop.platformfoundation.externalqualitycompliance.application.A
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.AuditSchedule;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.TenantId;
+import com.nexora.hop.platformfoundation.sharedkernel.security.CurrentTenantContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,7 +51,7 @@ public class AuditManagementController {
         LocalDate end = request != null ? request.plannedEndDate() : LocalDate.now().plusDays(7);
 
         AuditSchedule audit = service.createAuditSchedule(
-                new TenantId(UUID.randomUUID().toString()),
+                currentTenantId(),
                 title,
                 cat,
                 std,
@@ -86,6 +87,12 @@ public class AuditManagementController {
     public ResponseEntity<AuditScheduleResponse> closeAuditSchedule(@PathVariable UUID id) {
         AuditSchedule audit = service.closeAuditSchedule(id, new AuditMetadata("system", LocalDateTime.now(), "system", LocalDateTime.now()));
         return ResponseEntity.ok(AuditScheduleResponse.from(audit));
+    }
+
+    private static TenantId currentTenantId() {
+        return CurrentTenantContext.current()
+                .map(TenantId::new)
+                .orElseGet(() -> new TenantId(UUID.randomUUID().toString()));
     }
 
     public record CreateAuditScheduleRequest(

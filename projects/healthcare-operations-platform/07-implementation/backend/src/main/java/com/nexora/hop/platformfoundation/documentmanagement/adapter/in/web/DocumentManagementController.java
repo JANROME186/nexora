@@ -7,6 +7,7 @@ import com.nexora.hop.platformfoundation.documentmanagement.domain.StoredDocumen
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.LaboratoryId;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.TenantId;
+import com.nexora.hop.platformfoundation.sharedkernel.security.CurrentTenantContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,7 +51,7 @@ public class DocumentManagementController {
         UUID ownerRef = parseUuidOrGenerate(ownerReferenceId);
 
         StoredDocument doc = service.uploadDocument(
-                new TenantId(UUID.randomUUID().toString()),
+                currentTenantId(),
                 new LaboratoryId(UUID.randomUUID().toString()),
                 ownerCapability,
                 ownerRef,
@@ -103,6 +104,12 @@ public class DocumentManagementController {
 
         DocumentManagementService.EvidencePackageRecord pkg = service.createEvidencePackage(title, docIds);
         return ResponseEntity.status(HttpStatus.CREATED).body(EvidencePackageResponse.from(pkg));
+    }
+
+    private static TenantId currentTenantId() {
+        return CurrentTenantContext.current()
+                .map(TenantId::new)
+                .orElseGet(() -> new TenantId(UUID.randomUUID().toString()));
     }
 
     private static UUID parseUuidOrGenerate(String val) {

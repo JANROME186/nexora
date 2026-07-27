@@ -75,9 +75,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 84.62
-        source_evidence: 08-qa/qa/final-hardening/HOP-HARD-BE-001-validation.md
-        next_iteration_minimum_line_coverage_percent: 84.62
+        current_line_coverage_percent: 84.69
+        source_evidence: 08-qa/qa/final-hardening/HOP-HARD-IAM-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 84.69
         final_closure_target_percent: 80
         correction_note: 'COM-MOD-013-QA-001 found the recorded 84.14% figure was
           not reproducible from a clean rebuild (measured 82.57%); investigating that
@@ -164,7 +164,9 @@ policy:
           for transactional registration commit, credential expiration watching and
           tenant-configurable masking, adding focused tests and raising the clean
           -Pquality clean verify result to 84.62% (528 tests, 0 failures/errors/skipped).
-          The new floor is 84.62%.'
+          HOP-HARD-IAM-001 then added IAM/MFA/service-account/permission hardening
+          and targeted endpoint tests, raising the clean -Pquality clean verify result
+          to 84.69% (562 tests, 0 failures/errors/skipped). The new floor is 84.69%.'
       frontend_typescript_web:
         current_line_coverage_percent: 91.00
         source_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-FE-001-validation.md
@@ -569,7 +571,8 @@ entries:
   file: 08-qa/technical-debt/TD-IAM-002-permission-granularity-gap.md
   remediation_strategy: materially_reduced_by_endpoint_permission_registry_api_path_action_mapping;
     further_reduced_by_COM_MOD_009_PORTAL_002_doctor_portal_ownership_enforcement_doctorid_match_and_referral_relationship_verification;
-    further_reduced_by_COM_MOD_012_BE_001_SCREEN_PLATFORM_CONFIGURATION_endpoint_registry_entries
+    further_reduced_by_COM_MOD_012_BE_001_SCREEN_PLATFORM_CONFIGURATION_endpoint_registry_entries;
+    further_reduced_by_HOP_HARD_IAM_001_PermissionScope_domain_resource_action_scope_grammar_pilot_on_capa_approval
 - id: TD-DB-001
   title: resultsanddigitaldelivery, documentmanagement and notificationmanagement
     have no persistent (Jdbc) schema/repository - in-memory adapters only
@@ -778,13 +781,13 @@ entries:
 - id: TD-IAM-003
   title: BCM-PLT-001 MFA, service-account credentials and the domain.resource.action.scope
     permission grammar are not implemented
-  status: open
+  status: closed
   risk_level: low
   blocking: false
   source_backlog_item: COM-MOD-012-BE-001
   affected_area: identity_access_extensions
   file: 08-qa/technical-debt/TD-IAM-003-mfa-service-account-scope-grammar-not-implemented.md
-  remediation_strategy: gradual_when_a_future_backlog_item_next_touches_identityaccess
+  remediation_strategy: closed_by_HOP_HARD_IAM_001_totp_mfa_service_account_credentials_and_permissionscope_grammar_pilot
 - id: TD-OBS-001
   title: Distributed trace export, provisioned Grafana/Prometheus/Loki stack and SLO/SLA
     alerting backend not implemented
@@ -828,13 +831,13 @@ entries:
 - id: TD-IAM-004
   title: External Quality/CAPA/Audit/Document-Management controllers assign a synthetic
     random TenantId instead of the authenticated request tenant
-  status: open
+  status: closed
   risk_level: medium
   blocking: false
   source_backlog_item: COM-MOD-013-QA-001
   affected_area: quality_compliance_and_document_management_tenant_traceability
   file: 08-qa/technical-debt/TD-IAM-004-quality-compliance-controllers-synthetic-tenant.md
-  remediation_strategy: gradual_when_a_shared_tenant_context_port_is_next_designed_or_when_these_controllers_are_next_touched
+  remediation_strategy: closed_by_HOP_HARD_IAM_001_sharedkernel_security_CurrentTenantContext
 - id: TD-QA-007
   title: Malformed/truncated multipart upload caused an unhandled 500 instead of 400
     on POST /api/documents

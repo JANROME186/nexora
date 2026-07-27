@@ -43,4 +43,13 @@ class EndpointPermissionRegistryTest {
     assertThat(rule.get().action()).isEqualTo(AccessAction.CREATE);
     assertThat(rule.get().capability()).isEqualTo("BCM-AI-001");
   }
+
+  @Test
+  void resolvesServiceAccountProvisioningEndpointToUserManagementPermission_TD_IAM_003() {
+    var rule = registry.resolve("POST", "/api/identity/service-accounts");
+
+    assertThat(rule).isPresent();
+    assertThat(rule.get().permission()).isEqualTo(PermissionCode.SCREEN_USERS);
+    assertThat(rule.get().action()).isEqualTo(AccessAction.CREATE);
+  }
 }

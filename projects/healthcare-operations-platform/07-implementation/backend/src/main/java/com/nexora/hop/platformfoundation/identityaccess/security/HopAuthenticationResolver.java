@@ -47,7 +47,36 @@ public class HopAuthenticationResolver {
     if (token.startsWith("assistance-session:")) {
       return assistanceSessionContext(token, request);
     }
+    if (token.startsWith("service-session:")) {
+      return serviceAccountSessionContext(token);
+    }
     return Optional.empty();
+  }
+
+  /**
+   * TD-IAM-003: resolves a non-interactive service-account principal. Unlike {@code
+   * local-session:}, the role is never trusted from the token itself — it is always looked up
+   * from the persisted {@link com.nexora.hop.platformfoundation.identityaccess.domain.ServiceAccountCredential}
+   * so a forged token cannot grant an arbitrary role.
+   */
+  private Optional<AuthenticatedUserContext> serviceAccountSessionContext(String token) {
+    String[] parts = token.split(":", 3);
+    if (parts.length != 3 || parts[1].isBlank() || parts[2].isBlank() || identityRepository == null) {
+      return Optional.empty();
+    }
+    String tenantId = parts[1];
+    String serviceAccountId = parts[2];
+    return identityRepository
+        .findServiceAccountCredentialById(serviceAccountId)
+        .filter(credential -> credential.tenantId().equals(tenantId) && credential.isActive())
+        .map(
+            credential ->
+                new AuthenticatedUserContext(
+                    serviceAccountId,
+                    tenantId,
+                    properties.localFixtureBranchId(),
+                    List.of(credential.roleCode()),
+                    false));
   }
 
   private Optional<AuthenticatedUserContext> assistanceSessionContext(

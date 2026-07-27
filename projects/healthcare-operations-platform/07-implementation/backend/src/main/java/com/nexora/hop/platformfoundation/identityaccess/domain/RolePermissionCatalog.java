@@ -85,6 +85,15 @@ public final class RolePermissionCatalog {
             Map.entry(SUPPORT, EnumSet.of(
                     PermissionCode.PORTAL_SUPPORT_IMPERSONATE)));
 
+    /**
+     * Domain.resource.action.scope grammar grants (TD-IAM-003), kept separate from
+     * {@link #ROLE_PERMISSIONS} while the grammar is adopted incrementally one endpoint at a time.
+     * ADMIN is the only role granted {@link PermissionCode#SCREEN_CAPA_MANAGEMENT} today, so
+     * granting it the equivalent scoped permission here does not change who can approve a CAPA.
+     */
+    private static final Map<String, Set<String>> SCOPED_PERMISSIONS = Map.of(
+            ADMIN, Set.of(PermissionScope.QUALITY_CAPA_APPROVE_TENANT.grammar()));
+
     private RolePermissionCatalog() {
     }
 
@@ -97,5 +106,16 @@ public final class RolePermissionCatalog {
             return Set.of();
         }
         return ROLE_PERMISSIONS.getOrDefault(roleCode, Set.of());
+    }
+
+    /**
+     * Returns the domain.resource.action.scope grammar strings granted to {@code roleCode}, or an
+     * empty set (deny-by-default) when the role code is unknown, blank, or {@code null}.
+     */
+    public static Set<String> scopedPermissionsFor(String roleCode) {
+        if (roleCode == null) {
+            return Set.of();
+        }
+        return SCOPED_PERMISSIONS.getOrDefault(roleCode, Set.of());
     }
 }

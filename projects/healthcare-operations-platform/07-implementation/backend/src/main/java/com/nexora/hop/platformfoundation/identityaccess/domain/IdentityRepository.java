@@ -15,4 +15,10 @@ public interface IdentityRepository {
     java.util.List<RoleAssignment> findRoleAssignmentsByUserId(String userId);
 
     void updateUser(UserAccount user);
+
+    ServiceAccountCredential saveServiceAccountCredential(ServiceAccountCredential credential);
+
+    Optional<ServiceAccountCredential> findServiceAccountCredentialById(String serviceAccountId);
+
+    Optional<ServiceAccountCredential> findServiceAccountCredentialByClientId(String clientId);
 }

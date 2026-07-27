@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nexora.hop.platformfoundation.identityaccess.application.AssignRoleCommand;
 import com.nexora.hop.platformfoundation.identityaccess.application.CreateUserCommand;
 import com.nexora.hop.platformfoundation.identityaccess.application.IdentityAccessService;
+import com.nexora.hop.platformfoundation.identityaccess.domain.ServiceAccountCredential;
 import com.nexora.hop.platformfoundation.identityaccess.domain.UserAccount;
 
 @RestController
@@ -53,6 +54,39 @@ class IdentityAccessController {
                 request.scope() == null ? null : request.scope().id(),
                 request.actorUserId()));
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PostMapping("/identity/service-accounts")
+    ResponseEntity<ServiceAccountResponse> createServiceAccount(@Valid @RequestBody CreateServiceAccountRequest request) {
+        ServiceAccountCredential credential = service.createServiceAccount(
+                request.tenantId(), request.clientId(), request.clientSecret(), request.roleCode());
+        return ResponseEntity.created(URI.create("/api/identity/service-accounts/" + credential.serviceAccountId()))
+                .body(ServiceAccountResponse.from(credential));
+    }
+
+    record CreateServiceAccountRequest(
+            @NotBlank String tenantId,
+            @NotBlank String clientId,
+            @NotBlank String clientSecret,
+            @NotBlank String roleCode) {
+    }
+
+    record ServiceAccountResponse(
+            String serviceAccountId,
+            String tenantId,
+            String clientId,
+            String roleCode,
+            String status,
+            Instant createdAt) {
+        static ServiceAccountResponse from(ServiceAccountCredential credential) {
+            return new ServiceAccountResponse(
+                    credential.serviceAccountId(),
+                    credential.tenantId(),
+                    credential.clientId(),
+                    credential.roleCode(),
+                    credential.status(),
+                    credential.createdAt());
+        }
     }
 
     record CreateUserRequest(

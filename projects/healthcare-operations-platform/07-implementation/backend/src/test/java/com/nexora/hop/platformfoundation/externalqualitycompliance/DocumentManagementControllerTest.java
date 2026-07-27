@@ -5,7 +5,9 @@ import com.nexora.hop.platformfoundation.documentmanagement.adapter.in.web.Docum
 import com.nexora.hop.platformfoundation.documentmanagement.application.DocumentManagementService;
 import com.nexora.hop.platformfoundation.documentmanagement.domain.DocumentStoragePort;
 import com.nexora.hop.platformfoundation.documentmanagement.domain.StorageReference;
+import com.nexora.hop.platformfoundation.sharedkernel.security.CurrentTenantContext;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -51,6 +53,34 @@ class DocumentManagementControllerTest {
 
         service = new DocumentManagementService(storagePort);
         mockMvc = MockMvcBuilders.standaloneSetup(new DocumentManagementController(service)).build();
+    }
+
+    @AfterEach
+    void clearTenantContext() {
+        CurrentTenantContext.clear();
+    }
+
+    @Test
+    void uploadDocumentResolvesTenantFromTheAuthenticatedRequestContext_TD_IAM_004() throws Exception {
+        CurrentTenantContext.set("tenant-from-authenticated-request");
+
+        MockMultipartFile file = new MockMultipartFile(
+                "file", "evidence.pdf", "application/pdf", "PDF Evidence Content".getBytes());
+
+        String uploadResponse = mockMvc.perform(multipart("/api/documents")
+                        .file(file)
+                        .param("ownerCapability", "BCM-QLT-002")
+                        .param("ownerReferenceId", UUID.randomUUID().toString())
+                        .param("complianceCategory", "QUALITY_EVIDENCE"))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+
+        String docId = objectMapper.readTree(uploadResponse).get("documentId").asText();
+
+        org.assertj.core.api.Assertions.assertThat(
+                        service.getDocumentRecord(UUID.fromString(docId)).orElseThrow()
+                                .metadata().getTenantId().value())
+                .isEqualTo("tenant-from-authenticated-request");
     }
 
     @Test

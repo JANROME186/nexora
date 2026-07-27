@@ -69,6 +69,9 @@ ALTER TABLE identity.user_accounts ADD COLUMN IF NOT EXISTS password_hash varcha
 ALTER TABLE identity.user_accounts ADD COLUMN IF NOT EXISTS failed_login_attempts integer NOT NULL DEFAULT 0;
 ALTER TABLE identity.user_accounts ADD COLUMN IF NOT EXISTS locked_until timestamp with time zone;
 ALTER TABLE identity.user_accounts ADD COLUMN IF NOT EXISTS last_login_at timestamp with time zone;
+-- TD-IAM-003: MFA second factor. mfa_secret is a Base32 TOTP shared secret issued at enrollment.
+ALTER TABLE identity.user_accounts ADD COLUMN IF NOT EXISTS mfa_secret varchar(64);
+ALTER TABLE identity.user_accounts ADD COLUMN IF NOT EXISTS mfa_enabled boolean NOT NULL DEFAULT false;
 
 CREATE TABLE IF NOT EXISTS identity.role_assignments (
     role_assignment_id varchar(36) PRIMARY KEY,
@@ -79,6 +82,21 @@ CREATE TABLE IF NOT EXISTS identity.role_assignments (
     created_at timestamp with time zone NOT NULL,
     created_by varchar(80) NOT NULL
 );
+
+-- TD-IAM-003: non-interactive service-account principals authenticated by client id/secret
+-- instead of a human username/password session.
+CREATE TABLE IF NOT EXISTS identity.service_account_credentials (
+    service_account_id varchar(36) PRIMARY KEY,
+    tenant_id varchar(36) NOT NULL REFERENCES organization.tenants (tenant_id),
+    client_id varchar(180) NOT NULL,
+    client_secret_hash varchar(255) NOT NULL,
+    role_code varchar(80) NOT NULL,
+    status varchar(40) NOT NULL,
+    created_at timestamp with time zone NOT NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS service_account_credentials_client_id_key
+    ON identity.service_account_credentials (client_id);
 
 CREATE TABLE IF NOT EXISTS audit.audit_events (
     audit_event_id varchar(36) PRIMARY KEY,

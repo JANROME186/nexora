@@ -4,6 +4,7 @@ import com.nexora.hop.platformfoundation.externalqualitycompliance.application.E
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.ExternalQualityEvaluation;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.TenantId;
+import com.nexora.hop.platformfoundation.sharedkernel.security.CurrentTenantContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,7 +52,7 @@ public class ExternalQualityController {
         double val = request != null ? request.measuredValue() : 0.0;
 
         ExternalQualityEvaluation eval = service.createEvaluation(
-                new TenantId(UUID.randomUUID().toString()),
+                currentTenantId(),
                 provider,
                 program,
                 cycle,
@@ -75,6 +76,12 @@ public class ExternalQualityController {
 
         ExternalQualityEvaluation eval = service.scoreEvaluation(id, mean, sd, count, docId, new AuditMetadata("system", LocalDateTime.now(), "system", LocalDateTime.now()));
         return ResponseEntity.ok(ExternalQualityEvaluationResponse.from(eval));
+    }
+
+    private static TenantId currentTenantId() {
+        return CurrentTenantContext.current()
+                .map(TenantId::new)
+                .orElseGet(() -> new TenantId(UUID.randomUUID().toString()));
     }
 
     public record CreateExternalQualityEvaluationRequest(

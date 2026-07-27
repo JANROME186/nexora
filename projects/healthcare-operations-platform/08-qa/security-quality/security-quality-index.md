@@ -1460,4 +1460,21 @@ entries:
   note: Backend hardening closed TD-BE-006, TD-BE-007 and TD-BE-008, raised backend
     coverage to 84.62%, and preserved residual static-analysis cleanup under tracked
     backend quality debt for later final-hardening slices.
+- backlog_item: HOP-HARD-IAM-001
+  module: HOP-FINAL-HARDENING
+  status: passed_with_residual_tracked_debt
+  evidence_path: 08-qa/security-quality/HOP-HARD-IAM-001/
+  human_readable: 08-qa/security-quality/HOP-HARD-IAM-001/security-quality-evidence.md
+  machine_readable: 08-qa/security-quality/HOP-HARD-IAM-001/security-quality-evidence.md
+  checks:
+    tests: passed
+    sast_or_static_analysis: executed_with_existing_residual_debt
+    dependency_vulnerability_scan: passed
+    secrets_scan: passed
+    coverage: passed
+    dast_for_runnable_web_or_api_surfaces: not_applicable_backend_internal_hardening_no_new_external_surface
+    container_or_iac_scan_when_assets_change: not_applicable_no_assets_changed
+  note: IAM hardening closed TD-IAM-003 and TD-IAM-004, materially reduced TD-IAM-002,
+    raised backend coverage to 84.69%, and preserved residual static-analysis cleanup
+    under tracked backend quality debt for later final-hardening slices.
 ```

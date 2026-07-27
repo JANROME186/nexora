@@ -4,8 +4,8 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: External Quality/CAPA/Audit/Document-Management controllers assign a synthetic
   random TenantId instead of the authenticated request tenant
-version: 1.0.0
-status: open
+version: 2.0.0
+status: closed
 ---
 
 # External Quality/Capa/Audit/Document Management Controllers Assign A Synthetic Random Tenantid Instead Of The Authenticated Request Tenant
@@ -20,9 +20,11 @@ artifact:
   type: technical-debt-item
   name: External Quality/CAPA/Audit/Document-Management controllers assign a synthetic
     random TenantId instead of the authenticated request tenant
-  version: 1.0.0
-  status: open
+  version: 2.0.0
+  status: closed
   created_date: 2026-07-23
+  closed_date: 2026-07-26
+  closed_during_backlog_item: HOP-HARD-IAM-001
 source:
   discovered_during_backlog_item: COM-MOD-013-QA-001
   module: COM-MOD-013 Advanced Quality and Compliance
@@ -39,66 +41,58 @@ classification:
   risk_level: medium
   urgency: medium
   blocking: false
-  reason_non_blocking: 'All 5 endpoint prefixes (/api/quality/external-controls, /api/quality/capa,
-    /api/quality/audits, /api/quality/events, /api/documents) are registered in EndpointPermissionRegistry,
-    so HopAuthorizationInterceptor still correctly denies unauthenticated/unauthorized
-    requests (deny-by-default authorization is intact and unaffected by this finding).
-    The gap is narrower: the tenant value attached to created compliance/document
-    records is synthetic, not that access control is bypassed. No other HOP module
-    currently reads these records by tenant filter, so no cross-tenant data leak has
-    been demonstrated; the risk is evidence traceability/attribution, not unauthorized
-    access.'
+  reason_non_blocking: 'HOP-HARD-IAM-001 closed this debt. All 5 endpoint prefixes
+    (/api/quality/external-controls, /api/quality/capa, /api/quality/audits,
+    /api/quality/events, /api/documents) now resolve the real authenticated tenant;
+    residual risk is limited to depth of adoption, not an open gap.'
 current_state:
-  issue: Every write operation in these 5 controllers (createExternalQualityEvaluation,
-    createCapaInvestigation, createAuditSchedule, ingestQualityEvent, uploadDocument)
-    calls `new TenantId(UUID.randomUUID().toString())` instead of resolving the tenant
-    bound to the current authenticated request. This means every compliance/audit/document
-    record created through these endpoints is attributed to a fabricated, unrecoverable
-    tenant identifier rather than the real tenant that made the request -- directly
-    undermining this module's own acceptance criterion that "Compliance evidence is
-    traceable, searchable and retained." Confirmed this pattern is confined to these
-    5 controllers (grep across the entire backend found no other controller constructing
-    a `new TenantId(UUID.randomUUID()...)`); it was introduced by COM-MOD-013-BE-001
-    and is not a pre-existing repository-wide pattern.
-  root_cause: '`identityaccess.security.AuthenticatedUserContextHolder` (a request-scoped
-    ThreadLocal populated by HopAuthorizationInterceptor with the real userId/tenantId/roleCodes)
-    already exists and is used by AuthController, but no business module currently
-    reads from it. Both `externalqualitycompliance` and `documentmanagement`''s package-info.java
-    ApplicationModule declarations explicitly omit `identityaccess` from `allowedDependencies`,
-    so resolving the tenant this way today would require either widening those Spring
-    Modulith module boundaries (needs its own review for cycle/encapsulation impact
-    across the whole module graph, since identityaccess is a widely-referenced module)
-    or exposing a narrower named-interface tenant-context port, most naturally from
-    `sharedkernel` (already an allowed dependency for both modules) with `identityaccess`''s
-    interceptor populating both holders. Neither exists yet. Attempting this live
-    during a validation-only backlog item was judged too large a slice given PlatformFoundationModulithTest
-    must stay green and the fix reasonably spans architecture decisions beyond these
-    5 controllers.'
+  issue: 'CLOSED by HOP-HARD-IAM-001. A new sharedkernel.security.CurrentTenantContext
+    ThreadLocal holder (OPEN Spring Modulith module, so no allowedDependencies change
+    was needed for externalqualitycompliance or documentmanagement, both of which
+    already declared sharedkernel as an allowed dependency) is populated by
+    HopAuthorizationInterceptor.preHandle alongside the existing
+    AuthenticatedUserContextHolder, and cleared in afterCompletion. All 5 controllers
+    (ExternalQualityController, CapaManagementController, AuditManagementController,
+    QualityEventIntakeController, DocumentManagementController) now resolve
+    TenantId via a private currentTenantId() helper that reads
+    CurrentTenantContext.current().map(TenantId::new), falling back to the previous
+    new TenantId(UUID.randomUUID()...) behavior only when no authenticated context
+    exists (e.g. standalone MockMvc unit tests that bypass the interceptor), exactly
+    matching AuthController''s own .orElse(...) fallback pattern.'
+  root_cause: Resolved. sharedkernel.security.CurrentTenantContext is the narrow
+    named-interface tenant-context port previously identified as missing; it lives
+    in the OPEN sharedkernel module so no module-boundary widening was required.
 target_state:
-  preferred_remediation: Introduce a small `sharedkernel`-owned tenant-context port
-    (e.g. `sharedkernel.security.CurrentTenantContext`, a ThreadLocal holder with
-    no identityaccess dependency) that `HopAuthorizationInterceptor` populates alongside
-    `AuthenticatedUserContextHolder`. Have the 5 controllers listed above resolve
-    `TenantId` from that port when present, falling back to the existing random-UUID
-    behavior only when no authenticated context exists (matching AuthController's
-    own `.orElse(...)` pattern), so standalone MockMvc unit tests that bypass the
-    interceptor keep working unchanged.
+  preferred_remediation: Closed. Future controllers that create tenant-scoped records
+    should resolve TenantId from CurrentTenantContext the same way, rather than
+    reintroducing a random-UUID placeholder.
   quality_goal: Compliance and document-management records created through authenticated
-    requests must carry the real requesting tenant, not a fabricated placeholder,
-    so evidence search/export/retention workflows are genuinely traceable by tenant.
+    requests carry the real requesting tenant, not a fabricated placeholder, so
+    evidence search/export/retention workflows are genuinely traceable by tenant.
 remediation:
-  strategy: gradual_when_a_shared_tenant_context_port_is_next_designed_or_when_these_controllers_are_next_touched
+  strategy: closed_with_documented_residual_risk
   owner: backend_team
   estimated_effort: medium
   estimated_cost_impact: low
-  target_backlog: COM-MOD-013-CLOSEOUT_or_a_dedicated_future_IAM_hardening_backlog_item
-  dependencies_or_prerequisites:
-  - Decide the shared tenant-context port's home package and update the affected ApplicationModule
-    allowedDependencies (or add a sharedkernel-based port) without breaking PlatformFoundationModulithTest.
+  target_backlog: HOP-HARD-IAM-001
+  residual_risk:
+  - The random-UUID fallback still exists for requests with no authenticated
+    context (e.g. unit tests constructing controllers directly). This is intentional
+    (matches AuthController's own fallback pattern and keeps existing unit tests
+    passing unchanged) but means a future caller that reaches these controllers
+    outside the HopAuthorizationInterceptor chain would still get a fabricated
+    tenant; production traffic always passes through the interceptor because all
+    5 paths are registered in EndpointPermissionRegistry.
   acceptance_criteria:
   - The 5 listed controllers resolve TenantId from the authenticated request context
-    when one is present.
+    when one is present. [met]
   - Existing standalone MockMvc controller tests continue to pass unchanged (fallback
-    preserved).
-  - PlatformFoundationModulithTest remains green after the module-boundary change.
+    preserved). [met]
+  - PlatformFoundationModulithTest remains green after the module-boundary change. [met, no module-boundary change was needed]
+  progress_evidence:
+  - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/sharedkernel/security/CurrentTenantContext.java
+  - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/identityaccess/security/HopAuthorizationInterceptor.java
+  - 07-implementation/backend/src/test/java/com/nexora/hop/platformfoundation/identityaccess/security/HopAuthorizationInterceptorTest.java
+  - 07-implementation/backend/src/test/java/com/nexora/hop/platformfoundation/externalqualitycompliance/ExternalQualityComplianceControllerTest.java
+  - 07-implementation/backend/src/test/java/com/nexora/hop/platformfoundation/externalqualitycompliance/DocumentManagementControllerTest.java
 ```

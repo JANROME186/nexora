@@ -18,6 +18,8 @@ import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.CapaIn
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.ExternalQualityEvaluation;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.TenantId;
+import com.nexora.hop.platformfoundation.sharedkernel.security.CurrentTenantContext;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -72,6 +74,62 @@ class ExternalQualityComplianceControllerTest {
         mockMvcCapa = MockMvcBuilders.standaloneSetup(new CapaManagementController(capaService)).build();
         mockMvcAudit = MockMvcBuilders.standaloneSetup(new AuditManagementController(auditService)).build();
         mockMvcIntake = MockMvcBuilders.standaloneSetup(new QualityEventIntakeController(intakeService)).build();
+    }
+
+    @AfterEach
+    void clearTenantContext() {
+        CurrentTenantContext.clear();
+    }
+
+    @Test
+    void createCapaInvestigationResolvesTenantFromTheAuthenticatedRequestContext_TD_IAM_004() throws Exception {
+        CurrentTenantContext.set("tenant-from-authenticated-request");
+
+        String createJson = """
+                {
+                    "title": "Cross Tenant Traceability CAPA",
+                    "sourceCategory": "INTERNAL_QC",
+                    "sourceReferenceId": "QC-100",
+                    "assignedInvestigatorId": "%s",
+                    "targetCompletionDate": "%s"
+                }
+                """.formatted(UUID.randomUUID(), LocalDate.now().plusDays(10));
+
+        String responseContent = mockMvcCapa.perform(post("/api/quality/capa")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(createJson))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+
+        String capaId = objectMapper.readTree(responseContent).get("capaId").asText();
+        CapaInvestigation capa = capaService.getCapa(UUID.fromString(capaId));
+
+        org.assertj.core.api.Assertions.assertThat(capa.getTenantId().value())
+                .isEqualTo("tenant-from-authenticated-request");
+    }
+
+    @Test
+    void createCapaInvestigationFallsBackToARandomTenantWhenNoAuthenticatedRequestContextExists() throws Exception {
+        String createJson = """
+                {
+                    "title": "Unauthenticated Fallback CAPA",
+                    "sourceCategory": "INTERNAL_QC",
+                    "sourceReferenceId": "QC-101",
+                    "assignedInvestigatorId": "%s",
+                    "targetCompletionDate": "%s"
+                }
+                """.formatted(UUID.randomUUID(), LocalDate.now().plusDays(10));
+
+        String responseContent = mockMvcCapa.perform(post("/api/quality/capa")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(createJson))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+
+        String capaId = objectMapper.readTree(responseContent).get("capaId").asText();
+        CapaInvestigation capa = capaService.getCapa(UUID.fromString(capaId));
+
+        org.assertj.core.api.Assertions.assertThat(capa.getTenantId().value()).isNotBlank();
     }
 
     @Test

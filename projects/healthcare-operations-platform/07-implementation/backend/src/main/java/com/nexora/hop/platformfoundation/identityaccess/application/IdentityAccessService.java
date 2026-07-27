@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
 import com.nexora.hop.platformfoundation.identityaccess.domain.IdentityRepository;
 import com.nexora.hop.platformfoundation.identityaccess.domain.RoleAssignment;
+import com.nexora.hop.platformfoundation.identityaccess.domain.ServiceAccountCredential;
 import com.nexora.hop.platformfoundation.identityaccess.domain.UserAccount;
 import com.nexora.hop.platformfoundation.organizationmanagement.TenantDirectory;
 import com.nexora.hop.platformfoundation.sharedkernel.HopMessages;
@@ -20,6 +21,7 @@ import com.nexora.hop.platformfoundation.sharedkernel.HopMessages;
 public class IdentityAccessService {
 
     private static final String CREATED_STATUS = "created";
+    private static final String ACTIVE_STATUS = "active";
 
     /**
      * There is no request-scoped authenticated-principal/session context in this backend yet, so
@@ -34,6 +36,7 @@ public class IdentityAccessService {
     private final AuditRecorder auditRecorder;
     private final HopMessages messages;
     private final PasswordHashingService passwordHashingService;
+    private final TotpService totpService;
     private final Clock clock;
 
     @Autowired
@@ -42,8 +45,9 @@ public class IdentityAccessService {
             TenantDirectory tenantDirectory,
             AuditRecorder auditRecorder,
             HopMessages messages,
-            PasswordHashingService passwordHashingService) {
-        this(repository, tenantDirectory, auditRecorder, messages, passwordHashingService, Clock.systemUTC());
+            PasswordHashingService passwordHashingService,
+            TotpService totpService) {
+        this(repository, tenantDirectory, auditRecorder, messages, passwordHashingService, totpService, Clock.systemUTC());
     }
 
     public IdentityAccessService(
@@ -51,7 +55,7 @@ public class IdentityAccessService {
             TenantDirectory tenantDirectory,
             AuditRecorder auditRecorder,
             HopMessages messages) {
-        this(repository, tenantDirectory, auditRecorder, messages, new PasswordHashingService(), Clock.systemUTC());
+        this(repository, tenantDirectory, auditRecorder, messages, new PasswordHashingService(), new TotpService(), Clock.systemUTC());
     }
 
     private IdentityAccessService(
@@ -60,12 +64,14 @@ public class IdentityAccessService {
             AuditRecorder auditRecorder,
             HopMessages messages,
             PasswordHashingService passwordHashingService,
+            TotpService totpService,
             Clock clock) {
         this.repository = repository;
         this.tenantDirectory = tenantDirectory;
         this.auditRecorder = auditRecorder;
         this.messages = messages;
         this.passwordHashingService = passwordHashingService;
+        this.totpService = totpService;
         this.clock = clock;
     }
 
@@ -121,6 +127,10 @@ public class IdentityAccessService {
     }
 
     public String login(String tenantId, String username, String password, Locale locale) {
+        return login(tenantId, username, password, locale, null);
+    }
+
+    public String login(String tenantId, String username, String password, Locale locale, String mfaCode) {
         Locale activeLocale = locale != null ? locale : DEFAULT_MESSAGE_LOCALE;
 
         String cleanTenantId = requiredText(tenantId, "identityaccess.field.tenantId.required");
@@ -149,6 +159,16 @@ public class IdentityAccessService {
         }
 
         if (passwordHashingService.matches(cleanPassword, user.passwordHash())) {
+            if (user.hasMfaEnabled()) {
+                String cleanMfaCode = mfaCode == null ? null : mfaCode.trim();
+                if (cleanMfaCode == null || cleanMfaCode.isEmpty()) {
+                    throw new MfaRequiredException(messages.get("identityaccess.mfa.required", activeLocale));
+                }
+                if (!totpService.verifyCode(user.mfaSecret(), cleanMfaCode)) {
+                    recordAudit(user.tenantId(), "UserMfaVerificationFailed", "UserAccount", user.userId(), "{}");
+                    throw new MfaVerificationFailedException(messages.get("identityaccess.mfa.invalid", activeLocale));
+                }
+            }
             user = user.withFailedLoginAttempts(0).withLockedUntil(null).withLastLoginAt(now);
             repository.updateUser(user);
             recordAudit(user.tenantId(), "UserLoggedIn", "UserAccount", user.userId(), "{}");
@@ -186,6 +206,75 @@ public class IdentityAccessService {
                         .formatted(jsonText(cleanActorUserId), jsonText(cleanTicketReference)));
 
         return "assistance-session:" + assistedUser.tenantId() + ":" + assistedUser.userId() + ":" + cleanActorUserId;
+    }
+
+    /**
+     * Enrolls the second MFA factor (TD-IAM-003) for {@code userId}, generating a new Base32 TOTP
+     * secret and enabling MFA enforcement on subsequent {@link #login} calls. Returns the raw
+     * secret once so the caller can provision an authenticator app; it is not returned again.
+     */
+    public String enrollMfa(String userId) {
+        UserAccount user = requireUser(requiredText(userId, "identityaccess.field.userId.required"));
+        String secret = totpService.generateSecret();
+        repository.updateUser(user.withMfaEnrollment(secret));
+        recordAudit(user.tenantId(), "UserMfaEnrolled", "UserAccount", user.userId(), "{}");
+        return secret;
+    }
+
+    /**
+     * Provisions a non-interactive service-account principal (TD-IAM-003) authenticated by a
+     * client id/secret pair instead of a human username/password session.
+     */
+    public ServiceAccountCredential createServiceAccount(
+            String tenantId, String clientId, String clientSecret, String roleCode) {
+        String cleanTenantId = requiredText(tenantId, "identityaccess.field.tenantId.required");
+        String cleanClientId = requiredText(clientId, "identityaccess.field.clientId.required");
+        String cleanClientSecret = requiredText(clientSecret, "identityaccess.field.clientSecret.required");
+        String cleanRoleCode = requiredText(roleCode, "identityaccess.field.roleCode.required");
+
+        if (!tenantDirectory.tenantExists(cleanTenantId)) {
+            throw new IdentityEntityNotFoundException(messages.get("identityaccess.tenant.notfound", DEFAULT_MESSAGE_LOCALE));
+        }
+
+        ServiceAccountCredential credential = new ServiceAccountCredential(
+                newId(),
+                cleanTenantId,
+                cleanClientId,
+                passwordHashingService.hash(cleanClientSecret),
+                cleanRoleCode,
+                ACTIVE_STATUS,
+                Instant.now(clock));
+        ServiceAccountCredential saved = repository.saveServiceAccountCredential(credential);
+        recordAudit(cleanTenantId, "ServiceAccountCreated", "ServiceAccountCredential", saved.serviceAccountId(), "{}");
+        return saved;
+    }
+
+    /**
+     * Authenticates a service account by client id/secret (TD-IAM-003), returning a
+     * {@code service-session:} token {@link com.nexora.hop.platformfoundation.identityaccess.security.HopAuthenticationResolver}
+     * resolves without any human session ever existing.
+     */
+    public String authenticateServiceAccount(String clientId, String clientSecret) {
+        String cleanClientId = requiredText(clientId, "identityaccess.field.clientId.required");
+        String cleanClientSecret = requiredText(clientSecret, "identityaccess.field.clientSecret.required");
+
+        ServiceAccountCredential credential = repository.findServiceAccountCredentialByClientId(cleanClientId)
+                .orElseThrow(() -> new AuthenticationFailedException(
+                        messages.get("identityaccess.login.invalid", DEFAULT_MESSAGE_LOCALE)));
+
+        if (!credential.isActive()) {
+            throw new AccountSuspendedException(messages.get("identityaccess.login.suspended", DEFAULT_MESSAGE_LOCALE));
+        }
+
+        if (!passwordHashingService.matches(cleanClientSecret, credential.clientSecretHash())) {
+            recordAudit(credential.tenantId(), "ServiceAccountAuthenticationFailed", "ServiceAccountCredential",
+                    credential.serviceAccountId(), "{}");
+            throw new AuthenticationFailedException(messages.get("identityaccess.login.invalid", DEFAULT_MESSAGE_LOCALE));
+        }
+
+        recordAudit(credential.tenantId(), "ServiceAccountAuthenticated", "ServiceAccountCredential",
+                credential.serviceAccountId(), "{}");
+        return "service-session:" + credential.tenantId() + ":" + credential.serviceAccountId();
     }
 
     private UserAccount requireUser(String userId) {

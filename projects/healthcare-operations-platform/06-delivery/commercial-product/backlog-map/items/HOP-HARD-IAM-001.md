@@ -2,7 +2,7 @@
 artifact:
   id: HOP-BACKLOG-ITEM-HOP-HARD-IAM-001
   type: backlog-item-record
-  status: active
+  status: closed
   optimization: atomic_context
 ---
 
@@ -15,7 +15,7 @@ artifact:
 ```yaml
 id: HOP-HARD-IAM-001
 name: Authentication, authorization, session and entitlement runtime hardening
-status: active
+status: closed
 module_id: HOP-FINAL-HARDENING
 module_name: Final Commercial Hardening and Technical Debt Burn-down
 release: REL-GA

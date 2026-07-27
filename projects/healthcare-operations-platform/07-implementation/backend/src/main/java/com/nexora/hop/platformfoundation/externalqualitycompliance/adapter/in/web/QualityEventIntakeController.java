@@ -4,6 +4,7 @@ import com.nexora.hop.platformfoundation.externalqualitycompliance.application.Q
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.QualityEventIntake;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.TenantId;
+import com.nexora.hop.platformfoundation.sharedkernel.security.CurrentTenantContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +40,7 @@ public class QualityEventIntakeController {
         String payload = request != null ? request.payloadJson() : "{}";
 
         QualityEventIntake event = service.ingestEvent(
-                new TenantId(UUID.randomUUID().toString()),
+                currentTenantId(),
                 source,
                 type,
                 sev,
@@ -60,6 +61,12 @@ public class QualityEventIntakeController {
                 .map(QualityEventIntakeResponse::from)
                 .toList();
         return ResponseEntity.ok(list);
+    }
+
+    private static TenantId currentTenantId() {
+        return CurrentTenantContext.current()
+                .map(TenantId::new)
+                .orElseGet(() -> new TenantId(UUID.randomUUID().toString()));
     }
 
     public record IngestQualityEventRequest(

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.nexora.hop.platformfoundation.identityaccess.domain.IdentityRepository;
 import com.nexora.hop.platformfoundation.identityaccess.domain.RoleAssignment;
+import com.nexora.hop.platformfoundation.identityaccess.domain.ServiceAccountCredential;
 import com.nexora.hop.platformfoundation.identityaccess.domain.UserAccount;
 
 @Repository
@@ -30,9 +31,9 @@ class JdbcIdentityRepository implements IdentityRepository {
                 insert into identity.user_accounts (
                     user_id, tenant_id, display_name, email, status,
                     username, password_hash, failed_login_attempts, locked_until, last_login_at,
-                    created_at, updated_at
+                    mfa_secret, mfa_enabled, created_at, updated_at
                 )
-                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 user.userId(),
                 user.tenantId(),
@@ -44,6 +45,8 @@ class JdbcIdentityRepository implements IdentityRepository {
                 user.failedLoginAttempts(),
                 user.lockedUntil() != null ? Timestamp.from(user.lockedUntil()) : null,
                 user.lastLoginAt() != null ? Timestamp.from(user.lastLoginAt()) : null,
+                user.mfaSecret(),
+                user.mfaEnabled(),
                 Timestamp.from(user.createdAt()),
                 Timestamp.from(user.updatedAt()));
         return user;
@@ -71,7 +74,7 @@ class JdbcIdentityRepository implements IdentityRepository {
         return jdbcTemplate.query("""
                 select user_id, tenant_id, display_name, email, status,
                        username, password_hash, failed_login_attempts, locked_until, last_login_at,
-                       created_at, updated_at
+                       mfa_secret, mfa_enabled, created_at, updated_at
                 from identity.user_accounts
                 where user_id = ?
                 """, JdbcIdentityRepository::mapUser, userId).stream().findFirst();
@@ -82,7 +85,7 @@ class JdbcIdentityRepository implements IdentityRepository {
         return jdbcTemplate.query("""
                 select user_id, tenant_id, display_name, email, status,
                        username, password_hash, failed_login_attempts, locked_until, last_login_at,
-                       created_at, updated_at
+                       mfa_secret, mfa_enabled, created_at, updated_at
                 from identity.user_accounts
                 where tenant_id = ? and username = ?
                 """, JdbcIdentityRepository::mapUser, tenantId, username).stream().findFirst();
@@ -103,7 +106,7 @@ class JdbcIdentityRepository implements IdentityRepository {
                 update identity.user_accounts
                 set display_name = ?, email = ?, status = ?,
                     username = ?, password_hash = ?, failed_login_attempts = ?,
-                    locked_until = ?, last_login_at = ?, updated_at = ?
+                    locked_until = ?, last_login_at = ?, mfa_secret = ?, mfa_enabled = ?, updated_at = ?
                 where user_id = ?
                 """,
                 user.displayName(),
@@ -114,8 +117,46 @@ class JdbcIdentityRepository implements IdentityRepository {
                 user.failedLoginAttempts(),
                 user.lockedUntil() != null ? Timestamp.from(user.lockedUntil()) : null,
                 user.lastLoginAt() != null ? Timestamp.from(user.lastLoginAt()) : null,
+                user.mfaSecret(),
+                user.mfaEnabled(),
                 Timestamp.from(user.updatedAt()),
                 user.userId());
+    }
+
+    @Override
+    public ServiceAccountCredential saveServiceAccountCredential(ServiceAccountCredential credential) {
+        jdbcTemplate.update("""
+                insert into identity.service_account_credentials (
+                    service_account_id, tenant_id, client_id, client_secret_hash, role_code, status, created_at
+                )
+                values (?, ?, ?, ?, ?, ?, ?)
+                """,
+                credential.serviceAccountId(),
+                credential.tenantId(),
+                credential.clientId(),
+                credential.clientSecretHash(),
+                credential.roleCode(),
+                credential.status(),
+                Timestamp.from(credential.createdAt()));
+        return credential;
+    }
+
+    @Override
+    public Optional<ServiceAccountCredential> findServiceAccountCredentialById(String serviceAccountId) {
+        return jdbcTemplate.query("""
+                select service_account_id, tenant_id, client_id, client_secret_hash, role_code, status, created_at
+                from identity.service_account_credentials
+                where service_account_id = ?
+                """, JdbcIdentityRepository::mapServiceAccountCredential, serviceAccountId).stream().findFirst();
+    }
+
+    @Override
+    public Optional<ServiceAccountCredential> findServiceAccountCredentialByClientId(String clientId) {
+        return jdbcTemplate.query("""
+                select service_account_id, tenant_id, client_id, client_secret_hash, role_code, status, created_at
+                from identity.service_account_credentials
+                where client_id = ?
+                """, JdbcIdentityRepository::mapServiceAccountCredential, clientId).stream().findFirst();
     }
 
     private static UserAccount mapUser(ResultSet resultSet, int rowNumber) throws SQLException {
@@ -133,7 +174,21 @@ class JdbcIdentityRepository implements IdentityRepository {
                 resultSet.getString("password_hash"),
                 resultSet.getInt("failed_login_attempts"),
                 lockedUntilTs != null ? lockedUntilTs.toInstant() : null,
-                lastLoginAtTs != null ? lastLoginAtTs.toInstant() : null);
+                lastLoginAtTs != null ? lastLoginAtTs.toInstant() : null,
+                resultSet.getString("mfa_secret"),
+                resultSet.getBoolean("mfa_enabled"));
+    }
+
+    private static ServiceAccountCredential mapServiceAccountCredential(ResultSet resultSet, int rowNumber)
+            throws SQLException {
+        return new ServiceAccountCredential(
+                resultSet.getString("service_account_id"),
+                resultSet.getString("tenant_id"),
+                resultSet.getString("client_id"),
+                resultSet.getString("client_secret_hash"),
+                resultSet.getString("role_code"),
+                resultSet.getString("status"),
+                instant(resultSet, "created_at"));
     }
 
     private static RoleAssignment mapRoleAssignment(ResultSet resultSet, int rowNumber) throws SQLException {

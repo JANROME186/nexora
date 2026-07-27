@@ -26,8 +26,26 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         Locale parsedLocale = Locale.forLanguageTag(request.locale() != null ? request.locale() : "es-MX");
-        String token = service.login(request.tenantId(), request.username(), request.password(), parsedLocale);
+        String token = service.login(
+                request.tenantId(), request.username(), request.password(), parsedLocale, request.mfaCode());
         return ResponseEntity.ok(new LoginResponse(token, 3600, parsedLocale.toLanguageTag()));
+    }
+
+    @PostMapping("/mfa/enroll")
+    public ResponseEntity<MfaEnrollmentResponse> enrollMfa(HttpServletRequest request) {
+        var context = authenticationResolver.resolve(request);
+        if (context.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        String secret = service.enrollMfa(context.get().userId());
+        return ResponseEntity.ok(new MfaEnrollmentResponse(secret));
+    }
+
+    @PostMapping("/service-token")
+    public ResponseEntity<LoginResponse> authenticateServiceAccount(
+            @Valid @RequestBody ServiceAccountAuthRequest request) {
+        String token = service.authenticateServiceAccount(request.clientId(), request.clientSecret());
+        return ResponseEntity.ok(new LoginResponse(token, 3600, Locale.forLanguageTag("es-MX").toLanguageTag()));
     }
 
     @PostMapping("/logout")
@@ -57,7 +75,8 @@ public class AuthController {
             @NotBlank String tenantId,
             @NotBlank String username,
             @NotBlank String password,
-            String locale) {
+            String locale,
+            String mfaCode) {
     }
 
     public record LoginResponse(String token, int expiresIn, String locale) {
@@ -69,5 +88,13 @@ public class AuthController {
     }
 
     public record AssistanceResponse(String assistedToken) {
+    }
+
+    public record MfaEnrollmentResponse(String secret) {
+    }
+
+    public record ServiceAccountAuthRequest(
+            @NotBlank String clientId,
+            @NotBlank String clientSecret) {
     }
 }

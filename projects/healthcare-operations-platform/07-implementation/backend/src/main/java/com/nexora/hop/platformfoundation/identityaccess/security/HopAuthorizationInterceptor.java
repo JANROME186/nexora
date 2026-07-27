@@ -1,6 +1,8 @@
 package com.nexora.hop.platformfoundation.identityaccess.security;
 
 import com.nexora.hop.platformfoundation.identityaccess.application.AuthorizationService;
+import com.nexora.hop.platformfoundation.identityaccess.domain.PermissionScope;
+import com.nexora.hop.platformfoundation.sharedkernel.security.CurrentTenantContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -44,10 +46,24 @@ public class HopAuthorizationInterceptor implements HandlerInterceptor {
       return false;
     }
     AuthenticatedUserContextHolder.set(context.get());
+    CurrentTenantContext.set(context.get().tenantId());
     boolean allowed =
         authorizationService
             .permissionsForRoles(context.get().roleCodes())
             .contains(requiredAccess.get().permission());
+
+    // domain.resource.action.scope grammar pilot (TD-IAM-003): CAPA approval is authorized
+    // through PermissionScope instead of the coarse SCREEN_CAPA_MANAGEMENT permission code. Only
+    // roles that already held SCREEN_CAPA_MANAGEMENT are granted the scoped permission, so this
+    // does not regress existing access for that action.
+    if (request.getRequestURI().startsWith("/api/quality/capa/")
+        && request.getRequestURI().endsWith("/approve")
+        && "POST".equalsIgnoreCase(request.getMethod())) {
+      allowed =
+          authorizationService
+              .scopedPermissionsForRoles(context.get().roleCodes())
+              .contains(PermissionScope.QUALITY_CAPA_APPROVE_TENANT.grammar());
+    }
 
     // Secure self-access boundary for PATIENT role
     if (!allowed && context.get().roleCodes().contains("PATIENT")) {
@@ -114,6 +130,7 @@ public class HopAuthorizationInterceptor implements HandlerInterceptor {
   public void afterCompletion(
       HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
     AuthenticatedUserContextHolder.clear();
+    CurrentTenantContext.clear();
   }
 
   private static void writeError(HttpServletResponse response, int status, String message)

@@ -4,6 +4,7 @@ import com.nexora.hop.platformfoundation.externalqualitycompliance.application.C
 import com.nexora.hop.platformfoundation.externalqualitycompliance.domain.CapaInvestigation;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.AuditMetadata;
 import com.nexora.hop.platformfoundation.sharedkernel.domain.ids.TenantId;
+import com.nexora.hop.platformfoundation.sharedkernel.security.CurrentTenantContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,7 +51,7 @@ public class CapaManagementController {
         LocalDate targetDate = request != null ? request.targetCompletionDate() : LocalDate.now().plusDays(30);
 
         CapaInvestigation capa = service.createCapa(
-                new TenantId(UUID.randomUUID().toString()),
+                currentTenantId(),
                 title,
                 cat,
                 ref,
@@ -94,6 +95,12 @@ public class CapaManagementController {
 
         CapaInvestigation capa = service.verifyEffectiveness(id, rating, notes, new AuditMetadata("system", LocalDateTime.now(), "system", LocalDateTime.now()));
         return ResponseEntity.ok(CapaInvestigationResponse.from(capa));
+    }
+
+    private static TenantId currentTenantId() {
+        return CurrentTenantContext.current()
+                .map(TenantId::new)
+                .orElseGet(() -> new TenantId(UUID.randomUUID().toString()));
     }
 
     public record CreateCapaInvestigationRequest(

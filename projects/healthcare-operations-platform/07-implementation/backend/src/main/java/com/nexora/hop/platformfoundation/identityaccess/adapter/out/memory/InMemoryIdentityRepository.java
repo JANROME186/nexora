@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.nexora.hop.platformfoundation.identityaccess.domain.IdentityRepository;
 import com.nexora.hop.platformfoundation.identityaccess.domain.RoleAssignment;
+import com.nexora.hop.platformfoundation.identityaccess.domain.ServiceAccountCredential;
 import com.nexora.hop.platformfoundation.identityaccess.domain.UserAccount;
 
 @Repository
@@ -17,6 +18,8 @@ class InMemoryIdentityRepository implements IdentityRepository {
 
     private final Map<String, UserAccount> users = new ConcurrentHashMap<>();
     private final Map<String, RoleAssignment> roleAssignments = new ConcurrentHashMap<>();
+    private final Map<String, ServiceAccountCredential> serviceAccountsById = new ConcurrentHashMap<>();
+    private final Map<String, String> serviceAccountIdByClientId = new ConcurrentHashMap<>();
 
     @Override
     public UserAccount saveUser(UserAccount user) {
@@ -52,5 +55,23 @@ class InMemoryIdentityRepository implements IdentityRepository {
     @Override
     public void updateUser(UserAccount user) {
         users.put(user.userId(), user);
+    }
+
+    @Override
+    public ServiceAccountCredential saveServiceAccountCredential(ServiceAccountCredential credential) {
+        serviceAccountsById.put(credential.serviceAccountId(), credential);
+        serviceAccountIdByClientId.put(credential.clientId(), credential.serviceAccountId());
+        return credential;
+    }
+
+    @Override
+    public Optional<ServiceAccountCredential> findServiceAccountCredentialById(String serviceAccountId) {
+        return Optional.ofNullable(serviceAccountsById.get(serviceAccountId));
+    }
+
+    @Override
+    public Optional<ServiceAccountCredential> findServiceAccountCredentialByClientId(String clientId) {
+        return Optional.ofNullable(serviceAccountIdByClientId.get(clientId))
+                .map(serviceAccountsById::get);
     }
 }

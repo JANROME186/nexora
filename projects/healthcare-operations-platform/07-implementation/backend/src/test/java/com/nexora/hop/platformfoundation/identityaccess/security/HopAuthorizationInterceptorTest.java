@@ -3,6 +3,7 @@ package com.nexora.hop.platformfoundation.identityaccess.security;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.nexora.hop.platformfoundation.identityaccess.application.AuthorizationService;
+import com.nexora.hop.platformfoundation.sharedkernel.security.CurrentTenantContext;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -16,6 +17,7 @@ class HopAuthorizationInterceptorTest {
   @AfterEach
   void clearContext() {
     AuthenticatedUserContextHolder.clear();
+    CurrentTenantContext.clear();
   }
 
   @Test
@@ -65,6 +67,57 @@ class HopAuthorizationInterceptorTest {
     assertThat(response.getStatus()).isEqualTo(200);
     assertThat(AuthenticatedUserContextHolder.current()).isPresent();
     assertThat(AuthenticatedUserContextHolder.current().get().userId()).isEqualTo("user-a");
+    assertThat(CurrentTenantContext.current()).contains("tenant-a");
+  }
+
+  @Test
+  void clearsCurrentTenantContextAfterCompletion() throws Exception {
+    var properties = properties(false);
+    var interceptor = interceptor(properties);
+    var request = request("GET", "/api/revenue/cashier/sessions");
+    request.addHeader(
+        HopAuthenticationResolver.AUTHORIZATION, "Bearer local-session:tenant-a:user-a");
+    request.addHeader(HopAuthenticationResolver.ROLES, "CASHIER");
+    var response = new MockHttpServletResponse();
+
+    interceptor.preHandle(request, response, new Object());
+    assertThat(CurrentTenantContext.current()).isPresent();
+
+    interceptor.afterCompletion(request, response, new Object(), null);
+
+    assertThat(CurrentTenantContext.current()).isEmpty();
+  }
+
+  @Test
+  void adminMayApproveCapaThroughTheDomainResourceActionScopeGrammar() throws Exception {
+    var properties = properties(false);
+    var interceptor = interceptor(properties);
+    var request = request("POST", "/api/quality/capa/capa-1/approve");
+    request.addHeader(
+        HopAuthenticationResolver.AUTHORIZATION, "Bearer local-session:tenant-a:user-a");
+    request.addHeader(HopAuthenticationResolver.ROLES, "ADMIN");
+    var response = new MockHttpServletResponse();
+
+    boolean allowed = interceptor.preHandle(request, response, new Object());
+
+    assertThat(allowed).isTrue();
+    assertThat(response.getStatus()).isEqualTo(200);
+  }
+
+  @Test
+  void roleWithoutTheScopedCapaApprovalGrammarPermissionCannotApproveCapa() throws Exception {
+    var properties = properties(false);
+    var interceptor = interceptor(properties);
+    var request = request("POST", "/api/quality/capa/capa-1/approve");
+    request.addHeader(
+        HopAuthenticationResolver.AUTHORIZATION, "Bearer local-session:tenant-a:user-a");
+    request.addHeader(HopAuthenticationResolver.ROLES, "CASHIER");
+    var response = new MockHttpServletResponse();
+
+    boolean allowed = interceptor.preHandle(request, response, new Object());
+
+    assertThat(allowed).isFalse();
+    assertThat(response.getStatus()).isEqualTo(403);
   }
 
   @Test

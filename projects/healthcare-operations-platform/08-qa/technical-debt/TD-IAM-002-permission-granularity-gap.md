@@ -40,7 +40,10 @@ classification:
   reason_non_blocking: 'Corrective closure added EndpointPermissionRegistry, binding
     backend API paths to capability, PermissionCode and HTTP action before controller
     execution. Remaining scope is finer in-screen button-level and domain.resource.action.scope
-    grammar expansion, not the absence of API/action mapping.
+    grammar expansion, not the absence of API/action mapping. HOP-HARD-IAM-001 (TD-IAM-003)
+    added a first real domain.resource.action.scope grammar endpoint (CAPA approval), proving
+    the grammar can coexist with PermissionCode without regressing existing screen-level checks,
+    but this remains one endpoint, not a wholesale migration.
 
     '
 current_state:
@@ -96,5 +99,8 @@ remediation:
   - 07-implementation/backend/src/test/java/com/nexora/hop/platformfoundation/identityaccess/security/EndpointPermissionRegistryTest.java
   - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/identityaccess/domain/PermissionCode.java
   - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/identityaccess/domain/RolePermissionCatalog.java
+  - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/identityaccess/domain/PermissionScope.java
+  - 07-implementation/backend/src/main/java/com/nexora/hop/platformfoundation/identityaccess/security/HopAuthorizationInterceptor.java
+  - 07-implementation/backend/src/test/java/com/nexora/hop/platformfoundation/identityaccess/security/HopAuthorizationInterceptorTest.java
   owner_or_responsible_role: security_architecture_team
 ```

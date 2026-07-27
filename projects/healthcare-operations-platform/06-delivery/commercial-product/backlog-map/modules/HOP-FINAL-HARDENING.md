@@ -53,14 +53,14 @@ backlog_items:
   - TD-BE-022
 - id: HOP-HARD-IAM-001
   name: Authentication, authorization, session and entitlement runtime hardening
-  status: active
+  status: closed
   mapped_items:
   - TD-IAM-002
   - TD-IAM-003
   - TD-IAM-004
 - id: HOP-HARD-DATA-001
   name: Database, reference data, localization data and persistence hardening
-  status: planned
+  status: active
   mapped_items:
   - TD-DB-002
   - TD-DB-003

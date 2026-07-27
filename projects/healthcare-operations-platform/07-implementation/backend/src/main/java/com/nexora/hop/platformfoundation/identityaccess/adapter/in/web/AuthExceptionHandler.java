@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.nexora.hop.platformfoundation.identityaccess.application.AuthenticationFailedException;
 import com.nexora.hop.platformfoundation.identityaccess.application.AccountLockedException;
 import com.nexora.hop.platformfoundation.identityaccess.application.AccountSuspendedException;
+import com.nexora.hop.platformfoundation.identityaccess.application.MfaRequiredException;
+import com.nexora.hop.platformfoundation.identityaccess.application.MfaVerificationFailedException;
 
 @RestControllerAdvice(assignableTypes = AuthController.class)
 class AuthExceptionHandler {
 
-    @ExceptionHandler(AuthenticationFailedException.class)
-    ResponseEntity<ApiErrorResponse> unauthorized(AuthenticationFailedException exception) {
+    @ExceptionHandler({AuthenticationFailedException.class, MfaRequiredException.class, MfaVerificationFailedException.class})
+    ResponseEntity<ApiErrorResponse> unauthorized(RuntimeException exception) {
         return error(HttpStatus.UNAUTHORIZED, exception.getMessage());
     }
 

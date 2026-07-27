@@ -15,7 +15,7 @@ artifact:
 ```yaml
 id: HOP-HARD-DATA-001
 name: Database, reference data, localization data and persistence hardening
-status: planned
+status: active
 module_id: HOP-FINAL-HARDENING
 module_name: Final Commercial Hardening and Technical Debt Burn-down
 release: REL-GA
