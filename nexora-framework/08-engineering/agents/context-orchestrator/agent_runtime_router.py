@@ -275,10 +275,7 @@ def git_commit_paths(root: Path, message: str, paths: list[str]) -> str | None:
 
 
 def cleanup_closure_diagnostics(root: Path, task_id: str) -> None:
-    for path in (
-        project_closure_validation_file(root, task_id),
-        project_generated_prompt_file(root, task_id, "closure-fix-prompt"),
-    ):
+    for path in (project_generated_prompt_file(root, task_id, "closure-fix-prompt"),):
         if path.exists():
             path.unlink()
 
