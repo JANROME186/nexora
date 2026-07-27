@@ -73,4 +73,17 @@ remediation:
   dependencies_or_prerequisites:
   - A decided first caller of the capability-specific shape (employee-portal AI
     screens are the leading candidate).
+progress_log:
+- backlog_item: HOP-HARD-BE-001
+  date: 2026-07-26
+  action: Reviewed during backend hardening debt burn-down. No employee-portal AI
+    screen or external caller has been compiled yet that needs the dedicated
+    per-capability request/response shapes, so the generic assistant endpoint
+    remains the sole compiled surface and the dedicated paths were intentionally
+    not added, per this item's own quality_goal against duplicating a working
+    endpoint ahead of real need.
+  result: status remains open by design; risk remains low/non-blocking. Next owner
+    is backend_team; next trigger is unchanged (COM-MOD-015-FE-001 or a future
+    dedicated backlog item once a first caller of the capability-specific shape is
+    decided).
 ```

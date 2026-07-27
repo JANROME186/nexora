@@ -39,10 +39,13 @@ classification:
     '
 current_state:
   issue: 'The backend Maven quality profile now runs SpotBugs, Find Security Bugs,
-    PMD, PMD CPD, Checkstyle and Spotless. SpotBugs, Checkstyle and CPD pass with
-    0 findings. PMD still reports maintainability findings that must be remediated
-    gradually as backend code is touched. Semgrep CE remains a future CI defense-in-depth
-    addition.
+    PMD, PMD CPD, Checkstyle and Spotless. HOP-HARD-BE-001 re-ran SpotBugs after
+    backend hardening and confirmed 70 residual findings, including high-severity
+    inherited findings in imaging operations and radiology signature code. Checkstyle,
+    PMD, CPD and Spotless also still report historical global debt. These findings
+    must be burned down gradually as the affected backend areas are touched, and
+    they block final project closure until closed or formally risk-accepted by Nexora
+    governance. Semgrep CE remains a future CI defense-in-depth addition.
 
     '
   compensating_control:
@@ -78,10 +81,14 @@ remediation:
   - All SAST findings receive a disposition; vulnerabilities of any severity require
     remediation or an accepted-risk debt item.
   latest_evidence:
-    backlog_item: HOP-QA-ALIGN-002
-    evidence: 08-qa/qa/quality-alignment/HOP-QA-ALIGN-002-validation.md
+    backlog_item: HOP-HARD-BE-001
+    evidence: 08-qa/security-quality/HOP-HARD-BE-001/security-quality-evidence.md
     status: materially_reduced
     residual_findings:
-    - PMD reports 124 findings.
+    - SpotBugs reports 70 residual findings after the HOP-HARD-BE-001 local serialVersionUID correction.
+    - Checkstyle reports 98 existing violations.
+    - PMD reports 617 findings.
+    - PMD CPD reports 3 duplications.
+    - Spotless reports 892 files requiring formatting under the current profile.
     - Semgrep CE is not yet configured.
 ```

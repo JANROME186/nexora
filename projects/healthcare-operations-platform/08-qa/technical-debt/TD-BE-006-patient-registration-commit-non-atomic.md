@@ -5,7 +5,7 @@ type: technical-debt-item
 name: PatientRegistrationService.commit() orchestration is not wrapped in a database
   transaction
 version: 1.0.0
-status: open
+status: closed
 ---
 
 # Patientregistrationservice.Commit() Orchestration Is Not Wrapped In A Database Transaction
@@ -21,7 +21,7 @@ artifact:
   name: PatientRegistrationService.commit() orchestration is not wrapped in a database
     transaction
   version: 1.0.0
-  status: open
+  status: closed
   created_date: 2026-07-09
 source:
   discovered_during_backlog_item: MVP-MOD-003-BE-002
@@ -72,7 +72,7 @@ target_state:
   - PatientRegistrationService#commit
   - Spring Boot test configuration for the default (non-"local") profile
 remediation:
-  strategy: gradual_when_backend_transaction_infrastructure_is_next_touched
+  strategy: closed_by_HOP_HARD_BE_001
   recommended_trigger:
   - a future backlog item that adds a PlatformTransactionManager bean available across
     all active profiles
@@ -84,4 +84,13 @@ remediation:
     any failure.
   - The full backend test suite (including the default in-memory profile) continues
     to pass with the transaction manager in place.
+closure:
+  closed_during_backlog_item: HOP-HARD-BE-001
+  closure_evidence:
+  - 08-qa/qa/final-hardening/HOP-HARD-BE-001-validation.md
+  - 08-qa/security-quality/HOP-HARD-BE-001/security-quality-evidence.md
+  validation_summary:
+  - PatientRegistrationService commit flow now has a Spring transaction boundary.
+  - A resourceless transaction manager keeps non-JDBC/default-profile tests compatible.
+  - Backend quality gate passed with 528 tests and 84.62% line coverage.
 ```

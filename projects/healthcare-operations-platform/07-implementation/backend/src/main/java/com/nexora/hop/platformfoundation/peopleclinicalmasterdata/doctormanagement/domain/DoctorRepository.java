@@ -29,6 +29,13 @@ public interface DoctorRepository {
 
     Optional<ProfessionalCredential> findCredentialById(String credentialId);
 
+    /**
+     * BCM-PER-003 RN-005: credentials still marked {@link ProfessionalCredential#STATUS_VERIFIED}
+     * whose {@code expiresAt} is strictly before {@code asOfDate}, due for proactive transition to
+     * {@link ProfessionalCredential#STATUS_EXPIRED} by the credential-expiration scheduler.
+     */
+    List<ProfessionalCredential> findVerifiedCredentialsExpiringBefore(LocalDate asOfDate);
+
     void saveSpecialty(SpecialtyAssignment specialty);
 
     List<SpecialtyAssignment> findSpecialties(String doctorId);

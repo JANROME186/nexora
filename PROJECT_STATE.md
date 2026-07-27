@@ -15,7 +15,7 @@ artifact:
 ```yaml
 repository: Nexora
 repository_version: 1.0.0
-current_phase: HOP final commercial hardening activated. The next execution must burn down remaining technical debt and backlog gaps through HOP-HARD-BE-001.
+current_phase: HOP-HARD-BE-001 closed. Final hardening continues through HOP-HARD-IAM-001.
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -31,7 +31,7 @@ projects:
   path: projects/healthcare-operations-platform/
   status: final_hardening_active
   active_module: HOP-FINAL-HARDENING
-  active_backlog_item: HOP-HARD-BE-001
+  active_backlog_item: HOP-HARD-IAM-001
   completed_backlog_items_count: 109
   project_state_ref: projects/healthcare-operations-platform/PROJECT_STATE.md
 atomic_references:

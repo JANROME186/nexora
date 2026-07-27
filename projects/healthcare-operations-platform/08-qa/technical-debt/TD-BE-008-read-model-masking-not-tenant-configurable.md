@@ -5,7 +5,7 @@ type: technical-debt-item
 name: PatientSnapshot/DoctorSnapshot document and credential number masking is fixed,
   not tenant-configurable
 version: 1.0.0
-status: open
+status: closed
 ---
 
 # Patientsnapshot/Doctorsnapshot Document And Credential Number Masking Is Fixed, Not Tenant Configurable
@@ -21,7 +21,7 @@ artifact:
   name: PatientSnapshot/DoctorSnapshot document and credential number masking is fixed,
     not tenant-configurable
   version: 1.0.0
-  status: open
+  status: closed
   created_date: 2026-07-14
 source:
   discovered_during_backlog_item: MVP-MOD-003-QA-001
@@ -65,7 +65,7 @@ target_state:
   - PersonDocument.maskedNumber()
   - PatientSnapshot.from() / DoctorSnapshot.from()
 remediation:
-  strategy: gradual_when_tenant_configuration_surface_is_next_extended
+  strategy: closed_by_HOP_HARD_BE_001
   recommended_trigger:
   - Any backlog item that extends TenantPeoplePolicyStore for another tenant-configurable
     policy
@@ -75,4 +75,13 @@ remediation:
     TenantPeoplePolicyStore with safe defaults matching current behavior.
   - If/when credential numbers are added to a read model, they are masked using the
     same policy.
+closure:
+  closed_during_backlog_item: HOP-HARD-BE-001
+  closure_evidence:
+  - 08-qa/qa/final-hardening/HOP-HARD-BE-001-validation.md
+  - 08-qa/security-quality/HOP-HARD-BE-001/security-quality-evidence.md
+  validation_summary:
+  - TenantPeoplePolicyStore now exposes masking policy.
+  - Patient and doctor read-model snapshots consume tenant-configurable masking.
+  - Backend quality gate passed with 528 tests and 84.62% line coverage.
 ```

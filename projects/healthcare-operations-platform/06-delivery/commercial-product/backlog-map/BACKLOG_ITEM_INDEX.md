@@ -561,12 +561,12 @@ items:
   path: 06-delivery/commercial-product/backlog-map/items/COM-MOD-017-CLOSEOUT.md
 - id: HOP-HARD-BE-001
   name: Backend quality, persistence and coverage debt burn-down
-  status: active
+  status: closed
   module_id: HOP-FINAL-HARDENING
   path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-BE-001.md
 - id: HOP-HARD-IAM-001
   name: Authentication, authorization, session and entitlement runtime hardening
-  status: planned
+  status: active
   module_id: HOP-FINAL-HARDENING
   path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-IAM-001.md
 - id: HOP-HARD-DATA-001

@@ -22,18 +22,48 @@ public record PersonDocument(
     public static final String TYPE_OTHER = "other";
 
     /**
-     * Simple tenant-agnostic masking used by read-model projections (see BCM-PER-002 RN-008 and
-     * BCM-PER-003 RN-008). Advanced tenant-configured masking is deferred to MVP-MOD-003-BE-002.
+     * Masks the document number using the platform default policy (last 4 characters visible,
+     * {@code '*'} mask character). Read-model projections that need tenant-configured masking
+     * (BCM-PER-002 RN-008, BCM-PER-003 RN-008) should call {@link #maskedNumber(DocumentNumberMaskingPolicy)}
+     * with the tenant's policy instead.
      */
     public String maskedNumber() {
+        return maskedNumber(DocumentNumberMaskingPolicy.DEFAULT);
+    }
+
+    /**
+     * Masks the document number per {@code policy}: the last {@code policy.visibleCharacters()}
+     * characters stay visible and the rest are replaced with {@code policy.maskCharacter()}; a
+     * number no longer than the visible-character count is masked in full so no digit is ever
+     * exposed by a permissive policy applied to a short number.
+     */
+    public String maskedNumber(DocumentNumberMaskingPolicy policy) {
         if (documentNumber == null || documentNumber.isBlank()) {
             return null;
         }
         String trimmed = documentNumber.trim();
-        if (trimmed.length() <= 4) {
-            return "*".repeat(trimmed.length());
+        String maskChar = String.valueOf(policy.maskCharacter());
+        int visible = policy.visibleCharacters();
+        if (trimmed.length() <= visible) {
+            return maskChar.repeat(trimmed.length());
         }
-        int visible = 4;
-        return "*".repeat(trimmed.length() - visible) + trimmed.substring(trimmed.length() - visible);
+        return maskChar.repeat(trimmed.length() - visible) + trimmed.substring(trimmed.length() - visible);
+    }
+
+    /**
+     * Tenant-configurable document/credential number masking policy (BCM-PER-002 RN-008,
+     * BCM-PER-003 RN-008). {@link #DEFAULT} reproduces the platform's original fixed masking
+     * behavior (last 4 characters visible, {@code '*'} mask character). Closes technical debt
+     * TD-BE-008.
+     */
+    public record DocumentNumberMaskingPolicy(int visibleCharacters, char maskCharacter) {
+
+        public static final DocumentNumberMaskingPolicy DEFAULT = new DocumentNumberMaskingPolicy(4, '*');
+
+        public DocumentNumberMaskingPolicy {
+            if (visibleCharacters < 0) {
+                throw new IllegalArgumentException("Visible character count must not be negative.");
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;
 
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagement.domain.PatientConsent;
+import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PersonDocument.DocumentNumberMaskingPolicy;
 
 /**
  * Tenant-scoped policy overrides for the People and Clinical Master Data custom rules that the
@@ -17,6 +18,8 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagem
  *       representative-registration kind.</li>
  *   <li>BCM-ATT-002 RN-005 mandatory consent types that must be captured before a registration
  *       commits.</li>
+ *   <li>BCM-PER-002 RN-008 / BCM-PER-003 RN-008 document/credential number masking policy
+ *       (visible-character count and mask character) applied by read-model projections.</li>
  * </ul>
  * No capability package declares a dedicated REST surface for editing these policies, so this
  * store is an in-memory, process-local registry with safe defaults. It is intentionally exposed as
@@ -32,6 +35,7 @@ public class TenantPeoplePolicyStore {
     private final Map<String, PersonDuplicateScoringPolicy> scoringOverrides = new ConcurrentHashMap<>();
     private final Map<String, Integer> ageOfMajorityOverrides = new ConcurrentHashMap<>();
     private final Map<String, Set<String>> mandatoryConsentOverrides = new ConcurrentHashMap<>();
+    private final Map<String, DocumentNumberMaskingPolicy> documentMaskingOverrides = new ConcurrentHashMap<>();
 
     public PersonDuplicateScoringPolicy scoringPolicyFor(String tenantId) {
         return scoringOverrides.getOrDefault(tenantId, PersonDuplicateScoringPolicy.DEFAULT);
@@ -64,5 +68,16 @@ public class TenantPeoplePolicyStore {
             return;
         }
         mandatoryConsentOverrides.put(tenantId, Set.copyOf(consentTypes));
+    }
+
+    public DocumentNumberMaskingPolicy documentMaskingPolicyFor(String tenantId) {
+        return documentMaskingOverrides.getOrDefault(tenantId, DocumentNumberMaskingPolicy.DEFAULT);
+    }
+
+    public void setDocumentMaskingPolicy(String tenantId, DocumentNumberMaskingPolicy policy) {
+        if (tenantId == null || policy == null) {
+            return;
+        }
+        documentMaskingOverrides.put(tenantId, policy);
     }
 }

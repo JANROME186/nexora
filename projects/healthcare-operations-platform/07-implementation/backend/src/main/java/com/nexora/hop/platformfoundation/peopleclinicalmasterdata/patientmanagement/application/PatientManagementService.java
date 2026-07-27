@@ -25,6 +25,7 @@ import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagem
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagement.domain.PatientSnapshot;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.application.PersonDocumentUniquenessPolicy;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.application.PersonDuplicateDetectionEngine;
+import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.application.TenantPeoplePolicyStore;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.personmanagement.domain.PersonKind;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.InvalidPeopleCommandException;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PeopleConflictException;
@@ -75,6 +76,7 @@ public class PatientManagementService implements PatientDirectory {
     private final AuditRecorder auditRecorder;
     private final PersonDocumentUniquenessPolicy documentUniquenessPolicy;
     private final PersonDuplicateDetectionEngine duplicateDetectionEngine;
+    private final TenantPeoplePolicyStore policyStore;
     private final Clock clock;
 
     @Autowired
@@ -83,9 +85,10 @@ public class PatientManagementService implements PatientDirectory {
             TenantDirectory tenantDirectory,
             AuditRecorder auditRecorder,
             PersonDocumentUniquenessPolicy documentUniquenessPolicy,
-            PersonDuplicateDetectionEngine duplicateDetectionEngine) {
+            PersonDuplicateDetectionEngine duplicateDetectionEngine,
+            TenantPeoplePolicyStore policyStore) {
         this(repository, tenantDirectory, auditRecorder, documentUniquenessPolicy, duplicateDetectionEngine,
-                Clock.systemUTC());
+                policyStore, Clock.systemUTC());
     }
 
     PatientManagementService(
@@ -94,12 +97,14 @@ public class PatientManagementService implements PatientDirectory {
             AuditRecorder auditRecorder,
             PersonDocumentUniquenessPolicy documentUniquenessPolicy,
             PersonDuplicateDetectionEngine duplicateDetectionEngine,
+            TenantPeoplePolicyStore policyStore,
             Clock clock) {
         this.repository = repository;
         this.tenantDirectory = tenantDirectory;
         this.auditRecorder = auditRecorder;
         this.documentUniquenessPolicy = documentUniquenessPolicy;
         this.duplicateDetectionEngine = duplicateDetectionEngine;
+        this.policyStore = policyStore;
         this.clock = clock;
     }
 
@@ -229,7 +234,8 @@ public class PatientManagementService implements PatientDirectory {
     }
 
     public PatientSnapshot snapshot(String patientId) {
-        return PatientSnapshot.from(require(patientId));
+        Patient patient = require(patientId);
+        return PatientSnapshot.from(patient, policyStore.documentMaskingPolicyFor(patient.tenantId()));
     }
 
     public List<Patient> list(String laboratoryId) {
@@ -398,7 +404,7 @@ public class PatientManagementService implements PatientDirectory {
             current = repository.findById(current.get().mergedIntoPatientId());
             hops++;
         }
-        return current.map(PatientSnapshot::from);
+        return current.map(patient -> PatientSnapshot.from(patient, policyStore.documentMaskingPolicyFor(patient.tenantId())));
     }
 
     @Override

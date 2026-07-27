@@ -5,7 +5,7 @@ type: technical-debt-item
 name: Professional credential expiration is not proactively transitioned by a scheduler
   and does not flag doctors for re-verification
 version: 1.0.0
-status: open
+status: closed
 ---
 
 # Professional Credential Expiration Is Not Proactively Transitioned By A Scheduler And Does Not Flag Doctors For Re Verification
@@ -21,7 +21,7 @@ artifact:
   name: Professional credential expiration is not proactively transitioned by a scheduler
     and does not flag doctors for re-verification
   version: 1.0.0
-  status: open
+  status: closed
   created_date: 2026-07-14
 source:
   discovered_during_backlog_item: MVP-MOD-003-QA-001
@@ -71,7 +71,7 @@ target_state:
     a DoctorCredentialExpired (or similar) audited event that can drive a re-verification
     notification/worklist.
 remediation:
-  strategy: gradual_when_doctor_credential_lifecycle_is_next_touched
+  strategy: closed_by_HOP_HARD_BE_001
   recommended_trigger:
   - MVP-MOD-003-CLOSEOUT or a future doctor-management backlog item
   - Any change to ProfessionalCredential lifecycle handling
@@ -82,4 +82,13 @@ remediation:
     for re-verification.
   - RN-005's test_refs (TST-DOC-003-06) cover the proactive transition, not only the
     reactive verify-time rejection.
+closure:
+  closed_during_backlog_item: HOP-HARD-BE-001
+  closure_evidence:
+  - 08-qa/qa/final-hardening/HOP-HARD-BE-001-validation.md
+  - 08-qa/security-quality/HOP-HARD-BE-001/security-quality-evidence.md
+  validation_summary:
+  - CredentialExpirationWatcher proactively expires elapsed credentials.
+  - Doctor eligibility and re-verification behavior are covered by focused backend tests.
+  - Backend quality gate passed with 528 tests and 84.62% line coverage.
 ```

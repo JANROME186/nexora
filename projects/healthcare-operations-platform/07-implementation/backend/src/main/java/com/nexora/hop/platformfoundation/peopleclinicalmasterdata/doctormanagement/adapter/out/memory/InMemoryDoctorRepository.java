@@ -97,6 +97,15 @@ class InMemoryDoctorRepository implements DoctorRepository {
     }
 
     @Override
+    public List<ProfessionalCredential> findVerifiedCredentialsExpiringBefore(LocalDate asOfDate) {
+        return credentials.values().stream()
+                .flatMap(List::stream)
+                .filter(credential -> ProfessionalCredential.STATUS_VERIFIED.equals(credential.verificationStatus()))
+                .filter(credential -> credential.expiresAt() != null && credential.expiresAt().isBefore(asOfDate))
+                .toList();
+    }
+
+    @Override
     public void saveSpecialty(SpecialtyAssignment specialty) {
         specialties.computeIfAbsent(specialty.doctorId(), key -> new ArrayList<>()).add(specialty);
     }

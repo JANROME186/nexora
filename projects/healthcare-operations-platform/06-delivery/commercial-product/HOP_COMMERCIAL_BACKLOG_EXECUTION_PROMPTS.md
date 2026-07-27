@@ -89,12 +89,12 @@ validation_commands:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
   module_id: HOP-FINAL-HARDENING
-  backlog_item_id: HOP-HARD-BE-001
-  name: Backend quality, persistence and coverage debt burn-down
+  backlog_item_id: HOP-HARD-IAM-001
+  name: IAM, session, permissions and entitlement runtime hardening
   expected_folder: 08-qa/qa/final-hardening
-  required_debt_first_action: close_or_materially_reduce_mapped_backend_debt_before_any_new_feature_work
+  required_debt_first_action: close_or_materially_reduce_mapped_iam_and_security_debt_before_any_new_feature_work
   coverage_floor:
-    backend_java_maven_line_coverage_percent_if_backend_is_touched: 70.16
+    backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.62
     frontend_typescript_web_line_coverage_percent: 91.00
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.11
@@ -102,17 +102,17 @@ validation_commands:
     public_website_typescript_web_line_coverage_percent: 98.61
     final_target_percent: 80
   mandatory_execution_notes:
-  - Active backlog item is HOP-HARD-BE-001 under HOP-FINAL-HARDENING. Load only the active item record and mapped debt files
+  - Active backlog item is HOP-HARD-IAM-001 under HOP-FINAL-HARDENING. Load only the active item record and mapped debt files
     needed for this slice.
   - Keep execution agent-agnostic and preserve the open-source-first stack and quality gates.
-  - Address or materially reduce the mapped backend hardening items before any new feature work.
-  - Preserve backend coverage at or above 70.16% (COM-MOD-015-QA-001 resynced the backend_java_maven baseline from 70.14%
-    after fixing TD-BE-022; raising it back toward 80-84% is ordinary gradual coverage debt, not a newly discovered incident)
-    and employee-portal coverage at or above 91.00%; keep final project target at 80% or higher.
+  - Address or materially reduce the mapped IAM, session, permission and entitlement runtime hardening items before any new feature work.
+  - Preserve backend coverage at or above 84.62% and employee-portal coverage at or above 91.00%; keep final project target
+    at 80% or higher.
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product backlog and execution prompts, and commit
     only when validation passes.
   previous_backlog_item:
-    backlog_item_id: COM-MOD-015-CLOSEOUT
+    backlog_item_id: HOP-HARD-BE-001
     status: closed
-    summary: Closed COM-MOD-015-CLOSEOUT. Formally closed AI Overlay (BCM-AI-001 through BCM-AI-008 marked module_closed in capability-package-index.md, capability-package.md files and traceability.md matrices).
+    summary: Closed backend hardening debt burn-down. TD-BE-006, TD-BE-007 and TD-BE-008 closed; backend quality gate passed
+      with 528 tests and 84.62% line coverage; residual static-analysis debt remains tracked.
 ```

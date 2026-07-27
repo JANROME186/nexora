@@ -40,7 +40,7 @@ product_surfaces:
 backlog_items:
 - id: HOP-HARD-BE-001
   name: Backend quality, persistence and coverage debt burn-down
-  status: active
+  status: closed
   mapped_items:
   - TD-BE-002
   - TD-BE-003
@@ -53,7 +53,7 @@ backlog_items:
   - TD-BE-022
 - id: HOP-HARD-IAM-001
   name: Authentication, authorization, session and entitlement runtime hardening
-  status: planned
+  status: active
   mapped_items:
   - TD-IAM-002
   - TD-IAM-003

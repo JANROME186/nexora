@@ -2,11 +2,13 @@ package com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanage
 
 import java.time.LocalDate;
 
+import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.shared.PersonDocument.DocumentNumberMaskingPolicy;
+
 /**
  * Immutable minimal patient projection consumed by downstream contexts (orders-samples,
  * laboratory-results, imaging-operations, cash-sales, billing-tax). This is the only view exposed
- * to non-owning contexts (BCM-PER-002 RN-003 / POL-PAT-002-02). Document numbers are masked here
- * to honor RN-008. Modeled as RM-PAT-001.
+ * to non-owning contexts (BCM-PER-002 RN-003 / POL-PAT-002-02). Document numbers are masked per
+ * the owning tenant's {@link DocumentNumberMaskingPolicy} to honor RN-008. Modeled as RM-PAT-001.
  */
 public record PatientSnapshot(
         String patientId,
@@ -21,7 +23,7 @@ public record PatientSnapshot(
         String status,
         int version) {
 
-    public static PatientSnapshot from(Patient patient) {
+    public static PatientSnapshot from(Patient patient, DocumentNumberMaskingPolicy maskingPolicy) {
         return new PatientSnapshot(
                 patient.patientId(),
                 patient.tenantId(),
@@ -31,7 +33,7 @@ public record PatientSnapshot(
                 patient.birthDate(),
                 patient.sexAtBirth(),
                 patient.primaryDocument() == null ? null : patient.primaryDocument().documentType(),
-                patient.primaryDocument() == null ? null : patient.primaryDocument().maskedNumber(),
+                patient.primaryDocument() == null ? null : patient.primaryDocument().maskedNumber(maskingPolicy),
                 patient.status(),
                 patient.version());
     }

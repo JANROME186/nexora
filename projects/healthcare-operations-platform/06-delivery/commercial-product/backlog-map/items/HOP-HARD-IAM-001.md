@@ -15,7 +15,7 @@ artifact:
 ```yaml
 id: HOP-HARD-IAM-001
 name: Authentication, authorization, session and entitlement runtime hardening
-status: planned
+status: active
 module_id: HOP-FINAL-HARDENING
 module_name: Final Commercial Hardening and Technical Debt Burn-down
 release: REL-GA

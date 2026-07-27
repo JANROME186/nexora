@@ -75,9 +75,9 @@ policy:
     final_project_closure_requires_target: true
     current_stack_baselines:
       backend_java_maven:
-        current_line_coverage_percent: 70.16
-        source_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-QA-001-validation.md
-        next_iteration_minimum_line_coverage_percent: 70.16
+        current_line_coverage_percent: 84.62
+        source_evidence: 08-qa/qa/final-hardening/HOP-HARD-BE-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 84.62
         final_closure_target_percent: 80
         correction_note: 'COM-MOD-013-QA-001 found the recorded 84.14% figure was
           not reproducible from a clean rebuild (measured 82.57%); investigating that
@@ -160,7 +160,11 @@ policy:
           fixing TD-BE-022''s dead error code and missing review-immutability guard)
           measured 70.16% on a clean -Pquality clean verify rebuild (522 tests, 0
           failures/errors/skipped); the small increase reflects this item''s own new,
-          fully-covered code. The new floor is 70.16%.'
+          fully-covered code. HOP-HARD-BE-001 then burned down backend hardening debt
+          for transactional registration commit, credential expiration watching and
+          tenant-configurable masking, adding focused tests and raising the clean
+          -Pquality clean verify result to 84.62% (528 tests, 0 failures/errors/skipped).
+          The new floor is 84.62%.'
       frontend_typescript_web:
         current_line_coverage_percent: 91.00
         source_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-FE-001-validation.md
@@ -334,33 +338,33 @@ entries:
 - id: TD-BE-006
   title: PatientRegistrationService.commit() orchestration is not wrapped in a database
     transaction
-  status: open
+  status: closed
   risk_level: medium
   blocking: false
   source_backlog_item: MVP-MOD-003-BE-002
   affected_area: patient_registration_commit_orchestration
   file: 08-qa/technical-debt/TD-BE-006-patient-registration-commit-non-atomic.md
-  remediation_strategy: gradual_when_backend_transaction_infrastructure_is_next_touched
+  remediation_strategy: closed_by_HOP_HARD_BE_001
 - id: TD-BE-007
   title: Professional credential expiration is not proactively transitioned by a scheduler
     and does not flag doctors for re-verification
-  status: open
+  status: closed
   risk_level: medium
   blocking: false
   source_backlog_item: MVP-MOD-003-QA-001
   affected_area: doctor_management_credential_lifecycle
   file: 08-qa/technical-debt/TD-BE-007-credential-expiration-scheduler-missing.md
-  remediation_strategy: gradual_when_doctor_credential_lifecycle_is_next_touched
+  remediation_strategy: closed_by_HOP_HARD_BE_001
 - id: TD-BE-008
   title: PatientSnapshot/DoctorSnapshot document and credential number masking is
     fixed, not tenant-configurable
-  status: open
+  status: closed
   risk_level: medium
   blocking: false
   source_backlog_item: MVP-MOD-003-QA-001
   affected_area: patient_and_doctor_read_model_privacy
   file: 08-qa/technical-debt/TD-BE-008-read-model-masking-not-tenant-configurable.md
-  remediation_strategy: gradual_when_tenant_configuration_surface_is_next_extended
+  remediation_strategy: closed_by_HOP_HARD_BE_001
 - id: TD-FE-002
   title: Employee portal is missing patient/doctor update, patient document management
     and doctor specialty assignment UI

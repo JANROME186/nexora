@@ -80,4 +80,18 @@ remediation:
     match consistently.
   - No caller reads Doctor#status directly to decide referring eligibility once the
     target state lands; all such checks go through the eligibility query.
+progress_log:
+- backlog_item: HOP-HARD-BE-001
+  date: 2026-07-26
+  action: Reviewed during backend hardening debt burn-down. No caller was found reading
+    Doctor#status directly to decide referring eligibility; every downstream context
+    still consults isEligibleAsReferringDoctor exclusively. The Doctor state-machine
+    change this item requires (a distinct pending_credentialing status or an explicit
+    generation-plan.md decision) is a business-model change outside a backend-hardening
+    slice's scope, so it was not made here.
+  result: status remains open; residual risk remains medium/non-blocking per the
+    existing compensating control (the eligibility query is the tested single source
+    of truth). Next owner is backend_platform_team; next trigger is unchanged (a
+    future backlog item revisiting BCM-PER-003's Doctor state machine, or
+    MVP-MOD-003-FE-001 if the UI needs a single authoritative "active" badge).
 ```

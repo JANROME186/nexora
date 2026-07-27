@@ -87,6 +87,48 @@ class PeopleClinicalMasterDataLocalDatabaseTest {
         assertThat(normalizedFamilyName).isEqualTo("LOVELACE");
     }
 
+    /**
+     * TD-BE-006: {@code PatientRegistrationService#commit} must roll back the just-created Patient
+     * when a later step in the same commit fails. The representative relationship is validated by
+     * {@code PatientManagementService#attachRepresentative}, which only runs <em>after</em> the new
+     * Patient is persisted, so an invalid relationship value is a real mid-commit failure that
+     * exercises the transaction boundary against the actual Postgres-backed JDBC repositories.
+     */
+    @Test
+    void failedRepresentativeAttachDuringCommitRollsBackTheNewlyCreatedPatient() throws Exception {
+        String runToken = UUID.randomUUID().toString().substring(0, 8);
+        JsonNode tenant = postJson("/api/platform/tenants", "{\"name\":\"Rollback Tenant\"}");
+        String tenantId = tenant.get("tenantId").asText();
+
+        JsonNode registration = postJson("/api/care-delivery/patient-registrations", """
+                {"tenantId":"%s","laboratoryId":"%s","branchId":"%s","intakeChannel":"walk_in",
+                 "registrationKind":"representative_registration","givenName":"Rollback","familyName":"Case",
+                 "birthDate":"2015-01-01","documentType":"national_id","documentNumber":"ROLLBACK-DOC-%s"}
+                """.formatted(tenantId, LAB, BRANCH, runToken));
+        String registrationId = registration.get("registrationRequestId").asText();
+        String patientCode = "ROLLBACK-P-" + runToken;
+
+        mockMvc.perform(post("/api/care-delivery/patient-registrations/{id}/commit", registrationId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"patientCode":"%s","sexAtBirth":"male",
+                                 "representativeRelationship":"not_a_valid_relationship",
+                                 "representativeGivenName":"Rep","representativeFamilyName":"Guardian",
+                                 "consents":[{"consentType":"data_processing","granted":true,"grantedBy":"representative"}]}
+                                """.formatted(patientCode)))
+                .andExpect(status().isBadRequest());
+
+        Integer patientCount = jdbcTemplate.queryForObject(
+                "select count(*) from people.patients where patient_code = ?", Integer.class, patientCode);
+        assertThat(patientCount).as("the patient created before the failed representative attach must be rolled back")
+                .isZero();
+
+        String outcome = jdbcTemplate.queryForObject(
+                "select outcome from people.patient_registrations where registration_request_id = ?",
+                String.class, registrationId);
+        assertThat(outcome).isEqualTo("pending");
+    }
+
     private JsonNode postJson(String path, String json) throws Exception {
         MvcResult result = mockMvc.perform(post(path)
                 .contentType(MediaType.APPLICATION_JSON)

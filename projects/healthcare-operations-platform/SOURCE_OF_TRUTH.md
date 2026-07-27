@@ -56,6 +56,9 @@ sources:
   com_mod_015_closeout_handoff: 08-qa/handoffs/COM-MOD-015-CLOSEOUT-summary.md
   hop_final_hardening_module: 06-delivery/commercial-product/backlog-map/modules/HOP-FINAL-HARDENING.md
   hop_hard_be_001_backlog_item: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-BE-001.md
+  hop_hard_be_001_qa_evidence: 08-qa/qa/final-hardening/HOP-HARD-BE-001-validation.md
+  hop_hard_be_001_security_quality_evidence: 08-qa/security-quality/HOP-HARD-BE-001/security-quality-evidence.md
+  hop_hard_be_001_handoff: 08-qa/handoffs/HOP-HARD-BE-001-summary.md
   hop_hard_iam_001_backlog_item: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-IAM-001.md
   hop_hard_data_001_backlog_item: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-DATA-001.md
   hop_hard_fe_001_backlog_item: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-FE-001.md

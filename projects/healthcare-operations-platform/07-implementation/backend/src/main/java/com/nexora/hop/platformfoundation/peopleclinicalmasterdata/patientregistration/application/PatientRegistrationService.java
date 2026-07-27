@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.nexora.hop.platformfoundation.auditcompliance.AuditRecorder;
 import com.nexora.hop.platformfoundation.peopleclinicalmasterdata.patientmanagement.application.AttachPatientRepresentativeCommand;
@@ -160,14 +161,16 @@ public class PatientRegistrationService {
      * ({@link PatientManagementService}) so this orchestration never owns or persists Patient state
      * directly (AGG-001 ownership stays with patient-management).
      * <p>
-     * <b>Known boundary:</b> the patient creation, representative attach and consent capture below
-     * are not wrapped in a database transaction (no {@code PlatformTransactionManager} is
-     * guaranteed to be available in the in-memory profile used by most tests). A failure after the
-     * patient is created but before the registration record is updated leaves an orphaned but
-     * valid Patient and a still-pending registration that can be retried with
-     * {@code resolvedExistingPatientId} pointing at the created patient. See technical debt
-     * TD-BE-006.
+     * The patient creation, representative attach and consent capture below are wrapped in a
+     * single transaction boundary ({@link Transactional}) so a failure partway through rolls back
+     * every step together instead of leaving an orphaned Patient behind. A
+     * {@code PlatformTransactionManager} bean is guaranteed under every active profile: the
+     * {@code "local"} profile gets Spring Boot's real {@code DataSourceTransactionManager}, and
+     * every other profile (including the in-memory profile used by most tests) falls back to
+     * {@link com.nexora.hop.platformfoundation.sharedkernel.TransactionManagerConfig}'s no-op
+     * manager. See technical debt TD-BE-006.
      */
+    @Transactional
     public PatientRegistrationRequest commit(String registrationRequestId, CommitPatientRegistrationCommand command) {
         PatientRegistrationRequest registration = require(registrationRequestId);
         if (!PatientRegistrationRequest.OUTCOME_PENDING.equals(registration.outcome())) {

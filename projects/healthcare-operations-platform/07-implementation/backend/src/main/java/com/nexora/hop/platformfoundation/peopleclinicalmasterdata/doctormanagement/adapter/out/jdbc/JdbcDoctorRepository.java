@@ -176,6 +176,15 @@ class JdbcDoctorRepository implements DoctorRepository {
     }
 
     @Override
+    public List<ProfessionalCredential> findVerifiedCredentialsExpiringBefore(LocalDate asOfDate) {
+        return jdbcTemplate.query("""
+                select * from people.doctor_credentials
+                where verification_status = ? and expires_at is not null and expires_at < ?
+                """, JdbcDoctorRepository::mapCredential,
+                ProfessionalCredential.STATUS_VERIFIED, sqlDate(asOfDate));
+    }
+
+    @Override
     public void saveSpecialty(SpecialtyAssignment specialty) {
         jdbcTemplate.update("""
                 insert into people.doctor_specialty_assignments (
