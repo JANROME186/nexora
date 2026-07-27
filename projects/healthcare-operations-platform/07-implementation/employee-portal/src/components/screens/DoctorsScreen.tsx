@@ -1,22 +1,244 @@
 import { useState, type FormEvent } from "react";
 import {
+  assignSpecialty,
   attachDoctorCredential,
   getDoctorSnapshot,
   listDoctorCredentials,
   listDoctors,
+  listSpecialtyAssignments,
   preparePortalAccess,
   registerDoctor,
+  retireDoctor,
   revokeDoctorCredential,
   suspendDoctor,
+  unassignSpecialty,
+  updateDoctor,
   verifyDoctorCredential,
 } from "../../api/peopleApi";
-import type { Doctor, DoctorSnapshot, ProfessionalCredential } from "../../api/types";
+import type {
+  Doctor,
+  DoctorSnapshot,
+  ProfessionalCredential,
+  SpecialtyAssignment,
+} from "../../api/types";
 import { MESSAGES } from "../../i18n/messages";
 import { useAdminScope } from "../../state/AdminScopeContext";
-import { useAsyncAction } from "../../state/useAsyncAction";
+import { useAsyncAction, type AsyncActionState } from "../../state/useAsyncAction";
 import { ConfirmDialog } from "../common/ConfirmDialog";
 import { ScopeIndicator } from "../common/ScopeIndicator";
 import { StatusBanner } from "../common/StatusBanner";
+
+interface DoctorEditPanelProps {
+  editGivenName: string;
+  onEditGivenNameChange: (value: string) => void;
+  editFamilyName: string;
+  onEditFamilyNameChange: (value: string) => void;
+  editDoctorType: string;
+  onEditDoctorTypeChange: (value: string) => void;
+  editDocumentType: string;
+  onEditDocumentTypeChange: (value: string) => void;
+  editDocumentNumber: string;
+  onEditDocumentNumberChange: (value: string) => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  updateAction: AsyncActionState<Doctor>;
+  onRequestRetire: () => void;
+  retireAction: AsyncActionState<Doctor>;
+}
+
+/** TD-FE-002 remediation: doctor update and retirement, extracted so the top-level screen
+ * component stays within the configured function-size/complexity lint thresholds. */
+function DoctorEditPanel({
+  editGivenName,
+  onEditGivenNameChange,
+  editFamilyName,
+  onEditFamilyNameChange,
+  editDoctorType,
+  onEditDoctorTypeChange,
+  editDocumentType,
+  onEditDocumentTypeChange,
+  editDocumentNumber,
+  onEditDocumentNumberChange,
+  onSubmit,
+  updateAction,
+  onRequestRetire,
+  retireAction,
+}: DoctorEditPanelProps) {
+  return (
+    <>
+      <h4>Edit doctor</h4>
+      <form onSubmit={onSubmit}>
+        <label htmlFor="edit-doctor-given-name">Given name</label>
+        <input
+          id="edit-doctor-given-name"
+          value={editGivenName}
+          onChange={(event) => onEditGivenNameChange(event.target.value)}
+          required
+        />
+        <label htmlFor="edit-doctor-family-name">Family name</label>
+        <input
+          id="edit-doctor-family-name"
+          value={editFamilyName}
+          onChange={(event) => onEditFamilyNameChange(event.target.value)}
+          required
+        />
+        <label htmlFor="edit-doctor-type">Doctor type</label>
+        <select
+          id="edit-doctor-type"
+          value={editDoctorType}
+          onChange={(event) => onEditDoctorTypeChange(event.target.value)}
+        >
+          <option value="referring_external">Referring (external)</option>
+          <option value="internal_medical_validator">Internal medical validator</option>
+          <option value="both">Both</option>
+        </select>
+        <label htmlFor="edit-doctor-document-type">Primary document type</label>
+        <select
+          id="edit-doctor-document-type"
+          value={editDocumentType}
+          onChange={(event) => onEditDocumentTypeChange(event.target.value)}
+        >
+          <option value="professional_license">Professional license</option>
+          <option value="national_id">National id</option>
+          <option value="passport">Passport</option>
+          <option value="other">Other</option>
+        </select>
+        <label htmlFor="edit-doctor-document-number">Primary document number</label>
+        <input
+          id="edit-doctor-document-number"
+          value={editDocumentNumber}
+          onChange={(event) => onEditDocumentNumberChange(event.target.value)}
+          required
+        />
+        <button type="submit" disabled={updateAction.status === "loading"}>
+          Save doctor
+        </button>
+        <StatusBanner
+          status={updateAction.status}
+          errorMessage={updateAction.errorMessage}
+          successMessage="Doctor updated."
+        />
+      </form>
+
+      <h4>Retire doctor</h4>
+      <button type="button" onClick={onRequestRetire}>
+        Retire doctor
+      </button>
+      <StatusBanner
+        status={retireAction.status}
+        errorMessage={retireAction.errorMessage}
+        successMessage="Doctor retired."
+      />
+    </>
+  );
+}
+
+interface SpecialtiesPanelProps {
+  specialties: SpecialtyAssignment[];
+  specialtiesAction: AsyncActionState<SpecialtyAssignment[]>;
+  onLoad: () => void;
+  specialtyCode: string;
+  onSpecialtyCodeChange: (value: string) => void;
+  primary: boolean;
+  onPrimaryChange: (value: boolean) => void;
+  onAssign: (event: FormEvent<HTMLFormElement>) => void;
+  assignAction: AsyncActionState<SpecialtyAssignment>;
+  onRequestUnassign: (assignmentId: string) => void;
+  unassignAction: AsyncActionState<void>;
+}
+
+/** TD-FE-002 remediation: doctor specialty assignment (list/assign/unassign), extracted so the
+ * top-level screen component stays within the configured function-size lint threshold. */
+function SpecialtiesPanel({
+  specialties,
+  specialtiesAction,
+  onLoad,
+  specialtyCode,
+  onSpecialtyCodeChange,
+  primary,
+  onPrimaryChange,
+  onAssign,
+  assignAction,
+  onRequestUnassign,
+  unassignAction,
+}: SpecialtiesPanelProps) {
+  return (
+    <div className="panel">
+      <h3>Specialties</h3>
+      <button type="button" disabled={specialtiesAction.status === "loading"} onClick={onLoad}>
+        Load specialties
+      </button>
+      <StatusBanner
+        status={specialtiesAction.status}
+        errorMessage={specialtiesAction.errorMessage}
+        successMessage="Specialties loaded."
+      />
+
+      <form onSubmit={onAssign}>
+        <label htmlFor="specialty-code">Specialty code</label>
+        <input
+          id="specialty-code"
+          value={specialtyCode}
+          onChange={(event) => onSpecialtyCodeChange(event.target.value)}
+          required
+        />
+        <label htmlFor="specialty-primary">
+          <input
+            id="specialty-primary"
+            type="checkbox"
+            checked={primary}
+            onChange={(event) => onPrimaryChange(event.target.checked)}
+          />
+          Primary specialty
+        </label>
+        <button type="submit" disabled={assignAction.status === "loading"}>
+          Assign specialty
+        </button>
+        <StatusBanner
+          status={assignAction.status}
+          errorMessage={assignAction.errorMessage}
+          successMessage="Specialty assigned."
+        />
+      </form>
+
+      {specialtiesAction.status === "success" && specialties.length === 0 ? (
+        <p className="empty-state">No specialties assigned to this doctor.</p>
+      ) : null}
+
+      {specialties.length > 0 ? (
+        <table>
+          <caption>Doctor specialties</caption>
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Specialty code</th>
+              <th scope="col">Primary</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {specialties.map((specialty) => (
+              <tr key={specialty.assignmentId}>
+                <td>{specialty.assignmentId}</td>
+                <td>{specialty.specialtyCode}</td>
+                <td>{specialty.primary ? "Yes" : "No"}</td>
+                <td>
+                  <button type="button" onClick={() => onRequestUnassign(specialty.assignmentId)}>
+                    Unassign
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : null}
+      <StatusBanner
+        status={unassignAction.status}
+        errorMessage={unassignAction.errorMessage}
+        successMessage="Specialty unassigned."
+      />
+    </div>
+  );
+}
 
 /**
  * BCM-PER-003 employee portal surface: doctor directory, registration, snapshot, credential
@@ -77,6 +299,57 @@ export function DoctorsScreen() {
     setSnapshot(found);
     return found;
   });
+
+  const [editGivenName, setEditGivenName] = useState("");
+  const [editFamilyName, setEditFamilyName] = useState("");
+  const [editDoctorType, setEditDoctorType] = useState("referring_external");
+  const [editDocumentType, setEditDocumentType] = useState("professional_license");
+  const [editDocumentNumber, setEditDocumentNumber] = useState("");
+  const updateAction = useAsyncAction(async () => {
+    if (!selectedDoctorId) throw new Error(MESSAGES.selectDoctorFirst);
+    return updateDoctor(selectedDoctorId, {
+      givenName: editGivenName,
+      familyName: editFamilyName,
+      doctorType: editDoctorType,
+      primaryDocumentType: editDocumentType,
+      primaryDocumentNumber: editDocumentNumber,
+    });
+  });
+
+  const retireAction = useAsyncAction(async () => {
+    if (!selectedDoctorId) throw new Error(MESSAGES.selectDoctorFirst);
+    return retireDoctor(selectedDoctorId);
+  });
+  const [confirmingRetire, setConfirmingRetire] = useState(false);
+
+  const [specialties, setSpecialties] = useState<SpecialtyAssignment[]>([]);
+  const specialtiesAction = useAsyncAction(async () => {
+    if (!selectedDoctorId) throw new Error(MESSAGES.selectDoctorFirst);
+    const loaded = await listSpecialtyAssignments(selectedDoctorId);
+    setSpecialties(loaded);
+    return loaded;
+  });
+  const [specialtyCode, setSpecialtyCode] = useState("");
+  const [specialtyPrimary, setSpecialtyPrimary] = useState(false);
+  const assignSpecialtyAction = useAsyncAction(async () => {
+    if (!selectedDoctorId) throw new Error(MESSAGES.selectDoctorFirst);
+    const created = await assignSpecialty(selectedDoctorId, {
+      specialtyCode,
+      primary: specialtyPrimary,
+    });
+    setSpecialties((current) => [
+      created,
+      ...current.filter((specialty) => specialty.assignmentId !== created.assignmentId),
+    ]);
+    setSpecialtyCode("");
+    setSpecialtyPrimary(false);
+    return created;
+  });
+  const unassignSpecialtyAction = useAsyncAction(async (assignmentId: string) => {
+    if (!selectedDoctorId) throw new Error(MESSAGES.selectDoctorFirst);
+    await unassignSpecialty(selectedDoctorId, assignmentId);
+  });
+  const [specialtyToUnassign, setSpecialtyToUnassign] = useState<string | undefined>(undefined);
 
   const credentialsAction = useAsyncAction(async () => {
     if (!selectedDoctorId) throw new Error(MESSAGES.selectDoctorFirst);
@@ -163,10 +436,28 @@ export function DoctorsScreen() {
     }
   }
 
-  function selectDoctor(doctorId: string) {
-    setSelectedDoctorId(doctorId);
+  function selectDoctor(doctor: Doctor) {
+    setSelectedDoctorId(doctor.doctorId);
     setSnapshot(undefined);
     setCredentials([]);
+    setSpecialties([]);
+    setEditGivenName(doctor.givenName ?? "");
+    setEditFamilyName(doctor.familyName ?? "");
+    setEditDoctorType(doctor.doctorType ?? "referring_external");
+    setEditDocumentType(doctor.primaryDocumentType ?? "professional_license");
+    setEditDocumentNumber("");
+    updateAction.reset();
+    retireAction.reset();
+  }
+
+  async function handleUpdate(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    await updateAction.run();
+  }
+
+  async function handleAssignSpecialty(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    await assignSpecialtyAction.run();
   }
 
   return (
@@ -278,7 +569,7 @@ export function DoctorsScreen() {
                   <button
                     type="button"
                     className="link-button"
-                    onClick={() => selectDoctor(doctor.doctorId)}
+                    onClick={() => selectDoctor(doctor)}
                   >
                     {doctor.doctorId}
                   </button>
@@ -336,6 +627,23 @@ export function DoctorsScreen() {
                 </tbody>
               </table>
             ) : null}
+
+            <DoctorEditPanel
+              editGivenName={editGivenName}
+              onEditGivenNameChange={setEditGivenName}
+              editFamilyName={editFamilyName}
+              onEditFamilyNameChange={setEditFamilyName}
+              editDoctorType={editDoctorType}
+              onEditDoctorTypeChange={setEditDoctorType}
+              editDocumentType={editDocumentType}
+              onEditDocumentTypeChange={setEditDocumentType}
+              editDocumentNumber={editDocumentNumber}
+              onEditDocumentNumberChange={setEditDocumentNumber}
+              onSubmit={handleUpdate}
+              updateAction={updateAction}
+              onRequestRetire={() => setConfirmingRetire(true)}
+              retireAction={retireAction}
+            />
 
             <h4>Suspend doctor</h4>
             <form
@@ -497,6 +805,20 @@ export function DoctorsScreen() {
               successMessage="Credential revoked."
             />
           </div>
+
+          <SpecialtiesPanel
+            specialties={specialties}
+            specialtiesAction={specialtiesAction}
+            onLoad={() => specialtiesAction.run()}
+            specialtyCode={specialtyCode}
+            onSpecialtyCodeChange={setSpecialtyCode}
+            primary={specialtyPrimary}
+            onPrimaryChange={setSpecialtyPrimary}
+            onAssign={handleAssignSpecialty}
+            assignAction={assignSpecialtyAction}
+            onRequestUnassign={(assignmentId) => setSpecialtyToUnassign(assignmentId)}
+            unassignAction={unassignSpecialtyAction}
+          />
         </>
       ) : (
         <p className="empty-state">
@@ -540,6 +862,42 @@ export function DoctorsScreen() {
             }
           }
           setCredentialToRevoke(undefined);
+        }}
+      />
+
+      <ConfirmDialog
+        open={confirmingRetire}
+        title="Confirm doctor retirement"
+        description="A retired doctor permanently loses referring eligibility. Continue?"
+        onCancel={() => setConfirmingRetire(false)}
+        onConfirm={async () => {
+          setConfirmingRetire(false);
+          const result = await retireAction.run();
+          if (result.ok) {
+            setDoctors((current) =>
+              current.map((doctor) =>
+                doctor.doctorId === result.data.doctorId ? result.data : doctor,
+              ),
+            );
+          }
+        }}
+      />
+
+      <ConfirmDialog
+        open={Boolean(specialtyToUnassign)}
+        title="Unassign specialty"
+        description="This specialty assignment will be removed from the doctor. Continue?"
+        onCancel={() => setSpecialtyToUnassign(undefined)}
+        onConfirm={async () => {
+          if (specialtyToUnassign) {
+            const result = await unassignSpecialtyAction.run(specialtyToUnassign);
+            if (result.ok) {
+              setSpecialties((current) =>
+                current.filter((specialty) => specialty.assignmentId !== specialtyToUnassign),
+              );
+            }
+          }
+          setSpecialtyToUnassign(undefined);
         }}
       />
     </section>

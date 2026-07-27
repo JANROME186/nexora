@@ -4,7 +4,7 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: Employee-portal generated administration screens exceed function-size and complexity
   warning thresholds
-version: 1.1.0
+version: 1.2.0
 status: materially_reduced
 ---
 
@@ -20,10 +20,10 @@ artifact:
   type: technical-debt-item
   name: Employee-portal generated administration screens exceed function-size and
     complexity warning thresholds
-  version: 1.1.0
+  version: 1.2.0
   status: materially_reduced
   created_date: 2026-07-19
-  updated_date: 2026-07-20
+  updated_date: 2026-07-27
 source:
   discovered_during_backlog_item: MVP-MOD-008-FE-001
   module: MVP-MOD-008 Integration and Migration Readiness
@@ -79,6 +79,29 @@ remediation:
   - No visible text is moved back into component code; es-MX/en-US catalogs remain
     the source for labels.
 progress_log:
+- backlog_item: HOP-HARD-FE-001
+  date: 2026-07-27
+  action: 'Applied the COM-MOD-010-FE-001 shared decomposition pattern (small local sub-components
+    receiving state and typed action handles as props, one useAsyncAction per operation kept in
+    the top-level screen component only, plus a dedicated custom hook per screen bundling state
+    and async actions where the JSX-only decomposition was not by itself sufficient) to all 3
+    brand-new HOP-HARD-FE-001 screens (AppointmentsScreen, AdmissionsScreen, QuotationsScreen) and
+    to the 2 legacy screens this item touched (PatientsScreen, DoctorsScreen). `npm run lint`
+    reports 0 max-lines-per-function/complexity/cognitive-complexity warnings for any of the 3 new
+    screens, meeting the quality_goal for new files without exception. PatientsScreen and
+    DoctorsScreen (legacy, pre-existing max-lines-per-function warnings from before this item)
+    were extended with 6 new sub-components (PatientEditPanel, PatientDocumentsPanel,
+    RepresentativesPanel, RepresentativesTable, DoctorEditPanel, SpecialtiesPanel) specifically so
+    the additional update/deactivate/documents/specialty logic did not introduce a NEW warning
+    category (complexity/cognitive-complexity) beyond the pre-existing max-lines-per-function
+    warning both screens already carried.'
+  scope_decision: Did not rewrite the three originally-named legacy files (IntegrationEndpointsScreen,
+    ApiManagementScreen, MigrationJobsScreen) in this backlog item; HOP-HARD-FE-001 does not touch
+    BCM-PLT-004/005/010 and a behavior-preserving rewrite of unrelated, already-tested screens
+    carries regression risk disproportionate to this item's scope.
+  result: 0 lint errors (unchanged); the three originally-flagged files remain unchanged (still
+    open on those specific files); no new employee-portal screen file introduced a
+    max-lines-per-function/complexity/cognitive-complexity warning in this iteration.
 - backlog_item: COM-MOD-010-FE-001
   date: 2026-07-20
   action: 'Implemented the preferred_remediation pattern for real: added two new shared

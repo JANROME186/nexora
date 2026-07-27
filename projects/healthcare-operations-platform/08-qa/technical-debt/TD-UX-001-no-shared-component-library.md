@@ -73,4 +73,18 @@ remediation:
     StatusBanner, ScopeIndicator and ConfirmDialog components. The new AI assistant
     review UI adopts DataTable/StatusBanner/ScopeIndicator instead of adding another
     per-screen table implementation.
+  progress_log:
+  - backlog_item: HOP-HARD-FE-001
+    date: 2026-07-27
+    action: 'All 3 brand-new screens (AppointmentsScreen, AdmissionsScreen, QuotationsScreen)
+      adopt the shared DataTable/StatusBanner/ScopeIndicator/ConfirmDialog components for their
+      list views rather than hand-rolling per-screen table markup, extending the pattern
+      COM-MOD-015-FE-001 established. Additionally, while extending the 2 legacy screens this item
+      touched (PatientsScreen, DoctorsScreen) for TD-FE-002, 6 new focused, reusable panel
+      components were extracted (PatientEditPanel, PatientDocumentsPanel, RepresentativesPanel,
+      RepresentativesTable, DoctorEditPanel, SpecialtiesPanel) -- each a small, props-driven
+      component in the same spirit as this item''s target Button/FormField extraction, though
+      scoped to their specific panel rather than the generic primitives this item ultimately
+      still wants. Generic Button/FormField extraction itself remains open as incremental
+      follow-up.'
 ```

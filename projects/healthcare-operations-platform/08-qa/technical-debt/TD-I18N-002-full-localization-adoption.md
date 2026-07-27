@@ -156,4 +156,18 @@ remediation:
     of a message substring.
   - mobile-app's localization approach is selected and documented once a renderer
     stack exists.
+review_log:
+- backlog_item: HOP-HARD-FE-001
+  date: 2026-07-27
+  action: 'Reviewed while adding 3 new employee-portal screens (AppointmentsScreen,
+    AdmissionsScreen, QuotationsScreen) for TD-FE-006. Their AppShell tab labels were added to
+    both locale-keyed catalogs (es-MX.ts/en-US.ts appShell.tabs), keeping the locale-switching
+    mechanism complete for navigation. Their screen-body copy (headings, buttons, field labels)
+    was written as inline English JSX text, consistent with this item''s already-documented
+    baseline that screen body content, not navigation, is the remaining ~125-string migration
+    scope (see AppSmoke.test.tsx''s own comment -- screen headings "remain inline English JSX
+    text, unaffected by the locale switch... tracked as remaining TD-I18N-002 scope"). This is
+    not a new regression; it matches the same convention already carried by the 13 screens that
+    import MESSAGES directly. No change to this item''s remaining scope inventory (backend
+    `code` field retrofit, real i18n library adoption, mobile localization selection).'
 ```

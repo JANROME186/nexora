@@ -4,7 +4,7 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: employee-portal npm audit reports 10 high-severity findings confined to transitive
   devDependencies, requiring a breaking-change fix
-version: 1.0.0
+version: 1.1.0
 status: open
 ---
 
@@ -20,9 +20,10 @@ artifact:
   type: technical-debt-item
   name: employee-portal npm audit reports 10 high-severity findings confined to
     transitive devDependencies, requiring a breaking-change fix
-  version: 1.0.0
+  version: 1.1.0
   status: open
   created_date: 2026-07-25
+  updated_date: 2026-07-27
 source:
   discovered_during_backlog_item: COM-MOD-017-FE-001
   module: COM-MOD-017 Product Marketplace and Extension Packaging
@@ -82,4 +83,15 @@ remediation:
     downgrade to eslint-plugin-jsx-a11y's currently-compatible major version line.
   - No lint or accessibility-test regression across any HOP frontend stack sharing
     the same devDependency.
+review_log:
+- backlog_item: HOP-HARD-FE-001
+  date: 2026-07-27
+  action: 'Re-ran `npm audit --audit-level=low` and `npm audit --omit=dev --audit-level=low`
+    as part of this item''s mandatory dependency gate. Findings are unchanged from the
+    COM-MOD-017-FE-001 baseline -- 10 high-severity findings, all still confined to the same
+    brace-expansion/minimatch transitive chain under eslint-plugin-jsx-a11y, eslint-plugin-react,
+    glob and test-exclude/@vitest/coverage-v8 devDependencies; `npm audit --omit=dev --audit-level=low`
+    still reports 0 vulnerabilities (production dependencies remain only react/react-dom). No
+    drift, no new findings, no change to package.json/package-lock.json in this backlog item;
+    status remains open/non-blocking pending the dedicated devDependency-maintenance backlog item.'
 ```

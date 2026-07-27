@@ -32,11 +32,11 @@ describe("SessionContext permission-filtered navigation", () => {
     window.localStorage.clear();
   });
 
-  it("shows all 62 tabs for the default ADMIN local-dev fixture session", () => {
+  it("shows all 65 tabs for the default ADMIN local-dev fixture session", () => {
     render(<Harness roleCodes={["ADMIN"]} />);
 
     const nav = screen.getByRole("navigation", { name: "Pantallas de administración" });
-    expect(within(nav).getAllByRole("button")).toHaveLength(62);
+    expect(within(nav).getAllByRole("button")).toHaveLength(65);
   });
 
   it("renders only FRONT_DESK-permitted tabs and hides Tenants when the role changes", async () => {
@@ -48,6 +48,9 @@ describe("SessionContext permission-filtered navigation", () => {
     const nav = screen.getByRole("navigation", { name: "Pantallas de administración" });
     expect(within(nav).queryByRole("button", { name: "Organizaciones" })).not.toBeInTheDocument();
     expect(within(nav).getByRole("button", { name: "Recepción" })).toBeInTheDocument();
+    expect(within(nav).getByRole("button", { name: "Citas" })).toBeInTheDocument();
+    expect(within(nav).getByRole("button", { name: "Admisiones" })).toBeInTheDocument();
+    expect(within(nav).getByRole("button", { name: "Cotizaciones" })).toBeInTheDocument();
     expect(within(nav).getByRole("button", { name: "Pacientes" })).toBeInTheDocument();
     expect(within(nav).getByRole("button", { name: "Doctores" })).toBeInTheDocument();
     expect(within(nav).getByRole("button", { name: "Contenido Público" })).toBeInTheDocument();
@@ -55,7 +58,7 @@ describe("SessionContext permission-filtered navigation", () => {
     expect(within(nav).getByRole("button", { name: "Cotizaciones Públicas" })).toBeInTheDocument();
     expect(within(nav).getByRole("button", { name: "Citas de Imagen" })).toBeInTheDocument();
     expect(within(nav).getByRole("button", { name: "Recepción de Imagen" })).toBeInTheDocument();
-    expect(within(nav).getAllByRole("button")).toHaveLength(12);
+    expect(within(nav).getAllByRole("button")).toHaveLength(15);
   });
 
   it("persists session headers used by backend request authorization", async () => {

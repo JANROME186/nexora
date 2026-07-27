@@ -1,0 +1,45 @@
+# TASK: HOP-HARD-FE-001 - Employee portal quality, i18n, UX and missing workflow surfaces
+ROOT: C:/Documents/Proyectos/Laboratorio/NEXORA/git/nexora
+PROJECT: projects/healthcare-operations-platform
+ORCHESTRATION: ollama_primary
+EXECUTION_FLOW: cli
+CHANNEL: CLI con suscripción local
+
+## 1. Alcance / Objetivos Directos
+- Atender el slice de hardening activo: Employee portal quality, i18n, UX and missing workflow surfaces.
+- Cargar el item activo y cerrar o reducir materialmente todos sus mapped_items; no basta con atender solo uno.
+- Mantener ejecución agent-agnostic, sin dependencias propietarias de agentes o runtimes.
+- Actualizar cada deuda mapeada con evidencia objetiva, estado resultante, riesgo residual y siguiente dueño si no puede cerrarse.
+- Ejecutar gates frontend obligatorios: typecheck, tests/cobertura, build, SAST, dependencias, i18n y scans de seguridad.
+- No avanzar punteros si un gate obligatorio queda bloqueado o sin evidencia.
+
+## 2. Flujo de Ejecución
+- Ejecutar por `tool: commercial_agent_router` usando un proveedor CLI habilitado por el operador.
+- No usar proveedores deshabilitados, con cuota agotada o que requieran API keys token-billed.
+- Si el CLI no puede ejecutarse por permisos, login o sandbox, el router debe intentar fallback automático con otro proveedor disponible; usar `--execution-flow manual` solo cuando no exista ruta automática viable.
+
+## 3. Contexto Inmediato (Punteros)
+- Handoff previo: `08-qa/handoffs/HOP-HARD-DATA-001-summary.md`
+- Prompts y estado: inspeccionar `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md` y `PROJECT_STATE.md` bajo demanda.
+- Contexto principal: `06-delivery/commercial-product/backlog-map/modules/HOP-FINAL-HARDENING.md`
+
+## 4. Entregables
+- Cambios frontend y validaciones asociadas.
+- QA Evidence: `08-qa/qa/final-hardening/HOP-HARD-FE-001-validation.md`
+- Security Evidence: `08-qa/security-quality/HOP-HARD-FE-001/security-quality-evidence.md`
+- Transición: crear `08-qa/handoffs/HOP-HARD-FE-001-summary.md`.
+- Actualizar `PROJECT_STATE.md`, `SOURCE_OF_TRUTH.md`, backlog/prompts, runbook e índices aplicables.
+
+## 5. Criterios de Cierre
+- Gates obligatorios ejecutados; Markdown/frontmatter parseable; `git diff --check` limpio.
+- Commit: `fix(hop): burn down frontend hardening debt`.
+- No lanzar subagentes comerciales para exploración, lectura masiva, QA documental o formateo; usar herramientas locales/Ollama y `tool: commercial_agent_router` solo para CLI con suscripción local o task ingestion por archivo. No usar API keys por consumo salvo ADR excepcional.
+- Finalizar con protocolo handoff & exit: no pedir ni iniciar el siguiente backlog en el mismo chat/sesión.
+- Después del commit, ejecutar `tool: backlog_closure_validator`; la herramienta toma el prompt desde `active_prompt/` sin parámetros.
+- El validador debe terminar con código 0, reportar `status: closed`, `Hard findings: 0` y generar evidencia en `08-qa/backlog-validations/HOP-HARD-FE-001-closure-validation.md`.
+- No modificar `backlog_validator.py` ni `tool-registry.md` para cerrar el backlog; son controles protegidos.
+- Si el validador genera `HOP-HARD-FE-001-closure-fix-prompt.md` o reporta inconsistencias, no declarar cierre; corregir solo producto/evidencia/registros y repetir commit + validación estricta.
+- Máximo 3 intentos de cierre. Si después de 3 intentos el validador sigue fallando, detenerse y reportar hallazgos vigentes, correcciones realizadas y justificación técnica de por qué se considera que debería poder cerrar.
+- `git status --short` limpio después del commit y de la validación final.
+
+<!-- ollama_plan_hash: 674174ee09934012f679d51083119b7bc52fe2dafbd6eacfe6e996b2d8ff6b5f -->

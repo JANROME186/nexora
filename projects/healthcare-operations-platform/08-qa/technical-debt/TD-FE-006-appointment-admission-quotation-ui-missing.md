@@ -4,8 +4,8 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: Employee portal is missing dedicated Appointment Scheduling, Admission Management
   and Quotation Management UI
-version: 1.0.0
-status: open
+version: 2.0.0
+status: closed
 ---
 
 # Employee Portal Is Missing Dedicated Appointment Scheduling, Admission Management And Quotation Management Ui
@@ -20,9 +20,11 @@ artifact:
   type: technical-debt-item
   name: Employee portal is missing dedicated Appointment Scheduling, Admission Management
     and Quotation Management UI
-  version: 1.0.0
-  status: open
+  version: 2.0.0
+  status: closed
   created_date: 2026-07-16
+  updated_date: 2026-07-27
+  closed_by_backlog_item: HOP-HARD-FE-001
 source:
   discovered_during_backlog_item: MVP-MOD-004-FE-001
   module: MVP-MOD-004 Front Desk and Care Delivery
@@ -97,4 +99,28 @@ remediation:
     module, and are wired into AppShell.tsx.
   - Admission's commit-to-order and Quotation's convert-to-order flows are exercised
     end to end from the portal, not only via direct API calls.
+closure:
+  backlog_item: HOP-HARD-FE-001
+  evidence: 08-qa/qa/final-hardening/HOP-HARD-FE-001-validation.md
+  summary: 'frontDeskApi.ts extended with the full BCM-ATT-001/004/006 controller surface (25
+    functions: list/get/request/confirm/check-in/cancel/no-show/requested-items/preparation-instructions
+    for appointments; list/get/catalog-selections/start/mark-ready/commit/reject for admissions;
+    list/get/lines/start/issue/accept/convert/cancel/expire for quotations). Three new screens
+    (AppointmentsScreen.tsx, AdmissionsScreen.tsx, QuotationsScreen.tsx) were added following the
+    existing useAsyncAction/StatusBanner/ConfirmDialog/DataTable pattern, wired into 3 new
+    ScreenKey/PermissionCode entries (SCREEN_APPOINTMENTS/ADMISSIONS/QUOTATIONS, granted to
+    FRONT_DESK alongside the existing reception/diagnostic-orders permissions and to ADMIN via the
+    existing PERMISSION_CODES derivation), 3 new AppShell tab labels (es-MX/en-US locale catalogs)
+    and App.tsx''s SCREEN_COMPONENTS map. Admission''s commit-to-order and Quotation''s
+    convert-to-order flows are each exercised end to end by a dedicated test
+    (AdmissionsScreen.test.tsx "commits a ready admission to a diagnostic order",
+    QuotationsScreen.test.tsx "accepts an issued quotation and converts it to a diagnostic
+    order"), not only asserted via direct API-shape tests. All three acceptance criteria are met;
+    closed.'
+  new_tests:
+  - AppointmentsScreen.test.tsx (4 tests), AdmissionsScreen.test.tsx (4 tests), QuotationsScreen.test.tsx
+    (4 tests)
+  - frontDeskApi.test.ts extended with request-shape assertions for all 25 new functions
+  - AppSmoke.test.tsx and SessionContext.test.tsx updated for the 3 new navigation tabs (62 -> 65
+    ADMIN tabs; FRONT_DESK 12 -> 15 tabs)
 ```

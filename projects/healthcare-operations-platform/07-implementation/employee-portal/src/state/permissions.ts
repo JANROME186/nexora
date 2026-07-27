@@ -21,6 +21,9 @@ export type ScreenKey =
   | "doctors"
   | "patient-registrations"
   | "reception"
+  | "appointments"
+  | "admissions"
+  | "quotations"
   | "diagnostic-orders"
   | "cash-sessions"
   | "sales"
@@ -85,6 +88,9 @@ export type PermissionCode =
   | "SCREEN_DOCTORS"
   | "SCREEN_PATIENT_REGISTRATIONS"
   | "SCREEN_RECEPTION"
+  | "SCREEN_APPOINTMENTS"
+  | "SCREEN_ADMISSIONS"
+  | "SCREEN_QUOTATIONS"
   | "SCREEN_DIAGNOSTIC_ORDERS"
   | "SCREEN_CASH_SESSIONS"
   | "SCREEN_SALES"
@@ -149,6 +155,9 @@ export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   doctors: "SCREEN_DOCTORS",
   "patient-registrations": "SCREEN_PATIENT_REGISTRATIONS",
   reception: "SCREEN_RECEPTION",
+  appointments: "SCREEN_APPOINTMENTS",
+  admissions: "SCREEN_ADMISSIONS",
+  quotations: "SCREEN_QUOTATIONS",
   "diagnostic-orders": "SCREEN_DIAGNOSTIC_ORDERS",
   "cash-sessions": "SCREEN_CASH_SESSIONS",
   sales: "SCREEN_SALES",
@@ -229,6 +238,9 @@ export const ROLE_PERMISSION_CATALOG: Record<RoleCode, readonly PermissionCode[]
     "SCREEN_DOCTORS",
     "SCREEN_PATIENT_REGISTRATIONS",
     "SCREEN_RECEPTION",
+    "SCREEN_APPOINTMENTS",
+    "SCREEN_ADMISSIONS",
+    "SCREEN_QUOTATIONS",
     "SCREEN_DIAGNOSTIC_ORDERS",
     "SCREEN_DIAGNOSTIC_CATALOG",
     "SCREEN_PUBLIC_CONTENT_REVIEW",

@@ -69,3 +69,7 @@ export function put<TResponse, TBody = unknown>(path: string, body: TBody): Prom
 export function postForm<TResponse>(path: string, body: FormData): Promise<TResponse> {
   return request<TResponse>(path, { method: "POST", body });
 }
+
+export function del<TResponse = void>(path: string): Promise<TResponse> {
+  return request<TResponse>(path, { method: "DELETE" });
+}

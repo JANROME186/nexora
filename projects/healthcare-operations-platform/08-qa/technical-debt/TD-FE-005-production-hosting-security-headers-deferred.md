@@ -88,4 +88,13 @@ remediation:
     policy for HTML, static assets, robots.txt and sitemap.xml.
   - OWASP ZAP baseline scan against the production build reports 0 WARN for CSP, COEP
     and cache-control response-header findings.
+review_log:
+- backlog_item: HOP-HARD-FE-001
+  date: 2026-07-27
+  action: Reviewed during the employee-portal hardening slice. No employee-portal production
+    hosting/deployment backlog item has been scheduled yet, and a fresh `grep -r
+    "dangerouslySetInnerHTML\|innerHTML\|eval(" src/` across the 3 new screens and 2 touched
+    legacy screens added in this item found no matches, so the compensating control (no known
+    DOM-XSS sink) still holds. Status and remediation strategy unchanged; this item remains
+    correctly scoped to whenever a production hosting layer for the employee portal is defined.
 ```

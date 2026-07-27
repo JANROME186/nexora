@@ -62,6 +62,15 @@ describe("Employee portal app smoke", () => {
     await user.click(screen.getByRole("button", { name: "Recepción" }));
     expect(screen.getByRole("heading", { name: "Front Desk Worklist" })).toBeInTheDocument();
 
+    await user.click(screen.getByRole("button", { name: "Citas" }));
+    expect(screen.getByRole("heading", { name: "Appointments" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Admisiones" }));
+    expect(screen.getByRole("heading", { name: "Admissions" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Cotizaciones" }));
+    expect(screen.getByRole("heading", { name: "Quotations" })).toBeInTheDocument();
+
     await user.click(screen.getByRole("button", { name: "Órdenes Diagnósticas" }));
     expect(screen.getByRole("heading", { name: "Diagnostic Orders" })).toBeInTheDocument();
 
@@ -277,8 +286,9 @@ describe("Employee portal app smoke", () => {
     render(<App />);
 
     // The local dev fixture session defaults to ADMIN, which is granted every screen
-    // permission, so all 62 navigation tabs remain visible (61 prior + COM-MOD-015 AI).
+    // permission, so all 65 navigation tabs remain visible (62 prior + HOP-HARD-FE-001
+    // Appointments/Admissions/Quotations).
     const nav = screen.getByRole("navigation", { name: "Pantallas de administración" });
-    expect(within(nav).getAllByRole("button")).toHaveLength(62);
+    expect(within(nav).getAllByRole("button")).toHaveLength(65);
   });
 });

@@ -17,32 +17,32 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: HOP-HARD-DATA-001 closed. Final hardening continues with employee portal quality, i18n, UX and missing workflow surfaces.
+current_phase: HOP-HARD-FE-001 closed. Final hardening continues with mobile, patient portal, doctor portal and imaging delivery hardening.
 commercial_product_progress:
   status: active
-  current_iteration: HOP-HARD-FE-001
+  current_iteration: HOP-HARD-APP-001
   active_module: HOP-FINAL-HARDENING
-  active_backlog_item: HOP-HARD-FE-001
+  active_backlog_item: HOP-HARD-APP-001
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   backlog: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.md
   detail_ref: 08-qa/project-tracking/progress-ledger/commercial-product-progress-detail.md
 architecture_status: Architecture Freeze v1.0
 implementation_progress:
-  current_backlog_item: HOP-HARD-FE-001
-  active_backlog_item: HOP-HARD-FE-001
-  next_backlog_item: HOP-HARD-APP-001
+  current_backlog_item: HOP-HARD-APP-001
+  active_backlog_item: HOP-HARD-APP-001
+  next_backlog_item: HOP-HARD-WEB-001
   current_module: HOP-FINAL-HARDENING
   progress_percent: null
   last_commit: null
-  completed_backlog_items_count: 111
+  completed_backlog_items_count: 112
   recent_completed_backlog_items:
+  - HOP-HARD-FE-001
   - HOP-HARD-DATA-001
   - HOP-HARD-IAM-001
   - HOP-HARD-BE-001
   - COM-MOD-015-CLOSEOUT
   - COM-MOD-015-QA-001
-  - COM-MOD-015-FE-001
   - COM-MOD-015-BE-002
   - COM-MOD-015-BE-001
   - COM-MOD-015-DEF

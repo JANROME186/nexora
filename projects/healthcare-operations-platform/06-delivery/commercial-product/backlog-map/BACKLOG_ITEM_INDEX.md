@@ -576,12 +576,12 @@ items:
   path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-DATA-001.md
 - id: HOP-HARD-FE-001
   name: Employee portal quality, i18n, UX and missing workflow surfaces
-  status: next
+  status: closed
   module_id: HOP-FINAL-HARDENING
   path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-FE-001.md
 - id: HOP-HARD-APP-001
   name: Mobile, patient portal, doctor portal and imaging delivery hardening
-  status: planned
+  status: next
   module_id: HOP-FINAL-HARDENING
   path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-APP-001.md
 - id: HOP-HARD-WEB-001

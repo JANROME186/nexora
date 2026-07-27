@@ -1,6 +1,8 @@
-import { get, post } from "./httpClient";
+import { del, get, post, put } from "./httpClient";
 import type {
+  AssignSpecialtyRequest,
   AttachCredentialRequest,
+  AttachPatientDocumentRequest,
   AttachPatientRepresentativeRequest,
   CancelPatientRegistrationRequest,
   CommitPatientRegistrationRequest,
@@ -11,6 +13,7 @@ import type {
   MergePatientRequest,
   Patient,
   PatientConsent,
+  PatientDocument,
   PatientRegistrationRequestRecord,
   PatientRepresentative,
   PatientSnapshot,
@@ -23,8 +26,11 @@ import type {
   RecordPatientConsentRequest,
   RegisterDoctorRequest,
   RegisterPatientRequest,
+  SpecialtyAssignment,
   StartPatientRegistrationRequest,
   SuspendDoctorRequest,
+  UpdateDoctorRequest,
+  UpdatePatientRequest,
 } from "./types";
 
 const PERSONS_BASE = "/api/people/persons";
@@ -89,16 +95,26 @@ export function listPatients(laboratoryId: string): Promise<Patient[]> {
   return get<Patient[]>(`${PATIENTS_BASE}?${query.toString()}`);
 }
 
-export function getPatient(patientId: string): Promise<Patient> {
-  return get<Patient>(`${PATIENTS_BASE}/${encodeURIComponent(patientId)}`);
-}
-
 export function getPatientSnapshot(patientId: string): Promise<PatientSnapshot> {
   return get<PatientSnapshot>(`${PATIENTS_BASE}/${encodeURIComponent(patientId)}/snapshot`);
 }
 
 export function registerPatient(request: RegisterPatientRequest): Promise<Patient> {
   return post<Patient, RegisterPatientRequest>(PATIENTS_BASE, request);
+}
+
+export function updatePatient(patientId: string, request: UpdatePatientRequest): Promise<Patient> {
+  return put<Patient, UpdatePatientRequest>(
+    `${PATIENTS_BASE}/${encodeURIComponent(patientId)}`,
+    request,
+  );
+}
+
+export function deactivatePatient(patientId: string): Promise<Patient> {
+  return post<Patient, Record<string, never>>(
+    `${PATIENTS_BASE}/${encodeURIComponent(patientId)}/deactivate`,
+    {},
+  );
 }
 
 export function mergePatient(patientId: string, request: MergePatientRequest): Promise<Patient> {
@@ -134,6 +150,37 @@ export function revokePatientRepresentative(
   );
 }
 
+export function updatePatientRepresentative(
+  patientId: string,
+  representativeId: string,
+  request: AttachPatientRepresentativeRequest,
+): Promise<PatientRepresentative> {
+  return put<PatientRepresentative, AttachPatientRepresentativeRequest>(
+    `${PATIENTS_BASE}/${encodeURIComponent(patientId)}/representatives/${encodeURIComponent(representativeId)}`,
+    request,
+  );
+}
+
+export function listPatientDocuments(patientId: string): Promise<PatientDocument[]> {
+  return get<PatientDocument[]>(`${PATIENTS_BASE}/${encodeURIComponent(patientId)}/documents`);
+}
+
+export function attachPatientDocument(
+  patientId: string,
+  request: AttachPatientDocumentRequest,
+): Promise<PatientDocument> {
+  return post<PatientDocument, AttachPatientDocumentRequest>(
+    `${PATIENTS_BASE}/${encodeURIComponent(patientId)}/documents`,
+    request,
+  );
+}
+
+export function removePatientDocument(patientId: string, documentId: string): Promise<void> {
+  return del<void>(
+    `${PATIENTS_BASE}/${encodeURIComponent(patientId)}/documents/${encodeURIComponent(documentId)}`,
+  );
+}
+
 export function listPatientConsents(patientId: string): Promise<PatientConsent[]> {
   return get<PatientConsent[]>(`${PATIENTS_BASE}/${encodeURIComponent(patientId)}/consents`);
 }
@@ -165,10 +212,6 @@ export function listDoctors(laboratoryId: string): Promise<Doctor[]> {
   return get<Doctor[]>(`${DOCTORS_BASE}?${query.toString()}`);
 }
 
-export function getDoctor(doctorId: string): Promise<Doctor> {
-  return get<Doctor>(`${DOCTORS_BASE}/${encodeURIComponent(doctorId)}`);
-}
-
 export function getDoctorSnapshot(doctorId: string): Promise<DoctorSnapshot> {
   return get<DoctorSnapshot>(`${DOCTORS_BASE}/${encodeURIComponent(doctorId)}/snapshot`);
 }
@@ -177,10 +220,24 @@ export function registerDoctor(request: RegisterDoctorRequest): Promise<Doctor> 
   return post<Doctor, RegisterDoctorRequest>(DOCTORS_BASE, request);
 }
 
+export function updateDoctor(doctorId: string, request: UpdateDoctorRequest): Promise<Doctor> {
+  return put<Doctor, UpdateDoctorRequest>(
+    `${DOCTORS_BASE}/${encodeURIComponent(doctorId)}`,
+    request,
+  );
+}
+
 export function suspendDoctor(doctorId: string, request?: SuspendDoctorRequest): Promise<Doctor> {
   return post<Doctor, SuspendDoctorRequest>(
     `${DOCTORS_BASE}/${encodeURIComponent(doctorId)}/suspend`,
     request ?? {},
+  );
+}
+
+export function retireDoctor(doctorId: string): Promise<Doctor> {
+  return post<Doctor, Record<string, never>>(
+    `${DOCTORS_BASE}/${encodeURIComponent(doctorId)}/retire`,
+    {},
   );
 }
 
@@ -230,6 +287,26 @@ export function revokeDoctorCredential(
   );
 }
 
+export function listSpecialtyAssignments(doctorId: string): Promise<SpecialtyAssignment[]> {
+  return get<SpecialtyAssignment[]>(`${DOCTORS_BASE}/${encodeURIComponent(doctorId)}/specialties`);
+}
+
+export function assignSpecialty(
+  doctorId: string,
+  request: AssignSpecialtyRequest,
+): Promise<SpecialtyAssignment> {
+  return post<SpecialtyAssignment, AssignSpecialtyRequest>(
+    `${DOCTORS_BASE}/${encodeURIComponent(doctorId)}/specialties`,
+    request,
+  );
+}
+
+export function unassignSpecialty(doctorId: string, assignmentId: string): Promise<void> {
+  return del<void>(
+    `${DOCTORS_BASE}/${encodeURIComponent(doctorId)}/specialties/${encodeURIComponent(assignmentId)}`,
+  );
+}
+
 // -- BCM-ATT-002 Patient Registration -------------------------------------------------------------
 
 export function listPatientRegistrations(
@@ -237,14 +314,6 @@ export function listPatientRegistrations(
 ): Promise<PatientRegistrationRequestRecord[]> {
   const query = new URLSearchParams({ tenantId });
   return get<PatientRegistrationRequestRecord[]>(`${REGISTRATIONS_BASE}?${query.toString()}`);
-}
-
-export function getPatientRegistration(
-  registrationRequestId: string,
-): Promise<PatientRegistrationRequestRecord> {
-  return get<PatientRegistrationRequestRecord>(
-    `${REGISTRATIONS_BASE}/${encodeURIComponent(registrationRequestId)}`,
-  );
 }
 
 export function startPatientRegistration(

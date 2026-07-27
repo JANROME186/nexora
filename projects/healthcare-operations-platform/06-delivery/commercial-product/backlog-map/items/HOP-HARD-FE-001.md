@@ -2,7 +2,7 @@
 artifact:
   id: HOP-BACKLOG-ITEM-HOP-HARD-FE-001
   type: backlog-item-record
-  status: active
+  status: closed
   optimization: atomic_context
 ---
 
@@ -15,7 +15,7 @@ artifact:
 ```yaml
 id: HOP-HARD-FE-001
 name: Employee portal quality, i18n, UX and missing workflow surfaces
-status: planned
+status: closed
 module_id: HOP-FINAL-HARDENING
 module_name: Final Commercial Hardening and Technical Debt Burn-down
 release: REL-GA

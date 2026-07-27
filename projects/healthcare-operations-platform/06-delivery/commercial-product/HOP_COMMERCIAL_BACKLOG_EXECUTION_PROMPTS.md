@@ -89,30 +89,33 @@ validation_commands:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
   module_id: HOP-FINAL-HARDENING
-  backlog_item_id: HOP-HARD-FE-001
-  name: Employee portal quality, i18n, UX and missing workflow surfaces
+  backlog_item_id: HOP-HARD-APP-001
+  name: Mobile, patient portal, doctor portal and imaging delivery hardening
   expected_folder: 08-qa/qa/final-hardening
-  required_debt_first_action: close_or_materially_reduce_mapped_employee_portal_debt_before_any_new_feature_work
+  required_debt_first_action: close_or_materially_reduce_mapped_mobile_and_portal_debt_before_any_new_feature_work
   coverage_floor:
     backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.77
-    frontend_typescript_web_line_coverage_percent: 91.00
+    frontend_typescript_web_line_coverage_percent: 91.68
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.11
     doctor_portal_typescript_web_line_coverage_percent: 96.28
     public_website_typescript_web_line_coverage_percent: 98.61
     final_target_percent: 80
   mandatory_execution_notes:
-  - Active backlog item is HOP-HARD-FE-001 under HOP-FINAL-HARDENING. Load only the active item record and mapped debt files
+  - Active backlog item is HOP-HARD-APP-001 under HOP-FINAL-HARDENING. Load only the active item record and mapped debt files
     needed for this slice.
   - Keep execution agent-agnostic and preserve the open-source-first stack and quality gates.
-  - Address or materially reduce the mapped employee-portal quality, i18n, UX and missing-workflow debt items before any new feature work.
-  - Preserve backend coverage at or above 84.77% and employee-portal coverage at or above 91.00%; keep final project target
+  - Address or materially reduce the mapped mobile, patient portal, doctor portal and imaging delivery debt items before any
+    new feature work.
+  - Preserve backend coverage at or above 84.77% and employee-portal coverage at or above 91.68%; keep final project target
     at 80% or higher.
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product backlog and execution prompts, and commit
     only when validation passes.
   previous_backlog_item:
-    backlog_item_id: HOP-HARD-DATA-001
+    backlog_item_id: HOP-HARD-FE-001
     status: closed
-    summary: Closed database, reference-data, localization and persistence hardening. TD-DB-002, TD-DB-003, TD-DB-004 and
-      TD-STACK-002 all closed; backend quality gate passed with 569 tests and 84.77% line coverage.
+    summary: Closed employee portal quality, i18n, UX and missing-workflow-surfaces hardening. TD-FE-002 and TD-FE-006
+      closed (11 new peopleApi.ts functions, 25 new frontDeskApi.ts functions, 3 new screens); TD-FE-003, TD-FE-005,
+      TD-FE-010, TD-FE-012, TD-I18N-002 and TD-UX-001 reviewed and materially reduced or confirmed unchanged; frontend
+      quality gate passed with 275 tests and 91.68% line coverage.
 ```

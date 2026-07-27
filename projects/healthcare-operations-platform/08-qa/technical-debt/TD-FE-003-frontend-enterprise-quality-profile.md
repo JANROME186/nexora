@@ -76,4 +76,16 @@ remediation:
     status: materially_reduced
     lint_errors: 0
     lint_warnings: 11
+review_log:
+- backlog_item: HOP-HARD-FE-001
+  date: 2026-07-27
+  action: Re-ran the full `npm run quality` pipeline (typecheck, lint, test:coverage, build,
+    duplication, format:check, license:check) plus `npm run audit:all` after adding 3 new screens
+    and extending 2 legacy screens (TD-FE-002/TD-FE-006 remediation). All gates passed (0 lint
+    errors, 61 non-blocking warnings all in pre-existing legacy files/locale catalogs; 275/275
+    tests; 91.68% line coverage, above the 91.00% floor; production build succeeded; 0 duplicate
+    code; Prettier clean; license summary unchanged at 5 MIT + 1 UNLICENSED). The frontend quality
+    tooling baseline continues to hold end to end under real new-feature load; no change to this
+    item's remaining residual scope (i18n/accessibility hardening tracked separately under
+    TD-I18N-002).
 ```

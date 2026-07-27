@@ -68,7 +68,7 @@ backlog_items:
   - TD-STACK-002
 - id: HOP-HARD-FE-001
   name: Employee portal quality, i18n, UX and missing workflow surfaces
-  status: active
+  status: closed
   mapped_items:
   - TD-FE-002
   - TD-FE-003
@@ -80,7 +80,7 @@ backlog_items:
   - TD-UX-001
 - id: HOP-HARD-APP-001
   name: Mobile, patient portal, doctor portal and imaging delivery hardening
-  status: planned
+  status: active
   mapped_items:
   - TD-APP-001
   - TD-UX-003

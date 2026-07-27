@@ -4,8 +4,8 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: Employee portal is missing patient/doctor update, patient document management
   and doctor specialty assignment UI
-version: 1.0.0
-status: open
+version: 2.0.0
+status: closed
 ---
 
 # Employee Portal Is Missing Patient/Doctor Update, Patient Document Management And Doctor Specialty Assignment Ui
@@ -20,9 +20,11 @@ artifact:
   type: technical-debt-item
   name: Employee portal is missing patient/doctor update, patient document management
     and doctor specialty assignment UI
-  version: 1.0.0
-  status: open
+  version: 2.0.0
+  status: closed
   created_date: 2026-07-14
+  updated_date: 2026-07-27
+  closed_by_backlog_item: HOP-HARD-FE-001
 source:
   discovered_during_backlog_item: MVP-MOD-003-QA-001
   module: MVP-MOD-003 People and Clinical Master Data
@@ -92,4 +94,26 @@ remediation:
     the module.
   - getPatient/getDoctor/getPatientRegistration are either wired into a screen or
     removed if confirmed unnecessary.
+closure:
+  backlog_item: HOP-HARD-FE-001
+  evidence: 08-qa/qa/final-hardening/HOP-HARD-FE-001-validation.md
+  summary: 'peopleApi.ts now exports all 11 previously-missing client functions (updatePatient,
+    deactivatePatient, updatePatientRepresentative, listPatientDocuments, attachPatientDocument,
+    removePatientDocument, updateDoctor, retireDoctor, listSpecialtyAssignments, assignSpecialty,
+    unassignSpecialty), each calling the already-tested backend endpoint confirmed present in
+    PatientController.java/DoctorController.java. PatientsScreen.tsx gained an edit-patient panel
+    (update), a deactivate action, a documents panel (list/attach/remove) and representative
+    edit-in-place (update); DoctorsScreen.tsx gained an edit-doctor panel (update), a retire
+    action and a specialty-assignment panel (list/assign/unassign) -- all following the existing
+    useAsyncAction/StatusBanner/ConfirmDialog pattern with loading/error/empty/confirmation/success
+    states. The three dead exports named in this item''s current_state (getPatient, getDoctor,
+    getPatientRegistration) were confirmed still unreferenced by any screen and removed from
+    peopleApi.ts (and their tests), resolving the acceptance criterion''s "or removed if confirmed
+    unnecessary" branch. All three acceptance criteria are met; closed.'
+  new_tests:
+  - 'PatientsScreen.test.tsx -- "updates and deactivates a selected patient after explicit
+    confirmation", "attaches and removes a patient document after explicit confirmation"'
+  - 'DoctorsScreen.test.tsx -- "updates and retires a selected doctor after explicit
+    confirmation", "assigns and unassigns a doctor specialty after explicit confirmation"'
+  - peopleApi.test.ts extended with request-shape assertions for all 11 new functions
 ```

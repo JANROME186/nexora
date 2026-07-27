@@ -168,11 +168,16 @@ policy:
           and targeted endpoint tests, raising the clean -Pquality clean verify result
           to 84.69% (562 tests, 0 failures/errors/skipped). The new floor is 84.69%.'
       frontend_typescript_web:
-        current_line_coverage_percent: 91.00
-        source_evidence: 08-qa/qa/ai-overlay/COM-MOD-015-FE-001-validation.md
-        next_iteration_minimum_line_coverage_percent: 91.00
+        current_line_coverage_percent: 91.68
+        source_evidence: 08-qa/qa/final-hardening/HOP-HARD-FE-001-validation.md
+        next_iteration_minimum_line_coverage_percent: 91.68
         final_closure_target_percent: 80
-        correction_note: 'COM-MOD-013-QA-001 fixed a hardcoded string and a function-size
+        correction_note: 'HOP-HARD-FE-001 closed TD-FE-002 and TD-FE-006, adding 11 new peopleApi.ts
+          functions, 25 new frontDeskApi.ts functions, 3 brand-new screens (AppointmentsScreen,
+          AdmissionsScreen, QuotationsScreen) and extending PatientsScreen/DoctorsScreen with
+          update/deactivate/documents/specialty panels, plus 19 new tests (275 tests total, 72
+          test files, 0 failures), raising it further to 91.68%; the new floor is 91.68%.
+          COM-MOD-013-QA-001 fixed a hardcoded string and a function-size
           violation in ComplianceEvidenceScreen.tsx, raising coverage from 89.74%
           to 89.75% (187 tests, 60 files, 0 failures); the new floor is 89.75%. MVP-MOD-007-CLOSEOUT
           found employee-portal coverage had regressed from the 84.44% floor to 84.03%:
@@ -370,13 +375,13 @@ entries:
 - id: TD-FE-002
   title: Employee portal is missing patient/doctor update, patient document management
     and doctor specialty assignment UI
-  status: open
+  status: closed
   risk_level: low
   blocking: false
   source_backlog_item: MVP-MOD-003-QA-001
   affected_area: employee_portal_people_and_clinical_master_data_screens
   file: 08-qa/technical-debt/TD-FE-002-patient-doctor-update-documents-specialty-ui-missing.md
-  remediation_strategy: gradual_when_a_future_ui_backlog_item_covers_patient_or_doctor_editing
+  remediation_strategy: closed_by_HOP_HARD_FE_001_11_new_peopleApi_functions_plus_patient_and_doctor_edit_documents_specialty_panels
 - id: TD-DEF-001
   title: Quotation-to-Sale conversion path deferred until MVP-MOD-005 models the Sale
     aggregate
@@ -513,13 +518,13 @@ entries:
 - id: TD-FE-006
   title: Employee portal is missing dedicated Appointment Scheduling, Admission Management
     and Quotation Management UI
-  status: open
+  status: closed
   risk_level: low
   blocking: false
   source_backlog_item: MVP-MOD-004-FE-001
   affected_area: employee_portal_front_desk_care_delivery_screens
   file: 08-qa/technical-debt/TD-FE-006-appointment-admission-quotation-ui-missing.md
-  remediation_strategy: gradual_when_a_future_ui_backlog_item_covers_scheduling_admission_or_quotation_workflows
+  remediation_strategy: closed_by_HOP_HARD_FE_001_frontDeskApi_25_new_functions_plus_AppointmentsScreen_AdmissionsScreen_QuotationsScreen
 - id: TD-BE-011
   title: CashSales depends on open FrontDeskCareDelivery internals instead of stable
     public ports

@@ -12,6 +12,9 @@ import { PatientsScreen } from "./components/screens/PatientsScreen";
 import { DoctorsScreen } from "./components/screens/DoctorsScreen";
 import { PatientRegistrationsScreen } from "./components/screens/PatientRegistrationsScreen";
 import { ReceptionScreen } from "./components/screens/ReceptionScreen";
+import { AppointmentsScreen } from "./components/screens/AppointmentsScreen";
+import { AdmissionsScreen } from "./components/screens/AdmissionsScreen";
+import { QuotationsScreen } from "./components/screens/QuotationsScreen";
 import { DiagnosticOrdersScreen } from "./components/screens/DiagnosticOrdersScreen";
 import { CashSessionsScreen } from "./components/screens/CashSessionsScreen";
 import { SalesScreen } from "./components/screens/SalesScreen";
@@ -79,6 +82,9 @@ const SCREEN_COMPONENTS = {
   doctors: DoctorsScreen,
   "patient-registrations": PatientRegistrationsScreen,
   reception: ReceptionScreen,
+  appointments: AppointmentsScreen,
+  admissions: AdmissionsScreen,
+  quotations: QuotationsScreen,
   "diagnostic-orders": DiagnosticOrdersScreen,
   "cash-sessions": CashSessionsScreen,
   sales: SalesScreen,

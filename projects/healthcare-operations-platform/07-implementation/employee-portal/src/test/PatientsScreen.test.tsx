@@ -105,4 +105,111 @@ describe("PatientsScreen", () => {
       await screen.findByText("No patients registered yet in this laboratory."),
     ).toBeInTheDocument();
   });
+
+  const existingPatient = {
+    patientId: "patient-1",
+    tenantId: "tenant-1",
+    laboratoryId: "lab-1",
+    patientCode: "P-001",
+    givenName: "Ada",
+    familyName: "Lovelace",
+    fullName: "Ada Lovelace",
+    sexAtBirth: "female",
+    primaryDocumentType: "national_id",
+    primaryDocumentNumberMasked: "****1234",
+    status: "active",
+    version: 1,
+  };
+
+  it("updates and deactivates a selected patient after explicit confirmation", async () => {
+    vi.spyOn(api, "listPatients").mockResolvedValue([existingPatient]);
+    vi.spyOn(api, "updatePatient").mockResolvedValue({
+      ...existingPatient,
+      familyName: "Byron",
+      fullName: "Ada Byron",
+      version: 2,
+    });
+    vi.spyOn(api, "deactivatePatient").mockResolvedValue({
+      ...existingPatient,
+      status: "inactive",
+      version: 2,
+    });
+
+    const user = userEvent.setup();
+    render(
+      <ScopedPatientsHarness>
+        <PatientsScreen />
+      </ScopedPatientsHarness>,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Load patients" }));
+    await user.click(await screen.findByRole("button", { name: "patient-1" }));
+
+    await user.clear(
+      screen.getByLabelText("Family name", { selector: "#edit-patient-family-name" }),
+    );
+    await user.type(
+      screen.getByLabelText("Family name", { selector: "#edit-patient-family-name" }),
+      "Byron",
+    );
+    await user.type(
+      screen.getByLabelText("Primary document number", {
+        selector: "#edit-patient-document-number",
+      }),
+      "DOC-1234",
+    );
+    await user.click(screen.getByRole("button", { name: "Save patient" }));
+
+    expect(api.updatePatient).toHaveBeenCalledWith(
+      "patient-1",
+      expect.objectContaining({ familyName: "Byron" }),
+    );
+    expect(await screen.findByText("Patient updated.")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Deactivate patient" }));
+    await user.click(screen.getByRole("button", { name: "Confirm" }));
+
+    expect(api.deactivatePatient).toHaveBeenCalledWith("patient-1");
+    expect(await screen.findByText("Patient deactivated.")).toBeInTheDocument();
+  });
+
+  it("attaches and removes a patient document after explicit confirmation", async () => {
+    vi.spyOn(api, "listPatients").mockResolvedValue([existingPatient]);
+    vi.spyOn(api, "listPatientDocuments").mockResolvedValue([]);
+    vi.spyOn(api, "attachPatientDocument").mockResolvedValue({
+      documentId: "document-1",
+      patientId: "patient-1",
+      category: "identification",
+      fileReference: "file-1",
+    });
+    vi.spyOn(api, "removePatientDocument").mockResolvedValue(undefined);
+
+    const user = userEvent.setup();
+    render(
+      <ScopedPatientsHarness>
+        <PatientsScreen />
+      </ScopedPatientsHarness>,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Load patients" }));
+    await user.click(await screen.findByRole("button", { name: "patient-1" }));
+
+    await user.click(screen.getByRole("button", { name: "Load documents" }));
+    expect(await screen.findByText("Documents loaded.")).toBeInTheDocument();
+
+    await user.type(screen.getByLabelText("File reference"), "file-1");
+    await user.click(screen.getByRole("button", { name: "Attach document" }));
+
+    expect(api.attachPatientDocument).toHaveBeenCalledWith(
+      "patient-1",
+      expect.objectContaining({ category: "identification", fileReference: "file-1" }),
+    );
+    expect(await screen.findByText("Document attached.")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Remove" }));
+    await user.click(screen.getByRole("button", { name: "Confirm" }));
+
+    expect(api.removePatientDocument).toHaveBeenCalledWith("patient-1", "document-1");
+    expect(await screen.findByText("Document removed.")).toBeInTheDocument();
+  });
 });

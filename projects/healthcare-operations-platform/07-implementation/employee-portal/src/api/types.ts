@@ -589,6 +589,72 @@ export interface AttachCredentialRequest {
   expiresAt?: string;
 }
 
+export interface PatientProfileRequest {
+  givenName: string;
+  middleName?: string;
+  familyName: string;
+  secondFamilyName?: string;
+  preferredName?: string;
+  birthDate?: string;
+  sexAtBirth: string;
+  primaryDocumentType: string;
+  primaryDocumentNumber: string;
+  primaryDocumentIssuingCountry?: string;
+  primaryDocumentIssuedAt?: string;
+  primaryDocumentExpiresAt?: string;
+  addressCountry?: string;
+  addressState?: string;
+  addressCity?: string;
+  addressPostalCode?: string;
+  addressStreet?: string;
+  preferredLocale?: string;
+}
+
+export type UpdatePatientRequest = PatientProfileRequest;
+
+export interface PatientDocument {
+  documentId: string;
+  patientId: string;
+  category: string;
+  fileReference: string;
+  uploadedAt?: string;
+  expiresAt?: string;
+}
+
+export interface AttachPatientDocumentRequest {
+  category: string;
+  fileReference: string;
+  expiresAt?: string;
+}
+
+export interface UpdateDoctorRequest {
+  givenName: string;
+  middleName?: string;
+  familyName: string;
+  secondFamilyName?: string;
+  doctorType: string;
+  primaryDocumentType: string;
+  primaryDocumentNumber: string;
+  primaryDocumentIssuingCountry?: string;
+  primaryDocumentIssuedAt?: string;
+  primaryDocumentExpiresAt?: string;
+  addressCountry?: string;
+  addressCity?: string;
+  addressStreet?: string;
+}
+
+export interface SpecialtyAssignment {
+  assignmentId: string;
+  doctorId: string;
+  specialtyCode: string;
+  primary: boolean;
+}
+
+export interface AssignSpecialtyRequest {
+  specialtyCode: string;
+  primary: boolean;
+}
+
 export type PatientRegistrationOutcome = "pending" | "committed" | "cancelled" | "rejected";
 
 export interface PatientRegistrationRequestRecord {
@@ -1867,6 +1933,93 @@ export interface CancelAppointmentRequest {
   reasonCode?: string;
 }
 
+export interface RequestedCatalogItem {
+  itemId: string;
+  appointmentId: string;
+  testDefinitionId: string;
+  catalogItemKind: string;
+}
+
+export interface RequestedItemInput {
+  testDefinitionId: string;
+  catalogItemKind: string;
+}
+
+export interface RequestAppointmentRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  patientId: string;
+  doctorId?: string;
+  scheduledStart?: string;
+  scheduledEnd?: string;
+  channel: string;
+  actorId?: string;
+  requestedItems?: RequestedItemInput[];
+}
+
+// -- Admission Management (MVP-MOD-004: BCM-ATT-004) ------------------------------------------
+
+export type AdmissionStatus = "draft" | "ready_for_order" | "order_created" | "rejected";
+
+export interface AdmissionRequest {
+  admissionId: string;
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  visitId: string;
+  patientId: string;
+  doctorId?: string;
+  clinicalNotesDraft?: string;
+  consentConfirmed: boolean;
+  sampleRequirementsAcknowledged: boolean;
+  admissionStatus: AdmissionStatus | string;
+  createdOrderId?: string;
+  rejectionReason?: string;
+  actorId?: string;
+  version: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface AdmissionCatalogSelection {
+  selectionId: string;
+  admissionId: string;
+  testDefinitionId: string;
+  catalogItemKind: string;
+  quantity: number;
+}
+
+export interface CatalogSelectionInput {
+  testDefinitionId: string;
+  catalogItemKind: string;
+  quantity?: number;
+}
+
+export interface StartAdmissionRequestRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  visitId: string;
+  patientId: string;
+  doctorId?: string;
+  actorId?: string;
+}
+
+export interface MarkAdmissionReadyRequest {
+  clinicalNotesDraft?: string;
+  catalogSelection?: CatalogSelectionInput[];
+}
+
+export interface CommitAdmissionRequestRequest {
+  consentConfirmed: boolean;
+  sampleRequirementsAcknowledged: boolean;
+}
+
+export interface RejectAdmissionRequestRequest {
+  rejectionReason?: string;
+}
+
 export type QuotationChannel =
   | "walk_in_scheduling"
   | "phone"
@@ -1916,6 +2069,35 @@ export interface IssueQuotationRequest {
 
 export interface CancelQuotationRequest {
   reasonCode?: string;
+}
+
+export interface QuotationLine {
+  lineId: string;
+  quotationId: string;
+  testDefinitionId: string;
+  catalogItemKind: string;
+  publishedVersion: number;
+  quantity: number;
+  unitAmount?: Money;
+}
+
+export interface QuotationLineInput {
+  testDefinitionId: string;
+  catalogItemKind: string;
+  quantity?: number;
+}
+
+export interface StartQuotationRequest {
+  tenantId: string;
+  laboratoryId: string;
+  branchId: string;
+  patientId?: string;
+  prospectiveFullName?: string;
+  prospectivePhone?: string;
+  prospectiveEmail?: string;
+  channel?: string;
+  actorId?: string;
+  lines?: QuotationLineInput[];
 }
 
 // -- Advanced Quality and Compliance (COM-MOD-013-FE-001) ------------------------------------

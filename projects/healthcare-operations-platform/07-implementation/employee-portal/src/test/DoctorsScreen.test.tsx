@@ -80,4 +80,97 @@ describe("DoctorsScreen", () => {
     expect(api.suspendDoctor).toHaveBeenCalledWith("doctor-1", undefined);
     expect(await screen.findByText("Doctor suspended.")).toBeInTheDocument();
   });
+
+  it("updates and retires a selected doctor after explicit confirmation", async () => {
+    vi.spyOn(api, "listDoctors").mockResolvedValue([registeredDoctor]);
+    vi.spyOn(api, "updateDoctor").mockResolvedValue({
+      ...registeredDoctor,
+      familyName: "Sklodowska",
+      fullName: "Marie Sklodowska",
+      version: 2,
+    });
+    vi.spyOn(api, "retireDoctor").mockResolvedValue({
+      ...registeredDoctor,
+      status: "retired",
+      version: 2,
+    });
+
+    const user = userEvent.setup();
+    render(
+      <ScopedDoctorsHarness>
+        <DoctorsScreen />
+      </ScopedDoctorsHarness>,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Load doctors" }));
+    await user.click(await screen.findByRole("button", { name: "doctor-1" }));
+
+    await user.clear(
+      screen.getByLabelText("Family name", { selector: "#edit-doctor-family-name" }),
+    );
+    await user.type(
+      screen.getByLabelText("Family name", { selector: "#edit-doctor-family-name" }),
+      "Sklodowska",
+    );
+    await user.type(
+      screen.getByLabelText("Primary document number", {
+        selector: "#edit-doctor-document-number",
+      }),
+      "MD-9999",
+    );
+    await user.click(screen.getByRole("button", { name: "Save doctor" }));
+
+    expect(api.updateDoctor).toHaveBeenCalledWith(
+      "doctor-1",
+      expect.objectContaining({ familyName: "Sklodowska" }),
+    );
+    expect(await screen.findByText("Doctor updated.")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Retire doctor" }));
+    await user.click(screen.getByRole("button", { name: "Confirm" }));
+
+    expect(api.retireDoctor).toHaveBeenCalledWith("doctor-1");
+    expect(await screen.findByText("Doctor retired.")).toBeInTheDocument();
+  });
+
+  it("assigns and unassigns a doctor specialty after explicit confirmation", async () => {
+    vi.spyOn(api, "listDoctors").mockResolvedValue([registeredDoctor]);
+    vi.spyOn(api, "listSpecialtyAssignments").mockResolvedValue([]);
+    vi.spyOn(api, "assignSpecialty").mockResolvedValue({
+      assignmentId: "assignment-1",
+      doctorId: "doctor-1",
+      specialtyCode: "cardiology",
+      primary: true,
+    });
+    vi.spyOn(api, "unassignSpecialty").mockResolvedValue(undefined);
+
+    const user = userEvent.setup();
+    render(
+      <ScopedDoctorsHarness>
+        <DoctorsScreen />
+      </ScopedDoctorsHarness>,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Load doctors" }));
+    await user.click(await screen.findByRole("button", { name: "doctor-1" }));
+
+    await user.click(screen.getByRole("button", { name: "Load specialties" }));
+    expect(await screen.findByText("Specialties loaded.")).toBeInTheDocument();
+
+    await user.type(screen.getByLabelText("Specialty code"), "cardiology");
+    await user.click(screen.getByLabelText("Primary specialty"));
+    await user.click(screen.getByRole("button", { name: "Assign specialty" }));
+
+    expect(api.assignSpecialty).toHaveBeenCalledWith("doctor-1", {
+      specialtyCode: "cardiology",
+      primary: true,
+    });
+    expect(await screen.findByText("Specialty assigned.")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Unassign" }));
+    await user.click(screen.getByRole("button", { name: "Confirm" }));
+
+    expect(api.unassignSpecialty).toHaveBeenCalledWith("doctor-1", "assignment-1");
+    expect(await screen.findByText("Specialty unassigned.")).toBeInTheDocument();
+  });
 });
