@@ -15,7 +15,7 @@ artifact:
 ```yaml
 repository: Nexora
 repository_version: 1.0.0
-current_phase: HOP-HARD-IAM-001 closed. Final hardening continues through HOP-HARD-DATA-001.
+current_phase: HOP-HARD-FE-001 closed. Final hardening continues through HOP-HARD-APP-001.
 company:
   name: Nexora
   type: Software Development and Artificial Intelligence Company
@@ -31,8 +31,8 @@ projects:
   path: projects/healthcare-operations-platform/
   status: final_hardening_active
   active_module: HOP-FINAL-HARDENING
-  active_backlog_item: HOP-HARD-DATA-001
-  completed_backlog_items_count: 110
+  active_backlog_item: HOP-HARD-APP-001
+  completed_backlog_items_count: 112
   project_state_ref: projects/healthcare-operations-platform/PROJECT_STATE.md
 atomic_references:
   repository_progress_ledger: nexora-framework/08-engineering/repository-tracking/repository-progress-ledger.md
