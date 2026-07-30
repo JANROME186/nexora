@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { LocaleProvider } from "../i18n/LocaleContext";
 import { AppointmentRequestPage } from "../pages/AppointmentRequestPage";
 import { HomePage } from "../pages/HomePage";
+import { MarketplacePage } from "../pages/MarketplacePage";
 import { PrivacyPage } from "../pages/PrivacyPage";
 import { ServicesPage } from "../pages/ServicesPage";
 import { RouterProvider } from "../router/Router";
@@ -34,6 +35,15 @@ describe("accessibility", () => {
   it("ServicesPage has no detectable axe violations once loaded", async () => {
     mockFetch.mockResolvedValue({ ok: true, status: 200, json: async () => [] });
     const { container } = renderPage(<ServicesPage />);
+    await waitFor(() =>
+      expect(screen.getByText(/No hay información disponible/)).toBeInTheDocument(),
+    );
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it("MarketplacePage has no detectable axe violations once loaded", async () => {
+    mockFetch.mockResolvedValue({ ok: true, status: 200, json: async () => [] });
+    const { container } = renderPage(<MarketplacePage />);
     await waitFor(() =>
       expect(screen.getByText(/No hay información disponible/)).toBeInTheDocument(),
     );

@@ -5,6 +5,8 @@ import { SkipLink } from "./components/layout/SkipLink";
 import { LocaleProvider } from "./i18n/LocaleContext";
 import { AppointmentRequestPage } from "./pages/AppointmentRequestPage";
 import { HomePage } from "./pages/HomePage";
+import { MarketplaceDetailPage } from "./pages/MarketplaceDetailPage";
+import { MarketplacePage } from "./pages/MarketplacePage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { PanelDetailPage } from "./pages/PanelDetailPage";
 import { PanelsPage } from "./pages/PanelsPage";
@@ -43,6 +45,11 @@ const routeEntries: RouteEntry[] = [
   },
   { pattern: ROUTES.appointmentRequest, render: () => <AppointmentRequestPage /> },
   { pattern: ROUTES.quotationRequest, render: () => <QuotationRequestPage /> },
+  { pattern: ROUTES.marketplace, render: () => <MarketplacePage /> },
+  {
+    pattern: ROUTES.marketplaceDetail,
+    render: (params) => <MarketplaceDetailPage packageId={params.id} />,
+  },
   { pattern: ROUTES.privacy, render: () => <PrivacyPage /> },
 ];
 

@@ -6,13 +6,14 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 
 const NAV_ITEMS: {
   to: string;
-  labelKey: "home" | "services" | "tests" | "panels" | "preparations";
+  labelKey: "home" | "services" | "tests" | "panels" | "preparations" | "marketplace";
 }[] = [
   { to: ROUTES.home, labelKey: "home" },
   { to: ROUTES.services, labelKey: "services" },
   { to: ROUTES.tests, labelKey: "tests" },
   { to: ROUTES.panels, labelKey: "panels" },
   { to: ROUTES.preparations, labelKey: "preparations" },
+  { to: ROUTES.marketplace, labelKey: "marketplace" },
 ];
 
 export function Header() {

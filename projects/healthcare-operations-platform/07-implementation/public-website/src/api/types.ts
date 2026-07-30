@@ -105,3 +105,24 @@ export interface PublicApiErrorPayload {
   message?: string;
   occurredAt?: string;
 }
+
+export interface PublicMarketplacePackageSnapshot {
+  packageId: string;
+  code: string;
+  name: string;
+  category: string;
+  capabilityMappings: string[];
+  status: string;
+}
+
+export interface PublicMarketplaceOfferSnapshot {
+  offerId: string;
+  packageId: string;
+  packageVersion: string;
+  offerCode: string;
+  offerType: string;
+  lifecycleStatus: string;
+  tierCodes: string[];
+  trialPeriodDays: number | null;
+  billingEventRulesSummary: string | null;
+}

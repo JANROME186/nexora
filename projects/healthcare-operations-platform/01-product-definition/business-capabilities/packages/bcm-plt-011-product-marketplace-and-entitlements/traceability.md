@@ -157,4 +157,6 @@ backlog_items:
   validation_status: closed
   closeout: COM-MOD-017-CLOSEOUT
   closeout_status: closed
+  web_hardening: HOP-HARD-WEB-001
+  web_hardening_status: closed
 ```

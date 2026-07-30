@@ -3,8 +3,8 @@ id: HOP-GEN-BCM-PLT-011
 format: markdown_structured_payload
 type: generation-plan
 name: Product Marketplace and Entitlements Generation Plan
-version: 1.0.0
-status: modeled
+version: 1.1.0
+status: compiled
 backlog_item: COM-MOD-017-DEF
 ---
 
@@ -19,8 +19,8 @@ artifact:
   id: HOP-GEN-BCM-PLT-011
   type: generation-plan
   name: Product Marketplace and Entitlements Generation Plan
-  version: 1.0.0
-  status: modeled
+  version: 1.1.0
+  status: compiled
   backlog_item: COM-MOD-017-DEF
 generated_outputs:
   backend:

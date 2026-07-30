@@ -16,7 +16,7 @@ This checklist maps launch readiness against the 9 Commercial Readiness Pillars 
 | CRP-006 | Integration and Migration Readiness | Verified |
 | CRP-007 | Customer Enablement Readiness | Verified |
 | CRP-008 | Expansion Readiness | Verified (COM-MOD-014 module_closed, COM-MOD-015 module_closed) |
-| CRP-009 | Marketplace Readiness | Verified (COM-MOD-017 module_closed; COM-MOD-017-WEB-001 public listing surface deferred, tracked as TD-WEB-001) |
+| CRP-009 | Marketplace Readiness | Verified (COM-MOD-017 module_closed; COM-MOD-017-WEB-001 public listing surface compiled & validated in HOP-HARD-WEB-001; TD-WEB-001 closed) |
 
 ## CRP-001: Operational Completeness
 
@@ -36,7 +36,7 @@ This checklist maps launch readiness against the 9 Commercial Readiness Pillars 
 - [x] Patient portal (94.11% coverage)
 - [x] Doctor portal (96.28% coverage)
 - [x] Mobile app (99.21% coverage)
-- [x] Public website (98.61% coverage)
+- [x] Public website (98.78% coverage)
 
 ## CRP-004: Compliance and Audit Readiness
 
@@ -78,7 +78,7 @@ This checklist maps launch readiness against the 9 Commercial Readiness Pillars 
 
 - [x] Product Marketplace (COM-MOD-017) — module_closed, REL-003
 - [x] BCM-PLT-011 implementation — Compiled, tested and validated (COM-MOD-017-BE-001/BE-002/FE-001/QA-001/CLOSEOUT)
-- [ ] Public marketplace listing surface (COM-MOD-017-WEB-001) — Deferred, tracked as non-blocking debt TD-WEB-001
+- [x] Public marketplace listing surface (COM-MOD-017-WEB-001) — Compiled and validated in HOP-HARD-WEB-001; TD-WEB-001 closed
 
 ## Overall Assessment
 

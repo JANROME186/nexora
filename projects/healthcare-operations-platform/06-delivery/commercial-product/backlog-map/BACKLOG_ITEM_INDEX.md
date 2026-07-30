@@ -586,12 +586,12 @@ items:
   path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-APP-001.md
 - id: HOP-HARD-WEB-001
   name: Public marketplace discovery surface and website hardening
-  status: next
+  status: closed
   module_id: HOP-FINAL-HARDENING
   path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-WEB-001.md
 - id: HOP-HARD-INT-001
   name: Integration, OpenAPI generation, workflow, migration and observability hardening
-  status: planned
+  status: next
   module_id: HOP-FINAL-HARDENING
   path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-INT-001.md
 - id: HOP-HARD-QA-001

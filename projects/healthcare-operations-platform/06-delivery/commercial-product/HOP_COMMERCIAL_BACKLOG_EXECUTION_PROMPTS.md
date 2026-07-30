@@ -89,36 +89,32 @@ validation_commands:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
   module_id: HOP-FINAL-HARDENING
-  backlog_item_id: HOP-HARD-WEB-001
-  name: Public marketplace discovery surface and website hardening
+  backlog_item_id: HOP-HARD-INT-001
+  name: Integration, OpenAPI generation, workflow, migration and observability hardening
   expected_folder: 08-qa/qa/final-hardening
-  required_debt_first_action: close_or_materially_reduce_mapped_web_and_marketplace_discovery_debt_before_any_new_feature_work
+  required_debt_first_action: close_or_materially_reduce_mapped_integration_openapi_workflow_and_observability_debt_before_any_new_feature_work
   coverage_floor:
     backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.86
     frontend_typescript_web_line_coverage_percent: 91.68
     mobile_typescript_foundation_line_coverage_percent: 99.21
     patient_portal_typescript_web_line_coverage_percent: 94.42
     doctor_portal_typescript_web_line_coverage_percent: 96.55
-    public_website_typescript_web_line_coverage_percent: 98.61
+    public_website_typescript_web_line_coverage_percent: 98.78
     final_target_percent: 80
   mandatory_execution_notes:
-  - Active backlog item is HOP-HARD-WEB-001 under HOP-FINAL-HARDENING. Load only the active item record and mapped debt files
+  - Active backlog item is HOP-HARD-INT-001 under HOP-FINAL-HARDENING. Load only the active item record and mapped debt files
     needed for this slice.
   - Keep execution agent-agnostic and preserve the open-source-first stack and quality gates.
-  - Address or materially reduce the mapped public marketplace discovery and website debt items before any new feature work.
-  - Preserve backend coverage at or above 84.86%, patient-portal at or above 94.42% and doctor-portal at or above 96.55%;
+  - Address or materially reduce the mapped integration, OpenAPI generation, workflow, migration and observability debt items before any new feature work.
+  - Preserve backend coverage at or above 84.86%, public-website at or above 98.78%, patient-portal at or above 94.42% and doctor-portal at or above 96.55%;
     keep final project target at 80% or higher.
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product backlog and execution prompts, and commit
     only when validation passes.
   previous_backlog_item:
-    backlog_item_id: HOP-HARD-APP-001
+    backlog_item_id: HOP-HARD-WEB-001
     status: closed
-    summary: Closed mobile, patient portal, doctor portal and imaging delivery hardening. COM-MOD-014-PORTAL-001 closed
-      (patient-portal and doctor-portal Imaging tabs against the existing BCM-IMG-007/BCM-IMG-008 backend, self-access
-      scoped via a new callerRoleCode/callerId convention); found and fixed a real pre-existing authorization gap in
-      ImagingStudyDeliveryController/RadiologySignatureController (no patient/doctor-role-scoped ownership check existed
-      before this item) with 2 new permission codes, 2 new HopAuthorizationInterceptor bypass blocks and new service-layer
-      ownership checks; TD-APP-001 reviewed materially_reduced_unchanged, TD-UX-003 reviewed genuinely still blocked;
-      remediated a pre-existing high-severity npm audit finding in 3 frontend stacks; backend (84.86%), patient-portal
-      (94.42%) and doctor-portal (96.55%) coverage all improved above their prior floors.
+    summary: Closed public marketplace discovery surface and website hardening. COM-MOD-017-WEB-001 closed
+      with anonymous read-only /api/public/marketplace/** backend endpoints and /marketplace & /marketplace/:id
+      public-website surfaces (listing, details, search/filter, i18n es-MX & en-US, a11y WCAG checks);
+      TD-WEB-001 closed; public-website line coverage increased to 98.78%; backend tests passing (582 tests, 0 failures).
 ```

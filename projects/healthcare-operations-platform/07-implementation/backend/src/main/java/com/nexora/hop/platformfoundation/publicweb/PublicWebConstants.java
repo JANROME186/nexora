@@ -20,6 +20,9 @@ public final class PublicWebConstants {
     /** Public catalog base sub-path. */
     public static final String CATALOG_BASE_PATH = API_BASE_PATH + "/catalog";
 
+    /** Public marketplace discovery base sub-path. */
+    public static final String MARKETPLACE_BASE_PATH = API_BASE_PATH + "/marketplace";
+
     /** Public request-intake base sub-path. */
     public static final String CARE_DELIVERY_BASE_PATH = API_BASE_PATH + "/care-delivery";
 

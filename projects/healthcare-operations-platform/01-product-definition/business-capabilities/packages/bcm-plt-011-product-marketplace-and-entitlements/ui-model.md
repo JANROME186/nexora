@@ -3,8 +3,8 @@ id: HOP-UI-BCM-PLT-011
 format: markdown_structured_payload
 type: ui-model
 name: Product Marketplace and Entitlements UI Model
-version: 1.0.0
-status: modeled
+version: 1.1.0
+status: compiled
 backlog_item: COM-MOD-017-DEF
 ---
 
@@ -19,8 +19,8 @@ artifact:
   id: HOP-UI-BCM-PLT-011
   type: ui-model
   name: Product Marketplace and Entitlements UI Model
-  version: 1.0.1
-  status: modeled
+  version: 1.1.0
+  status: compiled
   backlog_item: COM-MOD-017-DEF
 implementation_note: 'COM-MOD-017-QA-001 traceability check: required_permissions
   below list this package''s target-state fine-grained marketplace.<resource>:<action>

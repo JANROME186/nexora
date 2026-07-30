@@ -7,6 +7,29 @@ export interface CatalogSectionMessages {
   versionLabel: string;
 }
 
+export interface MarketplaceSectionMessages {
+  title: string;
+  intro: string;
+  searchPlaceholder: string;
+  categoryAll: string;
+  offersTitle: string;
+  noOffers: string;
+  offerTypeBasePlan: string;
+  offerTypeExpansion: string;
+  offerTypeAddon: string;
+  offerTypeServices: string;
+  trialDaysLabel: string;
+  billingRulesLabel: string;
+  tierLabel: string;
+  contactCta: string;
+  capabilitiesTitle: string;
+  backToList: string;
+  codeLabel: string;
+  statusLabel: string;
+  contactModalTitle: string;
+  contactModalSent: string;
+}
+
 export interface MessageCatalog {
   siteName: string;
   skipToContent: string;
@@ -18,6 +41,7 @@ export interface MessageCatalog {
     preparations: string;
     appointment: string;
     quotation: string;
+    marketplace: string;
   };
   languageSwitcherLabel: string;
   footer: {
@@ -154,10 +178,13 @@ export interface MessageCatalog {
     appointmentDescription: string;
     quotationTitle: string;
     quotationDescription: string;
+    marketplaceTitle: string;
+    marketplaceDescription: string;
     privacyTitle: string;
     privacyDescription: string;
     notFoundTitle: string;
   };
+  marketplace: MarketplaceSectionMessages;
 }
 
 export const esMX: MessageCatalog = {
@@ -171,6 +198,7 @@ export const esMX: MessageCatalog = {
     preparations: "Preparaciones",
     appointment: "Solicitar cita",
     quotation: "Solicitar cotización",
+    marketplace: "Marketplace",
   },
   languageSwitcherLabel: "Idioma",
   footer: {
@@ -351,8 +379,35 @@ export const esMX: MessageCatalog = {
     appointmentDescription: "Solicita una cita en línea con nuestro laboratorio.",
     quotationTitle: "Solicitar una cotización",
     quotationDescription: "Solicita una cotización en línea para tus pruebas de laboratorio.",
+    marketplaceTitle: "Marketplace de extensiones",
+    marketplaceDescription:
+      "Descubre paquetes de extensión y ofertas comerciales publicadas para la plataforma.",
     privacyTitle: "Aviso de privacidad",
     privacyDescription: "Cómo tratamos los datos de contacto que nos compartes en este sitio.",
     notFoundTitle: "Página no encontrada",
+  },
+  marketplace: {
+    title: "Marketplace de extensiones y paquetes",
+    intro:
+      "Explora paquetes de extensión oficiales y ofertas comerciales para potenciar la gestión de tu laboratorio.",
+    searchPlaceholder: "Buscar por nombre, código o categoría...",
+    categoryAll: "Todas las categorías",
+    offersTitle: "Ofertas comerciales disponibles",
+    noOffers: "No hay ofertas comerciales asociadas actualmente a este paquete.",
+    offerTypeBasePlan: "Plan base",
+    offerTypeExpansion: "Paquete de expansión",
+    offerTypeAddon: "Módulo adicional de uso",
+    offerTypeServices: "Paquete de servicios",
+    trialDaysLabel: "Días de prueba gratuita",
+    billingRulesLabel: "Reglas de facturación",
+    tierLabel: "Nivel de suscripción",
+    contactCta: "Solicitar contacto comercial",
+    capabilitiesTitle: "Capacidades de la plataforma integradas",
+    backToList: "Volver al Marketplace",
+    codeLabel: "Código",
+    statusLabel: "Estado",
+    contactModalTitle: "Contacto comercial",
+    contactModalSent:
+      "Solicitud de contacto enviada. Un ejecutivo comercial se comunicará contigo pronto.",
   },
 };

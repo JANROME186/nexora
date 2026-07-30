@@ -10,6 +10,8 @@ export const ROUTES = {
   preparationDetail: "/preparations/:id",
   appointmentRequest: "/appointment-request",
   quotationRequest: "/quotation-request",
+  marketplace: "/marketplace",
+  marketplaceDetail: "/marketplace/:id",
   privacy: "/privacy",
 } as const;
 
@@ -27,6 +29,10 @@ export function panelDetailPath(id: string): string {
 
 export function preparationDetailPath(id: string): string {
   return `/preparations/${encodeURIComponent(id)}`;
+}
+
+export function marketplaceDetailPath(id: string): string {
+  return `/marketplace/${encodeURIComponent(id)}`;
 }
 
 /** Matches a concrete pathname against a route pattern like "/services/:id". Returns the matched

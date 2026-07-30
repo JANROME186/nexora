@@ -4,8 +4,8 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: Public marketplace listing surface (PUBLIC_MARKETPLACE_LISTING) modeled by
   BCM-PLT-011 but never compiled
-version: 1.0.0
-status: open
+version: 1.1.0
+status: closed
 ---
 
 # Public Marketplace Listing Surface (PUBLIC_MARKETPLACE_LISTING) Modeled By BCM-PLT-011 But Never Compiled
@@ -20,9 +20,11 @@ artifact:
   type: technical-debt-item
   name: Public marketplace listing surface (PUBLIC_MARKETPLACE_LISTING) modeled
     by BCM-PLT-011 but never compiled
-  version: 1.0.0
-  status: open
+  version: 1.1.0
+  status: closed
   created_date: 2026-07-25
+  closed_date: 2026-07-30
+  closed_by: HOP-HARD-WEB-001
 source:
   discovered_during_backlog_item: COM-MOD-017-CLOSEOUT
   module: COM-MOD-017 Product Marketplace and Extension Packaging

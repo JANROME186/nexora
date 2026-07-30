@@ -11,6 +11,7 @@ export const enUS: MessageCatalog = {
     preparations: "Preparations",
     appointment: "Request appointment",
     quotation: "Request quotation",
+    marketplace: "Marketplace",
   },
   languageSwitcherLabel: "Language",
   footer: {
@@ -187,8 +188,35 @@ export const enUS: MessageCatalog = {
     appointmentDescription: "Request an appointment online with our laboratory.",
     quotationTitle: "Request a quotation",
     quotationDescription: "Request an online quotation for your laboratory tests.",
+    marketplaceTitle: "Extension Marketplace",
+    marketplaceDescription:
+      "Discover published extension packages and commercial offers for the platform.",
     privacyTitle: "Privacy notice",
     privacyDescription: "How we handle the contact details you share on this site.",
     notFoundTitle: "Page not found",
+  },
+  marketplace: {
+    title: "Extensions & Packages Marketplace",
+    intro:
+      "Explore official extension packages and commercial offers to power your laboratory operations.",
+    searchPlaceholder: "Search by name, code or category...",
+    categoryAll: "All categories",
+    offersTitle: "Available Commercial Offers",
+    noOffers: "No commercial offers are currently associated with this package.",
+    offerTypeBasePlan: "Base Plan",
+    offerTypeExpansion: "Expansion Package",
+    offerTypeAddon: "Usage Addon Module",
+    offerTypeServices: "Services Package",
+    trialDaysLabel: "Free trial days",
+    billingRulesLabel: "Billing rules",
+    tierLabel: "Subscription tier",
+    contactCta: "Request Commercial Contact",
+    capabilitiesTitle: "Integrated Platform Capabilities",
+    backToList: "Back to Marketplace",
+    codeLabel: "Code",
+    statusLabel: "Status",
+    contactModalTitle: "Commercial Contact",
+    contactModalSent:
+      "Contact request submitted. A commercial representative will reach out to you soon.",
   },
 };

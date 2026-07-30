@@ -905,7 +905,7 @@ entries:
 - id: TD-WEB-001
   title: Public marketplace listing surface (PUBLIC_MARKETPLACE_LISTING) modeled
     by BCM-PLT-011 but never compiled
-  status: open
+  status: closed
   risk_level: low
   blocking: false
   source_backlog_item: COM-MOD-017-CLOSEOUT

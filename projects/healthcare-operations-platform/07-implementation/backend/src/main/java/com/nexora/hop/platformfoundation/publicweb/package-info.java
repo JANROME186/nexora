@@ -17,6 +17,7 @@
         allowedDependencies = {
             "sharedkernel",
             "catalogtestconfiguration::catalog-public-read-port",
-            "frontdeskcaredelivery::public-intake-port"
+            "frontdeskcaredelivery::public-intake-port",
+            "marketplaceentitlements::public-marketplace-read-port"
         })
 package com.nexora.hop.platformfoundation.publicweb;

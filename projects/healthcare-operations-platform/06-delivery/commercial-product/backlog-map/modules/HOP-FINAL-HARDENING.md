@@ -88,7 +88,7 @@ backlog_items:
   - COM-MOD-014-PORTAL-001
 - id: HOP-HARD-WEB-001
   name: Public marketplace discovery surface and website hardening
-  status: active
+  status: closed
   mapped_items:
   - TD-WEB-001
   related_backlog_items:

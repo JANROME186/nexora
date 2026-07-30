@@ -3,8 +3,8 @@ id: HOP-CAP-PKG-BCM-PLT-011
 format: markdown_structured_payload
 type: capability-package
 name: Product Marketplace and Entitlements Capability Package
-version: 1.0.0
-status: modeled
+version: 1.1.0
+status: compiled
 ---
 
 # Product Marketplace And Entitlements Capability Package
@@ -18,8 +18,8 @@ artifact:
   id: HOP-CAP-PKG-BCM-PLT-011
   type: capability-package
   name: Product Marketplace and Entitlements Capability Package
-  version: 1.0.0
-  status: modeled
+  version: 1.1.0
+  status: compiled
   classification: editable_model
   human_readable: README.md
   machine_readable: capability-package.md
@@ -68,8 +68,7 @@ roadmap:
   release: REL-003
   package_status: module_closed
   next_backlog_item: none (module closed; COM-MOD-017-WEB-001 public marketplace
-    listing surface remains deferred and tracked as TD-WEB-001; see COM-MOD-014-DEF
-    for the next roadmap module)
+    listing surface compiled and validated in HOP-HARD-WEB-001; TD-WEB-001 closed)
   paused_functional_backlog_item: null
 dependencies:
   required_capabilities:
