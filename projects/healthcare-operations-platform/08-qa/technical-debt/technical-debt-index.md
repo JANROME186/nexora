@@ -934,4 +934,13 @@ entries:
   affected_area: ai_overlay_assistant_review_flow
   file: 08-qa/technical-debt/TD-BE-022-ai-overlay-review-reason-error-code-and-review-immutability-gap.md
   remediation_strategy: fixed_in_place_during_discovery
+- id: TD-FMT-001
+  title: Transition monolithic YAML task/state artifacts to Markdown frontmatter handoffs
+  status: closed
+  risk_level: high
+  blocking: false
+  source_backlog_item: NXF-CTX-001
+  affected_area: framework_and_hop_execution_artifacts
+  file: 08-qa/technical-debt/TD-FMT-001-yaml-monolith-to-frontmatter-transition.md
+  remediation_strategy: closed_by_HOP_HARD_QA_001_frontmatter_payload_transition_completed_across_all_execution_and_evidence_artifacts
 ```

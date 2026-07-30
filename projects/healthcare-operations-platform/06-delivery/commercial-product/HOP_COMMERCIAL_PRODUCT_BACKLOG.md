@@ -30,11 +30,11 @@ product:
   commercial_name: Nexora Healthcare Operations Platform
   company: Nexora
   current_baseline:
-    completed_module: All commercial backlog modules with recorded closeout evidence through COM-MOD-017.
+    completed_module: All commercial backlog modules and final hardening completed (HOP-FINAL-HARDENING closed).
     completed_status: closed
-    active_module: HOP-FINAL-HARDENING
-    active_backlog_item: HOP-HARD-QA-001
-    active_module_progress: HOP-HARD-INT-001 closed. Final hardening now advances to final quality gates, evidence reconciliation and no-open-debt validation (HOP-HARD-QA-001).
+    active_module: null
+    active_backlog_item: null
+    active_module_progress: HOP-HARD-QA-001 closed. Commercial hardening complete. All commercial backlog items closed.
     paused_backlog_item: null
     pause_reason: null
 mdpe_policy:
@@ -73,7 +73,7 @@ definition_of_ready_done: 06-delivery/commercial-product/backlog-map/DEFINITION_
 active_item:
   id: HOP-HARD-QA-001
   name: Final quality gates, evidence reconciliation and no-open-debt validation
-  status: active
+  status: closed
   module_id: HOP-FINAL-HARDENING
   module_name: Final Commercial Hardening and Technical Debt Burn-down
   release: REL-GA
@@ -189,7 +189,7 @@ modules:
 - id: HOP-FINAL-HARDENING
   name: Final Commercial Hardening and Technical Debt Burn-down
   release: REL-GA
-  status: active
+  status: closed
   path: 06-delivery/commercial-product/backlog-map/modules/HOP-FINAL-HARDENING.md
   items: 8
 context_policy:

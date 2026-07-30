@@ -20,8 +20,8 @@ commercial_product_progress:
   enterprise_foundation_alignment_backlog: 06-delivery/commercial-product/HOP_ENTERPRISE_FOUNDATION_ALIGNMENT_BACKLOG.md
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   current_iteration: HOP-HARD-QA-001
-  active_module: HOP-FINAL-HARDENING
-  active_backlog_item: HOP-HARD-QA-001
+  active_module: null
+  active_backlog_item: null
   quality_alignment_module_status: closed
   enterprise_foundation_alignment_status: closed
   enterprise_foundation_alignment_closeout_evidence: 08-qa/qa/enterprise-foundation/HOP-ENT-FOUND-001-validation.md

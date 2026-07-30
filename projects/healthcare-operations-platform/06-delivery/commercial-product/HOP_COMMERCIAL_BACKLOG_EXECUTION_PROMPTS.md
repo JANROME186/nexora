@@ -111,7 +111,7 @@ validation_commands:
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product backlog and execution prompts, and commit
     only when validation passes.
   previous_backlog_item:
-    backlog_item_id: HOP-HARD-INT-001
+    backlog_item_id: HOP-HARD-QA-001
     status: closed
-    summary: Closed integration, OpenAPI generation, workflow, migration and observability hardening (HOP-HARD-INT-001). TD-STACK-001, TD-STACK-003, TD-BE-014, TD-BE-017, TD-OBS-001, and TD-DEF-002 materially reduced with concrete objective evidence; backend tests passing (582 tests, 0 failures, 84.86% coverage).
+    summary: Closed final quality gates, evidence reconciliation and no-open-debt validation (HOP-HARD-QA-001). Reconciled all 8 hardening items under HOP-FINAL-HARDENING and closed TD-FMT-001; full commercial backlog and final hardening completed cleanly with 0 open technical debt issues.
 ```

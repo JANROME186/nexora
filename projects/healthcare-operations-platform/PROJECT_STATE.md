@@ -17,26 +17,27 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: HOP-HARD-INT-001 closed. Final hardening continues with final quality gates, evidence reconciliation and no-open-debt validation (HOP-HARD-QA-001).
+current_phase: HOP-HARD-QA-001 closed. Commercial hardening complete. All 116 backlog items closed.
 commercial_product_progress:
-  status: active
+  status: closed
   current_iteration: HOP-HARD-QA-001
-  active_module: HOP-FINAL-HARDENING
-  active_backlog_item: HOP-HARD-QA-001
+  active_module: null
+  active_backlog_item: null
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   backlog: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.md
   detail_ref: 08-qa/project-tracking/progress-ledger/commercial-product-progress-detail.md
 architecture_status: Architecture Freeze v1.0
 implementation_progress:
-  current_backlog_item: HOP-HARD-QA-001
-  active_backlog_item: HOP-HARD-QA-001
-  next_backlog_item: HOP-HARD-QA-001
+  current_backlog_item: null
+  active_backlog_item: null
+  next_backlog_item: null
   current_module: HOP-FINAL-HARDENING
-  progress_percent: null
+  progress_percent: 100
   last_commit: null
-  completed_backlog_items_count: 115
+  completed_backlog_items_count: 116
   recent_completed_backlog_items:
+  - HOP-HARD-QA-001
   - HOP-HARD-INT-001
   - HOP-HARD-WEB-001
   - HOP-HARD-APP-001
@@ -55,6 +56,8 @@ module_closeout:
   active_ref: 08-qa/project-tracking/progress-ledger/module-closeout-detail.md
   load_on_demand: true
 recent_completed_deliverables_index:
+- id: HOP-HARD-QA-001
+  ledger_ref: 08-qa/project-tracking/progress-ledger/completed-deliverables-ledger.md
 - id: HOP-HARD-INT-001
   ledger_ref: 08-qa/project-tracking/progress-ledger/completed-deliverables-ledger.md
 - id: HOP-HARD-WEB-001

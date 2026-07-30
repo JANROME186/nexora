@@ -596,7 +596,7 @@ items:
   path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-INT-001.md
 - id: HOP-HARD-QA-001
   name: Final quality gates, evidence reconciliation and no-open-debt validation
-  status: active
+  status: closed
   module_id: HOP-FINAL-HARDENING
   path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-QA-001.md
 ```

@@ -4,7 +4,7 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: Transition monolithic YAML task/state artifacts to Markdown frontmatter handoffs
 version: 1.0.0
-status: materially_reduced
+status: closed
 ---
 
 # Transition Monolithic Yaml Task/State Artifacts To Markdown Frontmatter Handoffs
@@ -18,10 +18,10 @@ artifact:
   id: TD-FMT-001
   type: technical-debt-item
   name: Transition monolithic YAML task/state artifacts to Markdown frontmatter handoffs
-  version: 1.0.0
-  status: materially_reduced
+  version: 1.1.0
+  status: closed
   created_date: 2026-07-24
-  updated_date: 2026-07-26
+  updated_date: 2026-07-30
 source:
   discovered_during_backlog_item: NXF-CTX-001
   module: Nexora Framework Context Efficient Execution update

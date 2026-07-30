@@ -84,6 +84,9 @@ sources:
   hop_hard_int_001_security_quality_evidence: 08-qa/security-quality/HOP-HARD-INT-001/security-quality-evidence.md
   hop_hard_int_001_handoff: 08-qa/handoffs/HOP-HARD-INT-001-summary.md
   hop_hard_qa_001_backlog_item: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-QA-001.md
+  hop_hard_qa_001_qa_evidence: 08-qa/qa/final-hardening/HOP-HARD-QA-001-validation.md
+  hop_hard_qa_001_security_quality_evidence: 08-qa/security-quality/HOP-HARD-QA-001/security-quality-evidence.md
+  hop_hard_qa_001_handoff: 08-qa/handoffs/HOP-HARD-QA-001-summary.md
 source_registry:
   core:
     path: 08-qa/project-tracking/source-registry/source-registry-core.md
