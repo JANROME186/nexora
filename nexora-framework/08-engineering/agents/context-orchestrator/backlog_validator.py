@@ -158,6 +158,14 @@ def replace_all_yaml_value(text: str, key: str, value: object) -> str:
     return pattern.sub(rf"\g<1>{rendered}", text)
 
 
+def replace_list_item_status(text: str, item_id: str, status: str) -> str:
+    pattern = re.compile(
+        rf"(^\s*-\s+id:\s*{re.escape(item_id)}\s*\n(?:(?!^\s*-\s+id:).*\n)*?^\s*status:\s*).*$",
+        re.MULTILINE,
+    )
+    return pattern.sub(rf"\g<1>{status}", text, count=1)
+
+
 def closure_active_candidate(root: Path, task_id: str) -> str | None:
     project_state = read_yaml(root / PROJECT_PATH / "PROJECT_STATE.md")
     product_backlog = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md")
@@ -211,6 +219,25 @@ def auto_repair_closure_state(root: Path, task_id: str) -> list[dict[str, str]]:
         updated = replace_first_yaml_value(updated, "active_backlog_item", expected_active)
         if write_if_changed(progress_path, updated):
             repairs.append({"id": "progress_ledger_synced", "path": str(progress_path.relative_to(root)).replace("\\", "/")})
+
+    active_item_path = root / PROJECT_PATH / "06-delivery/commercial-product/backlog-map/items" / f"{expected_active}.md"
+    if active_item_path.exists():
+        text = active_item_path.read_text(encoding="utf-8")
+        updated = replace_all_yaml_value(text, "status", "active")
+        if write_if_changed(active_item_path, updated):
+            repairs.append({"id": "active_backlog_item_status_synced", "path": str(active_item_path.relative_to(root)).replace("\\", "/")})
+
+    module_id = find_backlog_item_field_from_index(root, expected_active, "module_id")
+    if module_id is None:
+        product_backlog = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md")
+        module_id = find_backlog_item_field(product_backlog, expected_active, "module_id")
+    if module_id:
+        module_path = root / PROJECT_PATH / "06-delivery/commercial-product/backlog-map/modules" / f"{module_id}.md"
+        if module_path.exists():
+            text = module_path.read_text(encoding="utf-8")
+            updated = replace_list_item_status(text, expected_active, "active")
+            if write_if_changed(module_path, updated):
+                repairs.append({"id": "active_module_item_status_synced", "path": str(module_path.relative_to(root)).replace("\\", "/")})
 
     return repairs
 
