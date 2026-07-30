@@ -58,7 +58,7 @@ DEFAULT_ORCHESTRATION_CACHE_DIR = "projects/healthcare-operations-platform/08-qa
 DEFAULT_OLLAMA_MODEL = "qwen2.5-coder:0.5b"
 DEFAULT_OLLAMA_TIMEOUT_SECONDS = 300
 DEFAULT_ORCHESTRATOR_LOG = os.environ.get("NEXORA_ORCHESTRATOR_LOG", ".nexora/runtime/orchestrator-events.jsonl")
-PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v6"
+PROMPT_RENDERER_VERSION = "module-aware-active-history-prompt-v7"
 EXECUTION_FLOWS = ("manual", "cli")
 
 
@@ -310,6 +310,12 @@ def compact_mandatory_notes(task_id: str, title: str, notes: list[str], coverage
             "Compilar outputs backend para marketplace catalog, package manifest, offer, "
             "license plan, entitlement, installation y billing-adapter."
         )
+    elif task_id == "HOP-HARD-QA-001":
+        result.append(f"Atender el slice final de hardening: {title}.")
+        result.append("Reconciliar todos los items de HOP-FINAL-HARDENING, no solo TD-FMT-001.")
+        result.append("Validar que no exista deuda tecnica `open` o `materially_reduced` sin aceptacion formal de gobierno/producto.")
+        result.append("Bloquear el cierre final si cualquier evidencia, puntero, prompt activo/historico, coverage floor, gate o registro de deuda queda inconsistente.")
+        result.append("Confirmar que cada item cerrado tenga QA Evidence, Security Evidence, handoff y closure validation con `Hard findings: 0`.")
     elif task_id.startswith("HOP-HARD-"):
         result.append(f"Atender el slice de hardening activo: {title}.")
         result.append("Cargar el item activo y cerrar o reducir materialmente todos sus mapped_items; no basta con atender solo uno.")
@@ -355,6 +361,14 @@ def context_pointer_block(task_id: str, summary_ref: str | None) -> list[str]:
             "Prompts y estado: inspeccionar `06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md` y `PROJECT_STATE.md` bajo demanda.",
         ]
     )
+    if task_id == "HOP-HARD-QA-001":
+        pointers.extend(
+            [
+                "Deuda tecnica: `08-qa/technical-debt/technical-debt-index.md`.",
+                "Progress ledger: `08-qa/project-tracking/progress-ledger/commercial-product-progress-detail.md`.",
+                "Validaciones de cierre: `08-qa/backlog-validations/`.",
+            ]
+        )
     return pointers
 
 
