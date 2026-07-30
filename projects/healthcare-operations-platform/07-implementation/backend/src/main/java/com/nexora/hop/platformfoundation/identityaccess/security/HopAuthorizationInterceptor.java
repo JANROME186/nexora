@@ -86,6 +86,20 @@ public class HopAuthorizationInterceptor implements HandlerInterceptor {
         allowed = authorizationService
             .permissionsForRoles(context.get().roleCodes())
             .contains(com.nexora.hop.platformfoundation.identityaccess.domain.PermissionCode.PORTAL_PATIENT_NOTIFICATIONS_VIEW);
+      } else if (("/api/v1/imaging/delivery-packages".equals(uri) || uri.startsWith("/api/v1/imaging/delivery-packages/")
+              || "/api/v1/imaging/reports".equals(uri) || uri.startsWith("/api/v1/imaging/reports/"))
+          && "GET".equalsIgnoreCase(request.getMethod())) {
+        // HOP-HARD-APP-001 imaging delivery hardening: patient self-access for their own delivery
+        // packages and radiology reports. The list endpoint's patientId query param is checked
+        // here; get-by-id ownership requires loading the record and is enforced downstream by
+        // ImagingStudyDeliveryService/RadiologySignatureService, mirroring the results-history
+        // pattern above (this interceptor does not have access to that data).
+        boolean isListEndpoint = "/api/v1/imaging/delivery-packages".equals(uri);
+        if (!isListEndpoint || context.get().userId().equals(request.getParameter("patientId"))) {
+          allowed = authorizationService
+              .permissionsForRoles(context.get().roleCodes())
+              .contains(com.nexora.hop.platformfoundation.identityaccess.domain.PermissionCode.PORTAL_PATIENT_IMAGING_VIEW);
+        }
       }
     }
 
@@ -121,6 +135,15 @@ public class HopAuthorizationInterceptor implements HandlerInterceptor {
       } else if (uri.startsWith("/api/clinical-operations/laboratory-results/") && uri.endsWith("/notifications")) {
         allowed = permissions.contains(
             com.nexora.hop.platformfoundation.identityaccess.domain.PermissionCode.PORTAL_DOCTOR_NOTIFICATIONS_VIEW);
+      } else if (("/api/v1/imaging/delivery-packages".equals(uri) || uri.startsWith("/api/v1/imaging/delivery-packages/")
+              || "/api/v1/imaging/reports".equals(uri) || uri.startsWith("/api/v1/imaging/reports/"))
+          && "GET".equalsIgnoreCase(method)) {
+        // HOP-HARD-APP-001 imaging delivery hardening: referral ownership requires real order data
+        // this interceptor does not have, so it is enforced downstream by
+        // ImagingStudyDeliveryService/RadiologySignatureService, same as the results-history block
+        // above.
+        allowed = permissions.contains(
+            com.nexora.hop.platformfoundation.identityaccess.domain.PermissionCode.PORTAL_DOCTOR_IMAGING_VIEW);
       }
     }
 

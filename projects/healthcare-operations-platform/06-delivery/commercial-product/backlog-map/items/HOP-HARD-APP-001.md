@@ -2,7 +2,7 @@
 artifact:
   id: HOP-BACKLOG-ITEM-HOP-HARD-APP-001
   type: backlog-item-record
-  status: active
+  status: closed
   optimization: atomic_context
 ---
 
@@ -15,7 +15,7 @@ artifact:
 ```yaml
 id: HOP-HARD-APP-001
 name: Mobile, patient portal, doctor portal and imaging delivery hardening
-status: planned
+status: closed
 module_id: HOP-FINAL-HARDENING
 module_name: Final Commercial Hardening and Technical Debt Burn-down
 release: REL-GA
@@ -26,6 +26,10 @@ mapped_items:
 - TD-UX-003
 related_backlog_items:
 - COM-MOD-014-PORTAL-001
+resolution:
+  TD-APP-001: materially_reduced_unchanged
+  TD-UX-003: reviewed_unchanged_genuinely_blocked
+  COM-MOD-014-PORTAL-001: closed
 evidence:
   qa: 08-qa/qa/final-hardening/HOP-HARD-APP-001-validation.md
   security_quality: 08-qa/security-quality/HOP-HARD-APP-001/security-quality-evidence.md

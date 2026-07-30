@@ -81,7 +81,8 @@ class RolePermissionCatalogTest {
                         PermissionCode.PORTAL_DOCTOR_PATIENTS_VIEW,
                         PermissionCode.PORTAL_DOCTOR_RESULTS_VIEW,
                         PermissionCode.PORTAL_DOCTOR_ORDERS_VIEW,
-                        PermissionCode.PORTAL_DOCTOR_NOTIFICATIONS_VIEW);
+                        PermissionCode.PORTAL_DOCTOR_NOTIFICATIONS_VIEW,
+                        PermissionCode.PORTAL_DOCTOR_IMAGING_VIEW);
     }
 
     @Test

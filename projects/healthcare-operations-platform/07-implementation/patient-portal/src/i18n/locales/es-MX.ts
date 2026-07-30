@@ -42,6 +42,7 @@ export const esMX = {
       appointments: "Mis Citas",
       orders: "Mis Órdenes",
       notifications: "Notificaciones",
+      imaging: "Imágenes",
     },
     login: {
       title: "Iniciar Sesión",
@@ -95,6 +96,13 @@ export const esMX = {
       date: "Fecha",
       status: "Estado de Orden",
       tests: "Pruebas",
+    },
+    imaging: {
+      studyId: "Estudio",
+      format: "Formato",
+      status: "Estado",
+      findings: "Hallazgos",
+      impression: "Impresión",
     },
   },
 } as const;

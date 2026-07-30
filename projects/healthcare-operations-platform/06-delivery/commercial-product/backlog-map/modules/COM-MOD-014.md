@@ -57,6 +57,8 @@ backlog_items:
   status: closed
 - id: COM-MOD-014-PORTAL-001
   name: Imaging study delivery views
+  status: closed
+  closed_under: HOP-HARD-APP-001
 - id: COM-MOD-014-QA-001
   name: Imaging integration and report evidence
   status: closed

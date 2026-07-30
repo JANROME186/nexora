@@ -11,11 +11,13 @@ import { resolveApiErrorMessage } from "./state/errorMessages";
 import { listReferredOrders } from "./api/diagnosticOrdersApi";
 import { getPatientHistoryAsDoctor } from "./api/patientResultHistoryApi";
 import { getResultNotifications } from "./api/resultNotificationsApi";
+import { getPatientImagingDeliveryPackagesAsDoctor } from "./api/imagingDeliveryApi";
 import type { DiagnosticOrder, ResultNotificationRequest } from "./api/types";
 import type { ResultHistoryEntry } from "./api/patientResultHistoryApi";
+import type { ImagingDeliveryPackage } from "./api/imagingDeliveryApi";
 import "./App.css";
 
-const ORDERED_SCREENS: ScreenKey[] = ["patients", "results", "orders", "notifications"];
+const ORDERED_SCREENS: ScreenKey[] = ["patients", "results", "orders", "notifications", "imaging"];
 
 interface ReferredPatient {
   patientId: string;
@@ -515,6 +517,170 @@ function NotificationsTab({
   );
 }
 
+function ImagingTab({
+  session,
+  patients,
+  selectedPatientId,
+  onSelectPatient,
+  onSessionExpired,
+}: {
+  session: SessionUser;
+  patients: ReferredPatient[];
+  selectedPatientId: string;
+  onSelectPatient: (patientId: string) => void;
+  onSessionExpired: () => void;
+}) {
+  const { t } = useLocale();
+  const [packages, setPackages] = useState<ImagingDeliveryPackage[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadImaging() {
+      if (!selectedPatientId) {
+        setPackages([]);
+        return;
+      }
+      setLoading(true);
+      setError("");
+      try {
+        const data = await getPatientImagingDeliveryPackagesAsDoctor(
+          selectedPatientId,
+          session.doctorId,
+        );
+        setPackages(data);
+      } catch (e: unknown) {
+        setPackages([]);
+        setError(resolveApiErrorMessage(e, t, onSessionExpired));
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadImaging();
+  }, [selectedPatientId, session.doctorId]);
+
+  function renderBody() {
+    if (!selectedPatientId) return <div className="empty-alert">{t.selectPatientFirst}</div>;
+    if (loading) return <div className="skeleton">{t.appShell.states.loading}</div>;
+    if (error) return <div className="error-alert">{error}</div>;
+    if (packages.length === 0) return <div className="empty-alert">{t.appShell.states.empty}</div>;
+    return (
+      <table className="portal-table">
+        <thead>
+          <tr>
+            <th>{t.appShell.imaging.studyId}</th>
+            <th>{t.appShell.imaging.format}</th>
+            <th>{t.appShell.imaging.status}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {packages.map((pkg) => (
+            <tr key={pkg.packageId}>
+              <td>
+                <code>{pkg.studyId}</code>
+              </td>
+              <td>{pkg.deliveryFormat}</td>
+              <td>
+                <span className={`badge badge--${pkg.deliveryStatus.toLowerCase()}`}>
+                  {pkg.deliveryStatus}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
+
+  return (
+    <div className="card">
+      <PatientSelector
+        patients={patients}
+        selectedPatientId={selectedPatientId}
+        onSelectPatient={onSelectPatient}
+      />
+      {renderBody()}
+    </div>
+  );
+}
+
+function TabContent({
+  visibleScreens,
+  activeTab,
+  session,
+  patients,
+  orders,
+  loading,
+  error,
+  selectedPatientId,
+  onSelectPatient,
+  onSessionExpired,
+  onViewResults,
+}: {
+  visibleScreens: ScreenKey[];
+  activeTab: ScreenKey | "";
+  session: SessionUser;
+  patients: ReferredPatient[];
+  orders: DiagnosticOrder[];
+  loading: boolean;
+  error: string;
+  selectedPatientId: string;
+  onSelectPatient: (patientId: string) => void;
+  onSessionExpired: () => void;
+  onViewResults: (patientId: string) => void;
+}) {
+  const { t } = useLocale();
+
+  if (visibleScreens.length === 0) {
+    return <div className="error-alert">{t.appShell.states.noPermission}</div>;
+  }
+  switch (activeTab) {
+    case "patients":
+      return (
+        <PatientsTab
+          patients={patients}
+          loading={loading}
+          error={error}
+          onViewResults={onViewResults}
+        />
+      );
+    case "orders":
+      return <OrdersTab orders={orders} loading={loading} error={error} />;
+    case "results":
+      return (
+        <ResultsTab
+          session={session}
+          patients={patients}
+          selectedPatientId={selectedPatientId}
+          onSelectPatient={onSelectPatient}
+          onSessionExpired={onSessionExpired}
+        />
+      );
+    case "notifications":
+      return (
+        <NotificationsTab
+          session={session}
+          patients={patients}
+          selectedPatientId={selectedPatientId}
+          onSelectPatient={onSelectPatient}
+          onSessionExpired={onSessionExpired}
+        />
+      );
+    case "imaging":
+      return (
+        <ImagingTab
+          session={session}
+          patients={patients}
+          selectedPatientId={selectedPatientId}
+          onSelectPatient={onSelectPatient}
+          onSessionExpired={onSessionExpired}
+        />
+      );
+    default:
+      return <div className="empty-alert">{t.appShell.states.empty}</div>;
+  }
+}
+
 function AppContent() {
   const { session, logout, expireSession } = useSession();
   const { t } = useLocale();
@@ -562,47 +728,7 @@ function AppContent() {
     results: t.appShell.tabs.results,
     orders: t.appShell.tabs.orders,
     notifications: t.appShell.tabs.notifications,
-  };
-
-  const renderTabContent = () => {
-    if (visibleScreens.length === 0) {
-      return <div className="error-alert">{t.appShell.states.noPermission}</div>;
-    }
-    switch (activeTab) {
-      case "patients":
-        return (
-          <PatientsTab
-            patients={patients}
-            loading={loading}
-            error={error}
-            onViewResults={handleViewResults}
-          />
-        );
-      case "orders":
-        return <OrdersTab orders={orders} loading={loading} error={error} />;
-      case "results":
-        return (
-          <ResultsTab
-            session={session}
-            patients={patients}
-            selectedPatientId={selectedPatientId}
-            onSelectPatient={setSelectedPatientId}
-            onSessionExpired={onSessionExpired}
-          />
-        );
-      case "notifications":
-        return (
-          <NotificationsTab
-            session={session}
-            patients={patients}
-            selectedPatientId={selectedPatientId}
-            onSelectPatient={setSelectedPatientId}
-            onSessionExpired={onSessionExpired}
-          />
-        );
-      default:
-        return <div className="empty-alert">{t.appShell.states.empty}</div>;
-    }
+    imaging: t.appShell.tabs.imaging,
   };
 
   return (
@@ -637,7 +763,21 @@ function AppContent() {
           </nav>
         </aside>
 
-        <main className="dashboard-content">{renderTabContent()}</main>
+        <main className="dashboard-content">
+          <TabContent
+            visibleScreens={visibleScreens}
+            activeTab={activeTab}
+            session={session}
+            patients={patients}
+            orders={orders}
+            loading={loading}
+            error={error}
+            selectedPatientId={selectedPatientId}
+            onSelectPatient={setSelectedPatientId}
+            onSessionExpired={onSessionExpired}
+            onViewResults={handleViewResults}
+          />
+        </main>
       </div>
     </div>
   );

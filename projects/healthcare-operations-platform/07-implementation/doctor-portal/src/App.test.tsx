@@ -6,6 +6,7 @@ import { ApiError } from "./api/httpClient";
 const listReferredOrdersMock = vi.fn();
 const getPatientHistoryAsDoctorMock = vi.fn();
 const getResultNotificationsMock = vi.fn();
+const getPatientImagingDeliveryPackagesAsDoctorMock = vi.fn();
 
 vi.mock("./api/diagnosticOrdersApi", () => ({
   listReferredOrders: (...args: unknown[]) => listReferredOrdersMock(...args),
@@ -17,6 +18,11 @@ vi.mock("./api/patientResultHistoryApi", () => ({
 
 vi.mock("./api/resultNotificationsApi", () => ({
   getResultNotifications: (...args: unknown[]) => getResultNotificationsMock(...args),
+}));
+
+vi.mock("./api/imagingDeliveryApi", () => ({
+  getPatientImagingDeliveryPackagesAsDoctor: (...args: unknown[]) =>
+    getPatientImagingDeliveryPackagesAsDoctorMock(...args),
 }));
 
 const ORDER_ADA = {
@@ -99,6 +105,16 @@ describe("Doctor Portal App", () => {
         createdAt: "2026-07-19T10:05:00Z",
       },
     ]);
+    getPatientImagingDeliveryPackagesAsDoctorMock.mockReset().mockResolvedValue([
+      {
+        packageId: "pkg-1",
+        tenantId: "tenant-local",
+        studyId: "std-1",
+        patientId: "Patient-A",
+        deliveryFormat: "DICOM_ZIP",
+        deliveryStatus: "DELIVERED",
+      },
+    ]);
   });
 
   it("renders login form by default and allows language switching", () => {
@@ -161,11 +177,12 @@ describe("Doctor Portal App", () => {
       expect(screen.getByText("Dr. Grace Hopper")).toBeInTheDocument();
     });
 
-    // Dynamic, permission-filtered nav: REFERRING_DOCTOR holds all 4 doctor-portal permissions.
+    // Dynamic, permission-filtered nav: REFERRING_DOCTOR holds all 5 doctor-portal permissions.
     expect(screen.getByText("Mis Pacientes")).toBeInTheDocument();
     expect(screen.getByText("Resultados")).toBeInTheDocument();
     expect(screen.getByText("Mis Órdenes")).toBeInTheDocument();
     expect(screen.getByText("Notificaciones")).toBeInTheDocument();
+    expect(screen.getByText("Imágenes")).toBeInTheDocument();
 
     // PATIENTS TAB (default): two distinct referred patients derived from server-filtered orders.
     await waitFor(() => {
@@ -205,6 +222,19 @@ describe("Doctor Portal App", () => {
       expect(screen.getByText("EMAIL")).toBeInTheDocument();
       expect(screen.getByText("DELIVERED")).toBeInTheDocument();
     });
+
+    // IMAGING TAB via patient selector
+    fireEvent.click(screen.getByText("Imágenes"));
+    fireEvent.change(screen.getByLabelText("Selecciona un paciente"), {
+      target: { value: "Patient-A" },
+    });
+    await waitFor(() => {
+      expect(screen.getByText("std-1")).toBeInTheDocument();
+    });
+    expect(getPatientImagingDeliveryPackagesAsDoctorMock).toHaveBeenCalledWith(
+      "Patient-A",
+      "Doctor-01",
+    );
 
     // "View Results" shortcut from the Patients tab jumps straight to Results pre-selected.
     fireEvent.click(screen.getByText("Mis Pacientes"));
@@ -251,6 +281,26 @@ describe("Doctor Portal App", () => {
 
     await waitFor(() => expect(screen.getByText("Ada Lovelace")).toBeInTheDocument());
     fireEvent.click(screen.getByText("Resultados"));
+    fireEvent.change(screen.getByLabelText("Selecciona un paciente"), {
+      target: { value: "Patient-A" },
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("No tienes permiso para acceder a esta sección."),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("surfaces a permission-denied state when the imaging delivery call is forbidden", async () => {
+    getPatientImagingDeliveryPackagesAsDoctorMock.mockRejectedValue(
+      new ApiError(403, "DELIVERY_PACKAGE_ACCESS_DENIED"),
+    );
+    render(<App />);
+    fireEvent.click(screen.getByText("Dr. Grace Hopper"));
+
+    await waitFor(() => expect(screen.getByText("Ada Lovelace")).toBeInTheDocument());
+    fireEvent.click(screen.getByText("Imágenes"));
     fireEvent.change(screen.getByLabelText("Selecciona un paciente"), {
       target: { value: "Patient-A" },
     });

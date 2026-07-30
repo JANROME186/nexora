@@ -17,26 +17,27 @@ project: Healthcare Operations Platform
 project_slug: healthcare-operations-platform
 company: Nexora
 repository_version: 1.0.0
-current_phase: HOP-HARD-FE-001 closed. Final hardening continues with mobile, patient portal, doctor portal and imaging delivery hardening.
+current_phase: HOP-HARD-APP-001 closed. Final hardening continues with public marketplace discovery surface and website hardening.
 commercial_product_progress:
   status: active
-  current_iteration: HOP-HARD-APP-001
+  current_iteration: HOP-HARD-WEB-001
   active_module: HOP-FINAL-HARDENING
-  active_backlog_item: HOP-HARD-APP-001
+  active_backlog_item: HOP-HARD-WEB-001
   execution_prompts: 06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md
   backlog: 06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md
   capability_package_index: 01-product-definition/business-capabilities/packages/capability-package-index.md
   detail_ref: 08-qa/project-tracking/progress-ledger/commercial-product-progress-detail.md
 architecture_status: Architecture Freeze v1.0
 implementation_progress:
-  current_backlog_item: HOP-HARD-APP-001
-  active_backlog_item: HOP-HARD-APP-001
-  next_backlog_item: HOP-HARD-WEB-001
+  current_backlog_item: HOP-HARD-WEB-001
+  active_backlog_item: HOP-HARD-WEB-001
+  next_backlog_item: HOP-HARD-INT-001
   current_module: HOP-FINAL-HARDENING
   progress_percent: null
   last_commit: null
-  completed_backlog_items_count: 112
+  completed_backlog_items_count: 113
   recent_completed_backlog_items:
+  - HOP-HARD-APP-001
   - HOP-HARD-FE-001
   - HOP-HARD-DATA-001
   - HOP-HARD-IAM-001
@@ -48,11 +49,12 @@ implementation_progress:
   - COM-MOD-015-DEF
   - COM-MOD-014-BE-001
   - COM-MOD-014-INT-001
-  - COM-MOD-014-FE-001
 module_closeout:
   active_ref: 08-qa/project-tracking/progress-ledger/module-closeout-detail.md
   load_on_demand: true
 recent_completed_deliverables_index:
+- id: HOP-HARD-APP-001
+  ledger_ref: 08-qa/project-tracking/progress-ledger/completed-deliverables-ledger.md
 - id: COM-MOD-015-CLOSEOUT
   ledger_ref: 08-qa/project-tracking/progress-ledger/completed-deliverables-ledger.md
 - id: COM-MOD-015-QA-001

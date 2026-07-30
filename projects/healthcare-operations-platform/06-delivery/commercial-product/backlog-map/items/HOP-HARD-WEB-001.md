@@ -15,7 +15,7 @@ artifact:
 ```yaml
 id: HOP-HARD-WEB-001
 name: Public marketplace discovery surface and website hardening
-status: planned
+status: active
 module_id: HOP-FINAL-HARDENING
 module_name: Final Commercial Hardening and Technical Debt Burn-down
 release: REL-GA

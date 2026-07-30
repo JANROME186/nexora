@@ -26,6 +26,8 @@ import com.nexora.hop.platformfoundation.imagingoperations.receptionintake.adapt
 import com.nexora.hop.platformfoundation.imagingoperations.receptionintake.adapter.out.persistence.InMemoryImagingReceptionIntakeRepository;
 import com.nexora.hop.platformfoundation.imagingoperations.receptionintake.application.ImagingReceptionService;
 import com.nexora.hop.platformfoundation.imagingoperations.receptionintake.domain.ImagingReceptionIntake;
+import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.ReferringDoctorAuthorizationPort;
+import com.nexora.hop.platformfoundation.imagingoperations.shared.ImagingAccessDeniedException;
 import com.nexora.hop.platformfoundation.imagingoperations.shared.ImagingDomainException;
 import com.nexora.hop.platformfoundation.imagingoperations.shared.ImagingErrorCode;
 import com.nexora.hop.platformfoundation.imagingoperations.shared.ImagingExceptionHandler;
@@ -50,11 +52,14 @@ import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ImagingOperationsUnitTest {
 
     private String tenantId;
     private String actorId;
+    private ReferringDoctorAuthorizationPort referringDoctorAuthorizationPort;
 
     private ImagingAppointmentSchedulingService schedulingService;
     private ImagingAppointmentSchedulingController schedulingController;
@@ -93,7 +98,8 @@ class ImagingOperationsUnitTest {
         receptionService = new ImagingReceptionService(new InMemoryImagingReceptionIntakeRepository());
         receptionController = new ImagingReceptionController(receptionService);
 
-        studyService = new ImagingStudyManagementService(new InMemoryImagingStudyRepository());
+        InMemoryImagingStudyRepository studyRepository = new InMemoryImagingStudyRepository();
+        studyService = new ImagingStudyManagementService(studyRepository);
         studyController = new ImagingStudyManagementController(studyService);
 
         dicomService = new DicomIntegrationService(new InMemoryDicomAdapterConfigurationRepository(), new DicomGatewayAdapter());
@@ -105,15 +111,20 @@ class ImagingOperationsUnitTest {
         dictationService = new MedicalDictationService(new InMemoryRadiologyDictationRepository());
         dictationController = new MedicalDictationController(dictationService);
 
-        signatureService = new RadiologySignatureService(new InMemoryRadiologyReportRepository());
+        referringDoctorAuthorizationPort = mock(ReferringDoctorAuthorizationPort.class);
+
+        signatureService = new RadiologySignatureService(
+                new InMemoryRadiologyReportRepository(), studyRepository, referringDoctorAuthorizationPort);
         signatureController = new RadiologySignatureController(signatureService);
 
-        deliveryService = new ImagingStudyDeliveryService(new InMemoryImagingDeliveryPackageRepository());
+        deliveryService = new ImagingStudyDeliveryService(
+                new InMemoryImagingDeliveryPackageRepository(), referringDoctorAuthorizationPort);
         deliveryController = new ImagingStudyDeliveryController(deliveryService);
 
         StaticMessageSource messageSource = new StaticMessageSource();
         messageSource.addMessage("imaging.error.appointment_not_found", Locale.ENGLISH, "Specified imaging appointment slot was not found.");
         messageSource.addMessage("imaging.error.room_not_available", Locale.ENGLISH, "Procedure room is not available for the selected slot time.");
+        messageSource.addMessage("imaging.error.delivery_package_access_denied", Locale.ENGLISH, "Not authorized to access this imaging delivery package.");
         exceptionHandler = new ImagingExceptionHandler(messageSource);
     }
 
@@ -288,8 +299,8 @@ class ImagingOperationsUnitTest {
         assertThat(signedResp.getBody().reportStatus()).isEqualTo("FINAL_SIGNED");
         assertThat(signedResp.getBody().digitalSignatureHash()).isNotNull();
 
-        assertThat(signatureController.getReport(tenantId, draft.reportId()).getBody()).isNotNull();
-        assertThat(signatureController.listReportsForStudy(tenantId, "std-100").getBody()).hasSize(1);
+        assertThat(signatureController.getReport(tenantId, draft.reportId(), null, null).getBody()).isNotNull();
+        assertThat(signatureController.listReportsForStudy(tenantId, "std-100", null, null).getBody()).hasSize(1);
     }
 
     @Test
@@ -305,8 +316,96 @@ class ImagingOperationsUnitTest {
         ResponseEntity<ImagingDeliveryPackage> delResp = deliveryController.markDelivered(tenantId, actorId, pkg.packageId());
         assertThat(delResp.getBody().deliveryStatus()).isEqualTo("DELIVERED");
 
-        assertThat(deliveryController.getDeliveryPackage(tenantId, pkg.packageId()).getBody()).isNotNull();
-        assertThat(deliveryController.listDeliveryPackagesForPatient(tenantId, "pat-100").getBody()).hasSize(1);
+        assertThat(deliveryController.getDeliveryPackage(tenantId, pkg.packageId(), null, null).getBody()).isNotNull();
+        assertThat(deliveryController.listDeliveryPackagesForPatient(tenantId, "pat-100", null, null).getBody()).hasSize(1);
+    }
+
+    @Test
+    void patientMayViewTheirOwnDeliveryPackageAndReport() {
+        ImagingStudyDeliveryController.CreateDeliveryPackageRequest createReq =
+                new ImagingStudyDeliveryController.CreateDeliveryPackageRequest("std-200", "pat-200", "DICOM_ZIP");
+        ImagingDeliveryPackage pkg = deliveryController.createDeliveryPackage(tenantId, actorId, createReq).getBody();
+
+        assertThat(deliveryController.getDeliveryPackage(tenantId, pkg.packageId(), "PATIENT", "pat-200").getBody())
+                .isNotNull();
+        assertThat(deliveryController
+                        .listDeliveryPackagesForPatient(tenantId, "pat-200", "PATIENT", "pat-200")
+                        .getBody())
+                .hasSize(1);
+    }
+
+    @Test
+    void patientCannotViewAnotherPatientsDeliveryPackageOrList() {
+        ImagingStudyDeliveryController.CreateDeliveryPackageRequest createReq =
+                new ImagingStudyDeliveryController.CreateDeliveryPackageRequest("std-201", "pat-201", "DICOM_ZIP");
+        ImagingDeliveryPackage pkg = deliveryController.createDeliveryPackage(tenantId, actorId, createReq).getBody();
+
+        assertThatThrownBy(() -> deliveryController.getDeliveryPackage(tenantId, pkg.packageId(), "PATIENT", "pat-999"))
+                .isInstanceOf(ImagingAccessDeniedException.class);
+        assertThatThrownBy(() -> deliveryController.listDeliveryPackagesForPatient(tenantId, "pat-201", "PATIENT", "pat-999"))
+                .isInstanceOf(ImagingAccessDeniedException.class);
+    }
+
+    @Test
+    void referringDoctorWithConfirmedReferralMayViewDeliveryPackage() {
+        ImagingStudyDeliveryController.CreateDeliveryPackageRequest createReq =
+                new ImagingStudyDeliveryController.CreateDeliveryPackageRequest("std-202", "pat-202", "DICOM_ZIP");
+        ImagingDeliveryPackage pkg = deliveryController.createDeliveryPackage(tenantId, actorId, createReq).getBody();
+        when(referringDoctorAuthorizationPort.isPatientReferredByDoctor(tenantId, "doc-01", "pat-202")).thenReturn(true);
+
+        assertThat(deliveryController.getDeliveryPackage(tenantId, pkg.packageId(), "REFERRING_DOCTOR", "doc-01").getBody())
+                .isNotNull();
+    }
+
+    @Test
+    void referringDoctorWithoutReferralCannotViewDeliveryPackage() {
+        ImagingStudyDeliveryController.CreateDeliveryPackageRequest createReq =
+                new ImagingStudyDeliveryController.CreateDeliveryPackageRequest("std-203", "pat-203", "DICOM_ZIP");
+        ImagingDeliveryPackage pkg = deliveryController.createDeliveryPackage(tenantId, actorId, createReq).getBody();
+        when(referringDoctorAuthorizationPort.isPatientReferredByDoctor(tenantId, "doc-02", "pat-203")).thenReturn(false);
+
+        assertThatThrownBy(() -> deliveryController.getDeliveryPackage(tenantId, pkg.packageId(), "REFERRING_DOCTOR", "doc-02"))
+                .isInstanceOf(ImagingAccessDeniedException.class);
+    }
+
+    @Test
+    void patientMayViewReportForTheirOwnStudyButNotAnothersStudy() {
+        ImagingStudyManagementController.CreateStudyRequest studyReq =
+                new ImagingStudyManagementController.CreateStudyRequest("ACC-2026-300", "pat-300", "CT", "CT ABDOMEN");
+        ImagingStudy study = studyController.createStudy(tenantId, actorId, studyReq).getBody();
+
+        RadiologySignatureController.CreateReportRequest reportReq =
+                new RadiologySignatureController.CreateReportRequest(study.studyId(), "Findings.", "Impression.");
+        RadiologyReport report = signatureController.createReport(tenantId, actorId, reportReq).getBody();
+
+        assertThat(signatureController.getReport(tenantId, report.reportId(), "PATIENT", "pat-300").getBody())
+                .isNotNull();
+        assertThat(signatureController
+                        .listReportsForStudy(tenantId, study.studyId(), "PATIENT", "pat-300")
+                        .getBody())
+                .hasSize(1);
+
+        assertThatThrownBy(() -> signatureController.getReport(tenantId, report.reportId(), "PATIENT", "pat-999"))
+                .isInstanceOf(ImagingAccessDeniedException.class);
+    }
+
+    @Test
+    void referringDoctorReferralCheckAppliesToReportAccess() {
+        ImagingStudyManagementController.CreateStudyRequest studyReq =
+                new ImagingStudyManagementController.CreateStudyRequest("ACC-2026-301", "pat-301", "CT", "CT PELVIS");
+        ImagingStudy study = studyController.createStudy(tenantId, actorId, studyReq).getBody();
+
+        RadiologySignatureController.CreateReportRequest reportReq =
+                new RadiologySignatureController.CreateReportRequest(study.studyId(), "Findings.", "Impression.");
+        RadiologyReport report = signatureController.createReport(tenantId, actorId, reportReq).getBody();
+
+        when(referringDoctorAuthorizationPort.isPatientReferredByDoctor(tenantId, "doc-03", "pat-301")).thenReturn(true);
+        assertThat(signatureController.getReport(tenantId, report.reportId(), "REFERRING_DOCTOR", "doc-03").getBody())
+                .isNotNull();
+
+        when(referringDoctorAuthorizationPort.isPatientReferredByDoctor(tenantId, "doc-04", "pat-301")).thenReturn(false);
+        assertThatThrownBy(() -> signatureController.getReport(tenantId, report.reportId(), "REFERRING_DOCTOR", "doc-04"))
+                .isInstanceOf(ImagingAccessDeniedException.class);
     }
 
     @Test
@@ -320,5 +419,11 @@ class ImagingOperationsUnitTest {
         ResponseEntity<Map<String, Object>> domainResp = exceptionHandler.handleDomainException(domainEx, Locale.ENGLISH);
         assertThat(domainResp.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(domainResp.getBody()).containsEntry("code", "ROOM_NOT_AVAILABLE");
+
+        ImagingAccessDeniedException accessDenied = new ImagingAccessDeniedException(
+                ImagingErrorCode.DELIVERY_PACKAGE_ACCESS_DENIED, "Not authorized");
+        ResponseEntity<Map<String, Object>> accessDeniedResp = exceptionHandler.handleAccessDenied(accessDenied, Locale.ENGLISH);
+        assertThat(accessDeniedResp.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+        assertThat(accessDeniedResp.getBody()).containsEntry("code", "DELIVERY_PACKAGE_ACCESS_DENIED");
     }
 }

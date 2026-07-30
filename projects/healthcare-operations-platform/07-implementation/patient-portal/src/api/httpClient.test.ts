@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { get, post, put, ApiError } from "./httpClient";
 import { getPatientHistory } from "./patientResultHistoryApi";
+import { getMyImagingDeliveryPackages, getMyImagingReportsForStudy } from "./imagingDeliveryApi";
 
 const mockFetch = vi.fn();
 window.fetch = mockFetch;
@@ -128,5 +129,45 @@ describe("HTTP Client & API layer", () => {
       "/api/results/history/patient/Patient-01",
       expect.any(Object),
     );
+  });
+});
+
+describe("Imaging delivery API self-access query params", () => {
+  beforeEach(() => {
+    mockFetch.mockReset();
+  });
+
+  it("executes getMyImagingDeliveryPackages successfully with self-access query params", async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: async () => [
+        { packageId: "pkg-1", tenantId: "tenant-local", studyId: "std-1", patientId: "Patient-01" },
+      ],
+    });
+
+    const res = await getMyImagingDeliveryPackages("Patient-01");
+    expect(res).toHaveLength(1);
+    const [calledUrl] = mockFetch.mock.calls[0];
+    expect(calledUrl).toContain("/api/v1/imaging/delivery-packages?");
+    expect(calledUrl).toContain("patientId=Patient-01");
+    expect(calledUrl).toContain("callerRoleCode=PATIENT");
+    expect(calledUrl).toContain("callerId=Patient-01");
+  });
+
+  it("executes getMyImagingReportsForStudy successfully with self-access query params", async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: async () => [{ reportId: "rep-1", studyId: "std-1", reportStatus: "FINAL_SIGNED" }],
+    });
+
+    const res = await getMyImagingReportsForStudy("std-1", "Patient-01");
+    expect(res).toHaveLength(1);
+    const [calledUrl] = mockFetch.mock.calls[0];
+    expect(calledUrl).toContain("/api/v1/imaging/reports?");
+    expect(calledUrl).toContain("studyId=std-1");
+    expect(calledUrl).toContain("callerRoleCode=PATIENT");
+    expect(calledUrl).toContain("callerId=Patient-01");
   });
 });

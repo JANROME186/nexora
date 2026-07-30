@@ -165,6 +165,11 @@ export function readSessionHeaders(): Record<string, string> {
         "X-HOP-USER-ID": session.userId,
         "X-HOP-TENANT-ID": session.tenantId,
         "X-HOP-ROLES": session.roleCode,
+        // HOP-HARD-APP-001: imaging endpoints (ImagingStudyDeliveryController /
+        // RadiologySignatureController) read raw X-Tenant-Id / X-User-Id headers directly,
+        // matching employee-portal's readSessionHeaders() convention.
+        "X-Tenant-Id": session.tenantId,
+        "X-User-Id": session.userId,
       };
     }
   } catch (e) {

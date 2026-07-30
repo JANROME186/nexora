@@ -41,6 +41,7 @@ export const enUS: MessageCatalog = {
       appointments: "My Appointments",
       orders: "My Orders",
       notifications: "Notifications",
+      imaging: "Imaging",
     },
     login: {
       title: "Sign In",
@@ -94,6 +95,13 @@ export const enUS: MessageCatalog = {
       date: "Date",
       status: "Order Status",
       tests: "Tests",
+    },
+    imaging: {
+      studyId: "Study",
+      format: "Format",
+      status: "Status",
+      findings: "Findings",
+      impression: "Impression",
     },
   },
 };

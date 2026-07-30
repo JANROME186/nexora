@@ -23,6 +23,7 @@ export const esMX = {
       results: "Resultados",
       orders: "Mis Órdenes",
       notifications: "Notificaciones",
+      imaging: "Imágenes",
     },
     login: {
       title: "Iniciar Sesión",
@@ -77,6 +78,11 @@ export const esMX = {
       status: "Estado",
       dispatchedAt: "Enviado el",
       failureReason: "Motivo de Falla",
+    },
+    imaging: {
+      studyId: "Estudio",
+      format: "Formato",
+      status: "Estado",
     },
   },
 } as const;

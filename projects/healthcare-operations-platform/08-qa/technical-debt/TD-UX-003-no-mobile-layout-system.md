@@ -57,4 +57,14 @@ remediation:
   acceptance_criteria:
   - A mobile layout system document exists once a renderer stack is chosen.
   owner_or_responsible_role: mobile_platform_team
+reviewed_unchanged:
+  backlog_item: HOP-HARD-APP-001
+  evidence: 08-qa/qa/final-hardening/HOP-HARD-APP-001-validation.md
+  finding: Genuinely still blocked. TD-APP-001 was re-verified in the same iteration
+    (mobile TypeScript foundation quality gates re-run clean, 99.21% coverage) and
+    explicitly did not select a native renderer stack -- that remains a standalone
+    architecture decision outside a hardening slice's safe blast radius. No compensating
+    control changed; risk level remains low and non-blocking.
+  decision: status unchanged (open, non-blocking), consistent with the item's own
+    depends_on/remediation_strategy.
 ```

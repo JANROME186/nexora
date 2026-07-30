@@ -15,7 +15,9 @@ public enum ImagingErrorCode {
     INVALID_STATUS_TRANSITION("imaging.error.invalid_status_transition"),
     DICOM_TRANSFER_FAILED("imaging.error.dicom_transfer_failed"),
     PACS_STORE_FAILED("imaging.error.pacs_store_failed"),
-    DICOM_HEADER_INVALID("imaging.error.dicom_header_invalid");
+    DICOM_HEADER_INVALID("imaging.error.dicom_header_invalid"),
+    DELIVERY_PACKAGE_ACCESS_DENIED("imaging.error.delivery_package_access_denied"),
+    REPORT_ACCESS_DENIED("imaging.error.report_access_denied");
 
     private final String messageKey;
 

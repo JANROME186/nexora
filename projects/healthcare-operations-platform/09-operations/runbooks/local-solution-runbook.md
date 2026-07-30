@@ -22,9 +22,11 @@ This is the single local runbook for starting, validating and stopping the Healt
 Platform solution. Component README files remain useful for detail, but a reviewer should be able to
 use this guide first.
 
-Current active backlog item: `COM-MOD-015-CLOSEOUT`.
+Current active backlog item: `HOP-HARD-WEB-001` (previous stale pointer here read `COM-MOD-015-CLOSEOUT`, corrected by `HOP-HARD-APP-001`).
 
-Latest update: `COM-MOD-015-CLOSEOUT` is closed. Module `COM-MOD-015 AI Overlay` is `module_closed`; all `BCM-AI-001` through `BCM-AI-008` packages are marked `module_closed` in `capability-package-index.md` and their respective `capability-package.md` files and `traceability.md` matrices. Coverage floors remain backend 70.16%, employee portal 91.00%, public website 98.61%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%. Material reduction recorded for `TD-FMT-001`, `TD-BE-017`, `TD-BE-022`, `TD-I18N-002`, and `TD-UX-001`. QA evidence: `08-qa/qa/ai-overlay/COM-MOD-015-CLOSEOUT-validation.md`, security quality evidence: `08-qa/security-quality/COM-MOD-015-CLOSEOUT/security-quality-evidence.md`, handoff: `08-qa/handoffs/COM-MOD-015-CLOSEOUT-summary.md`.
+Latest update: `HOP-HARD-APP-001` is closed. Closed `COM-MOD-014-PORTAL-001` (Imaging study delivery views): patient-portal and doctor-portal each gained a read-only Imaging tab against the existing BCM-IMG-007/BCM-IMG-008 backend (`RadiologySignatureController`/`ImagingStudyDeliveryController`), scoped to the caller's own delivered studies via a new `callerRoleCode`/`callerId` self-access convention mirroring `patientResultHistoryApi.getPatientHistoryAsDoctor`. Found and fixed a real pre-existing authorization gap along the way: those two controllers had zero patient/doctor-role-scoped authorization before this item (only the generic employee `SCREEN_IMAGING_*` permission plus a raw `X-Tenant-Id` header) -- fixed with 2 new permission codes (`PORTAL_PATIENT_IMAGING_VIEW`, `PORTAL_DOCTOR_IMAGING_VIEW`), 2 new `HopAuthorizationInterceptor` self-access bypass blocks (GET-only; mutating verbs remain employee-only) and new `ImagingStudyDeliveryService`/`RadiologySignatureService` overloads that verify real ownership downstream (patient self-match, or a doctor referral check reusing the existing `ReferringDoctorAuthorizationPort` unchanged from `ResultHistoryService`), throwing a new `ImagingAccessDeniedException` (403). `TD-APP-001` reviewed materially_reduced_unchanged (corrected a stale ~569-line mobile-app size figure to the actual 1,158/2,172 lines); `TD-UX-003` reviewed, remains genuinely blocked on the (unselected) native renderer stack. Remediated a pre-existing high-severity npm audit finding (`brace-expansion`) in patient-portal, doctor-portal and mobile-app via `npm audit fix`. Coverage floors: backend 84.77% -> 84.86%, patient portal 94.11% -> 94.42%, doctor portal 96.28% -> 96.55%, mobile 99.21% (unchanged), employee portal 91.68% (unchanged, untouched), public website 98.61% (unchanged, untouched). QA evidence: `08-qa/qa/final-hardening/HOP-HARD-APP-001-validation.md`, security quality evidence: `08-qa/security-quality/HOP-HARD-APP-001/security-quality-evidence.md`, handoff: `08-qa/handoffs/HOP-HARD-APP-001-summary.md`.
+
+Previous update: `COM-MOD-015-CLOSEOUT` is closed. Module `COM-MOD-015 AI Overlay` is `module_closed`; all `BCM-AI-001` through `BCM-AI-008` packages are marked `module_closed` in `capability-package-index.md` and their respective `capability-package.md` files and `traceability.md` matrices. Coverage floors remain backend 70.16%, employee portal 91.00%, public website 98.61%, mobile 99.21%, patient portal 94.11%, doctor portal 96.28%. Material reduction recorded for `TD-FMT-001`, `TD-BE-017`, `TD-BE-022`, `TD-I18N-002`, and `TD-UX-001`. QA evidence: `08-qa/qa/ai-overlay/COM-MOD-015-CLOSEOUT-validation.md`, security quality evidence: `08-qa/security-quality/COM-MOD-015-CLOSEOUT/security-quality-evidence.md`, handoff: `08-qa/handoffs/COM-MOD-015-CLOSEOUT-summary.md`.
 
 Previous update: `COM-MOD-015-QA-001` is closed. Safety, explainability and human-control evidence validated across all 8 AI Overlay sub-packages. Fixed TD-BE-022 (dead review-reason error code, missing review-decision immutability guard). Added vendor-neutrality static scan. QA evidence: `08-qa/qa/ai-overlay/COM-MOD-015-QA-001-validation.md`. Next active backlog item: `COM-MOD-015-CLOSEOUT`.
 
@@ -604,6 +606,22 @@ npm run quality
 
 Note: the mobile foundation currently reuses the employee portal TypeScript and Vitest toolchain.
 Run `npm install` in `employee-portal` first when needed.
+
+Patient portal enterprise quality profile:
+
+```powershell
+cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation\patient-portal
+npm run quality
+npm audit --audit-level=low
+```
+
+Doctor portal enterprise quality profile:
+
+```powershell
+cd C:\Documents\Proyectos\Laboratorio\NEXORA\git\nexora\projects\healthcare-operations-platform\07-implementation\doctor-portal
+npm run quality
+npm audit --audit-level=low
+```
 
 Integrated all-severity vulnerability, secret and misconfiguration scan:
 

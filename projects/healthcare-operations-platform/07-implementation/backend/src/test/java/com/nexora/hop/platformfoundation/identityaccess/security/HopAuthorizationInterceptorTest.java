@@ -188,6 +188,89 @@ class HopAuthorizationInterceptorTest {
   }
 
   @Test
+  void patientWithMatchingPatientIdQueryParamMayListTheirOwnImagingDeliveryPackages() throws Exception {
+    var properties = properties(false);
+    var interceptor = interceptor(properties);
+    var request = request("GET", "/api/v1/imaging/delivery-packages");
+    request.setParameter("patientId", "Patient-01");
+    request.addHeader(
+        HopAuthenticationResolver.AUTHORIZATION, "Bearer local-session:tenant-a:Patient-01");
+    request.addHeader(HopAuthenticationResolver.ROLES, "PATIENT");
+    var response = new MockHttpServletResponse();
+
+    boolean allowed = interceptor.preHandle(request, response, new Object());
+
+    assertThat(allowed).isTrue();
+    assertThat(response.getStatus()).isEqualTo(200);
+  }
+
+  @Test
+  void patientCannotListAnotherPatientsImagingDeliveryPackages() throws Exception {
+    var properties = properties(false);
+    var interceptor = interceptor(properties);
+    var request = request("GET", "/api/v1/imaging/delivery-packages");
+    request.setParameter("patientId", "Patient-02");
+    request.addHeader(
+        HopAuthenticationResolver.AUTHORIZATION, "Bearer local-session:tenant-a:Patient-01");
+    request.addHeader(HopAuthenticationResolver.ROLES, "PATIENT");
+    var response = new MockHttpServletResponse();
+
+    boolean allowed = interceptor.preHandle(request, response, new Object());
+
+    assertThat(allowed).isFalse();
+    assertThat(response.getStatus()).isEqualTo(403);
+  }
+
+  @Test
+  void patientMayReachImagingDeliveryPackageByIdPermissionCheck() throws Exception {
+    var properties = properties(false);
+    var interceptor = interceptor(properties);
+    var request = request("GET", "/api/v1/imaging/delivery-packages/pkg-1");
+    request.addHeader(
+        HopAuthenticationResolver.AUTHORIZATION, "Bearer local-session:tenant-a:Patient-01");
+    request.addHeader(HopAuthenticationResolver.ROLES, "PATIENT");
+    var response = new MockHttpServletResponse();
+
+    boolean allowed = interceptor.preHandle(request, response, new Object());
+
+    assertThat(allowed).isTrue();
+    assertThat(response.getStatus()).isEqualTo(200);
+  }
+
+  @Test
+  void patientCannotMutateImagingDeliveryPackages() throws Exception {
+    var properties = properties(false);
+    var interceptor = interceptor(properties);
+    var request = request("PUT", "/api/v1/imaging/delivery-packages/pkg-1/deliver");
+    request.addHeader(
+        HopAuthenticationResolver.AUTHORIZATION, "Bearer local-session:tenant-a:Patient-01");
+    request.addHeader(HopAuthenticationResolver.ROLES, "PATIENT");
+    var response = new MockHttpServletResponse();
+
+    boolean allowed = interceptor.preHandle(request, response, new Object());
+
+    assertThat(allowed).isFalse();
+    assertThat(response.getStatus()).isEqualTo(403);
+  }
+
+  @Test
+  void referringDoctorMayReachImagingReportsPermissionCheck() throws Exception {
+    var properties = properties(false);
+    var interceptor = interceptor(properties);
+    var request = request("GET", "/api/v1/imaging/reports");
+    request.setParameter("studyId", "std-1");
+    request.addHeader(
+        HopAuthenticationResolver.AUTHORIZATION, "Bearer local-session:tenant-a:Doctor-01");
+    request.addHeader(HopAuthenticationResolver.ROLES, "REFERRING_DOCTOR");
+    var response = new MockHttpServletResponse();
+
+    boolean allowed = interceptor.preHandle(request, response, new Object());
+
+    assertThat(allowed).isTrue();
+    assertThat(response.getStatus()).isEqualTo(200);
+  }
+
+  @Test
   void otherRolesRemainDeniedForDoctorPortalEndpoints() throws Exception {
     var properties = properties(false);
     var interceptor = interceptor(properties);

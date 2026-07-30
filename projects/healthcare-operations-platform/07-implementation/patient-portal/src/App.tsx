@@ -6,6 +6,12 @@ import {
   type PatientResultHistoryView,
   type ResultHistoryEntry,
 } from "./api/patientResultHistoryApi";
+import {
+  getMyImagingDeliveryPackages,
+  getMyImagingReportsForStudy,
+  type ImagingDeliveryPackage,
+  type RadiologyReport,
+} from "./api/imagingDeliveryApi";
 import "./App.css";
 
 // --- API Client Helpers for Appointments, Orders, and Notifications ---
@@ -692,6 +698,82 @@ function NotificationsTab() {
   );
 }
 
+function ImagingTab() {
+  const { session } = useSession();
+  const { t } = useLocale();
+  const [packages, setPackages] = useState<ImagingDeliveryPackage[]>([]);
+  const [reportsByStudy, setReportsByStudy] = useState<Record<string, RadiologyReport[]>>({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadImaging() {
+      if (!session) return;
+      setLoading(true);
+      setError("");
+      try {
+        const pkgs = await getMyImagingDeliveryPackages(session.patientId);
+        setPackages(pkgs);
+        const reportsMap: Record<string, RadiologyReport[]> = {};
+        for (const pkg of pkgs) {
+          reportsMap[pkg.studyId] = await getMyImagingReportsForStudy(
+            pkg.studyId,
+            session.patientId,
+          );
+        }
+        setReportsByStudy(reportsMap);
+      } catch (e) {
+        setError((e as Error)?.message || t.appShell.states.error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadImaging();
+  }, [session, t.appShell.states.error]);
+
+  if (loading) return <div className="skeleton">{t.appShell.states.loading}</div>;
+  if (error) return <div className="error-alert">{error}</div>;
+  if (packages.length === 0) return <div className="empty-alert">{t.appShell.states.empty}</div>;
+
+  return (
+    <div className="card">
+      <table className="portal-table">
+        <thead>
+          <tr>
+            <th>{t.appShell.imaging.studyId}</th>
+            <th>{t.appShell.imaging.format}</th>
+            <th>{t.appShell.imaging.status}</th>
+            <th>{t.appShell.imaging.findings}</th>
+            <th>{t.appShell.imaging.impression}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {packages.map((pkg) => {
+            const reports = reportsByStudy[pkg.studyId] ?? [];
+            const signedReport =
+              reports.find((r) => r.reportStatus === "FINAL_SIGNED") ?? reports[0];
+            return (
+              <tr key={pkg.packageId}>
+                <td>
+                  <code>{pkg.studyId}</code>
+                </td>
+                <td>{pkg.deliveryFormat}</td>
+                <td>
+                  <span className={`badge badge--${pkg.deliveryStatus.toLowerCase()}`}>
+                    {pkg.deliveryStatus}
+                  </span>
+                </td>
+                <td>{signedReport?.findingsText ?? "-"}</td>
+                <td>{signedReport?.impressionText ?? "-"}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 // --- Main App Shell ---
 
 function AppContent() {
@@ -724,6 +806,8 @@ function AppContent() {
         return <OrdersTab />;
       case "notifications":
         return <NotificationsTab />;
+      case "imaging":
+        return <ImagingTab />;
       default:
         return <ProfileTab />;
     }
@@ -778,6 +862,12 @@ function AppContent() {
               onClick={() => setActiveTab("notifications")}
             >
               {t.appShell.tabs.notifications}
+            </button>
+            <button
+              className={`nav-item ${activeTab === "imaging" ? "active" : ""}`}
+              onClick={() => setActiveTab("imaging")}
+            >
+              {t.appShell.tabs.imaging}
             </button>
           </nav>
         </aside>

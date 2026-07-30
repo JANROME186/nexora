@@ -48,15 +48,19 @@ public class ImagingStudyDeliveryController {
     @GetMapping("/api/v1/imaging/delivery-packages/{packageId}")
     public ResponseEntity<ImagingDeliveryPackage> getDeliveryPackage(
             @RequestHeader("X-Tenant-Id") String tenantId,
-            @PathVariable String packageId) {
-        return ResponseEntity.ok(service.getDeliveryPackage(tenantId, packageId));
+            @PathVariable String packageId,
+            @RequestParam(required = false) String callerRoleCode,
+            @RequestParam(required = false) String callerId) {
+        return ResponseEntity.ok(service.getDeliveryPackage(tenantId, packageId, callerRoleCode, callerId));
     }
 
     @GetMapping("/api/v1/imaging/delivery-packages")
     public ResponseEntity<List<ImagingDeliveryPackage>> listDeliveryPackagesForPatient(
             @RequestHeader("X-Tenant-Id") String tenantId,
-            @RequestParam String patientId) {
-        return ResponseEntity.ok(service.listDeliveryPackagesForPatient(tenantId, patientId));
+            @RequestParam String patientId,
+            @RequestParam(required = false) String callerRoleCode,
+            @RequestParam(required = false) String callerId) {
+        return ResponseEntity.ok(service.listDeliveryPackagesForPatient(tenantId, patientId, callerRoleCode, callerId));
     }
 
     @PutMapping("/api/v1/imaging/delivery-packages/{packageId}/deliver")

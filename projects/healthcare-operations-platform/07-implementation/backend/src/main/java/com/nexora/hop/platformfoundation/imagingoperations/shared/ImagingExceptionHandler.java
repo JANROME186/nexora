@@ -29,6 +29,18 @@ public class ImagingExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
     }
 
+    @ExceptionHandler(ImagingAccessDeniedException.class)
+    public ResponseEntity<Map<String, Object>> handleAccessDenied(ImagingAccessDeniedException ex, Locale locale) {
+        String localizedMessage = messageSource.getMessage(ex.getErrorCode().getMessageKey(), null, ex.getMessage(), locale);
+        Map<String, Object> body = Map.of(
+                "status", HttpStatus.FORBIDDEN.value(),
+                "code", ex.getErrorCode().name(),
+                "messageKey", ex.getErrorCode().getMessageKey(),
+                "message", localizedMessage
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(body);
+    }
+
     @ExceptionHandler(ImagingDomainException.class)
     public ResponseEntity<Map<String, Object>> handleDomainException(ImagingDomainException ex, Locale locale) {
         String localizedMessage = messageSource.getMessage(ex.getErrorCode().getMessageKey(), null, ex.getMessage(), locale);

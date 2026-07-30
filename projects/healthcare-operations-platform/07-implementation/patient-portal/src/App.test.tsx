@@ -26,6 +26,14 @@ vi.mock("./api/patientResultHistoryApi", () => ({
   }),
 }));
 
+const getMyImagingDeliveryPackagesMock = vi.fn();
+const getMyImagingReportsForStudyMock = vi.fn();
+
+vi.mock("./api/imagingDeliveryApi", () => ({
+  getMyImagingDeliveryPackages: (...args: unknown[]) => getMyImagingDeliveryPackagesMock(...args),
+  getMyImagingReportsForStudy: (...args: unknown[]) => getMyImagingReportsForStudyMock(...args),
+}));
+
 // Mock window.fetch
 const mockFetch = vi.fn();
 window.fetch = mockFetch;
@@ -35,6 +43,25 @@ describe("Patient Portal App", () => {
     vi.clearAllMocks();
     localStorage.clear();
     mockFetch.mockReset();
+    getMyImagingDeliveryPackagesMock.mockReset().mockResolvedValue([
+      {
+        packageId: "pkg-1",
+        tenantId: "tenant-local",
+        studyId: "std-1",
+        patientId: "Patient-01",
+        deliveryFormat: "DICOM_ZIP",
+        deliveryStatus: "DELIVERED",
+      },
+    ]);
+    getMyImagingReportsForStudyMock.mockReset().mockResolvedValue([
+      {
+        reportId: "rep-1",
+        studyId: "std-1",
+        reportStatus: "FINAL_SIGNED",
+        findingsText: "No acute findings.",
+        impressionText: "Unremarkable study.",
+      },
+    ]);
   });
 
   it("renders login form by default and allows language switching", () => {
@@ -132,6 +159,7 @@ describe("Patient Portal App", () => {
     expect(screen.getByText("Mis Citas")).toBeInTheDocument();
     expect(screen.getByText("Mis Órdenes")).toBeInTheDocument();
     expect(screen.getByText("Notificaciones")).toBeInTheDocument();
+    expect(screen.getByText("Imágenes")).toBeInTheDocument();
 
     // PROFILE TAB (Default tab)
     // Check emergency contacts sub-header or field labels
@@ -220,6 +248,15 @@ describe("Patient Portal App", () => {
     await waitFor(() => {
       expect(screen.getAllByText("DELIVERED")[0]).toBeInTheDocument();
     });
+
+    // IMAGING TAB
+    fireEvent.click(screen.getByText("Imágenes"));
+    await waitFor(() => {
+      expect(screen.getByText("No acute findings.")).toBeInTheDocument();
+      expect(screen.getByText("Unremarkable study.")).toBeInTheDocument();
+    });
+    expect(getMyImagingDeliveryPackagesMock).toHaveBeenCalledWith("Patient-01");
+    expect(getMyImagingReportsForStudyMock).toHaveBeenCalledWith("std-1", "Patient-01");
 
     // LOG OUT
     fireEvent.click(screen.getByText("Cerrar Sesión"));

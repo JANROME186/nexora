@@ -56,15 +56,19 @@ public class RadiologySignatureController {
     @GetMapping("/api/v1/imaging/reports/{reportId}")
     public ResponseEntity<RadiologyReport> getReport(
             @RequestHeader("X-Tenant-Id") String tenantId,
-            @PathVariable String reportId) {
-        return ResponseEntity.ok(service.getReport(tenantId, reportId));
+            @PathVariable String reportId,
+            @RequestParam(required = false) String callerRoleCode,
+            @RequestParam(required = false) String callerId) {
+        return ResponseEntity.ok(service.getReport(tenantId, reportId, callerRoleCode, callerId));
     }
 
     @GetMapping("/api/v1/imaging/reports")
     public ResponseEntity<List<RadiologyReport>> listReportsForStudy(
             @RequestHeader("X-Tenant-Id") String tenantId,
-            @RequestParam String studyId) {
-        return ResponseEntity.ok(service.listReportsForStudy(tenantId, studyId));
+            @RequestParam String studyId,
+            @RequestParam(required = false) String callerRoleCode,
+            @RequestParam(required = false) String callerId) {
+        return ResponseEntity.ok(service.listReportsForStudy(tenantId, studyId, callerRoleCode, callerId));
     }
 
     public record CreateReportRequest(

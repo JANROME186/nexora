@@ -61,6 +61,7 @@ remediation:
   recommended_trigger:
   - HOP-QA-ALIGN-003
   - HOP-QA-ALIGN-006
+  - HOP-HARD-APP-001
   acceptance_criteria:
   - Final mobile stack quality baseline is documented.
   - Runnable mobile quality commands or explicit not-applicable rationale are documented
@@ -73,4 +74,32 @@ remediation:
     tests: 8
     lint_status: passed
     duplication_status: passed
+  reverification:
+    backlog_item: HOP-HARD-APP-001
+    evidence: 08-qa/qa/final-hardening/HOP-HARD-APP-001-validation.md
+    status: materially_reduced_unchanged
+    finding: 'The mobile TypeScript foundation has grown organically since the ~569-line
+      figure this item and TD-UX-003 originally cited (COM-MOD-009-APP-001 added
+      patientMobileApi.ts/patientMobileWorkflowModel.ts; the results screens followed):
+      current non-test source is 1,158 lines across 19 files, 2,172 lines including
+      the 11 mirrored vitest spec files. The corrected figure is recorded here rather
+      than silently left stale.'
+    quality_gate:
+      command: npm run quality (mobile-app)
+      result: passed
+      tests: 40
+      test_files: 12
+      line_coverage_percent: 99.21
+    dependency_audit:
+      command: npm audit --audit-level=low
+      result: passed
+      vulnerabilities_before: 1 (brace-expansion, high, devDependency transitive)
+      remediation: npm audit fix (non-breaking devDependency patch bump)
+      vulnerabilities_after: 0
+    decision: Still materially_reduced, not closed. Selecting a native renderer stack
+      (React Native/Expo/Flutter) is a standalone architecture decision with its own
+      blast radius (new build toolchain, native security/package-coverage gates,
+      platform CI); it is out of the safe scope of a hardening slice and remains the
+      trigger this item has always named. No regression -- gates still pass, coverage
+      unchanged at 99.21%.
 ```

@@ -1,9 +1,13 @@
 package com.nexora.hop.platformfoundation.imagingoperations.radiologysignature.application;
 
+import com.nexora.hop.platformfoundation.frontdeskcaredelivery.shared.ReferringDoctorAuthorizationPort;
 import com.nexora.hop.platformfoundation.imagingoperations.radiologysignature.domain.RadiologyReport;
 import com.nexora.hop.platformfoundation.imagingoperations.radiologysignature.domain.RadiologyReportRepository;
+import com.nexora.hop.platformfoundation.imagingoperations.shared.ImagingAccessDeniedException;
 import com.nexora.hop.platformfoundation.imagingoperations.shared.ImagingErrorCode;
 import com.nexora.hop.platformfoundation.imagingoperations.shared.ImagingNotFoundException;
+import com.nexora.hop.platformfoundation.imagingoperations.studymanagement.domain.ImagingStudy;
+import com.nexora.hop.platformfoundation.imagingoperations.studymanagement.domain.ImagingStudyRepository;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -12,10 +16,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class RadiologySignatureService {
 
-    private final RadiologyReportRepository repository;
+    /** Mirrors {@code ResultHistoryService.REFERRING_DOCTOR_ROLE}; kept local for the same reason. */
+    private static final String PATIENT_ROLE = "PATIENT";
+    private static final String REFERRING_DOCTOR_ROLE = "REFERRING_DOCTOR";
 
-    public RadiologySignatureService(RadiologyReportRepository repository) {
+    private final RadiologyReportRepository repository;
+    private final ImagingStudyRepository studyRepository;
+    private final ReferringDoctorAuthorizationPort referringDoctorAuthorizationPort;
+
+    public RadiologySignatureService(
+            RadiologyReportRepository repository,
+            ImagingStudyRepository studyRepository,
+            ReferringDoctorAuthorizationPort referringDoctorAuthorizationPort) {
         this.repository = repository;
+        this.studyRepository = studyRepository;
+        this.referringDoctorAuthorizationPort = referringDoctorAuthorizationPort;
     }
 
     public RadiologyReport createDraftReport(
@@ -50,7 +65,48 @@ public class RadiologySignatureService {
                 .orElseThrow(() -> new ImagingNotFoundException(ImagingErrorCode.REPORT_NOT_FOUND, "Radiology report " + reportId + " not found"));
     }
 
+    /**
+     * HOP-HARD-APP-001 imaging delivery hardening: patient-portal/doctor-portal self-access
+     * variant. Resolves the report's owning patient through its study (reports do not carry
+     * patientId directly), then applies the same PATIENT-ownership / REFERRING_DOCTOR-referral
+     * check as {@link com.nexora.hop.platformfoundation.imagingoperations.studydelivery.application.ImagingStudyDeliveryService}.
+     */
+    public RadiologyReport getReport(String tenantId, String reportId, String callerRoleCode, String callerId) {
+        RadiologyReport report = getReport(tenantId, reportId);
+        enforceReportOwnership(tenantId, report.studyId(), callerRoleCode, callerId);
+        return report;
+    }
+
     public List<RadiologyReport> listReportsForStudy(String tenantId, String studyId) {
         return repository.findByStudyId(tenantId, studyId);
+    }
+
+    /** HOP-HARD-APP-001 imaging delivery hardening: see {@link #getReport(String, String, String, String)}. */
+    public List<RadiologyReport> listReportsForStudy(
+            String tenantId, String studyId, String callerRoleCode, String callerId) {
+        enforceReportOwnership(tenantId, studyId, callerRoleCode, callerId);
+        return listReportsForStudy(tenantId, studyId);
+    }
+
+    private void enforceReportOwnership(
+            String tenantId, String studyId, String callerRoleCode, String callerId) {
+        if (!PATIENT_ROLE.equals(callerRoleCode) && !REFERRING_DOCTOR_ROLE.equals(callerRoleCode)) {
+            return;
+        }
+        String patientId = studyRepository.findById(tenantId, studyId)
+                .map(ImagingStudy::patientId)
+                .orElseThrow(() -> new ImagingNotFoundException(
+                        ImagingErrorCode.STUDY_NOT_FOUND, "Imaging study " + studyId + " not found"));
+        if (PATIENT_ROLE.equals(callerRoleCode) && !patientId.equals(callerId)) {
+            throw new ImagingAccessDeniedException(
+                    ImagingErrorCode.REPORT_ACCESS_DENIED,
+                    "The requesting patient does not own the study behind this radiology report.");
+        }
+        if (REFERRING_DOCTOR_ROLE.equals(callerRoleCode)
+                && !referringDoctorAuthorizationPort.isPatientReferredByDoctor(tenantId, callerId, patientId)) {
+            throw new ImagingAccessDeniedException(
+                    ImagingErrorCode.REPORT_ACCESS_DENIED,
+                    "The requesting doctor has not referred the patient behind this radiology report.");
+        }
     }
 }

@@ -8,19 +8,21 @@
  * patients, those patients' released results, their own diagnostic orders/status, and their
  * notifications. Nothing here grants write access — every screen is read-only.
  */
-export type ScreenKey = "patients" | "results" | "orders" | "notifications";
+export type ScreenKey = "patients" | "results" | "orders" | "notifications" | "imaging";
 
 export type PermissionCode =
   | "PORTAL_DOCTOR_PATIENTS_VIEW"
   | "PORTAL_DOCTOR_RESULTS_VIEW"
   | "PORTAL_DOCTOR_ORDERS_VIEW"
-  | "PORTAL_DOCTOR_NOTIFICATIONS_VIEW";
+  | "PORTAL_DOCTOR_NOTIFICATIONS_VIEW"
+  | "PORTAL_DOCTOR_IMAGING_VIEW";
 
 export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   patients: "PORTAL_DOCTOR_PATIENTS_VIEW",
   results: "PORTAL_DOCTOR_RESULTS_VIEW",
   orders: "PORTAL_DOCTOR_ORDERS_VIEW",
   notifications: "PORTAL_DOCTOR_NOTIFICATIONS_VIEW",
+  imaging: "PORTAL_DOCTOR_IMAGING_VIEW",
 };
 
 /** Every permission code, derived from `SCREEN_TO_PERMISSION` so the two never drift apart. */

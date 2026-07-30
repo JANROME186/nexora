@@ -10,5 +10,5 @@
  */
 @org.springframework.modulith.ApplicationModule(
         displayName = "Imaging Operations",
-        allowedDependencies = {"sharedkernel", "organizationmanagement", "auditcompliance", "peopleclinicalmasterdata", "frontdeskcaredelivery", "laboratoryworkflow", "resultsanddigitaldelivery"})
+        allowedDependencies = {"sharedkernel", "organizationmanagement", "auditcompliance", "peopleclinicalmasterdata", "frontdeskcaredelivery", "frontdeskcaredelivery::referring-doctor-authorization-port", "laboratoryworkflow", "resultsanddigitaldelivery"})
 package com.nexora.hop.platformfoundation.imagingoperations;

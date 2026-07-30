@@ -76,12 +76,14 @@ public final class RolePermissionCatalog {
                     PermissionCode.PORTAL_PATIENT_APPOINTMENTS_VIEW,
                     PermissionCode.PORTAL_PATIENT_ORDERS_VIEW,
                     PermissionCode.PORTAL_PATIENT_RESULTS_VIEW,
-                    PermissionCode.PORTAL_PATIENT_NOTIFICATIONS_VIEW)),
+                    PermissionCode.PORTAL_PATIENT_NOTIFICATIONS_VIEW,
+                    PermissionCode.PORTAL_PATIENT_IMAGING_VIEW)),
             Map.entry(REFERRING_DOCTOR, EnumSet.of(
                     PermissionCode.PORTAL_DOCTOR_PATIENTS_VIEW,
                     PermissionCode.PORTAL_DOCTOR_RESULTS_VIEW,
                     PermissionCode.PORTAL_DOCTOR_ORDERS_VIEW,
-                    PermissionCode.PORTAL_DOCTOR_NOTIFICATIONS_VIEW)),
+                    PermissionCode.PORTAL_DOCTOR_NOTIFICATIONS_VIEW,
+                    PermissionCode.PORTAL_DOCTOR_IMAGING_VIEW)),
             Map.entry(SUPPORT, EnumSet.of(
                     PermissionCode.PORTAL_SUPPORT_IMPERSONATE)));
 

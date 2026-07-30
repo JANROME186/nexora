@@ -80,7 +80,7 @@ backlog_items:
   - TD-UX-001
 - id: HOP-HARD-APP-001
   name: Mobile, patient portal, doctor portal and imaging delivery hardening
-  status: active
+  status: closed
   mapped_items:
   - TD-APP-001
   - TD-UX-003
@@ -88,7 +88,7 @@ backlog_items:
   - COM-MOD-014-PORTAL-001
 - id: HOP-HARD-WEB-001
   name: Public marketplace discovery surface and website hardening
-  status: planned
+  status: active
   mapped_items:
   - TD-WEB-001
   related_backlog_items:

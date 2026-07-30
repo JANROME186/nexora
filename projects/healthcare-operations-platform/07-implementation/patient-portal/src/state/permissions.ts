@@ -3,7 +3,8 @@
  * `mandatory_foundations.iam_permission_model`: menus must be generated dynamically from the
  * logged-in user's roles/permissions, and the frontend must hide unauthorized navigation).
  */
-export type ScreenKey = "profile" | "results" | "appointments" | "orders" | "notifications";
+export type ScreenKey =
+  "profile" | "results" | "appointments" | "orders" | "notifications" | "imaging";
 
 export type PermissionCode =
   | "PORTAL_PATIENT_PROFILE_VIEW"
@@ -11,6 +12,7 @@ export type PermissionCode =
   | "PORTAL_PATIENT_APPOINTMENTS_VIEW"
   | "PORTAL_PATIENT_ORDERS_VIEW"
   | "PORTAL_PATIENT_NOTIFICATIONS_VIEW"
+  | "PORTAL_PATIENT_IMAGING_VIEW"
   | "PORTAL_DOCTOR_PATIENTS_VIEW"
   | "PORTAL_DOCTOR_RESULTS_VIEW";
 
@@ -20,6 +22,7 @@ export const SCREEN_TO_PERMISSION: Record<ScreenKey, PermissionCode> = {
   appointments: "PORTAL_PATIENT_APPOINTMENTS_VIEW",
   orders: "PORTAL_PATIENT_ORDERS_VIEW",
   notifications: "PORTAL_PATIENT_NOTIFICATIONS_VIEW",
+  imaging: "PORTAL_PATIENT_IMAGING_VIEW",
 };
 
 export const PERMISSION_CODES: readonly PermissionCode[] = Object.values(SCREEN_TO_PERMISSION);
@@ -33,6 +36,7 @@ export const ROLE_PERMISSION_CATALOG: Record<RoleCode, readonly PermissionCode[]
     "PORTAL_PATIENT_APPOINTMENTS_VIEW",
     "PORTAL_PATIENT_ORDERS_VIEW",
     "PORTAL_PATIENT_NOTIFICATIONS_VIEW",
+    "PORTAL_PATIENT_IMAGING_VIEW",
   ],
   REFERRING_DOCTOR: ["PORTAL_DOCTOR_PATIENTS_VIEW", "PORTAL_DOCTOR_RESULTS_VIEW"],
 };
