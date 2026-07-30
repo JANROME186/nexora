@@ -1,17 +1,17 @@
 ---
 id: HOP-HARD-INT-001-closure-validation
 type: backlog-closure-validation
-status: incomplete
+status: closed
 model: qwen2.5-coder:0.5b
 ---
 
 # HOP-HARD-INT-001 Closure Validation
 
-Status: `incomplete`
+Status: `closed`
 
-Hard findings: `1`
+Hard findings: `0`
 
-Ollama summary: No riesgos o acciones soportados por hard_findings
+Ollama summary: No hay riesgos o acciones disponibles para la tarea HOP-HARD-INT-001.
 
 ## Structured Payload
 
@@ -19,7 +19,7 @@ Ollama summary: No riesgos o acciones soportados por hard_findings
 artifact:
   id: HOP-HARD-INT-001-closure-validation
   type: backlog-closure-validation
-  status: incomplete
+  status: closed
   model: qwen2.5-coder:0.5b
 context:
   task_id: HOP-HARD-INT-001
@@ -45,20 +45,13 @@ context:
   - nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
   - nexora-framework/08-engineering/agents/context-orchestrator/tool-registry.md
   protected_validator_changes: ''
-  auto_repairs_applied:
-  - id: root_project_state_synced
-    path: PROJECT_STATE.md
-  - id: active_backlog_item_status_synced
-    path: projects/healthcare-operations-platform/06-delivery/commercial-product/backlog-map/items/HOP-HARD-QA-001.md
+  auto_repairs_applied: []
   source_of_truth_checked: true
-  git_head: 17bbfe9
-  git_clean: false
-  hard_findings:
-  - id: git_worktree_not_clean
-    severity: P0
-    detail: "M PROJECT_STATE.md\n M projects/healthcare-operations-platform/06-delivery/commercial-product/backlog-map/items/HOP-HARD-QA-001.md"
+  git_head: 2e8e3ab
+  git_clean: true
+  hard_findings: []
 ollama_review:
-  summary: No riesgos o acciones soportados por hard_findings
+  summary: No hay riesgos o acciones disponibles para la tarea HOP-HARD-INT-001.
   top_risks: []
   required_actions: []
 ```
