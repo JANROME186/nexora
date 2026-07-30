@@ -1,17 +1,17 @@
 ---
 id: HOP-HARD-WEB-001-closure-validation
 type: backlog-closure-validation
-status: incomplete
+status: closed
 model: qwen2.5-coder:0.5b
 ---
 
 # HOP-HARD-WEB-001 Closure Validation
 
-Status: `incomplete`
+Status: `closed`
 
-Hard findings: `2`
+Hard findings: `0`
 
-Ollama summary: No hay riesgos o acciones disponibles para la tarea.
+Ollama summary: No hay riesgos o acciones disponibles para la tarea HOP-HARD-WEB-001.
 
 ## Structured Payload
 
@@ -19,7 +19,7 @@ Ollama summary: No hay riesgos o acciones disponibles para la tarea.
 artifact:
   id: HOP-HARD-WEB-001-closure-validation
   type: backlog-closure-validation
-  status: incomplete
+  status: closed
   model: qwen2.5-coder:0.5b
 context:
   task_id: HOP-HARD-WEB-001
@@ -32,7 +32,7 @@ context:
   handoff_exists: true
   project_state_active_backlog_item: HOP-HARD-INT-001
   project_state_next_backlog_item: null
-  product_backlog_current_baseline_active: HOP-HARD-WEB-001
+  product_backlog_current_baseline_active: HOP-HARD-INT-001
   product_backlog_item_status: closed
   product_backlog_module_id: HOP-FINAL-HARDENING
   progress_ledger_active_backlog_item: HOP-HARD-INT-001
@@ -45,26 +45,13 @@ context:
   - nexora-framework/08-engineering/agents/context-orchestrator/backlog_validator.py
   - nexora-framework/08-engineering/agents/context-orchestrator/tool-registry.md
   protected_validator_changes: ''
-  auto_repairs_applied:
-  - id: root_project_state_synced
-    path: PROJECT_STATE.md
+  auto_repairs_applied: []
   source_of_truth_checked: true
-  git_head: d81a9e7
-  git_clean: false
-  hard_findings:
-  - id: product_baseline_stale_active_item
-    severity: P0
-    detail: HOP commercial product backlog baseline still points to the closed task.
-  - id: git_worktree_not_clean
-    severity: P0
-    detail: "M PROJECT_STATE.md\n M projects/healthcare-operations-platform/06-delivery/commercial-product/backlog-map/BACKLOG_ITEM_INDEX.md\n\
-      \ M projects/healthcare-operations-platform/08-qa/project-tracking/progress-ledger/commercial-product-progress-detail.md\n\
-      \ M projects/healthcare-operations-platform/08-qa/qa/final-hardening/HOP-HARD-WEB-001-validation.md\n\
-      \ M projects/healthcare-operations-platform/08-qa/security-quality/HOP-HARD-WEB-001/security-quality-evidence.md\n\
-      ?? projects/healthcare-operations-platform/08-qa/backlog-validations/HOP-HARD-WEB-001-closure-validation.md\n\
-      ?? projects/healthcare-operations-platform/08-qa/generated-prompts/HOP-HARD-WEB-001-closure-fix-prompt.md"
+  git_head: 4c6d5ab
+  git_clean: true
+  hard_findings: []
 ollama_review:
-  summary: No hay riesgos o acciones disponibles para la tarea.
+  summary: No hay riesgos o acciones disponibles para la tarea HOP-HARD-WEB-001.
   top_risks: []
   required_actions: []
 ```
