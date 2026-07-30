@@ -15,7 +15,7 @@ artifact:
 ```yaml
 id: HOP-HARD-INT-001
 name: Integration, OpenAPI generation, workflow, migration and observability hardening
-status: planned
+status: active
 module_id: HOP-FINAL-HARDENING
 module_name: Final Commercial Hardening and Technical Debt Burn-down
 release: REL-GA

@@ -95,7 +95,7 @@ backlog_items:
   - COM-MOD-017-WEB-001
 - id: HOP-HARD-INT-001
   name: Integration, OpenAPI generation, workflow, migration and observability hardening
-  status: planned
+  status: active
   mapped_items:
   - TD-STACK-001
   - TD-STACK-003
