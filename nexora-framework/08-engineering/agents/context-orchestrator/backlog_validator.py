@@ -138,6 +138,83 @@ def git_commit(root: Path, message: str, paths: list[Path]) -> str | None:
     return git_head(root)
 
 
+def write_if_changed(path: Path, text: str) -> bool:
+    current = path.read_text(encoding="utf-8") if path.exists() else ""
+    if current == text:
+        return False
+    path.write_text(text, encoding="utf-8", newline="\n")
+    return True
+
+
+def replace_first_yaml_value(text: str, key: str, value: object) -> str:
+    rendered = "null" if value is None else str(value)
+    pattern = re.compile(rf"(^\s*{re.escape(key)}:\s*).*$", re.MULTILINE)
+    return pattern.sub(rf"\g<1>{rendered}", text, count=1)
+
+
+def replace_all_yaml_value(text: str, key: str, value: object) -> str:
+    rendered = "null" if value is None else str(value)
+    pattern = re.compile(rf"(^\s*{re.escape(key)}:\s*).*$", re.MULTILINE)
+    return pattern.sub(rf"\g<1>{rendered}", text)
+
+
+def closure_active_candidate(root: Path, task_id: str) -> str | None:
+    project_state = read_yaml(root / PROJECT_PATH / "PROJECT_STATE.md")
+    product_backlog = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md")
+    product_status = find_backlog_item_status(product_backlog, task_id) or find_backlog_item_status_from_index(root, task_id)
+    if product_status != "closed":
+        return None
+
+    product_active = nested_get(product_backlog, "product", "current_baseline", "active_backlog_item")
+    project_active = nested_get(project_state, "commercial_product_progress", "active_backlog_item")
+    if isinstance(product_active, str) and product_active and product_active != task_id:
+        return product_active
+    if isinstance(project_active, str) and project_active and project_active != task_id:
+        return project_active
+    return None
+
+
+def auto_repair_closure_state(root: Path, task_id: str) -> list[dict[str, str]]:
+    """Repair deterministic state drift that the validator can prove from the backlog baseline."""
+    expected_active = closure_active_candidate(root, task_id)
+    if not expected_active:
+        return []
+
+    repairs: list[dict[str, str]] = []
+    project_state = read_yaml(root / PROJECT_PATH / "PROJECT_STATE.md")
+    completed_count = nested_get(project_state, "implementation_progress", "completed_backlog_items_count")
+
+    root_state_path = root / "PROJECT_STATE.md"
+    if root_state_path.exists():
+        text = root_state_path.read_text(encoding="utf-8")
+        updated = replace_first_yaml_value(text, "active_backlog_item", expected_active)
+        if completed_count is not None:
+            updated = replace_first_yaml_value(updated, "completed_backlog_items_count", completed_count)
+        current_phase = f"{task_id} closed. Final hardening continues through {expected_active}."
+        updated = replace_first_yaml_value(updated, "current_phase", current_phase)
+        if write_if_changed(root_state_path, updated):
+            repairs.append({"id": "root_project_state_synced", "path": "PROJECT_STATE.md"})
+
+    project_state_path = root / PROJECT_PATH / "PROJECT_STATE.md"
+    if project_state_path.exists():
+        text = project_state_path.read_text(encoding="utf-8")
+        updated = replace_first_yaml_value(text, "current_iteration", expected_active)
+        updated = replace_all_yaml_value(updated, "active_backlog_item", expected_active)
+        updated = replace_first_yaml_value(updated, "current_backlog_item", expected_active)
+        if write_if_changed(project_state_path, updated):
+            repairs.append({"id": "project_state_synced", "path": str(project_state_path.relative_to(root)).replace("\\", "/")})
+
+    progress_path = root / PROJECT_PATH / "08-qa/project-tracking/progress-ledger/commercial-product-progress-detail.md"
+    if progress_path.exists():
+        text = progress_path.read_text(encoding="utf-8")
+        updated = replace_first_yaml_value(text, "current_iteration", expected_active)
+        updated = replace_first_yaml_value(updated, "active_backlog_item", expected_active)
+        if write_if_changed(progress_path, updated):
+            repairs.append({"id": "progress_ledger_synced", "path": str(progress_path.relative_to(root)).replace("\\", "/")})
+
+    return repairs
+
+
 def active_prompt_path(root: Path) -> Path:
     active_dir = root / ACTIVE_PROMPT_DIR
     prompts = sorted(path for path in active_dir.glob("*.md") if path.is_file())
@@ -267,7 +344,7 @@ def find_backlog_item_field_from_index(root: Path, task_id: str, field: str) -> 
     return find_backlog_item_field(index_data, task_id, field)
 
 
-def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git: bool) -> dict:
+def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git: bool, auto_repairs: list[dict[str, str]] | None = None) -> dict:
     project_state = read_yaml(root / PROJECT_PATH / "PROJECT_STATE.md")
     product_backlog = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md")
     execution_prompts = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md")
@@ -401,6 +478,7 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
         "execution_prompt_previous_status": execution_previous_status,
         "protected_validator_paths": list(PROTECTED_VALIDATOR_PATHS),
         "protected_validator_changes": protected_validator_changes,
+        "auto_repairs_applied": auto_repairs or [],
         "source_of_truth_checked": True,
         "git_head": git_head(root),
         "git_clean": git_clean_value,
@@ -508,7 +586,8 @@ def main() -> int:
     if not task_id:
         raise SystemExit("Cannot infer task id. Provide --task-id or a generated prompt with '# TASK: <ID> - ...'.")
 
-    context = build_context(root, task_id, prompt_path, require_clean_git=not args.no_require_clean_git)
+    auto_repairs = auto_repair_closure_state(root, task_id)
+    context = build_context(root, task_id, prompt_path, require_clean_git=not args.no_require_clean_git, auto_repairs=auto_repairs)
     review = ollama_review(context, args.ollama_model)
     report_path, prompt_fix_path = write_outputs(root, task_id, context, review)
     print(report_path.resolve())

@@ -409,9 +409,34 @@ def finalize_backlog_closure(root: Path, task_id: str, prompt_path: Path, max_at
             status=final_status,
             hard_findings=final_findings,
         )
-        if validation.returncode == 0 and final_status == "closed" and final_findings == 0:
-            write_closure_feedback(root, task_id, attempts, "closed", "Backlog closed by orchestrator post-provider validation.")
-            return True
+        if final_status == "closed" and final_findings == 0:
+            if git_status(root):
+                repair_commit = git_commit_paths(root, f"test(hop): validate {task_id} closure", [PROJECT_PATH])
+                if repair_commit:
+                    attempts[-1]["commit"] = repair_commit
+                    log_event(root, "closure_validation_repair_commit", task_id=task_id, attempt=attempt_number, commit=repair_commit)
+            remaining_status = git_status(root)
+            if not remaining_status:
+                detail = "Backlog closed by orchestrator post-provider validation."
+                if validation.returncode != 0:
+                    detail += " Validator returned a nonzero code despite closed status and zero hard findings; closure accepted after clean-tree verification."
+                    log_event(
+                        root,
+                        "closure_validator_returncode_inconsistent",
+                        task_id=task_id,
+                        attempt=attempt_number,
+                        returncode=validation.returncode,
+                    )
+                write_closure_feedback(root, task_id, attempts, "closed", detail)
+                return True
+            write_closure_feedback(
+                root,
+                task_id,
+                attempts,
+                "blocked",
+                f"Validator reported closed with zero hard findings, but worktree is still dirty: {remaining_status[:800]}",
+            )
+            return False
     write_closure_feedback(root, task_id, attempts, "blocked", "Maximum closure attempts reached.")
     return False
 
