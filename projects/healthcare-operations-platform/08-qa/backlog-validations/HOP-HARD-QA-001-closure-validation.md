@@ -31,6 +31,7 @@ context:
   security_status: validated
   handoff_exists: true
   project_state_active_backlog_item: null
+  root_project_state_active_backlog_item: null
   project_state_next_backlog_item: null
   product_backlog_current_baseline_active: null
   product_backlog_item_status: closed
@@ -47,7 +48,7 @@ context:
   protected_validator_changes: ''
   auto_repairs_applied: []
   source_of_truth_checked: true
-  git_head: d6b3dd7
+  git_head: '7978176'
   git_clean: true
   hard_findings: []
 ollama_review:
