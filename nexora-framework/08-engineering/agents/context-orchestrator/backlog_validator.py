@@ -166,6 +166,15 @@ def replace_list_item_status(text: str, item_id: str, status: str) -> str:
     return pattern.sub(rf"\g<1>{status}", text, count=1)
 
 
+def replace_project_entry_value(text: str, slug: str, key: str, value: object) -> str:
+    rendered = "null" if value is None else str(value)
+    pattern = re.compile(
+        rf"(^\s*-\s+slug:\s*{re.escape(slug)}\s*\n(?:(?!^\s*-\s+slug:).*\n)*?^\s*{re.escape(key)}:\s*).*$",
+        re.MULTILINE,
+    )
+    return pattern.sub(rf"\g<1>{rendered}", text, count=1)
+
+
 def closure_active_candidate(root: Path, task_id: str) -> str | None:
     project_state = read_yaml(root / PROJECT_PATH / "PROJECT_STATE.md")
     product_backlog = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md")
@@ -184,11 +193,30 @@ def closure_active_candidate(root: Path, task_id: str) -> str | None:
 
 def auto_repair_closure_state(root: Path, task_id: str) -> list[dict[str, str]]:
     """Repair deterministic state drift that the validator can prove from the backlog baseline."""
+    repairs: list[dict[str, str]] = []
     expected_active = closure_active_candidate(root, task_id)
     if not expected_active:
-        return []
+        project_state = read_yaml(root / PROJECT_PATH / "PROJECT_STATE.md")
+        product_backlog = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md")
+        product_status = find_backlog_item_status(product_backlog, task_id) or find_backlog_item_status_from_index(root, task_id)
+        product_active = nested_get(product_backlog, "product", "current_baseline", "active_backlog_item")
+        project_active = nested_get(project_state, "commercial_product_progress", "active_backlog_item")
+        project_status = nested_get(project_state, "commercial_product_progress", "status")
+        if product_status == "closed" and product_active is None and project_active is None and project_status == "closed":
+            root_state_path = root / "PROJECT_STATE.md"
+            if root_state_path.exists():
+                text = root_state_path.read_text(encoding="utf-8")
+                updated = replace_first_yaml_value(text, "current_phase", project_state.get("current_phase"))
+                updated = replace_project_entry_value(updated, "healthcare-operations-platform", "status", "closed")
+                updated = replace_project_entry_value(updated, "healthcare-operations-platform", "active_module", None)
+                updated = replace_project_entry_value(updated, "healthcare-operations-platform", "active_backlog_item", None)
+                completed_count = nested_get(project_state, "implementation_progress", "completed_backlog_items_count")
+                if completed_count is not None:
+                    updated = replace_project_entry_value(updated, "healthcare-operations-platform", "completed_backlog_items_count", completed_count)
+                if write_if_changed(root_state_path, updated):
+                    repairs.append({"id": "root_project_state_final_closure_synced", "path": "PROJECT_STATE.md"})
+        return repairs
 
-    repairs: list[dict[str, str]] = []
     project_state = read_yaml(root / PROJECT_PATH / "PROJECT_STATE.md")
     completed_count = nested_get(project_state, "implementation_progress", "completed_backlog_items_count")
 
@@ -372,6 +400,7 @@ def find_backlog_item_field_from_index(root: Path, task_id: str, field: str) -> 
 
 
 def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git: bool, auto_repairs: list[dict[str, str]] | None = None) -> dict:
+    root_state = read_yaml(root / "PROJECT_STATE.md")
     project_state = read_yaml(root / PROJECT_PATH / "PROJECT_STATE.md")
     product_backlog = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_PRODUCT_BACKLOG.md")
     execution_prompts = read_yaml(root / PROJECT_PATH / "06-delivery/commercial-product/HOP_COMMERCIAL_BACKLOG_EXECUTION_PROMPTS.md")
@@ -397,6 +426,11 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
     security = read_yaml(security_path)
 
     current_state_active = nested_get(project_state, "commercial_product_progress", "active_backlog_item")
+    root_project_active = None
+    for project_entry in root_state.get("projects", []) if isinstance(root_state.get("projects"), list) else []:
+        if isinstance(project_entry, dict) and project_entry.get("slug") == "healthcare-operations-platform":
+            root_project_active = project_entry.get("active_backlog_item")
+            break
     project_state_next = nested_get(project_state, "delivery_readiness", "next_backlog_item")
     product_baseline_active = nested_get(product_backlog, "product", "current_baseline", "active_backlog_item")
     product_backlog_status = find_backlog_item_status(product_backlog, task_id)
@@ -439,6 +473,8 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
         hard_findings.append({"id": "product_baseline_stale_active_item", "severity": "P0", "detail": "HOP commercial product backlog baseline still points to the closed task."})
     if current_state_active == task_id:
         hard_findings.append({"id": "project_state_stale_active_item", "severity": "P0", "detail": "PROJECT_STATE commercial_product_delivery still points to the closed task."})
+    if root_project_active != current_state_active:
+        hard_findings.append({"id": "root_project_state_active_pointer_mismatch", "severity": "P0", "detail": f"Root PROJECT_STATE active {root_project_active} differs from project active {current_state_active}."})
     if execution_previous != task_id or execution_previous_status != "closed":
         hard_findings.append({"id": "execution_prompt_previous_not_closed", "severity": "P0", "detail": "Execution prompt must carry the validated task as previous_backlog_item closed."})
     if task_id.endswith("-CLOSEOUT"):
@@ -493,6 +529,7 @@ def build_context(root: Path, task_id: str, prompt_path: Path, require_clean_git
         "security_status": nested_get(security, "artifact", "status"),
         "handoff_exists": handoff_path.exists(),
         "project_state_active_backlog_item": current_state_active,
+        "root_project_state_active_backlog_item": root_project_active,
         "project_state_next_backlog_item": project_state_next,
         "product_backlog_current_baseline_active": product_baseline_active,
         "product_backlog_item_status": product_backlog_status,

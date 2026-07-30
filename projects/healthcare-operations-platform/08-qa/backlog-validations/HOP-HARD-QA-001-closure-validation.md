@@ -47,7 +47,7 @@ context:
   protected_validator_changes: ''
   auto_repairs_applied: []
   source_of_truth_checked: true
-  git_head: 96f0c7b
+  git_head: d6b3dd7
   git_clean: true
   hard_findings: []
 ollama_review:
