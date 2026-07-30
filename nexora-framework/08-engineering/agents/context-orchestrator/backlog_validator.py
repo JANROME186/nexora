@@ -616,12 +616,15 @@ def main() -> int:
     auto_repairs = auto_repair_closure_state(root, task_id)
     context = build_context(root, task_id, prompt_path, require_clean_git=not args.no_require_clean_git, auto_repairs=auto_repairs)
     review = ollama_review(context, args.ollama_model)
+    archived_prompt_path = None
+    if not context["hard_findings"] and not args.no_auto_commit and not args.no_require_clean_git:
+        archived_prompt_path = archive_closed_prompt(root, prompt_path)
+        context["prompt_path"] = str(archived_prompt_path.relative_to(root)).replace("\\", "/")
     report_path, prompt_fix_path = write_outputs(root, task_id, context, review)
     print(report_path.resolve())
     if prompt_fix_path:
         print(prompt_fix_path.resolve())
     if not context["hard_findings"] and not args.no_auto_commit and not args.no_require_clean_git:
-        archived_prompt_path = archive_closed_prompt(root, prompt_path)
         commit_hash = git_commit(
             root,
             f"test(hop): validate {task_id} closure",

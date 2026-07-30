@@ -24,7 +24,7 @@ artifact:
 context:
   task_id: HOP-HARD-INT-001
   project: projects/healthcare-operations-platform
-  prompt_path: projects/healthcare-operations-platform/08-qa/generated-prompts/active_prompt/HOP-HARD-INT-001-prompt.md
+  prompt_path: projects/healthcare-operations-platform/08-qa/generated-prompts/history_prompt/HOP-HARD-INT-001-prompt.md
   qa_evidence_exists: true
   qa_status: validated
   security_evidence_exists: true
@@ -47,7 +47,7 @@ context:
   protected_validator_changes: ''
   auto_repairs_applied: []
   source_of_truth_checked: true
-  git_head: 2e8e3ab
+  git_head: dbd1663
   git_clean: true
   hard_findings: []
 ollama_review:
