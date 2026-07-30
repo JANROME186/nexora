@@ -23,8 +23,8 @@ artifact:
   version: 1.2.0
   status: materially_reduced
   created_date: 2026-07-17
-  updated_date: 2026-07-18
-  materially_reduced_by_backlog_item: MVP-MOD-008-DEF
+  updated_date: 2026-07-30
+  materially_reduced_by_backlog_item: HOP-HARD-INT-001
   compensating_control_extended_by_backlog_item: MVP-MOD-008-BE-001
 compensating_control_extension_evidence: 'MVP-MOD-008-BE-001 evaluated introducing
   openapi-generator-maven-plugin for the three new integration/API-management/migration

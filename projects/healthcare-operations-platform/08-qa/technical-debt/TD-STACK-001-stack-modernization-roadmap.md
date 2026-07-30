@@ -87,13 +87,9 @@ current_vs_market:
 remediation:
   strategy: materially_reduced_by_COM_MOD_012_OPS_001_then_gradual_when_affected_components_are_touched
   latest_reduction:
-    backlog_item: COM-MOD-012-OPS-001
-    evidence: 09-operations/deployment/production-deployment-strategy.md
-    summary: 'Defined production environment lanes, release promotion controls, modernization
-      triggers, PostgreSQL/runtime evaluation points, rollback controls and compatibility
-      checks so future stack upgrades can be planned and executed safely by component.
-
-      '
+    backlog_item: HOP-HARD-INT-001
+    evidence: 08-qa/qa/final-hardening/HOP-HARD-INT-001-validation.md
+    summary: 'Validated full-stack modernization baseline across integration, OpenAPI generation, migration, workflow and observability surfaces. Stack remains fully supported on Java 21 LTS, Spring Boot 3.5.14, Spring Modulith 1.4.5, React 18.3.1, TypeScript 5.9.3, Vite 6.x, and PostgreSQL 16 with 0 failing quality gates. Major line upgrades remain scheduled for dedicated post-GA roadmap iterations.'
   recommended_trigger:
   - dedicated modernization backlog item
   - major security-relevant advisory on a pinned major version

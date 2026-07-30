@@ -95,7 +95,7 @@ backlog_items:
   - COM-MOD-017-WEB-001
 - id: HOP-HARD-INT-001
   name: Integration, OpenAPI generation, workflow, migration and observability hardening
-  status: active
+  status: closed
   mapped_items:
   - TD-STACK-001
   - TD-STACK-003
@@ -105,7 +105,7 @@ backlog_items:
   - TD-DEF-002
 - id: HOP-HARD-QA-001
   name: Final quality gates, evidence reconciliation and no-open-debt validation
-  status: planned
+  status: active
   mapped_items:
   - TD-FMT-001
 acceptance_summary:

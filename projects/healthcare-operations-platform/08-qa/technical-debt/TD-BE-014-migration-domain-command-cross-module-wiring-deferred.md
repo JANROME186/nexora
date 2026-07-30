@@ -4,7 +4,7 @@ format: markdown_structured_payload
 type: technical-debt-item
 name: Migration domain-command execution has no real cross-module wiring
 version: 1.0.0
-status: open
+status: materially_reduced
 ---
 
 # Migration Domain Command Execution Has No Real Cross Module Wiring
@@ -18,9 +18,11 @@ artifact:
   id: TD-BE-014
   type: technical-debt-item
   name: Migration domain-command execution has no real cross-module wiring
-  version: 1.0.0
-  status: open
+  version: 1.1.0
+  status: materially_reduced
   created_date: 2026-07-18
+  updated_date: 2026-07-30
+  materially_reduced_by_backlog_item: HOP-HARD-INT-001
 source:
   discovered_during_backlog_item: MVP-MOD-008-BE-002
   module: MVP-MOD-008-Integration-and-Migration-Readiness

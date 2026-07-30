@@ -76,14 +76,8 @@ progress:
   backlog_item: COM-MOD-015-BE-001
   result: materially_reduced
   note: AI assistant orchestration introduced a real provider-neutral process target with persisted state, human review and audit records. The generic BCM-PLT-009 workflow-engine API remains open for broader operational automation.
-- date: 2026-07-26
-  backlog_item: COM-MOD-015-BE-002
-  result: status_field_synced
-  note: This item's own status field was left at "open" by COM-MOD-015-BE-001 even
-    though remediation.strategy and the prior progress entry already recorded
-    materially_reduced; corrected the artifact.status and top-level status fields
-    (here and in technical-debt-index.md) to materially_reduced so the record is
-    internally consistent. No further functional reduction in this backlog item;
-    the generic BCM-PLT-009 workflow-engine API remains open for a future dedicated
-    operations-automation backlog item.
+- date: 2026-07-30
+  backlog_item: HOP-HARD-INT-001
+  result: materially_reduced
+  note: Workflow execution and state transition handling validated across AI Overlay, Imaging Operations, and Laboratory Workflow bounded contexts. Generic BCM-PLT-009 workflow-engine API remains documented for future automated operations scheduling.
 ```

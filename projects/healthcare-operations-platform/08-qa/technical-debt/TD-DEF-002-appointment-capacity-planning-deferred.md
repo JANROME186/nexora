@@ -5,7 +5,7 @@ type: technical-debt-item
 name: Appointment capacity planning against detailed branch schedules is deferred
   to BCM-ORG-007
 version: 1.1.0
-status: open
+status: materially_reduced
 ---
 
 # Appointment Capacity Planning Against Detailed Branch Schedules Is Deferred To Bcm Org 007
@@ -20,10 +20,11 @@ artifact:
   type: technical-debt-item
   name: Appointment capacity planning against detailed branch schedules is deferred
     to BCM-ORG-007
-  version: 1.1.0
-  status: open
+  version: 1.2.0
+  status: materially_reduced
   created_date: 2026-07-15
-  updated_date: 2026-07-25
+  updated_date: 2026-07-30
+  materially_reduced_by_backlog_item: HOP-HARD-INT-001
 source:
   discovered_during_backlog_item: MVP-MOD-004-DEF
   module: MVP-MOD-004 Front Desk and Care Delivery

@@ -591,12 +591,12 @@ items:
   path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-WEB-001.md
 - id: HOP-HARD-INT-001
   name: Integration, OpenAPI generation, workflow, migration and observability hardening
-  status: next
+  status: closed
   module_id: HOP-FINAL-HARDENING
   path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-INT-001.md
 - id: HOP-HARD-QA-001
   name: Final quality gates, evidence reconciliation and no-open-debt validation
-  status: planned
+  status: active
   module_id: HOP-FINAL-HARDENING
   path: 06-delivery/commercial-product/backlog-map/items/HOP-HARD-QA-001.md
 ```

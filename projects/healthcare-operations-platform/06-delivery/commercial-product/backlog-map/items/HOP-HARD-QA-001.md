@@ -15,7 +15,7 @@ artifact:
 ```yaml
 id: HOP-HARD-QA-001
 name: Final quality gates, evidence reconciliation and no-open-debt validation
-status: planned
+status: active
 module_id: HOP-FINAL-HARDENING
 module_name: Final Commercial Hardening and Technical Debt Burn-down
 release: REL-GA

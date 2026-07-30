@@ -89,10 +89,10 @@ validation_commands:
     intent: Confirm no whitespace errors before commit.
     command_template: Run repository whitespace validation before closing the item.
   module_id: HOP-FINAL-HARDENING
-  backlog_item_id: HOP-HARD-INT-001
-  name: Integration, OpenAPI generation, workflow, migration and observability hardening
+  backlog_item_id: HOP-HARD-QA-001
+  name: Final quality gates, evidence reconciliation and no-open-debt validation
   expected_folder: 08-qa/qa/final-hardening
-  required_debt_first_action: close_or_materially_reduce_mapped_integration_openapi_workflow_and_observability_debt_before_any_new_feature_work
+  required_debt_first_action: reconcile_all_evidence_and_validate_no_open_technical_debt_before_final_project_closure
   coverage_floor:
     backend_java_maven_line_coverage_percent_if_backend_is_touched: 84.86
     frontend_typescript_web_line_coverage_percent: 91.68
@@ -102,19 +102,16 @@ validation_commands:
     public_website_typescript_web_line_coverage_percent: 98.78
     final_target_percent: 80
   mandatory_execution_notes:
-  - Active backlog item is HOP-HARD-INT-001 under HOP-FINAL-HARDENING. Load only the active item record and mapped debt files
+  - Active backlog item is HOP-HARD-QA-001 under HOP-FINAL-HARDENING. Load only the active item record and mapped debt files
     needed for this slice.
   - Keep execution agent-agnostic and preserve the open-source-first stack and quality gates.
-  - Address or materially reduce the mapped integration, OpenAPI generation, workflow, migration and observability debt items before any new feature work.
+  - Reconcile all evidence and validate no open technical debt remains before final project closure.
   - Preserve backend coverage at or above 84.86%, public-website at or above 98.78%, patient-portal at or above 94.42% and doctor-portal at or above 96.55%;
     keep final project target at 80% or higher.
   - Generate QA/security evidence, update SOURCE_OF_TRUTH, PROJECT_STATE, product backlog and execution prompts, and commit
     only when validation passes.
   previous_backlog_item:
-    backlog_item_id: HOP-HARD-WEB-001
+    backlog_item_id: HOP-HARD-INT-001
     status: closed
-    summary: Closed public marketplace discovery surface and website hardening. COM-MOD-017-WEB-001 closed
-      with anonymous read-only /api/public/marketplace/** backend endpoints and /marketplace & /marketplace/:id
-      public-website surfaces (listing, details, search/filter, i18n es-MX & en-US, a11y WCAG checks);
-      TD-WEB-001 closed; public-website line coverage increased to 98.78%; backend tests passing (582 tests, 0 failures).
+    summary: Closed integration, OpenAPI generation, workflow, migration and observability hardening (HOP-HARD-INT-001). TD-STACK-001, TD-STACK-003, TD-BE-014, TD-BE-017, TD-OBS-001, and TD-DEF-002 materially reduced with concrete objective evidence; backend tests passing (582 tests, 0 failures, 84.86% coverage).
 ```

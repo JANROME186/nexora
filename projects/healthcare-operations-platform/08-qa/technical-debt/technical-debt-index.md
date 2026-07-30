@@ -729,13 +729,14 @@ entries:
   remediation_strategy: closed_by_MVP_MOD_008_BE_002_apache_poi_xlsx_row_counting
 - id: TD-BE-014
   title: Migration domain-command execution has no real cross-module wiring
-  status: open
+  status: materially_reduced
   risk_level: medium
   blocking: false
   source_backlog_item: MVP-MOD-008-BE-002
   affected_area: open_data_ingestion_and_migration_domain_command_execution
   file: 08-qa/technical-debt/TD-BE-014-migration-domain-command-cross-module-wiring-deferred.md
-  remediation_strategy: gradual_when_an_owning_module_next_exposes_a_migration_import_command
+  remediation_strategy: materially_reduced_by_HOP_HARD_INT_001_MigrationDomainCommandPort_and_MigrationManagementService_idempotent_execution_verified;
+    gradual_when_an_owning_module_next_exposes_a_migration_import_command
 - id: TD-BE-015
   title: Rate-limit enforcement is scoped to partner-API-key-bearing requests only
   status: closed
@@ -795,13 +796,14 @@ entries:
 - id: TD-OBS-001
   title: Distributed trace export, provisioned Grafana/Prometheus/Loki stack and SLO/SLA
     alerting backend not implemented
-  status: open
+  status: materially_reduced
   risk_level: low
   blocking: false
   source_backlog_item: COM-MOD-012-QA-001
   affected_area: distributed_tracing_metrics_stack_and_alerting
   file: 08-qa/technical-debt/TD-OBS-001-distributed-tracing-and-observability-stack-not-provisioned.md
-  remediation_strategy: gradual_dedicated_observability_infrastructure_backlog_item
+  remediation_strategy: materially_reduced_by_HOP_HARD_INT_001_actuator_metrics_health_mdc_logging_verified;
+    gradual_dedicated_observability_infrastructure_backlog_item
 - id: TD-QA-005
   title: A null byte or oversized value in a request field or query parameter caused
     an unhandled 500 instead of a 400 across multiple modules
